@@ -158,17 +158,15 @@ class ilBibliographicSetting extends ActiveRecord {
 			$button = ilImageLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
 			$button->setImage($this->getImg(), false);
-			$button->setTarget('_blank');
-
-			return $button->render();
 		} else {
 			$button = ilLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
-			$button->setTarget('_blank');
 			$button->setCaption('bibl_link_online');
-
-			return $button->render();
 		}
+
+		$button->setTarget('_blank');
+
+		return $button->render();
 	}
 
 

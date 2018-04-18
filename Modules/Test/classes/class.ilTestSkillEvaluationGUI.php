@@ -131,20 +131,20 @@ class ilTestSkillEvaluationGUI
 
 	private function manageTabs($cmd)
 	{
-		$this->tabs->clearTargets();
+		#$this->tabs->clearTargets();
+#
+#		$this->tabs->setBackTarget(
+#			$this->lng->txt('tst_results_back_introduction'),
+#			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
+#		);
 
-		$this->tabs->setBackTarget(
-			$this->lng->txt('tst_results_back_introduction'),
-			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
-		);
-
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-	}
+#		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+#		{
+#			require_once 'Services/Link/classes/class.ilLink.php';
+#			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+#			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+#		}
+ 	}
 	
 	protected function init($skillProfileEnabled)
 	{
@@ -233,26 +233,9 @@ class ilTestSkillEvaluationGUI
 		$gui->setNoSkillProfileOptionEnabled($this->isNoSkillProfileOptionEnabled());
 		$gui->setSelectedEvaluationMode($selectedSkillProfileId);
 
-		$gui->setTestResultButtonEnabled($this->isTestResultButtonRequired());
-
 		$gui->build();
 
 		return $gui;
-	}
-
-	private function isTestResultButtonRequired()
-	{
-		if( !$this->testOBJ->canShowTestResults($this->testSession) )
-		{
-			return false;
-		}
-
-		if( !count($this->testPassesSelector->getReportablePasses()) )
-		{
-			return false;
-		}
-		
-		return true;
 	}
 
 	private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId, $availableSkills)

@@ -37,7 +37,12 @@ class ilTestEvaluationUserData
 	* @var integer
 	*/
 	var $user_id;
-
+	
+	/**
+	 * @var bool
+	 */
+	protected $submitted;
+	
 	/**
 	* Reached points
 	*
@@ -194,6 +199,22 @@ class ilTestEvaluationUserData
 	function setLogin($a_login)
 	{
 		$this->login = $a_login;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSubmitted()
+	{
+		return $this->submitted;
+	}
+	
+	/**
+	 * @param bool $submitted
+	 */
+	public function setSubmitted($submitted)
+	{
+		$this->submitted = $submitted;
 	}
 	
 	function getReached()

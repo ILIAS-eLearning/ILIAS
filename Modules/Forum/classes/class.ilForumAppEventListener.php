@@ -3,7 +3,6 @@
 
 require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
 
-
 /**
 * Forum listener. Listens to events of other components.
 *
@@ -54,7 +53,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
@@ -101,7 +100,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post = $a_parameter['post'];
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
-							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_NEW,
@@ -122,7 +121,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
@@ -151,7 +150,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
 						if($immediate_notifications_enabled)
 						{
-							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 							if($post->isCensored() && $post->isActivated())
 							{
 								self::delegateNotification(
@@ -180,7 +179,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
 						$thread_deleted = $a_parameter['thread_deleted'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($post->isActivated())
 						{
@@ -193,22 +192,17 @@ class ilForumAppEventListener implements ilAppEventListener
 							}
 							else if($immediate_notifications_enabled)
 							{
+								$notificationType = ilForumMailNotification::TYPE_POST_DELETED;
 								if($thread_deleted)
 								{
-									self::delegateNotification(
-										$provider,
-										ilForumMailNotification::TYPE_THREAD_DELETED,
-										$logger
-									);
+									$notificationType = ilForumMailNotification::TYPE_THREAD_DELETED;
 								}
-								else
-								{
-									self::delegateNotification(
-										$provider,
-										ilForumMailNotification::TYPE_POST_DELETED,
-										$logger
-									);
-								}
+
+								self::delegateNotification(
+									$provider,
+									$notificationType,
+									$logger
+								);
 							}
 						}
 						break;
@@ -221,9 +215,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						 * var $draftObj ilForumPostDraft
 						 */
 						$draftObj   = $a_parameter['draftObj'];
-						$obj_id     = $a_parameter['obj_id'];
-						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
-						
+
 						$historyObj = new ilForumDraftsHistory();
 						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
 						
@@ -235,9 +227,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						 * var $draftObj ilForumPostDraft
 						 */
 						$draftObj   = $a_parameter['draftObj'];
-						$obj_id     = $a_parameter['obj_id'];
-						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
-						
+
 						$historyObj = new ilForumDraftsHistory();
 						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
 						
@@ -359,32 +349,39 @@ class ilForumAppEventListener implements ilAppEventListener
 		switch($notification_type)
 		{
 			case ilForumMailNotification::TYPE_POST_ACTIVATION:
-				$mailNotification = new ilForumMailNotification($provider, $logger);
-				$mailNotification->setType($notification_type);
-				$mailNotification->setRecipients($provider->getPostActivationRecipients());
-				$mailNotification->send();
+				self::sendNotification($provider, $logger, $notification_type, $provider->getPostActivationRecipients());
 				break;
 
 			case ilForumMailNotification::TYPE_POST_ANSWERED:
-				$mailNotification = new ilForumMailNotification($provider, $logger);
-				$mailNotification->setType($notification_type);
-				$mailNotification->setRecipients($provider->getPostAnsweredRecipients());
-				$mailNotification->send();
+				self::sendNotification($provider, $logger, $notification_type, $provider->getPostAnsweredRecipients());
 				break;
 
 			default:
 				// get recipients who wants to get forum notifications
-				$mailNotification = new ilForumMailNotification($provider, $logger);
-				$mailNotification->setType($notification_type);
-				$mailNotification->setRecipients($provider->getForumNotificationRecipients());
-				$mailNotification->send();
+				self::sendNotification($provider, $logger, $notification_type, $provider->getForumNotificationRecipients());
 
 				// get recipients who wants to get thread notifications
-				$mailNotification = new ilForumMailNotification($provider, $logger);
-				$mailNotification->setType($notification_type);
-				$mailNotification->setRecipients($provider->getThreadNotificationRecipients());
-				$mailNotification->send();
+				self::sendNotification($provider, $logger, $notification_type, $provider->getThreadNotificationRecipients());
+
 				break;
 		}
+	}
+
+	/**
+	 * @param ilObjForumNotificationDataProvider $provider
+	 * @param ilLogger $logger
+	 * @param int $notificationTypes
+	 * @param array $recipients
+	 */
+	public static function sendNotification(
+		ilObjForumNotificationDataProvider $provider,
+		\ilLogger $logger,
+		int $notificationTypes,
+		array $recipients
+	) {
+		$mailNotification = new ilForumMailNotification($provider, $logger);
+		$mailNotification->setType($notificationTypes);
+		$mailNotification->setRecipients($recipients);
+		$mailNotification->send();
 	}
 }

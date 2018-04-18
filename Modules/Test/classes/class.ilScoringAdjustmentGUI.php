@@ -66,11 +66,15 @@ class ilScoringAdjustmentGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$setting = new ilSetting('assessment');
 		if( ! (bool)$setting->get('assessment_adjustments_enabled', false) )
 		{
 			$this->ctrl->redirectByClass('ilObjTestGUI');
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

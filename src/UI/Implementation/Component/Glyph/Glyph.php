@@ -63,6 +63,11 @@ class Glyph implements C\Glyph\Glyph {
 		, self::BRIEFCASE
 		, self::LIKE
 		, self::LOVE
+		, self::DISLIKE
+		, self::LAUGH
+		, self::ASTOUNDED
+		, self::SAD
+		, self::ANGRY
 		);
 
 

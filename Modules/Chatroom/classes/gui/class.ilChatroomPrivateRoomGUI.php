@@ -12,25 +12,6 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 {
-
-	/**
-	 * @var ilObjUser
-	 */
-	protected $ilUser;
-
-	/**
-	 * ilChatroomPrivateRoomGUI constructor.
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		global $ilUser;
-
-		$this->ilUser = $ilUser;
-
-		parent::__construct($gui);
-	}
-
 	public function executeDefault($method)
 	{
 	}
@@ -118,27 +99,15 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 
 	public function enter()
 	{
-		global $ilUser;
-
 		$this->redirectIfNoPermission('read');
 
 		$room      = ilChatroom::byObjectId($this->gui->object->getId());
 		$subRoom   = $_REQUEST['sub'];
-		$chat_user = new ilChatroomUser($ilUser, $room);
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 
 		$this->exitIfNoRoomExists($room);
 		$this->exitIfEnterRoomIsNotAllowed($room, $subRoom, $chat_user);
 
-		/*$params = array();
-
-		$params['user'] = $chat_user->getUserId();
-		$params['sub'] = $_REQUEST['sub'];
-		$params['message'] = json_encode( array(
-			'type' => 'private_room_entered',
-			'user' => $user_id
-		));*/
-
-		//$query = http_build_query( $params );
 		$connector = $this->gui->getConnector();
 		$response  = $connector->sendEnterPrivateRoom($room->getRoomId(), $subRoom, $chat_user->getUserId());
 
@@ -146,14 +115,6 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 		{
 			$room->subscribeUserToPrivateRoom($subRoom, $chat_user->getUserId());
 		}
-
-		/*$message = json_encode( array(
-			'type' => 'private_room_entered',
-			'user' => $params['user'],
-			'sub'	=> $params['sub']
-		));
-
-		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );*/
 
 		$this->sendResponse($response);
 	}

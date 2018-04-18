@@ -11,10 +11,9 @@ class ilNotificationDatabaseHandler
 	 */
 	public static function getTranslatedLanguageVariablesOfNotificationParameters($vars = array())
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$where             = array();
 		$langVarToTypeDict = array();
@@ -156,7 +155,9 @@ class ilNotificationDatabaseHandler
 	 * @param array $configArray 
 	 */
     public static function setUserConfig($userid, array $configArray) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         if ($userid != -1) {
             $channels = self::getAvailableChannels(array('set_by_user'));
@@ -190,7 +191,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function loadUserConfig($userid) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'SELECT module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE usr_id = %s';
         $types = array('integer');
@@ -215,7 +218,9 @@ class ilNotificationDatabaseHandler
         if(!$userids)
             return;
 
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
         $valid_until     = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
@@ -235,7 +240,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function enqueueByListener(ilNotificationConfig $notification, $ref_id) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
         $valid_until = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
@@ -249,31 +256,11 @@ class ilNotificationDatabaseHandler
 
         $ilDB->manipulateF($query, $types, $values);
     }
-/*
-    public static function enqueueByRoles(ilNotificationConfig $notification, array $roles) {
-        if (!$roles)
-            return;
 
-        global $ilDB;
-
-        $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
-        $valid_until = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
-
-        foreach($userids as $userid) {
-            $ilDB->insert(
-                ilNotificationSetupHelper::$tbl_notification_queue,
-                    array(
-                        'notification_id' => array('integer', $notification_id),
-                        'usr_id' => array('integer', $userid),
-                        'valid_until' => array('integer', $valid_until),
-                    )
-            );
-        }
-
-    }
-*/
     public static function storeNotification(ilNotificationConfig $notification) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $id = $ilDB->nextId(ilNotificationSetupHelper::$tbl_notification_data);
 
@@ -289,7 +276,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function removeNotification($id) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_data . ' WHERE notification_id = ?';
         $types = array('integer');
@@ -299,7 +288,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function getUsersByListener($module, $sender_id) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'SELECT usr_id FROM '. ilNotificationSetupHelper::$tbl_userlistener .' WHERE disabled = 0 AND module = %s AND sender_id = %s';
         $types = array('text', 'integer');
@@ -315,7 +306,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function disableListeners($module, $sender_id) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'UPDATE '. ilNotificationSetupHelper::$tbl_userlistener .' SET disabled = 1 WHERE module = %s AND sender_id = %s';
         $types = array('text', 'integer');
@@ -325,7 +318,9 @@ class ilNotificationDatabaseHandler
     }
     
     public static function enableListeners($module, $sender_id, array $users = array()) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'UPDATE '. ilNotificationSetupHelper::$tbl_userlistener .' SET disabled = 0 WHERE module = %s AND sender_id = %s';
 
@@ -352,8 +347,10 @@ class ilNotificationDatabaseHandler
 	 * @param type $config_type 'set_by_user' or 'set_by_admin'; restricts if users can override the configuartion for this channel
 	 */
     public static function registerChannel($name, $title, $description, $class, $classfile, $config_type) {
-        global $ilDB;
-        
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
         $ilDB->insert(
             ilNotificationSetupHelper::$tbl_notification_channels,
                 array(
@@ -379,7 +376,9 @@ class ilNotificationDatabaseHandler
 	 * @param string $config_type        'set_by_user' or 'set_by_admin'; restricts if users can override the configuartion for this type
 	 */
     public static function registerType($name, $title, $description, $notification_group, $config_type) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $ilDB->insert(
             ilNotificationSetupHelper::$tbl_notification_types,
@@ -394,7 +393,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function getAvailableChannels($config_types = array(), $includeDisabled = false) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'SELECT channel_name, title, description, class, include, config_type FROM ' . ilNotificationSetupHelper::$tbl_notification_channels;
         if ($config_types)
@@ -424,7 +425,9 @@ class ilNotificationDatabaseHandler
     }
 
     public static function getAvailableTypes($config_types = array()) {
-        global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
         $query = 'SELECT type_name, title, description, notification_group, config_type FROM ' . ilNotificationSetupHelper::$tbl_notification_types;
         if ($config_types)
@@ -449,16 +452,22 @@ class ilNotificationDatabaseHandler
     }
 
     public static function setConfigTypeForType($type_name, $config_name) {
-        global $ilDB;
-        $query = 'UPDATE ' . ilNotificationSetupHelper::$tbl_notification_types . ' SET config_type = %s WHERE type_name = %s';
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = 'UPDATE ' . ilNotificationSetupHelper::$tbl_notification_types . ' SET config_type = %s WHERE type_name = %s';
         $types = array('text', 'text');
         $values = array($config_name, $type_name);
         $ilDB->manipulateF($query, $types, $values);
     }
 
     public static function setConfigTypeForChannel($channel_name, $config_name) {
-        global $ilDB;
-        $query = 'UPDATE ' . ilNotificationSetupHelper::$tbl_notification_channels . ' SET config_type = %s WHERE channel_name = %s';
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = 'UPDATE ' . ilNotificationSetupHelper::$tbl_notification_channels . ' SET config_type = %s WHERE channel_name = %s';
         $types = array('text', 'text');
         $values = array($config_name, $channel_name);
         $ilDB->manipulateF($query, $types, $values);
@@ -466,8 +475,11 @@ class ilNotificationDatabaseHandler
 
 
     public static function getUsersWithCustomConfig(array $userid) {
-        global $ilDB;
-        $query = 'SELECT usr_id, value FROM usr_pref WHERE ' . $ilDB->in('usr_id', $userid, false, 'integer') . ' AND keyword="use_custom_notification_setting" AND value="1"';
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = 'SELECT usr_id, value FROM usr_pref WHERE ' . $ilDB->in('usr_id', $userid, false, 'integer') . ' AND keyword="use_custom_notification_setting" AND value="1"';
         $rset = $ilDB->query($query);
         $result = array();
         while($row = $ilDB->fetchAssoc($rset)) {

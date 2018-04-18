@@ -17,12 +17,68 @@ class ilNotificationGUI
 
 	private $handler = array();
 
+	/** @var ilObjUser|ilUser */
+	private $user;
+
+	/** @var ilTemplat */
+	private $template;
+
+	/** @var ilCtrl */
+	private $controller;
+
+	/** @var ilLanguage */
+	private $language;
+
+	/** @var ilLocatorGUI */
+	private $locatorGUI;
+
 	/**
-	 * Constructor
 	 * @access    public
+	 * @param ilUser|null $user
+	 * @param ilTemplate|null $template
+	 * @param ilCtrl|null $controller
+	 * @param ilLanguage|null $language
+	 * @param ilLocatorGUI|null $locatorGUI
+	 * @param \ILIAS\DI\Container|null $dic
 	 */
-	function __construct()
-	{
+	function __construct(
+		\ilUser $user = null,
+		\ilTemplate $template = null,
+		\ilCtrl $controller = null,
+		\ilLanguage $language = null,
+		\ilLocatorGUI $locatorGUI = null,
+		\ILIAS\DI\Container $dic = null
+	) {
+		if ($dic === null) {
+			global $DIC;
+			$dic = $DIC;
+		}
+
+		if ($user === null) {
+			$user = $dic->user();
+		}
+		$this->user = $user;
+
+		if ($template === null) {
+			$template = $dic->ui()->mainTemplate();
+		}
+		$this->template = $template;
+
+		if ($controller === null) {
+			$controller = $dic->ctrl();
+		}
+		$this->controller = $controller;
+
+		if ($language === null) {
+			$language = $dic->language();
+		}
+		$this->language = $language;
+
+		if ($locatorGUI === null) {
+			$locatorGUI = $dic['ilLocator'];
+		}
+		$this->locatorGUI = $locatorGUI;
+
 		$this->type = "not";
 
 		require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
@@ -35,12 +91,10 @@ class ilNotificationGUI
 
 	function executeCommand()
 	{
-		global $ilCtrl;
-
-		if(!$ilCtrl->getCmd())
+		if(!$this->controller->getCmd())
 			return;
 
-		$cmd = $ilCtrl->getCmd() . 'Object';
+		$cmd = $this->controller->getCmd() . 'Object';
 		$this->$cmd();
 
 	}
@@ -69,11 +123,9 @@ class ilNotificationGUI
 	 */
 	public function getOSDNotificationsObject()
 	{
-		global $ilUser;
-
 		ilSession::enableWebAccessWithoutSession(true);
 
-		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		if($this->user->getId() == ANONYMOUS_USER_ID)
 		{
 			return '{}';
 		}
@@ -81,7 +133,12 @@ class ilNotificationGUI
 		require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 
-		$notifications         = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId(), true, (int)$_REQUEST['max_age']);
+		$notifications         = ilNotificationOSDHandler::getNotificationsForUser(
+			$this->user->getId(),
+			true,
+			(int)$_REQUEST['max_age']
+		);
+
 		$result                = new stdClass();
 		$result->notifications = $notifications;
 		$result->server_time   = time();
@@ -91,8 +148,6 @@ class ilNotificationGUI
 
 	public function removeOSDNotificationsObject()
 	{
-		global $ilUser;
-
 		ilSession::enableWebAccessWithoutSession(true);
 
 		require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
@@ -113,15 +168,13 @@ class ilNotificationGUI
 
 	private function saveCustomizingOptionObject()
 	{
-		global $ilUser;
-
 		if($_POST['enable_custom_notification_configuration'])
 		{
-			$ilUser->writePref('use_custom_notification_setting', 1);
+			$this->user->writePref('use_custom_notification_setting', 1);
 		}
 		else
 		{
-			$ilUser->writePref('use_custom_notification_setting', 0);
+			$this->user->writePref('use_custom_notification_setting', 0);
 		}
 
 		$this->showSettingsObject();
@@ -129,35 +182,33 @@ class ilNotificationGUI
 
 	public function showSettingsObject()
 	{
-		global $tpl, $ilCtrl, $ilUser, $lng;
-
 		require_once 'Services/Notifications/classes/class.ilNotificationSettingsTable.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 
-		$userTypes = ilNotificationDatabaseHandler::loadUserConfig($ilUser->getId());
+		$userTypes = ilNotificationDatabaseHandler::loadUserConfig($this->user->getId());
 
-		$lng->loadLanguageModule('notification');
+		$this->language->loadLanguageModule('notification');
 
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$chk  = new ilCheckboxInputGUI($lng->txt('enable_custom_notification_configuration'), 'enable_custom_notification_configuration');
+		$chk  = new ilCheckboxInputGUI($this->language->txt('enable_custom_notification_configuration'), 'enable_custom_notification_configuration');
 		$chk->setValue('1');
-		$chk->setChecked($ilUser->getPref('use_custom_notification_setting') == 1);
+		$chk->setChecked($this->user->getPref('use_custom_notification_setting') == 1);
 		$form->addItem($chk);
 
-		$form->setFormAction($ilCtrl->getFormAction($this, 'showSettingsObject'));
-		$form->addCommandButton('saveCustomizingOption', $lng->txt('save'));
-		$form->addCommandButton('showSettings', $lng->txt('cancel'));
+		$form->setFormAction($this->controller->getFormAction($this, 'showSettingsObject'));
+		$form->addCommandButton('saveCustomizingOption', $this->language->txt('save'));
+		$form->addCommandButton('showSettings', $this->language->txt('cancel'));
 
 		$table = new ilNotificationSettingsTable($this, 'a title', $this->getAvailableChannels(array('set_by_user')), $userTypes);
 
-		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSettings'));
+		$table->setFormAction($this->controller->getFormAction($this, 'saveSettings'));
 		$table->setData($this->getAvailableTypes(array('set_by_user')));
 
-		if($ilUser->getPref('use_custom_notification_setting') == 1)
+		if($this->user->getPref('use_custom_notification_setting') == 1)
 		{
-			$table->addCommandButton('saveSettings', $lng->txt('save'));
-			$table->addCommandButton('showSettings', $lng->txt('cancel'));
+			$table->addCommandButton('saveSettings', $this->language->txt('save'));
+			$table->addCommandButton('showSettings', $this->language->txt('cancel'));
 			$table->setEditable(true);
 		}
 		else
@@ -165,25 +216,19 @@ class ilNotificationGUI
 			$table->setEditable(false);
 		}
 
-		$tpl->setContent($form->getHtml() . $table->getHTML());
-	}
-
-	private function saveSettingsObject()
-	{
-		global $ilUser, $ilCtrl;
-		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-
-		ilNotificationDatabaseHandler::setUserConfig($ilUser->getId(), $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
-		$this->showSettingsObject();
+		$this->template->setContent($form->getHtml() . $table->getHTML());
 	}
 
 	function addLocatorItems()
 	{
-		global $ilLocator, $ilCtrl;
-
 		if(is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $ilCtrl->getLinkTarget($this, ''), '', $_GET["ref_id"]);
+			$this->locatorGUI->addItem(
+				$this->object->getTitle(),
+				$this->controller->getLinkTarget($this, ''),
+				'',
+				$_GET["ref_id"]
+			);
 		}
 	}
 }
