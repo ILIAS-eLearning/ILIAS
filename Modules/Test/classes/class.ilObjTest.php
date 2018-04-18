@@ -8170,7 +8170,7 @@ function getAnswerFeedbackPoints()
 		function _getMaxPass($active_id)
 		{
 			global $ilDB;
-			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
+			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
 				array('integer'),
 				array($active_id)
 			);
