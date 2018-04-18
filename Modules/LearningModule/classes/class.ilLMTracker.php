@@ -612,11 +612,11 @@ class ilLMTracker
 			$this->all_questions[] = $quest["question_id"];
 			$page_for_question[$quest["question_id"]] = $quest["page_id"];
 		}
-
 		// get question information
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
 		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
 		$qlist->setParentObjId(0);
+		$qlist->setJoinObjectData(false);
 		$qlist->addFieldFilter("question_id", $this->all_questions);
 		$qlist->load();
 		$qdata = $qlist->getQuestionDataArray();
