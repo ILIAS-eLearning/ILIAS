@@ -205,4 +205,30 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A select is used to allow users to pick among a number of options
+	 *   composition: >
+	 *     Select field will render a select-tag with a number of options.
+	 *   effect: >
+	 *     Only one option is selectable.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Select Input MAY be used for choosing from predetermined options.
+	 *
+	 *   interaction:
+	 *     1: Only one option is selectable.
+	 *
+	 * ---
+	 * @param $options array with the select options as key-value pairs.
+	 * @param $label string defines the label.
+	 * @param $byline string
+	 * @return \ILIAS\UI\Component\Input\Field\Select
+	 */
+	public function select(array $options, $label, $byline = null);
 }
