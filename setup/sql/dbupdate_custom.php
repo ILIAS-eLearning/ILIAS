@@ -315,3 +315,23 @@ while($rec = $ilDB->fetchAssoc($res)) {
 <?php
 $ilDB->dropTable('crs_copy_mappings');
 ?>
+<#27>
+<?php
+if( !$ilDB->tableExists('tms_cat_settings') )
+{
+	$ilDB->createTable('tms_cat_settings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'show_in_cockpit' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->addPrimaryKey('tms_cat_settings', array('obj_id'));
+}
+?>

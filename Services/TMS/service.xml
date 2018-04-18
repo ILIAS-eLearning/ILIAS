@@ -3,5 +3,6 @@
 	id="tms">
 	<events>
 		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Modules/Category" />
 	</events>
 </service>

@@ -23,6 +23,24 @@ class ilTMSAppEventListener
 				self::deleteUnboundCourseProvider($a_parameter["object"]);
 			}
 		}
+
+		if ($a_component === "Modules/Category") {
+			if ($a_event === "tms_update") {
+				if ($a_parameter["show_in_cockpit"] === true
+					&& self::noExistingProvider($a_parameter["object"])
+				) {
+					self::createUnboundCategoryProvider($a_parameter["object"]);
+				}
+
+				if ($a_parameter["show_in_cockpit"] === false
+					&& !self::noExistingProvider($a_parameter["object"])
+				) {
+					self::deleteUnboundCategoryProvider($a_parameter["object"]);
+				}
+			} elseif ($a_event === "delete"){
+				self::deleteUnboundCategoryProvider($a_parameter["object"]);
+			}
+		}
 	}
 
 	static public function createUnboundCourseProvider(\ilObject $crs) {
@@ -37,6 +55,34 @@ class ilTMSAppEventListener
 		foreach ($unbound_providers as $unbound_provider) {
 			$provider_db->delete($unbound_provider, $crs);
 		}
+	}
+
+	static public function createUnboundCategoryProvider(\ilObject $cat) {
+		require_once(__DIR__."/UnboundCategoryProvider.php");
+		$provider_db = self::getProviderDB();
+		$provider_db->createSeparatedUnboundProvider($cat, "root", UnboundCategoryProvider::class, __DIR__."/UnboundCategoryProvider.php");
+	}
+
+	static public function deleteUnboundCategoryProvider(\ilObject $cat) {
+		$provider_db = self::getProviderDB();
+		$unbound_providers = $provider_db->unboundProvidersOf($cat);
+		foreach ($unbound_providers as $unbound_provider) {
+			$provider_db->delete($unbound_provider, $cat);
+		}
+	}
+
+	static protected function noExistingProvider($cat) {
+		require_once(__DIR__."/UnboundCategoryProvider.php");
+		$provider_db = self::getProviderDB();
+		$unbound_providers = $provider_db->unboundProvidersOf($cat);
+
+		foreach ($unbound_providers as $unbound_provider) {
+			if($unbound_provider instanceof UnboundCategoryProvider) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	static protected function getProviderDB() {
