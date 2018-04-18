@@ -47,6 +47,11 @@ class ilObjectGUI
 	 */
 	protected $toolbar;
 
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	const COPY_WIZARD_NEEDS_PAGE = 1;
 	
 
@@ -135,6 +140,7 @@ class ilObjectGUI
 		$this->settings = $DIC->settings();
 		$this->rbacreview = $DIC->rbac()->review();
 		$this->toolbar = $DIC->toolbar();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$objDefinition = $DIC["objDefinition"];
 		$tpl = $DIC["tpl"];
 		$tree = $DIC->repositoryTree();
