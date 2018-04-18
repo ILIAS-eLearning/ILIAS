@@ -1096,7 +1096,16 @@ class ilObjQuestionPool extends ilObject
 								include_once "./Services/Utilities/classes/class.ilUtil.php";
 								ilUtil::makeDirParents($target_path);
 							}
-							@rename($source_path, $target_path . $question_object["question_id"]);
+							try
+							{
+								require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+								ilFileUtils::rename($source_path, $target_path . $question_object["question_id"]);
+							}
+							catch (\ilFileUtilsException $e)
+							{
+								\ilLoggerFactory::getRootLogger()->error($e->getMessage());
+							}
+							
 						}
 						// update question count of source question pool
 						ilObjQuestionPool::_updateQuestionCount($source_questionpool);
