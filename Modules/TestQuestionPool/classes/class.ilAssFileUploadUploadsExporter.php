@@ -234,7 +234,15 @@ class ilAssFileUploadUploadsExporter
 		$pathinfo = pathinfo($this->tempZipFilePath);
 		$this->finalZipFilePath = dirname($pathinfo['dirname']).'/'.$pathinfo['basename'];
 		
-		rename($this->tempZipFilePath, $this->finalZipFilePath);
+		try
+		{
+			require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+			ilFileUtils::rename($this->tempZipFilePath, $this->finalZipFilePath);
+		}
+		catch (\ilFileUtilsException $e)
+		{
+			\ilLoggerFactory::getRootLogger()->error($e->getMessage());
+		}
 	}
 
 	private function removeFileUploadCollection()
