@@ -470,6 +470,10 @@ class ilButton extends ilButtonBase
 		$attr['formtarget']     = $this->getFormTarget();
 		$attr['formnovalidate'] = $this->isFormNovalidate() ? var_export($this->isFormNovalidate(), 1) : null;
 
+		if (self::FORM_TARGET_BLANK === $this->getFormTarget()) {
+			$attr['rel'] = 'noopener';
+		}
+
 		return '<button' . $this->renderAttributes(array_filter($attr)) . '>' . $this->getCaption() . '</button>';
 	}
 }
