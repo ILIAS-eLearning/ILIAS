@@ -741,4 +741,42 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 	 * Get the user solution for a question by active_id and the test pass
 	 *
 	 * @param int $active_id
-	 * @param int $pas
+	 * @param int $pass
+	 *
+	 * @return ilUserQuestionResult
+	 */
+	public function getUserQuestionResult($active_id, $pass)
+	{
+		// TODO: Implement getUserQuestionResult() method.
+	}
+	
+	/**
+	 * If index is null, the function returns an array with all anwser options
+	 * Else it returns the specific answer option
+	 *
+	 * @param null|int $index
+	 *
+	 * @return array|ASS_AnswerSimple
+	 */
+	public function getAvailableAnswerOptions($index = null)
+	{
+		// TODO: Implement getAvailableAnswerOptions() method.
+	}
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * @return ilTestQuestionConfig
+	 */
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+		// hey.
+	{
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+			// hey.
+			->setFormChangeDetectionEnabled(false)
+			->setBackgroundChangeDetectionEnabled(true);
+	}
+// fau.
+}
