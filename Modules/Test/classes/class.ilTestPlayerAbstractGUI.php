@@ -2794,6 +2794,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Forced feedback will change the navigation saving command
 		$config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
 
+		// Inform EditControl about kiosk mode
+		$config['isInKioskMode'] = $this->object->getKioskMode();
+
 		$this->tpl->addJavascript('./Modules/Test/js/ilTestPlayerQuestionEditControl.js');
 		$this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init('.json_encode($config).')');
 	}

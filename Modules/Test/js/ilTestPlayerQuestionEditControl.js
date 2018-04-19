@@ -43,8 +43,9 @@ il.TestPlayerQuestionEditControl = new function() {
         withFormChangeDetection: true,          // form changes should be detected
         withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
         backgroundDetectorUrl: '',              // url called by the background detector
-        forcedInstantFeedback: false            // forced feedback will change the submit command
-    };
+        forcedInstantFeedback: false,           // forced feedback will change the submit command
+		isInKioskMode: false                    // running in kiosk mode
+	};
 
     /**
      * @var boolean answered            the displayed question is answered
@@ -210,6 +211,43 @@ il.TestPlayerQuestionEditControl = new function() {
         if (typeof tinyMCE != 'undefined') {
             activateMceSaveHandler();
         }
+
+        if (config.isInKioskMode) {
+			(function () {
+				// disable autosave if the current tab gets hidden; should never happen in a
+				// kiosk mode assessment setting, but if it happens, something went very wrong;
+				// the user might have opened a duplicate tab by some means and autosave might
+				// continue to save old results in the hidden background tab.
+
+				// see https://developer.mozilla.org/de/docs/Web/API/Page_Visibility_API
+				var hidden, visibilityChange;
+				if (typeof document.hidden !== "undefined") {
+					hidden = "hidden";
+					visibilityChange = "visibilitychange";
+				} else if (typeof document.msHidden !== "undefined") {
+					hidden = "msHidden";
+					visibilityChange = "msvisibilitychange";
+				} else if (typeof document.webkitHidden !== "undefined") {
+					hidden = "webkitHidden";
+					visibilityChange = "webkitvisibilitychange";
+				}
+
+				function disableAutoSaveIfNotSafe() {
+					if (document[hidden]) {
+						if (autoSaver) {
+							stopAutoSave();
+							$('#autosavemessage').html("<strong>Autosave has been disabled.</strong><br>Please check carefully if you want to save the answers on the current page.");
+						}
+					}
+				}
+
+				disableAutoSaveIfNotSafe(); // if already hidden now.
+
+				$(document).on(visibilityChange, function () {
+					disableAutoSaveIfNotSafe();
+				});
+			})();
+		}
     }
 
     /**
