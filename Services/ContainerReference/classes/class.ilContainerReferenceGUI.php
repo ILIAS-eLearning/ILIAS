@@ -151,7 +151,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	
 	/**
 	 * Add locator item
-	 * @global ilLocatorGUI $ilLocator
 	 */
 	protected function addLocatorItems()
 	{
@@ -271,6 +270,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function editObject(ilPropertyFormGUI $form = null)
 	{
+		global $DIC;
+
+		$main_tpl = $DIC->ui()->mainTemplate();
+
 		$ilTabs = $this->tabs;
 
 		$ilTabs->setTabActive('settings');
@@ -279,7 +282,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		{
 			$form = $this->initForm();
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$main_tpl->setContent($form->getHTML());
 	}
 	
 	/**

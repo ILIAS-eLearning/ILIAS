@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
@@ -12,7 +13,7 @@ namespace ILIAS\Filesystem;
  * @version 1.0.0
  *
  */
-class FilesystemsImpl implements Filesystems {
+final class FilesystemsImpl implements Filesystems {
 
 	/**
 	 * @var Filesystem $storage
@@ -51,7 +52,7 @@ class FilesystemsImpl implements Filesystems {
 	/**
 	 * @inheritDoc
 	 */
-	public function web() {
+	public function web(): Filesystem {
 		return $this->web;
 	}
 
@@ -59,7 +60,7 @@ class FilesystemsImpl implements Filesystems {
 	/**
 	 * @inheritDoc
 	 */
-	public function storage() {
+	public function storage(): Filesystem {
 		return $this->storage;
 	}
 
@@ -67,7 +68,7 @@ class FilesystemsImpl implements Filesystems {
 	/**
 	 * @inheritDoc
 	 */
-	public function temp() {
+	public function temp(): Filesystem {
 		return $this->temp;
 	}
 
@@ -75,7 +76,7 @@ class FilesystemsImpl implements Filesystems {
 	/**
 	 * @inheritDoc
 	 */
-	public function customizing() {
+	public function customizing(): Filesystem {
 		return $this->customizing;
 	}
 }

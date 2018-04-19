@@ -638,6 +638,7 @@ class ilObject
 	{
 		global $DIC;
 
+		$app_event = $DIC->event();
 		$ilDB = $this->db;
 		$ilLog = $this->log;
 		$ilUser = $DIC["ilUser"];
@@ -695,7 +696,7 @@ class ilObject
 			$ilDB->insert('object_description',$values);
 		}
 		
-		if($GLOBALS['DIC']['objDefinition']->isOrgUnitPermissionType($this->type))
+		if ($objDefinition->isOrgUnitPermissionType($this->type))
 		{
 			ilOrgUnitGlobalSettings::getInstance()->saveDefaultPositionActivationStatus($this->id);
 		}
@@ -717,7 +718,7 @@ class ilObject
 		$ilLog->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".
 			$this->type.", title: ".$this->getTitle());
 
-		$GLOBALS['ilAppEventHandler']->raise(
+		$app_event->raise(
 			'Services/Object',
 			'create',
 			array('obj_id' => $this->id,'obj_type' => $this->type));
@@ -733,6 +734,10 @@ class ilObject
 	*/
 	function update()
 	{
+		global $DIC;
+
+		$app_event = $DIC->event();
+
 		$objDefinition = $this->objDefinition;
 		$ilDB = $this->db;
 
@@ -774,7 +779,7 @@ class ilObject
 				$ilDB->insert('object_description',$values);
 			}
 		}
-		$GLOBALS['ilAppEventHandler']->raise(
+		$app_event->raise(
 			'Services/Object',
 			'update',
 			array('obj_id' => $this->getId(),
@@ -797,9 +802,13 @@ class ilObject
 	*/
 	function MDUpdateListener($a_element)
 	{
+		global $DIC;
+
+		$app_event = $DIC->event();
+
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 
-		$GLOBALS['ilAppEventHandler']->raise(
+		$app_event->raise(
 			'Services/Object',
 			'update',
 			array('obj_id' => $this->getId(),
@@ -1112,7 +1121,6 @@ class ilObject
 	
 	/**
 	 * Set deleted date
-	 * @global type $ilDB
 	 * @param type $a_ref_ids
 	 * @return type
 	 */
@@ -1121,11 +1129,12 @@ class ilObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
+		$log = $DIC->logger()->root();
 		
 		$query = 'UPDATE object_reference SET deleted = '.$ilDB->now().' '.
 				'WHERE '.$ilDB->in('ref_id',(array) $a_ref_ids,false,'integer');
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': Query is '. $query);
+
+		$log->debug(__METHOD__.': Query is '. $query);
 		$ilDB->manipulate($query);
 		return;
 	}
@@ -1769,9 +1778,6 @@ class ilObject
 	 * @deprecated since version 5.2
 	 * @static
 	 * 
-	 * @global type $ilDB
-	 * @global type $lng
-	 * @global type $objDefinition
 	 * @param array $a_ref_ids
 	 * @param string $new_type
 	 * @param bool $show_path

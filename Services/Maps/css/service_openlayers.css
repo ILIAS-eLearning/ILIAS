@@ -1,0 +1,53 @@
+.map:-moz-full-screen {
+    height: 100% !important;
+    width: 100% !important;
+}
+.map:-webkit-full-screen {
+    height: 100% !important;
+    width: 100% !important;
+}
+.map:-ms-fullscreen {
+    height: 100% !important;
+    width: 100% !important;
+}
+.map:fullscreen {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.marker {
+    float: left;
+}
+.arrow_box {
+    min-width: 200px;
+    float: left;
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #888;
+    height: 102px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+.arrow_box:after, .arrow_box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.arrow_box:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 5px;
+    margin-top: -19px;
+}
+.arrow_box:before {
+    border-color: rgba(0, 0, 0, 0);
+    border-right-color: #888;
+    border-width: 7px;
+    margin-top: -21px;
+}

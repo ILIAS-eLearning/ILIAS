@@ -178,7 +178,7 @@ class ilObjectCopyGUI
 		if((int) $_REQUEST['smode'])
 		{
 			$this->setSubMode((int) $_REQUEST['smode']);
-			$GLOBALS['ilCtrl']->setParameter($this,'smode',$this->getSubMode());
+			$ilCtrl->setParameter($this,'smode',$this->getSubMode());
 			ilLoggerFactory::getLogger('obj')->debug('Submode is: '. $this->getSubMode());
 		}
 
@@ -186,13 +186,13 @@ class ilObjectCopyGUI
 		if($_REQUEST['source_ids'])
 		{
 			$this->setSource(explode('_',$_REQUEST['source_ids']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSources()));
+			$ilCtrl->setParameter($this,'source_ids',  implode('_', $this->getSources()));
 			ilLoggerFactory::getLogger('obj')->debug('Multiple sources: ' . implode('_',$this->getSources()));
 		}
 		if($_REQUEST['source_id'])
 		{
 			$this->setSource(array((int) $_REQUEST['source_id']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+			$ilCtrl->setParameter($this,'source_ids',  implode('_', $this->getSource()));
 			ilLoggerFactory::getLogger('obj')->debug('source_id is set: '. implode('_',$this->getSources()));
 		}
 		if($this->getFirstSource())
@@ -209,10 +209,10 @@ class ilObjectCopyGUI
 			$this->setType($_REQUEST['new_type']);
 			$this->setTarget((int) $_GET['ref_id']);
 
-			$GLOBALS['ilCtrl']->setParameter($this, 'new_type', $this->getType());
-			$GLOBALS['ilCtrl']->setParameterByClass(get_class($this->getParentObject()),'new_type', $this->getType());
-			$GLOBALS['ilCtrl']->setParameterByClass(get_class($this->getParentObject()),'cpfl', 1);
-			$GLOBALS['ilCtrl']->setReturnByClass(get_class($this->getParentObject()),'create');
+			$ilCtrl->setParameter($this, 'new_type', $this->getType());
+			$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'new_type', $this->getType());
+			$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'cpfl', 1);
+			$ilCtrl->setReturnByClass(get_class($this->getParentObject()),'create');
 			
 			ilLoggerFactory::getLogger('obj')->debug('Copy from object creation for type: '. $this->getType());
 			return TRUE;
@@ -251,11 +251,15 @@ class ilObjectCopyGUI
 	 */
 	protected function initTabs()
 	{
-		$GLOBALS['lng']->loadLanguageModule('cntr');
-		$GLOBALS['ilTabs']->clearTargets();
-		$GLOBALS['ilTabs']->setBackTarget(
-				$GLOBALS['lng']->txt('tab_back_to_repository'),
-				$GLOBALS['ilCtrl']->getParentReturn($this->parent_obj)
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+
+		$lng->loadLanguageModule('cntr');
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$lng->txt('tab_back_to_repository'),
+			$ilCtrl->getParentReturn($this->parent_obj)
 		);
 	}
 	
@@ -266,26 +270,30 @@ class ilObjectCopyGUI
 	 */
 	protected function setTabs($a_tab_group, $a_active_tab)
 	{
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+
 		if($a_tab_group == self::TAB_GROUP_SC_SELECTION)
 		{
 			if($this->getSubMode() == self::SUBMODE_CONTENT_ONLY)
 			{
 				if($this->getMode() == self::SOURCE_SELECTION)
 				{
-					$GLOBALS['ilTabs']->addTab(
+					$ilTabs->addTab(
 							self::TAB_SELECTION_SOURCE_TREE,
-							$GLOBALS['lng']->txt('cntr_copy_repo_tree'),
-							$GLOBALS['ilCtrl']->getLinkTarget($this,'initSourceSelection')
+						$lng->txt('cntr_copy_repo_tree'),
+						$ilCtrl->getLinkTarget($this,'initSourceSelection')
 					);
-					$GLOBALS['ilTabs']->addTab(
+					$ilTabs->addTab(
 							self::TAB_SELECTION_MEMBERSHIP,
-							$GLOBALS['lng']->txt('cntr_copy_crs_grp'),
-							$GLOBALS['ilCtrl']->getLinkTarget($this,'showSourceSelectionMembership')
+						$lng->txt('cntr_copy_crs_grp'),
+						$ilCtrl->getLinkTarget($this,'showSourceSelectionMembership')
 					);
 				}
 			}
 		}
-		$GLOBALS['ilTabs']->activateTab($a_active_tab);
+		$ilTabs->activateTab($a_active_tab);
 	}
 	
 	
@@ -295,8 +303,10 @@ class ilObjectCopyGUI
 	 */
 	protected function adoptContent()
 	{
-		$GLOBALS['ilCtrl']->setParameter($this,'smode',self::SUBMODE_CONTENT_ONLY);
-		$GLOBALS['ilCtrl']->setParameter($this,'selectMode',self::SOURCE_SELECTION);
+		$ilCtrl = $this->ctrl;
+
+		$ilCtrl->setParameter($this,'smode',self::SUBMODE_CONTENT_ONLY);
+		$ilCtrl->setParameter($this,'selectMode',self::SOURCE_SELECTION);
 		
 		
 		$this->setSubMode(self::SUBMODE_CONTENT_ONLY);
@@ -390,6 +400,9 @@ class ilObjectCopyGUI
 	 */
 	protected function showSourceSelectionMembership()
 	{
+		$user = $this->user;
+		$tpl = $this->tpl;
+
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
 		$this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_MEMBERSHIP);
 		
@@ -398,13 +411,13 @@ class ilObjectCopyGUI
 		$cgs->init();
 		$cgs->setObjects(
 				array_merge(
-					ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'crs', FALSE),
-					ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'grp', FALSE)
+					ilParticipants::_getMembershipByType($user->getId(), 'crs', FALSE),
+					ilParticipants::_getMembershipByType($user->getId(), 'grp', FALSE)
 				)
 		);
 		$cgs->parse();
-		
-		$GLOBALS['tpl']->setContent($cgs->getHTML());
+
+		$tpl->setContent($cgs->getHTML());
 	}
 	
 	
@@ -548,13 +561,13 @@ class ilObjectCopyGUI
 		if(is_array($_REQUEST['target']) and $_REQUEST['target'])
 		{
 			$this->setTargets($_REQUEST['target']);
-			$GLOBALS['ilCtrl']->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
+			$ilCtrl->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
 		}
 		// paste from clipboard
 		elseif((int) $_REQUEST['target'])
 		{
 			$this->setTarget($_REQUEST['target']);
-			$GLOBALS['ilCtrl']->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
+			$ilCtrl->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
 		}
 		// end-patch multi copy
 		else
@@ -856,7 +869,7 @@ class ilObjectCopyGUI
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
 		$table = new ilObjectCopySearchResultTableGUI($this,'searchSource',$this->getType());
-		$table->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$table->setFormAction($ilCtrl->getFormAction($this));
 		$table->setSelectedReference($this->getFirstSource());
 		$table->parseSearchResults($results);
 		$tpl->setContent($table->getHTML());
@@ -869,12 +882,13 @@ class ilObjectCopyGUI
 	protected function saveSource()
 	{
 		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
 		
 		if(isset($_POST['source']))
 		{
 			$this->setSource(array((int) $_REQUEST['source']));
 			$this->setType(ilObject::_lookupType((int) $_REQUEST['source'], TRUE));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_id',(int) $_REQUEST['source']);
+			$ilCtrl->setParameter($this,'source_id',(int) $_REQUEST['source']);
 		}
 		else
 		{
@@ -938,17 +952,18 @@ class ilObjectCopyGUI
 	protected function saveSourceMembership()
 	{
 		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
 		
 		if(!isset($_REQUEST['source']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$GLOBALS['ilCtrl']->redirect($this,'showSourceSelectionMembership');
+			$ilCtrl->redirect($this,'showSourceSelectionMembership');
 			return FALSE;
 		}
 		
 		$this->setSource(array((int) $_REQUEST['source']));
 		$this->setType(ilObject::_lookupType((int) $this->getFirstSource(), TRUE));
-		$GLOBALS['ilCtrl']->setParameter($this,'source_id',(int) $_REQUEST['source']);
+		$ilCtrl->setParameter($this,'source_id',(int) $_REQUEST['source']);
 		
 		if($objDefinition->isContainer($this->getType()))
 		{
@@ -1167,7 +1182,7 @@ class ilObjectCopyGUI
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			$link = ilLink::_getLink($result['ref_id']);
-			$GLOBALS['DIC']->ctrl()->redirectToUrl($link);
+			$ilCtrl->redirectToUrl($link);
 		}
 		else
 		{
@@ -1182,6 +1197,9 @@ class ilObjectCopyGUI
 	 */
 	protected function showCopyProgress()
 	{
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+
 		include_once './Services/Object/classes/class.ilObjectCopyProgressTableGUI.php';
 		$progress = new ilObjectCopyProgressTableGUI(
 				$this,
@@ -1191,9 +1209,9 @@ class ilObjectCopyGUI
 		$progress->setObjectInfo($this->targets_copy_id);
 		$progress->parse();
 		$progress->init();
-		$progress->setRedirectionUrl($GLOBALS['ilCtrl']->getParentReturn($this->parent_obj));
+		$progress->setRedirectionUrl($ilCtrl->getParentReturn($this->parent_obj));
 
-		$GLOBALS['tpl']->setContent($progress->getHTML());
+		$tpl->setContent($progress->getHTML());
 	}
 
 	/**

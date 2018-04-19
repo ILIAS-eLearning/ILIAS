@@ -587,23 +587,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// we will create nested forms in case, e.g. a news/calendar item is added
 		if ($ilCtrl->getNextClass() != "ilcolumngui")
 		{
-			$this->showAdministrationPanel($tpl);
+			$this->showAdministrationPanel();
 			$this->showPossibleSubObjects();
 		}
 		
-		$this->showPermanentLink($tpl);
+		$this->showPermanentLink();
 
 		// add tree updater javascript
 		if ((int) $_GET["ref_id"] > 1 && $ilSetting->get("rep_tree_synchronize"))
 		{
 			$ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
-			/*$tpl->addOnloadCode("
-				if (parent && parent.tree && parent.tree.updater)
-				{
-					parent.tree.updater('tree_div', '".
-					$ilCtrl->getLinkTarget($this, "showTree", "", true, false)
-					."');
-				}");*/
 		}
 	}
 
@@ -616,19 +609,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	* show administration panel
-	*/
-	function showAdministrationPanel(&$tpl)
+	 * show administration panel
+	 */
+	function showAdministrationPanel()
 	{
+		global $DIC;
+
 		$ilAccess = $this->access;
 		$lng = $this->lng;
+
+		$main_tpl = $DIC->ui()->mainTemplate();
 
 		$lng->loadLanguageModule('cntr');
 
 		if ($_SESSION["clipboard"])
 		{
 			// #11545
-			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+			$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
 			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$toolbar = new ilToolbarGUI();
@@ -645,12 +642,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				'clear'
 			);
 
-			$GLOBALS['tpl']->addAdminPanelToolbar($toolbar, true, false);
+			$main_tpl->addAdminPanelToolbar($toolbar, true, false);
 		}
 		else if ($this->isActiveAdministrationPanel())
 		{			
 			// #11545
-			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+			$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 			
 			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$toolbar = new ilToolbarGUI();
@@ -696,8 +693,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						}
 						else
 						{
-							$GLOBALS['tpl']->addJavaScript("Services/BackgroundTask/js/BgTask.js");		
-							$GLOBALS['tpl']->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
+							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
+							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
 							
 							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 							$button = ilSubmitButton::getInstance();
@@ -736,7 +733,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}*/
 
-			$GLOBALS['tpl']->addAdminPanelToolbar(
+			$main_tpl->addAdminPanelToolbar(
 				$toolbar,
 				($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false,
 				($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false
@@ -745,7 +742,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// form action needed, see http://www.ilias.de/mantis/view.php?id=9630
 			if ($this->object->gotItems())
 			{
-				$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+				$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 			}
 		}
 		else
@@ -759,7 +756,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					if ($this->isActiveOrdering())
 					{
 						// #11843
-						$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+						$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 						
 						include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 						$toolbar = new ilToolbarGUI();
@@ -771,22 +768,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 							'saveSorting'
 						);
 
-						$GLOBALS['tpl']->addAdminPanelToolbar($toolbar, true, false);
+						$main_tpl->addAdminPanelToolbar($toolbar, true, false);
 
-						/*																																			
-						$GLOBALS["tpl"]->addAdminPanelCommand("saveSorting",
-							$this->lng->txt('sorting_save'));
-
-						// button should appear at bottom, too
-						$GLOBALS["tpl"]->admin_panel_bottom = true;					 
-						*/
 					}
 				}
 			}
 			else if ($this->isMultiDownloadEnabled())
 			{
 				// #11843
-				$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));						
+				$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
 				include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 				$toolbar = new ilToolbarGUI();
@@ -798,7 +788,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					'download'
 				);
 
-				$GLOBALS['tpl']->addAdminPanelToolbar(
+				$main_tpl->addAdminPanelToolbar(
 					$toolbar,
 					$this->object->gotItems() ? true : false,
 					$this->object->gotItems() ? true : false
@@ -824,9 +814,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	* show permanent link
 	*/
-	function showPermanentLink(&$tpl)
+	function showPermanentLink()
 	{
-		$GLOBALS["tpl"]->setPermanentLink($this->object->getType(),
+		global $DIC;
+
+		$tpl = $DIC->ui()->mainTemplate();
+
+		$tpl->setPermanentLink($this->object->getType(),
 			$this->object->getRefId(), "", "_top");
 	}
 
@@ -1932,6 +1926,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilObjDataCache = $this->obj_data_cache;
 		$ilUser = $this->user;
 		$ilErr = $this->error;
+		$lng = $this->lng;
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -2000,8 +1995,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT	
 				if(!in_array($obj_data->getType(), array_keys($folder_objects_cache[$folder_ref_id]->getPossibleSubObjects())))
 				{
-					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']', 
-							$GLOBALS['lng']->txt('obj_'.$obj_data->getType()));
+					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']',
+						$lng->txt('obj_'.$obj_data->getType()));
 				}				
 			}		
 		}		
@@ -2291,8 +2286,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function cancelMoveLinkObject()
 	{
+		$ilCtrl = $this->ctrl;
+
 		unset($_SESSION['clipboard']);
-		$GLOBALS['ilCtrl']->returnToParent($this);
+		$ilCtrl->returnToParent($this);
 	}
 
 	/**
@@ -2300,8 +2297,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function keepObjectsInClipboardObject()
 	{
+		$ilCtrl = $this->ctrl;
+
 		ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
-		$GLOBALS['ilCtrl']->returnToParent($this);
+		$ilCtrl->returnToParent($this);
 	}
 
 	
@@ -3048,7 +3047,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	/**
 	 * Modify list gui for presentation in container
-	 * @global type $lng
 	 * @param type $a_item_list_gui
 	 * @param type $a_item_data
 	 * @param type $a_show_path

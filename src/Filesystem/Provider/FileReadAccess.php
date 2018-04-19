@@ -34,7 +34,7 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function read($path);
+	public function read(string $path): string;
 
 
 	/**
@@ -47,7 +47,7 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function has($path);
+	public function has(string $path): bool;
 
 	/**
 	 * Get a files mime-type.
@@ -59,7 +59,7 @@ interface FileReadAccess {
 	 * @throws FileNotFoundException    If the file is not found.
 	 * @throws IOException              If the mime-type could not be determined.
 	 */
-	public function getMimeType($path);
+	public function getMimeType(string $path): string;
 
 
 	/**
@@ -75,7 +75,7 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getTimestamp($path);
+	public function getTimestamp(string $path): \DateTime;
 
 
 	/**
@@ -95,7 +95,7 @@ interface FileReadAccess {
 	 *
 	 * @see     DataSize
 	 */
-	public function getSize($path, $fileSizeUnit);
+	public function getSize(string $path, int $fileSizeUnit): DataSize;
 
 	/**
 	 * Sets the visibility for a file.
@@ -114,7 +114,7 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function setVisibility($path, $visibility);
+	public function setVisibility(string $path, string $visibility): bool;
 
 
 	/**
@@ -133,5 +133,5 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getVisibility($path);
+	public function getVisibility(string $path): string;
 }

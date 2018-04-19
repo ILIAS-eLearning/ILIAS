@@ -18538,8 +18538,8 @@ FROM
 	il_dcl_field_prop fp ON rf.field_id = fp.field_id
 WHERE
     f.datatype_id = 3
-	AND fp.name = "multiple_selection"
-	AND fp.value = 1
+	AND fp.name = ' . $ilDB->quote("multiple_selection", 'text') . '
+	AND fp.value = ' . $ilDB->quote("1", 'text') . '
 ORDER BY stloc.id ASC');
 
 while ($row = $query->fetchAssoc()) {

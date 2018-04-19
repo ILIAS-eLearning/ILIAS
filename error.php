@@ -32,5 +32,7 @@ catch(Exception $e)
 		throw $e;
 	}
 
-	die($e->getMessage());
+	if (!($e instanceof \PDOException)) {
+		die($e->getMessage());
+	}
 }
