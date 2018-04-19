@@ -26,7 +26,9 @@ class ilLoggingErrorFileStorage {
 	}
 
 	protected function content() {
-		return $this->pageHeader()
+		return "----------\n"
+			  ."error_id: ".$this->file_name."\n"
+			  .$this->pageHeader()
 			  .$this->exceptionContent()
 			  .$this->tablesContent()
 			  ;
