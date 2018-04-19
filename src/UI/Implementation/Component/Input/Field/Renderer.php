@@ -81,6 +81,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($input instanceof Component\Input\Field\TextArea) {
+			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -411,6 +413,7 @@ class Renderer extends AbstractComponentRenderer {
 		        Component\Input\Field\Tag::class,
 		        Component\Input\Field\DependantGroup::class,
 		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class];
+		        Component\Input\Field\Select::class,
+		        Component\Input\Field\TextArea::class];
 	}
 }
