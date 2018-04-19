@@ -435,7 +435,7 @@ class ilLMTracker
 	 * @param int $a_obj_id lm object id
 	 * @return int status
 	 */
-	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers, $a_has_pred_incorrect_not_unlocked_answers)
+	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers, &$a_has_pred_incorrect_not_unlocked_answers)
 	{
 		$status = ilLMTracker::NOT_ATTEMPTED;
 
@@ -610,7 +610,6 @@ class ilLMTracker
 				$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"];
 			}
 		}
-
 		return $ret;
 	}
 
