@@ -361,6 +361,13 @@ class ilCronManager implements \ilCronManagerInterface
 
 		$ilLog = $DIC->logger()->root();
 		$ilDB = $DIC->database();
+
+		if (!isset($DIC["ilSetting"])) {
+			$DIC["ilSetting"] = function ($c) {
+				return new ilSetting();
+			};
+		}
+
 		$ilSetting = $DIC->settings();
 
 		// already exists?			

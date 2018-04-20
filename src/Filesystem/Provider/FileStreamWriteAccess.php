@@ -39,7 +39,7 @@ interface FileStreamWriteAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function writeStream($path, FileStream $stream);
+	public function writeStream(string $path, FileStream $stream);
 
 
 	/**
@@ -58,7 +58,7 @@ interface FileStreamWriteAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function putStream($path, FileStream $stream);
+	public function putStream(string $path, FileStream $stream);
 
 
 	/**
@@ -77,5 +77,5 @@ interface FileStreamWriteAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function updateStream($path, FileStream $stream);
+	public function updateStream(string $path, FileStream $stream);
 }

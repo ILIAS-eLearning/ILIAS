@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\DTO;
 
@@ -41,13 +42,7 @@ final class Metadata {
 	 *
 	 * @see MetadataType
 	 */
-	public function __construct($path, $type) {
-
-		if(!is_string($path))
-			throw new \InvalidArgumentException("Path must be of type string.");
-
-		if(!is_string($type))
-			throw new \InvalidArgumentException("Type must be of type string.");
+	public function __construct(string $path, string $type) {
 
 		if($type !== MetadataType::FILE && $type !== MetadataType::DIRECTORY)
 			throw new \InvalidArgumentException("The metadata type must be FILE or DIRECTORY but \"$type\" was given.");
@@ -62,7 +57,7 @@ final class Metadata {
 	 * @return string
 	 * @since 5.3
 	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 
@@ -79,7 +74,7 @@ final class Metadata {
 	 *
 	 * @see MetadataType
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
@@ -90,7 +85,7 @@ final class Metadata {
 	 * @return bool
 	 * @since 5.3
 	 */
-	public function isDir() {
+	public function isDir(): bool {
 		return (strcmp($this->getType(), MetadataType::DIRECTORY) === 0);
 	}
 
@@ -101,7 +96,7 @@ final class Metadata {
 	 * @return bool
 	 * @since 5.3
 	 */
-	public function isFile() {
+	public function isFile(): bool {
 		return (strcmp($this->getType(), MetadataType::FILE) === 0);
 	}
 }

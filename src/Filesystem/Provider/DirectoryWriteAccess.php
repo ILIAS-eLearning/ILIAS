@@ -38,7 +38,7 @@ interface DirectoryWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function createDir($path, $visibility = Visibility::PUBLIC_ACCESS);
+	public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS);
 
 
 	/**
@@ -59,7 +59,7 @@ interface DirectoryWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function copyDir($source, $destination);
+	public function copyDir(string $source, string $destination);
 
 	/**
 	 * Deletes a directory recursive.
@@ -73,5 +73,5 @@ interface DirectoryWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function deleteDir($path);
+	public function deleteDir(string $path);
 }

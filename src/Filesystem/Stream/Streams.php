@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
@@ -11,11 +12,11 @@ use Psr\Http\Message\StreamInterface;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
- * @version 1.0.0
+ * @version 1.1.0
  *
  * @public
  */
-class Streams {
+final class Streams {
 
 	/**
 	 * Creates a new stream with an initial value.
@@ -23,9 +24,9 @@ class Streams {
 	 *
 	 * @param string $string The string which should be written as initial value.
 	 *
-	 * @return Stream The newly created in memory stream.
+	 * @return FileStream The newly created in memory stream.
 	 */
-	public static function ofString($string) {
+	public static function ofString($string): FileStream {
 		if(!is_string($string))
 			throw new \InvalidArgumentException('The argument $string must be of type string but was "' . gettype($string) . '"');
 
@@ -41,11 +42,11 @@ class Streams {
 	 *
 	 * @param resource $resource The resource which should be wrapped.
 	 *
-	 * @return Stream The newly created stream which wraps the given resource.
+	 * @return FileStream The newly created stream which wraps the given resource.
 	 *
 	 * @see fopen()
 	 */
-	public static function ofResource($resource) {
+	public static function ofResource($resource): FileStream {
 		if(!is_resource($resource))
 			throw new \InvalidArgumentException('The argument $resource must be of type resource but was "' . gettype($resource) . '"');
 
@@ -60,7 +61,7 @@ class Streams {
 	 * @param StreamInterface $stream   The stream which should be parsed into a FileStream.
 	 * @return FileStream               The newly created stream.
 	 */
-	public static function ofPsr7Stream(StreamInterface $stream) {
+	public static function ofPsr7Stream(StreamInterface $stream): FileStream {
 		$resource = $stream->detach();
 		return self::ofResource($resource);
 	}

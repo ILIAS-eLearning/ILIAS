@@ -16,7 +16,9 @@ class ilNotificationSetupHelper {
     public static $tbl_notification_types = 'notification_types';
     
     public static function setupTables() {
-        global $ilDB;
+        global $DIC;
+
+        $ilDB = $DIC->database();
 
         if (!$ilDB->tableExists(self::$tbl_userconfig)) {
             $fields = array(

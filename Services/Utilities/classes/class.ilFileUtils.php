@@ -536,11 +536,42 @@ class ilFileUtils
 		return self::lookupFileMimeType($a_file);
 	}
 
+
+	/**
+	 * @return array valid file extensions
+	 */
+	public static function getValidExtensions() {
+		global $DIC;
+
+		$setting = $DIC->settings();
+
+		// default white list
+		$whitelist = self::getDefaultValidExtensionWhiteList();
+
+		// remove custom black list values
+		foreach (explode(",", $setting->get("suffix_repl_additional")) as $custom_black) {
+			$custom_black = trim(strtolower($custom_black));
+			if (($key = array_search($custom_black, $whitelist)) !== false) {
+				unset($whitelist[$key]);
+			}
+		}
+
+		// add custom white list values
+		foreach (explode(",", $setting->get("suffix_custom_white_list")) as $custom_white) {
+			$custom_white = trim(strtolower($custom_white));
+			if (!in_array($custom_white, $whitelist)) {
+				$whitelist[] = $custom_white;
+			}
+		}
+
+		return $whitelist;
+	}
+
 	/**
 	 * Valid extensions
 	 * @return array valid file extensions
 	 */
-	public static function getValidExtensions()
+	public static function getDefaultValidExtensionWhiteList()
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
@@ -629,7 +660,11 @@ class ilFileUtils
 			'm3u',   // AUDIO__X_MPEQURL,
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
+			'markdown',    // TEXT__MARKDOWN,
+			'm',     // MATLAB
+			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
+			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
@@ -708,6 +743,7 @@ class ilFileUtils
 			'rtx',   // TEXT__RICHTEXT,
 			'rv',   // VIDEO__VND_RN_REALVIDEO,
 			's',   // TEXT__X_ASM,
+			'sav',   // SPSS
 			'sec',   //
 			's3m',   // AUDIO__S3M,
 			'sdml',   // TEXT__PLAIN,

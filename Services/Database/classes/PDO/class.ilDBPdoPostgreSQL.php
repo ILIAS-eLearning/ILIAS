@@ -275,7 +275,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return mixed
 	 */
 	public function quoteIdentifier($identifier, $check_option = false) {
-		return $identifier;
+		return '"'.$identifier.'"';
 	}
 
 
