@@ -51,7 +51,9 @@ class ilDBUpdate {
 			}
 		} else {
 			global $DIC;
-			$mySetup = $DIC['mySetup'];
+			if($DIC->offsetExists('mySetup')) {
+				$mySetup = $DIC['mySetup'];
+			}
 			$this->db = $mySetup->db;
 			$this->PATH = "./";
 		}
