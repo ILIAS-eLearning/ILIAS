@@ -401,6 +401,26 @@ class ilDclBaseRecordModel {
 
 
 	/**
+	 * Get Field Value for Representation in a Form
+	 *
+	 * @param $field_id
+	 *
+	 * @return array|int|null|string
+	 */
+	public function getRecordFieldRepresentationValue($field_id) {
+		if ($field_id === NULL) {
+			return NULL;
+		}
+		$this->loadRecordFields();
+		if (ilDclStandardField::_isStandardField($field_id)) {
+			return $this->getStandardField($field_id);
+		} else {
+			return $this->recordfields[$field_id]->getValueForRepresentation();
+		}
+	}
+
+
+	/**
 	 * Get Field Export Value
 	 *
 	 * @param int $field_id
