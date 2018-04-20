@@ -9,6 +9,10 @@ require_once('./Services/Xml/classes/class.ilSaxParser.php');
 class ilSimpleXMLTableDataParser extends ilSaxParser {
 
 	/**
+	 * @var string
+	 */
+	protected $table;
+	/**
 	 * @var null|string
 	 */
 	protected $file = null;
@@ -56,5 +60,3 @@ class ilSimpleXMLTableDataParser extends ilSaxParser {
 		}
 	}
 }
-
-?>

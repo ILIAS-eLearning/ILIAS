@@ -197,11 +197,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function initFromIniFile($tmpClientIniFile = null) {
 		global $DIC;
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+
 		if ($tmpClientIniFile instanceof ilIniFile) {
 			$clientIniFile = $tmpClientIniFile;
 		} else {
-			$clientIniFile = $ilClientIniFile;
+			$ilClientIniFile = null;
+			if ($DIC->offsetExists('ilClientIniFile')) {
+				$clientIniFile = $DIC['ilClientIniFile'];
+			} else {
+				throw new InvalidArgumentException('$tmpClientIniFile is not an instance of ilIniFile');
+			}
 		}
 
 		$this->setUsername($clientIniFile->readVariable("db", "user"));
