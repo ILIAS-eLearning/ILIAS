@@ -720,4 +720,53 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$DIC->ctrl()->setParameter($this, 'ref_id', $parent_ref_id);
 		$DIC->ctrl()->redirect($this);
 	}
+
+	/**
+	 * confirmed deletion of org units -> org units are deleted immediately, without putting them to the trash
+	 */
+	public function confirmedDeleteObject()
+	{
+		if(isset($_POST["mref_id"]))
+		{
+			$_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));
+		}
+
+		include_once("./Services/Repository/classes/class.ilRepUtil.php");
+		ilRepUtil::removeObjectsFromSystem($_GET["ref_id"]);
+		ilSession::clear("saved_post");
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	 * Display deletion confirmation screen for Org Units.
+	 * Information to the user that Org units will be deleted immediately.
+	 * @access	public
+	 */
+	public function deleteObject($a_error = false)
+	{
+		$ilCtrl = $this->ctrl;
+
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
+		if(is_array($_POST["id"]))
+		{
+			foreach($_POST["id"] as $idx => $id)
+			{
+				$_POST["id"][$idx] = (int)$id;
+			}
+		}
+
+		// SAVE POST VALUES (get rid of this
+		ilSession::set("saved_post", $_POST["id"]);
+
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		if (!$ru->showDeleteConfirmation($_POST["id"], $a_error, $this->lng->txt("info_delete_warning_no_trash_for_org_units")))
+		{
+			$ilCtrl->returnToParent($this);
+		}
+	}
 }

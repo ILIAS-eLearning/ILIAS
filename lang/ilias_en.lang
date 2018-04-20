@@ -2463,6 +2463,7 @@ common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the fol
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
 common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?
 common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_warning_no_trash_for_org_units#:# (WARNING: Org units will be deleted immediately from the system and they can not be restored!)
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership

@@ -72,7 +72,7 @@ class ilRepUtilGUI
 	/**
 	* Show delete confirmation table
 	*/
-	function showDeleteConfirmation($a_ids, $a_supress_message = false)
+	function showDeleteConfirmation($a_ids, $a_supress_message = false, $additional_message = null)
 	{
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
@@ -100,7 +100,11 @@ class ilRepUtilGUI
 			{
 				$msg .= "<br/>".$lng->txt("info_delete_warning_no_trash");
 			}
-			
+
+			if(!empty($additional_message)) {
+				$msg .= $additional_message;
+			}
+
 			$cgui->setHeaderText($msg);
 		}
 		$cgui->setFormAction($ilCtrl->getFormAction($this->parent_gui));
@@ -119,7 +123,7 @@ class ilRepUtilGUI
 			$alt = ($objDefinition->isPlugin($type))
 				? $lng->txt("icon")." ".ilObjectPlugin::lookupTxtById($type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
-			
+
 			$title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);		
 			
 			$cgui->addItem("id[]", $ref_id, $title,

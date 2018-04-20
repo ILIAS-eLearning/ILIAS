@@ -200,7 +200,6 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 						 ));
 			}
 		}
-		
 		if (!$ilSetting->get('enable_trash'))
 		{
 			ilRepUtil::removeObjectsFromSystem($a_ids);
