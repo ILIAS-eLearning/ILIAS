@@ -206,8 +206,7 @@ class ilClient
 		}
 
 		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
-		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType(),
-			$this->ini->readVariable("db","inactive_mysqli"));
+		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
 		$this->db->setDBUser($this->getdbUser());
 		$this->db->setDBPort($this->getdbPort());
 		$this->db->setDBPassword($this->getdbPass());
