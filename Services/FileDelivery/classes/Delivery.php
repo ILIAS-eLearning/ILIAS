@@ -113,7 +113,7 @@ final class Delivery {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
 			$path_to_file = explode("?", $path_to_file); // removing everything behind ?
-			$path_to_file = urldecode($path_to_file[0]);
+			$path_to_file = rawurldecode($path_to_file[0]);
 			$this->setPathToFile($path_to_file);
 			$this->detemineDeliveryType();
 			$this->determineMimeType();

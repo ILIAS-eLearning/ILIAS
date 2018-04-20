@@ -14179,3 +14179,11 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+file#:#file_suffix_default_white#:#Default Suffix Whitelist
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.

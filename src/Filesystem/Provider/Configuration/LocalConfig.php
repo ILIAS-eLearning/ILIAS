@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\Configuration;
 
@@ -98,13 +99,13 @@ final class LocalConfig {
 	 * @param int    $linkBehaviour             The behaviour how filesystem links should be threaded.
 	 */
 	public function __construct(
-		$rootPath,
-		$fileAccessPublic = 0744,
-		$fileAccessPrivate = 0700,
-		$directoryAccessPublic = 0755,
-		$directoryAccessPrivate = 0700,
-		$lockMode = LOCK_EX,
-		$linkBehaviour = self::SKIP_LINKS
+		string $rootPath,
+		int $fileAccessPublic = 0744,
+		int $fileAccessPrivate = 0700,
+		int $directoryAccessPublic = 0755,
+		int $directoryAccessPrivate = 0700,
+		int $lockMode = LOCK_EX,
+		int $linkBehaviour = self::SKIP_LINKS
 	) {
 		$this->rootPath = $rootPath;
 		$this->fileAccessPublic = $fileAccessPublic;
