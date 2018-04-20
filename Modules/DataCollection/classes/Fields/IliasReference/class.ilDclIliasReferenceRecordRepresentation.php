@@ -18,12 +18,10 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 	 * @return string
 	 */
 	public function getHTML($link = true){
-		$value = $this->getRecordField()->getValue();
-		if (!$value) {
+		$title = $this->getRecordField()->getValueForRepresentation();
+		if (!$title) {
 			return '';
 		}
-		$id = ilObject::_lookupObjId($value);
-		$title = ilObject::_lookupTitle($id);
 		$field = $this->getRecordField()->getField();
 
 		if ($field->getProperty(ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU)) {
@@ -44,11 +42,11 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 			return '';
 		}
 		$id = ilObject::_lookupObjId($value);
-		$title = ilObject::_lookupTitle($id);
+		$value = ilObject::_lookupTitle($id);
 		if ($this->getRecordField()->getField()->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-			return $this->getLinkHTML($title);
+			return $this->getLinkHTML($value);
 		}
-		return $title;
+		return $value;
 	}
 
 
@@ -60,6 +58,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 	public function getLinkHTML($title, $show_action_menu=false) {
 		global $DIC;
 		$lng = $DIC['lng'];
+		$this->getRecordField();
 		$link = ilLink::_getStaticLink($this->getRecordField()->getValue());
 		if ($show_action_menu) {
 			$field = $this->getRecordField()->getField();
