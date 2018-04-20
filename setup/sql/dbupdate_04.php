@@ -22047,3 +22047,13 @@ while( $row = $ilDB->fetchAssoc($res) )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5267>
+<?php
+/*
+* This hotfix removes org unit assignments of user who don't exist anymore
+* select all user_ids from usr_data and remove all il_orgu_ua entries which have an user_id from an user who doesn't exist anymore
+*/
+global $ilDB;
+$q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
+$ilDB->manipulate($q);
+?>

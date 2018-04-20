@@ -1365,6 +1365,10 @@ class ilObjUser extends ilObject
 		// badges
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		ilBadgeAssignment::deleteByUserId($this->getId());
+
+		// remove org unit assignments
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+		$ilOrgUnitUserAssignmentQueries->deleteAllAssignmentsOfUser($this->getId());
 		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
