@@ -30,7 +30,7 @@ class ilDBUpdate {
 	/**
 	 * @var string
 	 */
-	protected $updateMsg;
+	public $updateMsg;
 
 
 	/**
