@@ -163,7 +163,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	protected function listPlugins()
 	{
 		global $DIC;
-		$tpl = $DIC['tpl'];
+		$tpl = $DIC->ui()->mainTemplate();
 		$ilTabs = $DIC->tabs();
 
 		$ilTabs->activateTab("plugins");
@@ -178,7 +178,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	protected function showPluginSlotInfo()
 	{
 		global $DIC;
-		$tpl = $DIC['tpl'];
+		$tpl = $DIC->ui()->mainTemplate();
 		$lng = $DIC->language();
 		$ilTabs = $DIC->tabs();
 		$ilCtrl = $DIC->ctrl();
@@ -257,7 +257,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$ilCtrl = $DIC->ctrl();
 		$ilTabs = $DIC->tabs();
 		$lng = $DIC->language();
-		$tpl = $DIC['tpl'];
+		$tpl = $DIC->ui()->mainTemplate();
 		$ilDB = $DIC->database();
 		$ilToolbar = $DIC->toolbar();
 
@@ -635,7 +635,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $DIC;
 		$ilCtrl = $DIC->ctrl();
-		$tpl = $DIC['tpl'];
+		$tpl = $DIC->ui()->mainTemplate();
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		include_once("./Services/Component/classes/class.ilPlugin.php");
