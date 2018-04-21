@@ -29,7 +29,7 @@ class ilAccordionGUI
 	const FIRST_OPEN = "FirstOpen";
 	const ALL_CLOSED = "AllClosed";
 
-	static $owl_path = "./Services/Accordion/lib/owl.carousel.2.0.0-beta.2.4";
+	static $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
 	static $owl_js_path = "/owl.carousel.js";
 	static $owl_css_path = "/assets/owl.carousel.css";
 

@@ -26,5 +26,5 @@ interface FilesystemFactory {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getLocal(LocalConfig $config);
+	public function getLocal(LocalConfig $config): Filesystem;
 }

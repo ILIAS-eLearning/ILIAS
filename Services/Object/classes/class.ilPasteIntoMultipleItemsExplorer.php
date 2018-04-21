@@ -137,8 +137,10 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	
 	public function buildFormItem($a_node_id, $a_type)
 	{
+		$access = $this->access;
+
 		// permission check 
-		if(!$GLOBALS['ilAccess']->checkAccess($this->getRequiredFormItemPermission(),'',$a_node_id))
+		if(!$access->checkAccess($this->getRequiredFormItemPermission(),'',$a_node_id))
 		{
 			return '';
 		}

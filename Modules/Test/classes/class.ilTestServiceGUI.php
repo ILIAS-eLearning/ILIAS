@@ -996,6 +996,10 @@ class ilTestServiceGUI
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
 		$output     = '';
 		foreach($foundusers as $active_id => $passes)
@@ -1035,6 +1039,11 @@ class ilTestServiceGUI
 	 */
 	protected function buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD)
 	{
+		if( !isset($targetGUI->object) && method_exists($targetGUI, 'getTestObj') )
+		{
+			$targetGUI->object = $targetGUI->getTestObj();
+		}
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
 		$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
 		$tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
@@ -1174,8 +1183,6 @@ class ilTestServiceGUI
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
-		$toolbar->setSkillResultButtonEnabled($this->object->isSkillServiceToBeConsidered());
-
 		return $toolbar;
 	}
 
@@ -1240,6 +1247,7 @@ class ilTestServiceGUI
 				$this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails')
 			);
 		}
+		$ilTabs->clearSubTabs();
 
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");

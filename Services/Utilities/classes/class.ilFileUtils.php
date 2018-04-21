@@ -536,18 +536,51 @@ class ilFileUtils
 		return self::lookupFileMimeType($a_file);
 	}
 
+
+	/**
+	 * @return array valid file extensions
+	 */
+	public static function getValidExtensions() {
+		global $DIC;
+
+		$setting = $DIC->settings();
+
+		// default white list
+		$whitelist = self::getDefaultValidExtensionWhiteList();
+
+		// remove custom black list values
+		foreach (explode(",", $setting->get("suffix_repl_additional")) as $custom_black) {
+			$custom_black = trim(strtolower($custom_black));
+			if (($key = array_search($custom_black, $whitelist)) !== false) {
+				unset($whitelist[$key]);
+			}
+		}
+
+		// add custom white list values
+		foreach (explode(",", $setting->get("suffix_custom_white_list")) as $custom_white) {
+			$custom_white = trim(strtolower($custom_white));
+			if (!in_array($custom_white, $whitelist)) {
+				$whitelist[] = $custom_white;
+			}
+		}
+
+		return $whitelist;
+	}
+
 	/**
 	 * Valid extensions
 	 * @return array valid file extensions
 	 */
-	public static function getValidExtensions()
+	public static function getDefaultValidExtensionWhiteList()
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
+			'ai', 	// APPLICATION__POSTSCRIPT
 			'aif', 	// AUDIO__AIFF
 			'aifc', // AUDIO__AIFF
 			'aiff', // AUDIO__AIFF
 			'au', 	// AUDIO__BASIC
+			'arw',  // IMAGE__X_SONY_ARW
 			'avi',  // AUDIO__BASIC
 			'backup', // scorm wbts
 			'bak', // scorm wbts
@@ -568,6 +601,8 @@ class ilFileUtils
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
 			'crs', // scorm wbts
+			'crw', // IMAGE__X_CANON_CRW
+			'cr2', // IMAGE__X_CANON_CR2
 			'css', 	// TEXT__CSS
 			'cst', // scorm wbts
 			'csv',
@@ -575,6 +610,7 @@ class ilFileUtils
 			'db', // scorm wbts
 			'dcr', // scorm wbts
 			'des', // scorm wbts
+			'dng', // IMAGE__X_ADOBE_DNG
 			'doc',   // APPLICATION__MSWORD,
 			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 			'dot',   // APPLICATION__MSWORD,
@@ -592,6 +628,7 @@ class ilFileUtils
 			'g3',   // IMAGE__G3FAX,
 			'gif',   // IMAGE__GIF,
 			'gl',   // VIDEO__GL,
+			'gan',
 			'gsd',   // AUDIO__X_GSM,
 			'gsm',   // AUDIO__X_GSM,
 			'gtar',   // APPLICATION__X_GTAR,
@@ -601,6 +638,7 @@ class ilFileUtils
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
 			'ico',   // IMAGE__X_ICON,
+			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
 			'java',   // TEXT__X_JAVA_SOURCE,
 			'jbf', // scorm wbts
@@ -609,7 +647,7 @@ class ilFileUtils
 			'js',   // APPLICATION__X_JAVASCRIPT,
 			'jsf', // scorm wbts
 			'jso', // scorm wbts
-			'json',		// scorm
+			'json',		// APPLICATION__JSON
 			'latex',   // APPLICATION__X_LATEX,
 			'lang',   // lang files
 			'less', // less
@@ -622,9 +660,15 @@ class ilFileUtils
 			'm3u',   // AUDIO__X_MPEQURL,
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
+			'markdown',    // TEXT__MARKDOWN,
+			'm',     // MATLAB
+			'mat',   // MATLAB
+			'md',    // TEXT__MARKDOWN,
+			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
+			'mobi',   // APPLICATION__X_MOBI,
 			'mod',   // AUDIO__MOD,
 			'mov',   // VIDEO__QUICKTIME,
 			'movie',   // VIDEO__X_SGI_MOVIE,
@@ -634,13 +678,16 @@ class ilFileUtils
 			'mpa',   // AUDIO__MPEG,
 			'mpeg',   // VIDEO__MPEG,
 			'mpg',   // AUDIO__MPEG,
+			'mph',   // COMSOL Multiphysics
 			'mpga',   // AUDIO__MPEG,
 			'mpp',   // APPLICATION__VND_MS_PROJECT,
 			'mpt',   // APPLICATION__X_PROJECT,
 			'mpv',   // APPLICATION__X_PROJECT,
 			'mpx',   // APPLICATION__X_PROJECT,
 			'mv',   // VIDEO__X_SGI_MOVIE,
+			'mw',
 			'mv4',   // VIDEO__MP4,
+			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
 			'odt',   // Open document text,
@@ -696,6 +743,7 @@ class ilFileUtils
 			'rtx',   // TEXT__RICHTEXT,
 			'rv',   // VIDEO__VND_RN_REALVIDEO,
 			's',   // TEXT__X_ASM,
+			'sav',   // SPSS
 			'sec',   //
 			's3m',   // AUDIO__S3M,
 			'sdml',   // TEXT__PLAIN,
@@ -717,6 +765,7 @@ class ilFileUtils
 			'ttf', // scorm wbts
 			'txt',   // TEXT__PLAIN,
 			'tmp',
+			'uvproj',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
@@ -731,6 +780,7 @@ class ilFileUtils
 			'xif',   // IMAGE__VND_XIFF,
 			'xls',   // APPLICATION__EXCEL,
 			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
+			'xmind',
 			'xml',   // self::TEXT__XML,
 			'xsl',   // APPLICATION__XML,
 			'xsd',   // scorm

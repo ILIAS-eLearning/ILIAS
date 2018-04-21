@@ -30,7 +30,7 @@ interface DirectoryReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function hasDir($path);
+	public function hasDir(string $path): bool;
 
 
 	/**
@@ -46,6 +46,6 @@ interface DirectoryReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function listContents($path = '', $recursive = false);
+	public function listContents(string $path = '', bool $recursive = false): array;
 
 }

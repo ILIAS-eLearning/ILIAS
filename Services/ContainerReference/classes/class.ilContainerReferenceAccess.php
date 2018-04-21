@@ -64,6 +64,7 @@ class ilContainerReferenceAccess extends ilObjectAccess
 
 		$ilDB = $DIC->database();
 		$tree = $DIC->repositoryTree();
+		$access = $DIC->access();
 	 	
 	 	$obj_id = ilObject::_lookupObjId($a_ref_id);
 	 	$query = "SELECT target_obj_id FROM container_reference ".
@@ -77,7 +78,7 @@ class ilContainerReferenceAccess extends ilObjectAccess
 	 	$target_ref_id = current($target_ref_ids);
 	 	return 
 			!$tree->isDeleted($target_ref_id) &&
-			$GLOBALS['DIC']->access()->checkAccess('read','',$target_ref_id);
+			$access->checkAccess('read','',$target_ref_id);
 	 }
 } 
 ?>

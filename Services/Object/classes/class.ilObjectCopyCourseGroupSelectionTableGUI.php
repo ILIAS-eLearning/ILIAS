@@ -33,11 +33,15 @@ class ilObjectCopyCourseGroupSelectionTableGUI extends ilObjectTableGUI
 	 */
 	public function init()
 	{
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+
 		$this->enableRowSelectionInput(TRUE);
 		
 		parent::init();
 		
-		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		
 		$this->enableObjectPath(TRUE);
 		$this->addCommandButton('saveSourceMembership',$this->lng->txt('btn_next'));

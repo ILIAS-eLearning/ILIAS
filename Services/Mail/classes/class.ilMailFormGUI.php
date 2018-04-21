@@ -182,34 +182,35 @@ class ilMailFormGUI
 
 		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
-		$this->umail->setSaveInSentbox(true);
-		if($errors = $this->umail->sendMail(
-				ilUtil::securePlainString($_POST['rcp_to']),
-				ilUtil::securePlainString($_POST['rcp_cc']),
-				ilUtil::securePlainString($_POST['rcp_bcc']),
-				ilUtil::securePlainString($_POST['m_subject']), $message,
-				$files,
-				$m_type,
-				(int)$_POST['use_placeholders']
-				)
-			)
-		{
+		$mailer = $this->umail
+			->withContextId(\ilMailFormCall::getContextId() ? \ilMailFormCall::getContextId() : '')
+			->withContextParameters(is_array(ilMailFormCall::getContextParameters()) ? ilMailFormCall::getContextParameters() : []);
+
+		$mailer->setSaveInSentbox(true);
+
+		if ($errors = $mailer->sendMail(
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc']),
+			ilUtil::securePlainString($_POST['m_subject']), $message,
+			$files,
+			$m_type,
+			(int)$_POST['use_placeholders']
+		)
+		) {
 			$_POST['attachments'] = $files;
 			$this->showSubmissionErrors($errors);
-		}
-		else
-		{
-			$this->umail->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");			
-			
+		} else {
+			$mailer->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");
+
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
-            if(ilMailFormCall::isRefererStored())
-            {
-                ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
-                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-            }
-            else
-               $this->ctrl->redirectByClass('ilmailgui');
+			if (ilMailFormCall::isRefererStored()) {
+				ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
+				$this->ctrl->redirectToURL(ilMailFormCall::getRefererRedirectUrl());
+			} else {
+				$this->ctrl->redirectByClass('ilmailgui');
+			}
 		}
 
 		$this->showForm();

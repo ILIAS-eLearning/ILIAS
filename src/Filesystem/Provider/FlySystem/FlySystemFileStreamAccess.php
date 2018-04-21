@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
@@ -20,7 +21,7 @@ use League\Flysystem\FilesystemInterface;
  * @since 5.3
  * @version 1.0.0
  */
-class FlySystemFileStreamAccess implements FileStreamAccess {
+final class FlySystemFileStreamAccess implements FileStreamAccess {
 
 	/**
 	 * @var FilesystemInterface $flySystemFS
@@ -50,7 +51,7 @@ class FlySystemFileStreamAccess implements FileStreamAccess {
 	 *
 	 * @see FileStream::close()
 	 */
-	public function readStream($path) {
+	public function readStream(string $path): FileStream {
 		try{
 
 			$resource = $this->flySystemFS->readStream($path);
@@ -85,7 +86,7 @@ class FlySystemFileStreamAccess implements FileStreamAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function writeStream($path, FileStream $stream) {
+	public function writeStream(string $path, FileStream $stream) {
 
 		$resource = $stream->detach();
 		try
@@ -126,7 +127,7 @@ class FlySystemFileStreamAccess implements FileStreamAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function putStream($path, FileStream $stream) {
+	public function putStream(string $path, FileStream $stream) {
 
 		$resource = $stream->detach();
 		try {
@@ -164,7 +165,7 @@ class FlySystemFileStreamAccess implements FileStreamAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function updateStream($path, FileStream $stream) {
+	public function updateStream(string $path, FileStream $stream) {
 		$resource = $stream->detach();
 		try
 		{

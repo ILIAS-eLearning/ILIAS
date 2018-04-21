@@ -18538,8 +18538,8 @@ FROM
 	il_dcl_field_prop fp ON rf.field_id = fp.field_id
 WHERE
     f.datatype_id = 3
-	AND fp.name = "multiple_selection"
-	AND fp.value = 1
+	AND fp.name = ' . $ilDB->quote("multiple_selection", 'text') . '
+	AND fp.value = ' . $ilDB->quote("1", 'text') . '
 ORDER BY stloc.id ASC');
 
 while ($row = $query->fetchAssoc()) {
@@ -21939,4 +21939,121 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 <#5263>
 <?php
 $ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
+?>
+<#5264>
+<?php
+// get tst type id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT obj_id tst_type_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'), array('typ', 'tst')
+));
+$tstTypeId = $row['tst_type_id'];
+
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('write', 'general')
+));
+$writeOperationId = $row['ops_id'];
+
+// register new 'object' rbac operation for tst
+$resultsOperationId = $ilDB->nextId('rbac_operations');
+$ilDB->insert('rbac_operations', array(
+	'ops_id' => array('integer', $resultsOperationId),
+	'operation' => array('text', 'tst_results'),
+	'description' => array('text', 'view the results of test participants'),
+	'class' => array('text', 'object'),
+	'op_order' => array('integer', 7050)
+));
+$ilDB->insert('rbac_ta', array(
+	'typ_id' => array('integer', $tstTypeId),
+	'ops_id' => array('integer', $resultsOperationId)
+));
+
+// update existing role templates and grant new operation for all templates having 'write' granted
+$res = $ilDB->queryF(
+	"SELECT rol_id, parent FROM rbac_templates WHERE type = %s AND ops_id = %s",
+	array('text', 'integer'), array('tst', $writeOperationId)
+);
+$stmt = $ilDB->prepareManip("
+	INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (?, ?, ?, ?)
+	", array('integer', 'text', 'integer', 'integer')
+);
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$ilDB->execute($stmt, array($row['rol_id'], 'tst', $resultsOperationId, $row['parent']));
+}
+?>
+<#5265>
+<?php
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('tst_results', 'object')
+));
+$resultsOperationId = $row['ops_id'];
+
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('write', 'general')
+));
+$writeOperationId = $row['ops_id'];
+
+// get roles (not rolts) having 'tst_results' registered in rbac_template
+$res = $ilDB->queryF("
+	SELECT rol_id FROM rbac_templates INNER JOIN object_data
+	ON obj_id = rol_id AND object_data.type = %s WHERE rbac_templates.type = %s AND ops_id = %s
+	", array('text', 'text', 'integer'), array('role', 'tst', $resultsOperationId)
+);
+$roleIds = array();
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$roleIds[] = $row['rol_id'];
+}
+
+// get existing test object references
+$res = $ilDB->queryF("
+	SELECT oref.ref_id FROM object_data odat INNER JOIN object_reference oref
+	ON oref.obj_id = odat.obj_id WHERE odat.type = %s
+	", array('text'), array('tst')
+);
+$tstRefs = array();
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$tstRefs[] = $row['ref_id'];
+}
+
+// complete 'tst_results' permission for all existing role/reference combination that have 'write' permission
+$stmt = $ilDB->prepareManip("
+	UPDATE rbac_pa SET ops_id = ? WHERE rol_id = ? AND ref_id = ?
+	", array('text', 'integer', 'integer')
+);
+$IN_roles = $ilDB->in('rol_id', $roleIds, false, 'integer');
+$IN_tstrefs = $ilDB->in('ref_id', $tstRefs, false, 'integer');
+$res = $ilDB->query("SELECT * FROM rbac_pa WHERE {$IN_roles} AND {$IN_tstrefs}");
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$perms = unserialize($row['ops_id']);
+	
+	if( in_array($writeOperationId, $perms) && !in_array($resultsOperationId, $perms) )
+	{
+		$perms[] = $resultsOperationId;
+		$ilDB->execute($stmt, array(serialize($perms), $row['rol_id'], $row['ref_id']));
+	}
+}
+?>
+<#5266>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5267>
+<?php
+/*
+* This hotfix removes org unit assignments of user who don't exist anymore
+* select all user_ids from usr_data and remove all il_orgu_ua entries which have an user_id from an user who doesn't exist anymore
+*/
+global $ilDB;
+$q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
+$ilDB->manipulate($q);
 ?>

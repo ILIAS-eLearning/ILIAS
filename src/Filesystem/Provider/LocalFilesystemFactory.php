@@ -26,6 +26,6 @@ interface LocalFilesystemFactory {
 	 *
 	 * @return Filesystem
 	 */
-	public function getInstance(LocalConfig $config);
+	public function getInstance(LocalConfig $config): Filesystem;
 
 }

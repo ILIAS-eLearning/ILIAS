@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
+use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Provider\DirectoryAccess;
 use ILIAS\Filesystem\Provider\FileAccess;
 use ILIAS\Filesystem\Provider\FileStreamAccess;
@@ -21,7 +23,7 @@ use ILIAS\Filesystem\Stream\FileStream;
  *
  * @internal
  */
-class FilesystemFacade implements Filesystem {
+final class FilesystemFacade implements Filesystem {
 
 	/**
 	 * @var FileStreamAccess $fileStreamAccess
@@ -56,7 +58,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasDir($path) {
+	public function hasDir(string $path): bool {
 		return $this->directoryAccess->hasDir($path);
 	}
 
@@ -64,7 +66,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function listContents($path = '', $recursive = false) {
+	public function listContents(string $path = '', bool $recursive = false): array {
 		return $this->directoryAccess->listContents($path, $recursive);
 	}
 
@@ -72,7 +74,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function createDir($path, $visibility = Visibility::PUBLIC_ACCESS) {
+	public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) {
 		$this->directoryAccess->createDir($path, $visibility);
 	}
 
@@ -80,7 +82,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function copyDir($source, $destination) {
+	public function copyDir(string $source, string $destination) {
 		$this->directoryAccess->copyDir($source, $destination);
 	}
 
@@ -88,7 +90,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function deleteDir($path) {
+	public function deleteDir(string $path) {
 		$this->directoryAccess->deleteDir($path);
 	}
 
@@ -96,7 +98,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function read($path) {
+	public function read(string $path): string {
 		return $this->fileAccess->read($path);
 	}
 
@@ -104,7 +106,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function has($path) {
+	public function has(string $path): bool {
 		return $this->fileAccess->has($path);
 	}
 
@@ -112,7 +114,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMimeType($path) {
+	public function getMimeType(string $path): string {
 		return $this->fileAccess->getMimeType($path);
 	}
 
@@ -120,7 +122,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTimestamp($path) {
+	public function getTimestamp(string $path): \DateTime {
 		return $this->fileAccess->getTimestamp($path);
 	}
 
@@ -128,7 +130,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSize($path, $fileSizeUnit) {
+	public function getSize(string $path, int $fileSizeUnit): DataSize {
 		return $this->fileAccess->getSize($path, $fileSizeUnit);
 	}
 
@@ -136,23 +138,23 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function setVisibility($path, $visibility) {
-		$this->fileAccess->setVisibility($path, $visibility);
+	public function setVisibility(string $path, string $visibility): bool {
+		return $this->fileAccess->setVisibility($path, $visibility);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getVisibility($path) {
-		$this->fileAccess->getVisibility($path);
+	public function getVisibility(string $path): string {
+		return $this->fileAccess->getVisibility($path);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function readStream($path) {
+	public function readStream(string $path): FileStream {
 		return $this->fileStreamAccess->readStream($path);
 	}
 
@@ -160,7 +162,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function writeStream($path, FileStream $stream) {
+	public function writeStream(string $path, FileStream $stream) {
 		$this->fileStreamAccess->writeStream($path, $stream);
 	}
 
@@ -168,7 +170,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function putStream($path, FileStream $stream) {
+	public function putStream(string $path, FileStream $stream) {
 		$this->fileStreamAccess->putStream($path, $stream);
 	}
 
@@ -176,7 +178,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function updateStream($path, FileStream $stream) {
+	public function updateStream(string $path, FileStream $stream) {
 		$this->fileStreamAccess->updateStream($path, $stream);
 	}
 
@@ -184,7 +186,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function write($path, $content) {
+	public function write(string $path, string $content) {
 		$this->fileAccess->write($path, $content);
 	}
 
@@ -192,7 +194,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function update($path, $newContent) {
+	public function update(string $path, string $newContent) {
 		$this->fileAccess->update($path, $newContent);
 	}
 
@@ -200,7 +202,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function put($path, $content) {
+	public function put(string $path, string $content) {
 		$this->fileAccess->put($path, $content);
 	}
 
@@ -208,7 +210,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function delete($path) {
+	public function delete(string $path) {
 		$this->fileAccess->delete($path);
 	}
 
@@ -216,15 +218,15 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function readAndDelete($path) {
-		$this->fileAccess->readAndDelete($path);
+	public function readAndDelete(string $path): string {
+		return $this->fileAccess->readAndDelete($path);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function rename($path, $newPath) {
+	public function rename(string $path, string $newPath) {
 		$this->fileAccess->rename($path, $newPath);
 	}
 
@@ -232,7 +234,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function copy($path, $copyPath) {
+	public function copy(string $path, string $copyPath) {
 		$this->fileAccess->copy($path, $copyPath);
 	}
 }

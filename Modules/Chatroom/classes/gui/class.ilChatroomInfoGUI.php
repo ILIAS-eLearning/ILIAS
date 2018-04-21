@@ -10,33 +10,13 @@
  */
 class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {
-
-	/**
-	 * Constructor
-	 * Requires ilInfoScreenGUI and sets $this->gui using given $gui.
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		parent::__construct($gui);
-		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-	}
-
 	/**
 	 * Prepares and displays the info screen.
-	 * @global ilCtrl2    $ilCtrl
-	 * @global ilLanguage $lng
-	 * @param string      $method
+	 * @param string $method
+	 * @throws ilCtrlException
 	 */
 	public function executeDefault($method)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilCtrl     ilCtrl
-		 * @var $lng        ilLanguage
-		 */
-		global $rbacsystem, $ilCtrl, $lng;
-
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$this->redirectIfNoPermission('read');
@@ -46,7 +26,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 		if(!ilChatroom::checkUserPermissions("visible", $this->gui->ref_id, false))
 		{
 			$this->gui->ilias->raiseError(
-				$lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
@@ -64,13 +44,13 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 		);
 		if(!$method)
 		{
-			$ilCtrl->setCmd('showSummary');
+			$this->ilCtrl->setCmd('showSummary');
 		}
 		else
 		{
-			$ilCtrl->setCmd($method);
+			$this->ilCtrl->setCmd($method);
 		}
-		$ilCtrl->forwardCommand($info);
+		$this->ilCtrl->forwardCommand($info);
 	}
 
 	/**
@@ -79,6 +59,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 	 */
 	protected function createInfoScreenGUI($gui)
 	{
+		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 		return new ilInfoScreenGUI($gui);
 	}
 }
