@@ -731,9 +731,12 @@ class ilFileUtils
 			'qtc',   // VIDEO__X_QTC,
 			'qti',   // IMAGE__X_QUICKTIME,
 			'qtif',   // IMAGE__X_QUICKTIME,
+			'r\d\d',				// RAR (application/vnd.rar)
 			'ra',   // AUDIO__X_PN_REALAUDIO,
 			'ram',   // AUDIO__X_PN_REALAUDIO,
+			'rar',				// RAR (application/vnd.rar)
 			'rast',   // IMAGE__CMU_RASTER,
+			'rev',				// RAR (application/vnd.rar)
 			'rexx',   // TEXT__X_SCRIPT_REXX,
 			'ris',	// ris
 			'rf',   // IMAGE__VND_RN_REALFLASH,
