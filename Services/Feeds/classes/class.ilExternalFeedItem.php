@@ -94,7 +94,7 @@ class ilExternalFeedItem
 		{
 			$old_str = $a_str;
 			$a_str = preg_replace("/<a href=\"([^\"]*)\">/i",
-				"/<a href=\"\\1\" target=\"_blank\">/", $a_str);
+				"/<a href=\"\\1\" target=\"_blank\" rel=\"noopener\">/", $a_str);
 		}
 		return $a_str;
 	}

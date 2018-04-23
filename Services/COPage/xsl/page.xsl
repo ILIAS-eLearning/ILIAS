@@ -1478,7 +1478,7 @@
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
 	<xsl:if test="not(name(..) = 'Section')">
-	<a class="ilc_link_ExtLink">
+	<a class="ilc_link_ExtLink" rel="noopener">
 		<xsl:call-template name="SetExtLinkAttributes" />
 		<xsl:apply-templates/>
 	</a>

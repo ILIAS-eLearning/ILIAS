@@ -60,22 +60,24 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $item->setValue($this->tableview->getDescription());
         $this->addItem($item);
 
-        //roles
-        $item = new ilMultiSelectInputGUI($this->lng->txt('roles'), 'roles');
-        $options = array();
-        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array)
-        {
-            $options[$role_array['obj_id']] = ilObjRole::_getTranslation($role_array['title']);
-        }
-        foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id)
-        {
-            $role = new ilObjRole($role_id);
-            $options[$role_id] = ilObjRole::_getTranslation($role->getTitle());
-        }
+	    //roles
+        $checkbox_group_input_gui = new ilCheckboxGroupInputGUI($this->lng->txt('roles'), 'roles');
 
-        $item->setOptions($options);
-        $item->setValue($this->tableview->getRoles());
-        $this->addItem($item);
+	    foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array)
+	    {
+	    	$option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title'], $role_array['obj_id']));
+	    	$option->setValue($role_array['obj_id']);
+		    $checkbox_group_input_gui->addOption($option);
+	    }
+	    foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id)
+	    {
+	    	$option = new ilCheckboxOption(ilObjRole::_getTranslation($role->getTitle(),  $role_id));
+	    	$option->setValue($role_id);
+		    $checkbox_group_input_gui->addOption($option);
+	    }
+
+	    $checkbox_group_input_gui->setValue($this->tableview->getRoles());
+	    $this->addItem($checkbox_group_input_gui);
 
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         if($this->tableview->getId()) {

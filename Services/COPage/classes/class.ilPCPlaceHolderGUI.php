@@ -228,7 +228,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 
 		$ttype_input = new ilRadioGroupInputGUI($lng->txt("type"), "plach_type");	
 		$type_captions = $this->getTypeCaptions();
-		foreach($this->getAvailableTypes() as $type)
+		foreach($this->getAvailableTypes($a_type) as $type)
 		{
 			$ttype_input->addOption(new ilRadioOption($type_captions[$type], $type));
 		}		
@@ -361,16 +361,30 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 		
-	protected function getAvailableTypes()
+	protected function getAvailableTypes($a_selected_type = "")
 	{
 		// custom config?	
 		if(method_exists($this->getPageConfig(), "getAvailablePlaceholderTypes"))
 		{
-			return $this->getPageConfig()->getAvailablePlaceholderTypes();
+			$types = $this->getPageConfig()->getAvailablePlaceholderTypes();
 		}
-		
-		// default
-		return array(self::TYPE_TEXT, self::TYPE_MEDIA, self::TYPE_QUESTION);		
+		else
+		{
+			$types = array(self::TYPE_TEXT, self::TYPE_MEDIA, self::TYPE_QUESTION);
+		}
+
+		include_once("./Services/Certificate/classes/class.ilCertificate.php");
+		if (!ilCertificate::isActive())
+		{
+			// we remove type verification if certificates are deactivated and this
+			// is not the currently selected value
+			if (($key = array_search(self::TYPE_VERIFICATION, $types)) !== false &&
+				self::TYPE_VERIFICATION != $a_selected_type)
+			{
+				unset($types[$key]);
+			}
+		}
+		return $types;
 	}
 	
 	protected function getTypeCaptions()

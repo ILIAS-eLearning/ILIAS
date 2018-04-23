@@ -79,7 +79,25 @@ class ilLinkButton extends ilButtonBase
 	{
 		return '&nbsp;'.$this->getCaption().'&nbsp;';
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function renderAttributes(array $a_additional_attr = null)
+	{
+		if ('_blank' === $this->getTarget()) {
+			if (isset($a_additional_attr['rel'])) {
+				if (strpos($a_additional_attr['rel'], 'noopener') === false) {
+					$a_additional_attr['rel'] .= ' noopener';
+				}
+			} else {
+				$a_additional_attr['rel'] = 'noopener';
+			}
+		}
+
+		return parent::renderAttributes($a_additional_attr);
+	}
+
 	public function render()
 	{				
 		$this->prepareRender();

@@ -77,6 +77,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 			include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
 			$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
 			$qlist->setParentObjId(0);
+			$qlist->setJoinObjectData(false);
 			$qlist->addFieldFilter("question_id", array($id));
 			$qlist->load();
 			$qdata = $qlist->getQuestionDataArray();

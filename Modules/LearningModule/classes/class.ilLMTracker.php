@@ -405,7 +405,7 @@ class ilLMTracker
 	 * @param int $a_obj_id lm object id
 	 * @return int status
 	 */
-	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers, $a_has_pred_incorrect_not_unlocked_answers)
+	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers, &$a_has_pred_incorrect_not_unlocked_answers)
 	{
 		$status = ilLMTracker::NOT_ATTEMPTED;
 
@@ -580,7 +580,6 @@ class ilLMTracker
 				$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"];
 			}
 		}
-
 		return $ret;
 	}
 
@@ -612,11 +611,11 @@ class ilLMTracker
 			$this->all_questions[] = $quest["question_id"];
 			$page_for_question[$quest["question_id"]] = $quest["page_id"];
 		}
-
 		// get question information
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
 		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
 		$qlist->setParentObjId(0);
+		$qlist->setJoinObjectData(false);
 		$qlist->addFieldFilter("question_id", $this->all_questions);
 		$qlist->load();
 		$qdata = $qlist->getQuestionDataArray();

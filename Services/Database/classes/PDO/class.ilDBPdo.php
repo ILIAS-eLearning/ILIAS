@@ -424,10 +424,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function tableColumnExists($table_name, $column_name) {
-		$statement = $this->pdo->query("SHOW COLUMNS FROM $table_name WHERE Field = '$column_name'");
-		$statement != null ? $statement->closeCursor() : "";
+		$fields = $this->loadModule(ilDBConstants::MODULE_MANAGER)->listTableFields($table_name);
 
-		return $statement != null && $statement->rowCount() != 0;
+		$in_array = in_array($column_name, $fields);
+
+		return $in_array;
 	}
 
 
@@ -606,7 +607,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$fields = array();
 		foreach ($values as $key => $val) {
 			$real[] = $this->quote($val[1], $val[0]);
-			$fields[] = $key;
+			$fields[] = $this->quoteIdentifier($key);
 		}
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
@@ -700,7 +701,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$q = "UPDATE " . $table_name . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
-				$q .= $lim . $field . " = " . $placeholders[$k];
+				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
 				$lim = ", ";
 			}
 			$q .= " WHERE ";
@@ -1416,7 +1417,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getAllowedAttributes() {
 		return $this->field_definition->getAllowedAttributes();
@@ -2067,5 +2068,20 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function doesCollationSupportMB4Strings()
 	{
 		return false;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
 	}
 }
