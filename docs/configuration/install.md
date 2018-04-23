@@ -192,6 +192,11 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
         AllowOverride All
         Require all granted
     </Directory>
+    <Directory /var/drbd/www/html/ilias/setup/>
+        Order Deny,Allow
+        Deny from all
+        Allow from 127
+    </Directory>
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
@@ -201,6 +206,10 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 ```
+
+Please take care to restrict access to the setup-Folder (/var/drbd/www/html/ilias/setup
+in the example) to trusted networks only (127 in the example). Normal users should not
+be able to access the setup at all.
 
 After changing the configuration remember to reload the web server daemon:
 
