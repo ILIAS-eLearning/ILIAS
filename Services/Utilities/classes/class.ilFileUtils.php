@@ -731,14 +731,17 @@ class ilFileUtils
 			'qtc',   // VIDEO__X_QTC,
 			'qti',   // IMAGE__X_QUICKTIME,
 			'qtif',   // IMAGE__X_QUICKTIME,
+			'r',					// R script file
 			'ra',   // AUDIO__X_PN_REALAUDIO,
 			'ram',   // AUDIO__X_PN_REALAUDIO,
 			'rast',   // IMAGE__CMU_RASTER,
+			'rda',					// R data file
 			'rexx',   // TEXT__X_SCRIPT_REXX,
 			'ris',	// ris
 			'rf',   // IMAGE__VND_RN_REALFLASH,
 			'rgb',   // IMAGE__X_RGB,
 			'rm',   // APPLICATION__VND_RN_REALMEDIA,
+			'rmd',					// R Markdown file
 			'rmi',   // AUDIO__MID,
 			'rmm',   // AUDIO__X_PN_REALAUDIO,
 			'rmp',   // AUDIO__X_PN_REALAUDIO,
