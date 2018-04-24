@@ -278,6 +278,10 @@ allow_url_fopen = 1
 max_input_vars = 10000
 ```
 
+Please see [Hardening and Security Guidance](#hardening-and-security-guidance)
+for [HTTPS configuration](#enable-http-strict-transport-security) and further
+security relevant configuration.
+
 Remember to reload your web server configuration to apply those changes.
 
 <a name="database-installationconfiguration"></a>
