@@ -859,19 +859,16 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$form->addItem($ne);
 
 		// file suffix custom black list
-		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_custom_black"), "suffix_repl_additional");
-		$ti->setMaxLength(200);
-		$ti->setSize(40);
-		$ti->setInfo($this->lng->txt("file_suffix_custom_black_info"));
-		//$ti->setInfo($this->lng->txt("file_suffix_repl_info") . " " . SUFFIX_REPL_DEFAULT);
-		$form->addItem($ti);
+		$ta = new ilTextAreaInputGUI($this->lng->txt("file_suffix_custom_black"), "suffix_repl_additional");
+		$ta->setInfo($this->lng->txt("file_suffix_custom_black_info"));
+		$ta->setRows(5);
+		$form->addItem($ta);
 
 		// file suffix custom white list
-		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_custom_white"), "suffix_custom_white_list");
-		$ti->setMaxLength(200);
-		$ti->setSize(40);
-		$ti->setInfo($this->lng->txt("file_suffix_custom_white_info"));
-		$form->addItem($ti);
+		$ta = new ilTextAreaInputGUI($this->lng->txt("file_suffix_custom_white"), "suffix_custom_white_list");
+		$ta->setInfo($this->lng->txt("file_suffix_custom_white_info"));
+		$ta->setRows(5);
+		$form->addItem($ta);
 
 		// resulting overall white list
 		$ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_overall_white"), "");
