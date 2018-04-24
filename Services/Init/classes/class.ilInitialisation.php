@@ -1395,12 +1395,6 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
-							),
-						  new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
-							($c["ui.factory"]
-							, $c["ui.template_factory"]
-							, $c["lng"]
-							, $c["ui.javascript_binding"]
 							)
 						)
 					)

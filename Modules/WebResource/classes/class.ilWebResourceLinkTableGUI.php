@@ -157,7 +157,6 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		if(!$a_set['internal'])
 		{
 			$this->tpl->setVariable('FRAME', ' target="_blank"');
-			$this->tpl->touchBlock('noopener');
 		}
 		
 		if(!$this->isEditable())

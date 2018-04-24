@@ -1012,7 +1012,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$user_solution = array();
+		$user_solution = "";
 		if(($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions = array();

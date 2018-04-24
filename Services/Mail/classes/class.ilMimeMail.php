@@ -392,21 +392,16 @@ class ilMimeMail
 			$skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
 			if(is_dir($skinDirectory) && is_readable($skinDirectory))
 			{
-				$this->gatherImagesFromDirectory($skinDirectory, true);
+				$this->gatherImagesFromDirectory($skinDirectory);
 			}
 		}
 	}
 
 	/**
-	 * @param $directory
-	 * @param bool $clearPrevious
+	 * @param string $directory
 	 */
-	protected function gatherImagesFromDirectory($directory, $clearPrevious = false)
+	protected function gatherImagesFromDirectory($directory)
 	{
-		if ($clearPrevious) {
-			$this->images = array();
-		}
-
 		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file)
 		{
 			/**

@@ -35,8 +35,7 @@ class ilPluginDBUpdate extends ilDBUpdate
 		}
 		else
 		{
-			global $DIC;
-			$mySetup = $DIC['mySetup'];
+			global $mySetup;
 			$this->db = $mySetup->db;
 			$this->PATH = "./";
 		}

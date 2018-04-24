@@ -109,8 +109,7 @@ class ilCachedComponentData {
 
 
 	protected function readFromDB() {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 		/**
 		 * @var $ilDB ilDB
 		 */

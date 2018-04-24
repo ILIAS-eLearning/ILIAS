@@ -31,7 +31,6 @@ back#:#Back
 basic_settings#:#Basic Settings
 cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory.
 cannot_create_datadir_inside_webdir#:#Directory is inside web directory. Cannot create data directory.
-cannot_create_logdir_inside_webdir#:#Directory is inside web directory. Cannot create log directory.
 change_basic_settings#:#Change Basic Settings
 change_password#:#Change Password
 change_sort_direction#:#Change Sort Direction

@@ -745,14 +745,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		*/
 		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
 		$tar = new ilLinkInputGUI($this->lng->txt('webr_link_target'),'tar');
-		$tar->setInternalLinkFilterTypes(
-			array(
-				"PageObject",
-				"GlossaryItem",
-				"RepositoryItem",
-				'WikiPage'
-			)
-		);
+		$tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
 		
 		$tar->setRequired(true);
 		$this->form->addItem($tar);		
@@ -1469,24 +1462,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		// #15647 - handle internal links
 		include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-		include_once "Services/Form/classes/class.ilLinkInputGUI.php";
-
+		include_once "Services/Form/classes/class.ilLinkInputGUI.php";								
 		if(ilLinkInputGUI::isInternalLink($a_target))			
 		{						
 			include_once("./Services/Link/classes/class.ilLink.php");
 			
 			// #10612
 			$parts = explode("|", $a_target);
-
-			if($parts[0] == 'wpage')
-			{
-				return ilLink::_getStaticLink(
-					0,
-					'wiki',
-					true,
-					'&target=wiki_wpage_'.$parts[1]
-				);
-			}
 			
 			if ($parts[0] == "term")
 			{

@@ -72,8 +72,7 @@ class ilPluginLP extends ilObjectLP
 	
 	protected static function isLPMember(array &$a_res, $a_usr_id,  $a_obj_ids)
 	{		
-		global $DIC;
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		$type = $a_obj_ids;
 		$type = array_shift($type);
