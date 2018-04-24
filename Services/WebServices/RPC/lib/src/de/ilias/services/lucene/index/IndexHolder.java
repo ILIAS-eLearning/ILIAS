@@ -39,6 +39,7 @@ import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.SimpleFSLockFactory;
 
 /**
@@ -146,13 +147,12 @@ public class IndexHolder {
 			try {
 				logger.info("Closing writer: " + (String) key);
 				IndexHolder holder = instances.get((String) key);
-				FSDirectory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
+				IndexDirectoryFactory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
 				holder.close();
-				// Close
 			}
-			catch (Exception ex)
+			catch (ConfigurationException | IOException ex)
 			{
-				logger.error("Cannot close fs directory");
+				logger.error("Cannot close fs directory: " + ex.getMessage());
 			}
 
 		}
@@ -161,7 +161,7 @@ public class IndexHolder {
 	}
 	
 	/**
-	 * 
+	 * @todo obtain lock for index writer
 	 * @throws IOException
 	 */
 	public void init() throws IOException {
@@ -169,15 +169,11 @@ public class IndexHolder {
 		try {
 			logger.debug("Adding new separated index for " + LocalSettings.getClientKey());
 			
-			if(IndexWriter.isLocked(FSDirectory.getDirectory(settings.getIndexPath()))) {
-				logger.warn("Index writer is locked. Forcing unlock...");
-				IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
-			}
-
 			writer = new IndexWriter(
-					FSDirectory.getDirectory(settings.getIndexPath()),
-					new StandardAnalyzer(),
-					IndexWriter.MaxFieldLength.UNLIMITED);
+				IndexDirectoryFactory.getDirectory(settings.getIndexPath()),
+				new StandardAnalyzer(),
+				IndexWriter.MaxFieldLength.UNLIMITED
+			);
 			try {
 				writer.setRAMBufferSizeMB(ServerSettings.getInstance().getRAMSize());
 			} 
@@ -213,9 +209,7 @@ public class IndexHolder {
 		
 		try {
 			getWriter().close();
-			IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
-			// Closing index directory
-			FSDirectory.getDirectory(settings.getIndexPath()).close();
+			IndexDirectoryFactory.getDirectory(settings.getIndexPath()).close();
 
 		} catch (CorruptIndexException e) {
 			logger.fatal("Index corrupted." + e);
