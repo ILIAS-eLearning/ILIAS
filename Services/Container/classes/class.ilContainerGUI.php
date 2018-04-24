@@ -1968,7 +1968,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					
 					include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
 					ilConditionHandler::_adjustMovedObjectConditions($ref_id);
-	
+
+					// Assign Didactic Template again if assigned
+					require_once('./Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php');
+					$did_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
+					if ($did_tpl_id) {
+						include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+						foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($did_tpl_id) as $action) {
+							$action->setRefId($ref_id);
+							$action->apply();
+						}
+					}
 					// BEGIN ChangeEvent: Record cut event.
 					$node_data = $tree->getNodeData($ref_id);
 					$old_parent_data = $tree->getNodeData($old_parent);
