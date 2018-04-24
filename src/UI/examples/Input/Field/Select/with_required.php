@@ -2,7 +2,7 @@
 /**
  * Base example showing how to plug a Select into a form
  */
-function with_first_option_disabled() {
+function with_required() {
 
 	//Step 0: Declare dependencies
 	global $DIC;
@@ -21,12 +21,12 @@ function with_first_option_disabled() {
 	);
 
 	//Step 1: define the select
-	$select = $ui->input()->field()->select($options, "Choose an Option", "This is the byline text")->withFirstOptionDisabled();
+	$select = $ui->input()->field()->select("Choose an Option", $options, "This is the byline text")->withRequired(true);
 
 	//Step 2: define form and form actions
 	$ctrl->setParameterByClass(
 		'ilsystemstyledocumentationgui',
-		'example_name',
+		'example_name_required',
 		'select'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
@@ -34,7 +34,7 @@ function with_first_option_disabled() {
 
 	//Step 3: implement some form data processing.
 	if ($request->getMethod() == "POST"
-		&& $request->getQueryParams()['example_name'] == "select") {
+		&& $request->getQueryParams()['example_name_required'] == "select") {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}

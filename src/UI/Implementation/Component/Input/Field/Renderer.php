@@ -261,41 +261,7 @@ class Renderer extends AbstractComponentRenderer {
 		//Select input
 		if($input instanceof Select)
 		{
-			$value = $input->getValue();
-			if($input->hasFirstOptionDisabled())
-			{
-				$tpl->setCurrentBlock("options");
-				if(!$value)
-				{
-					$tpl->setVariable("SELECTED", "selected");
-				}
-				$tpl->setVariable("DISABLED", "disabled");
-				$tpl->setVariable("VALUE", "");
-				$tpl->setVariable("VALUE_STR", "Choose one option");
-				$tpl->parseCurrentBlock();
-			}
-			foreach ($input->getOptions() as $option_key => $option_value)
-			{
-				$tpl->setCurrentBlock("options");
-				if($value == $option_key)
-				{
-					$tpl->setVariable("SELECTED", "selected");
-				}
-				$tpl->setVariable("VALUE", $option_key);
-				$tpl->setVariable("VALUE_STR", $option_value);
-				$tpl->parseCurrentBlock();
-			}
-
-			/* //if decided to use this "has None option" feature.
-			if($input->hasNoneOption())
-			{
-				$tpl->setCurrentBlock("options");
-				$tpl->setVariable("VALUE", 0);
-				$tpl->setVariable("VALUE_STR", "None");
-				$tpl->parseCurrentBlock();
-			}
-			*/
-
+			$tpl = $this->renderSelectInput($tpl, $input);
 		}
 		else //all other inputs
 		{
@@ -314,6 +280,36 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	public function renderSelectInput(Template $tpl, Select $input)
+	{
+		global $DIC;
+		$value = $input->getValue();
+		//disable first option if required.
+		$tpl->setCurrentBlock("options");
+		if(!$value) {
+			$tpl->setVariable("SELECTED", "selected");
+		}
+		if($input->isRequired()) {
+			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->setVariable("HIDDEN", "hidden");
+		}
+		$tpl->setVariable("VALUE", NULL);
+		$tpl->setVariable("VALUE_STR", "-");
+		$tpl->parseCurrentBlock();
+		//rest of options.
+		foreach ($input->getOptions() as $option_key => $option_value)
+		{
+			$tpl->setCurrentBlock("options");
+			if($value == $option_key) {
+				$tpl->setVariable("SELECTED", "selected");
+			}
+			$tpl->setVariable("VALUE", $option_key);
+			$tpl->setVariable("VALUE_STR", $option_value);
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl;
+	}
 
 	/**
 	 * @inheritdoc

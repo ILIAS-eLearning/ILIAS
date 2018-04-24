@@ -21,7 +21,7 @@ function base() {
 	);
 
 	//Step 1: define the select
-	$select = $ui->input()->field()->select($options, "Choose an Option", "This is the byline text");
+	$select = $ui->input()->field()->select("Choose an Option", $options,"This is the byline text");
 
 	//Step 2: define form and form actions
 	$ctrl->setParameterByClass(

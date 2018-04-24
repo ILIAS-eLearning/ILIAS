@@ -103,7 +103,10 @@ class Factory implements Field\Factory {
 		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
-	public function select(array $options, $label, $byline = null) {
-		return new Select($this->data_factory, $this->validation_factory, $this->transformation_factory, $options, $label, $byline);
+	/**
+	 * @inheritdoc
+	 */
+	public function select($label, array $options, $byline = null) {
+		return new Select($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $options, $byline);
 	}
 }
