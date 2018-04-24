@@ -187,7 +187,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ServerAdmin webmaster@example.com
 
     DocumentRoot /var/www/html/ilias/
-    <Directory /var/drbd/www/html/>
+    <Directory /var/www/html/>
         Options FollowSymLinks
         AllowOverride All
         Require all granted
