@@ -266,11 +266,21 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	 * @return mixed
 	 */
 	public function createSequence($seq_name, $start = 1, $options = array()) {
-		$db = $this->db_instance;
+		$sequence_name = $this->db_instance->quoteIdentifier($this->db_instance->getSequenceName($seq_name));
+		$seqcol_name = $this->db_instance->quoteIdentifier(ilDBConstants::SEQUENCE_COLUMNS_NAME);
 
-		$sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
+		$query = "CREATE TABLE $sequence_name ($seqcol_name INT NOT NULL, PRIMARY KEY ($seqcol_name))";
+		$this->pdo->exec($query);
 
-		return $db->manipulate("CREATE SEQUENCE $sequence_name INCREMENT 1" . ($start < 1 ? " MINVALUE $start" : '') . " START $start");
+		$query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (" . ($start - 1) . ')';
+		$this->pdo->exec($query);
+
+		if (!empty($options['comment'])) {
+			$query = "COMMENT ON TABLE $sequence_name is " . $this->db_instance->quote($options['comment'], 'text');
+			$this->pdo->exec($query);
+		}
+
+		return true;
 	}
 
 
@@ -283,7 +293,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 
 		$sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
 
-		return $db->manipulate("DROP SEQUENCE $sequence_name");
+		return $db->manipulate("DROP TABLE $sequence_name");
 	}
 
 
