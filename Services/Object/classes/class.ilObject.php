@@ -1375,7 +1375,7 @@ class ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin, $log, $ilDB;
+		global $rbacadmin, $log, $ilDB, $ilAppEventHandler;
 
 		$remove = false;
 
@@ -1501,6 +1501,13 @@ class ilObject
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}
+
+		$ilAppEventHandler->raise('Services/Object',
+								  'delete',
+								  array('object' => $this,
+								  		'obj_id' => $this->getId()
+								  )
+							);
 
 		return $remove;
 	}
