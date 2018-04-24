@@ -1228,6 +1228,32 @@ class ilRbacAdmin
 			
 		return;
 	}
+
+	/**
+	 * Apply didactic templates after object movement
+	 * @param int $a_ref_id
+	 * @param int $a_old_parent
+	 *
+	 * @deprecated since version 5.1.0 will be removed with 5.4 and implemented using event handler
+	 */
+	protected function applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent)
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($a_ref_id);
+		if(!$tpl_id) {
+			return;
+		}
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($tpl_id) as $action) {
+			if($action instanceof ilDidacticTemplateLocalRoleAction) {
+				continue;
+			}
+			$action->setRefId($a_ref_id);
+			$action->apply();
+		}
+		return;
+	}
+
 	
 	/**
 	 * Adjust permissions of moved objects
@@ -1272,6 +1298,7 @@ class ilRbacAdmin
 		
 		if(!count($for_deletion) and !count($for_addition))
 		{
+			$this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
 			return true;
 		}
 		
@@ -1362,6 +1389,8 @@ class ilRbacAdmin
 				ilRbacLog::add(ilRbacLog::MOVE_OBJECT, $node_id, $log);
 			}
 		}
+
+		$this->applyMovedObjectDidacticTemplates($a_ref_id,$a_old_parent);
 
 	}
 	
