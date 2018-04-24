@@ -16,8 +16,6 @@ class Select extends Input implements C\Input\Field\Select {
 
 	protected $options;
 	protected $label;
-	protected $disabled_string;
-	protected $none_option;
 	protected $value;
 
 	/**
@@ -34,32 +32,12 @@ class Select extends Input implements C\Input\Field\Select {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
-		$options,
 		$label,
+		$options,
 		$byline
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 		$this->options = $options;
-	}
-
-	/**
-	 * set the disabled_string as true.
-	 * @return Select
-	 */
-	public function withFirstOptionDisabled()
-	{
-		$clone = clone($this);
-		$clone->disabled_string = true;
-		return $clone;
-	}
-
-	/**
-	 * check if the the select has the first option disabled.
-	 * @return mixed
-	 */
-	public function hasFirstOptionDisabled()
-	{
-		return $this->disabled_string;
 	}
 
 	/**
@@ -83,19 +61,4 @@ class Select extends Input implements C\Input\Field\Select {
 	protected function getConstraintForRequirement() {
 		return $this->validation_factory->hasMinLength(1);
 	}
-
-	/*
-	public function withNoneOption()
-	{
-		$clone = clone($this);
-		$clone->none_option = true;
-		return $clone;
-	}
-
-	public function hasNoneOption()
-	{
-		return $this->none_option;
-	}
-	*/
-
 }
