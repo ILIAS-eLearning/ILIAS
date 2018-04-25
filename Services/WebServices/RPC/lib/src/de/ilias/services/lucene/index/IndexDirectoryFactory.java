@@ -5,7 +5,6 @@
  */
 package de.ilias.services.lucene.index;
 
-import de.ilias.services.settings.ClientSettings;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;
