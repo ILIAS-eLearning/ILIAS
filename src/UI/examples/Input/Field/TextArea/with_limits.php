@@ -15,22 +15,20 @@ function with_limits() {
 	$max_limit = 20;
 
 	//Step 1: Define the textarea input field
-	$textarea_input = $ui->input()->field()->textArea("Textarea Input", "Just a textarea input.");
-	$textarea_input->withMinLimit($min_limit);
-	$textarea_input->withMaxLimit($max_limit);
+	$textarea_input = $ui->input()->field()->textArea("Textarea Input", "Just a textarea input.")->withMinLimit($min_limit)->withMaxLimit($max_limit);
 
 	//Step 2: Define the form and form actions.
 	$ctrl->setParameterByClass(
 		'ilsystemstyledocumentationgui',
-		'example_name',
-		'textarea'
+		'example_name_limited',
+		'textarea_limited'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
 	$form = $ui->input()->container()->form()->standard($form_action, [$textarea_input]);
 
 	//Step 3: implement some form data processing.
 	if ($request->getMethod() == "POST"
-		&& $request->getQueryParams()['example_name'] == "textarea") {
+		&& $request->getQueryParams()['example_name_limited'] == "textarea_limited") {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}

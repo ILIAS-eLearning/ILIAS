@@ -43,6 +43,9 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
+
+		//Is this the proper place?
+		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 	}
 
 
@@ -268,8 +271,29 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
 		}
+		//specific options for textarea component.
+		if($input instanceof TextArea){
+			$tpl = $this->renderTextareaField($tpl, $input, $id);
+		}
 
 		return $tpl->get();
+	}
+
+	protected function renderTextareaField(Template $tpl, TextArea $input, $id)
+	{
+		//TODO lang vars
+		if($input->isLimited())
+		{
+			//todo create proper id
+			$id = "textarea_dummy_id";
+
+			$tpl->setVariable("ID", $id);
+			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $input->getMaxLimit());
+			$tpl->setVariable("FEEDBACK_ID", $id);
+			$tpl->setVariable("CHARS_REMAINING", "Characters remaining");
+		}
+
+		return $tpl;
 	}
 
 
