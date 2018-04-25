@@ -60,6 +60,14 @@ class Renderer extends AbstractComponentRenderer {
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} else if ($input instanceof Component\Input\Field\TextArea) {
+			/***
+			 * WORKING HERE
+			 *
+			 * I have to add the JS here...
+			 * $input->withAdditionalOnLoadCode(.....
+			 * with return il.UI.select.changeCounterNew
+			 *
+			 */
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} else {
 			if ($input instanceof Component\Input\Field\Numeric) {
