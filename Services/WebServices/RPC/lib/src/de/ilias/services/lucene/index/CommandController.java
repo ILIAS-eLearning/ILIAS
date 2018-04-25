@@ -41,6 +41,7 @@ import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.lucene.index.IndexWriter;
 
 /**
  * Handles command queue events
@@ -244,7 +245,7 @@ public class CommandController {
 				getFinished().add(currentElement.getObjId());
 				
 				// Update command queue if MAX ELEMENTS is reached.
-				if(++elementCounter > MAX_ELEMENTS) {
+				if(++elementCounter > MAX_ELEMENTS) { 
 					
 					synchronized(this) {
 						queue.setFinished(this.getFinished());
@@ -274,9 +275,9 @@ public class CommandController {
 		try {
 			logger.info("Writer commit.");
 			holder.getWriter().commit();
-			logger.info("Optimizing writer...");
-			holder.getWriter().optimize();
-			logger.info("Writer optimized");
+			logger.info("Writer forcing merge...");
+			holder.getWriter().forceMerge(IndexHolder.MAX_NUM_SEGMENTS);
+			logger.info("Writer forced merge");
 			
 			// Finally update status in search_command_queue
 			queue.setFinished(getFinished());
