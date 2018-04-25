@@ -16232,3 +16232,11 @@ assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 
 assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
 assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
