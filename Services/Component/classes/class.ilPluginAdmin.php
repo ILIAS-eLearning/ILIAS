@@ -48,8 +48,7 @@ class ilPluginAdmin
 	private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		//Can not use DIC because it is not initialized if plugin is activated
-		global $DIC;
-		$lng = $DIC->language();
+		global $lng;
 		$this->lng = $lng;
 
 		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))

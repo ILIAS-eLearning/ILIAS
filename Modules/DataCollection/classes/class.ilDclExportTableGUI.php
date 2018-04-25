@@ -103,7 +103,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
 	}
 	
 	public function parseExportStatus($type, $file) {
-		if($type == 'xlsx') {
+		if($type == 'xls') {
 			if($this->isExportInProgress($file)) {
 				return $this->lng->txt('dcl_export_started');
 			} else {

@@ -242,8 +242,7 @@ abstract class ilPlugin
 	 */
 	function writeDBVersion($a_dbversion)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$this->setDBVersion($a_dbversion);
 
@@ -468,9 +467,7 @@ abstract class ilPlugin
 	 */
 	function updateDatabase()
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
-		$lng = $DIC->language();
+		global $ilDB, $lng;
 
 		ilCachedComponentData::flush();
 
@@ -506,8 +503,7 @@ abstract class ilPlugin
 	 */
 	public function loadLanguageModule()
 	{
-		global $DIC;
-		$lng = $DIC->language();
+		global $lng;
 
 		if (!$this->lang_initialised && is_object($lng))
 		{
@@ -521,8 +517,7 @@ abstract class ilPlugin
 	 */
 	public function txt($a_var)
 	{
-		global $DIC;
-		$lng = $DIC->language();
+		global $lng;
 		$this->loadLanguageModule();
 		return $lng->txt($this->getPrefix()."_".$a_var, $this->getPrefix());
 	}
@@ -532,8 +527,7 @@ abstract class ilPlugin
 	 */
 	static function lookupTxt($a_mod_prefix, $a_pl_id, $a_lang_var)
 	{
-		global $DIC;
-		$lng = $DIC->language();
+		global $lng;
 
 		// this enables default language fallback
 		$prefix = $a_mod_prefix."_".$a_pl_id;
@@ -549,8 +543,7 @@ abstract class ilPlugin
 	 * @return bool
 	 */
 	static function langExitsById($pluginId, $langVar) {
-		global $DIC;
-		$lng = $DIC->language();
+		global $lng;
 
 		$pl = ilObjectPlugin::getRepoPluginObjectByType($pluginId);
 		$pl->loadLanguageModule();
@@ -634,8 +627,7 @@ abstract class ilPlugin
 	 */
 	static public function createPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		ilCachedComponentData::flush();
 
@@ -672,10 +664,7 @@ abstract class ilPlugin
 	 */
 	private function __init()
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
-		$lng = $DIC->language();
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilDB, $lng, $ilPluginAdmin;
 
 		// read/set basic data
 		$rec = ilPlugin::getPluginRecord($this->getComponentType(),
@@ -743,8 +732,7 @@ abstract class ilPlugin
 	 */
 	public function isActive()
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		return $ilPluginAdmin->isActive($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
@@ -755,8 +743,7 @@ abstract class ilPlugin
 	 */
 	public function needsUpdate()
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		return $ilPluginAdmin->needsUpdate($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
@@ -768,8 +755,7 @@ abstract class ilPlugin
 	 * @return void
 	 */
 	public function install() {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		ilCachedComponentData::flush();
 		$q = "UPDATE il_plugin SET plugin_id = ".$ilDB->quote($this->getId(), "text").
@@ -787,9 +773,7 @@ abstract class ilPlugin
 	 */
 	function activate()
 	{
-		global $DIC;
-		$lng = $DIC->language();
-		$ilDB = $DIC->database();
+		global $lng, $ilDB;
 
 		ilCachedComponentData::flush();
 
@@ -858,8 +842,7 @@ abstract class ilPlugin
 	 */
 	function deactivate()
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		ilCachedComponentData::flush();
 
@@ -895,8 +878,7 @@ abstract class ilPlugin
 	
 	final function uninstall()
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 	
 		if($this->beforeUninstall())
 		{
@@ -941,9 +923,7 @@ abstract class ilPlugin
 	 */
 	function update()
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
-		$ilCtrl = $DIC->ctrl();
+		global $ilDB, $ilCtrl;
 
 		ilCachedComponentData::flush();
 
@@ -1077,8 +1057,7 @@ abstract class ilPlugin
 	 */
 	static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$q = "SELECT * FROM il_plugin WHERE".
 			" component_type = ".$ilDB->quote($a_ctype, "text")." AND".
@@ -1100,8 +1079,7 @@ abstract class ilPlugin
 	 */
 	static function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		$plugins = array();
 
@@ -1127,8 +1105,7 @@ abstract class ilPlugin
 	 * @return array
 	 */
 	public static function getActivePluginIdsForSlot($a_ctype, $a_cname, $a_slot_id) {
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		$plugins = array();
 		$cached_component = ilCachedComponentData::getInstance();
@@ -1149,8 +1126,7 @@ abstract class ilPlugin
 	 */
 	static function lookupNameForId($a_ctype, $a_cname, $a_slot_id, $a_plugin_id)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$q = "SELECT name FROM il_plugin ".
 			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
@@ -1170,8 +1146,7 @@ abstract class ilPlugin
 	 */
 	static function lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_plugin_name)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$q = "SELECT plugin_id FROM il_plugin ".
 			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").

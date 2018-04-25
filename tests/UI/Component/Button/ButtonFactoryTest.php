@@ -7,7 +7,6 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 		( "standard"	=> array("context" => false)
 		, "close"		=> array("context" => false)
 		, "shy"			=> array("context" => false)
-		, "bulky"		=> array("context" => false)
 		);
 
 	public $factory_title = 'ILIAS\\UI\\Component\\Button\\Factory';

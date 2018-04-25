@@ -17,9 +17,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 {	
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $DIC;
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
+		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -92,9 +90,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-		$lng = $DIC->language();
-		$ilCtrl = $DIC->ctrl();
+		global $lng, $ilCtrl;
 		
 		$this->tpl->setVariable("SLOT_NAME", $a_set["name"]);
 		$this->tpl->setVariable("SLOT_ID", $a_set["id"]);

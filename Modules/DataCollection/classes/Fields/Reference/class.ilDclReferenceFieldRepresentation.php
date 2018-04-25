@@ -54,9 +54,6 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					}
 					$options[$record->getId()] = $value;
 					break;
-				case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
-					$options[$record->getId()] = $record->getRecordFieldRepresentationValue($fieldref);
-					break;
 				default:
 					$options[$record->getId()] = $record->getRecordFieldExportValue($fieldref);
 					break;

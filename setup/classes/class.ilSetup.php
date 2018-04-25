@@ -1540,11 +1540,6 @@ class ilSetup
 				return false;
 			}
 
-			if ($this->isDirectoryInOther($log_path, ILIAS_ABSOLUTE_PATH)) {
-				$this->error = "cannot_create_logdir_inside_webdir";
-				return false;
-			}
-
 			if (!@touch($log_path))
 			{
 				$this->error = "could_not_create_logfile";

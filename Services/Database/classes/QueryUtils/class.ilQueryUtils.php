@@ -119,17 +119,4 @@ abstract class ilQueryUtils implements ilQueryUtilsInterface {
 	 * @return mixed
 	 */
 	abstract public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
-	
-
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL);
-
-	
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function cast($a_field_name, $a_dest_type);
-
 }

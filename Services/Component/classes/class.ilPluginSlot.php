@@ -208,8 +208,7 @@ class ilPluginSlot
 	*/
 	function getPluginsInformation()
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		
 		// read plugins directory
 		$pl_dir = $this->getPluginsDirectory();
@@ -287,8 +286,7 @@ class ilPluginSlot
 	*/
 	function getActivePlugins()
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		
 		return $ilPluginAdmin->getActivePluginsForSlot($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId());
