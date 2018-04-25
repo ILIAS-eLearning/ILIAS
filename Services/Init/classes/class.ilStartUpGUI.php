@@ -1807,7 +1807,24 @@ class ilStartUpGUI
 	*/
 	protected function processIndexPHP()
 	{
-		global $ilIliasIniFile, $ilAuth, $ilSetting;
+		global $ilIliasIniFile, $ilAuth, $ilSetting, $DIC;
+
+        //
+        $ilPluginAdmin = null;
+        if (isset($DIC["ilPluginAdmin"]))
+        {
+            $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        }
+
+        // include the user interface hook
+        if (is_object($ilPluginAdmin)) {
+            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+            foreach ($pl_names as $pl) {
+                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+                $gui_class = $ui_plugin->getUIClassInstance();
+                $resp = $gui_class->getHTML("Services/Init", "processIndexPHP", array(  ));
+            }
+        }
 
 		// In case of an valid session, redirect to starting page
 		if($GLOBALS['DIC']['ilAuthSession']->isValid())
