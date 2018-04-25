@@ -182,7 +182,7 @@ class ilSoapAdministration
 		list($sid,$client) = $this->__explodeSid($sid);
 		define('CLIENT_ID',$client);
 		$_COOKIE['ilClientId'] = $client;
-		$_COOKIE['PHPSESSID'] = $sid;
+		$_COOKIE[session_name()] = $sid;
 	}
 
 	public function initIlias()

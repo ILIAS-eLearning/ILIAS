@@ -252,7 +252,7 @@ class ilDclContentExporter
 		$soap_params = array($this->dcl->getRefId());
 		array_push($soap_params, $this->table_id, $format, $filepath);
 
-		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
+		$new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);
 		$client_id = $_COOKIE['ilClientId'];
 
 		// Start cloning process using soap call

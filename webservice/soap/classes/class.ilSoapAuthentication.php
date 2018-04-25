@@ -44,7 +44,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	public function __construct()
 	{
 		// First unset all cookie inforamtions
-		unset($_COOKIE['PHPSESSID']);
+		unset($_COOKIE[session_name()]);
 
 		parent::__construct();
 		$this->__setMessageCode('Client');

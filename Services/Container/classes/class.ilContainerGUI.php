@@ -2950,7 +2950,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		$orig = ilObjectFactory::getInstanceByRefId($clone_source);
-		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
+		$result = $orig->cloneAllObject($_COOKIE[session_name()], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
 		
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
@@ -3470,7 +3470,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$tpl = new ilTemplate('tpl.fm_launch_ws.html',false,false,'Services/WebServices/FileManager');
 		$tpl->setVariable('JNLP_URL',ILIAS_HTTP_PATH.'/Services/WebServices/FileManager/lib/dist/FileManager.jnlp');
-		$tpl->setVariable('SESSION_ID', $_COOKIE['PHPSESSID'].'::'.CLIENT_ID);
+		$tpl->setVariable('SESSION_ID', $_COOKIE[session_name()].'::'.CLIENT_ID);
 		$tpl->setVariable('UID',$ilUser->getId());
 		$tpl->setVariable('REF_ID', $this->object->getRefId());
 		$tpl->setVariable('WSDL_URI', ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl');
