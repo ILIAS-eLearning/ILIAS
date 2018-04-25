@@ -49,6 +49,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 	}
 
 
@@ -352,6 +353,11 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("VALUE_STR", $option_value);
 			$tpl->parseCurrentBlock();
 		}
+		//specific options for textarea component.
+		if($input instanceof TextArea){
+			$tpl = $this->renderTextareaField($tpl, $input, $id);
+		}
+
 		return $tpl;
 	}
 
@@ -398,6 +404,23 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 		return $id;
+	}
+
+	protected function renderTextareaField(Template $tpl, TextArea $input, $id)
+	{
+		//TODO lang vars
+		if($input->isLimited())
+		{
+			//todo create proper id
+			$id = "textarea_dummy_id";
+
+			$tpl->setVariable("ID", $id);
+			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $input->getMaxLimit());
+			$tpl->setVariable("FEEDBACK_ID", $id);
+			$tpl->setVariable("CHARS_REMAINING", "Characters remaining");
+		}
+
+		return $tpl;
 	}
 
 

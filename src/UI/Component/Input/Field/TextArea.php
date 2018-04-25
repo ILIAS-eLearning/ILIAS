@@ -32,4 +32,10 @@ interface TextArea extends Input {
 	 * @return mixed
 	 */
 	public function getMinLimit();
+
+	/**
+	 * bool if textarea has max or min number of character limit.
+	 * @return mixed
+	 */
+	public function isLimited();
 }
