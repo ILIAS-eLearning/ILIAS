@@ -5,11 +5,14 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements the textarea input.
  */
 class TextArea extends Input implements C\Input\Field\TextArea {
+
+	use JavaScriptBindable;
 
 	protected $max_limit;
 	protected $min_limit;

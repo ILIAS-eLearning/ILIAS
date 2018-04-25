@@ -83,6 +83,14 @@ class Renderer extends AbstractComponentRenderer {
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
 		} else if ($input instanceof Component\Input\Field\TextArea) {
+			/***
+			 * WORKING HERE
+			 *
+			 * I have to add the JS here...
+			 * $input->withAdditionalOnLoadCode(.....
+			 * with return il.UI.select.changeCounterNew
+			 *
+			 */
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
