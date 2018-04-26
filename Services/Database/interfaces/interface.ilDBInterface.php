@@ -487,6 +487,11 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function supportsTransactions();
+	
+	/**
+	 * @return bool
+	 */
+	public function supportsSequences();
 
 	//
 	//

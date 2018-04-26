@@ -385,6 +385,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 				return $this->supportsFulltext();
 			case 'slave':
 				return $this->supportsSlave();
+			case 'sequences':
+				return $this->supportsSequences();
 			default:
 				return false;
 		}
@@ -396,6 +398,13 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 */
 	public function supportsTransactions() {
 		// we generally do not want ilDB to support transactions, only PDO-instances
+		return false;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function supportsSequences() {
 		return false;
 	}
 

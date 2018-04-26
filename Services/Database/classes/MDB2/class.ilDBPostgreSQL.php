@@ -114,6 +114,13 @@ class ilDBPostgreSQL extends ilDB
 	}
 	
 	/**
+	 * @return bool
+	 */
+	function supportsSequences() {
+		return true;
+	}
+	
+	/**
 	* Replace into method.
 	*
 	* @param	string		table name

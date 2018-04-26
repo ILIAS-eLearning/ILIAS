@@ -20,6 +20,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	const FEATURE_TRANSACTIONS = 'transactions';
 	const FEATURE_FULLTEXT = 'fulltext';
 	const FEATURE_SLAVE = 'slave';
+	const FEATURE_SEQUENCES = 'sequence';
 	/**
 	 * @var string
 	 */
@@ -1375,6 +1376,14 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function supportsTransactions() {
 		return false;
 	}
+	
+	
+	/**
+	 * @return bool
+	 */
+	public function supportsSequences() {
+		return false;
+	}
 
 
 	/**
@@ -1389,6 +1398,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 				return $this->supportsFulltext();
 			case self::FEATURE_SLAVE:
 				return $this->supportsSlave();
+			case self::FEATURE_SEQUENCES:
+				return $this->supportsSequences();
 			default:
 				return false;
 		}

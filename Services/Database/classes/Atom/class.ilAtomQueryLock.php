@@ -62,7 +62,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 			if (!in_array($table->getTableName(), $this->locked_table_names)) {
 				$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel() );
 				$this->locked_table_names[] = $table->getTableName();
-				if ($table->isLockSequence() && $this->ilDBInstance->sequenceExists($table->getTableName())) {
+				if ($table->isLockSequence() && !$this->ilDBInstance->supportsSequences() && $this->ilDBInstance->sequenceExists($table->getTableName())) {
 					$locks[] = array( 'name' => $this->ilDBInstance->getSequenceName($table->getTableName()), 'type' => $table->getLockLevel() );
 				}
 			}
