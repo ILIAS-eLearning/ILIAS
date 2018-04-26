@@ -146,6 +146,8 @@ public class RPCSearchHandler {
 			long end = new java.util.Date().getTime();
 			logger.info("Total time: " + (end - start));
 			logger.info("Query time: " + (s_end - s_start));
+			logger.info("Num hits: " + collector.topDocs().totalHits);
+			
 
 			return writer.toXML();
 		}
@@ -313,13 +315,13 @@ public class RPCSearchHandler {
 					)
 			);
 
-			logger.debug("What occurs" + occurs.toString());
-			logger.debug("Rewritten query is: " + query.toString());
+			logger.info("What occurs" + occurs.toString());
+			logger.info("Rewritten query is: " + query.toString());
 			
 			TopScoreDocCollector collector = TopScoreDocCollector.create(1000);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
+			
 			long h_start = new java.util.Date().getTime();
 			HitHighlighter hh = new HitHighlighter(query,hits);
 			hh.highlight();
@@ -330,6 +332,7 @@ public class RPCSearchHandler {
 			
 			logger.info("Highlighter time: " + (h_end - h_start));
 			logger.info("Total time: " + (end - start));
+			logger.info("Num hits: " + collector.topDocs().totalHits);
 			return hh.toXML();
 		}
 		catch(CorruptIndexException e) {
