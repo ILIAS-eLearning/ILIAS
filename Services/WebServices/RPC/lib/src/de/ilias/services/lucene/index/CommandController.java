@@ -167,7 +167,7 @@ public class CommandController {
 	}
 	
 
-	public void initRefresh() throws SQLException {
+	public void initRefresh() throws SQLException, ConfigurationException {
 		
 		queue.deleteNonIncremental();
 		queue.addNonIncremental();
