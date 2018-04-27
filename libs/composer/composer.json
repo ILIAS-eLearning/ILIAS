@@ -22,7 +22,7 @@
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"simplesamlphp/simplesamlphp": "1.14.14",
+		"simplesamlphp/simplesamlphp": "^1.15.4",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9"
@@ -234,10 +234,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.14",
+			"used_version": "v1.15.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2017-07-12",
+			"last_update": "2018-04-27",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -278,9 +278,6 @@
 			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
-			},
-			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
 			}
 		}
 	}

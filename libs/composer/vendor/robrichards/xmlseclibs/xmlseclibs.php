@@ -35,9 +35,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @author    Robert Richards <rrichards@cdatazone.org>
- * @copyright 2007-2016 Robert Richards <rrichards@cdatazone.org>
+ * @copyright 2007-2017 Robert Richards <rrichards@cdatazone.org>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version   1.4.2
+ * @version   3.0.1
  */
 
 $xmlseclibs_srcdir = dirname(__FILE__) . '/src/';
