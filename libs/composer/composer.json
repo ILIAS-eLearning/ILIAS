@@ -118,8 +118,9 @@
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2017-09-28",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
+			"approved-by": "Jour Fixe (prior to 5.0)",
+			"approved-date": "YYYY-MM-DD",
+			"info": "Remove all demo files before commit! At least in current versions, they include security issues."
 		},
 		"geshi/geshi" : {
 			"source" : "https://github.com/GeSHi/geshi-1.0",
