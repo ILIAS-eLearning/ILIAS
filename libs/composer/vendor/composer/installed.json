@@ -1209,6 +1209,11 @@
         },
         "time": "2018-03-02T15:02:24+00:00",
         "type": "project",
+        "extra": {
+            "patches_applied": {
+                "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {

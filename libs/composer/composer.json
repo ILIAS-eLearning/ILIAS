@@ -236,7 +236,7 @@
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
 			"used_version": "v1.15.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
-			"wrapped_by": null,
+			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
 			"last_update": "2018-04-27",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
@@ -278,6 +278,9 @@
 			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+			},
+			"simplesamlphp/simplesamlphp": {
+				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
 			}
 		}
 	}
