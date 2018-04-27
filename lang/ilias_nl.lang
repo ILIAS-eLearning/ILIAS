@@ -638,20 +638,6 @@ assessment#:#ects_fill_out_all_values#:#Voer een waarde in voor elke ECTS-studie
 assessment#:#ects_fx_threshold#:#Drempelwaarde
 assessment#:#ects_fx_threshold_info#:#Geef het vereiste percentage voor de toekenning van de "FX" beoordeling (FX = Fail â€“ iets meer inzet nodig alvorens studiepunten kunnen worden toegekend).
 assessment#:#ects_grade#:#ECTS-studiepunt
-assessment#:#ects_grade_a#:#uitstekend prestatie met slechts minder belangrijke fouten
-assessment#:#ects_grade_a_short#:#Excellent
-assessment#:#ects_grade_b#:#boven de gemiddelde standaard maar met enige fouten
-assessment#:#ects_grade_b_short#:#Heel Goed
-assessment#:#ects_grade_c#:#in het algemeen goed en solide werk
-assessment#:#ects_grade_c_short#:#Goed
-assessment#:#ects_grade_d#:#voldoende maar met belangrijke tekortkomingen
-assessment#:#ects_grade_d_short#:#Ruim voldoende
-assessment#:#ects_grade_e#:#prestatie komt overeen met de minimum criteria
-assessment#:#ects_grade_e_short#:#Voldoende
-assessment#:#ects_grade_f#:#er zijn aanzienlijke verbeteringen nodig
-assessment#:#ects_grade_fx#:#wat meer werk nodig voordat de inspanning kan worden beloond
-assessment#:#ects_grade_fx_short#:#MISLUKT
-assessment#:#ects_grade_f_short#:#MISLUKT
 assessment#:#ects_output_of_ects_grades#:#Uitvoer van ECTS-studiepunten
 assessment#:#ects_range_error_a#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal A!
 assessment#:#ects_range_error_b#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal B!
@@ -15945,3 +15931,35 @@ wsp#:#wsp_type_scov#:#Certificaat: SCORM
 wsp#:#wsp_type_tstv#:#Certificaat: Toets
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Map
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###25 04 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###25 04 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###25 04 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###25 04 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###25 04 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###25 04 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###25 04 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###25 04 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###25 04 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###25 04 2018 new variable
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###25 04 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###25 04 2018 new variable
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###25 04 2018 new variable
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###25 04 2018 new variable
+wfe#:#wfe_started_listening#:#Process armed###25 04 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###25 04 2018 new variable
+style#:#skin_version#:#Skin Version###25 04 2018 new variable
+style#:#Style#:#Style###25 04 2018 new variable
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###25 04 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###25 04 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###25 04 2018 new variable
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###25 04 2018 new variable
+dateplaner#:#crs_start#:#Course starts###25 04 2018 new variable
+dateplaner#:#crs_end#:#Course ends###25 04 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable

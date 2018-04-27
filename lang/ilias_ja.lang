@@ -15952,3 +15952,13 @@ acc#:#acc_access_key#:#Access Key###15 03 2018 new variable
 assessment#:#false#:#False###15 03 2018 new variable
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
 assessment#:#true#:#True###15 03 2018 new variable
+dateplaner#:#crs_start#:#Course starts###25 04 2018 new variable
+dateplaner#:#crs_end#:#Course ends###25 04 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
