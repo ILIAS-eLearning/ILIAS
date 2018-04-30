@@ -22057,3 +22057,7 @@ global $ilDB;
 $q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
 $ilDB->manipulate($q);
 ?>
+<#5268>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

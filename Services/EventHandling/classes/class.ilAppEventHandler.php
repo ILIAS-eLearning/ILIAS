@@ -125,30 +125,28 @@ class ilAppEventHandler
 		));
 
 		// lazy transforming event data to string
-		$this->logger->debug(
-			"Event Data: {event_data}",
-			[
-				'event_data' => new class($a_parameter) {
-					/**
-					 * @var mixed
-					 */
-					protected $parameter;
+		$this->logger->debug(new class($a_parameter) {
+			/**
+			 * @var mixed
+			 */
+			protected $parameter;
 
-					/**
-					 * @param mixed $parameter
-					 */
-					public function __construct($parameter)
-					{
-						$this->parameter = $parameter;
-					}
+			/**
+			 * @param mixed $parameter
+			 */
+			public function __construct($parameter)
+			{
+				$this->parameter = $parameter;
+			}
 
-					public function __invoke()
-					{
-						return print_r($this->parameter, 1);
-					}
-				}
-			]
-		);
+			/**
+			 * @return string
+			 */
+			public function __toString()
+			{
+				return 'Event data: ' . print_r($this->parameter, 1);
+			}
+		});
 
 		$this->logger->debug("Started event propagation for event listeners ...");
 
