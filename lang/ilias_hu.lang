@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2018-03-18
+* @version	5.3.x 2018-04-30
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -43,10 +43,10 @@ lti#:#lti_admin#:#LTI-rendszergazda
 lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_member#:#LTI-címke
 auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
-lti#:#lti_object_release_settings_form#:#LTI-megosztás módosítása
-lti#:#lti_provider#:#LTI-megosztás
+lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
+lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objektummegosztás
+lti#:#lti_released_objects#:#Megosztott objektumok
 lti#:#lti_consumer#:#Megosztva vele:
 orgu#:#orgu_global_set_form#:#Globális szervezeti egység beállításai
 orgu#:#orgu_global_set_positions#:#Felhasználói adatok megjelenítése a szervezeti egységben lévő pozíciók szerint
@@ -13782,7 +13782,8 @@ pdfgen#:#selected_renderer#:#Kiválasztott renderelő
 pdfgen#:#configure#:#Renderelő beállításai
 pdfgen#:#config_saved#:#Sikeres mentés
 pdfgen#:#config_not_saved#:#Sikertelen mentés
-prtf#:#pdf_export#:#PDF Export
+pdfgen#:#javascript_delay_info#:#PDF fájl tartalmának megjelenítéséhez adjon késletetést, amennyiben az oldal tartalmát JavaScript állítja elő. Általában 200ms elegendő kell, hogy legyen.
+prtf#:#pdf_export#:#PDF export
 pdfgen#:#print_media_type#:#Nyomtató használata képernyő helyett
 pdfgen#:#javascript_delay#:#JavaScript várakozás
 pdfgen#:#margin_left#:#Bal margó
@@ -14157,22 +14158,21 @@ common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
-content#:#cont_lpe_login_form#:#Login Form###05 04 2018 new variable
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###05 04 2018 new variable
-content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###05 04 2018 new variable
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form###05 04 2018 new variable
-content#:#cont_lpe_registration_link#:#New Registration Link###05 04 2018 new variable
-content#:#cont_lpe_language_selection#:#Language Selection###05 04 2018 new variable
-content#:#cont_lpe_user_agreement_link#:#User Agreement Link###05 04 2018 new variable
-common#:#obj_fold_duplicate#:#Copy Folder###05 04 2018 new variable
-common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###05 04 2018 new variable
-common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###05 04 2018 new variable
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.###25 04 2018 new variable
-file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+content#:#cont_lpe_login_form#:#Bejelentkezési űrlap
+content#:#cont_lpe_cas_login_form#:#CAS bejelentkezési űrlap
+content#:#cont_lpe_shib_login_form#:#Shibboleth bejelentkezési űrlap
+content#:#cont_lpe_openid_login_form#:#OpenId bejelentkezési űrlap
+content#:#cont_lpe_registration_link#:#Új regisztráció linkje
+content#:#cont_lpe_language_selection#:#Nyelvválasztás
+content#:#cont_lpe_user_agreement_link#:#Szolgáltatási feltételek linkje
+common#:#obj_fold_duplicate#:#Mappa másolása
+common#:#fold_wizard_page#:#Mappa másolása (2/2 lépés)
+common#:#fold_copy_threads_info#:#Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat.
+file#:#file_suffix_default_white#:#Alapértelmezetten engedélyzett kiterjesztések
+file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
+file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
+file#:#file_suffix_custom_black_info#:#Ezeket a kiterjesztéseket eltávolítjuk az engedélyzettek közül.
+file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések 
+file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyzettekhez.
+file#:#file_suffix_overall_white#:#Engedélyzett kiterjesztések összesítő listája
+file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
