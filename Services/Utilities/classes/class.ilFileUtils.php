@@ -625,6 +625,7 @@ class ilFileUtils
 			'htm',   // TEXT__HTML,
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
+			'ibooks', // Apple IBook Format
 			'ico',   // IMAGE__X_ICON,
 			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
