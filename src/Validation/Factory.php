@@ -69,8 +69,7 @@ class Factory {
 		return new Constraints\LogicalOr($others, $this->data_factory);
 	}
 
-	// SOME RESTRICTOINS
-
+	// SOME RESTRICTIONS
 
 	/**
 	 * Get a constraint for an integer.
