@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.3.x 2018-03-18 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.3.x 2018-04-30 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -31,6 +31,7 @@ back#:#Vissza
 basic_settings#:#Alapbeállítások
 cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat.
 cannot_create_datadir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. Az adatkönyvtár nem hozható létre.
+cannot_create_logdir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. A naplókönyvtár nem hozható létre.
 change_basic_settings#:#Alapbeállítások módosítása
 change_password#:#Jelszócsere
 change_sort_direction#:#Rendezési irány módosítása
@@ -330,7 +331,7 @@ no_path_datadir#:#Nincs megadva adatkönyvtár.
 no_path_fop#:#Nincs megadva FOP elérési útvonal.
 no_path_given#:#Nincs megadva elérési útvonal.
 no_path_java#:#Nincs megadva java elérési útvonal.
-no_path_log#:#Nincs megadva log elérési útvonal.
+no_path_log#:#Nincs megadva naplózás elérési útvonal.
 no_path_mkisofs#:#Nincs megadva mkisofs elérési útvonal.
 no_path_unzip#:#Nincs megadva Unzip elérési útvonal.
 no_path_zip#:#Nincs megadva Zip elérési útvonal.
@@ -611,8 +612,8 @@ cache_flush#:#Összes gyorsítótár ürítése
 cache_activate_tpl_blocks#:#Sablon (blokkok)
 cache_activate_tpl_variables#:#Sablon (változók)
 cache_activate_all#:#Összes
-error_log_path#:#Hibafájlok útvonala
-error_log_path_comment#:#Csak útvonalat adjon meg, hiba esetén a fájlokat automatikusan oda mentjük.
+error_log_path#:#Hibanaplófájlok útvonala
+error_log_path_comment#:#Csak útvonalat adjon meg, hiba esetén a naplófájlokat automatikusan oda mentjük.
 enable_system_styles_management#:#Rendszerstílusok kezelése
 enable_system_styles_management_info#:#Rendszerstílusok (Skin-ek) kezelése (létrehozása, módosítása, törlése) a Rendszerbeállítások » Stílus és elrendezés almenüje alatt.
 lessc_path#:#Lessc útvonala
