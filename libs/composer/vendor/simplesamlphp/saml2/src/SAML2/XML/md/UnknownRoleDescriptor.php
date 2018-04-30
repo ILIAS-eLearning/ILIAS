@@ -1,40 +1,43 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\XML\Chunk;
+
 /**
  * Class representing unknown RoleDescriptors.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_UnknownRoleDescriptor extends SAML2_XML_md_RoleDescriptor
+class UnknownRoleDescriptor extends RoleDescriptor
 {
     /**
      * This RoleDescriptor as XML
      *
-     * @var SAML2_XML_Chunk
+     * @var \SAML2\XML\Chunk
      */
     private $xml;
 
     /**
      * Initialize an unknown RoleDescriptor.
      *
-     * @param DOMElement $xml The XML element we should load.
+     * @param \DOMElement $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml)
+    public function __construct(\DOMElement $xml)
     {
         parent::__construct('md:RoleDescriptor', $xml);
 
-        $this->xml = new SAML2_XML_Chunk($xml);
+        $this->xml = new Chunk($xml);
     }
 
     /**
      * Add this RoleDescriptor to an EntityDescriptor.
      *
-     * @param DOMElement $parent The EntityDescriptor we should append this RoleDescriptor to.
+     * @param \DOMElement $parent The EntityDescriptor we should append this RoleDescriptor to.
      * @return void
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         $this->xml->toXML($parent);
     }
-
 }

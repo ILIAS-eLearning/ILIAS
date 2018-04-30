@@ -1,6 +1,8 @@
 <?php
 
-interface SAML2_Configuration_DecryptionProvider
+namespace SAML2\Configuration;
+
+interface DecryptionProvider
 {
     /**
      * @return null|bool
@@ -18,7 +20,7 @@ interface SAML2_Configuration_DecryptionProvider
      *
      * @return mixed
      */
-    public function getPrivateKey($name, $required = FALSE);
+    public function getPrivateKey($name, $required = false);
 
     /**
      * @return array

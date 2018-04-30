@@ -441,7 +441,8 @@ class ilDclTable {
 			/**
 			 * @var $ilDB ilDBInterface
 			 */
-			$query = "SELECT DISTINCT il_dcl_field.*, il_dcl_tfield_set.field_order
+			$desc = $ilDB->getDBType() == 'oracle' ? '' : 'il_dcl_field.description, ';
+			$query = "SELECT DISTINCT il_dcl_field.*
 						    FROM il_dcl_field
 						         INNER JOIN il_dcl_tfield_set
 						            ON (    il_dcl_tfield_set.field NOT IN ('owner',
@@ -450,7 +451,7 @@ class ilDclTable {
 						                                                    'id',
 						                                                    'create_date')
 						                AND il_dcl_tfield_set.table_id = il_dcl_field.table_id
-						                AND il_dcl_tfield_set.field = ".$ilDB->cast("il_dcl_field.id","text").")
+						                AND il_dcl_tfield_set.field = il_dcl_field.id)
 						   WHERE il_dcl_field.table_id = %s
 						ORDER BY il_dcl_tfield_set.field_order ASC";
 

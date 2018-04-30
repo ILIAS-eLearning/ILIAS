@@ -44,9 +44,6 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Tag) {
 			$tpl_name = "tpl.tag.html";
 		}
-		if ($component instanceof Component\Button\Bulky) {
-			$tpl_name = "tpl.bulky.html";
-		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
 
@@ -94,10 +91,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Tag) {
 			$this->additionalRenderTag($component, $tpl);
-		}
-
-		if ($component instanceof Component\Button\Bulky) {
-			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
 
 		return $tpl->get();
@@ -183,25 +176,7 @@ class Renderer extends AbstractComponentRenderer {
 		if($forecol) {
 			$tpl->setVariable("FORECOL", $forecol->asHex());
 		}
-	}
 
-	protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl) {
-		$renderer = $default_renderer->withAdditionalContext($component);
-		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
-		$label = $component->getLabel();
-		if ($label !== null) {
-			$tpl->setVariable("LABEL", $label);
-		}
-		if ($component->isEngaged()) {
-			$tpl->touchBlock("engaged");
-			$tpl->setVariable("ARIA_PRESSED", 'true');
-		} else {
-			if (is_string($component->getAction())) {
-				$tpl->setVariable("ARIA_PRESSED", 'undefined');
-			}else {
-				$tpl->setVariable("ARIA_PRESSED", 'false');
-			}
-		}
 	}
 
 	/**
@@ -215,7 +190,6 @@ class Renderer extends AbstractComponentRenderer {
 		, Component\Button\Shy::class
 		, Component\Button\Month::class
 		, Component\Button\Tag::class
-		, Component\Button\Bulky::class
 		);
 	}
 }

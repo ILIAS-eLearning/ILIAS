@@ -669,24 +669,6 @@ interface ilDBInterface {
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery();
-
-
-	/**
-	 * @param string $a_field_name
-	 * @param string $a_seperator
-	 * @param string $a_order
-	 * @return string
-	 */
-	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL);
-
-
-	/**
-	 * @param string $a_field_name
-	 * @param string $a_dest_type
-	 * @return string;
-	 */
-	public function cast($a_field_name, $a_dest_type);
-
 }
 
 /**

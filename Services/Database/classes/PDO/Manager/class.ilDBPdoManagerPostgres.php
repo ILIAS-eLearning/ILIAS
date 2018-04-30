@@ -53,10 +53,11 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 
 		// gratuitously stolen from PEAR DB _getSpecialQuery in pgsql.php
 		$query = 'SELECT c.relname AS "Name"' . ' FROM pg_class c, pg_user u' . ' WHERE c.relowner = u.usesysid' . " AND c.relkind = 'r'"
-			. ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views' . '  WHERE viewname = c.relname)' . " AND c.relname !~ '^(pg_|sql_)'" . ' UNION'
-			. ' SELECT c.relname AS "Name"' . ' FROM pg_class c' . " WHERE c.relkind = 'r'" . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views'
-			. '  WHERE viewname = c.relname)' . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_user' . '  WHERE usesysid = c.relowner)'
-			. " AND c.relname !~ '^pg_'";
+		         . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views' . '  WHERE viewname = c.relname)' . " AND c.relname !~ '^(pg_|sql_)'" . ' UNION'
+		         . ' SELECT c.relname AS "Name"' . ' FROM pg_class c' . " WHERE c.relkind = 'r'" . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views'
+		         . '  WHERE viewname = c.relname)' . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_user' . '  WHERE usesysid = c.relowner)'
+		         . " AND c.relname !~ '^pg_'";
+
 		$result = $db->queryCol($query, ilDBConstants::FETCHMODE_ASSOC);
 
 		if ($db->options['portability']) {
@@ -169,16 +170,12 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 			}
 		}
 
+		$name = $db->quoteIdentifier($name, true);
 		if (!empty($changes['name'])) {
-			$result = $db->manipulate("ALTER TABLE " . $db->quoteIdentifier($name, true) . " RENAME TO " . $db->quoteIdentifier($changes['name']));
-
-			$idx = array_merge($this->listTableIndexes($changes['name']), $this->listTableConstraints($changes['name']));
-			foreach ($idx as $index_name) {
-				$index_newname = preg_replace("/^$name/", $changes['name'], $index_name);
-				$result = $db->manipulate("ALTER INDEX " . $this->getIndexName($index_name) . " RENAME TO " . $this->getIndexName($index_newname)); 
-			}
+			$change_name = $db->quoteIdentifier($changes['name'], true);
+			$result = $db->manipulate("ALTER TABLE $name RENAME TO " . $change_name);
 		}
-		
+
 		return true;
 	}
 
@@ -191,11 +188,11 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 		$db = $this->db_instance;
 
 		$table = $db->quoteIdentifier($table, true);
-		$res = $this->pdo->query("select * from $table");
-		for ($i = 0; $i < $res->columnCount(); $i++) {
-			$data[] = $res->getColumnMeta($i)["name"];
-		}
-		return $data;
+		$db->setLimit(1);
+		$result = $db->query("SELECT * FROM $table");
+		$data = $db->fetchAssoc($result);
+
+		return array_keys($data);
 	}
 
 
@@ -295,8 +292,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	public function dropIndex($table, $name) {
 		$db = $this->db_instance;
 
-		$name = $this->getIndexName($name);
-		$name = $db->quoteIdentifier($this->getDBInstance()->constraintName($table, $name), true);
+		$name = $db->quoteIdentifier($this->getIndexName($name), true);
+		$name = $this->getDBInstance()->constraintName($table, $name);
 
 		return $db->manipulate("DROP INDEX $name");
 	}
@@ -349,7 +346,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	 */
 	public function dropConstraint($table, $name, $primary = false) {
 		$table_quoted = $this->getDBInstance()->quoteIdentifier($table, true);
-		$name = $this->getDBInstance()->quoteIdentifier($table . '_' . $this->getDBInstance()->getIndexName($name), true);
+		$name = $table . '_' . $this->getDBInstance()->quoteIdentifier($this->getDBInstance()->getIndexName($name), true);
 
 		return $this->pdo->exec("ALTER TABLE $table_quoted DROP CONSTRAINT $name");
 	}

@@ -1315,16 +1315,14 @@ class ilPersonalSkillsGUI
 				{
 					$cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
 				}
-				//$cd2->setFill(true, "#dcb496");
-				$cd2->setFill(true, "#FF8080");
-				$cd2->setFill(true, "#cc8466");
+				$cd2->setFill(true, "#8080FF");
 
 				// self evaluation
 				if ($incl_self_eval)
 				{
 					$cd3 = $chart->getDataInstance();
 					$cd3->setLabel($lng->txt("skmg_self_evaluation"));
-					$cd3->setFill(true, "#6ea03c");
+					$cd3->setFill(true, "#FF8080");
 				}
 
 				// fill in data
@@ -1554,10 +1552,7 @@ class ilPersonalSkillsGUI
 			$tpl->touchBlock("stb".$type);
 		}
 
-		if ($title != $lng->txt("skmg_eval_type_".$type))
-		{
-			$tpl->setVariable("TITLE", $title);
-		}
+		$tpl->setVariable("TITLE", $title);
 
 		return $tpl->get();
 	}

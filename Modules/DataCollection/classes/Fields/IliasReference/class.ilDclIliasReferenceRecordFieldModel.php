@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
-require_once './Services/Object/classes/class.ilObject2.php';
 
 
 /**
@@ -45,21 +44,9 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		return ($result->numRows() == 0)? false : $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	}
 
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getValueForRepresentation() {
-		$ref_id = $this->getValue();
-		return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
-	}
-
-
-	/**
-	 * @return int|string
-	 */
 	public function getExportValue(){
-		$link = ilLink::_getStaticLink($this->getValue());
+		$value = $this->getValue();
+		$link = ilLink::_getStaticLink($value);
 		return $link;
 	}
 

@@ -45,5 +45,4 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface {
 		}
 		return $user_names;
 	}
-
 }

@@ -230,7 +230,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$sorting_position = array();
 		$position_count = 10;
 
-		$parent_node = ($parent_ref_id === null)? ilObjectFactoryWrapper::singleton()->getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_ref_id);
+		$parent_node = ($parent_ref_id === null)? ilObjectFactoryWrapper::getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::getInstanceByRefId($parent_ref_id);
 		$container_sorting = ($container_sorting === null) ? ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id)) : $container_sorting;
 
 		foreach($nodes as $node) {
@@ -241,7 +241,7 @@ class ilObjStudyProgrammeTreeGUI {
 			$sorting_position[$id] = $position_count;
 			$position_count+= 10;
 
-			$node_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($id);
+			$node_obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
 			if($node_obj instanceof ilObjStudyProgramme) {
 				$node_obj->moveTo($parent_node);
 			} else {
@@ -459,7 +459,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$result = true;
 
 		foreach($ids as $id) {
-			$obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($id);
+			$obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
 
 			$not_parent_of_current = true;
 			$not_root = true;

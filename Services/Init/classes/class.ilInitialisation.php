@@ -592,14 +592,18 @@ class ilInitialisation
 	{
 		global $ilSetting;
 
-		// TODO: Has to be revised/moved
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
-		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+		if (!defined('IL_COOKIE_SECURE')) {
+			// If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
+			// \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-		session_set_cookie_params(
-			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-		);
+			include_once './Services/Http/classes/class.ilHTTPS.php';
+			$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+			define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+
+			session_set_cookie_params(
+				IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			);
+		}
 	}
 
 	/**
@@ -1391,12 +1395,6 @@ class ilInitialisation
 					( $c["ui.resource_registry"]
 					, new ILIAS\UI\Implementation\Render\FSLoader
 						( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-							($c["ui.factory"]
-							, $c["ui.template_factory"]
-							, $c["lng"]
-							, $c["ui.javascript_binding"]
-							),
-						  new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]

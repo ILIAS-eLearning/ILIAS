@@ -142,10 +142,6 @@ abstract class ilPageObject
 		$this->tree = $DIC->repositoryTree();
 		$this->log = ilLoggerFactory::getLogger('copg');
 
-		// @todo: move this elsewhere
-//		require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
-//		require_once("./Services/COPage/syntax_highlight/php/Output/Output_css.php");
-
 		$this->parent_type = $this->getParentType();
 		$this->id = $a_id;
 		$this->setLanguage($a_lang);

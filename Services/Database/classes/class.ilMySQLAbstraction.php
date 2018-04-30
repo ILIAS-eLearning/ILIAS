@@ -37,8 +37,7 @@ class ilMySQLAbstraction {
 	 * Constructor
 	 */
 	public function __construct() {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$this->ilDBInterface = $ilDB;
 		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
@@ -74,11 +73,7 @@ class ilMySQLAbstraction {
 	 * This means the table conforms to the MDB2 field types, uses
 	 * sequences instead of auto_increment.
 	 *
-	 * @param string $a_table_name string
-	 *
-	 * @param bool   $a_set_text_ts_fields_notnull_false
-	 *
-	 * @throws ilDatabaseException
+	 * @param    $a_table_name string
 	 */
 	public function performAbstraction($a_table_name, $a_set_text_ts_fields_notnull_false = true) {
 		// to do: log this procedure
@@ -182,9 +177,8 @@ class ilMySQLAbstraction {
 
 		if (!$this->getTestMode()) {
 			if ($nr_rec != $nr_rec2) {
-				throw new ilDatabaseException(
-					"ilMySQLAbstraction: Unexpected difference in table record number, table '" . $a_table_name . "'." . " Before: " . ((int)$nr_rec) . ", After: " . ((int)$nr_rec2) . "."
-				);
+				throw new ilDatabaseException("ilMySQLAbstraction: Unexpected difference in table record number, table '" . $a_table_name . "'."
+				                              . " Before: " . ((int)$nr_rec) . ", After: " . ((int)$nr_rec2) . ".");
 			}
 		}
 	}
@@ -194,12 +188,10 @@ class ilMySQLAbstraction {
 	 * Check number of records before and after
 	 *
 	 * @param string $a_table_name
-	 *
 	 * @return int
 	 */
 	public function countRecords($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$st = $ilDB->prepare("SELECT count(*) AS cnt FROM `" . $a_table_name . "`");
 		$res = $ilDB->execute($st);
@@ -216,18 +208,11 @@ class ilMySQLAbstraction {
 	 * @param $a_step
 	 */
 	public function storeStep($a_table, $a_step) {
-		$st = $this->ilDBInterface->prepareManip(
-			"REPLACE INTO abstraction_progress (table_name, step)" . " VALUES (?,?)", array(
-				"text",
-				"integer",
-			)
-		);
-		$this->ilDBInterface->execute(
-			$st, array(
-				$a_table,
-				$a_step,
-			)
-		);
+		$st = $this->ilDBInterface->prepareManip("REPLACE INTO abstraction_progress (table_name, step)" . " VALUES (?,?)", array(
+			"text",
+			"integer",
+		));
+		$this->ilDBInterface->execute($st, array( $a_table, $a_step ));
 	}
 
 
@@ -235,18 +220,16 @@ class ilMySQLAbstraction {
 	 * Replace empty strings with null values
 	 *
 	 * @param $a_table
-	 *
 	 * @throws \ilDatabaseException
 	 */
 	public function replaceEmptyStringsWithNull($a_table) {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		$upfields = array();
 		foreach ($fields as $field => $def) {
 			if ($def["type"] == "text"
-				&& ($def["length"] >= 1 && $def["length"] <= 4000)
+			    && ($def["length"] >= 1 && $def["length"] <= 4000)
 			) {
 				$upfields[] = $field;
 			}
@@ -261,12 +244,10 @@ class ilMySQLAbstraction {
 	 * Replace empty dates with null
 	 *
 	 * @param $a_table
-	 *
 	 * @throws \ilDatabaseException
 	 */
 	public function replaceEmptyDatesWithNull($a_table) {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		if (!$this->ilDBInterface->tableExists($a_table)) {
 			return;
@@ -302,8 +283,7 @@ class ilMySQLAbstraction {
 	 * @param string $a_table_name
 	 */
 	public function lowerCaseTableName($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		if ($a_table_name != strtolower($a_table_name)) {
 			// this may look strange, but it does not work directly
@@ -320,8 +300,7 @@ class ilMySQLAbstraction {
 	 * @param string $a_table_name
 	 */
 	public function lowerCaseColumnNames($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$result = mysql_query("SHOW COLUMNS FROM `" . $a_table_name . "`");
 		while ($row = mysql_fetch_assoc($result)) {
@@ -391,11 +370,10 @@ class ilMySQLAbstraction {
 
 
 	/**
-	 * @param        $a_table
-	 * @param        $a_fields
-	 * @param bool   $a_set_text_ts_fields_notnull_false
+	 * @param $a_table
+	 * @param $a_fields
+	 * @param bool $a_set_text_ts_fields_notnull_false
 	 * @param string $pk
-	 *
 	 * @return mixed
 	 * @throws \ilDatabaseException
 	 */
@@ -409,7 +387,7 @@ class ilMySQLAbstraction {
 
 			// remove "current_timestamp" default for timestamps (not supported)
 			if (strtolower($def["nativetype"]) == "timestamp"
-				&& strtolower($def["default"]) == "current_timestamp"
+			    && strtolower($def["default"]) == "current_timestamp"
 			) {
 				unset($def["default"]);
 			}
@@ -420,17 +398,7 @@ class ilMySQLAbstraction {
 
 			// remove all invalid attributes
 			foreach ($def as $k => $v) {
-				if (!in_array(
-					$k, array(
-						"type",
-						"default",
-						"notnull",
-						"length",
-						"unsigned",
-						"fixed",
-					)
-				)
-				) {
+				if (!in_array($k, array( "type", "default", "notnull", "length", "unsigned", "fixed" ))) {
 					unset($def[$k]);
 				}
 			}
@@ -448,10 +416,10 @@ class ilMySQLAbstraction {
 
 			// set notnull to false for text/timestamp/date fields
 			if ($a_set_text_ts_fields_notnull_false
-				&& ($def["type"] == "text"
-					|| $def["type"] == "timestamp"
-					|| $def["type"] == "date")
-				&& (!is_array($pk) || !isset($field, $pk["fields"][$field]))
+			    && ($def["type"] == "text"
+			        || $def["type"] == "timestamp"
+			        || $def["type"] == "date")
+			    && (!is_array($pk) || !isset($field, $pk["fields"][$field]))
 			) {
 				$def["notnull"] = false;
 			}
@@ -468,7 +436,7 @@ class ilMySQLAbstraction {
 
 			// remove "0000-00-00..." default values
 			if (($def["type"] == "timestamp" && $def["default"] == "0000-00-00 00:00:00")
-				|| ($def["type"] == "date" && $def["default"] == "0000-00-00")
+			    || ($def["type"] == "date" && $def["default"] == "0000-00-00")
 			) {
 				unset($def["default"]);
 			}
@@ -538,7 +506,7 @@ class ilMySQLAbstraction {
 						$fields[] = strtolower($f);
 					}
 					$this->ilDBInterface->addIndex($a_table, $fields, strtolower($index["name"]), $index["fulltext"]);
-					$cnt++;
+					$cnt ++;
 				}
 			}
 		}
@@ -572,7 +540,7 @@ class ilMySQLAbstraction {
 						$fields[] = strtolower($f);
 					}
 					$this->ilDBInterface->addUniqueConstraint($a_table, $fields, strtolower($c["name"]));
-					$cnt++;
+					$cnt ++;
 				}
 			}
 		}
@@ -632,12 +600,7 @@ class ilMySQLAbstraction {
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		foreach ($fields as $name => $def) {
 			if ($def["type"] == "clob" && $def["notnull"] == true) {
-				$this->ilDBInterface->modifyTableColumn(
-					$a_table, $name, array(
-						"type"    => "clob",
-						"notnull" => false,
-					)
-				);
+				$this->ilDBInterface->modifyTableColumn($a_table, $name, array( "type" => "clob", "notnull" => false ));
 			}
 		}
 	}
@@ -655,24 +618,18 @@ class ilMySQLAbstraction {
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		foreach ($fields as $name => $def) {
 			if ($def["type"] == "timestamp"
-				&& ($def["notnull"] == true || $def["default"] == "0000-00-00 00:00:00")
+			    && ($def["notnull"] == true || $def["default"] == "0000-00-00 00:00:00")
 			) {
-				$nd = array(
-					"type"    => "timestamp",
-					"notnull" => false,
-				);
+				$nd = array( "type" => "timestamp", "notnull" => false );
 				if ($def["default"] == "0000-00-00 00:00:00") {
 					$nd["default"] = null;
 				}
 				$this->ilDBInterface->modifyTableColumn($a_table, $name, $nd);
 			}
 			if ($def["type"] == "date"
-				&& ($def["notnull"] == true || $def["default"] == "0000-00-00")
+			    && ($def["notnull"] == true || $def["default"] == "0000-00-00")
 			) {
-				$nd = array(
-					"type"    => "date",
-					"notnull" => false,
-				);
+				$nd = array( "type" => "date", "notnull" => false );
 				if ($def["default"] == "0000-00-00") {
 					$nd["default"] = null;
 				}
