@@ -121,7 +121,7 @@ class StandardConstraintsTest extends PHPUnit_Framework_TestCase {
 	 * @dataProvider constraintsProvider
 	 */
 	public function testWithProblemBuilder($constraint, $ok_values, $error_values) {
-		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
-		$this->assertEquals("This was a vault", $new_constraint->problemWith($error_values[0]));
+		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a fault"; });
+		$this->assertEquals("This was a fault", $new_constraint->problemWith($error_values[0]));
 	}
 }
