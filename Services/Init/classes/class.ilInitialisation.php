@@ -6,6 +6,8 @@ use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -43,18 +45,25 @@ class ilInitialisation
 		// We do not need this characters in any case, so it is
 		// feasible to filter them everytime. POST parameters
 		// need attention through ilUtil::stripSlashes() and similar functions)
-		if (is_array($_GET))
-		{
-			foreach($_GET as $k => $v)
-			{
-				// \r\n used for IMAP MX Injection
-				// ' used for SQL Injection
-				$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+		$_GET = self::recursivelyRemoveUnsafeCharacters($_GET);
+	}
 
-				// this one is for XSS of any kind
-				$_GET[$k] = strip_tags($_GET[$k]);
+	protected static function recursivelyRemoveUnsafeCharacters($var) {
+		if (is_array($var)) {
+			$mod = [];
+			foreach ($var as $k => $v) {
+				$k = self::recursivelyRemoveUnsafeCharacters($k);
+				$mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
+			return $mod;
 		}
+		return strip_tags(
+			str_replace(
+				array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"),
+				"",
+				$var
+			)
+		);
 	}
 	
 	/**
@@ -178,28 +187,54 @@ class ilInitialisation
 
 		global $DIC;
 
-		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
+		$DIC['filesystem.security.sanitizing.filename'] = function ($c) {
+			return new FilenameSanitizerImpl();
+		};
 
-		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.factory'] = function ($c) {
+			return new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory($c['filesystem.security.sanitizing.filename']);
+		};
+
+		$DIC['filesystem.web'] = function ($c) {
 			//web
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
 			return $delegatingFactory->getLocal($webConfiguration);
 		};
 
-		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.storage'] = function ($c) {
 			//storage
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
 			return $delegatingFactory->getLocal($storageConfiguration);
 		};
 
-		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.temp'] = function ($c) {
 			//temp
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 
-		$DIC['filesystem.customizing'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.customizing'] = function ($c) {
 			//customizing
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
 			return $delegatingFactory->getLocal($customizingConfiguration);
 		};
@@ -233,8 +268,6 @@ class ilInitialisation
 			if (IL_VIRUS_SCANNER != "None") {
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
-
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\WhitelistExtensionPreProcessor(ilFileUtils::getValidExtensions()));
 
 			return $fileUploadImpl;
 		};
@@ -559,14 +592,18 @@ class ilInitialisation
 	{
 		global $ilSetting;
 
-		// TODO: Has to be revised/moved
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
-		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+		if (!defined('IL_COOKIE_SECURE')) {
+			// If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
+			// \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-		session_set_cookie_params(
-			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-		);
+			include_once './Services/Http/classes/class.ilHTTPS.php';
+			$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+			define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+
+			session_set_cookie_params(
+				IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			);
+		}
 	}
 
 	/**

@@ -325,12 +325,12 @@ class ilObjBookingPool extends ilObject
 	// advanced metadata
 	// 
 	
-	public static function getAdvancedMDFields($a_glossary_id)
+	public static function getAdvancedMDFields($a_ref_id)
 	{	
 		$fields = array();
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("book", $a_glossary_id, "bobj");
+		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("book", $a_ref_id, "bobj");
 
 		foreach($recs as $record_obj)
 		{

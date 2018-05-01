@@ -1340,7 +1340,7 @@
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
 	<xsl:if test="not(name(..) = 'Section')">
-	<a class="ilc_link_ExtLink">
+	<a class="ilc_link_ExtLink" rel="noopener">
 		<xsl:call-template name="SetExtLinkAttributes" />
 		<xsl:apply-templates/>
 	</a>
@@ -2409,7 +2409,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-	<img border="0" style="width:100%">
+	<img border="0">
 		<!-- see 0020796 -->
 		<xsl:if test = "name(..) != 'Paragraph'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>

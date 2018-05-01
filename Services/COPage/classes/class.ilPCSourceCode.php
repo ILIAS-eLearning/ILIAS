@@ -172,11 +172,5 @@ class ilPCSourceCode extends ilPCParagraph
 		}
 		return $a_text;
 	}
-
-	function hasHighlighter ($hfile_ext)
-	{
-		return file_exists ("Services/COPage/syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
-	}
-
 }
 ?>

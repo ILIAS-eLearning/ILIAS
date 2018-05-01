@@ -209,9 +209,6 @@ class ilObjectGUI
 			}
 		}
 
-		// use global $lng instead, when creating new objects object is not available
-		//$this->lng =& $this->object->lng;
-
 		//prepare output
 		if ($a_prepare_output)
 		{

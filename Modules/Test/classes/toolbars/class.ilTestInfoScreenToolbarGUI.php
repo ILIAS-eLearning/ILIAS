@@ -583,57 +583,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				{
 					$this->addInfoMessage($executable['errormessage']);
 				}
-				if ($this->getTestSession()->getActiveId() > 0)
-				{
-					// test results button
-
-					require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-					$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->getTestOBJ());
-					$testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
-					$testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
-
-					if( $this->getTestOBJ()->canShowTestResults($this->getTestSession()) )
-					{
-						$btn = ilLinkButton::getInstance();
-						$btn->setCaption('tst_show_results');
-						$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserResultsOverview'));
-						$btn->setPrimary(false);
-						$this->addButtonInstance($btn);
-
-						if ($this->getTestOBJ()->getHighscoreEnabled())
-						{
-							// Can also compare results then
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_toplist');
-							$btn->setUrl($this->buildLinkTarget('ilTestToplistGUI', 'outResultsToplist'));
-							$btn->setPrimary(false);
-							$this->addButtonInstance($btn);
-						}
-
-						if( $this->getTestOBJ()->isSkillServiceToBeConsidered() )
-						{
-							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_comp_results');
-							$btn->setUrl($this->buildLinkTarget('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
-							$btn->setPrimary(false);
-							$this->addButtonInstance($btn);
-						}
-					}
-
-				}
-			}
-			if ($this->getTestSession()->getActiveId() > 0)
-			{
-				if ($this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId()))
-				{
-					$btn = ilLinkButton::getInstance();
-					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserListOfAnswerPasses'));
-					$btn->setPrimary(false);
-					$this->addButtonInstance($btn);
-				}
 			}
 
 			if( $this->isDeleteDynamicTestResultsButtonRequired() )

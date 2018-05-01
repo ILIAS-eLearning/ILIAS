@@ -434,7 +434,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			$testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
 			
 			$partData = new ilTestParticipantData($ilDB, $lng);
-			$partData->setUserIds(array($a_user_id));
+			$partData->setUserIdsFilter(array($a_user_id));
 			$partData->load($testOBJ->getTestId());
 			
 			$activeId = $partData->getActiveIdByUserId($a_user_id);

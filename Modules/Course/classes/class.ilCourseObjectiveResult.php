@@ -182,7 +182,7 @@ class ilCourseObjectiveResult
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 				$participantData = new ilTestParticipantData($ilDB, $lng);
-				$participantData->setUserIds(array($this->getUserId()));
+				$participantData->setUserIdsFilter(array($this->getUserId()));
 				$participantData->load($tst->getTestId());
 				$tst->removeTestResults($participantData);
 

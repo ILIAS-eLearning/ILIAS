@@ -375,9 +375,10 @@ class ilTagging
 	/**
 	 * Get users for tag
 	 */
-	function getUsersForTag($a_tag)
+	static function getUsersForTag($a_tag)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT DISTINCT user_id, firstname, lastname FROM il_tag JOIN usr_data ON (user_id = usr_id) ".
 			" WHERE LOWER(tag) = LOWER(".$ilDB->quote($a_tag, "text").")".

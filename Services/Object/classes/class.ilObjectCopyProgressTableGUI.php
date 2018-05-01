@@ -41,7 +41,8 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 	
 	public function setRedirectionUrl($a_url)
 	{
-		$GLOBALS['tpl']->addOnLoadCode('il.CopyRedirection.setRedirectUrl("'.$a_url.'")');
+		global $DIC;
+		$DIC->ui()->mainTemplate()->addOnLoadCode('il.CopyRedirection.setRedirectUrl("'.$a_url.'")');
 	}
 
 	/**
@@ -49,15 +50,21 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		$GLOBALS['tpl']->addJavaScript('./Services/CopyWizard/js/ilCopyRedirection.js');
-		$GLOBALS['tpl']->addOnLoadCode('il.CopyRedirection.checkDone()');
+		global $DIC;
+
+		$tpl = $DIC->ui()->mainTemplate();
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		$tpl->addJavaScript('./Services/CopyWizard/js/ilCopyRedirection.js');
+		$tpl->addOnLoadCode('il.CopyRedirection.checkDone()');
 		$this->setExternalSorting(TRUE);
-		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+		$this->setFormAction($ctrl->getFormAction($this->getParentObject()));
 
 		$this->setRowTemplate('tpl.object_copy_progress_table_row.html', 'Services/Object');
 
-		$this->addColumn($this->lng->txt('obj_target_location'), '');
-		$this->addColumn($this->lng->txt('obj_copy_progress'), '');
+		$this->addColumn($lng->txt('obj_target_location'), '');
+		$this->addColumn($lng->txt('obj_copy_progress'), '');
 	}
 
 	/**
@@ -66,6 +73,12 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
+		global $DIC;
+
+		$tpl = $DIC->ui()->mainTemplate();
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
 		$this->tpl->setVariable('VAL_ID', $set['ref_id']);
 		$this->tpl->setVariable('OBJ_TITLE', $set['title']);
 
@@ -86,9 +99,9 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 		$progress->setAnimated(TRUE);
 		$progress->setId($set['copy_id']);
 
-		$GLOBALS['ilCtrl']->setParameter($this->getParentObject(), 'copy_id', $set['copy_id']);
+		$ctrl->setParameter($this->getParentObject(), 'copy_id', $set['copy_id']);
 		$progress->setAsyncStatusUrl(
-				$GLOBALS['ilCtrl']->getLinkTarget(
+			$ctrl->getLinkTarget(
 						$this->getParentObject(), 
 						'updateProgress', 
 						'', 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util;
 
@@ -15,7 +16,7 @@ use ILIAS\Filesystem\FilesystemsAware;
  * @since 5.3
  * @version 1.0.0
  */
-class LegacyPathHelper {
+final class LegacyPathHelper {
 
 	use FilesystemsAware;
 
@@ -31,7 +32,7 @@ class LegacyPathHelper {
 	 *
 	 * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
 	 */
-	public static function deriveFilesystemFrom($absolutePath) {
+	public static function deriveFilesystemFrom(string $absolutePath): Filesystem {
 
 		switch (true) {
 			case strpos($absolutePath, CLIENT_DATA_DIR . "/temp") === 0:
@@ -63,7 +64,7 @@ class LegacyPathHelper {
 	 *
 	 * @see LegacyPathHelper::deriveFilesystemFrom()
 	 */
-	public static function createRelativePath($absolutePath) {
+	public static function createRelativePath(string $absolutePath): string {
 
 		$web = CLIENT_WEB_DIR;
 		$webRelativeWithLeadingDot = './' . ILIAS_WEB_DIR . '/' . CLIENT_ID;

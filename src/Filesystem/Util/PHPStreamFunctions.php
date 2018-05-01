@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util;
 
@@ -15,7 +16,7 @@ namespace ILIAS\Filesystem\Util;
  * @since 5.3
  * @version 1.0.0
  */
-class PHPStreamFunctions {
+final class PHPStreamFunctions {
 
 	/**
 	 * ftell wrapper

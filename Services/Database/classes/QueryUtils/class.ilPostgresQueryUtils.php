@@ -150,13 +150,14 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 	 * @return string
 	 */
 	public function locate($a_needle, $a_string, $a_start_pos = 1) {
-		$locate = ' LOCATE( ';
-		$locate .= $a_needle;
-		$locate .= ',';
+		$locate = ' STRPOS(SUBSTR(';
 		$locate .= $a_string;
-		$locate .= ',';
+		$locate .= ', ';
 		$locate .= $a_start_pos;
-		$locate .= ') ';
+		$locate .= '), ';
+		$locate .= $a_needle;
+		$locate .= ') + ';
+		$locate .= --$a_start_pos;
 
 		return $locate;
 	}

@@ -4185,6 +4185,9 @@ class ilUtil
 		global $DIC;
 		$targetFilename = basename($a_target);
 
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
+
 		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
 		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
 
@@ -4216,9 +4219,6 @@ class ilUtil
 
 			return false;
 		}
-
-		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
 
 		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
@@ -5033,14 +5033,19 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
-		
+		/* We MUST NOT set the global constant here, because this affects the session_set_cookie_params() call as well
 		if(!defined('IL_COOKIE_SECURE'))
 		{
 			define('IL_COOKIE_SECURE', false);
 		}
+		*/
+		$secure = false;
+		if (defined('IL_COOKIE_SECURE')) {
+			$secure = IL_COOKIE_SECURE;
+		}
 
 		setcookie( $a_cookie_name, $a_cookie_value, $expire,
-			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, $secure, IL_COOKIE_HTTPONLY
 		);
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;

@@ -24,7 +24,7 @@ interface Filesystems {
 	 * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
 	 * @since 5.3
 	 */
-	public function web();
+	public function web(): Filesystem;
 
 
 	/**
@@ -36,7 +36,7 @@ interface Filesystems {
 	 * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
 	 * @since 5.3
 	 */
-	public function storage();
+	public function storage(): Filesystem;
 
 
 	/**
@@ -47,7 +47,7 @@ interface Filesystems {
 	 * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
 	 * @since 5.3
 	 */
-	public function temp();
+	public function temp(): Filesystem;
 
 
 	/**
@@ -58,6 +58,6 @@ interface Filesystems {
 	 * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
 	 * @since 5.3
 	 */
-	public function customizing();
+	public function customizing(): Filesystem;
 
 }

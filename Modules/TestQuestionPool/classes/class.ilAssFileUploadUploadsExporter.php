@@ -26,6 +26,11 @@ class ilAssFileUploadUploadsExporter
 	/**
 	 * @var integer
 	 */
+	protected $refId;
+	
+	/**
+	 * @var integer
+	 */
 	private $testId;
 
 	/**
@@ -65,6 +70,22 @@ class ilAssFileUploadUploadsExporter
 	{
 		$this->db = $db;
 		$this->lng = $lng;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getRefId()
+	{
+		return $this->refId;
+	}
+	
+	/**
+	 * @param int $refId
+	 */
+	public function setRefId($refId)
+	{
+		$this->refId = $refId;
 	}
 
 	/**
@@ -192,7 +213,10 @@ class ilAssFileUploadUploadsExporter
 
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($this->db, $this->lng);
-		$participantData->setActiveIds($activeIds);
+		$participantData->setActiveIdsFilter($activeIds);
+		$participantData->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
+		);
 		$participantData->load($this->getTestId());
 		
 		return $participantData;
@@ -202,6 +226,11 @@ class ilAssFileUploadUploadsExporter
 	{
 		foreach($solutionData as $activeId => $passes)
 		{
+			if( !in_array($activeId, $participantData->getActiveIds()) )
+			{
+				continue;
+			}
+			
 			foreach($passes as $pass => $files)
 			{
 				foreach($files as $file)

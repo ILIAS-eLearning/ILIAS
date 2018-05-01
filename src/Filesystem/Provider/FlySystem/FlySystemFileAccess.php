@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
@@ -49,8 +50,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function read($path) {
-		$this->nonNull($path, 'path');
+	public function read(string $path): string {
 
 		try {
 			$result = $this->flySystemFS->read($path);
@@ -76,8 +76,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function has($path) {
-		$this->nonNull($path, 'path');
+	public function has(string $path): bool {
 
 		return $this->flySystemFS->has($path);
 	}
@@ -93,8 +92,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @throws FileNotFoundException    If the file is not found.
 	 * @throws IOException              If the mime-type could not be determined.
 	 */
-	public function getMimeType($path) {
-		$this->nonNull($path, 'path');
+	public function getMimeType(string $path): string {
 
 		try {
 			$mimeType = $this->flySystemFS->getMimetype($path);
@@ -123,8 +121,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function getTimestamp($path) {
-		$this->nonNull($path, 'path');
+	public function getTimestamp(string $path): \DateTime {
 
 		try {
 			$rawTimestamp = $this->flySystemFS->getTimestamp($path);
@@ -156,9 +153,7 @@ class FlySystemFileAccess implements FileAccess {
 	 *
 	 * @see     DataSize
 	 */
-	public function getSize($path, $fileSizeUnit) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($fileSizeUnit, 'fileSizeUnit');
+	public function getSize(string $path, int $fileSizeUnit): DataSize {
 
 		try
 		{
@@ -197,9 +192,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function setVisibility($path, $visibility) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($visibility, 'visibility');
+	public function setVisibility(string $path, string $visibility): bool {
 
 		if($this->has($path) === false)
 			throw new FileNotFoundException("Path \"$path\" not found.");
@@ -219,7 +212,7 @@ class FlySystemFileAccess implements FileAccess {
 	 *
 	 * @throws \InvalidArgumentException Thrown if the given visibility was considered as invalid.
 	 */
-	private function validateVisibility($visibility) {
+	private function validateVisibility(string $visibility) {
 		if(strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0 && strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0)
 			throw new \InvalidArgumentException("The access must be 'public' or 'private' but '$visibility' was given.");
 	}
@@ -242,8 +235,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function getVisibility($path) {
-		$this->nonNull($path, 'path');
+	public function getVisibility(string $path): string {
 
 		if($this->has($path) === false)
 			throw new FileNotFoundException("Path \"$path\" not found.");
@@ -271,9 +263,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function write($path, $content) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($content, 'content');
+	public function write(string $path, string $content) {
 
 		try
 		{
@@ -301,9 +291,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function update($path, $newContent) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($newContent, 'newContent');
+	public function update(string $path, string $newContent) {
 
 		try{
 			if($this->flySystemFS->update($path, $newContent) === false)
@@ -328,9 +316,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function put($path, $content) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($content, 'content');
+	public function put(string $path, string $content) {
 
 		if($this->flySystemFS->put($path, $content) === false)
 			throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
@@ -350,8 +336,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function delete($path) {
-		$this->nonNull($path, 'path');
+	public function delete(string $path) {
 
 		try {
 			if($this->flySystemFS->delete($path) === false)
@@ -376,8 +361,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function readAndDelete($path) {
-		$this->nonNull($path, 'path');
+	public function readAndDelete(string $path): string {
 
 		$content = $this->read($path);
 		$this->delete($path);
@@ -401,9 +385,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function rename($path, $newPath) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($newPath, 'newPath');
+	public function rename(string $path, string $newPath) {
 
 		try
 		{
@@ -434,10 +416,7 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function copy($path, $copyPath) {
-		$this->nonNull($path, 'path');
-		$this->nonNull($copyPath, 'copyPath');
-
+	public function copy(string $path, string $copyPath) {
 		try
 		{
 			if($this->flySystemFS->copy($path, $copyPath) === false)
@@ -449,20 +428,5 @@ class FlySystemFileAccess implements FileAccess {
 		catch(\League\Flysystem\FileNotFoundException $ex) {
 			throw new FileNotFoundException("File source \"$path\" was not found copy failed.");
 		}
-	}
-
-
-	/**
-	 * Validates that the passed argument is not null or an exception is thrown.
-	 * If the value which should be checked is not null, no further actions are taken.
-	 *
-	 * @param mixed     $toCheck        The value which should be checked.
-	 * @param string    $parameterName  The name of the parameter which was checked by this method. Which is used to generate the error message.
-	 *
-	 * @throws \InvalidArgumentException If the passed $toCheck value is null.
-	 */
-	private function nonNull($toCheck, $parameterName) {
-		if(is_null($toCheck))
-			throw new \InvalidArgumentException("The parameter \"$parameterName\" must not be null.");
 	}
 }

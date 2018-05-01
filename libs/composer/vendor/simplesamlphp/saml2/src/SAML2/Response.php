@@ -1,11 +1,13 @@
 <?php
 
+namespace SAML2;
+
 /**
  * Class for SAML 2 Response messages.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_Response extends SAML2_StatusResponse
+class Response extends StatusResponse
 {
     /**
      * The assertions in this response.
@@ -15,27 +17,27 @@ class SAML2_Response extends SAML2_StatusResponse
     /**
      * Constructor for SAML 2 response messages.
      *
-     * @param DOMElement|NULL $xml The input message.
+     * @param \DOMElement|null $xml The input message.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('Response', $xml);
 
         $this->assertions = array();
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
-        for ($node = $xml->firstChild; $node !== NULL; $node = $node->nextSibling) {
-            if ($node->namespaceURI !== SAML2_Const::NS_SAML) {
+        for ($node = $xml->firstChild; $node !== null; $node = $node->nextSibling) {
+            if ($node->namespaceURI !== Constants::NS_SAML) {
                 continue;
             }
 
             if ($node->localName === 'Assertion') {
-                $this->assertions[] = new SAML2_Assertion($node);
+                $this->assertions[] = new Assertion($node);
             } elseif ($node->localName === 'EncryptedAssertion') {
-                $this->assertions[] = new SAML2_EncryptedAssertion($node);
+                $this->assertions[] = new EncryptedAssertion($node);
             }
         }
     }
@@ -43,7 +45,7 @@ class SAML2_Response extends SAML2_StatusResponse
     /**
      * Retrieve the assertions in this response.
      *
-     * @return SAML2_Assertion[]|SAML2_EncryptedAssertion[]
+     * @return \SAML2\Assertion[]|\SAML2\EncryptedAssertion[]
      */
     public function getAssertions()
     {
@@ -53,7 +55,7 @@ class SAML2_Response extends SAML2_StatusResponse
     /**
      * Set the assertions that should be included in this response.
      *
-     * @param SAML2_Assertion[]|SAML2_EncryptedAssertion[] The assertions.
+     * @param \SAML2\Assertion[]|\SAML2\EncryptedAssertion[] The assertions.
      */
     public function setAssertions(array $assertions)
     {
@@ -63,19 +65,17 @@ class SAML2_Response extends SAML2_StatusResponse
     /**
      * Convert the response message to an XML element.
      *
-     * @return DOMElement This response.
+     * @return \DOMElement This response.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 
-        /** @var SAML2_Assertion|SAML2_EncryptedAssertion $assertion */
+        /** @var \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion */
         foreach ($this->assertions as $assertion) {
-
             $assertion->toXML($root);
         }
 
         return $root;
     }
-
 }
