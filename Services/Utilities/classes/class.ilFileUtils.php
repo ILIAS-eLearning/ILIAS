@@ -644,6 +644,7 @@ class ilFileUtils
 			'ico',   // IMAGE__X_ICON,
 			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
+			'ipynb'						// iPython file for Jupyter Notebooks
 			'java',   // TEXT__X_JAVA_SOURCE,
 			'jbf', // scorm wbts
 			'jpeg',   // IMAGE__PJPEG,
