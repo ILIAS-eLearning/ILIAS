@@ -1,9 +1,13 @@
 <?php
 
+namespace SAML2\Configuration;
+
+use SAML2\Exception\InvalidArgumentException;
+
 /**
  * Value Object representing the current destination
  */
-class SAML2_Configuration_Destination
+class Destination
 {
     /**
      * @var string
@@ -16,18 +20,18 @@ class SAML2_Configuration_Destination
     public function __construct($destination)
     {
         if (!is_string($destination)) {
-            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $destination);
+            throw InvalidArgumentException::invalidType('string', $destination);
         }
 
         $this->destination = $destination;
     }
 
     /**
-     * @param SAML2_Configuration_Destination $otherDestination
+     * @param \SAML2\Configuration\Destination $otherDestination
      *
      * @return bool
      */
-    public function equals(SAML2_Configuration_Destination $otherDestination)
+    public function equals(Destination $otherDestination)
     {
         return $this->destination === $otherDestination->destination;
     }
