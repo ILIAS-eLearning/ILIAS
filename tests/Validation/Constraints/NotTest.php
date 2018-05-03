@@ -80,7 +80,8 @@ class NotTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function constraintsProvider() {
-		$f = new Validation\Factory(new Data\Factory());
+		$lng = $this->createMock(\ilLanguage::class);
+		$f = new Validation\Factory(new Data\Factory(), $lng);
 
 		return array(array($f->not($f->isInt()), 2, 2.2),
 					 array($f->not($f->greaterThan(5)), 6, 4),

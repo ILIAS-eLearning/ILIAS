@@ -8,11 +8,11 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class IsNumeric extends Custom implements Constraint {
-	public function __construct(Data\Factory $data_factory) {
+	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		parent::__construct( function ($value) {
 				return is_numeric($value);
 			}, 
-			function ($value) {
+			function ($txt, $value) {
 				if (is_array($value)) {
 					return "array is not a number.";
 				}
@@ -20,6 +20,9 @@ class IsNumeric extends Custom implements Constraint {
 					return "object of type'".gettype($value)."' is not a number.";
 				}
 				return "'".$value."' is not a number.";
-			}, $data_factory);
+			},
+			$data_factory,
+			$lng
+		);
 	}
 }

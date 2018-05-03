@@ -21,7 +21,7 @@ class IsArrayOf extends Custom implements Constraint {
 	 * @param Data\Factory $data_factory
 	 * @param Constraint   $on_element
 	 */
-	public function __construct(Data\Factory $data_factory, Constraint $on_element) {
+	public function __construct(Data\Factory $data_factory, Constraint $on_element, \ilLanguage $lng) {
 		parent::__construct(
 			function ($value) use ($on_element) {
 				if (!is_array($value)) {
@@ -34,13 +34,15 @@ class IsArrayOf extends Custom implements Constraint {
 				}
 
 				return true;
-			}, function ($value) use ($on_element) {
-			if (!is_array($value)) {
-				return "'Value must be type of array, " . gettype($value) . " given'.";
-			}
-
-			return "'All elements of array must be of Constraint " . get_class($on_element) . "'.";
-		}, $data_factory
+			},
+			function ($value) use ($on_element) {
+				if (!is_array($value)) {
+					return "'Value must be type of array, " . gettype($value) . " given'.";
+				}
+				return "'All elements of array must be of Constraint " . get_class($on_element) . "'.";
+			},
+			$data_factory,
+			$lng
 		);
 	}
 }

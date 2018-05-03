@@ -13,7 +13,8 @@ use ILIAS\Data;
  */
 class ParallelTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
-		$this->f = new Validation\Factory(new Data\Factory());
+		$lng = $this->createMock(\ilLanguage::class);
+		$this->f = new Validation\Factory(new Data\Factory(), $lng);
 	}
 
 	protected function tearDown() {

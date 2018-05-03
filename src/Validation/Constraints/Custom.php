@@ -13,6 +13,11 @@ class Custom implements Constraint {
 	protected $data_factory;
 
 	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var callable
 	 */
 	protected $is_ok;
@@ -23,9 +28,9 @@ class Custom implements Constraint {
 	protected $error;
 
 	/**
-	 * @param string|callable   $error
+	 * @param string|callable	$error
 	 */
-	public function __construct(callable $is_ok, $error, Data\Factory $data_factory) {
+	public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->is_ok = $is_ok;
 
 		if(!is_callable($error)) {
@@ -35,6 +40,7 @@ class Custom implements Constraint {
 		}
 
 		$this->data_factory = $data_factory;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -98,6 +104,20 @@ class Custom implements Constraint {
 	 * @return string
 	 */
 	final public function getErrorMessage($value) {
-		return call_user_func($this->error, $value);
+		$txt_closure = function() {
+			$args = func_get_args();
+			if (count($args) < 1) {
+				throw new \InvalidArgumentException(
+					"Expected an id of a lang var as first parameter");
+			}
+			$error = $this->lng->txt($args[0]);
+			if (count($args) > 1) {
+				$args[0] = $error;
+				$error = call_user_func_array("sprintf", $args);
+			}
+			return $error;
+		};
+
+		return call_user_func($this->error, $txt_closure, $value);
 	}
 }

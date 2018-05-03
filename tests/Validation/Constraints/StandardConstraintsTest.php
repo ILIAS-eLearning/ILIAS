@@ -19,7 +19,8 @@ class StandardConstraintsTest extends PHPUnit_Framework_TestCase {
 	 * @return array[[$constraint,$ok_values,$error_values]]
 	 */
 	public function constraintsProvider() {
-		$f = new Validation\Factory(new Data\Factory());
+		$lng = $this->createMock(\ilLanguage::class);
+		$f = new Validation\Factory(new Data\Factory(), $lng);
 
 		return array(array($f->isInt(), [2], [2.2]),
 				array($f->greaterThan(5), [6], [4]),
