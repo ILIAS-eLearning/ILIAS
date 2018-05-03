@@ -18,7 +18,8 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 	protected $f = null;
 
 	protected function setUp() {
-		$this->f = new Validation\Factory(new Data\Factory());
+		$this->lng = $this->createMock(\ilLanguage::class);
+		$this->f = new Validation\Factory(new Data\Factory(), $this->lng);
 	}
 
 	protected function tearDown() {
