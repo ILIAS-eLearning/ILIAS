@@ -242,7 +242,7 @@ class ilDiskQuotaHandler
 	{
 		global $ilUser;
 				
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php";			
 		if(!ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{			
 			return true;
@@ -255,7 +255,7 @@ class ilDiskQuotaHandler
 			$usage += $a_additional_size;
 		}
 						
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaChecker.php";	
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaChecker.php";	
 		$quota = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($ilUser->getId());				
 		$quota = $quota["disk_quota"];
 		
@@ -272,7 +272,7 @@ class ilDiskQuotaHandler
 	{
 		global $ilUser, $lng;
 		
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php";			
 		if(!ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{			
 			return;
@@ -281,7 +281,7 @@ class ilDiskQuotaHandler
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 		$usage = ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId());
 						
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaChecker.php";	
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaChecker.php";	
 		$quota = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($ilUser->getId());				
 		$quota = $quota["disk_quota"];
 		

@@ -783,7 +783,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			
 		$has_form_content = false;
 				
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php";			
 		$check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();			
 		$quota_sum = 0;				
 							
@@ -1018,7 +1018,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 
 			//quota manipulation
-			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php";
 			$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
 			$quota_sum = 0;
 
