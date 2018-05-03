@@ -196,6 +196,16 @@ var ClozeGapBuilder = (function () {
 
 	pro.bindTextareaHandlerTiny = function () {
 		var tinymce_iframe_selector = $('.mceIframeContainer iframe').eq(1).contents().find('body');
+
+		tinymce_iframe_selector.off([
+			"keydown",
+			"keyup",
+			"click",
+			"mouseleave",
+			"blur",
+			"paste"
+		].join(" "));
+
 		tinymce_iframe_selector.on("keydown", function () {
 			//ToDo: find out why location function breaks keyboard input
 			/*var inst = tinyMCE.activeEditor;
