@@ -1510,7 +1510,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// #10353
 		$matchings = array();
 		foreach ($this->getMatchingPairs() as $pair)
-		{			
+		{
+// fau: fixLmMatchingPoints - ignore matching pairs with 0 or negative points
+			if ($pair->points <= 0)
+			{
+				continue;
+			}
+// fau.
+
 			$pid = $pair->definition->identifier;
 			if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
 			{
