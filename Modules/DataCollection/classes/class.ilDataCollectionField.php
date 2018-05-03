@@ -467,7 +467,7 @@ class ilDataCollectionField {
 	 */
 	protected function loadViewDefinition($view) {
 		global $ilDB;
-		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def
+		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def 
 						INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = " . $ilDB->quote($view, "integer") . "
 						WHERE def.field LIKE '" . $this->id . "' AND view.table_id = " . $ilDB->quote($this->table_id, "integer");
 		$set = $ilDB->query($query);

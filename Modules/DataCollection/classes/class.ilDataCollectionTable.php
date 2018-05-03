@@ -484,9 +484,9 @@ class ilDataCollectionTable {
 		if ($this->fields === NULL) {
 			global $ilDB;
 
-			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
-			          INNER JOIN il_dcl_view AS view ON view.table_id = field.table_id
-			          INNER JOIN il_dcl_viewdefinition AS def ON def.view_id = view.id
+			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field 
+			          INNER JOIN il_dcl_view AS view ON view.table_id = field.table_id 
+			          INNER JOIN il_dcl_viewdefinition AS def ON def.view_id = view.id 
 			          WHERE field.table_id =" . $ilDB->quote($this->getId(), "integer") . "
 			          ORDER BY def.field_order DESC";
 			$fields = array();
@@ -1451,22 +1451,22 @@ class ilDataCollectionTable {
 						break;
 					case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 						$join_str .=
-							"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+							" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 							. $ilDB->quote($filter_field_id, 'integer') . ") ";
-						$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
-						$join_str .= "INNER JOIN object_reference AS filter_object_reference_{$filter_field_id} ON (filter_object_reference_{$filter_field_id}.ref_id = filter_stloc_{$filter_field_id}.value ) ";
+						$join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
+						$join_str .= " INNER JOIN object_reference AS filter_object_reference_{$filter_field_id} ON (filter_object_reference_{$filter_field_id}.ref_id = filter_stloc_{$filter_field_id}.value ) ";
 						$join_str .=
-							"INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_object_reference_{$filter_field_id}.obj_id AND filter_object_data_{$filter_field_id}.title LIKE "
+							" INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_object_reference_{$filter_field_id}.obj_id AND filter_object_data_{$filter_field_id}.title LIKE "
 							. $ilDB->quote("%$filter_value%", 'text') . ") ";
 						break;
 					case ilDataCollectionDatatype::INPUTFORMAT_MOB:
 					case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 						$join_str .=
-							"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+							" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 							. $ilDB->quote($filter_field_id, 'integer') . ") ";
-						$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
+						$join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
 						$join_str .=
-							"INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_stloc_{$filter_field_id}.value AND filter_object_data_{$filter_field_id}.title LIKE "
+							" INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_stloc_{$filter_field_id}.value AND filter_object_data_{$filter_field_id}.title LIKE "
 							. $ilDB->quote("%$filter_value%", 'text') . ") ";
 						break;
 					case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
@@ -1481,9 +1481,9 @@ class ilDataCollectionTable {
 							}
 						} else {
 							$join_str .=
-								"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+								" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
-							$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id ";
+							$join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id ";
 							if ($date_from) {
 								$join_str .= "AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($date_from, 'date') . " ";
 							}
@@ -1505,9 +1505,9 @@ class ilDataCollectionTable {
 							}
 						} else {
 							$join_str .=
-								"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+								" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
-							$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
+							$join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
 							if (! is_null($from)) {
 								$join_str .= " AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($from, 'integer');
 							}
@@ -1520,13 +1520,13 @@ class ilDataCollectionTable {
 					case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 						if ($filter_value == "checked") {
 							$join_str .=
-								"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+								" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
-							$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
+							$join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
 							$join_str .= " AND filter_stloc_{$filter_field_id}.value = " . $ilDB->quote(1, 'integer');
 						} else {
 							$join_str .=
-								"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+								" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
 							$join_str .= "LEFT JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
 							$where_additions .= " AND (filter_stloc_{$filter_field_id}.value <> " . $ilDB->quote(1, 'integer')
@@ -1537,11 +1537,11 @@ class ilDataCollectionTable {
 					case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 						if ($filter_field->isStandardField()) {
 							$join_str .=
-								"INNER JOIN usr_data AS filter_usr_data_{$filter_field_id} ON (filter_usr_data_{$filter_field_id}.usr_id = record.{$filter_field_id} AND filter_usr_data_{$filter_field_id}.login LIKE "
+								" INNER JOIN usr_data AS filter_usr_data_{$filter_field_id} ON (filter_usr_data_{$filter_field_id}.usr_id = record.{$filter_field_id} AND filter_usr_data_{$filter_field_id}.login LIKE "
 								. $ilDB->quote("%$filter_value%", 'text') . ") ";
 						} else {
 							$join_str .=
-								" INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
+								"  INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
 							$join_str .=
 								" INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value LIKE "

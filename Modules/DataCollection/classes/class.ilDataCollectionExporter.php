@@ -93,9 +93,9 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		$page_object_ids = array();
 		foreach ($a_ids as $dcl_obj_id) {
 			$sql = "SELECT stloc2.value AS ext_id, f.`datatype_id` FROM il_dcl_stloc2_value AS stloc2 "
-				. "INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) "
-				. "INNER JOIN il_dcl_field AS f ON (rf.`field_id` = f.`id`) " . "INNER JOIN il_dcl_table AS t ON (t.`id` = f.`table_id`) "
-				. "WHERE t.`obj_id` = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
+				. " INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) "
+				. " INNER JOIN il_dcl_field AS f ON (rf.`field_id` = f.`id`) " . "INNER JOIN il_dcl_table AS t ON (t.`id` = f.`table_id`) "
+				. " WHERE t.`obj_id` = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
 				. implode(',', array_keys($dependencies)) . ") AND stloc2.`value` IS NOT NULL";
 			$set = $this->db->query($sql);
 			while ($rec = $this->db->fetchObject($set)) {
@@ -120,7 +120,7 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		$page_object_ids = array();
 		foreach ($a_ids as $dcl_obj_id) {
 			// If a DCL table has a detail view, we need to export the associated page objects!
-			$sql = "SELECT il_dcl_view.id AS page_obj_id FROM il_dcl_view " . "INNER JOIN il_dcl_table ON (il_dcl_table.id = il_dcl_view.table_id) "
+			$sql = "SELECT il_dcl_view.id AS page_obj_id FROM il_dcl_view " . " INNER JOIN il_dcl_table ON (il_dcl_table.id = il_dcl_view.table_id) "
 				. "WHERE il_dcl_table.obj_id = " . $this->db->quote($dcl_obj_id, 'integer') . " "
 				. "AND il_dcl_view.type=0 AND il_dcl_view.formtype=0";
 			$set = $this->db->query($sql);
