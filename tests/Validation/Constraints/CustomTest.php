@@ -6,6 +6,12 @@ require_once("libs/composer/vendor/autoload.php");
 use ILIAS\Validation;
 use ILIAS\Data;
 
+class MyValidationConstraintsCustom extends Validation\Constraints\Custom {
+	public function _getLngClosure() {
+		return $this->getLngClosure();
+	}
+}
+
 /**
  * TestCase for the custom constraints
  *
@@ -17,33 +23,52 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $f = null;
 
-	public function test_use_txt() {
+	public function setUp() {
 		$is_ok = function ($value) {
 			return false;
 		};
-		$txt_id = "TXT_ID";
+		$this->txt_id = "TXT_ID";
 		$error = function (callable $txt, $value) use ($txt_id) {
 			return $txt($txt_id, $value);
 		};
-		$lng = $this->createMock(\ilLanguage::class);
-		$c = new Validation\Constraints\Custom($is_ok, $error, new Data\Factory(), $lng);
+		$this->lng = $this->createMock(\ilLanguage::class);
+		$this->constraint = new MyValidationConstraintsCustom($is_ok, $error, new Data\Factory(), $this->lng);
+	}
 
+	public function test_use_txt() {
 		$txt_out = "'%s'";
-		$lng
+		$this->lng
 			->expects($this->once())
 			->method("txt")
 			->with($txt_id)
 			->willReturn($txt_out);
 
 		$value = "VALUE";
-		$problem = $c->problemWith($value);
+		$problem = $this->constraint->problemWith($value);
 
 		$this->assertEquals(sprintf($txt_out, $value), $problem);
 	}
 
 	public function test_exception_on_no_parameter() {
-		}
+		$lng_closure = $this->constraint->_getLngClosure();
+
+		$this->expectException(\InvalidArgumentException::class);
+
+		$lng_closure();
+	}
 
 	public function test_no_sprintf_on_one_parameter() {
+		$lng_closure = $this->constraint->_getLngClosure();
+
+		$txt_out = "txt";
+		$this->lng
+			->expects($this->once())
+			->method("txt")
+			->with($this->txt_id)
+			->willReturn($txt_out);
+
+		$res = $lng_closure($this->txt_id);
+
+		$this->assertEquals($txt_out, $res);
 	}
 }

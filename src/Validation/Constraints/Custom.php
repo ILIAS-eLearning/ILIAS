@@ -104,7 +104,18 @@ class Custom implements Constraint {
 	 * @return string
 	 */
 	final public function getErrorMessage($value) {
-		$txt_closure = function() {
+		$lng_closure = $this->getLngClosure();
+		return call_user_func($this->error, $lng_closure, $value);
+	}
+
+	/**
+	 * Get the closure to be passed to the error-function that does i18n and
+	 * sprintf.
+	 *
+	 * @return	\Closure
+	 */
+	final protected function getLngClosure() {
+		return function() {
 			$args = func_get_args();
 			if (count($args) < 1) {
 				throw new \InvalidArgumentException(
@@ -117,7 +128,5 @@ class Custom implements Constraint {
 			}
 			return $error;
 		};
-
-		return call_user_func($this->error, $txt_closure, $value);
 	}
 }
