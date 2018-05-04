@@ -75,10 +75,10 @@ class AuthnAuthorityDescriptor extends RoleDescriptor
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->AuthnQueryService)');
-        assert('!empty($this->AuthnQueryService)');
-        assert('is_array($this->AssertionIDRequestService)');
-        assert('is_array($this->NameIDFormat)');
+        assert(is_array($this->AuthnQueryService));
+        assert(!empty($this->AuthnQueryService));
+        assert(is_array($this->AssertionIDRequestService));
+        assert(is_array($this->NameIDFormat));
 
         $e = parent::toXML($parent);
 

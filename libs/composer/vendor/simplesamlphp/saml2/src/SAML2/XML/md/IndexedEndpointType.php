@@ -56,9 +56,9 @@ class IndexedEndpointType extends EndpointType
      */
     public function toXML(\DOMElement $parent, $name)
     {
-        assert('is_string($name)');
-        assert('is_int($this->index)');
-        assert('is_null($this->isDefault) || is_bool($this->isDefault)');
+        assert(is_string($name));
+        assert(is_int($this->index));
+        assert(is_null($this->isDefault) || is_bool($this->isDefault));
 
         $e = parent::toXML($parent, $name);
         $e->setAttribute('index', (string) $this->index);

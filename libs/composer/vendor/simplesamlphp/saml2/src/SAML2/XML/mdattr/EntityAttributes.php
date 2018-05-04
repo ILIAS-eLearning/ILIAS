@@ -56,7 +56,7 @@ class EntityAttributes
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->children)');
+        assert(is_array($this->children));
 
         $doc = $parent->ownerDocument;
 

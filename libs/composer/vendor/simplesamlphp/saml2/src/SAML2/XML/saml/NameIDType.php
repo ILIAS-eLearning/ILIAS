@@ -117,9 +117,9 @@ abstract class NameIDType extends BaseIDType
      */
     public function toXML(\DOMElement $parent = null)
     {
-        assert('is_string($this->Format) || is_null($this->Format)');
-        assert('is_string($this->SPProvidedID) || is_null($this->SPProvidedID)');
-        assert('is_string($this->value)');
+        assert(is_string($this->Format) || is_null($this->Format));
+        assert(is_string($this->SPProvidedID) || is_null($this->SPProvidedID));
+        assert(is_string($this->value));
 
         $element = parent::toXML($parent);
 

@@ -30,7 +30,7 @@ class AttributeValue implements \Serializable
      */
     public function __construct($value)
     {
-        assert('is_string($value) || $value instanceof \DOMElement');
+        assert(is_string($value) || $value instanceof \DOMElement);
 
         if (is_string($value)) {
             $doc = DOMDocumentFactory::create();
@@ -64,8 +64,8 @@ class AttributeValue implements \Serializable
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('$this->element instanceof \DOMElement');
-        assert('$this->element->namespaceURI === \SAML2\Constants::NS_SAML && $this->element->localName === "AttributeValue"');
+        assert($this->element instanceof \DOMElement);
+        assert($this->element->namespaceURI === \SAML2\Constants::NS_SAML && $this->element->localName === "AttributeValue");
 
         $v = Utils::copyElement($this->element, $parent);
 
@@ -89,7 +89,7 @@ class AttributeValue implements \Serializable
      */
     public function __toString()
     {
-        assert('$this->element instanceof \DOMElement');
+        assert($this->element instanceof \DOMElement);
 
         $doc = $this->element->ownerDocument;
 

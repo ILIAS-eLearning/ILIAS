@@ -98,7 +98,7 @@ class RoleDescriptor extends SignedElementHelper
      */
     protected function __construct($elementName, \DOMElement $xml = null)
     {
-        assert('is_string($elementName)');
+        assert(is_string($elementName));
 
         parent::__construct($xml);
         $this->elementName = $elementName;
@@ -152,15 +152,15 @@ class RoleDescriptor extends SignedElementHelper
      */
     protected function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->ID) || is_string($this->ID)');
-        assert('is_null($this->validUntil) || is_int($this->validUntil)');
-        assert('is_null($this->cacheDuration) || is_string($this->cacheDuration)');
-        assert('is_array($this->protocolSupportEnumeration)');
-        assert('is_null($this->errorURL) || is_string($this->errorURL)');
-        assert('is_array($this->Extensions)');
-        assert('is_array($this->KeyDescriptor)');
-        assert('is_null($this->Organization) || $this->Organization instanceof \SAML2\XML\md\Organization');
-        assert('is_array($this->ContactPerson)');
+        assert(is_null($this->ID) || is_string($this->ID));
+        assert(is_null($this->validUntil) || is_int($this->validUntil));
+        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
+        assert(is_array($this->protocolSupportEnumeration));
+        assert(is_null($this->errorURL) || is_string($this->errorURL));
+        assert(is_array($this->Extensions));
+        assert(is_array($this->KeyDescriptor));
+        assert(is_null($this->Organization) || $this->Organization instanceof Organization);
+        assert(is_array($this->ContactPerson));
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, $this->elementName);
         $parent->appendChild($e);

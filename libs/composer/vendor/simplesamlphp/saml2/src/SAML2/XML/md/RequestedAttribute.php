@@ -44,7 +44,7 @@ class RequestedAttribute extends Attribute
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_bool($this->isRequired) || is_null($this->isRequired)');
+        assert(is_bool($this->isRequired) || is_null($this->isRequired));
 
         $e = $this->toXMLInternal($parent, Constants::NS_MD, 'md:RequestedAttribute');
 

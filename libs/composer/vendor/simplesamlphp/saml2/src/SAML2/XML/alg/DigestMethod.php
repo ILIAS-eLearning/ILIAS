@@ -47,7 +47,7 @@ class DigestMethod
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->Algorithm)');
+        assert(is_string($this->Algorithm));
 
         $doc = $parent->ownerDocument;
         $e = $doc->createElementNS(Common::NS, 'alg:DigestMethod');

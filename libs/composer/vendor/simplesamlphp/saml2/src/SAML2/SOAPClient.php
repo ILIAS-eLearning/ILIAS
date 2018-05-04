@@ -202,7 +202,7 @@ class SOAPClient
      */
     public static function validateSSL($data, XMLSecurityKey $key)
     {
-        assert('is_string($data)');
+        assert(is_string($data));
 
         $keyInfo = openssl_pkey_get_details($key->key);
         if ($keyInfo === false) {

@@ -135,7 +135,7 @@ abstract class Message implements SignedElement
      */
     protected function __construct($tagName, \DOMElement $xml = null)
     {
-        assert('is_string($tagName)');
+        assert(is_string($tagName));
         $this->tagName = $tagName;
 
         $this->id = Utils::getContainer()->generateId();
@@ -224,7 +224,7 @@ abstract class Message implements SignedElement
      */
     public function addValidator($function, $data)
     {
-        assert('is_callable($function)');
+        assert(is_callable($function));
 
         $this->validators[] = array(
             'Function' => $function,
@@ -288,7 +288,7 @@ abstract class Message implements SignedElement
      */
     public function setId($id)
     {
-        assert('is_string($id)');
+        assert(is_string($id));
 
         $this->id = $id;
     }
@@ -310,7 +310,7 @@ abstract class Message implements SignedElement
      */
     public function setIssueInstant($issueInstant)
     {
-        assert('is_int($issueInstant)');
+        assert(is_int($issueInstant));
 
         $this->issueInstant = $issueInstant;
     }
@@ -332,7 +332,7 @@ abstract class Message implements SignedElement
      */
     public function setDestination($destination)
     {
-        assert('is_string($destination) || is_null($destination)');
+        assert(is_string($destination) || is_null($destination));
 
         $this->destination = $destination;
     }
@@ -348,7 +348,7 @@ abstract class Message implements SignedElement
      */
     public function setConsent($consent)
     {
-        assert('is_string($consent)');
+        assert(is_string($consent));
 
         $this->consent = $consent;
     }
@@ -388,7 +388,7 @@ abstract class Message implements SignedElement
      */
     public function setIssuer($issuer)
     {
-        assert('is_string($issuer) || $issuer instanceof \SAML2\XML\saml\Issuer || is_null($issuer)');
+        assert(is_string($issuer) || $issuer instanceof XML\saml\Issuer || is_null($issuer));
 
         $this->issuer = $issuer;
     }
@@ -420,7 +420,7 @@ abstract class Message implements SignedElement
      */
     public function setRelayState($relayState)
     {
-        assert('is_string($relayState) || is_null($relayState)');
+        assert(is_string($relayState) || is_null($relayState));
 
         $this->relayState = $relayState;
     }
@@ -602,7 +602,7 @@ abstract class Message implements SignedElement
      */
     public function setExtensions($extensions)
     {
-        assert('is_array($extensions) || is_null($extensions)');
+        assert(is_array($extensions) || is_null($extensions));
 
         $this->extensions = $extensions;
     }

@@ -76,7 +76,7 @@ class SignedElementHelper implements SignedElement
      */
     public function addValidator($function, $data)
     {
-        assert('is_callable($function)');
+        assert(is_callable($function));
 
         $this->validators[] = array(
             'Function' => $function,

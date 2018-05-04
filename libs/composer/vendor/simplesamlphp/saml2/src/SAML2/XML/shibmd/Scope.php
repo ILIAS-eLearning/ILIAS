@@ -54,8 +54,8 @@ class Scope
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->scope)');
-        assert('is_bool($this->regexp) || is_null($this->regexp)');
+        assert(is_string($this->scope));
+        assert(is_bool($this->regexp) || is_null($this->regexp));
 
         $doc = $parent->ownerDocument;
 

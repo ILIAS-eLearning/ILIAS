@@ -73,9 +73,9 @@ class SubjectConfirmation
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->Method)');
-        assert('is_null($this->NameID) || $this->NameID instanceof \SAML2\XML\saml\NameID');
-        assert('is_null($this->SubjectConfirmationData) || $this->SubjectConfirmationData instanceof SAML2\XML\saml\SubjectConfirmationData');
+        assert(is_string($this->Method));
+        assert(is_null($this->NameID) || $this->NameID instanceof NameID);
+        assert(is_null($this->SubjectConfirmationData) || $this->SubjectConfirmationData instanceof SubjectConfirmationData);
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:SubjectConfirmation');
         $parent->appendChild($e);

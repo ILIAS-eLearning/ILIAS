@@ -113,7 +113,7 @@ class ContactPerson
      */
     private static function getStringElements(\DOMElement $parent, $name)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $e = Utils::xpQuery($parent, './saml_metadata:' . $name);
 
@@ -135,7 +135,7 @@ class ContactPerson
      */
     private static function getStringElement(\DOMElement $parent, $name)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $e = self::getStringElements($parent, $name);
         if (empty($e)) {
@@ -156,14 +156,14 @@ class ContactPerson
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->contactType)');
-        assert('is_array($this->Extensions)');
-        assert('is_null($this->Company) || is_string($this->Company)');
-        assert('is_null($this->GivenName) || is_string($this->GivenName)');
-        assert('is_null($this->SurName) || is_string($this->SurName)');
-        assert('is_array($this->EmailAddress)');
-        assert('is_array($this->TelephoneNumber)');
-        assert('is_array($this->ContactPersonAttributes)');
+        assert(is_string($this->contactType));
+        assert(is_array($this->Extensions));
+        assert(is_null($this->Company) || is_string($this->Company));
+        assert(is_null($this->GivenName) || is_string($this->GivenName));
+        assert(is_null($this->SurName) || is_string($this->SurName));
+        assert(is_array($this->EmailAddress));
+        assert(is_array($this->TelephoneNumber));
+        assert(is_array($this->ContactPersonAttributes));
 
         $doc = $parent->ownerDocument;
 

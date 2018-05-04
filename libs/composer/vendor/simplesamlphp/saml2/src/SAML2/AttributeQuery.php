@@ -127,7 +127,7 @@ class AttributeQuery extends SubjectQuery
      */
     public function setAttributeNameFormat($nameFormat)
     {
-        assert('is_string($nameFormat)');
+        assert(is_string($nameFormat));
 
         $this->nameFormat = $nameFormat;
     }

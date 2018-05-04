@@ -83,12 +83,12 @@ class Attribute
      */
     protected function toXMLInternal(\DOMElement $parent, $namespace, $name)
     {
-        assert('is_string($namespace)');
-        assert('is_string($name)');
-        assert('is_string($this->Name)');
-        assert('is_null($this->NameFormat) || is_string($this->NameFormat)');
-        assert('is_null($this->FriendlyName) || is_string($this->FriendlyName)');
-        assert('is_array($this->AttributeValue)');
+        assert(is_string($namespace));
+        assert(is_string($name));
+        assert(is_string($this->Name));
+        assert(is_null($this->NameFormat) || is_string($this->NameFormat));
+        assert(is_null($this->FriendlyName) || is_string($this->FriendlyName));
+        assert(is_array($this->AttributeValue));
 
         $e = $parent->ownerDocument->createElementNS($namespace, $name);
         $parent->appendChild($e);

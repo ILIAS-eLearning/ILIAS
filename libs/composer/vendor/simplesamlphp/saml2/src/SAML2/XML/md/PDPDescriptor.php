@@ -75,10 +75,10 @@ class PDPDescriptor extends RoleDescriptor
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->AuthzService)');
-        assert('!empty($this->AuthzService)');
-        assert('is_array($this->AssertionIDRequestService)');
-        assert('is_array($this->NameIDFormat)');
+        assert(is_array($this->AuthzService));
+        assert(!empty($this->AuthzService));
+        assert(is_array($this->AssertionIDRequestService));
+        assert(is_array($this->NameIDFormat));
 
         $e = parent::toXML($parent);
 

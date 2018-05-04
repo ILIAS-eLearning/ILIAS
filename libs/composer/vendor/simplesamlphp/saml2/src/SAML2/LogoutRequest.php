@@ -99,7 +99,7 @@ class LogoutRequest extends Request
      */
     public function setNotOnOrAfter($notOnOrAfter)
     {
-        assert('is_int($notOnOrAfter) || is_null($notOnOrAfter)');
+        assert(is_int($notOnOrAfter) || is_null($notOnOrAfter));
 
         $this->notOnOrAfter = $notOnOrAfter;
     }
@@ -190,7 +190,7 @@ class LogoutRequest extends Request
      */
     public function setNameId($nameId)
     {
-        assert('is_array($nameId) || is_a($nameId, "\SAML2\XML\saml\NameID")');
+        assert(is_array($nameId) || $nameId instanceof XML\saml\NameID);
 
         if (is_array($nameId)) {
             $nameId = XML\saml\NameID::fromArray($nameId);
@@ -239,7 +239,7 @@ class LogoutRequest extends Request
      */
     public function setSessionIndex($sessionIndex)
     {
-        assert('is_string($sessionIndex) || is_null($sessionIndex)');
+        assert(is_string($sessionIndex) || is_null($sessionIndex));
 
         if (is_null($sessionIndex)) {
             $this->sessionIndexes = array();

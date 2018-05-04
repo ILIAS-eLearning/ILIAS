@@ -79,13 +79,13 @@ class Organization
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->Extensions)');
-        assert('is_array($this->OrganizationName)');
-        assert('!empty($this->OrganizationName)');
-        assert('is_array($this->OrganizationDisplayName)');
-        assert('!empty($this->OrganizationDisplayName)');
-        assert('is_array($this->OrganizationURL)');
-        assert('!empty($this->OrganizationURL)');
+        assert(is_array($this->Extensions));
+        assert(is_array($this->OrganizationName));
+        assert(!empty($this->OrganizationName));
+        assert(is_array($this->OrganizationDisplayName));
+        assert(!empty($this->OrganizationDisplayName));
+        assert(is_array($this->OrganizationURL));
+        assert(!empty($this->OrganizationURL));
 
         $doc = $parent->ownerDocument;
 

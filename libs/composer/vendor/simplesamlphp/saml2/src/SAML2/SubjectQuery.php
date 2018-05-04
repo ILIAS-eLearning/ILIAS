@@ -87,7 +87,7 @@ abstract class SubjectQuery extends Request
      */
     public function setNameId($nameId)
     {
-        assert('is_array($nameId) || is_null($nameId) || is_a($nameId, "\SAML2\XML\saml\NameID")');
+        assert(is_array($nameId) || is_null($nameId) || $nameId instanceof XML\saml\NameID);
 
         if (is_array($nameId)) {
             $nameId = XML\saml\NameID::fromArray($nameId);

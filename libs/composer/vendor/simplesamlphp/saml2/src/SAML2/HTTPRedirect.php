@@ -209,9 +209,9 @@ class HTTPRedirect extends Binding
      */
     public static function validateSignature(array $data, XMLSecurityKey $key)
     {
-        assert('array_key_exists("Query", $data)');
-        assert('array_key_exists("SigAlg", $data)');
-        assert('array_key_exists("Signature", $data)');
+        assert(array_key_exists("Query", $data));
+        assert(array_key_exists("SigAlg", $data));
+        assert(array_key_exists("Signature", $data));
 
         $query = $data['Query'];
         $sigAlg = $data['SigAlg'];
@@ -226,7 +226,7 @@ class HTTPRedirect extends Binding
             $key = Utils::castKey($key, $sigAlg);
         }
 
-        if (!$key->verifySignature($query, $signature)) {
+        if ($key->verifySignature($query, $signature) !== 1) {
             throw new \Exception('Unable to validate signature on query string.');
         }
     }

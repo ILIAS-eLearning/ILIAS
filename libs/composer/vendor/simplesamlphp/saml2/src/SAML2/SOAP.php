@@ -68,7 +68,7 @@ SOAP;
         header('Content-Type: text/xml', true);
 
         $xml = $this->getOutputToSend($message);
-        SAML2_Utils::getContainer()->debugMessage($xml, 'out');
+        Utils::getContainer()->debugMessage($xml, 'out');
         echo $xml;
 
         exit(0);

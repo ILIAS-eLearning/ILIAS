@@ -60,8 +60,8 @@ class Keywords
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->lang)');
-        assert('is_array($this->Keywords)');
+        assert(is_string($this->lang));
+        assert(is_array($this->Keywords));
 
         $doc = $parent->ownerDocument;
 

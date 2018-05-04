@@ -100,12 +100,12 @@ class AttributeAuthorityDescriptor extends RoleDescriptor
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->AttributeService)');
-        assert('!empty($this->AttributeService)');
-        assert('is_array($this->AssertionIDRequestService)');
-        assert('is_array($this->NameIDFormat)');
-        assert('is_array($this->AttributeProfile)');
-        assert('is_array($this->Attribute)');
+        assert(is_array($this->AttributeService));
+        assert(!empty($this->AttributeService));
+        assert(is_array($this->AssertionIDRequestService));
+        assert(is_array($this->NameIDFormat));
+        assert(is_array($this->AttributeProfile));
+        assert(is_array($this->Attribute));
 
         $e = parent::toXML($parent);
 

@@ -75,8 +75,8 @@ abstract class BaseIDType
      */
     public function toXML(\DOMElement $parent = null)
     {
-        assert('is_string($this->NameQualifier) || is_null($this->NameQualifier)');
-        assert('is_string($this->SPNameQualifier) || is_null($this->SPNameQualifier)');
+        assert(is_string($this->NameQualifier) || is_null($this->NameQualifier));
+        assert(is_string($this->SPNameQualifier) || is_null($this->SPNameQualifier));
 
         if ($parent === null) {
             $parent = DOMDocumentFactory::create();

@@ -113,11 +113,11 @@ class SubjectConfirmationData
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->NotBefore) || is_int($this->NotBefore)');
-        assert('is_null($this->NotOnOrAfter) || is_int($this->NotOnOrAfter)');
-        assert('is_null($this->Recipient) || is_string($this->Recipient)');
-        assert('is_null($this->InResponseTo) || is_string($this->InResponseTo)');
-        assert('is_null($this->Address) || is_string($this->Address)');
+        assert(is_null($this->NotBefore) || is_int($this->NotBefore));
+        assert(is_null($this->NotOnOrAfter) || is_int($this->NotOnOrAfter));
+        assert(is_null($this->Recipient) || is_string($this->Recipient));
+        assert(is_null($this->InResponseTo) || is_string($this->InResponseTo));
+        assert(is_null($this->Address) || is_string($this->Address));
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:SubjectConfirmationData');
         $parent->appendChild($e);

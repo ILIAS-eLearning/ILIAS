@@ -104,12 +104,12 @@ class UIInfo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->DisplayName)');
-        assert('is_array($this->InformationURL)');
-        assert('is_array($this->PrivacyStatementURL)');
-        assert('is_array($this->Keywords)');
-        assert('is_array($this->Logo)');
-        assert('is_array($this->children)');
+        assert(is_array($this->DisplayName));
+        assert(is_array($this->InformationURL));
+        assert(is_array($this->PrivacyStatementURL));
+        assert(is_array($this->Keywords));
+        assert(is_array($this->Logo));
+        assert(is_array($this->children));
 
         $e = null;
         if (!empty($this->DisplayName)

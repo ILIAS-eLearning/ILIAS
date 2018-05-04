@@ -56,7 +56,7 @@ abstract class SSODescriptorType extends RoleDescriptor
      */
     protected function __construct($elementName, \DOMElement $xml = null)
     {
-        assert('is_string($elementName)');
+        assert(is_string($elementName));
 
         parent::__construct($elementName, $xml);
 
@@ -87,10 +87,10 @@ abstract class SSODescriptorType extends RoleDescriptor
      */
     protected function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->ArtifactResolutionService)');
-        assert('is_array($this->SingleLogoutService)');
-        assert('is_array($this->ManageNameIDService)');
-        assert('is_array($this->NameIDFormat)');
+        assert(is_array($this->ArtifactResolutionService));
+        assert(is_array($this->SingleLogoutService));
+        assert(is_array($this->ManageNameIDService));
+        assert(is_array($this->NameIDFormat));
 
         $e = parent::toXML($parent);
 

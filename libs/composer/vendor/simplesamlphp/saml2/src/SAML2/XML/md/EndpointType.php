@@ -87,8 +87,8 @@ class EndpointType
      */
     public function hasAttributeNS($namespaceURI, $localName)
     {
-        assert('is_string($namespaceURI)');
-        assert('is_string($localName)');
+        assert(is_string($namespaceURI));
+        assert(is_string($localName));
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
 
@@ -104,8 +104,8 @@ class EndpointType
      */
     public function getAttributeNS($namespaceURI, $localName)
     {
-        assert('is_string($namespaceURI)');
-        assert('is_string($localName)');
+        assert(is_string($namespaceURI));
+        assert(is_string($localName));
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
         if (!isset($this->attributes[$fullName])) {
@@ -125,8 +125,8 @@ class EndpointType
      */
     public function setAttributeNS($namespaceURI, $qualifiedName, $value)
     {
-        assert('is_string($namespaceURI)');
-        assert('is_string($qualifiedName)');
+        assert(is_string($namespaceURI));
+        assert(is_string($qualifiedName));
 
         $name = explode(':', $qualifiedName, 2);
         if (count($name) < 2) {
@@ -150,8 +150,8 @@ class EndpointType
      */
     public function removeAttributeNS($namespaceURI, $localName)
     {
-        assert('is_string($namespaceURI)');
-        assert('is_string($localName)');
+        assert(is_string($namespaceURI));
+        assert(is_string($localName));
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
         unset($this->attributes[$fullName]);
@@ -166,10 +166,10 @@ class EndpointType
      */
     public function toXML(\DOMElement $parent, $name)
     {
-        assert('is_string($name)');
-        assert('is_string($this->Binding)');
-        assert('is_string($this->Location)');
-        assert('is_null($this->ResponseLocation) || is_string($this->ResponseLocation)');
+        assert(is_string($name));
+        assert(is_string($this->Binding));
+        assert(is_string($this->Location));
+        assert(is_null($this->ResponseLocation) || is_string($this->ResponseLocation));
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, $name);
         $parent->appendChild($e);

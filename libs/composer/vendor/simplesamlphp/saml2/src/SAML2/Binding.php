@@ -27,7 +27,7 @@ abstract class Binding
      */
     public static function getBinding($urn)
     {
-        assert('is_string($urn)');
+        assert(is_string($urn));
 
         switch ($urn) {
             case Constants::BINDING_HTTP_POST:
@@ -123,7 +123,7 @@ abstract class Binding
      */
     public function setDestination($destination)
     {
-        assert('is_string($destination) || is_null($destination)');
+        assert(is_string($destination) || is_null($destination));
 
         $this->destination = $destination;
     }

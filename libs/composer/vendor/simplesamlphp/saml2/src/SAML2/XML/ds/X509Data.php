@@ -61,7 +61,7 @@ class X509Data
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_array($this->data)');
+        assert(is_array($this->data));
 
         $doc = $parent->ownerDocument;
 

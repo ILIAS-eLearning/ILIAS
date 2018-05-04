@@ -187,16 +187,16 @@ class EntityDescriptor extends SignedElementHelper
      */
     public function toXML(\DOMElement $parent = null)
     {
-        assert('is_string($this->entityID)');
-        assert('is_null($this->ID) || is_string($this->ID)');
-        assert('is_null($this->validUntil) || is_int($this->validUntil)');
-        assert('is_null($this->cacheDuration) || is_string($this->cacheDuration)');
-        assert('is_array($this->Extensions)');
-        assert('is_array($this->RoleDescriptor)');
-        assert('is_null($this->AffiliationDescriptor) || $this->AffiliationDescriptor instanceof \SAML2\XML\md\AffiliationDescriptor');
-        assert('is_null($this->Organization) || $this->Organization instanceof \SAML2\XML\md\Organization');
-        assert('is_array($this->ContactPerson)');
-        assert('is_array($this->AdditionalMetadataLocation)');
+        assert(is_string($this->entityID));
+        assert(is_null($this->ID) || is_string($this->ID));
+        assert(is_null($this->validUntil) || is_int($this->validUntil));
+        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
+        assert(is_array($this->Extensions));
+        assert(is_array($this->RoleDescriptor));
+        assert(is_null($this->AffiliationDescriptor) || $this->AffiliationDescriptor instanceof AffiliationDescriptor);
+        assert(is_null($this->Organization) || $this->Organization instanceof Organization);
+        assert(is_array($this->ContactPerson));
+        assert(is_array($this->AdditionalMetadataLocation));
 
         if ($parent === null) {
             $doc = DOMDocumentFactory::create();

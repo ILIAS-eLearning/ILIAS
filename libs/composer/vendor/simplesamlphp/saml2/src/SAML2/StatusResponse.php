@@ -98,7 +98,7 @@ abstract class StatusResponse extends Message
      */
     public function isSuccess()
     {
-        assert('array_key_exists("Code", $this->status)');
+        assert(array_key_exists("Code", $this->status));
 
         if ($this->status['Code'] === Constants::STATUS_SUCCESS) {
             return true;
@@ -126,7 +126,7 @@ abstract class StatusResponse extends Message
      */
     public function setInResponseTo($inResponseTo)
     {
-        assert('is_string($inResponseTo) || is_null($inResponseTo)');
+        assert(is_string($inResponseTo) || is_null($inResponseTo));
 
         $this->inResponseTo = $inResponseTo;
     }
@@ -150,7 +150,7 @@ abstract class StatusResponse extends Message
      */
     public function setStatus(array $status)
     {
-        assert('array_key_exists("Code", $status)');
+        assert(array_key_exists("Code", $status));
 
         $this->status = $status;
         if (!array_key_exists('SubCode', $status)) {

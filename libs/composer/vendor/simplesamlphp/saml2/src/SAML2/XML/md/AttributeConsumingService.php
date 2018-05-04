@@ -92,11 +92,11 @@ class AttributeConsumingService
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_int($this->index)');
-        assert('is_null($this->isDefault) || is_bool($this->isDefault)');
-        assert('is_array($this->ServiceName)');
-        assert('is_array($this->ServiceDescription)');
-        assert('is_array($this->RequestedAttribute)');
+        assert(is_int($this->index));
+        assert(is_null($this->isDefault) || is_bool($this->isDefault));
+        assert(is_array($this->ServiceName));
+        assert(is_array($this->ServiceDescription));
+        assert(is_array($this->RequestedAttribute));
 
         $doc = $parent->ownerDocument;
 

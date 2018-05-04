@@ -73,9 +73,9 @@ class SigningMethod
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->Algorithm)');
-        assert('is_int($this->MinKeySize) || is_null($this->MinKeySize)');
-        assert('is_int($this->MaxKeySize) || is_null($this->MaxKeySize)');
+        assert(is_string($this->Algorithm));
+        assert(is_int($this->MinKeySize) || is_null($this->MinKeySize));
+        assert(is_int($this->MaxKeySize) || is_null($this->MaxKeySize));
 
         $doc = $parent->ownerDocument;
         $e = $doc->createElementNS(Common::NS, 'alg:SigningMethod');

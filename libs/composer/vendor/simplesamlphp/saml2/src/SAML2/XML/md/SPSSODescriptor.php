@@ -76,10 +76,10 @@ class SPSSODescriptor extends SSODescriptorType
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->AuthnRequestsSigned) || is_bool($this->AuthnRequestsSigned)');
-        assert('is_null($this->WantAssertionsSigned) || is_bool($this->WantAssertionsSigned)');
-        assert('is_array($this->AssertionConsumerService)');
-        assert('is_array($this->AttributeConsumingService)');
+        assert(is_null($this->AuthnRequestsSigned) || is_bool($this->AuthnRequestsSigned));
+        assert(is_null($this->WantAssertionsSigned) || is_bool($this->WantAssertionsSigned));
+        assert(is_array($this->AssertionConsumerService));
+        assert(is_array($this->AttributeConsumingService));
 
         $e = parent::toXML($parent);
 

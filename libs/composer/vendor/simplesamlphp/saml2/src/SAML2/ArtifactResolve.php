@@ -41,7 +41,7 @@ class ArtifactResolve extends Request
      */
     public function setArtifact($artifact)
     {
-        assert('is_string($artifact)');
+        assert(is_string($artifact));
         $this->artifact = $artifact;
     }
 

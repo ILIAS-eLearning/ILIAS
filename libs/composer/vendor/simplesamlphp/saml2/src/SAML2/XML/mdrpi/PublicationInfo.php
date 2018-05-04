@@ -78,10 +78,10 @@ class PublicationInfo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->publisher)');
-        assert('is_int($this->creationInstant) || is_null($this->creationInstant)');
-        assert('is_string($this->publicationId) || is_null($this->publicationId)');
-        assert('is_array($this->UsagePolicy)');
+        assert(is_string($this->publisher));
+        assert(is_int($this->creationInstant) || is_null($this->creationInstant));
+        assert(is_string($this->publicationId) || is_null($this->publicationId));
+        assert(is_array($this->UsagePolicy));
 
         $doc = $parent->ownerDocument;
 

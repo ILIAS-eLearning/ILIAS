@@ -67,9 +67,9 @@ class RegistrationInfo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->registrationAuthority)');
-        assert('is_int($this->registrationInstant) || is_null($this->registrationInstant)');
-        assert('is_array($this->RegistrationPolicy)');
+        assert(is_string($this->registrationAuthority));
+        assert(is_int($this->registrationInstant) || is_null($this->registrationInstant));
+        assert(is_array($this->RegistrationPolicy));
 
         if (empty($this->registrationAuthority)) {
             throw new \Exception('Missing required registration authority.');

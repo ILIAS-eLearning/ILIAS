@@ -107,12 +107,12 @@ class IDPSSODescriptor extends SSODescriptorType
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->WantAuthnRequestsSigned) || is_bool($this->WantAuthnRequestsSigned)');
-        assert('is_array($this->SingleSignOnService)');
-        assert('is_array($this->NameIDMappingService)');
-        assert('is_array($this->AssertionIDRequestService)');
-        assert('is_array($this->AttributeProfile)');
-        assert('is_array($this->Attribute)');
+        assert(is_null($this->WantAuthnRequestsSigned) || is_bool($this->WantAuthnRequestsSigned));
+        assert(is_array($this->SingleSignOnService));
+        assert(is_array($this->NameIDMappingService));
+        assert(is_array($this->AssertionIDRequestService));
+        assert(is_array($this->AttributeProfile));
+        assert(is_array($this->Attribute));
 
         $e = parent::toXML($parent);
 

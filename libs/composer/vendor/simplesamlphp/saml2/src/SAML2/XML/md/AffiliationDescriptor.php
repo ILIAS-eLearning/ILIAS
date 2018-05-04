@@ -119,14 +119,14 @@ class AffiliationDescriptor extends SignedElementHelper
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->affiliationOwnerID)');
-        assert('is_null($this->ID) || is_string($this->ID)');
-        assert('is_null($this->validUntil) || is_int($this->validUntil)');
-        assert('is_null($this->cacheDuration) || is_string($this->cacheDuration)');
-        assert('is_array($this->Extensions)');
-        assert('is_array($this->AffiliateMember)');
-        assert('!empty($this->AffiliateMember)');
-        assert('is_array($this->KeyDescriptor)');
+        assert(is_string($this->affiliationOwnerID));
+        assert(is_null($this->ID) || is_string($this->ID));
+        assert(is_null($this->validUntil) || is_int($this->validUntil));
+        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
+        assert(is_array($this->Extensions));
+        assert(is_array($this->AffiliateMember));
+        assert(!empty($this->AffiliateMember));
+        assert(is_array($this->KeyDescriptor));
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, 'md:AffiliationDescriptor');
         $parent->appendChild($e);

@@ -41,7 +41,7 @@ class KeyName
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_string($this->name)');
+        assert(is_string($this->name));
 
         return Utils::addString($parent, XMLSecurityDSig::XMLDSIGNS, 'ds:KeyName', $this->name);
     }

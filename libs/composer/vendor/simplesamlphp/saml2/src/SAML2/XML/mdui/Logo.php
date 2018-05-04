@@ -73,9 +73,9 @@ class Logo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_int($this->width)');
-        assert('is_int($this->height)');
-        assert('is_string($this->url)');
+        assert(is_int($this->width));
+        assert(is_int($this->height));
+        assert(is_string($this->url));
 
         $doc = $parent->ownerDocument;
 

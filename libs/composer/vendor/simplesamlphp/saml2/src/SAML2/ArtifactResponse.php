@@ -25,7 +25,7 @@ class ArtifactResponse extends StatusResponse
 
         if (!is_null($xml)) {
             $status = Utils::xpQuery($xml, './saml_protocol:Status');
-            assert('!empty($status)'); /* Will have failed during StatusResponse parsing. */
+            assert(!empty($status)); /* Will have failed during StatusResponse parsing. */
 
             $status = $status[0];
 

@@ -75,8 +75,8 @@ class KeyInfo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->Id) || is_string($this->Id)');
-        assert('is_array($this->info)');
+        assert(is_null($this->Id) || is_string($this->Id));
+        assert(is_array($this->info));
 
         $doc = $parent->ownerDocument;
 

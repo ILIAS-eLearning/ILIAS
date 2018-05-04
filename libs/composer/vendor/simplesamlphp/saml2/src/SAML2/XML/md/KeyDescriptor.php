@@ -76,9 +76,9 @@ class KeyDescriptor
      */
     public function toXML(\DOMElement $parent)
     {
-        assert('is_null($this->use) || is_string($this->use)');
-        assert('$this->KeyInfo instanceof \SAML2\XML\ds\KeyInfo');
-        assert('is_array($this->EncryptionMethod)');
+        assert(is_null($this->use) || is_string($this->use));
+        assert($this->KeyInfo instanceof KeyInfo);
+        assert(is_array($this->EncryptionMethod));
 
         $doc = $parent->ownerDocument;
 
