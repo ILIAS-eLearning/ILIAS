@@ -387,7 +387,7 @@ class ilErrorHandling extends PEAR
 				
 				$message .= sprintf($lng->txt('log_error_message_explanation'), $file_name);
 			} else {
-				$message = "Error ".$file_name." occurred.";
+				$message = "An error occurred. The generated error code is: ".$file_name;
 
 				if($logger->mail()) {
 					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'</a>';
