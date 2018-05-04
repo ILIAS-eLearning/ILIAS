@@ -81,4 +81,15 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 		$not = $this->f->not($constraint);
 		$this->assertInstanceOf(Validation\Constraint::class, $not);
 	}
+
+	public function testLoadsLanguageModule() {
+		$lng = $this->createMock(\ilLanguage::class);
+
+		$lng
+			->expects($this->once())
+			->method("loadLanguageModule")
+			->with(Validation\Factory::LANGUAGE_MODULE);
+
+		new Validation\Factory(new Data\Factory(), $lng);
+	}
 }

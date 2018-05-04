@@ -8,6 +8,8 @@ use ILIAS\Data;
  * Factory for creating constraints.
  */
 class Factory {
+	const LANGUAGE_MODULE = "validation";
+
 	/**
 	 * @var Data\Factory
 	 */
@@ -26,6 +28,7 @@ class Factory {
 	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->data_factory = $data_factory;
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule(self::LANGUAGE_MODULE);
 	}
 
 
