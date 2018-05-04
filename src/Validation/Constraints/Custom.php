@@ -28,6 +28,12 @@ class Custom implements Constraint {
 	protected $error;
 
 	/**
+	 * If $error is a callable it needs to take two parameters:
+	 *      - one callback $txt($lng_id, ($value, ...)) that retrieves the lang var
+	 *        with the given id and uses sprintf to replace placeholder if more
+	 *        values are provide
+	 *      - the $value for which the error message should be build.
+	 *
 	 * @param string|callable	$error
 	 */
 	public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ilLanguage $lng) {

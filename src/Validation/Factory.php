@@ -171,6 +171,12 @@ class Factory {
 	 * If the provided value !$is_ok will either use the $error (if it is a string)
 	 * or provide the value to the $error callback.
 	 *
+	 * If $error is a callable it needs to take two parameters:
+	 *      - one callback $txt($lng_id, ($value, ...)) that retrieves the lang var
+	 *        with the given id and uses sprintf to replace placeholder if more
+	 *        values are provide
+	 *      - the $value for which the error message should be build.
+	 *
 	 * @param   callable          $is_ok MUST return boolean
 	 * @param   string|callable   $error
 	 * @return  Constraint
