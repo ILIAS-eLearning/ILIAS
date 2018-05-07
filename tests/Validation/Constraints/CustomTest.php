@@ -35,6 +35,11 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 		$this->constraint = new MyValidationConstraintsCustom($is_ok, $error, new Data\Factory(), $this->lng);
 	}
 
+	public function testWithProblemBuilder() {
+		$new_constraint = $this->constraint->withProblemBuilder(function() { return "This was a fault"; });
+		$this->assertEquals("This was a fault", $new_constraint->problemWith(""));
+	}
+
 	public function test_use_txt() {
 		$txt_out = "'%s'";
 		$this->lng
