@@ -20,7 +20,7 @@ class LessThan extends Custom implements Constraint {
 				return $value < $this->max;
 			}, 
 			function ($txt, $value) {
-				return "'$value' is greater than '{$this->max}'.";
+				return $txt("not_less_than", $value, $this->max);
 			},
 			$data_factory,
 			$lng

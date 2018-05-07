@@ -7,8 +7,6 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Not extends Custom implements Constraint {
-	const ERROR_MESSAGE_PREFIX = "It is not the case that:";
-
 	/**
 	 * @var Constraint
 	 */
@@ -20,7 +18,7 @@ class Not extends Custom implements Constraint {
 				return !$this->constraint->accepts($value);
 			}, 
 			function ($txt, $value) {
-				return self::ERROR_MESSAGE_PREFIX.": ".$this->constraint->getErrorMessage($value);
+				return $txt("not_generic", $this->constraint->getErrorMessage($value));
 			},
 			$data_factory,
 			$lng

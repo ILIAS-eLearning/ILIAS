@@ -26,18 +26,8 @@ class IsNull extends Custom implements Constraint {
 			function ($value) {
 				return is_null($value);
 			},
-			function ($value) {
-				if (is_array($value)) {
-					return "array is not null.";
-				}
-				if (is_object($value)) {
-					return "object of type'" . gettype($value) . "' is not null.";
-				}
-				if (is_string($value)) {
-					return "string is not null.";
-				}
-
-				return "'" . $value . "' is not null.";
+			function ($txt, $value) {
+				return $txt("not_a_null", gettype($value));
 			},
 			$data_factory,
 			$lng

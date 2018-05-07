@@ -13,13 +13,7 @@ class IsNumeric extends Custom implements Constraint {
 				return is_numeric($value);
 			}, 
 			function ($txt, $value) {
-				if (is_array($value)) {
-					return "array is not a number.";
-				}
-				if (is_object($value)) {
-					return "object of type'".gettype($value)."' is not a number.";
-				}
-				return "'".$value."' is not a number.";
+				return $txt("not_numeric", $value, gettype($value));
 			},
 			$data_factory,
 			$lng

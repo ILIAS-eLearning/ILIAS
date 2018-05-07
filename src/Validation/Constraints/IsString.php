@@ -24,8 +24,8 @@ class IsString extends Custom implements Constraint {
 			function ($value) {
 				return is_string($value);
 			},
-			function ($value) {
-				return "'" . gettype($value) . "' is not a string.";
+			function ($txt, $value) {
+				return $txt("not_a_string", gettype($value));
 			},
 			$data_factory,
 			$lng

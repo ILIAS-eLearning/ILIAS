@@ -19,7 +19,7 @@ class GreaterThan extends Custom implements Constraint {
 				return $value > $this->min;
 			}, 
 			function ($txt, $value) {
-				return "'$value' is not greater than '{$this->min}'.";
+				return $txt("not_greater_than", $value, $this->min);
 			},
 			$data_factory,
 			$lng

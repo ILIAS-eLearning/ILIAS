@@ -19,7 +19,8 @@ class HasMinLength extends Custom implements Constraint {
 				return strlen($value) >= $this->min_length;
 			},
 			function ($txt, $value) {
-				return "'$value' has a length less than '{$this->min_length}'.";
+				$len = strlen($value);
+				return $txt("not_min_length", $len, $this->min_length);
 			},
 			$data_factory,
 			$lng

@@ -36,12 +36,12 @@ class Parallel extends Custom implements Constraint {
 				return $ret;
 			},
 			function($txt, $value) {
-				$message = "";
+				$messages = [];
 				foreach ($this->failed_constraints as $key => $constraint) {
-					$message .= $constraint->getErrorMessage($value);
+					$messages[] = $constraint->getErrorMessage($value);
 				}
 
-				return $message;
+				return implode(" ", $messages);
 			},
 			$data_factory,
 			$lng

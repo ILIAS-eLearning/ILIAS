@@ -165,7 +165,7 @@ class Factory {
 	 * @return	Constraint
 	 */
 	public function hasMaxLength($max_length) {
-		return new Constraints\HasMaxLength($max_length, $this->data_factory);
+		return new Constraints\HasMaxLength($max_length, $this->data_factory, $this->lng);
 	}
 
 	/**
