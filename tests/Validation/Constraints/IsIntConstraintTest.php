@@ -42,9 +42,9 @@ class IsIntConstraintTest extends PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method("txt")
 			->with("not_an_int")
-			->willReturn("-%s-%s-");
+			->willReturn("-%s-");
 
-		$this->assertEquals("-2.2-double-", $this->c->problemWith(2.2));
+		$this->assertEquals("-2.2-", $this->c->problemWith(2.2));
 	}
 
 	public function testRestrictOk() {

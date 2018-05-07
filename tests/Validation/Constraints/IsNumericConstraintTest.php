@@ -74,9 +74,9 @@ class IsNumericConstraintTest extends PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method("txt")
 			->with("not_numeric")
-			->willReturn("-%s-%s-");
+			->willReturn("-%s-");
 
-		$this->assertEquals("-aa-string-", $this->c->problemWith("aa"));
+		$this->assertEquals("-aa-", $this->c->problemWith("aa"));
 	}
 
 	public function testRestrictOk() {
