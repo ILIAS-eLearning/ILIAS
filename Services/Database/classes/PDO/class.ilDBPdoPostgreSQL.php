@@ -241,9 +241,11 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @throws \ilDatabaseException
 	 */
 	public function nextId($table_name) {
-		$sequence_name = $table_name . '_seq';
-		$query = "SELECT NEXTVAL('$sequence_name')";
-		$result = $this->query($query, 'integer');
+		$sequence_name = $this->manager->getDBInstance()->quoteIdentifier($this->manager->getDBInstance()->getSequenceName($table_name));
+		$seqcol_name = $this->manager->getDBInstance()->quoteIdentifier(ilDBConstants::SEQUENCE_COLUMNS_NAME);
+
+		$query = "UPDATE $sequence_name set $seqcol_name = $seqcol_name + 1 RETURNING $seqcol_name as nextval";
+		$result = $this->query($query);
 		$data = $result->fetchObject();
 
 		return $data->nextval;
