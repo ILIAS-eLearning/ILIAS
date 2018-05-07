@@ -75,8 +75,8 @@ class NotTest extends PHPUnit_Framework_TestCase {
 	 * @dataProvider constraintsProvider
 	 */
 	public function testWithProblemBuilder($constraint, $ok_value, $error_value) {
-		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
-		$this->assertEquals("This was a vault", $new_constraint->problemWith($ok_value));
+		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a fault"; });
+		$this->assertEquals("This was a fault", $new_constraint->problemWith($ok_value));
 	}
 
 	public function constraintsProvider() {
