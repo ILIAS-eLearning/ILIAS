@@ -132,9 +132,13 @@ class Custom implements Constraint {
 				$args[0] = $error;
 				for ($i = 0; $i < count ($args); $i++) {
 					$v = $args[$i];
-					if ((is_array($v) || is_object($v)) && !method_exists($v, "__toString")) {
-						if(is_array($v)) {
+					if ((is_array($v) || is_object($v) || is_null($v))
+					&& !method_exists($v, "__toString")) {
+						if (is_array($v)) {
 							$args[$i] = "array";
+						}
+						else if (is_null($v)) {
+							$args[$i] = "null";
 						}
 						else {
 							$args[$i] = get_class($v);

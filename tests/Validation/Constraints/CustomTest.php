@@ -92,12 +92,12 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method("txt")
 			->with("id")
-			->willReturn("%s-%s-%s");
+			->willReturn("%s-%s-%s-%s-");
 
 		$to_string = new MyToStringClass("foo");
 
-		$res = $lng_closure("id", [], new \stdClass(), "foo"); 
+		$res = $lng_closure("id", [], new \stdClass(), "foo", null);
 
-		$this->assertEquals("array-".\stdClass::class."-foo", $res);
+		$this->assertEquals("array-".\stdClass::class."-foo-null-", $res);
 	}
 }
