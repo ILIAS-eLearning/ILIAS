@@ -48,6 +48,12 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("This was a fault", $new_constraint->problemWith(""));
 	}
 
+	public function testProblemBuilderRetrievesLngClosure() {
+		$c = $this->constraint->withProblemBuilder(function($txt) { $this->cls = $txt; return ""; });
+		$c->problemWith("");
+		$this->assertTrue(is_callable($this->cls));
+	}
+
 	public function test_use_txt() {
 		$txt_out = "'%s'";
 		$this->lng
