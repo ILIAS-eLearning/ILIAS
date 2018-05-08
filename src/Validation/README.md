@@ -15,9 +15,8 @@ client side someday.
 
 ```php
 
-require_once(__DIR__."/Factory.php");
-
-$f = new Validation/Factory;
+// In reality this has dependencies that need to be satisfied...
+$f = new ILIAS\Validation\Factory;
 
 // Build some basic constraints
 $gt0 = $f->greaterThan(0);
