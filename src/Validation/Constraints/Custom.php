@@ -31,7 +31,7 @@ class Custom implements Constraint {
 	 * If $error is a callable it needs to take two parameters:
 	 *      - one callback $txt($lng_id, ($value, ...)) that retrieves the lang var
 	 *        with the given id and uses sprintf to replace placeholder if more
-	 *        values are provide
+	 *        values are provide.
 	 *      - the $value for which the error message should be build.
 	 *
 	 * @param string|callable	$error
@@ -130,6 +130,17 @@ class Custom implements Constraint {
 			$error = $this->lng->txt($args[0]);
 			if (count($args) > 1) {
 				$args[0] = $error;
+				for ($i = 0; $i < count ($args); $i++) {
+					$v = $args[$i];
+					if ((is_array($v) || is_object($v)) && !method_exists($v, "__toString")) {
+						if(is_array($v)) {
+							$args[$i] = "array";
+						}
+						else {
+							$args[$i] = get_class($v);
+						}
+					}
+				}
 				$error = call_user_func_array("sprintf", $args);
 			}
 			return $error;

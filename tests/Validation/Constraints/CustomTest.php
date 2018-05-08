@@ -12,6 +12,14 @@ class MyValidationConstraintsCustom extends Validation\Constraints\Custom {
 	}
 }
 
+class MyToStringClass {
+	protected $str_repr;
+
+	public function __toString() {
+		return $this->str_repr;
+	}
+}
+
 /**
  * TestCase for the custom constraints
  *
@@ -75,5 +83,21 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 		$res = $lng_closure($this->txt_id);
 
 		$this->assertEquals($txt_out, $res);
+	}
+
+	public function test_gracefully_handle_arrays_and_objects() {
+		$lng_closure = $this->constraint->_getLngClosure();
+
+		$this->lng
+			->expects($this->once())
+			->method("txt")
+			->with("id")
+			->willReturn("%s-%s-%s");
+
+		$to_string = new MyToStringClass("foo");
+
+		$res = $lng_closure("id", [], new \stdClass(), "foo"); 
+
+		$this->assertEquals("array-".\stdClass::class."-foo", $res);
 	}
 }
