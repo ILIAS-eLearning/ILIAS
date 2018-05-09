@@ -384,16 +384,12 @@ class ilErrorHandling extends PEAR
 				if($logger->mail()) {
 					$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
 				}
-				
-				$message .= sprintf($lng->txt('log_error_message_explanation'), $file_name);
 			} else {
-				$message = "An error occurred. The generated error code is: ".$file_name;
+				$message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "'.$file_name.'"';
 
 				if($logger->mail()) {
 					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'</a>';
 				}
-				
-				$message .= '<br /><br /><i>The error has been logged to a logfile that can be identified by the given error code ('.$file_name.').</i>';
 			}
 
 			ilUtil::sendFailure($message, true);

@@ -13210,9 +13210,8 @@ copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensur
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
-logging#:#log_error_message#:#An error occurred. The generated error code is: %s
+logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
-logging#:#log_error_message_explanation#:#<br /><br /><i>The error has been logged to a logfile that can be identified by the given error code (%s).</i>
 logging#:#log_error_folder#:#Path
 logging#:#log_error_mail#:#Mail recipient
 logging#:#log_error_settings#:#Error logging settings
