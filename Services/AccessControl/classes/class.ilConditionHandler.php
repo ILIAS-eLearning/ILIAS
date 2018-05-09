@@ -1049,8 +1049,8 @@ class ilConditionHandler
 
 
 		$query = "SELECT * FROM conditions WHERE ".
-			"trigger_ref_id = ".$ilDB->quote($trigger_obj->getId(),'integer')." ".
-			"AND target_ref_id = ".$ilDB->quote($target_obj->getId(),'integer');
+			"trigger_ref_id = ".$ilDB->quote($trigger_obj->getRefId(),'integer')." ".
+			"AND target_ref_id = ".$ilDB->quote($target_obj->getRefId(),'integer');
 
 		$res = $this->db->query($query);
 		if($res->numRows() > 1)
