@@ -1365,6 +1365,10 @@ class ilObjUser extends ilObject
 		// badges
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		ilBadgeAssignment::deleteByUserId($this->getId());
+
+		// remove org unit assignments
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+		$ilOrgUnitUserAssignmentQueries->deleteAllAssignmentsOfUser($this->getId());
 		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
@@ -3799,7 +3803,7 @@ class ilObjUser extends ilObject
 
 		// For compatibility, check for login (no ext_account entry given)
 		$res = $db->queryF("SELECT login FROM usr_data ".
-			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
+			"WHERE login = %s AND auth_mode = %s AND (ext_account IS NULL OR ext_account = '') ",
 			array("text", "text"),
 			array($a_account, $a_auth));
 		if($usr = $db->fetchAssoc($res))
