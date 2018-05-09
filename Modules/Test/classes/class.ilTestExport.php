@@ -761,7 +761,17 @@ abstract class ilTestExport
 				$row += 2;
 				if(is_object($userdata) && is_array($userdata->getQuestions($pass)))
 				{
-					foreach($userdata->getQuestions($pass) as $question)
+					$order = array();
+					foreach ($this->test_obj->getQuestionsOfPass($active_id, $pass) as $record) {
+						$order[$record["question_fi"]] = $record["sequence"];
+					}
+
+					$questions = array_merge($userdata->getQuestions($pass));
+					usort($questions, function($q1, $q2) use ($order) {
+						return $order[$q1["id"]] - $order[$q2["id"]];
+					});
+
+					foreach($questions as $question)
 					{
 						require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 						$question = assQuestion::_instanciateQuestion($question["id"]);
