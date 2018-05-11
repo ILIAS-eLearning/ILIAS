@@ -65,12 +65,14 @@ class URI
 	const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
 
 	const UNRESERVED = self::ALPHA_DIGIT.'|[\\-\\._~]';
+	const UNRESERVED_NO_DOT = self::ALPHA_DIGIT.'|[\\-_~]';
 
 	const PCHAR = self::UNRESERVED.'|'.self::SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
 	const BASEURI_PCHAR = self::UNRESERVED.'|'.self::BASEURI_SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
 
 	const SCHEMA = '#^'.self::ALPHA.'('.self::ALPHA_DIGIT.'|'.self::PIMP.')*$#';
-	const HOST = '#^('.self::ALPHA_DIGIT.'('.self::UNRESERVED.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+'.self::ALPHA_DIGIT.')?$#';
+	const DOMAIN_LABEL = self::ALPHA_DIGIT.'(('.self::UNRESERVED_NO_DOT.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+'.self::ALPHA_DIGIT.')*';
+	const HOST = '#^'.self::DOMAIN_LABEL.'(\\.'.self::DOMAIN_LABEL.')*$#';
 	const PORT = '#^'.self::DIGIT.'+$#';
 	const PATH = '#^('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
 	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
