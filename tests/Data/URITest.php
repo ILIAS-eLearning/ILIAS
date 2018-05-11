@@ -38,6 +38,13 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
+	const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
+	const URI_HOST_ALPHADIG_START_2 = 'g+it://.github.com:8080/someaccount';
+	const URI_HOST_ALPHADIG_START_3 = 'http://.';
+	const URI_HOST_ALPHADIG_START_4 = 'http://../';
+	const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
+
+
 	public function test_init()
 	{
 		return new ILIAS\Data\URI(self::URI_COMPLETE);
@@ -303,6 +310,71 @@ class URITest extends PHPUnit_Framework_TestCase {
 	{
 		try {
 			new ILIAS\Data\URI(self::URI_FAKEPCENC);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_alphadigit_start_host()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_1);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_alphadigit_start_host_2()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_2);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_alphadigit_start_host_3()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_3);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_alphadigit_start_host_4()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_4);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_alphadigit_start_host_5()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
 			$this->assertFalse('did not throw');
 		} catch(\InvalidArgumentException $e) {
 
