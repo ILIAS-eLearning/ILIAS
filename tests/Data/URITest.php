@@ -39,7 +39,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 	const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
 	const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
-	const URI_HOST_ALPHADIG_START_2 = 'g+it://.github.com:8080/someaccount';
+	const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
 	const URI_HOST_ALPHADIG_START_3 = 'http://.';
 	const URI_HOST_ALPHADIG_START_4 = 'http://../';
 	const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
