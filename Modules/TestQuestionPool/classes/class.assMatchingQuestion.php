@@ -1484,7 +1484,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getTerms() as $term)
 		{
 			$terms[] = array(
-				"text" => $term->text,
+				"text" => $this->formatSAQuestion($term->text),
 				"id" =>(int)$term->identifier
 			);
 		}
@@ -1501,7 +1501,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getDefinitions() as $def)
 		{
 			$definitions[] = array(
-				"text" => (string) $def->text,
+				"text" => $this->formatSAQuestion((string) $def->text),
 				"id" => (int) $this->getId().$def->identifier
 			);
 		}
