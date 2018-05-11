@@ -32,17 +32,16 @@ class ilExternalFeedItem
 		if (isset($a_item["link_"]))
 		{
 			$this->setLink(
-				ilUtil::secureLink($this->secureString($a_item["link_"])));
+				ilUtil::secureUrl(ilUtil::secureLink($this->secureString($a_item["link_"]))));
 		}
 		else
 		{
 			if (isset($a_item["link"]))
 			{
 				$this->setLink(
-					ilUtil::secureLink($this->secureString($a_item["link"])));
+					ilUtil::secureUrl(ilUtil::secureLink($this->secureString($a_item["link"]))));
 			}
 		}
-		
 		// summary
 		if (isset($a_item["atom_content"]))
 		{
