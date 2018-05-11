@@ -35,6 +35,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$this->object->loadFromDb($qId);
 		}
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
+	}
 
 	protected function getAdditionalEditQuestionCommands()
 	{
@@ -460,7 +468,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		));
 		
 		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $showInlineFeedback);
 		return $pageoutput;
 	}
 

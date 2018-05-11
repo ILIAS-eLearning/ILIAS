@@ -42,6 +42,14 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$this->object->loadFromDb($id);
 		}
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -676,7 +684,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$template->setVariable('SELECTION_LIMIT_VALUE', 'null');
 		}
 		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $show_feedback);
 		return $pageoutput;
 	}
 	

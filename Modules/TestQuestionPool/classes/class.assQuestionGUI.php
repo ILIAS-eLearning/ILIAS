@@ -136,6 +136,16 @@ abstract class assQuestionGUI
 		
 		$this->navigationGUI = null;
 	}
+	
+	/**
+	 * this method can be overwritten per question type
+	 * 
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return false;
+	}
 
 	/**
 	* execute command
@@ -546,7 +556,7 @@ abstract class assQuestionGUI
 	/**
 	* output question page
 	*/
-	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
+	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "", $inlineFeedbackEnabled = false)
 	{
 		// hey: prevPassSolutions - add the "use previous answer"
 		// hey: prevPassSolutions - refactored identifiers
@@ -584,6 +594,11 @@ abstract class assQuestionGUI
 
 		if( strlen($html) )
 		{
+			if( $inlineFeedbackEnabled && $this->hasInlineFeedback() )
+			{
+				$html = '<div id="focus"></div>'.$html;
+			}
+			
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 
