@@ -70,7 +70,7 @@ class URI
 	const BASEURI_PCHAR = self::UNRESERVED.'|'.self::BASEURI_SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
 
 	const SCHEMA = '#^'.self::ALPHA.'('.self::ALPHA_DIGIT.'|'.self::PIMP.')*$#';
-	const HOST = '#^('.self::UNRESERVED.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+$#';
+	const HOST = '#^('.self::ALPHA_DIGIT.'('.self::UNRESERVED.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+'.self::ALPHA_DIGIT.')?$#';
 	const PORT = '#^'.self::DIGIT.'+$#';
 	const PATH = '#^('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
 	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
