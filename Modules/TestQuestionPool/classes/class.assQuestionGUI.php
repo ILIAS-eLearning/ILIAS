@@ -596,7 +596,7 @@ abstract class assQuestionGUI
 		{
 			if( $inlineFeedbackEnabled && $this->hasInlineFeedback() )
 			{
-				$html = '<div id="focus"></div>'.$html;
+				$html = $this->buildFocusAnchorHtml() .$html;
 			}
 			
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
@@ -2356,5 +2356,13 @@ abstract class assQuestionGUI
 	{
 		$errors = $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
 		return $this->editForm;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildFocusAnchorHtml()
+	{
+		return '<div id="focus"></div>';
 	}
 }

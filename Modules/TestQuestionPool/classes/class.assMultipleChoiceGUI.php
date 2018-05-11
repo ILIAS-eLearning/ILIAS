@@ -447,6 +447,12 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
+		
+		if( $show_feedback && $this->hasInlineFeedback() )
+		{
+			$solutionoutput = $this->buildFocusAnchorHtml() .$solutionoutput;
+		}
+		
 		if (!$show_question_only)
 		{
 			// get page object output
