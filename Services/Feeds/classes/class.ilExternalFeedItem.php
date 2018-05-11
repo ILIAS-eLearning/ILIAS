@@ -92,8 +92,16 @@ class ilExternalFeedItem
 		while($old_str != $a_str)
 		{
 			$old_str = $a_str;
-			$a_str = preg_replace("/<a href=\"([^\"]*)\">/i",
-				"/<a href=\"\\1\" target=\"_blank\" rel=\"noopener\">/", $a_str);
+			$a_str = preg_replace_callback(
+				'/<a href=["\']([^\"]*)["\']>/i',
+				function($matches) {
+					return sprintf(
+						'<a href="%s" target="_blank" rel="noopener">',
+						\ilUtil::secureUrl($matches[1])
+					);
+				},
+				$a_str
+			);
 		}
 		return $a_str;
 	}
