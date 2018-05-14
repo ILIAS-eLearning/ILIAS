@@ -1596,6 +1596,7 @@ blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration de
 blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
 blog#:#blog_banner#:#Banner
 blog#:#blog_change_notification_body_new#:#der folgende Beitrag wurde neu angelegt:
+blog#:#blog_change_notification_body_comment#:#der folgende Beitrag wurde kommentiert:
 blog#:#blog_change_notification_body_update#:#der folgende Beitrag wurde geändert:
 blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
