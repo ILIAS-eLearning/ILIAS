@@ -32,17 +32,16 @@ class ilExternalFeedItem
 		if (isset($a_item["link_"]))
 		{
 			$this->setLink(
-				ilUtil::secureLink($this->secureString($a_item["link_"])));
+				ilUtil::secureUrl(ilUtil::secureLink($this->secureString($a_item["link_"]))));
 		}
 		else
 		{
 			if (isset($a_item["link"]))
 			{
 				$this->setLink(
-					ilUtil::secureLink($this->secureString($a_item["link"])));
+					ilUtil::secureUrl(ilUtil::secureLink($this->secureString($a_item["link"]))));
 			}
 		}
-		
 		// summary
 		if (isset($a_item["atom_content"]))
 		{
@@ -87,15 +86,19 @@ class ilExternalFeedItem
 	function secureString($a_str)
 	{
 		$a_str = ilUtil::secureString($a_str, true, "<b><i><em><strong><br><ol><li><ul><a><img>");
-		$old_str = "";
-		
+
 		// set target to blank for all links
-		while($old_str != $a_str)
-		{
-			$old_str = $a_str;
-			$a_str = preg_replace("/<a href=\"([^\"]*)\">/i",
-				"/<a href=\"\\1\" target=\"_blank\" rel=\"noopener\">/", $a_str);
-		}
+		$a_str = preg_replace_callback(
+			'/<a[^>]*?href=["\']([^"\']*)["\'][^>]*?>/i',
+			function($matches) {
+				return sprintf(
+					'<a href="%s" target="_blank" rel="noopener">',
+					\ilUtil::secureUrl($matches[1])
+				);
+			},
+			$a_str
+		);
+
 		return $a_str;
 	}
 	
