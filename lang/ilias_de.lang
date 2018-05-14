@@ -10970,8 +10970,8 @@ tagging#:#tagging_tag#:#Tag
 tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
 tagging#:#tagging_tags#:#Tags
 tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
-tbl#:#tbl_export_csv#:#.csv exportieren
-tbl#:#tbl_export_excel#:#.xls exportieren
+tbl#:#tbl_export_csv#:#CSV-Export
+tbl#:#tbl_export_excel#:#Excel-Export
 tbl#:#tbl_template_create#:#Aktuelle Ansicht speichern
 tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
@@ -11693,9 +11693,9 @@ dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datens�
 dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Sie haben keine Rechte, den Datensatz später nochmals zu bearbeiten.
 dcl#:#dcl_save_record#:#Eintrag speichern
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
+dcl#:#dlc_xls_async_export#:#Asynchroner Excel-Export
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
-dcl#:#dcl_export_finished#:#Export Abgeschlossen
+dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
@@ -15674,7 +15674,7 @@ style#:#system_style_activation_description#:#Aktive System Styles können besti
 style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard System Style festgelegt. Der Standard System Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
 style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
 style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
-style#:#zip_export_failed#:#Der ZIP Export ist mit folgender Error Meldung fehlgeschlagen:
+style#:#zip_export_failed#:#Der ZIP-Export ist mit folgender Fehlermeldung fehlgeschlagen:
 style#:#no_style_selected#:#Es wurde kein Substyle ausgewählt.
 style#:#adapt_less#:#Anpassung der Less-Datei
 style#:#adapt_less_description#:#Dies ist die Darstellung aller less-Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
