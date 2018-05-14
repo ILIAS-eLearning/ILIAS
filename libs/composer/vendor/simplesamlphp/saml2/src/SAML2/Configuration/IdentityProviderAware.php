@@ -1,9 +1,11 @@
 <?php
 
+namespace SAML2\Configuration;
+
 /**
  * Interface for triggering setter injection
  */
-interface SAML2_Configuration_IdentityProviderAware
+interface IdentityProviderAware
 {
-    public function setIdentityProvider(SAML2_Configuration_IdentityProvider $identityProvider);
+    public function setIdentityProvider(IdentityProvider $identityProvider);
 }

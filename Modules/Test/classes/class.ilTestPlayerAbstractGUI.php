@@ -2270,6 +2270,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
+		if( !$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback() )
+		{
+			$this->populateFeedbackBlockFocusAnchor();
+		}
+		
 		// This controls if the solution should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
 		if($this->object->getInstantFeedbackSolution())
@@ -2318,6 +2323,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->populateSpecificFeedbackBlock($questionGui);
 		}
+	}
+	
+	protected function populateFeedbackBlockFocusAnchor()
+	{
+		$this->tpl->setCurrentBlock('instant_response_focus_anchor');
+		$this->tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', 'focus');
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	protected function getCurrentSequenceElement()

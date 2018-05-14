@@ -15,7 +15,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	protected $config;
 
 	/**
-	 * @var SimpleSAML_Auth_Simple
+	 * @var SimpleSAML\Auth\Simple
 	 */
 	protected $authSource;
 
@@ -42,7 +42,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 			throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession');
 		}
 
-		$this->authSource = new SimpleSAML_Auth_Simple($authSourceName);
+		$this->authSource = new SimpleSAML\Auth\Simple($authSourceName);
 	}
 
 	/**
@@ -52,7 +52,6 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	{
 		global $DIC;
 
-		require_once 'Services/Saml/classes/class.ilSimpleSAMLphpConfigTemplateHandler.php';
 		$templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
 		$templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
 			'DB_PATH'             => rtrim($configurationPath, '/') . '/ssphp.sq3',
@@ -161,7 +160,6 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	 */
 	public function getIdpDiscovery()
 	{
-		require_once 'Services/Saml/classes/class.ilSimpleSAMLphplIdpDiscovery.php';
 		return new ilSimpleSAMLphplIdpDiscovery();
 	}
 }

@@ -1,18 +1,25 @@
 <?php
 
-class SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationResponseToMatches implements
-    SAML2_Assertion_Validation_SubjectConfirmationConstraintValidator
+namespace SAML2\Assertion\Validation\ConstraintValidator;
+
+use SAML2\Assertion\Validation\Result;
+use SAML2\Assertion\Validation\SubjectConfirmationConstraintValidator;
+use SAML2\Response;
+use SAML2\XML\saml\SubjectConfirmation;
+
+class SubjectConfirmationResponseToMatches implements
+    SubjectConfirmationConstraintValidator
 {
     private $response;
 
-    public function __construct(SAML2_Response $response)
+    public function __construct(Response $response)
     {
         $this->response = $response;
     }
 
     public function validate(
-        SAML2_XML_saml_SubjectConfirmation $subjectConfirmation,
-        SAML2_Assertion_Validation_Result $result
+        SubjectConfirmation $subjectConfirmation,
+        Result $result
     ) {
         $inResponseTo = $subjectConfirmation->SubjectConfirmationData->InResponseTo;
         if ($inResponseTo && $this->getInResponseTo() && $this->getInResponseTo() !== $inResponseTo) {
@@ -27,8 +34,8 @@ class SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationResponse
     private function getInResponseTo()
     {
         $inResponseTo = $this->response->getInResponseTo();
-        if ($inResponseTo === NULL) {
-            return FALSE;
+        if ($inResponseTo === null) {
+            return false;
         }
 
         return $inResponseTo;

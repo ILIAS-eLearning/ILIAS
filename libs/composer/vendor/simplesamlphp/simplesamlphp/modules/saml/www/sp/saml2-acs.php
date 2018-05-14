@@ -13,9 +13,9 @@ $source = SimpleSAML_Auth_Source::getById($sourceId, 'sspmod_saml_Auth_Source_SP
 $spMetadata = $source->getMetadata();
 
 try {
-    $b = SAML2_Binding::getCurrentBinding();
+    $b = \SAML2\Binding::getCurrentBinding();
 } catch (Exception $e) { // TODO: look for a specific exception
-    // This is dirty. Instead of checking the message of the exception, SAML2_Binding::getCurrentBinding() should throw
+    // This is dirty. Instead of checking the message of the exception, \SAML2\Binding::getCurrentBinding() should throw
     // an specific exception when the binding is unknown, and we should capture that here
     if ($e->getMessage() === 'Unable to find the current binding.') {
         throw new SimpleSAML_Error_Error('ACSPARAMS', $e, 400);
@@ -24,12 +24,12 @@ try {
     }
 }
 
-if ($b instanceof SAML2_HTTPArtifact) {
+if ($b instanceof \SAML2\HTTPArtifact) {
     $b->setSPMetadata($spMetadata);
 }
 
 $response = $b->receive();
-if (!($response instanceof SAML2_Response)) {
+if (!($response instanceof \SAML2\Response)) {
     throw new SimpleSAML_Error_BadRequest('Invalid message received to AssertionConsumerService endpoint.');
 }
 
@@ -37,7 +37,7 @@ $idp = $response->getIssuer();
 if ($idp === null) {
     // no Issuer in the response. Look for an unencrypted assertion with an issuer
     foreach ($response->getAssertions() as $a) {
-        if ($a instanceof SAML2_Assertion) {
+        if ($a instanceof \SAML2\Assertion) {
             // we found an unencrypted assertion, there should be an issuer here
             $idp = $a->getIssuer();
             break;
@@ -59,24 +59,33 @@ if ($prevAuth !== null && $prevAuth['id'] === $response->getId() && $prevAuth['i
      * In that case we may as well just redo the previous redirect
      * instead of displaying a confusing error message.
      */
-    SimpleSAML_Logger::info(
+    SimpleSAML\Logger::info(
         'Duplicate SAML 2 response detected - ignoring the response and redirecting the user to the correct page.'
     );
     if (isset($prevAuth['redirect'])) {
         \SimpleSAML\Utils\HTTP::redirectTrustedURL($prevAuth['redirect']);
     }
 
-    SimpleSAML_Logger::info('No RelayState or ReturnURL available, cannot redirect.');
+    SimpleSAML\Logger::info('No RelayState or ReturnURL available, cannot redirect.');
     throw new SimpleSAML_Error_Exception('Duplicate assertion received.');
 }
 
 $idpMetadata = array();
 
+$state = null;
 $stateId = $response->getInResponseTo();
 if (!empty($stateId)) {
-    // this is a response to a request we sent earlier
-    $state = SimpleSAML_Auth_State::loadState($stateId, 'saml:sp:sso');
+    // this should be a response to a request we sent earlier
+    try {
+        $state = SimpleSAML_Auth_State::loadState($stateId, 'saml:sp:sso');
+    } catch (Exception $e) {
+        // something went wrong,
+        SimpleSAML\Logger::warning('Could not load state specified by InResponseTo: '.$e->getMessage().
+            ' Processing response as unsolicited.');
+    }
+}
 
+if ($state) {
     // check that the authentication source is correct
     assert('array_key_exists("saml:sp:AuthId", $state)');
     if ($state['saml:sp:AuthId'] !== $sourceId) {
@@ -90,7 +99,7 @@ if (!empty($stateId)) {
     if ($state['ExpectedIssuer'] !== $idp) {
         $idpMetadata = $source->getIdPMetadata($idp);
         $idplist = $idpMetadata->getArrayize('IDPList', array());
-        if (!in_array($state['ExpectedIssuer'], $idplist)) {
+        if (!in_array($state['ExpectedIssuer'], $idplist, true)) {
             throw new SimpleSAML_Error_Exception(
                 'The issuer of the response does not match to the identity provider we sent the request to.'
             );
@@ -110,7 +119,7 @@ if (!empty($stateId)) {
     );
 }
 
-SimpleSAML_Logger::debug('Received SAML2 Response from '.var_export($idp, true).'.');
+SimpleSAML\Logger::debug('Received SAML2 Response from '.var_export($idp, true).'.');
 
 if (empty($idpMetadata)) {
     $idpMetadata = $source->getIdPmetadata($idp);
@@ -134,7 +143,7 @@ $foundAuthnStatement = false;
 foreach ($assertions as $assertion) {
 
     // check for duplicate assertion (replay attack)
-    $store = SimpleSAML_Store::getInstance();
+    $store = \SimpleSAML\Store::getInstance();
     if ($store !== false) {
         $aID = $assertion->getId();
         if ($store->get('saml.AssertionReceived', $aID) !== null) {
@@ -186,23 +195,44 @@ if ($expire !== null) {
     $logoutExpire = time() + 24 * 60 * 60;
 }
 
-// register this session in the logout store
-sspmod_saml_SP_LogoutStore::addSession($sourceId, $nameId, $sessionIndex, $logoutExpire);
+if (!empty($nameId)) {
+    // register this session in the logout store
+    sspmod_saml_SP_LogoutStore::addSession($sourceId, $nameId, $sessionIndex, $logoutExpire);
 
-// we need to save the NameID and SessionIndex for logout
-$logoutState = array(
-    'saml:logout:Type'         => 'saml2',
-    'saml:logout:IdP'          => $idp,
-    'saml:logout:NameID'       => $nameId,
-    'saml:logout:SessionIndex' => $sessionIndex,
-);
+    // we need to save the NameID and SessionIndex for logout
+    $logoutState = array(
+        'saml:logout:Type'         => 'saml2',
+        'saml:logout:IdP'          => $idp,
+        'saml:logout:NameID'       => $nameId,
+        'saml:logout:SessionIndex' => $sessionIndex,
+    );
+
+    $state['saml:sp:NameID'] = $nameId; // no need to mark it as persistent, it already is
+} else {
+    /*
+     * No NameID provided, we can't logout from this IdP!
+     *
+     * Even though interoperability profiles "require" a NameID, the SAML 2.0 standard does not require it to be present
+     * in assertions. That way, we could have a Subject with only a SubjectConfirmation, or even no Subject element at
+     * all.
+     *
+     * In case we receive a SAML assertion with no NameID, we can be graceful and continue, but we won't be able to
+     * perform a Single Logout since the SAML logout profile mandates the use of a NameID to identify the individual we
+     * want to be logged out. In order to minimize the impact of this, we keep logout state information (without saving
+     * it to the store), marking the IdP as SAML 1.0, which does not implement logout. Then we can safely log the user
+     * out from the local session, skipping Single Logout upstream to the IdP.
+     */
+    $logoutState = array(
+        'saml:logout:Type'         => 'saml1',
+    );
+}
+
 $state['LogoutState'] = $logoutState;
 $state['saml:AuthenticatingAuthority'] = $authenticatingAuthority;
 $state['saml:AuthenticatingAuthority'][] = $idp;
 $state['PersistentAuthData'][] = 'saml:AuthenticatingAuthority';
-
-$state['saml:sp:NameID'] = $nameId;
-$state['PersistentAuthData'][] = 'saml:sp:NameID';
+$state['saml:AuthnInstant'] = $assertion->getAuthnInstant();
+$state['PersistentAuthData'][] = 'saml:AuthnInstant';
 $state['saml:sp:SessionIndex'] = $sessionIndex;
 $state['PersistentAuthData'][] = 'saml:sp:SessionIndex';
 $state['saml:sp:AuthnContext'] = $assertion->getAuthnContext();

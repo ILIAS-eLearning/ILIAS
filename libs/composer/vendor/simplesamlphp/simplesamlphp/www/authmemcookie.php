@@ -8,6 +8,8 @@
  *
  * The file extra/auth_memcookie.conf contains an example of how Auth Memcookie can be configured
  * to use SimpleSAMLphp.
+ *
+ * @deprecated This file has been deprecated and will be removed in SSP 2.0. Use the memcookie module instead.
  */
 
 require_once('_include.php');
@@ -25,7 +27,7 @@ try {
     $amc = SimpleSAML_AuthMemCookie::getInstance();
 
     $sourceId = $amc->getAuthSource();
-    $s = new SimpleSAML_Auth_Simple($sourceId);
+    $s = new \SimpleSAML\Auth\Simple($sourceId);
 
     // check if the user is authorized. We attempt to authenticate the user if not
     $s->requireAuth();
@@ -82,7 +84,7 @@ try {
                 if ($value->length === 0) {
                     continue;
                 }
-                $values[$i] = new SAML2_XML_saml_AttributeValue($value->item(0)->parentNode);
+                $values[$i] = new \SAML2\XML\saml\AttributeValue($value->item(0)->parentNode);
             }
             $values = implode(':', $values);
         }

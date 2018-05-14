@@ -5,13 +5,14 @@ xmlseclibs is a library written in PHP for working with XML Encryption and Signa
 The author of xmlseclibs is Rob Richards.
 
 # Branches
-Both the master and the 1.4 branches are actively maintained. The 1.3 branch is only updated for security related issues.
-* master: Contains namespace support requiring 5.3+.
-* 1.4: Contains auto-loader support while also maintaining backwards compatiblity with the 1.3 version using the xmlseclibs.php file. Supports PHP 5.2+
+Both the master and the 2.0 branches are actively maintained. The 1.4 branch is only updated for security related issues.
+* master: Removes mcrypt usage requiring 5.4+ (5.6.24+ recommended for security reasons)
+* 2.0: Contains namespace support requiring 5.3+
+* 1.4: Contains auto-loader support while also maintaining backwards compatiblity with the older 1.3 version using the xmlseclibs.php file. Supports PHP 5.2+
 
 # Requirements
 
-xmlseclibs requires PHP version 5.2 or greater.
+xmlseclibs requires PHP version 5.4 or greater. **5.6.24+ recommended for security reasons**
 
 
 ## How to Install
@@ -29,12 +30,16 @@ xmlseclibs is being used in many different software.
 
 * [SimpleSAMLPHP](https://github.com/simplesamlphp/simplesamlphp)
 * [LightSAML](https://github.com/lightsaml/lightsaml)
+* [OneLogin](https://github.com/onelogin/php-saml)
 
 ## Basic usage
 
 The example below shows basic usage of xmlseclibs, with a SHA-256 signature.
 
 ```php
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 // Load the XML to be signed
 $doc = new DOMDocument();
 $doc->load('./path/to/file/tobesigned.xml');
@@ -52,12 +57,12 @@ $objDSig->addReference(
 
 // Create a new (private) Security key
 $objKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type'=>'private'));
-// Load the private key
-$objKey->loadKey('./path/to/privatekey.pem', TRUE);
-/* 
-If key has a passphrase, set it using 
+/*
+If key has a passphrase, set it using
 $objKey->passphrase = '<passphrase>';
 */
+// Load the private key
+$objKey->loadKey('./path/to/privatekey.pem', TRUE);
 
 // Sign the XML file
 $objDSig->sign($objKey);

@@ -1188,6 +1188,22 @@ footer.ilFooter {
 			color: @il-footer-color;
 		}
 	}
+	.ilPermalinkContainer {
+		> label {
+			display: table-cell;
+			vertical-align: middle;
+			padding-right: 5px;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				padding-right: 0;
+				width: 24px;
+			}
+		}
+		padding-right: 5px;
+		line-height: 22px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			padding-right: 0;
+		}
+	}
 }
 
 [dir="rtl"] footer.ilFooter {
@@ -1209,36 +1225,10 @@ footer.ilFooter {
 }
 
 /* ----------------- permanent link  ------------- */
-div.ilPermaLink {
-	margin: 15px;
-}
-
-div.ilPermaLink .small {
-	font-size: 70%;
-}
-
-div.ilPermaLink .il_adv_sel {
-	font-size: 100%;
-}
-
-div.ilPermaLink input {
-	font-size: 70%;
-	width: 350px;
-}
-
-div.ilPermaLink a {
-	font-size: 1em;
-}
-
 #current_perma_link {
 	color: @text-color;
-	width: 25%;
 	font-size: 90%;
-	+ .btn-group {
-		vertical-align: top;
-	}
 }
-
 
 /* ----------------- invisible border ------------- */
 div.invisible_border {
