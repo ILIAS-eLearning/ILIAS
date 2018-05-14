@@ -11401,7 +11401,7 @@ blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_salutation#:#Hello %s,###deprecated
 blog#:#blog_change_notification_body_new#:#the following blog posting was created.
 blog#:#blog_change_notification_body_update#:#the following blog posting has been updated.
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.###deprecated
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.
 blog#:#blog_changed_by#:#Last Changed By###deprecated
 blog#:#blog_change_notification_link#:#Link to Blog Posting
 blog#:#blog_notification_toggle_on#:#Activate Notification
