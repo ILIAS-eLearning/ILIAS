@@ -1471,7 +1471,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$terms[] = array(
 				"text" => $this->formatSAQuestion($term->text),
-				"id" =>(int)$term->identifier
+				"id" =>(int)$this->getId().$term->identifier
 			);
 		}
 		$result['terms'] = $terms;
@@ -1506,7 +1506,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if( !isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points )
 			{
 				$matchings[$pid] = array(
-					"term_id" => (int) $pair->term->identifier,
+					"term_id" => (int) $this->getId().$pair->term->identifier,
 					"def_id" => (int) $this->getId().$pair->definition->identifier,
 					"points" => (int) $pair->points
 				);
