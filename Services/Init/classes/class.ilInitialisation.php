@@ -854,7 +854,7 @@ class ilInitialisation
 	/**
 	 * $lng initialisation
 	 */
-	protected static function initLanguage()
+	protected static function initLanguage($a_use_user_language = true)
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -862,7 +862,15 @@ class ilInitialisation
 		global $rbacsystem;
 
 		require_once 'Services/Language/classes/class.ilLanguage.php';
-		self::initGlobal('lng', ilLanguage::getGlobalInstance());
+
+		if($a_use_user_language)
+		{
+			self::initGlobal('lng', ilLanguage::getGlobalInstance());
+		}
+		else
+		{
+			self::initGlobal('lng', ilLanguage::getGlobalDefaultInstance());
+		}
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -922,6 +930,11 @@ class ilInitialisation
 		else
 		{
 			$GLOBALS[$a_name] = $a_class;
+		}
+
+		if($DIC->offsetExists($a_name))
+		{
+			$DIC->offsetUnset($a_name);
 		}
 
 		$DIC[$a_name] = function ($c) use ($a_name) {
@@ -1028,7 +1041,7 @@ class ilInitialisation
 			self::includePhp5Compliance();
 			
 			// language may depend on user setting
-			self::initLanguage();
+			self::initLanguage(true);
 			$GLOBALS['DIC']['tree']->initLangCode();
 
 			self::initInjector($GLOBALS['DIC']);
@@ -1141,6 +1154,9 @@ class ilInitialisation
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
+
+		// init dafault language
+		self::initLanguage(false);
 		
 		// moved after databases 
 		self::initLog();		
@@ -1226,8 +1242,9 @@ class ilInitialisation
 	public static function resumeUserSession()
 	{
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-		if(ilAuthUtils::handleForcedAuthentication())
+		if(ilAuthUtils::isAuthenticationForced())
 		{
+			ilAuthUtils::handleForcedAuthentication();
 		}
 		
 		if(
