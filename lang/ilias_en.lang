@@ -4845,8 +4845,8 @@ dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#created#:#Created
-dateplaner#:#crs_cal_activation_end#:#Course Availability ends
-dateplaner#:#crs_cal_activation_start#:#Course Availability starts
+dateplaner#:#crs_cal_activation_end#:#Course availability ends
+dateplaner#:#crs_cal_activation_start#:#Course availability starts
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#date_format#:#m/d/Y H:i
