@@ -21,6 +21,15 @@ class ilMediaObjectDataSet extends ilDataSet
 	protected $use_previous_import_ids = false;
 
 	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->mob_log = ilLoggerFactory::getLogger('mob');
+	}
+
+	/**
 	 * Set use previous import ids
 	 *
 	 * @param bool $a_val use previous import ids
@@ -369,6 +378,7 @@ class ilMediaObjectDataSet extends ilDataSet
 				{
 					$source_dir = $this->getImportDirectory()."/".$dir;
 					$target_dir = $dir = ilObjMediaObject::_getDirectory($newObj->getId());
+					$this->mob_log->debug("s:-$source_dir-,t:-$target_dir-");
 					ilUtil::rCopy($source_dir, $target_dir);
 					ilObjMediaObject::renameExecutables($target_dir);
 					include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
