@@ -1,14 +1,21 @@
 <?php
 
-class SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationNotOnOrAfter implements
-    SAML2_Assertion_Validation_SubjectConfirmationConstraintValidator
+namespace SAML2\Assertion\Validation\ConstraintValidator;
+
+use SAML2\Assertion\Validation\Result;
+use SAML2\Assertion\Validation\SubjectConfirmationConstraintValidator;
+use SAML2\Utilities\Temporal;
+use SAML2\XML\saml\SubjectConfirmation;
+
+class SubjectConfirmationNotOnOrAfter implements
+    SubjectConfirmationConstraintValidator
 {
     public function validate(
-        SAML2_XML_saml_SubjectConfirmation $subjectConfirmation,
-        SAML2_Assertion_Validation_Result $result
+        SubjectConfirmation $subjectConfirmation,
+        Result $result
     ) {
         $notOnOrAfter = $subjectConfirmation->SubjectConfirmationData->NotOnOrAfter;
-        if ($notOnOrAfter && $notOnOrAfter <= SAML2_Utilities_Temporal::getTime() - 60) {
+        if ($notOnOrAfter && $notOnOrAfter <= Temporal::getTime() - 60) {
             $result->addError('NotOnOrAfter in SubjectConfirmationData is in the past');
         }
     }
