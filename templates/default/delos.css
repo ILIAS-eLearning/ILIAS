@@ -10006,6 +10006,26 @@ footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
   color: #ffffff;
 }
+footer.ilFooter .ilPermalinkContainer {
+  padding-right: 5px;
+  line-height: 22px;
+}
+footer.ilFooter .ilPermalinkContainer > label {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+@media only screen and (max-width: 767px) {
+  footer.ilFooter .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  footer.ilFooter .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
 [dir="rtl"] footer.ilFooter {
   text-align: right;
 }
@@ -10023,29 +10043,9 @@ footer.ilFooter div.ilFooterContainer > a:hover {
   }
 }
 /* ----------------- permanent link  ------------- */
-div.ilPermaLink {
-  margin: 15px;
-}
-div.ilPermaLink .small {
-  font-size: 70%;
-}
-div.ilPermaLink .il_adv_sel {
-  font-size: 100%;
-}
-div.ilPermaLink input {
-  font-size: 70%;
-  width: 350px;
-}
-div.ilPermaLink a {
-  font-size: 1em;
-}
 #current_perma_link {
   color: #333333;
-  width: 25%;
   font-size: 90%;
-}
-#current_perma_link + .btn-group {
-  vertical-align: top;
 }
 /* ----------------- invisible border ------------- */
 div.invisible_border {
