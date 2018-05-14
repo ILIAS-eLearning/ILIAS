@@ -10566,7 +10566,7 @@ wsp#:#wsp_set_permission_single_user#:#A Single User
 wsp#:#wsp_set_permission_group#:#Members of Group
 wsp#:#wsp_set_permission_course#:#Members of Course
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
-wsp#:#wsp_permission_removed#:#The item has been removed.
+wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_search_users#:#Search Users
