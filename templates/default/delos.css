@@ -9974,6 +9974,14 @@ div.il_TreeIcons {
   padding: 15px 0 0 15px;
   float: left;
 }
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+  color: #333333;
+  font-size: 90%;
+}
+a.permalink_label > span.glyphicon {
+  display: none;
+}
 div.il_Footer {
   padding: 10px 0;
   font-size: 90%;
@@ -10005,6 +10013,11 @@ footer.ilFooter div.ilFooterContainer > a {
 footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
   color: #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  footer.ilFooter a.permalink_label > span.glyphicon {
+    display: inline;
+  }
 }
 footer.ilFooter .ilPermalinkContainer {
   padding-right: 5px;
@@ -10041,11 +10054,6 @@ footer.ilFooter .ilPermalinkContainer > label {
     table-layout: fixed;
     width: 100%;
   }
-}
-/* ----------------- permanent link  ------------- */
-#current_perma_link {
-  color: #333333;
-  font-size: 90%;
 }
 /* ----------------- invisible border ------------- */
 div.invisible_border {
