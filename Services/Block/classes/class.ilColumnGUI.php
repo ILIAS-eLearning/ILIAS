@@ -176,7 +176,6 @@ class ilColumnGUI
 			"pdcal"	=> true,
 			"pdnews" => true,
 			"pdfeed" => true,			
-			"pdusers" => true,
 			"pdbookm" => true,
 			"pdtag" => true,
 			"pdsysmess" => true,
