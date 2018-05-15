@@ -467,7 +467,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		#$pro->setInfo($this->lng->txt('role_protext_permission_info'));
 		$this->form->addItem($pro);
 		
-		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		include_once 'Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php';
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
 			$quo = new ilNumberInputGUI($this->lng->txt('disk_quota'),'disk_quota');
@@ -522,7 +522,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacreview;
 		
-		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		include_once 'Services/DiskQuota/classes/class.ilDiskQuotaActivationChecker.php';
 
 		$data['title'] = $role->getTitle();
 		$data['desc'] = $role->getDescription();
