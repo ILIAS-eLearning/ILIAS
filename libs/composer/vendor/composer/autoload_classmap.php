@@ -6194,7 +6194,6 @@ return array(
     'ilUsersGalleryUserCollectionPublicNameSorter' => $baseDir . '/../../Services/User/Gallery/classes/class.ilUsersGalleryUserCollectionPublicNameSorter.php',
     'ilUsersGalleryUserCollectionSorter' => $baseDir . '/../../Services/User/Gallery/interfaces/interface.ilUsersGalleryUserCollectionSorter.php',
     'ilUsersGalleryUserImpl' => $baseDir . '/../../Services/User/Gallery/classes/class.ilUsersGalleryUserImpl.php',
-    'ilUsersOnlineBlockGUI' => $baseDir . '/../../Services/PersonalDesktop/classes/class.ilUsersOnlineBlockGUI.php',
     'ilUtil' => $baseDir . '/../../Services/Utilities/classes/class.ilUtil.php',
     'ilValidator' => $baseDir . '/../../Services/Repository/classes/class.ilValidator.php',
     'ilValidatorAdapter' => $baseDir . '/../../Services/XHTMLValidator/classes/class.ilValidatorAdapter.php',
