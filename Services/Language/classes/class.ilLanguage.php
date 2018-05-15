@@ -473,7 +473,7 @@ class ilLanguage
 	 * Builds a global default language instance
 	 * @return \ilLanguage
 	 */
-	public static function getGlobalDefaultInstance()
+	public static function getFallbackInstance()
 	{
 		return new self('en');
 	}

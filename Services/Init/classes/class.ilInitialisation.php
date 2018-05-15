@@ -856,6 +856,8 @@ class ilInitialisation
 	 */
 	protected static function initLanguage($a_use_user_language = true)
 	{
+		global $DIC;
+
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
@@ -865,11 +867,15 @@ class ilInitialisation
 
 		if($a_use_user_language)
 		{
+			if($DIC->offsetExists('lng'))
+			{
+				$DIC->offsetUnset('lng');
+			}
 			self::initGlobal('lng', ilLanguage::getGlobalInstance());
 		}
 		else
 		{
-			self::initGlobal('lng', ilLanguage::getGlobalDefaultInstance());
+			self::initGlobal('lng', ilLanguage::getFallbackInstance());
 		}
 		if(is_object($rbacsystem))
 		{
@@ -930,11 +936,6 @@ class ilInitialisation
 		else
 		{
 			$GLOBALS[$a_name] = $a_class;
-		}
-
-		if($DIC->offsetExists($a_name))
-		{
-			$DIC->offsetUnset($a_name);
 		}
 
 		$DIC[$a_name] = function ($c) use ($a_name) {
