@@ -1154,6 +1154,17 @@ div.il_TreeIcons {
 	float: left;
 }
 
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+	color: @text-color;
+	font-size: 90%;
+}
+a.permalink_label {
+	> span.glyphicon {
+		display: none;
+	}
+}
+
 div.il_Footer {
 	padding: 10px 0;
 	font-size: 90%;
@@ -1184,6 +1195,13 @@ footer.ilFooter {
 		white-space: nowrap;
 		&:hover {
 			color: @il-footer-color;
+		}
+	}
+	a.permalink_label {
+		> span.glyphicon {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				display: inline;
+			}
 		}
 	}
 	.ilPermalinkContainer {
@@ -1222,11 +1240,6 @@ footer.ilFooter {
     }
 }
 
-/* ----------------- permanent link  ------------- */
-#current_perma_link {
-	color: @text-color;
-	font-size: 90%;
-}
 
 /* ----------------- invisible border ------------- */
 div.invisible_border {
