@@ -113,9 +113,7 @@ class Renderer extends AbstractComponentRenderer
 
 
 	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
-		$f = new \ILIAS\UI\Implementation\Factory(
-			new \ILIAS\UI\Implementation\Component\SignalGenerator()
-		);
+		$f = $this->getUIFactory();
 
 		$tpl = $this->getTemplate("tpl.sortation.html", true, true);
 

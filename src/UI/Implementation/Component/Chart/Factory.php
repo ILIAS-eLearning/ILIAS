@@ -6,6 +6,14 @@ namespace ILIAS\UI\Implementation\Component\Chart;
  * @package ILIAS\UI\Implementation\Component\Listing
  */
 class Factory implements \ILIAS\UI\Component\Chart\Factory {
+	/**
+	 * @var ProgressMeter\Factory
+	 */
+	protected $progressmeter_factory;
+
+	public function __construct(ProgressMeter\Factory $progressmeter_factory) {
+		$this->progressmeter_factory = $progressmeter_factory;
+	}
 
 	/**
 	 * @inheritdoc
@@ -19,6 +27,6 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory {
      */
     public function progressMeter()
     {
-        return new ProgressMeter\Factory();
+        return $this->progressmeter_factory;
     }
 }
