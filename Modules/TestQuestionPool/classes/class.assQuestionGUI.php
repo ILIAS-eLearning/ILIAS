@@ -2361,7 +2361,7 @@ abstract class assQuestionGUI
 	/**
 	 * @return string
 	 */
-	protected function buildFocusAnchorHtml()
+	public function buildFocusAnchorHtml()
 	{
 		return '<div id="focus"></div>';
 	}

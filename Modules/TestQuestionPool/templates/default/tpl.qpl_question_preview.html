@@ -3,6 +3,9 @@
 	<form name="ilAssQuestionPreview" action="{PREVIEW_FORMACTION}" method="post" enctype="multipart/form-data">
 		{QUESTION_OUTPUT}
 		{QUESTION_NAVIGATION}
+		<!-- BEGIN instant_feedback_anchor -->
+			<div id="{FEEDBACK_FOCUS_ANCHOR}"></div>
+		<!-- END instant_feedback_anchor -->
 		<!-- BEGIN instant_feedback_generic -->
 			<div class="{ILC_FB_CSS_CLASS}">{GENERIC_FEEDBACK}</div>
 		<!-- END instant_feedback_generic -->
