@@ -345,7 +345,7 @@ class ilAssQuestionPreviewGUI
 
 		$this->questionGUI->setPreviewSession($this->previewSession);
 
-		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0)));
+		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)));
 
 		//$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
 		//$pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
@@ -418,7 +418,7 @@ class ilAssQuestionPreviewGUI
 		}
 		
 		$tpl->setCurrentBlock('instant_response_header');
-		$tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('feedback'));
+		$tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
 		$tpl->parseCurrentBlock();
 	}
 
