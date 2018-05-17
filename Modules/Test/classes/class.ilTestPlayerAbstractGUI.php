@@ -2335,7 +2335,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		$this->tpl->setCurrentBlock('instant_response_header');
-		$this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('feedback'));
+		$this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
 		$this->tpl->parseCurrentBlock();
 	}
 	
