@@ -351,9 +351,10 @@ class ilAssQuestionPreviewGUI
 		//$pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
 
 		//$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
-
-		$output = $pageGUI->preview();
-		$output = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $output);
+		
+		$output = $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false);
+		//$output = $pageGUI->preview();
+		//$output = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $output);
 		
 		$tpl->setCurrentBlock('solution_output');
 		$tpl->setVariable('TXT_CORRECT_SOLUTION', $this->lng->txt('tst_best_solution_is'));

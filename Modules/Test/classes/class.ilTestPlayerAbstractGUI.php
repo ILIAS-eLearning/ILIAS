@@ -2285,7 +2285,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				NULL,                                                #pass
 				FALSE,                                                #graphical_output
 				$show_question_inline_score,                        #result_output
-				FALSE,                                                #show_question_only
+				TRUE,                                                #show_question_only
 				FALSE,                                                #show_feedback
 				TRUE,                                                #show_correct_solution
 				FALSE,                                                #show_manual_scoring
