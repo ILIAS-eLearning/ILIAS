@@ -1699,22 +1699,6 @@ class ilUtil
 	}
 
 	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @static
-	* 
-	*/
-	public static function getAssociatedUsersOnline($a_user_id)
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
-	}
-
-	/**
 	* Create a temporary file in an ILIAS writable directory
 	*
 	* @return	string File name of the temporary file

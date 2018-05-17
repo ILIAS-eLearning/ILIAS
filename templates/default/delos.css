@@ -9974,6 +9974,51 @@ div.il_TreeIcons {
   padding: 15px 0 0 15px;
   float: left;
 }
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+  color: #333333;
+  font-size: 90%;
+}
+a.permalink_label > span.glyphicon {
+  display: none;
+}
+.ilPermalinkContainer {
+  width: 100%;
+}
+div.ilPermanentLinkWrapper {
+  clear: both;
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer {
+  table-layout: fixed;
+  line-height: 22px;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+  width: 150px;
+  display: table-cell;
+  vertical-align: middle;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
+  width: 28px;
+}
 div.il_Footer {
   padding: 10px 0;
   font-size: 90%;
@@ -10006,7 +10051,13 @@ footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
   color: #ffffff;
 }
+@media only screen and (max-width: 767px) {
+  footer.ilFooter a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
 footer.ilFooter .ilPermalinkContainer {
+  width: auto;
   padding-right: 5px;
   line-height: 22px;
 }
@@ -10041,11 +10092,6 @@ footer.ilFooter .ilPermalinkContainer > label {
     table-layout: fixed;
     width: 100%;
   }
-}
-/* ----------------- permanent link  ------------- */
-#current_perma_link {
-  color: #333333;
-  font-size: 90%;
 }
 /* ----------------- invisible border ------------- */
 div.invisible_border {

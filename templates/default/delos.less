@@ -1156,6 +1156,54 @@ div.il_TreeIcons {
 	float: left;
 }
 
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+	color: @text-color;
+	font-size: 90%;
+}
+a.permalink_label {
+	> span.glyphicon {
+		display: none;
+	}
+}
+
+.ilPermalinkContainer {
+	width: 100%;
+}
+
+div.ilPermanentLinkWrapper {
+	clear: both;
+	margin-top: 10px;
+	display: inline-block;
+	width: 100%;
+	a.permalink_label {
+		> span.glyphicon {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				display: inline;
+			}
+		}
+	}
+	.ilPermalinkContainer {
+		table-layout: fixed;
+		line-height: 22px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			padding-right: 0;
+		}
+		> label {
+			width: 150px;
+			display: table-cell;
+			vertical-align: middle;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				padding-right: 0;
+				width: 24px;
+			}
+		}
+		.input-group-btn {
+			width: 28px;
+		}
+	}
+}
+
 div.il_Footer {
 	padding: 10px 0;
 	font-size: 90%;
@@ -1188,7 +1236,15 @@ footer.ilFooter {
 			color: @il-footer-color;
 		}
 	}
+	a.permalink_label {
+		> span.glyphicon {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				display: inline;
+			}
+		}
+	}
 	.ilPermalinkContainer {
+		width: auto;
 		> label {
 			display: table-cell;
 			vertical-align: middle;
@@ -1224,11 +1280,6 @@ footer.ilFooter {
     }
 }
 
-/* ----------------- permanent link  ------------- */
-#current_perma_link {
-	color: @text-color;
-	font-size: 90%;
-}
 
 /* ----------------- invisible border ------------- */
 div.invisible_border {
