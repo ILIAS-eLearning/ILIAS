@@ -25,6 +25,9 @@ class Data implements Transformation {
 	 */
 	public function __construct($type) {
 		$this->type = $type;
+		if(! method_exists($this->getDataFactory(), $type)) {
+			throw new \InvalidArgumentException("No such type to transform to: $type");
+		}
 	}
 
 	/**
@@ -33,9 +36,6 @@ class Data implements Transformation {
 	public function transform($from) {
 		$type = $this->type;
 		$data_factory = $this->getDataFactory();
-		if(! method_exists($data_factory, $type)) {
-			throw new \InvalidArgumentException("No such type to transform to: $type");
-		}
 		return $data_factory->$type($from);
 	}
 
@@ -46,6 +46,10 @@ class Data implements Transformation {
 		return $this->transform($from);
 	}
 
+	/**
+	 * Get an instance of the data-factory
+	 * @return Data\Factory
+	 */
 	protected function getDataFactory() {
 		return new DataFactory();
 	}
