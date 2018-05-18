@@ -16,6 +16,7 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
 class ilSystemNotification extends ilMailNotification
 {
 	protected $subject_lang_id; // [string]
+    protected $subject_direct; // [string]
 	protected $introduction; // [string]
 	protected $introduction_direct; // [string]
 	protected $task; // [string]
@@ -34,6 +35,16 @@ class ilSystemNotification extends ilMailNotification
 	{
 		$this->subject_lang_id = (string)$a_lang_id;
 	}
+
+    /**
+     * Set subject text
+     *
+     * @param string $a_text
+     */
+    public function setSubjectDirect($a_text)
+    {
+        $this->subject_direct = trim($a_text);
+    }
 	
 	/**
 	 * Set introduction lang id
@@ -184,9 +195,15 @@ class ilSystemNotification extends ilMailNotification
 		$this->initLanguage($a_user_id);		
 		$this->initMail();
 
-		$this->setSubject(
-			sprintf($this->getLanguageText($this->subject_lang_id), $this->getObjectTitle(true))
-		);
+        if($this->subject_direct)
+        {
+            $this->setSubject($this->subject_direct);
+        }
+        else {
+            $this->setSubject(
+                sprintf($this->getLanguageText($this->subject_lang_id), $this->getObjectTitle(true))
+            );
+        }
 
 		$this->setBody(ilMail::getSalutation($a_user_id, $this->getLanguage()));
 		$this->appendBody("\n\n");
