@@ -9,6 +9,7 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\Data\Password as PWD;
+use \ILIAS\UI\Component\Input\Field;
 
 class _PWDPostData implements PostData {
 	public function get($name) {
@@ -35,6 +36,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
 		$pwd = $f->password("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $pwd);
+		$this->assertInstanceOf(Field\Password::class, $pwd);
 	}
 
 

@@ -29,7 +29,7 @@ class Password {
 	 *
 	 * @return  string
 	 */
-	public function getPassword() {
+	public function toString() {
 		return $this->pass;
 	}
 }

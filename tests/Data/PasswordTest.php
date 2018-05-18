@@ -18,7 +18,7 @@ class PasswordTest extends PHPUnit_Framework_TestCase {
 	public function testValue() {
 		$pass = 'secret';
 		$pwd = $this->f->password($pass);
-		$this->assertEquals($pass, $pwd->getPassword());
+		$this->assertEquals($pass, $pwd->toString());
 	}
 
 	public function testWrongParam() {

@@ -25,11 +25,7 @@ class Password extends Input implements C\Input\Field\Password {
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
-		$trafo = $transformation_factory->custom(
-			function($v) use ($data_factory) {
-				return $data_factory->password($v);
-			}
-		);
+		$trafo = $transformation_factory->toData('password');
 		$this->setAdditionalTransformation($trafo);
 	}
 
