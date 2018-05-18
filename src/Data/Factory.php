@@ -49,4 +49,14 @@ class Factory {
 		}
 		return $this->colorfactory->build($value);
 	}
+
+	/**
+	 * Get a password.
+	 *
+	 * @param  string
+	 * @return Password
+	 */
+	public function password($pass) {
+		return new Password($pass);
+	}
 }

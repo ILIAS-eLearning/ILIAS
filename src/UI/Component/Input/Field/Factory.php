@@ -215,7 +215,7 @@ interface Factory {
 	 *      Text password will render an input-tag with type="password".
 	 *   effect: >
 	 *      Text password is restricted to one line of text and will
-	 *      not display the entered characters.
+	 *      mask the entered characters.
 	 *   rivals:
 	 *      text field: >
 	 *          Use a text field for discloseable information (i.e.
@@ -225,7 +225,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Password Input MUST NOT be pre-populated.
+	 *     1: Password Input MUST be used for passwords.
 	 *   interaction:
 	 *     1: >
 	 *         Password Input MUST NOT limit the number of characters.

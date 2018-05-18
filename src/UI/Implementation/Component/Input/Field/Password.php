@@ -5,17 +5,32 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Password as PWD;
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the password input.
  */
 class Password extends Input implements C\Input\Field\Password {
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withValue($value) {
-		return $this;
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+
+		$trafo = $transformation_factory->custom(
+			function($v) use ($data_factory) {
+				return $data_factory->password($v);
+			}
+		);
+		$this->setAdditionalTransformation($trafo);
 	}
 
 	/**
