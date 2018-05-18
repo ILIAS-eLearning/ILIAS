@@ -9,7 +9,8 @@ function in_form() {
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
-    //Step 1: Define the input field
+
+    //Step 1: Define the input field.
     $pwd_input = $ui->input()->field()->password("Password", "! value will be diplayed...");
 
     //Step 2: Define the form and attach the field.
@@ -29,7 +30,7 @@ function in_form() {
         $result = $form->getData();
     }
 
-    //Step 4: Render the form/result
+    //Step 4: Render the form/result.
     return
         "<pre>".print_r($result, true)."</pre><br/>".
         $renderer->render($form);

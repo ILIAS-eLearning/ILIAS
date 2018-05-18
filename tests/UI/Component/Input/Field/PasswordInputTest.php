@@ -83,7 +83,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 
 		$html = preg_replace('!\s+!', ' ', $html);
 		$expected = preg_replace('!\s+!', ' ', $expected);
-		$html = explode( ' ', $html); //so you can actually _see_ the diffrence...
+		$html = explode( ' ', $html); //so you can actually _see_ the difference...
 		$expected = explode( ' ', $expected);
 		$this->assertEquals($expected, $html);
 	}
