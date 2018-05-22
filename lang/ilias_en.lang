@@ -9610,7 +9610,8 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
 assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#conf_delete_pass#:#Really delete pass?
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
+assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text

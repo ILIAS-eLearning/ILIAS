@@ -9541,6 +9541,7 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
 assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Lösungshinweise
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
