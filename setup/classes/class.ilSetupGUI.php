@@ -218,7 +218,7 @@ class ilSetupGUI
 				$this->active_tab = "password";
 				break;
 
-			case "changepassword":
+			case "changemasterpassword":
 				$this->setDisplayMode("view");
 				$this->changeMasterPassword();
 				$this->active_tab = "password";
@@ -546,7 +546,7 @@ class ilSetupGUI
 			{
 				if ($this->display_mode == "view" ||
 					$this->cmd == "clientlist" ||
-					$this->cmd == "changepassword" ||
+					$this->cmd == "changemasterpassword" ||
 					$this->cmd == 'savemasterpassword' ||
 					$this->cmd == "mastersettings") {
 					$this->tpl->setCurrentBlock("add_client");
