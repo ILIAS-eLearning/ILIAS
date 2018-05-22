@@ -753,6 +753,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->getId(), $DIC->user()->getId()
 		);
 	}
+	
+	/**
+	 * Gateway for exports initiated from workspace, as there is a generic
+	 * forward to {objTypeMainGUI}::export()
+	 */
+	protected function exportObject()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC->ctrl()->redirectByClass('ilTestExportGUI');
+	}
 
 	private function questionsTabGatewayObject()
 	{
