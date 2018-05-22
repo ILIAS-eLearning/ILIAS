@@ -773,7 +773,7 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#ordertext#:#Ordering Text
 assessment#:#output_mode#:#Output Mode
 assessment#:#output#:#Output
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Participants’.
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Dashboard’.
 assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#dashboard_tab#:#Dashboard

@@ -880,7 +880,7 @@ assessment#:#output_mode#:#Ausgabemodus
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
-assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Dashboard" hinzugefügt wurden.
 assessment#:#pass#:#Durchlauf
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_back_to_virtual_pass#:#Zurück zur Fragenübersicht
