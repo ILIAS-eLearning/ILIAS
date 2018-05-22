@@ -11,7 +11,7 @@ function in_form() {
     $request = $DIC->http()->request();
 
     //Step 1: Define the input field.
-    $pwd_input = $ui->input()->field()->password("Password", "! value will be diplayed...");
+    $pwd_input = $ui->input()->field()->password("Password", "! value will be displayed...");
 
     //Step 2: Define the form and attach the field.
     $DIC->ctrl()->setParameterByClass(
