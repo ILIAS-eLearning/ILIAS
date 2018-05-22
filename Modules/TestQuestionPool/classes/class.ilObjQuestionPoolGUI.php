@@ -370,6 +370,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Gateway for exports initiated from workspace, as there is a generic
+	 * forward to {objTypeMainGUI}::export()
+	 */
+	protected function exportObject()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC->ctrl()->redirectByClass('ilQuestionPoolExportGUI');
+	}
+	
+	/**
 	* download file
 	*/
 	function downloadFileObject()
