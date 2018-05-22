@@ -1083,7 +1083,7 @@ assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip ov
 assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
 assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Participants'.
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_qst_order#:#No.
 assessment#:#tst_question_mark#:#Mark this question
