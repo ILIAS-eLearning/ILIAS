@@ -212,6 +212,12 @@ class ilSetupGUI
 				$this->active_tab = "clientlist";
 				break;
 
+			case "savemasterpassword":
+				$this->setDisplayMode("view");
+				$this->saveMasterPassword();
+				$this->active_tab = "password";
+				break;
+
 			case "changepassword":
 				$this->setDisplayMode("view");
 				$this->changeMasterPassword();
@@ -538,8 +544,11 @@ class ilSetupGUI
 			// add client link
 			if ($this->setup->isAdmin())
 			{
-				if ($this->display_mode == "view" or $this->cmd == "clientlist" or $this->cmd == "changepassword" or $this->cmd == "mastersettings")
-				{
+				if ($this->display_mode == "view" ||
+					$this->cmd == "clientlist" ||
+					$this->cmd == "changepassword" ||
+					$this->cmd == 'savemasterpassword' ||
+					$this->cmd == "mastersettings") {
 					$this->tpl->setCurrentBlock("add_client");
 					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new_client")));
 					$this->tpl->parseCurrentBlock();
@@ -3839,74 +3848,83 @@ class ilSetupGUI
 		$this->longer_settings = ilSetting::_getLongerSettings();
 		$this->displayTools();
 	}
+	
+	/**
+	 * return \ilPropertyFormGUI
+	 */
+	protected function getMasterPasswordForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new \ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('change_password'));
+
+		$currentPassword = new \ilPasswordInputGUI($this->lng->txt('set_oldpasswd'), 'pass_old');
+		$currentPassword->setDisableHtmlAutoComplete(true);
+		$currentPassword->setValidateAuthPost(false);
+		$currentPassword->setSkipSyntaxCheck(true);
+		$currentPassword->setRequired(true);
+		$currentPassword->setRetype(false);
+		$form->addItem($currentPassword);
+
+		$newPassword = new \ilPasswordInputGUI($this->lng->txt('set_newpasswd'), 'pass');
+		$newPassword->setDisableHtmlAutoComplete(true);
+		$newPassword->setValidateAuthPost(false);
+		$newPassword->setSkipSyntaxCheck(true);
+		$newPassword->setRequired(true);
+		$newPassword->setRetype(true);
+		$form->addItem($newPassword);
+
+		$form->setFormAction('setup.php?cmd=gateway');
+		$form->addCommandButton('savemasterpassword', $this->lng->txt('save'));
+
+		return $form;
+	}
+
+	/**
+	 * @throws ilUserException
+	 */
+	protected function saveMasterPassword()
+	{
+		$form = $this->getMasterPasswordForm();
+
+		$isValid = $form->checkInput();
+		$form->setValuesByPost();
+
+		if (!$isValid) {
+			return $this->changeMasterPassword($form);
+		}
+
+		$cp = $form->getInput('pass_old');
+		$np = $form->getInput('pass');
+
+		if (md5($cp) != $this->setup->getPassword()) {
+			\ilUtil::sendFailure($this->lng->txt('password_old_wrong'));
+			return $this->changeMasterPassword($form);
+		}
+
+		if (!$this->setup->setPassword($np)) {
+			\ilUtil::sendFailure($this->lng->txt('save_error'));
+			return $this->changeMasterPassword($form);
+		}
+
+		\ilUtil::sendInfo($this->lng->txt('password_changed'), true);
+		\ilUtil::redirect("setup.php");
+	}
 
 	/**
 	 * display change password form and process form input
+	 * @param ilPropertyFormGUI|null $form
 	 */
-	function changeMasterPassword()
+	protected function changeMasterPassword(\ilPropertyFormGUI $form = null)
 	{
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
-
-		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_password"));
-
-		// formular sent
-		if ($_POST["form"])
-		{
-			$pass_old = $this->setup->getPassword();
-
-			if (empty($_POST["form"]["pass_old"]))
-			{
-				$message = $this->lng->txt("password_enter_old");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if (md5($_POST["form"]["pass_old"]) != $pass_old)
-			{
-				$message = $this->lng->txt("password_old_wrong");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if (empty($_POST["form"]["pass"]))
-			{
-				$message = $this->lng->txt("password_empty");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if ($_POST["form"]["pass"] != $_POST["form"]["pass2"])
-			{
-				$message = $this->lng->txt("password_not_match");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if (md5($_POST["form"]["pass"]) == $pass_old)
-			{
-				$message = $this->lng->txt("password_same");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if (!$this->setup->setPassword($_POST["form"]["pass"]))
-			{
-				$message = $this->lng->txt("save_error");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			ilUtil::sendInfo($this->lng->txt("password_changed"),true);
-			ilUtil::redirect("setup.php");
+		if (null === $form) {
+			$form = $this->getMasterPasswordForm();
 		}
 
-		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_change_admin_password.html", "setup");
-
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("password_new_master"));
-
-		// pass form
-		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_PASS_TITLE",$this->lng->txt("change_password"));
-		$this->tpl->setVariable("TXT_PASS_OLD",$this->lng->txt("set_oldpasswd"));
-		$this->tpl->setVariable("TXT_PASS",$this->lng->txt("set_newpasswd"));
-		$this->tpl->setVariable("TXT_PASS2",$this->lng->txt("password_retype"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->addBlockFile('CONTENT', 'content', 'tpl.std_layout.html', 'setup');
+		$this->tpl->setVariable('TXT_HEADER', $this->lng->txt('password_new_master'));
+		$this->tpl->setVariable('TXT_INFO', $this->lng->txt('info_text_password'));
+		$this->tpl->setVariable('SETUP_CONTENT', $form->getHTML());
 	}
 
 	/**
