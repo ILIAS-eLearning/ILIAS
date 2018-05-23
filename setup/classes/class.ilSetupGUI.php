@@ -4064,7 +4064,8 @@ class ilSetupGUI
 
 			if (!$client->init())
 			{
-				$this->setup->raiseError($this->lng->txt("no_valid_client_id"),$this->setup->error_obj->MESSAGE);
+				\ilUtil::sendFailure($this->lng->txt("no_valid_client_id"), true);
+				\ilUtil::redirect("setup.php?cmd=clientlist");
 			}
 
 			$status = $this->setup->getStatus($client);
