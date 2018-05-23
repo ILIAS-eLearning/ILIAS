@@ -349,13 +349,9 @@ overview#:#Overview
 pass_does_not_match#:#Entered passwords does not match.
 passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 password_changed#:#Password changed.
-password_empty#:#No password given!
-password_enter_old#:#You must enter your old password first!
+password_old_wrong#:#Old password entered is wrong!
 password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings again later.
 password_new_master#:#Set New Master Password
-password_not_match#:#New Password entered does not match!
-password_old_wrong#:#Old password entered is wrong!
-password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
 password_set#:#Password saved.
 password#:#Password
