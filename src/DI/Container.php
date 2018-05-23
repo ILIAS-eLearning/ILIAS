@@ -163,4 +163,61 @@ class Container extends \Pimple\Container {
 	public function event() {
 		return $this['ilAppEventHandler'];
 	}
+
+	/**
+	 * @return \ilIniFile
+	 */
+	public function iliasIni() {
+		return $this['ilIliasIniFile'];
+	}
+
+	/**
+	 * @return \ilIniFile
+	 */
+	public function clientIni() {
+		return $this['ilClientIniFile'];
+	}
+
+	/**
+	 *  @return \ilStyleDefinition
+	 */
+	public function systemStyle(){
+		return $this['styleDefinition'];
+	}
+
+	/**
+	 *  @return \ilHelpGUI
+	 */
+	public function help(){
+		return $this['ilHelp'];
+	}
+
+	/**
+	 * This is syntactic sugar for executing the try catch statement in the clients code.
+	 * Note that the use of the offsetSet code of the default container should be avoided,
+	 * since knowledge about the containers internal mechanism is injected.
+	 *
+	 * Example:
+	 * //This is bad since the client should not need to know about the id's name
+	 * $DIC->offsetSet("styleDefinition")
+	 *
+	 * //This is better, since the client just needs to know the name defined in the
+	 * //interface of the component
+	 * $DIC->methodInitialized("systemStyle")
+	 *
+	 * //Note that the following is no better, than the bad example above (same problem)
+	 * $style = $DIC->styleDefinition
+	 * if(is_object($style)){...}
+	 *
+	 * @param $name
+	 * @return bool
+	 */
+	public function isDependencyAvailable($name){
+		try{
+			$this->$name();
+		}catch(\InvalidArgumentException $e){
+			return false;
+		}
+		return true;
+	}
 }
