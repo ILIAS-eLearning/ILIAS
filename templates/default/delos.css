@@ -7912,6 +7912,9 @@ hr.il-divider-with-label {
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "\21f5";
 }
+.il-viewcontrol-pagination .dropdown {
+  display: inline;
+}
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
   background-color: transparent;
   border: 0;
@@ -8455,7 +8458,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row {
   white-space: nowrap;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   padding-top: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
