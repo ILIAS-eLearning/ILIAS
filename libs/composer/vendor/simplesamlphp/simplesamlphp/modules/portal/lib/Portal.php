@@ -13,7 +13,7 @@ class sspmod_portal_Portal {
 	function getTabset($thispage) {
 		if (!isset($this->config)) return NULL;
 		foreach($this->config AS $set) {
-			if (in_array($thispage, $set)) {
+			if (in_array($thispage, $set, true)) {
 				return $set;
 			}
 		}
@@ -23,22 +23,22 @@ class sspmod_portal_Portal {
 	function isPortalized($thispage) {
 		
 		foreach($this->config AS $set) {
-			if (in_array($thispage, $set)) {
+			if (in_array($thispage, $set, true)) {
 				return TRUE;
 			}
 		}
 		return FALSE;
 	}
 	
-	function getLoginInfo($t, $thispage) {
-		$info = array('info' => '', 'template' => $t, 'thispage' => $thispage);
-		SimpleSAML_Module::callHooks('portalLoginInfo', $info);
+	function getLoginInfo($translator, $thispage) {
+		$info = array('info' => '', 'translator' => $translator, 'thispage' => $thispage);
+		SimpleSAML\Module::callHooks('portalLoginInfo', $info);
 		return $info['info'];
 	}
 	
 	function getMenu($thispage) {
 		$config = SimpleSAML_Configuration::getInstance();
-		$t = new SimpleSAML_XHTML_Template($config, 'sanitycheck:check-tpl.php');
+		$t = new SimpleSAML\Locale\Translate($config);
 		$tabset = $this->getTabset($thispage);
 		$logininfo = $this->getLoginInfo($t, $thispage);
 		$text = '';

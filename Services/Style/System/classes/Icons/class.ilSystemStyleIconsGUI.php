@@ -4,6 +4,8 @@ include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinCon
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColorSet.php");
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconFolder.php");
 
+use ILIAS\FileUpload\Location;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
@@ -412,6 +414,8 @@ class  ilSystemStyleIconsGUI
 
 	public function updateIcon()
 	{
+        global $DIC;
+
 
 		$icon_name = $_POST['selected_icon'];
 		$icon = $this->getIconFolder()->getIconByName($icon_name);
@@ -440,8 +444,19 @@ class  ilSystemStyleIconsGUI
 			$icon->changeColors($color_changes);
 
 			if($_POST["changed_icon"]){
-				$old_icon = $this->getIconFolder()->getIconByName($icon_name);
-				move_uploaded_file($_POST["changed_icon"]["tmp_name"],$old_icon->getPath());
+                /**
+                 * @var \ILIAS\FileUpload\FileUpload $upload
+                 */
+                $upload = $DIC->upload();
+                $upload->process();
+                $old_icon = $this->getIconFolder()->getIconByName($icon_name);
+
+                $upload->moveOneFileTo(array_pop($upload->getResults()),
+                    $old_icon->getDirRelToCustomizing(),
+                    Location::CUSTOMIZING,
+                    $old_icon->getName(),
+                    true
+                );
 			}
 
             $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),ilSystemStyleMessage::TYPE_SUCCESS));

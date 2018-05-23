@@ -37,6 +37,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::TAG				=> "glyphicon glyphicon-tag"
 		, C\Glyph\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
 		, C\Glyph\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
+		, C\Glyph\Glyph::LIKE				=> "glyphicon il-glyphicon-like"
+		, C\Glyph\Glyph::LOVE				=> "glyphicon il-glyphicon-love"
+		, C\Glyph\Glyph::DISLIKE			=> "glyphicon il-glyphicon-dislike"
+		, C\Glyph\Glyph::LAUGH				=> "glyphicon il-glyphicon-laugh"
+		, C\Glyph\Glyph::ASTOUNDED			=> "glyphicon il-glyphicon-astounded"
+		, C\Glyph\Glyph::SAD				=> "glyphicon il-glyphicon-sad"
+		, C\Glyph\Glyph::ANGRY				=> "glyphicon il-glyphicon-angry"
 		);
 
 	static $aria_labels = array(
@@ -57,6 +64,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::TAG				=> "tags"
 		, C\Glyph\Glyph::NOTE				=> "notes"
 		, C\Glyph\Glyph::COMMENT			=> "comments"
+		, C\Glyph\Glyph::LIKE				=> "like"
+		, C\Glyph\Glyph::LOVE				=> "love"
+		, C\Glyph\Glyph::DISLIKE			=> "dislike"
+		, C\Glyph\Glyph::LAUGH				=> "laugh"
+		, C\Glyph\Glyph::ASTOUNDED			=> "astounded"
+		, C\Glyph\Glyph::SAD				=> "sad"
+		, C\Glyph\Glyph::ANGRY				=> "angry"
 	);
 
 	/**
@@ -241,6 +255,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::TAG)
 			, array(C\Glyph\Glyph::NOTE)
 			, array(C\Glyph\Glyph::COMMENT)
+			, array(C\Glyph\Glyph::LIKE)
+			, array(C\Glyph\Glyph::LOVE)
+			, array(C\Glyph\Glyph::DISLIKE)
+			, array(C\Glyph\Glyph::LAUGH)
+			, array(C\Glyph\Glyph::ASTOUNDED)
+			, array(C\Glyph\Glyph::SAD)
+			, array(C\Glyph\Glyph::ANGRY)
 			);
 	}
 

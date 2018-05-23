@@ -119,6 +119,10 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			$this->ctrl->redirect($this->testGUI, 'infoScreen');
 		}
 		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+
 		// process command
 		
 		$nextClass = $this->ctrl->getNextClass();

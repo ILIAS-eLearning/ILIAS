@@ -36,15 +36,9 @@ class ilObjNotificationAdmin extends ilObject
 	}
 
 	/**
-	* delete file and all related data	
-	*
 	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
-	function delete()
-	{
-		global $ilDB;
-        }
+	function delete() {}
 
 } // END class.ilObjFile
 ?>

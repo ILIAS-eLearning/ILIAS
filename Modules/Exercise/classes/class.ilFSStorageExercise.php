@@ -230,11 +230,17 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		$this->create();
 		// TODO:
 		// CHECK UPLOAD LIMIT
+
+
 		//
 		$result = false;
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
 			$filename = $a_http_post_file['name'];
+
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+			$filename = ilFileUtils::getValidFilename($filename);
+
 			// replace whitespaces with underscores
 			$filename = preg_replace("/\s/", "_", $filename);
 			// remove all special characters
@@ -270,7 +276,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 				rename($a_http_post_file['tmp_name'],
 				$savepath . "/" . $prefix . "_" . $filename);
 			}
-			
+
 			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 			if (is_file($savepath . "/" . $prefix . "_" . $filename))
 			{

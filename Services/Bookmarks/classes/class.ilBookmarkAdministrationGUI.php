@@ -679,13 +679,8 @@ class ilBookmarkAdministrationGUI
 
 			ilUtil::sendInfo($lng->txt('bookmark_added'), true);
 
-			if($_POST['return_to'])
-				ilUtil::redirect($_POST['return_to_url']);
-			else
-			{
-				$ilCtrl->saveParameter($this, 'bmf_id');
-				$ilCtrl->redirect($this, 'view');
-			}
+			$ilCtrl->saveParameter($this, 'bmf_id');
+			$ilCtrl->redirect($this, 'view');
 		}
 	}
 
@@ -857,10 +852,7 @@ class ilBookmarkAdministrationGUI
 	 */
 	function cancel()
 	{
-		if($_POST['return_to'])
-			ilUtil::redirect($_POST['return_to_url']);
-		else
-			$this->view();
+		$this->view();
 	}
 
 	/**

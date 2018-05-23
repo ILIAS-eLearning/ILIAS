@@ -12,6 +12,11 @@
 class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 {
 	/**
+	 * @var null|\ilPropertyFormGUI
+	 */
+	protected $form_gui;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function executeDefault($requestedMethod)
@@ -38,18 +43,18 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 	public static function _checkSetup()
 	{
-		global $lng;
+		global $DIC;
 
 		$path = self::_getSmileyDir();
 
 		if(!is_dir($path))
 		{
-			ilUtil::sendInfo($lng->txt('chat_smilies_dir_not_exists'));
+			ilUtil::sendInfo($DIC->language()->txt('chat_smilies_dir_not_exists'));
 			ilUtil::makeDirParents($path);
 
 			if(!is_dir($path))
 			{
-				ilUtil::sendFailure($lng->txt('chat_smilies_dir_not_available'));
+				ilUtil::sendFailure($DIC->language()->txt('chat_smilies_dir_not_available'));
 				return false;
 			}
 			else
@@ -78,14 +83,14 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 				self::_insertDefaultValues();
 
-				ilUtil::sendSuccess($lng->txt('chat_smilies_initialized'));
+				ilUtil::sendSuccess($DIC->language()->txt('chat_smilies_initialized'));
 			}
 
 		}
 
 		if(!is_writable($path))
 		{
-			ilUtil::sendInfo($lng->txt('chat_smilies_dir_not_writable'));
+			ilUtil::sendInfo($DIC->language()->txt('chat_smilies_dir_not_writable'));
 		}
 
 		return true;
@@ -134,18 +139,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	/**
 	 * Shows existing smilies table
 	 * Prepares existing smilies table and displays it.
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilLanguage   $lng
-	 * @global ilTemplate   $tpl
 	 */
 	public function editSmiliesObject()
 	{
-		global $rbacsystem, $lng, $tpl;
-
-		if(!$rbacsystem->checkAccess('read', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('read', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_read'), $this->gui->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_read'), $this->gui->ilias->error_obj->MESSAGE
 			);
 		}
 
@@ -172,36 +172,32 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$tpl_smilies->setVariable("SMILEY_TABLE", $table);
 		$tpl_smilies->setVariable("SMILEY_FORM", $form->getHtml());
 
-		$tpl->setContent($tpl_smilies->get());
+		$this->mainTpl->setContent($tpl_smilies->get());
 	}
 
 	/**
 	 * Initializes smilies form and returns it.
-	 * @global ilCtrl2    $ilCtrl
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function initSmiliesForm()
 	{
-		global $ilCtrl, $lng;
-
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$this->form_gui = new ilPropertyFormGUI();
 
 		$table_nav = $_REQUEST["_table_nav"] ? "&_table_nav=" . $_REQUEST["_table_nav"] : "";
 		$this->form_gui->setFormAction(
-			$ilCtrl->getFormAction($this->gui, 'smiley-uploadSmileyObject') . $table_nav
+			$this->ilCtrl->getFormAction($this->gui, 'smiley-uploadSmileyObject') . $table_nav
 		);
 
 		// chat server settings
 		$sec_l = new ilFormSectionHeaderGUI();
 
-		$sec_l->setTitle($lng->txt('chatroom_add_smiley'));
+		$sec_l->setTitle($this->ilLng->txt('chatroom_add_smiley'));
 		$this->form_gui->addItem($sec_l);
 
 		$inp = new ilImageFileInputGUI(
-			$lng->txt('chatroom_image_path'), 'chatroom_image_path'
+			$this->ilLng->txt('chatroom_image_path'), 'chatroom_image_path'
 		);
 		$inp->setSuffixes(array("jpg", "jpeg", "png", "gif", "svg"));
 
@@ -209,15 +205,15 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$this->form_gui->addItem($inp);
 
 		$inp = new ilTextAreaInputGUI(
-			$lng->txt('chatroom_smiley_keywords'), 'chatroom_smiley_keywords'
+			$this->ilLng->txt('chatroom_smiley_keywords'), 'chatroom_smiley_keywords'
 		);
 
 		$inp->setRequired(true);
 		$inp->setUseRte(false);
-		$inp->setInfo($lng->txt('chatroom_smiley_keywords_one_per_line_note'));
+		$inp->setInfo($this->ilLng->txt('chatroom_smiley_keywords_one_per_line_note'));
 		$this->form_gui->addItem($inp);
 		$this->form_gui->addCommandButton(
-			'smiley-uploadSmileyObject', $lng->txt('chatroom_upload_smiley')
+			'smiley-uploadSmileyObject', $this->ilLng->txt('chatroom_upload_smiley')
 		);
 
 		return $this->form_gui;
@@ -226,33 +222,23 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	/**
 	 * Shows EditSmileyEntryForm
 	 * Prepares EditSmileyEntryForm and displays it.
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilTemplate   $tpl
 	 */
 	public function showEditSmileyEntryFormObject()
 	{
-		global $rbacsystem, $tpl, $lng;
-
 		$this->gui->switchToVisibleMode();
 
-		if(!$rbacsystem->checkAccess('read', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('read', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
-		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
-
-		$smiley = ilChatroomSmilies::_getSmiley($_REQUEST["smiley_id"]);
-
-		$form_data = array(
-			"chatroom_smiley_id"                 => $smiley["smiley_id"],
-			"chatroom_smiley_keywords"           => $smiley["smiley_keywords"],
-			"chatroom_current_smiley_image_path" => $smiley["smiley_fullpath"],
-		);
-
-		$form = $this->initSmiliesEditForm($form_data);
+		if (!$this->form_gui) {
+			$form = $this->initSmiliesEditForm($this->getSmileyFormDataById((int)$_REQUEST['smiley_id']));
+		} else {
+			$form = $this->form_gui;
+		}
 
 		$tpl_form = new ilTemplate(
 			"tpl.chatroom_edit_smilies.html", true, true, "Modules/Chatroom"
@@ -260,19 +246,34 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 		$tpl_form->setVariable("SMILEY_FORM", $form->getHTML());
 
-		$tpl->setContent($tpl_form->get());
+		$this->mainTpl->setContent($tpl_form->get());
+	}
+
+	/**
+	 * @param $smileyId
+	 * @return array
+	 * @throws \Exception
+	 */
+	protected function getSmileyFormDataById($smileyId)
+	{
+		require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
+		$smiley = ilChatroomSmilies::_getSmiley($smileyId);
+
+		$form_data = array(
+			'chatroom_smiley_id'                 => $smiley['smiley_id'],
+			'chatroom_smiley_keywords'           => $smiley['smiley_keywords'],
+			'chatroom_current_smiley_image_path' => $smiley['smiley_fullpath'],
+		);
+
+		return $form_data;
 	}
 
 	/**
 	 * Initializes SmiliesEditForm and returns it.
-	 * @global ilCtrl2    $ilCtrl
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function initSmiliesEditForm($form_data)
 	{
-		global $ilCtrl, $lng;
-
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$this->form_gui = new ilPropertyFormGUI();
@@ -281,21 +282,21 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 		$table_nav = $_REQUEST["_table_nav"] ? "&_table_nav=" . $_REQUEST["_table_nav"] : "";
 
-		$ilCtrl->saveParameter($this->gui, 'smiley_id');
+		$this->ilCtrl->saveParameter($this->gui, 'smiley_id');
 
 		$this->form_gui->setFormAction(
-			$ilCtrl->getFormAction($this->gui, 'smiley-updateSmiliesObject') . $table_nav
+			$this->ilCtrl->getFormAction($this->gui, 'smiley-updateSmiliesObject') . $table_nav
 		);
 
 		$sec_l = new ilFormSectionHeaderGUI();
 
-		$sec_l->setTitle($lng->txt('chatroom_edit_smiley'));
+		$sec_l->setTitle($this->ilLng->txt('chatroom_edit_smiley'));
 		$this->form_gui->addItem($sec_l);
 
 		include_once "Modules/Chatroom/classes/class.ilChatroomSmiliesCurrentSmileyFormElement.php";
 
 		$inp = new ilChatroomSmiliesCurrentSmileyFormElement(
-			$lng->txt('chatroom_current_smiley_image_path'),
+			$this->ilLng->txt('chatroom_current_smiley_image_path'),
 			'chatroom_current_smiley_image_path'
 		);
 
@@ -303,31 +304,31 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$this->form_gui->addItem($inp);
 
 		$inp = new ilImageFileInputGUI(
-			$lng->txt('chatroom_image_path'), 'chatroom_image_path'
+			$this->ilLng->txt('chatroom_image_path'), 'chatroom_image_path'
 		);
 		$inp->setSuffixes(array("jpg", "jpeg", "png", "gif", "svg"));
 
 		$inp->setRequired(false);
-		$inp->setInfo($lng->txt('chatroom_smiley_image_only_if_changed'));
+		$inp->setInfo($this->ilLng->txt('chatroom_smiley_image_only_if_changed'));
 		$this->form_gui->addItem($inp);
 
 		$inp = new ilTextAreaInputGUI(
-			$lng->txt('chatroom_smiley_keywords'), 'chatroom_smiley_keywords'
+			$this->ilLng->txt('chatroom_smiley_keywords'), 'chatroom_smiley_keywords'
 		);
 
 		$inp->setValue($form_data['chatroom_smiley_keywords']);
 		$inp->setUseRte(false);
 		$inp->setRequired(true);
-		$inp->setInfo($lng->txt('chatroom_smiley_keywords_one_per_line_note'));
+		$inp->setInfo($this->ilLng->txt('chatroom_smiley_keywords_one_per_line_note'));
 		$this->form_gui->addItem($inp);
 
 		$inp = new ilHiddenInputGUI('chatroom_smiley_id');
 
 		$this->form_gui->addItem($inp);
 		$this->form_gui->addCommandButton(
-			'smiley-updateSmiliesObject', $lng->txt('submit')
+			'smiley-updateSmiliesObject', $this->ilLng->txt('submit')
 		);
-		$this->form_gui->addCommandButton('smiley', $lng->txt('cancel'));
+		$this->form_gui->addCommandButton('smiley', $this->ilLng->txt('cancel'));
 		return $this->form_gui;
 	}
 
@@ -337,20 +338,12 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	 */
 	public function showDeleteSmileyFormObject()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $lng        ilLanguage
-		 * @var $ilCtrl     ilCtrl
-		 * @var $tpl        ilTemplate
-		 */
-		global $rbacsystem, $lng, $ilCtrl, $tpl;
-
 		$this->gui->switchToVisibleMode();
 
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
@@ -359,13 +352,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
-		$confirmation->setFormAction($ilCtrl->getFormAction($this->gui, 'smiley'));
-		$confirmation->setHeaderText($lng->txt('chatroom_confirm_delete_smiley'));
-		$confirmation->addButton($lng->txt('confirm'), 'smiley-deleteSmileyObject');
-		$confirmation->addButton($lng->txt('cancel'), 'smiley');
+		$confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
+		$confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
+		$confirmation->addButton($this->ilLng->txt('confirm'), 'smiley-deleteSmileyObject');
+		$confirmation->addButton($this->ilLng->txt('cancel'), 'smiley');
 		$confirmation->addItem('chatroom_smiley_id', $smiley['smiley_id'], ilUtil::img($smiley['smiley_fullpath'], $smiley['smiley_keywords']) . ' ' . $smiley['smiley_keywords']);
 
-		$tpl->setContent($confirmation->getHTML());
+		$this->mainTpl->setContent($confirmation->getHTML());
 	}
 
 	/**
@@ -375,12 +368,10 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	 */
 	public function deleteSmileyObject()
 	{
-		global $rbacsystem, $ilCtrl, $lng;
-
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
@@ -388,74 +379,68 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 		ilChatroomSmilies::_deleteSmiley($_REQUEST["chatroom_smiley_id"]);
 
-		$ilCtrl->redirect($this->gui, "smiley");
+		$this->ilCtrl->redirect($this->gui, "smiley");
 	}
 
 	/**
 	 * Updates a smiley and/or its keywords
 	 * Updates a smiley icon and/or its keywords by $_REQUEST["chatroom_smiley_id"]
 	 * and gets keywords from $_REQUEST["chatroom_smiley_keywords"].
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilCtrl2      $ilCtrl
 	 */
 	public function updateSmiliesObject()
 	{
-		global $rbacsystem, $ilCtrl, $tpl, $lng;
-
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		$this->form_gui = new ilPropertyFormGUI();
+		$this->initSmiliesEditForm($this->getSmileyFormDataById((int)$_REQUEST['smiley_id']));
 
-		//	$this->initSmiliesEditForm();
-
-		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
-
+		require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 		$keywords = ilChatroomSmilies::_prepareKeywords(
 			ilUtil::stripSlashes($_REQUEST["chatroom_smiley_keywords"])
 		);
 
-		$keywordscheck = count($keywords) > 0;
+		$atLeastOneKeywordGiven = count($keywords) > 0;
 
-		if(!$this->form_gui->checkInput() || !$keywordscheck)
-		{
-			$tpl->setContent($this->form_gui->getHtml());
-			ilUtil::sendFailure('test', true);
-			return $this->view();
-		}
-		else
-		{
-			$data                    = array();
-			$data["smiley_keywords"] = join("\n", $keywords);
-			$data["smiley_id"]       = $_REQUEST["smiley_id"];
-
-			if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
-				$this->upload->process();
-
-				/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
-				$result = array_values($this->upload->getResults())[0];
-				if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
-					$this->upload->moveOneFileTo(
-						$result,
-						ilChatroomSmilies::getSmiliesBasePath(),
-						\ILIAS\FileUpload\Location::WEB,
-						$result->getName(),
-						true
-					);
-
-					$data['smiley_path'] = $result->getName();
-				}
+		if (!($isFormValid = $this->form_gui->checkInput()) || !$atLeastOneKeywordGiven) {
+			if ($isFormValid) {
+				\ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
 			}
 
-			ilChatroomSmilies::_updateSmiley($data);
+			$this->form_gui->setValuesByPost();
+
+			return $this->showEditSmileyEntryFormObject();
 		}
 
-		$ilCtrl->redirect($this->gui, "smiley");
+		$data                    = array();
+		$data["smiley_keywords"] = join("\n", $keywords);
+		$data["smiley_id"]       = (int)$_REQUEST['smiley_id'];
+
+		if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
+			$this->upload->process();
+
+			/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+			$result = array_values($this->upload->getResults())[0];
+			if ($result && $result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+				$this->upload->moveOneFileTo(
+					$result,
+					ilChatroomSmilies::getSmiliesBasePath(),
+					\ILIAS\FileUpload\Location::WEB,
+					$result->getName(),
+					true
+				);
+
+				$data['smiley_path'] = $result->getName();
+			}
+		}
+
+		\ilChatroomSmilies::_updateSmiley($data);
+
+		\ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+		$this->ilCtrl->redirect($this->gui, "smiley");
 	}
 
 	/**
@@ -464,51 +449,43 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	 */
 	public function deleteMultipleObject()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $lng        ilLanguage
-		 * @var $ilCtrl     ilCtrl
-		 * @var $tpl        ilTemplate
-		 */
-		global $rbacsystem, $lng, $ilCtrl, $tpl;
-
 		$this->gui->switchToVisibleMode();
 
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
 		$items = (array)$_REQUEST['smiley_id'];
 		if(count($items) == 0)
 		{
-			ilUtil::sendInfo($lng->txt('select_one'), true);
-			$ilCtrl->redirect($this->gui, 'smiley');
+			ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
+			$this->ilCtrl->redirect($this->gui, 'smiley');
 		}
 
 		include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 		$smilies = ilChatroomSmilies::_getSmiliesById($items);
 		if(count($smilies) == 0)
 		{
-			ilUtil::sendInfo($lng->txt('select_one'), true);
-			$ilCtrl->redirect($this->gui, 'smiley');
+			ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
+			$this->ilCtrl->redirect($this->gui, 'smiley');
 		}
 
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
-		$confirmation->setFormAction($ilCtrl->getFormAction($this->gui, 'smiley'));
-		$confirmation->setHeaderText($lng->txt('chatroom_confirm_delete_smiley'));
-		$confirmation->addButton($lng->txt('confirm'), 'smiley-confirmedDeleteMultipleObject');
-		$confirmation->addButton($lng->txt('cancel'), 'smiley');
+		$confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
+		$confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
+		$confirmation->addButton($this->ilLng->txt('confirm'), 'smiley-confirmedDeleteMultipleObject');
+		$confirmation->addButton($this->ilLng->txt('cancel'), 'smiley');
 
 		foreach($smilies as $s)
 		{
 			$confirmation->addItem('sel_ids[]', $s['smiley_id'], ilUtil::img($s['smiley_fullpath'], $s['smiley_keywords']) . ' ' . $s['smiley_keywords']);
 		}
 
-		$tpl->setContent($confirmation->getHTML());
+		$this->mainTpl->setContent($confirmation->getHTML());
 	}
 
 	/**
@@ -516,66 +493,54 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	 */
 	public function confirmedDeleteMultipleObject()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilCtrl     ilCtrl
-		 */
-		global $rbacsystem, $ilCtrl;
-
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
 		$parts = $_POST["sel_ids"];
 		if(count($parts) == 0)
 		{
-			$ilCtrl->redirect($this->gui, "smiley");
+			$this->ilCtrl->redirect($this->gui, "smiley");
 		}
 
 		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
 		ilChatroomSmilies::_deleteMultipleSmilies($parts);
 
-		$ilCtrl->redirect($this->gui, "smiley");
+		$this->ilCtrl->redirect($this->gui, "smiley");
 	}
 
 	/**
 	 * Uploads and stores a new smiley with keywords from
 	 * $_REQUEST["chatroom_smiley_keywords"]
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilCtrl2      $ilCtrl
 	 */
 	public function uploadSmileyObject()
 	{
-		global $rbacsystem, $ilCtrl, $tpl, $lng;
-
-		if(!$rbacsystem->checkAccess('write', $this->gui->ref_id))
+		if(!$this->rbacsystem->checkAccess('write', $this->gui->ref_id))
 		{
 			$this->ilias->raiseError(
-				$lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
+				$this->ilLng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE
 			);
 		}
 
 		$this->initSmiliesForm();
 
-		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-
-		//$this->form_gui = new ilPropertyFormGUI();
-
-		$this->form_gui->setValuesByPost();
-
+		require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 		$keywords = ilChatroomSmilies::_prepareKeywords(
 			ilUtil::stripSlashes($_REQUEST["chatroom_smiley_keywords"])
 		);
 
-		$keywordscheck = count($keywords) > 0;
+		$atLeastOneKeywordGiven = count($keywords) > 0;
 
-		if(!$this->form_gui->checkInput())
-		{
-			$tpl->setContent($this->form_gui->getHtml());
+		if (!($isFormValid = $this->form_gui->checkInput()) || !$atLeastOneKeywordGiven) {
+			if ($isFormValid) {
+				\ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
+			}
+
+			$this->form_gui->setValuesByPost();
+
 			return $this->view();
 		}
 
@@ -587,7 +552,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 			/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
 			$result = array_values($this->upload->getResults())[0];
-			if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+			if ($result && $result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 				$this->upload->moveOneFileTo(
 					$result,
 					ilChatroomSmilies::getSmiliesBasePath(),
@@ -595,13 +560,12 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 					$target_file,
 					true
 				);
+
+				ilChatroomSmilies::_storeSmiley(join("\n", $keywords), $target_file);
 			}
 		}
 
-		ilChatroomSmilies::_storeSmiley(join("\n", $keywords), $target_file);
-
-		$ilCtrl->redirect($this->gui, "smiley");
+		\ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+		$this->ilCtrl->redirect($this->gui, "smiley");
 	}
 }
-
-?>

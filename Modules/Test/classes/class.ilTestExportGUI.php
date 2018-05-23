@@ -110,7 +110,7 @@ class ilTestExportGUI extends ilExportGUI
 			
 			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 			$participantData = new ilTestParticipantData($ilDB, $lng);
-			$participantData->setActiveIds(array_keys($allActivesPasses));
+			$participantData->setActiveIdsFilter(array_keys($allActivesPasses));
 			$participantData->load($this->obj->getTestId());
 			
 			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';

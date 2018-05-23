@@ -705,4 +705,16 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Legacy\Legacy
 	 */
 	public function legacy($content);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Tables present a set of uniformly structured data.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Table\Factory
+	 */
+	public function table();
+
 }

@@ -692,8 +692,6 @@ class ilContainerRenderer
 	
 	/**
 	 * Render "select all"
-	 * 
-	 * @global ilTemplate $lng
 	 */
 	protected function renderSelectAllBlock(ilTemplate $a_tpl)
 	{

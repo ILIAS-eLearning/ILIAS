@@ -58,6 +58,11 @@
   font-weight: 800;
   font-style: italic;
 }
+@font-face {
+  font-family: 'Open Sans Emoji';
+  src: url('fonts/OpenSansEmoji/OpenSansEmoji.ttf') format('truetype'), url('fonts/OpenSansEmoji/OpenSansEmoji.otf') format('otf');
+  font-style: normal;
+}
 /* rtl-review is this font safe for RTL languages? */
 /* rtl-review */
 [dir="ltr"] * {
@@ -6772,6 +6777,36 @@ button.close {
 .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
 }
+.il-glyphicon-like,
+.il-glyphicon-love,
+.il-glyphicon-dislike:before,
+.il-glyphicon-laugh:before,
+.il-glyphicon-astounded:before,
+.il-glyphicon-sad:before,
+.il-glyphicon-angry:before {
+  font-family: "Open Sans Emoji";
+}
+.il-glyphicon-like:before {
+  content: "\1f44d";
+}
+.il-glyphicon-love:before {
+  content: "\2764";
+}
+.il-glyphicon-dislike:before {
+  content: "\1f44e";
+}
+.il-glyphicon-laugh:before {
+  content: "\1f604";
+}
+.il-glyphicon-astounded:before {
+  content: "\1f62e";
+}
+.il-glyphicon-sad:before {
+  content: "\1f625";
+}
+.il-glyphicon-angry:before {
+  content: "\1f620";
+}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
@@ -7117,6 +7152,15 @@ fieldset[disabled] .btn.active {
   color: #ffffff;
   cursor: default;
 }
+.btn.engaged,
+.btn.engaged:hover,
+.btn.engaged:focus,
+.btn.engaged:active,
+.btn.engaged.active {
+  background-color: #b0b0b0;
+  border-color: #e0e0e0;
+  color: #ffffff;
+}
 button > .glyphicon {
   pointer-events: none;
 }
@@ -7165,6 +7209,9 @@ a.btn-link.ilSubmitInactive:hover {
   text-align: left;
   white-space: normal;
 }
+.btn-bulky {
+  width: 100%;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
@@ -7205,6 +7252,11 @@ h6.il-divider {
 }
 hr.il-divider-with-label {
   display: none;
+}
+.il-divider-vertical:before {
+  content: "\2022";
+  padding-left: 6px;
+  padding-right: 6px;
 }
 .dropdown .btn {
   text-align: left;
@@ -8396,6 +8448,75 @@ ul.breadcrumb li:hover {
 .il-standard-form input[type="radio"],
 .il-standard-form input[type="checkbox"] {
   margin: 0;
+}
+.il-table-presentation-viewcontrols {
+  height: 40px;
+}
+.il-table-presentation-viewcontrols div {
+  display: table;
+  margin: 0 auto;
+}
+.il-table-presentation-row {
+  white-space: nowrap;
+  border-top: 1px solid #dddddd;
+  padding-top: 6px;
+}
+.il-table-presentation-row .il-table-presentation-row-controls,
+.il-table-presentation-row .il-table-presentation-row-contents {
+  display: inline-block;
+  vertical-align: top;
+}
+.il-table-presentation-row .il-table-presentation-row-controls {
+  width: 5%;
+}
+.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
+  display: none;
+  /*initially hidden*/
+}
+.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-expander {
+  display: block;
+  /*initially visible*/
+}
+.il-table-presentation-row .il-table-presentation-row-contents {
+  width: 95%;
+}
+.il-table-presentation-row .il-table-presentation-row-header {
+  white-space: normal;
+}
+.il-table-presentation-row .il-table-presentation-row-header h4 {
+  font-size: 17px;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.il-table-presentation-row .il-table-presentation-row-header .il-table-presentation-row-header-fields {
+  display: block;
+  /*initially visible*/
+}
+.il-table-presentation-row .il-table-presentation-row-expanded {
+  display: none;
+  /*initially hidden*/
+  white-space: nowrap;
+  margin-top: 6px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist,
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+  width: 60%;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+  width: 40%;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields {
+  font-size: 12px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
+  color: #909090;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -9856,6 +9977,51 @@ div.il_TreeIcons {
   padding: 15px 0 0 15px;
   float: left;
 }
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+  color: #333333;
+  font-size: 90%;
+}
+a.permalink_label > span.glyphicon {
+  display: none;
+}
+.ilPermalinkContainer {
+  width: 100%;
+}
+div.ilPermanentLinkWrapper {
+  clear: both;
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer {
+  table-layout: fixed;
+  line-height: 22px;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+  width: 150px;
+  display: table-cell;
+  vertical-align: middle;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
+  width: 28px;
+}
 div.il_Footer {
   padding: 10px 0;
   font-size: 90%;
@@ -9888,6 +10054,32 @@ footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
   color: #ffffff;
 }
+@media only screen and (max-width: 767px) {
+  footer.ilFooter a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
+footer.ilFooter .ilPermalinkContainer {
+  width: auto;
+  padding-right: 5px;
+  line-height: 22px;
+}
+footer.ilFooter .ilPermalinkContainer > label {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+@media only screen and (max-width: 767px) {
+  footer.ilFooter .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  footer.ilFooter .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
 [dir="rtl"] footer.ilFooter {
   text-align: right;
 }
@@ -9903,31 +10095,6 @@ footer.ilFooter div.ilFooterContainer > a:hover {
     table-layout: fixed;
     width: 100%;
   }
-}
-/* ----------------- permanent link  ------------- */
-div.ilPermaLink {
-  margin: 15px;
-}
-div.ilPermaLink .small {
-  font-size: 70%;
-}
-div.ilPermaLink .il_adv_sel {
-  font-size: 100%;
-}
-div.ilPermaLink input {
-  font-size: 70%;
-  width: 350px;
-}
-div.ilPermaLink a {
-  font-size: 1em;
-}
-#current_perma_link {
-  color: #333333;
-  width: 25%;
-  font-size: 90%;
-}
-#current_perma_link + .btn-group {
-  vertical-align: top;
 }
 /* ----------------- invisible border ------------- */
 div.invisible_border {

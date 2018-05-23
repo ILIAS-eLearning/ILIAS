@@ -21,13 +21,16 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
+		global $DIC;
+
+		$log = $DIC->logger()->root();
+
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::getInstance();
 
 		$obj_id = end($a_ids);
 
-
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$obj_id);
+		$log->debug(__METHOD__.': '.$obj_id);
 		if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
 		{
 			return array();
@@ -57,12 +60,16 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
+		global $DIC;
+
+		$log = $DIC->logger()->root();
+
 		$ref_ref_id = end(ilObject::_getAllReferences($a_id));
 		$ref = ilObjectFactory::getInstanceByRefId($ref_ref_id,false);
 
 		if(!$ref instanceof ilContainerReference)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__. $a_id . ' is not instance of type category!');
+			$log->debug(__METHOD__. $a_id . ' is not instance of type category!');
 			return '';
 		}
 		$writer = $this->initWriter($ref);

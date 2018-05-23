@@ -1699,22 +1699,6 @@ class ilUtil
 	}
 
 	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @static
-	* 
-	*/
-	public static function getAssociatedUsersOnline($a_user_id)
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
-	}
-
-	/**
 	* Create a temporary file in an ILIAS writable directory
 	*
 	* @return	string File name of the temporary file
@@ -4181,10 +4165,12 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
-	{
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded") {
 		global $DIC;
 		$targetFilename = basename($a_target);
+
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
 
 		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
 		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
@@ -4192,7 +4178,7 @@ class ilUtil
 		$upload = $DIC->upload();
 
 		// If the upload has not yet been processed make sure he gets processed now.
-		if(!$upload->hasBeenProcessed()) {
+		if (!$upload->hasBeenProcessed()) {
 			$upload->process();
 		}
 
@@ -4893,9 +4879,9 @@ class ilUtil
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-		if(is_object($tpl))
+		if(isset($DIC["tpl"]))
 		{
+			$tpl = $DIC["tpl"];
 			$tpl->setMessage("failure", $a_info, $a_keep);
 		}
 	}
@@ -5031,14 +5017,19 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
-		
+		/* We MUST NOT set the global constant here, because this affects the session_set_cookie_params() call as well
 		if(!defined('IL_COOKIE_SECURE'))
 		{
 			define('IL_COOKIE_SECURE', false);
 		}
+		*/
+		$secure = false;
+		if (defined('IL_COOKIE_SECURE')) {
+			$secure = IL_COOKIE_SECURE;
+		}
 
 		setcookie( $a_cookie_name, $a_cookie_value, $expire,
-			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, $secure, IL_COOKIE_HTTPONLY
 		);
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;

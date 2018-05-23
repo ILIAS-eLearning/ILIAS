@@ -26,10 +26,11 @@ interface ilObjFileHandlingQuestionType
 	/**
 	 * Generates a ZIP file containing all file uploads for a given test and the original id of the question
 	 * 
+	 * @param integer $ref_id
 	 * @param integer $test_id
 	 * @param string $test_title
 	 */
-	public function deliverFileUploadZIPFile($test_id, $test_title);
+	public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title);
 
 	/**
 	 * Returns the path for uploaded files from given active in given test

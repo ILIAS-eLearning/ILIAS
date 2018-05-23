@@ -187,7 +187,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ServerAdmin webmaster@example.com
 
     DocumentRoot /var/www/html/ilias/
-    <Directory /var/drbd/www/html/>
+    <Directory /var/www/html/>
         Options FollowSymLinks
         AllowOverride All
         Require all granted
@@ -201,6 +201,11 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 ```
+
+Please take care to [restrict access to the setup-folder](#secure-installation-files)
+Normal users should not be able to access the setup at all. Also see
+[Hardening and Security Guidance](#hardening-and-security-guidance) for further
+security enhancing configuration.
 
 After changing the configuration remember to reload the web server daemon:
 
@@ -262,6 +267,9 @@ session.gc_probability = 1
 session.gc_divisor = 100
 session.gc_maxlifetime = 14400
 session.hash_function = 0
+session.cookie_httponly = On
+; If you installation is served via HTTPS also use:
+session.cookie_secure = On
  
 ; for chat server since ILIAS 4.2
 allow_url_fopen = 1
@@ -269,6 +277,10 @@ allow_url_fopen = 1
 ; How many GET/POST/COOKIE input variables may be accepted
 max_input_vars = 10000
 ```
+
+Please see [Hardening and Security Guidance](#hardening-and-security-guidance)
+for [HTTPS configuration](#enable-http-strict-transport-security) and further
+security relevant configuration.
 
 Remember to reload your web server configuration to apply those changes.
 

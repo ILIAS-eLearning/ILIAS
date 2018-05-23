@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,27 +7,43 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCron
  */
-class ilCronManager
-{		
+class ilCronManager implements \ilCronManagerInterface
+{
 	/**
-	 * Run all active jobs
+	 * @var \ilSetting
 	 */
-	public static function runActiveJobs()
+	protected $settings;
+
+	/**
+	 * @var \ilLogger
+	 */
+	protected $logger;
+
+	/**
+	 * ilCronManager constructor.
+	 * @param \ilSetting $settings
+	 * @param \ilLogger  $logger
+	 */
+	public function __construct(\ilSetting $settings, \ilLogger $logger)
 	{
-		global $ilLog, $ilSetting;
-		
-		// separate log for cron
-		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
-		
-		$ilLog->write("CRON - batch start");
-		
+		$this->settings = $settings;
+		$this->logger   = $logger;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function runActiveJobs()
+	{
+		$this->logger->info("CRON - batch start");
+
 		$ts = time();
-		$ilSetting->set("last_cronjob_start_ts", $ts);
+		$this->settings->set("last_cronjob_start_ts", $ts);
 
 		$useRelativeDates = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
-		$ilLog->info(sprintf('Set last datetime to: %s', ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))));
-		$ilLog->info(sprintf('Verification of last run datetime (read from database): %s', ilDatePresentation::formatDate(
+		$this->logger->info(sprintf('Set last datetime to: %s', ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))));
+		$this->logger->info(sprintf('Verification of last run datetime (read from database): %s', ilDatePresentation::formatDate(
 			new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX))
 		));
 		ilDatePresentation::setUseRelativeDates((bool)$useRelativeDates);
@@ -38,7 +53,7 @@ class ilCronManager
 		{
 			define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
 		}
-		
+
 		// system
 		foreach(self::getCronJobData(null, false) as $row)
 		{					
@@ -49,14 +64,14 @@ class ilCronManager
 				self::runJob($job);
 			}
 		}
-		
+
 		// plugins
 		foreach(self::getPluginJobs(true) as $item)
 		{
 			self::runJob($item[0], $item[1]);
-		}		
-		
-		$ilLog->write("CRON - batch end");
+		}
+
+		$this->logger->info("CRON - batch end");
 	}
 	
 	/**
@@ -67,8 +82,10 @@ class ilCronManager
 	 */
 	public static function runJobManual($a_job_id)
 	{
-		global $ilLog;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+
 		$result = false;
 		
 		$ilLog->write("CRON - manual start (".$a_job_id.")");
@@ -105,8 +122,11 @@ class ilCronManager
 	 */
 	protected static function runJob(ilCronJob $a_job, array $a_job_data = null, $a_manual = false)
 	{
-		global $ilLog, $ilDB;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilDB = $DIC->database();
+
 		$did_run = false;				
 				
 		include_once "Services/Cron/classes/class.ilCronJobResult.php";		
@@ -224,8 +244,11 @@ class ilCronManager
 	 */
 	public static function getJobInstanceById($a_job_id)
 	{
-		global $ilLog, $ilPluginAdmin;
-				
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
 		// plugin
 		if(substr($a_job_id, 0, 4) == "pl__")
 		{
@@ -275,8 +298,10 @@ class ilCronManager
 	 */
 	public static function getJobInstance($a_id, $a_component, $a_class, $a_path = null)
 	{
-		global $ilLog;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+
 		if(!$a_path)
 		{
 			$a_path = $a_component."/classes/";
@@ -331,8 +356,20 @@ class ilCronManager
 	
 	public static function createDefaultEntry(ilCronJob $a_job, $a_component, $a_class, $a_path)
 	{
-		global $ilDB, $ilLog, $ilSetting;
-		
+
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilDB = $DIC->database();
+
+		if (!isset($DIC["ilSetting"])) {
+			$DIC["ilSetting"] = function ($c) {
+				return new ilSetting();
+			};
+		}
+
+		$ilSetting = $DIC->settings();
+
 		// already exists?			
 		$sql = "SELECT job_id, schedule_type FROM cron_job".
 			" WHERE component = ".$ilDB->quote($a_component, "text").
@@ -400,9 +437,11 @@ class ilCronManager
 	 * @param string $_path
 	 */
 	public static function updateFromXML($a_component, $a_id, $a_class, $a_path = null)
-	{		
-		global $ilDB;
-		
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		if(!$ilDB->tableExists("cron_job"))
 		{
 			return;
@@ -424,8 +463,11 @@ class ilCronManager
 	 */
 	public static function clearFromXML($a_component, array $a_xml_job_ids)
 	{
-		global $ilDB, $ilLog;	
-		
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC->logger()->root();
+
 		if(!$ilDB->tableExists("cron_job"))
 		{
 			return;
@@ -471,8 +513,10 @@ class ilCronManager
 	
 	public static function getPluginJobs($a_only_active = false)
 	{
-		global $ilPluginAdmin;
-		
+		global $DIC;
+
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
 		$res = array();
 		
 		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Cron", "crnhk") as $pl_name)
@@ -511,8 +555,9 @@ class ilCronManager
 	 */
 	public static function getCronJobData($a_id = null, $a_include_inactive = true)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$res = array();
 		
 		if($a_id && !is_array($a_id))
@@ -559,8 +604,9 @@ class ilCronManager
 	 */
 	public static function resetJob(ilCronJob $a_job)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		include_once "Services/Cron/classes/class.ilCronJobResult.php";
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_RESET);
@@ -585,8 +631,10 @@ class ilCronManager
 	 */
 	public static function activateJob(ilCronJob $a_job, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -608,8 +656,10 @@ class ilCronManager
 	 */
 	public static function deactivateJob(ilCronJob $a_job, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -664,8 +714,10 @@ class ilCronManager
 	 */
 	protected static function updateJobResult(ilCronJob $a_job, ilCronJobResult $a_result, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -689,7 +741,8 @@ class ilCronManager
 	 */
 	public static function updateJobSchedule(ilCronJob $a_job, $a_schedule_type, $a_schedule_value)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		if($a_schedule_type === null ||
 			($a_job->hasFlexibleSchedule() && 
@@ -721,8 +774,9 @@ class ilCronManager
 	 */
 	public static function ping($a_job_id)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$ilDB->manipulate("UPDATE cron_job SET ".
 			" alive_ts = ".$ilDB->quote(time(), "integer").
 			" WHERE job_id = ".$ilDB->quote($a_job_id, "text"));

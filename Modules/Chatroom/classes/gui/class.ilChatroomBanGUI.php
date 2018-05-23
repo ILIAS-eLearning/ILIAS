@@ -12,6 +12,48 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
+	/** @var ilCtrl|null */
+	private $controller;
+
+	/** @var ilLanguage|null */
+	private $language;
+
+	/** @var ilObjUser|ilUser|null */
+	private $user;
+
+	/**
+	 * @param ilChatroomObjectGUI $gui
+	 * @param ilCtrl|null $controller
+	 * @param ilLanguage|null $language
+	 * @param ilUser|null $user
+	 */
+	public function __construct(
+		ilChatroomObjectGUI $gui,
+		\ilCtrl $controller = null,
+		\ilLanguage $language = null,
+		\ilUser $user = null
+	) {
+		if ($controller === null) {
+			global $DIC;
+			$controller = $DIC->ctrl();
+		}
+		$this->controller = $controller;
+
+		if ($language === null) {
+			global $DIC;
+			$language = $DIC->language();
+		}
+		$this->language = $language;
+
+		if ($user === null) {
+			global $DIC;
+			$user = $DIC->user();
+		}
+		$this->user = $user;
+
+		parent::__construct($gui);
+	}
+
 	/**
 	 * Unbans users fetched from $_REQUEST['banned_user_id'].
 	 */
@@ -53,7 +95,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 		require_once 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php';
 
 		$table = new ilBannedUsersTableGUI($this->gui, 'ban-show');
-		$table->setFormAction($GLOBALS['DIC']->ctrl()->getFormAction($this->gui, 'ban-show'));
+		$table->setFormAction($this->controller->getFormAction($this->gui, 'ban-show'));
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 		if($room)
@@ -76,8 +118,8 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 				}
 				else
 				{
-					$row['actor_display'] = $GLOBALS['DIC']->language()->txt('unknown');
-					$row['actor']         = $GLOBALS['DIC']->language()->txt('unknown');
+					$row['actor_display'] = $this->language->txt('unknown');
+					$row['actor']         = $this->language->txt('unknown');
 				}
 			});
 
@@ -105,7 +147,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
 		if($this->isSuccessful($response))
 		{
-			$room->banUser($_REQUEST['user'], $GLOBALS['DIC']->user()->getId());
+			$room->banUser($_REQUEST['user'], $this->user->getId());
 			$room->disconnectUser($_REQUEST['user']);
 		}
 

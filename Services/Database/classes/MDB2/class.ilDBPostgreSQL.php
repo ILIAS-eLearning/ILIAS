@@ -264,4 +264,37 @@ class ilDBPostgreSQL extends ilDB
 	public function setStorageEngine($storage_engine) {
 		return false;
 	}
+
+
+	/**
+	 * @param string $a_field_name
+	 * @param string $a_seperator
+	 * @param string $a_order
+	 *
+	 * @return string
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null) {
+		if ($a_order === null) {
+			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . ")";
+		} else {
+			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . " ORDER BY " . $a_order . ")";
+		}
+
+		return $sql;
+	}
+
+
+	/**
+	 *
+	 * @param string $a_needle
+	 * @param string $a_string
+	 * @param int    $a_start_pos
+	 *
+	 * @return string
+	 */
+	public function locate($a_needle, $a_string, $a_start_pos = 1): string {
+		$manager = $this->db->loadModule('Manager');
+
+		return $manager->getQueryUtils()->locate($a_needle, $a_string, $a_start_pos);
+	}
 }

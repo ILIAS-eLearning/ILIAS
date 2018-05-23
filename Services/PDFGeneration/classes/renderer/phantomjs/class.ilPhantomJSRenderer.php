@@ -337,7 +337,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			if(file_exists($temp_file))
 			{
 				$ilLog->write('ilPhantomJSRenderer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $job->getFilename());
-				rename($temp_file, $job->getFilename());
+				ilFileUtils::rename($temp_file, $job->getFilename());
 			}
 			else
 			{
@@ -461,6 +461,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected function buildJavascriptDelayForm()
 	{
 		$javascript_delay = new ilTextInputGUI($this->lng->txt('javascript_delay'), 'javascript_delay');
+		$javascript_delay->setInfo($this->lng->txt('javascript_delay_info'));
 		$javascript_delay->setValue($this->javascript_delay);
 		return $javascript_delay;
 	}

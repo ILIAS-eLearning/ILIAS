@@ -61,16 +61,22 @@ class ilSetup
 	var $auth;					// current user is authenticated? (true)
 	var $access_mode;			// if "admin", admin functions are enabled
 
+	/**
+	 * @var \ilSetupPasswordManager
+	 */
+	protected $passwordManager;
 
 	/**
-	* constructor
-	*
-	* @param	boolean		user is authenticated? (true) or not (false)
-	* @param	string		user is admin or common user
-	*/
-	public function __construct($a_auth, $a_auth_type)
+	 * constructor
+	 * @param    $passwordManager \ilSetupPasswordManager
+	 * @param    boolean        user is authenticated? (true) or not (false)
+	 * @param    string        user is admin or common user
+	 */
+	public function __construct(\ilSetupPasswordManager $passwordManager, $a_auth, $a_auth_type)
 	{
 		global $lng;
+
+		$this->passwordManager = $passwordManager;
 
 		$this->lng = $lng;
 
@@ -571,30 +577,45 @@ class ilSetup
 	}
 
 	/**
-	* get setup master password
-	* @return	string
-	*/
-	function getPassword ()
+	 * @return string
+	 */
+	public function getMasterPassword(): string 
 	{
-		return $this->ini->readVariable("setup","pass");
+		return $this->ini->readVariable('setup', 'pass');
 	}
 
 	/**
-	* set setup master password
-	* @param	string	password
-	* @return	boolean
-	*/
-	function setPassword ($a_password)
+	 * @param string $raw
+	 * @return bool Returns a boolean status, whether or not the password could be set successful
+	 */
+	public function storeMasterPassword(string $raw): bool
 	{
-		$this->ini->setVariable("setup","pass",md5($a_password));
+		$this->ini->setVariable('setup', 'pass', $this->passwordManager->encodePassword($raw));
 
-		if ($this->ini->write() == false)
-		{
+		if ($this->ini->write() == false) {
 			$this->error = $this->ini->getError();
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param  string $raw
+	 * @return bool
+	 * @throws \ilUserException
+	 */
+	public function verifyMasterPassword(string $raw): bool
+	{
+		$passwordReHashCallback = function($raw) {
+			$this->storeMasterPassword($raw);
+		};
+
+		return $this->passwordManager->verifyPassword(
+			$this->getMasterPassword(),
+			$raw,
+			$passwordReHashCallback
+		);
 	}
 
 	/**
@@ -700,19 +721,21 @@ class ilSetup
 	}
 
 	/**
-	* process setup admin login
-	* @param	string	password
-	* @return	boolean
-	*/
-	function loginAsAdmin($a_password)
+	 * Process setup admin login
+	 * @param  string $raw
+	 * @return bool A boolean status, whether or not the authentication was successful
+	 * @throws \ilUserException
+	 */
+	public function loginAsAdmin(string $raw): bool
 	{
-		$a_password = md5($a_password);
+		$passwordReHashCallback = function($raw) {
+			$this->storeMasterPassword($raw);
+		};
 
-		if ($this->ini->readVariable("setup","pass") == $a_password)
-		{
-			$_SESSION["auth"] = true;
-			$_SESSION["auth_path"] = ILIAS_HTTP_PATH;
-			$_SESSION["access_mode"] = "admin";
+		if ($this->passwordManager->verifyPassword($this->getMasterPassword(), $raw, $passwordReHashCallback)) {
+			$_SESSION['auth']        = true;
+			$_SESSION['auth_path']   = ILIAS_HTTP_PATH;
+			$_SESSION['access_mode'] = 'admin';
 			return true;
 		}
 
@@ -1177,7 +1200,7 @@ class ilSetup
 		$this->ini->setVariable("tools", "lessc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["lessc_path"])));
 		$this->ini->setVariable("tools", "phantomjs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["phantomjs_path"])));
 
-		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
+		$this->ini->setVariable('setup', 'pass', $this->passwordManager->encodePassword($a_formdata['setup_pass']));
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
@@ -1436,6 +1459,11 @@ class ilSetup
 			$dir_to_create = substr(strrchr($datadir_path, "/"), 1);
 			$dir_to_check = substr($datadir_path,0,- strlen($dir_to_create)-1);
 
+			if ($this->isDirectoryInOther($dir_to_create, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_datadir_inside_webdir";
+				return false;
+			}
+
 			if (is_writable($datadir_path))
 			{
 				$this->error = "dir_exists_create";
@@ -1450,6 +1478,11 @@ class ilSetup
 		}
 		else	// check set target dir
 		{
+			if ($this->isDirectoryInOther($datadir_path, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_datadir_inside_webdir";
+				return false;
+			}
+
 			if (!is_writable($datadir_path))
 			{
 				$this->error = "cannot_create_datadir_no_write_access";
@@ -1504,6 +1537,11 @@ class ilSetup
 			if(is_dir($log_path))
 			{
 				$this->error = 'could_not_create_logfile';
+				return false;
+			}
+
+			if ($this->isDirectoryInOther($log_path, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_logdir_inside_webdir";
 				return false;
 			}
 
@@ -2157,5 +2195,17 @@ class ilSetup
 		return true;
 	}
 
+	/**
+	 * Checks if directory is subdirectory of other directory.
+	 *
+	 * @param	string	$directory
+	 * @param	string	$other_directory
+	 * @return	bool
+	 */
+	protected function isDirectoryInOther($directory, $other_directory) {
+		$other_directory = $other_directory."/";
+
+		return !(strpos($directory, $other_directory) !== 0);
+	}
 }
 
