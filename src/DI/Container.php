@@ -203,11 +203,7 @@ class Container extends \Pimple\Container {
 	 *
 	 * //This is better, since the client just needs to know the name defined in the
 	 * //interface of the component
-	 * $DIC->methodInitialized("systemStyle")
-	 *
-	 * //Note that the following is no better, than the bad example above (same problem)
-	 * $style = $DIC->styleDefinition
-	 * if(is_object($style)){...}
+	 * $DIC->isDependencyAvailable("systemStyle")
 	 *
 	 * @param $name
 	 * @return bool

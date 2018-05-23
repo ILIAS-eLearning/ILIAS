@@ -18,11 +18,11 @@ class DIContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testIsDependencyAvailableIfNotAvailable(){
-        $this->assertFalse($this->DIC->isDependencyAvailable("notAvailable"));
+        $this->assertFalse($this->DIC->isDependencyAvailable("ctrl"));
     }
 
     public function testIsDependencyAvailableIfAvailable(){
-        $DIC["available"] = function (){};
-        $this->assertTrue($this->DIC->isDependencyAvailable("available"));
+        $this->DIC["ilCtrl"] = function (){};
+        $this->assertTrue($this->DIC->isDependencyAvailable("ctrl"));
     }
 }
