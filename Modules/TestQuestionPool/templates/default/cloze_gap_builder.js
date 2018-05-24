@@ -254,7 +254,7 @@ var ClozeGapBuilder = (function () {
 		tinymce_iframe_selector.on('paste', function (event) {
 			pro.deferredCallbackFactory('TinyMcePaste')(function () {
 				event.preventDefault();
-				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 				clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
 				var text = pro.getTextAreaValue();
 				var textBefore = text.substring(0, ClozeGlobals.cursor_pos);
@@ -636,7 +636,7 @@ var ClozeGapBuilder = (function () {
 		});
 		cloze_text_selector.on('paste', function (event) {
 			event.preventDefault();
-			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 			clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
 			var text = pro.getTextAreaValue();
 			var textBefore = text.substring(0, ClozeGlobals.cursor_pos);
