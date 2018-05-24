@@ -1514,28 +1514,6 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* check wether user has accepted user agreement
-	*/
-	function hasAcceptedUserAgreement()
-	{
-		/**
-		 * @var ilRbacReview
-		 */
-		global $rbacreview;
-
-		if(
-			null != $this->agree_date ||
-			'root' == $this->login ||
-			in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) ||
-			$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
-		)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	* set login / username
 	* @access	public
 	* @param	string	username
