@@ -800,8 +800,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$fixedparticipants->setValue(1);
 		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
 		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
-		$invited_users = $this->testOBJ->getInvitedUsers();
-		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
+		if ($this->testOBJ->participantDataExist())
 		{
 			$fixedparticipants->setDisabled(true);
 		}
