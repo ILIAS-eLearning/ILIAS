@@ -42,7 +42,7 @@ class URI
 	const PATH_DELIM = '/';
 
 	/**
-	 * Relevan character-groups as defined in RFC 3986 Appendix 1
+	 * Relevant character-groups as defined in RFC 3986 Appendix 1
 	 */
 	const ALPHA = '[A-Za-z]';
 	const DIGIT = '[0-9]';
@@ -71,10 +71,10 @@ class URI
 	const BASEURI_PCHAR = self::UNRESERVED.'|'.self::BASEURI_SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
 
 	const SCHEMA = '#^'.self::ALPHA.'('.self::ALPHA_DIGIT.'|'.self::PIMP.')*$#';
-	const DOMAIN_LABEL = self::ALPHA_DIGIT.'(('.self::UNRESERVED_NO_DOT.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+'.self::ALPHA_DIGIT.')*';
+	const DOMAIN_LABEL = self::ALPHA_DIGIT.'(('.self::UNRESERVED_NO_DOT.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')*'.self::ALPHA_DIGIT.')*';
 	const HOST = '#^'.self::DOMAIN_LABEL.'(\\.'.self::DOMAIN_LABEL.')*$#';
 	const PORT = '#^'.self::DIGIT.'+$#';
-	const PATH = '#^('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
+	const PATH = '#^(?!//)(?!:)('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
 	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
 	const FRAGMENT = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?|\\#)+$#';
 
@@ -126,8 +126,10 @@ class URI
 		{
 			return null;
 		}
-		assert('is_int($port)');
-		return (int)$this->checkCorrectFormatOrThrow(self::PORT, (string)$port);
+		if(!is_int($port)) {
+			throw new \InvalidArgumentException('ill-formated component '.$port);
+		}
+		return $port;
 	}
 
 	/**
@@ -213,6 +215,22 @@ class URI
 	}
 
 	/**
+	 * Get URI with modified schema
+	 *
+	 * @param	string	$schema
+	 * @return	URI
+	 */
+	public function withSchema($schema)
+	{
+		assert('is_string($schema)');
+		$shema = $this->digestSchema($schema);
+		$other = clone $this;
+		$other->schema = $schema;
+		return $other;
+	}
+
+
+	/**
 	 * @return	string
 	 */
 	public function authority()
@@ -225,12 +243,52 @@ class URI
 
 	}
 
+
 	/**
-	 * @return	string|null
+	 * Get URI with modified authority
+	 *
+	 * @param	string	$authority
+	 * @return	URI
+	 */
+	public function withAuthority($authority)
+	{
+		assert('is_string($authority)');
+		$parts = explode(':', $authority);
+		if(count($parts) > 2) {
+			throw new \InvalidArgumentException('ill-formated component '.$authority);
+		}
+		$host = $this->digestHost($parts[0]);
+		$port = null;
+		if(array_key_exists(1, $parts)) {
+			$port = (int)$this->checkCorrectFormatOrThrow(self::PORT,(string)$parts[1]);
+		}
+		$other = clone $this;
+		$other->host = $host;
+		$other->port = $port;
+		return $other;
+	}
+
+	/**
+	 * @return	int|null
 	 */
 	public function port()
 	{
 		return $this->port;
+	}
+
+	/**
+	 * Get URI with modified port
+	 *
+	 * @param	int|null	$port
+	 * @return	URI
+	 */
+	public function withPort($port = null)
+	{
+		assert('is_int($port) || is_null($port)');
+		$port = $this->digestPort($port);
+		$other = clone $this;
+		$other->port = $port;
+		return $other;
 	}
 
 	/**
@@ -242,11 +300,42 @@ class URI
 	}
 
 	/**
+	 * Get URI with modified host
+	 *
+	 * @param	string	$host
+	 * @return	URI
+	 */
+	public function withHost($host)
+	{
+		assert('is_string($host)');
+		$host = $this->digestHost($host);
+		$other = clone $this;
+		$other->host = $host;
+		return $other;
+	}
+
+
+	/**
 	 * @return	string|null
 	 */
 	public function path()
 	{
 		return $this->path;
+	}
+
+	/**
+	 * Get URI with modified path
+	 *
+	 * @param	string|null	$path
+	 * @return	URI
+	 */
+	public function withPath($path = null)
+	{
+		assert('is_string($path) || is_null($path)');
+		$path = $this->digestPath($path);
+		$other = clone $this;
+		$other->path = $path;
+		return $other;
 	}
 
 	/**
@@ -258,11 +347,41 @@ class URI
 	}
 
 	/**
+	 * Get URI with modified query
+	 *
+	 * @param	string|null	$query
+	 * @return	URI
+	 */
+	public function withQuery($query = null)
+	{
+		assert('is_string($query) || is_null($query)');
+		$query = $this->digestQuery($query);
+		$other = clone $this;
+		$other->query = $query;
+		return $other;
+	}
+
+	/**
 	 * @return	string|null
 	 */
 	public function fragment()
 	{
 		return $this->fragment;
+	}
+
+	/**
+	 * Get URI with modified fragment
+	 *
+	 * @param	string|null	$fragment
+	 * @return	URI
+	 */
+	public function withFragment($fragment = null)
+	{
+		assert('is_string($fragment) || is_null($fragment)');
+		$fragment = $this->digestFragment($fragment);
+		$other = clone $this;
+		$other->fragment = $fragment;
+		return $other;
 	}
 
 	/**
