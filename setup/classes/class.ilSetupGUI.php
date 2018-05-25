@@ -4064,7 +4064,8 @@ class ilSetupGUI
 
 			if (!$client->init())
 			{
-				$this->setup->raiseError($this->lng->txt("no_valid_client_id"),$this->setup->error_obj->MESSAGE);
+				\ilUtil::sendFailure($this->lng->txt("no_valid_client_id"), true);
+				\ilUtil::redirect("setup.php?cmd=clientlist");
 			}
 
 			$status = $this->setup->getStatus($client);
@@ -4329,19 +4330,21 @@ class ilSetupGUI
 
 		if ($this->form->checkInput())
 		{
-			if ($this->form->getInput("iamsure") != "1")
-			{
-				$message = $this->lng->txt("clone_youmustcheckiamsure");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-			if (!$this->setup->cloneFromSource($this->form->getInput("source")))
-			{
-				$message = $this->lng->txt("clone_error");
-				$this->setup->raiseError($message . " -> " . $this->setup->error,$this->setup->error_obj->MESSAGE);
+			$error = '';
+
+			if ($this->form->getInput("iamsure") != "1") {
+				$error = $this->lng->txt('clone_youmustcheckiamsure');
 			}
 
-			ilUtil::sendInfo($this->lng->txt("client_cloned"),true);
-			// ilUtil::redirect("setup.php");
+			if (!$this->setup->cloneFromSource($this->form->getInput("source"))) {
+				$error = $this->lng->txt('clone_error') . ' -> ' . $this->setup->error;
+			}
+
+			if (0 === strlen($error)) {
+				\ilUtil::sendInfo($this->lng->txt('client_cloned'));
+			} else {
+				\ilUtil::sendFailure($error);
+			}
 		}
 		$this->form->setValuesByPost();
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_clone"));
