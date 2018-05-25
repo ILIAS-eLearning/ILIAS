@@ -29,11 +29,6 @@ class ilCtrlStructureReader
 		$this->ini = $a_ini_file;
 	}
 
-	function setErrorObject(&$err)
-	{
-		$this->err_object =& $err;
-	}
-	
 	/**
 	* parse code files and store call structure in db
 	*/
@@ -180,12 +175,17 @@ class ilCtrlStructureReader
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
 										}
 										
-										$this->err_object->raiseError(
-											sprintf($lng->txt("duplicate_ctrl"),
+										require_once("./Services/Utilities/classes/class.ilUtil.php");
+										\ilUtil::sendFailure(
+											sprintf(
+												$lng->txt("duplicate_ctrl"),
 												$parent,
 												$this->class_script[$parent],
-												$a_cdir."/".$file)
-											, $this->err_object->MESSAGE);
+												$a_cdir."/".$file
+											),
+											true
+										);
+										\ilUtil::redirect("setup.php?cmd=clientlist");
 									}
 
 									$this->class_script[$parent] = $a_cdir."/".$file;
