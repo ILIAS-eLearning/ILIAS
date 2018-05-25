@@ -141,7 +141,6 @@ $DIC["tpl"] = function($c) { return $GLOBALS["tpl"]; };
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
-$ilCtrlStructureReader->setErrorObject($ilErr);
 $DIC["ilCtrlStructureReader"] = function($c) { return $GLOBALS["ilCtrlStructureReader"]; };
 
 require_once "./Services/Utilities/classes/class.ilBenchmark.php";
