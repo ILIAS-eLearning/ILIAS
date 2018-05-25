@@ -193,16 +193,7 @@ class ilSetup
 		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
-			// check for existing client dir
-			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
-			{
-				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
-			}
-
-			if (!$this->saveNewClient())
-			{
-				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
-			}
+			$this->saveNewClient();
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
 			ilUtil::delDir(ILIAS_DATA_DIR."/".$a_old_client_id);
