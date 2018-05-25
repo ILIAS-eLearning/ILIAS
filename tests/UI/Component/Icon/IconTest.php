@@ -5,14 +5,14 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Test on icon implementation.
  */
 class IconTest extends ILIAS_UI_TestBase {
 	private function getIconFactory() {
-		$f = new \ILIAS\UI\Implementation\Factory();
-		return $f->icon();
+		return new I\Component\Icon\Factory();
 	}
 
 	public function testConstruction() {

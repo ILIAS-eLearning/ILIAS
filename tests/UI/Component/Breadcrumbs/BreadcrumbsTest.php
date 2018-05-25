@@ -6,13 +6,34 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Tests for the Breadcrumbs-component
  */
 class BreadcrumbsTest extends ILIAS_UI_TestBase {
 	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+		return new \ILIAS\UI\Implementation\Factory(
+			$this->createMock(C\Counter\Factory::class),
+			$this->createMock(C\Glyph\Factory::class),
+			$this->createMock(C\Button\Factory::class),
+			$this->createMock(C\Listing\Factory::class),
+			$this->createMock(C\Image\Factory::class),
+			$this->createMock(C\Panel\Factory::class),
+			$this->createMock(C\Modal\Factory::class),
+			$this->createMock(C\Dropzone\Factory::class),
+			$this->createMock(C\Popover\Factory::class),
+			$this->createMock(C\Divider\Factory::class),
+			$this->createMock(C\Link\Factory::class),
+			$this->createMock(C\Dropdown\Factory::class),
+			$this->createMock(C\Item\Factory::class),
+			$this->createMock(C\Icon\Factory::class),
+			$this->createMock(C\ViewControl\Factory::class),
+			$this->createMock(C\Chart\Factory::class),
+			$this->createMock(C\Input\Factory::class),
+			$this->createMock(C\Table\Factory::class),
+			$this->createMock(C\MessageBox\Factory::class)
+		);
 	}
 
 	public function test_implements_factory_interface() {
@@ -29,8 +50,8 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 	public function testCrumbs() {
 		$f = $this->getFactory();
 		$crumbs = array(
-			$f->link()->standard("label", '#'),
-			$f->link()->standard("label2", '#')
+			new I\Component\Link\Standard("label", '#'),
+			new I\Component\Link\Standard("label2", '#')
 		);
 
 		$c = $f->Breadcrumbs($crumbs);
@@ -39,7 +60,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 
 	public function testAppending() {
 		$f = $this->getFactory();
-		$crumb  = $f->link()->standard("label", '#');
+		$crumb  = new I\Component\Link\Standard("label2", '#');
 
 		$c = $f->Breadcrumbs(array())
 			->withAppendedItem($crumb);
@@ -51,8 +72,8 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 
 		$crumbs = array(
-			$f->link()->standard("label", '#'),
-			$f->link()->standard("label2", '#')
+			new I\Component\Link\Standard("label", '#'),
+			new I\Component\Link\Standard("label2", '#')
 		);
 		$c = $f->Breadcrumbs($crumbs);
 

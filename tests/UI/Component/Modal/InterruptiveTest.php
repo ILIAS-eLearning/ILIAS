@@ -3,6 +3,7 @@
 require_once(__DIR__ . '/ModalBase.php');
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Tests on implementation for the interruptive modal
@@ -82,7 +83,6 @@ class InterruptiveTest extends ModalBase {
 EOT;
 		return $expected;
 	}
-
 }
 
 class InterruptiveItemMock implements C\Modal\InterruptiveItem {

@@ -17,7 +17,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	 */
 	protected $listing_factory;
 
-	public function __construct(Listing\Factory $listing_factory) {
+	public function __construct(P\Listing\Factory $listing_factory) {
 		$this->listing_factory = $listing_factory;
 	}
 
