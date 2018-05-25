@@ -7,10 +7,10 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-	const URI_NO_PATH_1 = 'g-it://githu%2Db.com:8080?query_par_1=val_1&query_par_2=val_2#fragment';
-	const URI_NO_PATH_2 = 'g.it://githu%1Fb.com:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
+	const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
+	const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-	const URI_NO_QUERY_1 = 'git://github.com:8080/someaccount/somerepo/somerepo.git/#fragment';
+	const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
 	const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
 
 	const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
@@ -106,8 +106,8 @@ class URITest extends PHPUnit_Framework_TestCase {
 	{
 		$uri = new ILIAS\Data\URI(self::URI_NO_PATH_1);
 		$this->assertEquals($uri->schema(),'g-it');
-		$this->assertEquals($uri->authority(),'githu%2Db.com:8080');
-		$this->assertEquals($uri->host(),'githu%2Db.com');
+		$this->assertEquals($uri->authority(),'ilias%2Da.de:8080');
+		$this->assertEquals($uri->host(),'ilias%2Da.de');
 		$this->assertEquals($uri->port(),'8080');
 		$this->assertNull($uri->path());
 		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
@@ -115,8 +115,8 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 		$uri = new ILIAS\Data\URI(self::URI_NO_PATH_2);
 		$this->assertEquals($uri->schema(),'g.it');
-		$this->assertEquals($uri->authority(),'githu%1Fb.com:8080');
-		$this->assertEquals($uri->host(),'githu%1Fb.com');
+		$this->assertEquals($uri->authority(),'amaz;on.co.uk:8080');
+		$this->assertEquals($uri->host(),'amaz;on.co.uk');
 		$this->assertEquals($uri->port(),'8080');
 		$this->assertNull($uri->path());
 		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
@@ -130,8 +130,8 @@ class URITest extends PHPUnit_Framework_TestCase {
 	{
 		$uri = new ILIAS\Data\URI(self::URI_NO_QUERY_1);
 		$this->assertEquals($uri->schema(),'git');
-		$this->assertEquals($uri->authority(),'github.com:8080');
-		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->authority(),'one-letter-top-level.a:8080');
+		$this->assertEquals($uri->host(),'one-letter-top-level.a');
 		$this->assertEquals($uri->port(),'8080');
 		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
 		$this->assertNull($uri->query());
@@ -338,5 +338,435 @@ class URITest extends PHPUnit_Framework_TestCase {
 	public function test_alphadigit_start_host_5()
 	{
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_schema($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withSchema('http');
+		$this->assertEquals($uri->schema(),'http');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+	/**
+	 * @depends test_with_schema
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_schema_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withSchema('');
+	}
+
+	/**
+	 * @depends test_with_schema
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_schema_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withSchema('1aa');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_port($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withPort(80);
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:80');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'80');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withPort();
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertNull($uri->port());
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+
+	/**
+	 * @depends test_with_port
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_port_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withPort('111');
+	}
+
+	/**
+	 * @depends test_with_port
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_port_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withPort('foo');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_host($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withHost('ilias.de');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'ilias.de:8080');
+		$this->assertEquals($uri->host(),'ilias.de');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+
+	/**
+	 * @depends test_with_host
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_host_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('-foo-.de');
+	}
+
+	/**
+	 * @depends test_with_host
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_host_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost(null);
+	}
+
+
+	/**
+	 * @depends test_with_host
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_host_invalid_3()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('');
+	}
+
+	/**
+	 * @depends test_with_host
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_host_invalid_4()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('ilias.de"><script');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_authority($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('ilias.de');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'ilias.de');
+		$this->assertEquals($uri->host(),'ilias.de');
+		$this->assertNull($uri->port());
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('ilias.de:80');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'ilias.de:80');
+		$this->assertEquals($uri->host(),'ilias.de');
+		$this->assertEquals($uri->port(),'80');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withAuthority('-foo-.de');
+	}
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost(null);
+	}
+
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_3()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('ilias.de:');
+	}
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_4()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('ilias.de: ');
+	}
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_5()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withHost('ilias.de:aaa');
+	}
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_6()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withAuthority('foo.de&<script>');
+	}
+
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_7()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withAuthority('foo.de"><script>alert');
+	}
+
+
+	/**
+	 * @depends test_with_authority
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_authority_invalid_8()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withAuthority('   :80');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_path($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withPath('a/b');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'a/b');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withPath();
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertNull($uri->path());
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+	/**
+	 * @depends test_with_path
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_path_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withPath('/<script>/a');
+	}
+
+	/**
+	 * @depends test_with_path
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_path_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withPath('//a/b');
+	}
+
+	/**
+	 * @depends test_with_path
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_path_invalid_3()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withPath(':a/b');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_query($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withQuery('query_par_a1=val_a1');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_a1=val_a1');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withQuery();
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertNull($uri->query());
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+	/**
+	 * @depends test_with_query
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_query_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withQuery('<script>a');
+	}
+
+	/**
+	 * @depends test_with_query
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_query_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withQuery('aa[]');
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_with_fragment($uri)
+	{
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withFragment('someFragment');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'someFragment');
+		$uri = $uri->withFragment();
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'github.com:8080');
+		$this->assertEquals($uri->host(),'github.com');
+		$this->assertEquals($uri->port(),'8080');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertNull($uri->fragment());
+	}
+
+	/**
+	 * @depends test_with_fragment
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_fragment_invalid_1()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withFragment('aaa[]');
+	}
+
+	/**
+	 * @depends test_with_fragment
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_with_fragment_invalid_2()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+		$uri->withFragment('script>');
 	}
 }
