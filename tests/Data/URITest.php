@@ -234,150 +234,109 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_no_schema()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_NO_SCHEMA);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_NO_SCHEMA);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_no_authority()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_NO_AUTHORITY);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_NO_AUTHORITY);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_wrong_char_in_schema()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_WRONG_SCHEMA);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_WRONG_SCHEMA);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
-	public function test_wrong_authority_in_schema()
+	public function test_wrong_authority_in_schema_1()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_1);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
-		try {
-			new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_2);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_1);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_wrong_authority_in_schema_2()
+	{
+		new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_2);
+	}
+
+	/**
+	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_uri_invalid()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_INVALID);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_INVALID);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_fakepcenc()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_FAKEPCENC);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_FAKEPCENC);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_1);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_1);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_2()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_2);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_2);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_3()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_3);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_3);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_4()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_4);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_4);
 	}
 
 	/**
 	 * @depends test_init
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_5()
 	{
-		try {
-			new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
-			$this->assertFalse('did not throw');
-		} catch(\InvalidArgumentException $e) {
-
-		}
+		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
 	}
 }
