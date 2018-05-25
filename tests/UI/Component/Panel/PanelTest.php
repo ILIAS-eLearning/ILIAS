@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 class ComponentDummy implements C\Component {
 	public function __construct($id = ""){
@@ -25,14 +26,9 @@ class PanelTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Component\Panel\Factory
 	 */
 	public function getPanelFactory() {
-		return new \ILIAS\UI\Implementation\Component\Panel\Factory();
-	}
-
-	/**
-	 * @return \ILIAS\UI\Implementation\Factory
-	 */
-	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+		return new I\Component\Panel\Factory(
+			$this->createMock(C\Panel\Listing\Factory::class)
+		);
 	}
 
 	public function test_implements_factory_interface() {
@@ -70,13 +66,12 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 	public function test_standard_with_actions() {
 		$fp = $this->getPanelFactory();
-		$f = $this->getFactory();
 
 		$p = $fp->standard("Title",array(new ComponentDummy()));
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 
 		$p = $p->withActions($actions);
@@ -86,13 +81,12 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 	public function test_sub_with_actions() {
 		$fp = $this->getPanelFactory();
-		$f = $this->getFactory();
 
 		$p = $fp->sub("Title",array(new ComponentDummy()));
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 
 		$p = $p->withActions($actions);
@@ -102,11 +96,10 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 	public function test_sub_with_card() {
 		$fp = $this->getPanelFactory();
-		$f = $this->getFactory();
 
 		$p = $fp->sub("Title",array(new ComponentDummy()));
 
-		$card = $f->card("Card Title");
+		$card = new I\Component\Card\Card("Card Title");
 
 		$p = $p->withCard($card);
 
@@ -131,15 +124,15 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 
 	public function test_render_standard() {
-		$f = $this->getFactory();
+		$f = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 
-		$p = $f->panel()->standard("Title",array())->withActions($actions);
+		$p = $f->standard("Title",array())->withActions($actions);
 
 		$html = $r->render($p);
 
@@ -161,17 +154,16 @@ EOT;
 	}
 
 	public function test_render_sub() {
-		$f = $this->getFactory();
 		$fp = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 
 		$p = $fp->sub("Title",array())->withActions($actions);
-		$card = $f->card("Card Title");
+		$card = new I\Component\Card\Card("Card Title");
 		$p = $p->withCard($card);
 		$html = $r->render($p);
 
@@ -205,11 +197,10 @@ EOT;
 		$this->assertHTMLEquals($expected_html, $html);
 	}
 	public function test_render_report() {
-		$f = $this->getFactory();
 		$fp = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
 		$sub = $fp->sub("Title",array());
-		$card = $f->card("Card Title");
+		$card = new I\Component\Card\Card("Card Title");
 		$sub = $sub->withCard($card);
 		$report = $fp->report("Title",$sub);
 

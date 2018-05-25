@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation;
 
+use \ILIAS\UI\Component as C;
 use ILIAS\UI\NotImplementedException;
 
 // TODO: This might cache the created factories.
@@ -12,92 +13,92 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 class Factory implements \ILIAS\UI\Factory
 {
 	/**
-	 * @var Component\Counter\Factory
+	 * @var C\Counter\Factory
 	 */
 	protected $counter_factory;
 
 	/**
-	 * @var Component\Glyph\Factory
+	 * @var C\Glyph\Factory
 	 */
 	protected $glyph_factory;
 
 	/**
-	 * @var Component\Button\Factory
+	 * @var C\Button\Factory
 	 */
 	protected $button_factory;
 
 	/**
-	 * @var Component\Listing\Factory
+	 * @var C\Listing\Factory
 	 */
 	protected $listing_factory;
 
 	/**
-	 * @var Component\Image\Factory
+	 * @var C\Image\Factory
 	 */
 	protected $image_factory;
 
 	/**
-	 * @var Component\Panel\Factory
+	 * @var C\Panel\Factory
 	 */
 	protected $panel_factory;
 
 	/**
-	 * @var Component\Modal\Factory
+	 * @var C\Modal\Factory
 	 */
 	protected $modal_factory;
 
 	/**
-	 * @var Component\Dropzone\Factory
+	 * @var C\Dropzone\Factory
 	 */
 	protected $dropzone_factory;
 
 	/**
-	 * @var Component\Popover\Factory
+	 * @var C\Popover\Factory
 	 */
 	protected $popover_factory;
 
 	/**
-	 * @var Component\Divider\Factory
+	 * @var C\Divider\Factory
 	 */
 	protected $divider_factory;
 
 	/**
-	 * @var Component\Link\Factory
+	 * @var C\Link\Factory
 	 */
 	protected $link_factory;
 
 	/**
-	 * @var Component\Dropdown\Factory
+	 * @var C\Dropdown\Factory
 	 */
 	protected $dropdown_factory;
 
 	/**
-	 * @var Component\Item\Factory
+	 * @var C\Item\Factory
 	 */
 	protected $item_factory;
 
 	/**
-	 * @var Component\Icon\Factory
+	 * @var C\Icon\Factory
 	 */
 	protected $icon_factory;
 
 	/**
-	 * @var Component\ViewControl\Factory
+	 * @var C\ViewControl\Factory
 	 */
 	protected $viewcontrol_factory;
 
 	/**
-	 * @var Component\Chart\Factory
+	 * @var C\Chart\Factory
 	 */
 	protected $chart_factory;
 
 	/**
-	 * @var Component\Input\Factory
+	 * @var C\Input\Factory
 	 */
 	protected $input_factory;
 
 	/**
-	 * @var Component\Table\Factory
+	 * @var C\Table\Factory
 	 */
 	protected $table_factory;
 
@@ -107,25 +108,25 @@ class Factory implements \ILIAS\UI\Factory
     protected $messagebox_factory;
 
 	public function __construct(
-		Component\Counter\Factory $counter_factory,
-		Component\Glyph\Factory $glyph_factory,
-		Component\Button\Factory $button_factory,
-		Component\Listing\Factory $listing_factory,
-		Component\Image\Factory	$image_factory,
-		Component\Panel\Factory $panel_factory,
-		Component\Modal\Factory $modal_factory,
-		Component\Dropzone\Factory $dropzone_factory,
-		Component\Popover\Factory $popover_factory,
-		Component\Divider\Factory $divider_factory,
-		Component\Link\Factory $link_factory,
-		Component\Dropdown\Factory $dropdown_factory,
-		Component\Item\Factory $item_factory,
-		Component\Icon\Factory $icon_factory,
-		Component\ViewControl\Factory $viewcontrol_factory,
-		Component\Chart\Factory $chart_factory,
-		Component\Input\Factory $input_factory,
-		Component\Table\Factory $table_factory,
-		Component\MessageBox\Factory $messagebox_factory
+		C\Counter\Factory $counter_factory,
+		C\Glyph\Factory $glyph_factory,
+		C\Button\Factory $button_factory,
+		C\Listing\Factory $listing_factory,
+		C\Image\Factory	$image_factory,
+		C\Panel\Factory $panel_factory,
+		C\Modal\Factory $modal_factory,
+		C\Dropzone\Factory $dropzone_factory,
+		C\Popover\Factory $popover_factory,
+		C\Divider\Factory $divider_factory,
+		C\Link\Factory $link_factory,
+		C\Dropdown\Factory $dropdown_factory,
+		C\Item\Factory $item_factory,
+		C\Icon\Factory $icon_factory,
+		C\ViewControl\Factory $viewcontrol_factory,
+		C\Chart\Factory $chart_factory,
+		C\Input\Factory $input_factory,
+		C\Table\Factory $table_factory,
+		C\MessageBox\Factory $messagebox_factory
 	) {
 		$this->counter_factory = $counter_factory;
 		$this->glyph_factory = $glyph_factory;
