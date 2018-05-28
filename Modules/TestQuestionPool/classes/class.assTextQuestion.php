@@ -624,12 +624,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+		
+		$text = $this->getSolutionSubmit();
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$this->removeCurrentSolution($active_id, $pass, $authorized);
-		
-		$text = $this->getSolutionSubmit();
 		
 		$entered_values = 0;
 		if (strlen($text))
