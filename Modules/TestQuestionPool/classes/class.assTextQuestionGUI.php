@@ -371,10 +371,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		
 		$questionoutput = $template->get();
 		
-		if ($this->object->getMaxNumOfChars() > 0)
-		{
-			$questionoutput .= $this->getLetterCounterJsCode();
-		}
+		$questionoutput .= $this->getJsCode();
 
 		if (!$show_question_only)
 		{
@@ -429,10 +426,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		
-		if ($this->object->getMaxNumOfChars() > 0)
-		{
-			$questionoutput .= $this->getLetterCounterJsCode();
-		}
+		$questionoutput .= $this->getJsCode();
 		
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
@@ -440,13 +434,21 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $pageoutput;
 	}
 	
-	protected function getLetterCounterJsCode()
+	protected function getJsCode()
 	{
 		$tpl = new ilTemplate('tpl.charcounter.html', true, true, 'Modules/TestQuestionPool');
-		$tpl->setCurrentBlock('text_question_letter_counter_js');
-		$tpl->setVariable("QID", $this->object->getId());
-		$tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+		
+		$tpl->setCurrentBlock('tinymce_handler');
+		$tpl->touchBlock('tinymce_handler');
 		$tpl->parseCurrentBlock();
+		
+		if ($this->object->getMaxNumOfChars() > 0)
+		{
+			$tpl->setCurrentBlock('letter_counter_js');
+			$tpl->setVariable("QID", $this->object->getId());
+			$tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$tpl->parseCurrentBlock();
+		}
 		
 		return $tpl->get();
 	}
