@@ -125,8 +125,7 @@ class URI
 	 */
 	protected function digestPort($port)
 	{
-		if($port === null)
-		{
+		if($port === null) {
 			return null;
 		}
 		if(!is_int($port)) {
@@ -144,14 +143,12 @@ class URI
 	 */
 	protected function digestPath($path)
 	{
-		if($path === null)
-		{
+		if($path === null) {
 			return null;
 		}
 		assert('is_string($path)');
 		$path = trim($this->checkCorrectFormatOrThrow(self::PATH, $path),self::PATH_DELIM);
-		if($path === '')
-		{
+		if($path === '') {
 			$path = null;
 		}
 		return $path;
@@ -166,8 +163,7 @@ class URI
 	 */
 	protected function digestQuery($query)
 	{
-		if($query === null)
-		{
+		if($query === null) {
 			return null;
 		}
 		assert('is_string($query)');
@@ -183,8 +179,7 @@ class URI
 	 */
 	protected function digestFragment($fragment)
 	{
-		if($fragment === null)
-		{
+		if($fragment === null) {
 			return null;
 		}
 		assert('is_string($fragment)');
