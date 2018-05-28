@@ -117,7 +117,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	{
 	}
 
-	protected function magicAfterTestOutput()
+	public function magicAfterTestOutput()
 	{
 		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
 
