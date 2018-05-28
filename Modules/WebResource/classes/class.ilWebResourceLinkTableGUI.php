@@ -32,7 +32,11 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd,$a_sorting = false)
 	{
-		global $lng,$ilAccess,$ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
@@ -141,7 +145,10 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl,$lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['link_id']);
 		

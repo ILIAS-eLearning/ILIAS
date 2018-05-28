@@ -70,7 +70,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 				$sys_folder = new ilObjSystemFolderGUI('',SYSTEM_FOLDER_ID,TRUE);
 				$this->ctrl->forwardCommand($sys_folder);
 				
-				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
 				
 				$this->setSubTabs(self::SECTION_MAIN,'sc');
 				break;
@@ -97,8 +97,8 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 				$this->ctrl->saveParameter($this,'grp_id');
 				$this->ctrl->saveParameter($this, 'task_id');
 				$this->ctrl->setReturn($this,'showGroup');
-				$GLOBALS['ilTabs']->clearTargets();
-				$GLOBALS['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'showGroup'));
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'showGroup'));
 				$handler = ilSCComponentTaskFactory::getComponentTask((int) $_REQUEST['task_id']);
 				$this->ctrl->forwardCommand($handler);
 				break;
@@ -116,7 +116,9 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
@@ -145,7 +147,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		$table->init();
 		$table->parse();
 		
-		$GLOBALS['tpl']->setContent($table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 		return true;
 	}
 	
@@ -164,7 +166,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		$table->init();
 		$table->parse();
 		
-		$GLOBALS['tpl']->setContent($table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 		return true;
 	}
 	
@@ -182,7 +184,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		{
 			$form = $this->initFormTrash();
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 	
 	/**
@@ -230,13 +232,13 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		/*
 		 * @var ilObjDefinition
 		 */
-		$sub_objects = $GLOBALS['tree']->lookupTrashedObjectTypes();
+		$sub_objects = $GLOBALS['DIC']['tree']->lookupTrashedObjectTypes();
 		
 		$options = array();
 		$options[0] = '';
 		foreach($sub_objects as $obj_type)
 		{
-			if(!$GLOBALS['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['objDefinition']->isAllowedInRepository($obj_type))
+			if(!$GLOBALS['DIC']['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['DIC']['objDefinition']->isAllowedInRepository($obj_type))
 			{
 				continue;
 			}
@@ -303,17 +305,17 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		switch($a_section)
 		{
 			case self::SECTION_MAIN:
-				$GLOBALS['ilTabs']->addSubTab(
+				$GLOBALS['DIC']['ilTabs']->addSubTab(
 						'',
 						$this->getLang()->txt('sysc_groups'),
 						$this->ctrl->getLinkTarget($this,'overview')
 				);
-				$GLOBALS['ilTabs']->addSubTab(
+				$GLOBALS['DIC']['ilTabs']->addSubTab(
 						'trash',
 						$this->getLang()->txt('sysc_tab_trash'),
 						$this->ctrl->getLinkTarget($this,'trash')
 				);
-				$GLOBALS['ilTabs']->addSubTab(
+				$GLOBALS['DIC']['ilTabs']->addSubTab(
 						'no_owner',
 						$this->getLang()->txt('system_check_no_owner'),
 						$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui')
@@ -321,13 +323,13 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 				break;
 			
 			case self::SECTION_GROUP:
-				$GLOBALS['ilTabs']->clearTargets();
-				$GLOBALS['ilTabs']->setBackTarget(
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
 						$this->ctrl->getLinkTarget($this,'overview')
 				);
 		}
-		$GLOBALS['ilTabs']->activateSubTab($a_active);
+		$GLOBALS['DIC']['ilTabs']->activateSubTab($a_active);
 	}
 
 }
