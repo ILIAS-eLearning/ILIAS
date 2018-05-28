@@ -115,13 +115,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	function outAdditionalOutput()
 	{
-		if ($this->object->getMaxNumOfChars() > 0)
-		{
-			$this->tpl->addBlockFile("CONTENT_BLOCK", "charcounter", "tpl.charcounter.html", "Modules/TestQuestionPool");
-			$this->tpl->setCurrentBlock("charcounter");
-			$this->tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
 	protected function magicAfterTestOutput()
@@ -417,18 +410,37 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
 			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
 			$template->parseCurrentBlock();
 		}
+		$template->setVariable("QID", $this->object->getId());
 		$template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
+		
+		if ($this->object->getMaxNumOfChars() > 0)
+		{
+			$questionoutput .= $this->getLetterCounterJsCode();
+		}
+		
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
 		return $pageoutput;
+	}
+	
+	protected function getLetterCounterJsCode()
+	{
+		$tpl = new ilTemplate('tpl.charcounter.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setCurrentBlock('text_question_letter_counter_js');
+		$tpl->setVariable("QID", $this->object->getId());
+		$tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+		$tpl->parseCurrentBlock();
+		
+		return $tpl->get();
 	}
 
 	function addSuggestedSolution()
