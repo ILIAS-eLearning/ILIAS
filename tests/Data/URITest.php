@@ -7,6 +7,11 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
+	const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+
+	const URI_COMPLETE_LOCALHOST = 'g+it://localhost:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+
+
 	const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
 	const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
 
@@ -49,6 +54,38 @@ class URITest extends PHPUnit_Framework_TestCase {
 	{
 		return new ILIAS\Data\URI(self::URI_COMPLETE);
 	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_ipv4()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE_IPV4);
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'10.0.0.86:8080');
+		$this->assertEquals($uri->host(),'10.0.0.86');
+		$this->assertEquals($uri->port(),8080);
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_localhost()
+	{
+		$uri = new ILIAS\Data\URI(self::URI_COMPLETE_LOCALHOST);
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'localhost:8080');
+		$this->assertEquals($uri->host(),'localhost');
+		$this->assertEquals($uri->port(),8080);
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+	}
+
 
 	/**
 	 * @depends test_init
@@ -509,10 +546,10 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
 		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
 		$this->assertEquals($uri->fragment(),'fragment');
-		$uri = $uri->withAuthority('ilias.de');
+		$uri = $uri->withAuthority('www1.ilias.de');
 		$this->assertEquals($uri->schema(),'g+it');
-		$this->assertEquals($uri->authority(),'ilias.de');
-		$this->assertEquals($uri->host(),'ilias.de');
+		$this->assertEquals($uri->authority(),'www1.ilias.de');
+		$this->assertEquals($uri->host(),'www1.ilias.de');
 		$this->assertNull($uri->port());
 		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
 		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
@@ -522,6 +559,54 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->authority(),'ilias.de:80');
 		$this->assertEquals($uri->host(),'ilias.de');
 		$this->assertEquals($uri->port(),'80');
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('a:1');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'a:1');
+		$this->assertEquals($uri->host(),'a');
+		$this->assertEquals($uri->port(),1);
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('a');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'a');
+		$this->assertEquals($uri->host(),'a');
+		$this->assertNull($uri->port());
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('1.2.3.4');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'1.2.3.4');
+		$this->assertEquals($uri->host(),'1.2.3.4');
+		$this->assertNull($uri->port());
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('1.2.3.4:5');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'1.2.3.4:5');
+		$this->assertEquals($uri->host(),'1.2.3.4');
+		$this->assertEquals($uri->port(),5);
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('localhost1');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'localhost1');
+		$this->assertEquals($uri->host(),'localhost1');
+		$this->assertNull($uri->port());
+		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
+		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
+		$this->assertEquals($uri->fragment(),'fragment');
+		$uri = $uri->withAuthority('localhost1:10');
+		$this->assertEquals($uri->schema(),'g+it');
+		$this->assertEquals($uri->authority(),'localhost1:10');
+		$this->assertEquals($uri->host(),'localhost1');
+		$this->assertEquals($uri->port(),10);
 		$this->assertEquals($uri->path(),'someaccount/somerepo/somerepo.git');
 		$this->assertEquals($uri->query(),'query_par_1=val_1&query_par_2=val_2');
 		$this->assertEquals($uri->fragment(),'fragment');
