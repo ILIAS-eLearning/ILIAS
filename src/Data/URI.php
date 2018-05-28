@@ -11,6 +11,7 @@ namespace ILIAS\Data;
  *  - We require a schema and an authority to be present.
  *  - If any part is located and it is invalid an exception will be thrown
  *    instead of just omiting it.
+ *	- IPv6 is currently not supported.
  */
 class URI
 {
@@ -72,7 +73,9 @@ class URI
 
 	const SCHEMA = '#^'.self::ALPHA.'('.self::ALPHA_DIGIT.'|'.self::PIMP.')*$#';
 	const DOMAIN_LABEL = self::ALPHA_DIGIT.'(('.self::UNRESERVED_NO_DOT.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')*'.self::ALPHA_DIGIT.')*';
-	const HOST = '#^'.self::DOMAIN_LABEL.'(\\.'.self::DOMAIN_LABEL.')*$#';
+	const HOST_REG_NAME = '^'.self::DOMAIN_LABEL.'(\\.'.self::DOMAIN_LABEL.')*$';
+	const HOST_IPV4 = '^('.self::DIGIT.'{1,3}){4}$';
+	const HOST = '#'.self::HOST_IPV4.'|'.self::HOST_REG_NAME.'#';
 	const PORT = '#^'.self::DIGIT.'+$#';
 	const PATH = '#^(?!//)(?!:)('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
 	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
