@@ -58,7 +58,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 
 	protected function initButtons() {
-		if ($this->access()->checkAccess('write', "", $this->facade->iliasObject()->getRefId())) {
+		if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
 			$new_filter_link = $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_ADD);
 			$ilLinkButton = ilLinkButton::getInstance();
 			$ilLinkButton->setCaption($this->lng()->txt("add_filter"), false);
@@ -151,8 +151,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$info->setSortingDirection($sorting_direction);
 		$info->setLimit($num);
 
-		$filter = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObject()
-		                                                                           ->getId(), $info);
+		$filter = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObjId(), $info);
 		$this->setData($filter);
 	}
 }

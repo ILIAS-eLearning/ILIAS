@@ -61,8 +61,7 @@ class ilBiblFieldFilterGUI {
 			case self::CMD_CANCEL:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-				if ($this->access()->checkAccess('write', "", $this->facade->iliasObject()
-				                                                           ->getRefId())) {
+				if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
 					$this->{$cmd}();
 					break;
 				} else {
@@ -88,7 +87,7 @@ class ilBiblFieldFilterGUI {
 	protected function create() {
 		$this->tabs()->activateTab(self::CMD_STANDARD);
 		$il_bibl_field = new ilBiblFieldFilter();
-		$il_bibl_field->setObjectId($this->facade->iliasObject()->getId());
+		$il_bibl_field->setObjectId($this->facade->iliasObjId());
 		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->facade);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng()->txt('changes_saved_success'), true);
