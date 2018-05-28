@@ -150,10 +150,11 @@ class URI
 		}
 		assert('is_string($path)');
 		$path = trim($this->checkCorrectFormatOrThrow(self::PATH, $path),self::PATH_DELIM);
-		if($path !== '')
+		if($path === '')
 		{
-			return $path;
+			$path = null;
 		}
+		return $path;
 	}
 
 	/**
@@ -204,9 +205,8 @@ class URI
 	{
 		if(preg_match($regexp, (string)$string) === 1) {
 			return $string;
-		} else {
-			throw new \InvalidArgumentException('ill-formated component '.$string);
 		}
+		throw new \InvalidArgumentException('ill-formated component '.$string);
 	}
 
 	/**
