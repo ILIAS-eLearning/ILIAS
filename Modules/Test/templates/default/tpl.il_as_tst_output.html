@@ -117,15 +117,8 @@
 				}
 			}
 		});
-
-		// add event listener to textarea input - the tinyMCE already has a callback to charCounter()
-		$('textarea#TEXT').on('keyup keydown keypress', function(event) {
-			charCounter(event, this);
-		});
 	}
 	); })(jQuery);
-
-    YAHOO.util.Event.onDOMReady(initCharCounter);
 	
 </script>
 </div>
