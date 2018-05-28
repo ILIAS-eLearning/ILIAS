@@ -18,14 +18,18 @@ class ilMembershipCronNotifications extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("enable_course_group_notifications");
 	}
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("enable_course_group_notifications_desc");
 	}
@@ -52,9 +56,12 @@ class ilMembershipCronNotifications extends ilCronJob
 
 	public function run()
 	{				
-		global $lng, $ilDB;
+		global $DIC;
 
-		$log = ilLoggerFactory::getLogger("mmbr");
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
+
+		$log = $DIC->logger()->mmbr();
 		$log->debug("===Member Notifications=== start");
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
@@ -173,7 +180,9 @@ class ilMembershipCronNotifications extends ilCronJob
 	 */
 	protected function parseNewsItem($a_parent_ref_id, array &$a_filter_map, array $a_item, $a_is_sub = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
 				$a_parent_ref_id != $a_filter_map[$a_item["id"]]);	
@@ -309,7 +318,9 @@ class ilMembershipCronNotifications extends ilCronJob
 	 */
 	protected function filterDuplicateItems(array $a_objects)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$parent_map = $news_map = $parsed_map = array();
 		
@@ -361,7 +372,12 @@ class ilMembershipCronNotifications extends ilCronJob
 	 */
 	protected function sendMail($a_user_id, array $a_objects, $a_last_run)
 	{
-		global $lng, $ilUser, $ilClientIniFile, $tree;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$tree = $DIC['tree'];
 		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
@@ -474,7 +490,9 @@ class ilMembershipCronNotifications extends ilCronJob
 	
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
 	{				
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		switch($a_form_id)
 		{			
@@ -489,7 +507,9 @@ class ilMembershipCronNotifications extends ilCronJob
 	
 	public function activationWasToggled($a_currently_active)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 				
 		// propagate cron-job setting to object setting
 		$ilSetting->set("crsgrp_ntf", (bool)$a_currently_active);		

@@ -365,6 +365,17 @@ abstract class ilAssQuestionFeedback
 	 * @return string $feedbackContent
 	 */
 	abstract public function getAllSpecificAnswerFeedbackContents($questionId);
+	
+	/**
+	 * returns the fact wether any specific feedback content is available or not
+	 * 
+	 * @param integer $questionId
+	 * @return bool
+	 */
+	public function isSpecificAnswerFeedbackAvailable($questionId)
+	{
+		return (bool)strlen( $this->getAllSpecificAnswerFeedbackContents($questionId) );
+	}
 
 	/**
 	 * saves GENERIC feedback content for the given question id to the database.

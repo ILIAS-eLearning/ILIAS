@@ -136,6 +136,16 @@ abstract class assQuestionGUI
 		
 		$this->navigationGUI = null;
 	}
+	
+	/**
+	 * this method can be overwritten per question type
+	 * 
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return false;
+	}
 
 	/**
 	* execute command
@@ -537,7 +547,6 @@ abstract class assQuestionGUI
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
-		$page_gui->setOutputMode("presentation");
 		$presentation = $page_gui->presentation();
 		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
@@ -546,7 +555,7 @@ abstract class assQuestionGUI
 	/**
 	* output question page
 	*/
-	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
+	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "", $inlineFeedbackEnabled = false)
 	{
 		// hey: prevPassSolutions - add the "use previous answer"
 		// hey: prevPassSolutions - refactored identifiers
@@ -584,6 +593,11 @@ abstract class assQuestionGUI
 
 		if( strlen($html) )
 		{
+			if( $inlineFeedbackEnabled && $this->hasInlineFeedback() )
+			{
+				$html = $this->buildFocusAnchorHtml() .$html;
+			}
+			
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 
@@ -2341,5 +2355,13 @@ abstract class assQuestionGUI
 	{
 		$errors = $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
 		return $this->editForm;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function buildFocusAnchorHtml()
+	{
+		return '<div id="focus"></div>';
 	}
 }

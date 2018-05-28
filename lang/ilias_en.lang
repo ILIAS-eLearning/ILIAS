@@ -773,7 +773,7 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#ordertext#:#Ordering Text
 assessment#:#output_mode#:#Output Mode
 assessment#:#output#:#Output
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Participants’.
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Dashboard’.
 assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#dashboard_tab#:#Dashboard
@@ -966,7 +966,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
-assessment#:#tst_best_solution_is#:#The best solution is
+assessment#:#tst_best_solution_is#:#The best solution is:
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
@@ -1086,7 +1086,7 @@ assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip ov
 assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
 assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_qst_order#:#No.
 assessment#:#tst_question_mark#:#Mark this question
@@ -8607,7 +8607,7 @@ wsp#:#wsp_set_permission_single_user#:#A Single User
 wsp#:#wsp_set_permission_group#:#Members of Group
 wsp#:#wsp_set_permission_course#:#Members of Course
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
-wsp#:#wsp_permission_removed#:#The item has been removed.
+wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_search_users#:#Search Users
@@ -9376,6 +9376,7 @@ blog#:#blog_posting#:#Blog Posting
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_body_new#:#the following blog posting was created.
 blog#:#blog_change_notification_body_update#:#the following blog posting has been updated.
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.
 blog#:#blog_change_notification_link#:#Link to Blog Posting
 blog#:#blog_notification_toggle_on#:#Activate Notification
 blog#:#blog_notification_toggle_off#:#Deactivate Notification
@@ -9618,7 +9619,8 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
 assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#conf_delete_pass#:#Really delete pass?
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
+assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
@@ -13210,7 +13212,7 @@ copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensur
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
-logging#:#log_error_message#:#Error %s occurred.
+logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
 logging#:#log_error_mail#:#Mail recipient

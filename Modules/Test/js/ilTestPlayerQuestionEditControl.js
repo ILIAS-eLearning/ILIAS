@@ -541,12 +541,16 @@ il.TestPlayerQuestionEditControl = new function() {
      * Handle the form submission
      */
     function handleFormSubmit() {
-
+        //var submitBtn = $(this).find("input[type=submit]:focus"); // perhaps neccessary anytime
+        
         // add the 'answer changed' parameter to the url
         // this keeps the answering status for mark and feedback functions
         if (answerChanged) {
             $(FORM_SELECTOR).attr('action', $(FORM_SELECTOR).attr('action') + '&test_answer_changed=1');
         }
+
+        // let the backend decide where a focus element is using the html id focus
+        $(FORM_SELECTOR).attr('action', $(FORM_SELECTOR).attr('action') + '#focus');
 
         // now the form can be submitted
         return true;

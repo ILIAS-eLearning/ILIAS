@@ -20,7 +20,9 @@ class ilLinkResourceItems
 	*/
 	function __construct($webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->webr_ref_id = 0;
 		$this->webr_id = $webr_id;
@@ -31,7 +33,9 @@ class ilLinkResourceItems
 	// BEGIN PATCH Lucene search
 	public static function lookupItem($a_webr_id,$a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer')." ".
@@ -64,7 +68,9 @@ class ilLinkResourceItems
 	 */
 	public static function updateTitle($a_link_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE webr_items SET '.
 				'title = '.$ilDB->quote($a_title,'text').' '.
@@ -223,7 +229,9 @@ class ilLinkResourceItems
 
 	function delete($a_item_id,$a_update_history = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$item = $this->getItem($a_item_id);
 		
@@ -244,7 +252,9 @@ class ilLinkResourceItems
 
 	function update($a_update_history = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getLinkId())
 		{
@@ -278,7 +288,9 @@ class ilLinkResourceItems
 
 	function updateValid($a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE webr_items ".
 			"SET valid = ".$ilDB->quote($a_status ,'integer')." ".
@@ -290,7 +302,9 @@ class ilLinkResourceItems
 
 	function updateActive($a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE webr_items ".
 			"SET active = ".$ilDB->quote($a_status ,'integer')." ".
@@ -302,7 +316,9 @@ class ilLinkResourceItems
 	}
 	function updateDisableCheck($a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE webr_items ".
 			"SET disable_check = ".$ilDB->quote($a_status ,'integer')." ".
@@ -314,7 +330,9 @@ class ilLinkResourceItems
 
 	function updateLastCheck($a_offset = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($a_offset)
 		{
@@ -342,7 +360,9 @@ class ilLinkResourceItems
 
 	function updateValidByCheck($a_offset = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($a_offset)
 		{
@@ -371,7 +391,9 @@ class ilLinkResourceItems
 
 	function add($a_update_history = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->__setLastUpdateDate(time());
 		$this->__setCreateDate(time());
@@ -408,7 +430,9 @@ class ilLinkResourceItems
 	}
 	function readItem($a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM webr_items ".
 			"WHERE link_id = ".$ilDB->quote($a_link_id ,'integer');
@@ -434,7 +458,9 @@ class ilLinkResourceItems
 
 	function getItem($a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
@@ -465,7 +491,9 @@ class ilLinkResourceItems
 	 */
 	public static function getAllItemIds($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT link_id FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer');
@@ -479,7 +507,9 @@ class ilLinkResourceItems
 		
 	function getAllItems()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
@@ -581,7 +611,9 @@ class ilLinkResourceItems
 	// STATIC
 	static function _deleteAll($webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulate("DELETE FROM webr_items WHERE webr_id = ".$ilDB->quote($webr_id ,'integer'));
 
@@ -598,7 +630,9 @@ class ilLinkResourceItems
 	*/
 	public static function _isSingular($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer').' '.
@@ -614,7 +648,9 @@ class ilLinkResourceItems
 	 */
 	public static function lookupNumberOfLinks($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT COUNT(*) num FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer');
@@ -633,7 +669,9 @@ class ilLinkResourceItems
 	*/
 	public static function _getFirstLink($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once("./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php");
 		return ilObjLinkResourceAccess::_getFirstLink($a_webr_id);

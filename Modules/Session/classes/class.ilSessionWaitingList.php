@@ -20,14 +20,17 @@ class ilSessionWaitingList extends ilWaitingList
 	 */
 	public function addToList($a_usr_id)
 	{
-		global $ilAppEventHandler, $ilLog;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilLog = $DIC->logger()->sess();
 		
 		if(!parent::addToList($a_usr_id))
 		{
 			return FALSE;
 		}
 		
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Session addToWaitingList');
+		$ilLog->info('Raise new event: Modules/Session addToWaitingList');
 		$ilAppEventHandler->raise(
 				"Modules/Session", 
 				'addToWaitingList', 

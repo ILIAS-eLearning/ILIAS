@@ -7,7 +7,7 @@ index 81fecd3..2239a4f 100644
  
  		$ar = sspmod_saml_Message::buildAuthnRequest($this->metadata, $idpMetadata);
 -
--		$ar->setAssertionConsumerServiceURL(SimpleSAML_Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
+-		$ar->setAssertionConsumerServiceURL(SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
 +		// ilias-patch: begin
 +		// see: https://bugs.launchpad.net/mahara/+bug/1689685
 +		// see: https://github.com/simplesamlphp/simplesamlphp/issues/503

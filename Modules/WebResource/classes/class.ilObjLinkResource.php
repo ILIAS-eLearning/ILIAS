@@ -82,8 +82,8 @@ class ilObjLinkResource extends ilObject
 	 */
 	public function MDUpdateListener($a_element)
 	{
-	 	global $ilLog;
-	 	
+	 	global $DIC;
+
 		parent::MDUpdateListener($a_element);
 	 	
 		$md = new ilMD($this->getId(),0, $this->getType());

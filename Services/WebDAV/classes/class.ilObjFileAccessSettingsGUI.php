@@ -76,6 +76,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$ilias = $DIC['ilias'];
 		$lng = $DIC['lng'];
 
+		$lng->loadLanguageModule("file");
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
