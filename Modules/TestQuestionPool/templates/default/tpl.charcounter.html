@@ -3,6 +3,10 @@
 
 var charCounter = function(e) // default handler hard coded to tinymce config
 {
+    if (typeof tinyMCE != 'undefined') {
+        tinyMCE.triggerSave(); // this updates the textarea input
+    }
+    
     if( e.type == 'keyup' )
     {
         if(updateAssTextQuestionLetterCounter)
