@@ -200,11 +200,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			{
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
-
-			$stripped = trim(strip_tags($user_solution));
-			$stripped = str_replace(array("\n", "\r\n", "\r"), '', $stripped);
-			$act_no_of_chars = strlen($stripped);
-			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
+			$act_no_of_chars = $this->object->countLetters($user_solution);
+			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
 		}
 		if (($active_id > 0) && (!$show_correct_solution))
