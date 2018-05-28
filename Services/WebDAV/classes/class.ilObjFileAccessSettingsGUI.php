@@ -67,11 +67,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	public function executeCommand()
 	{
 		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
 		$ilAccess = $DIC['ilAccess'];
 		$ilias = $DIC['ilias'];
 		$lng = $DIC['lng'];
+
+		$lng->loadLanguageModule("file");
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
