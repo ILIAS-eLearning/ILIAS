@@ -29,9 +29,9 @@ var updateAssTextQuestionLetterCounter;
             .replace(/(<([^>]+)>)/ig, "")
             .replace(/&lt;/ig, "<")
             .replace(/&gt;/ig, ">")
-            .replace(/\r?\n|\r/g, '')
+            .replace(/\r?\n|\r/g, ' ')
             .replace(/&nbsp;/gi, " ")
-            .replace(/&amp;/gi, " ");
+            .replace(/&amp;/gi, "&");
     };
     
     updateAssTextQuestionLetterCounter = function()

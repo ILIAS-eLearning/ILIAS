@@ -202,7 +202,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
 			
-			$act_no_of_chars = strlen($user_solution);
+			$act_no_of_chars = $this->object->countLetters($user_solution);
 			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
 		}
