@@ -1063,4 +1063,19 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	{
 		return true;
 	}
+	
+	public function countLetters($text)
+	{
+		$text = strip_tags($text);
+		
+		$text = str_replace('&gt;', '>', $text);
+		$text = str_replace('&lt;', '<', $text);
+		$text = str_replace('&nbsp;', ' ', $text);
+		$text = str_replace('&amp;', '&', $text);
+		
+		$text = str_replace("\r\n", "\n", $text);
+		$text = str_replace("\n", "", $text);
+		
+		return ilStr::strLen($text);
+	}
 }
