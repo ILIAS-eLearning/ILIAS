@@ -1,5 +1,8 @@
-<!-- BEGIN text_question_letter_counter_js -->
 <script type="text/javascript">
+
+<!-- BEGIN tinymce_handler -->
+
+var updateAssTextQuestionLetterCounter = 0;
 
 var charCounter = function(e) // default handler hard coded to tinymce config
 {
@@ -16,8 +19,10 @@ var charCounter = function(e) // default handler hard coded to tinymce config
     }
 };
 
-var updateAssTextQuestionLetterCounter;
-    
+<!-- END tinymce_handler -->
+
+<!-- BEGIN letter_counter_js -->
+
 (function($)
 {
     var qId = {QID};
@@ -65,5 +70,7 @@ var updateAssTextQuestionLetterCounter;
     });
     
 })(jQuery);
+
+<!-- END letter_counter_js -->
+
 </script>
-<!-- END text_question_letter_counter_js -->
