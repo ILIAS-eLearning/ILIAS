@@ -353,6 +353,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
 			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
@@ -368,7 +369,15 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("QID", $this->object->getId());
+		
 		$questionoutput = $template->get();
+		
+		if ($this->object->getMaxNumOfChars() > 0)
+		{
+			$questionoutput .= $this->getLetterCounterJsCode();
+		}
+
 		if (!$show_question_only)
 		{
 			// get page object output
