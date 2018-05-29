@@ -59,4 +59,11 @@ interface Icon extends \ILIAS\UI\Component\Component {
 	 */
 	public function getSize();
 
+	/**
+	 * Get an icon like this, but marked as disabled.
+	 *
+	 * @return Icon
+	 */
+	public function withDisabled();
+
 }

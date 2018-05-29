@@ -22,10 +22,14 @@ interface Factory {
 	 *     They indicate the functionality or nature of a text-element or context:
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
+	 *     Icons can be disabled. Disabled Icons visually communicate that they
+	 *     can not be worked with by users, i.e. a precondition is not met yet or
+	 *     status is offline. Technically this means that read access is not granted.
 	 *   composition: >
 	 *     Icons come in three fixed sizes: small, medium and large.
 	 *     They can be configured with an additional "abbreviation",
 	 *     a text of a few characters that will be rendered on top of the image.
+	 *     The Disabled Icons merely stand out visually: A color shade covers the Icon.
 	 *   effect: >
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
@@ -40,11 +44,16 @@ interface Factory {
 	 *     1: Icons MUST be used to represent objects or context.
 	 *     2: Icons MUST be used in combination with a title or label.
 	 *     3: An unique Icon MUST always refer to the same thing.
+	 *     4: Preconditioned objects whose precondition is not met yet
+	 *        feature Disabled Icons
+	 *     5: Objects to which a user has no read access features Disabled Icons.
 	 *   style:
 	 *     1: Icons MUST have a class indicating their usage.
 	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
+	 *     3: Disabled Icons will be shaded grey.
 	 *   accessibility:
 	 *     1: Icons MUST use aria-label.
+	 *     2: Disabled Icons MUST bear an aria-label indicating the special status.
 	 *   wording:
 	 *     1: The aria-label MUST state the represented object-type.
 	 *     2: The abbreviation SHOULD consist of one or two letters.
