@@ -1078,6 +1078,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$text = str_replace("\r\n", "\n", $text);
 		$text = str_replace("\n", "", $text);
 		
+		require_once 'Services/Utilities/classes/class.ilStr.php';
 		return ilStr::strLen($text);
 	}
 }
