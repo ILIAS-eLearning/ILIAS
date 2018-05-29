@@ -4696,7 +4696,7 @@ class ilUtil
 	 */
 	public static function isHTML($a_text)
 	{
-		if( preg_match("/<[^>]*?>/", $a_text) )
+		if( strlen(strip_tags($a_text)) < strlen($a_text) )
 		{
 			return true;
 		}
