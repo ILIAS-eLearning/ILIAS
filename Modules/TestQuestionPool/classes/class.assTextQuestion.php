@@ -667,8 +667,10 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	{
 		$text = ilUtil::stripSlashes($_POST["TEXT"], FALSE);
 		
-		$purifier = $this->getHtmlUserSolutionPurifier();
-		$text = $purifier->purify($text);
+		if( ilUtil::isHTML($text) )
+		{
+			$text = $this->getHtmlUserSolutionPurifier()->purify($text);
+		}
 		
 		return $text;
 	}
