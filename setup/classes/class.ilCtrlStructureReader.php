@@ -179,13 +179,8 @@ class ilCtrlStructureReader
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
 										}
-										
-										$this->err_object->raiseError(
-											sprintf($lng->txt("duplicate_ctrl"),
-												$parent,
-												$this->class_script[$parent],
-												$a_cdir."/".$file)
-											, $this->err_object->MESSAGE);
+
+										throw new \Exception("Find duplicate file '" .$file."'.");
 									}
 
 									$this->class_script[$parent] = $a_cdir."/".$file;
