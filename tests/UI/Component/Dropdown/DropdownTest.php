@@ -56,7 +56,12 @@ class DropdownTest extends ILIAS_UI_TestBase {
 		$c = $f->dropdown()->standard(array());
 
 		$html = $r->render($c);
-		$expected = "";
+		$expected = '<div class="dropdown"><button class="btn btn-default dropdown-toggle" '
+		.'type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"  '
+		.'disabled="disabled" > <span class="caret"></span></button>'.PHP_EOL
+		.'<ul class="dropdown-menu">'.PHP_EOL
+		.'</ul>'.PHP_EOL
+		.'</div>'.PHP_EOL;
 
 		$this->assertEquals($expected, $html);
 	}
