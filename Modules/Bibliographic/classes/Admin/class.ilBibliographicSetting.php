@@ -147,6 +147,7 @@ class ilBibliographicSetting extends ActiveRecord {
 	 */
 	public function getButton(ilObjBibliographic $bibl_obj, ilBibliographicEntry $entry) {
 		if ($this->getImg()) {
+			require_once('./Services/UIComponent/Button/classes/class.ilImageLinkButton.php');
 			$button = ilImageLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
 			$button->setImage($this->getImg(), false);
