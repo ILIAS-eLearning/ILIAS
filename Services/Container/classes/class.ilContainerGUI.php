@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
@@ -1815,6 +1817,24 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		// copy to temporary directory
 		$oldFilename = ilObjFile::_lookupAbsolutePath($obj_id);
+
+		//fix for mantis bug 0022951
+		if(!file_exists($oldFilename)) {
+			$pathInfo = pathinfo($oldFilename);
+			$basename = $pathInfo['basename'];
+
+			$oldFilename = str_replace('.', '', $basename);
+			$oldFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+			$oldFilename = $pathInfo['dirname'] . '/' . $oldFilename;
+
+			$pathInfo = pathinfo($newFilename);
+			$basename = $pathInfo['basename'];
+
+			$newFilename = str_replace('.', '', $basename);
+			$newFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+			$newFilename = $pathInfo['dirname'] . '/' . $newFilename;
+		}
+
 		if (!copy($oldFilename, $newFilename))
 			throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
 		

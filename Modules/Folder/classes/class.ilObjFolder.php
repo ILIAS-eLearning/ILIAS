@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+
 require_once "./Services/Container/classes/class.ilContainer.php";
 
 /**
@@ -160,6 +162,22 @@ class ilObjFolder extends ilContainer
 				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($child["title"]);
 				// copy to temporal directory
 				$oldFilename = ilObjFile::_lookupAbsolutePath($child["obj_id"]);
+				//fix for mantis bug 0022951
+				if(!file_exists($oldFilename)) {
+					$pathInfo = pathinfo($oldFilename);
+					$basename = $pathInfo['basename'];
+
+					$oldFilename = str_replace('.', '', $basename);
+					$oldFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+					$oldFilename = $pathInfo['dirname'] . '/' . $oldFilename;
+
+					$pathInfo = pathinfo($newFilename);
+					$basename = $pathInfo['basename'];
+
+					$newFilename = str_replace('.', '', $basename);
+					$newFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+					$newFilename = $pathInfo['dirname'] . '/' . $newFilename;
+				}
 				if (!copy ($oldFilename, $newFilename))
 				{
 					throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
