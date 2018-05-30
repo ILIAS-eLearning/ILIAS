@@ -28,9 +28,10 @@ class Renderer extends AbstractComponentRenderer {
 		// render items
 		$items = $component->getItems();
 		if (count($items) == 0) {
-			return "";
+			$this->renderInactive($tpl);
+		} else {
+			$this->renderItems($items, $tpl, $default_renderer);
 		}
-		$this->renderItems($items, $tpl, $default_renderer);
 
 		// render trigger button
 		$label = $component->getLabel();
@@ -44,6 +45,15 @@ class Renderer extends AbstractComponentRenderer {
 		$this->maybeRenderId($component, $tpl, "with_id", "ID");
 
 		return $tpl->get();
+	}
+
+	/**
+	 * @param	ilTemplate	$tpl
+	 * @return	void
+	 */
+	protected function renderInactive($tpl)
+	{
+		$tpl->touchBlock("inactive");
 	}
 
 	/**
