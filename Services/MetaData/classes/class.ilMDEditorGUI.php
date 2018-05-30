@@ -32,7 +32,12 @@ class ilMDEditorGUI
 
 	function __construct($a_rbac_id,$a_obj_id,$a_obj_type)
 	{
-		global $ilCtrl,$lng,$tpl,$ilTabs;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
 		$this->ctrl = $ilCtrl;
@@ -51,7 +56,9 @@ class ilMDEditorGUI
 
 	function executeCommand()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -101,7 +108,9 @@ class ilMDEditorGUI
 	 */
 	function listQuickEdit_scorm()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
 		{
 			$this->md_section = $this->md_obj->addGeneral();
@@ -393,7 +402,9 @@ class ilMDEditorGUI
 	
 	function listQuickEdit()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
 		{
@@ -411,7 +422,11 @@ class ilMDEditorGUI
 	 */
 	public function initQuickEditForm()
 	{
-		global $lng, $ilCtrl, $tree;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -3383,7 +3398,9 @@ class ilMDEditorGUI
 
 	function __setTabs($a_active)
 	{
-		global $ilToolbar;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
 		
 		$tabs = array('meta_quickedit' => 'listQuickEdit',
 					  'meta_general' => 'listGeneral',
