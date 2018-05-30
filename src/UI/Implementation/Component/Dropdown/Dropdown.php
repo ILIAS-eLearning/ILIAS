@@ -32,7 +32,8 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 * Dropdown constructor.
 	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
 	 */
-	public function __construct($items) {
+	public function __construct(array $items) {
+		$this->checkItems($items);
 		$this->items = $items;
 	}
 
@@ -86,5 +87,23 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 */
 	public function appendOnHover(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'hover');
+	}
+
+
+	/**
+	 * Make sure every item is of proper type.
+	 *
+	 * @param	array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>	$items
+	 * @return	void
+	 * @throws	\InvalidArgumentException
+	 */
+	protected function checkItems(array $items)
+	{
+		foreach ($items as $item) {
+			if(!(	$item instanceof \ILIAS\UI\Component\Button\Shy
+				||	$item instanceof \ILIAS\UI\Component\Divider\Horizontal)) {
+					throw new \InvalidArgumentException('invalid item');
+			}
+		}
 	}
 }
