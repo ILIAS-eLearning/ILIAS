@@ -1,32 +1,29 @@
 # Data Retrieval and Manipulation
-With release 4.0 ILIAS uses ```PEAR::MDB2``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or Oracle. In the future we would like to support at least PostreSQL as a third DBMS.
-## Portability and Future Conventions
-MDB2 offers a set of portability options, that are needed to run the same code with different database types. Since ILIAS 4.0 ILIAS has activated the full portability mode of MDB2.
- 
-See the [pear documentation](http://pear.php.net/manual/en/package.database.mdb2.intro-portability.php) for more info.
+With release 5.2 ILIAS uses ```ilDBInterface``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or PostgreSQL.
 
+## Portability and Future Conventions
 ILIAS requires that all **table** and **field** names use lower case characters a-z, underscore "\_" and numbers 0-9. Multiple words should be separated by "\_", e.g. "user\_id".
 
 **Table names should start with the Service or Module ID, to make clear, which Service or Module is responsible for managing the table data e.g. "frm_posting".**
 
 ## ILIAS Database Object
 
-ILIAS provides a global database object in variable ```$ilDB``` to access the database. All database functionality must be accessed through methods of this object. The object wraps a lot of MDB2 methods. Some ```$ilDB``` methods return MDB2 objects. Instead of calling their methods directly, these MDB2 objects should be passed to ```$ilDB``` again. Example:
+ILIAS provides a global database object in variable ```$DIC->database()``` to access the database. All database functionality must be accessed through methods of this object. Some methods return ilPDOStatement objects. Instead of calling their methods directly, these ilPDOStatement objects should be passed to ```$DIC->database()``` again. Example:
 
 ```php
 // WRONG
-$result = $ilDB->query(...);
+$result = $DIC->database()->query(...);
 $n = $result->numRows();
  
 // CORRECT
-$result = $ilDB->query(...);
-$n = $ilDB->numRows($result);
+$result = $DIC->database()->query(...);
+$n = $DIC->database()->numRows($result);
 ```
 
 ## Supported Column Types and Attributes
-MDB2 supports a number of abstract column types and attributes. Not all of them should be used in ILIAS. The following table lists the supported column types, their attributes and the mapping to the different DBMS column types.
+ilDBInterface supports a number of abstract column types and attributes. The following table lists the supported column types, their attributes and the mapping to the different DBMS column types.
 
-| MDB2 Type Supported by ILIAS | Supported Attributes                                | MySQL Mapping                             | Oracle Mapping                                          | 
+| ilDBInterface Type Supported by ILIAS | Supported Attributes                                | MySQL Mapping                             | Oracle Mapping                                          | 
 |------------------------------|-----------------------------------------------------|-------------------------------------------|---------------------------------------------------------| 
 | text                         | notnull, length (must be >0 <=4000), default, fixed | varchar, char                             | char, varchar2                                          | 
 | integer                      | notnull, length (must be 1, 2, 3, 4 or 8),          | tinyint, smallint, mediumint, int, bigint | number(3), number(5), number(8), number(10), number(20) | 
@@ -40,18 +37,18 @@ MDB2 supports a number of abstract column types and attributes. Not all of them 
 
 ## Queries
 ### SELECT Queries
-Queries are done with the ```$ilDB-query(...)``` method. All parameters must be quoted by using the ```$ilDB->quote(...)``` method. With ILIAS 4.0 you must pass a second parameter with the quote-Method, the (abstract MDB2) type of the variable.
+Queries are done with the ```$DIC->database()-query(...)``` method. All parameters must be quoted by using the ```$DIC->database()->quote(...)``` method. With ILIAS 4.0 you must pass a second parameter with the quote-Method, the (abstract ilDBInterface) type of the variable.
 
 ```php
-$result = $ilDB->query("SELECT * FROM usr_data");
-$result = $ilDB->query("SELECT * FROM usr_data WHERE id = ".$ilDB->quote($id, "integer"));
+$result = $DIC->database()->query("SELECT * FROM usr_data");
+$result = $DIC->database()->query("SELECT * FROM usr_data WHERE id = ".$DIC->database()->quote($id, "integer"));
 ```
 
 ## Formatted Query
-Using the quote method within the statements strings may look confusing if a larger number of parameters are included into the statement. An alternative is the ```$iDB->queryF(...)``` method, that uses ```%s``` placeholders for the parameters to be inserted. After the statement you must pass two arrays containing the types and the values for each parameter to the method.
+Using the quote method within the statements strings may look confusing if a larger number of parameters are included into the statement. An alternative is the ```$DIC->database()->queryF(...)``` method, that uses ```%s``` placeholders for the parameters to be inserted. After the statement you must pass two arrays containing the types and the values for each parameter to the method.
 
 ```php
-$result = $ilDB->queryF("SELECT * FROM desktop_item WHERE ".
+$result = $DIC->database()->queryF("SELECT * FROM desktop_item WHERE ".
         "item_id = %s AND type = %s AND user_id = %s",
         array("integer", "text", "integer"),
         array($a_item_id, $a_type, $a_usr_id));
@@ -59,42 +56,42 @@ $result = $ilDB->queryF("SELECT * FROM desktop_item WHERE ".
 
 ### Executing multiple similar SELECTS
 Prepared statements can be used for multiple similar operations. They **should be used only in rare cases**, where a lot of data is process with similar queries. In most of the cases prepared statements will reduce performance (e.g. in MySQL 5.0 query cache cannot be used).
-Prepare queries are done using the `$ilDB->prepare(...)` and `$ilDB->execute(...)` methods. If the prepared query is not used anymore, use `$ilDB->free(...)` to deallocate the resources.
+Prepare queries are done using the `$DIC->database()->prepare(...)` and `$DIC->database()->execute(...)` methods. If the prepared query is not used anymore, use `$DIC->database()->free(...)` to deallocate the resources.
 
 ```php
-$statement = $ilDB->prepare("SELECT firstname FROM usr_data WHERE usr_id > ? AND usr_id < ?",
+$statement = $DIC->database()->prepare("SELECT firstname FROM usr_data WHERE usr_id > ? AND usr_id < ?",
         array("integer", "integer"));
-$result1 = $ilDB->execute($statement, array(1000, 2000));
-$result2 = $ilDB->execute($statement, array(2000, 3000));
-$ilDB->free($statement);
+$result1 = $DIC->database()->execute($statement, array(1000, 2000));
+$result2 = $DIC->database()->execute($statement, array(2000, 3000));
+$DIC->database()->free($statement);
 ```
 
 ### Fetching Result Row
-To fetch a row from a result set you may either use `$ilDB->fetchAssoc(...)` or `$ilDB->fetchObject(...)`, which will return a result row as PHP associative array or as PHP object.
+To fetch a row from a result set you may either use `$DIC->database()->fetchAssoc(...)` or `$DIC->database()->fetchObject(...)`, which will return a result row as PHP associative array or as PHP object.
 
 ```php
-while ($record = $ilDB->fetchAssoc($result))
+while ($record = $DIC->database()->fetchAssoc($result))
 {
         ...
 }
 ```
 or
 ```php
-while ($record = $ilDB->fetchObject($result))
+while ($record = $DIC->database()->fetchObject($result))
 {
         ...
 }
 ```
 
 ### Using Limits
-Limits must be done with the `setLimit()` method of `$ilDB`. Limit is only allowed for SELECT queries, since it is not supported for data manipulation in MDB2.        
+Limits must be done with the `setLimit()` method of `$DIC->database()`. Limit is only allowed for SELECT queries, since it is not supported for data manipulation in ilDBInterface.        
 
 ```php
-$ilDB->setLimit(10, 0); // limit result to 10 datasets beginning at offset 0
-$result = $ilDB->queryF("SELECT firstname FROM usr_data WHERE usr_id > %s AND usr_id < %s",
+$DIC->database()->setLimit(10, 0); // limit result to 10 datasets beginning at offset 0
+$result = $DIC->database()->queryF("SELECT firstname FROM usr_data WHERE usr_id > %s AND usr_id < %s",
         array("integer", "integer"), array(1000, 2000)
 );
-while (($row = $ilDB->fetchArray($result))) 
+while (($row = $DIC->database()->fetchArray($result))) 
 {
     echo $row["firstname"] . "\n";
 }
@@ -103,49 +100,49 @@ while (($row = $ilDB->fetchArray($result)))
 ## Data Manipulation (INSERT/UPDATE/DELETE)
 
 ### Data Manipulation
-For any data manipulation like INSERT, UPDATE and DELETE, you should usually use the `$iDB->manipulate(...)` operation.
+For any data manipulation like INSERT, UPDATE and DELETE, you should usually use the `$DIC->database()->manipulate(...)` operation.
 
 ```php
-$affected_rows = $ilDB->manipulate("DELETE FROM my_table");
-$affected_rows = $ilDB->manipulate("DELETE FROM my_table WHERE id = ".$ilDB->quote($id, "integer"));
+$affected_rows = $DIC->database()->manipulate("DELETE FROM my_table");
+$affected_rows = $DIC->database()->manipulate("DELETE FROM my_table WHERE id = ".$DIC->database()->quote($id, "integer"));
 ```
 ### Formatted Data Manipulation
-Using the quote method within the statements strings may look confusing if a larger number of parameters are included into the statement. An alternative is the `$iDB->manipulateF(...)` method, that uses %s placeholders for the parameters to be inserted. After the statement you must pass two arrays containing the types and the values for each parameter to the method.
+Using the quote method within the statements strings may look confusing if a larger number of parameters are included into the statement. An alternative is the `$DIC->database()->manipulateF(...)` method, that uses %s placeholders for the parameters to be inserted. After the statement you must pass two arrays containing the types and the values for each parameter to the method.
 
 ```php
-$ilDB->manipulateF("INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
+$DIC->database()->manipulateF("INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
         " (%s,%s,%s,%s)",
         array("integer", "text", "integer", "text"),
         array($a_item_id,$a_type,$a_usr_id,$a_par));
 ```
 
 ### Multiple similar data manipulation
-Similar to queries we use `$ilDB->prepareManip(...)` and `$ilDB->execute(...)` for prepared statements. This can be useful, if multiple similar data manipulations should be executed. Please use this methods only in rare cases, if you are sure, that performance decline will be limited (or performance will be improved).
+Similar to queries we use `$DIC->database()->prepareManip(...)` and `$DIC->database()->execute(...)` for prepared statements. This can be useful, if multiple similar data manipulations should be executed. Please use this methods only in rare cases, if you are sure, that performance decline will be limited (or performance will be improved).
 
 ```php
-$statement = $ilDB->prepareManip("INSERT INTO usr_data (firstname, lastname) VALUES (?, ?)", 
+$statement = $DIC->database()->prepareManip("INSERT INTO usr_data (firstname, lastname) VALUES (?, ?)", 
         array("text", "text"));
 $data = array("ILIAS", "Administrator");
-$affectedRows = $ilDB->execute($statement, $data);
-$ilDB->free($statement);
+$affectedRows = $DIC->database()->execute($statement, $data);
+$DIC->database()->free($statement);
 ```
 
-You can put data for multiple operations into an array and invoke `$ilDB->executeMultiple(...)` after `$ilDB->prepareManip(...)` for prepared statements.
+You can put data for multiple operations into an array and invoke `$DIC->database()->executeMultiple(...)` after `$DIC->database()->prepareManip(...)` for prepared statements.
 
 ```php
-$statement = $ilDB->prepareManip("INSERT INTO usr_data (id, firstname) VALUES (?,?)",
+$statement = $DIC->database()->prepareManip("INSERT INTO usr_data (id, firstname) VALUES (?,?)",
         array("integer", "text"));
 $data = array(
         array(1, "Mike"),
         array(2, "Phil"));
-$ilDB->executeMultiple($statement, $data);
+$DIC->database()->executeMultiple($statement, $data);
 ```
 
 ### The insert and update commands - Data manipulation when CLOB fields are involved
 Insert and updates can also be done with special methods for these SQL data manipulation statements. If a CLOB field is involved in a data manipulation these commands must be used.
 
 ```php
-$ilDB->insert("table_name", array(
+$DIC->database()->insert("table_name", array(
         "field1" =>        array("text", $a_val1),
         "field2" =>        array("text", $a_val2),
         "field3" =>        array("clob", $a_val3)
@@ -153,7 +150,7 @@ $ilDB->insert("table_name", array(
 ```
 
 ```php
-$ilDB->update("table_name", array(
+$DIC->database()->update("table_name", array(
         "field1" =>        array("text", $a_val1),
         "field2" =>        array("text", $a_val2),
         "field3" =>        array("clob", $a_val3)),
@@ -183,7 +180,7 @@ Core developers that add steps to this script must be subscribed to the ILIAS de
 ### Hotfix Scripts (Bugfix Branches)
 When **stable bugfix branches** and **trunk** development in ILIAS go in parallel, only one branch can define new database steps in the database update script. This is usually the trunk development. However it may be necessary that tables or columns need to be added or modified for a bug fix within a stable branch.
  
-For this purpose we have so called **hotfix scripts**. They work similar as the database update script, but have their **own numbering**. Their filename starts with the main release number, e.g. ```setup/sql/4_1_hotfixes.php``` for ILIAS **4.1.x**.
+For this purpose we have so called **hotfix scripts**. They work similar as the database update script, but have their **own numbering**. Their filename starts with the main release number, e.g. ```setup/sql/5_4_hotfixes.php``` for ILIAS **5.4.x**.
 
 ```php
 <#3>
@@ -320,8 +317,8 @@ $ilDB->dropIndex("my_table", "id_flag");
 ```
 
 ## Sequences / Auto Increments
-To get rid of the MySQL specific auto_increment for unique ID's, MDB2 offeres sequences.
-A sequence is special database table which is created automatically by MDB2 which increments a sequence field in the database and uses it to create unique values. In ILIAS the name of a sequence should be the same as the corresponding database table.
+To get rid of the MySQL specific auto_increment for unique ID's, ilDBInterface offeres sequences.
+A sequence is special database table which is created automatically by ilDBInterface which increments a sequence field in the database and uses it to create unique values. In ILIAS the name of a sequence should be the same as the corresponding database table.
 To create and drop sequences use `createSequence($a_table_name, $a_start = 1)` and `dropSequence($a_table_name)`.
 
 ```php
@@ -335,8 +332,8 @@ $ilDB->dropSequence("my_table");
 To obtain the next ID of a sequence use `nextId($a_table_name)`.
 
 ```php
-$id = $ilDB->nextID('usr_data');
-$statement = $ilDB->prepare("INSERT INTO usr_data (usr_id, firstname, lastname) VALUES (?, ?, ?)",
+$id = $DIC->database()->nextID('usr_data');
+$statement = $DIC->database()->prepare("INSERT INTO usr_data (usr_id, firstname, lastname) VALUES (?, ?, ?)",
         array("integer", "text", "text")
 );
 $data = array($id, "ILIAS", "Administrator");
@@ -349,17 +346,17 @@ To use transaction, tables have to be converted to type InnoDB for MySQL first. 
 ### Transaction Handling
 
 ```php
-$ilDB->beginTransaction();
+$DIC->database()->beginTransaction();
  
 ... // Data Manipulation Statements
  
 if ($everything_ok)
 {
-      $ilDB->commit();
+      $DIC->database()->commit();
 }
 else
 {
-      $ilDB->rollback();
+      $DIC->database()->rollback();
 }
 ```
 
