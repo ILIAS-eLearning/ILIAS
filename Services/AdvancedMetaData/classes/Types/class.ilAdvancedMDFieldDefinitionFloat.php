@@ -97,7 +97,9 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 	
 	public function getFieldDefinitionForTableGUI()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 	
 		$res = parent::getFieldDefinitionForTableGUI();
 		$res[$lng->txt("md_adv_number_decimals")] = $this->getDecimals();
@@ -112,7 +114,9 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 	 */
 	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		// #32
 		parent::addCustomFieldToDefinitionForm($a_form, $a_disabled);

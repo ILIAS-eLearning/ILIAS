@@ -296,9 +296,6 @@ class ilMemberAgreement
 	/**
 	 * Checks whether the agreement is accepted
 	 * This function return always true if no acceptance is required by global setting
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 	 *
 	 * @access public
 	 * @return bool
