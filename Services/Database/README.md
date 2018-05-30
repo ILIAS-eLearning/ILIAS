@@ -363,3 +363,60 @@ else
 }
 ```
 
+# Reserved Words
+
+## Problem
+The background of the investigation is the Mantis ticket [# 0021173: Database Installation (MySQL) step 5090] (https://www.ilias.de/mantis/view.php?id=21173). The database update script aborts at the point where a table with a column "type" is to be created. "type" is a word reserved by MySQL and thus can not be used in a query.
+
+## Investigations
+ILIAS maintains a list of reserved words, since the introduction of ilDB. This list has not been updated yet, although MySQL has also introduced new reserved words with new versions of the DBMS.
+
+The lists of the respective reserved words for MySQL can be found, for example, at https://dev.mysql.com/doc/refman/5.6/en/keywords.html (for version 5.6).
+
+To find out which column and / or table names ILIAS uses that are actually reserved, the following queries can be used:
+
+column names:
+
+```sql
+SELECT 
+    column_name, table_name
+FROM
+    information_schema.columns
+
+   JOIN mysql.help_keyword ON UPPER(column_name) = UPPER(name)
+WHERE
+    table_schema = 'ilias';
+```
+
+table name:
+
+```sql
+SELECT 
+    table_name
+FROM
+    information_schema.tables
+
+   JOIN mysql.help_keyword ON UPPER(table_name) = UPPER(name)
+WHERE
+    table_schema = 'ilias';
+```
+    
+Currently there are 212 columns and 1 table in ILIAS, which are named with a reserved word.
+
+## Conclusion
+The list of reserved words in ilDBInterface resp. the respective database classes (ilDBPdoMySQL, ilDBPdoPostgreSQL, ...) do not need to be maintained, in particular a list of reserved words per database system makes no sense, as a global list would be necessary.
+
+As the MySQL documentation describes, references to objects with reserved names only need to be quoted:
+
+> An identifier may be quoted or unquoted. If an identifier contains special characters or is a reserved word, you must quote it whenever you refer to it. (Exception: A reserved word that follows a period in a qualified name must be an identifier, so it need not be quoted.)
+
+See https://dev.mysql.com/doc/refman/5.6/en/identifiers.html
+
+The new database classes in ILIAS have been optimized so that all references to objects are quoted. Developers are encouraged to do this themselves with their own queries using:
+
+```php
+...
+$q = "SELECT * FROM " . $DIC->database()->quoteIdentifier('select');
+...
+
+```
