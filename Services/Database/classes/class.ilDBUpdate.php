@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./setup/classes/class.ilCtrlStructureReader.php");
 /**
  * Database Update class
  *
