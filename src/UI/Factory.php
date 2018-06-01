@@ -717,4 +717,25 @@ interface Factory {
 	 */
 	public function table();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Alerts inform the user about the state of the system. Such as the successful completion, the need for further
+	 *     input or occurrence an actual error or action or stopping users in their tracks in high-risk tasks.
+	 *   composition: >
+	 *     Alerts MAY be embedded messages or popover messages.
+	 *   effect: >
+	 *     Alerts typically inform users and MAY point them to relevant screens or offer relevant actions.
+	 *
+	 * rules:
+	 *   interaction:
+	 *     1: Alerts MAY contain shortcuts displayed as Buttons.
+	 *     2: Alerts MAY contain actions displayed as Buttons.
+	 * ---
+	 *
+	 * @return  \ILIAS\UI\Component\Alert\Factory
+	 */
+	public function alert();
+
 }
