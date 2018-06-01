@@ -70,7 +70,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public static function _getEntries()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT entry_id FROM il_md_cpr_selections ";
 		$res = $ilDB->query($query);
@@ -88,7 +90,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public static function lookupCopyyrightTitle($a_cp_string)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$entry_id = self::_extractEntryId($a_cp_string))
 		{
@@ -113,7 +117,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public static function _lookupCopyright($a_cp_string)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$entry_id = self::_extractEntryId($a_cp_string))
 		{
@@ -315,7 +321,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function add()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$next_id = $ilDB->nextId('il_md_cpr_selections');
 	 	
@@ -340,7 +348,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	 	$ilDB->update('il_md_cpr_selections',array(
 	 		'title'				=> array('text',$this->getTitle()),
@@ -363,7 +373,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function delete()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "DELETE FROM il_md_cpr_selections ".
 	 		"WHERE entry_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
@@ -396,7 +408,9 @@ class ilMDCopyrightSelectionEntry
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM il_md_cpr_selections ".
 	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ";

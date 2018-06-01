@@ -46,7 +46,9 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
 	 */
 	public function __construct($a_record_ids)
 	{
-	 	global $ilSetting;
+	 	global $DIC;
+
+	 	$ilSetting = $DIC['ilSetting'];
 
 		parent::__construct();
 	 	$this->settings = $ilSetting;

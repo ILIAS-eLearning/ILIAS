@@ -370,7 +370,9 @@ abstract class ilADTFormBridge
 	 */
 	public function validate()
 	{		
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		// ilADTFormBridge->isRequired() != ilADT->allowNull()
 		if($this->isRequired() && $this->getADT()->isNull())

@@ -26,7 +26,9 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function addToForm()
 	{					
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$def = $this->getADT()->getCopyOfDefinition();
 		
@@ -75,7 +77,9 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function getSQLCondition($a_element_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->isNull() && $this->isValid())		
 		{			

@@ -134,7 +134,9 @@ abstract class ilADTDBBridge
 	 */
 	public function buildPrimaryWhere()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 				
 		$sql = array();
 		

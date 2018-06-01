@@ -28,7 +28,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function addToForm()
 	{			
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$adt = $this->getADT();
 		
@@ -144,7 +146,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function getSQLCondition($a_element_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->isNull() && $this->isValid())
 		{

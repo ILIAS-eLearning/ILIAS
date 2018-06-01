@@ -11,7 +11,9 @@ class ilADTMultiTextDBBridge extends ilADTMultiDBBridge
 	
 	protected function readMultiRecord($a_set)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$elements = array();
 		
