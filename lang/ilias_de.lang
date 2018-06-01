@@ -1278,14 +1278,14 @@ assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
 assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über einen Reiter 'Ergebnisse'.
 assessment#:#tst_results_access_setting#:#Zeitpunkt
 assessment#:#tst_results_access_always#:#Sofort
-assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs über den 'Results'-Reiter einsehen. Zu dem werden sie direkt nach Abschluss des Testdurchlaufs dort hin geleitet.
+assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs über den 'Ergebnisse'-Reiter einsehen. Zu dem werden sie direkt nach Abschluss des Testdurchlaufs dort hin geleitet.
 assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer Ihre Ergebnisse im 'Ergebnis'-Reiter einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
-assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Results'-Reiter einsehen.
+assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Ergebnisse'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Results' einsehen.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
 assessment#:#tst_results_grading_opt_show_status#:#"Bestanden" / "Nicht bestanden" anzeigen
 assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
@@ -1294,7 +1294,8 @@ assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_show_pass_details_desc#:#Zum oben gewählten Zeitpunkt wird die Bekanntgabe des Ergebnisses um eine weitere Tabelle ergänzt. <br>In dieser Tabelle werden für jeden Durchlauf die Titel der Fragen und die erreichten Punkte angezeigt. <br> Andernfalls erscheint diese Tabelle nur nach dem letzten erlaubten Testdurchlauf (einzustellen im Unterreiter 'Allgemeine Einstellungen', Option  'Anzahl von Testdurchläufen begrenzen') oder nach dem Ende des Tests (einzustellen im Unterreiter 'Allgemeine Einstellungen', Abschnitt  'Ende'). <br>Der Inhalt der Tabelle kann im Abschnitt 'Details Testergebnisse' weiter ergänzt werden.
 assessment#:#tst_show_solution_details_desc#:#Teilnehmer bekommen zusätzlich zur 'Tabelle mit detaillierten Testergebnissen' auf einer neuen Seite für jede einzelne Frage angezeigt, welche Antworten sie gegeben haben, ob diese Antworten richtig waren und wie viele Punkte sie mit diesen Antworten erreicht haben.
-assessment#:#tst_show_solution_printview_desc#:#Teilnehmern wird eine Übersicht mit ihren Antworten zu den einzelnen Testfragen angezeigt. Diese Übersicht wird nach Beendigung innerhalb des 'Results'-Reiters in einem Unterreiter 'Bewertete Antworten' angeboten.assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option 'Bewertete Teilnehmerantworten‘ und/oder 'Druckbare Liste der Antworten' aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_show_solution_printview_desc#:#Teilnehmern wird eine Übersicht mit ihren Antworten zu den einzelnen Testfragen angezeigt. Diese Übersicht wird nach Beendigung innerhalb des 'Ergebnisse'-Reiters in einem Unterreiter 'Bewertete Antworten' angeboten.
+assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option 'Bewertete Teilnehmerantworten‘ und/oder 'Druckbare Liste der Antworten' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten"-Reiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
 assessment#:#tst_show_solution_signature_desc#:#Es wird im Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Tabelle mit detaillierten Testergebnissen' aktivieren.
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese in der 'Tabelle mit detaillierten Testergebnissen' angezeigt. Teilnehmer können so etwaige Wissenslücken schließen. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Tabelle mit detaillierten Testergebnissen'  aktivieren.
@@ -1421,7 +1422,7 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#tst_highscore_enabled#:#Platzierungen
-assessment#:#tst_highscore_description#:#Im Reiter 'Results' wird Teilnehmern ein Unterreiter 'Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_highscore_description#:#Im Reiter 'Ergebnisse' wird Teilnehmern ein Unterreiter 'Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
 assessment#:#tst_highscore_anon_description#:#Die Platzierungen anderer Teilnehmer werden ohne Angabe der Namen angezeigt.  Dies geschieht ohnehin bei anonymisierten Tests.
 assessment#:#tst_highscore_achieved_ts#:#Datum
@@ -10820,7 +10821,7 @@ cld#:#cld_upload_failed_max_filesize#:#Hochladen fehlgeschlagen. Maximale Dateig
 cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
 cld#:#cld_upload_files#:#Heraufladen
 assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung in 'Tabelle mit detaillierten Testergebnissen'
-assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der 'Tabelle mit detaillierten Testergebnissen' eine Übersicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Übersicht wird nicht über den 'Liste der Antworten'-Button angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
+assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der 'Tabelle mit detaillierten Testergebnissen' eine Übersicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Übersicht wird nicht im Unterreiter 'Bewertete Antworten' des 'Ergebnisse'-Reiters angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
 assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 common#:#obj_cld#:#Cloud-Objekt
