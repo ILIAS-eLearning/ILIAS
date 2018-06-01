@@ -722,11 +722,11 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *     Alerts inform the user about the state of the system. Such as the successful completion, the need for further
-	 *     input or occurrence an actual error or action or stopping users in their tracks in high-risk tasks.
+	 *     input  of an actual error or stopping users in their tracks in high-risk tasks.
 	 *   composition: >
-	 *     Alerts MAY be embedded messages or popover messages.
+	 *     Alerts are embedded or popup messages comprised of text and optionally buttons.
 	 *   effect: >
-	 *     Alerts typically inform users and MAY point them to relevant screens or offer relevant actions.
+	 *     Alerts convey information and optionally provide interaction by using Buttons.
 	 *
 	 * rules:
 	 *   interaction:

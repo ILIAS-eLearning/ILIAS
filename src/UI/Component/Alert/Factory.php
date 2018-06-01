@@ -21,10 +21,8 @@ interface Factory {
 	 *     3: Info
 	 *     4: Confirmation
 	 *   rivals:
-	 *     1: Interruptive Modal: Interruptive Modal always contain a Confirmation Standard Alert in form of a question
-	 *        asking for confirmation of the deletion of the items listed in the table underneath.
-	 *     2: Validation Pointer: Validation Pointer accompany Failure Standard Alert pointing to the location
-	 *        raising a form validation error.
+	 *     1: Interruptive Modal: An Interruptive modal disrupts the user in critical situation, forcing him or her
+	 *        to focus on the task at hand.
 	 * ---
 	 *
 	 * @return 	\ILIAS\UI\Component\Alert\Standard\Factory
