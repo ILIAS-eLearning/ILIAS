@@ -1,11 +1,16 @@
 # Cron
 
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”,
+“SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”,
+and “OPTIONAL” in this document are to be interpreted as
+described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 **Table of Contents**
 * [ilCronJobResult](#ilCronJobResult)
 
 ## ilCronJobResult
 
-The class `ilCronJobResult` determine the status
+The class `ilCronJobResult` determines the status
 of a current cron job.
 
 The status are:
@@ -14,8 +19,11 @@ The status are:
   for this cron job is not correct and MUST be
   adjusted.
 * `STATUS_NO_ACTION`
-  This status will indicate that the cron job
-  was not executed.
+  This status will indicate that the cron job did not perform any action.
+  Examples to set the this action:
+  * A cron job responsible to sent emails didn't sent emails at all.
+  * A cron job responsible for deleting orphaned objects did not find any object to delete.
+  * A lucene cron job decided that the index does not require an update.
 * `STATUS_OK`
   This status indicates that the cron job
   has been successfully finished.
@@ -29,7 +37,7 @@ The status are:
   This status indicates that cron job
   has been reseted.
 * `STATUS_FAIL`
-  This status indicate that an non-critical
+  This status indicates that an non-critical
   error appeared in the execution of the cron
   job.
 
@@ -41,7 +49,7 @@ and MUST set status before returned by a method.
 public function run()
 {
   $result = new ilCronJobResult();
-  
+
   try {
     $procedure->execute();
     $result->setStatus(ilCronJobResult::STATUS_OK);
@@ -54,5 +62,5 @@ public function run()
 }
 ```
 
-A message can be added additionally that will be
+A message SHOULD be added additionally that will be
 displayed in the GUI or the appropriate log files.
