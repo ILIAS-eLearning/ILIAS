@@ -1196,6 +1196,11 @@ abstract class assQuestion
 	 */
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
+		if( !$this->validateSolutionSubmit() )
+		{
+			return false;
+		}
+		
 		$this->savePreviewData($previewSession);
 	}
 	
