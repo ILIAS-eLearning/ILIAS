@@ -23,7 +23,7 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
 	public function __construct(ilObjectGUI $gui_object, ilObject $object, $a_options)
 	{
 		parent::__construct($gui_object, $object, $a_options);
-		$GLOBALS['lng']->loadLanguageModule('sess');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('sess');
 	}
 	
 	public function setFormValues(ilPropertyFormGUI $form)

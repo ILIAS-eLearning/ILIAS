@@ -40,7 +40,14 @@ class ilMemberAgreementGUI
 	 */
 	public function __construct($a_ref_id)
 	{
-		global $ilDB,$ilCtrl,$lng,$tpl,$ilUser,$ilObjDataCache;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$this->ref_id = $a_ref_id;
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
@@ -102,7 +109,9 @@ class ilMemberAgreementGUI
 	 */
 	protected function showAgreement(ilPropertyFormGUI $form = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -121,7 +130,7 @@ class ilMemberAgreementGUI
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt($this->type.'_agreement_header'));
-		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$form->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
 		$form->addCommandButton('save', $this->lng->txt('save'));
 		
 		$form = self::addExportFieldInfo($form, $this->obj_id, $this->type);
@@ -145,7 +154,9 @@ class ilMemberAgreementGUI
 	 */
 	public static function addExportFieldInfo($form,$a_obj_id,$a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 		$fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($a_obj_id));
@@ -184,7 +195,9 @@ class ilMemberAgreementGUI
 	 */
 	public static function addAgreement($form, $a_obj_id, $a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$agreement = new ilCheckboxInputGUI($lng->txt($a_type.'_agree'),'agreement');
 		$agreement->setRequired(true);
@@ -203,7 +216,9 @@ class ilMemberAgreementGUI
 	 */
 	public static function addCustomFields($form, $a_obj_id, $a_type, $a_mode = 'user')
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 	 	include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
@@ -318,7 +333,9 @@ class ilMemberAgreementGUI
 	 */
 	private function save()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$form = $this->initFormAgreement();
 		
@@ -357,7 +374,9 @@ class ilMemberAgreementGUI
 	
 	public static function setCourseDefinedFieldValues(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$a_usr_id)
 		{
@@ -415,7 +434,9 @@ class ilMemberAgreementGUI
 	 */
 	public static function saveCourseDefinedFields(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$a_usr_id)
 		{
@@ -461,7 +482,9 @@ class ilMemberAgreementGUI
 	 */
 	private function checkAgreement()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 	 	if($_POST['agreement'])
 	 	{
@@ -484,7 +507,9 @@ class ilMemberAgreementGUI
 	 */
 	private function init()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 	 	$this->required_fullfilled = ilCourseUserData::_checkRequired($ilUser->getId(),$this->obj_id);
  		$this->agreement_required = $this->getAgreement()->agreementRequired();

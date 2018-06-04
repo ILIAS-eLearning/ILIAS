@@ -43,7 +43,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		$this->type = "sess";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -70,7 +74,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function executeCommand()
 	{
-  		global $ilUser,$ilCtrl;
+  		global $DIC;
+
+  		$ilUser = $DIC['ilUser'];
+  		$ilCtrl = $DIC['ilCtrl'];
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -207,7 +214,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function registerObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		$this->checkPermission('visible');
 		
@@ -257,7 +266,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function joinObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$this->checkPermission('read');
 
@@ -291,7 +302,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function unregisterObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
 		$part = ilSessionParticipants::getInstance($this->object->getRefId());
@@ -398,7 +411,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		// if folder is in a course, modify item list gui according to course requirements
 		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
@@ -438,11 +453,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function showJoinRequestButton(ilToolbarGUI $ilToolbar = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if(!$ilToolbar)
 		{
-			global $ilToolbar;
+			global $DIC;
+
+			$ilToolbar = $DIC['ilToolbar'];
 		}
 		
 		if(!$this->getCurrentObject()->enabledRegistration() || $ilUser->isAnonymous())
@@ -529,7 +548,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function infoScreen()
 	{
-		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar,$lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
 
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
@@ -660,8 +686,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function saveAndAssignMaterialsObject()
 	{
-		global $ilLog;
-		
 		$this->saveObject(false);
 		
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
@@ -678,7 +702,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function saveObject($a_redirect_on_success = true)
 	{
-		global $ilErr,$ilUser;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilUser = $DIC['ilUser'];
 		
 		$this->object = new ilObjSession();
 		
@@ -761,7 +788,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	public function handleFileUpload()
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		include_once './Modules/Session/classes/class.ilEventItems.php';
 		$ev = new ilEventItems($this->object->getId());
@@ -817,7 +846,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function createRecurringSessions($a_activate_lp = true)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		if(!$this->rec->getFrequenceType())
 		{
@@ -931,7 +962,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function updateObject()
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		$old_autofill = $this->object->hasWaitingListAutoFill();
 				
@@ -1058,7 +1091,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	protected function initContainer($a_init_participants = false)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$is_course = $is_group = false;
 		
@@ -1108,7 +1143,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function materialsObject()
 	{
-		global $tree, $objDefinition;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$objDefinition = $DIC['objDefinition'];
 
 		$this->tabs_gui->setTabActive('crs_materials');
 		
@@ -1178,7 +1216,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function attendanceListObject()
 	{
-		global $tpl,$ilTabs;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
 		
 		$this->checkPermission('write');		
 		$ilTabs->setTabActive('event_edit_members');	
@@ -1282,7 +1323,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function eventsListObject()
 	{
-		global $ilErr,$ilAccess, $ilUser,$tree;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -1409,7 +1455,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function initForm($a_mode)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(is_object($this->form))
 		{
@@ -1803,7 +1851,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function addLocatorItems()
 	{
-		global $ilLocator;
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
 		
 		if (!$this->getCreationMode())
 		{						
@@ -1824,7 +1874,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function getTabs()
 	{
-	 	global $ilAccess, $ilTabs, $tree, $ilCtrl, $ilHelp;
+	 	global $DIC;
+
+	 	$ilAccess = $DIC['ilAccess'];
+	 	$ilTabs = $DIC['ilTabs'];
+	 	$tree = $DIC['tree'];
+	 	$ilCtrl = $DIC['ilCtrl'];
+	 	$ilHelp = $DIC['ilHelp'];
 
 	 	$ilHelp->setScreenIdComponent("sess");
 	 	
@@ -1954,7 +2010,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function cancelEditObject()
 	{
-		global $ilCtrl, $tree;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
 		
 		$parent_id = $tree->getParentId((int) $_REQUEST['ref_id']);
 		

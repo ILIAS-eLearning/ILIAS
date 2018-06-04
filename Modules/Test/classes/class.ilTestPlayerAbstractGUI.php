@@ -2270,10 +2270,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
-		if( !$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback() )
-		{
-			$this->populateFeedbackBlockFocusAnchor();
-		}
+		$this->populateFeedbackBlockHeader(
+			!$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback()
+		);
 		
 		// This controls if the solution should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
@@ -2286,12 +2285,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				NULL,                                                #pass
 				FALSE,                                                #graphical_output
 				$show_question_inline_score,                        #result_output
-				FALSE,                                                #show_question_only
+				TRUE,                                                #show_question_only
 				FALSE,                                                #show_feedback
 				TRUE,                                                #show_correct_solution
 				FALSE,                                                #show_manual_scoring
 				FALSE                                                #show_question_text
 			);
+			$solutionoutput = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $solutionoutput);
 			$this->populateSolutionBlock($solutionoutput);
 		}
 		
@@ -2325,10 +2325,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
-	protected function populateFeedbackBlockFocusAnchor()
+	protected function populateFeedbackBlockHeader($withFocusAnchor)
 	{
-		$this->tpl->setCurrentBlock('instant_response_focus_anchor');
-		$this->tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', 'focus');
+		if( $withFocusAnchor )
+		{
+			$this->tpl->setCurrentBlock('inst_resp_id');
+			$this->tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', 'focus');
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock('instant_response_header');
+		$this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
 		$this->tpl->parseCurrentBlock();
 	}
 	

@@ -47,7 +47,10 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_may_edit_pos)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;

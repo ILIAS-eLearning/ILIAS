@@ -210,6 +210,7 @@ class ilAssQuestionPreviewGUI
 	
 	protected function handleInstantResponseRendering(ilTemplate $tpl)
 	{
+		$renderHeader = false;
 		$renderAnchor = false;
 		
 		if( $this->isShowBestSolutionRequired() )
@@ -222,10 +223,13 @@ class ilAssQuestionPreviewGUI
 		{
 			$this->populateGenericQuestionFeedback($tpl);
 			$renderAnchor = true;
+			$renderHeader = true;
 		}
 		
 		if( $this->isShowSpecificQuestionFeedbackRequired() )
 		{
+			$renderHeader = true;
+			
 			if( $this->questionGUI->hasInlineFeedback() )
 			{
 				$renderAnchor = false;
@@ -237,9 +241,9 @@ class ilAssQuestionPreviewGUI
 			}
 		}
 		
-		if( $renderAnchor )
+		if( $renderHeader )
 		{
-			$this->populateInstantFeedbackAnchor($tpl);
+			$this->populateInstantResponseHeader($tpl, $renderAnchor);
 		}
 	}
 	
@@ -304,6 +308,7 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler());
 		
 		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
+		$this->questionGUI->magicAfterTestOutput();
 		
 		if( $this->isShowSpecificQuestionFeedbackRequired() && $this->questionGUI->hasInlineFeedback() )
 		{
@@ -341,16 +346,20 @@ class ilAssQuestionPreviewGUI
 
 		$this->questionGUI->setPreviewSession($this->previewSession);
 
-		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0)));
+		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)));
 
 		//$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
 		//$pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
 
 		//$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
-
+		
+		$output = $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false);
+		//$output = $pageGUI->preview();
+		//$output = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $output);
+		
 		$tpl->setCurrentBlock('solution_output');
 		$tpl->setVariable('TXT_CORRECT_SOLUTION', $this->lng->txt('tst_best_solution_is'));
-		$tpl->setVariable('SOLUTION_OUTPUT', $pageGUI->preview());
+		$tpl->setVariable('SOLUTION_OUTPUT', $output);
 		$tpl->parseCurrentBlock();
 	}
 
@@ -401,10 +410,17 @@ class ilAssQuestionPreviewGUI
 		$tpl->parseCurrentBlock();
 	}
 	
-	protected function populateInstantFeedbackAnchor(ilTemplate $tpl)
+	protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor)
 	{
-		$tpl->setCurrentBlock('instant_feedback_anchor');
-		$tpl->setVariable('FEEDBACK_FOCUS_ANCHOR', self::FEEDBACK_FOCUS_ANCHOR);
+		if( $withFocusAnchor )
+		{
+			$tpl->setCurrentBlock('inst_resp_id');
+			$tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', self::FEEDBACK_FOCUS_ANCHOR);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock('instant_response_header');
+		$tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
 		$tpl->parseCurrentBlock();
 	}
 

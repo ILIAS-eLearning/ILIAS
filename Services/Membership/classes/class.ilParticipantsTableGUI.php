@@ -65,8 +65,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			
 			include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
 			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-			ilLoggerFactory::getLogger('crs')->dump($paths);
-			
 			
 			$options[0] = $this->lng->txt('select_one');
 			foreach($paths as $org_ref_id => $path)
@@ -92,9 +90,11 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	 */
 	public function getSelectableColumns()
 	{		
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
-		$GLOBALS['lng']->loadLanguageModule('ps');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('ps');
 		if(self::$all_columns)
 		{
 			# return self::$all_columns;
