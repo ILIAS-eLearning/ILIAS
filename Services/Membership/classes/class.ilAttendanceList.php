@@ -468,9 +468,6 @@ class ilAttendanceList
 			if(!$settings->hasStoredEntry())
 			{
 				// init from global defaults
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 				$settings = new ilUserFormSettings($this->parent_obj->getType().'s_pview', -1);
 			}
 			

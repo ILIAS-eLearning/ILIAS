@@ -1124,25 +1124,25 @@ assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
 assessment#:#tst_result_pass#:#Results of Test Pass
 assessment#:#tst_results_access_always#:#Immediately
-assessment#:#tst_results_access_always_desc#:#Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.
+assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
 assessment#:#tst_results_access_date#:#Date
-assessment#:#tst_results_access_date_desc#:#Participants get access to their test results on the ‘Info’-tab after the defined date.
+assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
-assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the ‘Info’-tab at any time.
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
-assessment#:#tst_results_access_enabled_desc#:#A button ‘Show Test Results’ will be displayed to participants on the ‘Info’-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
+assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab. <br />
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab. 
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
-assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_show_solution_details_desc#:#As an add-on  to the ‘Table of Detailed Test Results’, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
-assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the ‘Info’-tab.
+assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered within the ‘Results’-tab in a subtab 'Review of Scored Answers'.
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
@@ -1261,7 +1261,7 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
+assessment#:#tst_highscore_description#:#Within the 'Results'-tab participants are presented with a subtab 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date

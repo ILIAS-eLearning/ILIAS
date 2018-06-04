@@ -116,7 +116,9 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 	
 	public function getFieldDefinitionForTableGUI()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 	
 		$res = array();
 		
@@ -140,7 +142,9 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 	 */
 	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$max = new ilNumberInputGUI($lng->txt("md_adv_text_max_length"), "max");
 		$max->setValue($this->getMaxLength());
@@ -262,7 +266,9 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 	
 	protected function parseSearchObjects(array $a_records, array $a_object_types)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		

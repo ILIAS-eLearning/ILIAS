@@ -396,6 +396,32 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		return FALSE;
 	}
 	
+	protected function isValidNumericSubmitValue($submittedValue)
+	{
+		if( is_numeric($submittedValue) )
+		{
+			return true;
+		}
+		
+		if( preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function validateSolutionSubmit()
+	{
+		if( !$this->isValidNumericSubmitValue($this->getSolutionSubmit()) )
+		{
+			ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public function getSolutionSubmit()
 	{
 		return trim(str_replace(",",".",$_POST["numeric_result"]));
@@ -437,12 +463,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		$returnvalue = true;
 
 		$numeric_result = $this->getSolutionSubmit();
-
-		if( !$this->isValidSolutionSubmit($numeric_result) )
-		{
-			ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
-			$returnvalue = false;
-		}
 
 		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $numeric_result, $ilDB, $active_id, $pass, $authorized) {
 
@@ -510,12 +530,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
 		$numericSolution = $this->getSolutionSubmit();
-
-		if( !$this->isValidSolutionSubmit($numericSolution) )
-		{
-			ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
-		}
-		
 		$previewSession->setParticipantsSolution($numericSolution);
 	}
 
