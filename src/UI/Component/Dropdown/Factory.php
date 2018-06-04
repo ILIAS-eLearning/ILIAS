@@ -14,7 +14,6 @@ interface Factory {
 	 *       is the one that should be used.
 	 *   composition: >
 	 *       The Standard Dropdown uses the primary color as background.
-	 *       If the Dropdown contains no items, it will be rendered as inactive.
 	 * rules:
 	 *   usage:
 	 *       1: >
