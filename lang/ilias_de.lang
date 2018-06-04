@@ -11527,6 +11527,7 @@ content#:#cont_current_term#:#Aktueller Begriff
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_question_hints_tab#:#Lösungshinweise
+assessment#:#question_browse_area_info#:#Wählen sie bitte ein Objekt aus dem sie Fragen importieren wollen.
 assessment#:#tst_question_hints_table_header#:#Lösungshinweise zur Frage: %s
 assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Lösungshinweise
 assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge

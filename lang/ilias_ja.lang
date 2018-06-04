@@ -396,6 +396,7 @@ adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
 adve#:#char_selector_user#:#テスト中の特殊文字(Unicode)選択用メニュー
 assessment#:#0_unlimited#:#(0=制限なし)
 assessment#:#action#:#アクション
+assessment#:#question_browse_area_info#:#インポートしたい質問からオブジェクトを選択してください。
 assessment#:#add_answer#:#解答を追加
 assessment#:#add_answer_tf#:#正誤解答
 assessment#:#add_answer_yn#:#はい/いいえ解答

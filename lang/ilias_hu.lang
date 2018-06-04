@@ -213,6 +213,7 @@ assessment#:#autosave#:#Automatikus mentés
 assessment#:#autosave_info#:#A válaszokat meghatározott időközönként automatikusan mentjük, az adatvesztés elkerülése érdekében.
 assessment#:#autosave_ival#:#Időköz
 assessment#:#for#:#ehhez
+assessment#:#question_browse_area_info#:#Válasszon egy objektumot, melyből kérdéseket kíván importálni.
 assessment#:#wait_for_next_pass_hint_msg#:#További kitöltés lehetséges ekkor: %s
 assessment#:#tst_pass_waiting_enabled#:#Várakozási idő kikényszerítése kitöltések között
 assessment#:#tst_pass_waiting_info#:#Ha be van kapcsolva, további kitöltés nem indítható amíg megadott idő el nem telik az utolsó kitöltés befejezése óta.
