@@ -1138,7 +1138,6 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				var type = questions[a_id].gaps[i].type;
 				if (type==1) {
 					var cid;
-					jQuery('select#'+a_id+"_"+i).prop("disabled",true);
 					//look for correct solution
 					for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 					{
@@ -1147,11 +1146,12 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 							cid=j;
 						}
 					}
-					jQuery('select#'+a_id+"_"+i+" option[id="+cid+"]").attr("selected","selected");
+					//jQuery('select#'+a_id+"_"+i+" option[id="+cid+"]").attr("selected","selected");
+					jQuery('select#'+a_id+"_"+i+" option[id="+cid+"]").prop('selected', true);
+					jQuery('select#'+a_id+"_"+i).prop("disabled",true);
 				}
 				if (type==0 || type==2) {
 					var cvalue;
-					jQuery('input#'+a_id+"_"+i).prop("disabled",true);
 					//look for correct solution
 						for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 						{
@@ -1161,6 +1161,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 							}
 						}
 					jQuery('input#'+a_id+"_"+i).val(cvalue);
+					jQuery('input#'+a_id+"_"+i).prop("disabled",true);
 				}
 			}
 		break;

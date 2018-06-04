@@ -206,7 +206,7 @@ interface Factory {
 	 */
 	public function checkbox($label, $byline = null);
 
-		/**
+	/**
 	 * ---
 	 * description:
 	 *   purpose: >

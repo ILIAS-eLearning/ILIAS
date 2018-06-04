@@ -7912,6 +7912,9 @@ hr.il-divider-with-label {
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "\21f5";
 }
+.il-viewcontrol-pagination .dropdown {
+  display: inline;
+}
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
   background-color: transparent;
   border: 0;
@@ -8455,7 +8458,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row {
   white-space: nowrap;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   padding-top: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
@@ -9982,6 +9985,43 @@ div.il_TreeIcons {
 a.permalink_label > span.glyphicon {
   display: none;
 }
+.ilPermalinkContainer {
+  width: 100%;
+}
+div.ilPermanentLinkWrapper {
+  clear: both;
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer {
+  table-layout: fixed;
+  line-height: 22px;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+  width: 150px;
+  display: table-cell;
+  vertical-align: middle;
+}
+@media only screen and (max-width: 767px) {
+  div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
+  width: 28px;
+}
 div.il_Footer {
   padding: 10px 0;
   font-size: 90%;
@@ -10020,6 +10060,7 @@ footer.ilFooter div.ilFooterContainer > a:hover {
   }
 }
 footer.ilFooter .ilPermalinkContainer {
+  width: auto;
   padding-right: 5px;
   line-height: 22px;
 }

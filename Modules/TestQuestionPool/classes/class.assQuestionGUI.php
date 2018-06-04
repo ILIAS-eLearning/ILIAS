@@ -547,7 +547,6 @@ abstract class assQuestionGUI
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
-		$page_gui->setOutputMode("presentation");
 		$presentation = $page_gui->presentation();
 		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
@@ -2244,7 +2243,7 @@ abstract class assQuestionGUI
 		return $formAction;
 	}
 	
-	protected function magicAfterTestOutput()
+	public function magicAfterTestOutput()
 	{
 		return;
 	}

@@ -55,7 +55,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$rep_object,$show_content = true, $show_subject = true)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('grp');
@@ -162,7 +165,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 				
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
@@ -404,7 +409,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 				if($usr_id == $edit_info['update_user'])
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
-					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
+					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
 					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));

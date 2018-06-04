@@ -635,7 +635,7 @@ class ilObjectDefinition// extends ilSaxParser
 
 	/**
 	* get all subjects except (rolf) of the adm object
-	* This is neceesary for filtering these objects in role perm view.
+	* This is necessary for filtering these objects in role perm view.
 	* e.g It it not necessary to view/edit role permission for the usrf object since it's not possible to create a new one
 	*
 	* @param	string	object type
@@ -649,6 +649,7 @@ class ilObjectDefinition// extends ilSaxParser
 			switch($key)
 			{
 				case "rolf":
+				case "orgu":
 					// DO NOTHING
 					break;
 

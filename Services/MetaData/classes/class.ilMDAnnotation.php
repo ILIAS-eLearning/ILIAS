@@ -79,7 +79,9 @@ class ilMDAnnotation extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_annotation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_annotation'));
@@ -94,7 +96,9 @@ class ilMDAnnotation extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -110,7 +114,9 @@ class ilMDAnnotation extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -137,7 +143,9 @@ class ilMDAnnotation extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -183,7 +191,9 @@ class ilMDAnnotation extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
