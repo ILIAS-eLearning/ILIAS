@@ -187,6 +187,7 @@ assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.

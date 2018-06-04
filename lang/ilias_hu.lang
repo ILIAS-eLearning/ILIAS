@@ -187,6 +187,7 @@ assessment#:#autosave#:#Automatikus mentés
 assessment#:#autosave_info#:#A válaszokat meghatározott időközönként automatikusan mentjük, az adatvesztés elkerülése érdekében.
 assessment#:#autosave_ival#:#Időköz
 assessment#:#for#:#ehhez
+assessment#:#question_browse_area_info#:#Válasszon egy objektumot, melyből kérdéseket kíván importálni.
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt induló kitöltése nem tartalmaz kérdését.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
