@@ -14,16 +14,19 @@ function with_contraints() {
 
     //Step 1: Define the input field
     //and add some constraints.
-    $pwd_input = $ui->input()->field()->password("Password", "contraints in place.")
+    $pwd_input = $ui->input()->field()->password("Password", "constraints in place.")
         ->withAdditionalConstraint(
             $validation->parallel([
                 $pw_validation->hasMinLength(8),
-                $pw_validation->hasUpperChars(),
                 $pw_validation->hasLowerChars(),
+                $pw_validation->hasUpperChars(),
                 $pw_validation->hasNumbers(),
                 $pw_validation->hasSpecialChars()
             ])
         );
+    //the above can be shortcut into:
+    $pwd_input2 = $ui->input()->field()->password("Password", "constraints in place.")
+        ->withStandardConstraints(8, true, true, true, true);
 
     //Step 2: Define the form and attach the field.
     $DIC->ctrl()->setParameterByClass(
@@ -32,7 +35,7 @@ function with_contraints() {
             'password'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['pwd'=>$pwd_input]);
+    $form = $ui->input()->container()->form()->standard($form_action, ['pwd'=>$pwd_input, 'pwd2'=>$pwd_input2]);
 
     //Step 3: Define some data processing.
     $result = '';
