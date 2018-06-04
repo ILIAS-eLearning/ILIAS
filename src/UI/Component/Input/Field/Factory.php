@@ -228,7 +228,7 @@ interface Factory {
 	 *     1: Password Input MUST be used for passwords.
 	 *   interaction:
 	 *     1: >
-	 *         Password Input MUST NOT limit the number of characters.
+	 *         Password Input SHOULD NOT limit the number of characters.
 	 *
 	 * ---
 	 *
