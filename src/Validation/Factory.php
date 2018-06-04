@@ -117,4 +117,13 @@ class Factory {
 	public function custom(callable $is_ok, $error) {
 		return new Constraints\Custom($is_ok, $error, $this->data_factory);
 	}
+
+	/**
+	 * Get the factory for password constraints.
+	 *
+	 * @return   ILIAS\Validation\Constraints\Password\Factory;
+	 */
+	public function password() {
+		return new Constraints\Password\Factory($this->data_factory);
+	}
 }
