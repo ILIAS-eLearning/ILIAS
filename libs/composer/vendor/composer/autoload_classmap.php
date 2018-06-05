@@ -3542,6 +3542,7 @@ return array(
     'ilDclTable' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTable.php',
     'ilDclTableEditGUI' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
     'ilDclTableFieldSetting' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php',
+    'ilDclTableHelper' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTableHelper.php',
     'ilDclTableListGUI' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php',
     'ilDclTableListTableGUI' => $baseDir . '/../../Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php',
     'ilDclTableView' => $baseDir . '/../../Modules/DataCollection/classes/TableView/class.ilDclTableView.php',
