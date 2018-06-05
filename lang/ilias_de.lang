@@ -1939,6 +1939,7 @@ cmps#:#cmps_needs_update#:#Aktualisierung notwendig
 cmps#:#cmps_needs_upgrade#:#Die aktuell installierte Plugin-Version ist älter als die zuvor installierte. Bitte installieren Sie das aktuelle Plugin.
 cmps#:#cmps_no_db_update_file_available#:#Kein Datenbank-Update-Skript verfügbar
 cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
+cmps#:#cmps_must_installed#:#Die Komponente muss installiert werden.
 cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_plugin_activated#:#Das Plugin wurde aktiviert.
 cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
