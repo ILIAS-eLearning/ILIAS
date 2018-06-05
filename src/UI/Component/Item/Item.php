@@ -105,7 +105,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	public function withNoLead();
 
 	/**
-	 * @return null|string|\ILIAS\UI\Component\Image\Image
+	 * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Icon\Icon
 	 */
 	public function getLead();
 
