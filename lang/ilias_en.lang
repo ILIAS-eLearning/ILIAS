@@ -3608,7 +3608,7 @@ common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.#
 common#:#obj_chac#:#Chat Server###deprecated
 common#:#obj_chap#:#Chapter
 common#:#obj_chat#:#Chat###deprecated
-common#:#obj_cmps_desc#:#General settings for Repository Plugins
+common#:#obj_cmps_desc#:#General settings for Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs_select#:#-- Please select one course --###deprecated
