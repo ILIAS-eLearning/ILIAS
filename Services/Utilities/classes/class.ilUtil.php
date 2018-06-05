@@ -1602,6 +1602,8 @@ class ilUtil
 	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
+		$a_sdir = realpath($a_sdir); // See https://www.ilias.de/mantis/view.php?id=23056
+		$a_tdir = realpath($a_tdir); // See https://www.ilias.de/mantis/view.php?id=23056
 		try {
 			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
 			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
