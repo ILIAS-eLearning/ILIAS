@@ -133,13 +133,13 @@ class ilLDAPRoleAssignmentRules
 			$matches = $rule->matches($a_usr_data);
 			if($matches and $row->add_on_update)
 			{
-				$ilLog->write(__METHOD__.': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(), self::ROLE_ACTION_ASSIGN);
 				
 			}
 			if(!$matches and $row->remove_on_update)
 			{
-				$ilLog->write(__METHOD__.': Deassigned from role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Deassigned from role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(), self::ROLE_ACTION_DEASSIGN);
 			}
 		}
@@ -156,7 +156,7 @@ class ilLDAPRoleAssignmentRules
 		}
 		if(count($rbacreview->assignedGlobalRoles($a_usr_id)) == $deassigned_global)
 		{
-			$ilLog->write(__METHOD__.': No global role left. Assigning to default role.');
+			$ilLog->info(': No global role left. Assigning to default role.');
 			$roles[] = self::parseRole(
 				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
@@ -196,7 +196,7 @@ class ilLDAPRoleAssignmentRules
 			if($rule->matches($a_usr_data))
 			{
 				$num_matches++;
-				$ilLog->write(__METHOD__.': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(),self::ROLE_ACTION_ASSIGN);
 			}
 		}
@@ -213,7 +213,7 @@ class ilLDAPRoleAssignmentRules
 		}
 		if(!$found_global)
 		{
-			$ilLog->write(__METHOD__.': No matching rule found. Assigning to default role.');
+			$ilLog->info(': No matching rule found. Assigning to default role.');
 			$roles[] = self::parseRole(
 				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
