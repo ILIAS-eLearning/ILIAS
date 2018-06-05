@@ -17688,7 +17688,7 @@ if(!$ilDB->tableExists('osc_activity'))
 		array(
 			'conversation_id' => array(
 				'type'    => 'text',
-				'length'  => 255,
+				'length'  => 40,
 				'notnull' => true
 			),
 			'user_id'         => array(
@@ -17717,12 +17717,12 @@ if(!$ilDB->tableExists('osc_messages'))
 		array(
 			'id'             => array(
 				'type'    => 'text',
-				'length'  => 255,
+				'length'  => 40,
 				'notnull' => true
 			),
 			'conversation_id' => array(
 				'type'    => 'text',
-				'length'  => 255,
+				'length'  => 40,
 				'notnull' => true
 			),
 			'user_id'         => array(
@@ -17756,7 +17756,7 @@ if(!$ilDB->tableExists('osc_conversation'))
 		array(
 			'id'             => array(
 				'type'    => 'text',
-				'length'  => 255,
+				'length'  => 40,
 				'notnull' => true
 			),
 			'is_group' => array(

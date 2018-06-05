@@ -1184,7 +1184,7 @@ abstract class ilTestExport
 				unset($mob_obj);
 			}
 		}
-		foreach ($this->test_obj->questions as $question_id)
+		foreach ($this->getQuestionIds() as $question_id)
 		{
 			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
 			foreach ($mobs as $mob)
