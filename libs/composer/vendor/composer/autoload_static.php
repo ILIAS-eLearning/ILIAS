@@ -3734,6 +3734,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilDclTable' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTable.php',
         'ilDclTableEditGUI' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
         'ilDclTableFieldSetting' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php',
+        'ilDclTableHelper' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTableHelper.php',
         'ilDclTableListGUI' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php',
         'ilDclTableListTableGUI' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php',
         'ilDclTableView' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/TableView/class.ilDclTableView.php',
