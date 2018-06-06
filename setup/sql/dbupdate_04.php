@@ -22065,3 +22065,14 @@ $ilDB->manipulate($q);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5270>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'identical_scoring', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'default' => 1
+	));
+}
+?>
