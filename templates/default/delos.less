@@ -1222,6 +1222,9 @@ footer.ilFooter {
 	text-align: left;
 	background-color: @il-footer-bg-color;
 	color: @il-footer-color;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: auto;
+	}
 	div.ilFooterContainer {
 		color: @il-footer-color;
 		//float: left;

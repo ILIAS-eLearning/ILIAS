@@ -10040,6 +10040,11 @@ footer.ilFooter {
   background-color: #4c6586;
   color: #ffffff;
 }
+@media only screen and (max-width: 767px) {
+  footer.ilFooter {
+    height: auto;
+  }
+}
 footer.ilFooter div.ilFooterContainer {
   color: #ffffff;
   line-height: 1.75;

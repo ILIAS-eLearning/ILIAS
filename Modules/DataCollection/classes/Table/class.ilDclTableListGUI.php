@@ -68,12 +68,23 @@ class ilDclTableListGUI {
 	 */
 	public function executeCommand()
 	{
+		global $DIC;
 		$cmd = $this->ctrl->getCmd('listTables');
 
 		$next_class = $this->ctrl->getNextClass($this);
 
-		switch ($next_class) {
+		/*
+		 * see https://www.ilias.de/mantis/view.php?id=22775
+		 */
+		$tableHelper = new ilDclTableHelper((int)$this->obj_id, (int)$_GET['ref_id'], $DIC->rbac()->review(), $DIC->user(), $DIC->database());
+		// send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
+		$role_titles = $tableHelper->getRBACRoleTitlesWithoutReadRightOnAnyStandardView();
 
+		if (count($role_titles) > 0) {
+			ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " (" . implode(", ", $role_titles) . ")");
+		}
+
+		switch ($next_class) {
 			case 'ildcltableeditgui':
 				$this->tabs->clearTargets();
 				if ($cmd != 'create') {
