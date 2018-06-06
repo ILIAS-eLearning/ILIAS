@@ -957,7 +957,6 @@ abstract class ilParticipants
 	 	global $DIC;
 
 	 	$rbacadmin = $DIC['rbacadmin'];
-	 	$ilLog = $DIC['ilLog']->logger()->mmbr();
 	 	$ilAppEventHandler = $DIC['ilAppEventHandler'];
 	 	
 	 	if($this->isAssigned($a_usr_id))
