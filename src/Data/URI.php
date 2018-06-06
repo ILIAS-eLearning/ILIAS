@@ -207,7 +207,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function schema()
+	public function getSchema()
 	{
 		return $this->schema;
 	}
@@ -231,13 +231,13 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function authority()
+	public function getAuthority()
 	{
-		$port = $this->port();
+		$port = $this->getPort();
 		if($port === null) {
-			return $this->host();
+			return $this->getHost();
 		}
-		return $this->host().':'.$port;
+		return $this->getHost().':'.$port;
 
 	}
 
@@ -269,7 +269,7 @@ class URI
 	/**
 	 * @return	int|null
 	 */
-	public function port()
+	public function getPort()
 	{
 		return $this->port;
 	}
@@ -282,7 +282,6 @@ class URI
 	 */
 	public function withPort($port = null)
 	{
-		assert('is_int($port) || is_null($port)');
 		$port = $this->digestPort($port);
 		$other = clone $this;
 		$other->port = $port;
@@ -292,7 +291,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function host()
+	public function getHost()
 	{
 		return $this->host;
 	}
@@ -316,7 +315,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function path()
+	public function getPath()
 	{
 		return $this->path;
 	}
@@ -339,7 +338,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function query()
+	public function getQuery()
 	{
 		return $this->query;
 	}
@@ -362,7 +361,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function fragment()
+	public function getFragment()
 	{
 		return $this->fragment;
 	}
@@ -388,13 +387,13 @@ class URI
 	 *
 	 * @return	string
 	 */
-	public function baseURI()
+	public function getBaseURI()
 	{
-		$path = $this->path();
+		$path = $this->getPath();
 		if($path === null) {
-			return $this->schema().'://'.$this->authority();
+			return $this->getSchema().'://'.$this->getAuthority();
 		}
-		return $this->schema().'://'.$this->authority().'/'.$path;
+		return $this->getSchema().'://'.$this->getAuthority().'/'.$path;
 	}
 
 }
