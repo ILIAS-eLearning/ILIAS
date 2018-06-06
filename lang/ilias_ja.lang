@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -628,6 +628,7 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
+assessment#:#false#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全選択または選択された解答の特定のフィードバック解答を表示
@@ -756,6 +757,7 @@ assessment#:#log_selected_user_data_removed#:#ユーザ%sのテストデータ�
 assessment#:#log_user_answered_question#:#ユーザは問題に解答して%s点獲得しました
 assessment#:#log_user_entered_values#:#ユーザが値を入力しました
 assessment#:#log_user_not_entered_values#:#ユーザは値を未入力です
+assessment#:#log_user_solution_willingly_deleted#:#ユーザは回答を削除しました。
 assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
@@ -1134,6 +1136,7 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
+assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成用に帰属します。
@@ -1920,7 +1923,7 @@ badge#:#badge_notification_reason#:#プロファイルへバッジ追加が可�
 badge#:#badge_notification_subject#:#バッジを受領しました
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructureを有効にします
 badge#:#badge_obi_activate_info#:#ユーザはiliasからバッジをエクスポートできます。他のwenアプリケーションへ認定を提供するためにバッジを利用することができます。
-badge#:#badge_obi_contact#:#Email連絡
+badge#:#badge_obi_contact#:#連絡先メールアドレス
 badge#:#badge_obi_contact_info#:#このE-mailアドレスはバッジの背面以外は表示されません。
 badge#:#badge_obi_organisation#:#組織
 badge#:#badge_obi_organisation_info#:#このエントリーはバッジの発行者として表示されｒます。
@@ -2482,7 +2485,7 @@ chatroom#:#enable_smilies#:#スマイルを有効
 chatroom#:#end_whisper#:#キャンセル
 chatroom#:#enter#:#チャットルームを入力
 chatroom#:#error_log#:#チャットサーバError-Log
-chatroom#:#hint_display_past_msgs#:#ルーム入場した際に表示する過去のメッセージ数。値を"0"にすると機能しません。
+chatroom#:#hint_display_past_msgs#:#ルーム入室した際に表示する過去のメッセージ数。値を"0"にすると機能しません。
 chatroom#:#hint_enable_smilies#:#有効にすると構成したテキストシーケンスはアイコンに置き換わります。構成用のスマイルタグを参照。
 chatroom#:#hint_osd#:#有効にするとユーザは新しい招待に関してポップアップで通知されます。
 chatroom#:#hint_osd_interval#:#新規通知確認用のポーリングインターバル。低い数値にするとユーザへより頻繁に通知されますが、Webサーバーが処理しなければならないリクセスト数が増加します。
@@ -3423,8 +3426,10 @@ common#:#fm_start#:#ファイルマネージャで開く
 common#:#fold#:#フォルダ
 common#:#fold_add#:#フォルダを追加
 common#:#fold_added#:#フォルダの追加
+common#:#fold_copy_threads_info#:#どの材料をコピー、リンク、省略するか確定してください。
 common#:#fold_edit#:#フォルダを編集
 common#:#fold_new#:#新規フォルダ
+common#:#fold_wizard_page#:#フォルダをコピー(Step 2/2)
 common#:#folder#:#フォルダ
 common#:#folders#:#フォルダ
 common#:#follow_link_to_read_mails#:#メールを読むには次のリンクをクリックします
@@ -4100,6 +4105,7 @@ common#:#obj_file#:#ファイル
 common#:#obj_file_duplicate#:#重複ファイル
 common#:#obj_file_inline#:#ラーニングモジュール ファイル
 common#:#obj_fold#:#フォルダ
+common#:#obj_fold_duplicate#:#フォルダをコピー
 common#:#obj_frm#:#フォーラム
 common#:#obj_frm_duplicate#:#フォーラムをコピー
 common#:#obj_frma#:#掲示板
@@ -4785,7 +4791,7 @@ common#:#stat_selected#:#選択した
 common#:#statistic#:#統計値
 common#:#statistics#:#統計値
 common#:#status#:#状況
-common#:#status_no_permission#:#アクセス権限なし
+common#:#status_no_permission#:#付与されたアクセス権限なし
 common#:#step#:#ステップ
 common#:#street#:#町名・番地
 common#:#structure#:#建物
@@ -5614,6 +5620,13 @@ content#:#cont_localfile#:#ローカルファイル
 content#:#cont_localization#:#言語対応
 content#:#cont_localization_info#:#言語は事前定義のテキスト(例："前へ"や"次へ")に使用されます。
 content#:#cont_location#:#ロケーション
+content#:#cont_lpe_cas_login_form#:#CAS Login Form
+content#:#cont_lpe_language_selection#:#言語選択
+content#:#cont_lpe_login_form#:#Login Form
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form
+content#:#cont_lpe_registration_link#:#新規登録リンク
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
+content#:#cont_lpe_user_agreement_link#:#使用許諾書リンク
 content#:#cont_lrs_settings#:#設定
 content#:#cont_lvalue#:#データ要素
 content#:#cont_maintenance#:#メンテナンス
@@ -8117,6 +8130,14 @@ file#:#file_download#:#ファイルをダウンロード
 file#:#file_import#:#ファイルをインポート
 file#:#file_new_version#:#新バージョンを作成
 file#:#file_new_version_info#:#新ファイルバージョンを作成します。旧バージョンは修正されません。
+file#:#file_suffix_custom_black#:#カスタム拡張子ブラックリスト
+file#:#file_suffix_custom_black_info#:#これらの拡張子は既定のホワイトリストから削除されます。
+file#:#file_suffix_custom_white#:#カスタム拡張子ホワイトリスト
+file#:#file_suffix_custom_white_info#:#これらの拡張子は初期値のホワイトリストへ追加されます。
+file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
+file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
+file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
+file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
 file#:#file_uploaded_by#:#アップロード者
 file#:#personal_workspace_disk_quota#:#パーソナルワークスペースのハードディスククォータ
 file#:#personal_workspace_quota_exceeded_warning#:#パーソナルワークスペースのディスククォータを越えています。
@@ -9068,14 +9089,14 @@ mail#:#mail_salutation_m#:#こんにちは
 mail#:#mail_salutation_male#:#男性向けのプレースフォルダ[MAIL_SALUTATION]用の出力
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
-mail#:#mail_second_email#:#第2emailアドレス
+mail#:#mail_second_email#:#第2メールアドレス
 mail#:#mail_sel_users#:#選択したユーザへメールを送信
 mail#:#mail_select_attachment#:#ダウンロード用の添付ファイルを選択してください。
 mail#:#mail_select_course#:#コースを一つは選択してください。
 mail#:#mail_select_group#:#グループを一つは選んでください。
 mail#:#mail_select_one_entry#:#エントリーを一つ選択しなければなりません
 mail#:#mail_select_one_file#:#ファイルを一つ選択しなければなりません
-mail#:#mail_send_html#:#外部email用のHTMLフレーム
+mail#:#mail_send_html#:#HTMLフレーム
 mail#:#mail_send_html_info#:#有効にすると外部emailのボディーがHTMLフレーム内へ埋め込まれます。対応するテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' へ'./Services/Mail/templates/default/tpl.html_mail_template.html' をコピーしてカスタマイズすることができます。
 mail#:#mail_serial_letter_placeholders#:#シリアルレタープレースフォルダ
 mail#:#mail_settings_external_frm_head#:#外部email
@@ -9112,7 +9133,7 @@ mail#:#mail_system_usr_env_from_addr#:#テクニカル送信者
 mail#:#mail_system_usr_env_from_addr_info#:#このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。
 mail#:#mail_system_usr_from_addr#:#送信者email(From)
 mail#:#mail_system_usr_from_name#:#送信者フルネーム(From)
-mail#:#mail_system_usr_from_name_info#:#プレースフォルダー [FULLNAME], [FIRSTNAME] , [LASTNAME]を使用することができます。それらはemail作成されるのそれぞれの日付で置き換えられます。
+mail#:#mail_system_usr_from_name_info#:#プレースフォルダー [FULLNAME], [FIRSTNAME] , [LASTNAME]を使用することができます。それらはemailイニシエータのそれぞれの日付で置き換えられます。
 mail#:#mail_template_client#:#Textテンプレート
 mail#:#mail_template_client_info#:#利用可能なTextテンプレートの一つを選択してそのプレースフォルダを作成します。Textテンプレートを選択するとこのフォームの本文と件名(Textテンプレート内にある場合)が生成されます。
 mail#:#mail_template_context#:#コンテキスト
@@ -10337,6 +10358,7 @@ pdfgen#:#header_show_pages#:#ページ番号を表示
 pdfgen#:#header_type#:#ヘッダー
 pdfgen#:#image_scale#:#イメージスケール
 pdfgen#:#javascript_delay#:#Javascript 遅延
+pdfgen#:#javascript_delay_info#:#JavaScriptがレンダーページコンテンツに使用の際はＰＤＦ内のコンテンツ表示を確認するために遅延が発生します。
 pdfgen#:#margin#:#Margin
 pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#margin_left#:#Margin left
@@ -12329,7 +12351,7 @@ style#:#adapt_icon#:#アイコンを適合
 style#:#adapt_icon_description#:#アイコンを適合またはアイコン自体を変更します。
 style#:#adapt_icons#:#アイコンカラーを適合
 style#:#adapt_icons_description#:#スキンイメージフォルダ内のSVGアイコン内に見つからない全てのアイコンはここにリストされます。一つカラーを変更するとこのカラーに含まれる全てのアイコンが一度変更されます。
-style#:#adapt_less#:#レッグを適用
+style#:#adapt_less#:#Lessを適用
 style#:#adapt_less_description#:#これは選択したスキン内で使用されるvariables.lessファイルの全ての変数のない直接表現です。変数名と説明はこのファイルから直接描写されるのでオリジナル言語内でのみ利用可能です。選択のスタイルは更新・変数再設定により完全に再コンパイルされます。再設定変数は既定のdelosスタイルの完全コピーが生成されます。
 style#:#add_substyle#:#サブスタイルを追加
 style#:#add_system_style#:#システムスタイルを追加
@@ -12338,7 +12360,7 @@ style#:#blue_color#:#ブルーカラー
 style#:#blue_colors#:#ブルーカラー
 style#:#blue_colors_description#:#ブルーカラー説明
 style#:#can_not_read_less_file#:#less fileを読込む事ができません。 Path:
-style#:#cant_deactivate_default_style#:#既定のスタイルを解除できません。
+style#:#cant_deactivate_default_style#:#Defaultのスタイルを解除できません。
 style#:#cant_delete_activated_style#:#アクティブスタイルを解除できません。
 style#:#cant_delete_if_users_assigned#:#ユーザがまだ割当てられているとスタイルを削除できません。
 style#:#cant_delete_style_with_substyles#:#サブスタイル付きのスタイルは削除できません。
@@ -12348,15 +12370,15 @@ style#:#color_changed_from#:#変更前のカラー:
 style#:#color_changed_to#:#to:
 style#:#color_reset#:#アイコンの色はリセットされました。キャッシング表示されてから変更になるかもしれない事に要注意。ブラウザーキャッシュをクリアする必要があるかもしれません
 style#:#color_update#:#アイコンの色は更新されました。キャッシング表示されてから変更になるかもしれない事に要注意。ブラウザーキャッシュをクリアする必要があるかもしれません。
-style#:#default_style_set_to#:#既定のシステムスタイルを設定した先:
-style#:#dir_copied_from#:#ディレクトリをコピーした元:
+style#:#default_style_set_to#:#Defaultのシステムスタイルを設定先:
+style#:#dir_copied_from#:#ディレクトリのコピー元:
 style#:#dir_deleted#:#次のディレクトリは削除されました:
 style#:#dir_preserved_linked#:#保存したリンク:
 style#:#directory_created#:#作成したディレクトリ:
 style#:#documentation#:#ドキュメンテーション
 style#:#edit_by_color#:#カラーで編集
 style#:#edit_by_icon#:#アイコンで編集
-style#:#enable_system_styles_management_no_write_perm#:#システムスタイル管理は有効ですがILIASはCustomizing/global/skinフォルダの書込みアクセス権がありません。 よって新しいスタイルは作成・編集できません。
+style#:#enable_system_styles_management_no_write_perm#:#システムスタイル管理は有効ですがILIASはCustomizing/global/skinフォルダの書込みアクセス権がありません。よって新しいスタイルは作成・編集できません。
 style#:#entries_reloaded#:#すべてのエントリーが再読込みされました。
 style#:#file_deleted#:#次のファイルは削除されました:
 style#:#font_dir#:#フォントディレクトリ
@@ -12369,18 +12391,18 @@ style#:#grey_color#:#グレイカラー
 style#:#grey_colors#:#グレーカラー
 style#:#grey_colors_description#:#グレイカラー説明
 style#:#icons#:#アイコン
-style#:#icons_gallery#:#アイコンギャナリー
+style#:#icons_gallery#:#アイコンギャラリー
 style#:#image_dir#:#イメージディレクトリ
 style#:#image_dir_description#:#スキンのイメージ(多くはアイコン)を保存するフォルダ。このディレクトリはスタイルとこのスキンのサブスタイルと共有できます。
 style#:#in_main_less_file#:#メインlessファイルのシステムスタイル内部へインポートできません:
 style#:#invalid_less_path#:#提供のlessc pathは無効かwebサーバが読込んでlesscを実行する適切なアクセス権がありません。Lessc (またはlessc pathによりポイントされるリンクされたファイル)は読み込み可能でwebサーバにより実行可能である必要があります。
-style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:###31 08 2017 new variable
-style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:###31 08 2017 new variable
+style#:#ks_documentation_of_style#:#スタイルの一切合切(Kitchen Sink)ドキュメント
+style#:#ks_documentation_of_substyle#:#サブスタイルの一切合切(Kitchen Sink)ドキュメント
 style#:#less#:#Less
 style#:#less_can_not_be_modified#:#Lessは修正できません
 style#:#less_compile_failed#:#lessファイルのコンパイル中に何か間違いがあります。LessがインストールされてILIASセットアップ中に正しくpath設定されていますか? オリジナルエラー:
-style#:#less_file_reset#:#少数はリセットされました。キャッシング表示されてから変更になるかもしれない事に要注意。ブラウザーキャッシュをクリアする必要があるかもしれません。
-style#:#less_file_updated#:#less変数が更新さｒました。
+style#:#less_file_reset#:#Lessはリセットされました。表示が変わるまでにはキャッシングの影響があるかもしれない事に注意願います。ブラウザーキャッシュのクリアが必要なことがあります。
+style#:#less_file_updated#:#less変数が更新されました。
 style#:#less_less_installation_detected#:#Lessインストールを確認した位置:
 style#:#less_variables_file_not_included#:#less変数ファイル:
 style#:#manage_system_styles#:#システムスタイルを管理
@@ -12481,8 +12503,8 @@ style#:#sty_cursor#:#カーソル
 style#:#sty_custom#:#カスタム
 style#:#sty_custom_par#:#カスタムパラメータ
 style#:#sty_custom_par_info#:# "パラメータ値"フォーマットを使いカスタムCSSパラメータを追加します。
-style#:#sty_default#:#規定値
-style#:#sty_default_style#:#スタイル初期設定
+style#:#sty_default#:#Default
+style#:#sty_default_style#:#Defaultスタイル
 style#:#sty_del_template#:#テンプレートとクラスを削除
 style#:#sty_del_template_keep_classes#:#削除し、スタイルのクラスを維持
 style#:#sty_delete_other_selected#:#続ける
@@ -12730,17 +12752,17 @@ style#:#style_name_description#:#スタイル名は可読形式でスタイル�
 style#:#style_not_deleted#:#スタイルは地祇の理由により削除できませんでした:
 style#:#style_page_layout_module_portfolio#:#ポートフォリオ
 style#:#style_page_layout_module_scorm#:#Scorm
-style#:#styles_not_deleted#:#スタイルは地祇の理由により削除できませんでした:
+style#:#styles_not_deleted#:#スタイルは次の理由により削除できませんでした:
 style#:#sub_style#:#サブスタイル
 style#:#sub_style_id#:#サブスタイルID
 style#:#sub_style_id_description#:#サブスタイルIDはcussやスキンフォルダ内部に位置するlessのようなサブスタイル特定ファイル用の名前として使用されます。文字、数値、ハイフォンまたは下線文字に限りスタイルIDに使用されます。
 style#:#sub_style_name#:#サブスタイル名
 style#:#sub_style_name_description#:#サブスタイル名は可読形式でスタイルのアプリケーションエリアの説明に使用することができます。スキンの許容選択全UIエレメント内に表示されます。
 style#:#sub_style_parent_style_description#:#サブスタイルは一つの親スタイルだけに割当てられます。親スタイルがこのユーザに限り割当てられていると特定のユーザのみにしか表示されません。サブスタイルの親スタイルはこのサブスタイルが作成された後は変更できません。
-style#:#system_style_activation#:#システムスタイルが有効になりました
-style#:#system_style_activation_description#:#この設定が有効(ユーザ管理/設定/標準フィールド/スキン規定を参照)の場合、有効なシステムスタイルはユーザが選択していてもユーザへ割当てることができます。
-style#:#system_style_default_description#:#既定のシステムスタイルとしてこのスタイルを設定します。現在のユーザがスタイルを割当てていないかユーザがログインしていないと既定のシステムスタイルを使用します。
-style#:#system_style_personal_description#:#パーソナルシステムスタイルとしてこのスタイルを設定します。これは現在実行されている変化を見るには便利です。
+style#:#system_style_activation#:#システムスタイルの有効化
+style#:#system_style_activation_description#:#この設定(ユーザ管理/設定/標準フィールド/Default Skinを参照)が有効の場合、有効なシステムスタイルはユーザまたはユーザの選択したものへ割当てることができます。
+style#:#system_style_default_description#:#既定のシステムスタイルとしてこのスタイルを設定します。現在のユーザがスタイルを割当てていないあるいはユーザがログインしていなくても既定のシステムスタイルを使用します。
+style#:#system_style_personal_description#:#パーソナルシステムスタイルとしてこのスタイルを設定します。これは現在実行されているものの変化の確認に便利です。
 style#:#to#:#to:
 style#:#update_colors#:#カラーを更新
 style#:#update_icon#:#アイコンを更新
@@ -12930,7 +12952,7 @@ survey#:#invitation_mode_desc#:#サーベイへのリンク参照がユーザの
 survey#:#invitation_off#:#どのデスクトップにもしない。
 survey#:#invited_users#:#ユーザを選択
 survey#:#label#:#ラベル
-survey#:#label_info#:#以降のデータの処理(例
+survey#:#label_info#:#今後のデータ処理用の代わりの識別子(例 SPSS)
 survey#:#language_changed#:#言語が変更されました
 survey#:#last_update#:#最終更新
 survey#:#layout#:#レイアウト
@@ -13599,7 +13621,7 @@ trac#:#trac_learning_progress_of#:#%sの学習進捗
 trac#:#trac_learning_progress_settings_info#:#拡張データをアクティブ
 trac#:#trac_log_info#:#最終集計: %s (未処理項目: %s)
 trac#:#trac_log_info_link#:#Update
-trac#:#trac_long_system_load#:#長期性
+trac#:#trac_long_system_load#:#長期間
 trac#:#trac_lp_determination#:#学習進捗の決定
 trac#:#trac_lp_determination_info_crs#:#全体的な学習進捗ステータスを決定するアイテムを選択します。
 trac#:#trac_lp_determination_info_crs_tutor#:#この選択では学習進捗状況へ接続されません。
@@ -13720,11 +13742,11 @@ trac#:#trac_session_statistics_mode_today#:#今日
 trac#:#trac_session_statistics_mode_week#:#週
 trac#:#trac_session_statistics_mode_year#:#年
 trac#:#trac_session_statistics_no_data#:#この統計にはデータがありません。
-trac#:#trac_sessions_closed#:#退場
-trac#:#trac_sessions_opened#:#入場
+trac#:#trac_sessions_closed#:#退室
+trac#:#trac_sessions_opened#:#入室
 trac#:#trac_settings#:#設定
 trac#:#trac_settings_saved#:#設定が保存されました。
-trac#:#trac_short_system_load#:#短期性
+trac#:#trac_short_system_load#:#短期間
 trac#:#trac_show_graph#:#グラフを表示
 trac#:#trac_show_repository_views#:#リポジトリの変更
 trac#:#trac_show_repository_views_info#:#Infoページ上のリポジトリオブジェクト用に追跡情報を表示します。
@@ -13981,7 +14003,7 @@ wiki#:#wiki_new_pages#:#新規ページ
 wiki#:#wiki_news_page_changed#:#Wikiページは更新されました。
 wiki#:#wiki_news_page_created#:#新規Wikページが作成されました。
 wiki#:#wiki_no_page_found#:#Wikiページには検索用語"$1"がありませんでした。
-wiki#:#wiki_no_search_term#:#検索用語が入力されていｊません。wikiの全ページは以下にリストされます。
+wiki#:#wiki_no_search_term#:#検索用語が入力されていません。wikiの全ページは以下にリストされます。
 wiki#:#wiki_no_start_page#:#Wikiに有効な開始ページがありません。
 wiki#:#wiki_notgraded#:#未評価
 wiki#:#wiki_notification_activate_page#:#ページ通知を有効
@@ -14088,7 +14110,7 @@ wiki#:#wiki_templ_add_to_page#:#既存ページへの追加動作は可能
 wiki#:#wiki_templ_new_pages#:#ページ作成可能
 wiki#:#wiki_template_added#:#テンプレートページが追加されました。
 wiki#:#wiki_template_status_removed#:#テンプレートステータスが削除されました。
-wiki#:#wiki_unblock_page#:#ページブロックしない
+wiki#:#wiki_unblock_page#:#書込みアクセスを許可
 wiki#:#wiki_unhide_meta_adv_records#:#追加のプロパティを表示
 wiki#:#wiki_what_links_here#:#ここへのリンクは?
 wiki#:#wiki_what_links_to_page#:#ページ "%s"へのリンクは?
@@ -14154,25 +14176,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#false#:#False###15 03 2018 new variable
-assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
-assessment#:#true#:#True###15 03 2018 new variable
-content#:#cont_lpe_login_form#:#Login Form###05 04 2018 new variable
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###05 04 2018 new variable
-content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###05 04 2018 new variable
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form###05 04 2018 new variable
-content#:#cont_lpe_registration_link#:#New Registration Link###05 04 2018 new variable
-content#:#cont_lpe_language_selection#:#Language Selection###05 04 2018 new variable
-content#:#cont_lpe_user_agreement_link#:#User Agreement Link###05 04 2018 new variable
-common#:#obj_fold_duplicate#:#Copy Folder###05 04 2018 new variable
-common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###05 04 2018 new variable
-common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###05 04 2018 new variable
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.###25 04 2018 new variable
-file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
