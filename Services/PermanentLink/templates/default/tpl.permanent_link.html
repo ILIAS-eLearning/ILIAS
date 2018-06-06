@@ -1,6 +1,26 @@
 <div class="ilPermalinkContainer input-group">
     <label for="current_perma_link">
-	<a href="{LINK}" onclick="with(document.getElementById('current_perma_link')){focus();select();} return false;" class="permalink_label"><span class="glyphicon glyphicon-link"></span><span class="hidden-xs">{TXT_PERMA}</span></a></label>
-    <input class="form-control" id="current_perma_link" type="text" value="{LINK}" readonly="readonly" onclick="this.focus();this.select();return false;" />
+	<a href="{LINK}" onclick="with(document.getElementById('current_perma_link')){mySelect('current_perma_link');} return false;" class="permalink_label"><span class="glyphicon glyphicon-link"></span><span class="hidden-xs">{TXT_PERMA}</span></a></label>
+    <input class="form-control" id="current_perma_link" type="text" value="{LINK}" readonly="readonly" onclick="mySelect('current_perma_link');" onmouseup="return false;" />
     <!-- BEGIN social_bookmarks --><span class="input-group-btn">{SELECTION_LIST}</span><!-- END social_bookmarks -->
 </div>
+<script type="text/javascript">
+	var mySelect = function(elementId) {
+		var input = document.getElementById(elementId);
+		var editable = input.contentEditable;
+		var readOnly = input.readOnly;
+		input.contentEditable = true;
+		input.readOnly = false;
+		var range = document.createRange();
+		range.selectNodeContents(input);
+		var selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange(range);
+		input.setSelectionRange(0, 999999);
+		input.contentEditable = editable;
+		input.readOnly = readOnly;
+		//to copy the link in the clipboard:
+		//document.execCommand('copy');
+		//it would be better to add a separate button for this
+	}	
+</script>
