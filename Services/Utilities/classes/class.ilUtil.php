@@ -2344,7 +2344,7 @@ class ilUtil
 		
 		$ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
 		$ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-		$ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
+		$ascii_filename = preg_replace('/[\x00-\x1F\x7F]/u', '_', $ascii_filename);
 		
 		// OS do not allow the following characters in filenames: \/:*?"<>|
 		$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
