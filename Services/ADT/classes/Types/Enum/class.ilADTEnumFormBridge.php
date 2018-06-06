@@ -29,7 +29,9 @@ class ilADTEnumFormBridge extends ilADTFormBridge
 	
 	public function addToForm()
 	{		
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 				
 		$def = $this->getADT()->getCopyOfDefinition();
 		$selection = $this->getADT()->getSelection();

@@ -33,9 +33,11 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function saveScreenIdsForChapter($a_chap, $a_ids)
+	static function saveScreenIdsForChapter($a_chap, $a_ids)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		self::removeScreenIdsOfChapter($a_chap);
 		if (is_array($a_ids))
@@ -124,9 +126,11 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function getScreenIdsOfChapter($a_chap, $a_module_id = 0)
+	static function getScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM help_map ".
 			" WHERE chap = ".$ilDB->quote($a_chap, "integer").

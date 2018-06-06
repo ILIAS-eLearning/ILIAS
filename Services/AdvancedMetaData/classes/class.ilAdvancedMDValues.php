@@ -271,7 +271,9 @@ class ilAdvancedMDValues
 	 */
 	public static function preloadByObjIds(array $a_obj_ids)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// preload values
 		ilADTFactory::getInstance()->initActiveRecordByType();	
@@ -348,7 +350,9 @@ class ilAdvancedMDValues
 	 */
 	public static function _cloneValues($a_source_id,$a_target_id,$a_sub_type = null,$a_source_sub_id = null,$a_target_sub_id=null)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		// clone local records
 		

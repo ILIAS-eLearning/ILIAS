@@ -46,7 +46,8 @@ abstract class ilClaimingPermissionHelper
 	 */
 	public static function getInstance($a_user_id = null, $a_ref_id = null)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC->user();
 		
 		if(!$a_user_id)
 		{
@@ -269,7 +270,8 @@ abstract class ilClaimingPermissionHelper
 	 */
 	protected function checkRBAC()
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC->access();
 		
 		// we are currently only supporting write operations
 		return $ilAccess->checkAccessOfUser($this->getUserId(), "write", "", $this->getRefId());		

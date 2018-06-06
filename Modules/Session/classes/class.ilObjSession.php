@@ -54,7 +54,9 @@ class ilObjSession extends ilObject
 	*/
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
@@ -73,7 +75,9 @@ class ilObjSession extends ilObject
 	 */
 	public static function _lookupRegistrationEnabled($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT reg_type FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -92,7 +96,9 @@ class ilObjSession extends ilObject
 	 */
 	public static function lookupSession($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
@@ -423,7 +429,9 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		// #17114
 		if($this->isRegistrationUserLimitEnabled() &&
@@ -515,7 +523,9 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 
@@ -537,8 +547,12 @@ class ilObjSession extends ilObject
 	 */
 	public function create($a_skip_meta_data = false)
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 	
 		parent::create();
 		
@@ -587,8 +601,12 @@ class ilObjSession extends ilObject
 	 */
 	public function update($a_skip_meta_update = false)
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		if(!parent::update())
 		{
@@ -631,8 +649,12 @@ class ilObjSession extends ilObject
 	 */
 	public function delete()
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		
 		if(!parent::delete())
 		{

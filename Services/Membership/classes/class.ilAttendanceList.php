@@ -39,7 +39,9 @@ class ilAttendanceList
 	 */
 	function __construct($a_parent_gui, $a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
 	{	
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->parent_obj = $a_parent_obj;
@@ -117,10 +119,10 @@ class ilAttendanceList
 					continue 2;
 			}
 			
-			ilLoggerFactory::getLogger('mem')->dump($field, ilLogLevel::DEBUG);
+			ilLoggerFactory::getLogger('mmbr')->dump($field, ilLogLevel::DEBUG);
 			// Check if default enabled
 			$this->presets[$field] = array(
-				$GLOBALS['lng']->txt($field),
+				$GLOBALS['DIC']['lng']->txt($field),
 				false
 			);
 	 	}
@@ -224,7 +226,9 @@ class ilAttendanceList
 	 */
 	function getNonMemberUserData(array &$a_res)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$subscriber_ids = $this->participants->getSubscribers();
 		
@@ -343,7 +347,10 @@ class ilAttendanceList
 	 */
 	public function initForm($a_cmd = "")
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 	
 		$lng->loadLanguageModule('crs');
 		
@@ -600,7 +607,7 @@ class ilAttendanceList
 			$tpl->setVariable('TXT_DESCRIPTION', $time);
 		}
 		
-		ilLoggerFactory::getLogger('crs')->dump($this->presets);
+		ilLoggerFactory::getLogger('mmbr')->dump($this->presets,ilLogLevel::DEBUG);
 		// header 
 		
 		$tpl->setCurrentBlock('head_item');

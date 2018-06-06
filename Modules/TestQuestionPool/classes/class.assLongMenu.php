@@ -360,9 +360,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				foreach($values as $key => $value)
 				{
-					$file_content .= $value . '\n';
+					$file_content .= $value . "\n";
 				}
-				$file_content = rtrim($file_content, '\n'); 
+				$file_content = rtrim($file_content, "\n"); 
 				$file = fopen($this->buildFileName($gap), "w");
 				fwrite($file, $file_content);
 				fclose($file);

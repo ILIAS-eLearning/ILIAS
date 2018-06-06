@@ -880,7 +880,7 @@ assessment#:#output_mode#:#Ausgabemodus
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
-assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Dashboard" hinzugefügt wurden.
 assessment#:#pass#:#Durchlauf
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_back_to_virtual_pass#:#Zurück zur Fragenübersicht
@@ -1075,7 +1075,7 @@ assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Si
 assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
 assessment#:#text_correct#:#Korrekter Text
 assessment#:#text_gap#:#Textlücke
-assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
+assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten. Eingaben über das Limit hinaus werden nicht abgeschnitten, können aber ggf. in die Bewertung mit eingehen.
 assessment#:#text_rating#:#Methode für Textvergleiche
 assessment#:#text_wrong#:#Fehlerhafter Text
 assessment#:#textsize#:#Textgröße
@@ -1099,7 +1099,7 @@ assessment#:#tst_anonymity_anonymous_test#:#Testergebnisse ohne Namen / Anonymer
 assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
+assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet:
 assessment#:#tst_browse_for_qpl_questions#:#Aus Pool hinzufügen
 assessment#:#tst_browse_for_tst_questions#:#Aus anderem Test hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
@@ -1233,7 +1233,7 @@ assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen od
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
-assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht.
+assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht. Wenn die Anzahl möglicher Testdurchläufe eingeschränkt wird, erscheint im Tab "Dashboard" eine zusätzliche Funktion um Teilnehmern zusätzliche Zeit zu gewähren.
 assessment#:#tst_qst_order#:#Nr.
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_mark#:#Frage markieren
@@ -1275,26 +1275,26 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_result_pass#:#Ergebnisse des Testdurchlaufs
 assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
-assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf Ihre Testergebnisse. Um diese einzusehen, klicken sie auf dem Reiter 'Info' den Button 'Testergebnisse anzeigen'.
+assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über einen Reiter 'Ergebnisse'.
 assessment#:#tst_results_access_setting#:#Zeitpunkt
 assessment#:#tst_results_access_always#:#Sofort
-assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs im 'Info'-Reiter einsehen. Ihre Ergebnisse werden ihnen zudem direkt nach Abschluss des Testdurchlaufs präsentiert.
+assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs über den 'Ergebnisse'-Reiter einsehen. Zu dem werden sie direkt nach Abschluss des Testdurchlaufs dort hin geleitet.
 assessment#:#tst_results_access_date#:#Ab definiertem Datum
-assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer Ihre Ergebnisse im 'Info'-Reiter  einsehen.
+assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer Ihre Ergebnisse im 'Ergebnis'-Reiter einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
-assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Info'-Reiter einsehen.
+assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Ergebnisse'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
 assessment#:#tst_results_grading_opt_show_status#:#"Bestanden" / "Nicht bestanden" anzeigen
-assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
+assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_show_pass_details_desc#:#Zum oben gewählten Zeitpunkt wird die Bekanntgabe des Ergebnisses um eine weitere Tabelle ergänzt. <br>In dieser Tabelle werden für jeden Durchlauf die Titel der Fragen und die erreichten Punkte angezeigt. <br> Andernfalls erscheint diese Tabelle nur nach dem letzten erlaubten Testdurchlauf (einzustellen im Unterreiter 'Allgemeine Einstellungen', Option  'Anzahl von Testdurchläufen begrenzen') oder nach dem Ende des Tests (einzustellen im Unterreiter 'Allgemeine Einstellungen', Abschnitt  'Ende'). <br>Der Inhalt der Tabelle kann im Abschnitt 'Details Testergebnisse' weiter ergänzt werden.
 assessment#:#tst_show_solution_details_desc#:#Teilnehmer bekommen zusätzlich zur 'Tabelle mit detaillierten Testergebnissen' auf einer neuen Seite für jede einzelne Frage angezeigt, welche Antworten sie gegeben haben, ob diese Antworten richtig waren und wie viele Punkte sie mit diesen Antworten erreicht haben.
-assessment#:#tst_show_solution_printview_desc#:#Teilnehmern wird eine Übersicht mit ihren Antworten zu den einzelnen Testfragen angezeigt. Diese Übersicht wird nach Beendigung auf dem 'Info'-Reiter des Tests über den 'Liste der Antworten'-Button angeboten. <br>Falls die 'Tabelle mit detaillierten Testergebnissen' aktiviert ist,  wird auch diese um die 'Liste der Antworten' ergänzt.
+assessment#:#tst_show_solution_printview_desc#:#Teilnehmern wird eine Übersicht mit ihren Antworten zu den einzelnen Testfragen angezeigt. Diese Übersicht wird nach Beendigung innerhalb des 'Ergebnisse'-Reiters in einem Unterreiter 'Bewertete Antworten' angeboten.
 assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option 'Bewertete Teilnehmerantworten‘ und/oder 'Druckbare Liste der Antworten' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten"-Reiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
 assessment#:#tst_show_solution_signature_desc#:#Es wird im Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Tabelle mit detaillierten Testergebnissen' aktivieren.
@@ -1422,7 +1422,7 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#tst_highscore_enabled#:#Platzierungen
-assessment#:#tst_highscore_description#:#Im Reiter 'Info' wird Teilnehmern ein Button 'Zeige Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_highscore_description#:#Im Reiter 'Ergebnisse' wird Teilnehmern ein Unterreiter 'Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
 assessment#:#tst_highscore_anon_description#:#Die Platzierungen anderer Teilnehmer werden ohne Angabe der Namen angezeigt.  Dies geschieht ohnehin bei anonymisierten Tests.
 assessment#:#tst_highscore_achieved_ts#:#Datum
@@ -1596,6 +1596,7 @@ blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration de
 blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
 blog#:#blog_banner#:#Banner
 blog#:#blog_change_notification_body_new#:#der folgende Beitrag wurde neu angelegt:
+blog#:#blog_change_notification_body_comment#:#der folgende Beitrag wurde kommentiert:
 blog#:#blog_change_notification_body_update#:#der folgende Beitrag wurde geändert:
 blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
@@ -9550,6 +9551,7 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
 assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Lösungshinweise
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
@@ -9661,6 +9663,8 @@ dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendunge
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als "Exportierbar" in den <a href="%s">Tabelleneinstellungen</a>.
+dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard Tabellenansicht Lesezugriff.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden RBAC Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard Ansicht der Tabellen:
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -10819,7 +10823,7 @@ cld#:#cld_upload_failed_max_filesize#:#Hochladen fehlgeschlagen. Maximale Dateig
 cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
 cld#:#cld_upload_files#:#Heraufladen
 assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung in 'Tabelle mit detaillierten Testergebnissen'
-assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der 'Tabelle mit detaillierten Testergebnissen' eine Übersicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Übersicht wird nicht über den 'Liste der Antworten'-Button angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
+assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der 'Tabelle mit detaillierten Testergebnissen' eine Übersicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Übersicht wird nicht im Unterreiter 'Bewertete Antworten' des 'Ergebnisse'-Reiters angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
 assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 common#:#obj_cld#:#Cloud-Objekt
@@ -11875,7 +11879,7 @@ user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
-user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer als die eingestellte Zeitspanne ist.  
+user#:#send_mail_to_inactive_users_desc#:#Bevor Benutzeraccounts gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
 user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
@@ -13230,7 +13234,7 @@ copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen,
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
-logging#:#log_error_message#:#Fehler %s ist aufgetreten.
+logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#E-Mail-Empfänger
@@ -14029,7 +14033,7 @@ cont#:#cont_cont_skills#:#Kompetenzen der Mitglieder
 cont#:#cont_skill#:#Kompetenz
 cont#:#cont_path#:#Pfad
 cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich aus der Liste entfernt werden?
-cont#:#cont_skill_do_not_set#:#Nich setzen
+cont#:#cont_skill_do_not_set#:#Nicht setzen
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_published#:#Veröffentlichung

@@ -69,7 +69,10 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function __construct($a_xml_file = '')
 	{
-		global $lng, $tree;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		$this->meta_log = ilLoggerFactory::getLogger("meta");
 

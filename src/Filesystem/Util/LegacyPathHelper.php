@@ -75,16 +75,28 @@ final class LegacyPathHelper {
 
 		switch (true) {
 			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
+			case $webRelativeWithoutLeadingDot === $absolutePath:
+				return "";
 			case strpos($absolutePath, $webRelativeWithoutLeadingDot) === 0:
 				return substr($absolutePath, strlen($webRelativeWithoutLeadingDot)  + 1);           //also remove the trailing slash
+			case $webRelativeWithLeadingDot === $absolutePath:
+				return "";
 			case strpos($absolutePath, $webRelativeWithLeadingDot) === 0:
 				return substr($absolutePath, strlen($webRelativeWithLeadingDot)  + 1);              //also remove the trailing slash
+			case $web === $absolutePath:
+				return "";
 			case strpos($absolutePath, $web) === 0:
 				return substr($absolutePath, strlen($web)  + 1);                                    //also remove the trailing slash
+			case $temp === $absolutePath:
+				return "";
 			case strpos($absolutePath, $temp) === 0:
 				return substr($absolutePath, strlen($temp) + 1);                                    //also remove the trailing slash
+			case $storage === $absolutePath:
+				return "";
 			case strpos($absolutePath, $storage) === 0:
 				return substr($absolutePath, strlen($storage) + 1);                                 //also remove the trailing slash
+			case $customizing === $absolutePath:
+				return "";
 			case strpos($absolutePath, $customizing) === 0:
 				return substr($absolutePath, strlen($customizing) + 1);                             //also remove the trailing slash
 			default:
