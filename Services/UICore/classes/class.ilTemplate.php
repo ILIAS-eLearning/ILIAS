@@ -475,7 +475,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->addILIASFooter();
 		}
-
+		$this->fillContentLanguage();
 		// set standard parts (tabs and title icon)
 		$this->fillBodyClass();
 		if ($a_fill_tabs)
@@ -511,7 +511,7 @@ class ilTemplate extends ilTemplateX
 			// these fill just plain placeholder variables in tpl.main.html
 			$this->setCurrentBlock("DEFAULT");
 			$this->fillNewContentStyle();
-			$this->fillContentLanguage();
+			//$this->fillContentLanguage();
 			$this->fillWindowTitle();
 
 			// these fill blocks in tpl.adm_content.html
