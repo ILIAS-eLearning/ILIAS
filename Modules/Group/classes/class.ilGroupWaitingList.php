@@ -40,7 +40,10 @@ class ilGroupWaitingList extends ilWaitingList
 	 */
 	public function addToList($a_usr_id)
 	{
-		global $ilAppEventHandler, $ilLog;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilLog = $DIC['ilLog'];
 		
 		if(!parent::addToList($a_usr_id))
 		{

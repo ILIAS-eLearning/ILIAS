@@ -136,7 +136,9 @@ class ilGroupXMLParser extends ilSaxParser
 	 */
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		switch($a_name)
 		{
@@ -190,11 +192,11 @@ class ilGroupXMLParser extends ilSaxParser
 			case "member":
 				if (!isset($a_attribs['action']) || $a_attribs['action'] == "Attach")
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': new member with id '.$a_attribs['id']);
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': new member with id '.$a_attribs['id']);
 					$this->group_data["member"]["attach"][] = $a_attribs["id"];
 				} elseif (isset($a_attribs['action']) || $a_attribs['action'] == "Detach")
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': deprecated member with id '.$a_attribs['id']);
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': deprecated member with id '.$a_attribs['id']);
 					$this->group_data["member"]["detach"][] = $a_attribs["id"];
 				}
 
@@ -491,7 +493,11 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function __assignMembers()
 	{
-		global $ilias,$ilUser, $ilSetting;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->participants = new ilGroupParticipants($this->group_obj->getId());
 		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
@@ -582,7 +588,9 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function __parseId($a_id)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
 
 		$fields = explode('_',$a_id);
 
@@ -609,7 +617,7 @@ class ilGroupXMLParser extends ilSaxParser
 							 'usr_id' => $fields[3]);
 			}
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.' Parsing id failed: '.$a_id);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' Parsing id failed: '.$a_id);
 		return false;
 	}
 

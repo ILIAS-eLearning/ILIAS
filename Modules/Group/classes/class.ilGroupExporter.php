@@ -60,7 +60,7 @@ class ilGroupExporter extends ilXmlExporter
 		$obj_id = end($a_ids);
 		
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$obj_id);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$obj_id);
 		if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
 		{
 			return array();
@@ -94,7 +94,7 @@ class ilGroupExporter extends ilXmlExporter
 		
 		if(!$group instanceof ilObjGroup)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__. $a_id . ' is not instance of type group');
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__. $a_id . ' is not instance of type group');
 			return ''; 
 		}
 		
