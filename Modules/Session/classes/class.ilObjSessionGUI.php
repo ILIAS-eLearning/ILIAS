@@ -171,6 +171,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
   		return true;
 	}
+
+
+	/**
+	 * Redirect to member adminsitration
+	 */
+	protected function membersObject()
+	{
+		$this->ctrl->redirectByClass('ilSessionMembershipGUI', 'participants');
+	}
 	
 	/**
 	 * Get session object
