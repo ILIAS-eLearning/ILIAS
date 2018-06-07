@@ -60,11 +60,11 @@ class ilGroupImporter extends ilXmlImporter
 		}
 		catch(ilSaxParserException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
 		}
 		catch(ilWebLinkXMLParserException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
 		}
 	}
 }
