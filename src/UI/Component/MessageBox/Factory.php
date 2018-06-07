@@ -2,10 +2,10 @@
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Alert\Standard;
+namespace ILIAS\UI\Component\MessageBox;
 
 /**
- * This is how a factory for Standard Alerts looks like.
+ * This is how a factory for Message Boxes looks like.
  */
 interface Factory {
 	/**
@@ -16,10 +16,10 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Failure Standard Alerts MUST NOT be interactive.
+	 *     Failure Message Boxes MUST NOT be interactive.
 	 * ---
 	 *
-	 * @return \ILIAS\UI\Component\Alert\Standard\Standard
+	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
 	public function failure();
 
@@ -31,10 +31,10 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Success Standard Alerts MUST NOT be interactive.
+	 *     Success Message Boxes MUST NOT be interactive.
 	 * ---
 	 *
-	 * @return \ILIAS\UI\Component\Alert\Standard\Standard
+	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
 	public function success();
 
@@ -47,12 +47,12 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Info Standard Alerts MAY contain shortcuts or actions displayed as Buttons. Buttons being used as shortcuts
-	 *     SHOULD be exceptions, e.g. if a Button inside the Info Standard Alert takes the user directly to the location where
+	 *     Info Message Boxes MAY contain shortcuts or actions displayed as Buttons. Buttons being used as shortcuts
+	 *     SHOULD be exceptions, e.g. if a Button inside the Info Message Box takes the user directly to the location where
 	 *     the issue can be solved by the user (i.e. Participants-Tab of Survey to delete participant data before editing questions).
 	 * ---
 	 *
-	 * @return \ILIAS\UI\Component\Alert\Standard\Standard
+	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
 	public function info();
 
@@ -64,10 +64,10 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Confirmation Standard Alerts MUST be interactive.
+	 *     Confirmation Message Boxes MUST be interactive.
 	 * ---
 	 *
-	 * @return \ILIAS\UI\Component\Alert\Standard\Standard
+	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
 	public function confirmation();
 

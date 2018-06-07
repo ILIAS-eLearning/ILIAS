@@ -721,21 +721,29 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Alerts inform the user about the state of the system. Such as the successful completion, the need for further
+	 *     Message Boxes inform the user about the state of the system. Such as the successful completion, the need for further
 	 *     input  of an actual error or stopping users in their tracks in high-risk tasks.
 	 *   composition: >
-	 *     Alerts are embedded or popup messages comprised of text and optionally buttons.
+	 *     There are four main types of Message Boxes, each is displayed in the according color:
+	 *     1: Failure
+	 *     2: Success
+	 *     3: Info
+	 *     4: Confirmation
 	 *   effect: >
-	 *     Alerts convey information and optionally provide interaction by using Buttons.
+	 *     Message Boxes convey information and optionally provide interaction by using Buttons.
+	 *   rivals: >
+	 *     Interruptive Modal: >
+	 *       An Interruptive modal disrupts the user in critical situation, forcing him or her
+	 *       to focus on the task at hand.
 	 *
 	 * rules:
 	 *   interaction:
-	 *     1: Alerts MAY contain shortcuts displayed as Buttons.
-	 *     2: Alerts MAY contain actions displayed as Buttons.
+	 *     1: Message Boxes MAY contain shortcuts displayed as Buttons.
+	 *     2: Message Boxes MAY contain actions displayed as Buttons.
 	 * ---
 	 *
-	 * @return  \ILIAS\UI\Component\Alert\Factory
+	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
-	public function alert();
+	public function messageBox();
 
 }
