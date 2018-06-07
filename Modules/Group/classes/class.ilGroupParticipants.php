@@ -119,7 +119,7 @@ class ilGroupParticipants extends ilParticipants
 		
 		parent::addSubscriber($a_usr_id);
 
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addSubscriber');
+		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addSubscriber.');
 		$ilAppEventHandler->raise(
 				"Modules/Group", 
 				'addSubscriber', 

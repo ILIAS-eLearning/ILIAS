@@ -46,8 +46,8 @@ class ilGroupWaitingList extends ilWaitingList
 		{
 			return FALSE;
 		}
-		
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addToList');
+
+		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addToList.');
 		$ilAppEventHandler->raise(
 				"Modules/Group", 
 				'addToWaitingList', 
