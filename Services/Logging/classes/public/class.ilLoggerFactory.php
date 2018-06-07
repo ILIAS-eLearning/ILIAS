@@ -227,9 +227,9 @@ class ilLoggerFactory
 			$logger->pushHandler($stream_handler);
 		}
 		
-		if($GLOBALS['ilUser'] instanceof ilObjUser)
+		if($GLOBALS['DIC']['ilUser'] instanceof ilObjUser)
 		{
-			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['ilUser']->getLogin()))
+			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['DIC']['ilUser']->getLogin()))
 			{
 				if($this->isConsoleAvailable())
 				{
