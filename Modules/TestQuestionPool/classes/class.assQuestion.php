@@ -1196,6 +1196,11 @@ abstract class assQuestion
 	 */
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
+		if( !$this->validateSolutionSubmit() )
+		{
+			return false;
+		}
+		
 		$this->savePreviewData($previewSession);
 	}
 	
@@ -3460,14 +3465,7 @@ abstract class assQuestion
 	*/
 	function isHTML($a_text)
 	{
-		if (preg_match("/<[^>]*?>/", $a_text))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE; 
-		}
+		return ilUtil::isHTML($a_text);
 	}
 	
 	/**

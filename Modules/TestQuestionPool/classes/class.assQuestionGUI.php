@@ -2084,7 +2084,7 @@ abstract class assQuestionGUI
 		return $formAction;
 	}
 	
-	protected function magicAfterTestOutput()
+	public function magicAfterTestOutput()
 	{
 		return;
 	}
