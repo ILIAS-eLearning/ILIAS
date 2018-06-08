@@ -83,6 +83,16 @@ class ItemTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($c->getLead(), $image);
 	}
 
+	public function test_with_lead_icon() {
+		$f = $this->getFactory();
+
+		$icon = $f->icon()->standard("name", "aria_label", "small");
+
+		$c = $f->item()->standard("title")->withLeadIcon($icon);
+
+		$this->assertEquals($c->getLead(), $icon);
+	}
+
 	public function test_with_lead_text() {
 		$f = $this->getFactory();
 
