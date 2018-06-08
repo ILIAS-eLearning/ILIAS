@@ -23,8 +23,7 @@ interface Factory {
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
 	 *     Icons can be disabled. Disabled Icons visually communicate that the depicted
-	 *     functionality is not available to the user, i.e. a precondition is not met yet
-	 *     or status is offline. Technically this means that read access is not granted.
+	 *     functionality is not available for the intended audience.
 	 *   composition: >
 	 *     Icons come in three fixed sizes: small, medium and large.
 	 *     They can be configured with an additional "abbreviation",
