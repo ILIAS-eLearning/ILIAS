@@ -12,6 +12,11 @@
 */
 class ilAttendanceList
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger = null;
+
 	protected $parent_gui;
 	protected $parent_obj; // [object]
 	protected $participants; // [object]
@@ -33,31 +38,32 @@ class ilAttendanceList
 	/**
 	 * Constructor
 	 * 
-	 * @param object $a_parent_obj
+	 * @param ilObjectGUI $a_parent_obj
+	 * @param ilObject $a_parent_obj
 	 * @param ilParticipants $a_participants_object
 	 * @param ilWaitingList $a_waiting_list
 	 */
-	function __construct($a_parent_gui, $a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
+	public function __construct($a_parent_gui, $a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
 	{	
-		global $lng;
+		global $DIC;
+
+		$this->logger = $DIC->logger()->mmbr();
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->parent_obj = $a_parent_obj;
 		$this->participants = $a_participants_object;
 		$this->waiting_list = $a_waiting_list;
-		
+
 		// always available
-		$this->presets['name'] = array($lng->txt('name'), true);
-		$this->presets['login'] = array($lng->txt('login'), true);
-		$this->presets['email'] = array($lng->txt('email'));
-		
-		
+		$this->presets['name'] = array($DIC->language()->txt('name'), true);
+		$this->presets['login'] = array($DIC->language()->txt('login'), true);
+
 		
 		// add exportable fields
 		$this->readOrderedExportableFields();
-		
-		$lng->loadLanguageModule('crs');
-		
+
+		$DIC->language()->loadLanguageModule('crs');
+
 		// roles
 		$roles = $this->participants->getRoles();
 		foreach($roles as $role_id)
@@ -67,20 +73,20 @@ class ilAttendanceList
 			{
 				case 'il_crs_a':
 				case 'il_grp_a':					
-					$this->addRole($role_id, $lng->txt('event_tbl_admin'), 'admin');
+					$this->addRole($role_id, $DIC->language()->txt('event_tbl_admin'), 'admin');
 					break;
 				
 				case 'il_crs_t':					
-					$this->addRole($role_id, $lng->txt('event_tbl_tutor'), 'tutor');
+					$this->addRole($role_id, $DIC->language()->txt('event_tbl_tutor'), 'tutor');
 					break;
 				
 				case 'il_crs_m':
 				case 'il_grp_m':
-					$this->addRole($role_id, $lng->txt('event_tbl_member'), 'member');
+					$this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
 					break;
 				
 				case 'il_sess_':
-					$this->addRole($role_id, $lng->txt('event_tbl_member'), 'member');
+					$this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
 					break;
 				
 				// local
@@ -113,7 +119,6 @@ class ilAttendanceList
 				case 'username':
 				case 'firstname':
 				case 'lastname':
-				case 'email':
 					continue 2;
 			}
 			
@@ -270,7 +275,6 @@ class ilAttendanceList
 				{
 					$a_res[$user_id]['login'] = $tmp_obj->getLogin();
 					$a_res[$user_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();		
-					$a_res[$user_id]['email'] = $tmp_obj->getEmail();		
 
 					if(in_array($user_id, $subscriber_ids))
 					{
@@ -720,15 +724,7 @@ class ilAttendanceList
 									break;
 								}
 								
-							
-							case "email":
-								if(!$user_data[$id])
-								{
-									$value = ilObjUser::_lookupEmail($user_id);
-									break;
-								}
-								
-							
+
 							case "login":
 								if(!$user_data[$id])
 								{
