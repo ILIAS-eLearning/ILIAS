@@ -74,15 +74,16 @@ class Tag extends Input implements C\Input\Field\Tag {
 		$configuration = new \stdClass();
 		$configuration->id = null;
 		$configuration->options = $this->getTags();
-		$configuration->selected_options = $this->getValue();
+		$configuration->selectedOptions = $this->getValue();
 		$configuration->extendable = $this->areUserCreatedTagsAllowed();
-		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
-		$configuration->max_chars = 2000;
-		$configuration->suggestion_limit = 50;
+		$configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+		$configuration->maxChars = 2000;
+		$configuration->suggestionLimit = 50;
 		$configuration->debug = false;
-		$configuration->allow_duplicates = false;
+		$configuration->allowDuplicates = false;
 		$configuration->highlight = true;
-		$configuration->tag_class = "label label-primary";
+		$configuration->tagClass = "label label-primary il-input-tag-tag";
+		$configuration->focusClass = 'il-input-tag-focus';
 
 		return $configuration;
 	}
