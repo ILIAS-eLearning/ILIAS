@@ -15,7 +15,7 @@ interface Factory {
 	 *   purpose: >
 	 *      Standard Popovers are used to display other components.
 	 *      Whenever you want to use the standard-popover, please hand in a PullRequest and discuss
-	 *      it.
+	 *      it with all of us.
 	 *   composition: >
 	 *      The content of a Standard Popover displays the components together with an optional title.
 	 * rivals: >
