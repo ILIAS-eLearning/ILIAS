@@ -246,11 +246,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				}
 			}
 		}
-		if($this->getIdenticalScoring() == 0 && ! $this->checkIfEnoughUniqueAnswersExists($this->getCorrectAnswers()))
-		{
-			ilUtil::sendQuestion($this->lng->txt('not_enough_unique_answers'), true);
-		}
-
 		return true;
 	}
 
@@ -310,6 +305,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				(int)$this->getIdenticalScoring()
 			)
 		);
+
+		if($this->getIdenticalScoring() == 0 && ! $this->checkIfEnoughUniqueAnswersExists($this->getCorrectAnswers()))
+		{
+			ilUtil::sendQuestion($this->lng->txt('not_enough_unique_answers'), true);
+		}
+
 		$this->createFileFromArray();
 	}
 
