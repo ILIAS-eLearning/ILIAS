@@ -676,13 +676,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setRows(6);
 		$area->setCols(80);
 		$form->addItem($area);
-		
-		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
-		$area->setValue($this->object->getSyllabus());
-		$area->setRows(6);
-		$area->setCols(80);
-		$form->addItem($area);
-		
+
+		// cat-tms-patch start
+		// course classification (plugin)
+		global $tree;
+		$cc_instances = $tree->getChildsByType(
+			$this->object->getRefId(),
+			'xccl'
+		);
+		if(count($cc_instances)===0 || ilPluginAdmin::isPluginActive('xccl') === false) {
+			$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
+			$area->setValue($this->object->getSyllabus());
+			$area->setRows(6);
+			$area->setCols(80);
+			$form->addItem($area);
+		}
+		// cat-tms-patch end
+
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
 		$form->addItem($section);
@@ -690,42 +700,103 @@ class ilObjCourseGUI extends ilContainerGUI
 		$file = new ilFileInputGUI($this->lng->txt('crs_file'),'file');
 		$file->enableFileNameSelection('file_name');
 		$form->addItem($file);
-		
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('crs_contact'));
-		$form->addItem($section);
-		
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
-		$text->setValue($this->object->getContactName());
-		$text->setSize(40);
-		$text->setMaxLength(70);
-		$form->addItem($text);
-		
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
-		$text->setValue($this->object->getContactResponsibility());
-		$text->setSize(40);
-		$text->setMaxLength(70);
-		$form->addItem($text);
 
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
-		$text->setValue($this->object->getContactPhone());
-		$text->setSize(40);
-		$text->setMaxLength(40);
-		$form->addItem($text);
+		// cat-tms-patch start
+		// course classification (plugin)
+		if(count($cc_instances)===0 || ilPluginAdmin::isPluginActive('xccl') === false) {
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('crs_contact'));
+			$form->addItem($section);
 
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
-		$text->setValue($this->object->getContactEmail());
-		$text->setInfo($this->lng->txt('crs_contact_email_info'));
-		$text->setSize(40);
-		$text->setMaxLength(255);
-		$form->addItem($text);
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
+			$text->setValue($this->object->getContactName());
+			$text->setSize(40);
+			$text->setMaxLength(70);
+			$form->addItem($text);
 
-		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
-		$area->setValue($this->object->getContactConsultation());
-		$area->setRows(6);
-		$area->setCols(80);
-		$form->addItem($area);
-		
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
+			$text->setValue($this->object->getContactResponsibility());
+			$text->setSize(40);
+			$text->setMaxLength(70);
+			$form->addItem($text);
+
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
+			$text->setValue($this->object->getContactPhone());
+			$text->setSize(40);
+			$text->setMaxLength(40);
+			$form->addItem($text);
+
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
+			$text->setValue($this->object->getContactEmail());
+			$text->setInfo($this->lng->txt('crs_contact_email_info'));
+			$text->setSize(40);
+			$text->setMaxLength(255);
+			$form->addItem($text);
+
+			$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
+			$area->setValue($this->object->getContactConsultation());
+			$area->setRows(6);
+			$area->setCols(80);
+			$form->addItem($area);
+		}
+		// cat-tms-patch end
+
+		// cat-tms-patch start
+		// provider (plugin)
+		if(ilPluginAdmin::isPluginActive('trainingprovider')) {
+			$pplug = ilPluginAdmin::getPluginObjectById('trainingprovider');
+			$pactions = $pplug->getActions();
+			$plugin_txt = $pplug->txtClosure();
+
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($plugin_txt('crs_info_provider'));
+			$form->addItem($section);
+
+			//build options for select-input
+			$provider = $pactions->getAllProviders('name', 'ASC');
+			$poptions = array(null => $plugin_txt("please_select"));
+			foreach ($provider as $p) {
+				$poptions[$p->getId()] = $p->getName() .', ' .$p->getAddress1();
+			}
+			$provider_opts = new ilRadioGroupInputGUI($plugin_txt('crs_provider_source'), self::INPUT_PROVIDER_SOURCE);
+
+			//create inputs
+			$provider_opt_text = new ilRadioOption($plugin_txt('crs_provider_source_text'), ilCourseConstants::PROVIDER_FROM_TEXT);
+			$provider_opt_text_inp = new ilTextAreaInputGUI($plugin_txt('crs_provider_text'), self::INPUT_PROVIDER_TEXT);
+			$provider_opt_text_inp->setRows(6);
+			$provider_opt_text_inp->setCols(80);
+			$provider_opt_text->addSubItem($provider_opt_text_inp);
+
+			$provider_opt_list = new ilRadioOption($plugin_txt('crs_provider_source_list'), ilCourseConstants::PROVIDER_FROM_LIST);
+			$provider_opt_list_inp = new ilSelectInputGUI($plugin_txt('crs_provider_list'), self::INPUT_PROVIDER_LIST);
+			$provider_opt_list_inp->setOptions($poptions);
+			$provider_opt_list->addSubItem($provider_opt_list_inp);
+
+			//set values
+			$passignment_type = ilCourseConstants::PROVIDER_FROM_LIST; //default
+			$passignment = $pactions->getAssignment((int)$this->object->getId());
+
+			if($passignment) {
+				if($passignment->isCustomAssignment()) {
+						$passignment_type = ilCourseConstants::PROVIDER_FROM_TEXT;
+						$provider_opt_text_inp->setValue($passignment->getProviderText());
+				}
+
+				if($passignment->isListAssignment()) {
+						$passignment_type = ilCourseConstants::PROVIDER_FROM_LIST;
+						$provider_opt_list_inp->setValue($passignment->getProviderId());
+				}
+			}
+			$provider_opts->setValue($passignment_type);
+
+			//add options to form
+			$provider_opts->addOption($provider_opt_text);
+			$provider_opts->addOption($provider_opt_list);
+			$form->addItem($provider_opts);
+		}
+		// cat-tms-patch end
+
+>>>>>>> 705728c558... TMS: hide contact and syllabus from course-info, if a cc-object is present
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
 		$this->record_gui->setPropertyForm($form);
