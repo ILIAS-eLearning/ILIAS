@@ -46,7 +46,6 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
-		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css');
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 	}
 
