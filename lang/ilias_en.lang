@@ -2903,7 +2903,7 @@ common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
 common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chap#:#Chapter
-common#:#obj_cmps_desc#:#General settings for Repository Plugins
+common#:#obj_cmps_desc#:#General settings for Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs#:#Course
