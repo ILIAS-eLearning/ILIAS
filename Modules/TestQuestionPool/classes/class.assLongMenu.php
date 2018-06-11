@@ -28,11 +28,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$question 	= ""
 	)
 	{
+		global $DIC;
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
 		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 		$this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->ilDB = $GLOBALS['DIC']['ilDB'];
+		$this->ilDB = $DIC->database();
 		$this->identical_scoring = 1;
 	}
 	
