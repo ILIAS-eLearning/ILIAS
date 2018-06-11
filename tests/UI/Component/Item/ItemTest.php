@@ -183,7 +183,6 @@ EOT;
 		$c = $f->item()->standard("title")->withLeadImage($image);
 
 		$html = $r->render($c);
-
 		$expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
@@ -191,6 +190,30 @@ EOT;
 			<img src="src" class="img-standard" alt="str" />
 		</div>
 		<div class="col-sm-9">
+			<h5>title</h5>
+		</div>
+	</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function test_render_lead_icon() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$icon = $f->icon()->standard("name", "aria_label", "small");
+
+		$c = $f->item()->standard("title")->withLeadIcon($icon);
+
+		$html = $r->render($c);
+		$expected = <<<EOT
+<div class="il-item il-std-item ">
+	<div class="media">
+		<div class="media-left">
+			<div class="icon name small" aria-label="aria_label"></div></div>
+		<div class="media-body">		
 			<h5>title</h5>
 		</div>
 	</div>

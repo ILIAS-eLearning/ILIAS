@@ -83,9 +83,15 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setCurrentBlock("lead_icon");
 				$tpl->setVariable("LEAD_ICON", $default_renderer->render($lead));
 				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("lead_start_icon");
+				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("lead_start");
-			$tpl->parseCurrentBlock();
+			else
+			{
+				$tpl->setCurrentBlock("lead_start");
+				$tpl->parseCurrentBlock();
+			}
+
 
 			$tpl->touchBlock("lead_end");
 		}
