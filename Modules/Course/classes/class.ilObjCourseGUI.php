@@ -37,6 +37,12 @@ class ilObjCourseGUI extends ilContainerGUI
 	const INPUT_VENUE_LIST = "venue_list";
 	// cat-tms-patch end
 
+	// cat-tms-patch start
+	const INPUT_PROVIDER_SOURCE = "provider_source";
+	const INPUT_PROVIDER_TEXT = "provider_text";
+	const INPUT_PROVIDER_LIST = "provider_list";
+	// cat-tms-patch end
+
 	/**
 	 * Constructor
 	 * @access public
@@ -763,7 +769,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$provider = $pactions->getAllProviders('name', 'ASC');
 			$poptions = array(null => $plugin_txt("please_select"));
 			foreach ($provider as $p) {
-				$poptions[$p->getId()] = $p->getName() .', ' .$p->getAddress1();
+				$poptions[$p->getId()] = $p->getName() .', ' .$p->getCity();
 			}
 			$provider_opts = new ilRadioGroupInputGUI($plugin_txt('crs_provider_source'), self::INPUT_PROVIDER_SOURCE);
 
@@ -866,23 +872,72 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->editInfoObject($form);
 			return false;
 		}
-		
+
+		// cat-tms-patch start
+		// provider (plugin)
+		if(ilPluginAdmin::isPluginActive('trainingprovider')) {
+			$pplug = ilPluginAdmin::getPluginObjectById('trainingprovider');
+			$pactions = $pplug->getActions();
+
+			$passignment = $pactions->getAssignment((int)$this->object->getId());
+
+			switch($form->getInput(self::INPUT_PROVIDER_SOURCE)) {
+
+				case ilCourseConstants::PROVIDER_FROM_TEXT:
+					if($passignment && $passignment->isCustomAssignment()) {
+						$passignment = $passignment->withProviderText($form->getInput(self::INPUT_PROVIDER_TEXT));
+
+
+						$pactions->updateAssignment($passignment);
+					} else {
+						$pactions->removeAssignment((int)$this->object->getId());
+						$passignment = $pactions->createCustomProviderAssignment(
+							(int)$this->object->getId(),
+							$form->getInput(self::INPUT_PROVIDER_TEXT)
+						);
+					}
+					break;
+
+				case ilCourseConstants::PROVIDER_FROM_LIST:
+					$selected_provider = $form->getInput(self::INPUT_PROVIDER_LIST);
+
+					if($selected_provider === "") {
+						$pactions->removeAssignment((int)$this->object->getId());
+					} else {
+						if($passignment && $passignment->isListAssignment()) {
+							$passignment = $passignment->withProviderId((int)$selected_provider);
+							$pactions->updateAssignment($passignment);
+						} else {
+							$pactions->removeAssignment((int)$this->object->getId());
+							$passignment = $pactions->createListProviderAssignment(
+								(int)$this->object->getId(),
+								(int)$selected_provider
+							);
+						}
+					}
+
+					break;
+			}
+		}
+		// cat-tms-patch end
+
 		$this->object->update();
 		$file_obj->create();
 		$this->record_gui->writeEditForm();
-		
-		
+
+
+
 		// Update ecs content
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);
 		$ecs->handleContentUpdate();
-	
+
 		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
 	}
 
-	
+
 	/**
 	 * Update course settings
 	 * @global type $ilUser
