@@ -208,8 +208,11 @@ class ilPluginSlot
 	*/
 	function getPluginsInformation()
 	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
+		// $DIC does not work here, db step <#5088> will fail, since initiliases the global
+		// object, but not the DIC object
+		//global $DIC;
+		//$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		// read plugins directory
 		$pl_dir = $this->getPluginsDirectory();
