@@ -672,6 +672,7 @@ assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
 assessment#:#log_user_answered_question#:#User answered a question and received %s points
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
@@ -1490,6 +1491,9 @@ certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the 
 certificate#:#certificate_visibility#:#Visibility
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Download Certificate
+certificate#:#cert_form_sec_availability#:#Availability
+certificate#:#cert_form_sec_layout#:#Layout and Text
+certificate#:#cert_form_sec_add_features#:#Additional Features
 common#:#chat_chatviewer#:#Chat Viewer
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
@@ -2335,7 +2339,7 @@ common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
-common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
+common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
 rbac#:#grp_copy#:#User can copy group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
@@ -4628,7 +4632,7 @@ crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Limited Availability Period
 crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
-crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can set yourself on the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_wiz_back#:#Back
 crs#:#crs_wiz_next#:#Save
@@ -5272,7 +5276,7 @@ grp#:#grp_reg_direct#:#Direct Registration
 grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.
 grp#:#grp_reg_disabled#:#No Registration Possible
 grp#:#grp_reg_limited#:#Limited Registration Period
-grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
+grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can subscribe to this group.
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
 grp#:#grp_reg_password_info#:#Users need to type in this password when joining the group.
 grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
@@ -5282,7 +5286,7 @@ grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Unlimited
 grp#:#grp_search_users#:#Search User
 grp#:#grp_selected_users#:#Selected Participants
-grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_set_on_waiting_list#:#You can set yourself on the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_settings#:#Group Settings
 grp#:#grp_typ#:#Group Type
 grp#:#grp_unsubscribe#:#Unsubscribe
@@ -5295,8 +5299,8 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members 
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_wrong_max_members#:#A maximum number of members is needed for the waiting list feature.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish time.
-grp#:#reg_grp_max_members_short#:#Number of Members
-grp#:#reg_grp_max_members#:#Limited Number of Members
+grp#:#reg_grp_max_members_short#:#Limited Number of Members
+grp#:#reg_grp_max_members#:#Maximum Number of Members
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the Â«, Â» buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
@@ -12663,7 +12667,7 @@ crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, 
 common#:#mem_min_users#:#Minimum of Users
 grp#:#grp_wrong_min_max_members#:#Set a minimum or maximum number of members - or both.
 grp#:#reg_grp_min_members#:#Minimum Number of Members
-grp#:#grp_cancellation_end#:#Cancellation Limit
+grp#:#grp_cancellation_end#:#Limit 'Unsubscribe from Group'
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
@@ -13933,7 +13937,7 @@ content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_grid_col_width#:#Column Width
-content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
+content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depends on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
 content#:#cont_ed_grid_col_widths#:#Column Widths
 content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
 content#:#cont_grid_cell#:#Column

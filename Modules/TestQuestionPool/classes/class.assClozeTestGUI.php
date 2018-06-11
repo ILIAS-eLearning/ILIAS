@@ -334,7 +334,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else
 		{
-			$question->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$question->setUseTagsForRteOnly(false);
 		}
 		$form->addItem($question);
@@ -416,7 +417,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else
 		{
-			$cloze_text->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$cloze_text->setUseTagsForRteOnly(false);
 		}
 		$cloze_text->setRTESupport($this->object->getId(), "qpl", "assessment");

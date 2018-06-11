@@ -264,7 +264,7 @@ class ilCertificateGUI
 		$form = new ilPropertyFormGUI();
 		$form->setPreventDoubleSubmission(false);
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("certificate_edit"));
+		$form->setTitle($this->lng->txt("cert_form_sec_availability"));
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("certificate");
@@ -293,6 +293,10 @@ class ilCertificateGUI
 			}
 		}
 		$form->addItem($import);
+
+		$formSection = new \ilFormSectionHeaderGUI();
+		$formSection->setTitle($this->lng->txt("cert_form_sec_layout"));
+		$form->addItem($formSection);
 
 		$pageformat  = new ilRadioGroupInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
 		$pageformats = $this->object->getPageFormats();
@@ -408,6 +412,12 @@ class ilCertificateGUI
 		$certificate->setRteTags($tags);
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $certificate->checkInput();
 		$form->addItem($certificate);
+
+		if ($this->object->getAdapter()->hasAdditionalFormElements()) {
+			$formSection = new \ilFormSectionHeaderGUI();
+			$formSection->setTitle($this->lng->txt("cert_form_sec_add_features"));
+			$form->addItem($formSection);
+		}
 
 		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
 

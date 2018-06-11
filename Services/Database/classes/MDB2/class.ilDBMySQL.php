@@ -661,4 +661,4 @@ class ilDBMySQL extends ilDB
 		return 'MyISAM';
 	}
 }
-?>
+

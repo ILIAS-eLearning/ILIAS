@@ -219,22 +219,27 @@ interface Factory {
 	 *     Besides the tags to choose from, the user can provide own tags by typing them
 	 *     into the Input (@see Tag::withOptionsAreExtendable ).
 	 *   composition: >
-	 *     The Input is presented as a Text Input and prepended by already selected tags
-	 *     presented as texts including a Close-Button.  (e.g. [ Amsterdam X ] )
+	 *     The Input is presented as a text-input and prepended by already selected tags
+	 *     presented as texts including a close-button.  (e.g. [ Amsterdam X ] )
 	 *     The input is labeled by the label given.
-	 *     Suggested tags are listed in a Dropdown-List beneath the Text Input.
+	 *     Suggested tags are listed in a dropdown-list beneath the text-input.
+	 *     All mentioned elements are not taken from the UI-Service.
 	 *   effect: >
-	 *     As soon as the user types in the Text Input, the Tag Input suggests matching tags from
+	 *     As soon as the user types in the text-input, the Tag Input suggests matching tags from
 	 *     the the given list of tags. Suggestions will appear after a defined
 	 *     amount of characters, one by default.
-	 *     Clicking on one of these tags closes the List and transfers the selected tag into
-	 *     the Input, displayed as a Tag with a Close-Button.
-	 *     By clicking on a Close-Button of a already selected tag, this tag will disappear
+	 *     Clicking on one of these tags closes the list and transfers the selected tag into
+	 *     the text-input, displayed as a tag with a close-button.
+	 *     By clicking on a close-button of a already selected tag, this tag will disappear
 	 *     from the Input.
+	 *     All mentioned elements are not taken from the UI-Service.
 	 *
 	 * rivals: >
 	 *     + SelectInput: Currently not part of the UI-Service.
 	 *     + Checkbox Group
+	 *
+	 * context:
+	 *   - Tag Input is used in forms.
 	 *
 	 * rules:
 	 *   usage:
@@ -251,7 +256,7 @@ interface Factory {
 	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
 	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
 	 *      (Not yet part of the KitchenSink).
-	 *     5: The tags provided SHOULD NOT have long titles.
+	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
 	 * @param string $label
@@ -261,5 +266,5 @@ interface Factory {
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function tag(string $label, $byline = null, array $tags);
+	public function tag(string $label, array $tags, $byline = null);
 }

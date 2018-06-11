@@ -348,7 +348,7 @@ $language_data = array (
             'ListItem','ListItemId','LockDataSource','LockScreen','MDIForm','MainClass',
             'MainFile','Margin','MaxButton','MaxHeight','MaxLeft','MaxLength',
             'MaxTop','MaxWidth','MemoWindow','MinButton','MinHeight','MinWidth',
-            'MouseIcon','MousePointer','Movable','MoverBars','TagInput','Name',
+            'MouseIcon','MousePointer','Movable','MoverBars','MultiSelect','Name',
             'NapTime','NewIndex','NewItemId','NoDataOnLoad','NoDefine','NotifyContainer',
             'NullDisplay','NumberOfElements','OLEDragMode','OLEDragPicture','OLEDropEffects','OLEDropHasData',
             'OLEDropMode','OLERequestPendingTimeOut','OLEServerBusyRaiseError','OLEServerBusyTimeOut','OLETypeAllowed','OleClass',

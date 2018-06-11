@@ -96,7 +96,7 @@ final class FileUploadImpl implements FileUpload {
 		}
 
 		try {
-			$path = $destination . '/' . ($file_name == '' ? $uploadResult->getName() : $file_name);
+			$path = rtrim($destination, "/") . '/' . ($file_name == "" ? $uploadResult->getName() : $file_name);
 			if ($override_existing && $filesystem->has($path)) {
 				$filesystem->delete($path);
 			}

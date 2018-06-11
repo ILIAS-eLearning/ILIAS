@@ -1583,6 +1583,17 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 	
 	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		// DO NOT USE SETTER FOR CLOZE TEXT -> SETTER DOES RECREATE GAP OBJECTS without having gap type info ^^
+		//$this->setClozeText( $migrator->migrateToLmContent($this->getClozeText()) );
+		$this->cloze_text = $migrator->migrateToLmContent($this->getClozeText());
+		// DO NOT USE SETTER FOR CLOZE TEXT -> SETTER DOES RECREATE GAP OBJECTS without having gap type info ^^
+	}
+	
+	/**
 	* Returns a JSON representation of the question
 	*/
 	public function toJSON()

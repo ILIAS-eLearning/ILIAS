@@ -436,5 +436,6 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	public function dropPrimaryKey($table_name) {
 		return $this->manager->dropConstraint($table_name, "pk", true);
 	}
+
 }
 

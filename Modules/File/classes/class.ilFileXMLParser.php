@@ -356,7 +356,7 @@ class ilFileXMLParser extends ilSaxParser
 		if (file_exists($filename))
 			unlink($filename);
 
-		return rename($this->tmpFilename, $filename);
+		return ilFileUtils::rename($this->tmpFilename, $filename);
 	}
 
 

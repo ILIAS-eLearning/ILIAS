@@ -6,52 +6,9 @@
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
-(function ($, UI) {
-
-
+(function ($) {
     il.UI.Input.tagInput = (function ($) {
-        var _DEBUG = false;
-        var _CONFIG = {
-            id: '',
-            options: [],
-            selected_options: [],
-            extendable: false,
-            suggestion_starts: 1,
-            max_chars: 2000,
-            suggestion_limit: 50,
-            debug: _DEBUG,
-            allow_duplicates: false,
-            highlight: true,
-            hint: true,
-            tag_class: "label label-primary"
-        };
 
-
-        var _initData = function () {
-            // var bhLocalConfig = Object.assign({}, _BLOODHOUND_DEFAULT);
-            // bhLocalConfig.local = _CONFIG.options;
-            //
-            // var bhLocal = new Bloodhound(bhLocalConfig);
-            // bhLocal.initialize();
-            //
-            // var localSource = Object.assign({}, _SOURCE_DEFAULT);
-            // localSource.name = 'local';
-            // localSource.source = bhLocal.ttAdapter();
-            //
-            // return localSource
-
-
-            var bloodHoundObj = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.whitespace,
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                // url points to a json file that contains an array of country names, see
-                // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-                local: _CONFIG.options
-            });
-            bloodHoundObj.initialize();
-
-            return bloodHoundObj;
-        };
 
         /**
          *
@@ -59,7 +16,36 @@ il.UI.Input = il.UI.Input || {};
          * @param config
          */
         var init = function (raw_id, config) {
-            _log('raw_id', raw_id);
+            var _DEBUG = false;
+            var _CONFIG = {
+            };
+
+            var _ELEMENTS = {
+                hidden_template: null,
+                container: null
+            };
+
+            var _log = function (key, data) {
+                if (!_DEBUG) {
+                    return;
+                }
+                console.log("***********************");
+                console.log(key + ":");
+                console.log(data);
+            };
+
+
+            var _initBloodhound = function () {
+                var bloodHoundObj = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: _CONFIG.options
+                });
+                bloodHoundObj.initialize();
+
+                return bloodHoundObj;
+            };
+
             // Initialize ID and Configuration
             var id = '#' + raw_id;
             _CONFIG = $.extend(
@@ -69,8 +55,12 @@ il.UI.Input = il.UI.Input || {};
             _CONFIG.id = raw_id;
             _log("config", _CONFIG);
 
+            // Elements
+            _ELEMENTS.hidden_template = $('#template-' + _CONFIG.id);
+            _ELEMENTS.container = $('#container-' + _CONFIG.id);
+
             // Bloodhound
-            var localSource = _initData();
+            var localSource = _initBloodhound();
             _log('datasources', localSource);
 
             // TagInput
@@ -95,33 +85,23 @@ il.UI.Input = il.UI.Input || {};
             $(id).on('beforeItemAdd', function (event) {
                 _log("item", event.item);
             });
-            $(id).on('itemAdded', function (event) {
-                _log("Added Item", event.item);
-                // $("input").tagsinput('items')
 
-                var hidden = $('#hidden-' + _CONFIG.id);
-                // var val = hidden.val();
-                // var items = [];
-                // try {
-                //     items = JSON.parse(val);
-                // } catch (e) {
-                // }
-                // items.push(event.item);
-                var items = $(id).tagsinput('items');
-                _log('Items', items);
-                hidden.val(JSON.stringify(items));
+            $(id).on('itemAdded', function (event) {
+                var new_hidden = _ELEMENTS.hidden_template.clone();
+                new_hidden.attr("id", "tag-" + _CONFIG.id + "-" + event.item);
+                new_hidden.attr("name", _ELEMENTS.hidden_template.val());
+                new_hidden.val(event.item);
+                _log('add_hidden', new_hidden);
+                new_hidden.appendTo(_ELEMENTS.container);
             });
 
+            $(id).on('itemRemoved', function (event) {
+                var hidden = $("#tag-" + _CONFIG.id + "-" + event.item);
+                _log('remove_hidden', hidden);
+                hidden.remove();
+            });
         };
 
-        var _log = function (key, data) {
-            if (!_DEBUG) {
-                return;
-            }
-            console.log("***********************");
-            console.log(key + ":");
-            console.log(data);
-        };
 
         return {
             init: init

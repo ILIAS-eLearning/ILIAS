@@ -9,10 +9,16 @@ use ILIAS\Data;
  */
 class Factory {
 	/**
-	 * @var ILIAS\Data\Factory
+	 * @var Data\Factory
 	 */
 	protected $data_factory;
 
+
+	/**
+	 * Factory constructor.
+	 *
+	 * @param Data\Factory $data_factory
+	 */
 	public function __construct(Data\Factory $data_factory) {
 		$this->data_factory = $data_factory;
 	}
@@ -78,12 +84,24 @@ class Factory {
 
 
 	/**
-	 * Get a constraint for an array.
+	 * Get a constraint for a general array.
 	 *
 	 * @return  Constraint
 	 */
-	public function isArray() {
-		return new Constraints\IsArray($this->data_factory);
+	public function isArrayOfAny() {
+		return new Constraints\IsArrayOfAny($this->data_factory);
+	}
+
+
+	/**
+	 * Get a constraint for a array with constraint to all elements.
+	 *
+	 * @param Constraint $on_element
+	 *
+	 * @return Constraints\IsArrayOf
+	 */
+	public function isArrayOf(Constraint $on_element) {
+		return new Constraints\IsArrayOf($this->data_factory, $on_element);
 	}
 
 	/**
@@ -113,6 +131,15 @@ class Factory {
 	 */
 	public function isNumeric() {
 		return new Constraints\IsNumeric($this->data_factory);
+	}
+
+	/**
+	 * Get the constraint that some value is null
+	 *
+	 * @return  Constraint
+	 */
+	public function isNull() {
+		return new Constraints\IsNull($this->data_factory);
 	}
 
 	/**

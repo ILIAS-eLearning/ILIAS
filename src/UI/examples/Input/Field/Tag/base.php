@@ -13,8 +13,8 @@ function base() {
 	$multi_select_input = $ui->input()
 	                         ->field()
 	                         ->tag("Basic Tag",
-		                         "Just some tags",
-		                         ['Interesting', 'Boring', 'Animating', 'Repetitious']
+		                         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
+		                         "Just some tags"
 	                         );
 
 	//Step 2: Define the form and attach the section.

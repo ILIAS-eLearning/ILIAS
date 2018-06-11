@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,27 +7,43 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCron
  */
-class ilCronManager
-{		
+class ilCronManager implements \ilCronManagerInterface
+{
 	/**
-	 * Run all active jobs
+	 * @var \ilSetting
 	 */
-	public static function runActiveJobs()
+	protected $settings;
+
+	/**
+	 * @var \ilLogger
+	 */
+	protected $logger;
+
+	/**
+	 * ilCronManager constructor.
+	 * @param \ilSetting $settings
+	 * @param \ilLogger  $logger
+	 */
+	public function __construct(\ilSetting $settings, \ilLogger $logger)
 	{
-		global $ilLog, $ilSetting;
-		
-		// separate log for cron
-		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
-		
-		$ilLog->write("CRON - batch start");
-		
+		$this->settings = $settings;
+		$this->logger   = $logger;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function runActiveJobs()
+	{
+		$this->logger->info("CRON - batch start");
+
 		$ts = time();
-		$ilSetting->set("last_cronjob_start_ts", $ts);
+		$this->settings->set("last_cronjob_start_ts", $ts);
 
 		$useRelativeDates = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
-		$ilLog->info(sprintf('Set last datetime to: %s', ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))));
-		$ilLog->info(sprintf('Verification of last run datetime (read from database): %s', ilDatePresentation::formatDate(
+		$this->logger->info(sprintf('Set last datetime to: %s', ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))));
+		$this->logger->info(sprintf('Verification of last run datetime (read from database): %s', ilDatePresentation::formatDate(
 			new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX))
 		));
 		ilDatePresentation::setUseRelativeDates((bool)$useRelativeDates);
@@ -38,7 +53,7 @@ class ilCronManager
 		{
 			define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
 		}
-		
+
 		// system
 		foreach(self::getCronJobData(null, false) as $row)
 		{					
@@ -49,14 +64,14 @@ class ilCronManager
 				self::runJob($job);
 			}
 		}
-		
+
 		// plugins
 		foreach(self::getPluginJobs(true) as $item)
 		{
 			self::runJob($item[0], $item[1]);
-		}		
-		
-		$ilLog->write("CRON - batch end");
+		}
+
+		$this->logger->info("CRON - batch end");
 	}
 	
 	/**

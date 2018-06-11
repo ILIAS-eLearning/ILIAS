@@ -661,18 +661,32 @@ class ilAuthUtils
 				return true;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isPasswordModificationHidden()
+	{
+		/** @var $ilSetting \ilSetting */
+		global $ilSetting;
+
+		if ($ilSetting->get('usr_settings_hide_password') || $ilSetting->get('usr_settings_disable_password')) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	/**
 	 * Check if password modification is enabled
 	 * @param object $a_authmode
-	 * @return 
+	 * @return bool
 	 */
 	public static function isPasswordModificationEnabled($a_authmode)
 	{
 		global $ilSetting;
-		
-		if($ilSetting->get('usr_settings_hide_password') or $ilSetting->get('usr_settings_disable_password'))
-		{
+
+		if (self::isPasswordModificationHidden()) {
 			return false;
 		}
 		

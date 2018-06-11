@@ -17,8 +17,10 @@ try {
 	$cron->initIlias();
 	$cron->authenticate();
 
-	include_once './Services/Cron/classes/class.ilCronManager.php';
-	ilCronManager::runActiveJobs();
+	$cronManager = new ilStrictCliCronManager(
+		new ilCronManager($DIC->settings(), $DIC->logger()->root())
+	);
+	$cronManager->runActiveJobs();
 
 	$cron->logout();
 }

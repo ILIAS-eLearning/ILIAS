@@ -2344,26 +2344,36 @@ class ilObjUser extends ilObject
         return $this->profile_incomplete;
     }
 
-    public function isPasswordChangeDemanded()
-    {
-		//error_reporting(E_ALL);
-		if( $this->id == ANONYMOUS_USER_ID || $this->id == SYSTEM_USER_ID )
-		{
+	/**
+	 * @return bool
+	 */
+	public function isPasswordChangeDemanded()
+	{
+		if ($this->id == ANONYMOUS_USER_ID) {
 			return false;
 		}
 
-    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-    	$security = ilSecuritySettings::_getInstance();
-    	
-		if( !ilAuthUtils::_needsExternalAccountByAuthMode( $this->getAuthMode(true) )
-			&& $security->isPasswordChangeOnFirstLoginEnabled()
-			&& $this->getLastPasswordChangeTS() == 0
-			&& $this->is_self_registered == false
-		){
+		if ($this->id == SYSTEM_USER_ID) {
+			require_once './Services/User/classes/class.ilUserPasswordManager.php';
+			if (\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI='))) {
+				return true;
+			}
+		}
+
+		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+
+		if (
+			!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true)) &&
+			$security->isPasswordChangeOnFirstLoginEnabled() &&
+			$this->getLastPasswordChangeTS() == 0 &&
+			$this->is_self_registered == false
+		) {
 			return true;
 		}
-		else return false;
-    }
+
+		return false;
+	}
 
 	public function isPasswordExpired()
 	{

@@ -1084,6 +1084,18 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	{
 		$this->thumb_size = $a_size;
 	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		foreach($this->getAnswers() as $answer)
+		{
+			/* @var ASS_AnswerBinaryStateImage $answer */
+			$answer->setAnswertext( $migrator->migrateToLmContent($answer->getAnswertext()) );
+		}
+	}
 
 	/**
 	 * Returns a JSON representation of the question

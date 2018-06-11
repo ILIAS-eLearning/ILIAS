@@ -458,6 +458,12 @@ class ilAttendanceList
 		{
 			include_once "Services/User/classes/class.ilUserFormSettings.php";
 			$settings = new ilUserFormSettings($this->parent_obj->getType().'s_pview_'.$this->parent_obj->getId(), -1);
+			if(!$settings->hasStoredEntry())
+			{
+				// init from global defaults
+				$settings = new ilUserFormSettings($this->parent_obj->getType().'s_pview', -1);
+			}
+			
 			$settings->deleteValue('desc'); // #11340
 			$settings->exportToForm($form,true);
 		}

@@ -156,7 +156,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		else
 		{
-			$long_menu_text->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$long_menu_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$long_menu_text->setUseTagsForRteOnly(false);
 		}
 

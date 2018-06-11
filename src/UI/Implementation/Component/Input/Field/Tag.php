@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\Validation\Factory as ValidationFactory;
@@ -43,7 +44,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	/**
 	 * @var array
 	 */
-	protected $options = [];
+	protected $tags = [];
 	/**
 	 * @var array
 	 */
@@ -58,29 +59,11 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @param \ILIAS\Transformation\Factory $transformation_factory
 	 * @param string                        $label
 	 * @param string                        $byline
+	 * @param array                         $tags
 	 */
-	public function __construct(
-		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		\ILIAS\Transformation\Factory $transformation_factory,
-		$label,
-		$byline,
-		array $options
-	) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, \ILIAS\Transformation\Factory $transformation_factory, $label, $byline, array $tags) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-		$this->options = $options;
-		$this->setAdditionalTransformation($this->transformation_factory->custom(function ($raw_value) {
-			$json_decode = json_decode($raw_value);
-			$values = [];
-			foreach ($json_decode as $item) {
-				$values[] = trim($item);
-			}
-
-			return $values;
-		}
-
-		));
-		$this->setAdditionalConstraint($this->validation_factory->isArray());
+		$this->tags = $tags;
 	}
 
 
@@ -89,13 +72,17 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 */
 	public function getConfiguration(): \stdClass {
 		$configuration = new \stdClass();
+		$configuration->id = null;
 		$configuration->options = $this->getTags();
 		$configuration->selected_options = $this->getValue();
 		$configuration->extendable = $this->areUserCreatedTagsAllowed();
 		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
 		$configuration->max_chars = 2000;
 		$configuration->suggestion_limit = 50;
-		$configuration->debug = true;
+		$configuration->debug = false;
+		$configuration->allow_duplicates = false;
+		$configuration->highlight = true;
+		$configuration->tag_class = "label label-primary";
 
 		return $configuration;
 	}
@@ -105,7 +92,17 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function getConstraintForRequirement() {
-		throw new \LogicException("NYI: What could 'required' mean here?");
+		$constraint = $this->validation_factory->custom(
+			function ($value) {
+				return (is_array($value) && count($value) > 0);
+			}, "Empty array"
+		);
+
+		return $this->validation_factory->sequential(
+			[
+				$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),
+			]
+		);
 	}
 
 
@@ -113,7 +110,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return $this->validation_factory->isString()->accepts($value);
+		return ($this->validation_factory->isNull()->accepts($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
 	}
 
 
@@ -121,7 +118,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	public function getTags(): array {
-		return $this->options;
+		return $this->tags;
 	}
 
 
@@ -131,8 +128,20 @@ class Tag extends Input implements C\Input\Field\Tag {
 	public function withUserCreatedTagsAllowed(bool $extendable): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->extendable = $extendable;
+		/**
+		 * @var $with_constraint C\Input\Field\Tag
+		 */
+		$with_constraint = $clone->withAdditionalConstraint(
+			$this->validation_factory->custom(
+				function ($value) use ($clone) {
+					return (0 == count(array_diff($value, $clone->getTags())));
+				}, function ($value) use ($clone) {
+				return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
+			}
+			)
+		);
 
-		return $clone;
+		return $with_constraint;
 	}
 
 
@@ -148,6 +157,9 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	public function withSuggestionsStartAfter(int $characters): C\Input\Field\Tag {
+		if ($characters < 1) {
+			throw new \InvalidArgumentException("The amount of characters must be at least 1, {$characters} given.");
+		}
 		$clone = clone $this;
 		$clone->suggestion_starts_with = $characters;
 
@@ -199,6 +211,16 @@ class Tag extends Input implements C\Input\Field\Tag {
 	public function getMaxTags(): int {
 		return $this->max_tags;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withInput(PostData $input) {
+		return parent::withInput($input);
+	}
+
+
 
 	// Events
 

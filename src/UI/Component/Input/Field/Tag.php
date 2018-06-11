@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 
 /**
  * Interface Tag
@@ -13,10 +14,10 @@ use ILIAS\UI\Component\Signal;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends Input, JavaScriptBindable {
+interface Tag extends Input, JavaScriptBindable, InputInternal {
 
 	/**
-	 * @return array of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+	 * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 */
 	public function getTags(): array;
 
@@ -45,6 +46,7 @@ interface Tag extends Input, JavaScriptBindable {
 	 * user has to provide before the suggestions start (Default: 1)
 	 *
 	 * @param int $characters , defaults to 1
+	 * @throws \InvalidArgumentException
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
