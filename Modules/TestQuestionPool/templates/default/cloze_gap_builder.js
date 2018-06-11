@@ -252,7 +252,6 @@ var ClozeGapBuilder = (function () {
 		});
 
 		tinymce_iframe_selector.on('paste', function (event) {
-			pro.deferredCallbackFactory('TinyMcePaste')(function () {
 				event.preventDefault();
 				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 				clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
@@ -263,9 +262,7 @@ var ClozeGapBuilder = (function () {
 				pro.createNewGapCode('text');
 				pro.cleanGapCode();
 				ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
-				alert('paste');
 				pro.correctCursorPositionInTextarea();
-			}, 200);
 		});
 	};
 	pro.insertGapToJson = function (index, values, gaptype) {
