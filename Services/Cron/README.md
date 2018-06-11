@@ -19,8 +19,8 @@ The status are:
   for this cron job is not correct and MUST be
   adjusted.
 * `STATUS_NO_ACTION`
-  This status will indicate that the cron job did not perform any action.
-  Examples to set the this action:
+This status indicates that the cron job did not perform any action.
+Possible reasons to set this action:
   * A cron job responsible to sent emails didn't sent emails at all.
   * A cron job responsible for deleting orphaned objects did not find any object to delete.
   * A lucene cron job decided that the index does not require an update.
@@ -62,5 +62,5 @@ public function run()
 }
 ```
 
-A message SHOULD be added additionally that will be
-displayed in the GUI or the appropriate log files.
+A message SHOULD be added additionally.
+If given, this message will be displayed in the cron job overview table.
