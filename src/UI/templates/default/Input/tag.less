@@ -1,20 +1,42 @@
 .il-input-tag {
-  height: auto;
+  @il-input-tag-margin-top: 2px;
+  height:     auto;
+  //padding-bottom: @il-input-tag-margin-top;
   min-height: @line-height-base;
-	input {
-	  border: none;
-	  box-shadow: none;
-	  outline: none;
-	  padding: 0 6px;
-	  margin: 0;
-	  width: auto;
-	  max-width: inherit;
-	  background-color: grey;
-	}
+  input {
+	border:     none;
+	box-shadow: none;
+	outline:    none;
+	padding:    0 6px;
+	margin:     0;
+	width:      auto;
+	max-width:  inherit;
+  }
   .tag {
-	//margin: 2px;
-	//display:block;
-	//float:left;
-	//margin:5px 0 0 2px;
+	display: inline-block;
+	//height:        (@line-height-computed);
+	//float:         left;
+	//margin-top:    @il-input-tag-margin-top;
+	//margin-right:  5px;
+	//margin-left:   5px;
+	//margin-bottom: @il-input-tag-margin-top;
+
+	// remove "button"
+	[data-role="remove"] {
+	  margin-left: 8px;
+	  cursor:      pointer;
+	}
+	[data-role="remove"]:after {
+	  content: "x";
+	  padding: 0px 2px;
+	}
+  }
+  .il-input-tag-focus {
+	// no specific focus description
+  }
+  .bootstrap-tagsinput {
+	margin:  0 !important;
+	padding: 0 !important;
+
   }
 }

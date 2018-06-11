@@ -8406,7 +8406,21 @@ ul.breadcrumb li:hover {
   margin: 0;
   width: auto;
   max-width: inherit;
-  background-color: grey;
+}
+.il-input-tag .tag {
+  display: inline-block;
+}
+.il-input-tag .tag [data-role="remove"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.il-input-tag .tag [data-role="remove"]:after {
+  content: "x";
+  padding: 0px 2px;
+}
+.il-input-tag .bootstrap-tagsinput {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
