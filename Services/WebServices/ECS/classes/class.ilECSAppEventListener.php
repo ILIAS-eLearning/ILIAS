@@ -271,8 +271,9 @@ class ilECSAppEventListener implements ilAppEventListener
 					ilObject::_lookupType($assignment->getObjId()) == 'grp'
 				)
 				{
+					include_once './Modules/Course/classes/class.ilCourseConstants.php';
 					$part = ilParticipants::getInstanceByObjId($assignment->getObjId());
-					$part->add($user->getId(), IL_CRS_MEMBER);
+					$part->add($user->getId(), ilCourseConstants::CRS_MEMBER);
 				}
 			}
 			else

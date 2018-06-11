@@ -53,7 +53,9 @@ class ilMDIdentifier extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_identifier_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_identifier'));
@@ -68,7 +70,9 @@ class ilMDIdentifier extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -84,7 +88,9 @@ class ilMDIdentifier extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if($this->getMetaId())
 		{
@@ -111,7 +117,9 @@ class ilMDIdentifier extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -168,7 +176,9 @@ class ilMDIdentifier extends ilMDBase
 	// STATIC
 	public static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_identifier_id FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -192,7 +202,9 @@ class ilMDIdentifier extends ilMDBase
 	 */
 	static public function _getEntriesForObj($a_rbac_id, $a_obj_id, $a_obj_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_identifier_id, catalog, entry FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -218,7 +230,9 @@ class ilMDIdentifier extends ilMDBase
 	 */
 	static public function _getEntriesForRbacObj($a_rbac_id, $a_obj_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_identifier_id, catalog, entry, obj_id FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer');
@@ -249,7 +263,9 @@ class ilMDIdentifier extends ilMDBase
 	 */
 	static public function existsIdInRbacObject($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_identifier_id, obj_id FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').
@@ -272,7 +288,9 @@ class ilMDIdentifier extends ilMDBase
 	 */
 	static public function readIdData($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').

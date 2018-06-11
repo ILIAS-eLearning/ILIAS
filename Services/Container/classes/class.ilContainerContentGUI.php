@@ -168,8 +168,6 @@ abstract class ilContainerContentGUI
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		$ilUser = $this->user;
-//global $log;
-//$log->write("setOutput");
 
 		$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
 		ilChangeEvent::_recordReadEvent(

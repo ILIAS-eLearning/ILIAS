@@ -40,7 +40,11 @@ abstract class ilPluginConfigGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC['tpl'];
 
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);

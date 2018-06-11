@@ -219,7 +219,7 @@
 		<table style="width: 100%; overflow: auto;">
 			<tbody>
 				<tr>
-					<td id="targetArea" style="width: 66%; vertical-align: top;">
+					<td id="targetArea_{VAL_ID}" style="width: 66%; vertical-align: top;">
 						<!-- pure tpl for definitions begin -->
 						<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
 							<table style="width: 100%;">
@@ -235,7 +235,7 @@
 						</div>
 						<!-- pure tpl for definitions end -->
 					</td>
-					<td id="sourceArea" style="width: 33%; vertical-align: top;">
+					<td id="sourceArea_{VAL_ID}" style="width: 33%; vertical-align: top;">
 						<!-- pure tpl for terms begin -->
 						<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
 							<div class="ilc_qanswer_Answer">Term</div>
@@ -257,7 +257,7 @@
 
 	$('div#qtitle'+questionData.id).html(questionData.question);
 
-	$('#ilMatchingQuestionContainer_{VAL_ID} #sourceArea').render(questionData, {
+	$('#ilMatchingQuestionContainer_{VAL_ID} #sourceArea_{VAL_ID}').render(questionData, {
 		'div.draggable':
 		{
 			'term <- terms':
@@ -270,7 +270,7 @@
 		}
 	});
 
-	$('#ilMatchingQuestionContainer_{VAL_ID} #targetArea').render(questionData, {
+	$('#ilMatchingQuestionContainer_{VAL_ID} #targetArea_{VAL_ID}').render(questionData, {
 		'div.droparea':
 		{
 			'definition <- definitions':
@@ -288,7 +288,7 @@
 		{
 			var question = $.fn.ilMatchingQuestionEngine(questionData.id, {
 				/* matchingContainer: '#ilMatchingQuestionContainer_{QUESTION_ID}', */
-				matchingContainer: 'body',
+				matchingContainer: $('#ilMatchingQuestionContainer_{VAL_ID}'), //body',
 				matchingMode: questionData.matching_mode,
 				resetButtonId: '#ilMatchingResetButton_'+questionData.id
 			});

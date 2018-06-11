@@ -1,6 +1,24 @@
 xmlseclibs.php
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-08, Sep 2016, 1.4.2
+31, Aug 2017, 3.0.1
+Bug Fixes:
+- Fixed missing () in function call. (Dennis Væversted)
+
+Improvements:
+- Add OneLogin to supported software.
+- Add .gitattributes to remove unneeded files. (Filippo Tessarotto)
+- Fix bug in example code. (Dan Church)
+- Travis: add PHP 7.1, move hhvm to allowed failures. (Thijs Kinkhorst)
+- Drop failing extract-win-cert test (Thijs Kinkhorst). (Thijs Kinkhorst)
+- Add comments to warn about return values of verify(). (Thijs Kinkhorst)
+- Fix tests to properly check return code of verify(). (Thijs Kinkhorst)
+- Restore support for PHP >= 5.4. (Jaime Pérez)
+
+25, May 2017, 3.0.0
+Improvements:
+- Remove use of mcrypt (skymeyer)
+
+08, Sep 2016, 2.0.1
 Bug Fixes:
 - Strip whitespace characters when parsing X509Certificate. fixes #84
   (klemen.bratec)
@@ -12,6 +30,13 @@ Improvements:
 - Fix typos and add some PHPDoc Blocks. (gfaust-qb)
 - Update lightSAML link. (Milos Tomic)
 - Update copyright dates.
+
+31, Jul 2015, 2.0.0
+Features:
+- Namespace support. Classes now in the RobRichards\XMLSecLibs\ namespace.
+
+Improvements:
+- Dropped support for PHP 5.2
 
 31, Jul 2015, 1.4.1
 Bug Fixes:

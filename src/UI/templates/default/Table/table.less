@@ -1,0 +1,77 @@
+
+.il-table-presentation-viewcontrols{
+	height: @il-toolbar-height;
+	div {
+		display: table;
+	  	margin: 0 auto;
+	}
+}
+
+.il-table-presentation-row {
+	white-space: nowrap;
+	border-top: @il-table-presentation-rowborder-top;
+	padding-top: @padding-large-vertical;
+
+	.il-table-presentation-row-controls,
+	.il-table-presentation-row-contents {
+		display: inline-block;
+		vertical-align: top;
+	}
+	.il-table-presentation-row-controls {
+		width: @il-table-presentation-rowcontrol-colwidth;
+		.il-table-presentation-row-controls-collapser {
+			display: none; /*initially hidden*/
+		}
+		.il-table-presentation-row-controls-expander {
+			display: block; /*initially visible*/
+		}
+	}
+	.il-table-presentation-row-contents {
+		width: @il-table-presentation-contents-colwidth;
+	}
+
+	.il-table-presentation-row-header{
+		white-space: normal;
+		h4 {
+			font-size: @font-size-h4;
+			font-weight: normal;
+			padding: 0;
+			margin: 0;
+			cursor: pointer;
+		}
+		.il-table-presentation-row-header-fields {
+			display: block; /*initially visible*/
+		}
+	}
+
+	.il-table-presentation-row-expanded {
+		display: none; /*initially hidden*/
+		white-space: nowrap;
+		margin-top:  @padding-large-vertical;
+
+		.il-table-presentation-desclist,
+		.il-table-presentation-details {
+			display: inline-block;
+			vertical-align: top;
+			white-space: normal;
+		}
+
+		.il-table-presentation-desclist {
+			width: @il-table-presentation-description-colwidth;
+		}
+		.il-table-presentation-details {
+			width: @il-table-presentation-details-colwidth;
+
+			.il-table-presentation-fields {
+				font-size: @font-size-small;
+				.il-item-property-name {
+					color: @il-light-text-color;
+				}
+				.il-item-property-value {
+				}
+
+			}
+		}
+	}
+
+}

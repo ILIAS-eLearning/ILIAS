@@ -124,7 +124,9 @@ class ilMDRelation extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_relation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_relation'));
@@ -139,7 +141,9 @@ class ilMDRelation extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -155,7 +159,9 @@ class ilMDRelation extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -190,7 +196,9 @@ class ilMDRelation extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -258,7 +266,9 @@ class ilMDRelation extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_relation_id FROM il_meta_relation ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

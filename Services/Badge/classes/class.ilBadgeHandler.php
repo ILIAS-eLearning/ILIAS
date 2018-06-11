@@ -44,7 +44,6 @@ class ilBadgeHandler
 		{
 			$this->tree = $DIC->repositoryTree();
 		}
-		$this->lng = $DIC->language();
 		$this->settings = new ilSetting("bdga");
 	}
 	
@@ -599,8 +598,6 @@ class ilBadgeHandler
 	
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
-		$lng = $this->lng;
-		
 		$badges = array();
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";

@@ -19,6 +19,11 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 	 */
 	protected $components;
 
+    /**
+     * @var string
+     */
+    protected $title = "";
+
 
 	/**
 	 * @param string                $url

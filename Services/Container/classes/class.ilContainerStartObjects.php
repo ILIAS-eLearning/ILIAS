@@ -101,7 +101,6 @@ class ilContainerStartObjects
 	
 	/**
 	 * Delete item by sequence id
-	 * @global type $ilDB
 	 * @param type $a_crs_start_id
 	 * @return boolean
 	 */
@@ -304,7 +303,6 @@ class ilContainerStartObjects
 	
 	/**
 	 * Check if object is start object
-	 * @global type $ilDB
 	 * @param type $a_container_id
 	 * @param type $a_item_ref_id
 	 * @return boolean

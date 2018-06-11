@@ -10,6 +10,7 @@
       1. [Rules for Contributors](#rules-for-contributors)
       1. [Rules for Maintainers assigned to PRs](#rules-for-maintainers-assigned-to-prs)
    1. [Want to Contribute Something else than Commits?](#want-to-contribute-something-else-than-commits)
+1. [List of Labels?](#list-of-labels)
 
 <!-- /MarkdownTOC -->
 
@@ -75,6 +76,20 @@ in the title `12345 - To many spaces`, link the ticket in the description and
 label the ticket with `bugfix`. You may make one PR per affected branch.
 
 Please label non-bugfix PRs as `improvement`.
+
+<a name="list-of-labels"></a>
+## List of Labels
+
+There are currently the following labels used for Pull-Requests. These labels will 
+be assigned by the Technical Board or Maintainers:
+
+| Label           | Description                                                                                                                                                               |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| bugfix          | PRs with the label `bugfix` propose a solution for a reported bug in the official Bugtracker https://mantis.ilias.de                                                      |
+| improvement     | The label `improvement` is used for PRs which propose a general improvement of code or documentation which is not related to a bug.                                       |
+| jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
+| kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
+| technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
 <a name="rules-for-maintainers-assigned-to-prs"></a>
 #### Rules for Maintainers assigned to PRs

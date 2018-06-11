@@ -2409,11 +2409,19 @@ class ilObjStyleSheet extends ilObject
 					$s = substr($char["class"], strlen($char["class"]) - 6);
 					if ($s != ":hover")
 					{
+						$ilDB->replace("style_char",
+							array(
+								"style_id" => array("integer", $this->getId()),
+								"type" => array("text", $char["type"]),
+								"characteristic" => array("text", $char["class"])),
+							array("hide" => array("integer", 0))
+							);
+						/*
 						$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
 							"(".$ilDB->quote($this->getId(), "integer").",".
 							$ilDB->quote($char["type"], "text").",".
 							$ilDB->quote($char["class"], "text").")";
-						$ilDB->manipulate($q);
+						$ilDB->manipulate($q);*/
 						$this->is_3_10_skin = false;
 					}
 				}

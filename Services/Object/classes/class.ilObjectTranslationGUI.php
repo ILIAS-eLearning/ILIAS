@@ -379,32 +379,6 @@ class ilObjectTranslationGUI
 	}
 
 	/**
-	 * Get multi lang info
-	 */
-/*
-	function getMultiLangInfo($a_page_lang = "-")
-	{
-		global $lng;
-
-		if ($a_page_lang == "")
-		{
-			$a_page_lang = "-";
-		}
-
-		$lng->loadLanguageModule("meta");
-
-		$tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "Services/COPage");
-		$tpl->setVariable("TXT_MASTER_LANG", $lng->txt("cont_master_lang"));
-		$tpl->setVariable("VAL_ML", $lng->txt("meta_l_".$this->ml->getMasterLanguage()));
-		$cl = ($a_page_lang == "-")
-			? $this->ml->getMasterLanguage()
-			: $a_page_lang;
-		$tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
-		$tpl->setVariable("VAL_CL", $lng->txt("meta_l_".$cl));
-		return $tpl->get();
-	}*/
-
-	/**
 	 * Confirm page translation creation
 	 */
 	function confirmDeactivateContentMultiLang()

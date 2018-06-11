@@ -56,6 +56,14 @@ abstract class ilChatroomGUIHandler
 	 */
 	protected $ilias;
 
+	/** @var ilNavigationHistory */
+	protected $navigationHistory;
+
+	/** @var ilTree */
+	protected $tree;
+
+	/** @var ilTabsGUI */
+	protected $tabs;
 	/**
 	 * @param ilChatroomObjectGUI $gui
 	 */
@@ -63,15 +71,18 @@ abstract class ilChatroomGUIHandler
 	{
 		global $DIC;
 
-		$this->gui          = $gui;
-		$this->ilUser       = $DIC->user();
-		$this->ilCtrl       = $DIC->ctrl();
-		$this->ilLng        = $DIC->language();
-		$this->rbacsystem   = $DIC->rbac()->system();
-		$this->mainTpl      = $DIC->ui()->mainTemplate();
-		$this->upload       = $DIC->upload();
+		$this->gui = $gui;
+		$this->ilUser = $DIC->user();
+		$this->ilCtrl = $DIC->ctrl();
+		$this->ilLng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->mainTpl = $DIC->ui()->mainTemplate();
+		$this->upload = $DIC->upload();
 		$this->webDirectory = $DIC->filesystem()->web();
-		$this->ilias        = $DIC['ilias'];
+		$this->ilias = $DIC['ilias'];
+		$this->tabs = $DIC->tabs();
+		$this->navigationHistory = $DIC['ilNavigationHistory'];
+		$this->tree = $DIC['tree'];
 	}
 
 	/**

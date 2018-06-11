@@ -1,17 +1,21 @@
 <?php
 
-class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
+namespace SAML2\Compat\Ssp;
+
+use Psr\Log\LoggerInterface;
+
+class Logger implements LoggerInterface
 {
     /**
      * System is unusable.
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function emergency($message, array $context = array())
     {
-        SimpleSAML_Logger::emergency($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::emergency($message . var_export($context, true));
     }
 
     /**
@@ -22,11 +26,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function alert($message, array $context = array())
     {
-        SimpleSAML_Logger::alert($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::alert($message . var_export($context, true));
     }
 
     /**
@@ -36,11 +40,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function critical($message, array $context = array())
     {
-        SimpleSAML_Logger::critical($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::critical($message . var_export($context, true));
     }
 
     /**
@@ -49,11 +53,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function error($message, array $context = array())
     {
-        SimpleSAML_Logger::error($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::error($message . var_export($context, true));
     }
 
     /**
@@ -64,11 +68,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function warning($message, array $context = array())
     {
-        SimpleSAML_Logger::warning($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::warning($message . var_export($context, true));
     }
 
     /**
@@ -76,11 +80,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function notice($message, array $context = array())
     {
-        SimpleSAML_Logger::notice($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::notice($message . var_export($context, true));
     }
 
     /**
@@ -90,11 +94,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function info($message, array $context = array())
     {
-        SimpleSAML_Logger::info($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::info($message . var_export($context, true));
     }
 
     /**
@@ -102,11 +106,11 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      *
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function debug($message, array $context = array())
     {
-        SimpleSAML_Logger::debug($message . var_export($context, TRUE));
+        \SimpleSAML\Logger::debug($message . var_export($context, true));
     }
 
     /**
@@ -115,34 +119,34 @@ class SAML2_Compat_Ssp_Logger implements Psr\Log\LoggerInterface
      * @param mixed $level
      * @param string $message
      * @param array $context
-     * @return NULL
+     * @return null
      */
     public function log($level, $message, array $context = array())
     {
         switch ($level) {
-            case SimpleSAML_Logger::ALERT:
-                SimpleSAML_Logger::alert($message);
+            case \SimpleSAML\Logger::ALERT:
+                \SimpleSAML\Logger::alert($message);
                 break;
-            case SimpleSAML_Logger::CRIT:
-                SimpleSAML_Logger::critical($message);
+            case \SimpleSAML\Logger::CRIT:
+                \SimpleSAML\Logger::critical($message);
                 break;
-            case SimpleSAML_Logger::DEBUG:
-                SimpleSAML_Logger::debug($message);
+            case \SimpleSAML\Logger::DEBUG:
+                \SimpleSAML\Logger::debug($message);
                 break;
-            case SimpleSAML_Logger::EMERG:
-                SimpleSAML_Logger::emergency($message);
+            case \SimpleSAML\Logger::EMERG:
+                \SimpleSAML\Logger::emergency($message);
                 break;
-            case SimpleSAML_Logger::ERR:
-                SimpleSAML_Logger::error($message);
+            case \SimpleSAML\Logger::ERR:
+                \SimpleSAML\Logger::error($message);
                 break;
-            case SimpleSAML_Logger::INFO:
-                SimpleSAML_Logger::info($message);
+            case \SimpleSAML\Logger::INFO:
+                \SimpleSAML\Logger::info($message);
                 break;
-            case SimpleSAML_Logger::NOTICE:
-                SimpleSAML_Logger::notice($message);
+            case \SimpleSAML\Logger::NOTICE:
+                \SimpleSAML\Logger::notice($message);
                 break;
-            case SimpleSAML_Logger::WARNING:
-                SimpleSAML_Logger::warning($message);
+            case \SimpleSAML\Logger::WARNING:
+                \SimpleSAML\Logger::warning($message);
         }
     }
 }

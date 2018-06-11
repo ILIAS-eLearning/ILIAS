@@ -198,4 +198,15 @@ class ilOrgUnitUserAssignmentQueries {
 			'position_id' => $position_id,
 		])->get();
 	}
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return void
+	 */
+	public function deleteAllAssignmentsOfUser($user_id) {
+		global $DIC;
+		$q = "DELETE FROM il_orgu_ua WHERE user_id = " . $DIC->database()->quote($user_id, "integer");
+		$DIC->database()->manipulate($q);
+	}
 }

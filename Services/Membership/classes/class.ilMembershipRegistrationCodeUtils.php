@@ -22,7 +22,11 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	public static function handleCode($a_ref_id,$a_type,$a_code)
 	{
-		global $lng, $tree, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 		include_once './Services/Link/classes/class.ilLink.php';
 		$lng->loadLanguageModule($a_type);
 		try
@@ -77,7 +81,10 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	protected static function useCode($a_code,$a_endnode)
 	{
-		global $tree,$ilUser;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 		
 		$obj_ids = self::lookupObjectsByCode($a_code);
 

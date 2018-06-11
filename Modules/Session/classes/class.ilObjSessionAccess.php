@@ -72,7 +72,12 @@ class ilObjSessionAccess extends ilObjectAccess
 	 */
 	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if(!$a_user_id)
 		{
@@ -87,28 +92,23 @@ class ilObjSessionAccess extends ilObjectAccess
 				
 				if(!self::_lookupRegistration($a_obj_id))
 				{
-					//ilLoggerFactory::getLogger('sess')->debug('Lookup registration failed: register access denied.');
 					return false;
 				}
 				if($ilUser->isAnonymous())
 				{
-					//ilLoggerFactory::getLogger('sess')->debug('User is anoynmous: register access denied.');
 					return false;
 				}
 				if($part->isAssigned($a_user_id))
 				{
-					//ilLoggerFactory::getLogger('sess')->debug('User is assigned: register access denied.');
 					return false;
 				}
 				if($part->isSubscriber($a_user_id))
 				{
-					//ilLoggerFactory::getLogger('sess')->debug('User is subscriber: register access denied.');
 					return false;
 				}
 				include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 				if(ilSessionWaitingList::_isOnList($a_user_id, $a_obj_id))
 				{
-					//ilLoggerFactory::getLogger('sess')->debug('User is on waiting list: register access denied.');
 					return false;
 				}
 				break;
@@ -129,7 +129,9 @@ class ilObjSessionAccess extends ilObjectAccess
 	*/
 	public static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 
@@ -160,7 +162,9 @@ class ilObjSessionAccess extends ilObjectAccess
 			return self::$registrations[$a_obj_id];
 		}
 		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT registration,obj_id FROM event ";
 		$res = $ilDB->query($query);
@@ -187,7 +191,10 @@ class ilObjSessionAccess extends ilObjectAccess
 			return (bool) self::$registered[$a_usr_id][$a_obj_id];
 		}
 		
-		global $ilDB,$ilUser;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$query = "SELECT event_id, registered FROM event_participants WHERE usr_id = ".$ilDB->quote($ilUser->getId(),'integer');
 		$res = $ilDB->query($query);

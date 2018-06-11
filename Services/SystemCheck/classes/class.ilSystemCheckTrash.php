@@ -64,19 +64,19 @@ class ilSystemCheckTrash
 	
 	public function start()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling delete');
+		$GLOBALS['DIC']['ilLog']->info('Handling delete');
 		switch($this->getMode())
 		{
 			case self::MODE_TRASH_RESTORE:
-				$GLOBALS['ilLog']->write(__METHOD__.': Restore trash to recovery folder');
+				$GLOBALS['DIC']['ilLog']->info('Restore trash to recovery folder');
 				$this->restore();
 				break;
 				
 			case self::MODE_TRASH_REMOVE:
-				$GLOBALS['ilLog']->write(__METHOD__.': Remove selected from system.');
-				$GLOBALS['ilLog']->write(__METHOD__.': Type limit: '. print_r($this->getTypesLimit(),TRUE));
-				$GLOBALS['ilLog']->write(__METHOD__.': Age limit: '. (string) $this->getAgeLimit());
-				$GLOBALS['ilLog']->write(__METHOD__.': Number limit: '. (string) $this->getNumberLimit());
+				$GLOBALS['DIC']['ilLog']->info('Remove selected from system.');
+				$GLOBALS['DIC']['ilLog']->info('Type limit: '. print_r($this->getTypesLimit(),TRUE));
+				$GLOBALS['DIC']['ilLog']->info('Age limit: '. (string) $this->getAgeLimit());
+				$GLOBALS['DIC']['ilLog']->info('Number limit: '. (string) $this->getNumberLimit());
 				$this->removeSelectedFromSystem();
 				return TRUE;
 		}
@@ -89,7 +89,7 @@ class ilSystemCheckTrash
 	{
 		$deleted = $this->readDeleted();
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Found deleted : '.print_r($deleted,TRUE));
+		$GLOBALS['DIC']['ilLog']->info('Found deleted : '.print_r($deleted,TRUE));
 		
 		$factory = new ilObjectFactory();
 		
@@ -101,15 +101,15 @@ class ilSystemCheckTrash
 				continue;
 			}
 
-			$GLOBALS['tree']->deleteNode($deleted_info['tree'],$deleted_info['child']);
-			$GLOBALS['ilLog']->write(__METHOD__.': Object tree entry deleted');
+			$GLOBALS['DIC']['tree']->deleteNode($deleted_info['tree'],$deleted_info['child']);
+			$GLOBALS['DIC']['ilLog']->info('Object tree entry deleted');
 			
 			if($ref_obj->getType() != 'rolf')
 			{
-				$GLOBALS['rbacadmin']->revokePermission($deleted_info['child']);
+				$GLOBALS['DIC']['rbacadmin']->revokePermission($deleted_info['child']);
 				$ref_obj->putInTree(RECOVERY_FOLDER_ID);
 				$ref_obj->setPermissions(RECOVERY_FOLDER_ID);
-				$GLOBALS['ilLog']->write(__METHOD__.': Object moved to recovery folder');
+				$GLOBALS['DIC']['ilLog']->info('Object moved to recovery folder');
 			}
 		}
 	}
@@ -145,7 +145,9 @@ class ilSystemCheckTrash
 	 */
 	protected function readSelectedDeleted()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$and_types = '';
 		ilLoggerFactory::getLogger('sysc')->dump($this->getTypesLimit());
@@ -185,7 +187,7 @@ class ilSystemCheckTrash
 		$query .= 'ORDER BY depth desc ';
 		$query .= $limit;
 		
-		$GLOBALS['ilLog']->write($query);
+		$GLOBALS['DIC']['ilLog']->info($query);
 		
 		$deleted = array();
 		$res = $ilDB->query($query);
@@ -210,7 +212,9 @@ class ilSystemCheckTrash
 	 */
 	protected function readDeleted($tree_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id '.
 				'JOIN object_data o on r.obj_id = o.obj_id ';

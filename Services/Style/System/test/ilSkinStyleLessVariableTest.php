@@ -34,12 +34,31 @@ class ilSkinStyleLessVariableTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(["new_references_id"], $variable->getReferences());
 	}
 
-	public function testNastyHack() {
-		$variable = new ilSystemStyleLessVariable("name", "value", "comment","category_name", ["references_id"]);
+	public function testIconFontPathUpdate() {
+		$variable = new ilSystemStyleLessVariable("icon-font-path", "value", "comment","category_name", ["references_id"]);
 
 		$variable->setValue("\"../../libs/bower/bower_components/bootstrap/fonts/\"");
 		$this->assertEquals("\"../../../../libs/bower/bower_components/bootstrap/fonts/\"", $variable->getValue());
 	}
+
+    public function testIconFontPathQuotation() {
+        $variable = new ilSystemStyleLessVariable("icon-font-path", "value", "comment","category_name", ["references_id"]);
+
+        $variable->setValue("\"somePath\"");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
+
+        $variable->setValue("somePath");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
+
+
+        $variable->setValue("\"somePath");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
+
+
+        $variable->setValue("somePath\"");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
+
+    }
 
 	public function testToString(){
 		$variable = new ilSystemStyleLessVariable("name", "value", "comment","category_name", ["references_id"]);

@@ -48,7 +48,9 @@ abstract class ilWaitingList
 	 */
 	public function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->obj_id = $a_obj_id;
@@ -62,7 +64,9 @@ abstract class ilWaitingList
 	 */
 	public static function lookupListSize($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT count(usr_id) num from crs_waiting_list WHERE obj_id = '. $ilDB->quote($a_obj_id, 'integer');
 		$res = $ilDB->query($query);
@@ -83,7 +87,9 @@ abstract class ilWaitingList
 	 */
 	public static function _deleteAll($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_waiting_list WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
@@ -100,7 +106,9 @@ abstract class ilWaitingList
 	 */
 	public static function _deleteUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_waiting_list WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -116,7 +124,9 @@ abstract class ilWaitingList
 	 */
 	public static function deleteUserEntry($a_usr_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM crs_waiting_list ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
@@ -145,7 +155,9 @@ abstract class ilWaitingList
 	 */
 	public function addToList($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->isOnList($a_usr_id))
 		{
@@ -172,7 +184,9 @@ abstract class ilWaitingList
 	 */
 	public function updateSubscriptionTime($a_usr_id,$a_subtime)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE crs_waiting_list ".
 			"SET sub_time = ".$ilDB->quote($a_subtime ,'integer')." ".
@@ -191,7 +205,9 @@ abstract class ilWaitingList
 	 */
 	public function removeFromList($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM crs_waiting_list ".
 			" WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
@@ -224,7 +240,9 @@ abstract class ilWaitingList
 	 */
 	public static function _isOnList($a_usr_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (isset(self::$is_on_list[$a_usr_id][$a_obj_id]))
 		{
@@ -250,7 +268,9 @@ abstract class ilWaitingList
 	 */
 	static function _preloadOnListInfo($a_usr_ids, $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!is_array($a_usr_ids))
 		{
@@ -346,7 +366,9 @@ abstract class ilWaitingList
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->users = array();
 

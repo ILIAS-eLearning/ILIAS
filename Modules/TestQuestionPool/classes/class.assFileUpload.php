@@ -1183,13 +1183,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 *
 	 * @param int $test_id
 	 */
-	public function deliverFileUploadZIPFile($test_id, $test_title)
+	public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title)
 	{
 		global $ilDB, $lng;
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssFileUploadUploadsExporter.php';
 		$exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);
 		
+		$exporter->setRefId($ref_id);
 		$exporter->setTestId($test_id);
 		$exporter->setTestTitle($test_title);
 		$exporter->setQuestion($this);

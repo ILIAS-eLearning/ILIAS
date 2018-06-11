@@ -45,7 +45,9 @@ class ilMDFormat extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$fields = $this->__getFields();
 		$fields['meta_format_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_format'));
@@ -60,7 +62,9 @@ class ilMDFormat extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if($this->getMetaId())
 		{
@@ -76,7 +80,9 @@ class ilMDFormat extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -100,7 +106,9 @@ class ilMDFormat extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -138,7 +146,9 @@ class ilMDFormat extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_format_id FROM il_meta_format ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
