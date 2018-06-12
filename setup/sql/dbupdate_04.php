@@ -18538,8 +18538,8 @@ FROM
 	il_dcl_field_prop fp ON rf.field_id = fp.field_id
 WHERE
     f.datatype_id = 3
-	AND fp.name = "multiple_selection"
-	AND fp.value = 1
+	AND fp.name = ' . $ilDB->quote("multiple_selection", 'text') . '
+	AND fp.value = ' . $ilDB->quote("1", 'text') . '
 ORDER BY stloc.id ASC');
 
 while ($row = $query->fetchAssoc()) {
@@ -22243,5 +22243,30 @@ if ($ilDB->tableExists('il_bibl_overview_model')) {
 
 		$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
 	}
+}
+?>
+<#5274>
+<?php
+/*
+* This hotfix removes org unit assignments of user who don't exist anymore
+* select all user_ids from usr_data and remove all il_orgu_ua entries which have an user_id from an user who doesn't exist anymore
+*/
+global $ilDB;
+$q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
+$ilDB->manipulate($q);
+?>
+<#5275>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5276>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'identical_scoring', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'default' => 1
+	));
 }
 ?>

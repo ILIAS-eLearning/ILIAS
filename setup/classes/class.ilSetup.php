@@ -201,18 +201,8 @@ class ilSetup
 		return true;
 		//var_dump("<pre>",$this->client,"</pre>");exit;
 		//Error Handling disabled!! caused by missing PEAR
-		if ($a_old_client_id != $this->client->getId())
-		{
-			// check for existing client dir
-			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
-			{
-				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
-			}
-
-			if (!$this->saveNewClient())
-			{
-				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
-			}
+		if ($a_old_client_id != $this->client->getId()) {
+			$this->saveNewClient();
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
 			ilUtil::delDir(ILIAS_DATA_DIR."/".$a_old_client_id);
@@ -1537,6 +1527,11 @@ class ilSetup
 			if(is_dir($log_path))
 			{
 				$this->error = 'could_not_create_logfile';
+				return false;
+			}
+
+			if ($this->isDirectoryInOther($log_path, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_logdir_inside_webdir";
 				return false;
 			}
 

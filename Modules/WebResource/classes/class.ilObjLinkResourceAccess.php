@@ -49,7 +49,9 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 
@@ -80,7 +82,9 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	 */
 	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		// Set offline if no valid link exists
 		if($a_permission == 'read')
@@ -111,7 +115,9 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	 */
 	public static function _getFirstLink($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (isset(self::$item[$a_webr_id]))
 		{
@@ -146,7 +152,10 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$res = $ilDB->query(
 				"SELECT * FROM webr_items WHERE ".

@@ -1365,6 +1365,10 @@ class ilObjUser extends ilObject
 		// badges
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		ilBadgeAssignment::deleteByUserId($this->getId());
+
+		// remove org unit assignments
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+		$ilOrgUnitUserAssignmentQueries->deleteAllAssignmentsOfUser($this->getId());
 		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
@@ -1467,28 +1471,6 @@ class ilObjUser extends ilObject
 		}
 
 		return ilUtil::stripSlashes(substr($this->lastname,0,$a_max_strlen));
-	}
-
-	/**
-	* check wether user has accepted user agreement
-	*/
-	function hasAcceptedUserAgreement()
-	{
-		/**
-		 * @var ilRbacReview
-		 */
-		global $rbacreview;
-
-		if(
-			null != $this->agree_date ||
-			'root' == $this->login ||
-			in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) ||
-			$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
-		)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -3799,7 +3781,7 @@ class ilObjUser extends ilObject
 
 		// For compatibility, check for login (no ext_account entry given)
 		$res = $db->queryF("SELECT login FROM usr_data ".
-			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
+			"WHERE login = %s AND auth_mode = %s AND (ext_account IS NULL OR ext_account = '') ",
 			array("text", "text"),
 			array($a_account, $a_auth));
 		if($usr = $db->fetchAssoc($res))
@@ -4951,104 +4933,6 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @deprecated This is dead code since ILIAS 5.3.x (ilUsersOnlineBlock ...) and could be removed in future releases.
-	*/
-	public static function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
-	{
-		global $ilias, $ilDB;
-
-		$pd_set = new ilSetting("pd");
-		$atime = $pd_set->get("user_activity_time") * 60;
-		$ctime = time();
-		$no_anonym = ($a_no_anonymous)
-			? "AND user_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." "
-			: "";
-
-		// Get a list of object id's of all courses and groups for which
-		// the current user has local roles.
-		// Note: we have to use DISTINCT here, because a user may assume
-		// multiple roles in a group or a course.
-		$q = "SELECT DISTINCT dat.obj_id as obj_id ".
-			"FROM rbac_ua ua ".
-			"JOIN rbac_fa fa ON fa.rol_id = ua.rol_id ".
-			"JOIN object_reference r1 ON r1.ref_id = fa.parent ".
-			"JOIN tree ON tree.child = r1.ref_id ".
-			"JOIN object_reference r2 ON r2.ref_id = tree.child ". // #17674 - rolf is gone
-			"JOIN object_data dat ON dat.obj_id = r2.obj_id ".
-			"WHERE ua.usr_id = ".$ilDB->quote($a_user_id, "integer")." ".
-			"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-			"AND dat.type IN (".$ilDB->quote("crs", "text").",".
-			$ilDB->quote("grp", "text").")";
-		$r = $ilDB->query($q);
-
-		while ($row = $ilDB->fetchAssoc($r))
-		{
-			$groups_and_courses_of_user[] = $row["obj_id"];
-		}
-
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-		$tos_condition = '';
-		if(ilTermsOfServiceHelper::isEnabled())
-		{
-			$tos_condition = " AND (agree_date IS NOT NULL OR ud.usr_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ";
-		}
-
-		// If the user is not in a course or a group, he has no associated users.
-		if (count($groups_and_courses_of_user) == 0)
-		{
-			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
-				"FROM usr_session ".
-				"JOIN usr_data ud ON user_id = ud.usr_id ".
-				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
-				$no_anonym.
-				$tos_condition.
-				"AND expires > ".$ilDB->quote(time(), "integer")." ".
-				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
-			$r = $ilDB->query($q);
-		}
-		else
-		{
-			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
-				"FROM usr_session s ".
-				"JOIN usr_data ud ON ud.usr_id = s.user_id ".
-				"JOIN rbac_ua ua ON ua.usr_id = s.user_id ".
-				"JOIN rbac_fa fa ON fa.rol_id = ua.rol_id ".
-				"JOIN tree ON tree.child = fa.parent ".
-				"JOIN object_reference or1 ON or1.ref_id = tree.child ". // #17674 - rolf is gone
-				"JOIN object_data od ON od.obj_id = or1.obj_id ".
-				"LEFT JOIN usr_pref p ON (p.usr_id = ud.usr_id AND p.keyword = ".
-					$ilDB->quote("hide_own_online_status", "text").") ".
-				"WHERE s.user_id != 0 ".
-				$no_anonym.
-				"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
-				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
-				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-				$tos_condition.
-				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
-				"GROUP BY s.user_id,s.ctime,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
-				"ORDER BY ud.lastname, ud.firstname";
-			$r = $ilDB->query($q);
-		}
-
-		while ($user = $ilDB->fetchAssoc($r))
-		{
-			if ($atime <= 0
-				|| $user["ctime"] + $atime > $ctime)
-			{
-				$users[$user["user_id"]] = $user;
-			}
-		}
-
-		return $users ? $users : array();
-	}
-	
-	/**
 	* Generates a unique hashcode for activating a user profile after registration
 	* 
 	* @param integer $a_usr_id user id of the current user
@@ -5469,19 +5353,13 @@ class ilObjUser extends ilObject
 	 */
 	public function hasToAcceptTermsOfService()
 	{
-		/**
-		 * @var ilRbacReview
-		 */
-		global $rbacreview;
-
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 		if(
 			ilTermsOfServiceHelper::isEnabled() && 
 			null == $this->agree_date &&
 			'root' != $this->login &&
-			!in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) &&
-			!$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
+			!in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID))
 		)
 		{
 			return true;

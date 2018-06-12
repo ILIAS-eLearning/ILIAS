@@ -48,4 +48,11 @@ class Factory implements B\Factory {
 	public function month($default) {
 		return new Month($default);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function bulky($icon_or_glyph, $label, $action) {
+		return new Bulky($icon_or_glyph, $label, $action);
+	}
 }

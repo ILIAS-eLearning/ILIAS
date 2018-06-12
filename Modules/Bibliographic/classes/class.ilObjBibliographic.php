@@ -139,7 +139,7 @@ class ilObjBibliographic extends ilObject2 {
 
 		$upload = $DIC->upload();
 		$has_valid_upload = $upload->hasUploads() && !$upload->hasBeenProcessed();
-		if ($has_valid_upload) {
+		if ($_POST['override_entries'] && $has_valid_upload) {
 			$upload->process();
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);

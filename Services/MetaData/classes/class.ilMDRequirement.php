@@ -120,7 +120,9 @@ class ilMDRequirement extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_requirement_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_requirement'));
@@ -135,7 +137,9 @@ class ilMDRequirement extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -151,7 +155,9 @@ class ilMDRequirement extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -182,7 +188,9 @@ class ilMDRequirement extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -246,7 +254,9 @@ class ilMDRequirement extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_requirement_id FROM il_meta_requirement ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

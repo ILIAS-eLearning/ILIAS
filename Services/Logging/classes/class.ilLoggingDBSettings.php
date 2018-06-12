@@ -39,7 +39,9 @@ class ilLoggingDBSettings implements ilLoggingSettings
 	 */
 	private function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
 		$this->enabled = ILIAS_LOG_ENABLED;

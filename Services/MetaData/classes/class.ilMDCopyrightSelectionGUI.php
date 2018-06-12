@@ -53,7 +53,10 @@ class ilMDCopyrightSelectionGUI
 	 */
 	public function __construct($a_mode,$a_rbac_id,$a_obj_id)
 	{
-	 	global $lng,$tpl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$tpl = $DIC['tpl'];
 	 	
 	 	$this->tpl = $tpl;
 	 	$this->lng = $lng;

@@ -53,6 +53,13 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
 		$this->setCancel($this->lng->txt('cancel'), 'cancelDeletePass');
 		$this->setConfirm($this->lng->txt('delete'), 'performDeletePass');
 
-		$this->setHeaderText($this->lng->txt('conf_delete_pass'));
+		if( $context == self::CONTEXT_DYN_TEST_PLAYER )
+		{
+			$this->setHeaderText($this->lng->txt('conf_delete_pass_ctm'));
+		}
+		else
+		{
+			$this->setHeaderText($this->lng->txt('conf_delete_pass'));
+		}
 	}
 } 
