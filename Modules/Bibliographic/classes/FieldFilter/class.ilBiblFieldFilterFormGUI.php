@@ -53,8 +53,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$this->setTarget('_top');
 
 		$available_fields_for_object = $this->facade->fieldFactory()
-		                                            ->getAvailableFieldsForObjId($this->facade->iliasObject()
-		                                                                                      ->getId());
+		                                            ->getAvailableFieldsForObjId($this->facade->iliasObjId());
 
 		$edited_filter = $this->facade->filterFactory()->findById($this->http()
 		                                                               ->request()
