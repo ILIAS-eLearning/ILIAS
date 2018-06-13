@@ -27,7 +27,7 @@ class BookableCourse {
 	protected $type;
 
 	/**
-	 * @var ilDateTime
+	 * @var ilDateTime | null
 	 */
 	protected $begin_date;
 
@@ -52,7 +52,7 @@ class BookableCourse {
 	protected $topics;
 
 	/**
-	 * @var ilDateTime
+	 * @var ilDateTime | null
 	 */
 	protected $end_date;
 
@@ -75,12 +75,12 @@ class BookableCourse {
 		($ref_id,
 		$title,
 		$type,
-		ilDateTime $begin_date,
+		ilDateTime $begin_date = null,
 		$bookings_available,
 		array $target_group,
 		$goals,
 		array $topics,
-		ilDateTime $end_date,
+		ilDateTime $end_date = null,
 		$location,
 		$address,
 		$fee
@@ -203,6 +203,13 @@ class BookableCourse {
 		return $this->small_detail_info;
 	}
 
+	protected function getShowBookButton() {
+		if ($this->show_book_button === null) {
+			$this->show_book_button = $this->getCourseInfo(CourseInfo::CONTEXT_USER_CAN_BOOK);
+		}
+		return $this->show_book_button;
+	}
+
 	public function getTitleValue() {
 		// Take most important info as title
 		$short_info = $this->getShortInfo();
@@ -239,6 +246,23 @@ class BookableCourse {
 		}
 
 		return ["" => $this->getNoDetailInfoMessage()];
+	}
+
+	public function getBookButton($label, $link) {
+		$book_info = $this->getShowBookButton();
+		if(count($book_info) > 0) {
+			$book = array_shift($book_info);
+			if($book->getValue() == 1) {
+				return [$this->getUIFactory()
+						->button()->primary
+							( $label,
+								$link
+							)
+						];
+			}
+		}
+
+		return [];
 	}
 
 	/**

@@ -15,6 +15,8 @@ class ilTrainingSearchGUI {
 	const CMD_SHOW = "show";
 	const CMD_SHOW_MODAL = "showModal";
 	const CMD_FILTER = "filter";
+	const CMD_QUICKFILTER = "quickFilter";
+	const CMD_SORT = "sort";
 
 	/**
 	 * @var ilTemplate
@@ -76,6 +78,12 @@ class ilTrainingSearchGUI {
 					case self::CMD_FILTER:
 						$this->filter();
 						break;
+					case self::CMD_QUICKFILTER:
+						$this->quickFilter();
+						break;
+					case self::CMD_SORT:
+						$this->sort();
+						break;
 					default:
 						throw new Exception("Unknown command: ".$cmd);
 				}
@@ -91,11 +99,7 @@ class ilTrainingSearchGUI {
 	 */
 	protected function show() {
 		$bookable_trainings = $this->getBookableTrainings(array());
-		if(count($bookable_trainings) > 0) {
-			$this->showTrainings($bookable_trainings);
-		} else {
-			$this->showNoAvailableTrainings();
-		}
+		$content = $this->showTrainings($bookable_trainings);
 	}
 
 	/**
@@ -103,16 +107,23 @@ class ilTrainingSearchGUI {
 	 *
 	 * @return void
 	 */
-	protected function filter() {
+	public function filter() {
 		$post = $_POST;
 		$filter = $this->helper->getFilterValuesFrom($post);
 		$bookable_trainings = $this->getBookableTrainings($filter);
-		if(count($bookable_trainings) > 0) {
-			$this->showTrainings($bookable_trainings);
-		} else {
-			$this->showNoAvailableTrainings();
-		}
+		$this->showTrainings($bookable_trainings);
+	}
 
+	/**
+	 * Post processing for quick filter values
+	 *
+	 * @return void
+	 */
+	public function quickFilter() {
+		$get = $_GET;
+		$filter = $this->helper->getFilterValuesFrom($get);
+		$bookable_trainings = $this->getBookableTrainings($filter);
+		$this->showTrainings($bookable_trainings);
 	}
 
 	/**
@@ -128,20 +139,23 @@ class ilTrainingSearchGUI {
 		$table->setData($bookable_trainings);
 
 		$modal = $this->prepareModal();
-		$this->g_tpl->setContent($modal."<br \><br \><br \>".$table->render());
+		$content =  $modal."<br \><br \><br \>".$table->render();
+
+		if(count($bookable_trainings) == 0) {
+			$content .= $this->getNoAvailableTrainings();
+		}
+
+		$this->g_tpl->setContent($content);
 		$this->g_tpl->show();
 	}
 
 	/**
-	 * Show empty search-results message
+	 * Get empty search-results message
 	 *
 	 * @return void
 	 */
-	protected function showNoAvailableTrainings() {
-		$modal = $this->prepareModal();
-		$msg = $this->g_lng->txt('no_trainings_available');
-		$this->g_tpl->setContent($modal."<br \><br \><br \>".$msg);
-		$this->g_tpl->show();
+	protected function getNoAvailableTrainings() {
+		return $this->g_lng->txt('no_trainings_available');
 	}
 
 	/**

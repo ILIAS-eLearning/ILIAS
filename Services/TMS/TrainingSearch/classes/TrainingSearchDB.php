@@ -21,12 +21,12 @@ interface TrainingSearchDB {
 	 * @param int		$ref_id
 	 * @param string 	$crs_title
 	 * @param string 	$type
-	 * @param ilDateTime 	$start_date
+	 * @param ilDateTime | null	$start_date
 	 * @param int 	$bookings_available
 	 * @param string[] 	$target_group
 	 * @param string 	$goals
 	 * @param string[] 	$topics
-	 * @param ilDateTime 	$end_date
+	 * @param ilDateTime | null	$end_date
 	 * @param string 	$city
 	 * @param string 	$address
 	 * @param string 	$costs
@@ -36,12 +36,12 @@ interface TrainingSearchDB {
 	public function getBookableCourse($ref_id,
 				$crs_title,
 				$type,
-				ilDateTime $start_date,
+				ilDateTime $start_date = null,
 				$bookings_available,
 				array $target_group,
 				$goals,
 				array $topics,
-				ilDateTime $end_date,
+				ilDateTime $end_date = null,
 				$city,
 				$address,
 				$costs = "KOSTEN"

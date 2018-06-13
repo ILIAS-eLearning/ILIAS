@@ -13,15 +13,22 @@ class ilBookableFilter {
 	/**
 	 * Is today in booking period of course
 	 *
-	 * @param ilDateTime 	$start
-	 * @param ilDateTime 	$end
+	 * @param ilDateTime 	$crs_start
+	 * @param int 	$booking_start
+	 * @param int 	$booking_end
 	 *
 	 * @return bool
 	 */
-	public function isInBookingPeriod(ilDateTime $start, ilDateTime $end) {
+	public function isInBookingPeriod(ilDateTime $crs_start, $booking_start, $booking_end) {
 		$today_string = date("Y-m-d");
-		$start_string = $start->get(IL_CAL_DATE);
-		$end_string = $end->get(IL_CAL_DATE);
+
+		$booking_start_date = clone $crs_start;
+		$booking_start_date->increment(ilDateTime::DAY, -1 * $booking_start);
+		$start_string = $booking_start_date->get(IL_CAL_DATE);
+
+		$booking_end_date = clone $crs_start;
+		$booking_end_date->increment(ilDateTime::DAY, -1 * $booking_end);
+		$end_string = $booking_end_date->get(IL_CAL_DATE);
 
 		if($today_string >= $start_string && $today_string <= $end_string) {
 			return true;
@@ -126,6 +133,24 @@ class ilBookableFilter {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check course is expired
+	 *
+	 * @param ilDateTime 	$start_date
+	 *
+	 * @return bool
+	 */
+	public function courseIsExpired(ilDateTime $start_date) {
+		$today = date("Y-m-d");
+		$start_date->increment(ilDateTime::DAY, 1);
+
+		if($today >= $start_date->get(IL_CAL_DATE)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

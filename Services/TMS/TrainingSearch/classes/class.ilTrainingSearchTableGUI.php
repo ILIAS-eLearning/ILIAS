@@ -28,7 +28,7 @@ class ilTrainingSearchTableGUI {
 
 		global $DIC;
 		$this->g_lng = $DIC->language();
-
+		$this->g_ctrl = $DIC->ctrl();
 		$this->helper = $helper;
 
 		$this->g_lng->loadLanguageModule('tms');
@@ -67,7 +67,7 @@ class ilTrainingSearchTableGUI {
 		//build table
 		$ptable = $f->table()->presentation(
 			$this->g_lng->txt("header"), //title
-			array(),
+			$this->getSortationObjects($f),
 			function ($row, BookableCourse $record, $ui_factory, $environment) { //mapping-closure
 				return $row
 					->withTitle($record->getTitleValue())
@@ -75,13 +75,7 @@ class ilTrainingSearchTableGUI {
 					->withImportantFields($record->getImportantFields())
 					->withContent($ui_factory->listing()->descriptive($record->getDetailFields()))
 					->withFurtherFields($record->getFurtherFields())
-					->withButtons(
-						array(
-							$ui_factory->button()->standard
-								( $this->g_lng->txt("book_course")
-								, $this->parent->getBookingLink($record)
-								)
-						)
+					->withButtons($record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record))
 					);
 			}
 		);
@@ -90,6 +84,38 @@ class ilTrainingSearchTableGUI {
 
 		//apply data to table and render
 		return $renderer->render($ptable->withData($data));
+	}
+
+	/**
+	 * Get all sorting and filter items for the table
+	 *
+	 * @param 	$f
+	 *
+	 * @return Sortation[]
+	 */
+	protected function getSortationObjects($f) {
+		$ret = array();
+		require_once("Services/Component/classes/class.ilPluginAdmin.php");
+		if(ilPluginAdmin::isPluginActive('xccl')) {
+			$plugin = ilPluginAdmin::getPluginObjectById('xccl');
+			$actions = $plugin->getActions();
+			$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_QUICKFILTER);
+
+			$ret[] = $f->viewControl()->sortation($actions->getTypeOptions())
+						->withTargetURL($link, Helper::F_TYPE)
+						->withLabel($plugin->txt("conf_options_type"));
+
+			$ret[] = $f->viewControl()->sortation($actions->getTopicOptions())
+						->withTargetURL($link, Helper::F_TOPIC)
+						->withLabel($plugin->txt("conf_options_topic"));
+		}
+
+		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_SORT);
+		$ret[] = $f->viewControl()->sortation($this->helper->getSortOptions())
+						->withTargetURL($link, Helper::F_TOPIC)
+						->withLabel($this->g_lng->txt("sorting"));
+
+		return $ret;
 	}
 }
 

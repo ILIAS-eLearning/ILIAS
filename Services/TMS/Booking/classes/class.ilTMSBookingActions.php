@@ -37,14 +37,14 @@ class ilTMSBookingActions implements Booking\Actions {
 		$course = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 		if(ilCourseParticipants::_isParticipant($course->getRefId(), $user_id)) {
 			$course->getMemberObject()->delete($user_id);
-			$this->mailing->sendCourseMail(Mailing\Actions::CANCELD_FROM_COURSE, $course->getRefId(), $user_id);
+			$this->mailing->sendCourseMail(Mailing\Actions::CANCELED_FROM_COURSE, $course->getRefId(), $user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_COURSE;
 		}
 
 		$crs_id = $course->getId();
 		if(ilWaitingList::_isOnList($user_id, $crs_id)) {
 			ilWaitingList::deleteUserEntry($user_id, $crs_id);
-			$this->mailing->sendCourseMail(Mailing\Actions::CANCELD_FROM_WAITINGLIST, $course->getRefId(), $user_id);
+			$this->mailing->sendCourseMail(Mailing\Actions::CANCELED_FROM_WAITINGLIST, $course->getRefId(), $user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_WAITINGLIST;
 		}
 

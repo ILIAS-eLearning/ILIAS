@@ -9,17 +9,13 @@ require_once("Services/TMS/TrainingSearch/classes/TrainingSearchDB.php");
 require_once("Services/TMS/TrainingSearch/classes/Helper.php");
 
 class ilTrainingSearchDB implements TrainingSearchDB {
-	/**
-	 * @var ilObjBookingModalitiesPlugin
-	 */
-	protected $xbkm;
-
 	public function __construct(ilBookableFilter $filter, Helper $helper) {
 		global $DIC;
 
 		$this->g_objDefinition = $DIC["objDefinition"];
 		$this->g_db = $DIC->database();
 		$this->g_tree = $DIC->repositoryTree();
+		$this->g_access = $DIC->access();
 
 		$this->filter = $filter;
 		$this->helper = $helper;
@@ -31,17 +27,15 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	public function getBookableTrainingsFor($user_id, array $filter) {
 		$crs_infos = array();
 
-		if(ilPluginAdmin::isPluginActive('xbkm') && ilPluginAdmin::isPluginActive('xccl')) {
-			$this->xbkm = ilPluginAdmin::getPluginObjectById('xbkm');
-
-			$crs_infos = $this->getBookingModalitiesWithPermissionFor($user_id);
-			$crs_infos = $this->addCourseIfUserIsNotBookedOrOnWaitinglist($crs_infos, $user_id);
-			$crs_infos = $this->transformBkmToCourse($crs_infos);
-			$crs_infos = $this->addCourseClassification($crs_infos);
-			$crs_infos = $this->createBookableCourseByFilter($crs_infos, $filter);
+		if(ilPluginAdmin::isPluginActive('xccl')) {
+			$crss = $this->getAllCourses($user_id);
+			$crss = $this->filterCoursesUserIsBookedTo($user_id, $crss);
+			$crss = $this->filterCoursesUserHasNoPermissionsTo($user_id, $crss);
+			$crss = $this->addCourseClassification($crss);
+			$crss = $this->createBookableCourseByFilter($crss, $filter);
 		}
 
-		return $crs_infos;
+		return $crss;
 	}
 
 	/**
@@ -50,12 +44,12 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	public function getBookableCourse($ref_id,
 				$crs_title,
 				$type,
-				ilDateTime $start_date,
+				ilDateTime $start_date = null,
 				$bookings_available,
 				array $target_group,
 				$goals,
 				array $topics,
-				ilDateTime $end_date,
+				ilDateTime $end_date = null,
 				$city,
 				$address,
 				$costs = "KOSTEN"
@@ -78,6 +72,109 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	}
 
 	/**
+	 * Get all courses
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return array<ilObjCourse>
+	 */
+	protected function getAllCourses($user_id) {
+		$query = "SELECT DISTINCT object_reference.ref_id FROM object_data".PHP_EOL
+				." LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id".PHP_EOL
+				." WHERE object_data.type = 'crs'".PHP_EOL
+				."     AND object_reference.deleted IS NULL";
+
+		
+		$res = $this->g_db->query($query);
+		$ret = array();
+		while($row = $this->g_db->fetchAssoc($res)) {
+			$crs = ilObjectFactory::getInstanceByRefId($row["ref_id"]);
+			$ret[] = array("crs" => $crs);
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Filter courses from pool user is booked to
+	 *
+	 * @param int 	$user_id
+	 * @param array<ilObjCourse> 	$crss
+	 *
+	 * @return array<ilObjCourse>
+	 */
+	protected function filterCoursesUserIsBookedTo($user_id, array $crss) {
+		return array_filter($crss, function ($value) use ($user_id) {
+			$crs = $value["crs"];
+
+			if($this->userIsOnCourse($user_id, $crs->getRefId(), $crs->getId())) {
+				return false;
+			}
+
+			return true;
+		});
+	}
+
+	/**
+	 * Check user is booked on course or waiting list
+	 *
+	 * @param int 	$user_id
+	 * @param int 	$crs_ref_id
+	 * @param int 	$crs_id
+	 *
+	 * @return bool
+	 */
+	protected function userIsOnCourse($user_id, $crs_ref_id, $crs_id) {
+		require_once("Modules/Course/classes/class.ilCourseParticipants.php");
+		require_once("Services/Membership/classes/class.ilWaitingList.php");
+		if(\ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)
+			|| \ilWaitingList::_isOnList($user_id, $crs_id)
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Filter courses user has no permissions to
+	 *
+	 * @param int 	$user_id
+	 * @param array<ilObjCourse> 	$crss
+	 *
+	 * @return array<ilObjCourse>
+	 */
+	protected function filterCoursesUserHasNoPermissionsTo($user_id, array $crss) {
+		return array_filter($crss, function($value) use ($user_id) {
+			$crs = $value["crs"];
+
+			if(!$this->userHasPermissions($user_id, $crs->getRefId())) {
+				return false;
+			}
+
+			return true;
+		});
+	}
+
+	/**
+	 * Check user has needed permissions to view the course
+	 *
+	 * @param int 	$user_id
+	 * @param int 	$crs_ref_id
+	 *
+	 * @return bool
+	 */
+	protected function userHasPermissions($user_id, $crs_ref_id) {
+		if($this->g_access->checkAccess("visible", "", $crs_ref_id)
+			&& $this->g_access->checkAccess("read", "", $crs_ref_id)
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Add first course classification of course
 	 *
 	 * @param array<int, ilObjCourse | ilObjBookingModalities[]>
@@ -90,6 +187,35 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 		}
 
 		return $crs_infos;
+	}
+
+	/**
+	 * Get first child by type recursive
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$search_type
+	 *
+	 * @return Object 	of search type
+	 */
+	protected function getAllChildrenOfByType($ref_id, $search_type) {
+		$childs = $this->g_tree->getChilds($ref_id);
+		$ret = array();
+
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $search_type) {
+				$ret[] = \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($this->g_objDefinition->isContainer($type)) {
+				$rec_ret = $this->getAllChildrenOfByType($child["child"], $search_type);
+				if(! is_null($rec_ret)) {
+					$ret = array_merge($ret, $rec_ret);
+				}
+			}
+		}
+
+		return $ret;
 	}
 
 	/**
@@ -121,104 +247,6 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	}
 
 	/**
-	 * Get all booking modalities user as permission to book with
-	 *
-	 * @param int 	$user_id
-	 *
-	 * @return array<int, ilObjBookingModalities>
-	 */
-	protected function getBookingModalitiesWithPermissionFor($user_id) {
-		$op_id = ilRbacReview::_getOperationIdByName("book_by_this");
-		$query = "SELECT xbkm_booking.obj_id, rbac_pa.ops_id, object_reference.ref_id FROM xbkm_booking".PHP_EOL
-				." JOIN object_reference".PHP_EOL
-				."     ON object_reference.obj_id = xbkm_booking.obj_id".PHP_EOL
-				." JOIN rbac_ua".PHP_EOL
-				."     ON rbac_ua.usr_id = ".$this->g_db->quote($user_id, "integer").PHP_EOL
-				." JOIN rbac_pa".PHP_EOL
-				."     ON rbac_pa.ref_id = object_reference.ref_id".PHP_EOL
-				."         AND rbac_pa.rol_id = rbac_ua.rol_id".PHP_EOL
-				." WHERE xbkm_booking.modus = ".$this->g_db->quote("self_booking", "text");
-
-		$ret = array();
-		$res = $this->g_db->query($query);
-		while($row = $this->g_db->fetchAssoc($res)) {
-			$ops = unserialize(stripslashes($row["ops_id"]));
-			if(in_array($op_id, $ops)) {
-				$bm = ilObjectFactory::getInstanceByRefId($row["ref_id"]);
-				$ret[] = array("xbkm" => $bm);
-			}
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Adds course object if user is not booked or drops bkm
-	 *
-	 * @param array<int, ilObjBookingModalities>
-	 * @param int 	$user_id
-	 *
-	 * @return array<int, ilObjCourse | ilObjBookingModalities>
-	 */
-	protected function addCourseIfUserIsNotBookedOrOnWaitinglist(array $bms, $user_id) {
-		require_once("Modules/Course/classes/class.ilCourseParticipants.php");
-		require_once("Services/Membership/classes/class.ilWaitingList.php");
-		require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
-
-		$ret = array();
-
-		$bms = array_map( //flatten
-			function($bm) {return $bm['xbkm'];}
-			,$bms
-		);
-
-		foreach ($bms as $bm) {
-			$parent_crs = $bm->getParentCourse();
-			if($parent_crs) {
-				if(	!ilCourseParticipants::_isParticipant($parent_crs->getRefId(), $user_id)
-					&& !ilWaitingList::_isOnList($user_id, $parent_crs->getId())
-					&& \ilObjCourseAccess::_isActivated($parent_crs->getId()) === true
-				) {
-					$ret_entry = array(
-						'xbkm' => $bm, //object(ilObjBookingModalities)
-						'crs' => $parent_crs //object(ilObjCourse)
-					);
-					$ret[] = $ret_entry;
-				}
-			}
-
-		}
-		return $ret;
-	}
-
-	/**
-	 * transform array to get bkm with same crs in a single array
-	 *
-	 * @param array<int, ilObjCourse | ilObjBookingModalities>
-	 *
-	 * @return array<int, ilObjCourse | ilObjBookingModalities[]>
-	 */
-	protected function transformBkmToCourse($bms) {
-		$ret = array();
-
-		uasort($bms, function($a, $b) {
-			return strcmp((string)$a["crs"]->getRefId(), (string)$b["crs"]->getRefId());
-		});
-
-		$crs_ref_id = null;
-		foreach ($bms as $key => $value) {
-			if($crs_ref_id != $value["crs"]->getRefId()) {
-				$crs_ref_id = $value["crs"]->getRefId();
-				$ret[$crs_ref_id]["crs"] = $value["crs"];
-			}
-
-			$ret[$crs_ref_id]["xbkm"][] = $value["xbkm"];
-		}
-
-		return $ret;
-	}
-
-		/**
 	 * Perform filter on all course informations
 	 *
 	 * @param array<int, ilObjCourse | ilObjBookingModalities[] | ilObjCourseClassification>
@@ -236,26 +264,22 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 			$end_date = $crs->getCourseEnd();
 			$title = $crs->getTitle();
 
-			if($start_date === null) {
-				unset($crs_infos[$key]);
-				continue;
-			}
-
-			list($max_member, $booking_start_date, $booking_end_date, $waiting_list, $min_member, $bookings_available) = $this->helper->getBestBkmValues($value["xbkm"], $start_date);
 			list($venue_id, $city, $address) = $this->helper->getVenueInfos($crs->getId());
 			list($type_id,$type,$target_group_ids,$target_group,$goals,$topic_ids,$topics) = $this->helper->getCourseClassificationValues($value["xccl"]);
 			list($provider_id) = $this->helper->getProviderInfos($crs->getId());
 
-			if(!$this->filter->isInBookingPeriod($booking_start_date, $booking_end_date)) {
-				unset($crs_infos[$key]);
-				continue;
-			}
+			if($start_date) {
+				if(array_key_exists(Helper::F_DURATION, $filter)
+					&& !$this->filter->courseInFilterPeriod($start_date, $filter[Helper::F_DURATION]["start"], $filter[Helper::F_DURATION]["end"])
+				) {
+					unset($crs_infos[$key]);
+					continue;
+				}
 
-			if(array_key_exists(Helper::F_DURATION, $filter)
-				&& !$this->filter->courseInFilterPeriod($start_date, $filter[Helper::F_DURATION]["start"], $filter[Helper::F_DURATION]["end"])
-			) {
-				unset($crs_infos[$key]);
-				continue;
+				if($this->filter->courseIsExpired($start_date)) {
+					unset($crs_infos[$key]);
+					continue;
+				}
 			}
 
 			if(array_key_exists(Helper::F_TARGET_GROUP, $filter)
@@ -290,18 +314,11 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 				continue;
 			}
 
-			if(array_key_exists(Helper::F_NOT_MIN_MEMBER, $filter)
-				&& $this->filter->minMemberReached($crs->getRefId(), $min_member)
-			) {
-				unset($crs_infos[$key]);
-				continue;
-			}
-
 			$ret[] = $this->getBookableCourse((int)$crs->getRefId(),
 				$title,
 				$type,
 				$start_date,
-				$bookings_available,
+				"",
 				$target_group,
 				$goals,
 				$topics,

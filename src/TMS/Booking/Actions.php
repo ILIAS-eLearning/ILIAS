@@ -15,7 +15,7 @@ interface Actions {
 	const STATE_REMOVED_FROM_WAITINGLIST = "removed_waitinglist";
 
 	/**
-	 * Book the given user on the course. 
+	 * Book the given user on the course.
 	 *
 	 * @param	int		$crs_ref_id
 	 * @param	int		$user_id
@@ -32,7 +32,7 @@ interface Actions {
 	 * @param	int		$crs_ref_id
 	 * @param	int		$user_id
 	 *
-	 * @throws \LogicException 	if user can't be canceld from course or waitinglist
+	 * @throws \LogicException 	if user can't be canceled from course or waitinglist
 	 *
 	 * @return mixed	one of the STATEs
 	 */

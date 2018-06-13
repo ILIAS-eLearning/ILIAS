@@ -143,7 +143,7 @@ trait CourseInfoHelper {
 		$info = $this->unpackLabelAndNestedValueRendered($ui_factory, $ui_renderer, $info);
 
 		foreach ($info as $key => $value) {
-			$item = new \ilNonEditableValueGUI($key);
+			$item = new \ilNonEditableValueGUI($key, "", true);
 			$item->setValue($value);
 			$form->addItem($item);
 		}

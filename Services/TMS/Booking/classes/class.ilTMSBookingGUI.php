@@ -155,10 +155,18 @@ class ilTMSBookingGUI  extends Booking\Player {
 	 * @return \ilObjCourse[]
 	 */
 	protected function getParallelCourses(\ilObjCourse $try_to_book_course, array $booked_courses) {
+		if($try_to_book_course->getCourseStart() === null) {
+			return array();
+		}
+
 		$try_start = $try_to_book_course->getCourseStart()->get(IL_CAL_DATE);
 		$try_end = $try_to_book_course->getCourseEnd()->get(IL_CAL_DATE);
 
 		return array_filter($booked_courses, function($course) use ($try_start, $try_end) {
+			if($course->getCourseStart() === null) {
+				return false;
+			}
+
 			$course_start = $course->getCourseStart()->get(IL_CAL_DATE);
 			$course_end = $course->getCourseEnd()->get(IL_CAL_DATE);
 
