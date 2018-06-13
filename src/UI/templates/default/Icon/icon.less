@@ -53,6 +53,11 @@
 		}
 	}
 
+	&.disabled {
+		-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+		filter: grayscale(100%);
+	}
+
 	/* the custom-icon is rendered with an image contained in the div */
 	&.custom {
 		background-image: none;

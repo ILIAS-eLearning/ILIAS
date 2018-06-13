@@ -32,7 +32,7 @@ class Icon implements C\Icon\Icon {
 	/**
 	 * @var bool
 	 */
-	protected $is_disabled = false;
+	protected $is_disabled;
 
 	/**
 	 * @var	string[]

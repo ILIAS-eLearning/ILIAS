@@ -33,6 +33,7 @@ class IconTest extends ILIAS_UI_TestBase {
 		$this->assertEquals('Kurs', $ico->getAriaLabel());
 		$this->assertEquals('course', $ico->getName());
 		$this->assertEquals('small', $ico->getSize());
+		$this->assertEquals(false, $ico->isDisabled());
 		$this->assertNull($ico->getAbbreviation());
 
 		$ico = $ico->withAbbreviation('K');
@@ -65,6 +66,29 @@ class IconTest extends ILIAS_UI_TestBase {
 		}
 	}
 
+	public function testDisabledModification() {
+		$f = $f = $this->getIconFactory();
+		$ico = $f->standard('course', 'Kurs', 'small');
+
+		$ico = $ico->withDisabled(false);
+		$this->assertEquals(false, $ico->isDisabled());
+
+		$ico = $ico->withDisabled(true);
+		$this->assertEquals(true, $ico->isDisabled());
+	}
+
+	public function testDisabledModificationWrongParam() {
+		try {
+			$f = $f = $this->getIconFactory();
+			$ico = $f->standard('course', 'Kurs', 'small');
+			$ico = $ico->withDisabled('true');
+			$this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
+	}
+
 	public function testCustomPath() {
 		$f = $f = $this->getIconFactory();
 
@@ -78,13 +102,19 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $ico = $f->standard('crs', 'Course', 'medium');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon crs medium" aria-label="Course"></div>';
+		$expected = '<div class="icon crs medium enabled" aria-label="Course"></div>';
+		$this->assertEquals($expected, $html);
+
+		//with disabled
+		$ico = $ico->withDisabled(true);
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon crs medium disabled" aria-label="Course"></div>';
 		$this->assertEquals($expected, $html);
 
 		//with abbreviation
 		$ico = $ico->withAbbreviation('CRS');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon crs medium" aria-label="Course">'
+		$expected = '<div class="icon crs medium disabled" aria-label="Course">'
 					.'	<div class="abbreviation">CRS</div>'
 					.'</div>';
 		$this->assertEquals($expected, $html);
@@ -97,15 +127,23 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $ico = $f->custom($path, 'Custom', 'medium');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon custom medium" aria-label="Custom">'
+		$expected = '<div class="icon custom medium enabled" aria-label="Custom">'
 					.'	<img src="./templates/default/images/icon_fold.svg" />'
 					.'</div>';
+		$this->assertEquals($expected, $html);
+
+		//with disabled
+		$ico = $ico->withDisabled(true);
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon custom medium disabled" aria-label="Custom">'
+			.'	<img src="./templates/default/images/icon_fold.svg" />'
+			.'</div>';
 		$this->assertEquals($expected, $html);
 
 		//with abbreviation
 		$ico = $ico->withAbbreviation('CS');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon custom medium" aria-label="Custom">'
+		$expected = '<div class="icon custom medium disabled" aria-label="Custom">'
 					.'	<img src="./templates/default/images/icon_fold.svg" />'
 					.'	<div class="abbreviation">CS</div>'
 					.'</div>';
