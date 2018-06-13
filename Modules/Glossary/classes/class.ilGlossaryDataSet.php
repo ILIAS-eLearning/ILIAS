@@ -148,7 +148,7 @@ class ilGlossaryDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
-					$this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, virtual, pres_mode, snippet_length, show_tax, glo_menu_active".
+					$this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, g.virtual, pres_mode, snippet_length, show_tax, glo_menu_active".
 						" FROM glossary g JOIN object_data o ".
 						" ON (g.id = o.obj_id) ".
 						" WHERE ".$ilDB->in("g.id", $a_ids, false, "integer"));
