@@ -59,12 +59,11 @@ class ilTrainingSearchGUI {
 	public function executeCommand() {
 		$cmd = $this->g_ctrl->getCmd(self::CMD_SHOW);
 
-		switch($cmd) {
-			case self::CMD_SHOW:
-				$this->show();
-				break;
-			case self::CMD_FILTER:
-				$this->filter();
+		switch ($next_class) {
+			case "iltmsbookinggui":
+				require_once("Services/TMS/Booking/classes/class.ilTMSBookingGUI.php");
+				$gui = new ilTMSBookingGUI($this, self::CMD_SHOW);
+				$this->g_ctrl->forwardCommand($gui);
 				break;
 			default:
 				throw new Exception("Unknown command: ".$cmd);
@@ -158,6 +157,21 @@ class ilTrainingSearchGUI {
 	 */
 	protected function getBookableTrainings(array $filter) {
 		return $this->db->getBookableTrainingsFor($this->g_user->getId(), $filter);
+	}
+
+	/**
+	 * Get a link to book the given training.
+	 *
+	 * @param	BookableCourse	$course
+	 * @return	string
+	 */
+	public function getBookingLink(BookableCourse $course) {
+		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", $course->getRefId());
+		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", $this->g_user->getId());
+		$link = $this->g_ctrl->getLinkTargetByClass("ilTMSBookingGUI", "start");
+		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", null);
+		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", null);
+		return $link;
 	}
 }
 
