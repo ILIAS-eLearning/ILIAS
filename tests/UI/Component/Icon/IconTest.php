@@ -102,7 +102,7 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $ico = $f->standard('crs', 'Course', 'medium');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon crs medium enabled" aria-label="Course"></div>';
+		$expected = '<div class="icon crs medium " aria-label="Course"></div>';
 		$this->assertEquals($expected, $html);
 
 		//with disabled
@@ -127,7 +127,7 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $ico = $f->custom($path, 'Custom', 'medium');
 		$html = $this->normalizeHTML($r->render($ico));
-		$expected = '<div class="icon custom medium enabled" aria-label="Custom">'
+		$expected = '<div class="icon custom medium " aria-label="Custom">'
 					.'	<img src="./templates/default/images/icon_fold.svg" />'
 					.'</div>';
 		$this->assertEquals($expected, $html);
