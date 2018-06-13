@@ -904,15 +904,20 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#Lock Answers
-assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
-assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
+assessment#:#tst_answer_fixation_handling#:#Participant Answers
+assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
+assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
+assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
+assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
@@ -1033,6 +1038,8 @@ assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-but
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
