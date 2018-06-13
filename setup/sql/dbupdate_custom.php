@@ -81,3 +81,13 @@
 	}
 	// cat-tms-patch end
 ?>
+<#7>
+<?php
+	global $DIC;
+	require_once("Services/Tree/classes/class.ilTree.php");
+	$tree = new ilTree(0);
+	require_once("Services/Object/classes/class.ilObjectDataCache.php");
+	$cache = new ilObjectDataCache();
+	$provider_db = new CaT\Ente\ILIAS\ilProviderDB($DIC->database(), $tree, $cache);
+	$provider_db->createTables();
+?>

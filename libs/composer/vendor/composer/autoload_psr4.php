@@ -24,5 +24,9 @@ return array(
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
+    'Eluceo\\iCal\\' => array($vendorDir . '/eluceo/ical/src'),
     'Dflydev\\FigCookies\\' => array($vendorDir . '/dflydev/fig-cookies/src/Dflydev/FigCookies'),
+    'CaT\\Libs\\ExcelWrapper\\' => array($vendorDir . '/conceptsandtraining/lib-excel-wrapper/src'),
+    'CaT\\Ente\\' => array($vendorDir . '/conceptsandtraining/ente/src'),
+    'Box\\Spout\\' => array($vendorDir . '/box/spout/src/Spout'),
 );

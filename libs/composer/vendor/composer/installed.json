@@ -22,7 +22,7 @@
             "composer/composer": "~1.0",
             "phpunit/phpunit": "~4.6"
         },
-        "time": "2016-03-28T18:54:21+00:00",
+        "time": "2016-03-28 18:54:21",
         "type": "composer-plugin",
         "extra": {
             "class": "cweagans\\Composer\\Patches"
@@ -69,7 +69,7 @@
             "phpunit/phpunit": "~4.5",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2016-03-28T09:10:18+00:00",
+        "time": "2016-03-28 09:10:18",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -120,7 +120,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2017-06-03T02:28:16+00:00",
+        "time": "2017-06-03 02:28:16",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -176,7 +176,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2017-11-23T18:22:44+00:00",
+        "time": "2017-11-23 18:22:44",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -222,11 +222,11 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ed9f49a7c7a195f6ed2bc864f5ce03b990b5867d",
             "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
             "shasum": ""
         },
-        "time": "2016-02-01T23:14:34+00:00",
+        "time": "2016-02-01 23:14:34",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -281,7 +281,7 @@
             "twig/extensions": "Is necessary if you want to use the Twig extractor",
             "twig/twig": "Is necessary if you want to use the Twig extractor"
         },
-        "time": "2016-08-01T18:09:57+00:00",
+        "time": "2016-08-01 18:09:57",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -333,7 +333,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4"
         },
-        "time": "2017-03-23T17:02:28+00:00",
+        "time": "2017-03-23 17:02:28",
         "bin": [
             "bin/export-plural-rules",
             "bin/export-plural-rules.php"
@@ -400,7 +400,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-03-20T17:10:46+00:00",
+        "time": "2017-03-20 17:10:46",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -460,7 +460,7 @@
         "require": {
             "php": ">=5.6.0"
         },
-        "time": "2016-09-18T04:22:22+00:00",
+        "time": "2016-09-18 04:22:22",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -502,7 +502,7 @@
         "require": {
             "twig/extensions": "^1.3"
         },
-        "time": "2016-10-03T12:34:15+00:00",
+        "time": "2016-10-03 12:34:15",
         "type": "project",
         "installation-source": "dist",
         "autoload": {
@@ -548,7 +548,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-03-27T21:12:55+00:00",
+        "time": "2017-03-27 21:12:55",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -609,7 +609,7 @@
             "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
         },
-        "time": "2017-04-28T10:15:08+00:00",
+        "time": "2017-04-28 10:15:08",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -701,7 +701,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2016-07-29T03:23:52+00:00",
+        "time": "2016-07-29 03:23:52",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -775,7 +775,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2017-07-26T21:00:20+00:00",
+        "time": "2017-07-26 21:00:20",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -837,7 +837,7 @@
             "ext-xmlwriter": "*",
             "php": ">=5.2.0"
         },
-        "time": "2015-05-01T07:00:55+00:00",
+        "time": "2015-05-01 07:00:55",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -895,7 +895,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11T15:10:35+00:00",
+        "time": "2015-09-11 15:10:35",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -943,7 +943,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06T14:39:51+00:00",
+        "time": "2016-08-06 14:39:51",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -995,7 +995,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-10T12:19:37+00:00",
+        "time": "2016-10-10 12:19:37",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1048,7 +1048,7 @@
             "phpunit/phpunit": "~3.7.0",
             "satooshi/php-coveralls": ">=1.0"
         },
-        "time": "2016-02-11T07:05:27+00:00",
+        "time": "2016-02-11 07:05:27",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1089,7 +1089,7 @@
         "suggest": {
             "ext-openssl": "OpenSSL extension"
         },
-        "time": "2017-08-31T09:27:07+00:00",
+        "time": "2017-08-31 09:27:07",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1141,7 +1141,7 @@
             "sensiolabs/security-checker": "~1.1",
             "squizlabs/php_codesniffer": "~1.4"
         },
-        "time": "2018-04-18T04:43:35+00:00",
+        "time": "2018-04-18 04:43:35",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1207,7 +1207,7 @@
             "mikey179/vfsstream": "~1.6",
             "phpunit/phpunit": "~4.8"
         },
-        "time": "2018-02-27T09:21:42+00:00",
+        "time": "2018-02-27 09:21:42",
         "type": "project",
         "extra": {
             "patches_applied": {
@@ -1270,7 +1270,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2016-07-17T14:02:08+00:00",
+        "time": "2016-07-17 14:02:08",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1321,7 +1321,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-03-14T16:36:15+00:00",
+        "time": "2012-03-14 16:36:15",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1366,7 +1366,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-12T10:08:34+00:00",
+        "time": "2015-09-12 10:08:34",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -1443,7 +1443,7 @@
         "suggest": {
             "symfony/translation": "Allow the time_diff output to be translated"
         },
-        "time": "2017-06-08T18:19:53+00:00",
+        "time": "2017-06-08 18:19:53",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1499,7 +1499,7 @@
             "symfony/debug": "^2.7",
             "symfony/phpunit-bridge": "^3.3"
         },
-        "time": "2018-03-20T04:25:58+00:00",
+        "time": "2018-03-20 04:25:58",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1564,7 +1564,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.0.*"
         },
-        "time": "2015-02-11T11:06:42+00:00",
+        "time": "2015-02-11 11:06:42",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1587,6 +1587,250 @@
         "keywords": [
             "MD5",
             "apr1"
+        ]
+    },
+    {
+        "name": "eluceo/ical",
+        "version": "0.14.0",
+        "version_normalized": "0.14.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/markuspoerschke/iCal.git",
+            "reference": "5db245d5521a060129d0f14d154d65f32b804883"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/5db245d5521a060129d0f14d154d65f32b804883",
+            "reference": "5db245d5521a060129d0f14d154d65f32b804883",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^6.0"
+        },
+        "suggest": {
+            "ext-mbstring": "Massive performance enhancement of line folding"
+        },
+        "time": "2018-03-13 19:39:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Eluceo\\iCal\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Markus Poerschke",
+                "email": "markus@eluceo.de",
+                "role": "Developer"
+            }
+        ],
+        "description": "The eluceo/iCal package offers a abstraction layer for creating iCalendars. You can easily create iCal files by using PHP object instead of typing your *.ics file by hand. The output will follow RFC 5545 as best as possible.",
+        "homepage": "https://github.com/markuspoerschke/iCal",
+        "keywords": [
+            "calendar",
+            "iCalendar",
+            "ical",
+            "ics",
+            "php calendar"
+        ]
+    },
+    {
+        "name": "conceptsandtraining/ente",
+        "version": "3.1.2",
+        "version_normalized": "3.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/conceptsandtraining/lib-ente.git",
+            "reference": "35aea88317aa2f6d43bb4c12dde437fca1232960"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/conceptsandtraining/lib-ente/zipball/35aea88317aa2f6d43bb4c12dde437fca1232960",
+            "reference": "35aea88317aa2f6d43bb4c12dde437fca1232960",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.6"
+        },
+        "time": "2018-02-21 09:51:11",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "CaT\\Ente\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Richard Klees",
+                "email": "richard.klees@concepts-and-training.de"
+            }
+        ],
+        "description": "An entity component framework for ILIAS."
+    },
+    {
+        "name": "box/spout",
+        "version": "v2.7.3",
+        "version_normalized": "2.7.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/box/spout.git",
+            "reference": "3681a3421a868ab9a65da156c554f756541f452b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/box/spout/zipball/3681a3421a868ab9a65da156c554f756541f452b",
+            "reference": "3681a3421a868ab9a65da156c554f756541f452b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xmlreader": "*",
+            "ext-zip": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.0"
+        },
+        "suggest": {
+            "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
+            "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
+        },
+        "time": "2017-09-25 19:44:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Box\\Spout\\": "src/Spout"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Adrien Loison",
+                "email": "adrien@box.com"
+            }
+        ],
+        "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
+        "homepage": "https://www.github.com/box/spout",
+        "keywords": [
+            "OOXML",
+            "csv",
+            "excel",
+            "memory",
+            "odf",
+            "ods",
+            "office",
+            "open",
+            "php",
+            "read",
+            "scale",
+            "spreadsheet",
+            "stream",
+            "write",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "conceptsandtraining/lib-excel-wrapper",
+        "version": "v0.3",
+        "version_normalized": "0.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/conceptsandtraining/lib-excel-wrapper.git",
+            "reference": "d2c821b0e4a02aa46988e4dd66699fc71bb0e4fe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/conceptsandtraining/lib-excel-wrapper/zipball/d2c821b0e4a02aa46988e4dd66699fc71bb0e4fe",
+            "reference": "d2c821b0e4a02aa46988e4dd66699fc71bb0e4fe",
+            "shasum": ""
+        },
+        "require": {
+            "box/spout": "^2.4"
+        },
+        "require-dev": {
+            "roave/security-advisories": "dev-master",
+            "sensiolabs/security-checker": "^4.1"
+        },
+        "time": "2018-05-08 14:39:13",
+        "type": "library",
+        "extra": {
+            "box/spout": {
+                "source": "https://github.com/box/spout",
+                "used_version": "v2.4.0",
+                "wrapped_by": null
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "CaT\\Libs\\ExcelWrapper\\": "./src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ]
+    },
+    {
+        "name": "setasign/fpdf",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Setasign/FPDF.git",
+            "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Setasign/FPDF/zipball/2c68c9e6c034ac3187d25968790139a73184cdb1",
+            "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1",
+            "shasum": ""
+        },
+        "time": "2016-01-01 17:47:15",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "fpdf.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "no usage restriction"
+        ],
+        "authors": [
+            {
+                "name": "Olivier Plathey",
+                "email": "oliver@fpdf.org",
+                "homepage": "http://fpdf.org/"
+            }
+        ],
+        "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+        "homepage": "http://www.fpdf.org",
+        "keywords": [
+            "fpdf",
+            "pdf"
         ]
     }
 ]
