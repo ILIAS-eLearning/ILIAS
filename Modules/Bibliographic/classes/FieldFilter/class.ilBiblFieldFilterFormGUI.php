@@ -81,7 +81,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		}
 
 		asort($select_options);
-		$si = new ilSelectInputGUI($this->lng()->txt("filter_field"), self::F_FIELD_ID);
+		$si = new ilSelectInputGUI($this->lng()->txt("field"), self::F_FIELD_ID);
 		$si->setInfo($this->lng()->txt("filter_field_info"));
 		$si->setOptions($select_options);
 		$si->setRequired(true);

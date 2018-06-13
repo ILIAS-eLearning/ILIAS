@@ -348,7 +348,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$DIC->tabs()->addSubTab(self::SUBTAB_SETTINGS, $DIC->language()
 		                                                   ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT));
 		$DIC->tabs()->addSubTab(self::SUB_TAB_FILTER, $DIC->language()
-		                                                  ->txt("filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+		                                                  ->txt("bibl_filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 	}
 
 

@@ -90,7 +90,7 @@ class ilBiblFieldFilterGUI {
 		$il_bibl_field->setObjectId($this->facade->iliasObjId());
 		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->facade);
 		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->lng()->txt('changes_saved_success'), true);
+			ilUtil::sendSuccess($this->lng()->txt('changes_saved'), true);
 			$this->ctrl()->redirect($this, self::CMD_STANDARD);
 		}
 		$form->setValuesByPost();
@@ -111,7 +111,7 @@ class ilBiblFieldFilterGUI {
 
 		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->facade);
 		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->lng()->txt('changes_saved_success'), true);
+			ilUtil::sendSuccess($this->lng()->txt('changes_saved'), true);
 			$this->ctrl()->redirect($this, self::CMD_STANDARD);
 		}
 		$form->setValuesByPost();
@@ -120,10 +120,11 @@ class ilBiblFieldFilterGUI {
 
 
 	public function delete() {
+		global $DIC;
 		$il_bibl_field = $this->getFieldFilterFromRequest();
 		$this->tabs()->activateTab(self::CMD_STANDARD);
 		$il_bibl_field->delete();
-		ilUtil::sendSuccess($this->dic->language()->txt('filter_deleted'), true);
+		ilUtil::sendSuccess($DIC->language()->txt('filter_deleted'), true);
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
