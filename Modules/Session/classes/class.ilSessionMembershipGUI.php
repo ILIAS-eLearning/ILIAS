@@ -269,6 +269,16 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	{
 		return $this->checkPermissionBool('write');
 	}
+
+
+	/**
+	 * Workaround for unavailable gallery
+	 */
+	protected function jump2UsersGallery()
+	{
+		return $this->participants();
+	}
+
 	
 	
 	

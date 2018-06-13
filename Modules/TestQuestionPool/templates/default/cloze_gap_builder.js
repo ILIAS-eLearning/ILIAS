@@ -252,7 +252,6 @@ var ClozeGapBuilder = (function () {
 		});
 
 		tinymce_iframe_selector.on('paste', function (event) {
-			pro.deferredCallbackFactory('TinyMcePaste')(function () {
 				event.preventDefault();
 				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 				clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
@@ -264,7 +263,6 @@ var ClozeGapBuilder = (function () {
 				pro.cleanGapCode();
 				ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
 				pro.correctCursorPositionInTextarea();
-			}, 200);
 		});
 	};
 	pro.insertGapToJson = function (index, values, gaptype) {
@@ -322,7 +320,7 @@ var ClozeGapBuilder = (function () {
 		var newText = pro.getTextAreaValue();
 		var iterator = newText.match(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g);
 		var last = 0;
-		for (var i = 0; i < iterator.length; i++) {
+		if(iterator) for (var i = 0; i < iterator.length; i++) {
 			last = i;
 			if (iterator[i].match(/\[gap\]/)) {
 				var values = iterator[i].replace(/\[gap\]/, '');

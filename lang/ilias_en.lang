@@ -1531,6 +1531,7 @@ cmps#:#cmps_needs_update#:#Needs update.
 cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.
 cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
 cmps#:#cmps_no_language_file_available#:#No language file available.
+cmps#:#cmps_must_installed#:#The component must be installed.
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
@@ -2902,7 +2903,7 @@ common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
 common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chap#:#Chapter
-common#:#obj_cmps_desc#:#General settings for Repository Plugins
+common#:#obj_cmps_desc#:#General settings for Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs#:#Course
