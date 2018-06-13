@@ -163,16 +163,16 @@ abstract class ilBiblAdminFieldGUI {
 	protected function index() {
 		$this->setSubTabs();
 		// Buttons for restoring emthods
-		$default_sorting = ilLinkButton::getInstance();
+		/*$default_sorting = ilLinkButton::getInstance();
 		$default_sorting->setCaption('init_default_fields');
 		$default_sorting->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_INIT_DEFAULT_FIELDS_AND_SORTING));
-		$this->toolbar()->addButtonInstance($default_sorting);
+		$this->toolbar()->addButtonInstance($default_sorting);*/
 
 		// Buttons for restoring emthods
-		$overview_models = ilLinkButton::getInstance();
+		/*$overview_models = ilLinkButton::getInstance();
 		$overview_models->setCaption('init_overview_models');
 		$overview_models->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_INIT_OVERVIEW_MODELS));
-		$this->toolbar()->addButtonInstance($overview_models);
+		$this->toolbar()->addButtonInstance($overview_models);*/
 
 		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
 		$this->tpl()->setContent($ilBiblAdminFieldTableGUI->getHTML());
