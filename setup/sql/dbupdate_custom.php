@@ -91,3 +91,23 @@
 	$provider_db = new CaT\Ente\ILIAS\ilProviderDB($DIC->database(), $tree, $cache);
 	$provider_db->createTables();
 ?>
+<#8>
+<?php
+
+global $DIC;
+$db = $DIC->database();
+require_once("Services/Object/classes/class.ilObjectDataCache.php");
+$DIC["ilObjDataCache"] = new ilObjectDataCache();
+require_once("Services/Tree/classes/class.ilTree.php");
+$DIC["tree"] = new ilTree(-1);
+
+require_once("Services/TMS/classes/class.ilTMSAppEventListener.php");
+require_once("Services/Object/classes/class.ilObject.php");
+$query = $db->query("SELECT obj_id FROM object_data WHERE type = 'crs'");
+while($res = $db->fetchAssoc($query)) {
+	$obj = new ilObject();
+	$obj->setId($res["obj_id"]);
+	ilTMSAppEventListener::createUnboundCourseProvider($obj);
+}
+
+?>
