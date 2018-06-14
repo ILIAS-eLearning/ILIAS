@@ -123,7 +123,9 @@ class ilLPStatusVisitedPages extends ilLPStatus
 				
 	protected static function getLMPages($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -148,7 +150,9 @@ class ilLPStatusVisitedPages extends ilLPStatus
 	
 	protected static function getVisitedPages($a_obj_id, $a_user_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		

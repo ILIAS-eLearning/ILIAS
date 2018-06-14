@@ -145,7 +145,9 @@ class ilLPStatusPlugin extends ilLPStatus
 	 */
 	protected static function getLPStatusData($a_obj_id, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$all = array();
 		
@@ -169,7 +171,9 @@ class ilLPStatusPlugin extends ilLPStatus
 	 */
 	protected static function getLPDataForUser($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT status".
 			" FROM ut_lp_marks".
@@ -186,7 +190,9 @@ class ilLPStatusPlugin extends ilLPStatus
 	
 	protected static function getPercentageForUser($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT percentage".
 			" FROM ut_lp_marks".

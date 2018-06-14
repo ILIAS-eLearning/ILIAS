@@ -19,7 +19,10 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->setId("lpobjstattbl");
 		
@@ -67,7 +70,9 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$caption = $lng->txt("month_".substr($a_set["month"], 5, 2)."_long").
 			" ".substr($a_set["month"], 0, 4);
