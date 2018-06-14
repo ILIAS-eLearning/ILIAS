@@ -30,12 +30,6 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 	 */
 	public function saveGeneral()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 */
-		global $ilCtrl, $lng;
-
 		$formFactory  = new ilChatroomFormFactory();
 		$settingsForm = $formFactory->getSettingsForm();
 
@@ -76,8 +70,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 			}
 			$room->saveSettings($settings);
 
-			ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-			$ilCtrl->redirect($this->gui, 'settings-general');
+			ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+			$this->ilCtrl->redirect($this->gui, 'settings-general');
 		}
 	}
 
@@ -87,27 +81,20 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 	 */
 	public function general(ilPropertyFormGUI $settingsForm = null)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $tpl    ilTemplate
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $tpl, $ilCtrl;
-
 		if(!ilChatroom::checkUserPermissions(array(
 			'read',
 			'write'
 		), $this->gui->ref_id)
 		)
 		{
-			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass('ilrepositorygui', '');
+			$this->ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+			$this->ilCtrl->redirectByClass('ilrepositorygui', '');
 		}
 
 		$chatSettings = new ilSetting('chatroom');
 		if(!$chatSettings->get('chat_enabled'))
 		{
-			ilUtil::sendInfo($lng->txt('server_disabled'), true);
+			ilUtil::sendInfo($this->ilLng->txt('server_disabled'), true);
 		}
 
 		$this->gui->switchToVisibleMode();
@@ -143,11 +130,11 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 			}
 		}
 
-		$settingsForm->setTitle($lng->txt('settings_title'));
-		$settingsForm->addCommandButton('settings-saveGeneral', $lng->txt('save'));
-		$settingsForm->setFormAction($ilCtrl->getFormAction($this->gui, 'settings-saveGeneral'));
+		$settingsForm->setTitle($this->ilLng->txt('settings_title'));
+		$settingsForm->addCommandButton('settings-saveGeneral', $this->ilLng->txt('save'));
+		$settingsForm->setFormAction($this->ilCtrl->getFormAction($this->gui, 'settings-saveGeneral'));
 
-		$tpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
+		$this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
 	}
 
 	/**

@@ -109,6 +109,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		// allow only write access
 
 		if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id))
@@ -116,6 +118,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this->testGUI, "infoScreen");
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
 		// process command
 
@@ -800,8 +804,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$fixedparticipants->setValue(1);
 		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
 		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
-		$invited_users = $this->testOBJ->getInvitedUsers();
-		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
+		if ($this->testOBJ->participantDataExist())
 		{
 			$fixedparticipants->setDisabled(true);
 		}

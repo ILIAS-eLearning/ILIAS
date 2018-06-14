@@ -499,4 +499,181 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function comment($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Like Glyph indicates a user affirms an item, e.g. a posting.
+	 *   composition: >
+	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of like expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Like'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function like($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Love Glyph indicates a user adores an item, e.g. a posting.
+	 *   composition: >
+	 *       The Love Glyph uses the "red heart" unicode emoji U+2764, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of love expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Love'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function love($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Dislike Glyph indicates a user objects an item, e.g. a posting.
+	 *   composition: >
+	 *       The Dislike Glyph uses the "thumbs down" unicode emoji U+1F44E, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of dislike expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Dislike'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function dislike($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Laugh Glyph indicates a user finds an item hilarious, e.g. a posting.
+	 *   composition: >
+	 *       The Laugh Glyph uses the "grinning face with smiling eyes" unicode emoji U+1F604, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of laugh expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Laugh'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function laugh($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Astounded Glyph indicates a user finds an item surprising, e.g. a posting.
+	 *   composition: >
+	 *       The Astounded Glyph uses the "face with open mouth" unicode emoji U+1F62E, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of astounded expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Astounded'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function astounded($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Sad Glyph indicates a user finds an item disconcerting, e.g. a posting.
+	 *   composition: >
+	 *       The Sad Glyph uses the "sad but relieved face" unicode emoji U+1F625, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of sad expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Sad'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function sad($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Angry Glyph indicates a user finds an item outraging, e.g. a posting.
+	 *   composition: >
+	 *       The Angry Glyph uses the "angry face" unicode emoji U+1F620, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of angry expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Angry'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function angry($action = null);
+
+
 }

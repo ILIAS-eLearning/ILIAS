@@ -115,16 +115,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	function outAdditionalOutput()
 	{
-		if ($this->object->getMaxNumOfChars() > 0)
-		{
-			$this->tpl->addBlockFile("CONTENT_BLOCK", "charcounter", "tpl.charcounter.html", "Modules/TestQuestionPool");
-			$this->tpl->setCurrentBlock("charcounter");
-			$this->tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
-	protected function magicAfterTestOutput()
+	public function magicAfterTestOutput()
 	{
 		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
 
@@ -208,7 +201,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
 			
-			$act_no_of_chars = strlen($user_solution);
+			$act_no_of_chars = $this->object->countLetters($user_solution);
 			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
 		}
@@ -359,6 +352,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
 			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
@@ -374,7 +368,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("QID", $this->object->getId());
+		
 		$questionoutput = $template->get();
+		
+		$questionoutput .= $this->getJsCode();
+
 		if (!$show_question_only)
 		{
 			// get page object output
@@ -417,18 +416,42 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
 			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
 			$template->parseCurrentBlock();
 		}
+		$template->setVariable("QID", $this->object->getId());
 		$template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
+		
+		$questionoutput .= $this->getJsCode();
+		
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
 		return $pageoutput;
+	}
+	
+	protected function getJsCode()
+	{
+		$tpl = new ilTemplate('tpl.charcounter.html', true, true, 'Modules/TestQuestionPool');
+		
+		$tpl->setCurrentBlock('tinymce_handler');
+		$tpl->touchBlock('tinymce_handler');
+		$tpl->parseCurrentBlock();
+		
+		if ($this->object->getMaxNumOfChars() > 0)
+		{
+			$tpl->setCurrentBlock('letter_counter_js');
+			$tpl->setVariable("QID", $this->object->getId());
+			$tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
 	}
 
 	function addSuggestedSolution()

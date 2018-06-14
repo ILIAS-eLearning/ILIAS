@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
@@ -16,7 +17,7 @@ use League\Flysystem\Adapter\Local;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  */
-class FlySystemLocalFilesystemFactory {
+final class FlySystemLocalFilesystemFactory {
 
 	const PRIVATE_ACCESS_KEY = 'private';
 	const PUBLIC_ACCESS_KEY = 'public';
@@ -49,6 +50,18 @@ class FlySystemLocalFilesystemFactory {
 				]
 			]
 			);
+
+		//switch the path separator to a forward slash, see Mantis 0022554
+		$reflection = new \ReflectionObject($adapter);
+		$property = $reflection->getProperty("pathSeparator");
+		$property->setAccessible(true);
+		$property->setValue($adapter, '/');
+
+		/* set new path separator in path prefix, the library will replace the old path ending
+		   while setting the path prefix.
+		*/
+		$adapter->setPathPrefix($adapter->getPathPrefix());
+
 
 		$filesystem = new \League\Flysystem\Filesystem($adapter);
 		$fileAccess = new FlySystemFileAccess($filesystem);

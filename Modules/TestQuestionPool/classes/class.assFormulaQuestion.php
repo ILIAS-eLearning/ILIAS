@@ -1024,7 +1024,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			return true;
 		}
 		
-		if( preg_match('/^\d+\/\d+$/', $submittedValue) )
+		if( preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue) )
 		{
 			return true;
 		}

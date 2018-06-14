@@ -74,15 +74,16 @@ class Tag extends Input implements C\Input\Field\Tag {
 		$configuration = new \stdClass();
 		$configuration->id = null;
 		$configuration->options = $this->getTags();
-		$configuration->selected_options = $this->getValue();
+		$configuration->selectedOptions = $this->getValue();
 		$configuration->extendable = $this->areUserCreatedTagsAllowed();
-		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
-		$configuration->max_chars = 2000;
-		$configuration->suggestion_limit = 50;
+		$configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+		$configuration->maxChars = 2000;
+		$configuration->suggestionLimit = 50;
 		$configuration->debug = false;
-		$configuration->allow_duplicates = false;
+		$configuration->allowDuplicates = false;
 		$configuration->highlight = true;
-		$configuration->tag_class = "label label-primary";
+		$configuration->tagClass = "label label-primary il-input-tag-tag";
+		$configuration->focusClass = 'il-input-tag-focus';
 
 		return $configuration;
 	}
@@ -99,9 +100,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		);
 
 		return $this->validation_factory->sequential(
-			[
-				$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),
-			]
+			[$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),]
 		);
 	}
 
@@ -110,6 +109,39 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
+		if ($this->getMaxTags() > 0) {
+			$max_tags = $this->getMaxTags();
+			$max_tags_ok = $this->validation_factory->custom(
+				function ($value) use ($max_tags) {
+					return (is_array($value) && count($value) <= $max_tags);
+				}, 'Too many Tags'
+			);
+			if (!$max_tags_ok->accepts($value)) {
+				return false;
+			}
+		}
+
+		if ($this->getTagMaxLength() > 0) {
+			$tag_max_length = $this->getTagMaxLength();
+			$tag_max_length_ok = $this->validation_factory->custom(
+				function ($value) use ($tag_max_length) {
+					if (!is_array($value)) {
+						return false;
+					}
+					foreach ($value as $item) {
+						if (strlen($item) > $tag_max_length) {
+							return false;
+						}
+					}
+
+					return true;
+				}, 'Too long Tags'
+			);
+			if (!$tag_max_length_ok->accepts($value)) {
+				return false;
+			}
+		}
+
 		return ($this->validation_factory->isNull()->accepts($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
 	}
 

@@ -15,10 +15,7 @@ module.exports = function FileExists(filename) {
 
 	this.validate = function() {
 		if(!FileSystem.existsSync(_filename)) {
-			/**
-			 * @TODO Change Error
-			 */
-			throw new Error('CHANGE TO SPECIFIC ERROR');
+			throw new Error('File does not exist: ' + _filename);
 		}
 	};
 };

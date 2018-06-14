@@ -79,6 +79,9 @@ interface Factory {
 	 *   rivals:
 	 *      Standard Panels: >
 	 *        The Report Panels contains sub panels used to structure information.
+	 *      Presentation Table: >
+	 *        Presentation Tables display only a subset of the data at first glance;
+	 *        their entries can then be expanded to show detailed information.
 	 *
 	 * rules:
 	 *   usage:
@@ -113,6 +116,10 @@ interface Factory {
 	 *      Report Panels: >
 	 *        Report Panels contain sections as Sub Panels each displaying
 	 *        different aspects of one item.
+	 *      Presentation Table: >
+	 *        Use Presentation Table if you have a data set at hand that you want to
+	 *        make explorable and/or present as a wholeness. Also use Presentation
+	 *        Table if your dataset does not contain Items that represent entities.
 	 *
 	 * rules:
 	 *   usage:

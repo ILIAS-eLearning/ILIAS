@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
@@ -15,7 +16,7 @@ namespace ILIAS\Filesystem\Stream;
  * @see Stream
  * @internal
  */
-class StreamOptions {
+final class StreamOptions {
 
 	const UNKNOWN_STREAM_SIZE = -1;
 
@@ -35,7 +36,7 @@ class StreamOptions {
 	 * @param \string[] $metadata   Additional metadata for the stream.
 	 * @param int       $size       The known stream size in byte. -1 indicates an unknown size.
 	 */
-	public function __construct(array $metadata = [], $size = self::UNKNOWN_STREAM_SIZE) {
+	public function __construct(array $metadata = [], int $size = self::UNKNOWN_STREAM_SIZE) {
 		$this->size = $size;
 		$this->metadata = $metadata;
 	}
@@ -44,7 +45,7 @@ class StreamOptions {
 	/**
 	 * @return int
 	 */
-	public function getSize() {
+	public function getSize(): int {
 		return $this->size;
 	}
 
@@ -52,7 +53,7 @@ class StreamOptions {
 	/**
 	 * @return \string[]
 	 */
-	public function getMetadata() {
+	public function getMetadata(): array {
 		return $this->metadata;
 	}
 }

@@ -111,12 +111,6 @@ class ilSCORM13Package
 		$this->setProgress(0, 'Roll back finished: Ok. ');
 	}
 
-	public function exportZIP()
-	{
-		header('content-type: application/zip');
-		header('content-disposition: attachment; filename="' . basename($this->packageFile) . '"');
-		readfile($this->packageFile);
-	}
 
 	/**
 	 * Export as internal XML

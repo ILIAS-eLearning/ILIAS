@@ -338,6 +338,7 @@ class ilRepositorySearchGUI
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
 		$auto->setUserLimitations($this->getUserLimitations());
+		$auto->addUserAccessFilterCallable($this->user_filter);
 
 		echo $auto->getList($_REQUEST['term']);
 		exit();

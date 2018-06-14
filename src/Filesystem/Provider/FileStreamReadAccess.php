@@ -37,5 +37,5 @@ interface FileStreamReadAccess {
 	 *
 	 * @see FileStream::close()
 	 */
-	public function readStream($path);
+	public function readStream(string $path): FileStream;
 }

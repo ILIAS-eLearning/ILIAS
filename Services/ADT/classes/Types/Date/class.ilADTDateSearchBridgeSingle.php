@@ -79,7 +79,9 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function getSQLCondition($a_element_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->isNull() && $this->isValid())		
 		{

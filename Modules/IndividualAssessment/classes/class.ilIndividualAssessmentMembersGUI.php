@@ -35,6 +35,7 @@ class ilIndividualAssessmentMembersGUI {
 		if(!$this->iass_access->mayEditMembers()
 			&& !$this->iass_access->mayGradeUser()
 			&& !$this->iass_access->mayViewUser()
+			&& !$this->iass_access->mayAmendGradeUser()
 		) {
 			$this->parent_gui->handleAccessViolation();
 		}

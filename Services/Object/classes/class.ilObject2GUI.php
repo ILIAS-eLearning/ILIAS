@@ -76,7 +76,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->type = $this->getType();
 		$this->html = "";
 		
-		// use globals instead?
 		$this->tabs_gui = $ilTabs;
 		$this->objDefinition = $objDefinition;
 		$this->tpl = $tpl;

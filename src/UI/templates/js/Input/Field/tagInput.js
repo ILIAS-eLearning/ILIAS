@@ -65,18 +65,19 @@ il.UI.Input = il.UI.Input || {};
 
             // TagInput
             $(id).tagsinput({
-                tagClass: _CONFIG.tag_class,
+                tagClass: _CONFIG.tagClass,
+                focusClass: _CONFIG.focusClass,
                 cancelConfirmKeysOnEmpty: false,
-                maxChars: _CONFIG.max_chars,
-                allowDuplicates: _CONFIG.allow_duplicates,
+                maxChars: _CONFIG.maxChars,
+                allowDuplicates: _CONFIG.allowDuplicates,
                 trimValue: true,
                 freeInput: _CONFIG.extendable,
                 typeaheadjs: {
                     name: 'local',
-                    minLength: _CONFIG.suggestion_starts,
+                    minLength: _CONFIG.suggestionStarts,
                     highlight: _CONFIG.highlight,
                     hint: _CONFIG.hint,
-                    limit: _CONFIG.suggestion_limit,
+                    limit: _CONFIG.suggestionLimit,
                     source: localSource.ttAdapter()
                 }
             });

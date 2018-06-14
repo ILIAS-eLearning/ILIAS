@@ -192,7 +192,7 @@ skin](https://www.ilias.de/docu/goto_docu_pg_68693_367.html)
 
 The `icon-font-path` for glyphs has changed due to a move from the bootstrap
 library to the new location for external libraries. The new location is:
-`../../../../libs/bower/bower_components/bootstrap/fonts/`. If a 5.2 style is
+`"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
 imported, the variable `icon-font-path` must be adapted accordingly.
 
 ## Less Guideline

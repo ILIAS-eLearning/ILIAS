@@ -150,7 +150,7 @@ il.UI = il.UI || {};
             var $dropzone = $("#" + options.id).find(".il-dropzone");
             // Find the element acting as "Select Files" button/link
             var $selectFilesButton = $dropzone.find('.il-dropzone-standard-select-files-wrapper')
-                .children('a.btn');
+                .children('a');
             if ($selectFilesButton.length) {
                 options.selectFilesButton = $selectFilesButton;
             }
@@ -203,7 +203,7 @@ il.UI = il.UI || {};
                 });
 
                 options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
-                options.uploadButton = $dropzone.find('.modal-footer a.btn-primary:first');
+                options.uploadButton = $dropzone.find('.modal-footer button.btn-primary:first');
 
                 il.UI.uploader.init(options.id, options);
             }

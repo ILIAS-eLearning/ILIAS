@@ -65,7 +65,7 @@
 			<fileset dir="${tmp}" />
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
-    			<attribute name="MODULE-VERSION" value="4.3.2" />
+    			<attribute name="MODULE-VERSION" value="5.4.1" />
 			<section name="de/ilias/config/unifont.ttf">
 				<attribute name="Content-Type" value="application/x-font" />
 			</section>

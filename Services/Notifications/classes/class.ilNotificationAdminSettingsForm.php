@@ -8,7 +8,9 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 class ilNotificationAdminSettingsForm {
 
     public static function getTypeForm($types) {
-        global $lng;
+        global $DIC;
+
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('notification');
 
@@ -31,7 +33,8 @@ class ilNotificationAdminSettingsForm {
     }
 
     public static function getChannelForm($types) {
-        global $lng;
+        global $DIC;
+        $lng = $DIC->language();
 
         $form = new ilPropertyFormGUI();
 
@@ -52,7 +55,9 @@ class ilNotificationAdminSettingsForm {
     }
 
     public static function getGeneralSettingsForm() {
-        global $lng;
+        global $DIC;
+        $lng = $DIC->language();
+
         $form = new ilPropertyFormGUI();
 
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';

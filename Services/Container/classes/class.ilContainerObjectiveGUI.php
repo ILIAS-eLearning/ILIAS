@@ -124,6 +124,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$ilTabs = $this->tabs;
 		$ilAccess = $this->access;
 		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -133,17 +134,17 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 		$tpl = new ilTemplate("tpl.container_page.html", true, true,"Services/Container");
 
-		if($GLOBALS['ilAccess']->checkAccess('write','',$this->getContainerObject()->getRefId()))
+		if($ilAccess->checkAccess('write','',$this->getContainerObject()->getRefId()))
 		{
 			// check for results
 			include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
-			if(ilLOUserResults::hasResults($this->getContainerObject()->getId(),$GLOBALS['ilUser']->getId()))
+			if(ilLOUserResults::hasResults($this->getContainerObject()->getId(), $ilUser->getId()))
 			{
 				include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 				$ilToolbar = new ilToolbarGUI();
 				$ilToolbar->addButton(
-						$lng->txt('crs_reset_results'), 
-						$GLOBALS['ilCtrl']->getLinkTargetByClass(get_class($this->getContainerGUI()),'reset')
+					$lng->txt('crs_reset_results'),
+					$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI()),'reset')
 				);
 			}
 			
@@ -209,7 +210,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		if(
 			ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId())->isResetResultsEnabled() or
-			$GLOBALS['ilAccess']->checkAccess('write','',$this->getContainerObject()->getRefId())
+			$ilAccess->checkAccess('write','',$this->getContainerObject()->getRefId())
 		)
 		{
 			if($has_results)
@@ -261,6 +262,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	{
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
+		$tpl = $this->tpl;
 		
 		$this->clearAdminCommandsDetermination();
 		
@@ -350,12 +352,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{			
 			// add core co page css
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-			$GLOBALS["tpl"]->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath(0));
-			$GLOBALS["tpl"]->setCurrentBlock("SyntaxStyle");
-			$GLOBALS["tpl"]->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				ilObjStyleSheet::getSyntaxStylePath());			
-			$GLOBALS["tpl"]->parseCurrentBlock();			
+			$tpl->setCurrentBlock("SyntaxStyle");
+			$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+			$tpl->parseCurrentBlock();
 		}			
 	
 		// order/block
@@ -404,10 +406,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	protected function renderTest($a_test_ref_id, $a_objective_id, $a_is_initial = false, $a_add_border = false, $a_lo_result = array())
 	{
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+
 		$node_data = [];
 		if($a_test_ref_id)
 		{
-			$node_data = $GLOBALS['tree']->getNodeData($a_test_ref_id);
+			$node_data = $tree->getNodeData($a_test_ref_id);
 		}
 		if(!$node_data['child'])
 		{
@@ -643,6 +649,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 						
 		$item_ref_id = $a_item["ref_id"];
 		
@@ -759,12 +766,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			}
 			include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 			$res = ilLOUserResults::lookupResult(
-					$this->getContainerObject()->getId(),
-					$GLOBALS['ilUser']->getId(),
-					$a_item['objective_id'], 
-					ilLOUserResults::TYPE_QUALIFIED);
+				$this->getContainerObject()->getId(),
+				$ilUser->getId(),
+				$a_item['objective_id'],
+				ilLOUserResults::TYPE_QUALIFIED);
 			
-			$res = $this->updateResult($res,$a_item['ref_id'],$a_item['objective_id'],$GLOBALS['ilUser']->getId());
+			$res = $this->updateResult($res,$a_item['ref_id'],$a_item['objective_id'], $ilUser->getId());
 			
 			if($res['is_final'])
 			{
@@ -1067,7 +1074,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	/**
 	 * Parse learning objective results.
-	 * @global type $ilUser
 	 * @return type
 	 */
 	protected function parseLOUserResults()

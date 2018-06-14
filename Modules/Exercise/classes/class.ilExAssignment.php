@@ -1763,7 +1763,7 @@ class ilExAssignment
 		
 		$res = array();
 		
-		$set = $ilDB->query("SELECT id,fb_file FROM exc_assignment".
+		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
 			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
 			" AND time_stamp IS NOT NULL".
@@ -1772,7 +1772,9 @@ class ilExAssignment
 			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			if(trim($row["fb_file"]))
+			$max = max($row['time_stamp'], $row['deadline2']);
+
+			if(trim($row["fb_file"]) && $max <= time())
 			{
 				$res[] = $row["id"];			
 			}
@@ -1888,7 +1890,7 @@ class ilExAssignment
 	// FEEDBACK FILES
 	// 
 	
-	protected function getGlobalFeedbackFileStoragePath()
+	public function getGlobalFeedbackFileStoragePath()
 	{
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1904,7 +1906,7 @@ class ilExAssignment
 	{		
 		$path = $this->getGlobalFeedbackFileStoragePath();
 		ilUtil::delDir($path, true);
-		if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path.$a_file["name"]))
+		if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path."/".$a_file["name"]))
 		{
 			$this->setFeedbackFile($a_file["name"]);		
 			return true;

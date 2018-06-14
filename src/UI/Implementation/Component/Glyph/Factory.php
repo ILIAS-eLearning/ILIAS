@@ -140,4 +140,53 @@ class Factory implements G\Factory {
 	public function comment($action = null) {
 		return new Glyph(G\Glyph::COMMENT, "comments", $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function like($action = null) {
+		return new Glyph(G\Glyph::LIKE, "like", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function love($action = null) {
+		return new Glyph(G\Glyph::LOVE, "love", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dislike($action = null) {
+		return new Glyph(G\Glyph::DISLIKE, "dislike", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function laugh($action = null) {
+		return new Glyph(G\Glyph::LAUGH, "laugh", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function astounded($action = null) {
+		return new Glyph(G\Glyph::ASTOUNDED, "astounded", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sad($action = null) {
+		return new Glyph(G\Glyph::SAD, "sad", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function angry($action = null) {
+		return new Glyph(G\Glyph::ANGRY, "angry", $action);
+	}
 }
