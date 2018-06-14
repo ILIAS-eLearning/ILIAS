@@ -8457,13 +8457,13 @@ ul.breadcrumb li:hover {
   border: none;
   box-shadow: none;
   outline: none;
-  padding: 0 6px;
-  margin: 0;
-  width: auto;
-  max-width: inherit;
+  padding: 0 6px 4px;
+  line-height: 1.42857143;
 }
 .il-input-tag .tag {
+  font-size: 100%;
   display: inline-block;
+  margin-bottom: 3px;
 }
 .il-input-tag .tag [data-role="remove"] {
   margin-left: 8px;
@@ -8474,8 +8474,7 @@ ul.breadcrumb li:hover {
   padding: 0px 2px;
 }
 .il-input-tag .bootstrap-tagsinput {
-  margin: 0 !important;
-  padding: 0 !important;
+  margin-bottom: -3px;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
