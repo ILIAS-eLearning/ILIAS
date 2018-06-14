@@ -236,6 +236,50 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
+		
+		// avoid settings conflict "obligate questions" and "freeze answer"
+		
+		$obligationsSetting = $form->getItemByPostVar('obligations_enabled');
+		$answerFixationSetting = $form->getItemByPostVar('answer_fixation_handling');
+		
+		if( $obligationsSetting->getChecked() && $answerFixationSetting->getValue() != self::ANSWER_FIXATION_NONE )
+		{
+			$obligationsSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			$answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			
+			ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+			return $this->showFormCmd($form);
+		}
+		
+		// avoid settings conflict "freeze answer on followup question" and "question postponing"
+		
+		$postponeSetting = $form->getItemByPostVar('postpone');
+		$answerFixationSetting = $form->getItemByPostVar('answer_fixation_handling');
+		$conflictModes = array(self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION, self::ANSWER_FIXATION_ON_IFB_OR_FUQST);
+		
+		if( $postponeSetting->getValue() && in_array($answerFixationSetting->getValue(), $conflictModes) )
+		{
+			$postponeSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			$answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			
+			ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+			return $this->showFormCmd($form);
+		}
+		
+		// avoid settings conflict "freeze answer on followup question" and "question shuffling"
+		
+		$shuffleSetting = $form->getItemByPostVar('chb_shuffle_questions');
+		$answerFixationSetting = $form->getItemByPostVar('answer_fixation_handling');
+		$conflictModes = array(self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION, self::ANSWER_FIXATION_ON_IFB_OR_FUQST);
+		
+		if( $shuffleSetting->getChecked() && in_array($answerFixationSetting->getValue(), $conflictModes) )
+		{
+			$shuffleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			$answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			
+			ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+			return $this->showFormCmd($form);
+		}
 
 		$infoMsg = array();
 
@@ -295,35 +339,13 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$newQuestionSetType = $oldQuestionSetType;
 		}
 
-		// adjust settiue to desired question set type
+		// adjust settings due to chosen question set type
 
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
 		}
 		
-		// avoid settings conflict "obligate questions" and "freeze answer"
-		
-		if( $form->getItemByPostVar('obligations_enabled')->getChecked() )
-		{
-			switch( $form->getItemByPostVar('instant_feedback_handling')->getValue() )
-			{
-				case self::INST_FB_HANDLING_OPT_FREEZE:
-					
-					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_NONE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
-					$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
-					break;
-					
-				case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
-
-					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_FORCE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
-					$infoMsg[] = $this->lng->txt("tst_conflict_reset_fbh_force");
-					break;
-			}
-		}
-
 		// perform saving the form data
 
 		$this->performSaveForm($form);
