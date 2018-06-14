@@ -449,6 +449,12 @@ assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
+assessment#:#tst_proceed#:#Fortfahren
+assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Sie haben keine Antwort eingegeben. Eine leere Lösung wird als Antwort zur aktuellen Frage gespeichert und festgeschrieben. Die Antwort kann nicht mehr verändert werden.
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten Frage
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
@@ -13360,7 +13366,6 @@ assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet

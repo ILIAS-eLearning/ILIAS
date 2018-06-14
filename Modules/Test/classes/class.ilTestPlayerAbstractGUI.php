@@ -2607,6 +2607,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->populateNavWhenChangedModal();
 // fau.
 
+		if( $this->object->isFollowupQuestionAnswerFixationEnabled() )
+		{
+			$this->populateNextLocksChangedModal();
+			$this->populateNextLocksUnchangedModal();
+		}
+		
 		if( $this->object->getKioskMode() )
 		{
 			$this->tpl->addJavaScript(ilUIFramework::BOWER_BOOTSTRAP_JS, true);
@@ -2750,7 +2756,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$tpl->setCurrentBlock('checkbox');
 		$tpl->setVariable('CONFIRMATION_CHECKBOX_NAME','save_on_navigation_prevent_confirmation');
-		$tpl->setVariable('CONFIRMATION_CHECKBOX_LABEL',$this->lng->txt('save_on_navigation_prevent_confirmation'));
+		$tpl->setVariable('CONFIRMATION_CHECKBOX_LABEL',$this->lng->txt('tst_dont_show_msg_again_in_current_session'));
 		$tpl->parseCurrentBlock();
 
 		$modal = ilModalGUI::getInstance();
@@ -2763,7 +2769,80 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 // fau.
+		
+	protected function populateNextLocksUnchangedModal()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPlayerConfirmationModal.php';
+		$modal = new ilTestPlayerConfirmationModal();
+		$modal->setModalId('tst_next_locks_unchanged_modal');
 
+		$modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
+		$modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
+		
+		$button = $modal->buildModalButtonInstance('tst_nav_next_empty_answer_button');
+		$button->setCaption('tst_proceed');
+		$button->setPrimary(false);
+		$modal->addButton($button);
+		
+		$button = $modal->buildModalButtonInstance('tst_cancel_next_empty_answer_button');
+		$button->setCaption('cancel');
+		$button->setPrimary(true);
+		$modal->addButton($button);
+		
+		$this->tpl->setCurrentBlock('next_locks_unchanged_modal');
+		$this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	protected function populateNextLocksChangedModal()
+	{
+		if( $this->isFollowUpQuestionLocksConfirmationPrevented() )
+		{
+			return;
+		}
+		
+		require_once 'Modules/Test/classes/class.ilTestPlayerConfirmationModal.php';
+		$modal = new ilTestPlayerConfirmationModal();
+		$modal->setModalId('tst_next_locks_changed_modal');
+		
+		$modal->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'));
+		$modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_current_answer_confirm'));
+		
+		$modal->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
+		$modal->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
+		
+		$button = $modal->buildModalButtonInstance('tst_nav_next_changed_answer_button');
+		$button->setCaption('tst_save_and_proceed');
+		$button->setPrimary(true);
+		$modal->addButton($button);
+		
+		$button = $modal->buildModalButtonInstance('tst_cancel_next_changed_answer_button');
+		$button->setCaption('cancel');
+		$button->setPrimary(false);
+		$modal->addButton($button);
+		
+		$this->tpl->setCurrentBlock('next_locks_changed_modal');
+		$this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	const FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM = 'followup_qst_locks_prevent_confirmation';
+	
+	protected function setFollowUpQuestionLocksConfirmationPrevented()
+	{
+		$_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
+	}
+	
+	protected function isFollowUpQuestionLocksConfirmationPrevented()
+	{
+		if( !isset($_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM]) )
+		{
+			return false;
+		}
+		
+		return $_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM];
+	}
+		
 // fau: testNav - new function populateQuestionEditControl
 	/**
 	 * Populate the navigation and saving control for editable questions
@@ -2812,7 +2891,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		// Forced feedback will change the navigation saving command
 		$config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
-
+		$config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
+		
 		$this->tpl->addJavascript('./Modules/Test/js/ilTestPlayerQuestionEditControl.js');
 		$this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init('.json_encode($config).')');
 	}
