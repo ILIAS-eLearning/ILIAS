@@ -37,7 +37,9 @@ class ilLPStatus
 	
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->obj_id = $a_obj_id;
 		$this->db = $ilDB;
@@ -249,7 +251,9 @@ class ilLPStatus
 	 */
 	static function checkStatusForObject($a_obj_id, $a_users = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 //@todo: there maybe the need to add extra handling for sessions here, since the
 // "in progress" status is time dependent here. On the other hand, if they registered
@@ -295,7 +299,9 @@ class ilLPStatus
 	
 	static protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_percentage)
 	{
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$log = ilLoggerFactory::getLogger('trac');
 		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_usr_id.", status: ".
@@ -375,7 +381,9 @@ class ilLPStatus
 	 */
 	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$log = ilLoggerFactory::getLogger('trac');
 		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_user_id.", status: ".
@@ -495,7 +503,9 @@ class ilLPStatus
 	 */
 	static function setInProgressIfNotAttempted($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// #11513
 
@@ -534,7 +544,9 @@ class ilLPStatus
 	 */
 	static function setAllDirty()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 	
 		$ilDB->manipulate("UPDATE ut_lp_marks SET ".
 			" status_dirty = ".$ilDB->quote(1, "integer")
@@ -550,7 +562,9 @@ class ilLPStatus
 	 */
 	static function setDirty($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 	
 		$ilDB->manipulate("UPDATE ut_lp_marks SET ".
 			" status_dirty = ".$ilDB->quote(1, "integer").
@@ -567,7 +581,9 @@ class ilLPStatus
 	 */
 	public static function _lookupStatus($a_obj_id, $a_user_id, $a_create = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT status FROM ut_lp_marks WHERE ".
 			" status_dirty = ".$ilDB->quote(0, "integer").
@@ -602,7 +618,9 @@ class ilLPStatus
 	 */
 	public static function _lookupPercentage($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT percentage FROM ut_lp_marks WHERE ".
 			" status_dirty = ".$ilDB->quote(0, "integer").
@@ -635,7 +653,9 @@ class ilLPStatus
 	 */
 	public static function _lookupStatusChanged($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT status_changed FROM ut_lp_marks WHERE ".
 			" status_dirty = ".$ilDB->quote(0, "integer").
@@ -672,7 +692,9 @@ class ilLPStatus
 	 */
 	protected static function _lookupStatusForObject($a_obj_id, $a_status, $a_user_ids = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$sql = "SELECT usr_id, status, status_dirty FROM ut_lp_marks".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -835,7 +857,9 @@ class ilLPStatus
 	 */
 	protected static function getLPStatusForObjects($a_user_id, $a_obj_ids)
 	{
-		global $ilDB; 
+		global $DIC; 
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -874,7 +898,10 @@ class ilLPStatus
 	
 	public static function preloadListGUIData($a_obj_ids)
 	{
-		global $ilUser, $lng;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		$user_id = $ilUser->getId();
 		

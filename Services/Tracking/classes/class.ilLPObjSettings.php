@@ -125,7 +125,10 @@ class ilLPObjSettings
 
 	function __construct($a_obj_id)
 	{
-		global $ilObjDataCache, $ilDB;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->obj_id = $a_obj_id;
@@ -149,7 +152,9 @@ class ilLPObjSettings
 	 */
 	public function cloneSettings($a_new_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	 	$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 	 		"VALUES( ".
@@ -211,7 +216,9 @@ class ilLPObjSettings
 
 	function update($a_refresh_lp = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->is_stored)
 		{
@@ -233,10 +240,10 @@ class ilLPObjSettings
 	
 	function insert()
 	{
-		global $ilDB,$ilLog;
-		
-		$ilLog->logStack();
-		
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
 		$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 			"VALUES(".
 			$ilDB->quote($this->getObjId() ,'integer').", ".
@@ -261,7 +268,9 @@ class ilLPObjSettings
 
 	static function _delete($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM ut_lp_settings WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -274,7 +283,9 @@ class ilLPObjSettings
 	
 	static function _lookupVisits($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT visits FROM ut_lp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
@@ -289,7 +300,9 @@ class ilLPObjSettings
 	
 	public static function _lookupDBModeForObjects(array $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// this does NOT handle default mode!
 		
@@ -308,7 +321,9 @@ class ilLPObjSettings
 
 	public static function _lookupDBMode($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// this does NOT handle default mode!
 
@@ -324,7 +339,9 @@ class ilLPObjSettings
 		
 	public static function _mode2Text($a_mode)
 	{	
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if(array_key_exists($a_mode, self::$map) &&
 			is_array(self::$map[$a_mode]))
@@ -335,7 +352,9 @@ class ilLPObjSettings
 	
 	public static function _mode2InfoText($a_mode)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if(array_key_exists($a_mode, self::$map) &&
 			is_array(self::$map[$a_mode]))
@@ -365,7 +384,9 @@ class ilLPObjSettings
 	
 	public static function _deleteByObjId($a_obj_id)
 	{	 
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// we are only removing settings for now
 		// invalid ut_lp_collections-entries are filtered
