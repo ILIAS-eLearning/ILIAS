@@ -43,7 +43,8 @@ il.TestPlayerQuestionEditControl = new function() {
         withFormChangeDetection: true,          // form changes should be detected
         withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
         backgroundDetectorUrl: '',              // url called by the background detector
-        forcedInstantFeedback: false            // forced feedback will change the submit command
+        forcedInstantFeedback: false,            // forced feedback will change the submit command
+        nextQuestionLocks: false
     };
 
     /**
