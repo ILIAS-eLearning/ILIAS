@@ -4,5 +4,5 @@ function confirmation() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->messageBox()->confirmation());
+	return $renderer->render($f->messageBox()->confirmation("Confirmation"));
 }

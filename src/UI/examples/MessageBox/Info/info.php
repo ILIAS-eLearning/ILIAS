@@ -4,5 +4,5 @@ function info() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->messageBox()->info());
+	return $renderer->render($f->messageBox()->info("Info"));
 }

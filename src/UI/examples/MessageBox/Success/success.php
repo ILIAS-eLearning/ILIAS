@@ -4,5 +4,5 @@ function success() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->messageBox()->success());
+	return $renderer->render($f->messageBox()->success("Success"));
 }
