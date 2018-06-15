@@ -140,6 +140,9 @@ class ilExport
 	{
 		global $DIC;
 
+		$logger = $DIC->logger()->exp();
+
+
 		$objDefinition = $DIC['objDefinition'];
 		
 		$ent = ($a_entity == "")
@@ -166,7 +169,7 @@ class ilExport
 		$exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
 		$export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'),$a_obj_type,$a_obj_id,$a_type,$a_entity);
 
-		$GLOBALS['DIC']['ilLog']->debug('Export dir is '.$export_dir);
+		$logger->debug('Export dir is '.$export_dir);
 		return $export_dir;
 	}
 
