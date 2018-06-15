@@ -15,8 +15,9 @@ interface Factory {
 	 *     The system failed to complete some actions and displays information about the failure (brand-danger).
 	 *
 	 * rules:
-	 *   interaction: >
-	 *     Failure Message Boxes MAY be interactive.
+	 *   interaction:
+	 *       1: >
+	 *          Failure Message Boxes MAY be interactive.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -30,8 +31,9 @@ interface Factory {
 	 *     The system succeeded in finishing some action and displays a success message (brand-success).
 	 *
 	 * rules:
-	 *   interaction: >
-	 *     Success Message Boxes MAY be interactive.
+	 *   interaction:
+	 *       1: >
+	 *          Success Message Boxes MAY be interactive.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -46,10 +48,11 @@ interface Factory {
 	 *     or about side-effects of his or her actions on other users.
 	 *
 	 * rules:
-	 *   interaction: >
-	 *     Info Message Boxes MAY contain shortcuts or actions displayed as Buttons. Buttons being used as shortcuts
-	 *     SHOULD be exceptions, e.g. if a Button inside the Info Message Box takes the user directly to the location where
-	 *     the issue can be solved by the user (i.e. Participants-Tab of Survey to delete participant data before editing questions).
+	 *   interaction:
+	 *       1: >
+	 *          Info Message Boxes MAY contain shortcuts or actions displayed as Buttons. Buttons being used as shortcuts
+	 *          SHOULD be exceptions, e.g. if a Button inside the Info Message Box takes the user directly to the location where
+	 *          the issue can be solved by the user (i.e. Participants-Tab of Survey to delete participant data before editing questions).
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -63,8 +66,9 @@ interface Factory {
 	 *     The system needs input from the user.
 	 *
 	 * rules:
-	 *   interaction: >
-	 *     Confirmation Message Boxes MUST be interactive.
+	 *   interaction:
+	 *       1: >
+	 *          Confirmation Message Boxes MUST be interactive.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox

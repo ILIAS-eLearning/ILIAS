@@ -731,12 +731,11 @@ interface Factory {
 	 *     4: Confirmation
 	 *   effect: >
 	 *     Message Boxes convey information and optionally provide interaction by using Buttons.
-	 *   rivals: >
-	 *     Interruptive Modal: >
-	 *       An Interruptive modal disrupts the user in critical situation, forcing him or her
-	 *       to focus on the task at hand.
+	 * rivals: >
+	 *   Interruptive Modal: >
+	 *     An Interruptive modal disrupts the user in critical situation, forcing him or her
+	 *     to focus on the task at hand.
 	 * ---
-	 *
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
 	public function messageBox();
