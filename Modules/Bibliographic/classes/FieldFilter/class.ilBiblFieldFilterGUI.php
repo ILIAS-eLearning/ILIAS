@@ -21,8 +21,7 @@ class ilBiblFieldFilterGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
-
-
+	const CMD_ASYNC_EDIT_FORM = 'renderEditFormAsync';
 	/**
 	 * @var \ilBiblFactoryFacade
 	 */
@@ -61,6 +60,7 @@ class ilBiblFieldFilterGUI {
 			case self::CMD_CANCEL:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
+			case self::CMD_ASYNC_EDIT_FORM:
 				if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
 					$this->{$cmd}();
 					break;
@@ -73,6 +73,19 @@ class ilBiblFieldFilterGUI {
 
 
 	public function index() {
+		if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
+			$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->facade);
+
+			$f = $this->dic()->ui()->factory();
+			$r = $this->dic()->ui()->renderer();
+			$modal = $f->modal()->roundtrip($this->lng()->txt("add_filter"), $f->legacy($ilBiblSettingsFilterFormGUI->getHTML()));
+			$button = $f->button()->standard($this->lng()->txt("add_filter"), "#")->withOnClick($modal->getShowSignal());
+
+			$add_filter_html = $r->render([$modal, $button]);
+
+			$this->toolbar()->addText($add_filter_html);
+		}
+
 		$table = new ilBiblFieldFilterTableGUI($this, $this->facade);
 		$this->tpl()->setContent($table->getHTML());
 	}
@@ -99,9 +112,15 @@ class ilBiblFieldFilterGUI {
 
 
 	public function edit() {
-		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest(), $this->facade);
-		$ilBiblSettingsFilterFormGUI->fillForm();
+		$ilBiblSettingsFilterFormGUI = $this->initEditForm();
 		$this->tpl()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
+	}
+
+
+	public function renderEditFormAsync() {
+		$ilBiblSettingsFilterFormGUI = $this->initEditForm();
+		echo $ilBiblSettingsFilterFormGUI->getHTML();
+		exit;
 	}
 
 
@@ -145,5 +164,21 @@ class ilBiblFieldFilterGUI {
 		$il_bibl_field = $this->facade->filterFactory()->findById($field);
 
 		return $il_bibl_field;
+	}
+
+
+	/**
+	 * @return ilBiblFieldFilterFormGUI
+	 */
+	protected function initEditForm(): ilBiblFieldFilterFormGUI {
+		$this->tabs()->clearTargets();
+		$this->tabs()->setBackTarget(
+			$this->lng()->txt("back"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
+		);
+
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest(), $this->facade);
+		$ilBiblSettingsFilterFormGUI->fillForm();
+
+		return $ilBiblSettingsFilterFormGUI;
 	}
 }
