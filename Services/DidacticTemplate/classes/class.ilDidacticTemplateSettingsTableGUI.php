@@ -28,7 +28,11 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$this->addColumn('','f','1px');
 		$lng->loadLanguageModule('search');
@@ -99,7 +103,10 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		// @TODO: Check for system template and hide checkbox
 
