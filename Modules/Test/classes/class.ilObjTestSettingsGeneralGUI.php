@@ -1309,10 +1309,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			if( $form->getItemByPostVar('instant_feedback_enabled')->getChecked() )
 			{
-				if( $this->formPropertyExists($form, 'instant_feedback_content') )
+				if( $this->formPropertyExists($form, 'instant_feedback_contents') )
 				{
 					$this->testOBJ->setInstantFeedbackOptionsByArray(
-						$form->getItemByPostVar('instant_feedback_content')->getValue()
+						$form->getItemByPostVar('instant_feedback_contents')->getValue()
 					);
 				}
 				if( $this->formPropertyExists($form, 'instant_feedback_trigger') )
