@@ -53,6 +53,8 @@ final class PHP implements ilFileDeliveryType {
 	public function deliver($path_to_file, $file_marked_to_delete) {
 		$this->httpService->sendResponse();
 		fpassthru($this->file);
+		// Fix for mantis 22594
+		fclose($this->file);
 	}
 
 
