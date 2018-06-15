@@ -56,7 +56,12 @@ class ilLDAPAttributeToUser
 	 */
 	public function __construct(ilLDAPServer $a_server)
 	{
-		global $ilDB,$ilSetting,$lng,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
 		
 		// Initialise language object
 		if(!is_object($lng))
@@ -145,7 +150,9 @@ class ilLDAPAttributeToUser
 	 */
 	public function refresh()
 	{
-		global $rbacadmin;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$this->usersToXML();
 		

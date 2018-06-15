@@ -71,7 +71,9 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public static function hasRulesForUpdate()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT COUNT(*) num FROM ldap_role_assignments '.
 			'WHERE add_on_update = 1 '.
@@ -205,6 +207,9 @@ class ilLDAPRoleAssignmentRule
 	 *
 	 * @access public
 	 * @param int role id of global role
+// !!!DIC refactoring-script warning.!!!
+// There is an isolated 'global' whithout any variable behind.
+// Either this is a comment, or something is seriously wrong
 	 * 
 	 */
 	public function setRoleId($a_role_id)
@@ -527,7 +532,9 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function validate()
 	{
-	 	global $ilErr;
+	 	global $DIC;
+
+	 	$ilErr = $DIC['ilErr'];
 	 	
 	 	$ilErr->setMessage('');
 	 	
