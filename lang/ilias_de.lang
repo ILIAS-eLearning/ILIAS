@@ -14268,9 +14268,6 @@ tms#:#t_course#:#Ansicht: Kurs
 tms#:#show_all#:#Alle anzeigen
 tms#:#period#:#Zeitplan
 tms#:#time_suffix#:#Uhr
-tms#:#form_hours#:#Stunden
-tms#:#form_minutes#:#Minuten
-tms#:#form_seconds#:#Sekunden
 tms#:#duplicate_course_booked#:#Ein Training dieser Vorlage ist bereits gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher nicht buchen. Sie können die Buchungen in der Übersicht ihrer gebuchten Trainings im Cockpit einsehen und dort ggf. Stornierungen vornehmen.
 tms#:#tutor_assignment_period#:#Trainereinsatztage
 tms#:#request_book#:#Buchungsanfrage
@@ -14283,3 +14280,6 @@ tms#:#hide_breadcrumb#:#Navigation einschränken
 tms#:#hide_breadcrumb_info#:#Mit dieser Einstellung wird die Navigation nur bis zum Kurs angezeigt.
 tms#:#hide_menu_tree#:#Navigationsbaum ausblenden
 tms#:#hide_menu_tree_info#:#Mit dieser Einstellung wird der Navigationsbaum für den Benutzer ausgeblendet.
+tms#:#form_hours#:#Stunden
+tms#:#form_minutes#:#Minuten
+tms#:#form_seconds#:#Sekunden
