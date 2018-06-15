@@ -22,6 +22,35 @@ try
 			'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
 		);
 	}
+	
+	if( !$DIC->database()->tableExists('tst_seq_qst_presented') )
+	{
+		$DIC->database()->createTable('tst_seq_qst_presented', array(
+			'active_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'pass' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'question_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			)
+		));
+		
+		$DIC->database()->addPrimaryKey('tst_seq_qst_presented', array(
+			'active_fi','pass', 'question_fi'
+		));
+	}
+	
 }
 catch(ilException $e)
 {
