@@ -2218,7 +2218,22 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 			$waiting_list->removeFromList($user_id);
 			$this->checkLPStatusSync($user_id);
-			
+			/**
+			 * cat-tms-patch start
+			 */
+			//fire event that the user was autofilled
+			global $ilAppEventHandler;
+			$ilAppEventHandler->raise(
+				'Modules/Course',
+				Booking\Actions::EVENT_USER_FILLEDUP_FROM_WAITING,
+				array(
+					 'crs_ref_id' => $this->getRefId(),
+					 'usr_id' => (int)$user_id
+				 )
+			 );
+			/**
+			 * cat-tms-patch end
+			 */
 			$this->course_logger->info('Assigned user from waiting list to course: ' . $this->getTitle());
 			$now++;
 			if($now >= $max)
