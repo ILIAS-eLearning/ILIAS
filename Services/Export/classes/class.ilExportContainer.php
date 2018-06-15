@@ -56,7 +56,7 @@ class ilExportContainer extends ilExport
 		$this->cont_export_dir = $export_dir.DIRECTORY_SEPARATOR.$sub_dir;
 		ilUtil::makeDirParents($this->cont_export_dir);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.' using base directory: '.$this->export_run_dir);
+		$GLOBALS['DIC']['ilLog']->debug('Using base directory: '.$this->export_run_dir);
 		
 		$this->manifestWriterBegin($a_type, $a_id, $a_target_release);
 		$this->addContainer();
@@ -73,7 +73,6 @@ class ilExportContainer extends ilExport
 	 */
 	protected function manifestWriterBegin($a_type, $a_id, $a_target_release)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': wrinting manifest');
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$this->cont_manifest_writer = new ilXmlWriter();
 		$this->cont_manifest_writer->xmlHeader();
@@ -106,7 +105,6 @@ class ilExportContainer extends ilExport
 	 */
 	protected function addSubitems($a_id,$a_type,$a_target_release)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__);
 		$set_number = 1;
 		foreach($this->eo->getSubitemsForExport() as $ref_id)
 		{
@@ -117,14 +115,14 @@ class ilExportContainer extends ilExport
 			
 			if(!$expi instanceof ilExportFileInfo)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Cannot find export file for refId '.$ref_id.', type '.ilObject::_lookupType($a_id));
+				$GLOBALS['DIC']['ilLog']->warning('Cannot find export file for refId '.$ref_id.', type '.ilObject::_lookupType($a_id));
 				continue;				
 			}
 			
 			$exp_dir = ilExport::_getExportDirectory($obj_id,'xml',ilObject::_lookupType($obj_id));
 			$exp_full = $exp_dir.DIRECTORY_SEPARATOR.$expi->getFilename();
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': zip path '.$exp_full);
+			$GLOBALS['DIC']['ilLog']->debug('Zip path '.$exp_full);
 			
 			// Unzip
 			ilUtil::unzip($exp_full,true,false);
@@ -136,7 +134,7 @@ class ilExportContainer extends ilExport
 			$new_path_rel = 'set_'.$set_number.DIRECTORY_SEPARATOR.$expi->getBasename();
 			$new_path_abs = $this->cont_export_dir.DIRECTORY_SEPARATOR.$new_path_rel;
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$new_path_rel.' '.$new_path_abs);
+			$GLOBALS['DIC']['ilLog']->debug($new_path_rel.' '.$new_path_abs);
 
 			// Move export
 			rename(
@@ -144,7 +142,7 @@ class ilExportContainer extends ilExport
 				$new_path_abs
 			);
 			
-			$GLOBALS['ilLog']->write($exp_dir.DIRECTORY_SEPARATOR.$expi->getBasename().' -> '.$new_path_abs);
+			$GLOBALS['DIC']['ilLog']->debug($exp_dir.DIRECTORY_SEPARATOR.$expi->getBasename().' -> '.$new_path_abs);
 			
 			// Delete latest container xml of source
 			if($a_id == $obj_id)
@@ -152,7 +150,7 @@ class ilExportContainer extends ilExport
 				$expi->delete();
 				if(file_exists($exp_full))
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Deleting'. $exp_full);
+					$GLOBALS['DIC']['ilLog']->info('Deleting'. $exp_full);
 					unlink($exp_full);
 				}
 			}
@@ -180,7 +178,7 @@ class ilExportContainer extends ilExport
 	protected function manifestWriterEnd($a_type, $a_id, $a_target_release)
 	{
 		$this->cont_manifest_writer->xmlEndTag('Manifest');
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->cont_export_dir.DIRECTORY_SEPARATOR.'manifest.xml');
+		$GLOBALS['DIC']['ilLog']->debug($this->cont_export_dir.DIRECTORY_SEPARATOR.'manifest.xml');
 		$this->cont_manifest_writer->xmlDumpFile($this->cont_export_dir.DIRECTORY_SEPARATOR.'manifest.xml',true);
 	}
 }

@@ -90,7 +90,9 @@ class ilImportContainer extends ilImport
 	 */
 	protected function createDummy($a_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 
 		$class_name = "ilObj".$objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
