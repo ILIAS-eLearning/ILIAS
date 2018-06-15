@@ -64,9 +64,9 @@ class ilTimeZone
 	 */
 	private function __construct($a_timezone)
 	{
-		global $ilLog;
+		global $DIC;
 
-		$this->log = $ilLog;
+		$this->log = $DIC->logger()->cal();
 
 		if($a_timezone)
 		{
@@ -95,9 +95,9 @@ class ilTimeZone
 	
 	public function __wakeup()
 	{
-		global $ilLog;
+		global $DIC;
 		
-		$this->log = $ilLog;
+		$this->log = $DIC->logger()->cal();
 	}
 	
 	/**
@@ -122,8 +122,8 @@ class ilTimeZone
 	 */
 	public static function _getInstance($a_tz = '')
 	{
-		global $ilLog;
-		
+		global $DIC;
+
 		if(!$a_tz)
 		{
 			$a_tz = self::_getDefaultTimeZone();
@@ -217,11 +217,12 @@ class ilTimeZone
 	 */
 	protected static function _switchTimeZone($a_timezone)
 	{
-		global $ilLog;
-		
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
+
 		if(self::$current_timezone == $a_timezone)
 		{
-			#$ilLog->write(__METHOD__.': Do not switch to active timezone: '.$a_timezone);
 			return true;
 		}
 		
@@ -230,7 +231,7 @@ class ilTimeZone
 		{
 			if(!date_default_timezone_set($a_timezone))
 			{
-				$ilLog->write(__METHOD__.': Invalid timezone given. Timezone: '.$a_timezone);
+				$logger->info('Invalid timezone given. Timezone: '.$a_timezone);
 				throw new ilTimeZoneException('Invalid timezone given'); 
 			}
 			#$ilLog->write(__METHOD__.': Switched timezone to: '.$a_timezone);
@@ -239,7 +240,7 @@ class ilTimeZone
 		}
 		if(!putenv('TZ='.$a_timezone))
 		{
-			$ilLog->write(__METHOD__.': Cannot set TZ environment variable. Please register TZ in php.ini (safe_mode_allowed_env_vars). Timezone');
+			$logger->warning('Cannot set TZ environment variable. Please register TZ in php.ini (safe_mode_allowed_env_vars). Timezone');
 			throw new ilTimeZoneException('Cannot set TZ environment variable.'); 
 		}
 		self::$current_timezone = $a_timezone;

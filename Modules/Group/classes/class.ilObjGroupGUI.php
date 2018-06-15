@@ -34,7 +34,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	public function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->type = "grp";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -46,7 +48,14 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilToolbar;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$ilErr = $DIC['ilErr'];
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -341,7 +350,11 @@ class ilObjGroupGUI extends ilContainerGUI
 	
 	function viewObject()
 	{
-		global $tree,$rbacsystem,$ilUser;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
@@ -373,7 +386,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function renderObject()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		$ilTabs->activateTab("view_content");
 		$ret =  parent::renderObject();
@@ -390,7 +405,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		// if folder is in a course, modify item list gui according to course requirements
 		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
@@ -417,7 +434,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function afterSave(\ilObject $new_object, $a_redirect = true)
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
 		$new_object->update();
@@ -425,8 +445,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// check for parent group or course => SORT_INHERIT
 		$sort_mode = ilContainer::SORT_TITLE;
 		if(
-				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'crs',true) ||
-				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'grp',true)
+				$GLOBALS['DIC']['tree']->checkForParentType($new_object->getRefId(),'crs',true) ||
+				$GLOBALS['DIC']['tree']->checkForParentType($new_object->getRefId(),'grp',true)
 		)
 		{
 			$sort_mode = ilContainer::SORT_INHERIT;
@@ -503,7 +523,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 
 		$this->checkPermission('write');
 		
@@ -611,7 +633,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			// BEGIN ChangeEvents: Record update Object.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
+			global $DIC;
+
+			$ilUser = $DIC['ilUser'];
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(),
 									'update');
 			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
@@ -635,13 +659,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($new_type == 0)
 			{
-				$new_type_txt = $GLOBALS['lng']->txt('il_grp_status_open');
+				$new_type_txt = $GLOBALS['DIC']['lng']->txt('il_grp_status_open');
 			}
 			else
 			{
 				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
 				$dtpl = new ilDidacticTemplateSetting($new_type);
-				$new_type_txt = $dtpl->getPresentationTitle($GLOBALS['lng']->getLangKey());
+				$new_type_txt = $dtpl->getPresentationTitle($GLOBALS['DIC']['lng']->getLangKey());
 			}
 			
 			
@@ -673,7 +697,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	public function editGroupIconsObject($a_form = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 
 		$this->checkPermission('write');
 		
@@ -711,7 +737,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateGroupIconsObject()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->checkPermission('write');
 		
@@ -740,7 +768,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	public function editMapSettingsObject()
 	{
-		global $ilUser, $ilCtrl, $ilUser, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$this->setSubTabs("settings");
 		$this->tabs_gui->setTabActive('settings');
@@ -795,7 +828,10 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	public function saveMapSettingsObject()
 	{
-		global $ilCtrl, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 
 		$this->object->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
 		$this->object->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
@@ -815,7 +851,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function editInfoObject()
 	{
-		global $ilErr,$ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$this->checkPermission('write');
 		
@@ -979,7 +1018,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	public function leaveObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$this->checkPermission('leave');
 		
@@ -1010,7 +1051,11 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function unsubscribeObject()
 	{
-		global $ilUser,$tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->checkPermission('leave');
 		
@@ -1048,7 +1093,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	// get tabs
 	function getTabs()
 	{
-		global $rbacsystem, $ilUser, $ilAccess, $lng, $ilHelp;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$ilHelp = $DIC['ilHelp'];
 		
 		$ilHelp->setScreenIdComponent("grp");
 
@@ -1199,7 +1250,11 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $rbacsystem, $ilUser, $ilSetting;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->tabs_gui->setTabActive('info_short');
 
@@ -1362,7 +1417,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	protected function membersObject()
 	{
-		$GLOBALS['ilCtrl']->redirectByClass('ilgroupmembershipgui');
+		$GLOBALS['DIC']['ilCtrl']->redirectByClass('ilgroupmembershipgui');
 	}
 	
 
@@ -1371,7 +1426,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public static function _goto($a_target, $a_add = "")
 	{
-		global $ilAccess, $ilErr, $lng,$ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		if(substr($a_add,0,5) == 'rcode')
@@ -1432,7 +1492,11 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function initForm($a_mode = 'edit', $a_omit_form_action = false)
 	{
-		global $ilUser,$tpl,$tree;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tpl = $DIC['tpl'];
+		$tree = $DIC['tree'];
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
@@ -1768,7 +1832,11 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	protected function setSubTabs($a_tab)
 	{
-		global $rbacsystem,$ilUser,$ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 	
 		switch($a_tab)
 		{
@@ -1846,7 +1914,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	private function checkAgreement()
 	{
-		global $ilUser,$ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -1891,7 +1962,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function prepareOutput($a_show_subobjects = true)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		if(!$this->getCreationMode())
 		{
 			/*
@@ -1923,7 +1996,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) 
 	{
-		global $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				

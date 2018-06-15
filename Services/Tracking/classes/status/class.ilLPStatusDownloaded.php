@@ -16,7 +16,9 @@ class ilLPStatusDownloaded extends ilLPStatus
 	 */
 	public function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -47,7 +49,9 @@ class ilLPStatusDownloaded extends ilLPStatus
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch($ilObjDataCache->lookupType($a_obj_id))

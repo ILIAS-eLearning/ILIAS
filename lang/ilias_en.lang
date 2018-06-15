@@ -1531,6 +1531,7 @@ cmps#:#cmps_needs_update#:#Needs update.
 cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.
 cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
 cmps#:#cmps_no_language_file_available#:#No language file available.
+cmps#:#cmps_must_installed#:#The component must be installed.
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
@@ -2902,7 +2903,7 @@ common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
 common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chap#:#Chapter
-common#:#obj_cmps_desc#:#General settings for Repository Plugins
+common#:#obj_cmps_desc#:#General settings for Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs#:#Course
@@ -10485,6 +10486,8 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 dcl#:#dcl_no_export_content_available#:#No data available for export.
 dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
@@ -10509,6 +10512,22 @@ bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibl_settings_edit#:#Edit Library
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
+bibl#:#add_filter#:#Add Filter
+bibl#:#filter_type#:#Filter Type
+bibl#:#field#:#Field
+bibl#:#custom#:#Custom
+bibl#:#fields#:#Fields
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Order
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Translate
+bibl#:#identifier#:#Identifier
+bibl#:#filter_type_1#:#Textinput
+bibl#:#filter_type_2#:#Selectinput
+bibl#:#filter_type_3#:#Multi-Selectinput
+bibl#:#filter_field_info#:#Please choose a field for which you want to add a filter.
+bibl#:#filter_type_info#:#Please choose a filter type for the field.
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#Copy Bibliography
@@ -11348,6 +11367,15 @@ bibl#:#ris_default_u2#:#User Defined
 bibl#:#ris_default_y1#:#Year
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_ep#:#Ending Page Number
+bibl#:#filter_form_title#:#Add new filter
+bibl#:#changes_saved#:#Changes were saved.
+bibl#:#filter_deleted#:#The Filter was deleted.
+bibl#:#bibl_translation_lang#:#Language
+bibl#:#bibl_translation_trans#:#Translation
+bibl#:#bibl_translation_desc#:#Description
+bibl#:#bibl_msg_translations_saved#:#Translations were saved
+bibl#:#bibl_msg_translations_deleted#:#Translations were deleted
+bibl#:#bibl_filter#:#Filter
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -13332,7 +13360,7 @@ assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again in my current session.
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
@@ -14189,3 +14217,4 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
+assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.

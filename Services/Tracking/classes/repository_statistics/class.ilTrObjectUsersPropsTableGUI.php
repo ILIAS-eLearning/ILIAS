@@ -35,7 +35,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
-		global $ilCtrl, $ilUser, $tree, $rbacsystem;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		$this->setId("troup");
 		$this->obj_id = $a_obj_id;
@@ -156,7 +161,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->determineOffsetAndOrder();
 		
@@ -225,7 +232,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		foreach($this->getSelectableColumns() as $column => $meta)
 		{
@@ -331,7 +340,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng, $objDefinition;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		if($this->has_multi)
 		{

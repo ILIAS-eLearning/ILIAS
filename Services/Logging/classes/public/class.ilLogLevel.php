@@ -50,7 +50,9 @@ class ilLogLevel
 	 */
 	public static function getLevelOptions()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return array(
 			self::DEBUG => $lng->txt('log_level_debug'),

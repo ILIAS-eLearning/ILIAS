@@ -125,7 +125,7 @@ class ilOrgUnitUserAssignmentQueries {
 	 */
 	public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, $position_id) {
 		return ilOrgUnitUserAssignment::where([
-			'orgu_ids'    => $orgu_ids,
+			'orgu_id'    => $orgu_ids,
 			'position_id' => $position_id,
 		])->getArray(null, 'user_id');
 	}

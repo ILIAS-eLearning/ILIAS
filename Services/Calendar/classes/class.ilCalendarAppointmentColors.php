@@ -139,7 +139,9 @@ class ilCalendarAppointmentColors
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// Store assignment of subitem categories
 		foreach($this->categories->getCategoriesInfo() as $c_data)

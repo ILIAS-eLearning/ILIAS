@@ -29,10 +29,6 @@ class ilCalendarFileHandler
 		include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentFileHandlerFactory.php");
 		foreach ($a_events as $event)
 		{
-
-			//WARNING!! TODO: it's taken more events than expected....
-			ilLoggerFactory::getRootLogger()->debug("event tile ".$event['event']->getTitle());
-
 			$fh = ilAppointmentFileHandlerFactory::getInstance($event);
 			foreach ($fh->getFiles() as $file)
 			{

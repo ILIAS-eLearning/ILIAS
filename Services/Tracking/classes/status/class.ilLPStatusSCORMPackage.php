@@ -36,7 +36,9 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -87,7 +89,11 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB, $ilLog;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		$scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_user_id);

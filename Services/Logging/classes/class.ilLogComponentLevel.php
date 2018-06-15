@@ -36,7 +36,9 @@ class ilLogComponentLevel
 	
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		ilLoggerFactory::getLogger('log')->debug('update called');
 		
@@ -53,7 +55,9 @@ class ilLogComponentLevel
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM log_components '.
 				'WHERE component_id = '.$ilDB->quote($this->getComponentId(),'text');

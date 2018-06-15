@@ -54,7 +54,9 @@ class ilChangeEvent
 	 */
 	public static function _recordWriteEvent($obj_id, $usr_id, $action, $parent_obj_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		/* see _recordReadEvent
 		if (!ilChangeEvent::_isActive())
@@ -112,7 +114,10 @@ class ilChangeEvent
 	static function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
 		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
-		global $ilDB, $tree;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		
 		/* read_event data is now used for several features, so we are always keeping track
 		if (!ilChangeEvent::_isActive())
@@ -323,7 +328,9 @@ class ilChangeEvent
 
 	static function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!ilObjUserTracking::_enabledObjectStatistics() || 
 			(int)$a_obj_id <= 0) // #12706
@@ -375,7 +382,9 @@ class ilChangeEvent
 	 */
 	static function _syncObjectStats($a_now = null, $a_minimum = 20000)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_now)
 		{
@@ -503,7 +512,9 @@ class ilChangeEvent
 	 */
 	static function _catchupWriteEvents($obj_id, $usr_id, $timestamp = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id FROM catch_write_events ".
 			"WHERE obj_id = ".$ilDB->quote($obj_id ,'integer')." ".
@@ -558,7 +569,9 @@ class ilChangeEvent
 	 * /
 	function _catchupReadEvents($obj_id, $usr_id, $timestamp = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
 		$q = "INSERT INTO catch_read_events ".
@@ -592,7 +605,9 @@ class ilChangeEvent
 	 */
 	public static function _lookupUncaughtWriteEvents($obj_id, $usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "SELECT ts ".
 			"FROM catch_write_events ".
@@ -645,7 +660,9 @@ class ilChangeEvent
 	 */
 	public static function _lookupChangeState($obj_id, $usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "SELECT ts ".
 			"FROM catch_write_events ".
@@ -706,7 +723,9 @@ class ilChangeEvent
 	 * /
 	public static function _lookupUncaughtReadEvents($obj_id, $usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "SELECT ts ".
 			"FROM catch_read_events ".
@@ -740,7 +759,9 @@ class ilChangeEvent
 	 */
 	public static function _lookupReadEvents($obj_id, $usr_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if ($usr_id == null)
 		{
@@ -785,7 +806,9 @@ class ilChangeEvent
 	 */
 	 public static function lookupUsersInProgress($a_obj_id)
 	 {
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = sprintf('SELECT DISTINCT(usr_id) usr FROM read_event '.
 	 		'WHERE obj_id = %s ',
@@ -803,7 +826,9 @@ class ilChangeEvent
 	  */
 	 static function hasAccessed($a_obj_id, $a_usr_id)
 	 {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 	 
 		if (isset(self::$has_accessed[$a_obj_id][$a_usr_id]))
 		{
@@ -833,7 +858,9 @@ class ilChangeEvent
 		}
 		else
 		{
-			global $ilDB;
+			global $DIC;
+
+			$ilDB = $DIC['ilDB'];
 
 			// Insert initial data into table write_event
 			// We need to do this here, because we need
@@ -864,7 +891,9 @@ class ilChangeEvent
 				$res = $ilDB->query($query);
 			}
 			
-			global $ilSetting;
+			global $DIC;
+
+			$ilSetting = $DIC['ilSetting'];
 			$ilSetting->set('enable_change_event_tracking', '1');
 
 			return $res;
@@ -877,7 +906,9 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _deactivate() {
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		$ilSetting->set('enable_change_event_tracking', '0');		
 	}
 
@@ -887,7 +918,9 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _isActive() {
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		return $ilSetting->get('enable_change_event_tracking', '0') == '1';		
 	}
 	
@@ -899,7 +932,9 @@ class ilChangeEvent
 	 */
 	public static function _delete($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = sprintf('DELETE FROM write_event WHERE obj_id = %s ',
 			$ilDB->quote($a_obj_id,'integer'));
@@ -913,7 +948,9 @@ class ilChangeEvent
 	
 	public static function _deleteReadEvents($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulate("DELETE FROM read_event".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
@@ -921,7 +958,9 @@ class ilChangeEvent
 	
 	public static function _deleteReadEventsForUsers($a_obj_id, array $a_user_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulate("DELETE FROM read_event".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -930,7 +969,9 @@ class ilChangeEvent
 	
 	public static function _getAllUserIds($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -951,7 +992,9 @@ class ilChangeEvent
 	 * @return true
 	 */
 	static function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->queryF('UPDATE read_event SET first_access=%s, last_access = %s WHERE obj_id=%s AND usr_id=%s',
 			array('timestamp','integer','integer','integer'),
 			array($t_first_access,$i_last_access,$obj_id,$usr_id)

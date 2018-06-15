@@ -1977,7 +1977,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	                
 		$this->form->setTitle($lng->txt("java_server"));
 		$this->form->setDescription($lng->txt("java_server_info").
-			'<br /><a href="Services/WebServices/RPC/lib/README.txt" target="_blank">'.
+			'<br /><a href="Services/WebServices/RPC/lib/README.md" target="_blank">'.
 			$lng->txt("java_server_readme").'</a>');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 	 

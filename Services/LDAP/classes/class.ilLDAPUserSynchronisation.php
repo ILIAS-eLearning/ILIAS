@@ -138,7 +138,7 @@ class ilLDAPUserSynchronisation
 			$this->handleCreation();
 		}
 
-		// Nothing to if sync on login is disabled
+		// Nothing to do if sync on login is disabled
 		if(!$this->getServer()->enabledSyncOnLogin())
 		{
 			return $this->getInternalAccount();
@@ -170,34 +170,8 @@ class ilLDAPUserSynchronisation
 		if($this->getServer()->isAccountMigrationEnabled() and !$this->isCreationForced())
 		{
 			$this->readUserData();
-			$this->handleAccountMigration();
 			throw new ilLDAPAccountMigrationRequiredException('Account migration check required.');
 		}
-	}
-
-	/**
-	 * Handle account migration
-	 * @todo to much session based handling
-	 */
-	protected function handleAccountMigration()
-	{
-		
-		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
-		$roles = ilLDAPRoleAssignmentRules::getAssignmentsForCreation(
-			$this->getServer()->getServerId(),
-			$this->getExternalAccount(),
-			$this->getUserData()
-		);
-		
-		$_SESSION['tmp_roles'] = array();
-		foreach($roles as $info)
-		{
-			if($info['action'] == ilLDAPRoleAssignmentRules::ROLE_ACTION_ASSIGN)
-			{
-				$_SESSION['tmp_roles'][] = $info['id'];	
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -206,20 +180,22 @@ class ilLDAPUserSynchronisation
 	 */
 	protected function performUpdate()
 	{
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->getUserData(),true));
-
 		include_once './Services/User/classes/class.ilUserCreationContext.php';
 		ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
 		include_once 'Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
 		$update = new ilLDAPAttributeToUser($this->getServer());
-		// begin-patch 
+		if($this->isCreationForced())
+		{
+			$update->addMode(ilLDAPAttributeToUser::MODE_INITIALIZE_ROLES);
+		}
 		$update->setNewUserAuthMode($this->getAuthMode());
 		$update->setUserData(
 			array(
 				$this->getExternalAccount() => $this->getUserData()
 			)
 		);
+
 		$update->refresh();
 
 		// User has been created, now read internal account again
@@ -276,6 +252,10 @@ class ilLDAPUserSynchronisation
 	 */
 	protected function isUpdateRequired()
 	{
+		if($this->isCreationForced())
+		{
+			return true;
+		}
 		if(!$this->getInternalAccount())
 		{
 			return true;
