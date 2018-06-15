@@ -4,5 +4,7 @@ function success() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->messageBox()->success("Success"));
+	$buttons = [$f->button()->standard("Go to something", "#"), $f->button()->standard("Cancel", "#")];
+
+	return $renderer->render($f->messageBox()->success("Success")->withButtons($buttons));
 }

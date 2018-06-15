@@ -4,5 +4,7 @@ function failure() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->messageBox()->failure("Failure"));
+	$buttons = [$f->button()->standard("Go to something", "#"), $f->button()->standard("Cancel", "#")];
+
+	return $renderer->render($f->messageBox()->failure("Failure")->withButtons($buttons));
 }

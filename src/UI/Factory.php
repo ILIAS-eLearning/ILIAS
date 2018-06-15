@@ -725,10 +725,10 @@ interface Factory {
 	 *     completion, the need for further input  of an actual error or stopping users in their tracks in high-risk tasks.
 	 *   composition: >
 	 *     There are four main types of Message Boxes, each is displayed in the according color:
-	 *     1: Failure
-	 *     2: Success
-	 *     3: Info
-	 *     4: Confirmation
+	 *     1. Failure,
+	 *     2. Success,
+	 *     3. Info,
+	 *     4. Confirmation
 	 *   effect: >
 	 *     Message Boxes convey information and optionally provide interaction by using Buttons.
 	 * rivals: >

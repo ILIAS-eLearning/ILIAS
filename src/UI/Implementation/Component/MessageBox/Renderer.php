@@ -18,6 +18,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer)
 	{
+		global $DIC;
 		/**
 		 * @var Component\MessageBox\MessageBox $component
 		 */
@@ -27,21 +28,45 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component->getType() == "failure") {
 			$tpl->setCurrentBlock("failure_message");
 			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
+
+			$buttons = $component->getButtons();
+			if ($buttons) {
+				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 		if ($component->getType() == "success") {
 			$tpl->setCurrentBlock("success_message");
 			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
+
+			$buttons = $component->getButtons();
+			if ($buttons) {
+				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 		if ($component->getType() == "info") {
 			$tpl->setCurrentBlock("info_message");
 			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
+
+			$buttons = $component->getButtons();
+			if ($buttons) {
+				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 		if ($component->getType() == "confirmation") {
 			$tpl->setCurrentBlock("confirmation_message");
 			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
+
+			$buttons = $component->getButtons();
+			if ($buttons) {
+				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 
