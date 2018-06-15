@@ -94,7 +94,9 @@ class ilCalendarSettings
 	 */
 	private function __construct()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;	 	
 	 	
@@ -132,6 +134,9 @@ class ilCalendarSettings
 		}
 		$type = ilObject::_lookupType($a_obj_id);
 		// lookup global setting
+// !!!DIC refactoring-script warning.!!!
+// There is an isolated 'global' whithout any variable behind.
+// Either this is a comment, or something is seriously wrong
 		$gl_activated = false;
 		switch($type)
 		{

@@ -47,7 +47,9 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
@@ -123,7 +125,9 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$status = new ilCalendarSharedStatus($ilUser->getId());
 		$calendars = $status->getOpenInvitations();

@@ -15,14 +15,22 @@ include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.ph
 class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 {
 	protected $user_id; // [int]
-	protected static $logger; // [Logger] 
+	/**
+	 * @var \ilLogger
+	 */
+	protected $logger; // [Logger]
 	
 	public function __construct($a_user_id)
 	{
+		global $DIC;
+
 		$this->user_id = $a_user_id;
-		$this->logger = ilLoggerFactory::getLogger('exc');
+		$this->logger = $DIC->logger()->exc();
 	}
-	
+
+	/**
+	 * @return \ilLogger
+	 */
 	public function getLogger()
 	{
 		return $this->logger;
@@ -131,12 +139,12 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 		
 		if($category->getType() != ilCalendarCategory::TYPE_OBJ)
 		{
-			//$this->getLogger()->debug('Not modifying calendar for non object type');
+			$this->getLogger()->debug('Not modifying calendar for non object type');
 			return false;
 		}
 		if($category->getObjType() != 'exc')
 		{
-			//$this->getLogger()->debug('Category object type is != folder => category event not modified');
+			$this->getLogger()->debug('Category object type is != folder => category event not modified');
 			return false;
 		}		
 		

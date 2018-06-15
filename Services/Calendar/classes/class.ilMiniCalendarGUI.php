@@ -49,7 +49,10 @@ class ilMiniCalendarGUI
 	 */
 	public function __construct(ilDate $seed, $a_par_obj)
 	{
-		global $ilUser,$lng;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->lng = $lng;
@@ -83,7 +86,9 @@ class ilMiniCalendarGUI
 	*/
 	function getHTML()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$ftpl = new ilTemplate("tpl.calendar_block_frame.html", true, true,
 			"Services/Calendar");
@@ -103,7 +108,11 @@ class ilMiniCalendarGUI
 	*/
 	function addMiniMonth($a_tpl)
 	{
-		global $ilCtrl, $lng,$ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
