@@ -65,7 +65,9 @@ class ilExportOptions
 	 */
 	public static function allocateExportId()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// get last export id
 		$query = 'SELECT MAX(export_id) exp FROM export_options '.
@@ -136,7 +138,9 @@ class ilExportOptions
 	
 	public function addOption($a_keyword, $a_ref_id, $a_obj_id, $a_value)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT MAX(pos) position FROM export_options";
 		$res = $ilDB->query($query);
@@ -198,7 +202,9 @@ class ilExportOptions
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM export_options ".
 			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer');
@@ -212,7 +218,9 @@ class ilExportOptions
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->options = array();
 		$this->obj_options = array();

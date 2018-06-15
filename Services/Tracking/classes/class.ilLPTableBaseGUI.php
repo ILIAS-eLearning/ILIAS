@@ -38,7 +38,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->determineSelectedFilters();
 
@@ -185,7 +188,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	protected function searchObjects(array $filter, $permission, array $preset_obj_ids = null, $a_check_lp_activation = true)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 				
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
@@ -282,7 +287,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	public function initBaseFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
 	{
-		global $lng, $ilObjDataCache;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$this->setDisableFilterHiding(true);
 		
@@ -364,7 +372,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	protected function buildPath($ref_ids)
 	{
-		global $tree, $ilCtrl;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/Link/classes/class.ilLink.php';
 		
@@ -410,7 +421,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false, $a_allow_undefined_lp = false)
 	{
-		global $lng, $ilPluginAdmin;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$options = array();
 
@@ -462,7 +476,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 	protected function parseValue($id, $value, $type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		// get rid of aggregation
 		$pos = strrpos($id, "_");
@@ -665,7 +681,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 	protected function parseTitle($a_obj_id, $action, $a_user_id = false)
 	{
-		global $lng, $ilObjDataCache, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilUser = $DIC['ilUser'];
 
 		$user = "";
 		if($a_user_id)
@@ -701,7 +721,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	protected function getExportMeta()
 	{
-		global $lng, $ilObjDataCache, $ilUser, $ilClientIniFile;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilUser = $DIC['ilUser'];
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		/* see spec
 			Name of installation
@@ -862,7 +887,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	
 	protected function getMonthsFilter($a_short = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$options = array();
 		for($loop = 0; $loop < 10; $loop++)
@@ -891,7 +918,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	
 	protected function getMonthsYear($a_year = null, $a_short = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if(!$a_year)
 		{
@@ -920,7 +949,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		
 	protected function getSelectableUserColumns($a_in_course = false, $a_in_group = false)
 	{
-		global $lng, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$cols = $privacy_fields = array();	
 		
@@ -1078,11 +1110,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	{
 		$users = (array) $_POST['uid'];
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
 		$clip->add($users);
 		$clip->save();
 		
-		$GLOBALS['lng']->loadLanguageModule('user');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('user');
 		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		
 	}

@@ -30,7 +30,12 @@ class ilObjGroupAccess extends ilObjectAccess
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if ($a_user_id == "")
 		{
@@ -175,7 +180,10 @@ class ilObjGroupAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess,$ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 
 		$t_arr = explode("_", $a_target);
 		// registration codes
@@ -205,7 +213,9 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function _registrationEnabled($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM grp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -249,7 +259,10 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		include_once("./Modules/Group/classes/class.ilGroupWaitingList.php");
 		ilGroupWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
@@ -265,7 +278,11 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function lookupRegistrationInfo($a_obj_id)
 	{
-		global $ilDB, $ilUser, $lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		$query = 'SELECT registration_type, registration_enabled, registration_unlimited,  registration_start, '.
 			'registration_end, registration_mem_limit, registration_max_members FROM grp_settings '.
@@ -365,7 +382,10 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function lookupPeriodInfo($a_obj_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$start = $end = null;
 		

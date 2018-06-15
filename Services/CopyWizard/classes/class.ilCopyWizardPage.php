@@ -52,7 +52,12 @@ class ilCopyWizardPage
 	 */
 	public function __construct($a_source_id,$a_item_type = '')
 	{
-		global $ilObjDataCache,$tree,$lng,$objDefinition;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$this->source_id = $a_source_id;
 		$this->item_type = $a_item_type;
@@ -73,7 +78,10 @@ class ilCopyWizardPage
 	 */
 	public function fillTreeSelection($a_ref_id,$a_type,$a_depth)
 	{
-		global $tpl,$ilAccess;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$this->tpl = $tpl;
 		

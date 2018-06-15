@@ -45,7 +45,9 @@ class ilCalendarUserSettings
 	 */
 	private function __construct($a_user_id)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($ilUser->getId() == $a_user_id)
 		{
@@ -84,7 +86,9 @@ class ilCalendarUserSettings
 	 */
 	 public static function _getInstance()
 	 {
-	 	global $ilUser;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
 	 	
 	 	return self::_getInstanceByUserId($ilUser->getId());
 	 }

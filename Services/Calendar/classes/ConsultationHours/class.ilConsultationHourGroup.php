@@ -68,7 +68,9 @@ class ilConsultationHourGroup
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->group_id = $ilDB->nextId('cal_ch_group');
 		$query = 'INSERT INTO cal_ch_group (grp_id,usr_id,multiple_assignments,title) '.
@@ -89,7 +91,9 @@ class ilConsultationHourGroup
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE cal_ch_group SET '.
 				'usr_id = '.$ilDB->quote($this->getUserId(),'integer').', '.
@@ -102,7 +106,9 @@ class ilConsultationHourGroup
 	
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($this->getGroupId(),'integer');
@@ -120,7 +126,9 @@ class ilConsultationHourGroup
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getGroupId())
 		{

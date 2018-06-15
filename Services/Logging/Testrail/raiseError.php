@@ -13,6 +13,8 @@ $_SERVER['REQUEST_URI'] = "";
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-global $ilErr;
+global $DIC;
+
+$ilErr = $DIC['ilErr'];
 
 $ilErr->raiseError("This is your error message", $ilErr->FATAL);

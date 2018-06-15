@@ -178,4 +178,7 @@ $DIC["http"] = function ($c) {
 	);
 };
 $DIC['ilCtrl'] = new ilCtrl();
+
+$DIC['ilPluginAdmin'] = new ilPluginAdmin();
+
 ?>

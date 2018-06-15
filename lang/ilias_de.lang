@@ -1946,6 +1946,7 @@ cmps#:#cmps_needs_update#:#Aktualisierung notwendig
 cmps#:#cmps_needs_upgrade#:#Die aktuell installierte Plugin-Version ist älter als die zuvor installierte. Bitte installieren Sie das aktuelle Plugin.
 cmps#:#cmps_no_db_update_file_available#:#Kein Datenbank-Update-Skript verfügbar
 cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
+cmps#:#cmps_must_installed#:#Die Komponente muss installiert werden.
 cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_plugin_activated#:#Das Plugin wurde aktiviert.
 cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
@@ -2717,7 +2718,7 @@ common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt
+common#:#fold_added#:#Ordner angelegt-
 rbac#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
@@ -9462,8 +9463,8 @@ cptch#:#cptch_wrong_input#:#Falsche Eingabe
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 grp#:#grp_print_list#:#Liste erstellen
-sess#:#sess_members_print_title#:#Gruppenmitglieder
-grp#:#grp_members_print_title#:#Sitzungsteilnehmer
+sess#:#sess_members_print_title#:#Sitzungsteilnehmer
+grp#:#grp_members_print_title#:#Gruppenmitglieder
 trac#:#trac_closed_misc#:#Sonstige
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
@@ -9663,6 +9664,8 @@ dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendunge
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als "Exportierbar" in den <a href="%s">Tabelleneinstellungen</a>.
+dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard Tabellenansicht Lesezugriff.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden RBAC Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard Ansicht der Tabellen:
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -10496,6 +10499,31 @@ bibl#:#bibl_settings_new#:#Bibliothek hinzufügen
 bibl#:#bibl_settings_edit#:#Bibliothek bearbeiten
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
+bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#filter_type#:#Filter Typ
+bibl#:#field#:#Feld
+bibl#:#custom#:#Benutzerdefiniert
+bibl#:#fields#:#Felder
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Sortierung
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Übersetzen
+bibl#:#identifier#:#Bezeichner
+bibl#:#filter_type_1#:#Textfeld
+bibl#:#filter_type_2#:#Auswahl
+bibl#:#filter_type_3#:#Mehrfachauswahl
+bibl#:#filter_form_title#:#Neuen Filter hinzufügen
+bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus für das Sie einen Filter hinzufügen möchten.
+bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#changes_saved#:#Die Änderungen wurden gespeichert.
+bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
+bibl#:#bibl_translation_lang#:#Sprache
+bibl#:#bibl_translation_trans#:#Übersetzung
+bibl#:#bibl_translation_desc#:#Beschreibung
+bibl#:#bibl_msg_translations_saved#:#Übersetzungen wurden gespeichert
+bibl#:#bibl_msg_translations_deleted#:#Übersetzungen wurden gelöscht.
+bibl#:#bibl_filter#:#Filter
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
@@ -13352,7 +13380,7 @@ assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung nicht mehr anzeigen.
+assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
@@ -14191,3 +14219,4 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.

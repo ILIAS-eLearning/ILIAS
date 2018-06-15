@@ -18,7 +18,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function lookupTemplateId($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT tpl_id FROM didactic_tpl_objs '.
 			'WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer');
@@ -39,7 +41,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function deleteByObjId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM didactic_tpl_objs '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -55,7 +59,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function deleteByTemplateId($a_tpl_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM didactic_tpl_objs '.
 			'WHERE tpl_id = '.$ilDB->quote($a_tpl_id,'integer');
@@ -70,7 +76,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function deleteByRefId($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM didactic_tpl_objs '.
 			'WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer');
@@ -86,7 +94,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function assignTemplate($a_ref_id,$a_obj_id,$a_tpl_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		self::deleteByRefId($a_ref_id);
 
@@ -107,7 +117,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function getAssignmentsByTemplateID($a_tpl_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM didactic_tpl_objs '.
 			'WHERE tpl_id = '.$ilDB->quote($a_tpl_id, 'integer');
@@ -131,7 +143,9 @@ class ilDidacticTemplateObjSettings
 	 */
 	public static function transferAutoGenerateStatus($a_src, $a_dest)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT auto_generated FROM didactic_tpl_settings '.
 			'WHERE id = '.$ilDB->quote($a_src, 'integer');

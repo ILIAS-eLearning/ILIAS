@@ -26,6 +26,11 @@ class ilCalendarRemoteReader
 	private $pass;
 	
 	private $ical;
+
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger;
 	
 	
 	/**
@@ -34,6 +39,9 @@ class ilCalendarRemoteReader
 	 */
 	public function __construct($a_url)
 	{
+		global $DIC;
+
+		$this->logger = $DIC->logger();
 		$this->url = $a_url;
 	}
 	
@@ -95,7 +103,7 @@ class ilCalendarRemoteReader
 	protected function readIcal()
 	{
 		$this->ical = $this->call();
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->ical);
+		$this->logger->debug($this->ical);
 		return true;
 	}
 	
@@ -157,7 +165,6 @@ class ilCalendarRemoteReader
 		{
 			$purged = preg_replace('/webcal/', 'http', $this->getUrl(), 1);
 			$this->url = $purged;
-			$GLOBALS['ilLog']->write(__METHOD__.': Using new url: '. $this->getUrl());
 		}
 	}
 	
