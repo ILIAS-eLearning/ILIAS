@@ -13,28 +13,28 @@ class Factory implements C\MessageBox\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function failure() {
-		return new MessageBox(C\MessageBox\MessageBox::FAILURE);
+	public function failure($message_text) {
+		return new MessageBox(C\MessageBox\MessageBox::FAILURE, $message_text);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function success() {
-		return new MessageBox(C\MessageBox\MessageBox::SUCCESS);
+	public function success($message_text) {
+		return new MessageBox(C\MessageBox\MessageBox::SUCCESS, $message_text);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function info() {
-		return new MessageBox(C\MessageBox\MessageBox::INFO);
+	public function info($message_text) {
+		return new MessageBox(C\MessageBox\MessageBox::INFO, $message_text);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function confirmation() {
-		return new MessageBox(C\MessageBox\MessageBox::CONFIRMATION);
+	public function confirmation($message_text) {
+		return new MessageBox(C\MessageBox\MessageBox::CONFIRMATION, $message_text);
 	}
 }

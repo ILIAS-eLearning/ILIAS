@@ -16,12 +16,12 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Failure Message Boxes MUST NOT be interactive.
+	 *     Failure Message Boxes MAY be interactive.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
-	public function failure();
+	public function failure($message_text);
 
 	/**
 	 * ---
@@ -31,12 +31,12 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction: >
-	 *     Success Message Boxes MUST NOT be interactive.
+	 *     Success Message Boxes MAY be interactive.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
-	public function success();
+	public function success($message_text);
 
 	/**
 	 * ---
@@ -54,7 +54,7 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
-	public function info();
+	public function info($message_text);
 
 	/**
 	 * ---
@@ -69,6 +69,6 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
 	 */
-	public function confirmation();
+	public function confirmation($message_text);
 
 }

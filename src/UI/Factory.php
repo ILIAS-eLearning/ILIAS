@@ -721,8 +721,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Message Boxes inform the user about the state of the system. Such as the successful completion, the need for further
-	 *     input  of an actual error or stopping users in their tracks in high-risk tasks.
+	 *     Message Boxes inform the user about the state of the system or an ongoing user task. Such as the successful
+	 *     completion, the need for further input  of an actual error or stopping users in their tracks in high-risk tasks.
 	 *   composition: >
 	 *     There are four main types of Message Boxes, each is displayed in the according color:
 	 *     1: Failure
@@ -735,11 +735,6 @@ interface Factory {
 	 *     Interruptive Modal: >
 	 *       An Interruptive modal disrupts the user in critical situation, forcing him or her
 	 *       to focus on the task at hand.
-	 *
-	 * rules:
-	 *   interaction:
-	 *     1: Message Boxes MAY contain shortcuts displayed as Buttons.
-	 *     2: Message Boxes MAY contain actions displayed as Buttons.
 	 * ---
 	 *
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
