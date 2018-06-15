@@ -2718,7 +2718,7 @@ common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt
+common#:#fold_added#:#Ordner angelegt-
 rbac#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
@@ -10499,6 +10499,31 @@ bibl#:#bibl_settings_new#:#Bibliothek hinzufügen
 bibl#:#bibl_settings_edit#:#Bibliothek bearbeiten
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
+bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#filter_type#:#Filter Typ
+bibl#:#field#:#Feld
+bibl#:#custom#:#Benutzerdefiniert
+bibl#:#fields#:#Felder
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Sortierung
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Übersetzen
+bibl#:#identifier#:#Bezeichner
+bibl#:#filter_type_1#:#Textfeld
+bibl#:#filter_type_2#:#Auswahl
+bibl#:#filter_type_3#:#Mehrfachauswahl
+bibl#:#filter_form_title#:#Neuen Filter hinzufügen
+bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus für das Sie einen Filter hinzufügen möchten.
+bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#changes_saved#:#Die Änderungen wurden gespeichert.
+bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
+bibl#:#bibl_translation_lang#:#Sprache
+bibl#:#bibl_translation_trans#:#Übersetzung
+bibl#:#bibl_translation_desc#:#Beschreibung
+bibl#:#bibl_msg_translations_saved#:#Übersetzungen wurden gespeichert
+bibl#:#bibl_msg_translations_deleted#:#Übersetzungen wurden gelöscht.
+bibl#:#bibl_filter#:#Filter
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
@@ -14194,5 +14219,4 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
