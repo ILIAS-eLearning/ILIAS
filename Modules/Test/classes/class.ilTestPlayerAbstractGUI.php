@@ -2459,6 +2459,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$_SESSION['save_on_navigation_prevent_confirmation'] = true;
 		}
+		
+		if( !empty($_POST[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM]) )
+		{
+			$_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
+		}
 	}
 // fau.
 
@@ -2610,6 +2615,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( $this->object->isFollowupQuestionAnswerFixationEnabled() )
 		{
 			$this->populateNextLocksChangedModal();
+			
 			$this->populateNextLocksUnchangedModal();
 		}
 		

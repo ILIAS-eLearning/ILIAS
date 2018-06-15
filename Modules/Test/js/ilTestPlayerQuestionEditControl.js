@@ -135,6 +135,17 @@ il.TestPlayerQuestionEditControl = new function() {
         // the final action is done by a submit button in the modal
         $('#tst_discard_solution_action').click(showDiscardSolutionModal);
         $('#tst_cancel_discard_button').click(hideDiscardSolutionModal);
+        
+        if( config.nextQuestionLocks )
+        {
+            // handle the buttons in next locks current answer confirmation modal
+            $('#tst_nav_next_changed_answer_button').click(saveWithNavigation);
+            $('#tst_cancel_next_changed_answer_button').click(hideFollowupQuestionLocksCurrentAnswerModal);
+            
+            // handle the buttons in next locks empty answer confirmation modal
+            $('#tst_nav_next_empty_answer_button').click(saveWithNavigation);
+            $('#tst_cancel_next_empty_answer_button').click(hideFollowupQuestionLocksEmptyAnswerModal);
+        }
 
         // the checkbox 'use unchanged answer' is only needed for initial empty answers
         // it exists for few question types only
@@ -373,7 +384,30 @@ il.TestPlayerQuestionEditControl = new function() {
             toggleQuestionMark();
             return false;
         }
-        else if (answerChanged                          // answer has been changed
+        else if( config.nextQuestionLocks && $(this).attr('data-nextcmd') == 'nextQuestion' )
+        {
+            // remember the url for saveWithNavigation()
+            navUrl = href;
+            
+            if( !answerChanged && !answered )
+            {
+                console.log('rubbel die katz x 2');
+
+                showFollowupQuestionLocksEmptyAnswerModal();
+            }
+            else if( $('#tst_next_locks_changed_modal').length > 0 )
+            {
+                showFollowupQuestionLocksCurrentAnswerModal();
+            }
+            else
+            {
+                saveWithNavigation();
+            }
+
+            return false; // prevent the default event handler
+        }
+        
+        if (answerChanged                               // answer has been changed
             && href                                     // link is not an anchor
             && href.charAt(0) != '#'                    // link is not a fragment
             && id != 'tst_discard_answer_action'        // link is not the 'discard answer' button
@@ -430,6 +464,28 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function hideDiscardSolutionModal() {
         $('#tst_discard_solution_modal').modal('hide');
+    }
+    
+    function showFollowupQuestionLocksCurrentAnswerModal()
+    {
+        $('#tst_next_locks_changed_modal').modal('show');
+        $('#followup_qst_locks_prevent_confirmation').attr('checked',false);
+    }
+    
+    function hideFollowupQuestionLocksCurrentAnswerModal()
+    {
+        $('#tst_next_locks_changed_modal').modal('hide');
+    }
+    
+    function showFollowupQuestionLocksEmptyAnswerModal()
+    {
+        console.log($('#tst_next_locks_unchanged_modal'));
+        $('#tst_next_locks_unchanged_modal').modal('show');
+    }
+    
+    function hideFollowupQuestionLocksEmptyAnswerModal()
+    {
+        $('#tst_next_locks_unchanged_modal').modal('hide');
     }
 
     /**
