@@ -1879,17 +1879,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function isParticipantsAnswerFixed($questionId)
 	{
-		if( !$this->object->isInstantFeedbackAnswerFixationEnabled() )
+		if( $this->object->isInstantFeedbackAnswerFixationEnabled() && $this->testSequence->isQuestionChecked($questionId) )
 		{
-			return false;
+			return true;
 		}
 
-		if( !$this->testSequence->isQuestionChecked($questionId) )
+		if( $this->object->isFollowupQuestionAnswerFixationEnabled() && $this->testSequence->isNextQuestionPresented($questionId) )
 		{
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
