@@ -178,8 +178,16 @@ class ilTestQuestionSideListGUI
 				$row['worked_through'] ? 'answered'.$active : 'unanswered'.$active
 			);
 			
-			/*
-			if( $this->isDisabled() )
+			if ($row['marked'])
+			{
+				$tpl->setCurrentBlock("mark_icon");
+				$tpl->setVariable("ICON_SRC", ilUtil::getImagePath('marked.svg'));
+				$tpl->setVariable("ICON_TEXT",  $this->lng->txt('tst_question_marked'));
+				$tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
+				$tpl->parseCurrentBlock();
+			}
+			
+			if( $this->isDisabled() || $row['disabled'] )
 			{
 				$tpl->setCurrentBlock('disabled_entry');
 				$tpl->setVariable('CLASS', $class);
@@ -189,16 +197,7 @@ class ilTestQuestionSideListGUI
 			}
 			else
 			{
-			*/
 // fau: testNav - show mark icon in side list
-			if ($row['marked'])
-			{
-				$tpl->setCurrentBlock("mark_icon");
-				$tpl->setVariable("ICON_SRC", ilUtil::getImagePath('marked.svg'));
-				$tpl->setVariable("ICON_TEXT",  $this->lng->txt('tst_question_marked'));
-				$tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
-				$tpl->parseCurrentBlock();
-			}
 // fau.
 				$tpl->setCurrentBlock('linked_entry');
 				$tpl->setVariable('HREF', $this->buildLink($row['sequence']));
@@ -208,9 +207,7 @@ class ilTestQuestionSideListGUI
 				$tpl->setVariable('ITEM', $title);
 				$tpl->setVariable("DESCRIPTION", $description);
 				$tpl->parseCurrentBlock();
-			/*
 			}
-			*/
 
 			$tpl->setCurrentBlock('item');
 		}
