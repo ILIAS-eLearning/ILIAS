@@ -207,7 +207,7 @@ class ilTestPlayerConfirmationModal
 	public function getHTML()
 	{
 		$modal = ilModalGUI::getInstance();
-		$modal->setId('tst_save_on_navigation_modal');
+		$modal->setId($this->getModalId());
 		$modal->setHeading($this->getHeaderText());
 		$modal->setBody($this->buildBody());
 		return $modal->getHTML();
