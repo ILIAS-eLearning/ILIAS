@@ -257,7 +257,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputField(Template $tpl, Input $input, $id) {
 
 		if($input instanceof Component\Input\Field\Password) {
-			$id = $this->additionalRenderPassword($tpl, $input, $id);
+			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
 		$tpl->setVariable("NAME", $input->getName());
@@ -277,9 +277,13 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
+	 * Render revelation-glyphs for password and register signals/functions
+	 * @param Template $tpl
+	 * @param Password $input
 	 *
+	 * @return string | false
 	 */
-	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, $id) {
+	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
 		$id = false;
 		if($input->getRevelation()) {
 			global $DIC;

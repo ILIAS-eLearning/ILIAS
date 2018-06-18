@@ -680,18 +680,18 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       XX
+	 *       The EyeClosed Glyph is used to toggle the revelation-mode of password fields.
 	 *   composition: >
-	 *       XX
+	 *       The EyeClosed Glyph uses the glyphicon-eye-close.
 	 *   effect: >
-	 *       XX
+	 *       When clicked, the password-field is masked, thus hiding the input.
 	 *
 	 * context: Used with password-fields to toggle mask/revealed mode.
 	 *
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          xxx
+	 *          The EyeClosed Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be 'eye closed'.
@@ -705,18 +705,18 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       XX
+	 *       The EyeOpen Glyph is used to toggle the revelation-mode of password fields.
 	 *   composition: >
-	 *       XX
+	 *       The EyeOpen Glyph uses the glyphicon-eye-open.
 	 *   effect: >
-	 *       XX
+	 *       When clicked, the password-field is unmasked, thus revealing the input.
 	 *
 	 * context: Used with password-fields to toggle mask/revealed mode.
 	 *
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          xxx
+	 *          The EyeOpen Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be 'eye open'.
