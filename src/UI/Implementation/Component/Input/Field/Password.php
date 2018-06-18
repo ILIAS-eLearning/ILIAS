@@ -107,7 +107,10 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	}
 
 	/**
+	 * Get a Password like this with the revelation-option enabled (or disabled).
 	 *
+	 * @param bool 	$revelation
+	 * @return Password
 	 */
 	public function withRevelation($revelation) {
 		$this->checkBoolArg('revelation', $revelation);
@@ -117,10 +120,11 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	}
 
 	/**
+	 * Get the status of the revelation-option.
 	 *
+	 * @return bool
 	 */
 	public function getRevelation() {
-		return true;
 		return $this->revelation;
 	}
 
@@ -133,7 +137,9 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	}
 
 	/**
+	 * Reset all Signals.
 	 *
+	 * @return Password
 	 */
 	public function withResetSignals() {
 		$clone = clone $this;
@@ -142,14 +148,18 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get the signal for unmasking the input.
+	 *
+	 * @return Signal
 	 */
 	public function getRevealSignal() {
 		return $this->signal_reveal;
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get the signal for masking the input.
+	 *
+	 * @return Signal
 	 */
 	public function getMaskSignal() {
 		return $this->signal_mask;
