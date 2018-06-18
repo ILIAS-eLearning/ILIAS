@@ -1,25 +1,12 @@
-<!-- BEGIN failure_message -->
-<div class="alert alert-danger" role="alert">
-    <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">Failure Message</a></h5>
+<!-- BEGIN message_box -->
+<div class="alert
+    <!-- BEGIN failure_class -->alert-danger<!-- END failure_class -->
+    <!-- BEGIN success_class -->alert-success<!-- END success_class -->
+    <!-- BEGIN info_class -->alert-info<!-- END info_class -->
+    <!-- BEGIN confirmation_class -->alert-warning<!-- END confirmation_class -->
+    " role="alert">
+    <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{ACC_TEXT}</a></h5>
     {MESSAGE_TEXT}
     <h6 class="il-divider"></h6>
     {BUTTONS}</div>
-<!-- END failure_message --><!-- BEGIN success_message -->
-<div class="alert alert-success" role="alert">
-    <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">Success Message</a></h5>
-    {MESSAGE_TEXT}
-    <h6 class="il-divider"></h6>
-    {BUTTONS}</div>
-<!-- END success_message --><!-- BEGIN info_message -->
-<div class="alert alert-info" role="alert">
-    <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">Info Message</a></h5>
-    {MESSAGE_TEXT}
-    <h6 class="il-divider"></h6>
-    {BUTTONS}</div>
-<!-- END info_message --><!-- BEGIN confirmation_message -->
-<div class="alert alert-warning" role="alert">
-    <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">Confirmation Message</a></h5>
-    {MESSAGE_TEXT}
-    <h6 class="il-divider"></h6>
-    {BUTTONS}</div>
-<!-- END confirmation_message -->
+<!-- END message_box -->

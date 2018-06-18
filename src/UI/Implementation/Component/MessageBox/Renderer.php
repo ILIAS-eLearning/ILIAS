@@ -25,50 +25,20 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.messagebox.html", true, true);
 
-		if ($component->getType() == "failure") {
-			$tpl->setCurrentBlock("failure_message");
-			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
 
-			$buttons = $component->getButtons();
-			if ($buttons) {
-				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
-			}
+		$tpl->setCurrentBlock("message_box");
 
-			$tpl->parseCurrentBlock();
+		$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
+		$tpl->setVariable("ACC_TEXT", $this->txt($component->getType() . "_message"));
+
+		$buttons = $component->getButtons();
+		if ($buttons) {
+			$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
 		}
-		if ($component->getType() == "success") {
-			$tpl->setCurrentBlock("success_message");
-			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
 
-			$buttons = $component->getButtons();
-			if ($buttons) {
-				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
-			}
+		$tpl->touchBlock($component->getType() . "_class");
 
-			$tpl->parseCurrentBlock();
-		}
-		if ($component->getType() == "info") {
-			$tpl->setCurrentBlock("info_message");
-			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
-
-			$buttons = $component->getButtons();
-			if ($buttons) {
-				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
-			}
-
-			$tpl->parseCurrentBlock();
-		}
-		if ($component->getType() == "confirmation") {
-			$tpl->setCurrentBlock("confirmation_message");
-			$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
-
-			$buttons = $component->getButtons();
-			if ($buttons) {
-				$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
-			}
-
-			$tpl->parseCurrentBlock();
-		}
+		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
 	}
