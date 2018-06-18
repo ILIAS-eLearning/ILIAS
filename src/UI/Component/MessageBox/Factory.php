@@ -12,7 +12,9 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The system failed to complete some actions and displays information about the failure (brand-danger).
+	 *     The system failed to complete some actions and displays information about the failure.
+	 *   composition: >
+	 *     The div uses the alert-danger Bootstrap style.
 	 *
 	 * ---
 	 *
@@ -24,7 +26,9 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The system succeeded in finishing some action and displays a success message (brand-success).
+	 *     The system succeeded in finishing some action and displays a success message.
+	 *   composition: >
+	 *     The div uses the alert-success Bootstrap style.
 	 *
 	 * ---
 	 *
@@ -38,7 +42,8 @@ interface Factory {
 	 *   purpose: >
 	 *     The system informs the user about obstacles standing in the way of completing a workflow
 	 *     or about side-effects of his or her actions on other users.
-	 *
+	 *   composition: >
+	 *     The div uses the alert-info Bootstrap style.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -50,7 +55,8 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *     The system needs input from the user.
-	 *
+	 *   composition: >
+	 *     The div uses the alert-warning Bootstrap style.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
