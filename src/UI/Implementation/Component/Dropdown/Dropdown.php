@@ -28,11 +28,20 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 */
 	protected $items;
 
+
+	protected static $proper_item_classes =
+		[\ILIAS\UI\Component\Button\Shy::class
+		,\ILIAS\UI\Component\Divider\Horizontal::class];
+
 	/**
 	 * Dropdown constructor.
 	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
 	 */
-	public function __construct($items) {
+	public function __construct(array $items) {
+		$this->checkArgListElements(
+			'items'
+			,$items
+			,self::$proper_item_classes);
 		$this->items = $items;
 	}
 
