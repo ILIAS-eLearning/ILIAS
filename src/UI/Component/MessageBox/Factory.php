@@ -19,9 +19,11 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *          The Failure Message Boxes MUST be used, if a user interaction has failed. The message
-	 *          SHOULD inform the user why the interaction has failed. The message SHOULD inform the user how
-	 *          to the problem can be fixed.
+	 *          The Failure Message Boxes MUST be used, if a user interaction has failed.
+	 *      2: >
+	 *          The message SHOULD inform the user why the interaction has failed.
+	 *      3: >
+	 *          The message SHOULD inform the user how to the problem can be fixed.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -39,8 +41,9 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *          The Success Message Boxes MUST be used, if a user interaction has successfully ended. The message
-	 *          SHOULD summarize how the system state has been changed due to the user interaction.
+	 *          The Success Message Boxes MUST be used, if a user interaction has successfully ended.
+	 *      2: >
+	 *          The message SHOULD summarize how the system state has been changed due to the user interaction.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -60,7 +63,7 @@ interface Factory {
 	 *   usage:
 	 *      1: >
 	 *          The Info Message Boxes MAY be used to describe a state or condition of the system that help the
-	 *          user to understand the provided (or missing) interactions on a screen.
+	 *          user to understand the interactions provided on or missing from a screen.
 	 *      2: >
 	 *          The Info Message Boxes MUST NOT be used at the end of a user interaction. Instead Success or Failure
 	 *          Message Boxes SHOULD be used.
