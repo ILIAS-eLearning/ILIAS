@@ -46,7 +46,7 @@ class Password extends Input implements C\Input\Field\Password {
 	}
 
 	/**
-	 * This is a shortcut to quickly get a Passwordfiled with desired contraints.
+	 * This is a shortcut to quickly get a password-field with desired contraints.
 	 *
 	 * @param int 	$min_length
 	 * @param bool 	$lower
