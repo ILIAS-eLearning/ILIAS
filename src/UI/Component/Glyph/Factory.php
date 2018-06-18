@@ -675,28 +675,55 @@ interface Factory {
 	 */
 	public function angry($action = null);
 
+
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Attachment glyph indicates that a file is attached or can be attached to an object or entity.
+	 *       XX
 	 *   composition: >
-	 *      The Attachment Glyph uses the glyphicon-paperclip.
+	 *       XX
 	 *   effect: >
-	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
+	 *       XX
 	 *
-	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 * context: Used with password-fields to toggle mask/revealed mode.
 	 *
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          A Status Counter MAY indicate the overall amount of attachments.
+	 *          xxx
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Attachment'.
+	 *          The aria-label MUST be 'eye closed'.
 	 * ---
-	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function attachment($action = null);
+	public function eyeclosed($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       XX
+	 *   composition: >
+	 *       XX
+	 *   effect: >
+	 *       XX
+	 *
+	 * context: Used with password-fields to toggle mask/revealed mode.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          xxx
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'eye open'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function eyeopen($action = null);
+
 }

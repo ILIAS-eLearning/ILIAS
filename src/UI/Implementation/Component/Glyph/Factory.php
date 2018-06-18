@@ -193,7 +193,15 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function attachment($action = null) {
-		return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
+	public function eyeopen($action = null) {
+		return new Glyph(G\Glyph::EYEOPEN, "eyeopen", $action);
 	}
+	/**
+	 * @inheritdoc
+	 */
+	public function eyeclosed($action = null) {
+		return new Glyph(G\Glyph::EYECLOSED, "eyeclosed", $action);
+	}
+
+
 }

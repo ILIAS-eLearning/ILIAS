@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Field\Password;
-use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -45,10 +43,6 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
-		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
-		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
-		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
-		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 	}
 
 
@@ -64,12 +58,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Tag) {
-			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
-		} elseif ($input instanceof Password) {
+		} elseif ($input instanceof Component\Input\Field\Password) {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
-		} else if ($input instanceof Select) {
-			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -90,26 +80,30 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var $group DependantGroup
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
-		} elseif ($group instanceof Component\Input\Field\Checkbox) {
-			/**
-			 * @var $group Checkbox
-			 */
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group_html = "";
-			$id = "";
-			if ($group->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
-				$id = $this->bindJavaScript($group);
+		} else {
+			if ($group instanceof Component\Input\Field\Checkbox) {
+				/**
+				 * @var $group Checkbox
+				 */
+				$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+				$dependant_group_html = "";
+				$id = "";
+				if ($group->getDependantGroup()) {
+					$dependant_group_html = $default_renderer->render($group->getDependantGroup());
+					$id = $this->bindJavaScript($group);
+				}
+
+				$html = $this->renderInputFieldWithContext($input_tpl, $group, $id, $dependant_group_html);
+
+				return $html;
+			} else {
+				if ($group instanceof Component\Input\Field\Section) {
+					/**
+					 * @var $group Section
+					 */
+					return $this->renderSection($group, $default_renderer);
+				}
 			}
-
-			$html = $this->renderInputFieldWithContext($input_tpl, $group, $id, $dependant_group_html);
-
-			return $html;
-		} elseif ($group instanceof Component\Input\Field\Section) {
-			/**
-			 * @var $group Section
-			 */
-			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
@@ -180,11 +174,9 @@ class Renderer extends AbstractComponentRenderer {
 		$hide = $dependant_group->getHideSignal();
 		$init = $dependant_group->getInitSignal();
 
-		$dependant_group = $dependant_group->withAdditionalOnLoadCode(
-			function ($id) use ($toggle, $show, $hide, $init) {
-				return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
-			}
-		);
+		$dependant_group = $dependant_group->withAdditionalOnLoadCode(function ($id) use ($toggle, $show, $hide, $init) {
+			return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
+		});
 
 		/**
 		 * @var $dependant_group DependantGroup
@@ -250,6 +242,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
 		}
 
+
 		return $tpl->get();
 	}
 
@@ -262,88 +255,65 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
-		switch (true) {
-			case ($input instanceof Text):
-			case ($input instanceof Checkbox):
-			case ($input instanceof Numeric):
-			case ($input instanceof Password):
-				$tpl->setVariable("NAME", $input->getName());
 
-				if ($input->getValue() !== null) {
-					$tpl->setCurrentBlock("value");
-					$tpl->setVariable("VALUE", $input->getValue());
-					$tpl->parseCurrentBlock();
-				}
-				if ($id) {
-					$tpl->setCurrentBlock("id");
-					$tpl->setVariable("ID", $id);
-					$tpl->parseCurrentBlock();
-				}
-				break;
-			case ($input instanceof Select):
-				$tpl = $this->renderSelectInput($tpl, $input);
-				break;
-			case ($input instanceof Tag):
-				$configuration = $input->getConfiguration();
-				$input = $input->withAdditionalOnLoadCode(
-					function ($id) use ($configuration) {
-						$encoded = json_encode($configuration);
-
-						return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
-					}
-				);
-				$id = $this->bindJavaScript($input);
-				/**
-				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
-				 */
-				$tpl->setVariable("ID", $id);
-				$tpl->setVariable("NAME", $input->getName());
-				if ($input->getValue()) {
-					$value = $input->getValue();
-					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
-					foreach ($value as $tag) {
-						$tpl->setCurrentBlock('existing_tags');
-						$tpl->setVariable("FIELD_ID", $id);
-						$tpl->setVariable("FIELD_NAME", $input->getName());
-						$tpl->setVariable("TAG_NAME", $tag);
-						$tpl->parseCurrentBlock();
-					}
-				}
-				break;
+		if($input instanceof Component\Input\Field\Password) {
+			$id = $this->additionalRenderPassword($tpl, $input, $id);
 		}
 
+		$tpl->setVariable("NAME", $input->getName());
+
+		if ($input->getValue() !== null) {
+			$tpl->setCurrentBlock("value");
+			$tpl->setVariable("VALUE", $input->getValue());
+			$tpl->parseCurrentBlock();
+		}
+		if ($id) {
+			$tpl->setCurrentBlock("id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
 		return $tpl->get();
 	}
 
-	public function renderSelectInput(Template $tpl, Select $input)
-	{
-		global $DIC;
-		$value = $input->getValue();
-		//disable first option if required.
-		$tpl->setCurrentBlock("options");
-		if(!$value) {
-			$tpl->setVariable("SELECTED", "selected");
-		}
-		if($input->isRequired()) {
-			$tpl->setVariable("DISABLED", "disabled");
-			$tpl->setVariable("HIDDEN", "hidden");
-		}
-		$tpl->setVariable("VALUE", NULL);
-		$tpl->setVariable("VALUE_STR", "-");
-		$tpl->parseCurrentBlock();
-		//rest of options.
-		foreach ($input->getOptions() as $option_key => $option_value)
-		{
-			$tpl->setCurrentBlock("options");
-			if($value == $option_key) {
-				$tpl->setVariable("SELECTED", "selected");
-			}
-			$tpl->setVariable("VALUE", $option_key);
-			$tpl->setVariable("VALUE_STR", $option_value);
+
+	/**
+	 *
+	 */
+	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, $id) {
+		$id = false;
+		if($input->getRevelation()) {
+			global $DIC;
+			$f = $this->getUIFactory();
+			$renderer = $DIC->ui()->renderer();
+
+			$input = $input->withResetSignals();
+			$sig_reveal = $input->getRevealSignal();
+			$sig_mask = $input->getMaskSignal();
+
+			$input = $input->withAdditionalOnLoadCode(function($id) use ($sig_reveal, $sig_mask) {
+				return
+					"$(document).on('{$sig_reveal}', function() {
+						$('#{$id}').addClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='text';
+					});".
+					"$(document).on('{$sig_mask}', function() {
+						$('#{$id}').removeClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='password';
+					});"
+					;
+				});
+			$id = $this->bindJavaScript($input);
+
+			$glyph_reveal = $f->glyph()->eyeopen("#")
+				->withOnClick($sig_reveal);
+			$glyph_mask = $f->glyph()->eyeclosed("#")
+				->withOnClick($sig_mask);
+			$tpl->setCurrentBlock('revelation');
+			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
+			$tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
 			$tpl->parseCurrentBlock();
 		}
-
-		return $tpl;
+		return $id;
 	}
 
 
@@ -351,14 +321,14 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\Input\Field\Text::class,
-		        Component\Input\Field\Numeric::class,
-		        Component\Input\Field\Group::class,
-		        Component\Input\Field\Section::class,
-		        Component\Input\Field\Checkbox::class,
-		        Component\Input\Field\Tag::class,
-		        Component\Input\Field\DependantGroup::class,
-		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class];
+		return [
+			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
+			Component\Input\Field\Section::class,
+			Component\Input\Field\Checkbox::class,
+			Component\Input\Field\DependantGroup::class,
+			Component\Input\Field\Password::class
+		];
 	}
 }
