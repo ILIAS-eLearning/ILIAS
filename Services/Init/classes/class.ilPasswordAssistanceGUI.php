@@ -45,33 +45,18 @@ class ilPasswordAssistanceGUI
 	protected $ilias;
 
 	/**
-	 * @var ilHTTPS
-	 */
-	protected $https;
-
-	/**
 	 *
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $ilCtrl     ilCtrl
-		 * @var $lng        ilLanguage
-		 * @var $rbacreview ilRbacReview
-		 * @var $tpl        ilTemplate
-		 * @var $ilSetting  ilSetting
-		 * @var $ilias      ILIAS
-		 * @var $https      ilHTTPS
-		 */
-		global $ilCtrl, $lng, $rbacreview, $tpl, $ilSetting, $ilias, $https;
+		global $DIC;
 
-		$this->ctrl       = $ilCtrl;
-		$this->lng        = $lng;
-		$this->rbacreview = $rbacreview;
-		$this->tpl        = $tpl;
-		$this->settings   = $ilSetting;
-		$this->ilias      = $ilias;
-		$this->https      = $https;
+		$this->ctrl       = $DIC->ctrl();
+		$this->lng        = $DIC->language();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->tpl        = $DIC->ui()->mainTemplate();
+		$this->settings   = $DIC->settings();
+		$this->ilias      = $DIC['ilias'];
 	}
 
 	/**
@@ -130,6 +115,35 @@ class ilPasswordAssistanceGUI
 	}
 
 	/**
+	 * Returns the ILIAS http path without a trailing /
+	 * @return string
+	 */
+	protected function getBaseUrl(): string
+	{
+		return rtrim(ILIAS_HTTP_PATH, '/');
+	}
+
+	/**
+	 * @param string $script
+	 * @param array  $queryParameters
+	 * @return string
+	 */
+	protected function buildUrl(string $script, array $queryParameters): string
+	{
+		$url = implode('/', [
+			$this->getBaseUrl(),
+			ltrim($script, '/')
+		]);
+
+		$url = \ilUtil::appendUrlParameterString(
+			$url,
+			http_build_query($queryParameters, null, '&')
+		);
+
+		return $url;
+	}
+
+	/**
 	 * @return ilPropertyFormGUI
 	 */
 	protected function getAssistanceForm()
@@ -144,7 +158,7 @@ class ilPasswordAssistanceGUI
 		$username->setRequired(true);
 		$form->addItem($username);
 
-		$email = new ilTextInputGUI($this->lng->txt('email'), 'email');
+		$email = new ilEMailInputGUI($this->lng->txt('email'), 'email');
 		$email->setRequired(true);
 		$form->addItem($email);
 
@@ -199,8 +213,7 @@ class ilPasswordAssistanceGUI
 	public function submitAssistanceForm()
 	{
 		$form = $this->getAssistanceForm();
-		if(!$form->checkInput())
-		{
+		if (!$form->checkInput()) {
 			$form->setValuesByPost();
 			$this->showAssistanceForm($form);
 			return;
@@ -209,67 +222,57 @@ class ilPasswordAssistanceGUI
 		$username = $form->getInput('username');
 		$email    = $form->getInput('email');
 
-		$userObj = null;
-		$userid  = ilObjUser::getUserIdByLogin($username);
-		$txt_key = 'pwassist_invalid_username_or_email';
-		if($userid != 0)
-		{
-			$userObj = new ilObjUser($userid);
-			if(strcasecmp($userObj->getEmail(), $email) != 0)
-			{
-				$userObj = null;
-			}
-			elseif(!strlen($email))
-			{
-				$userObj = null;
-				$txt_key = 'pwassist_no_email_found';
-			}
-			else if (
-				(
-					$userObj->getAuthMode(true) != AUTH_LOCAL ||
-					($userObj->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
-				) && !(
-					$userObj->getAuthMode(true) == AUTH_SAML
-				)
-			)
-			{
-				$userObj = null;
-				$txt_key = 'pwassist_invalid_auth_mode';
-			}
+		$usrId  = \ilObjUser::getUserIdByLogin($username);
+		if (!is_numeric($usrId) || !($usrId > 0)) {
+			\ilLoggerFactory::getLogger('usr')->info(sprintf(
+				'Could not process password assistance form (reason: no user found) %s / %s',
+				$username, $email
+			));
+
+			$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
+			return;
 		}
 
-		// No matching user object found?
-		// Show the password assistance form again, and display an error message.
-		if($userObj == null)
-		{
-			ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt($txt_key)));
-			$form->setValuesByPost();
-			$this->showAssistanceForm($form);
-		}
-		else
-		{
-			// Matching user object found?
-			// Check if the user is permitted to use the password assistance function,
-			// and then send a password assistance mail to the email address.
-			// FIXME: Extend this if-statement to check whether the user
-			// has the permission to use the password assistance function.
-			// The anonymous user and users who are system administrators are
-			// not allowed to use this feature
-			if(
-				$this->rbacreview->isAssigned($userObj->getId(), ANONYMOUS_ROLE_ID) ||
-				$this->rbacreview->isAssigned($userObj->getId(), SYSTEM_ROLE_ID)
+		$user = new \ilObjUser($usrId);
+		$emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
+
+		if (!in_array(strtolower($email), $emailAddresses)) {
+			if (0 === strlen(implode('', $emailAddresses))) {
+				\ilLoggerFactory::getLogger('usr')->info(sprintf(
+					'Could not process password assistance form (reason: account without email addresses): %s / %s',
+					$username, $email
+				));
+			} else {
+				\ilLoggerFactory::getLogger('usr')->info(sprintf(
+					'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
+					$username, $email
+				));
+			}
+		} else if (
+			(
+				$user->getAuthMode(true) != AUTH_LOCAL ||
+				($user->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
+			) && !(
+				$user->getAuthMode(true) == AUTH_SAML
 			)
-			{
-				ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_not_permitted')));
-				$form->setValuesByPost();
-				$this->showAssistanceForm($form);
-			}
-			else
-			{
-				$this->sendPasswordAssistanceMail($userObj);
-				$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
-			}
+		) {
+			\ilLoggerFactory::getLogger('usr')->info(sprintf(
+				'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
+				$username, $email
+			));
+		} else if (
+			$this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
+			$this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
+		) {
+			\ilLoggerFactory::getLogger('usr')->info(sprintf(
+				'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
+				$username, $email
+			));
+		} else {
+			$this->sendPasswordAssistanceMail($user);
 		}
+
+		$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
 	}
 
 	/**
@@ -287,9 +290,6 @@ class ilPasswordAssistanceGUI
 	{
 		global $DIC;
 
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-		require_once 'Services/Mail/classes/class.ilMail.php';
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		require_once 'include/inc.pwassist_session_handler.php';
 
 		// Check if we need to create a new session
@@ -312,23 +312,24 @@ class ilPasswordAssistanceGUI
 				$userObj->getId()
 			);
 		}
-		$protocol = $this->https->isDetected() ? 'https://' : 'http://';
-		// Compose the mail
-		$server_url = $protocol . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')) . '/';
-		// XXX - Werner Randelshofer - Insert code here to dynamically get the
-		//      the delimiter. For URL's that are sent by e-mail to a user,
-		//      it is best to use semicolons as parameter delimiter
-		$delimiter                = '&';
-		$pwassist_url             = $protocol . $_SERVER['HTTP_HOST']
-			. str_replace('ilias.php', 'pwassist.php', $_SERVER['PHP_SELF'])
-			. '?client_id=' . $this->ilias->getClientId()
-			. $delimiter . 'lang=' . $this->lng->getLangKey()
-			. $delimiter . 'key=' . $pwassist_session['pwassist_id'];
-		$alternative_pwassist_url = $protocol . $_SERVER['HTTP_HOST']
-			. str_replace('ilias.php', 'pwassist.php', $_SERVER['PHP_SELF'])
-			. '?client_id=' . $this->ilias->getClientId()
-			. $delimiter . 'lang=' . $this->lng->getLangKey()
-			. $delimiter . 'key=' . $pwassist_session['pwassist_id'];
+
+		$pwassist_url = $this->buildUrl(
+			'pwassist.php',
+			[
+				'client_id' => $this->ilias->getClientId(),
+				'lang'      => $this->lng->getLangKey(),
+				'key'       => $pwassist_session['pwassist_id']
+			]
+		);
+
+		$alternative_pwassist_url = $this->buildUrl(
+			'pwassist.php',
+			[
+				'client_id' => $this->ilias->getClientId(),
+				'lang'      => $this->lng->getLangKey(),
+				'key'       => $pwassist_session['pwassist_id']
+			]
+		);
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $DIC["mail.mime.sender.factory"];
@@ -348,7 +349,7 @@ class ilPasswordAssistanceGUI
 				(
 					$this->lng->txt('pwassist_mail_body'),
 					$pwassist_url,
-					$server_url,
+					$this->getBaseUrl() . '/',
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
 					'mailto:' . $DIC->settings()->get("admin_email"),
@@ -493,10 +494,9 @@ class ilPasswordAssistanceGUI
 			$is_successful = true;
 			$message       = '';
 
-			$userObj = new ilObjUser($pwassist_session['user_id']);
-			if($userObj == null)
-			{
-				$message       = $this->lng->txt('user_does_not_exist');
+			$userObj = \ilObjectFactory::getInstanceByObjId($pwassist_session['user_id'], false);
+			if (!$userObj || !($userObj instanceof \ilObjUser)) {
+				$message = $this->lng->txt('user_does_not_exist');
 				$is_successful = false;
 			}
 
@@ -629,18 +629,23 @@ class ilPasswordAssistanceGUI
 		require_once 'Services/Utilities/classes/class.ilUtil.php';
 
 		$form = $this->getUsernameAssistanceForm();
-		if(!$form->checkInput())
-		{
+		if (!$form->checkInput()) {
 			$form->setValuesByPost();
 			$this->showUsernameAssistanceForm($form);
+
 			return;
 		}
 
-		$email  = $form->getInput('email');
+		$email = $form->getInput('email');
 		$logins = ilObjUser::_getUserIdsByEmail($email);
 
 		if (is_array($logins) && count($logins) > 0) {
 			$this->sendUsernameAssistanceMail($email, $logins);
+		} else {
+			\ilLoggerFactory::getLogger('usr')->info(sprintf(
+				'Could not sent username assistance emails to (reason: no user found): %s',
+				$email
+			));
 		}
 
 		$this->showMessageForm($this->lng->txt('pwassist_mail_sent_generic'));
@@ -667,10 +672,13 @@ class ilPasswordAssistanceGUI
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		require_once 'include/inc.pwassist_session_handler.php';
 
-		$protocol = $this->https->isDetected() ? 'https://' : 'http://';
-
-		$server_url      = $protocol . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')) . '/';
-		$login_url       = $server_url . 'pwassist.php' . '?client_id=' . $this->ilias->getClientId() . '&lang=' . $this->lng->getLangKey();
+		$login_url = $this->buildUrl(
+			'pwassist.php',
+			[
+				'client_id' => $this->ilias->getClientId(),
+				'lang'      => $this->lng->getLangKey()
+			]
+		);
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $DIC["mail.mime.sender.factory"];
@@ -690,7 +698,7 @@ class ilPasswordAssistanceGUI
 				(
 					$this->lng->txt('pwassist_username_mail_body'),
 					join($logins, ",\n"),
-					$server_url,
+					$this->getBaseUrl() . '/',
 					$_SERVER['REMOTE_ADDR'],
 					$email,
 					'mailto:' . $DIC->settings()->get("admin_email"),

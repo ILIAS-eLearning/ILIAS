@@ -38,11 +38,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$this->parent_gui = $parent_gui;
 
 		$this->lng()->loadLanguageModule('bibl');
-		$this->ctrl()
-		     ->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
-		$this->tabs()->clearTargets();
-		$this->tabs()->setBackTarget($this->lng()->txt("back"), $this->ctrl()
-		                                                             ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+		$this->ctrl()->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
 
 		parent::__construct();
 		$this->initForm();
@@ -52,21 +48,22 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	public function initForm() {
 		$this->setTarget('_top');
 
-		$available_fields_for_object = $this->facade->fieldFactory()
-		                                            ->getAvailableFieldsForObjId($this->facade->iliasObjId());
+		$available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
 
-		$edited_filter = $this->facade->filterFactory()->findById($this->http()
-		                                                               ->request()
-		                                                               ->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]);
+		$edited_filter = $this->facade->filterFactory()->findById(
+			$this->http()->request()->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]
+		);
 
 		//show only the fields as options which don't have already a filter
 		$options = [];
 		foreach ($available_fields_for_object as $available_field) {
 			if (empty($this->facade->filterFactory()->findByFieldId($available_field->getId()))
-			    || (!empty($edited_filter)
-			        && $edited_filter->getFieldId() == $available_field->getId())) {
+				|| (!empty($edited_filter)
+					&& $edited_filter->getFieldId() == $available_field->getId())
+			) {
 				if (!empty($edited_filter)
-				    && $edited_filter->getFieldId() == $available_field->getId()) {
+					&& $edited_filter->getFieldId() == $available_field->getId()
+				) {
 					array_unshift($options, $available_field);
 					continue;
 				}
@@ -76,8 +73,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 
 		$select_options = [];
 		foreach ($options as $ilBiblField) {
-			$select_options[$ilBiblField->getId()] = $this->facade->translationFactory()
-			                                                      ->translate($ilBiblField);
+			$select_options[$ilBiblField->getId()] = $this->facade->translationFactory()->translate($ilBiblField);
 		}
 
 		asort($select_options);
@@ -87,17 +83,13 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$si->setRequired(true);
 		$this->addItem($si);
 
-		$options = [
-			ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT         => $this->lng()
-			                                                                   ->txt("filter_type_"
-			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT),
-			ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT       => $this->lng()
-			                                                                   ->txt("filter_type_"
-			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT),
-			ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->lng()
-			                                                                   ->txt("filter_type_"
-			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT),
-		];
+		$options = [ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT    => $this->lng()->txt(
+				"filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT
+			), ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT       => $this->lng()->txt(
+				"filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT
+			), ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->lng()->txt(
+				"filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT
+			),];
 		$si = new ilSelectInputGUI($this->lng()->txt("filter_type"), self::F_FILTER_TYPE);
 		$si->setInfo($this->lng()->txt("filter_type_info"));
 		$si->setOptions($options);
@@ -113,10 +105,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 
 
 	public function fillForm() {
-		$array = array(
-			self::F_FIELD_ID    => $this->filter->getFieldId(),
-			self::F_FILTER_TYPE => $this->filter->getFilterType(),
-		);
+		$array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
 		$this->setValuesByArray($array);
 	}
 
