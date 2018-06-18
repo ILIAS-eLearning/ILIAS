@@ -6,7 +6,10 @@
     <!-- BEGIN confirmation_class -->alert-warning<!-- END confirmation_class -->
     " role="alert">
     <h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{ACC_TEXT}</a></h5>
-    {MESSAGE_TEXT}
-    <h6 class="il-divider"></h6>
-    {BUTTONS}</div>
+	{MESSAGE_TEXT}
+	<!-- BEGIN buttons -->
+	<div>{BUTTONS}</div>
+	<!-- END buttons -->
+	{LINK_LIST}
+</div>
 <!-- END message_box -->

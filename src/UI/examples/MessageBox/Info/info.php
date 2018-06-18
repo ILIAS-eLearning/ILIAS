@@ -6,5 +6,12 @@ function info() {
 
 	$buttons = [$f->button()->standard("Go to something", "#"), $f->button()->standard("Cancel", "#")];
 
-	return $renderer->render($f->messageBox()->info("Info")->withButtons($buttons));
+	$links = [
+		$f->link()->standard("Link One", "#"),
+		$f->link()->standard("Link Two", "#")
+	];
+
+	return $renderer->render($f->messageBox()->info("Info")
+		->withButtons($buttons)
+		->withLinks($links));
 }

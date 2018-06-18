@@ -26,14 +26,27 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.messagebox.html", true, true);
 
 
+		$buttons = $component->getButtons();
+		if (count($buttons) > 0) {
+			$tpl->setCurrentBlock("buttons");
+			$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setCurrentBlock("message_box");
 
 		$tpl->setVariable("MESSAGE_TEXT", $component->getMessageText());
 		$tpl->setVariable("ACC_TEXT", $this->txt($component->getType() . "_message"));
 
-		$buttons = $component->getButtons();
-		if ($buttons) {
-			$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+
+		$links = $component->getLinks();
+		if (count($links) > 0) {
+
+			$unordered = $DIC->ui()->factory()->listing()->unordered(
+				$links
+			);
+
+			$tpl->setVariable("LINK_LIST", $DIC->ui()->renderer()->render($unordered));
 		}
 
 		$tpl->touchBlock($component->getType() . "_class");
