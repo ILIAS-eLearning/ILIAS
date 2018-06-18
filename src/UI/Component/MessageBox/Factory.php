@@ -16,6 +16,12 @@ interface Factory {
 	 *   composition: >
 	 *     The div uses the alert-danger Bootstrap style.
 	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *          The Failure Message Boxes MUST be used, if a user interaction has failed. The message
+	 *          SHOULD inform the user why the interaction has failed. The message SHOULD inform the user how
+	 *          to the problem can be fixed.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -30,6 +36,11 @@ interface Factory {
 	 *   composition: >
 	 *     The div uses the alert-success Bootstrap style.
 	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *          The Success Message Boxes MUST be used, if a user interaction has successfully ended. The message
+	 *          SHOULD summarize how the system state has been changed due to the user interaction.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -44,6 +55,15 @@ interface Factory {
 	 *     or about side-effects of his or her actions on other users.
 	 *   composition: >
 	 *     The div uses the alert-info Bootstrap style.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *          The Info Message Boxes MAY be used to describe a state or condition of the system that help the
+	 *          user to understand the provided (or missing) interactions on a screen.
+	 *      2: >
+	 *          The Info Message Boxes MUST NOT be used at the end of a user interaction. Instead Success or Failure
+	 *          Message Boxes SHOULD be used.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
@@ -57,6 +77,12 @@ interface Factory {
 	 *     The system needs input from the user.
 	 *   composition: >
 	 *     The div uses the alert-warning Bootstrap style.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *          The Confirmation Message Boxes MUST be used, if a deletion interaction is being processed. The Buttons
+	 *          MUST provide a confirm and a cancel option.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\MessageBox\MessageBox
