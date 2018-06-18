@@ -242,6 +242,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
 		}
 
+
 		return $tpl->get();
 	}
 
@@ -254,6 +255,11 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
+
+		if($input instanceof Component\Input\Field\Password) {
+			$id = $this->additionalRenderPassword($tpl, $input, $id);
+		}
+
 		$tpl->setVariable("NAME", $input->getName());
 
 		if ($input->getValue() !== null) {
@@ -266,8 +272,48 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
 		}
-
 		return $tpl->get();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, $id) {
+		$id = false;
+		if($input->getRevelation()) {
+			global $DIC;
+			$f = $this->getUIFactory();
+			$renderer = $DIC->ui()->renderer();
+
+			$input = $input->withResetSignals();
+			$sig_reveal = $input->getRevealSignal();
+			$sig_mask = $input->getMaskSignal();
+
+			$input = $input->withAdditionalOnLoadCode(function($id) use ($sig_reveal, $sig_mask) {
+				return
+					"$(document).on('{$sig_reveal}', function() {
+						$('#{$id}').addClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='text';
+					});".
+					"$(document).on('{$sig_mask}', function() {
+						$('#{$id}').removeClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='password';
+					});"
+					;
+				});
+			$id = $this->bindJavaScript($input);
+
+			$glyph_reveal = $f->glyph()->eyeopen("#")
+				->withOnClick($sig_reveal);
+			$glyph_mask = $f->glyph()->eyeclosed("#")
+				->withOnClick($sig_mask);
+			$tpl->setCurrentBlock('revelation');
+			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
+			$tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
+			$tpl->parseCurrentBlock();
+		}
+		return $id;
 	}
 
 
