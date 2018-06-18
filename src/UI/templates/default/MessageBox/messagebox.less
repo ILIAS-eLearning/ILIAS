@@ -1,0 +1,17 @@
+div.alert {
+	div {
+		margin-top: 10px;
+	}
+	ul {
+		margin-top: 15px;
+		background-color: @il-primary-container-bg;
+		padding: 10px 10px 10px 10px;
+		font-size: @font-size-small;
+		color: @il-light-text-color;
+		list-style-type: none;
+	}
+	ul > li:before {
+		content: "\00BB \0020";
+		/* margin-left: -10px; */
+	}
+}
