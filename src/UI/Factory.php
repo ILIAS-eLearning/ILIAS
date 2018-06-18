@@ -733,6 +733,14 @@ interface Factory {
 	 *   effect: >
 	 *     Message Boxes convey information and optionally provide interaction by using Buttons and navigation by
 	 *     using Links.
+	 *
+	 * rules:
+	 *   interaction:
+	 *      1: >
+	 *          In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
+	 *          provide interaction by using Buttons.
+	 *      2: >
+	 *          Navigation to other screens MUST by done by using Links.
 	 * ---
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
