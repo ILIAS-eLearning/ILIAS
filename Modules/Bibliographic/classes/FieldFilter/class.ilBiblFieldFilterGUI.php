@@ -18,10 +18,10 @@ class ilBiblFieldFilterGUI {
 	const CMD_EDIT = 'edit';
 	const CMD_UPDATE = 'update';
 	const CMD_DELETE = 'delete';
+	const CMD_RENDER_INTERRUPTIVE = 'renderInterruptiveModal';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
-	const CMD_ASYNC_EDIT_FORM = 'renderEditFormAsync';
 	/**
 	 * @var \ilBiblFactoryFacade
 	 */
@@ -35,6 +35,24 @@ class ilBiblFieldFilterGUI {
 	 */
 	public function __construct(ilBiblFactoryFacade $facade) {
 		$this->facade = $facade;
+	}
+
+
+	public function renderInterruptiveModal() {
+		$f = $this->dic()->ui()->factory();
+		$r = $this->dic()->ui()->renderer();
+		$ilBiblFieldFilter = $this->getFieldFilterFromRequest();
+		$form_action = $this->ctrl()->getFormActionByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE);
+		$delete_modal = $f->modal()->interruptive(
+			$this->lng()->txt("delete"),
+			$this->lng()->txt('msg_confirm_delete_filter'),
+			$form_action
+		)->withAffectedItems(
+			[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
+		);
+
+		echo $r->render([$delete_modal]);
+		exit;
 	}
 
 
@@ -60,7 +78,7 @@ class ilBiblFieldFilterGUI {
 			case self::CMD_CANCEL:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-			case self::CMD_ASYNC_EDIT_FORM:
+			case self::CMD_RENDER_INTERRUPTIVE:
 				if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
 					$this->{$cmd}();
 					break;
@@ -125,7 +143,6 @@ class ilBiblFieldFilterGUI {
 
 	public function delete() {
 		global $DIC;
-		//		$this->tpl()->setContent('<pre>' . print_r($_POST, 1) . '</pre>');
 		$items = $this->http()->request()->getParsedBody()['interruptive_items'];
 		if (is_array($items)) {
 			foreach ($items as $filter_id) {

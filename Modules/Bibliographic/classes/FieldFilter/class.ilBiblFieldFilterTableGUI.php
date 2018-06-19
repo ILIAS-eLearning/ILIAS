@@ -111,14 +111,14 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		)
 		);
 
-		$this->addActionMenu($filter, $field);
+		$this->addActionMenu($filter);
 	}
 
 
 	/**
 	 * @param \ilBiblFieldFilter $ilBiblFieldFilter
 	 */
-	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter, ilBiblField $field) {
+	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) {
 		$this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
 		$f = $this->dic()->ui()->factory();
@@ -126,13 +126,11 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 		$edit = $f->button()->shy($this->lng()->txt("edit"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
 
-		$form_action = $this->ctrl()->getFormActionByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE);
-
 		$delete_modal = $f->modal()->interruptive(
-			$this->lng()->txt("delete"), $this->lng()->txt('msg_confirm_delete_filter'), $form_action
-		)->withAffectedItems([$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($field))]);
+			'', '', ''
+		)->withAsyncRenderUrl($this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_RENDER_INTERRUPTIVE, '', true));
 
-		$delete = $f->button()->shy($this->lng()->txt("delete"), '#')->withOnClick($delete_modal->getShowSignal());
+		$delete = $f->button()->shy($this->lng()->txt("delete"), '')->withOnClick($delete_modal->getShowSignal());
 
 		$this->tpl->setVariable('VAL_ACTIONS', $r->render([$f->dropdown()->standard([$edit, $delete])]));
 
@@ -145,7 +143,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->determineLimit();
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'id';
-		$sorting_column = 'id';
+
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
 
 		$sorting_direction = $this->getOrderDirection();
