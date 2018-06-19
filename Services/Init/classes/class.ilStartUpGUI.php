@@ -1890,22 +1890,24 @@ class ilStartUpGUI
 	}
 
 	/**
-	* process index.php
-	*/
+	 * process index.php
+	 * @return void
+	 */
 	protected function processIndexPHP()
 	{
-		global $ilIliasIniFile, $ilAuth, $ilSetting;
+		global $ilIliasIniFile;
+
+		/**
+		 * @var ilAuthSession $authSession
+		 */
+		$authSession = $GLOBALS['DIC']['ilAuthSession'];
 
 		// In case of an valid session, redirect to starting page
-		if($GLOBALS['DIC']['ilAuthSession']->isValid())
+		if($authSession->isValid() && $authSession->getUserId() !== (int)ANONYMOUS_USER_ID)
 		{
-			include_once './Services/Init/classes/class.ilInitialisation.php';
+			require_once './Services/Init/classes/class.ilInitialisation.php';
 			ilInitialisation::redirectToStartingPage();
 			return;
-		}
-		else
-		{
-			
 		}
 
 		// no valid session => show client list, if no client info is given
@@ -1914,17 +1916,18 @@ class ilStartUpGUI
 			($_GET["cmd"] == "") &&
 			$ilIliasIniFile->readVariable("clients","list"))
 		{
-			return $this->showClientList();
+			$this->showClientList();
+			return;
 		}
 
-		if($GLOBALS['ilSetting']->get('pub_section', false)
-		)
+		if($GLOBALS['ilSetting']->get('pub_section', false))
 		{
-			return ilInitialisation::goToPublicSection();
+			ilInitialisation::goToPublicSection();
+			return;
 		}
-		
+
 		// otherwise show login page
-		return $this->showLoginPage();
+		$this->showLoginPage();
 	}
 
 
