@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$di = $component->isDisabled();
 		if($di) {
-			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->setVariable("DISABLED", " disabled");
 		}
 
         return $tpl->get();
