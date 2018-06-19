@@ -13,7 +13,7 @@ interface InvalidEntry {
 	 * ---
 	 *
 	 * description:
-	 *   purpose:
+	 *   purpose
 	 *      Broken Description
 	 *      Exactly here is the YAML wrong (missing multi line statement above)
 	 *   composition: >

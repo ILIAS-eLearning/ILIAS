@@ -14,7 +14,11 @@ class ilLoggingErrorSettings {
 		global $DIC;
 
 		$ilIliasIniFile = $DIC['ilIliasIniFile'];
-		$ini = $DIC['ini'];
+		// temporary bugfix for global usage
+		if($DIC->offsetExists('ini'))
+		{
+			$ini = $DIC['ini'];
+		}
 		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		//realy not nice but necessary to initalize logger at setup
