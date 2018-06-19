@@ -55,13 +55,6 @@ require_once "./Services/Xml/classes/class.ilSaxParser.php";
 require_once "./include/inc.ilias_version.php";
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 
-// include error_handling
-require_once "./setup/classes/class.ilSetupErrorHandling.php";
-
-$ilErr = new ilSetupErrorHandling();
-$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));
-$DIC["ilErr"] = function($c) { return $GLOBALS["ilErr"]; };
-
 // set ilias pathes
 if($_SERVER['HTTPS'] == 'on')
 {
@@ -141,7 +134,6 @@ $DIC["tpl"] = function($c) { return $GLOBALS["tpl"]; };
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
-$ilCtrlStructureReader->setErrorObject($ilErr);
 $DIC["ilCtrlStructureReader"] = function($c) { return $GLOBALS["ilCtrlStructureReader"]; };
 
 require_once "./Services/Utilities/classes/class.ilBenchmark.php";
