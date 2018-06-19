@@ -143,7 +143,6 @@ final class Delivery {
 		$response = $this->httpService->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
 		$this->httpService->saveResponse($response);
 
-		$this->cleanDownloadFileName();
 		$this->clearBuffer();
 		$this->checkCache();
 		$this->setGeneralHeaders();
@@ -164,7 +163,7 @@ final class Delivery {
 			$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_TYPE, $this->getMimeType());
 			$this->httpService->saveResponse($response);
 		}
-		if ($this->isConvertFileNameToAsci()) {
+		if (!$this->isConvertFileNameToAsci()) {
 			$this->cleanDownloadFileName();
 		}
 		if ($this->hasHashFilename()) {
