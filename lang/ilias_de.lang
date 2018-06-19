@@ -10520,6 +10520,7 @@ bibl#:#bibl_translation_desc#:#Beschreibung
 bibl#:#bibl_msg_translations_saved#:#Übersetzungen wurden gespeichert
 bibl#:#bibl_msg_translations_deleted#:#Übersetzungen wurden gelöscht.
 bibl#:#bibl_filter#:#Filter
+bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren

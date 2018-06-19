@@ -11372,6 +11372,7 @@ bibl#:#bibl_translation_desc#:#Description
 bibl#:#bibl_msg_translations_saved#:#Translations were saved
 bibl#:#bibl_msg_translations_deleted#:#Translations were deleted
 bibl#:#bibl_filter#:#Filter
+bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
