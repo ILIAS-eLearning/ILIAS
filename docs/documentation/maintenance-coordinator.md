@@ -15,7 +15,7 @@
 ## Role of the Coordinator
 
 The Coordinator is not the owner of the component but much more the curator. 
-The coordinator ensures the quality of contributations to the component 
+The coordinator ensures the quality of contributions to the component 
 and makes it possible for others to commit. The coordinator is responsible 
 that the documentation is kept up to date by the contributors and that the 
 guidelines of the component are met. The coordinator moderates the discussion on 
@@ -39,7 +39,11 @@ is achieved in the JF, the Technical Board will decide upon the request.
 
 Final implementations without further changes on the interface do not need 
 formal approval by the JF. The merge of the implementation is performed 
-by the coordinator.
+by the coordinator or the coordinator may assign somebody to do so.
+
+Note that the general process for feature requests must be respected. However,
+this process is currently under review. The respective document will be linked as soon
+as available.
 
 <a name="issue-management"></a>
 ##Issue Management
