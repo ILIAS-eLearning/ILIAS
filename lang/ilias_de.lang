@@ -1075,7 +1075,7 @@ assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Si
 assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
 assessment#:#text_correct#:#Korrekter Text
 assessment#:#text_gap#:#Textlücke
-assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten. Eingaben über das Limit hinaus werden nicht abgeschnitten, können aber ggf. in die Bewertung mit eingehen.
+assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Eingaben über das Limit hinaus werden nicht abgeschnitten, können aber ggf. in die Bewertung mit eingehen.
 assessment#:#text_rating#:#Methode für Textvergleiche
 assessment#:#text_wrong#:#Fehlerhafter Text
 assessment#:#textsize#:#Textgröße
