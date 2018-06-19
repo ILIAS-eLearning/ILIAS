@@ -28,11 +28,6 @@ class ilCtrlStructureReader
 	{
 		$this->ini = $a_ini_file;
 	}
-
-	function setErrorObject(&$err)
-	{
-		$this->err_object =& $err;
-	}
 	
 	/**
 	* parse code files and store call structure in db
