@@ -95,4 +95,12 @@ class Factory implements Field\Factory {
 	public function checkbox($label, $byline = null) {
 		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function password($label, $byline = null) {
+		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	}
+
 }

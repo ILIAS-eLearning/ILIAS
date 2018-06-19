@@ -93,7 +93,9 @@ class ilMDRights extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_rights_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_rights'));
@@ -108,7 +110,9 @@ class ilMDRights extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -124,7 +128,9 @@ class ilMDRights extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -152,7 +158,9 @@ class ilMDRights extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -213,7 +221,9 @@ class ilMDRights extends ilMDBase
 	 */
 	public static function _lookupDescription($a_rbac_id,$a_obj_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT description FROM il_meta_rights ".
 	 		"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -226,7 +236,9 @@ class ilMDRights extends ilMDBase
 	// STATIC
 	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_rights_id FROM il_meta_rights ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

@@ -56,12 +56,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Password) {
+			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else {
-			if ($input instanceof Component\Input\Field\Numeric) {
-				$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-			} else {
-				throw new \LogicException("Cannot render '" . get_class($input) . "'");
-			}
+			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
 		return $this->renderInputFieldWithContext($input_tpl, $input);
@@ -282,6 +282,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
 			Component\Input\Field\DependantGroup::class,
+			Component\Input\Field\Password::class
 		];
 	}
 }

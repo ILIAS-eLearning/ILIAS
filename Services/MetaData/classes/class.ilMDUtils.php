@@ -98,7 +98,10 @@ class ilMDUtils
 	 */
 	public static function _fillHTMLMetaTags($a_rbac_id,$a_obj_id,$a_type)
 	{
-		global $tpl,$ilObjDataCache;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		include_once('Services/MetaData/classes/class.ilMDKeyword.php');
 		foreach(ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $key_string)

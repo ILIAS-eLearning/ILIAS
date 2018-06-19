@@ -37,7 +37,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -45,7 +47,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{
-		global $ilBench;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
 		
 		$ilBench->start('LearningProgress','9182_LPStatusTestPassed_inProgress');
 		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'in_progress');
@@ -56,7 +60,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $ilBench;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
 
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
 		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'passed');
@@ -133,7 +139,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
@@ -235,7 +243,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 	 */
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM ".
 					 "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)".

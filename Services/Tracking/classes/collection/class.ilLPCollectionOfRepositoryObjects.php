@@ -19,7 +19,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	public function getPossibleItems($a_ref_id, $a_full_data = false)
 	{
-		global $tree, $objDefinition;	
+		global $DIC;	
+
+		$tree = $DIC['tree'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$cache_idx = $a_ref_id."__".$a_full_data;
 		
@@ -196,7 +199,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	protected function read($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$items = array();
 		
@@ -229,7 +234,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	protected function addEntry($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// only active entries are assigned!
 		if(!$this->isAssignedEntry($a_item_id))
@@ -254,7 +261,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	protected function deleteEntry($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ut_lp_collections ".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
@@ -271,7 +280,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 	public static function hasGroupedItems($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT item_id FROM ut_lp_collections".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -282,7 +293,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	protected function getGroupingIds(array $a_item_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$grouping_ids = array();
 		
@@ -301,7 +314,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 	public function deactivateEntries(array $a_item_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::deactivateEntries($a_item_ids);
 	
@@ -318,7 +333,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 	public function activateEntries(array $a_item_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		parent::activateEntries($a_item_ids);
 		
@@ -335,7 +352,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 	public function createNewGrouping(array $a_item_ids, $a_num_obligatory = 1)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->activateEntries($a_item_ids);
 		
@@ -378,7 +397,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	public function releaseGrouping(array $a_item_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$grouping_ids = $this->getGroupingIds($a_item_ids);
 
@@ -392,7 +413,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 	public function saveObligatoryMaterials(array $a_obl)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		foreach($a_obl as $grouping_id => $num)
 		{
@@ -482,7 +505,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	protected function getTableGUItemGroup($item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$items = array();
 
@@ -511,7 +536,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	
 	public function getGroupedItemsForLPStatus()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$items = $this->getItems();
 

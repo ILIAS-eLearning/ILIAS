@@ -87,7 +87,9 @@ class ilDidacticTemplateImport
 	 */
 	protected function parseSettings(SimpleXMLElement $root)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
 		$setting = new ilDidacticTemplateSetting();
 

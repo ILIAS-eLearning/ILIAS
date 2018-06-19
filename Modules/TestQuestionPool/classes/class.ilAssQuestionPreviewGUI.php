@@ -308,6 +308,7 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler());
 		
 		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
+		$this->questionGUI->magicAfterTestOutput();
 		
 		if( $this->isShowSpecificQuestionFeedbackRequired() && $this->questionGUI->hasInlineFeedback() )
 		{

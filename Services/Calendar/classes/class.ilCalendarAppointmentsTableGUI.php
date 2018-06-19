@@ -44,7 +44,10 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd,$a_category_id)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	
 	 	$this->categories = ilCalendarCategories::_getInstance();
