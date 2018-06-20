@@ -18,7 +18,12 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer)
 	{
-		global $DIC;
+		$ui_fac = $this->getUIFactory();
+
+		// @todo: workaround for tests... there should be a better way...
+		if($ui_fac instanceof \NoUIFactory) {
+			$ui_fac = new \ILIAS\UI\Implementation\Factory();
+		}
 
 		/**
 		 * @var Component\MessageBox\MessageBox $component
@@ -43,7 +48,7 @@ class Renderer extends AbstractComponentRenderer {
 		$links = $component->getLinks();
 		if (count($links) > 0) {
 
-			$unordered = $DIC->ui()->factory()->listing()->unordered(
+			$unordered = $ui_fac->listing()->unordered(
 				$links
 			);
 
