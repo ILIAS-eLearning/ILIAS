@@ -469,4 +469,13 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->pos_author_id;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getDeletedBy()
+	{
+		global $DIC;
+		return $DIC->user()->getLogin();
+	}
 }
