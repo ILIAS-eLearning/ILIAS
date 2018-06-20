@@ -14,6 +14,12 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	public function getMessageBoxFactory() {
 		return new \ILIAS\UI\Implementation\Component\MessageBox\Factory();
 	}
+	public function getButtonFactory() {
+		return new \ILIAS\UI\Implementation\Component\Button\Factory();
+	}
+	public function getLinkFactory() {
+		return new \ILIAS\UI\Implementation\Component\Link\Factory();
+	}
 
 	public function messagebox_type_provider() {
 		return array
@@ -64,26 +70,32 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 		$this->assertEquals("Lorem ipsum dolor sit amet.", $g->getMessageText());
 	}
 
-	public function test_with_buttons() {
+	/**
+	 * @dataProvider messagebox_type_provider
+	 */
+	public function test_with_buttons($factory_method) {
 		$f = $this->getMessageBoxFactory();
-		$g = $f->confirmation("Lorem ipsum dolor sit amet.");
+		$bf = $this->getButtonFactory();
+		$g = $f->$factory_method("Lorem ipsum dolor sit amet.");
 
-		$b = new \ILIAS\UI\Implementation\Component\Button\Factory();
-		$buttons = [$b->standard("Confirm", "#"), $b->standard("Cancel", "#")];
+		$buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
 		$g2 = $g->withButtons($buttons);
 
 		$this->assertFalse(count($g->getButtons()) > 0);
 		$this->assertTrue(count($g2->getButtons()) > 0);
 	}
 
-	public function test_with_links() {
+	/**
+	 * @dataProvider messagebox_type_provider
+	 */
+	public function test_with_links($factory_method) {
 		$f = $this->getMessageBoxFactory();
-		$g = $f->confirmation("Lorem ipsum dolor sit amet.");
+		$lf = $this->getLinkFactory();
+		$g = $f->$factory_method("Lorem ipsum dolor sit amet.");
 
-		$l = new \ILIAS\UI\Implementation\Component\Link\Factory();
 		$links = [
-			$l->standard("Open Exercise Assignment", "#"),
-			$l->standard("Open other screen", "#"),
+			$lf->standard("Open Exercise Assignment", "#"),
+			$lf->standard("Open other screen", "#"),
 		];
 		$g2 = $g->withLinks($links);
 
@@ -91,16 +103,19 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 		$this->assertTrue(count($g2->getLinks()) > 0);
 	}
 
-	public function test_with_buttons_and_links() {
+	/**
+	 * @dataProvider messagebox_type_provider
+	 */
+	public function test_with_buttons_and_links($factory_method) {
 		$f = $this->getMessageBoxFactory();
-		$g = $f->confirmation("Lorem ipsum dolor sit amet.");
+		$bf = $this->getButtonFactory();
+		$lf = $this->getLinkFactory();
+		$g = $f->$factory_method("Lorem ipsum dolor sit amet.");
 
-		$b = new \ILIAS\UI\Implementation\Component\Button\Factory();
-		$buttons = [$b->standard("Confirm", "#"), $b->standard("Cancel", "#")];
-		$l = new \ILIAS\UI\Implementation\Component\Link\Factory();
+		$buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
 		$links = [
-			$l->standard("Open Exercise Assignment", "#"),
-			$l->standard("Open other screen", "#"),
+			$lf->standard("Open Exercise Assignment", "#"),
+			$lf->standard("Open other screen", "#"),
 		];
 		$g2 = $g->withButtons($buttons)->withLinks($links);
 
@@ -129,17 +144,20 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_render_with_buttons($factory_method) {
 		$f = $this->getMessageBoxFactory();
+		$bf = $this->getButtonFactory();
 		$r = $this->getDefaultRenderer();
 		$css_classes = self::$canonical_css_classes[$factory_method];
 
-		$b = new \ILIAS\UI\Implementation\Component\Button\Factory();
-		$buttons = [$b->standard("Confirm", "#"), $b->standard("Cancel", "#")];
+		$buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
 
 		$g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withButtons($buttons);
 
 		$html = $this->normalizeHTML($r->render($g));
-		echo $html; exit;
-		$expected = "";
+		$expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
+					"<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+					$g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+					"<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
+					"<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div></div>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -148,18 +166,23 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_render_with_links($factory_method) {
 		$f = $this->getMessageBoxFactory();
+		$lf = $this->getLinkFactory();
 		$r = $this->getDefaultRenderer();
 		$css_classes = self::$canonical_css_classes[$factory_method];
 
-		$l = new \ILIAS\UI\Implementation\Component\Link\Factory();
 		$links = [
-			$l->standard("Open Exercise Assignment", "#"),
-			$l->standard("Open other screen", "#"),
+			$lf->standard("Open Exercise Assignment", "#"),
+			$lf->standard("Open other screen", "#"),
 		];
 
 		$g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withLinks($links);
+
 		$html = $this->normalizeHTML($r->render($g));
-		$expected = "";
+		$expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
+					"<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+					$g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+					"<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .
+					"<li><a href=\"#\" >Open other screen</a></li></ul></div>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -168,21 +191,28 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_render_with_buttons_and_links($factory_method) {
 		$f = $this->getMessageBoxFactory();
+		$bf = $this->getButtonFactory();
+		$lf = $this->getLinkFactory();
 		$r = $this->getDefaultRenderer();
 		$g = $f->$factory_method("Lorem ipsum dolor sit amet.");
 		$css_classes = self::$canonical_css_classes[$factory_method];
 
-		$b = new \ILIAS\UI\Implementation\Component\Button\Factory();
-		$buttons = [$b->standard("Confirm", "#"), $b->standard("Cancel", "#")];
-		$l = new \ILIAS\UI\Implementation\Component\Link\Factory();
+		$buttons = [$bf->standard("Confirm", "#"), $bf->standard("Cancel", "#")];
 		$links = [
-			$l->standard("Open Exercise Assignment", "#"),
-			$l->standard("Open other screen", "#"),
+			$lf->standard("Open Exercise Assignment", "#"),
+			$lf->standard("Open other screen", "#"),
 		];
 
 		$g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withButtons($buttons)->withLinks($links);
+
 		$html = $this->normalizeHTML($r->render($g));
-		$expected = "";
+		$expected = "<div class=\"alert $css_classes\" role=\"alert\">" .
+					"<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+					$g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+					"<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
+					"<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div>" .
+					"<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .
+					"<li><a href=\"#\" >Open other screen</a></li></ul></div>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
