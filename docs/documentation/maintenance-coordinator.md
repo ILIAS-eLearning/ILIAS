@@ -1,4 +1,4 @@
-#Coordinator Model
+# Coordinator Model
 
 ## Table of Contents
 
