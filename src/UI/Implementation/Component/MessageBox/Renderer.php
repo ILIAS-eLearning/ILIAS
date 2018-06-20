@@ -19,6 +19,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer)
 	{
 		global $DIC;
+
 		/**
 		 * @var Component\MessageBox\MessageBox $component
 		 */
@@ -29,7 +30,7 @@ class Renderer extends AbstractComponentRenderer {
 		$buttons = $component->getButtons();
 		if (count($buttons) > 0) {
 			$tpl->setCurrentBlock("buttons");
-			$tpl->setVariable("BUTTONS", $DIC->ui()->renderer()->render($buttons));
+			$tpl->setVariable("BUTTONS", $default_renderer->render($buttons));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -46,7 +47,7 @@ class Renderer extends AbstractComponentRenderer {
 				$links
 			);
 
-			$tpl->setVariable("LINK_LIST", $DIC->ui()->renderer()->render($unordered));
+			$tpl->setVariable("LINK_LIST", $default_renderer->render($unordered));
 		}
 
 		$tpl->touchBlock($component->getType() . "_class");

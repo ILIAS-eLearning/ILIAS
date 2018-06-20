@@ -136,6 +136,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 		$buttons = [$b->standard("Confirm", "#"), $b->standard("Cancel", "#")];
 
 		$g = $f->$factory_method("Lorem ipsum dolor sit amet.")->withButtons($buttons);
+
 		$html = $this->normalizeHTML($r->render($g));
 		echo $html; exit;
 		$expected = "";
