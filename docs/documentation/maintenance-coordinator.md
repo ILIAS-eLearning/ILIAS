@@ -29,7 +29,7 @@ aspects of the component due to the very indepth know how and the
 listing as coordinator.
 
 <a name="change-management"></a>
-##Change Management
+## Change Management
 Everybody may contribute to any aspect of the component. Such contributions 
 are handed in by pull requests or some other source of data if declared so in the components guidelines. 
 Pull requests on the public interface must be accepted by the JF. The coordinator gives a 
@@ -46,14 +46,14 @@ this process is currently under review. The respective document will be linked a
 as available.
 
 <a name="issue-management"></a>
-##Issue Management
+## Issue Management
 Everybody is invited to make proposals on how to tackle any issue by proposing 
 a respective PR. Issues of the component must be reported as bugs. The coordinators 
 are responsible to assign the developer in charge on solving the bug. Due to the focus 
 on code quality, a low amount of bugs should be expected.
 
 <a name="scenarios"></a>
-##Scenarios
+## Scenarios
 This maintainance model is suited for components that have the potential 
 to grow too large to be handled by one single developer and therefore highly 
 benefit from contributions among different developers and even service providers. 
@@ -63,7 +63,7 @@ of a critical importance for many other components, since it is designed to allo
 a collaborative development of the vision for such a key aspect.
 
 <a name="expectations"></a>
-##What can be expected of a coordinator?
+## What can be expected of a coordinator?
 * The coordinator MUST moderate the discussion on finding a vision on 
 the development of the component.
 * The coordinator MUST give recommendations to the JF whether to accept 
