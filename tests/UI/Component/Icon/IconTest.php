@@ -41,7 +41,7 @@ class IconTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testSizeModification() {
-		$f = $f = $this->getIconFactory();
+		$f = $this->getIconFactory();
 		$ico = $f->standard('course', 'Kurs');
 
 		$ico = $ico->withSize('medium');
@@ -56,7 +56,7 @@ class IconTest extends ILIAS_UI_TestBase {
 
 	public function testSizeModificationWrongParam() {
 		try {
-			$f = $f = $this->getIconFactory();
+			$f = $this->getIconFactory();
 			$ico = $f->standard('course', 'Kurs');
 			$ico = $ico->withSize('tiny');
 		    $this->assertFalse("This should not happen");
@@ -67,7 +67,7 @@ class IconTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testDisabledModification() {
-		$f = $f = $this->getIconFactory();
+		$f = $this->getIconFactory();
 		$ico = $f->standard('course', 'Kurs', 'small');
 
 		$ico = $ico->withDisabled(false);
@@ -79,7 +79,7 @@ class IconTest extends ILIAS_UI_TestBase {
 
 	public function testDisabledModificationWrongParam() {
 		try {
-			$f = $f = $this->getIconFactory();
+			$f = $this->getIconFactory();
 			$ico = $f->standard('course', 'Kurs', 'small');
 			$ico = $ico->withDisabled('true');
 			$this->assertFalse("This should not happen");
@@ -90,14 +90,14 @@ class IconTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testCustomPath() {
-		$f = $f = $this->getIconFactory();
+		$f = $this->getIconFactory();
 
 		$ico = $f->custom('/some/path/', 'Custom Icon');
 		$this->assertEquals('/some/path/', $ico->getIconPath());
 	}
 
 	public function testRenderingStandard() {
-		$f = $f = $this->getIconFactory();
+		$f = $this->getIconFactory();
 		$r = $this->getDefaultRenderer();
 
 		$ico = $ico = $f->standard('crs', 'Course', 'medium');
@@ -121,7 +121,7 @@ class IconTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testRenderingCustom() {
-		$f = $f = $this->getIconFactory();
+		$f = $this->getIconFactory();
 		$r = $this->getDefaultRenderer();
 		$path = './templates/default/images/icon_fold.svg';
 
