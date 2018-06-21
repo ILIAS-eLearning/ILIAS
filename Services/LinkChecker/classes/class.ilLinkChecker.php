@@ -33,9 +33,6 @@ class ilLinkChecker
 		$this->db = $db;
 
 		// SET GLOBAL DB HANDLER FOR STATIC METHODS OTHER CLASSES
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		$ilDB = $db;
 
 		$this->validate_all = $a_validate_all;

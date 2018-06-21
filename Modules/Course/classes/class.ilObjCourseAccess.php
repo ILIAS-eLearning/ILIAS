@@ -68,7 +68,13 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilias = $DIC['ilias'];
 		
 		if ($a_user_id == "")
 		{
@@ -251,7 +257,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess,$ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 		
 		$t_arr = explode("_", $a_target);
 		
@@ -287,7 +296,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _lookupViewMode($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
@@ -306,7 +317,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _isOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -374,7 +387,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _registrationEnabled($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -417,7 +432,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function lookupRegistrationInfo($a_obj_id)
 	{
-		global $ilDB, $ilUser, $lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		$query = 'SELECT sub_limitation_type, sub_start, sub_end, sub_mem_limit, sub_max_members FROM crs_settings '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id);
@@ -520,7 +539,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilUser, $lng;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("crs");
 		
@@ -549,7 +571,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function lookupPeriodInfo($a_obj_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$start = $end = null;
 		

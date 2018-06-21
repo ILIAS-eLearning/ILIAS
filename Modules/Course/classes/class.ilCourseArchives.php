@@ -60,7 +60,13 @@ class ilCourseArchives
 	 */
 	public function __construct($course_obj)
 	{
-		global $ilErr,$ilDB,$lng,$tree,$ilias;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
+		$ilias = $DIC['ilias'];
 
 		$this->ilias = $ilias;
 		$this->ilErr = $ilErr;
@@ -243,7 +249,9 @@ class ilCourseArchives
 
 	function add()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$next_id = $ilDB->nextId('crs_archives');
 		$query = "INSERT INTO crs_archives (archive_id,course_id,archive_name,archive_type,archive_date,archive_size,archive_lang) ".
@@ -264,7 +272,9 @@ class ilCourseArchives
 
 	function delete($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// Delete in file system
 		$this->initCourseFilesObject();
@@ -402,7 +412,10 @@ class ilCourseArchives
 
 	function __addCourseHTML()
 	{
-		global $tpl,$ilias;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilias = $DIC['ilias'];
 
 		// Get Language
 		if($this->getLanguage())
@@ -570,7 +583,9 @@ class ilCourseArchives
 
 	function __read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->archives = array();
 		$query = "SELECT * FROM crs_archives ".
