@@ -5110,6 +5110,11 @@ abstract class assQuestion
 	{
 		$this->obligationsToBeConsidered = $obligationsToBeConsidered;
 	}
+	
+	public function validateSolutionSubmit()
+	{
+		return true;
+	}
 
 	public function updateTimestamp()
 	{
