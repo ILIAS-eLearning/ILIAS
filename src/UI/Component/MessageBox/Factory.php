@@ -14,7 +14,7 @@ interface Factory {
 	 *   purpose: >
 	 *     The system failed to complete some actions and displays information about the failure.
 	 *   composition: >
-	 *     The div uses the alert-danger Bootstrap style.
+	 *     The alert-danger style is used for the message.
 	 *
 	 * rules:
 	 *   usage:
@@ -36,7 +36,7 @@ interface Factory {
 	 *   purpose: >
 	 *     The system succeeded in finishing some action and displays a success message.
 	 *   composition: >
-	 *     The div uses the alert-success Bootstrap style.
+	 *     The alert-success style is used for the message.
 	 *
 	 * rules:
 	 *   usage:
@@ -57,7 +57,7 @@ interface Factory {
 	 *     The system informs the user about obstacles standing in the way of completing a workflow
 	 *     or about side-effects of his or her actions on other users.
 	 *   composition: >
-	 *     The div uses the alert-info Bootstrap style.
+	 *     The alert-info style is used for the message.
 	 *
 	 * rules:
 	 *   usage:
@@ -77,9 +77,9 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The system needs input from the user.
+	 *     The system makes sure that an action should really be performed.
 	 *   composition: >
-	 *     The div uses the alert-warning Bootstrap style.
+	 *     The alert-warning style is used for the message.
 	 *
 	 * rules:
 	 *   usage:

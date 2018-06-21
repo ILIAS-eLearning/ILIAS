@@ -1,17 +1,17 @@
 div.alert {
 	div {
-		margin-top: 10px;
+		margin-top: @il-messagebox-margin-top;
 	}
 	ul {
-		margin-top: 15px;
+		margin-top: @il-messagebox-link-list-margin-top;
 		background-color: @il-primary-container-bg;
-		padding: 10px 10px 10px 10px;
+		padding: @padding-large-vertical @padding-large-horizontal;
 		font-size: @font-size-small;
 		color: @il-light-text-color;
 		list-style-type: none;
 	}
 	ul > li:before {
-		content: "\00BB \0020";
+		content: @il-messagebox-link-bullet;
 		/* margin-left: -10px; */
 	}
 }
