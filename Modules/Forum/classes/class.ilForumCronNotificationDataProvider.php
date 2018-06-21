@@ -126,6 +126,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	public $pos_author_id = 0;
 
 	/**
+	 * @var string
+	 */
+	public $deleted_by = '';
+
+	/**
 	 * @var \ilForumAuthorInformation[]
 	 */
 	protected static $authorInformationCache = array();
@@ -176,6 +181,18 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 			$notificationCache = new ilForumNotificationCache();
 		}
 		$this->notificationCache = $notificationCache;
+
+		if(isset($row['deleted_by']))
+		{
+			//cron context
+			$this->deleted_by = $row['deleted_by'];
+		}
+		else
+		{
+			//  fallback
+			global $DIC;
+			$this->deleted_by = $DIC->user()->getLogin();
+		}
 
 		$this->read();
 	}
@@ -401,6 +418,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		return $this->is_anonymized;
 	}
 	
+	/**
+	 * @return int
+	 */
+	public function getDeletedBy()
+	{
+		return $this->deleted_by;
+	}
+
 	/**
 	 * @return string
 	 */
