@@ -118,14 +118,14 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseNoCustomPart()
 	{
 		$obj = new assLongMenu();
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyAnswers()
 	{
 		$obj = new assLongMenu();
 		$obj->setAnswers(array(array(1,2,3,4)));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyCorrectAnswers()
@@ -133,7 +133,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array (0 => 'answer'),1 => '2.25', 2 => '1'),
 										   1 => array ( 0 =>array (0 => 'answer'),1 => '2.25', 2 => '1')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseToManyCorrectAnswers()
 	{
@@ -141,14 +141,14 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array (0 => 'answer'),1 => '2.25', 2 => '1'), 
 										1 => array ( 0 =>array (0 => 'answer'),1 => '2.25', 2 => '1')));
 		$obj->setAnswers(array(array('answer')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerDoesNotExistsInAnswers()
 	{
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array (0 => 'answer'),1 => '2.25', 2 => '1')));
 		$obj->setAnswers(array(array(1)));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoAnswers()
@@ -156,7 +156,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array (),1 => '2.25', 2 => '1')));
 		$obj->setAnswers(array(array('answer')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoPoints()
@@ -164,7 +164,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array ())));
 		$obj->setAnswers(array(array('answer')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerPointsAreZero()
@@ -172,7 +172,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array ('answer'),1 => 0, 2 => '1')));
 		$obj->setAnswers(array(array('answer')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), false);
+		$this->assertEquals($obj->checkQuestionCustomPart(), false);
 	}
 
 	public function test_checkQuestionCustomPart_shouldBeTrue()
@@ -180,7 +180,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj = new assLongMenu();
 		$obj->setCorrectAnswers(array (	0 => array ( 0 =>array ('answer'),1 => 1, 2 => '1')));
 		$obj->setAnswers(array(array('answer')));
-		$this->assertEquals($obj->checkQuestionCustomPart(new ilPropertyFormGUI()), true);
+		$this->assertEquals($obj->checkQuestionCustomPart(), true);
 	}
 
 	public function test_getSolutionSubmit_shouldReturnSolution()
