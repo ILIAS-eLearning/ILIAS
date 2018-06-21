@@ -39,10 +39,6 @@ interface Factory {
 	 *     2: >
 	 *       Images belong to the content and can be purely decorative.
 	 *
-	 * context: >
-	 *   1. Preconditioned objects whose precondition is not met yet feature Disabled Icons.
-	 *   2. Objects to which a user has no read access features Disabled Icons.
-	 *
 	 *
 	 * rules:
 	 *   usage:
