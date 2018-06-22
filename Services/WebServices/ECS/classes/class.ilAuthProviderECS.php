@@ -176,7 +176,9 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 	 */
 	public function validateHash()
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		// fetch hash
 		if(isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash']))
@@ -277,7 +279,12 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 	 */
 	protected function createUser(ilECSUser $user)
 	{
-		global $ilClientIniFile, $ilSetting, $rbacadmin, $ilLog;
+		global $DIC;
+
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$ilSetting = $DIC['ilSetting'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilLog = $DIC['ilLog'];
 
 		$userObj = new ilObjUser();
 
@@ -344,7 +351,11 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 	 */
 	protected function updateUser(ilECSUser $user,$a_local_user_id)
 	{
-		global $ilClientIniFile,$ilLog,$rbacadmin;
+		global $DIC;
+
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$ilLog = $DIC['ilLog'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$user_obj = new ilObjUser($a_local_user_id);
 		$user_obj->setFirstname($user->getFirstname());

@@ -58,8 +58,8 @@ class ilECSParticipantSettings
 	 */
 	public static function _getInstance()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
-		$GLOBALS['ilLog']->logStack();
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecated call');
+		$GLOBALS['DIC']['ilLog']->logStack();
 		return self::getInstanceByServerId(15);
 	}
 
@@ -85,7 +85,9 @@ class ilECSParticipantSettings
 	 */
 	public static function getAvailabeMids($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT mid FROM ecs_part_settings '.
 				'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
@@ -105,7 +107,9 @@ class ilECSParticipantSettings
 	 */
 	public static function getExportableParticipants($a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep '.
 			'JOIN ecs_server es ON ep.sid = es.server_id '.
@@ -135,7 +139,9 @@ class ilECSParticipantSettings
 	 */
 	public static function getExportServers()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep '.
 			'JOIN ecs_server es ON ep.sid = es.server_id '.
@@ -157,7 +163,9 @@ class ilECSParticipantSettings
 	 */
 	public static function deleteByServer($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE from ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
@@ -171,7 +179,9 @@ class ilECSParticipantSettings
 	 */
 	public static function loookupCmsMid($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 		
@@ -202,7 +212,9 @@ class ilECSParticipantSettings
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' ';

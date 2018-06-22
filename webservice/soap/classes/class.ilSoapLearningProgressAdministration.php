@@ -83,13 +83,13 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 			$type = ilObject::_lookupType($obj_id);
 			
 			// All containers
-			if($GLOBALS['objDefinition']->isContainer($type))
+			if($GLOBALS['DIC']['objDefinition']->isContainer($type))
 			{
 				$all_sub_objs = array();
 				foreach(($type_filter) as $type_filter_item)
 				{
-					$sub_objs = $GLOBALS['tree']->getSubTree(
-						$GLOBALS['tree']->getNodeData($ref_id),
+					$sub_objs = $GLOBALS['DIC']['tree']->getSubTree(
+						$GLOBALS['DIC']['tree']->getNodeData($ref_id),
 						false,
 						$type_filter_item
 					);
@@ -99,7 +99,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 				foreach($all_sub_objs as $child_ref)
 				{
 					$child_type = ilObject::_lookupType(ilObject::_lookupObjId($child_ref));
-					if(!$GLOBALS['ilAccess']->checkAccess('write', '', $child_ref))
+					if(!$GLOBALS['DIC']['ilAccess']->checkAccess('write', '', $child_ref))
 					{
 						return $this->__raiseError('Permission denied for : '. $ref_id.' -> type '.$type, 'Client');
 					}
@@ -109,7 +109,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 			}
 			elseif(in_array($type, $type_filter))
 			{
-				if(!$GLOBALS['ilAccess']->checkAccess('write','',$ref_id))
+				if(!$GLOBALS['DIC']['ilAccess']->checkAccess('write','',$ref_id))
 				{
 					return $this->__raiseError('Permission denied for : '. $ref_id.' -> type '.$type, 'Client');
 				}
@@ -171,7 +171,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	
 	public function getProgressInfo($sid, $a_ref_id, $a_progress_filter)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -422,24 +424,24 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
 		if(!$filter or in_array(self::PROGRESS_FILTER_ALL, $filter))
 		{
-			$GLOBALS['log']->write(__METHOD__.': Deleting all progress data');
+			$GLOBALS['DIC']['log']->write(__METHOD__.': Deleting all progress data');
 			return $all_users;
 		}
 		
 		$filter_users = array();
 		if(in_array(self::PROGRESS_FILTER_IN_PROGRESS, $filter))
 		{
-			$GLOBALS['log']->write(__METHOD__.': Filtering  in progress.');
+			$GLOBALS['DIC']['log']->write(__METHOD__.': Filtering  in progress.');
 			$filter_users = array_merge($filter, ilLPStatusWrapper::_getInProgress($obj_id));
 		}
 		if(in_array(self::PROGRESS_FILTER_COMPLETED, $filter))
 		{
-			$GLOBALS['log']->write(__METHOD__.': Filtering  completed.');
+			$GLOBALS['DIC']['log']->write(__METHOD__.': Filtering  completed.');
 			$filter_users = array_merge($filter, ilLPStatusWrapper::_getCompleted($obj_id));
 		}
 		if(in_array(self::PROGRESS_FILTER_FAILED, $filter))
 		{
-			$GLOBALS['log']->write(__METHOD__.': Filtering  failed.');
+			$GLOBALS['DIC']['log']->write(__METHOD__.': Filtering  failed.');
 			$filter_users = array_merge($filter, ilLPStatusWrapper::_getFailed($obj_id));
 		}
 		
@@ -456,7 +458,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	 */
 	protected function deleteScormTracking($a_obj_id, $a_usr_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM scorm_tracking '.
 		 	'WHERE '.$ilDB->in('user_id',$a_usr_ids,false,'integer').' '.
@@ -472,7 +476,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	 */
 	protected function deleteScorm2004Tracking($a_obj_id, $a_usr_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT cp_node_id FROM cp_node '.
 			'WHERE nodename = '. $ilDB->quote('item','text').' '.
@@ -504,7 +510,11 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		global $rbacsystem, $tree, $ilLog;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 
 		// check administrator
 		$types = "";
