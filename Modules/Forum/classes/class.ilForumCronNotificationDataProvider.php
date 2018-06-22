@@ -216,7 +216,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 			include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
-			
+
 			foreach($filesOfPost as $attachment)
 			{
 				$this->attachments[] = $attachment['name'];
@@ -400,7 +400,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		$this->post_update_user_id = $post_update_user_id;
 	}
-	
+
 	public function setPosAuthorId($pos_author_id)
 	{
 		$this->pos_author_id = $pos_author_id;
@@ -409,7 +409,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->pos_author_id;
 	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -417,7 +417,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->is_anonymized;
 	}
-	
+
 	/**
 	 * @return int
 	 */
@@ -442,10 +442,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if ($this->post_user_name === null) {
 			$this->post_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
 				$user_lang,
-				$this->getPosAuthorId(),
-				$this->getPosDisplayUserId(),
-				$this->getPosUserAlias(),
-				$this->getImportName()
+				(int) $this->getPosAuthorId(),
+				(int) $this->getPosDisplayUserId(),
+				(string) $this->getPosUserAlias(),
+				(string) $this->getImportName()
 			));
 		}
 
@@ -460,10 +460,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if ($this->update_user_name === null) {
 			$this->update_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
 				$user_lang,
-				$this->getPosAuthorId(),
-				$this->getPostUpdateUserId(),
-				$this->getPosUserAlias(),
-				$this->getImportName()
+				(int) $this->getPosAuthorId(),
+				(int) $this->getPostUpdateUserId(),
+				(string) $this->getPosUserAlias(),
+				(string) $this->getImportName()
 			));
 		}
 
