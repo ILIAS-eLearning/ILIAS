@@ -335,3 +335,7 @@ if( !$ilDB->tableExists('tms_cat_settings') )
 	$ilDB->addPrimaryKey('tms_cat_settings', array('obj_id'));
 }
 ?>
+<#28>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
