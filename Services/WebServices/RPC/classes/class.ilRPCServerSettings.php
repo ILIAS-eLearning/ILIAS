@@ -62,7 +62,6 @@ class ilRPCServerSettings
 
 		$this->log =& $ilLog;
 		$this->db =& $ilDB;
-		$this->err =& $ilError;
 		$this->ilias =& $ilias;
 	}
 
