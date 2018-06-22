@@ -14178,3 +14178,8 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new varia
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+cmps#:#cmps_must_installed#:#The component must be installed.###20 06 2018 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.###20 06 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###20 06 2018 new variable
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###20 06 2018 new variable
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###20 06 2018 new variable
