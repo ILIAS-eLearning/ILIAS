@@ -72,6 +72,7 @@ abstract class Button implements C\Button\Button {
 	 * @inheritdoc
 	 */
 	public function withLabel($label) {
+		//if (!$this instanceof C\Button\Toggle) {
 		$this->checkStringArg("label", $label);
 		$clone = clone $this;
 		$clone->label = $label;

@@ -260,4 +260,37 @@ interface Factory {
 	 */
 	public function bulky($icon_or_glyph, $label, $action);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Toggle Button triggers the activation/deactivation of some content already shown on the screen, i.e.
+	 *       a filter. The deactivation of content means, that it is still shown and the user can still interact
+	 *       with it, but it has no effect to the system.
+	 *   composition: >
+	 *       The Toggle Button uses the primary color as background when it is activated.
+	 *       The Toggle Button uses the primary color with a grayscale filter as background when it is deactivated.
+	 *   effect: >
+	 *       Clicking the Toggle Button activates/deactivates the related content. The activated/deactivated state of
+	 *       the content is visually noticeable for the user, i.e. by greying out the content in the deactivated state
+	 *       (like the Toggle Button itself).
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *           The Toggle Button MUST be placed in the same section as the content it activates/deactivates.
+	 *   ordering:
+	 *       1: >
+	 *           The Toggle Button SHOULD be placed above the content it activates/deactivates.
+	 *   accessibility:
+	 *       1: >
+	 *           The functionality of the Toggle Button MUST be indicated for screen
+	 *           readers by an aria-label.
+	 * ---
+	 * @param	string|Signal		$action_activated
+	 * @param	string|Signal		$action_deactivated
+	 * @return  \ILIAS\UI\Component\Button\Toggle
+	 */
+	public function toggle($action_activated, $action_deactivated);
+
 }

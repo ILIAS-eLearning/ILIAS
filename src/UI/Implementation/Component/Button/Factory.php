@@ -55,4 +55,11 @@ class Factory implements B\Factory {
 	public function bulky($icon_or_glyph, $label, $action) {
 		return new Bulky($icon_or_glyph, $label, $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function toggle($action_activated, $action_deactivated) {
+		return new Toggle($action_activated, $action_deactivated);
+	}
 }
