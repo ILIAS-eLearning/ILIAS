@@ -278,5 +278,21 @@ class ilUserSearchOptions
 		}
 		return $new_values ? $new_values : array();
 	}
+
+	//cat-tms-patch start
+	public static function getOrgusAsOption() {
+		include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
+		include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+
+		$root = ilObjOrgUnit::getRootOrgRefId();
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$nodes = $tree->getAllChildren($root);
+		$options = $tree->getTitles($nodes);
+		unset($options[$root]);
+		natcasesort($options);
+		return $options;
+	}
+	//cat-tms-patch end
+
 }
 ?>

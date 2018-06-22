@@ -14330,3 +14330,6 @@ tms#:#filter_period_from#:#Von
 tms#:#filter_period_to#:#Bis
 tms#:#no_permissions_to_book#:#Sie haben keine Berechtigung dieses Training für sich oder einen anderen Benutzer zu buchen.
 tms#:#placeholder_desc_crs_members_count#:#Anzahl Teilnehmer (Trainer + Teilnehmer)
+search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#search_for_orgu_members_orgu#:#Organisationseinheit
+search#:#search_for_orgu_members_recursive#:#Darunterliegende einbeziehen?

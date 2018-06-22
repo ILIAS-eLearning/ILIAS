@@ -648,6 +648,15 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			switch($key)
 			{
+			/**
+			 * cat-tms-patch start
+			 */
+				//enable orgu-settings in role-template (orgu is sub of adm).
+				case "orgu":
+			/**
+			 * cat-tms-patch end
+			 */
+
 				case "rolf":
 				case "orgu":
 					// DO NOTHING
