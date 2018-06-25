@@ -44,7 +44,6 @@ class ilRPCServerSettings
 
 	var $log = null;
 	var $db = null;
-	var $err = null;
 
 	var $settings_obj  = null;
 
@@ -59,15 +58,13 @@ class ilRPCServerSettings
 
 		$ilLog = $DIC['ilLog'];
 		$ilDB = $DIC['ilDB'];
-		$ilError = $DIC['ilError'];
 		$ilias = $DIC['ilias'];
 
 		$this->log =& $ilLog;
 		$this->db =& $ilDB;
-		$this->err =& $ilError;
 		$this->ilias =& $ilias;
 	}
-	
+
 	/**
 	 * Get singelton instance
 	 * @return object $ilRPCServerSettings
