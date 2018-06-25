@@ -62,6 +62,10 @@ class ilMailOptionsGUI
 		$this->lng      = $DIC->language();
 		$this->user     = $DIC->user();
 
+		if(!$this->settings->get('show_mail_settings'))
+		{
+			$this->ctrl->redirectByClass('ilMailGUI');
+		}
 		$this->lng->loadLanguageModule('mail');
 
 		$this->ctrl->saveParameter($this, 'mobj_id');
