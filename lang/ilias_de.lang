@@ -6576,7 +6576,7 @@ mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_smtp_status#:#SMTP-Versand aktivieren
-mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funtkion, sendmail).
+mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funktion, sendmail).
 mail#:#mail_smtp_host#:#Host
 mail#:#mail_smtp_host_info#:#Bitte tragen Sie hier den Hostsnamen oder die IP des Mail-Servers ein.
 mail#:#mail_smtp_port#:#Port
