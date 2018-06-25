@@ -11325,7 +11325,7 @@ wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_article#:#Artikel###deprecated
 wiki#:#wiki_block_page#:#Schreibschutz für Seite
-wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt###deprecated
+wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert###deprecated
 wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht###deprecated
