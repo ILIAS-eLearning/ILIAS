@@ -41,7 +41,7 @@ class Toggle extends Button implements C\Button\Toggle {
 		}
 
 		$this->checkArg(
-			"$action_deactivated",
+			"action_deactivated",
 			is_string($action_deactivated) || $action_deactivated instanceof Signal,
 			$this->wrongTypeMessage("string or Signal", gettype($action_deactivated))
 		);
@@ -59,7 +59,7 @@ class Toggle extends Button implements C\Button\Toggle {
 	 */
 	public function getActionActivated()
 	{
-		if ($this->action !== null) {
+		if ($this->action_activated !== null) {
 			return $this->action_activated;
 		}
 		$triggered_click_signals = $this->triggered_signals["click"];
@@ -77,7 +77,7 @@ class Toggle extends Button implements C\Button\Toggle {
 	 */
 	public function getActionDeactivated()
 	{
-		if ($this->action !== null) {
+		if ($this->action_deactivated !== null) {
 			return $this->action_deactivated;
 		}
 		$triggered_click_signals = $this->triggered_signals["click"];
