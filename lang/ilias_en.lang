@@ -9606,7 +9606,7 @@ wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
 wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###deprecated
 wiki#:#wiki_change_notification_page_link#:#URL
-wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###deprecated
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_notification_toggle_info#:#Change Notification###deprecated
 wiki#:#wiki_notification_toggle_wiki_activate#:#Activate for Wiki###deprecated
