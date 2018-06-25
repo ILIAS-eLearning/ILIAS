@@ -24,7 +24,13 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_role_id, $a_editable = true)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		$this->setId("rbac_ua_".$a_role_id);
 		$this->role_id = $a_role_id;
@@ -94,7 +100,10 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng,$rbacreview;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		$this->determineOffsetAndOrder();
 		
@@ -134,7 +143,10 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($user)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
 		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);

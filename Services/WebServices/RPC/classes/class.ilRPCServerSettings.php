@@ -55,7 +55,12 @@ class ilRPCServerSettings
 	 */
 	private function __construct()
 	{
-		global $ilLog,$ilDB,$ilError,$ilias;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilDB = $DIC['ilDB'];
+		$ilError = $DIC['ilError'];
+		$ilias = $DIC['ilias'];
 
 		$this->log =& $ilLog;
 		$this->db =& $ilDB;

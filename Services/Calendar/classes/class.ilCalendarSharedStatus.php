@@ -52,7 +52,9 @@ class ilCalendarSharedStatus
 	 */
 	public function __construct($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->usr_id = $a_usr_id;
 		$this->db = $ilDB;
@@ -93,7 +95,9 @@ class ilCalendarSharedStatus
 	 */ 
 	public static function getAcceptedCalendars($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT cal_id FROM cal_shared_status ".
 			"WHERE status = ".$ilDB->quote(self::STATUS_ACCEPTED ,'integer')." ".
@@ -117,7 +121,9 @@ class ilCalendarSharedStatus
 	 */
 	public static function hasStatus($a_usr_id,$a_calendar_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM cal_shared_status ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -136,7 +142,10 @@ class ilCalendarSharedStatus
 	 */
 	public static function deleteUser($a_usr_id)
 	{
-		global $ilUser,$ilDB;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM cal_shared_status ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
@@ -154,7 +163,9 @@ class ilCalendarSharedStatus
 	 */
 	public static function deleteCalendar($a_calendar_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM cal_shared_status ".
 			"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
@@ -173,7 +184,10 @@ class ilCalendarSharedStatus
 	 */
 	public static function deleteStatus($a_id,$a_calendar_id)
 	{
-		global $ilDB,$rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		
 		if(ilObject::_lookupType($a_id) == 'usr')
@@ -214,7 +228,9 @@ class ilCalendarSharedStatus
 	 */
 	public function accept($a_calendar_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		self::deleteStatus($this->usr_id,$a_calendar_id);
 		
@@ -240,7 +256,9 @@ class ilCalendarSharedStatus
 	 */
 	public function decline($a_calendar_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		self::deleteStatus($this->usr_id,$a_calendar_id);
 		
@@ -266,7 +284,9 @@ class ilCalendarSharedStatus
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM cal_shared_status ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ";

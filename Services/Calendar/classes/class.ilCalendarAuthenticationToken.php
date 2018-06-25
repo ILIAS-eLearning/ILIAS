@@ -41,7 +41,9 @@ class ilCalendarAuthenticationToken
 	
 	public static function lookupAuthToken($a_user_id, $a_selection,$a_calendar = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM cal_auth_token ".
 			"WHERE user_id = ".$ilDB->quote($a_user_id,'integer').' '.
@@ -62,7 +64,9 @@ class ilCalendarAuthenticationToken
 	 */
 	public static function lookupUser($a_token)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM cal_auth_token ".
 			"WHERE hash = ".$ilDB->quote($a_token,'text');
@@ -148,7 +152,9 @@ class ilCalendarAuthenticationToken
 	 */
 	public function storeIcal()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->update(
 			'cal_auth_token',
@@ -190,7 +196,9 @@ class ilCalendarAuthenticationToken
 	 */
 	public function add()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->createToken();
 		
@@ -221,7 +229,9 @@ class ilCalendarAuthenticationToken
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$this->getToken())
 		{

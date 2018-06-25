@@ -8121,6 +8121,7 @@ function getAnswerFeedbackPoints()
 			}
 			foreach ($participants as $active_id => $user_rec)
 			{
+				$mark = $ects_mark = '';
 				$row = array();
 				$reached_points = 0;
 				$max_points = 0;
@@ -8147,7 +8148,10 @@ function getAnswerFeedbackPoints()
 				if ($mark_obj)
 				{
 					$mark = $mark_obj->getOfficialName();
-					$ects_mark = $this->getECTSGrade($passed_array, $reached_points, $max_points);
+					if($this->getECTSOutput())
+					{
+						$ects_mark = $this->getECTSGrade($passed_array, $reached_points, $max_points);
+					}
 				}
 				if ($this->getAnonymity())
 				{
@@ -8252,7 +8256,7 @@ function getAnswerFeedbackPoints()
 		public static function _getMaxPass($active_id)
 		{
 			global $ilDB;
-			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
+			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
 				array('integer'),
 				array($active_id)
 			);

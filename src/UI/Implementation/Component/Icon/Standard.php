@@ -117,15 +117,17 @@ class Standard extends Icon implements C\Icon\Standard {
 		,self::IASS
 	);
 
-	public function __construct($name, $aria_label, $size) {
+	public function __construct($name, $aria_label, $size, $is_disabled) {
 		$this->checkStringArg("name", $name);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement("size", $size,	self::$possible_sizes,
 			implode(self::$possible_sizes, '/')
 		);
+		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = $name;
 		$this->aria_label = $aria_label;
 		$this->size = $size;
+		$this->is_disabled = $is_disabled;
 	}
 
 	/**

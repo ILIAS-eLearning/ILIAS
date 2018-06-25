@@ -59,7 +59,9 @@ class ilMDKeyword extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_keyword_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_keyword'));
@@ -74,7 +76,9 @@ class ilMDKeyword extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -90,7 +94,9 @@ class ilMDKeyword extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -117,7 +123,9 @@ class ilMDKeyword extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -158,7 +166,9 @@ class ilMDKeyword extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_keyword_id FROM il_meta_keyword ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -187,7 +197,10 @@ class ilMDKeyword extends ilMDBase
 	 */
 	public static function _getKeywordsByLanguage($a_rbac_id,$a_obj_id,$a_type)
 	{
-		global $ilDB,$ilObjDataCache;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$query = "SELECT keyword,keyword_language ".
 			"FROM il_meta_keyword ".
@@ -232,7 +245,9 @@ class ilMDKeyword extends ilMDBase
 	 */
 	public static function _searchKeywords($a_query,$a_type, $a_rbac_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 				
 		$qs = 'AND ';
 		$counter = 0;
@@ -278,7 +293,9 @@ class ilMDKeyword extends ilMDBase
 	 */
 	public static function _getMatchingKeywords($a_query,$a_type, $a_rbac_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT keyword FROM il_meta_keyword ".
 				'WHERE obj_type = '.$ilDB->quote($a_type,'text').' '.
@@ -306,7 +323,9 @@ class ilMDKeyword extends ilMDBase
 	 */
 	public static function lookupKeywords($a_rbac_id, $a_obj_id, $a_return_ids = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM il_meta_keyword ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id,'integer').' '.

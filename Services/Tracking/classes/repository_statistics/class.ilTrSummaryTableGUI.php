@@ -19,7 +19,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
-		global $ilCtrl, $objDefinition;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$this->setId("trsmy");
 
@@ -79,7 +82,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	function getSelectableColumns()
 	{
-		global $lng, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$lng_map = array("user_total" => "users", "first_access_min" => "trac_first_access",
 			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
@@ -201,7 +207,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter()
 	{
-		global $lng, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if($this->is_root)
 		{
@@ -312,7 +321,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	function getSelCountryCodes()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		include_once("./Services/Utilities/classes/class.ilCountry.php");
 		$options = array();
@@ -332,7 +343,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function getItems($a_object_id, $a_ref_id)
 	{
-		global $lng, $rbacsystem;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
@@ -466,7 +480,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function getItemsPercentages(array $data = NULL, $overall, array $value_map = NULL, $limit = 3)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if(!$overall)
 		{
@@ -539,7 +555,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function getItemsPercentagesStatus(array $data = NULL, $overall, array $value_map = NULL)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$result = array();
 		foreach($value_map as $id => $caption)
@@ -563,7 +581,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function parseValue($id, $value, $type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		// get rid of aggregation
 		$pos = strrpos($id, "_");
@@ -635,7 +655,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));

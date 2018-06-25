@@ -4,9 +4,9 @@
 <!-- BEGIN maximum_char_hint -->
 	<p class="quote">{MAXIMUM_CHAR_HINT}</p>
 <!-- END maximum_char_hint -->
-<textarea class="ilc_qlinput_LongTextInput fullwidth textinput" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" cols="40" rows="10" name="TEXT" id="TEXT" onKeyUp="return taCount(this,'myCounter')">{ESSAY}</textarea>
+<textarea class="ilc_qlinput_LongTextInput fullwidth textinput" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" cols="40" rows="10" name="TEXT" id="assTextQuestionContent_{QID}">{ESSAY}</textarea>
 <!-- BEGIN maxchars_counter -->
-<p id="charcounter" style="visibility: hidden;">(<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" readonly="readonly" id="myCounter" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /> {CHARACTERS})</p>
+<p id="assTextQuestionLetterCounterContainer_{QID}" style="display:none">(<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" readonly="readonly" id="assTextQuestionLetterCounter_{QID}" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /> {CHARACTERS})</p>
 <!-- END maxchars_counter -->
 </div>
 </div>

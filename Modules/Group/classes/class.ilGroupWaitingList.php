@@ -40,14 +40,17 @@ class ilGroupWaitingList extends ilWaitingList
 	 */
 	public function addToList($a_usr_id)
 	{
-		global $ilAppEventHandler, $ilLog;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilLog = $DIC['ilLog'];
 		
 		if(!parent::addToList($a_usr_id))
 		{
 			return FALSE;
 		}
-		
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addToList');
+
+		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addToList.');
 		$ilAppEventHandler->raise(
 				"Modules/Group", 
 				'addToWaitingList', 

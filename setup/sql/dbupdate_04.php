@@ -18538,8 +18538,8 @@ FROM
 	il_dcl_field_prop fp ON rf.field_id = fp.field_id
 WHERE
     f.datatype_id = 3
-	AND fp.name = "multiple_selection"
-	AND fp.value = 1
+	AND fp.name = ' . $ilDB->quote("multiple_selection", 'text') . '
+	AND fp.value = ' . $ilDB->quote("1", 'text') . '
 ORDER BY stloc.id ASC');
 
 while ($row = $query->fetchAssoc()) {
@@ -21659,7 +21659,7 @@ if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
 	
 	$row = $ilDB->fetchAssoc($res);
 	
-	if( $row['num_tst'] > 0 )
+	if( $row )
 	{
 		$numTests = $row['num_tst'];
 		$numQuestions = $row['num_qst'];
@@ -22050,6 +22050,225 @@ $ilCtrlStructureReader->getStructure();
 <#5267>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#5268>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'identifier' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '50',
+
+	),
+	'data_type' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'position' => array(
+		'type' => 'integer',
+		'length' => '3',
+
+	),
+	'is_standard_field' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'object_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+);
+global $ilDB;
+if (! $ilDB->tableExists('il_bibl_field')) {
+	$ilDB->createTable('il_bibl_field', $fields);
+	$ilDB->addPrimaryKey('il_bibl_field', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bibl_field')) {
+		$ilDB->createSequence('il_bibl_field');
+	}
+
+}
+?>
+<#5269>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'object_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'filter_type' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bibl_filter')) {
+	$ilDB->createTable('il_bibl_filter', $fields);
+	$ilDB->addPrimaryKey('il_bibl_filter', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bibl_filter')) {
+		$ilDB->createSequence('il_bibl_filter');
+	}
+
+}
+?>
+<#5270>
+<?php
+if(!$ilDB->tableColumnExists("il_bibl_data", "file_type")) {
+	$ilDB->addTableColumn("il_bibl_data", "file_type", [
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 1
+	]);
+}
+
+$type = function ($filename) {
+	if (strtolower(substr($filename, - 6)) == "bibtex"
+		|| strtolower(substr($filename, - 3)) == "bib") {
+		return 2;
+	}
+	return 1;
+};
+
+$res = $ilDB->query("SELECT * FROM il_bibl_data");
+while($d = $ilDB->fetchObject($res)) {
+	$type_id = (int)$type($d->filname);
+	$ilDB->update("il_bibl_data", [
+		"file_type" => [ "integer", $type_id ]
+	], [ "id" => $d->id ]);
+}
+?>
+<#5271>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'language_key' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '2',
+
+	),
+	'translation' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'description' => array(
+		'type' => 'clob',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bibl_translation')) {
+	$ilDB->createTable('il_bibl_translation', $fields);
+	$ilDB->addPrimaryKey('il_bibl_translation', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bibl_translation')) {
+		$ilDB->createSequence('il_bibl_translation');
+	}
+
+}
+?>
+<#5272>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5273>
+<?php
+// TODO fill filetype_id with the correct values
+if ($ilDB->tableExists('il_bibl_overview_model')) {
+	if($ilDB->tableColumnExists('il_bibl_overview_model', 'filetype')) {
+		$type = function ($filetype_string) {
+			if (strtolower($filetype_string) == "bib"
+				|| strtolower($filetype_string) == "bibtex"
+			) {
+				return 2; // see ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX
+			}
+
+			return 1; // ilBiblTypeFactoryInterface::DATA_TYPE_RIS
+		};
+
+		if (!$ilDB->tableColumnExists('il_bibl_overview_model', 'file_type_id')) {
+			$ilDB->addTableColumn('il_bibl_overview_model', 'file_type_id', array("type" => "integer", 'length' => 4));
+		}
+
+		$res = $ilDB->query("SELECT * FROM il_bibl_overview_model");
+		while ($d = $ilDB->fetchObject($res)) {
+			$type_id = (int)$type($d->filetype);
+			$ilDB->update(
+				"il_bibl_overview_model", [
+				"file_type_id" => ["integer", $type_id],
+			], ["ovm_id" => ["integer", $d->ovm_id]]
+			);
+		}
+
+		$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
+	}
+}
+?>
+<#5274>
+<?php
+/*
+* This hotfix removes org unit assignments of user who don't exist anymore
+* select all user_ids from usr_data and remove all il_orgu_ua entries which have an user_id from an user who doesn't exist anymore
+*/
+global $ilDB;
+$q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
+$ilDB->manipulate($q);
+?>
+<#5275>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5276>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'identical_scoring', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'default' => 1
+	));
+}
 ?>
 <#5277>
 <?php

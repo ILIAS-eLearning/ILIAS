@@ -45,7 +45,9 @@ class ilCalendarUtil
 	 */
 	 public static function _isToday($date)
 	 {
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		
 		if(!is_object(self::$today))
@@ -66,7 +68,9 @@ class ilCalendarUtil
 	 */
 	public static function _numericMonthToString($a_month,$a_long = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$month = $a_month < 10 ? '0'.$a_month : $a_month;
 		
@@ -84,7 +88,9 @@ class ilCalendarUtil
 	 */
 	public static function _numericDayToString($a_day,$a_long = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule('dateplaner');
 		static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
@@ -200,7 +206,10 @@ class ilCalendarUtil
 	*/
 	static function initJSCalendar()
 	{
-		global $tpl, $lng;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		if (self::$init_done == "done")
 		{
@@ -484,7 +493,9 @@ class ilCalendarUtil
 	 */
 	public static function initDefaultCalendarByType($a_type_id, $a_usr_id, $a_title, $a_create = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(isset(self::$default_calendar[$a_usr_id]) and isset(self::$default_calendar[$a_usr_id][$a_type_id]))
 		{
@@ -532,7 +543,9 @@ class ilCalendarUtil
 	 */
 	public static function getUserDateFormat($a_add_time = false, $a_for_parsing = false)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		// getDateFormat() should return calendar defaults for ANONYMOUS user
 		switch($ilUser->getDateFormat())					
@@ -576,7 +589,9 @@ class ilCalendarUtil
 	
 	public static function initDateTimePicker()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		if(!self::$init_datetimepicker)
 		{			
@@ -606,7 +621,10 @@ class ilCalendarUtil
 	 */
 	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
 	{
-		global $tpl, $ilUser;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilUser = $DIC['ilUser'];
 		
 		self::initDateTimePicker();
 		
@@ -663,7 +681,9 @@ class ilCalendarUtil
 	 */
 	public static function parseDateString($a_date, $a_add_time = null, $a_use_generic_format = false)
 	{	
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$a_use_generic_format)
 		{

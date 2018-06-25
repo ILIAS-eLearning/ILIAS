@@ -326,7 +326,9 @@ class ilMDEducational extends ilMDBase
 	
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$fields = $this->__getFields();
 		$fields['meta_educational_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_educational'));
@@ -341,7 +343,9 @@ class ilMDEducational extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -357,7 +361,9 @@ class ilMDEducational extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -405,7 +411,9 @@ class ilMDEducational extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -503,7 +511,9 @@ class ilMDEducational extends ilMDBase
 	// STATIC
 	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_educational_id FROM il_meta_educational ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -519,7 +529,9 @@ class ilMDEducational extends ilMDBase
 
 	static function _getTypicalLearningTimeSeconds($a_rbac_id,$a_obj_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$a_obj_id = $a_obj_id ? $a_obj_id : $a_rbac_id;
 

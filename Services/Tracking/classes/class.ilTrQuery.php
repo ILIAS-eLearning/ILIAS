@@ -13,7 +13,9 @@ class ilTrQuery
 {
 	static function getObjectsStatusForUser($a_user_id, array $obj_refs)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(sizeof($obj_refs))
 		{
@@ -90,7 +92,9 @@ class ilTrQuery
 
 	public static function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 						
 		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";								
 		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
@@ -269,7 +273,9 @@ class ilTrQuery
 		$a_offset = 0, $a_limit = 9999, array $a_filters = NULL, array $a_additional_fields = NULL,
 		$check_agreement = false, $privacy_fields = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = array("usr_data.usr_id", "login", "active");
 		$udf = self::buildColumns($fields, $a_additional_fields);
@@ -345,7 +351,9 @@ class ilTrQuery
 	protected static function getUDFAndHandlePrivacy(array &$a_result, array $a_udf = null, 
 		$a_check_agreement = null, array $a_privacy_fields = null, array $a_filters = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_result["cnt"])
 		{
@@ -450,7 +458,9 @@ class ilTrQuery
 	static function getObjectsDataForUser($a_user_id, $a_parent_obj_id, $a_parent_ref_id, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
 		array $a_filters = NULL, array $a_additional_fields = NULL, $use_collection = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = array("object_data.obj_id", "title", "type");
 		self::buildColumns($fields, $a_additional_fields);
@@ -618,7 +628,9 @@ class ilTrQuery
 	 */
 	protected static function getSessionData($a_user_id, array $obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT obj_id, title, e_start, e_end, CASE WHEN participated = 1 THEN 2 WHEN registered = 1 THEN 1 ELSE NULL END AS status,".
 			" mark, e_comment".
@@ -669,7 +681,9 @@ class ilTrQuery
 	static function getObjectsSummaryForObject($a_parent_obj_id, $a_parent_ref_id, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
 		array $a_filters = NULL, array $a_additional_fields = NULL, $a_preselected_obj_ids = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = array();
 		self::buildColumns($fields, $a_additional_fields, true);
@@ -739,7 +753,9 @@ class ilTrQuery
 	 */
 	protected static function getSummaryDataForObject($a_ref_id, array $fields, array $a_filters = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$where = array();
 		$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
@@ -823,7 +839,9 @@ class ilTrQuery
 	 */
 	protected static function getSummaryPercentages($field, $base_query, $alias = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$alias)
 		{
@@ -861,7 +879,9 @@ class ilTrQuery
 	 */
 	public static function getParticipantsForObject($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);		
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -1001,7 +1021,9 @@ class ilTrQuery
 	 */
 	static protected function buildFilters(array $where, array $a_filters = NULL, $a_aggregate = false)
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$having = array();
 
@@ -1406,7 +1428,9 @@ class ilTrQuery
 	 */
 	static protected function getSubTree($a_parent_ref_id, array &$a_object_ids, array &$a_ref_ids)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		$children = $tree->getChilds($a_parent_ref_id);
 		if($children)
@@ -1460,7 +1484,9 @@ class ilTrQuery
 	 */
 	static function executeQueries(array $queries,  $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$cnt = 0;
 		$subqueries = array();
@@ -1540,7 +1566,9 @@ class ilTrQuery
 	static function getUserObjectMatrix($a_parent_ref_id, $a_obj_ids, $a_user_filter = NULL,
 		array $a_additional_fields = null, array $a_privacy_fields = null, $a_check_agreement = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$result = array("cnt"=>0, "set"=>NULL);
 	    if(sizeof($a_obj_ids))
@@ -1636,7 +1664,9 @@ class ilTrQuery
 
 	static public function getUserObjectiveMatrix($a_parent_obj_id, $a_users)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($a_parent_obj_id && $a_users)
 		{						
@@ -1696,7 +1726,9 @@ class ilTrQuery
 
 	static public function getObjectAccessStatistics(array $a_ref_ids, $a_year, $a_month = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$obj_ids = array_keys($a_ref_ids);
 
@@ -1752,7 +1784,10 @@ class ilTrQuery
 
 	static function getObjectTypeStatistics()
 	{
-		global $ilDB, $objDefinition;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		// re-use add new item selection (folder is not that important)
 		$types = array_keys($objDefinition->getCreatableSubObjects("root", ilObjectDefinition::MODE_REPOSITORY));
@@ -1803,7 +1838,9 @@ class ilTrQuery
 	
 	static public function getWorkspaceBlogs($a_title = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -1830,7 +1867,9 @@ class ilTrQuery
 	
 	static public function getPortfolios($a_title = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -1854,7 +1893,9 @@ class ilTrQuery
 
 	static public function getObjectDailyStatistics(array $a_ref_ids, $a_year, $a_month = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$obj_ids = array_keys($a_ref_ids);
 
@@ -1882,7 +1923,9 @@ class ilTrQuery
 
 	static public function getObjectStatisticsMonthlySummary()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT COUNT(*) AS COUNTER,yyyy,mm".
 			" FROM obj_stat".
@@ -1899,7 +1942,9 @@ class ilTrQuery
 
 	static public function deleteObjectStatistics(array $a_months)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// no combined column, have to concat
 		$date_compare = $ilDB->in($ilDB->concat(array(array("yyyy", ""), 
@@ -1930,7 +1975,10 @@ class ilTrQuery
 	
 	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null, $a_preset_obj_ids = null)
 	{
-		global $ilDB, $tree;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		
 		if($a_type == "lres")
 		{
@@ -2013,7 +2061,9 @@ class ilTrQuery
 	 */
 	public static function getObjectStatisticsLogInfo()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT COUNT(*) counter, MIN(tstamp) tstamp".
 			" FROM obj_stat_log");
@@ -2022,7 +2072,9 @@ class ilTrQuery
 	
 	static public function getObjectLPStatistics(array $a_obj_ids, $a_year, $a_month = null, $a_group_by_day = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($a_group_by_day)
 		{
@@ -2059,7 +2111,9 @@ class ilTrQuery
 	
 	static function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_year)
 		{

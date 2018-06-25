@@ -53,7 +53,8 @@ class ilObjComponentSettings extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		if (!parent::update())
 		{			
@@ -68,7 +69,8 @@ class ilObjComponentSettings extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		parent::read();
 

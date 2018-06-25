@@ -28,7 +28,9 @@ class ilECSCourseUrlConnector extends ilECSConnector
 	 */
 	public function addUrl(ilECSCourseUrl $url, $a_target_mid)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Add new course url ...');
 
@@ -46,7 +48,7 @@ class ilECSCourseUrlConnector extends ilECSConnector
 	 		$this->curl->setOpt(CURLOPT_POST,true);
 	 		$this->curl->setOpt(CURLOPT_POSTFIELDS,json_encode($url));
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': Sending url '. print_r(json_encode($url),true));
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Sending url '. print_r(json_encode($url),true));
 			
 			$ret = $this->call();
 

@@ -402,7 +402,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->addHeaderAction();
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
+	public function infoScreenObject()
+	{
+		$this->ctrl->setCmd('showSummary');
+		$this->ctrl->setCmdClass('ilinfoscreengui');
+		$this->infoScreen();
+	}
+
 	/**
 	 * @param ilPropertyFormGUI $a_form
 	 */

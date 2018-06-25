@@ -12,7 +12,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
 	private $specificFeedbackSetting, $minAutoComplete;
-	
+	private $identical_scoring;
+
 	const ANSWER_TYPE_SELECT_VAL	= 0;
 	const ANSWER_TYPE_TEXT_VAL		= 1;
 	const GAP_PLACEHOLDER			= 'Longmenu';
@@ -27,11 +28,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$question 	= ""
 	)
 	{
+		global $DIC;
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
 		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 		$this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->ilDB = $GLOBALS['DIC']['ilDB'];
+		$this->ilDB = $DIC->database();
+		$this->identical_scoring = 1;
 	}
 	
 	/**
@@ -146,7 +149,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		if (strlen($this->title)
 			&& $this->author
-			&& $this->question
+			&& $this->long_menu_text
 			&& sizeof($this->answers) > 0
 			&& sizeof($this->correct_answers) > 0	
 			&& $this->getPoints() > 0
@@ -165,7 +168,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		parent::saveToDb($original_id);
 	}
 
-	public function checkQuestionCustomPart()
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 * @return bool
+	 */
+	public function checkQuestionCustomPart($form = null)
 	{
 		$hidden_text_files 	= $this->getAnswers();
 		$correct_answers	= $this->getCorrectAnswers();
@@ -193,6 +200,21 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				array_push($points, $correct_answers_row[1]);
 			}
 		}
+		if(! $this->getIdenticalScoring() && ! $this->checkIfEnoughUniqueAnswersExists($correct_answers))
+		{
+			if( $forn !== null)
+			{
+				foreach($form->getItems() as $key => $item)
+				{
+					if($item->getPostVar() == 'identical_scoring')
+					{
+						$item->setAlert($this->lng->txt('lome_ident_score_multiple'));
+					}
+				}
+				return false;
+			}
+
+		}
 		if(sizeof($correct_answers) != sizeof($points))
 		{
 			return false;
@@ -207,7 +229,36 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @param $correct_answers
+	 * @return bool
+	 */
+	protected function checkIfEnoughUniqueAnswersExists($correct_answers)
+	{
+		$map = array();
+		foreach($correct_answers as $key => $correct_answers_row)
+		{
+			foreach($correct_answers_row[0] as $position => $answer)
+			{
+				if(array_key_exists($answer, $map))
+				{
+					return false;
+				}
+				else
+				{
+					$map[$answer] = 1;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param $answers
+	 * @param $answer_options
+	 * @return bool
+	 */
 	private function correctAnswerDoesNotExistInAnswerOptions($answers, $answer_options)
 	{
 		foreach($answers[0] as $key => $answer)
@@ -249,15 +300,22 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			array( $this->getId() )
 		);
 		$this->ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
-			) . " (question_fi, long_menu_text, feedback_setting, min_auto_complete) VALUES (%s, %s, %s, %s)",
-			array( "integer", "text", "integer", "integer"),
+			) . " (question_fi, long_menu_text, feedback_setting, min_auto_complete, identical_scoring) VALUES (%s, %s, %s, %s, %s)",
+			array( "integer", "text", "integer", "integer", "integer"),
 			array(
 				$this->getId(),
 				$this->getLongMenuTextValue(),
 				(int)$this->getSpecificFeedbackSetting(),
-				(int)$this->getMinAutoComplete()
+				(int)$this->getMinAutoComplete(),
+				(int)$this->getIdenticalScoring()
 			)
 		);
+
+		if($this->getIdenticalScoring() == 0 && ! $this->checkIfEnoughUniqueAnswersExists($this->getCorrectAnswers()))
+		{
+			ilUtil::sendQuestion($this->lng->txt('not_enough_unique_answers'), true);
+		}
+
 		$this->createFileFromArray();
 	}
 
@@ -308,9 +366,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				foreach($values as $key => $value)
 				{
-					$file_content .= $value . '\n';
+					$file_content .= $value . "\n";
 				}
-				$file_content = rtrim($file_content, '\n'); 
+				$file_content = rtrim($file_content, "\n"); 
 				$file = fopen($this->buildFileName($gap), "w");
 				fwrite($file, $file_content);
 				fclose($file);
@@ -332,7 +390,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		foreach( $files as $file)
 		{
 			$gap					= str_replace('.txt', '', basename($file));
-			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));
+			$answers[(int) $gap] 	= explode("\n", file_get_contents($file));
 		}
 		$this->setAnswers($answers);
 		return $answers;
@@ -378,6 +436,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			$this->setOriginalId($data["original_id"]);
 			$this->setAuthor($data["author"]);
 			$this->setPoints($data["points"]);
+			$this->setIdenticalScoring($data["identical_scoring"]);
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data['question_text'], 1));
@@ -636,6 +695,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
 	{
 		$points = 0;
+		$solution_values_text = array();
 		foreach($found_values as $key => $answer)
 		{
 			if($answer != '')
@@ -643,7 +703,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				$correct_answers = $this->getCorrectAnswersForGap($this->id, $key);
 				if(in_array($answer, $correct_answers))
 				{
-					$points += $this->getPointsForGap($this->id, $key);
+					$points_gap = $this->getPointsForGap($this->id, $key);
+					if(!$this->getIdenticalScoring())
+					{
+						// check if the same solution text was already entered
+						if((in_array($answer, $solution_values_text)) && ($points > 0))
+						{
+							$points_gap = 0;
+						}
+					}
+					$points += $points_gap;
+					array_push($solution_values_text, $answer);
 				}
 			}
 		}
@@ -941,5 +1011,18 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['correct_answers'] = $this->getCorrectAnswers();
 		$result['mobs'] = $mobs;
 		return json_encode($result);
+	}
+
+	public function getIdenticalScoring()
+	{
+		return ($this->identical_scoring) ? 1 : 0;
+	}
+
+	/**
+	 * @param $a_identical_scoring
+	 */
+	public function setIdenticalScoring($a_identical_scoring)
+	{
+		$this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
 	}
 }

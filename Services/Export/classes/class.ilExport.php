@@ -71,7 +71,9 @@ class ilExport
 	*/
 	static function _getValidExportSubItems($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$valid_items = array();
 		$sub_items = $tree->getSubTree($tree->getNodeData($a_ref_id));
@@ -136,7 +138,12 @@ class ilExport
 	 */
 	public static function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "", $a_entity = "")
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$logger = $DIC->logger()->exp();
+
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		$ent = ($a_entity == "")
 			? ""
@@ -162,7 +169,7 @@ class ilExport
 		$exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
 		$export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'),$a_obj_type,$a_obj_id,$a_type,$a_entity);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': Export dir is '.$export_dir);
+		$logger->debug('Export dir is '.$export_dir);
 		return $export_dir;
 	}
 
@@ -171,8 +178,6 @@ class ilExport
 	 */
 	static function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
 	{
-		$GLOBALS['ilLog']->write(__METHOD__);
-
 		if ($a_obj_type == "")
 		{
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
@@ -240,7 +245,9 @@ class ilExport
 	 */
 	public static function _createExportDirectory($a_obj_id, $a_export_type = "xml", $a_obj_type = "")
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		if ($a_obj_type == "")
 		{
@@ -258,7 +265,9 @@ class ilExport
 	*/
 	static function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("export");
 		
@@ -405,7 +414,10 @@ class ilExport
 	function exportEntity($a_entity, $a_id, $a_target_release,
 		$a_component, $a_title, $a_export_dir, $a_type_for_file = "")
 	{
-		global $objDefinition, $tpl;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		$tpl = $DIC['tpl'];
 
 		// if no target release specified, use latest major release number
 		if ($a_target_release == "")

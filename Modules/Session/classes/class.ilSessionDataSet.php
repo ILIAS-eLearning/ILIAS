@@ -132,7 +132,9 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_array($a_ids))
 		{

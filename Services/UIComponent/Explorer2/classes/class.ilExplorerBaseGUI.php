@@ -785,7 +785,15 @@ abstract class ilExplorerBaseGUI
 		$target = $this->getNodeTarget($a_node);
 		if ($target != "")
 		{
-			$tpl->setVariable("TARGET", 'target="'.$target.'"');
+			$targetRelatedParams = array(
+				'target="' . $target . '"'
+			);
+
+			if ('_blank' === $target) {
+				$targetRelatedParams[] = 'rel="noopener"';
+			}
+
+			$tpl->setVariable('TARGET', implode(' ', $targetRelatedParams));
 		}
 		if (!$this->isNodeOnclickEnabled() || !$this->isNodeClickable($a_node))
 		{

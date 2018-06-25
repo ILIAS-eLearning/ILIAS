@@ -14,7 +14,7 @@ class Custom extends Icon implements C\Icon\Custom {
 	private $icon_path;
 
 
-	public function __construct($icon_path, $aria_label, $size) {
+	public function __construct($icon_path, $aria_label, $size, $is_disabled) {
 		$this->checkStringArg("string", $icon_path);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement(
@@ -22,10 +22,12 @@ class Custom extends Icon implements C\Icon\Custom {
 			self::$possible_sizes,
 			implode(self::$possible_sizes, '/')
 		);
+		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = 'custom';
 		$this->icon_path = $icon_path;
 		$this->aria_label = $aria_label;
 		$this->size = $size;
+		$this->is_disabled = $is_disabled;
 	}
 
 	/**

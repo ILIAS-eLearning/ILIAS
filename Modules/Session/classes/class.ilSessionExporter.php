@@ -94,7 +94,6 @@ class ilSessionExporter extends ilXmlExporter
 		{
 			foreach($record_obj->getAssignedObjectTypes() as $obj_info)
 			{
-				// global activation
 				if($obj_info['obj_type'] == 'sess' && $obj_info['optional'] == 0)
 				{
 					$active[] = $record_obj->getRecordId();

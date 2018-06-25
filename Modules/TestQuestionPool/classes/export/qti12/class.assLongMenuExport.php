@@ -51,6 +51,10 @@ class assLongMenuExport extends assQuestionExport
 		$xml->xmlElement("fieldlabel", NULL, "minAutoCompleteLength");
 		$xml->xmlElement("fieldentry", NULL, $this->object->getMinAutoComplete());
 		$xml->xmlEndTag("qtimetadatafield");
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "identical_scoring");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getIdenticalScoring());
+		$xml->xmlEndTag("qtimetadatafield");
 
 		$xml->xmlStartTag("qtimetadatafield");
 		$xml->xmlElement("fieldlabel", NULL, "gapTypes");

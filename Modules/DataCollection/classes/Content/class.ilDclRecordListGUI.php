@@ -176,12 +176,11 @@ class ilDclRecordListGUI {
 
 		if ($desc = $this->table_obj->getDescription()) {
 			$ilSetting = new ilSetting('advanced_editing');
-			if(!empty($ilSetting->get('advanced_editing_javascript_editor'))) {
-				$desc = "<div class='ilDclTableDescription'>".$desc."</div>";
+			if ($ilSetting->get('advanced_editing_javascript_editor') === "1") {
+				$desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
 			} else {
-				$desc = "<div class='ilDclTableDescription'>".nl2br(ilUtil::stripSlashes($desc))."</div>";
+				$desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
 			}
-
 		}
 		$tpl->setContent($desc . $list->getHTML());
 	}

@@ -147,7 +147,9 @@ class ilTree
 	*/
 	function __construct($a_tree_id, $a_root_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// set db
 		$this->ilDB = $ilDB;
@@ -204,37 +206,39 @@ class ilTree
 	 */
 	public function initTreeImplementation()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
-		if(!is_object($GLOBALS['ilSetting']) or $GLOBALS['ilSetting']->getModule() != 'common')
+		if(!is_object($GLOBALS['DIC']['ilSetting']) or $GLOBALS['DIC']['ilSetting']->getModule() != 'common')
 		{
 			include_once './Services/Administration/classes/class.ilSetting.php';
 			$setting = new ilSetting('common');
 		}
 		else
 		{
-			$setting = $GLOBALS['ilSetting'];
+			$setting = $GLOBALS['DIC']['ilSetting'];
 		}
 		
 		if($this->__isMainTree())
 		{
 			if($setting->get('main_tree_impl','ns') == 'ns')
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Using nested set.');
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using nested set.');
 				include_once './Services/Tree/classes/class.ilNestedSetTree.php';
 				$this->tree_impl = new ilNestedSetTree($this);
 			}
 			else
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Using materialized path.');
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using materialized path.');
 				include_once './Services/Tree/classes/class.ilMaterializedPathTree.php';
 				$this->tree_impl = new ilMaterializedPathTree($this);
 			}
 		}
 		else
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': Using netsted set for non main tree.');
+			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using netsted set for non main tree.');
 			include_once './Services/Tree/classes/class.ilNestedSetTree.php';
 			$this->tree_impl = new ilNestedSetTree($this);
 		}
@@ -290,7 +294,9 @@ class ilTree
 	*/
 	function initLangCode()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		// lang_code is only required in $this->fetchnodedata
 		if (!is_object($ilUser))
@@ -502,7 +508,9 @@ class ilTree
 	 */
 	public function getChildIds($a_node)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM '. $this->table_tree . ' ' .
 				'WHERE parent = '.$ilDB->quote($a_node,'integer').' '.
@@ -529,7 +537,12 @@ class ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		global $ilBench,$ilDB, $ilObjDataCache, $ilUser;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilDB = $DIC['ilDB'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilUser = $DIC['ilUser'];
 		
 		if (!isset($a_node_id))
 		{
@@ -598,7 +611,7 @@ class ilTree
 			// Update cache of main tree
 			if ($this->__isMainTree())
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child'].' = true');
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child'].' = true');
 				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
 			}
 		}
@@ -640,7 +653,9 @@ class ilTree
 	*/
 	function getChildsByType($a_node_id,$a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id) or !isset($a_type))
 		{
@@ -696,7 +711,9 @@ class ilTree
 	*/
 	public function getChildsByTypeFilter($a_node_id,$a_types,$a_order = "",$a_direction = "ASC")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id) or !$a_types)
 		{
@@ -750,7 +767,9 @@ class ilTree
 	 */
 	public function insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos = IL_LAST_NODE, $a_reset_deleted_date = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->__isMainTree())
 		{
@@ -791,7 +810,9 @@ class ilTree
 	*/
 	public function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 //echo "+$a_node_id+$a_parent_id+";
 		// CHECK node_id and parent_id > 0 if in main tree
@@ -830,8 +851,8 @@ class ilTree
 			ilObject::_resetDeletedDate($a_node_id);
 		}
 		
-		if (isset($GLOBALS["ilAppEventHandler"]) && $this->__isMainTree()) {
-			$GLOBALS['ilAppEventHandler']->raise(
+		if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
+			$GLOBALS['DIC']['ilAppEventHandler']->raise(
 					"Services/Tree", 
 					"insertNode", 
 					array(
@@ -901,7 +922,9 @@ class ilTree
 	*/
 	function getSubTree($a_node,$a_with_data = true, $a_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!is_array($a_node))
 		{
@@ -912,7 +935,7 @@ class ilTree
 		/*
 		if($a_node['lft'] < 1 or $a_node['rgt'] < 2)
 		{
-			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['DIC']['ilLog']->logStack();
 			$message = sprintf('%s: Invalid node given! $a_node["lft"]: %s $a_node["rgt"]: %s',
 								   __METHOD__,
 								   $a_node['lft'],
@@ -975,7 +998,9 @@ class ilTree
 	 */
 	function deleteTree($a_node)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->log->debug('Delete tree with node '. $a_node);
 		
@@ -1027,7 +1052,9 @@ class ilTree
 		$pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
 
 		// We retrieve the full path in a single query to improve performance
-        global $ilDB;
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
 
 		// Abort if no path ids were found
 		if (count($pathIds) == 0)
@@ -1059,7 +1086,7 @@ class ilTree
 			// Update cache
 			if ($this->__isMainTree())
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child']);
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child']);
 				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
 			}
 		}
@@ -1075,7 +1102,9 @@ class ilTree
 	 */
 	function preloadDepthParent($a_node_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!$this->__isMainTree() || !is_array($a_node_ids) || !$this->isCacheUsed())
 		{
@@ -1147,7 +1176,10 @@ class ilTree
 	*/
 	function getNodePathForTitlePath($titlePath, $a_startnode_id = null)
 	{
-		global $ilDB, $log;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$log = $DIC['log'];
 		//$log->write('getNodePathForTitlePath('.implode('/',$titlePath));
 		
 		// handle empty title path
@@ -1270,7 +1302,9 @@ class ilTree
 	*/
 	function getNodePath($a_endnode_id, $a_startnode_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
 
@@ -1316,7 +1350,9 @@ class ilTree
 	*/
 	function checkTree()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$types = array('integer');
 		$query = 'SELECT lft,rgt FROM '.$this->table_tree.' '.
@@ -1352,7 +1388,9 @@ class ilTree
 	*/
 	function checkTreeChilds($a_no_zero_child = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 				'WHERE '.$this->tree_pk.' = %s '.
@@ -1439,7 +1477,9 @@ class ilTree
 	 */
 	public function getMaximumDepth()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT MAX(depth) depth FROM '.$this->table_tree;
 		$res = $ilDB->query($query);		
@@ -1456,7 +1496,9 @@ class ilTree
 	*/
 	function getDepth($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if ($a_node_id)
 		{
@@ -1483,7 +1525,9 @@ class ilTree
 	 */
 	public function getNodeTreeData($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_node_id)
 		{
@@ -1515,7 +1559,9 @@ class ilTree
 	function getNodeData($a_node_id, $a_tree_pk = null)
 	// END PATCH WebDAV: Pass tree id to this method
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{
@@ -1557,7 +1603,12 @@ class ilTree
 	*/
 	function fetchNodeData($a_row)
 	{
-		global $objDefinition, $lng, $ilBench,$ilDB;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		$lng = $DIC['lng'];
+		$ilBench = $DIC['ilBench'];
+		$ilDB = $DIC['ilDB'];
 
 		//$ilBench->start("Tree", "fetchNodeData_getRow");
 		$data = $a_row;
@@ -1653,7 +1704,9 @@ class ilTree
 	 */
 	protected function fetchTranslationFromObjectDataCache($a_obj_ids)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if ($this->isCacheUsed() && is_array($a_obj_ids) && is_object($ilObjDataCache))
 		{
@@ -1677,7 +1730,9 @@ class ilTree
 	*/
 	function isInTree($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!isset($a_node_id))
 		{
@@ -1687,7 +1742,7 @@ class ilTree
 		// is in tree cache
 		if ($this->isCacheUsed() && isset($this->in_tree_cache[$a_node_id]))
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': Using in tree cache '.$a_node_id);
+			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using in tree cache '.$a_node_id);
 //echo "<br>in_tree_hit";
 			return $this->in_tree_cache[$a_node_id];
 		}
@@ -1704,7 +1759,7 @@ class ilTree
 		{
 			if($this->__isMainTree())
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
 				$this->in_tree_cache[$a_node_id] = true;
 			}
 			return true;
@@ -1713,7 +1768,7 @@ class ilTree
 		{
 			if($this->__isMainTree())
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = false');
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = false');
 				$this->in_tree_cache[$a_node_id] = false;
 			}
 			return false;
@@ -1729,8 +1784,12 @@ class ilTree
 	*/
 	public function getParentNodeData($a_node_id)
 	{
-		global $ilDB;
-		global $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if (!isset($a_node_id))
 		{
@@ -1787,7 +1846,9 @@ class ilTree
 	*/
 	function addTree($a_tree_id,$a_node_id = -1)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// FOR SECURITY addTree() IS NOT ALLOWED ON MAIN TREE
 		if($this->__isMainTree())
@@ -1837,7 +1898,9 @@ class ilTree
 	 */
 	public function getNodeDataByType($a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!isset($a_type) or (!is_string($a_type)))
 		{
@@ -1870,7 +1933,9 @@ class ilTree
  	*/
 	public function removeTree($a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// OPERATION NOT ALLOWED ON MAIN TREE
 		if($this->__isMainTree())
@@ -1899,7 +1964,9 @@ class ilTree
 	 */
 	public function moveToTrash($a_node_id, $a_set_deleted = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$a_node_id)
 		{
@@ -1966,7 +2033,9 @@ class ilTree
 	 */
 	public function isSaved($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// is saved cache
 		if ($this->isCacheUsed() && isset($this->is_saved_cache[$a_node_id]))
@@ -2006,7 +2075,9 @@ class ilTree
 	 */
 	public function preloadDeleted($a_node_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_array($a_node_ids) || !$this->isCacheUsed())
 		{
@@ -2046,7 +2117,9 @@ class ilTree
 	*/
 	function getSavedNodeData($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_parent_id))
 		{
@@ -2079,7 +2152,9 @@ class ilTree
 	*/
 	function getSavedNodeObjIds(array $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT '.$this->table_obj_data.'.obj_id FROM '.$this->table_tree.' '.
 			$this->buildJoin().
@@ -2103,7 +2178,9 @@ class ilTree
 	*/
 	function getParentId($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{
@@ -2132,7 +2209,9 @@ class ilTree
 	*/
 	function getLeftValue($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{
@@ -2160,7 +2239,9 @@ class ilTree
 	*/
 	function getChildSequenceNumber($a_node, $type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node))
 		{
@@ -2210,7 +2291,9 @@ class ilTree
 	*/
 	function readRootId()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child FROM '.$this->table_tree.' '.
 			'WHERE parent = %s '.
@@ -2267,7 +2350,9 @@ class ilTree
 	*/
 	function fetchSuccessorNode($a_node_id, $a_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{
@@ -2333,7 +2418,9 @@ class ilTree
 	*/
 	function fetchPredecessorNode($a_node_id, $a_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{
@@ -2400,7 +2487,9 @@ class ilTree
 	*/
 	function renumber($node_id = 1, $i = 1)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$renumber_callable = function(ilDBInterface $ilDB) use($node_id,$i,&$return)
 		{
@@ -2437,7 +2526,9 @@ class ilTree
 	*/
 	function __renumber($node_id = 1, $i = 1)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE '.$this->table_tree.' SET lft = %s WHERE child = %s AND tree = %s';
 		$res = $ilDB->manipulateF($query,array('integer','integer','integer'),array(
@@ -2546,7 +2637,9 @@ class ilTree
 	*/
 	static function _removeEntry($a_tree,$a_child,$a_db_table = "tree")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if($a_db_table === 'tree')
 		{
@@ -2593,7 +2686,9 @@ class ilTree
 	*/
 	function __checkDelete($a_node)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
 		$query = $this->getTreeImplementation()->getSubTreeQuery($a_node, array(),false);
@@ -2635,7 +2730,9 @@ class ilTree
 	 */
 	function __getSubTreeByParentRelation($a_node_id,&$parent_childs)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// GET PARENT ID
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
@@ -2728,8 +2825,8 @@ class ilTree
 	{
 		$old_parent_id = $this->getParentId($a_source_id);
 		$this->getTreeImplementation()->moveTree($a_source_id,$a_target_id,$a_location);
-		if (isset($GLOBALS["ilAppEventHandler"]) && $this->__isMainTree()) {
-			$GLOBALS['ilAppEventHandler']->raise(
+		if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
+			$GLOBALS['DIC']['ilAppEventHandler']->raise(
 					"Services/Tree", 
 					"moveTree", 
 					array(
@@ -2786,7 +2883,9 @@ class ilTree
 	 */
 	public function getSubTreeFilteredByObjIds($a_node_id, array $a_obj_ids, array $a_fields = array())
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$node = $this->getNodeData($a_node_id);
 		if(!sizeof($node))
@@ -2820,7 +2919,10 @@ class ilTree
 	
 	public function deleteNode($a_tree_id,$a_node_id)
 	{
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		
 		$query = 'DELETE FROM tree where '.
 				'child = '.$ilDB->quote($a_node_id,'integer').' '.
@@ -2844,9 +2946,11 @@ class ilTree
 	 */
 	public function lookupTrashedObjectTypes()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		$query = 'SELECT DISTINCT(o.type) type FROM tree t JOIN object_reference r ON child = r.ref_id '.
+		$query = 'SELECT DISTINCT(o.type) '.$ilDB->quoteIdentifier('type').' FROM tree t JOIN object_reference r ON child = r.ref_id '.
 				'JOIN object_data o on r.obj_id = o.obj_id '.
 				'WHERE tree < '.$ilDB->quote(0,'integer').' '.
 				'AND child = -tree '.

@@ -56,12 +56,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
-		} else if ($input instanceof Component\Input\Field\Numeric) {
+		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} else if ($input instanceof Component\Input\Field\Select) {
-			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
-		}
-		else {
+		} elseif ($input instanceof Component\Input\Field\Password) {
+			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
+		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
@@ -257,58 +256,20 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputField(Template $tpl, Input $input, $id) {
 		$tpl->setVariable("NAME", $input->getName());
 
-		//Select input
-		if($input instanceof Select)
-		{
-			$tpl = $this->renderSelectInput($tpl, $input);
+		if ($input->getValue() !== null) {
+			$tpl->setCurrentBlock("value");
+			$tpl->setVariable("VALUE", $input->getValue());
+			$tpl->parseCurrentBlock();
 		}
-		else //all other inputs
-		{
-			if ($input->getValue() !== null) {
-				$tpl->setCurrentBlock("value");
-				$tpl->setVariable("VALUE", $input->getValue());
-				$tpl->parseCurrentBlock();
-			}
-			if ($id) {
-				$tpl->setCurrentBlock("id");
-				$tpl->setVariable("ID", $id);
-				$tpl->parseCurrentBlock();
-			}
+		if ($id) {
+			$tpl->setCurrentBlock("id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
 		}
 
 		return $tpl->get();
 	}
 
-	public function renderSelectInput(Template $tpl, Select $input)
-	{
-		global $DIC;
-		$value = $input->getValue();
-		//disable first option if required.
-		$tpl->setCurrentBlock("options");
-		if(!$value) {
-			$tpl->setVariable("SELECTED", "selected");
-		}
-		if($input->isRequired()) {
-			$tpl->setVariable("DISABLED", "disabled");
-			$tpl->setVariable("HIDDEN", "hidden");
-		}
-		$tpl->setVariable("VALUE", NULL);
-		$tpl->setVariable("VALUE_STR", "-");
-		$tpl->parseCurrentBlock();
-		//rest of options.
-		foreach ($input->getOptions() as $option_key => $option_value)
-		{
-			$tpl->setCurrentBlock("options");
-			if($value == $option_key) {
-				$tpl->setVariable("SELECTED", "selected");
-			}
-			$tpl->setVariable("VALUE", $option_key);
-			$tpl->setVariable("VALUE_STR", $option_value);
-			$tpl->parseCurrentBlock();
-		}
-
-		return $tpl;
-	}
 
 	/**
 	 * @inheritdoc
@@ -321,7 +282,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
 			Component\Input\Field\DependantGroup::class,
-			Component\Input\Field\Select::class
+			Component\Input\Field\Password::class
 		];
 	}
 }

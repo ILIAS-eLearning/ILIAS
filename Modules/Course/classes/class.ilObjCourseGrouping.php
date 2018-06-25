@@ -44,7 +44,9 @@ class ilObjCourseGrouping
 	 */
 	public function __construct($a_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->setType('crsg');
 		$this->db = $ilDB;
@@ -131,7 +133,9 @@ class ilObjCourseGrouping
 
 	function getAssignedItems()
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		$condition_data = ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
@@ -149,7 +153,9 @@ class ilObjCourseGrouping
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
@@ -173,7 +179,10 @@ class ilObjCourseGrouping
 
 	function create($a_course_ref_id,$a_course_id)
 	{
-		global $ilUser,$ilDB;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		// INSERT IN object_data
 		$this->setId($ilDB->nextId("object_data"));
@@ -207,7 +216,9 @@ class ilObjCourseGrouping
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getId() and $this->getType() === 'crsg')
 		{
@@ -251,7 +262,10 @@ class ilObjCourseGrouping
 
 	function read()
 	{
-		global $ilObjDataCache,$ilDB;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
@@ -280,7 +294,10 @@ class ilObjCourseGrouping
 
 	function _checkAccess($grouping_id)
 	{
-		global $ilAccess,$tree;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$tree = $DIC['tree'];
 
 		$tmp_grouping_obj = new ilObjCourseGrouping($grouping_id);
 
@@ -306,7 +323,11 @@ class ilObjCourseGrouping
 	 */
 	public static function _getVisibleGroupings($a_obj_id)
 	{
-		global $ilObjDataCache,$ilAccess,$ilDB;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilDB = $DIC['ilDB'];
 
 		$container_type = $ilObjDataCache->lookupType($a_obj_id) == 'grp' ? 'grp' : 'crs';
 
@@ -419,7 +440,9 @@ class ilObjCourseGrouping
 	// STATIC
 	public static function _deleteAll($a_course_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// DELETE CONDITIONS
 		foreach($groupings = ilObjCourseGrouping::_getGroupings($a_course_id) as $grouping_id)
@@ -439,7 +462,9 @@ class ilObjCourseGrouping
 
 	public static function _getGroupings($a_course_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM crs_groupings ".
 			"WHERE crs_id = ".$ilDB->quote($a_course_id,'integer')." ";
@@ -468,7 +493,9 @@ class ilObjCourseGrouping
 	*/
    public static function _getGroupingCourseIds($a_course_ref_id,$a_course_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
@@ -503,7 +530,11 @@ class ilObjCourseGrouping
 
 	public static function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
 	{
-		global $ilUser,$lng,$tree;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		
@@ -613,7 +644,12 @@ class ilObjCourseGrouping
 	 */
 	public static function _getGroupingItems($container_obj)
 	{
-		global $tree,$ilObjDataCache,$ilAccess,$tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilAccess = $DIC['ilAccess'];
+		$tree = $DIC['tree'];
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 

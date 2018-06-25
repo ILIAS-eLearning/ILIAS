@@ -367,7 +367,9 @@ class ilUserProfile
 	 */
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->skip_groups = array();
 		$this->skip_fields = array();
@@ -403,7 +405,9 @@ class ilUserProfile
 	 */
 	public function getLocalUserAdministrationFields()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$settings = $ilSetting->getAll();
 		
@@ -444,7 +448,12 @@ class ilUserProfile
 	*/
 	function addStandardFieldsToForm($a_form, $a_user = NULL, array $custom_fields = NULL)
 	{
-		global $ilSetting, $lng, $rbacreview, $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilias = $DIC['ilias'];
 
 		// custom registration settings
 		if(self::$mode == self::MODE_REGISTRATION)
@@ -857,7 +866,9 @@ class ilUserProfile
 	*/
 	static function userSettingVisible($a_setting)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		if(self::$mode == self::MODE_DESKTOP)
 		{
@@ -875,7 +886,9 @@ class ilUserProfile
 	
 	static function setMode($mode)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if(in_array($mode, array(self::MODE_DESKTOP, self::MODE_REGISTRATION)))
 		{
@@ -895,7 +908,9 @@ class ilUserProfile
 	 */
 	static function isProfileIncomplete($a_user, $a_include_udf = true, $a_personal_data_only = true)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// standard fields
 		foreach(self::$user_field as $field => $definition)
@@ -959,7 +974,9 @@ class ilUserProfile
 		 * @global	ilSetting
 		 * 
 		 */
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// Not visible in personal data or not changeable
 		if( $ilSetting->get('usr_settings_hide_'.$setting) == 1 ||
@@ -988,7 +1005,9 @@ class ilUserProfile
 		 * @global	ilSetting
 		 * 
 		 */
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$ignorableSettings = array();
 	
