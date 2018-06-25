@@ -5742,8 +5742,8 @@ meta#:#md_adv_select_one_file#:#Please choose one file.
 meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
 meta#:#md_advanced#:#Custom Metadata
-meta#:#md_copyright_add#:#Add Copyright Presetting
-meta#:#md_copyright_edit#:#Edit Copyright Presetting
+meta#:#md_copyright_add#:#Add Copyright Default
+meta#:#md_copyright_edit#:#Edit Copyright Default
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
 meta#:#md_copyright_preview#:#Copyright (Preview)
