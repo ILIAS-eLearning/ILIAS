@@ -234,7 +234,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateQuestionNavigation($sequenceElement, $disabled)
+	protected function populateQuestionNavigation($sequenceElement, $disabled, $primaryNext)
 	{
 		if( !$this->isFirstQuestionInSequence($sequenceElement) )
 		{
@@ -243,7 +243,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( !$this->isLastQuestionInSequence($sequenceElement) )
 		{
-			$this->populateNextButtons($disabled);
+			$this->populateNextButtons($disabled, $primaryNext);
 		}
 	}
 
@@ -253,15 +253,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->populateLowerPreviousButtonBlock($disabled);
 	}
 	
-	protected function populateNextButtons($disabled)
+	protected function populateNextButtons($disabled, $primaryNext)
 	{
-		$this->populateUpperNextButtonBlock($disabled);
-		$this->populateLowerNextButtonBlock($disabled);
+		$this->populateUpperNextButtonBlock($disabled, $primaryNext);
+		$this->populateLowerNextButtonBlock($disabled, $primaryNext);
 	}
 
-	protected function populateLowerNextButtonBlock($disabled)
+	protected function populateLowerNextButtonBlock($disabled, $primaryNext)
 	{
-		$button = $this->buildNextButtonInstance($disabled);
+		$button = $this->buildNextButtonInstance($disabled, $primaryNext);
 		$button->setId('bottomnextbutton');
 
 		$this->tpl->setCurrentBlock( "next_bottom" );
@@ -269,9 +269,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateUpperNextButtonBlock($disabled)
+	protected function populateUpperNextButtonBlock($disabled, $primaryNext)
 	{
-		$button = $this->buildNextButtonInstance($disabled);
+		$button = $this->buildNextButtonInstance($disabled, $primaryNext);
 		$button->setId('nextbutton');
 
 		$this->tpl->setCurrentBlock( "next" );
@@ -298,19 +298,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("BTN_PREV", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
-
+	
 	/**
-	 * @param $disabled
-	 * @return ilTestPlayerNavButton
+	 * @param bool $disabled
+	 * @param bool $primaryNext
+	 * @return ilButtonBase|ilLinkButton|ilTestPlayerNavButton
 	 */
-	private function buildNextButtonInstance($disabled)
+	private function buildNextButtonInstance($disabled, $primaryNext)
 	{
 		$button = ilTestPlayerNavButton::getInstance();
 // fau: testNav - set glyphicon and primary
-		if (!$this->object->isForceInstantFeedbackEnabled())
-		{
-			$button->setPrimary(true);
-		}
+		$button->setPrimary($primaryNext);
 		$button->setRightGlyph('glyphicon glyphicon-arrow-right');
 // fau.
 		$button->setNextCommand(ilTestPlayerCommands::NEXT_QUESTION);
@@ -351,15 +349,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateGenericFeedbackBlock($question_gui)
+	protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
 	{
-		$this->tpl->setCurrentBlock( "answer_feedback" );
-		$this->tpl->setVariable( "ANSWER_FEEDBACK",
-								 $question_gui->getAnswerFeedbackOutput( $this->testSession->getActiveId(),
-																		 NULL
-								 )
-		);
-		$this->tpl->parseCurrentBlock();
+		$feedback = $question_gui->getGenericFeedbackOutput( $this->testSession->getActiveId(),NULL);
+		
+		if( strlen($feedback) )
+		{
+			$cssClass = ( $solutionCorrect ?
+				ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG 
+			);
+			
+			$this->tpl->setCurrentBlock( "answer_feedback" );
+			$this->tpl->setVariable( "ANSWER_FEEDBACK", $feedback);
+			$this->tpl->setVariable( "ILC_FB_CSS_CLASS", $cssClass);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	protected function populateScoreBlock($reachedPoints, $maxPoints)
@@ -1025,7 +1029,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( count($testPassesSelector->getReportablePasses()) )
 		{
-			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
+			$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 
 		$this->backToInfoScreenCmd();
@@ -2266,6 +2270,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
+		$this->populateFeedbackBlockHeader(
+			!$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback()
+		);
+		
 		// This controls if the solution should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
 		if($this->object->getInstantFeedbackSolution())
@@ -2277,25 +2285,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				NULL,                                                #pass
 				FALSE,                                                #graphical_output
 				$show_question_inline_score,                        #result_output
-				FALSE,                                                #show_question_only
+				TRUE,                                                #show_question_only
 				FALSE,                                                #show_feedback
 				TRUE,                                                #show_correct_solution
 				FALSE,                                                #show_manual_scoring
 				FALSE                                                #show_question_text
 			);
+			$solutionoutput = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $solutionoutput);
 			$this->populateSolutionBlock($solutionoutput);
 		}
-
+		
+		$reachedPoints = $questionGui->object->getAdjustedReachedPoints(
+			$this->testSession->getActiveId(), NULL, $authorizedSolution
+		);
+		
+		$maxPoints = $questionGui->object->getMaximumPoints();
+		
+		$solutionCorrect = ($reachedPoints == $maxPoints);
+		
 		// This controls if the score should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
 		if($this->object->getAnswerFeedbackPoints())
 		{
-			$reachedPoints = $questionGui->object->getAdjustedReachedPoints(
-				$this->testSession->getActiveId(), NULL, $authorizedSolution
-			);
-			
-			$maxPoints = $questionGui->object->getMaximumPoints();
-
 			$this->populateScoreBlock($reachedPoints, $maxPoints);
 		}
 
@@ -2303,7 +2314,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"				
 		if($this->object->getGenericAnswerFeedback())
 		{
-			$this->populateGenericFeedbackBlock($questionGui);
+			$this->populateGenericFeedbackBlock($questionGui, $solutionCorrect);
 		}
 
 		// This controls if the specific feedback should be shown.
@@ -2312,6 +2323,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->populateSpecificFeedbackBlock($questionGui);
 		}
+	}
+	
+	protected function populateFeedbackBlockHeader($withFocusAnchor)
+	{
+		if( $withFocusAnchor )
+		{
+			$this->tpl->setCurrentBlock('inst_resp_id');
+			$this->tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', 'focus');
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock('instant_response_header');
+		$this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	protected function getCurrentSequenceElement()

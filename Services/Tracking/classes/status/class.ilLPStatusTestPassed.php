@@ -138,7 +138,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 		$res = $ilDB->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass,
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $ilDB->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
 				CASE WHEN
 					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
@@ -151,7 +151,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 			ON tst_tests.test_id = tst_active.test_fi
 			WHERE tst_active.user_fi = {$ilDB->quote($a_user_id, "integer")}
 			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
-			GROUP BY tst_active.active_id, tst_active.tries
+			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass
 		");
 
 		if ($rec = $ilDB->fetchAssoc($res))

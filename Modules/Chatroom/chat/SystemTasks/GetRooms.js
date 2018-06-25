@@ -12,6 +12,3 @@ module.exports = function(req, res) {
 
 	res.send({rooms: namespace.getRooms()});
 };
-
-
-

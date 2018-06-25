@@ -113,6 +113,8 @@ class ilPCQuestion extends ilPageContent
 		$duplicate = assQuestion::_instanciateQuestion($duplicate_id);
 		$duplicate->setObjId(0);
 		
+		/* PATCH-BEGIN: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
+		/*
 		// we remove everything not supported by the non-tiny self
 		// assessment question editor
 		$q = $duplicate->getQuestion();
@@ -156,6 +158,12 @@ class ilPCQuestion extends ilPageContent
 		$duplicate->setQuestion($q);
 		
 		$duplicate->saveQuestionDataToDb();
+		*/
+
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+		ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
+		
+		/* PATCH-END: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
 		
 		$this->q_node->set_attribute("QRef", "il__qst_".$duplicate_id);
 	}
@@ -477,6 +485,7 @@ class ilPCQuestion extends ilPageContent
 			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
 			ilias.questions.txt.please_select = "'.$lng->txtlng("content", "cont_please_select", $a_lang).'";
 			ilias.questions.txt.ov_preview = "'.$lng->txtlng("content", "cont_ov_preview", $a_lang).'";
+			ilias.questions.txt.submit_answers = "'.$lng->txtlng("content", "cont_submit_answers", $a_lang).'";
 			ilias.questions.refresh_lang();
 			';
 

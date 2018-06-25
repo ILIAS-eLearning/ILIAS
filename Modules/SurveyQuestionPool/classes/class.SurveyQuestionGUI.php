@@ -598,7 +598,7 @@ abstract class SurveyQuestionGUI
 	{
 		switch ($question_title)
 		{
-			case 1:
+			case ilObjSurvey::PRINT_HIDE_LABELS:
 				$title = ilUtil::prepareFormOutput($this->object->getTitle());
 				break;
 
@@ -607,7 +607,7 @@ abstract class SurveyQuestionGUI
 			//	$title = ilUtil::prepareFormOutput($this->object->getLabel());
 			//	break;
 
-			case 3:
+			case ilObjSurvey::PRINT_SHOW_LABELS:
 				$title = ilUtil::prepareFormOutput($this->object->getTitle());
 				if(trim($this->object->getLabel()))
 				{

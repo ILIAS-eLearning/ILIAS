@@ -174,7 +174,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 			
 			case "ilglossarytermgui":
-				if (!$this->term_perm->checkPermission("write", $this->term_id))
+				if (!$this->term_perm->checkPermission("edit_content", $this->term_id) &&
+					!$this->term_perm->checkPermission("write", $this->term_id))
 				{
 					include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
 					throw new ilGlossaryException("No permission.");
@@ -704,7 +705,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		// sort columns, if adv fields are given
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getId());
+		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
 		$cols = $adv_ap->getColumnOrder();
 		if (count($cols) > 1)
 		{
@@ -743,7 +744,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 			// field order of advanced metadata
 			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getId());
+			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
 			$cols = $adv_ap->getColumnOrder();
 			if (count($cols) > 1)
 			{

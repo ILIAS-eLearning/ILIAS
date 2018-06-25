@@ -99,7 +99,22 @@ class ilMailCronOrphanedMails extends ilCronJob
 	 */
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getValidScheduleTypes()
+	{
+		return array(
+			self::SCHEDULE_TYPE_DAILY,
+			self::SCHEDULE_TYPE_WEEKLY,
+			self::SCHEDULE_TYPE_MONTHLY,
+			self::SCHEDULE_TYPE_QUARTERLY,
+			self::SCHEDULE_TYPE_YEARLY,
+			self::SCHEDULE_TYPE_IN_DAYS
+		);
 	}
 
 	/**
@@ -205,7 +220,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 			$this->processNotification();
 		}
 
-		if((int)$this->settings->get('last_cronjob_start_ts') && $mail_threshold >= 1)
+		if((int)$this->settings->get('last_cronjob_start_ts', time()) && $mail_threshold >= 1)
 		{
 			$this->processDeletion();
 		}

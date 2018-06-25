@@ -185,41 +185,12 @@ class ilObjCategory extends ilContainer
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		$ilDB = $this->db;
-		$ilUser = $this->user;
-		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id,$a_omit_tree);
-
-		/*	 done in class.ilContainer	
-	 	include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
-	 	ilContainerSortingSettings::_cloneSettings($this->getId(),$new_obj->getId());
-	 	*/
 
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
 
-		/*
-		$first = true;
-		$translations = $this->getTranslations();
-	 	if(is_array($translations['Fobject']))
-	 	{
-		 	foreach($translations['Fobject'] as $num => $translation)
-		 	{
-		 		$new_obj->addTranslation($translation['title'],$translation['desc'],$translation['lang'],$first);
-		 		
-		 		if($first)
-		 		{
-		 			$first = false;
-		 		}
-		 	}
-	 	}*/
-	 	
-		// clone icons
-		$new_obj->saveIcons($this->getBigIconPath(),
-			$this->getSmallIconPath(),
-			$this->getTinyIconPath());
-		
 	 	return $new_obj;
 	}
 	

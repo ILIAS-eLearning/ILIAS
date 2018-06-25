@@ -16,7 +16,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomConfigFileHandler.php';
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
 
-	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.txt';
+	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.md';
 
 	/**
 	 * @var ilSetting
@@ -54,6 +54,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function saveSettings()
 	{
+		$this->redirectIfNoPermission('write');
+
 		$factory = new ilChatroomFormFactory();
 		$form    = $factory->getGeneralSettingsForm();
 
@@ -118,7 +120,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		$this->checkServerConnection($serverSettings);
 
 		$form->setTitle($this->ilLng->txt('chatserver_settings_title'));
-		$form->addCommandButton('view-saveSettings', $this->ilLng->txt('save'));
+		if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+			$form->addCommandButton('view-saveSettings', $this->ilLng->txt('save'));
+		}
 		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveSettings'));
 
 		$settingsTpl = $this->createSettingTemplate($form);
@@ -229,6 +233,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function saveClientSettings()
 	{
+		$this->redirectIfNoPermission('write');
+
 		$factory = new ilChatroomFormFactory();
 		$form    = $factory->getClientSettingsForm();
 
@@ -249,6 +255,10 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
 			'auth'                  => $form->getInput('auth')
 		);
+
+		if (!$settings['chat_enabled']) {
+			$settings['enable_osc'] = false;
+		}
 
 		$notificationSettings = new ilSetting('notifications');
 		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
@@ -293,7 +303,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		$this->checkServerConnection($serverSettings);
 
 		$form->setTitle($this->ilLng->txt('general_settings_title'));
-		$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
+		if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+			$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
+		}
 		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 
 		$settingsTpl = $this->createSettingTemplate($form);

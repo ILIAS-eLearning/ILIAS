@@ -33,7 +33,7 @@
 				<input type="submit" class="btn btn-default" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
 								
 				<!-- BEGIN voting_period_bl -->
-				<div class="small">{TXT_VOTING_PERIOD}</div>
+				<div class="small">{TXT_VOTING_END_PERIOD}</div>
 				<!-- END voting_period_bl -->
 			</form>			
 						
@@ -43,7 +43,11 @@
 			
 		</div>
 		<!-- END answers_vote -->
-		
+
+		<!-- BEGIN out_of_voting_period -->
+			<div class="ilPollQuestionAnswers small">{TXT_VOTING_PERIOD}</div>
+		<!-- END out_of_voting_period -->
+
 		<!-- BEGIN answers_result -->
 		<div class="ilPollQuestionResults">
 			<!-- BEGIN answer_result -->

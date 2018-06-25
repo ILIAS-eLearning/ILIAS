@@ -3,15 +3,25 @@
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
 
+/**
+ * Class AbstractTask
+ *
+ * @package ILIAS\BackgroundTasks\Implementation\Tasks
+ *
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
+ */
 abstract class AbstractTask implements Task {
 
 	use BasicScalarValueFactory;
+	const MAIN_REMOVE = 'bt_main_remove';
+	const MAIN_ABORT = 'bt_main_abort';
 	/**
 	 * @var Value[]
 	 */
@@ -20,11 +30,6 @@ abstract class AbstractTask implements Task {
 	 * @var Value
 	 */
 	protected $output;
-	protected $scalarValueWrapper;
-
-
-	public function __construct() {
-	}
 
 
 	/**
@@ -139,5 +144,21 @@ abstract class AbstractTask implements Task {
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getRemoveOption() {
+		return new UserInteractionOption('remove', self::MAIN_REMOVE);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAbortOption() {
+		return new UserInteractionOption('abort', self::MAIN_ABORT);
 	}
 }

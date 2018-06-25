@@ -58,7 +58,12 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 		$this->setLimit(100);
 		$this->setSelectAllCheckbox('fid');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->addMultiCommand('saveAdvancedLuceneSettings',$this->lng->txt('lucene_activate_field'));
+		
+		$access = $GLOBALS['DIC']->access();
+		if($access->checkAccess('write','',$this->getParentObject()->object->getRefId()))
+		{
+			$this->addMultiCommand('saveAdvancedLuceneSettings',$this->lng->txt('lucene_activate_field'));
+		}
 	}
 	
 	/**

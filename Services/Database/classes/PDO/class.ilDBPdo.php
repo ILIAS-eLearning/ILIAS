@@ -165,7 +165,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param $a_name
 	 * @param string $a_charset
 	 * @param string $a_collation
-	 * @return \PDOStatement
+	 * @return ilPDOStatement|false
 	 * @throws \ilDatabaseException
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "") {
@@ -196,11 +196,17 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param null $tmpClientIniFile
 	 */
 	public function initFromIniFile($tmpClientIniFile = null) {
-		global $ilClientIniFile;
+		global $DIC;
+
 		if ($tmpClientIniFile instanceof ilIniFile) {
 			$clientIniFile = $tmpClientIniFile;
 		} else {
-			$clientIniFile = $ilClientIniFile;
+			$ilClientIniFile = null;
+			if ($DIC->offsetExists('ilClientIniFile')) {
+				$clientIniFile = $DIC['ilClientIniFile'];
+			} else {
+				throw new InvalidArgumentException('$tmpClientIniFile is not an instance of ilIniFile');
+			}
 		}
 
 		$this->setUsername($clientIniFile->readVariable("db", "user"));
@@ -488,14 +494,24 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @param $query string
+	 *
 	 * @return ilPDOStatement
 	 * @throws ilDatabaseException
 	 */
 	public function query($query) {
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
+
 		$query = $this->appendLimit($query);
 
 		try {
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->startDbBench($query);
+			}
 			$res = $this->pdo->query($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->stopDbBench();
+			}
 		} catch (PDOException $e) {
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
 		}
@@ -598,11 +614,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$fields = array();
 		foreach ($values as $key => $val) {
 			$real[] = $this->quote($val[1], $val[0]);
-			$fields[] = $key;
+			$fields[] = $this->quoteIdentifier($key);
 		}
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
 		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
+
+		$query = $this->sanitizeMB4StringIfNotSupported($query);
 
 		return $this->pdo->exec($query);
 	}
@@ -641,18 +659,23 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$lobs = false;
 		$lob = array();
 		foreach ($columns as $k => $col) {
+			$field_value = $col[1];
 			$fields[] = $k;
 			$placeholders[] = "%s";
 			$placeholders_full[] = ":$k";
 			$types[] = $col[0];
 
-			// integer auto-typecast (this casts bool values to integer)
-			if ($col[0] == 'integer' && !is_null($col[1])) {
-				$col[1] = (int)$col[1];
+			if ($col[0] == "blob" || $col[0] == "clob" || $col[0] == 'text') {
+				$field_value = $this->sanitizeMB4StringIfNotSupported($field_value);
 			}
 
-			$values[] = $col[1];
-			$field_values[$k] = $col[1];
+			// integer auto-typecast (this casts bool values to integer)
+			if ($col[0] == 'integer' && !is_null($field_value)) {
+				$field_value = (int)$field_value;
+			}
+
+			$values[] = $field_value;
+			$field_values[$k] = $field_value;
 			if ($col[0] == "blob" || $col[0] == "clob") {
 				$lobs = true;
 				$lob[$k] = $k;
@@ -685,7 +708,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$q = "UPDATE " . $table_name . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
-				$q .= $lim . $field . " = " . $placeholders[$k];
+				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
 				$lim = ", ";
 			}
 			$q .= " WHERE ";
@@ -702,14 +725,24 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	}
 
 
+
 	/**
 	 * @param string $query
 	 * @return bool|int
 	 * @throws \ilDatabaseException
 	 */
 	public function manipulate($query) {
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 		try {
+			$query = $this->sanitizeMB4StringIfNotSupported($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->startDbBench($query);
+			}
 			$r = $this->pdo->exec($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->stopDbBench();
+			}
 		} catch (PDOException $e) {
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
 		}
@@ -929,7 +962,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @deprecated use
 	 */
 	public static function getReservedWords() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		/**
 		 * @var $ilDB ilDBPdo
@@ -946,9 +980,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		assert(is_array($tables));
 
 		$lock = $this->manager->getQueryUtils()->lock($tables);
-		global $ilLog;
-		if ($ilLog instanceof ilLog) {
-			$ilLog->write('ilDB::lockTables(): ' . $lock);
+		global $DIC;
+		$ilLogger = $DIC->logger()->root();
+		if ($ilLogger instanceof ilLogger) {
+			$ilLogger->log('ilDB::lockTables(): ' . $lock);
 		}
 
 		$this->pdo->exec($lock);
@@ -980,7 +1015,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param string $query
 	 * @param \string[] $types
 	 * @param \mixed[] $values
-	 * @return \PDOStatement
+	 * @return ilPDOStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function queryF($query, $types, $values) {
@@ -1327,16 +1362,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $a_table
-	 * @return \ilDBStatement
-	 * @throws \ilDatabaseException
-	 */
-	public function optimizeTable($a_table) {
-		return $this->query($this->manager->getQueryUtils()->optimize($a_table));
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function supportsSlave() {
@@ -1401,7 +1426,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getAllowedAttributes() {
 		return $this->field_definition->getAllowedAttributes();
@@ -1566,7 +1591,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public static function isReservedWord($a_word) {
 		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
 		global $DIC;
-		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC['ilDB']);
+		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC->database());
 
 		return $ilDBPdoMySQLFieldDefinition->isReserved($a_word);
 	}
@@ -1717,6 +1742,22 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		return array();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function migrateAllTablesToCollation($collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) {
+		return array();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsCollationMigration() {
+		return false;
 	}
 
 
@@ -2007,10 +2048,49 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @return string
+	 * @throws ilDatabaseException
 	 */
 	public function getDBVersion() {
 		$d = $this->fetchObject($this->query("SELECT VERSION() AS version"));
 
 		return ($d->version ? $d->version : 'Unknown');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sanitizeMB4StringIfNotSupported($query)
+	{
+		if (!$this->doesCollationSupportMB4Strings()) {
+			$query = preg_replace(
+				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
+			);
+		}
+
+		return $query;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function doesCollationSupportMB4Strings()
+	{
+		return false;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
 	}
 }

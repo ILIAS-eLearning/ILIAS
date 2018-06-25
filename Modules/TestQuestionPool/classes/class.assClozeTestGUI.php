@@ -334,7 +334,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else
 		{
-			$question->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$question->setUseTagsForRteOnly(false);
 		}
 		$form->addItem($question);
@@ -416,7 +417,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else
 		{
-			$cloze_text->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$cloze_text->setUseTagsForRteOnly(false);
 		}
 		$cloze_text->setRTESupport($this->object->getId(), "qpl", "assessment");
@@ -965,6 +967,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
+		$assClozeGapCombinationObject 	= new assClozeGapCombination();
+		$check_for_gap_combinations 	= $assClozeGapCombinationObject->loadFromDb($this->object->getId());
+
 		foreach ($this->object->getGaps() as $gap_index => $gap)
 		{
 			$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -982,8 +987,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					$details = $this->object->calculateReachedPoints($active_id, $pass, true, TRUE);
 					$check = $details[$gap_index];
 					
-					$assClozeGapCombinationObject 	= new assClozeGapCombination();
-					$check_for_gap_combinations 	= $assClozeGapCombinationObject->loadFromDb($this->object->getId());
 					if(count($check_for_gap_combinations) != 0)
 					{
 						$gaps_used_in_combination = $assClozeGapCombinationObject->getGapsWhichAreUsedInCombination($this->object->getId());
@@ -1090,6 +1093,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$gaptemplate->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 				$gaptemplate->parseCurrentBlock();
 			}
+			$combination = null;
 			switch ($gap->getType())
 			{
 				case CLOZE_TEXT:
@@ -1110,9 +1114,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					}
 					else
 					{
-						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
-							$this->object->getShuffler()
-						));
+						$solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);
 					}
 					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
@@ -1146,9 +1148,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					}
 					else
 					{
-						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
-							$this->object->getShuffler()
-						));
+						$solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);
 					}
 					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
@@ -1171,9 +1171,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					}
 					else
 					{
-						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
-							$this->object->getShuffler()
-						));
+						$solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);
 					}
 					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
@@ -1205,7 +1203,15 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		if (strlen($feedback))
+		{
+			$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
+				ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+			);
+			
+			$solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+			$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
+		}
 		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -1218,6 +1224,25 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		
 		return $solutionoutput;
+	}
+
+	/**
+	 * @param assClozeGap $gap
+	 * @param $gap_index
+	 * @param $gap_combinations
+	 * @return string
+	 */
+	protected function getBestSolutionText($gap, $gap_index, $gap_combinations)
+	{
+		$combination = null;
+		if(is_array($gap_combinations) && array_key_exists($gap_index, $gap_combinations))
+		{
+			$combination = $gap_combinations[$gap_index];
+		}
+		$best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
+			$this->object->getShuffler(), $combination
+		));
+		return $best_solution_text;
 	}
 
 	public function getAnswerFeedbackOutput($active_id, $pass)

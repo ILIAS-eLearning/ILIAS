@@ -52,6 +52,14 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
 	/**
 	 * @inheritdoc
 	 */
+	public function mayRemoveItem($refId)
+	{
+		return $this->accessHandler->checkAccess('leave', $refId);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getIntroductionHtml()
 	{
 		$tpl = new ilTemplate('tpl.pd_my_memberships_intro.html', true, true, 'Services/PersonalDesktop');

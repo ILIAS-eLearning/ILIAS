@@ -67,7 +67,7 @@ class ilObjFile extends ilObject2 {
 	/**
 	 * @var int
 	 */
-	protected $version = 0;
+	protected $version = 1;
 
 
 	/**
@@ -261,23 +261,19 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * @param string $a_upload_file
-	 * @param string $a_filename
-	 * @param bool   $a_prevent_preview
+	 * @param      $a_upload_file
+	 * @param      $a_filename
+	 * @param bool $a_prevent_preview
+	 *
+	 * @return \ILIAS\FileUpload\DTO\UploadResult
+	 * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
 	 */
 	public function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false) {
 		global $DIC;
 
 		$upload = $DIC->upload();
-
-		$this->setVersion($this->getVersion() + 1);
-
-		if (!is_dir($this->getDirectory($this->getVersion()))) {
-			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
-		}
-
-		$target_directory = $this->getDirectory($this->getVersion()) . "/";
-		$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
+		$result = null;
 
 		if ($upload->hasUploads()) {
 			if ($upload->hasBeenProcessed() !== true) {
@@ -286,52 +282,75 @@ class ilObjFile extends ilObject2 {
 				}
 				$upload->process();
 			}
-
+			/**
+			 * @var $result \ILIAS\FileUpload\DTO\UploadResult
+			 */
 			$result = $upload->getResults()[$a_upload_file];
+			if ($result->getStatus()->getCode() === \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+				$metadata = $result->getMetaData();
+				if ($metadata->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+					$this->setPageCount($metadata->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
+					$this->doUpdate();
+				}
+				$a_name = $result->getName();
+				$this->setFileName($a_name);
 
-			$metadata = $result->getMetaData();
-			if ($metadata->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
-				$this->setPageCount($metadata->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
-				$this->doUpdate();
+				$this->setVersion($this->getVersion() + 1);
+
+				if (!is_dir($this->getDirectory($this->getVersion()))) {
+					ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
+				}
+
+				$target_directory = $this->getDirectory($this->getVersion()) . "/";
+				$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
+
+				$upload->moveOneFileTo($result, $relative_path_to_file, Location::STORAGE);
+
+				$this->handleQuotaUpdate($this);
+
+				// create preview?
+				if (!$a_prevent_preview) {
+					$this->createPreview(false);
+				}
+			} else {
+				throw new ilFileException('not supported File');
 			}
-
-			$upload->moveOneFileTo($result, $relative_path_to_file, Location::STORAGE, $a_filename);
 		}
 
-		$this->handleQuotaUpdate($this);
-
-		// create preview?
-		if (!$a_prevent_preview) {
-			$this->createPreview(false);
-		}
+		return $result;
 	}
 
 
 	/**
-	 * replace file with new file
+	 * @param $a_upload_file
+	 * @param $a_filename
+	 *
+	 * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
 	 */
-	function replaceFile($a_upload_file, $a_filename) {
-		$this->getUploadFile($a_upload_file, $a_filename, true);
+	public function replaceFile($a_upload_file, $a_filename) {
+		if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
+			ilHistory::_createEntry($this->getId(), "replace", $a_filename . "," . $this->getVersion());
+			$this->addNewsNotification("file_updated");
 
-		ilHistory::_createEntry($this->getId(), "replace", $a_filename . "," . $this->getVersion());
-		$this->setFilename($a_filename);
-		$this->addNewsNotification("file_updated");
+			// create preview
+			$this->createPreview(true);
+		}
 
-		// create preview
-		$this->createPreview(true);
+		return $result;
 	}
 
 
 	public function addFileVersion($a_upload_file, $a_filename) {
-		$this->getUploadFile($a_upload_file, $a_filename, true);
+		if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
+			ilHistory::_createEntry($this->getId(), "new_version", $result->getName() . "," . $this->getVersion());
+			$this->addNewsNotification("file_updated");
 
-		ilHistory::_createEntry($this->getId(), "new_version", $a_filename . ","
-		                                                       . $this->getVersion());
-		$this->setFilename($a_filename);
-		$this->addNewsNotification("file_updated");
+			// create preview
+			$this->createPreview($this->getVersion() > 1);
+		}
 
-		// create preview
-		$this->createPreview($this->getVersion() > 1);
+		return $result;
 	}
 
 
@@ -425,7 +444,7 @@ class ilObjFile extends ilObject2 {
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
 		$this->setFileSize($row->file_size);
-		$this->setVersion($row->version);
+		$this->setVersion($row->version ? $row->version : 1);
 		$this->setMode($row->f_mode);
 		$this->setRating($row->rating);
 		$this->setPageCount($row->page_count);
@@ -674,6 +693,8 @@ class ilObjFile extends ilObject2 {
 			$file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
 		}
 
+		$file = ilFileUtils::getValidFilename($file);
+
 		if ($this->file_storage->fileExists($file)) {
 			global $DIC;
 			$ilClientIniFile = $DIC['ilClientIniFile'];
@@ -690,14 +711,16 @@ class ilObjFile extends ilObject2 {
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename')
 			    != '1'
 			    && is_null($a_hist_entry_id)) {
-				$ilFileDelivery->setDownloadFileName($this->getTitle());
+				$ilFileDelivery->setDownloadFileName(ilFileUtils::getValidFilename($this->getTitle()));
 			} else {
 				// $download_file_name = basename($file);
 				/* FSX Info: basename has a Bug with Japanese and other characters, see:
 				 * http://stackoverflow.com/questions/32115609/basename-fail-when-file-name-start-by-an-accent
 				 * Therefore we can no longer use basename();
 				 */
-				$download_file_name = end(explode(DIRECTORY_SEPARATOR, $file));
+				$parts = explode(DIRECTORY_SEPARATOR, $file);
+				$download_file_name = end($parts);
+				$download_file_name = ilFileUtils::getValidFilename($download_file_name);
 				$ilFileDelivery->setDownloadFileName($download_file_name);
 			}
 			$ilFileDelivery->deliver();
@@ -705,7 +728,7 @@ class ilObjFile extends ilObject2 {
 			return true;
 		}
 
-		return false;
+		throw new \ILIAS\Filesystem\Exception\FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
 	}
 
 
@@ -842,6 +865,8 @@ class ilObjFile extends ilObject2 {
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 
+		self::handleQuotaUpdate($this);
+
 		// delete entire directory and its content
 		if (@is_dir($this->getDirectory())) {
 			ilUtil::delDir($this->getDirectory());
@@ -851,8 +876,6 @@ class ilObjFile extends ilObject2 {
 		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->deleteMetaData();
 		}
-
-		self::handleQuotaUpdate($this);
 
 		// delete preview
 		$this->deletePreview();
@@ -918,6 +941,11 @@ class ilObjFile extends ilObject2 {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
+		// check if file really exists
+		if (ilObject::_lookupType($a_file_id) != "file")
+		{
+			return;
+		}
 		// #15143
 		$ilDB->replace("file_usage", array(
 			"id"            => array( "integer", (int)$a_file_id ),
@@ -1058,7 +1086,7 @@ class ilObjFile extends ilObject2 {
 
 		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
 
-		rename($a_upload_file, $file);
+		ilFileUtils::rename($a_upload_file, $file);
 
 		// create preview
 		$this->createPreview();
@@ -1396,9 +1424,10 @@ class ilObjFile extends ilObject2 {
 			'file_name'  => [ 'text', $this->getFileName() ],
 			'file_type'  => [ 'text', $this->getFileType() ],
 			'file_size'  => [ 'integer', (int)$this->getFileSize() ],
-			'version'    => [ 'integer', 1 ],
+			'version'    => [ 'integer', (int)$this->getVersion() ],
 			'f_mode'     => [ 'text', $this->getMode() ],
 			'page_count' => [ 'text', $this->getPageCount() ],
+			'rating'     => [ 'integer', $this->hasRating()],
 		];
 	}
 }

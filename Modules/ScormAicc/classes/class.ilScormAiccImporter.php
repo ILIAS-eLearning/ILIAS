@@ -25,6 +25,12 @@ class ilScormAiccImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
 	{
 		global $ilLog;
+
+		if ($this->handleEditableLmXml($a_entity, $a_id, $a_import_dirname, $a_mapping))
+		{
+			return true;
+		}
+
 		$result = false;
 		if (file_exists($a_import_dirname))
 		{
@@ -79,5 +85,35 @@ class ilScormAiccImporter extends ilXmlImporter
 	{
 		$this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
 	}
+
+	/**
+	 * Handle editable (authoring) scorm lms
+	 *
+	 * @param string $a_entity entity
+	 * @param string $a_id id
+	 * @param string $a_xml xml
+	 * @param ilImportMapping $a_mapping import mapping object
+	 * @return bool success
+	 */
+	function handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)
+	{
+		// if editable...
+		if (is_int(strpos($a_xml, "<Editable>1</Editable>")))
+		{
+			// ...use ilScorm2004DataSet for import
+			include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
+			$dataset = new ilScorm2004DataSet();
+			$dataset->setDSPrefix("ds");
+			$dataset->setImportDirectory($this->getImportDirectory());
+
+			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+				$a_xml, $dataset, $a_mapping);
+			return true;
+		}
+		return false;
+	}
+
+
 }
 ?>

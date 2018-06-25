@@ -85,6 +85,7 @@ var longMenuQuestion = (function () {
 		$.each(pub.questionParts.list , function( index ) {
 			footer_class.parent().append(new_title.clone());
 			title = parseInt(index, 10) + 1;
+			console.log(index, title)
 			$(document).find('.longmenu_head').last().find('.ilHeader')
 				.attr('id', 'title_' + index)
 				.html(pub.questionParts.replacement_word + ' ' + title);
@@ -245,8 +246,8 @@ var longMenuQuestion = (function () {
 															});
 			$(this).parent().html(dom_object);
 			$('#' +'tagsinput_' + question_id).parent().prepend(long_menu_language.correct_answers);
-			ilBootstrapTaggingOnLoad.id = '#tagsinput_' + question_id;
-			ilBootstrapTaggingOnLoad.terms = pub.answers[question_id];
+			ilBootstrapTaggingOnLoad.appendId('#tagsinput_' + question_id);
+			ilBootstrapTaggingOnLoad.appendTerms(question_id, pub.answers[question_id]);
 			pri.ignoreCallbackItemOnRedraw = true;
 			ilBootstrapTaggingOnLoad.callbackItemAdded = function ()
 			{
@@ -273,7 +274,7 @@ var longMenuQuestion = (function () {
 	pro.displayErrors = function(index)
 	{
 		var value_error = false;
-		if(parseInt(pub.questionParts.list[index][1], 10) === 0)
+		if(parseFloat(pub.questionParts.list[index][1]) <= 0)
 		{
 			$('#' +'error_answer_' + index).find('.points_error').removeClass('prototype_long_menu');
 		}

@@ -225,7 +225,12 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		$data = array();		
 		$all_status = array_merge(array("mem_cnt"), $this->status);
 		
-		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
+		$objects = $this->searchObjects(
+			$this->getCurrentFilter(true), 
+			"read",
+			null,
+			false
+		);
 		if($objects)
 		{
 			$objects = array_keys($objects);

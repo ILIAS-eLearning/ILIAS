@@ -40,22 +40,28 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
 	/** @var ilToolbarGUI $ilToolbar */
 	public $ilToolbar;
+	
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
 
 	/**
 	 * ilObjWorkflowEngineGUI constructor.
 	 */
 	public function __construct()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $tree, $ilLocator, $ilToolbar;
+		global $DIC;
 
-		$this->ilTabs = $ilTabs;
-		$this->lng = $lng;
-		$lng->loadLanguageModule('wfe');
-		$this->ilCtrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->tree = $tree;
-		$this->ilLocator = $ilLocator;
-		$this->ilToolbar = $ilToolbar;
+		$this->ilTabs = $DIC['ilTabs'];
+		$this->lng = $DIC['lng'];
+		$this->lng->loadLanguageModule('wfe');
+		$this->ilCtrl = $DIC['ilCtrl'];
+		$this->tpl = $DIC['tpl'];
+		$this->tree = $DIC['tree'];
+		$this->ilLocator = $DIC['ilLocator'];
+		$this->ilToolbar = $DIC['ilToolbar'];
+		$this->dic = $DIC;
 
 		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();
@@ -84,7 +90,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public static function _goto($params)
 	{
-		global $lng;
+		global $DIC;
+		/** @var ilLanguage $lng */
+		$lng = $DIC['lng'];
 
 		$workflow = substr($params, 2, strpos($params,'EVT')-2);
 		$event = substr($params, strpos($params, 'EVT')+3);
@@ -214,7 +222,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		{
 			$this->ilTabs->addTab(
 				'perm_settings',
-				$this->lng->txt('permission'),
+				$this->lng->txt('perm_settings'),
 				$this->ilCtrl->getLinkTargetByClass(array('ilobjworkflowenginegui','ilpermissiongui'), 'perm')
 			);
 		}
@@ -278,7 +286,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->initTabs('definitions');
 		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php';
-		$target_handler = new ilWorkflowEngineDefinitionsGUI($this);
+		$target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
 		return $target_handler->handle($command);
 	}
 

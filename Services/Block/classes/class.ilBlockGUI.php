@@ -681,7 +681,6 @@ abstract class ilBlockGUI
 	{
 		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
-
 		// set/get detail level
 		if ($this->detail_max > $this->detail_min)
 		{

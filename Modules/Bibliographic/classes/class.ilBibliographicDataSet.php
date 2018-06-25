@@ -79,8 +79,6 @@ class ilBibliographicDataSet extends ilDataSet {
 	 * @param string          $a_schema_version
 	 */
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
 		switch ($a_entity) {
 			case 'bibl':
 				if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
@@ -194,7 +192,8 @@ class ilBibliographicDataSet extends ilDataSet {
 	 */
 	public function exportLibraryFile($a_id) {
 		$obj = new ilObjBibliographic($a_id);
-		copy($obj->getFileAbsolutePath(), $this->absolute_export_dir . "/" . $obj->getFilename());
+		$fileAbsolutePath = $obj->getLegacyAbsolutePath();
+		copy($fileAbsolutePath, $this->absolute_export_dir . "/" . $obj->getFilename());
 	}
 
 
@@ -208,7 +207,5 @@ class ilBibliographicDataSet extends ilDataSet {
 		$new_path = ilUtil::getDataDir() . "/bibl/" . $new_id;
 		mkdir($new_path);
 		copy($import_path, $new_path . "/" . $this->import_bib_object->getFilename());
-		// this will write the source file entry to db
-		$this->import_bib_object->update();
 	}
 }

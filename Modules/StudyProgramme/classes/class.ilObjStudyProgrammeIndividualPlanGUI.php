@@ -202,7 +202,11 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 
-			$deadline = $this->updateDeadline($prgrs);
+			$deadline = null;
+			if($this->postContainDeadline())
+			{
+				$deadline = $this->updateDeadline($prgrs);
+			}
 
 			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
@@ -266,7 +270,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 */
 	protected function getDeadlineFromForm($prgrs_id) {
 		$post_var = $this->getDeadlinePostVarTitle();
-		if (!array_key_exists($post_var, $_POST)) {
+		if (!$this->postContainDeadline()) {
 			throw new ilException("Expected array $post_var in POST");
 		}
 
@@ -278,6 +282,20 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		}
 
 		return new ilDateTime($deadline, IL_CAL_DATE);
+	}
+
+	/**
+	 * Checks whether $_POST contains deadline
+	 *
+	 * @return bool
+	 */
+	protected function postContainDeadline()
+	{
+		$post_var = $this->getDeadlinePostVarTitle();
+		if (array_key_exists($post_var, $_POST)) {
+			return true;
+		}
+		return false;
 	}
 
 	protected function showSuccessMessage($a_lng_var) {

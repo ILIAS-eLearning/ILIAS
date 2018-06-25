@@ -27,8 +27,8 @@ class ilMemberExportSettingsGUI
 		$this->parent_type = $a_parent_type;
 		$this->parent_obj_id = $a_parent_obj_id;
 		
-		$this->ctrl = $GLOBALS['ilCtrl'];
-		$this->lng = $GLOBALS['lng'];
+		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
+		$this->lng = $GLOBALS['DIC']['lng'];
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('mem');
 	}
@@ -72,7 +72,7 @@ class ilMemberExportSettingsGUI
 			$form = $this->initForm(self::TYPE_PRINT_VIEW_SETTINGS);
 		}
 		
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 	
 	/**
@@ -86,9 +86,9 @@ class ilMemberExportSettingsGUI
 		$form->setTitle($this->getLang()->txt('mem_'.$a_type.'_form'));
 		
 		// profile fields
-		$fields['name'] = $GLOBALS['lng']->txt('name');
-		$fields['login'] = $GLOBALS['lng']->txt('login');
-		$fields['email'] = $GLOBALS['lng']->txt('email');
+		$fields['name'] = $GLOBALS['DIC']['lng']->txt('name');
+		$fields['login'] = $GLOBALS['DIC']['lng']->txt('login');
+		$fields['email'] = $GLOBALS['DIC']['lng']->txt('email');
 		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		include_once 'Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
@@ -110,7 +110,7 @@ class ilMemberExportSettingsGUI
 			}
 			
 			// Check if default enabled
-			$fields[$field] = $GLOBALS['lng']->txt($field);
+			$fields[$field] = $GLOBALS['DIC']['lng']->txt($field);
 	 	}
 		
 		
@@ -132,7 +132,7 @@ class ilMemberExportSettingsGUI
 	 	}
 
 		
-		$ufields = new ilCheckboxGroupInputGUI($GLOBALS['lng']->txt('user_detail'), 'preset');		
+		$ufields = new ilCheckboxGroupInputGUI($GLOBALS['DIC']['lng']->txt('user_detail'), 'preset');		
 		foreach($fields as $id => $name)
 		{
 			$ufields->addOption(new ilCheckboxOption($name, $id));
@@ -146,39 +146,39 @@ class ilMemberExportSettingsGUI
 		{
 			if($privacy->enabledCourseAccessTimes())
 			{
-				$ufields->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('last_access'),'access'));
+				$ufields->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('last_access'),'access'));
 			}
 		}
 		if($this->parent_type == 'grp')
 		{
 			if($privacy->enabledGroupAccessTimes())
 			{
-				$ufields->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('last_access'),'access'));
+				$ufields->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('last_access'),'access'));
 			}
 		}
-		$ufields->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('crs_status'),'status'));
-		$ufields->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('crs_passed'),'passed'));
+		$ufields->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('crs_status'),'status'));
+		$ufields->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('crs_passed'),'passed'));
 		
 		
-		$blank = new ilTextInputGUI($GLOBALS['lng']->txt('event_blank_columns'), 'blank');
+		$blank = new ilTextInputGUI($GLOBALS['DIC']['lng']->txt('event_blank_columns'), 'blank');
 		$blank->setMulti(true);		
 		$form->addItem($blank);
 		
-		$roles = new ilCheckboxGroupInputGUI($GLOBALS['lng']->txt('event_user_selection'), 'selection_of_users');
+		$roles = new ilCheckboxGroupInputGUI($GLOBALS['DIC']['lng']->txt('event_user_selection'), 'selection_of_users');
 		
-		$roles->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('event_tbl_admin'),'role_adm'));
+		$roles->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('event_tbl_admin'),'role_adm'));
 		if($this->parent_type == 'crs')
 		{
-			$roles->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('event_tbl_tutor'),'role_tut'));
+			$roles->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('event_tbl_tutor'),'role_tut'));
 		}
-		$roles->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('event_tbl_member'),'role_mem'));
+		$roles->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('event_tbl_member'),'role_mem'));
 		
 		if(!$this->parent_obj_id)
 		{
-			$subscriber = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_requests'), 'subscr');
+			$subscriber = new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('event_user_selection_include_requests'), 'subscr');
 			$roles->addOption($subscriber);
 
-			$waiting_list = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_waiting_list'),'wlist');
+			$waiting_list = new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('event_user_selection_include_waiting_list'),'wlist');
 			$roles->addOption($waiting_list);
 		}
 		$form->addItem($roles);
@@ -194,10 +194,15 @@ class ilMemberExportSettingsGUI
 		$identifier = $this->parent_type.'s_pview';
 		if($this->parent_obj_id)
 		{
-			$identifier .= '_'.$this->parent_obj_id;
+			$identifier_for_object = $identifier . '_' . $this->parent_obj_id;
 		}
 			
-		$settings = new ilUserFormSettings($identifier,-1);
+		$settings = new ilUserFormSettings($identifier_for_object,-1);
+		if(!$settings->hasStoredEntry())
+		{
+			// use default settings
+			$settings = new ilUserFormSettings($identifier,-1);
+		}
 		$settings->exportToForm($form);
 		
 		return $form;
@@ -228,8 +233,8 @@ class ilMemberExportSettingsGUI
 			$settings->importFromForm($form);
 			$settings->store();
 			
-			ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'));
-			$GLOBALS['ilCtrl']->redirect($this, 'printViewSettings');
+			ilUtil::sendSuccess($GLOBALS['DIC']['lng']->txt('settings_saved'));
+			$GLOBALS['DIC']['ilCtrl']->redirect($this, 'printViewSettings');
 		}
 		
 	}

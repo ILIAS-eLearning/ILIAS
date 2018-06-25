@@ -31,7 +31,9 @@
 				{TXT_F_DAY}
 			</td>
 			<td class="calstd" colspan="{COLSPAN}">
-				{CONTENT_EVENT}
+				<!-- BEGIN content_fd -->
+					{CONTENT_EVENT}
+				<!-- END content_fd -->
 			</td>
 		</tr>
 		<!-- END fullday_apps -->
@@ -46,7 +48,11 @@
 				<!-- END new_app2 -->
 			</td>
 			<!-- END time_txt -->
-			{CONTENT_EVENT_NFD}
+			<!-- BEGIN event_nfd -->
+			<td class="calevent" rowspan="{APP_ROWSPAN}">
+				{CONTENT_EVENT_NFD}
+			</td>
+			<!-- END event_nfd -->
 			<!-- BEGIN empty_cell -->
 			<td class="calempty{EMPTY_STYLE}" width="{EMPTY_WIDTH}"></td>
 			<!-- END empty_cell -->
@@ -54,4 +60,3 @@
 		<!-- END time_row -->
 	</tbody>
 </table>
-

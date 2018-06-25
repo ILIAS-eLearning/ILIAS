@@ -82,12 +82,18 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	protected function doCreate() {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES ("
-		                  . $ilDB->quote($this->getId(), "integer") . "," . // id
-		                  $ilDB->quote($this->getFilename(), "text") . "," . // filename
-		                  $ilDB->quote($this->getOnline(), "integer") . // is_online
-		                  ")");
+
+		$upload = $DIC->upload();
+		if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
+			$upload->process();
+			$this->moveUploadedFile($upload);
+		}
+
+		$DIC->database()->insert("il_bibl_data", [
+			"id" => ["integer", $this->getId()],
+			"filename" => ["text", $this->getFilename()],
+			"is_online" => ["integer", $this->getOnline()],
+		]);
 	}
 
 
@@ -107,23 +113,22 @@ class ilObjBibliographic extends ilObject2 {
 
 	public function doUpdate() {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
 		$upload = $DIC->upload();
-		if ($upload->hasUploads()) {
+		if ($_POST['override_entries'] && $upload->hasUploads() && !$upload->hasBeenProcessed()) {
 			$upload->process();
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);
 		}
 
-
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
-		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = "
-		                  . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
-		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer")
-		                  . // is_online
-		                  " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+
+		$DIC->database()->update("il_bibl_data", [
+			"filename" => ["text", $this->getFilename()],
+			"is_online" => ["integer", $this->getOnline()],
+		], ["id" => ["integer", $this->getId()]]);
+
 		$this->writeSourcefileEntriesToDb();
 	}
 
@@ -326,7 +331,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *              = new ilObjDataCollection;
 	 *              $x->cloneStructure($id))
 	 *
-	 * @param $original_id The original ID of the dataselection you want to clone it's structure
+	 * @param int $original_id The original ID of the dataselection you want to clone it's structure
 	 *
 	 * @return void
 	 */

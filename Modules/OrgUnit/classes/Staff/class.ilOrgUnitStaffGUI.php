@@ -92,19 +92,8 @@ class ilOrgUnitStaffGUI {
 
 		switch ($next_class) {
 			case 'ilrepositorysearchgui':
-				switch ($cmd) {
-					case 'addUserFromAutoComplete':
-						if ($_GET['addusertype'] == "staff") {
-							$this->addStaff();
-						} elseif ($_GET['addusertype'] == "other") {
-							$this->addOtherRoles();
-						}
-						break;
-					default:
-						$repo = new ilRepositorySearchGUI();
-						$this->ctrl->forwardCommand($repo);
-						break;
-				}
+				$repo = new ilRepositorySearchGUI();
+				$this->ctrl->forwardCommand($repo);
 				break;
 			default:
 				switch ($cmd) {

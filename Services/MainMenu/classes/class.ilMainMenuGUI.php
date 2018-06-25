@@ -358,31 +358,7 @@ class ilMainMenuGUI
 			}
 			else
 			{
-				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
-				{
-					$notificationSettings = new ilSetting('notifications');
-					$chatSettings = new ilSetting('chatroom');
-
-					$this->tpl->touchBlock('osd_container');
-
-					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-					iljQueryUtil::initjQuery();
-
-					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
-					ilPlayerUtil::initMediaElementJs();
-
-					$main_tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$main_tpl->addCSS('Services/Notifications/templates/default/osd.css');
-
-					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
-					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
-					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
-					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
-					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-				}
+				$this->renderOnScreenNotifications($ilUser, $main_tpl, $lng);
 
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
@@ -602,7 +578,7 @@ class ilMainMenuGUI
 			
 			// overview
 			$gl->addEntry($lng->txt("overview"),
-				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
 
@@ -613,7 +589,7 @@ class ilMainMenuGUI
 			if($pdItemsViewSettings->allViewsEnabled())
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
-					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
+					"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships",
 					"_top", "", "", "mm_pd_crs_grp", ilHelp::getMainMenuTooltip("mm_pd_crs_grp"),
 					"left center", "right center", false);
 			}
@@ -621,7 +597,7 @@ class ilMainMenuGUI
 			// bookmarks
 			if (!$ilSetting->get("disable_bookmarks"))
 			{
-				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks",
 					"_top", "", "", "mm_pd_bookm", ilHelp::getMainMenuTooltip("mm_pd_bookm"),
 					"left center", "right center", false);
 			}
@@ -641,7 +617,7 @@ class ilMainMenuGUI
 					$t = $lng->txt("notes_comments");
 					$c = "jumpToComments";
 				}
-				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=".$c,
+				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=".$c,
 					"_top", "", "", "mm_pd_notes", ilHelp::getMainMenuTooltip("mm_pd_notes"),
 					"left center", "right center", false);
 			}
@@ -649,7 +625,7 @@ class ilMainMenuGUI
 			// news
 			if ($ilSetting->get("block_activated_news"))
 			{
-				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
+				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews",
 					"_top", "", "", "mm_pd_news", ilHelp::getMainMenuTooltip("mm_pd_news"),
 					"left center", "right center", false);
 			}
@@ -662,7 +638,7 @@ class ilMainMenuGUI
             if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
             {
                 // my staff
-                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff",
                     "_top", "", "", "mm_pd_mst", ilHelp::getMainMenuTooltip("mm_pd_mst"),
                     "left center", "right center", false);
                 $separator = true;
@@ -671,7 +647,7 @@ class ilMainMenuGUI
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
 				// workspace
-				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
+				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace",
 					"_top", "", "", "mm_pd_wsp", ilHelp::getMainMenuTooltip("mm_pd_wsp"),
 					"left center", "right center", false);
 				
@@ -682,7 +658,7 @@ class ilMainMenuGUI
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))
 			{
-				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
+				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio",
 					"_top", "", "", "mm_pd_port", ilHelp::getMainMenuTooltip("mm_pd_port"),
 					"left center", "right center", false);
 				
@@ -693,7 +669,7 @@ class ilMainMenuGUI
 			$skmg_set = new ilSetting("skmg");
 			if ($skmg_set->get("enable_skmg"))
 			{
-				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
+				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills",
 					"_top", "", "", "mm_pd_skill", ilHelp::getMainMenuTooltip("mm_pd_skill"),
 					"left center", "right center", false);
 				
@@ -704,7 +680,7 @@ class ilMainMenuGUI
 			if(ilBadgeHandler::getInstance()->isActive())
 			{
 				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges', '_top'
 					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
 					"left center", "right center", false);
 
@@ -719,7 +695,7 @@ class ilMainMenuGUI
 				ilObjUserTracking::_hasLearningProgressLearner()))
 			{
 				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
-				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
+				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP",
 					"_top", "", "", "mm_pd_lp", ilHelp::getMainMenuTooltip("mm_pd_lp"),
 					"left center", "right center", false);
 				
@@ -738,7 +714,7 @@ class ilMainMenuGUI
 			$settings = ilCalendarSettings::_getInstance();
 			if($settings->isEnabled())
 			{
-				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
+				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar",
 					"_top", "", "", "mm_pd_cal", ilHelp::getMainMenuTooltip("mm_pd_cal"),
 					"left center", "right center", false);
 				
@@ -760,7 +736,7 @@ class ilMainMenuGUI
 			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
+					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts', '_top'
 					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_contacts"),
 					"left center", "right center", false);
 				
@@ -1024,6 +1000,7 @@ class ilMainMenuGUI
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilUser = $this->user;
+		$main_tpl = $this->main_tpl;
 
 		// screen id
 		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
@@ -1053,10 +1030,10 @@ class ilMainMenuGUI
 			//$this->tpl->setCurrentBlock("help_icon");
 
 			// add javascript needed by help (to do: move to help class)
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
-			$acc->addJavascript();
+			$acc->addJavascript($main_tpl);
 			$acc->addCss();
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -1072,7 +1049,7 @@ class ilMainMenuGUI
 			$help_active = true;
 			
 			$lng->loadLanguageModule("help");
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
@@ -1136,6 +1113,23 @@ class ilMainMenuGUI
 	}
 
 	/**
+	 * @param \ilObjUser $user
+	 * @param \ilTemplate $mainTpl
+	 * @param \ilLanguage $lng
+	 */
+	protected function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng)
+	{
+		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
+			$this->tpl->touchBlock('osd_container');
+
+			require_once 'Services/Notifications/classes/class.ilNotificationOSDGUI.php';
+			$osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
+			$osdGui->render();
+		}
+	}
+
+
+	/**
 	 * Toggle rendering of main menu, search, user info
 	 * 
 	 * @see ilImprintGUI
@@ -1163,6 +1157,10 @@ class ilMainMenuGUI
 	protected function renderBackgroundTasks()
 	{
 		global $DIC;
+
+		$main_tpl = $this->main_tpl;
+
+
 		$DIC->language()->loadLanguageModule("background_tasks");
 		$factory = $DIC->ui()->factory();
 		$persistence = $DIC->backgroundTasks()->persistence();
@@ -1182,7 +1180,7 @@ class ilMainMenuGUI
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
 			ilBTControllerGUI::FROM_URL,
-			urlencode(ilUtil::_getHttpPath())
+			ilBTControllerGUI::hash("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}")
 		);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
 			ilBTControllerGUI::REPLACE_SIGNAL,
@@ -1198,7 +1196,7 @@ class ilMainMenuGUI
 		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
 		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
 
-		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+		$main_tpl->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
 
 		$this->tpl->setVariable('BACKGROUNDTASKS',
 			$DIC->ui()->renderer()->render([$glyph, $popover])

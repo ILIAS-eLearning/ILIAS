@@ -111,11 +111,32 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				return $ilCtrl->forwardCommand($blog_gui);		
 				
 			case "ilcalendarmonthgui":
+				
+				
 				// booking action
 				if($cmd && $cmd != "preview")
 				{
+					$categories = ilCalendarCategories::_getInstance();
+					if($categories->getMode() == 0)
+					{
+						if($_GET['chuid'])
+						{
+							$categories->setCHUserId((int) $_GET['chuid']);
+						}
+						$categories->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
+					}
+					
+					if($_GET['seed'])
+					{
+						$seed = new ilDate((string) $_GET['seed'], IL_CAL_DATE);
+					}
+					else
+					{
+						$seed = new ilDate(time(),IL_CAL_UNIX);
+					}
+
 					include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');				
-					$month_gui = new ilCalendarMonthGUI(new ilDate());	
+					$month_gui = new ilCalendarMonthGUI($seed);
 					return $ilCtrl->forwardCommand($month_gui);
 				}
 				// calendar month navigation
@@ -368,15 +389,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		$objDefinition = $this->obj_definition;
-		
+
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-		
-		if($this->getOutputMode() != "offline")
+
+		if($this->getOutputMode() == "print")
+		{
+			$url = $this->getPagePermaLink();
+		}
+		else if($this->getOutputMode() != "offline")
 		{			
 			// direct download link
 			$this->ctrl->setParameter($this, "dlid", $a_id);
@@ -585,7 +610,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{	
 			return;
 		}
-				
+
+		if($this->getOutputMode() == "print")
+		{
+			return;
+		}
+
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
 		// only if not owner
@@ -614,6 +644,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 		$month_gui = new ilCalendarMonthGUI($seed);
+		$month_gui->setConsulationHoursUserId($user_id);
 		
 		// custom schedule filter: handle booking group ids
 		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
@@ -713,13 +744,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			include_once("./Services/Link/classes/class.ilLink.php");
 			
 			// sorting
-			$options = array(
-				"alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
-				"loc" => $this->lng->txt("cont_mycourses_sortorder_location")
-			);			
-			$tpl->setVariable("SORT_SELECT", ilUtil::formSelect($sorting, "srt", $options, false, true, 0, "", 
-				array("onchange"=>"form.submit()")));			
-			$tpl->setVariable("SORT_FORM", $ilCtrl->getFormActionByClass("ilobjportfoliogui", "preview"));
+			if($this->getOutputMode() != "print")
+			{
+				$options = array(
+					"alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
+					"loc" => $this->lng->txt("cont_mycourses_sortorder_location")
+				);
+				$tpl->setVariable("SORT_SELECT", ilUtil::formSelect($sorting, "srt", $options, false, true, 0, "",
+					array("onchange" => "form.submit()")));
+				$tpl->setVariable("SORT_FORM", $ilCtrl->getFormActionByClass("ilobjportfoliogui", "preview"));
+			}
 			
 			$old_path = null;
 	
@@ -776,6 +810,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 							
 							// #15510
 							$url .= "#objtv_acc_".$objtv["id"];
+
+							if ($this->getOutputMode() != "print")
+							{
+								$tpl->touchBlock("objective_dnone");
+							}
 							
 							$tpl->setCurrentBlock("objective_link_bl");
 							
@@ -1187,6 +1226,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $this->lng->txt("preview");
 	}
 
+	/**
+	 * Get page perma link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPagePermaLink()
+	{
+		include_once("./Services/Link/classes/class.ilLink.php");
+		$pid = ilPortfolioPage::findPortfolioForPage($this->getId());
+		$href = ilLink::_getStaticLink($pid, "prtf", true, "_".$this->getId());
+		return $href;
+	}
 	
 }
 

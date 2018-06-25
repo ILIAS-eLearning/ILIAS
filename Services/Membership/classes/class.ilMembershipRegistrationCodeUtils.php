@@ -22,7 +22,11 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	public static function handleCode($a_ref_id,$a_type,$a_code)
 	{
-		global $lng, $tree, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 		include_once './Services/Link/classes/class.ilLink.php';
 		$lng->loadLanguageModule($a_type);
 		try
@@ -48,13 +52,16 @@ class ilMembershipRegistrationCodeUtils
 				case ilMembershipRegistrationException::ADMISSION_LINK_INVALID://admission link is invalid
 					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_invalid_code"), true);
 					break;
+				case ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE:
+					ilUtil::sendFailure($lng->txt($a_type.'_admission_link_failure_offline'),true);
+					break;
+				case ilMembershipRegistrationException::REGISTRATION_INVALID_AVAILABILITY:
+					ilUtil::sendFailure($lng->txt($a_type.'_admission_link_failure_availability'),true);
+					break;
 				default:
 					ilUtil::sendFailure($e->getMessage(), true);
 					break;
 			}
-			$GLOBALS['ilLog']->logStack();
-			$GLOBALS['ilLog']->write($e->getCode().': '.$e->getMessage());
-
 			$parent_id = $tree->getParentId($a_ref_id);
 			ilUtil::redirect(ilLink::_getLink($parent_id));
 		}
@@ -74,7 +81,10 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	protected static function useCode($a_code,$a_endnode)
 	{
-		global $tree,$ilUser;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 		
 		$obj_ids = self::lookupObjectsByCode($a_code);
 
@@ -88,9 +98,15 @@ class ilMembershipRegistrationCodeUtils
 		{
 			if(in_array(ilObject::_lookupObjId($ref_id), $obj_ids))
 			{
-				if($obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
+				$factory = new ilObjectFactory();
+				$member_obj = $factory->getInstanceByRefId($ref_id,false);
+				if($member_obj instanceof ilObjCourse)
 				{
-					$obj->register($ilUser->getId());
+					$member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER);
+				}
+				if($member_obj instanceof ilObjGroup)
+				{
+					$member_obj->register($ilUser->getId(), IL_GRP_MEMBER, true);
 				}
 			}
 		}

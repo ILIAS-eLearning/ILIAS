@@ -45,6 +45,14 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function round($value, $precision = 0)
+	{
+		return number_format($value, $precision, '.', '');
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function equals($left_operand, $right_operand, $scale = null)

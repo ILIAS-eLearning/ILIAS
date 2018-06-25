@@ -228,7 +228,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilErr,$ilAccess, $ilUser, $ilSetting;
 
-		$this->checkPermission('visible');
+		if(!$this->checkPermissionBool('read'))
+		{
+			$this->checkPermission('visible');
+		}
+		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
@@ -817,6 +821,19 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
 			return $this->editObject($form);
 		}
+		
+		// Additional checks
+		if(
+			$form->getInput('subscription_max') &&
+			$form->getInput('subscription_min') &&
+			($form->getInput('subscription_max') < $form->getInput('subscription_min'))
+		)
+		{
+			$min = $form->getItemByPostVar('subscription_min');
+			$min->setAlert($this->lng->txt('crs_subscription_min_members_err'));
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
 
 		// check successful
 
@@ -1149,8 +1166,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$pass = new ilTextInputGUI($this->lng->txt("password"),'subscription_password');
 				$pass->setInfo($this->lng->txt('crs_reg_password_info'));
 				$pass->setSubmitFormOnEnter(true);
-				$pass->setSize(12);
-				$pass->setMaxLength(12);
+				$pass->setSize(32);
+				$pass->setMaxLength(32);
 				$pass->setValue($this->object->getSubscriptionPassword());
 			
 			$opt->addSubItem($pass);
@@ -2022,7 +2039,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess,$ilUser, $lng, $ilHelp;
+		global $ilUser, $lng, $ilHelp;
+		
+		$ilAccess = $GLOBALS['DIC']->access();
 
 		$ilHelp->setScreenIdComponent("crs");
 		
@@ -2066,7 +2085,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		
-		if ($ilAccess->checkAccess('visible','',$this->ref_id))
+		if(
+			$ilAccess->checkAccess('visible','',$this->ref_id) ||
+			$ilAccess->checkAccess('join','',$this->ref_id) ||
+			$ilAccess->checkAccess('read','',$this->ref_id)
+		)
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
 			
@@ -2384,7 +2407,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilCourseMembershipGUI", "ilUsersGalleryGUI"],'view'));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				

@@ -16,7 +16,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
 	{
 		parent::__construct($targetGUI, $roundtripCMD, $targetGUI, $selectCMD);
 		
-		$this->setTypeWhiteList(array('cat', 'crs', 'fold', 'qpl'));
+		$this->setTypeWhiteList(array('grp', 'cat', 'crs', 'fold', 'qpl'));
 		$this->setClickableTypes(array('qpl'));
 		$this->setSelectMode('', false);
 		$this->selection_par = 'quest_pool_ref';

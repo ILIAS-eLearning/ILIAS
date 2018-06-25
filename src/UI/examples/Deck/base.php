@@ -8,6 +8,7 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
+	//Generate some content
 	$content = $f->listing()->descriptive(
 		array(
 			"Entry 1" => "Some text",
@@ -15,9 +16,11 @@ function base() {
 		)
 	);
 
+	//Define the some responsive image
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
+	//Define the card by using the content and the image
 	$card = $f->card(
 		"Title",
 		$image
@@ -25,6 +28,7 @@ function base() {
 		$content,
 	));
 
+	//Define the deck
 	$deck = $f->deck(array($card,$card,$card,$card,$card,
 		$card,$card,$card,$card));
 

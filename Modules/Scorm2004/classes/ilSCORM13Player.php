@@ -438,7 +438,6 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
 		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
@@ -1205,76 +1204,8 @@ class ilSCORM13Player
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		return ilObjMediaObject::getMimeType($filename);
 	}
-	
-	/**
-	 * getting and setting Scorm2004 cookie
-	 * Cookie contains enrypted associative array of sahs_lm.id and permission value
-	 * you may enforce stronger symmetrical encryption by adding RC4 via mcrypt()
-	 **/
-	public function getCookie() 
-	{
-		return unserialize(base64_decode($_COOKIE[IL_OP_COOKIE_NAME]));
-	}
-	
-	public function setCookie($cook) 
-	{
-		setCookie(IL_OP_COOKIE_NAME, base64_encode(serialize($cook)));
-	}
-	
-	/**
-	 * Try to find file, identify content type, write it to buffer, and stop immediatly
-	 * If no file given, read file from PATH_INFO, check permission by cookie, and write out and stop.	 
-	 * @param $path filename
-	 * @return void	 
-	 */	 	
-	public function readFile($path) 
-	{
-		if (headers_sent()) 
-		{
-			die('Error: Cookie could not be established');
-		}
-		
-		$SAHS_LM_POSITION = 1; // index position of sahs_lm id in splitted path_info
-	
-		$comp = explode('/', (string) $path);
-		$sahs = $comp[$SAHS_LM_POSITION];
-		$cook = $this->getCookie();
-		$perm = $cook[$sahs];
-		
-		if (!$perm) 
-		{
-			// check login an package access
-			// TODO add rbac check function here
-			$perm = 1;
-			if (!$perm) 
-			{
-				header('HTTP/1.0 401 Unauthorized');
-				die('/* Unauthorized */');
-			}
-			// write cookie
-			$cook[$sahs] = $perm;
-			$this->setCookie($cook);
-		}
-		
-		$path = '.' . $path;
-		if (!is_file($path))
-		{
-			header('HTTP/1.0 404 Not Found');
-			die('/* Not Found ' . $path . '*/');
-		} 
-		
-		// send mimetype to client
-		header('Content-Type: ' . $this->getMimetype($path));
-	
-		// let page be cached in browser for session duration
-		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + session_cache_expire()*60) . ' GMT');
-		header('Cache-Control: private');
-	
-		// now show it to the user and be fine
-		readfile($path);
-		die();
-	} 
-	
+
+
 	/**
 	* Get max. number of attempts allowed for this package
 	*/
@@ -1850,14 +1781,16 @@ class ilSCORM13Player
 		{
 			$sqlwrite = true;
 			$sql_data = $this->getNodeData($logdata->scoid,$fh_csv);
-			foreach ($sql_data as $key => $value) {
-				$sql_string =  $this->packageId.';"'
-					.$logdata->scoid.'";"'
-					.$logdata->scotitle.'";'
-					.$timestamp.';"SQL";"'
-					.$key.'";"'
-					.str_replace("\"","\"\"",$value).'";;;;'."\n";
-				fwrite($fh_csv,$sql_string);
+			if (count($sql_data) != 0){
+				foreach ($sql_data as $key => $value) {
+					$sql_string =  $this->packageId.';"'
+						.$logdata->scoid.'";"'
+						.$logdata->scotitle.'";'
+						.$timestamp.';"SQL";"'
+						.$key.'";"'
+						.str_replace("\"","\"\"",$value).'";;;;'."\n";
+					fwrite($fh_csv,$sql_string);
+				}
 			}
 		}
 		

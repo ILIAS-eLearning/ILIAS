@@ -308,5 +308,3 @@ abstract class ilGlobalCacheService {
 		return isset($this->valid_keys[$key]);
 	}
 }
-
-?>

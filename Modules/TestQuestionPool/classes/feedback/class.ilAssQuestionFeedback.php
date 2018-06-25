@@ -13,6 +13,9 @@
  */
 abstract class ilAssQuestionFeedback
 {
+	const CSS_CLASS_FEEDBACK_CORRECT = 'ilc_qfeedr_FeedbackRight';
+	const CSS_CLASS_FEEDBACK_WRONG = 'ilc_qfeedw_FeedbackWrong';
+	
 	/**
 	 * type for generic feedback page objects
 	 */
@@ -119,7 +122,7 @@ abstract class ilAssQuestionFeedback
 		{
 			$genericFeedbackTestPresentationHTML = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
 		}
-				
+		
 		return $genericFeedbackTestPresentationHTML;
 	}
 	
@@ -190,12 +193,12 @@ abstract class ilAssQuestionFeedback
 		}
 		else
 		{
-			$valueFeedbackSolutionComplete = $this->questionOBJ->prepareTextareaOutput(
-					$this->getGenericFeedbackContent($this->questionOBJ->getId(), true)
+			$valueFeedbackSolutionComplete = $this->getGenericFeedbackContent(
+				$this->questionOBJ->getId(), true
 			);
 			
-			$valueFeedbackSolutionIncomplete = $this->questionOBJ->prepareTextareaOutput(
-					$this->getGenericFeedbackContent($this->questionOBJ->getId(), false)
+			$valueFeedbackSolutionIncomplete = $this->getGenericFeedbackContent(
+				$this->questionOBJ->getId(), false
 			);
 		}
 		
@@ -288,12 +291,21 @@ abstract class ilAssQuestionFeedback
 			if( !$this->questionOBJ->getPreventRteUsage() )
 			{
 				$property->setUseRte(true);
-				$property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 				$property->addPlugin("latex");
 				$property->addButton("latex");
 				$property->addButton("pastelatex");
+
+				require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+				$property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
 			}
-			
+			else
+			{
+				require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+				$property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
+				$property->setUseTagsForRteOnly(false);
+			}
+
 			$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
 		}
 		
@@ -343,6 +355,27 @@ abstract class ilAssQuestionFeedback
 	 * @return string $feedbackContent
 	 */
 	abstract public function getSpecificAnswerFeedbackContent($questionId, $answerIndex);
+
+	/**
+	 * returns the SPECIFIC feedback content for a given question id and answer index.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $questionId
+	 * @return string $feedbackContent
+	 */
+	abstract public function getAllSpecificAnswerFeedbackContents($questionId);
+	
+	/**
+	 * returns the fact wether any specific feedback content is available or not
+	 * 
+	 * @param integer $questionId
+	 * @return bool
+	 */
+	public function isSpecificAnswerFeedbackAvailable($questionId)
+	{
+		return (bool)strlen( $this->getAllSpecificAnswerFeedbackContents($questionId) );
+	}
 
 	/**
 	 * saves GENERIC feedback content for the given question id to the database.
@@ -992,4 +1025,19 @@ abstract class ilAssQuestionFeedback
 	 * @param string $feedbackContent
 	 */
 	abstract public function importSpecificAnswerFeedback($questionId, $answerIndex, $feedbackContent);
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 * @param integer $questionId
+	 */
+	public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator, $questionId)
+	{
+		$this->saveGenericFeedbackContent($questionId, true, $migrator->migrateToLmContent(
+			$this->getGenericFeedbackContent($questionId, true)
+		));
+		
+		$this->saveGenericFeedbackContent($questionId, false, $migrator->migrateToLmContent(
+			$this->getGenericFeedbackContent($questionId, false)
+		));
+	}
 }

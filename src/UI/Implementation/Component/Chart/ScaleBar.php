@@ -1,13 +1,16 @@
 <?php
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 namespace ILIAS\UI\Implementation\Component\Chart;
+
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class ScaleBar
  * @package ILIAS\UI\Implementation\Component\Listing\Descriptive
  */
 class ScaleBar implements C\Chart\ScaleBar {
+	use ComponentHelper;
 
 	/**
 	 * @var array

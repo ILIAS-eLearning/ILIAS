@@ -68,8 +68,9 @@ class ilCalendarSubscriptionGUI
 		}
 		else if ($this->ref_id > 0)
 		{
-			$selection = ilCalendarAuthenticationToken::SELECTION_CATEGORY;
-			$id = ilObject::_lookupObjId((int) $this->ref_id);
+			$selection = ilCalendarAuthenticationToken::SELECTION_CALENDAR;
+			$category = ilCalendarCategory::_getInstanceByObjId(ilObject::_lookupObjId($this->ref_id));
+			$id = $category->getCategoryID();
 		}
 		else
 		{

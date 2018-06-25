@@ -351,7 +351,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
-					'mailto:' .  $sender->getFromAddress(),
+					'mailto:' . $DIC->settings()->get("admin_email"),
 					$alternative_pwassist_url
 				)
 			)
@@ -636,47 +636,14 @@ class ilPasswordAssistanceGUI
 			return;
 		}
 
-		// Retrieve form data
-		$email = $form->getInput('email');
-
-		// Retrieve a user object with matching user name and email address.
+		$email  = $form->getInput('email');
 		$logins = ilObjUser::_getUserIdsByEmail($email);
 
-		// No matching user object found?
-		// Show the password assistance form again, and display an error message.
-		if(!is_array($logins) || count($logins) < 1)
-		{
-			ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_invalid_email')));
-			$form->setValuesByPost();
-			$this->showUsernameAssistanceForm($form);
+		if (is_array($logins) && count($logins) > 0) {
+			$this->sendUsernameAssistanceMail($email, $logins);
 		}
-		else
-		{
-			// Matching user object found?
-			// Check if the user is permitted to use the password assistance function,
-			// and then send a password assistance mail to the email address.
 
-			// FIXME: Extend this if-statement to check whether the user
-			// has the permission to use the password assistance function.
-			// The anonymous user and users who are system administrators are
-			// not allowed to use this feature
-			/*		if ($rbacreview->isAssigned($userObj->getID, ANONYMOUS_ROLE_ID)
-					|| $rbacreview->isAssigned($userObj->getID, SYSTEM_ROLE_ID)
-					) 
-					{
-						$this->showAssistanceForm
-						(
-							$lng->txt("pwassist_not_permitted"),
-							$username,
-							$email
-						);
-					} 
-					else */
-			{
-				$this->sendUsernameAssistanceMail($email, $logins);
-				$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
-			}
-		}
+		$this->showMessageForm($this->lng->txt('pwassist_mail_sent_generic'));
 	}
 
 	/**
@@ -726,7 +693,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$email,
-					'mailto:' . $sender->getFromAddress(),
+					'mailto:' . $DIC->settings()->get("admin_email"),
 					$login_url
 				)
 			)

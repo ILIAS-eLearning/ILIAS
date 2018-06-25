@@ -78,5 +78,16 @@ class ilContextLTIProvider implements ilContextTemplate
 	{
 		return true;
 	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 ?>

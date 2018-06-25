@@ -47,6 +47,9 @@ class ilICalParser
 	const INPUT_STRING = 1;
 	const INPUT_FILE = 2;
 	
+	/**
+	 * @var ilLogger
+	 */
 	protected $log = null;
 	
 	protected $category = null;
@@ -68,8 +71,6 @@ class ilICalParser
 	 */
 	public function __construct($a_ical,$a_type)
 	{
-		global $ilLog;
-		
 		if($a_type == self::INPUT_STRING)
 		{
 		 	$this->ical = $a_ical;
@@ -85,7 +86,7 @@ class ilICalParser
 			}
 			#$GLOBALS['ilLog']->write(__METHOD__.': Ical content: '. $this->ical);
 		}
-	 	$this->log = $ilLog;
+	 	$this->log = $GLOBALS['DIC']->logger()->cal();
 	}
 	
 	/**
@@ -192,21 +193,21 @@ class ilICalParser
 		switch(trim($line))
 		{
 			case 'BEGIN:VCALENDAR':
-				$this->log->write(__METHOD__.': BEGIN VCALENDAR');
+				$this->log->debug('BEGIN VCALENDAR');
 				$this->setContainer(new ilICalComponent('VCALENDAR'));
 				break;
 				
 			case 'END:VCALENDAR':
-				$this->log->write(__METHOD__.': END VCALENDAR');
+				$this->log->debug('END VCALENDAR');
 				break;
 			
 			case 'BEGIN:VEVENT':
-				$this->log->write(__METHOD__.': BEGIN VEVENT');
+				$this->log->debug('BEGIN VEVENT');
 				$this->pushContainer(new ilICalComponent('VEVENT'));
 				break;
 			
 			case 'END:VEVENT':
-				$this->log->write(__METHOD__.': END VEVENT');
+				$this->log->debug('END VEVENT');
 				
 				$this->writeEvent();
 				
@@ -214,13 +215,13 @@ class ilICalParser
 				break;
 
 			case 'BEGIN:VTIMEZONE':
-				$this->log->write(__METHOD__.': BEGIN VTIMEZONE');
+				$this->log->debug('BEGIN VTIMEZONE');
 				$container = new ilICalComponent('VTIMEZONE');
 				$this->pushContainer($container);
 				break;
 				
 			case 'END:VTIMEZONE':
-				$this->log->write(__METHOD__.': END VTIMEZONE');
+				$this->log->debug('END VTIMEZONE');
 				
 				if($tzid = $this->getContainer()->getItemsByName('TZID'))
 				{
@@ -232,7 +233,7 @@ class ilICalParser
 			default:
 				if(strpos(trim($line),'BEGIN') === 0)
 				{
-					$this->log->write(__METHOD__.': Do not handling line:'.$line);
+					$this->log->info('Do not handling line:'.$line);
 					continue;
 				}
 				if(strpos(trim($line),'X-WR-TIMEZONE') === 0)
@@ -544,6 +545,23 @@ class ilICalParser
 			$entry->setEnd($end);
 			$entry->setFullday($fullday);
 		}
+		
+		if(!$entry->getStart() instanceof ilDateTime)
+		{
+			$this->log->warning('Cannot find start date. Event ignored.');
+			return false;
+		}
+
+			// check if end date is given otherwise replace with start
+		if(
+			!$entry->getEnd() instanceof ilDateTime &&
+			$entry->getStart() instanceof ilDateTime
+		)
+		{
+			$entry->setEnd($entry->getStart());
+		}
+		
+		
 		// save calendar event
 		if($this->category->getLocationType() == ilCalendarCategory::LTYPE_REMOTE)
 		{

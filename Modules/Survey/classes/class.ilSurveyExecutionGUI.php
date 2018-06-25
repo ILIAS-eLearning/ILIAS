@@ -115,6 +115,14 @@ class ilSurveyExecutionGUI
 	*/
 	function executeCommand()
 	{
+		// record read event for lp
+		ilChangeEvent::_recordReadEvent(
+			'svy', 
+			$this->object->getRefId(), 
+			$this->object->getId(),
+			$GLOBALS['DIC']->user()->getId()
+		);
+		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 

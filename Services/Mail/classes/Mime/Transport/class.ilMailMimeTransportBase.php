@@ -147,6 +147,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
 		$this->getMailer()->CharSet = 'utf-8';
 
+		$this->mailer->SMTPDebug = 4;
+		$this->mailer->Debugoutput = function($message, $level) {
+			ilLoggerFactory::getLogger('mail')->debug($message);
+		};
+
 		$this->onBeforeSend();
 		$result = $this->getMailer()->Send();
 		if($result)
@@ -157,7 +162,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 		}
 		else
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			ilLoggerFactory::getLogger('mail')->warning(sprintf(
 				'Could not deliver external email: %s', $this->getMailer()->ErrorInfo
 			));
 		}

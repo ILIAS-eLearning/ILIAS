@@ -66,13 +66,14 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				$res["cols"][] = $var->cat->title;
 			}
 		}
-		
+		$q_counter = 0;
 		foreach($a_results as $results_row)
-		{																				
+		{
+			#20363
 			$parsed_row = array(
-				$results_row[0]
+				++$q_counter.". ".$results_row[0]
 			);
-			
+
 			$vars = $results_row[1]->getVariables();
 			if($vars)
 			{
@@ -98,8 +99,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			}
 			
 			$res["rows"][] = $parsed_row;
-		}		
-		
+		}
 		return $res;
 	}
 	
@@ -139,20 +139,28 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		$chart->setColors($colors);
 
 		// :TODO:
-		$chart->setsize($this->chart_width, $this->chart_height);
+		//$chart->setsize($this->chart_width, $this->chart_height);
 					
 		$data = $labels = $legend = array();
 		
 		$row_idx = sizeof($a_results);
-				
+
+		$row_counter = 0;
+		$text_shortened = false;
 		foreach($a_results as $row)
 		{
 			$row_idx--;
-			
+
 			$row_title = $row[0];
 			$row_results = $row[1];
-			
-			$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 60, true), 30, "<br />");
+
+			#20363
+			$row_title = ++$row_counter.". ".$row_title;
+			$labels[$row_idx] = ilUtil::shortenText($row_title, 50, true);
+			if($labels[$row_idx] != $row_title) {
+				$text_shortened = true;
+			}
+			//$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 50, true), 30, "<br />");
 			
 			$vars = $row_results->getVariables();
 			if($vars)
@@ -176,7 +184,15 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				}				
 			}
 		}
-		
+
+		//Chart height depending on the number of questions. Not fixed anymore.
+		$this->chart_height = count($a_results)*40;
+		//Chart width 500px if one or + question string are longer than 60 char. Otherwise the default width still aplied.
+		if($text_shortened) {
+			$this->chart_width = 500;
+		}
+		$chart->setSize($this->chart_width, $this->chart_height);
+
 		foreach($data as $var)
 		{
 			$chart->addData($var);			
@@ -262,7 +278,6 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			
 			$rows[] = $row;					
 		}
-		
 		return $rows;		
 	}
 	
@@ -279,7 +294,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->title;
 				$a_title_row2[] = $row->label;
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->title;        // see #20646
+					$a_title_row2[] = $row->label;        // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->title;
@@ -290,7 +311,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->title;
 				$a_title_row2[] = "";
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->title;        // see #20646
+					$a_title_row2[] = "";                // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->title;
@@ -301,7 +328,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->label;
 				$a_title_row2[] = "";
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->label;        // see #20646
+					$a_title_row2[] = "";                // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->label;
@@ -343,7 +376,8 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 					}
 					else
 					{
-						$answer_map[$row_title] = $answer[0];
+						$answer_map[$row_title] = $answer[3];
+						$answer_map[$row_title."|scale"] = $answer[2];		// see #20646
 					}
 					if($answer[1])
 					{
@@ -368,6 +402,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			$row_title = $row->title;
 			
 			$a_row[] = $answer_map[$row_title];
+			if($this->question->getSubtype() == 0)
+			{
+				$a_row[] = $answer_map[$row_title . "|scale"];    // see #20646
+			}
 			
 			if($row->other)
 			{

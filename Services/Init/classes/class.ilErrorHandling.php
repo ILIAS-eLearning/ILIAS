@@ -350,7 +350,7 @@ class ilErrorHandling extends PEAR
 	 * @return bool
 	 */
 	protected function isDevmodeActive() {
-		return DEVMODE;
+		return defined("DEVMODE") && (int)DEVMODE === 1;
 	}
 
 	/**
@@ -385,10 +385,10 @@ class ilErrorHandling extends PEAR
 					$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
 				}
 			} else {
-				$message = "Error ".$file_name." occurred.";
+				$message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "'.$file_name.'"';
 
 				if($logger->mail()) {
-					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'%s</a>';
+					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'</a>';
 				}
 			}
 
@@ -454,7 +454,8 @@ class ilErrorHandling extends PEAR
 			if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 				if ($level == E_STRICT) {
 					if (!stristr($message, "should be compatible") &&
-						!stristr($message, "should not be called statically")) {
+						!stristr($message, "should not be called statically") &&
+						!stristr($message, "should not be abstract")) {
 						return true;
 					};
 				}

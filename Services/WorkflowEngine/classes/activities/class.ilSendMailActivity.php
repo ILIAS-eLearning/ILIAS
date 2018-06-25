@@ -213,7 +213,9 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 		}
 		$pieces = explode(':', $params);
 		/** @var ilias $ilias */
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+
 		$address = ilUtil::_getHttpPath() . '/goto.php?target=wfe_WF'
 			. $pieces[0] . 'EVT' . $pieces[1] . '&client_id=' . $ilias->getClientId();
 

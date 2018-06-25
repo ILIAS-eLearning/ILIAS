@@ -375,7 +375,7 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Update internal links, after multiple pages have been copied
 	 */
-	static function updateInternalLinks($a_copied_nodes)
+	static function updateInternalLinks($a_copied_nodes, ilObjPortfolioBase $a_target_obj)
 	{
 //		var_dump($a_copied_nodes);
 		$all_fixes = array();
@@ -387,7 +387,14 @@ class ilPortfolioPage extends ilPageObject
 			// 1. Outgoing links from the copied page.
 			//
 			//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-			$tpg = new ilPortfolioPage($copied_id);
+			if ($a_target_obj->getType() == "prtf")
+			{
+				$tpg = new ilPortfolioPage($copied_id);
+			}
+			if ($a_target_obj->getType() == "prtt")
+			{
+				$tpg = new ilPortfolioTemplatePage($copied_id);
+			}
 			$tpg->buildDom();
 			$il = $tpg->getInternalLinks();
 //			var_dump($il);
@@ -446,9 +453,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function fixLinksOnTitleChange($a_port_id, $a_title_changes)
 	{
-		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $page)
+		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $port_page)
 		{
-			$page = new ilPortfolioPage($page);
+			$page = new ilPortfolioPage($port_page["id"]);
 			if ($page->renameLinksOnTitleChange($a_title_changes))
 			{
 				$page->update(true, true);

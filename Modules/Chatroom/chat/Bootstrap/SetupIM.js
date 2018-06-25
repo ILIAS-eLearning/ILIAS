@@ -4,29 +4,45 @@ var async = require('async');
 var PreloadConversations = require('./PreloadConversations');
 
 module.exports = function SetupIM(callback) {
-	async.eachSeries(Container.getNamespaces(), function(namespace, nextLoop) {
-		async.waterfall([
-			function(callback) {
-				var namespaceIM = Handler.createNamespace(namespace.getName() + '-im');
-				namespaceIM.setIsIM(true);
 
-				Container.getLogger().info('SetupNamespace IM: %s!', namespaceIM.getName());
+	function setupIMNamespace(namespace, nextLoop) {
+		function createIMNamespace(callback) {
+			var namespaceIM = Handler.createNamespace(namespace.getName() + '-im');
+			namespaceIM.setIsIM(true);
 
-				namespaceIM.setDatabase(namespace.getDatabase());
+			Container.getLogger().info('SetupNamespace IM: %s!', namespaceIM.getName());
 
-				callback(null, namespaceIM);
-			},
-			PreloadConversations,
-		], function(err, result) {
-			if(err) throw err;
+			namespaceIM.setDatabase(namespace.getDatabase());
+
+			callback(null, namespaceIM);
+		}
+
+		function onIMNamespaceSetupFinished(err, result) {
+			if(err) {
+				throw err;
+			}
 
 			nextLoop();
-		})
-	}, function(err) {
-		if(err) throw err;
+		}
+
+		async.waterfall(
+			[
+				createIMNamespace,
+				PreloadConversations
+			],
+			onIMNamespaceSetupFinished
+		);
+	}
+
+	function onIMSetupFinished(err) {
+		if(err) {
+			throw err;
+		}
 
 		Container.getLogger().info('SetupNamespace IM finished!');
 
 		callback();
-	});
+	}
+
+	async.eachSeries(Container.getNamespaces(), setupIMNamespace, onIMSetupFinished);
 };

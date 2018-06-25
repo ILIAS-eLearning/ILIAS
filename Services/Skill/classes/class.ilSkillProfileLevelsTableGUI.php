@@ -27,7 +27,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_profile)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_profile, $a_write_permission = false)
 	{
 		global $DIC;
 
@@ -56,7 +56,10 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
-		$this->addMultiCommand("confirmLevelAssignmentRemoval", $lng->txt("skmg_remove_levels"));
+		if ($a_write_permission)
+		{
+			$this->addMultiCommand("confirmLevelAssignmentRemoval", $lng->txt("skmg_remove_levels"));
+		}
 		//$this->addCommandButton("", $lng->txt(""));
 	}
 	

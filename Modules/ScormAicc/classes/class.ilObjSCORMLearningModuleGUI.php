@@ -81,9 +81,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->setSubTabActive('cont_settings');
 
 		// view
-		$ilToolbar->addButton($this->lng->txt("view"),
-			"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-			"_blank");
+		$ilToolbar->addButtonInstance($this->object->getViewButton());
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -199,6 +197,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_auto_continue"), "auto_continue");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getAutoContinue());
+		$cb->setInfo($this->lng->txt("cont_sc_auto_continue_info"));
 		$this->form->addItem($cb);
 
 		//
@@ -207,13 +206,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt("cont_scorm_options"));
 		$this->form->addItem($sh);
-
-		// max attempts
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_sc_max_attempt"), "max_attempt");
-		// $ni->setMaxLength(3);
-		// $ni->setSize(3);
-		// $ni->setValue($this->object->getMaxAttempt());
-		// $this->form->addItem($ni);
 		
 		// lesson mode
 		$options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
@@ -355,7 +347,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		}
 		else
 		{
-			$cb->setInfo($this->lng->txt("cont_debug_deactivate"));
+			$cb->setInfo($this->lng->txt("cont_debug_deactivate12"));
 		}
 		$this->form->addItem($cb);
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
@@ -508,9 +500,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($source)." ".$tocheck;
 		exec($unzipcmd);
 		chdir($cdir);
-		$tmp_file = $dir."/".$tocheck.".".$_GET["ref_id"];
+		$tmp_file = $dir."/".$_GET["ref_id"].".".$tocheck;
 
-		rename($dir."/".$tocheck,$tmp_file);
+		ilFileUtils::rename($dir."/".$tocheck,$tmp_file);
 		$new_manifest = file_get_contents($tmp_file);
 
 		//remove temp file
@@ -544,7 +536,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
 				// move the already copied file to the lm_data directory
-				rename($source, $file_path);
+				ilFileUtils::rename($source, $file_path);
 			}
 			
 			//unzip and replace old extracted files

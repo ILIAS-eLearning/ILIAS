@@ -17,7 +17,10 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
 
 		$joins[] = '
 			INNER JOIN buddylist
-			ON (buddylist.usr_id = usr_data.usr_id OR buddylist.buddy_usr_id = usr_data.usr_id)';
+			ON (
+				(buddylist.usr_id = usr_data.usr_id AND buddylist.buddy_usr_id = ' . $this->db->quote($this->user_id, 'integer') . ') OR
+				(buddylist.buddy_usr_id = usr_data.usr_id AND buddylist.usr_id = ' . $this->db->quote($this->user_id, 'integer') . ')
+			)';
 
 		$joins[] = '
 			LEFT JOIN usr_pref profpref

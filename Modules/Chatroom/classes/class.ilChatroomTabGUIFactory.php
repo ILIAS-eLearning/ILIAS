@@ -130,7 +130,7 @@ class ilChatroomTabGUIFactory
 		$config['perm'] = array(
 			'lng'        => 'public_chat_permissions',
 			'link'       => $DIC->ctrl()->getLinkTargetByClass('ilPermissionGUI', 'perm'),
-			'permission' => 'write',
+			'permission' => 'edit_permission',
 		);
 		$DIC->ctrl()->clearParametersByClass('ilPermissionGUI');
 
@@ -138,7 +138,7 @@ class ilChatroomTabGUIFactory
 		$config['perm_settings'] = array(
 			'lng'        => 'perm_settings',
 			'link'       => $DIC->ctrl()->getLinkTargetByClass('ilpermissiongui', 'perm'),
-			'permission' => 'write',
+			'permission' => 'edit_permission',
 		);
 		$DIC->ctrl()->clearParametersByClass('ilPermissionGUI');
 
@@ -371,7 +371,7 @@ class ilChatroomTabGUIFactory
 			'perm'     => array(
 				'lng'        => 'permissions',
 				'link'       => $DIC->ctrl()->getLinkTargetByClass('ilpermissiongui', 'perm'),
-				'permission' => 'write'
+				'permission' => 'edit_permission'
 			)
 		);
 

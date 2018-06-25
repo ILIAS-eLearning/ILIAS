@@ -97,7 +97,9 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
 		$form->addItem($enabled);
 
-		$form->addCommandButton('saveConfigurationForm', $this->lng->txt('save'));
+		if ($this->checkPermissionBool('write')) {
+			$form->addCommandButton('saveConfigurationForm', $this->lng->txt('save'));
+		}
 
 		return $form;
 	}
@@ -108,7 +110,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 	protected function showConfigurationForm(ilPropertyFormGUI $form = null)
 	{
 		$this->checkPermission('read');
-		
+
 		if(!($form instanceof ilPropertyFormGUI))
 		{
 			require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';

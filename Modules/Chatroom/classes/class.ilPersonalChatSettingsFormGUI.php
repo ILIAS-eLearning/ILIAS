@@ -44,6 +44,11 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	protected $notificationSettings = array();
 
 	/**
+	 * @var \ilAppEventHandler
+	 */
+	protected $event;
+
+	/**
 	 * ilPersonalChatSettingsFormGUI constructor.
 	 * @param bool $init_form
 	 */
@@ -58,6 +63,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->settings = $DIC['ilSetting'];
 		$this->mainTpl  = $DIC['tpl'];
 		$this->lng      = $DIC['lng'];
+		$this->event    = $DIC->event();
 
 		$this->chatSettings         = new ilSetting('chatroom');
 		$this->notificationSettings = new ilSetting('notifications');
@@ -130,6 +136,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		if($this->shouldShowNotificationOptions())
 		{
 			$chb = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
+			$chb->setInfo($this->lng->txt('play_invitation_sound_info'));
 			$this->addItem($chb);
 		}
 
@@ -190,6 +197,14 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		}
 
 		$this->user->writePrefs();
+
+		$this->event->raise(
+			'Services/User',
+			'chatSettingsChanged',
+			[
+				'user' => $this->user
+			]
+		);
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->showChatOptions();

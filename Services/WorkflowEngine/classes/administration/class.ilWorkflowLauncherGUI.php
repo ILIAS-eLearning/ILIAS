@@ -28,8 +28,9 @@ class ilWorkflowLauncherGUI
 	 */
 	public function __construct($form_action)
 	{
-		global $lng;
-		$this->lng = $lng;
+		global $DIC;
+		/** @var ilLanguage $lng */
+		$this->lng = $DIC['lng'];
 
 		$this->form_action = $form_action;
 	}
@@ -73,7 +74,8 @@ class ilWorkflowLauncherGUI
 	public function getRepositoryObjectSelector($config)
 	{
 		/** @var ilTree $tree */
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		$item = new ilSelectInputGUI($config['caption'], $config['name']);
 

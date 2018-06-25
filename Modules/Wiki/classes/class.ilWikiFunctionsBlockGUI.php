@@ -36,6 +36,8 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		
 		$this->setTitle($lng->txt("wiki_functions"));
 		$this->allow_moving = false;
+
+		$this->ref_id = (int) $_GET["ref_id"];
 	}
 
 	/**
@@ -202,7 +204,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		$list->setListTitle($lng->txt("wiki_page_actions"));
 		$list->setId("wiki_pgactions");
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// rating
 			if (ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
@@ -219,12 +221,12 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			}
 		}
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
-			$ilAccess->checkAccess("edit_page_meta", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
+			$ilAccess->checkAccess("edit_page_meta", "", $this->ref_id))
 		{
 			// unhide advmd?
 			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-			if((bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->getPageObject()->getWikiId(), "wpg")) &&
+			if((bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
 				ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId()))
 			{	
 				$list->addItem($lng->txt("wiki_unhide_meta_adv_records"), "",
@@ -232,8 +234,8 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			}
 		}
 
-		if (($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]) && !$this->getPageObject()->getBlocked())
-			|| $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if (($ilAccess->checkAccess("edit_content", "", $this->ref_id) && !$this->getPageObject()->getBlocked())
+			|| $ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// rename
 			$list->addItem($lng->txt("wiki_rename_page"), "",
@@ -241,7 +243,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		}
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
-		if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"]))
+		if (ilWikiPerm::check("activate_wiki_protection", $this->ref_id))
 		{
 			// block/unblock
 			if ($this->getPageObject()->getBlocked())
@@ -257,7 +259,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		}
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
-		if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"]))
+		if (ilWikiPerm::check("delete_wiki_pages", $this->ref_id))
 		{
 			// delete page
 			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
@@ -268,7 +270,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			}
 		}
 		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 
 			include_once "Modules/Wiki/classes/class.ilWikiPageTemplate.php";
@@ -285,8 +287,8 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			}
 		}
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
-			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
+			$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$tpl->setCurrentBlock("plain");
 			$tpl->setVariable("PLAIN", $list->getHTML());
@@ -295,7 +297,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		}
 
 			// permissions
-//		if ($ilAccess->checkAccess('edit_permission', "", $_GET["ref_id"]))
+//		if ($ilAccess->checkAccess('edit_permission', "", $this->ref_id))
 //		{
 //			$actions[] = array(
 //				"txt" => $lng->txt("perm_settings"),
@@ -306,7 +308,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		$actions = array();
 		
 		// settings
-		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess('write', "", $this->ref_id))
 		{
 			$actions[] = array(
 				"txt" => $lng->txt("wiki_contributors"),
@@ -315,7 +317,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		}
 
 		// manage
-		if (ilWikiPerm::check("wiki_html_export", $_GET["ref_id"]))
+		if (ilWikiPerm::check("wiki_html_export", $this->ref_id))
 		{
 			$actions[] = array(
 				"txt" => $lng->txt("wiki_html_export"),
@@ -325,14 +327,14 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		}
 
 		// manage
-		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess('write', "", $this->ref_id))
 		{
 			$actions[] = array(
 				"txt" => $lng->txt("settings"),
 				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editSettings")
 				);
 		}
-		else if ($ilAccess->checkAccess('statistics_read', "", $_GET["ref_id"]))
+		else if ($ilAccess->checkAccess('statistics_read', "", $this->ref_id))
 		{
 			$actions[] = array(
 				"txt" => $lng->txt("statistics"),

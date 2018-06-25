@@ -3608,9 +3608,6 @@ content#:#cont_characteristic#:#Característica
 content#:#cont_choose_characteristic#:#Choose Characteristic
 content#:#cont_choose_characteristic_section#:#Sections
 content#:#cont_choose_characteristic_text#:#Text Elements
-content#:#cont_choose_cont_obj#:#Escolher Objecto de Conteúdo
-content#:#cont_choose_glossary#:#Escolher Glossário
-content#:#cont_choose_media_source#:#Escolha Fonte de Média
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.
 content#:#cont_Circle#:#Círculo
 content#:#cont_Citation#:#Citação
@@ -13998,3 +13995,139 @@ lti#:#lti_exited_info#:#LTI Session successfully closed###31 08 2017 new variabl
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings###31 08 2017 new variable
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.###31 08 2017 new variable
 orgu#:#org_op_access_enrolments#:#View Enrolments###31 08 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###23 10 2017 new variable
+assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.###23 10 2017 new variable
+assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###23 10 2017 new variable
+common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?###23 10 2017 new variable
+common#:#obj_file_duplicate#:#Duplicate File###23 10 2017 new variable
+content#:#cont_choose_lm#:#Choose Learning Module###23 10 2017 new variable
+content#:#cont_choose_glo#:#Choose Glossary###23 10 2017 new variable
+content#:#cont_choose_mep#:#Choose Media Pool###23 10 2017 new variable
+dateplaner#:#cal_def_day_end#:#Default Day End###23 10 2017 new variable
+dateplaner#:#cal_def_day_start#:#Default Day Start###23 10 2017 new variable
+user#:#clipboard_add_from_btn#:#Add from Clipboard###23 10 2017 new variable
+dcl#:#dcl_no_export_content_available#:#No data available for export.###23 10 2017 new variable
+dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###23 10 2017 new variable
+common#:#drag_file_here#:#Drag-and-drop your file here###23 10 2017 new variable
+bibl#:#bib_default_address#:#Address###23 10 2017 new variable
+bibl#:#bib_default_publisher#:#Publisher###23 10 2017 new variable
+bibl#:#bib_default_edition#:#Edition###23 10 2017 new variable
+bibl#:#bib_default_howpublished#:#Published as###23 10 2017 new variable
+bibl#:#bib_default_type#:#Type###23 10 2017 new variable
+bibl#:#bib_default_series#:#Series###23 10 2017 new variable
+bibl#:#bib_default_organization#:#Organizaton###23 10 2017 new variable
+bibl#:#ris_default_a2#:#Location in Archives###23 10 2017 new variable
+bibl#:#ris_default_cy#:#Place Published###23 10 2017 new variable
+bibl#:#ris_default_id#:#Reference ID###23 10 2017 new variable
+bibl#:#ris_default_kw#:#Keywords###23 10 2017 new variable
+bibl#:#ris_default_m1#:#Number###23 10 2017 new variable
+bibl#:#ris_default_n1#:#Notes###23 10 2017 new variable
+bibl#:#ris_default_n2#:#Abstract###23 10 2017 new variable
+bibl#:#ris_default_t1#:#Primary Title###23 10 2017 new variable
+bibl#:#ris_default_t2#:#Secondary Title###23 10 2017 new variable
+bibl#:#ris_default_t3#:#Tertiary Title###23 10 2017 new variable
+bibl#:#ris_default_u2#:#User Defined###23 10 2017 new variable
+prg#:#prg_multi_mark_accredited#:#Accredited###23 10 2017 new variable
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited###23 10 2017 new variable
+prg#:#prg_multi_remove_user#:#Remove User###23 10 2017 new variable
+prg#:#prg_multi_mark_relevant#:#Mark Relevant###23 10 2017 new variable
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant###23 10 2017 new variable
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan###23 10 2017 new variable
+iass#:#iass_event_time_place_required#:#Date and place required###23 10 2017 new variable
+iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.###23 10 2017 new variable
+iass#:#iass_file_required#:#Record file required###23 10 2017 new variable
+iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.###23 10 2017 new variable
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###23 10 2017 new variable
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###23 10 2017 new variable
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###23 10 2017 new variable
+background_tasks#:#abort#:#Abort###23 10 2017 new variable
+background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.###23 10 2017 new variable
+dateplaner#:#cal_def_show_weeks#:#Default Show Weeks###23 10 2017 new variable
+pdfgen#:#cleanup#:#Cleanup###23 10 2017 new variable
+skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.###23 10 2017 new variable
+common#:#position_permission_settings#:#Orgunit-Specific Permissions###23 10 2017 new variable
+common#:#org_permission_settings#:#Permissions of Positions in Organisational Units###23 10 2017 new variable
+common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users###23 10 2017 new variable
+common#:#org_op_manage_members#:#Manage Subordinate Members###23 10 2017 new variable
+common#:#org_op_access_enrolments#:#View Enrolment-Status###23 10 2017 new variable
+dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.###23 10 2017 new variable
+sahs#:#sahs_add#:#Create SCORM Learning Module###23 10 2017 new variable
+sahs#:#sahs_copy#:#Copy SCORM Learning Module###23 10 2017 new variable
+sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.###23 10 2017 new variable
+lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.###23 10 2017 new variable
+dateplaner#:#cal_no_events_info#:#No events found for the selected time period.###23 10 2017 new variable
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###23 10 2017 new variable
+iass#:#iass_amend_saved#:#Amended record has been saved.###23 10 2017 new variable
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".###23 10 2017 new variable
+rbac#:#positions_override_operations#:#Override global Settings###22 11 2017 new variable
+rbac#:#amend_grading#:#Amend finalized grading###22 11 2017 new variable
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.###22 11 2017 new variable
+orgu#:#remove_user#:#Remove###22 11 2017 new variable
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?###22 11 2017 new variable
+rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users###22 11 2017 new variable
+orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users###22 11 2017 new variable
+rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users###22 11 2017 new variable
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
+bibl#:#ris_default_y1#:#Year###22 11 2017 new variable
+bibl#:#ris_default_ty#:#Type###22 11 2017 new variable
+bibl#:#ris_default_ep#:#Ending Page Number###22 11 2017 new variable
+prg#:#form_msg_file_wrong_file_type#:#Wrong file type.###22 11 2017 new variable
+prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited###22 11 2017 new variable
+prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited###22 11 2017 new variable
+prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant###22 11 2017 new variable
+prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant###22 11 2017 new variable
+prg#:#prg_remove_users_success#:#Remove Selected Users###22 11 2017 new variable
+prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially###22 11 2017 new variable
+prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible###22 11 2017 new variable
+prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible###22 11 2017 new variable
+prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically###22 11 2017 new variable
+prg#:#prg_update_from_current_plan_success#:#Update From Current Plan###22 11 2017 new variable
+prg#:#prg_no_user_selected#:#No User Selected###22 11 2017 new variable
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###22 11 2017 new variable
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###22 11 2017 new variable
+wfe#:#wfe_started_listening#:#Process armed###22 11 2017 new variable
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
+iass#:#iass_assessment_not_completed#:#Assessment not completet###22 11 2017 new variable
+iass#:#iass_changed_by#:#Changed after finalization###22 11 2017 new variable
+common#:#pdfg_read#:#User has read access to PDF Generation###22 11 2017 new variable
+common#:#pdfg_visible#:#PDF Generation is visible###22 11 2017 new variable
+common#:#pdfg_write#:#User can edit settings of PDF Generation###22 11 2017 new variable
+common#:#pdfg_edit_permission#:#User can change permission settings###22 11 2017 new variable
+pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.###22 11 2017 new variable
+orgu#:#msg_position_updated#:#Position updated.###22 11 2017 new variable
+orgu#:#msg_position_created#:#Position created.###22 11 2017 new variable
+dateplaner#:#crs_cal_start#:#Course starts###22 11 2017 new variable
+dateplaner#:#crs_cal_end#:#Course ends###22 11 2017 new variable
+dateplaner#:#grp_cal_start#:#Group starts###22 11 2017 new variable
+dateplaner#:#grp_cal_end#:#Group ends###22 11 2017 new variable
+awrn#:#awrn_online#:#Online###22 11 2017 new variable
+rbac#:#edit_submissions_grades#:#Edit Submissions and Grades###22 11 2017 new variable
+rbac#:#exc_edit_submissions_grades#:#User can edit submissions and grades###22 11 2017 new variable
+rbac#:#release_objects#:#Release Objects###22 11 2017 new variable
+rbac#:#ltis_release_objects#:#User can release Objects for LTI Consumer###22 11 2017 new variable
+rbac#:#ltis_visible#:#LTI administration is visible###22 11 2017 new variable
+rbac#:#ltis_read#:#User has read access to LTI administration ###22 11 2017 new variable
+rbac#:#ltis_write#:#User can edit settings in LTI administration###22 11 2017 new variable
+rbac#:#ltis_edit_permission#:#User can change permission settings in LTI administration###22 11 2017 new variable
+content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2###22 11 2017 new variable
+content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004###22 11 2017 new variable
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_id#:#ILIAS User Id (Standard)###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_login#:#ILIAS Login Name###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User Id plus RefId of the Learning Module###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefId of the Learning Module###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User Id plus ObjId of the Learning Module###22 11 2017 new variable
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjId of the Learning Module###22 11 2017 new variable
+content#:#cont_sc_name_setting#:#student_name according to SCORM 1.2###22 11 2017 new variable
+content#:#cont_sc_name_setting_2004#:#learner_name according to SCORM 2004###22 11 2017 new variable
+content#:#cont_sc_name_setting_info#:#The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name.###22 11 2017 new variable
+content#:#cont_sc_name_setting_last_firstname#:#Last name, First name###22 11 2017 new variable
+content#:#cont_sc_name_setting_first_lastname#:#First name and Last name###22 11 2017 new variable
+content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name###22 11 2017 new variable
+content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name###22 11 2017 new variable
+content#:#cont_sc_name_setting_first_name#:#First name###22 11 2017 new variable
+content#:#cont_sc_name_setting_no_name#:#no name###22 11 2017 new variable
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.###22 11 2017 new variable

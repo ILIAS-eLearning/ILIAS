@@ -3,6 +3,7 @@
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException;
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Bucket;
@@ -54,6 +55,7 @@ class BasicPersistence implements Persistence {
 
 	/**
 	 * Currently for testing only.
+	 * @param $connector \arConnector
 	 */
 	function setConnector(\arConnector $connector) {
 		$this->connector = $connector;
@@ -99,13 +101,10 @@ class BasicPersistence implements Persistence {
 	/**
 	 * @inheritdoc
 	 */
-	public function getBucketIdsOfUser($user_id) {
-		$buckets = BucketContainer::where([ 'user_id' => $user_id ])->get();
-		$ids = array_map(function (BucketContainer $bucket_container) {
-			return $bucket_container->getId();
-		}, $buckets);
-
-		return $ids;
+	public function getBucketIdsOfUser($user_id, $order_by = "id", $order_direction = "ASC") {
+		return BucketContainer::where(['user_id' => $user_id])
+		                      ->orderBy($order_by, $order_direction)
+		                      ->getArray(null, 'id');
 	}
 
 
@@ -340,7 +339,8 @@ class BasicPersistence implements Persistence {
 	/**
 	 * @param int $bucket_id
 	 *
-	 * @return Bucket
+	 * @return \ILIAS\BackgroundTasks\Bucket
+	 * @throws \ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException
 	 */
 	public function loadBucket($bucket_id) {
 		if (isset(self::$buckets[$bucket_id])) {

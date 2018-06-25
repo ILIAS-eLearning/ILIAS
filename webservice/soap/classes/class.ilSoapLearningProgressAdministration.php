@@ -154,10 +154,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 					break;
 					
 				case 'tst':
-					foreach((array) $valid_users as $usr_id)
-					{
-						$obj->removeTestResultsForUser($usr_id);
-					}
+					
+					/** @var $obj ilObjTest */
+					$obj->removeTestResultsFromSoapLpAdministration(array_values((array)$valid_users));
 					break;
 			}
 			
@@ -216,7 +215,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 
 		// check rbac
-		if(!$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
+		/**
+		 * @var ilAccess
+		 */
+		if(!$ilAccess->checkRbacOrPositionPermissionAccess('read_learning_progress','read_learning_progress',$a_ref_id))
 		{
 			return $this->__raiseError('Error '. self::SOAP_LP_ERROR_NO_PERMISSION .': No Permission to access learning progress in this object',
 				self::SOAP_LP_ERROR_NO_PERMISSION);
@@ -237,7 +239,15 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED, $a_progress_filter))
 		{
-			$completed = ilLPStatusWrapper::_getCountCompleted($obj->getId());
+			$completed = ilLPStatusWrapper::_getCompleted($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			$completed = count($completed);
+			
 			$writer->xmlElement(
 					'Status',
 					array(
@@ -248,7 +258,15 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS, $a_progress_filter))
 		{
-			$completed = ilLPStatusWrapper::_getCountInProgress($obj->getId());
+			$completed = ilLPStatusWrapper::_getInProgress($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			$completed = count($completed);
+			
 			$writer->xmlElement(
 					'Status',
 					array(
@@ -259,7 +277,15 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED, $a_progress_filter))
 		{
-			$completed = ilLPStatusWrapper::_getCountFailed($obj->getId());
+			$completed = ilLPStatusWrapper::_getFailed($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			$completed = count($completed);
+			
 			$writer->xmlElement(
 					'Status',
 					array(
@@ -270,7 +296,15 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED, $a_progress_filter))
 		{
-			$completed = ilLPStatusWrapper::_getCountNotAttempted($obj->getId());
+			$completed = ilLPStatusWrapper::_getNotAttempted($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			$completed = count($completed);
+			
 			$writer->xmlElement(
 					'Status',
 					array(
@@ -286,21 +320,47 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED, $a_progress_filter))
 		{
 			$completed = ilLPStatusWrapper::_getCompleted($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			
 			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_COMPLETED);
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS, $a_progress_filter))
 		{
 			$completed = ilLPStatusWrapper::_getInProgress($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);			
 			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_IN_PROGRESS);
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED, $a_progress_filter))
 		{
 			$completed = ilLPStatusWrapper::_getFailed($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);			
 			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_FAILED);
 		}
 		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED, $a_progress_filter))
 		{
 			$completed = ilLPStatusWrapper::_getNotAttempted($obj->getId());
+			$completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id,
+				$completed
+			);
+			
 			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_NOT_ATTEMPTED);
 		}
 		$writer->xmlEndTag('UserProgress');

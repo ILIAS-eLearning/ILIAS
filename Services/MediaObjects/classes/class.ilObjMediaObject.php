@@ -101,14 +101,18 @@ class ilObjMediaObject extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
+
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
 		
-		return parent::_exists($a_id, false);
+		if (parent::_exists($a_id, false) && ilObject::_lookupType($a_id) == "mob")
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -702,7 +706,7 @@ class ilObjMediaObject extends ilObject
 	* get MediaObject XLM Tag
 	*  @param	int		$a_mode		IL_MODE_ALIAS | IL_MODE_OUTPUT | IL_MODE_FULL
 	*/
-	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
+	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0, $a_sign_locals = false)
 	{
 		$ilUser = $this->user;
 		
@@ -770,9 +774,20 @@ class ilObjMediaObject extends ilObject
 
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
+					if ($a_sign_locals && $item->getLocationType() == "LocalFile")
+					{
+						require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+						$location = ilWACSignedPath::signFile($this->getDataDirectory()."/".$item->getLocation());
+						$location = substr($location, strrpos($location, "/") + 1);
+					}
+					else
+					{
+						$location = $item->getLocation();
+					}
+
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
-						$this->handleAmps($item->getLocation())."</Location>";
+						$this->handleAmps($location)."</Location>";
 
 					// Format
 					$xml.= "<Format>".$item->getFormat()."</Format>";
@@ -801,6 +816,13 @@ class ilObjMediaObject extends ilObject
 					{
 						$xml .= "<TextRepresentation>".
 							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
+					}
+
+					// Title
+					if ($this->getTitle() != "")
+					{
+						$xml .= "<Title>".
+							str_replace("&", "&amp;", $this->getTitle())."</Title>";
 					}
 
 					// Parameter
@@ -1417,7 +1439,7 @@ class ilObjMediaObject extends ilObject
 							$pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
 							if ($pinfo && $pinfo["parent_type"] == "sahs")
 							{
-								include_once("./Modules/SCORM2004/classes/class.ilSCORM2004Node.php");
+								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 								$obj_id = ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
 							}
 						}
@@ -1529,7 +1551,7 @@ class ilObjMediaObject extends ilObject
 	* @return	string					mime type
 	* static
 	*/
-	static function getMimeType($a_file, $a_external = false)
+	static function getMimeType($a_file, $a_external = null)
 	{
 		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 		$mime = ilMimeTypeUtil::lookupMimeType($a_file, ilMimeTypeUtil::APPLICATION__OCTET_STREAM, $a_external);
@@ -1737,7 +1759,14 @@ class ilObjMediaObject extends ilObject
 			$dir.= "/".$a_subdir;
 		}
 		ilUtil::makeDirParents($dir);
-		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
+		if ($a_mode == "rename")
+		{
+			rename($tmp_name, $dir . "/" . $a_name);
+		}
+		else
+		{
+			ilUtil::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
+		}
 		self::renameExecutables($mob_dir);
 		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
 		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339

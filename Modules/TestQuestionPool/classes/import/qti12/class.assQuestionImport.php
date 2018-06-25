@@ -108,6 +108,56 @@ class assQuestionImport
 		}
 		return $feedbacksgeneric;
 	}
+	
+	/**
+	 * @param ilQTIItem $item
+	 */
+	protected function getFeedbackAnswerSpecific(ilQTIItem $item)
+	{
+		$feedbacks = array();
+		
+		foreach ($item->itemfeedback as $ifb)
+		{
+			if( substr($ifb->getIdent(), 0, strlen('response_')) != 'response_' )
+			{
+				continue;
+			}
+
+			$ident = $ifb->getIdent();
+			
+			// found a feedback for the identifier
+			
+			if (count($ifb->material))
+			{
+				foreach ($ifb->material as $material)
+				{
+					$feedbacks[$ident] = $material;
+				}
+			}
+			
+			if ((count($ifb->flow_mat) > 0))
+			{
+				foreach ($ifb->flow_mat as $fmat)
+				{
+					if (count($fmat->material))
+					{
+						foreach ($fmat->material as $material)
+						{
+							$feedbacks[$ident] = $material;
+						}
+					}
+				}
+			}
+		}
+		
+		foreach($feedbacks as $ident => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacks[$ident] = $m;
+		}
+		
+		return $feedbacks;
+	}
 
 	/**
 	* Creates a question from a QTI file

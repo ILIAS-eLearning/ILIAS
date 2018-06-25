@@ -138,7 +138,7 @@ class ilDclBaseRecordFieldModel {
 
 			$insert_params = array(
 				"value" => array( $datatype->getDbType(), $value),
-				"record_field_id " => array( "integer", $this->getId()),
+				"record_field_id" => array( "integer", $this->getId()),
 				"id" => array( "integer", $next_id )
 			);
 
@@ -172,6 +172,14 @@ class ilDclBaseRecordFieldModel {
 		$this->loadValue();
 
 		return $this->value;
+	}
+
+
+	/**
+	 * @return array|string
+	 */
+	public function getValueForRepresentation() {
+		return $this->getValue();
 	}
 
 	/**
@@ -383,7 +391,7 @@ class ilDclBaseRecordFieldModel {
 	}
 
 	/**
-	 * @return mixed
+	 * @return ilDclBaseRecordRepresentation
 	 */
 	public function getRecordRepresentation() {
 		return $this->record_representation;
@@ -391,7 +399,7 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
-	 * @param mixed $record_representation
+	 * @param ilDclBaseRecordRepresentation $record_representation
 	 */
 	public function setRecordRepresentation($record_representation) {
 		$this->record_representation = $record_representation;
@@ -399,7 +407,7 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
-	 * @return mixed
+	 * @return ilDclBaseFieldRepresentation
 	 */
 	public function getFieldRepresentation() {
 		return $this->field_representation;
@@ -407,7 +415,7 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
-	 * @param mixed $field_representation
+	 * @param ilDclBaseFieldRepresentation $field_representation
 	 */
 	public function setFieldRepresentation($field_representation) {
 		$this->field_representation = $field_representation;

@@ -209,7 +209,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$this
 		);
 
-		$form->addCommandButton('save_privacy',$this->lng->txt('save'));
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton('save_privacy', $this->lng->txt('save'));
+		}
 		$this->tpl->setContent($form->getHTML());
 	}
 

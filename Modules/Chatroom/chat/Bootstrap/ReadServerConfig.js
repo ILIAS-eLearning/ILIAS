@@ -9,10 +9,12 @@ var dns 		= require('dns');
 module.exports = function ReadServerConfig(callback) {
 	var config = Handler.read(Container.getArgument(CONST.SERVER_CONFIG_INDEX));
 
-	dns.lookup(config.address, function(err, addresses, family){
+	function onHostnameResolved(err, addresses, family){
 		Container.getLogger().info("DNS Resolve for: %s => IP: %s , Family: %s", config.address, addresses, family);
 		config.address = addresses;
-	});
+	}
+
+	dns.lookup(config.address, onHostnameResolved);
 
 	Container.setServerConfig(config);
 

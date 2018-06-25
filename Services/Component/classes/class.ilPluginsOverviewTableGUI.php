@@ -146,6 +146,9 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
+		global $DIC;
+		$rbacsystem = $DIC->rbac()->system();
+
 		$this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
 		$this->tpl->setVariable("TXT_COMP_NAME", 
 			$a_set["component_type"]."/".$a_set["component_name"]);
@@ -163,8 +166,10 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["plugin_name"]);
 		$this->tpl->setVariable("TXT_PLUGIN_ID", $a_set["plugin_id"]);
 
-		$actions = $this->getActionMenuEntries($a_set);
-		$this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set["plugin_id"]));
+		if($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$actions = $this->getActionMenuEntries($a_set);
+			$this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set["plugin_id"]));
+		}
 	}
 
 	/**

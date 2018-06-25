@@ -33,9 +33,9 @@ class ilWorkflowArmerGUI
 	 */
 	public function __construct($form_action)
 	{
-		global $lng, $tree;
-		$this->lng = $lng;
-		$this->tree = $tree;
+		global $DIC;
+		$this->lng = $DIC['lng'];
+		$this->tree = $DIC['tree'];
 
 		$this->form_action = $form_action;
 	}

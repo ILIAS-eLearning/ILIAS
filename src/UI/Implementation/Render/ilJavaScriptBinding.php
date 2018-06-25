@@ -48,7 +48,9 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 		if (!count($this->code)) {
 			return '';
 		}
-		return '<script>' . implode("\n", $this->code) . '</script>';
+        $js_out = '<script>' . implode("\n", $this->code) . '</script>';
+        $this->code = [];
+		return $js_out;
 	}
 
 }

@@ -79,12 +79,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 		
-		$this->object->setOrderingType(OQ_PICTURES);
-		
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
 		$this->persistAuthoringForm($form);
 		
+		$this->object->setOrderingType(OQ_PICTURES);
 		$this->object->saveToDb();
 		
 		$form->ensureReprintableFormStructure($this->object);
@@ -98,12 +97,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 		
-		$this->object->setOrderingType(OQ_TERMS);
-
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
 		$this->persistAuthoringForm($form);
 
+		$this->object->setOrderingType(OQ_TERMS);
 		$this->object->saveToDb();
 		
 		$form->ensureReprintableFormStructure($this->object);
@@ -520,7 +518,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			
 			if (strlen($feedback))
 			{
-				$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+				$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
+					ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+				);
+				
+				$solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+				$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 			}
 		}
 

@@ -53,8 +53,9 @@ class ilSCORMOfflineMode
 		$this->type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
 		$this->cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&cmd=';
 		$this->lm_cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=' . $this->id . '&cmd=';
+		$this->lm_info_url = $this->lm_cmd_url . 'infoScreen';
 		$this->player12_url = $this->cmd_url . 'offlineMode_player12';
-		$this->player2004_url = $this->cmd_url . 'offlineMode_player2004'; // ToDo: does not exist yet
+		$this->player2004_url = $this->cmd_url . 'offlineMode_player2004';
 		$this->som_url = $this->cmd_url . 'offlineMode_som';
 		$this->offlineMode = 'online';
 		$this->sop_index = './Modules/ScormAicc/sop/sop_index.html';
@@ -62,16 +63,40 @@ class ilSCORMOfflineMode
 		$this->sop_dir = './Modules/ScormAicc/templates/sop/';
 		$this->som_dir = './Modules/ScormAicc/templates/som/';
 		$this->scripts_dir = './Modules/ScormAicc/scripts/';
+		$this->images_dir = './templates/default/images/scorm/';
+		$this->pouchdb_js = './libs/bower/bower_components/pouchdb/dist/pouchdb.min.js';
+		$this->jquery_js = './libs/bower/bower_components/jquery/dist/jquery.min.js';
+		$this->bootstrap_js = './libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js';
+		$this->bootstrap_css = './libs/bower/bower_components/bootstrap/dist/css/bootstrap.min.css';
 		$this->read();
 	}
 	
-	function getSopManifestEntries() { // ToDo: database support !!
+	function getSopManifestEntries() {
 		global $log;
-		$log->write("getSopManifestEntries");
+		$log->write("getSopManifestEntries ");
 		$manifest_string = "";
 		if (!$this->debug) {
-			$manifest_string .= $this->player12_url . "\n";
+			// if ($this->type == "scorm2004") {
+				$BASE_DIR = './Modules/Scorm2004/';
+				$manifest_string .= ilUtil::getImagePath("scorm/asset.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/completed.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/not_attempted.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/running.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/incomplete.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/passed.svg",false) . "\n";
+				$manifest_string .= ilUtil::getImagePath("scorm/failed.svg",false) . "\n";
+				// $manifest_string .= ilUtil::getImagePath("scorm/browsed.svg",false) . "\n";
+				$manifest_string .= ilUtil::getStyleSheetLocation() . "\n";
+				$manifest_string .= $BASE_DIR . 'templates/default/player.css' . "\n";
+				$manifest_string .= $BASE_DIR . 'scripts/buildrte/rte.js' . "\n";
+				$manifest_string .= $BASE_DIR . 'scripts/ilNestedList.js' . "\n";
+				$manifest_string .= iljQueryUtil::getLocaljQueryPath() . "\n";
+				$manifest_string .= $this->player2004_url . "\n";
+			// } else {
+				$manifest_string .= $this->player12_url . "\n";
+			// }
 			$manifest_string .= $this->som_url . "\n";
+			// $log->write("Manifest: ".$manifest_string);
 			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->sop_dir));
 			foreach($objects as $name => $object) {
 				if (preg_match('/\/\.+/',$name)) {
@@ -91,14 +116,27 @@ class ilSCORMOfflineMode
 			
 			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->scripts_dir));
 			foreach($objects as $name => $object) {
+				if (preg_match('/\/\.+/',$name)) { //UK statt .+ .js und SCORM-Scripts weg
+					continue;
+				}
+				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+				$manifest_string .= self::encodeuri($name) . "\n";
+			}
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->images_dir));
+			foreach($objects as $name => $object) {
 				if (preg_match('/\/\.+/',$name)) {
 					continue;
 				}
 				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
 				$manifest_string .= self::encodeuri($name) . "\n";
 			}
+			
+			$manifest_string .= $this->pouchdb_js . "\n";
+			$manifest_string .= $this->jquery_js . "\n";
+			$manifest_string .= $this->bootstrap_js . "\n";
+			$manifest_string .= $this->bootstrap_css . "\n";
 		}
-		$log->write($manifest_string);
+		//$log->write($manifest_string);
 		return $manifest_string;
 	}
 	
@@ -118,7 +156,7 @@ class ilSCORMOfflineMode
 			//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
 			$manifest_string .= self::encodeuri($name) . "\n";
 		}
-		$log->write($manifest_string);
+		//$log->write($manifest_string);
 		return $manifest_string;
 	}
 
@@ -150,7 +188,7 @@ class ilSCORMOfflineMode
 		if ($this->type == 'scorm2004') {
 			include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
 			$ob2004 = new ilSCORM13Player();
-			$init_data = $ob2004->getConfigForPlayer();
+			$init_data = json_encode($ob2004->getConfigForPlayer());
 			$resources = json_decode($ob2004->getCPDataInit());
 			$cmi = $ob2004->getCMIData($ilUser->getID(), $this->obj_id);
 			$max_attempt = $ob2004->get_max_attempts();
@@ -166,7 +204,7 @@ class ilSCORMOfflineMode
 			$max_attempt = ilObjSCORMInitData::get_max_attempts($this->obj_id);
 		}
 		//UK max_attempt weg!
-		if ($max_attempt == null) $max_attempt = 0;
+		// if ($max_attempt == null) $max_attempt = 0;
 		$result = array(
 			'client_data' => array(
 				$support_mail

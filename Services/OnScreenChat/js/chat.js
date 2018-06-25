@@ -63,6 +63,14 @@
 			getModule().socket.on('message', callback);
 		},
 
+		onParticipantsSuppressedMessages: function(callback) {
+			getModule().socket.on('participantsSuppressedMessages', callback);
+		},
+
+		onSenderSuppressesMessages: function(callback) {
+			getModule().socket.on('senderSuppressesMessages', callback);
+		},
+
 		receiveConversation: function(callback) {
 			getModule().socket.on('conversation', callback);
 		},

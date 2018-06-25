@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This describes commonalities between standard and primary buttons. 
@@ -29,9 +30,10 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	public function withLabel($label);
 
 	/**
-	 * Get the action of the button
+	 * Get the action of the button, i.e. an URL that the button links to or
+	 * some signals the button triggers on click.
 	 *
-	 * @return	string
+	 * @return	string|(Signal[])
 	 */
 	public function getAction();
 
@@ -80,4 +82,11 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return 	bool
 	 */
 	public function isAriaChecked();
+
+	/**
+	 * @inheritdocs
+	 *
+	 * This will also remove a string action if there currently is one.
+	 */
+	public function withOnClick(Signal $signal);
 }

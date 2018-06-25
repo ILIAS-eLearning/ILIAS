@@ -169,7 +169,7 @@ class ilWebAccessCheckerDelivery {
 		}
 
 		$ilFileDelivery = new Delivery($this->ilWebAccessChecker->getPathObject()->getPath(), $this->http);
-		$ilFileDelivery->setCache(false);
+		$ilFileDelivery->setCache(true);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		if ($this->ilWebAccessChecker->getPathObject()->isStreamable()) { // fixed 0016468
 			$ilFileDelivery->stream();

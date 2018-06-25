@@ -18,7 +18,10 @@ class ilNotificationSystem {
 
     private $defaultLanguage = 'en';
 
-    private function  __construct() {
+    private $rbacReview;
+
+    private function  __construct(\ilRbacReview $rbacReview = null)
+	{
         require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
         require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
         require_once 'Services/Notifications/classes/class.ilNotificationMailHandler.php';
@@ -28,6 +31,11 @@ class ilNotificationSystem {
         $this->addHandler('osd', new ilNotificationOSDHandler());
         $this->addHandler('mail', new ilNotificationMailHandler());
 
+        if ($rbacReview === null) {
+			global $DIC;
+			$rbacReview = $DIC->rbac()->review();
+		}
+		$this->rbacReview = $rbacReview;
     }
 
     private static function getInstance() {
@@ -126,25 +134,29 @@ class ilNotificationSystem {
             $userCache = array();
 
 			// process the notifications for each output channel
-            foreach($user_by_handler as $handler => $users) {
-                $handler = $this->handler[$handler];
+			foreach ($user_by_handler as $handler => $users) {
+				$handler = $this->handler[$handler];
 				// and process each user for the current output channel
-                foreach($users as $userId) {
-                    if (!$userCache[$userId]) {
-                        $userCache[$userId] = new ilObjUser($userId);
-                    }
-                    $user = $userCache[$userId];
+				foreach ($users as $userId) {
+					if (!$userCache[$userId]) {
+						$user = ilObjectFactory::getInstanceByObjId($userId, false);
+						if (!$user || !($user instanceof \ilObjUser)) {
+							continue;
+						}
+						$userCache[$userId] = $user;
+					}
+					$user = $userCache[$userId];
 
 					// optain the message instance for the user
 					// @todo this step could be cached on a per user basis
-					//       as it is independed from the output handler
-                    $instance = $notification->getUserInstance($user, $lang, $this->defaultLanguage);
-                    foreach($handler as $h) {
+					//	   as it is independed from the output handler
+					$instance = $notification->getUserInstance($user, $lang, $this->defaultLanguage);
+					foreach ($handler as $h) {
 						// fire the notification
-                        $h->notify($instance);
-                    }
-                }
-            }
+						$h->notify($instance);
+					}
+				}
+			}
         }
 		// use async processing
         else {
@@ -181,7 +193,6 @@ class ilNotificationSystem {
 	 * Send a notification to a list of roles. The recipients are fetched by calling
 	 * $rbacreview->assignedUsers($roles[$i]).
 	 * 
-	 * @global ilRbacReview $rbacreview
 	 * @param ilNotificationConfig $notification
 	 * @param array $roles
 	 * @param boolean $processAsync 
@@ -190,11 +201,9 @@ class ilNotificationSystem {
         require_once 'Services/Notifications/classes/class.ilNotificationUserIterator.php';
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         
-        global $rbacreview;
-
         $users = array();
         foreach($roles as $role) {
-            $users[] = $rbacreview->assignedUsers($role);
+            $users[] = $this->rbacReview->assignedUsers($role);
         }
 		// make sure to handle every user only once
         $users = array_unique(call_user_func_array('array_merge', $users));

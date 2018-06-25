@@ -28,16 +28,15 @@ module.exports = function(participants) {
 
 	namespace.getDatabase().updateConversation(conversation);
 
-	namespace.getDatabase().getLatestMessage(conversation, function(row){
+	function onLastConversationMessageResult(row) {
 		row.userId = row.user_id;
 		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
-	}, function(){
-		socket.participant.emit('conversation-init', conversation.json());
-		/*namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
-			conversation.setNumNewMessages(row.numNewMessages);
-		}, function(){
+	}
 
-		});*/
-	});
+	function onLastConversationMessageEnd() {
+		socket.participant.emit('conversation-init', conversation.json());
+	}
+
+	namespace.getDatabase().getLatestMessage(conversation, onLastConversationMessageResult, onLastConversationMessageEnd);
 };

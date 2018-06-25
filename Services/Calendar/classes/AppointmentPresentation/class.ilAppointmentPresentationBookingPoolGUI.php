@@ -66,6 +66,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 			// info file
 			if ($b_obj->getFile())
 			{
+				$this->has_files = true;
 				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverInfo");
 
 				$link = $this->ui->renderer()->render(
@@ -82,18 +83,23 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 			}
 			if ($b_obj->getPostFile())
 			{
+				$this->has_files = true;
+
 				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverPostFile");
 
 				$array_info[] = $this->ui->renderer()->render(
 					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
 
 			}
-			$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			if($array_info) {
+				$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			}
 
 		}
 
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+		$this->addAction($this->lng->txt("cal_ch_cancel_booking"),
+			$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
 
 		if (count($refs) > 0)
 		{

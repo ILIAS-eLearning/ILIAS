@@ -190,7 +190,7 @@ class ilObjectListGUI
 		$this->enableTags(false);
 		
 		// unique js-ids
-		$this->setParentRefId($_REQUEST["ref_id"]);
+		$this->setParentRefId((int) $_REQUEST["ref_id"]);
 		
 //echo "list";
 		$this->init();
@@ -2922,13 +2922,13 @@ class ilObjectListGUI
 		if($a_notes_url)
 		{
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			ilNoteGUI::initJavascript($a_notes_url);
+			ilNoteGUI::initJavascript($a_notes_url, IL_NOTE_PRIVATE, $a_tpl);
 		}
 		
 		if($a_tags_url)
 		{
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-			ilTaggingGUI::initJavascript($a_tags_url);
+			ilTaggingGUI::initJavascript($a_tags_url, $a_tpl);
 		}
 		
 		if($a_redraw_url)
@@ -2998,14 +2998,22 @@ class ilObjectListGUI
 	 * 
 	 * @return string
 	 */
-	function getHeaderAction()
+	function getHeaderAction(ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$main_tpl = $DIC["tpl"];
-		
+
+		if ($a_main_tpl == null)
+		{
+			$main_tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$main_tpl = $a_main_tpl;
+		}
+
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
 		$redraw_js = "il.Object.redrawActionHeader();";
@@ -3102,7 +3110,6 @@ class ilObjectListGUI
 				$ajax_url = $this->ctrl->getLinkTargetByClass("ilRatingGUI", "saveRating", "", true, false);
 			}
 			$main_tpl->addOnLoadCode("il.Object.setRatingUrl('".$ajax_url."');");
-			
 			$this->addHeaderIconHTML("rating", 
 				$rating_gui->getHtml(true, 
 					$this->checkCommandAccess("read", "", $this->ref_id, $this->type), 
@@ -3244,6 +3251,8 @@ class ilObjectListGUI
 	*/
 	function modifySAHSlaunch($a_link,$wtarget)
 	{
+		global $DIC;
+
 		if (strstr($a_link, 'ilSAHSPresentationGUI') && !$this->offline_mode)
 		{
 			include_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
@@ -3252,7 +3261,7 @@ class ilObjectListGUI
 			$width = $sahs_obj->getWidth();
 			$height = $sahs_obj->getHeight();
 			if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
-			if ($om != 0 && !ilBrowser::isMobile())
+			if ($om != 0 && !$DIC['ilBrowser']->isMobile())
 			{
 				$this->default_command["frame"]="";
 				$a_link = "javascript:void(0); onclick=startSAHS('".$a_link."','".$wtarget."',".$om.",".$width.",".$height.");";

@@ -1,25 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Administrate calendar appointments 
@@ -29,10 +9,6 @@
 *
 * @ingroup ServicesCalendar
 */
-
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
-
 class ilCalendarAppointmentGUI
 {
 	protected $seed = null;
@@ -46,6 +22,11 @@ class ilCalendarAppointmentGUI
 	protected $tpl;
 	protected $lng;
 	protected $ctrl;
+	
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
 
 	/**
 	 * Constructor
@@ -61,6 +42,8 @@ class ilCalendarAppointmentGUI
 		$this->lng = $lng;
 		$lng->loadLanguageModule('dateplaner');
 		$this->ctrl = $ilCtrl;
+		
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
 
 		$this->initTimeZone();
 		$this->initSeed($seed);
@@ -131,12 +114,6 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilUser,$tpl;
 		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-
 		$this->form = new ilPropertyFormGUI();
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -223,6 +200,13 @@ class ilCalendarAppointmentGUI
 			$calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
 			$selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
 		}
+		else
+		{
+			$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+			$categories = $cats->prepareCategoriesOfUserForSelection();
+			$selected_calendar = key((array) $categories);
+			$calendar->setValue($selected_calendar);
+		}
 		$calendar->setRequired(true);
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
@@ -232,7 +216,7 @@ class ilCalendarAppointmentGUI
 		{
 			$notification_cals = $cats->getNotificationCalendars();
 			$notification_cals = count($notification_cals) ? implode(',',$notification_cals) : ''; 
-			$calendar->addCustomAttribute("onchange=\"ilToggleNotification(new Array(".$notification_cals."));\"");
+			$calendar->addCustomAttribute("onchange=\"ilToggleNotification([".$notification_cals."]);\"");
 		}		
 		$this->form->addItem($calendar);
 		
@@ -370,10 +354,11 @@ class ilCalendarAppointmentGUI
 	/**
 	 * add new appointment
 	 *
+	 * @param \ilPropertyFormGUI $form
 	 * @access protected
 	 * @return
 	 */
-	protected function add()
+	protected function add(ilPropertyFormGUI $form  = null)
 	{
 		global $tpl, $ilHelp;
 
@@ -381,7 +366,10 @@ class ilCalendarAppointmentGUI
 		$ilHelp->setScreenId("app");
 		$ilHelp->setSubScreenId("create");
 		
-		$this->initForm('create');
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$this->initForm('create');
+		}
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -479,7 +467,9 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
+			$this->form->setValuesByPost();
 			ilUtil::sendFailure($ilErr->getMessage());
+			return $this->add($this->form);
 		}
 		if ($a_as_milestone)
 		{
@@ -649,10 +639,11 @@ class ilCalendarAppointmentGUI
 	 * edit appointment
 	 *
 	 * @access protected
-	 * @param
+	 * @param bool singel appointment
+	 * @param \ilPropertyFormGUI 
 	 * @return
 	 */
-	protected function edit($a_edit_single_app = false)
+	protected function edit($a_edit_single_app = false, ilPropertyFormGUI $form = null)
 	{
 		global $tpl,$ilUser,$ilErr, $ilHelp;
 
@@ -717,8 +708,10 @@ class ilCalendarAppointmentGUI
 			$this->showInfoScreen();
 			return true;
 		}
-		
-		$this->initForm('edit', $this->app->isMilestone(), $a_edit_single_app);
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$this->initForm('edit', $this->app->isMilestone(), $a_edit_single_app);
+		}
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -873,11 +866,10 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
+			$this->form->setValuesByPost();
 			ilUtil::sendFailure($ilErr->getMessage());
 		}
-		
-		$this->edit();
-		
+		$this->edit(false, $this->form);
 	}
 	
 	/**

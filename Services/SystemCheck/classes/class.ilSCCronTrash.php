@@ -21,17 +21,21 @@ class ilSCCronTrash extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 			
-		$GLOBALS['lng']->loadLanguageModule('sysc');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('sysc');
 		return $lng->txt('sysc_cron_empty_trash');
 	}
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 			
-		$GLOBALS['lng']->loadLanguageModule('sysc');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('sysc');
 		return $lng->txt('sysc_cron_empty_trash_desc');
 	}
 	
@@ -41,9 +45,7 @@ class ilSCCronTrash extends ilCronJob
 	}
 	
 	/**
-	 * Get all available schedule types
-	 * 
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getValidScheduleTypes()
 	{
@@ -88,7 +90,9 @@ class ilSCCronTrash extends ilCronJob
 	 */
     public function addCustomSettingsToForm(ilPropertyFormGUI $form)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('sysc');
 		
@@ -118,13 +122,13 @@ class ilSCCronTrash extends ilCronJob
 		
 		// limit types
 		$types = new ilSelectInputGUI($lng->txt('sysc_trash_limit_type'), 'types');
-		$sub_objects = $GLOBALS['tree']->lookupTrashedObjectTypes();
+		$sub_objects = $GLOBALS['DIC']['tree']->lookupTrashedObjectTypes();
 		
 		$options = array();
 		$options[0] = '';
 		foreach($sub_objects as $obj_type)
 		{
-			if(!$GLOBALS['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['objDefinition']->isAllowedInRepository($obj_type))
+			if(!$GLOBALS['DIC']['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['DIC']['objDefinition']->isAllowedInRepository($obj_type))
 			{
 				continue;
 			}

@@ -6,19 +6,32 @@ var schedule = require('node-schedule');
  */
 module.exports = function SetupClearMessagesProcess(callback) {
 
-	if (Container.getServerConfig().hasOwnProperty('deletion_mode') && Container.getServerConfig().deletion_mode == 1) {
-		var deletionTime = Container.getServerConfig().deletion_time;
-		var deletionTime = deletionTime.split(':');
+	if (Container.getServerConfig().hasOwnProperty('deletion_mode') &&
+		parseInt(Container.getServerConfig().deletion_mode, 10) === 1) {
 
-		var job = schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, function () {
-			var namespaces = Container.getNamespaces()
+		var deletionTime = Container.getServerConfig().deletion_time;
+		deletionTime = deletionTime.split(':');
+
+		function getMessagesClearedCallback(namespaceName) {
+			return function messagesClearedCallback() {
+				Container.getLogger().info('Clear process for namespace %s finished', namespaceName);
+			};
+		}
+
+		schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, function clearMessagesProcess() {
+			var namespaces = Container.getNamespaces();
 			var deletionUnit = Container.getServerConfig().deletion_unit;
 			var deletionValue = Container.getServerConfig().deletion_value;
 
 			var bound = generateBoundTimestamp(deletionUnit, deletionValue);
 
 			for (var key in namespaces) {
-				var database = namespaces[key].getDatabase();
+				if (!namespaces.hasOwnProperty(key)) {
+					continue;
+				}
+
+				var database = namespaces[key].getDatabase(),
+					namespaceName = namespaces[key].getName();
 
 				Container.getLogger().info(
 					'Start clear process for namespace %s older then %s [%s]',
@@ -26,9 +39,8 @@ module.exports = function SetupClearMessagesProcess(callback) {
 					bound.toUTCString(),
 					bound.getTime()
 				);
-				database.clearChatMessagesProcess(bound.getTime(), namespaces[key].getName(), function () {
-					Container.getLogger().info('Clear process for namespace %s finished', namespaces[key].getName());
-				});
+
+				database.clearChatMessagesProcess(bound.getTime(), namespaceName, getMessagesClearedCallback(namespaceName));
 			}
 		});
 
@@ -40,17 +52,18 @@ module.exports = function SetupClearMessagesProcess(callback) {
 
 function generateBoundTimestamp(deletionUnit, deletionValue) {
 	var bound = new Date();
-	if (deletionUnit == 'years') {
+
+	if (deletionUnit === 'years') {
 		bound.setFullYear(bound.getFullYear() - deletionValue)
 	}
-	if (deletionUnit == 'months') {
+	if (deletionUnit === 'months') {
 		bound.setMonth(bound.getMonth() - deletionValue)
 	}
-	if (deletionUnit == 'weeks') {
+	if (deletionUnit === 'weeks') {
 		var weeks = 7 * deletionValue;
 		bound.setDate(bound.getDate() - weeks)
 	}
-	if (deletionUnit == 'days') {
+	if (deletionUnit === 'days') {
 		bound.setDate(bound.getDate() - deletionValue)
 	}
 	return bound;

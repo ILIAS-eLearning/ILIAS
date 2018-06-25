@@ -353,25 +353,19 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$a_excel->setCell($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 
 		$a_excel->setCell($a_row, 3, new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME));
-
-		$a_excel->setCell($a_row, 4, $a_set["percentage"]."%");
+		
+		if(!$this->isPercentageAvailable($a_row['obj_id']))
+		{
+			$a_excel->setCell($a_row, 4, '-');
+		}
+		else
+		{
+			$a_excel->setCell($a_row, 4, $a_set["percentage"]."%");
+		}
 		$a_excel->setCell($a_row, 5, $a_set["mark"]);
 		$a_excel->setCell($a_row, 6, $a_set["comment"]);
 		$a_excel->setCell($a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
 
-		/*
-		// path
-		$path = $this->buildPath($a_set["ref_ids"]);
-		if($path)
-		{
-			$col = 7;
-			foreach($path as $path_item)
-			{
-				$worksheet->write($a_row, $col, strip_tags($path_item));
-				$col++;
-			}
-		}
-		*/
 
 	}
 
@@ -399,24 +393,17 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$a_csv->addColumn(ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
 		ilDatePresentation::resetToDefaults();
 
-		$a_csv->addColumn(sprintf("%d%%", $a_set["percentage"]));
+		if(!$this->isPercentageAvailable($a_set['obj_id']))
+		{
+			$a_csv->addColumn('-');
+		}
+		else
+		{
+			$a_csv->addColumn(sprintf("%d%%", $a_set["percentage"]));
+		}
 		$a_csv->addColumn($a_set["mark"]);
 		$a_csv->addColumn($a_set["comment"]);
 		$a_csv->addColumn(ilLPObjSettings::_mode2Text($a_set["u_mode"]));
-
-		/*
-		// path
-		$path = $this->buildPath($a_set["ref_ids"]);
-		if($path)
-		{
-			$col = 7;
-			foreach($path as $path_item)
-			{
-				$a_csv->addColumn(strip_tags($path_item));
-				$col++;
-			}
-		}
-		*/
 
 		$a_csv->addRow();
 	}

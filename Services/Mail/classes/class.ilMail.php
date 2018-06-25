@@ -111,15 +111,47 @@ class ilMail
 	/** @var ilObjUser[] */
 	protected static $userInstances = array();
 
+	/** @var ilMailAddressTypeFactory */
+	private $mailAddressTypeFactory;
+
+	/** @var ilMailRfc822AddressParserFactory */
+	private $mailAddressParserFactory;
+
+	/**
+	 * @var mixed|null
+	 */
+	protected $contextId = null;
+
+	/**
+	 * @var array
+	 */
+	protected $contextParameters = [];
+
 	/**
 	 * @param integer $a_user_id
+	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
 	 */
-	public function __construct($a_user_id)
+	public function __construct(
+		$a_user_id,
+		ilMailAddressTypeFactory $mailAddressTypeFactory = null,
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
 
 		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
+
+		if ($mailAddressTypeFactory === null) {
+			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
+		}
+
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
+
+		$this->mailAddressParserFactory = $mailAddressParserFactory;
+		$this->mailAddressTypeFactory = $mailAddressTypeFactory;
 
 		$this->lng              = $DIC->language();
 		$this->db               = $DIC->database();
@@ -136,6 +168,32 @@ class ilMail
 
 		$this->setSaveInSentbox(false);
 		$this->readMailObjectReferenceId();
+	}
+
+	/**
+	 * @param string $contextId
+	 * @return ilMail
+	 */
+	public function withContextId(string $contextId): self
+	{
+		$clone = clone $this;
+
+		$clone->contextId = $contextId;
+
+		return $clone;
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return ilMail
+	 */
+	public function withContextParameters(array $parameters): self
+	{
+		$clone = clone $this;
+
+		$clone->contextParameters = $parameters;
+
+		return $clone;
 	}
 
 	/**
@@ -720,30 +778,18 @@ class ilMail
 	 */
 	protected function replacePlaceholders($a_message, $a_user_id = 0, $replace_empty = true)
 	{
-		try
-		{
-			include_once 'Services/Mail/classes/class.ilMailFormCall.php';
-
-			if(ilMailFormCall::getContextId())
-			{
-				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-				$context = ilMailTemplateService::getTemplateContextById(ilMailFormCall::getContextId());
-			}
-			else
-			{
-				require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
+		try {
+			if ($this->contextId) {
+				$context = ilMailTemplateService::getTemplateContextById($this->contextId);
+			} else {
 				$context = new ilMailTemplateGenericContext();
 			}
 
 			$user = $a_user_id > 0 ? self::getCachedUserInstance($a_user_id) : null;
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
 			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters(), $replace_empty);
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			$a_message = $processor->resolve($user, $this->contextParameters, $replace_empty);
+		} catch (Exception $e) {
 			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
 
@@ -987,11 +1033,10 @@ class ilMail
 
 		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
 
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
-			$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+			$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 			$usr_ids = array_merge($usr_ids, $address_type->resolve());
 		}
 
@@ -1035,11 +1080,10 @@ class ilMail
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
 			$recipients = $this->parseAddresses($a_recipients);
 			foreach($recipients as $recipient)
 			{
-				$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+				$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 				if(!$address_type->validate($this->user_id))
 				{
 					$errors = array_merge($errors, $address_type->getErrors());
@@ -1426,8 +1470,7 @@ class ilMail
 			));
 		}
 
-		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser = ilMailRfc822AddressParserFactory::getParser($addresses);
+		$parser = $this->mailAddressParserFactory->getParser($addresses);
 		$parsedAddresses = $parser->parse();
 
 		if(strlen($addresses) > 0)

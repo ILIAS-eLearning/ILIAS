@@ -24,6 +24,13 @@ function Participant(id, name) {
 	var _online = false;
 
 	/**
+	 * 
+	 * @type {boolean}
+	 * @private
+	 */
+	var _acceptsMessages = true;
+
+	/**
 	 * @type {Array}
 	 * @private
 	 */
@@ -66,6 +73,20 @@ function Participant(id, name) {
 		_online = isOnline;
 	};
 
+	/**
+	 * @param {boolean} status
+	 */
+	this.setAcceptsMessages = function(status) {
+		_acceptsMessages = status;
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.getAcceptsMessages = function() {
+		return _acceptsMessages;
+	};
+
 	this.removeSocket = function(socket) {
 		var index = _sockets.indexOf(socket);
 		if(index > -1) {
@@ -77,34 +98,53 @@ function Participant(id, name) {
 		_sockets.push(socket);
 	};
 
-	this.emit = function(event, data) {
-		forSockets(function(socket){
-			//console.log("emit", event, data);
+	function createEmitDataOnSocketCallback(event, data) {
+		return function emitDataOnSocket(socket){
 			socket.emit(event, data);
-		})
+		};
+	}
+
+	function createJoinSocketCallback(name) {
+		return function joinSocket(socket){
+			socket.join(name);
+		};
+	}
+
+	function createLeaveSocketCallback(name) {
+		return function leaveSocket(socket){
+			socket.leave(name);
+		};
+	}
+
+	function createEmitMessageOnSocketCallback(message) {
+		return function emitMessageOnSocket(socket){
+			socket.emit('message', message);
+		};
+	}
+
+	this.emit = function(event, data) {
+		var emitDataOnSocket = createEmitDataOnSocketCallback(event, data);
+		forSockets(emitDataOnSocket);
 	};
 
 	this.join = function(name) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.join(name);
-			});
+			var joinSocket = createJoinSocketCallback(name);
+			forSockets(joinSocket);
 		}
 	};
 
 	this.leave = function(name) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.leave(name);
-			});
+			var leaveSocket = createLeaveSocketCallback(name);
+			forSockets(leaveSocket);
 		}
 	};
 
 	this.send = function(message) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.emit('message', message)
-			});
+			var emitMessageOnSocket = createEmitMessageOnSocketCallback(message);
+			forSockets(emitMessageOnSocket);
 		}
 	};
 
@@ -130,7 +170,7 @@ function Participant(id, name) {
 		return _conversations;
 	};
 
-	var getConversationIndex = function(conversation, conversations) {
+	function getConversationIndex(conversation, conversations) {
 		for (var key in conversations) {
 			if (conversations.hasOwnProperty(key)) {
 				var id = conversations[key].getId();
@@ -141,19 +181,19 @@ function Participant(id, name) {
 			}
 		}
 		return false;
-	};
+	}
 
 	/**
 	 * @param {Function} callback
 	 * @private
 	 */
-	var forSockets = function(callback) {
+	function forSockets(callback) {
 		for(var key in _sockets) {
 			if(_sockets.hasOwnProperty(key)) {
 				callback(_sockets[key]);
 			}
 		}
-	};
+	}
 }
 
 module.exports = exports = Participant;

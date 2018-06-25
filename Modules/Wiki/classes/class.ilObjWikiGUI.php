@@ -592,7 +592,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui",
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
 			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
 			)) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui"))))
 		{	
@@ -876,7 +876,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		{					
 			// advanced metadata auto-linking
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-			if(count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getId(), "wpg")) > 0)
+			if(count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getRefId(), "wpg")) > 0)
 			{			
 				$link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
 				$link_md->setInfo($lng->txt("wiki_link_md_values_info"));

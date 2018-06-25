@@ -33,7 +33,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_skill_id, $a_tref_id,
-		$a_level_id)
+		$a_level_id, $a_write_permission = false)
 	{
 		global $DIC;
 
@@ -64,8 +64,11 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.level_resources_row.html", "Services/Skill");
 
-		$this->addMultiCommand("confirmLevelResourcesRemoval", $lng->txt("remove"));
-		$this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
+		if ($a_write_permission)
+		{
+			$this->addMultiCommand("confirmLevelResourcesRemoval", $lng->txt("remove"));
+			$this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
+		}
 	}
 	
 	/**

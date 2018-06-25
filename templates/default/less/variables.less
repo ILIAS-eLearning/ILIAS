@@ -93,7 +93,7 @@
 //##
 @body-bg:               #f0f0f0;
 @text-color:            @gray-dark;
-@il-light-text-color:   lighten(@mid-gray, 30%);
+@il-light-text-color:   lighten(@mid-gray, 30%); //#909090
 @link-color:            lighten(@brand-primary, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
@@ -164,6 +164,7 @@
 //== Iconography
 //
 //##
+//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
 @icon-font-path:            "../../libs/bower/bower_components/bootstrap/fonts/";
 
 //== Components
@@ -297,9 +298,6 @@
 //** Border color of inactive buttons
 @il-disabled-btn-border:         #e0e0e0;
 
-//** Minimal size of non-empty buttons inside forms
-@il-button-min-width: 	        60px;
-
 //== Breadcrumbs
 //
 //##
@@ -376,18 +374,49 @@
 @badge-line-height:           1;
 @badge-border-radius:         10px;
 
-//== Forms
+
+
+//== Standard Form
 //
-//##
-@input-border-radius:	0;
-@input-border:			#ccc;
-@input-border-focus:	lighten(@brand-primary, 20%);
+//## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
+
+//** Textcolor used in the forms sections bodies
+@il-standard-form-color:    #808080;
+//** Textcolor used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-color:   lighten(@il-standard-form-color, 10%);
+//** Textcolor used in the labels (identifiers) of the input fields of a form
+@il-standard-form-label-color:   darken(@il-standard-form-color, 20%);
+//** Background color used in the
+@il-standard-form-bg:    #fdfdfd;
+//** Textsize used in the forms body
+@il-standard-form-font-size: @font-size-small;
+//** Textsize used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-font-size:    90%;
+
+//** Textcolor used in the forms header, the sections header and the footer
+@il-standard-form-header-color: lighten(@il-standard-form-color, 10%);
+//** Background color used in the forms header, the sections header and the footer
+@il-standard-form-header-bg: @body-bg;
+//** Textsize color used in the forms header and the sections header
+@il-standard-form-header-font-size: @font-size-h3;
+//** Textsize color used in the form headers the section headers byline (description)
+@il-standard-form-header-byline-font-size: @font-size-small;
+//** Background color used for dependant groups (sub forms) in standard forms
+@il-standard-form-dependant-group-bg: darken(@il-standard-form-bg, 2%);
+
+//** Minimal size of non-empty buttons inside forms
+@il-button-min-width-forms: 	  60px;
+
+//== Input Fields
+//
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
+@input-border-radius: 0;
+@input-border: #CCCCCC;
+@input-border-focus: lighten(@brand-primary, 20%);
 @ilFormInputFontSize: @font-size-small;
-@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
-
-@ilFormColor:            	#808080;
-@ilFormBgColor:            	#fdfdfd;
-
+@input-height-base: (floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+@ilFormColor: #808080;
+@ilFormBgColor: #FDFDFD;
 @input-color-placeholder: lighten(@gray-light, 30%);
 
 //== Panels
@@ -446,6 +475,14 @@
 @il-data-table-bg:             	@il-secondary-container-bg;
 @il-table-cmd-bg:				@il-secondary-container-bg;
 
+//** Presentation Table borders
+@il-table-presentation-rowborder-top: 1px solid @table-border-color; ;
+
+//** Presentation Table colum widths
+@il-table-presentation-rowcontrol-colwidth: 5%;
+@il-table-presentation-contents-colwidth: 95%;
+@il-table-presentation-description-colwidth: 60%;
+@il-table-presentation-details-colwidth: 40%;
 
 //== Toolbar
 //
@@ -455,6 +492,7 @@
 @il-toolbar-bg: @il-secondary-container-bg;
 @il-toolbar-height: @navbar-height;
 @il-toolbar-border: 1px solid #d8d8d8;
+
 
 //== Postings
 //
@@ -477,6 +515,7 @@
 @bs-datetimepicker-primary-border-color: white;
 @bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 
+
 //== Glyph
 //
 //##
@@ -485,6 +524,7 @@
 @il-glyph-highlighted-color: @brand-warning;
 @il-glyph-highlighted-hover-color:  darken(@brand-warning, 15%);
 
+
 //== Counter
 //
 //##
@@ -492,11 +532,13 @@
 @il-counter-font-size: 9px;
 @il-counter-margin-left: -4px;
 
+
 //== Status Counter
 //
 //##
 @il-counter-status-bg: lighten(@mid-gray, 40%);
 @il-counter-status-margin-top: 10px;
+
 
 //== Novelty Counter
 //
@@ -519,7 +561,7 @@
 @il-dropzone-border-style: dashed;
 @il-dropzone-border-width: 1px;
 //** Default border color
-@il-dropzone-border-color: #C0C0C0;
+@il-dropzone-border-color: #9C9C9C;
 //** Border color used when a dropzone is hovered.
 @il-dropzone-border-color-hover: #606060;
 //** Border of one file after dragging them to the dropzone
@@ -527,6 +569,8 @@
 @il-dropzone-filelist-border-type: solid;
 @il-dropzone-filelist-border-width: @il-dropzone-border-width;
 @il-dropzone-filelist-border-radius: @il-dropzone-border-radius;
+
+
 //== Popover
 //
 //## Customizes the Popover component
@@ -552,6 +596,7 @@
 //** Maximum Height of a popover (overflow scroll)
 @il-popover-max-height: 500px;
 
+
 //== Tooltips
 //
 //## Tooltips displayed by the online help
@@ -565,6 +610,7 @@
 @il-tooltip-border-radius: 4px;
 //** Shadow of those tooltips
 @il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
 
 //== Divider
 //
@@ -586,6 +632,7 @@
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
 
+
 //== Listing Panel
 //
 //##
@@ -593,30 +640,51 @@
 @il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
 @il-panel-listing-std-container-h3-text-transform: uppercase;
 @il-panel-listing-std-container-h4-text-transform: uppercase;
-@il-panel-listing-std-container-h3-color: #909090;
-@il-panel-listing-std-container-h4-color: #909090;
+@il-panel-listing-std-container-h3-color: @il-light-text-color;
+@il-panel-listing-std-container-h4-color: @il-light-text-color;
 @il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
 
 //== Charts
 //
-//##
+//## Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
 
 @il-chart-item-active-bg: @brand-primary;
 @il-chart-item-active-color: white;
 @il-chart-item-inactive-bg: #e0e0e0;
-@il-chart-item-inactive-color: #909090;
+@il-chart-item-inactive-color: @il-light-text-color;
 @il-chart-item-space: 2px;
+//** Progress Meter: background color
+@il-chart-progressmeter-background: #dddddd;
+//** Progress Meter standard/fixedSize: text color
+@il-chart-progressmeter-text: #aaaaaa;
+//** Progress Meter standard/fixedSize: marker color
+@il-chart-progressmeter-marker: #f0f0f0;
+//** Progress Meter standard/fixedSize: marker shadow
+@il-chart-progressmeter-marker-shadow: #bcbcbc;
+//** Progress Meter mini: marker color
+@il-chart-progressmeter-mini-marker-color: #bcbcbc;
+//** Progress Meter main bar: success color
+@il-chart-progressmeter-bar-success: #6ea03c;
+//** Progress Meter main bar: no-success color
+@il-chart-progressmeter-bar-no-success: #d9534f;
+//** Progress Meter comparision bar: no-user-score color
+@il-chart-progressmeter-bar-active: #f0ad4e;
+//** Progress Meter comparision bar: user-score color
+@il-chart-progressmeter-bar-inactive: #aaaaaa;
 
 
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
+
 //**Size for icons: Small is used in the tree. e.g.
 @icon-size-small: 20px;
 //**Size for icons: Medium is used in the content-listing. e.g.
 @icon-size-medium: 35px;
 //**Size for icons: Large is used in the header. e.g.
 @icon-size-large: 45px;
+
 
 //== View Control
 //
@@ -625,3 +693,11 @@
 @il-vc-glyph-padding-horizontal: @padding-base-horizontal;
 @il-vc-glyph-hover-bg: lighten(@brand-primary, 5%);
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
+
+
+//== Card
+//
+//##
+@il-card-highlight-bg: @brand-warning;
+@il-card-highlight-height: @padding-large-vertical;
+@il-card-list-key-color: @il-light-text-color;

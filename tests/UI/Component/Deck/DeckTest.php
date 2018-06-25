@@ -59,9 +59,24 @@ class DeckTest extends ILIAS_UI_TestBase {
 
 		$c = $f->card("Card Title");
 		$d = $f->deck(array($c));
-		$d = $d->withCardsSize(C\Deck\Deck::SIZE_L);
 
+		$d = $d->withExtraSmallCardsSize();
+		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XS);
+
+		$d = $d->withSmallCardsSize();
+		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_S);
+
+		$d = $d->withNormalCardsSize();
+		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_M);
+
+		$d = $d->withLargeCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_L);
+
+		$d = $d->withExtraLargeCardsSize();
+		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XL);
+
+		$d = $d->withFullSizedCardsSize();
+		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_FULL);
 	}
 
 	public function test_render_content() {
@@ -70,25 +85,24 @@ class DeckTest extends ILIAS_UI_TestBase {
 		$c = $f->card("Card Title");
 		$d = $f->deck(array($c));
 
-		$d = $d->withCards(array($c,$c,$c,$c,$c,$c,$c));
-		$d = $d->withCardsSize(C\Deck\Deck::SIZE_L);
+		$d = $d->withCards(array($c,$c,$c,$c,$c,$c,$c))->withLargeCardsSize();
 
 		$html = $r->render($d);
 
 		$expected_html =
 				'<div class="il-deck">
 					<div class="row row-eq-height">
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
 					</div>
 					<div class="row row-eq-height">
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
 					</div>
 					<div class="row row-eq-height">
-						<div class="col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
+						<div class="col-sm-12 col-md-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><h5 class="card-title">Card Title</h5></div></div></div>
 					</div>
 				</div>';
 

@@ -90,7 +90,7 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 		$html = $r->render($c);
 
 		$expected = <<<EOT
-<div class="il-panel-listing-std-container">
+<div class="il-panel-listing-std-container clearfix">
 	<h3>title</h3>
 	<div class="il-item-group">
 		<h4>Subtitle 1</h4>
@@ -131,11 +131,11 @@ EOT;
 		$html = $r->render($c);
 
 		$expected = <<<EOT
-<div class="il-panel-listing-std-container">
+<div class="il-panel-listing-std-container clearfix">
 <h3>title</h3><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 <ul class="dropdown-menu">
-	<li><a class="btn btn-link" href="https://www.ilias.de" data-action="https://www.ilias.de">ILIAS</a></li>
-	<li><a class="btn btn-link" href="https://www.github.com" data-action="https://www.github.com">GitHub</a></li>
+	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
+	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
 </ul>
 </div>
 </div>

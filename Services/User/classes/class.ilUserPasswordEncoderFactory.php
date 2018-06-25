@@ -16,7 +16,7 @@ class ilUserPasswordEncoderFactory
 	protected $default_encoder;
 
 	/**
-	 * @var ilPasswordEncoder[] Array of supported encoders
+	 * @var \ilPasswordEncoder[] Array of supported encoders
 	 */
 	protected $encoders = array();
 
@@ -42,31 +42,30 @@ class ilUserPasswordEncoderFactory
 	}
 
 	/**
+	 * @param  array $config
+	 * @return \ilPasswordEncoder[]
+	 */
+	protected function getValidEncoders($config): array
+	{
+		return [
+			new \ilBcryptPhpPasswordEncoder($config),
+			new \ilBcryptPasswordEncoder($config),
+			new \ilMd5PasswordEncoder($config),
+		];
+	}
+
+	/**
 	 * @param array $config
 	 */
 	protected function initEncoders(array $config)
 	{
-		$encoder_directory = 'Services/Password/classes/encoders';
-		foreach(new DirectoryIterator($encoder_directory) as $file)
-		{
-			/**
-			 * @var $file SplFileInfo
-			 */
-			if($file->isDir())
-			{
-				continue;
-			}
+		$this->encoders = [];
 
-			require_once $file->getPathname();
-			$class_name = preg_replace('/(class\.)(.*?)(\.php)/', '$2', $file->getBasename());
-			if(class_exists($class_name))
-			{
-				$reflection = new ReflectionClass($class_name);
-				$encoder    = $reflection->newInstanceArgs(array($config));
-				if($encoder instanceof ilPasswordEncoder && $encoder->isSupportedByRuntime())
-				{
-					$this->encoders[$encoder->getName()] = $encoder;
-				}
+		$encoders = $this->getValidEncoders($config);
+
+		foreach ($encoders as $encoder) {
+			if ($encoder->isSupportedByRuntime()) {
+				$this->encoders[$encoder->getName()] = $encoder;
 			}
 		}
 	}
@@ -88,7 +87,7 @@ class ilUserPasswordEncoderFactory
 	}
 
 	/**
-	 * @return ilPasswordEncoder[]
+	 * @return \ilPasswordEncoder[]
 	 */
 	public function getEncoders()
 	{
@@ -96,17 +95,17 @@ class ilUserPasswordEncoderFactory
 	}
 
 	/**
-	 * @param ilPasswordEncoder[] $encoders
-	 * @throws ilUserException
+	 * @param \ilPasswordEncoder[] $encoders
+	 * @throws \ilUserException
 	 */
 	public function setEncoders(array $encoders)
 	{
 		$this->encoders = array();
 		foreach($encoders as $encoder)
 		{
-			if(!($encoder instanceof ilPasswordEncoder))
+			if(!($encoder instanceof \ilPasswordEncoder))
 			{
-				throw new ilUserException(sprintf('One of the passed encoders is not valid: %s.',  json_encode($encoder)));
+				throw new \ilUserException(sprintf('One of the passed encoders is not valid: %s.',  json_encode($encoder)));
 			}
 			$this->encoders[$encoder->getName()] = $encoder;
 		}
@@ -123,8 +122,8 @@ class ilUserPasswordEncoderFactory
 	/**
 	 * @param string $name
 	 * @param bool   $get_default_on_mismatch
-	 * @return ilPasswordEncoder
-	 * @throws ilUserException
+	 * @return \ilPasswordEncoder
+	 * @throws \ilUserException
 	 */
 	public function getEncoderByName($name, $get_default_on_mismatch = false)
 	{
@@ -132,20 +131,42 @@ class ilUserPasswordEncoderFactory
 		{
 			if(!$get_default_on_mismatch)
 			{
-				throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
+				throw new \ilUserException(sprintf('The encoder "%s" was not configured.', $name));
 			}
 			else if(!$this->getDefaultEncoder())
 			{
-				throw new ilUserException('No default encoder specified, fallback not possible.');
+				throw new \ilUserException('No default encoder specified, fallback not possible.');
 			}
 			else if(!isset($this->encoders[$this->getDefaultEncoder()]))
 			{
-				throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
+				throw new \ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
 			}
 
 			return $this->encoders[$this->getDefaultEncoder()];
 		}
 
 		return $this->encoders[$name];
+	}
+
+	/**
+	 * @param string $encoded
+	 * @param array  $matchers An key/value pair callback functions (accepting the encoded password) assigned to the respective encoder name
+	 * @return \ilPasswordEncoder
+	 * @throws \ilUserException
+	 */
+	public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers): \ilPasswordEncoder
+	{
+		foreach ($this->getEncoders() as $encoder) {
+			foreach ($matchers as $encoderName => $callback) {
+				if (
+					$encoder->getName() === $encoderName &&
+					is_callable($callback) && $callback($encoded) === true
+				) {
+					return $encoder;
+				}
+			}
+		}
+
+		return $this->getEncoderByName($this->getDefaultEncoder());
 	}
 }

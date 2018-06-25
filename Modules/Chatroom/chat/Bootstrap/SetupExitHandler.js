@@ -4,29 +4,28 @@ var async = require('async');
 /**
  *
  */
-module.exports = function SetupExitHandler(callback)
-{
+module.exports = function SetupExitHandler(callback) {
+
 	var CONST_NO_CLEANUP_CODE = 99;
 
-	process.on('cleanup', function(callback){
-		_cleanUp(callback)
+	process.on('cleanup',  function onCleanUp(callback) {
+		_cleanUp(callback);
 	});
 
-	process.on("exit", function(code){
-		if(code != CONST_NO_CLEANUP_CODE)
-		{
+	process.on("exit", function onExit(code) {
+		if (code !== CONST_NO_CLEANUP_CODE) {
 			process.emit('cleanup');
 		}
 	});
 
-	process.on("SIGINT", function(){
-		process.emit('cleanup', function(){
+	process.on("SIGINT", function onSignalInterrupt() {
+		process.emit('cleanup', function onSignalInterruptCleanup() {
 			process.exit(CONST_NO_CLEANUP_CODE);
 		});
 	});
 
-	process.on("SIGTERM", function(){
-		process.emit('cleanup', function() {
+	process.on("SIGTERM", function onSignalTermination() {
+		process.emit('cleanup', function onSignalTerminationCleanup() {
 			process.exit(CONST_NO_CLEANUP_CODE);
 		});
 	});
@@ -39,15 +38,19 @@ function _cleanUp(callback)
 	//process.stdin.resume(); //so the program will not close instantly
 	var namespaces = Container.getNamespaces();
 
-	async.eachSeries(namespaces, function(namespace, nextLoop){
+	function disconnectSocketsAndUsers(namespace, nextLoop){
 		Container.getLogger().info('Cleanup %s', namespace.getName());
 		namespace.disconnectSockets();
 		namespace.getDatabase().disconnectAllUsers(nextLoop);
+	}
 
-	},
-	function(err){
-		if(err) throw err;
+	function onCleanUpFinished(err){
+		if(err) {
+			throw err;
+		}
 
 		callback();
-	});
+	}
+
+	async.eachSeries(namespaces, disconnectSocketsAndUsers, onCleanUpFinished);
 }

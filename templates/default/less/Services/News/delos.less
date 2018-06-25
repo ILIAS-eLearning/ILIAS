@@ -150,10 +150,27 @@ span.ilNewsRssIcon {
 	float: left;
 	overflow: hidden;
 	width: 100px;
+
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 50px;
+	}
+}
+
+.ilNewsTimelineUserImage img {
+	width: 75px;
+	height: 75px;
+
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 40px;
+		height: 40px;
+	}
 }
 
 .ilNewsTimelineContentSection {
 	padding-left: 100px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		padding-left: 50px;
+	}
 }
 
 .ilNewsTimelineEditInfo {

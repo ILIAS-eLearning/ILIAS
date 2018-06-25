@@ -79,11 +79,11 @@ class ilDataCollectionExporter extends ilXmlExporter {
 
 		// Direct SQL query is faster than looping over objects
 		foreach ($a_ids as $dcl_obj_id) {
-			$sql = "SELECT stloc2.value AS ext_id, f.`datatype_id` FROM il_dcl_stloc2_value AS stloc2 "
-				. "INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) "
-				. "INNER JOIN il_dcl_field AS f ON (rf.`field_id` = f.`id`) " . "INNER JOIN il_dcl_table AS t ON (t.`id` = f.`table_id`) "
-				. "WHERE t.`obj_id` = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
-				. implode(',', array_keys($dependencies)) . ") AND stloc2.`value` IS NOT NULL";
+			$sql = "SELECT stloc2.value AS ext_id, f." . $this->db->quoteIdentifier('datatype_id') . " FROM il_dcl_stloc2_value AS stloc2 "
+				. "INNER JOIN il_dcl_record_field AS rf ON (rf." . $this->db->quoteIdentifier('id') . " = stloc2." . $this->db->quoteIdentifier('record_field_id') . ") "
+				. "INNER JOIN il_dcl_field AS f ON (rf." . $this->db->quoteIdentifier('field_id') . " = f." . $this->db->quoteIdentifier('id') . ") " . "INNER JOIN il_dcl_table AS t ON (t." . $this->db->quoteIdentifier('id') . " = f." . $this->db->quoteIdentifier('table_id') . ") "
+				. "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
+				. implode(',', array_keys($dependencies)) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
 			$set = $this->db->query($sql);
 			while ($rec = $this->db->fetchObject($set)) {
 				$dependencies[$rec->datatype_id]['ids'][] = (int)$rec->ext_id;
@@ -115,7 +115,7 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		foreach ($a_ids as $dcl_obj_id) {
 			// If a DCL table has a detail view, we need to export the associated page objects!
 			$sql = "SELECT page_id FROM page_object "
-				. "WHERE parent_type = " . $this->db->quote('dclf', 'text');
+				. "WHERE parent_type = " . $this->db->quote('dclf', 'text') . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
 			$set = $this->db->query($sql);
 			while ($rec = $this->db->fetchObject($set)) {
 				$page_object_ids[] = "dclf:" . $rec->page_id;

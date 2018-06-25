@@ -44,9 +44,6 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		parent::__construct($a_parent_type, $a_id, $a_old_nr);
 		$this->getPageObject()->setGlossaryId($this->glo_id);
 		
-		$this->setIntLinkReturn(
-			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
-			"", false, false));
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 		$this->enableNotes(true, $this->slm_id);
 	}
@@ -78,7 +75,11 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	function executeCommand()
 	{
 		$ilCtrl = $this->ctrl;
-		
+
+		$this->setIntLinkReturn(
+			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
+				"", false, false));
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 

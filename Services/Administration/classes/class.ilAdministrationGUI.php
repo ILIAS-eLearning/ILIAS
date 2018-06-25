@@ -490,9 +490,9 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt"),
+					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
 				"user_administration" =>
-					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
+					array("usrf", 'tos', "rolf", "orgu", "auth", "ps"),
 				"learning_outcomes" =>
 					array("skmg", "bdga", "cert", "trac")
 				),
@@ -500,9 +500,9 @@ class ilAdministrationGUI
 				"user_services" =>
 					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
 				"content_services" =>
-					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", "pdfg", "ltis"),
+					array("seas", "mds", "tags", "taxs", 'ecss', "ltis", "otpl", "pdfg"),
 				"maintenance" =>
-					array('sysc', "recf", 'logs', "root", "wfe")
+					array('logs', 'sysc', "recf", "root")
 				),
 			3 => array(
 				"container" =>
@@ -573,8 +573,8 @@ class ilAdministrationGUI
 							if ($_GET["admin_mode"] == "settings" && $titems[$e]["ref_id"] == ROOT_FOLDER_ID)
 							{
 								$gl->addEntry($icon.$titems[$e]["title"],
-									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-									$titems[$e]["ref_id"]."&amp;admin_mode=repository",
+									"ilias.php?baseClass=ilAdministrationGUI&ref_id=".
+									$titems[$e]["ref_id"]."&admin_mode=repository",
 									"_top", "", "", "mm_adm_rep",
 									ilHelp::getMainMenuTooltip("mm_adm_rep"),
 									"bottom center", "top center", false);
@@ -582,8 +582,8 @@ class ilAdministrationGUI
 							else
 							{
 								$gl->addEntry($icon.$titems[$e]["title"],
-									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-										$titems[$e]["ref_id"]."&amp;cmd=jump",
+									"ilias.php?baseClass=ilAdministrationGUI&ref_id=".
+										$titems[$e]["ref_id"]."&cmd=jump",
 									"_top", "", "", "mm_adm_".$titems[$e]["type"],
 									ilHelp::getMainMenuTooltip("mm_adm_".$titems[$e]["type"]),
 									"bottom center", "top center", false);

@@ -377,8 +377,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 			// return false; #14354
 		}
 
-		if (!$ilAccess->checkAccess("read", "", $a_node["child"]))
-		{
+		if(!$ilAccess->hasUserRBACorAnyPositionAccess("read",$a_node["child"])) {
 			return false;
 		}
 

@@ -31,8 +31,6 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		$this->type = 'prgs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('prg');
-		//Check Permissions globally for all SubGUIs. We only check write permissions
-		$this->checkPermission('write');
 	}
 
 
@@ -41,6 +39,8 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
+		//Check Permissions globally for all SubGUIs. We only check write permissions
+		$this->checkPermission('read');
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();

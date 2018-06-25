@@ -1,0 +1,14 @@
+{
+  "name": "OpenLayers",
+  "_cacheHeaders": {
+    "ETag": "\"2dee67695f9c93d001d1c04e431a3d05\"",
+    "Last-Modified": "Mon, 11 Dec 2017 18:20:07 GMT",
+    "Content-Length": "617731",
+    "Content-Type": "application/octet-stream",
+    "Content-Disposition": "attachment; filename=v4.6.4-dist.zip"
+  },
+  "_release": "e-tag:2dee67695",
+  "_source": "https://github.com/openlayers/openlayers/releases/download/v4.6.4/v4.6.4-dist.zip",
+  "_target": "*",
+  "_originalSource": "https://github.com/openlayers/openlayers/releases/download/v4.6.4/v4.6.4-dist.zip"
+}

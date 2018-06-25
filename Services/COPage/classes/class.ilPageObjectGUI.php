@@ -1293,7 +1293,6 @@ return;
 						$GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
 					}
 
-					//$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
 					$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 					$tpl->touchBlock("init_dragging");
 
@@ -1769,7 +1768,8 @@ return;
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
 						 'current_ts' => $current_ts,
 			 			 'enable_html_mob' =>  ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
-						 'flv_video_player' => $flv_video_player
+						 'flv_video_player' => $flv_video_player,
+					     'page_perma_link' => $this->getPagePermaLink()
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
@@ -3301,7 +3301,7 @@ return;
 */
 		if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+			$this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view")
 				, "view", "ilEditClipboardGUI");
 		}
 
@@ -3732,5 +3732,17 @@ return;
 			$this->getRenderPageContainer() || $this->getOutputMode() == IL_PAGE_PREVIEW
 		);
 	}
+
+	/**
+	 * Get page perma link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPagePermaLink()
+	{
+		return "";
+	}
+
 }
 ?>

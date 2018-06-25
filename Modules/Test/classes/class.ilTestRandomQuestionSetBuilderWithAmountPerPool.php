@@ -26,6 +26,10 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		$quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 		$quantitiesDistribution->initialise();
 		
+		// perhaps not every with every BUT every with any next ??!
+		// perhaps exactly like this !!? I dont know :-)
+		// it should be about vice versa rule conflict reporting
+		
 		foreach($this->sourcePoolDefinitionList as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */

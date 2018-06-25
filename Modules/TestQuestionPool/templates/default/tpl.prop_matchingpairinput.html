@@ -5,7 +5,7 @@
 			<th>{TEXT_DEFINITION}</th>
 			<th>{TEXT_TERM}</th>
 			<th>{TEXT_POINTS}</th>
-			<th>{TEXT_ACTIONS}</th>
+			<th style="text-align:right;">{TEXT_ACTIONS}</th>
 		</tr>
 		</thead>
 		<tbody class="mpwzd">
@@ -31,7 +31,7 @@
 				<input class="form-control text-right" type="text" size="5" name="{POST_VAR}[points][{ROW_NUMBER}]"
 				<!-- BEGIN points_value -->value="{POINTS_VALUE}" <!-- END points_value --> />
 			</td>
-			<td class="ilValignTop">
+			<td class="ilValignTop" style="text-align:right;">
 				<button type="button" name="{CMD_ADD}" class="matchingpair_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">
 					{ADD_BUTTON}
 				</button>

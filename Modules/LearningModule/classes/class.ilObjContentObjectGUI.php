@@ -2109,7 +2109,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function setilLMMenu($a_offline = false, $a_export_format = "",
 		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
-		$a_cur_page = 0)
+		$a_cur_page = 0, $a_lang = "", $a_export_all = false)
 	{
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
@@ -2120,7 +2120,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("lm");
-		
+
 		if ($a_as_subtabs)
 		{
 			$addcmd = "addSubTabTarget";
@@ -2146,6 +2146,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		else
 		{
 			$tabs_gui = new ilTabsGUI();
+		}
+
+		// workaround for preventing tooltips in export
+		if ($a_offline)
+		{
+			$tabs_gui->setSetupMode(true);
 		}
 		
 		// Determine whether the view of a learning resource should
@@ -2179,6 +2185,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$ilHelp->setSubScreenId("content");
 			}
 		}
+		else if ($a_offline)
+		{
+			$tabs_gui->setForcePresentationOfSingleTab(true);
+		}
 
 		// table of contents
 		if($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -2190,9 +2200,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			}
 			else
 			{
-				$link = "./table_of_contents.html";
+				if ($a_export_all)
+				{
+					$link = "./table_of_contents_".$a_lang.".html";
+				}
+				else
+				{
+					$link = "./table_of_contents.html";
+				}
 			}
-			
 			$tabs_gui->$addcmd("cont_toc", $link,
 					"", "", $buttonTarget, $active["toc"]);
 		}
@@ -2256,7 +2272,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
 				$tabs_gui->$addcmd("learning_progress", 
-					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editmanual"),
+					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editManual"),
 						"", "", $buttonTarget, $active["learning_progress"]);
 			}
 			else if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
@@ -2319,7 +2335,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$resp = $gui_class->modifyGUI("Modules/LearningModule", "lm_menu_tabs",
 				array("lm_menu_tabs" => $tabs_gui));
 		}
-
 
 		return $tabs_gui->$getcmd();
 	}

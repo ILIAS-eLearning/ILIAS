@@ -78,19 +78,41 @@ class ilForumAuthorInformation
 	protected $author_id;
 
 	/**
+	 * @var \ilLanguage|null
+	 */
+	protected $lng;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $globalLng;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	protected $globalUser;
+
+	/**
 	 * @param int    $author_id
 	 * @param int    $display_id
 	 * @param string $alias
 	 * @param string $import_name
 	 * @param array  $public_profile_link_attributes
+	 * @param \ilLanguage|null  $lng
 	 */
-	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array())
+	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array(), \ilLanguage $lng = null)
 	{
+		global $DIC;
+
+		$this->globalUser = $DIC->user();
+		$this->globalLng  = $DIC->language();
+
 		$this->author_id                      = $author_id;
 		$this->display_id                     = $display_id;
 		$this->alias                          = $alias;
 		$this->import_name                    = $import_name;
 		$this->public_profile_link_attributes = $public_profile_link_attributes;
+		$this->lng                            = $lng;
 
 		$this->init();
 	}
@@ -133,7 +155,7 @@ class ilForumAuthorInformation
 	 */
 	protected function isAuthorAnonymous()
 	{
-		return $this->doesAuthorAccountExists() && $this->getAuthor()->getId() == ANONYMOUS_USER_ID;
+		return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
 	}
 
 	/**
@@ -141,8 +163,7 @@ class ilForumAuthorInformation
 	 */
 	protected function isCurrentUserSessionLoggedIn()
 	{
-		global $DIC;
-		return !$DIC->user()->isAnonymous();
+		return !$this->globalUser->isAnonymous();
 	}
 
 	/**
@@ -182,10 +203,12 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		global $DIC; 
-		$lng = $DIC->language();
-
 		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
+
+		$translationLanguage = $this->globalLng;
+		if ($this->lng instanceof \ilLanguage) {
+			$translationLanguage = $this->lng;
+		}
 
 		$this->initUserInstance();
 
@@ -203,11 +226,14 @@ class ilForumAuthorInformation
 
 				if($this->getAuthor()->getPref('public_upload') == 'y')
 				{
-					$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
+					$this->profilePicture = $this->getUserImagePath($this->getAuthor());
 				}
 				else
 				{
-					$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+					$this->profilePicture = $this->getAvatarImageSource(
+						ilStr::subStr($this->getAuthor()->getFirstname(), 0, 1) . ilStr::subStr($this->getAuthor()->getLastname(), 0, 1),
+						$this->getAuthor()->getId()
+					);
 				}
 
 				if($this->getAuthor()->getPref('public_gender') != 'y')
@@ -222,41 +248,75 @@ class ilForumAuthorInformation
 				$this->getAuthor()->setGender('');
 				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
-				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+				$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 			}
 		}
 		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))
 		{
 			// The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
 			// We have no import name,so we check the pseudonym  
-			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('deleted') . ')';
-			$this->suffix            = $lng->txt('deleted');
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('deleted') . ')';
+			$this->suffix            = $translationLanguage->txt('deleted');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else if(strlen($this->import_name))
 		{
 			// We have no user instance,so we check the import name
-			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $lng->txt('imported') . ')';
-			$this->suffix            = $lng->txt('imported');
+			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $translationLanguage->txt('imported') . ')';
+			$this->suffix            = $translationLanguage->txt('imported');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else if(strlen($this->alias))
 		{
 			// We have no import name,so we check the pseudonym
-			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('frm_pseudonym') . ')';
-			$this->suffix            = $lng->txt('frm_pseudonym');
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('frm_pseudonym') . ')';
+			$this->suffix            = $translationLanguage->txt('frm_pseudonym');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
-			$this->author_short_name = $this->author_name = $lng->txt('forums_anonymous');
+			$this->author_short_name = $this->author_name = $translationLanguage->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
+	}
+
+	/**
+	 * @param ilObjUser $user
+	 * @return string
+	 */
+	protected function getUserImagePath(\ilObjUser $user)
+	{
+		if (!\ilContext::hasHTML()) {
+			return'';
+		}
+
+		return $user->getPersonalPicturePath('xsmall');
+	}
+
+	/**
+	 * @param string $name
+	 * @param int $usrId
+	 * @return string
+	 */
+	protected function getAvatarImageSource($name, $usrId = ANONYMOUS_USER_ID)
+	{
+		global $DIC;
+
+		if (!\ilContext::hasHTML()) {
+			return'';
+		}
+
+		/** @var ilUserAvatar $avatar */
+		$avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
+		$avatar->setUsrId($usrId);
+		$avatar->setName(ilStr::subStr($name, 0, 2));
+
+		return $avatar->getUrl();
 	}
 
 	/**

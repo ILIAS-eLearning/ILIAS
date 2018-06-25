@@ -493,7 +493,7 @@ class ilMailSearchCoursesGUI
 			$this->lng->loadLanguageModule('crs');
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context);
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context, $_POST["search_crs"]);
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			foreach($_POST["search_crs"] as $crs_id) 
@@ -549,6 +549,7 @@ class ilMailSearchCoursesGUI
 				}
 			}
 			$table->setData($tableData);
+
 			if (count($tableData))
 			{
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES", $this->lng->txt("marked_entries"));

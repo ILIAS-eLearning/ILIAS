@@ -197,7 +197,7 @@ class ilSkillProfileGUI
 		}
 
 		include_once("./Services/Skill/classes/class.ilSkillProfileTableGUI.php");
-		$tab = new ilSkillProfileTableGUI($this, "listProfiles");
+		$tab = new ilSkillProfileTableGUI($this, "listProfiles", $this->checkPermissionBool("write"));
 		
 		$tpl->setContent($tab->getHTML());
 	}
@@ -425,7 +425,8 @@ class ilSkillProfileGUI
 		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php");
-		$tab = new ilSkillProfileLevelsTableGUI($this, "showLevels", $this->profile);
+		$tab = new ilSkillProfileLevelsTableGUI($this, "showLevels", $this->profile,
+			$this->checkPermissionBool("write"));
 		$tpl->setContent($tab->getHTML());
 	}
 	
@@ -585,21 +586,24 @@ class ilSkillProfileGUI
 		$ilToolbar = $this->toolbar;
 		
 		// add member
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$ilToolbar,
-			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('skmg_assign_user')
-			)
-		);
+		if ($this->checkPermissionBool("write"))
+		{
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$ilToolbar,
+				array(
+					'auto_complete_name' => $lng->txt('user'),
+					'submit_name' => $lng->txt('skmg_assign_user')
+				)
+			);
+		}
 		
 		$this->setTabs("users");
 		
 		include_once("./Services/Skill/classes/class.ilSkillProfileUserTableGUI.php");
 		$tab = new ilSkillProfileUserTableGUI($this, "showUsers",
-			$this->profile);
+			$this->profile, $this->checkPermissionBool("write"));
 		$tpl->setContent($tab->getHTML());
 	}
 

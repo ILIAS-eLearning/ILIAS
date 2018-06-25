@@ -35,37 +35,38 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 * @var int
 	 */
 	protected $period = self::PERIOD_WEEK;
-
+	
 	/**
-	 * @var string
+	 * @var ilDate
 	 */
-	protected $seed;
+	protected $period_end_day = null;
+
+	
 
 	/**
 	 * Constructor
+	 * 
+	 * @param ilDate $seed
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
-	function __construct()
+	public function __construct(ilDate $seed)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-
+		parent::__construct($seed, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+		
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 		//$qp = $DIC->http()->request()->getQueryParams();
+		#21479
 		$qp = $_GET;
-		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
-		{
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
 			$this->period = $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			$this->period = $period;
 		}
 
 		$get_seed = $qp["seed"];
-
-		$this->seed = new ilDate($get_seed." 00:00:00", IL_CAL_DATE);
-
 		$this->ctrl->setParameterByClass("ilcalendarinboxgui","seed",$this->seed->get(IL_CAL_DATE));
-
-		$end_date = new ilDate($get_seed." 00:00:00", IL_CAL_DATETIME);
-
+		$end_date = clone $this->seed;
 		switch ($this->period)
 		{
 			case self::PERIOD_DAY:
@@ -86,7 +87,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 		$this->period_end_day = $end_date->get(IL_CAL_DATE);
 	}
-
+	
 	/**
 	 * Execute command
 	 */
@@ -135,25 +136,69 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		$items = array();
 		$groups = array();
 		$modals = array();
-		$cday = "";
+		$group_date = new ilDate(0, IL_CAL_UNIX);
+		$end_day = new ilDate($this->period_end_day,IL_CAL_DATE);
+		$end_day->increment(ilDateTime::DAY,-1);
 		foreach ($events as $e)
 		{
-			$begin = new ilDatetime($e['dstart'],IL_CAL_UNIX);
-			$end = new ilDatetime($e['dend'],IL_CAL_UNIX);
-			$day = ilDatePresentation::formatDate(new ilDate($e['dstart'],IL_CAL_UNIX), false, true);
-
-			// new group starts
-			if ($cday != $day)
+			if($e['event']->isFullDay())
 			{
-				// terminate preceding group
-				if ($cday != "")
-				{
-					$groups[] = $this->ui_factory->item()->group($cday, $items);
-				}
-				$cday = $day;
-				$items = array();
+				// begin/end is Date (without timzone)
+				$begin = new ilDate($e['dstart'], IL_CAL_UNIX);
+				$end = new ilDate($e['dend'],IL_CAL_UNIX);
 			}
-
+			else
+			{
+				// begin/end is DateTime (with timezone conversion)
+				$begin = new ilDateTime($e['dstart'],IL_CAL_UNIX);
+				$end = new ilDateTime($e['dend'],IL_CAL_UNIX);
+			}
+			
+			//  if the begin is before seed date (due to timezone conversion) => continue
+			if(ilDateTime::_before(
+				$begin, 
+				$this->seed,  
+				ilDateTime::DAY,
+				$GLOBALS['DIC']->user()->getTimezone()))
+			{
+				continue;
+			}
+			
+			if(ilDateTime::_after(
+				$begin,
+				$end_day,
+				ilDateTime::DAY,
+				$GLOBALS['DIC']->user()->getTimezone())
+			)
+			{
+				break;
+			}
+				
+			
+			// initialize group date for first iteration
+			if($group_date->isNull())
+			{
+				$group_date = new ilDate(
+					$begin->get(IL_CAL_DATE,'',$GLOBALS['DIC']->user()->getTimezone()),
+					IL_CAL_DATE
+				);
+			}
+			
+			if(!ilDateTime::_equals($group_date, $begin, IL_CAL_DAY, $GLOBALS['DIC']->user()->getTimezone()))
+			{
+				// create new group
+				$groups[] = $this->ui_factory->item()->group(
+					ilDatePresentation::formatDate($group_date, false, true),
+					$items
+				);
+				
+				$group_date = new ilDate(
+					$begin->get(IL_CAL_DATE,'',$GLOBALS['DIC']->user()->getTimezone()),
+					IL_CAL_DATE
+				);
+				$items = [];
+			}
+			
 			// get calendar
 			$cat_id = ilCalendarCategoryAssignments::_lookupCategory($e["event"]->getEntryId());
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
@@ -176,7 +221,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 			$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(false), "")->withOnClick($modal->getShowSignal());
 
 			$modals[] = $modal;
 			if($e['event']->isFullDay()) {
@@ -185,7 +230,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
 			}
 			$li = $this->ui_factory->item()->standard($shy)
-				->withDescription("".$e["event"]->getDescription())
+				->withDescription("".nl2br(strip_tags($e["event"]->getDescription())))
 				->withLeadText($lead_text)
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
@@ -204,9 +249,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		}
 		// terminate last group
-		if ($cday != "")
+		if(!$group_date->isNull())
 		{
-			$groups[] = $this->ui_factory->item()->group($cday, $items);
+			$groups[] = $this->ui_factory->item()->group(
+				ilDatePresentation::formatDate($group_date, false, true),
+				$items);
 		}
 
 		// list actions
@@ -218,6 +265,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
 		}
 
+		#21479 Set seed if the view does not contain any event.
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
 		$items = array();
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
@@ -233,10 +282,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
-		$list_title = $this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
+		$list_title = 
+			$this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
 		if ($this->period != self::PERIOD_DAY)
 		{
-			$list_title.= " - ".ilDatePresentation::formatDate(new ilDate($this->period_end_day, IL_CAL_DATE));
+			$end_day = new ilDate($this->period_end_day, IL_CAL_DATE);
+			$end_day->increment(ilDateTime::DAY, -1);
+			$list_title.= " - ".ilDatePresentation::formatDate($end_day);
 		}
 
 		$list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)
@@ -245,8 +297,15 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$comps = array_merge($modals, array($list));
 
-		return $this->ui_renderer->render($comps);
+		$html =  $this->ui_renderer->render($comps);
 
+		if (count($groups) == 0)
+		{
+			$tpl = $this->ui->mainTemplate();
+			$html.= $tpl->getMessageHTML($this->lng->txt("cal_no_events_info"));
+		}
+
+		return $html;
 	}
 
 	/**
@@ -264,6 +323,22 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 		return $li;
 	}
-}
 
-?>
+	/**
+	 * needed in CalendarInboxGUI to get events using a proper period.
+	 * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
+	 * @return int|mixed
+	 */
+	static function getPeriod()
+	{
+		#21479
+		$qp = $_GET;
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
+			return $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			return $period;
+		} else {
+			return self::PERIOD_WEEK;
+		}
+	}
+}

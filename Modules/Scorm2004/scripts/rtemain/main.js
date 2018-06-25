@@ -167,13 +167,13 @@ function sclog(mess, type)
 function sclogflush()
 {
 	return;
-	elm = all("ilLogPre");
-	if (elm) 
-	{
-		elm.innerHTML = elm.innerHTML + log_buffer;
-		sclogscroll();
-	}
-	log_buffer = "";
+	// elm = all("ilLogPre");
+	// if (elm) 
+	// {
+		// elm.innerHTML = elm.innerHTML + log_buffer;
+		// sclogscroll();
+	// }
+	// log_buffer = "";
 }
 
 /**
@@ -2956,19 +2956,18 @@ function setItemValue (key, dest, source, destkey)
 	if (source && source.hasOwnProperty(key)) 
 	{
 		var d = source[key];
-		var temp=d;
-		if (d!="" && !isNaN(Number(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
-			d = Number(d);
-		} else if (d==="true") {
-			d = true;
-		} else if (d==="false") {
-			d = false;
+		var dk = destkey ? destkey : key; 
+		//special handling keys without conversion
+		if (dk != "location" && dk != "suspend_data" && dk != "title") {
+			if (d!="" && !isNaN(Number(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
+				d = Number(d);
+			} else if (d==="true") {
+				d = true;
+			} else if (d==="false") {
+				d = false;
+			}
 		}
-		//special handling for titles - no conversion
-		if (key == "title") {
-			d=temp;
-		}
-		dest[destkey ? destkey : key] = d;
+		dest[dk] = d;
 	}
 }
 
@@ -3916,7 +3915,7 @@ function updateNav(ignore) {
 		}
 		//added to sign actual node
 		// if (ignore!=true) 
-		signActNode();
+		if (elm) signActNode();
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 		first = false;
 	}

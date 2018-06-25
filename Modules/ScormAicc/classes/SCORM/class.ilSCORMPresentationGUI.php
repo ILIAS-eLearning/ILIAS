@@ -95,86 +95,50 @@ class ilSCORMPresentationGUI
 				exit;		
 			}
 		}
-		
-		//count attempt
-		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
-		
+	
 		$this->increase_attemptAndsave_module_version();
-//		$this->increase_attempt();
-//		$this->save_module_version();
 
-		if ($javascriptAPI == false) {
-			if (count($items) > 1
-				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
-				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
+
+		$debug = $this->slm->getDebug();
+		if (count($items) > 1)
+		{
+			$this->ctrl->setParameter($this, "expand", "1");
+			$this->ctrl->setParameter($this, "jsApi", "1");
+			$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
+			
+			// should be able to grep templates
+			if($debug)
 			{
-				$this->ctrl->setParameter($this, "expand", "1");
-				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
-				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-				$api_link = $this->ctrl->getLinkTarget($this, "api");
-				$this->tpl->setVariable("API_LINK", $api_link);
-				$pres_link = $this->ctrl->getLinkTarget($this, "view");
-				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
-				$this->tpl->show("DEFAULT", false);
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
 			}
-			else if (count($items) == 1)
+			else
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_one_page.html", false, false, "Modules/ScormAicc");
-				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
-				$api_link = $this->ctrl->getLinkTarget($this, "api");
-				$this->tpl->setVariable("API_LINK", $api_link);
-				$pres_link = $this->ctrl->getLinkTarget($this, "view");
-				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
-				$this->tpl->show("DEFAULT", false);
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
 			}
+							
+			$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+			$pres_link = $this->ctrl->getLinkTarget($this, "contentSelect");
+			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 		} else {
-			//WAC
-			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-			ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
-
-			$debug = $this->slm->getDebug();
-			if (count($items) > 1
-				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
-				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+			
+			if($debug)
 			{
-				$this->ctrl->setParameter($this, "expand", "1");
-				$this->ctrl->setParameter($this, "jsApi", "1");
-				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-				
-				// should be able to grep templates
-				if($debug)
-				{
-//					$this->tpl = new ilTemplate("tpl.sahs_pres_js_debug.html", false, false, "Modules/ScormAicc");
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
-				}
-				else
-				{
-//					$this->tpl = new ilTemplate("tpl.sahs_pres_js_debug.html", false, false, "Modules/ScormAicc");
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
-				}
-								
-				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-				$pres_link = $this->ctrl->getLinkTarget($this, "contentSelect");
-				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
-			} else {
-				
-				// should be able to grep templates
-				if($debug)
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
-				}
-				else
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
-				}
-
-				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
 			}
-			$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
-			$this->tpl->setVariable("API_LINK", $api_link);
-			$this->tpl->show("DEFAULT", false);
+			else
+			{
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
+			}
+
+			$this->ctrl->setParameter($this, "autolaunch", $items[0]);
 		}
+		$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
+		$this->tpl->setVariable("API_LINK", $api_link);
+		$this->tpl->show("DEFAULT", false);
+
 		
 		exit;
 		
@@ -677,9 +641,7 @@ class ilSCORMPresentationGUI
 		
 		// set icon, if more than one SCO/Asset is presented
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
-		if (count($items) > 1
-			|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
-			|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+		if (count($items) > 1)
 		{
 			$this->tpl->setVariable("SWITCH_ICON_CMD", "switch_icon();");
 		}

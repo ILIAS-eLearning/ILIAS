@@ -300,11 +300,36 @@ class ilPropertyFormGUI extends ilFormGUI
 	*
 	* @param	string	$a_postvar		Post Var
 	*/
-	function removeItemByPostVar($a_post_var)
+	function removeItemByPostVar($a_post_var, $a_remove_unused_headers = false)
 	{
 		foreach ($this->items as $key => $item)
 		{
 			if (method_exists($item, "getPostVar") && $item->getPostVar() == $a_post_var)
+			{
+				unset($this->items[$key]);
+			}
+		}
+
+		// remove section headers if they do not contain any items anymore
+		if ($a_remove_unused_headers)
+		{
+			$unset_keys = array();
+			$last_item = null;
+			$last_key = null;
+			foreach ($this->items as $key => $item)
+			{
+				if ($item instanceof ilFormSectionHeaderGUI && $last_item instanceof ilFormSectionHeaderGUI)
+				{
+					$unset_keys[] = $last_key;
+				}
+				$last_item = $item;
+				$last_key = $key;
+			}
+			if ($last_item instanceof ilFormSectionHeaderGUI)
+			{
+				$unset_keys[] = $last_key;
+			}
+			foreach ($unset_keys as $key)
 			{
 				unset($this->items[$key]);
 			}
@@ -1002,7 +1027,12 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
 	{
 		$ilUser = $this->user;
-		
+
+		if (trim($a_tmp_name) == "")
+		{
+			return;
+		}
+
 		$user_id = $ilUser->getId();
 		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
 		{
@@ -1025,8 +1055,8 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			ilUtil::createDirectory($temp_path);
 		}
-		
-		move_uploaded_file($a_tmp_name, $temp_path."/".$tmp_file_name);	
+
+		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
 	}
 	
 	/**
@@ -1162,7 +1192,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			
 			if($data["is_upload"])
 			{
-				if (!move_uploaded_file($data["tmp_name"], $target_file))
+				if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file))
 				{
 					return;
 				}

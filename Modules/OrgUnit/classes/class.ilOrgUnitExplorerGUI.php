@@ -95,10 +95,15 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		if ($ilCtrl->getCmd() == "performPaste") {
 			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "target_node", $node["child"]);
 		}
+		$array = $ilCtrl->getParameterArrayByClass("ilObjOrgUnitGUI");
+		$temp = $array['ref_id'];
+
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
 		$ilCtrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $node["child"]);
 
-		return ($node['type'] == "orgu") ? $this->getLinkTarget() : $this->getPluginLinkTarget();
+		$link_target = ($node['type'] == "orgu") ? $this->getLinkTarget() : $this->getPluginLinkTarget();
+		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", 'ref_id', $temp);
+		return $link_target;
 	}
 
 

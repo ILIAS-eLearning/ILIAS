@@ -402,7 +402,7 @@ class ilObjectPermissionStatusGUI
 				$result_set[$counter]["operation"] = $this->lng->txt($this->object->getType()."_".$ops['operation']);
 			}
 
-			$list_role = "";
+			$list_role = [];
 
 			// Check ownership
 			if($this->user->getId() == $ilObjDataCache->lookupOwner($this->object->getId()))
@@ -457,6 +457,13 @@ class ilObjectPermissionStatusGUI
 		foreach ($this->valid_roles as $role)
 		{
 			$result_set[$counter]["img"] = in_array($role['obj_id'],$this->user_roles) ? self::IMG_OK : self::IMG_NOT_OK;
+
+			if(is_subclass_of($this->object, ilObjectPlugin::class) && $role["parent"] == $this->object->getRefId()) {
+				$result_set[$counter][] = ilObjectPlugin::lookupTxtById($this->object->getType(), ilObjRole::_removeObjectId($role["title"]));
+			} else {
+				$result_set[$counter][] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
+			}
+
 			$result_set[$counter]["role"] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
 
 			if ($role['role_type'] != "linked")

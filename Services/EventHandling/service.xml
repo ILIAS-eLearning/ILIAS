@@ -8,4 +8,5 @@
 	<pluginslots>
 		<pluginslot id="evhk" name="EventHook" />
 	</pluginslots>
+	<logging />
 </service>

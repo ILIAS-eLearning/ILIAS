@@ -4,11 +4,13 @@ il.ExcIDl = {
 	ajax_url: '',
 	
 	init: function (url) {
+		console.log("init url:" + url);
 		this.ajax_url = url;
 		il.ExcIDl.initModal();
 	},
 	
 	trigger: function(user_id, ass_id) {
+		console.log("trigger");
 		il.Util.sendAjaxGetRequestToUrl(
 			il.ExcIDl.ajax_url,
 			{idlid: ass_id+"_"+user_id},
@@ -18,7 +20,8 @@ il.ExcIDl = {
 		return false;
 	},
 	
-	initModal: function() {						
+	initModal: function() {
+		console.log("init modal");
 		// add form action
 		$('form[name="ilExcIDlForm"]').submit(function() {			
 			var submit_btn = $(document.activeElement).attr("name");
@@ -75,7 +78,8 @@ il.ExcIDl = {
 		});				
 	},		
 	
-	showModal: function(o) {	
+	showModal: function(o) {
+		console.log("show modal");
 		if(o.responseText !== undefined)
 		{			
 			$("#ilExcIDlBody").html(o.responseText);

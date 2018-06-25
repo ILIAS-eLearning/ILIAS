@@ -38,7 +38,8 @@ class ilDBGenerator {
 	 * Constructor
 	 */
 	public function __construct() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
 		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
@@ -54,7 +55,8 @@ class ilDBGenerator {
      * @deprecated abstraction_progress is no longer used in ILIAS
      */
 	public static function lookupAbstractedTables() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
 		$res = $ilDB->query($query);
@@ -236,9 +238,11 @@ class ilDBGenerator {
 
 
 	protected function openFile($a_path) {
+		global $DIC;
+		$ilDB = $DIC->database();
 		if (1) {
 			$file = fopen($a_path, "w");
-			$start .= "\t" . 'global $ilDB;' . "\n\n";
+			$start .= "\t" . $ilDB . "\n\n";
 			fwrite($file, $start);
 
 			return $file;
@@ -246,7 +250,7 @@ class ilDBGenerator {
 
 		$file = fopen($a_path, "w");
 		$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-		$start .= "\t" . 'global $ilDB;' . "\n\n";
+		$start .= "\t" . $ilDB . "\n\n";
 		fwrite($file, $start);
 
 		return $file;
@@ -286,7 +290,9 @@ class ilDBGenerator {
 			$file = fopen($a_filename, "w");
 
 			$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-			$start .= "\t" . 'global $ilDB;' . "\n\n";
+			global $DIC;
+			$ilDB = $DIC->database();
+			$start .= "\t" . $ilDB . "\n\n";
 			fwrite($file, $start);
 		} elseif ($isDirectory) {
 			;
@@ -320,6 +326,10 @@ class ilDBGenerator {
 
 				// auto increment sequence
 				$this->buildCreateSequenceStatement($table, $file);
+
+				if (in_array($table, array('usr_session_stats', 'usr_session_raw'))) {
+					continue;
+				}
 
 				// inserts
 				if ($isDirectory) {
@@ -554,11 +564,12 @@ class ilDBGenerator {
 	 * @return
 	 */
 	public function buildInsertStatement($a_table, $a_basedir) {
-		global $ilLog;
+		global $DIC;
+		$ilLogger = $DIC->logger()->root();
 
-		$ilLog->write('Starting export of:' . $a_table);
+		$ilLogger->log('Starting export of:' . $a_table);
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$row = 0;
 
 		umask(0000);
@@ -581,7 +592,7 @@ class ilDBGenerator {
 			$rows[$a_table][$row ++] = $values;
 
 			if ($row >= 1000) {
-				$ilLog->write('Writing insert statements after 1000 lines...');
+				$ilLogger->log('Writing insert statements after 1000 lines...');
 				$fp = fopen($a_basedir . '/' . $a_table . '_inserts/' . $filenum ++ . '.data', 'w');
 				fwrite($fp, serialize((array)$rows));
 				fclose($fp);
@@ -596,9 +607,9 @@ class ilDBGenerator {
 			fclose($fp);
 		}
 
-		$ilLog->write('Finished export of: ' . $a_table);
+		$ilLogger->log('Finished export of: ' . $a_table);
 		if (function_exists('memory_get_usage')) {
-			$ilLog->write('Memory usage: ' . memory_get_usage(true));
+			$ilLogger->log('Memory usage: ' . memory_get_usage(true));
 		}
 
 		return true;
@@ -612,13 +623,12 @@ class ilDBGenerator {
 	 * @return
 	 */
 	public function buildInsertStatementsXML($a_table, $a_basedir) {
-		global $ilLog;
 
 		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$w = new ilXmlWriter();
 		$w->xmlStartTag('Table', array( 'name' => $a_table ));
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$ins_st = "";
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set)) {
@@ -658,7 +668,7 @@ class ilDBGenerator {
 			return;
 		}
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$ins_st = "";
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set)) {
@@ -861,7 +871,8 @@ class ilDBGenerator {
 	 * @return string
 	 */
 	protected function shortenText($table, $field, $a_value, $a_size) {
-		global $ilLog;
+		global $DIC;
+		$ilLogger = $DIC->logger()->root();
 
 		if ($this->getTargetEncoding() == 'UTF-8') {
 			return $a_value;
@@ -875,14 +886,14 @@ class ilDBGenerator {
 		$shortened = mb_convert_encoding($shortened, 'UTF-8', $this->getTargetEncoding());
 
 		if (strlen($a_value) != strlen($shortened)) {
-			$ilLog->write('Table        : ' . $table);
-			$ilLog->write('Field        : ' . $field);
-			$ilLog->write('Type         : ' . $this->fields[$field]['type']);
-			$ilLog->write('Length       : ' . $this->fields[$field]['length']);
-			$ilLog->write('Before       : ' . $a_value);
-			$ilLog->write('Shortened    : ' . $shortened);
-			$ilLog->write('Strlen Before: ' . strlen($a_value));
-			$ilLog->write('Strlen After : ' . strlen($shortened));
+			$ilLogger->log('Table        : ' . $table);
+			$ilLogger->log('Field        : ' . $field);
+			$ilLogger->log('Type         : ' . $this->fields[$field]['type']);
+			$ilLogger->log('Length       : ' . $this->fields[$field]['length']);
+			$ilLogger->log('Before       : ' . $a_value);
+			$ilLogger->log('Shortened    : ' . $shortened);
+			$ilLogger->log('Strlen Before: ' . strlen($a_value));
+			$ilLogger->log('Strlen After : ' . strlen($shortened));
 		}
 
 		return $shortened;

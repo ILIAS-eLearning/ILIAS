@@ -48,7 +48,11 @@ class ilObjSurvey extends ilObject
 	const ANONYMIZE_CODE_ALL = 3; // personalized, codes
 	
 	const QUESTIONTITLES_HIDDEN = 0;
-	const QUESTIONTITLES_VISIBLE = 1;	
+	const QUESTIONTITLES_VISIBLE = 1;
+
+	// constants to define the print view values.
+	const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
+	const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
 	
 	/**
 	* A unique positive numerical ID which identifies the survey.
@@ -591,30 +595,68 @@ class ilObjSurvey extends ilObject
 	function insertQuestion($question_id) 
 	{
 		$ilDB = $this->db;
-		
+
+		$this->log->debug("insert question, id:".$question_id);
+
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if (!SurveyQuestion::_isComplete($question_id))
 		{
+			$this->log->debug("question is not complete");
 			return FALSE;
 		}
 		else
 		{
 			// get maximum sequence index in test
+			// @todo: refactor this
 			$result = $ilDB->queryF("SELECT survey_question_id FROM svy_svy_qst WHERE survey_fi = %s",
 				array('integer'),
 				array($this->getSurveyId())
 			);
 			$sequence = $result->numRows();
 			$duplicate_id = $this->duplicateQuestionForSurvey($question_id);
+			$this->log->debug("duplicate, id: ".$question_id.", duplicate id: ".$duplicate_id);
+
+			// check if question is not already in the survey, see #22018
+			if ($this->isQuestionInSurvey($duplicate_id))
+			{
+				return false;
+			}
+
 			$next_id = $ilDB->nextId('svy_svy_qst');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer', 'integer'),
 				array($next_id, $this->getSurveyId(), $duplicate_id, $sequence, time())
 			);
+
+			$this->log->debug("added entry to svy_svy_qst, id: ".$next_id.", question id: ".$duplicate_id.", sequence: ".$sequence);
+
 			$this->loadQuestionsFromDb();
 			return TRUE;
 		}
 	}
+
+	/**
+	 * Check if a question is already in the survey
+	 *
+	 * @param question id (as primary key from svy_question table)
+	 * @return bool
+	 */
+	function isQuestionInSurvey($a_question_fi)
+	{
+		global $DIC;
+//return false;
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM svy_svy_qst ".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND question_fi = ".$ilDB->quote($a_question_fi, "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 
 /**
@@ -849,7 +891,9 @@ class ilObjSurvey extends ilObject
 	function saveQuestionsToDb() 
 	{
 		$ilDB = $this->db;
-		
+
+		$this->log->debug("save questions");
+
 		// gather old questions state
 		$old_questions = array();
 		$result = $ilDB->queryF("SELECT survey_question_id,question_fi,sequence".
@@ -859,35 +903,36 @@ class ilObjSurvey extends ilObject
 		);		
 		while($row = $ilDB->fetchAssoc($result))
 		{
-			$old_questions[$row["question_fi"]] = $row;
+			$old_questions[$row["question_fi"]] = $row;		// problem, as soon as duplicates exist, they will be hidden here
 		}		
 		
 		// #15231 - diff with current questions state
 		$insert = $update = $delete = array();		
 		foreach($this->questions as $seq => $fi)
 		{
-			if(!array_key_exists($fi, $old_questions))
+			if(!array_key_exists($fi, $old_questions))		// really new fi IDs
 			{
-				$insert[] = $fi;
+				$insert[] = $fi;							// this should be ok, should not create duplicates here
  			}
-			else if($old_questions[$fi]["sequence"] != $seq)
+			else if($old_questions[$fi]["sequence"] != $seq)				// we are updating one of the duplicates (if any)
 			{
 				$update[$fi] = $old_questions[$fi]["survey_question_id"];
 			}
 			// keep track of still relevant questions
-			unset($old_questions[$fi]);
+			unset($old_questions[$fi]);						// deleting old question, if they are not in current array
 		}		
 		
 		// delete obsolete question relations
 		if(sizeof($old_questions))
 		{
 			$del_ids = array();
-			foreach($old_questions as $old)
+			foreach($old_questions as $fi => $old)
 			{
 				$del_ids[] = $old["survey_question_id"];
-			}			
-			$ilDB->manipulate("DELETE FROM svy_svy_qst".
-				" WHERE ".$ilDB->in("survey_question_id", $del_ids, "", "integer"));			
+			}
+			$ilDB->manipulate($q = "DELETE FROM svy_svy_qst".
+				" WHERE ".$ilDB->in("survey_question_id", $del_ids, "", "integer"));
+			$this->log->debug("delete: ".$q);
 		}
 		unset($old_questions);
 		
@@ -896,20 +941,26 @@ class ilObjSurvey extends ilObject
 		{
 			if(in_array($fi, $insert))
 			{
-				$next_id = $ilDB->nextId('svy_svy_qst');
-				$ilDB->manipulateF("INSERT INTO svy_svy_qst".
-					" (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp)".
-					" VALUES (%s, %s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','integer','integer'),
-					array($next_id, $this->getSurveyId(), $fi, NULL, $seq, time())
-				);
+				// check if question is not already in the survey, see #22018
+				if (!$this->isQuestionInSurvey($fi))
+				{
+					$next_id = $ilDB->nextId('svy_svy_qst');
+					$ilDB->manipulateF("INSERT INTO svy_svy_qst" .
+						" (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp)" .
+						" VALUES (%s, %s, %s, %s, %s, %s)",
+						array('integer', 'integer', 'integer', 'text', 'integer', 'integer'),
+						array($next_id, $this->getSurveyId(), $fi, null, $seq, time())
+					);
+					$this->log->debug("insert svy_svy_qst, id:" . $next_id . ", fi: " . $fi . ", seq:" . $seq);
+				}
 			}
 			else if(array_key_exists($fi, $update))
 			{
 				$ilDB->manipulate("UPDATE svy_svy_qst".
 					" SET sequence = ".$ilDB->quote($seq, "integer").
 					", tstamp = ".$ilDB->quote(time(), "integer").
-					" WHERE survey_question_id = ".$ilDB->quote($update[$fi], "integer"));				
+					" WHERE survey_question_id = ".$ilDB->quote($update[$fi], "integer"));
+				$this->log->debug("update svy_svy_qst, id:".$update[$fi].", fi: ".$fi.", seq:".$seq);
 			}
 		}
 	}
@@ -1148,6 +1199,65 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
+	/**
+	 * Remove duplicate sequence entries, see #22018
+	 */
+	function fixSequenceStructure()
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+//return;
+		// we keep all survey question ids with their lowest sequence
+		$result = $ilDB->queryF("SELECT * FROM svy_svy_qst WHERE survey_fi = %s ORDER BY sequence",
+			array('integer'),
+			array($this->getSurveyId())
+		);
+
+		// step 1: find duplicates -> $to_delete_ids
+		$fis = array();
+		$to_delete_ids = array();
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			if (in_array($data["question_fi"], $fis))		// found a duplicate
+			{
+				$to_delete_ids[] = $data["survey_question_id"];
+			}
+			else
+			{
+				$fis[] = $data["question_fi"];
+			}
+		}
+
+		// step 2: we delete the duplicates
+		if (count($to_delete_ids) > 0)
+		{
+			$ilDB->manipulate($q = "DELETE FROM svy_svy_qst" .
+				" WHERE " . $ilDB->in("survey_question_id", $to_delete_ids, false, "integer") .
+				" AND survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer"));
+			$this->log->debug("delete: " . $q);
+
+			$ilDB->manipulate($q = "DELETE FROM svy_qblk_qst " .
+				" WHERE " . $ilDB->in("question_fi", $fis, true, "integer") .
+				" AND survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer"));
+			$this->log->debug("delete: " . $q);
+		}
+
+		// step 3: we fix the sequence
+		$set = $ilDB->query("SELECT * FROM svy_svy_qst ".
+			" WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer")." ORDER BY sequence");
+		$seq = 0;
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate($q = "UPDATE svy_svy_qst SET ".
+				" sequence = ".$ilDB->quote($seq++ , "integer").
+				" WHERE survey_question_id = ".$ilDB->quote($rec["survey_question_id"], "integer")
+			);
+			$this->log->debug("update: " . $q);
+		}
+	}
+
+
 /**
 * Sets the authors name of the ilObjSurvey object
 *
@@ -1233,9 +1343,7 @@ class ilObjSurvey extends ilObject
 */
 	public function getShowQuestionTitles() 
 	{
-		//return ($this->display_question_titles) ? 1 : 0;
-		#19448 Question title is always shown. All calls to this method remain available (just in case)
-		return 1;
+		return ($this->display_question_titles) ? 1 : 0;
 	}
 
 	/**
@@ -1914,16 +2022,42 @@ class ilObjSurvey extends ilObject
 	{
 		$ilDB = $this->db;
 
+		// see #22018
+		if (!$this->isQuestionInAnyBlock($question_id))
+		{
+			$next_id = $ilDB->nextId('svy_qblk_qst');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, " .
+				"question_fi) VALUES (%s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer'),
+				array($next_id, $this->getSurveyId(), $questionblock_id, $question_id)
+			);
 
-		$next_id = $ilDB->nextId('svy_qblk_qst');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, " .
-			"question_fi) VALUES (%s, %s, %s, %s)",
-			array('integer','integer','integer','integer'),
-			array($next_id, $this->getSurveyId(), $questionblock_id, $question_id)
-		);
-		
-		$this->deleteConstraints($question_id); // #13713
+			$this->deleteConstraints($question_id); // #13713
+		}
 	}
+
+	/**
+	 * Is question already in a block?
+	 *
+	 * @param int $a_question_fi question id as in svy_question
+	 * @return bool
+	 */
+	function isQuestionInAnyBlock($a_question_fi)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM svy_qblk_qst ".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND question_fi = ".$ilDB->quote($a_question_fi, "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 /**
 * Returns the question titles of all questions of a question block
@@ -1972,7 +2106,10 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
 		$ilDB = $this->db;
-		$result = $ilDB->queryF("SELECT question_fi FROM svy_qblk_qst WHERE questionblock_fi = %s",
+
+		// we need a correct order here, see #22011
+		$result = $ilDB->queryF("SELECT a.question_fi FROM svy_qblk_qst a JOIN svy_svy_qst b ON (a.question_fi = b.question_fi) ".
+			" WHERE a.questionblock_fi = %s ORDER BY b.sequence",
 			array("integer"),
 			array($questionblock_id)
 		);
@@ -1981,9 +2118,13 @@ class ilObjSurvey extends ilObject
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				array_push($ids, $data['question_fi']);
+				if (!in_array($data['question_fi'], $ids))		// no duplicates, see #22018
+				{
+					array_push($ids, $data['question_fi']);
+				}
 			}
 		}
+
 		return $ids;
 	}
 	
@@ -2058,13 +2199,16 @@ class ilObjSurvey extends ilObject
 			$questionblock_id = $next_id;
 			foreach ($questions as $index)
 			{
-				$next_id = $ilDB->nextId('svy_qblk_qst');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, " .
-					"question_fi) VALUES (%s, %s, %s, %s)",
-					array('integer','integer','integer','integer'),
-					array($next_id, $this->getSurveyId(), $questionblock_id, $index)
-				);
-				$this->deleteConstraints($index);
+				if (!$this->isQuestionInAnyBlock($index))
+				{
+					$next_id = $ilDB->nextId('svy_qblk_qst');	// #22018
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, " .
+						"question_fi) VALUES (%s, %s, %s, %s)",
+						array('integer', 'integer', 'integer', 'integer'),
+						array($next_id, $this->getSurveyId(), $questionblock_id, $index)
+					);
+					$this->deleteConstraints($index);
+				}
 			}
 		}
 	}
@@ -2345,6 +2489,7 @@ class ilObjSurvey extends ilObject
 			}
 			$counter++;
 		}
+
 		return $all_pages;
 	}
 	
@@ -2948,7 +3093,6 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			
 			// yes, we are doing it this way
 			$_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
 			
@@ -3700,11 +3844,13 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* Imports a survey from XML into the ILIAS database
-	*
-	* @return boolean True, if the import succeeds, false otherwise
-	* @access public
-	*/
+ 	 * Imports a survey from XML into the ILIAS database
+	 * @param $file_info
+	 * @param $svy_qpl_id
+	 * @return string
+	 * @throws ilFileUtilsException
+	 * @throws ilInvalidSurveyImportFileException
+	 */
 	function importObject($file_info, $svy_qpl_id)
 	{
 		if ($svy_qpl_id < 1) $svy_qpl_id = -1;
@@ -3781,11 +3927,8 @@ class ilObjSurvey extends ilObject
 			unset($_SESSION["import_mob_xhtml"]);
 			if (strpos($xml, "questestinterop"))
 			{
-				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
-				$import = new SurveyImportParserPre38($svy_qpl_id, "", TRUE);
-				$import->setSurveyObject($this);
-				$import->setXMLContent($xml);
-				$import->startParsing();
+				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
+				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
 			}
 			else
 			{
@@ -4534,8 +4677,8 @@ class ilObjSurvey extends ilObject
 						array(
 							"accesscode" => $data["code"],
 							"lang" => $lang
-						));				
-					$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
+						));
+					$messagetext = str_replace('[url]', $url, $messagetext);
 					foreach ($data as $key => $value)
 					{
 						$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
@@ -4813,8 +4956,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function processPrintoutput2FO($print_output)
 	{
-		$ilLog = $this->log;
-		
 		if (extension_loaded("tidy"))
 		{
 			$config = array(
@@ -4834,11 +4975,13 @@ class ilObjSurvey extends ilObject
 			$print_output = str_replace("&otimes;", "X", $print_output);
 			
 			// #17680 - metric questions use &#160; in print view
-			$print_output = str_replace("&gt;", ">", $print_output);
-			$print_output = str_replace("&lt;", "<", $print_output);
+			$print_output = str_replace("&gt;", "~|gt|~", $print_output);		// see #21550
+			$print_output = str_replace("&lt;", "~|lt|~", $print_output);
 			$print_output = str_replace("&#160;", "~|nbsp|~", $print_output);
 			$print_output = preg_replace('/&(?!amp)/', '&amp;', $print_output);
-			$print_output = str_replace("~|nbsp|~", "&#160;", $print_output);			
+			$print_output = str_replace("~|nbsp|~", "&#160;", $print_output);
+			$print_output = str_replace( "~|gt|~", "&gt;", $print_output);
+			$print_output = str_replace( "~|lt|~", "&lt;", $print_output);
 		}
 		$xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
 
@@ -4848,14 +4991,23 @@ class ilObjSurvey extends ilObject
 				'font-family="'.$GLOBALS['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
 				$xsl
 		);
-		
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$params = array();
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
+		try
+		{
+			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+		}
+		catch (Exception $e)
+		{
+			$this->log->error("Print XSLT failed:");
+			$this->log->error("Content: ".$print_output);
+			$this->log->error("Xsl: ".$xsl);
+			throw ($e);
+		}
 		xslt_error($xh);
 		xslt_free($xh);
-		$ilLog->write($output);
+
 		return $output;
 	}
 	
@@ -5074,6 +5226,7 @@ class ilObjSurvey extends ilObject
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($template_id);
 		$template_settings = $template->getSettings();
+		//ilUtil::dumpVar($template_settings); exit;
 		if($template_settings)
 		{
 			if($template_settings["show_question_titles"] !== NULL)
@@ -5100,13 +5253,46 @@ class ilObjSurvey extends ilObject
 				}
 			}
 
+
+			/* see #0021719
 			if($template_settings["anonymization_options"]["value"])
 			{
 				$anon_map = array('personalized' => self::ANONYMIZE_OFF,
 					'anonymize_with_code' => self::ANONYMIZE_ON,
 					'anonymize_without_code' => self::ANONYMIZE_FREEACCESS);
 				$this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+			}*/
+
+			// see #0021719 and ilObjectSurveyGUI::savePropertiesObject
+			$this->setEvaluationAccess($template_settings["evaluation_access"]["value"]);
+			$codes = (bool)$template_settings["acc_codes"]["value"];
+			$anon = (bool)$template_settings["anonymization_options"]["value"];
+			if (!$anon)
+			{
+				if (!$codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+				}
 			}
+			else
+			{
+				if ($codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+				}
+
+				$this->setAnonymousUserList($_POST["anon_list"]);
+			}
+
+
 
 			/* other settings: not needed here
 			 * - enabled_end_date
@@ -5494,6 +5680,7 @@ class ilObjSurvey extends ilObject
 			else
 			{			
 				$name = ilObjUser::_lookupName($row["user_id"]);
+				$name["name"] = $name["lastname"].", ".$name["firstname"];
 				$name["user_id"] = "u".$name["user_id"];
 				$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
 				$name["sent"] = $row["mail_sent"];
@@ -5512,7 +5699,8 @@ class ilObjSurvey extends ilObject
 					$res["a".$item["id"]] = array(
 						"user_id" => "a".$item["id"],
 						"lastname" => $item["last_name"],
-						"firstname" => $item["first_name"],						
+						"firstname" => $item["first_name"],
+						"name" => $item["last_name"].", ".$item["first_name"],
 						"login" => "",
 						"email" => $item["email"],
 						"code" => $item["code"],
@@ -6154,7 +6342,8 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 		$ilAccess = $this->access;
 		
-		$now = time();		
+		$now = time();
+		$now_with_format = date("YmdHis", $now);
 		$today = date("Y-m-d");
 
 		$this->log->debug("Check status and dates.");
@@ -6162,8 +6351,8 @@ class ilObjSurvey extends ilObject
 		// object settings / participation period
 		if($this->isOffline() ||
 			!$this->getReminderStatus() ||
-			($this->getStartDate() && $now < $this->getStartDate()) ||
-			($this->getEndDate() && $now > $this->getEndDate()))
+			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
+			($this->getEndDate() && $now_with_format > $this->getEndDate()))
 		{
 			return false;
 		}

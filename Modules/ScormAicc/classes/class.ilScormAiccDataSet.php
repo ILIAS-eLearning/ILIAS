@@ -28,7 +28,6 @@ class ilScormAiccDataSet extends ilDataSet
 			"Fourth_edition" => ["db_col" => "fourth_edition", "db_type" => "text"],
 			"Height" => ["db_col" => "height", "db_type" => "integer"],
 			"HideNavig" => ["db_col" => "hide_navig", "db_type" => "text"],
-			"Ie_compatibility" => ["db_col" => "ie_compatibility", "db_type" => "text"],
 			"Ie_force_render" => ["db_col" => "ie_force_render", "db_type" => "text"],
 			"Interactions" => ["db_col" => "interactions", "db_type" => "text"],
 			"Localization" => ["db_col" => "localization", "db_type" => "text"],

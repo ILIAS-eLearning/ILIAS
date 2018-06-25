@@ -274,9 +274,10 @@ class ilSystemStyleLessGUI
 		$style = $this->getStyleContainer()->getSkin()->getStyle($_GET["style_id"]);
 		$this->setLessFile($this->getStyleContainer()->copyVariablesFromDefault($style));
 		try{
-			$this->getStyleContainer()->compileLess($style->getId());
+            ilUtil::sendSuccess($this->lng->txt("less_file_reset"));
+            $this->getStyleContainer()->compileLess($style->getId());
 		}catch(ilSystemStyleException $e){
-			ilUtil::sendFailure($this->lng->txt($e->getMessage()),true);
+            ilUtil::sendFailure($this->lng->txt($e->getMessage()),true);
 		}
 
 		$this->edit();
@@ -295,6 +296,9 @@ class ilSystemStyleLessGUI
 			try{
 				$this->getLessFile()->write();
 				$this->getStyleContainer()->compileLess($_GET["style_id"]);
+				$skin = $this->getStyleContainer()->getSkin();
+				$skin->getVersionStep($skin->getVersion());
+				$this->getStyleContainer()->updateSkin($skin);
 				ilUtil::sendSuccess($this->lng->txt("less_file_updated"));
 			}catch(Exception $e){
 				ilUtil::sendFailure($this->lng->txt($e->getMessage()),true);

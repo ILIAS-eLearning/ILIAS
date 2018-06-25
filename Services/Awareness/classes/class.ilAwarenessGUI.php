@@ -27,6 +27,11 @@ class ilAwarenessGUI
 	protected $ui;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -39,6 +44,8 @@ class ilAwarenessGUI
 
 		$this->ref_id = (int) $_GET["ref_id"];
 		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("awrn");
 	}
 
 	/**
@@ -92,8 +99,9 @@ class ilAwarenessGUI
 
 		// include user action js
 		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
-		$ua_gui = ilUserActionGUI::getInstance();
-		$ua_gui->addRequiredJsForContext("awrn", "toplist");
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
+		$ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
+		$ua_gui->init();
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
@@ -239,6 +247,9 @@ class ilAwarenessGUI
 			if ($u->online)
 			{
 				$tpl->touchBlock("uonline");
+				$tpl->setCurrentBlock("uonline_text");
+				$tpl->setVariable("TXT_ONLINE", $this->lng->txt("awrn_online"));
+				$tpl->parseCurrentBlock();
 			}
 
 			$tpl->setCurrentBlock("user");

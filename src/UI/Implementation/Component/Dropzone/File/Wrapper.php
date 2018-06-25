@@ -19,6 +19,11 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 	 */
 	protected $components;
 
+    /**
+     * @var string
+     */
+    protected $title = "";
+
 
 	/**
 	 * @param string                $url
@@ -46,6 +51,23 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withTitle($title) {
+		$this->checkStringArg("title", $title);
+		$clone = clone $this;
+		$clone->title = $title;
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
 
 	/**
 	 * @inheritDoc

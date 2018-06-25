@@ -34,6 +34,7 @@ class ilIndividualAssessmentMemberGUI {
 			$this->ctrl->saveParameter($this,'usr_id');
 			$this->examinee = new ilObjUser($_GET['usr_id']);
 			$this->examiner = $DIC['ilUser'];
+			$this->changer = $DIC['ilUser'];
 			$this->setTabs($DIC['ilTabs']);
 			$this->member = $this->object->membersStorage()
 								->loadMember($this->object, $this->examinee);
@@ -78,7 +79,7 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Edit grading informations for user
 	 *
-	 * @param ilPropertyFormGUI | null 	$form
+	 * @param ilPropertyFormGUI | null	$form
 	 *
 	 * @return null
 	 */
@@ -123,7 +124,7 @@ class ilIndividualAssessmentMemberGUI {
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -160,7 +161,7 @@ class ilIndividualAssessmentMemberGUI {
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -193,8 +194,6 @@ class ilIndividualAssessmentMemberGUI {
 		$confirm->setConfirm($this->lng->txt('iass_finalize'), 'finalize');
 		$confirm->setCancel($this->lng->txt('cancel'), 'save');
 		$this->tpl->setContent($confirm->getHTML());
-
-		$this->tpl->setContent($confirm->getHTML());
 	}
 
 	/**
@@ -219,6 +218,7 @@ class ilIndividualAssessmentMemberGUI {
 		if ($this->object->isActiveLP()) {
 			ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
 		}
+		$this->member->maybeSendNotification($this->notificator);
 
 		ilUtil::sendSuccess($this->lng->txt('iass_membership_finalized'), true);
 		$this->redirect('view');
@@ -237,7 +237,7 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Show grading form to amend the result
 	 *
-	 * @param ilPropertyFormGUI | null 	$form
+	 * @param ilPropertyFormGUI | null	$form
 	 *
 	 * @return null
 	 */
@@ -249,11 +249,11 @@ class ilIndividualAssessmentMemberGUI {
 		}
 
 		if ($form === null) {
-			$form = $this->fillForm($this->initGradingForm(), $this->member);
+			$form = $this->fillForm($this->initGradingForm(true, true), $this->member);
 		}
 
 		$form->addCommandButton('saveAmend', $this->lng->txt('iass_save_amend'));
-		$this->renderForm($form);
+		$this->renderForm($form, $this->getFileLinkHTML(true));
 	}
 
 	/**
@@ -268,11 +268,11 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 		$new_file = null;
-		$form = $this->initGradingForm();
+		$form = $this->initGradingForm(true, true);
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -284,7 +284,7 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 
-		$this->saveMember($_POST, true);
+		$this->saveMember($_POST, true, true);
 
 		if ($this->object->isActiveLP()) {
 			ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
@@ -297,11 +297,11 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Inint form for gradings
 	 *
-	 * @param bool 	$may_be_edite
+	 * @param bool	$may_be_edite
 	 *
 	 * @return ilPropertyFormGUI
 	 */
-	protected function initGradingForm($may_be_edited = true) {
+	protected function initGradingForm($may_be_edited = true, $amend = false) {
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -327,11 +327,29 @@ class ilIndividualAssessmentMemberGUI {
 		$ta->setDisabled(!$may_be_edited);
 		$form->addItem($ta);
 
-		$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
-		$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
-		$file->setDisabled(!$may_be_edited);
-		$file->setAllowDeletion(false);
-		$form->addItem($file);
+		if($this->member->finalized() && !$amend)
+		{
+			$link = $this->getFileLinkHTML(true);
+			if($link !== "") {
+				$filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'),'', true);
+				$filelink->setValue($link);
+				$form->addItem($filelink);
+			}
+		} else {
+			$title = $this->lng->txt('iass_upload_file');
+			$link = $this->getFileLinkHTML(true);
+			if($link !== "") {
+				$filelink = new ilNonEditableValueGUI($title,'', true);
+				$filelink->setValue($link);
+				$form->addItem($filelink);
+				$title = "";
+			}
+			$file = new ilFileInputGUI($title, 'file');
+			$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
+			$file->setDisabled(!$may_be_edited);
+			$file->setAllowDeletion(false);
+			$form->addItem($file);
+		}
 
 
 		$file_visible_to_examinee = new ilCheckboxInputGUI($this->lng->txt('iass_file_visible_examinee'), 'file_visible_examinee');
@@ -376,8 +394,8 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Fill form with current grading informations
 	 *
-	 * @param ilPropertyFormGUI 	$a_form
-	 * @param ilIndividualAssessmentMember 	$member
+	 * @param ilPropertyFormGUI		$a_form
+	 * @param ilIndividualAssessmentMember	$member
 	 *
 	 * @return ilPropertyFormGUI
 	 */
@@ -391,6 +409,7 @@ class ilIndividualAssessmentMemberGUI {
 			, 'notify' => $member->notify()
 			, 'learning_progress' => (int)$member->LPStatus()
 			, 'file_visible_examinee' => (int)$member->viewFile()
+			, 'file_name' => $this->getFileLinkHTML()
 			));
 		return $a_form;
 	}
@@ -398,17 +417,30 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Render grading form into template
 	 *
-	 * @param ilPropertyFormGUI 	$form
+	 * @param ilPropertyFormGUI		$form
 	 */
-	protected function renderForm(ilPropertyFormGUI $a_form) {
+	protected function getFileLinkHTML($amend = false) {
 		$html = '';
 		if ($this->member->fileName() && $this->member->fileName() != "") {
 			$tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
-			$tpl->setVariable("FILE_NAME", $this->member->fileName());
+			if(!$this->member->finalized() || $amend)
+			{
+				$tpl->setVariable("FILE_NAME", $this->member->fileName());
+			}
 			$tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadAttachment"));
 			$html .= $tpl->get();
 		}
-		$this->tpl->setContent($html.$a_form->getHTML());
+		return $html;
+	}
+
+	/**
+	 * Render the form and put it into template
+	 *
+	 * @param ilPropertyFormGUI		$form
+	 */
+	protected function renderForm(ilPropertyFormGUI $form)
+	{
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -437,7 +469,7 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Redirect to this with command
 	 *
-	 * @param string 	$cmd
+	 * @param string	$cmd
 	 *
 	 * @return null
 	 */
@@ -452,11 +484,8 @@ class ilIndividualAssessmentMemberGUI {
 	 * @return bool
 	 */
 	protected function mayBeEdited() {
-		if (!$this->isFinalized() && $this->userMayGrade()) {
-			return true;
-		}
-
-		return false;
+		return $this->access->isSystemAdmin()
+			|| (!$this->isFinalized() && $this->userMayGrade());
 	}
 
 	/**
@@ -466,11 +495,8 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeViewed()
 	{
-		if ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView())) {
-			return true;
-		}
-
-		return false;
+		return $this->access->isSystemAdmin()
+			|| ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView()));
 	}
 
 	/**
@@ -480,11 +506,8 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeAmended()
 	{
-		if ($this->isFinalized() && $this->userMayAmend()) {
-			return true;
-		}
-
-		return false;
+		return $this->access->isSystemAdmin()
+			|| ($this->isFinalized() && $this->userMayAmend());
 	}
 
 	/**
@@ -494,7 +517,8 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userMayGrade()
 	{
-		return !$this->targetWasEditedByOtherUser($this->member) && $this->access->mayGradeUser();
+		return $this->access->isSystemAdmin()
+			|| (!$this->targetWasEditedByOtherUser($this->member) && $this->access->mayGradeUser());
 	}
 
 	/**
@@ -504,7 +528,8 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userMayView()
 	{
-		return $this->access->mayViewUser();
+		return $this->access->isSystemAdmin()
+			|| $this->access->mayViewUser();
 	}
 
 	/**
@@ -514,7 +539,8 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userMayAmend()
 	{
-		return $this->access->mayAmendGradeUser();
+		return $this->access->isSystemAdmin()
+			|| $this->access->mayAmendGradeUser();
 	}
 
 	/**
@@ -540,27 +566,27 @@ class ilIndividualAssessmentMemberGUI {
 	/**
 	 * Save grading informations
 	 *
-	 * @param string[] 	$post
-	 * @param bool 	$keep_examiner
+	 * @param string[]	$post
+	 * @param bool	$keep_examiner
 	 *
 	 * @return null
 	 */
-	protected function saveMember(array $post, $keep_examiner = false)
+	protected function saveMember(array $post, $keep_examiner = false, $amend = false)
 	{
-		$this->member = $this->updateDataInMemberByArray($this->member, $post, $keep_examiner);
+		$this->member = $this->updateDataInMemberByArray($this->member, $post, $keep_examiner, $amend);
 		$this->object->membersStorage()->updateMember($this->member);
 	}
 
 	/**
 	 * Updates member object with new grading informations
 	 *
-	 * @param ilIndividualAssessmentMember 	$member
-	 * @param string[] 	$data
-	 * @param bool 	$keep_examiner
+	 * @param ilIndividualAssessmentMember	$member
+	 * @param string[]	$data
+	 * @param bool	$keep_examiner
 	 *
 	 * @return ilIndividualAssessmentMember
 	 */
-	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data, $keep_examiner = false)
+	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data, $keep_examiner = false, $amend = false)
 	{
 		$member = $member->withRecord($data['record'])
 					->withInternalNote($data['internal_note'])
@@ -570,8 +596,9 @@ class ilIndividualAssessmentMemberGUI {
 		if($data['event_time']) {
 			$member = $member->withEventTime($this->createDatetime($data['event_time']));
 		}
-
-
+		if($amend) {
+			$member = $member->withChangerId($this->changer->getId());
+		}
 		if (!$keep_examiner) {
 			$member = $member->withExaminerId($this->examiner->getId());
 		}
@@ -592,17 +619,13 @@ class ilIndividualAssessmentMemberGUI {
 		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
 	}
 
-	protected function uploadFile($file, $file_delete)
+	protected function uploadFile($file)
 	{
 		$new_file = false;
 		$this->file_storage->setUserId($this->member->id());
 		$this->file_storage->create();
-		if (!$file["name"] == "" || $file_delete) {
-			$this->file_storage->deleteCurrentFile();
-			$this->file_storage->uploadFile($file);
-			$new_file = true;
-		}
 		if (!$file["name"] == "") {
+			$this->file_storage->deleteCurrentFile();
 			$this->file_storage->uploadFile($file);
 			$new_file = true;
 		}

@@ -77,7 +77,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
 		$fields['meta_tar_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_tar'));
@@ -92,7 +94,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->__parseTypicalAgeRange();
 		if($this->getMetaId())
@@ -109,7 +113,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
@@ -137,7 +143,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -180,7 +188,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_tar_id FROM il_meta_tar ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

@@ -24,6 +24,58 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$this->settings = new ilSetting('apache_auth');
 	}
+	
+	/**
+	 * Check if an authentication attempt should be done when login page has been called.
+	 * Redirects in case no apache authentication has been tried before (GET['passed_sso'])
+	 */
+	public function tryAuthenticationOnLoginPage()
+	{
+		if(strcmp((string) $_REQUEST['cmd'], 'force_login') === 0)
+		{
+			return false;
+		}
+
+		if(!$this->getSettings()->get('apache_enable_auth',false))
+		{
+			return false;
+		}
+
+		if(!$this->getSettings()->get('apache_auth_authenticate_on_login_page',false))
+		{
+			return false;
+		}
+
+		if(
+			!ilContext::supportsRedirects() || 
+			isset($_GET['passed_sso']) ||
+			(defined('IL_CERT_SSO') && IL_CERT_SSO == '1')
+		)
+		{
+			return false;
+		}
+
+		$path = $_SERVER['REQUEST_URI'];
+		if(substr($path,0,1) === '/')
+		{
+			$path = substr($path, 1);
+		}
+
+		if(substr($path, 0, 4) !== 'http')
+		{
+			$parts = parse_url(ILIAS_HTTP_PATH);
+			$path = $parts['scheme'] . '://'. $parts['host'] . '/' . $path;
+		}
+
+		ilUtil::redirect(
+			ilUtil::getHtmlPath(
+				'./sso/index.php?force_mode_apache=1&' .
+				'r=' . urlencode($path) .
+				'&cookie_path=' . urlencode(IL_COOKIE_PATH) .
+				'&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
+			)
+		);
+	}
 
 	/**
 	 * @return \ilSetting

@@ -107,8 +107,8 @@ class ilQuestionExporter
 	static public function getMobs() {
 		$allmobs = array();
 		foreach (self::$mobs as $key => $value) {
-			for ($i=0;$i<count($mobs[$key]);$i++) {
-				array_push($allmobs,$mobs[$key][$i]);
+			for ($i=0;$i<count(self::$mobs[$key]);$i++) {
+				array_push($allmobs,self::$mobs[$key][$i]);
 			}
 		}
 		return $allmobs;
@@ -167,8 +167,7 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		global $DIC;
-		$main_tpl = $DIC["tpl"];
+		$main_tpl = $GLOBALS["tpl"];
 		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
 		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		

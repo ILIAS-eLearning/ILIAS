@@ -15,7 +15,7 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 	protected $backupGlobals = FALSE;
 
 	/**
-	 * @dataProvider simpleRatedCalcWithTwoVariablesData
+	 * @dataProvider simpleRatedCalculationsData
 	 * @param assFormulaQuestionResult     $result
 	 * @param assFormulaQuestionVariable[] $variables
 	 * @param assFormulaQuestionUnit[]     $results
@@ -23,18 +23,18 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 	 * @param assFormulaQuestionUnit|null  $userResultUnit
 	 * @param bool                         $expectedResult
 	 */
-	public function testSimpleRatedFormulaQuestionWithTwoVariables(
+	public function testSimpleRatedFormulaQuestionCalculations(
 		assFormulaQuestionResult $result, array $variables, array $results, $userResult, $userResultUnit, $expectedResult
 	)
 	{
 		$isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
-		$this->assertEquals($isCorrect, $expectedResult);
+		$this->assertEquals($expectedResult, $isCorrect);
 	}
 
 	/**
 	 *
 	 */
-	public function simpleRatedCalcWithTwoVariablesData()
+	public function simpleRatedCalculationsData()
 	{
 		$points    = 5;
 		$precision = 2;
@@ -161,7 +161,20 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$v14->setValue(3);
 		$r11 = new assFormulaQuestionResult(
 			'$r11', 0, 0, 0, null, '$v13/$v14', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_NO_SELECTION);
-		
+
+		$v15 = new assFormulaQuestionVariable('$v15', 200, 800, null, 0);
+		$v16 = new assFormulaQuestionVariable('$v16', 50, 250, null, 0);
+		$v17 = new assFormulaQuestionVariable('$v17', 3, 18, null, 0);
+		$v15->setIntprecision(25);
+		$v16->setIntprecision(5);
+		$v17->setIntprecision(1);
+		$v15->setValue(225);
+		$v16->setValue(85);
+		$v17->setValue(10);
+		$r12 = new assFormulaQuestionResult(
+			'$r12', 0, 0, 0, null, '1/(2*pi)*sqrt($v16*1000/$v15)+$v17-$v17', $points, 1, true, 33, 34, 33, assFormulaQuestionResult::RESULT_NO_SELECTION
+		);
+
 		$variables = [
 			$v1->getVariable() => $v1,
 			$v2->getVariable() => $v2,
@@ -177,6 +190,9 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			$v12->getVariable() => $v12,
 			$v13->getVariable() => $v13,
 			$v14->getVariable() => $v14,
+			$v15->getVariable() => $v15,
+			$v16->getVariable() => $v16,
+			$v17->getVariable() => $v17,
 		];
 
 		$results = [
@@ -191,6 +207,7 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			$r9->getResult() => $r9,
 			$r10->getResult() => $r10,
 			$r11->getResult() => $r11,
+			$r12->getResult() => $r12,
 		];
 
 		return [
@@ -209,6 +226,8 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			[$r10, $variables, $results, '4/8', null, false],
 		    // RESULT_NO_SELECTION
 			[$r11, $variables, $results, '1/3', null, true],
+			// Test for #22381
+			[$r12, $variables, $results, '3.1', null, true],
 		];
 	}
 }

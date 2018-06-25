@@ -63,7 +63,7 @@ class ilAuthProviderFactory
 	
 	/**
 	 * Get provider by auth mode
-	 * @return \ilAuthProvider
+	 * @return \ilAuthProvide
 	 */
 	public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode)
 	{
@@ -111,6 +111,18 @@ class ilAuthProviderFactory
 				require_once 'Services/Saml/classes/class.ilAuthProviderSaml.php';
 				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 				return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($saml_info[1]));
+				
+			default:
+				$this->getLogger('Plugin authentication: '. $a_authmode);
+				foreach(ilAuthUtils::getAuthPlugins() as $pl)
+				{
+					$provider = $pl->getProvider($credentials, $a_authmode);
+					if($provider instanceof ilAuthProviderInterface)
+					{
+						return $provider;
+					}
+				}
+				break;
 		}
 		return null;
 	}

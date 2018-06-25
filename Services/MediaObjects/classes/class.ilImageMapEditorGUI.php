@@ -883,6 +883,7 @@ class ilImageMapEditorGUI
 
 		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
 		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
+		$_SESSION["il_map_il_anchor"] = $_GET["linkanchor"];
 		switch ($_SESSION["il_map_edit_mode"])
 		{
 			case "edit_link":

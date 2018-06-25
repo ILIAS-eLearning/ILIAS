@@ -95,6 +95,8 @@
 					buttons: buttons || []
 				});
 
+				$(this).show();
+
 				$(this).data("ilChatDialog", $.extend(properties, {
 					_modal: $modal,
 					_parent: $(this).parent()

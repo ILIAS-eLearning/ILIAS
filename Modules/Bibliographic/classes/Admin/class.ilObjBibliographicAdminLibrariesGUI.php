@@ -48,25 +48,32 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 */
 	public function executeCommand() {
 		global $DIC;
+
 		$ilCtrl = $DIC['ilCtrl'];
 		$cmd = $ilCtrl->getCmd();
+		$this->checkPermission('read');
 		switch ($cmd) {
 			case 'view':
 				$this->view();
 				break;
 			case 'add':
+				$this->checkPermission('write');
 				$this->add();
 				break;
 			case 'edit':
+				$this->checkPermission('write');
 				$this->edit();
 				break;
 			case 'delete':
+				$this->checkPermission('write');
 				$this->delete();
 				break;
 			case 'create':
+				$this->checkPermission('write');
 				$this->create();
 				break;
 			case 'update':
+				$this->checkPermission('write');
 				$this->update();
 				break;
 			case 'cancel':
@@ -83,15 +90,18 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 */
 	public function view() {
 		global $DIC;
-		$ilToolbar = $DIC['ilToolbar'];
-		/**
-		 * @var $ilToolbar ilToolbarGUI;
-		 */
-		$b = ilLinkButton::getInstance();
-		$b->setCaption('add');
-		$b->setUrl($this->ctrl->getLinkTarget($this, 'add'));
-		$b->setPrimary(true);
-		$ilToolbar->addButtonInstance($b);
+		if ($this->checkPermissionBool('write')) {
+			$ilToolbar = $DIC['ilToolbar'];
+			/**
+			 * @var $ilToolbar ilToolbarGUI;
+			 */
+			$b = ilLinkButton::getInstance();
+			$b->setCaption('add');
+			$b->setUrl($this->ctrl->getLinkTarget($this, 'add'));
+			$b->setPrimary(true);
+			$ilToolbar->addButtonInstance($b);
+		}
+
 		$a_table = $this->initTable();
 		$this->parent_gui->tpl->setContent($a_table->getHTML());
 
@@ -106,7 +116,7 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @return ilObjBibliographicAdminTableGUI
 	 */
 	protected function initTable() {
-		$table = new ilObjBibliographicAdminTableGUI($this, 'library');
+		$table = new ilObjBibliographicAdminTableGUI($this, 'library', $this->checkPermissionBool('write'));
 		$settings = ilBibliographicSetting::getAll();
 		$result = array();
 		foreach ($settings as $set) {
@@ -186,5 +196,27 @@ class ilObjBibliographicAdminLibrariesGUI {
 		$this->ctrl->saveParameter($this, 'lib_id');
 		$form = new ilObjBibliographicAdminLibrariesFormGUI($this, new ilBibliographicSetting($_REQUEST["lib_id"]));
 		$this->parent_gui->tpl->setContent($form->getHTML());
+	}
+
+
+	//
+	// Helper
+	//
+	protected function checkPermission($a_perm) {
+		if (!$this->checkPermissionBool($a_perm)) {
+			throw new ilObjectException($this->lng->txt("permission_denied"));
+		}
+	}
+
+
+	/**
+	 * @param $a_perm
+	 *
+	 * @return bool
+	 */
+	protected function checkPermissionBool($a_perm) {
+		global $DIC;
+
+		return (bool)$DIC->access()->checkAccess($a_perm, '', $DIC->http()->request()->getQueryParams()['ref_id']);
 	}
 }

@@ -22,4 +22,5 @@
 		<pluginslot id="capm" name="AppointmentCustomModal" />
 		<pluginslot id="capg" name="AppointmentCustomGrid" />
 	</pluginslots>
+	<logging />
 </service>

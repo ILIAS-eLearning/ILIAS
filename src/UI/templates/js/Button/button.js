@@ -19,7 +19,7 @@ il.UI.button = il.UI.button || {};
 					m = ("00" + m).substring(m.toString().length);
 
 					for (i = 1; i <= 12; i++) {
-						months.push(il.Language.txt("month_" + (("00" + i).substring(i.toString().length)) + "_long"));
+						months.push(il.Language.txt("month_" + (("00" + i).substring(i.toString().length)) + "_short"));
 					}
 
 					$("#" + id + " span.il-current-month").html(months[d.getMonth()] + " " + d.getFullYear());

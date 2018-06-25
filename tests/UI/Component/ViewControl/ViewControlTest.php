@@ -129,13 +129,13 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		{
 
 			if($activate_first_item) {
-				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled\" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</a>";
+				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled\" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</button>";
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled \" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</a>";
+				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled \" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</button>";
 			}
 			else {
-				$expected .= "<a class=\"btn btn-default\" href=\"$action\" aria-label=\"$label\" data-action=\"$action\">$label</a>";
+				$expected .= "<button class=\"btn btn-default\" aria-label=\"$label\" data-action=\"$action\" id=\"id_1\">$label</button>";
 			}
 		}
 		$expected .= "</div>";
@@ -152,13 +152,9 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 	{
 		$expected = <<<EOT
 <div class="il-viewcontrol-section">
-<a class="btn btn-default " type="button"
-	 href="http://www.ilias.de" data-action="http://www.ilias.de"
-	><span class="glyphicon glyphicon-chevron-left"></span></a>
-<a class="btn btn-default" href=""   data-action="">Today</a>
-<a class="btn btn-default " type="button"
-	 href="http://www.github.com" data-action="http://www.github.com"
-	><span class="glyphicon glyphicon-chevron-right"></span></a>
+<a class="btn btn-default " type="button" href="http://www.ilias.de" data-action="http://www.ilias.de"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<button class="btn btn-default" data-action="" id="id_1">Today</button>
+<a class="btn btn-default " type="button" href="http://www.github.com" data-action="http://www.github.com"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
 		return $expected;

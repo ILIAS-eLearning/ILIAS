@@ -100,6 +100,3 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 		return $this->lng->txt('memcache_' . $key);
 	}
 }
-
-?>
-

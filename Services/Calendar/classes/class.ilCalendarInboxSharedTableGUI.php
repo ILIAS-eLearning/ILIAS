@@ -125,33 +125,11 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 		
-		$counter = 0;
-		$calendars = array();
-		
 		$status = new ilCalendarSharedStatus($ilUser->getId());
-		
-		foreach($this->cal_data as $data)
-		{
-			if($status->isDeclined($data['cal_id']) || $status->isAccepted($data['cal_id']))
-			{
-				continue;
-			}
-			
-			$tmp_calendar = new ilCalendarCategory($data['cal_id']);
-			
-			$calendars[$counter]['cal_id'] = $data['cal_id'];
-			$calendars[$counter]['create_date'] = $data['create_date'];
-			$calendars[$counter]['obj_type'] = $data['obj_type'];
-			$calendars[$counter]['name'] = $tmp_calendar->getTitle();
-			$calendars[$counter]['owner'] = $tmp_calendar->getObjId();
-			$calendars[$counter]['apps'] = count(ilCalendarCategoryAssignments::_getAssignedAppointments(array($data['cal_id'])));
-			$calendars[$counter]['accepted'] = $status->isAccepted($data['cal_id']);
-			$calendars[$counter]['declined'] = $status->isDeclined($data['cal_id']);
-			
-			$counter++;
-		}
-		
-		$this->setData($calendars ? $calendars : array());
+		$calendars = $status->getOpenInvitations();
+
+		$this->setData($calendars);
+
 		return count($calendars) ? true : false;
 	}
 	

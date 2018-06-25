@@ -138,6 +138,7 @@ class ilAuthLoginPageEditorGUI
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
 //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
+		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");

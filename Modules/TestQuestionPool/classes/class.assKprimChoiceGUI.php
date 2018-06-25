@@ -35,6 +35,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$this->object->loadFromDb($qId);
 		}
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
+	}
 
 	protected function getAdditionalEditQuestionCommands()
 	{
@@ -460,7 +468,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		));
 		
 		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $showInlineFeedback);
 		return $pageoutput;
 	}
 
@@ -737,14 +745,24 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
-		if( strlen($feedback) )
+		if (strlen($feedback))
 		{
-			$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback , true ));
+			$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
+				ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+			);
+			
+			$solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+			$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 		}
 		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get();
+		
+		if( $show_feedback && $this->hasInlineFeedback() )
+		{
+			$solutionoutput = $this->buildFocusAnchorHtml() .$solutionoutput;
+		}
 		
 		if (!$show_question_only)
 		{
@@ -772,17 +790,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		
 		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_CHECKED)
 		{
-			foreach($user_solution as $mc_solution)
+			if($user_solution[$answer_id])
 			{
-				if(strcmp($mc_solution, $answer_id) == 0)
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				if(strlen($fb))
 				{
-					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
-					if(strlen($fb))
-					{
-						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
-						$template->parseCurrentBlock();
-					}
+					$template->setCurrentBlock("feedback");
+					$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+					$template->parseCurrentBlock();
 				}
 			}
 		}

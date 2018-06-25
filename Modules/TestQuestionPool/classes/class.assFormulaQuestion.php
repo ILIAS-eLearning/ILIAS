@@ -191,51 +191,116 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		return true;
 	}
 	
-	public function substituteVariables($userdata = null, $graphicalOutput = FALSE, $forsolution = FALSE, $result_output = FALSE, ilAssQuestionPreviewSession $previewSession = null)
+	/**
+	 * @param string $questionText
+	 * @return assFormulaQuestionResult[] $resObjects
+	 */
+	public function fetchAllResults($questionText)
 	{
-		global $ilDB;
+		$resObjects = array();
+		$matches = null;
 		
+		if(preg_match_all("/(\\\$r\\d+)/ims", $questionText, $matches))
+		{
+			foreach($matches[1] as $resultKey)
+			{
+				$resObjects[] = $this->getResult($resultKey);
+			}
+		}
+		
+		return $resObjects;
+	}
+	
+	/**
+	 * @param string $questionText
+	 * @return assFormulaQuestionVariable[] $varObjects
+	 */
+	public function fetchAllVariables($questionText)
+	{
+		$varObjects = array();
+		$matches = null;
+		
+		if(preg_match_all("/(\\\$v\\d+)/ims", $questionText, $matches))
+		{
+			foreach($matches[1] as $variableKey)
+			{
+				$varObjects[] = $this->getVariable($variableKey);
+			}
+		}
+		
+		return $varObjects;
+	}
+	
+	/**
+	 * @param array $userSolution
+	 * @return bool
+	 */
+	public function hasRequiredVariableSolutionValues(array $userSolution)
+	{
+		foreach($this->fetchAllVariables($this->getQuestion()) as $varObj)
+		{
+			if( !isset($userSolution[$varObj->getVariable()]) )
+			{
+				return false;
+			}
+			
+			if( !strlen($userSolution[$varObj->getVariable()]) )
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return array $initialVariableSolutionValues
+	 */
+	public function getInitialVariableSolutionValues()
+	{
+		foreach($this->fetchAllResults($this->getQuestion()) as $resObj)
+		{
+			$resObj->findValidRandomVariables($this->getVariables(), $this->getResults());
+		}
+
+		$variableSolutionValues = array();
+		
+		foreach($this->fetchAllVariables($this->getQuestion()) as $varObj)
+		{
+			$variableSolutionValues[$varObj->getVariable()] = $varObj->getValue();
+		}
+		
+		return $variableSolutionValues;
+	}
+	
+	/**
+	 * @param array $userdata
+	 * @param bool $graphicalOutput
+	 * @param bool $forsolution
+	 * @param bool $result_output
+	 * @param ilAssQuestionPreviewSession|null $previewSession
+	 * @return bool|mixed|string
+	 */
+	public function substituteVariables(array $userdata, $graphicalOutput = FALSE, $forsolution = FALSE, $result_output = FALSE)
+	{
 		if((count($this->results) == 0) && (count($this->variables) == 0)) 
 			return false;
 		
 		$text = $this->getQuestion();
-		if(preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches))
+		
+		foreach($this->fetchAllVariables($this->getQuestion()) as $varObj)
 		{
-			foreach($rmatches[1] as $result)
+			if( isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()]) )
 			{
-				$resObj = $this->getResult($result);
-				$resObj->findValidRandomVariables($this->getVariables(), $this->getResults());
+				$varObj->setValue( $userdata[$varObj->getVariable()] );
 			}
+
+			$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
+			$val  = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
+			
+			$text = preg_replace("/\\$" . substr($varObj->getVariable(), 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
 		}
-		if(preg_match_all("/(\\\$v\\d+)/ims", $this->getQuestion(), $matches))
-		{
-			foreach($matches[1] as $variable)
-			{
-				$varObj = $this->getVariable($variable);
-				if(is_array($userdata))
-				{
-					if(strlen($userdata[$varObj->getVariable()]))
-					{
-						$value = $userdata[$varObj->getVariable()];
-						$varObj->setValue($value);
-					}
-					elseif( is_object($previewSession) )
-					{
-						$userSolution = $previewSession->getParticipantsSolution();
-						$userSolution[$varObj->getVariable()] = $varObj->getValue();
-						$previewSession->setParticipantsSolution($userSolution);
-					}
-					else
-					{
-						// save value to db
-						$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable,$varObj->getValue());
-					}
-				}
-				$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
-				$val  = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
-				$text = preg_replace("/\\$" . substr($variable, 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
-			}
-		}
+		
 		if(preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches))
 		{
 			foreach($rmatches[1] as $result)
@@ -330,11 +395,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 				if($forsolution)
 				{
-					$input = '<span class="solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
+					$input = '<span class="ilc_qinput_TextInput solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
 				}
 				else
 				{
-					$input = '<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
+					$input = '<input class="ilc_qinput_TextInput" type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
 				}
 				
 				$units = "";
@@ -959,7 +1024,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			return true;
 		}
 		
-		if( preg_match('/^\d+\/\d+$/', $submittedValue) )
+		if( preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue) )
 		{
 			return true;
 		}
@@ -994,8 +1059,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$matches = null;
 				if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
 				{
-					if(strlen($value)) $entered_values = TRUE;
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
+					if(strlen($value))
+					{
+						$entered_values = TRUE;
+					}
+
+					$queryResult = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]);
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResult .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResult,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
@@ -1014,7 +1091,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				}
 				else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
 				{
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
+					$queryResultUnit = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit");
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResultUnit .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResultUnit,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
@@ -1080,8 +1165,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND value1 like '\$r%'
 			AND value2 is not null
 			AND value2 <> ''
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($result))
@@ -1116,6 +1210,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND pass = " .$ilDB->quote($pass, 'integer') ."
 			AND value1 like '\$r%'
 		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
 
 		return $ilDB->manipulate($query);
 	}

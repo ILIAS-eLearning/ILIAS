@@ -997,7 +997,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return bool
 	 */
 	public function isReserved($table_name) {
-		return in_array(strtoupper($table_name), $this->getAllReserved());
+		return false;
 	}
 
 

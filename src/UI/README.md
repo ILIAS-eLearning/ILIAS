@@ -77,7 +77,7 @@ component to other code without being concerned if the other code modifies it.
 ## Implementing Elements in the Framework
 
 As an implementor of components in the ILIAS UI-Framework you need to stick to
-some [rules](doku/rules.md), to make sure the framework behaves in a uniform and
+some [rules](docu/rules.md), to make sure the framework behaves in a uniform and
 predictable way accross all components. Since a lot of code will rely on the
 framework and the Kitchen Sink is coupled to the framework, there also are processes
 to introduce new components in the framework and modify existing components.
@@ -527,6 +527,23 @@ GUI of ILIAS is no option for several reasons and the current state (without rul
 is anarchy, rules seem to be the only sensible option to get some structure. All
 exisiting rules have a purpose, but there might be a more terse way to explain
 them. If you have found it, we'll be glad to accept your PR.
+
+### How do I know where my component is rendered?
+
+For some use cases you might get to the point where you want to know where your
+component is rendered to emit different HTML in your renderer. A general idea of
+the UI framework is that components have their unique look that is recognisable
+throughout the system, which is the exact reason you could not find a simple way
+to get to know where your component is rendered.
+
+There still might be circumstances where a context dependent rendering is indeed
+required. The [Renderer](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Renderer.php)
+offers a `withAdditionalContext` method for that purpose, which can be used to
+alter the selection of the renderer for your component. Before using it, consider
+if you really require a different look in a different context and, if that is indeed
+the case, whether you could achieve the same effect by using CSS. The class [FSLoader](src/UI/Implementation/Render/FSLoader.php)
+contains directions how to introduce new renderers for different contexts in your
+component.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 

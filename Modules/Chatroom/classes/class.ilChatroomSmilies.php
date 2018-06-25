@@ -10,57 +10,14 @@
 class ilChatroomSmilies
 {
 	/**
-	 *    Performs initial setup (db, dirs, default data)
-	 */
-	public static function _initial()
-	{
-		self::_setupDatabase();
-		self::_insertDefaultValues();
-		self::_setupFolder();
-	}
-
-	/**
-	 * Creates table and sequence
-	 */
-	private static function _setupDatabase()
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$fields = array(
-			'smiley_id'       => array(
-				'type'   => 'integer',
-				'length' => 4,
-			),
-			'smiley_keywords' => array(
-				'type'   => 'text',
-				'length' => 100,
-			),
-			'smiley_path'     => array(
-				'type'   => 'text',
-				'length' => 200,
-			)
-		);
-
-		//$ilDB->dropTable( "chatroom_smilies" );
-		//$ilDB->dropTable( "chatroom_smilies_seq" );
-
-		$ilDB->createTable('chatroom_smilies', $fields);
-		$ilDB->addPrimaryKey('chatroom_smilies', array('smiley_id'));
-		$ilDB->createSequence('chatroom_smilies');
-	}
-
-	/**
 	 * Inserts default smiley set
 	 */
 	private static function _insertDefaultValues()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$values = array(
 			array("icon_smile.gif", ":)\n:-)\n:smile:"),
@@ -96,19 +53,6 @@ class ilChatroomSmilies
 	}
 
 	/**
-	 * Setup directory
-	 */
-	private static function _setupFolder()
-	{
-		$path = ilUtil::getWebspaceDir() . '/chatroom/smilies';
-
-		if(!is_dir($path))
-		{
-			mkdir($path, 0755, true);
-		}
-	}
-
-	/**
 	 * Checks if smiley folder is available; if not
 	 * it will try to create folder and performs
 	 * actions for an initial smiley set
@@ -116,7 +60,10 @@ class ilChatroomSmilies
 	 */
 	public static function _checkSetup()
 	{
-		global $lng;
+		global $DIC;
+
+		/** @var $lng ilLanguage */
+		$lng = $DIC->language();
 
 		$path = self::_getSmileyDir();
 
@@ -181,10 +128,10 @@ class ilChatroomSmilies
 	 */
 	public static function _getSmilies()
 	{
-		/**
-		 * @var ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$res    = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
 		$result = array();
@@ -209,7 +156,10 @@ class ilChatroomSmilies
 	 */
 	public static function _deleteMultipleSmilies($ids = array())
 	{
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$smilies = self::_getSmiliesById($ids);
 
@@ -234,10 +184,10 @@ class ilChatroomSmilies
 	 */
 	public static function _getSmiliesById($ids = array())
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		if(!count($ids))
 			return;
@@ -275,10 +225,10 @@ class ilChatroomSmilies
 	 */
 	public static function _updateSmiley($data)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulateF(
 			"UPDATE chatroom_smilies
@@ -313,10 +263,10 @@ class ilChatroomSmilies
 	 */
 	public static function _getSmiley($a_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF("
 			SELECT smiley_id, smiley_keywords, smiley_path
@@ -345,9 +295,9 @@ class ilChatroomSmilies
 	 * Returns smilies basepath.
 	 * @return string
 	 */
-	public static function _getSmiliesBasePath()
+	public static function getSmiliesBasePath()
 	{
-		return ilUtil::getWebspaceDir() . '/chatroom/smilies/';
+		return 'chatroom/smilies';
 	}
 
 	/**
@@ -356,10 +306,10 @@ class ilChatroomSmilies
 	 */
 	public static function _deleteSmiley($a_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		try
 		{
@@ -390,10 +340,10 @@ class ilChatroomSmilies
 	 */
 	public static function _storeSmiley($keywords, $path)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/** @var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$stmt = $ilDB->prepareManip("
 			INSERT INTO chatroom_smilies (smiley_id, smiley_keywords, smiley_path)

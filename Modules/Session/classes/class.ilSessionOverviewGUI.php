@@ -47,7 +47,11 @@ class ilSessionOverviewGUI
 	 */
 	public function __construct($a_crs_ref_id, ilParticipants $a_members)
 	{
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -92,9 +96,12 @@ class ilSessionOverviewGUI
 	 */
 	public function listSessions()
 	{
-		global $ilToolbar,$ilErr,$ilAccess;
+		global $DIC;
 
-		if(!$ilAccess->checkAccess('manage_members','',$this->course_ref_id))
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilErr = $DIC['ilErr'];
+
+		if(!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members',$this->course_ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
@@ -103,7 +110,16 @@ class ilSessionOverviewGUI
 			$this->ctrl->getLinkTarget($this,'exportCSV'));
 		
 		include_once 'Modules/Session/classes/class.ilSessionOverviewTableGUI.php';
-		$tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $this->members_obj->getParticipants());
+		
+		$part = $this->members_obj->getParticipants();
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->course_ref_id,
+			$part
+		);
+		
+		$tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $part);
 		$this->tpl->setContent($tbl->getHTML());		
 	}
 
@@ -116,13 +132,21 @@ class ilSessionOverviewGUI
 	 */
 	public function exportCSV()
 	{
-		global $tree,$ilAccess;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		
-		$members = $this->members_obj->getParticipants();
-		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->course_ref_id,
+			$this->members_obj->getParticipants()
+		);
+		$members = ilUtil::_sortIds($part,'usr_data','lastname','usr_id');		
 
 		$events = array();
 		foreach($tree->getSubtree($tree->getNodeData($this->course_ref_id),false,'sess') as $event_id)

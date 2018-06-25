@@ -24,7 +24,7 @@ class ilDBAnalyzer {
 	 */
 	protected $reverse;
 	/**
-	 * @var \ilDB|\ilDBInterface
+	 * @var \ilDBInterface
 	 */
 	protected $il_db;
 	/**
@@ -42,7 +42,8 @@ class ilDBAnalyzer {
 	 */
 	public function __construct(ilDBInterface $ilDBInterface = null) {
 		if (!$ilDBInterface instanceof ilDBInterface) {
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC->database();
 			$ilDBInterface = $ilDB;
 		}
 

@@ -545,11 +545,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
+
+				if( assQuestion::isFileAvailable($imagepath_original . $filename) )
+				{
+					copy($imagepath_original . $filename, $imagepath . $filename);
+				}
+				else
 				{
 					$ilLog->write("matching question image could not be copied: $imagepath_original$filename");
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+				
+				if( assQuestion::isFileAvailable($imagepath_original . $this->getThumbPrefix() . $filename) )
+				{
+					copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename);
+				}
+				else
 				{
 					$ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
@@ -1460,8 +1470,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getTerms() as $term)
 		{
 			$terms[] = array(
-				"text" => $term->text,
-				"id" =>(int)$term->identifier
+				"text" => $this->formatSAQuestion($term->text),
+				"id" =>(int)$this->getId().$term->identifier
 			);
 		}
 		$result['terms'] = $terms;
@@ -1477,7 +1487,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getDefinitions() as $def)
 		{
 			$definitions[] = array(
-				"text" => (string) $def->text,
+				"text" => $this->formatSAQuestion((string) $def->text),
 				"id" => (int) $this->getId().$def->identifier
 			);
 		}
@@ -1486,7 +1496,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// #10353
 		$matchings = array();
 		foreach ($this->getMatchingPairs() as $pair)
-		{			
+		{
+// fau: fixLmMatchingPoints - ignore matching pairs with 0 or negative points
+			if ($pair->points <= 0)
+			{
+				continue;
+			}
+// fau.
+
 			$pid = $pair->definition->identifier;
 			if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
 			{
@@ -1496,7 +1513,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if( !isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points )
 			{
 				$matchings[$pid] = array(
-					"term_id" => (int) $pair->term->identifier,
+					"term_id" => (int) $this->getId().$pair->term->identifier,
 					"def_id" => (int) $this->getId().$pair->definition->identifier,
 					"points" => (int) $pair->points
 				);
@@ -1613,7 +1630,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		$data = $ilDB->queryF(
-			"SELECT term_id FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id",
+			"SELECT ident FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id",
 			array("integer"),
 			array($this->getId())
 		);
@@ -1622,7 +1639,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		for($index=1; $index <= $ilDB->numRows($data); ++$index)
 		{
 			$row = $ilDB->fetchAssoc($data);
-			$terms[$row["term_id"]] = $index;
+			$terms[$row["ident"]] = $index;
 		}
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

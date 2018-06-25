@@ -39,6 +39,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	* @param	string	$a_session_variable session_variable
 	* @param	ilWorkspaceTree	$a_tree workspace tree
 	* @param	ilWorkspaceAccessHandler	$a_access_handler workspace access handler
+	 * @deprecated use class ilWorkspaceExplorerGUI instead
 	*/
 	public function __construct($a_type, $a_target, $a_session_variable, ilWorkspaceTree $a_tree, ilWorkspaceAccessHandler $a_access_handler)
 	{

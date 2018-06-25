@@ -63,4 +63,11 @@ interface ilContextTemplate
 	 * false for context cli 
 	 */
 	public static function supportsPersistentSessions();
+
+	/**
+	 * Check if push messages are supported, see #0018206
+	 * @return bool
+	 */
+	public static function supportsPushMessages();
+
 }

@@ -32,16 +32,57 @@ abstract class ilChatroomGUIHandler
 	protected $ilLng;
 
 	/**
+	 * @var \ILIAS\Filesystem\Filesystem
+	 */
+	protected $webDirectory;
+
+	/**
+	 * @var \ILIAS\FileUpload\FileUpload
+	 */
+	protected $upload;
+
+	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $mainTpl;
+
+	/**
+	 * @var \ILIAS
+	 */
+	protected $ilias;
+
+	/** @var ilNavigationHistory */
+	protected $navigationHistory;
+
+	/** @var ilTree */
+	protected $tree;
+
+	/** @var ilTabsGUI */
+	protected $tabs;
+	/**
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		global $DIC;
 
-		$this->gui        = $gui;
-		$this->ilUser     = $DIC->user();
-		$this->ilCtrl     = $DIC->ctrl();
-		$this->ilLng      = $DIC->language();
+		$this->gui = $gui;
+		$this->ilUser = $DIC->user();
+		$this->ilCtrl = $DIC->ctrl();
+		$this->ilLng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->mainTpl = $DIC->ui()->mainTemplate();
+		$this->upload = $DIC->upload();
+		$this->webDirectory = $DIC->filesystem()->web();
+		$this->ilias = $DIC['ilias'];
+		$this->tabs = $DIC->tabs();
+		$this->navigationHistory = $DIC['ilNavigationHistory'];
+		$this->tree = $DIC['tree'];
 	}
 
 	/**

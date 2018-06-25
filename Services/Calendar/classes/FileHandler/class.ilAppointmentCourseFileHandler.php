@@ -36,7 +36,9 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
 
 			foreach ($course_files as $course_file)
 			{
-				$files[] = $course_file->getInfoDirectory()."/".$course_file->getFileName();
+				$file_name_system_path = $course_file->getInfoDirectory()."/".$course_file->getFileId();
+				$file_name_web = $course_file->getInfoDirectory()."/".$course_file->getFileName();
+				$files[$file_name_system_path] = $file_name_web;
 			}
 		}
 

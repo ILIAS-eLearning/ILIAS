@@ -48,6 +48,8 @@ public class DBFactory {
 
 	private static Logger logger = Logger.getLogger(DBFactory.class);
 	
+	private static String MARIA_DB_CONNECTOR = "jdbc:mariadb://";
+	
 	private static ThreadLocal<HashMap<String, PreparedStatement>> ps = new ThreadLocal<HashMap<String,PreparedStatement>>() {
 		protected HashMap<String, PreparedStatement> initialValue() {
 			
@@ -69,28 +71,21 @@ public class DBFactory {
 				logger.info("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
 
 				// MySQL
-				if(
-					client.getDbType().equalsIgnoreCase("mysql") ||
-					client.getDbType().equalsIgnoreCase("innodb") ||
-					client.getDbType().equalsIgnoreCase("mysqli") || 
-					client.getDbType().equalsIgnoreCase("pdo-mysql-myisam") ||
-					client.getDbType().equalsIgnoreCase("pdo-mysql-innodb") ||
-					client.getDbType().equalsIgnoreCase("pdo-mysql-galera")
-				) {
+				if(client.getDbType().equalsIgnoreCase("mysql")) {
 
-					logger.info("Loading Mysql driver...");
-					Class.forName( "com.mysql.jdbc.Driver");
-
-					logger.info("Using URL: " +
+					logger.info("Loading maria db driver...");
+					logger.info("Using jdbc url: " +
 							client.getDbUrl() + "/" +
 							client.getDbUser() + "/" +
 							"******" + "?autoReconnect=true"
 					);
 
 					return DriverManager.getConnection(
-							client.getDbUrl() + "?autoReconnect=true",
-							client.getDbUser(),
-							client.getDbPass());
+						DBFactory.MARIA_DB_CONNECTOR + 
+						client.getDbUrl() + "?autoReconnect=true",
+						client.getDbUser(),
+						client.getDbPass()
+					);
 				}
 				// Oracle
 				else if(client.getDbType().equalsIgnoreCase("oracle")) {
@@ -137,7 +132,7 @@ public class DBFactory {
 			catch (ClassNotFoundException e) {
 				// no oracle driver!
 				logger.error(e);
-				logger.error("Could not load the JDBC driver. Check your CLASSPATH for a proper Oracle JDBC driver.");
+				logger.error("Could not load the JDBC driver.");
 			}
 			return null;
 		}

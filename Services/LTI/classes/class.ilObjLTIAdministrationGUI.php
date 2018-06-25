@@ -398,10 +398,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilToolbar;
 
-		$ilToolbar->addButton(
-			$this->lng->txt('lti_create_consumer'),
-			$this->ctrl->getLinkTarget($this,'createconsumer')
-		);
+		if($this->checkPermissionBool('write'))
+		{
+			$ilToolbar->addButton(
+				$this->lng->txt('lti_create_consumer'),
+				$this->ctrl->getLinkTarget($this,'createconsumer')
+			);
+		}
 
 		$this->tabs_gui->activateTab("consumers");
 
@@ -410,6 +413,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$this, 
 			"listConsumers"
 		);
+		$tbl->setEditable($this->checkPermissionBool('write'));
 		$this->tpl->setContent($tbl->getHTML());
 	}
 

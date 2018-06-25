@@ -77,15 +77,17 @@ class ilLearningProgressAccess
 			return false;
 		}
 		
+		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
 		if(
-			$DIC->access()->checkRbacOrPositionPermissionAccess(
-				'read_learning_progress',
-				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
-				$a_ref_id) ||
-			$DIC->access()->checkRbacOrPositionPermissionAccess(
-				'edit_learning_progress',
-				ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS,
-				$a_ref_id)
+			$DIC->access()->checkAccess('read_learning_progress','',$a_ref_id) ||
+			(
+				$DIC->access()->checkRbacOrPositionPermissionAccess
+				(
+					'read_learning_progress',
+					ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+					$a_ref_id
+				) && $olp->isActive()
+			)
 		)			
 		{
 			return true;
@@ -96,7 +98,6 @@ class ilLearningProgressAccess
 			return false;			
 		}
 
-		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
 		if(!$olp->isActive())
 		{
 			return false;

@@ -41,6 +41,11 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 	 * @var ilLanguage
 	 */
 	protected $lng;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $pluginAdmin;
 	
 	/**
 	 * @var ilObjTest
@@ -82,12 +87,13 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 	 */
 	private $failureMessages = array();
 
-	public function __construct(ilDBInterface $db, ilAccessHandler $access, ilCtrl $ctrl, ilLanguage $lng)
+	public function __construct(ilDBInterface $db, ilAccessHandler $access, ilCtrl $ctrl, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
 	{
 		$this->db = $db;
 		$this->access = $access;
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+		$this->pluginAdmin = $pluginAdmin;
 	}
 
 	/**
@@ -470,6 +476,30 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 		return $msg;
 	}
+	
+	private function hasFixedQuestionSetSkillAssignsLowerThanBarrier()
+	{
+		if( !$this->testOBJ->isFixedTest() )
+		{
+			return false;
+		}
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+		$assignmentList->setParentObjId($this->testOBJ->getId());
+		$assignmentList->loadFromDb();
+		
+		return $assignmentList->hasSkillsAssignedLowerThanBarrier();
+	}
+	
+	private function getSkillAssignBarrierInfo()
+	{
+		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		
+		return sprintf( $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
+			ilObjAssessmentFolder::getSkillTriggerAnswerNumberBarrier()
+		);
+	}
 
 	public function build()
 	{
@@ -553,57 +583,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				{
 					$this->addInfoMessage($executable['errormessage']);
 				}
-				if ($this->getTestSession()->getActiveId() > 0)
-				{
-					// test results button
-
-					require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-					$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->getTestOBJ());
-					$testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
-					$testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
-
-					if( $this->getTestOBJ()->canShowTestResults($this->getTestSession()) )
-					{
-						$btn = ilLinkButton::getInstance();
-						$btn->setCaption('tst_show_results');
-						$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserResultsOverview'));
-						$btn->setPrimary(false);
-						$this->addButtonInstance($btn);
-
-						if ($this->getTestOBJ()->getHighscoreEnabled())
-						{
-							// Can also compare results then
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_toplist');
-							$btn->setUrl($this->buildLinkTarget('ilTestToplistGUI', 'outResultsToplist'));
-							$btn->setPrimary(false);
-							$this->addButtonInstance($btn);
-						}
-
-						if( $this->getTestOBJ()->isSkillServiceToBeConsidered() )
-						{
-							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_comp_results');
-							$btn->setUrl($this->buildLinkTarget('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
-							$btn->setPrimary(false);
-							$this->addButtonInstance($btn);
-						}
-					}
-
-				}
-			}
-			if ($this->getTestSession()->getActiveId() > 0)
-			{
-				if ($this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId()))
-				{
-					$btn = ilLinkButton::getInstance();
-					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserListOfAnswerPasses'));
-					$btn->setPrimary(false);
-					$this->addButtonInstance($btn);
-				}
 			}
 
 			if( $this->isDeleteDynamicTestResultsButtonRequired() )
@@ -638,39 +617,47 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 			$this->addInfoMessage($message);
 		}
 		
-		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
-		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->testOBJ->getId());
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
-		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
-		
-		if( $qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered() )
+		if($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId()))
 		{
-			$importFailsMsg = array();
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->testOBJ->getId());
+			require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
+			$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
 			
-			if( $qsaImportFails->failedImportsRegistered() )
+			if( $qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered() )
 			{
-				$importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);
+				$importFailsMsg = array();
+				
+				if( $qsaImportFails->failedImportsRegistered() )
+				{
+					$importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);
+				}
+				
+				if( $sltImportFails->failedImportsRegistered() )
+				{
+					$importFailsMsg[] = $sltImportFails->getFailedImportsMessage($this->lng);
+				}
+				
+				$button = ilLinkButton::getInstance();
+				$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+				$button->setCaption('ass_skl_import_fails_remove_btn');
+				$importFailsMsg[] = $button->render();
+				
+				$this->addFailureMessage(implode('<br />', $importFailsMsg));
 			}
-			
-			if( $sltImportFails->failedImportsRegistered() )
+			elseif( $this->getTestOBJ()->isSkillServiceToBeConsidered() )
 			{
-				$importFailsMsg[] = $sltImportFails->getFailedImportsMessage($this->lng);
+				if( $this->areSkillLevelThresholdsMissing() )
+				{
+					$this->addFailureMessage($this->getSkillLevelThresholdsMissingInfo());
+				}
+				
+				if( $this->hasFixedQuestionSetSkillAssignsLowerThanBarrier() )
+				{
+					$this->addFailureMessage($this->getSkillAssignBarrierInfo());
+				}
 			}
-			
-			$button = ilLinkButton::getInstance();
-			$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
-			$button->setCaption('ass_skl_import_fails_remove_btn');
-			$importFailsMsg[] = $button->render();
-			
-			ilUtil::sendFailure(implode('<br />', $importFailsMsg));
-		}
-		elseif( $this->getTestOBJ()->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
-		{
-			$this->addFailureMessage($this->getSkillLevelThresholdsMissingInfo());
-		}
 
-		if($this->access->checkAccess("write", "", $this->ref_id))
-		{
 			if( $this->getTestQuestionSetConfig()->areDepenciesBroken() )
 			{
 				$this->addFailureMessage($this->getTestQuestionSetConfig()->getDepenciesBrokenMessage($this->lng));

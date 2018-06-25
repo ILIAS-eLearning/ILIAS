@@ -4,6 +4,8 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+require_once(__DIR__."/../Renderer/TestComponent.php");
+
 class ComponentMock {
 	use \ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -18,6 +20,9 @@ class ComponentMock {
 	}
 	public function _checkFloatArg($which, $value) {
 		$this->checkFloatArg($which, $value);
+	}
+	public function _checkBoolArg($which, $value) {
+		$this->checkBoolArg($which, $value);
 	}
 	public function _checkArgInstanceOf($which, $value, $class) {
 		$this->checkArgInstanceOf($which, $value, $class);
@@ -34,6 +39,12 @@ class ComponentMock {
 	public function _checkArgList($which, &$value, $check, $message) {
 		$this->checkArgList($which, $value, $check, $message);
 	}
+
+	public $called_gcnbfqn = 0;
+	protected function getCanonicalNameByFullyQualifiedName() {
+		$this->called_gcnbfqn++;
+		return "Foo";
+	}
 }
 
 class Class1 {
@@ -44,11 +55,23 @@ class Class3 {
 }
 
 /**
- * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->mock = new ComponentMock();
+	}
+
+	public function test_getCanonicalName() {
+		$c = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$this->assertEquals("Test Component Test", $c->getCanonicalName());
+	}
+
+	public function test_cachesCanonicalName() {
+		$name1 = $this->mock->getCanonicalName();
+		$name2 = $this->mock->getCanonicalName();
+		$this->assertEquals($name1, $name2);
+		$this->assertEquals(1, $this->mock->called_gcnbfqn);
 	}
 
 	public function test_check_arg_ok() {
@@ -105,6 +128,25 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertEquals("Argument 'some_arg': expected string, got integer '1'", $e->getMessage());
+		}
+	}
+
+	public function test_check_bool_arg_ok() {
+		try {
+			$this->mock->_checkBoolArg("some_arg", true);
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_bool_arg_not_ok() {
+		try {
+			$this->mock->_checkBoolArg("some_arg", 1);
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected bool, got integer '1'", $e->getMessage());
 		}
 	}
 

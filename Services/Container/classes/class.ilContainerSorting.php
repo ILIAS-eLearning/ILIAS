@@ -129,15 +129,47 @@ class ilContainerSorting
 	public function cloneSorting($a_target_id,$a_copy_id)
 	{
 		$ilDB = $this->db;
-		$ilLog = $this->log;
-		
-		$ilLog->write(__METHOD__.': Cloning container sorting.');
-		
+
+		$ilLog = ilLoggerFactory::getLogger("cont");
+		$ilLog->debug("Cloning container sorting.");
+
 		$target_obj_id = ilObject::_lookupObjId($a_target_id);
 		
 		include_once('./Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings(); 
-		
+		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
+
+
+		// copy blocks sorting
+		$set = $ilDB->queryF("SELECT * FROM container_sorting_bl ".
+			" WHERE obj_id = %s ",
+			array("integer"),
+			array($this->obj_id)
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["block_ids"] != "")
+			{
+				$ilLog->debug("Got block sorting for obj_id = ".$this->obj_id.": ".$rec["block_ids"]);
+				$new_ids = implode(";", array_map(function ($block_id) use ($mappings) {
+					if (is_numeric($block_id))
+					{
+						$block_id = $mappings[$block_id];
+					}
+					return $block_id;
+				}, explode(";", $rec["block_ids"])));
+
+				$ilDB->insert("container_sorting_bl", array(
+					"obj_id" => array("integer", $target_obj_id),
+					"block_ids" => array("text", $new_ids)
+				));
+
+				$ilLog->debug("Write block sorting for obj_id = ".$target_obj_id.": ".$new_ids);
+			}
+		}
+
+
+		$ilLog->debug("Read container_sorting for obj_id = ".$this->obj_id);
+
 		$query = "SELECT * FROM container_sorting ".
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id, 'integer');
 
@@ -147,20 +179,44 @@ class ilContainerSorting
 		{
 	 		if(!isset($mappings[$row->child_id]) or !$mappings[$row->child_id])
 	 		{
-				#$ilLog->write(__METHOD__.': No mapping found for:'.$row->child_id);
+				$ilLog->debug("No mapping found for child id:".$row->child_id);
 	 			continue;
 	 		}
-			
-			if($row->parent_id and (!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id]))
+
+
+			$new_parent_id = 0;
+			if($row->parent_id)
 			{
-				continue;
+				// see bug #20347
+				// at least in the case of sessions and item groups parent_ids in container sorting are object IDs but $mappings store references
+				if (in_array($row->parent_type, array("sess", "itgr")))
+				{
+					$par_refs = ilObject::_getAllReferences($row->parent_id);
+					$par_ref_id = current($par_refs);			// should be only one
+					$ilLog->debug("Got ref id: ".$par_ref_id." for obj_id ".$row->parent_id." map ref id: ".$mappings[$par_ref_id].".");
+					if (isset($mappings[$par_ref_id]))
+					{
+						$new_parent_ref_id = $mappings[$par_ref_id];
+						$new_parent_id = ilObject::_lookupObjectId($new_parent_ref_id);
+					}
+				}
+				else		// not sure if this is still used for other cases that expect ref ids
+				{
+					$new_parent_id = $mappings[$row->parent_id];
+				}
+				if ((int) $new_parent_id == 0)
+				{
+					$ilLog->debug("No mapping found for parent id:" . $row->parent_id . ", child_id: " . $row->child_id);
+					continue;
+				}
 			}
 
 			$query = "DELETE FROM container_sorting ".
 				"WHERE obj_id = ".$ilDB->quote($target_obj_id,'integer')." ".
 				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer')." ".
 				"AND parent_type = ".$ilDB->quote($row->parent_type,'text').' '.
-				"AND parent_id = ".$ilDB->quote((int) $mappings[$row->parent_id],'integer');
+				"AND parent_id = ".$ilDB->quote((int) $new_parent_id,'integer');
+			$ilLog->debug($query);
 			$ilDB->manipulate($query);
 	 		
 	 		// Add new value
@@ -170,8 +226,9 @@ class ilContainerSorting
 	 			$ilDB->quote($mappings[$row->child_id] ,'integer').", ".
 	 			$ilDB->quote($row->position,'integer').", ".
 				$ilDB->quote($row->parent_type,'text').", ".
-				$ilDB->quote((int) $mappings[$row->parent_id],'integer').
+				$ilDB->quote((int) $new_parent_id,'integer').
 	 			")";
+			$ilLog->debug($query);
 			$ilDB->manipulate($query);
 		}
 		return true;		
@@ -372,12 +429,11 @@ class ilContainerSorting
 	 */
 	public function savePost($a_type_positions)
 	{
-		$ilLog = $this->log;
-
 	 	if(!is_array($a_type_positions))
 	 	{
 	 		return false;
 	 	}
+		$items = [];
 	 	foreach($a_type_positions as $key => $position)
 	 	{
 			if($key == "blocks")
@@ -390,14 +446,26 @@ class ilContainerSorting
 	 		}
 			else
 			{
-				$ilLog->write(__METHOD__.': Deprecated call');
 				foreach($position as $parent_id => $sub_items)
 				{
 					$this->saveSubItems($key,$parent_id,$sub_items ? $sub_items : array());
 				}
 			}
 	 	}
-	 	$this->saveItems($items ? $items : array());
+		
+		if(!count($items)) {
+			return $this->saveItems(array());
+		}
+		
+		asort($items);
+		$new_indexed = [];
+		$position = 0;
+		foreach($items as $key => $null)
+		{
+			$new_indexed[$key] = ++$position;
+		}
+		
+		$this->saveItems($new_indexed);
 	}
 	
 	
@@ -472,7 +540,6 @@ class ilContainerSorting
 		$ilDB = $this->db;
 		
 		asort($a_values);
-	
 		$ilDB->replace(
 			'container_sorting_bl',
 			array(
@@ -586,7 +653,7 @@ class ilContainerSorting
 
 		}
 		$count = $this->getSortingSettings()->getSortNewItemsPosition()
-			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? 0 : 900000;
+			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? -900000 : 900000;
 
 		foreach($no_position as $values)
 		{

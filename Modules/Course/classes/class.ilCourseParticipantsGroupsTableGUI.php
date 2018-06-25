@@ -55,9 +55,27 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
 		if($this->groups)
 		{
-			$this->addMultiItemSelectionButton("grp_id", $this->groups, "add", $this->lng->txt("crs_add_to_group"));
+			$selectable_groups = [];
+			foreach($this->groups as $ref_id => $something)
+			{
+				if($this->groups_rights[$ref_id]['manage_members'])
+				{
+					$selectable_groups[$ref_id] = $this->groups[$ref_id];
+				}
+			}
+			if(count($selectable_groups))
+			{
+				$this->addMultiItemSelectionButton(
+					"grp_id", 
+					$selectable_groups,
+					"add", 
+					$this->lng->txt("crs_add_to_group")
+				);
+			}
 			$this->initFilter();
 		}
+		
+		
 		
 	    $this->getItems();
 	}
@@ -85,11 +103,38 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 				else
 				{
 					$this->groups[$group_data["ref_id"]] = $group_data["title"];
-					$this->groups_rights[$group_data["ref_id"]]["manage_members"] = (bool)$ilAccess->checkAccess("manage_members", "", $group_data["ref_id"]);
-					$this->groups_rights[$group_data["ref_id"]]["edit_permission"] = (bool)$ilAccess->checkAccess("edit_permission", "", $group_data["ref_id"]);
+					$this->groups_rights[$group_data["ref_id"]]["manage_members"] = (bool)
+						$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+							'manage_members', 
+							'manage_members',
+							$group_data['ref_id']
+						)
+					;
+					
+					$this->groups_rights[$group_data["ref_id"]]["edit_permission"] = (bool)
+						$GLOBALS['DIC']->access()->checkAccess(
+							"edit_permission",
+							"", 
+							$group_data["ref_id"]
+					);
+					
 					$gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
-					$this->participants[$group_data["ref_id"]]["members"] = $gobj->getMembers();
-					$this->participants[$group_data["ref_id"]]["admins"] = $gobj->getAdmins();
+					
+					$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+						'manage_members', 
+						'manage_members', 
+						$group_data['ref_id'],
+						$gobj->getMembers()
+					);
+					$admins = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+						'manage_members', 
+						'manage_members', 
+						$group_data['ref_id'],
+						$gobj->getAdmins()
+					);
+
+					$this->participants[$group_data["ref_id"]]["members"] = $members;
+					$this->participants[$group_data["ref_id"]]["admins"] = $admins;
 				}
 			}
 		}
@@ -122,7 +167,13 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		{
 			include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 			$part = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
-			$members = $part->getMembers();
+			$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'manage_members', 
+				'manage_members', 
+				$this->ref_id,
+				$part->getMembers()
+			);
+			
 			if(count($members))
 			{
 				include_once './Services/User/classes/class.ilUserUtil.php';
@@ -191,8 +242,10 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 			{
 				foreach($groups as $grp_id => $title)
 				{
-					if(($type == "admins" && $this->groups_rights[$grp_id]["edit_permission"]) ||
-						($type == "members" && $this->groups_rights[$grp_id]["manage_members"]))
+					if(
+						($type == "admins" && $this->groups_rights[$grp_id]["edit_permission"]) ||
+						($type == "members" && $this->groups_rights[$grp_id]["manage_members"])
+					)
 					{
 						$this->tpl->setCurrentBlock("groups_remove");
 

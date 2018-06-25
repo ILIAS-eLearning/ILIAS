@@ -164,12 +164,12 @@ class ilDclTableEditGUI {
 			'title' => "",
 			'add_perm' => 1,
 			'edit_perm' => 1,
-			'edit_perm_mode' => 'all',
-			'delete_perm_mode' => 'all',
+			'edit_perm_mode' => 'own',
+			'delete_perm_mode' => 'own',
 			'delete_perm' => 1,
 			'edit_by_owner' => 1,
 			'export_enabled' => 0,
-			'import_enabled' => 1,
+			'import_enabled' => 0,
 			'limited' => 0,
 			'limit_start' => NULL,
 			'limit_end' => NULL
@@ -208,6 +208,9 @@ class ilDclTableEditGUI {
 			$fields = $this->table->getFields();
 			$options = array( 0 => $this->lng->txt('dcl_please_select') );
 			foreach ($fields as $field) {
+				if ($field->getId() == 'comments') {
+					continue;
+				}
 				$options[$field->getId()] = $field->getTitle();
 			}
 			$item->setOptions($options);

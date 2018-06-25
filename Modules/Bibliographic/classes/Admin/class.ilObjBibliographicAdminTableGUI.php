@@ -13,6 +13,10 @@
 class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 
 	/**
+	 * @var bool
+	 */
+	protected $write_access = false;
+	/**
 	 * @var ilObjChatroomAdminGUI|null
 	 */
 	protected $gui = null;
@@ -21,18 +25,17 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	/**
 	 * Constructor
 	 *
-	 * @global ilLanguage                         $lng
-	 * @global ilCtrl2                            $ilCtrl
-	 *
 	 * @param ilObjBibliographicAdminLibrariesGUI $parent_gui
 	 * @param string                              $cmd
+	 * @param                                     $write_access
 	 */
-	public function __construct(ilObjBibliographicAdminLibrariesGUI $parent_gui, $cmd) {
+	public function __construct(ilObjBibliographicAdminLibrariesGUI $parent_gui, $cmd, $write_access) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($parent_gui, $cmd);
+		$this->write_access = $write_access;
 		$this->gui = $parent_gui;
 		$this->setTitle($lng->txt('bibl_settings_libraries'));
 		$this->setId('bibl_libraries_tbl');
@@ -59,14 +62,15 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
 		$this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
 		$this->tpl->setVariable('VAL_LIBRARY_IMG', $a_set['img']);
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId($a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit')
-		                                                              . "&lib_id=" . $a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete')
-		                                                                . "&lib_id="
-		                                                                . $a_set['id']);
-		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+		if ($this->write_access) {
+			$current_selection_list = new ilAdvancedSelectionListGUI();
+			$current_selection_list->setListTitle($this->lng->txt("actions"));
+			$current_selection_list->setId($a_set['id']);
+			$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit') . "&lib_id=" . $a_set['id']);
+			$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete') . "&lib_id=" . $a_set['id']);
+			$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+		} else {
+			$this->tpl->setVariable('VAL_ACTIONS', "&nbsp;");
+		}
 	}
 }

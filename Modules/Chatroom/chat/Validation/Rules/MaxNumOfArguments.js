@@ -18,17 +18,17 @@ module.exports = function MaxNumOfArguments(max) {
 	 */
 	var _max = max;
 
-	this.validate = function() {
-		if(!isLessEqualsMax()) {
-			throw new Error('CHANGE THIS TO SPECIFIC: TO MANY ARGUMENTS');
-		}
-	};
-
-	var isLessEqualsMax = function() {
+	function isLessEqualsMax() {
 		if(_max == 0) {
 			return true;
 		}
 
 		return process.argv.length <= _max + CONST_NUM_COMMAND_ARGS;
+	}
+
+	this.validate = function() {
+		if(!isLessEqualsMax()) {
+			throw new Error('CHANGE THIS TO SPECIFIC: TO MANY ARGUMENTS');
+		}
 	};
 };

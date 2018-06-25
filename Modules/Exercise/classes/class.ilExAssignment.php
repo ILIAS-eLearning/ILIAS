@@ -256,7 +256,8 @@ class ilExAssignment
 			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
 			if(!$team_id)
 			{
-				return;
+				// #0021043
+				$this->getDeadline();
 			}
 			$a_user_id = $team_id;
 			$is_team = true;
@@ -1078,14 +1079,16 @@ class ilExAssignment
 			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());
 			$new_ass->setPeerReviewCriteriaCatalogue($d->getPeerReviewCriteriaCatalogue());
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
-			$new_ass->setPeerReviewText($d->hasPeerReviewText());
-			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());			
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
 			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
-			
+			$new_ass->setMinCharLimit($d->getMinCharLimit());
+			$new_ass->setMaxCharLimit($d->getMaxCharLimit());
+			$new_ass->setPortfolioTemplateId($d->getPortfolioTemplateId());
+
+
 			// criteria catalogue(s)
 			if($d->getPeerReviewCriteriaCatalogue() &&
 				array_key_exists($d->getPeerReviewCriteriaCatalogue(), $a_crit_cat_map))
@@ -1095,18 +1098,22 @@ class ilExAssignment
 			
 			$new_ass->save();
 			
+
+			// clone assignment files		
+			include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+			$old_web_storage = new ilFSWebStorageExercise($a_old_exc_id, (int) $d->getId());
+			$new_web_storage = new ilFSWebStorageExercise($a_new_exc_id, (int) $new_ass->getId());
+			$new_web_storage->create();
+			if (is_dir($old_web_storage->getPath()))
+			{
+				ilUtil::rCopy($old_web_storage->getPath(), $new_web_storage->getPath());
+			}
+			
+			// clone global feedback file			
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
 			$new_storage = new ilFSStorageExercise($a_new_exc_id, (int) $new_ass->getId());
 			$new_storage->create();
-			
-			// clone assignment files		
-			if (is_dir($old_storage->getPath()))
-			{
-				ilUtil::rCopy($old_storage->getPath(), $new_storage->getPath());
-			}
-			
-			// clone global feedback file			
 			if (is_dir($old_storage->getGlobalFeedbackPath()))
 			{
 				ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
@@ -1756,7 +1763,7 @@ class ilExAssignment
 		
 		$res = array();
 		
-		$set = $ilDB->query("SELECT id,fb_file FROM exc_assignment".
+		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
 			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
 			" AND time_stamp IS NOT NULL".
@@ -1765,7 +1772,9 @@ class ilExAssignment
 			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			if(trim($row["fb_file"]))
+			$max = max($row['time_stamp'], $row['deadline2']);
+
+			if(trim($row["fb_file"]) && $max <= time())
 			{
 				$res[] = $row["id"];			
 			}
@@ -1881,7 +1890,7 @@ class ilExAssignment
 	// FEEDBACK FILES
 	// 
 	
-	protected function getGlobalFeedbackFileStoragePath()
+	public function getGlobalFeedbackFileStoragePath()
 	{
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1897,7 +1906,7 @@ class ilExAssignment
 	{		
 		$path = $this->getGlobalFeedbackFileStoragePath();
 		ilUtil::delDir($path, true);
-		if(@move_uploaded_file($a_file["tmp_name"], $path."/".$a_file["name"]))
+		if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path."/".$a_file["name"]))
 		{
 			$this->setFeedbackFile($a_file["name"]);		
 			return true;
@@ -2087,7 +2096,7 @@ class ilExAssignment
 	 * @param string $a_filename  previously sanitized.
 	 * @param int $a_ass_id assignment id.
 	 */
-	static function instructionFileInsertOrder($a_filename, $a_ass_id)
+	static function instructionFileInsertOrder($a_filename, $a_ass_id, $a_order_nr = 0)
 	{
 		global $DIC;
 
@@ -2103,9 +2112,15 @@ class ilExAssignment
 
 			if(!self::instructionFileExistsInDb($filename, $a_ass_id))
 			{
-				$order_val = self::instructionFileOrderGetMax($a_ass_id);
-
-				$order = $order_val + 10;
+				if ($a_order_nr == 0)
+				{
+					$order_val = self::instructionFileOrderGetMax($a_ass_id);
+					$order = $order_val + 10;
+				}
+				else
+				{
+					$order = $a_order_nr;
+				}
 
 				$id = $db->nextID('exc_ass_file_order');
 				$db->manipulate("INSERT INTO exc_ass_file_order " .

@@ -11,7 +11,6 @@ require_once('class.arField.php');
 class arFieldList {
 
 	const HAS_FIELD = 'has_field';
-	const IS_UNIQUE = 'is_unique';
 	const IS_PRIMARY = 'is_primary';
 	const IS_NOTNULL = 'is_notnull';
 	const FIELDTYPE = 'fieldtype';
@@ -30,13 +29,13 @@ class arFieldList {
 	 * @var array
 	 */
 	protected static $allowed_description_fields = array(
-		self::IS_UNIQUE,
+		'is_unique', // There are many classes which already use this (without any function)
 		self::IS_PRIMARY,
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
 		self::LENGTH,
 		self::SEQUENCE,
-		self::INDEX,
+		self::INDEX
 	);
 	/**
 	 * @var array
@@ -63,12 +62,26 @@ class arFieldList {
 	 */
 	protected $fields = array();
 	/**
+	 * @var ActiveRecord
+	 */
+	protected $ar;
+	/**
 	 * @var array
 	 */
 	protected static $key_maps = array(
 		self::FIELDTYPE => 'type',
 		self::IS_NOTNULL => 'notnull',
 	);
+
+
+	/**
+	 * arFieldList constructor.
+	 *
+	 * @param ActiveRecord $ar
+	 */
+	public function __construct(ActiveRecord $ar) {
+		$this->ar = $ar;
+	}
 
 
 	/**
@@ -101,13 +114,14 @@ class arFieldList {
 	}
 
 
+
 	/**
 	 * @param ActiveRecord $ar
 	 *
 	 * @return \arFieldList
 	 */
 	public static function getInstance(ActiveRecord $ar) {
-		$arFieldList = new self();
+		$arFieldList = new self($ar);
 		$arFieldList->initRawFields($ar);
 		$arFieldList->initFields();
 
@@ -147,7 +161,7 @@ class arFieldList {
 		foreach ($this->getRawFields() as $fieldname => $attributes) {
 			if (self::checkAttributes($attributes)) {
 				$arField = new arField();
-				$arField->getHasField(true);
+				$arField->getHasField();
 				$arField->loadFromArray($fieldname, $attributes);
 				$this->fields[] = $arField;
 				if ($arField->getPrimary()) {
@@ -166,12 +180,13 @@ class arFieldList {
 	public function getFieldByName($field_name) {
 		$field = NULL;
 		static $field_map;
-		if ($field_map[$field_name]) {
-			return $field_map[$field_name];
+		$field_key = $this->ar->getConnectorContainerName() . '.' . $field_name;
+		if ($field_map[$field_key]) {
+			return $field_map[$field_key];
 		}
 		foreach ($this->getFields() as $field) {
 			if ($field->getName() == $field_name) {
-				$field_map[$field_name] = $field;
+				$field_map[$field_key] = $field;
 
 				return $field;
 			}

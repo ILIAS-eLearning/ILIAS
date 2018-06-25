@@ -430,13 +430,13 @@ class ilForumPostDraft
 			array('integer'),
 			array($draft_id)
 		);
-
+		
+		$tmp_obj = new ilForumPostDraft();
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			$tmp_obj = new ilForumPostDraft();
 			self::populateWithDatabaseRecord($tmp_obj, $row);
-			return $tmp_obj;
 		}
+		return $tmp_obj;
 	}
 
 	/**

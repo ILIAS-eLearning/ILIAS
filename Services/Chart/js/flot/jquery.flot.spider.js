@@ -124,11 +124,14 @@ data: [
 			ctx.clearRect(0,0,canvas.width,canvas.height);
 		}
 		function setupspider(){
-			maxRadius =  Math.min(canvas.width,canvas.height)/2 * data[0].spider.spiderSize;
-			centerTop = (canvas.height/2);
-			
 			// alex-patch start
-			centerLeft = (canvas.width/2);
+			var wi = $(canvas).width();
+			var he = $(canvas).height();
+
+			maxRadius =  Math.min(wi, he)/2 * data[0].spider.spiderSize;
+			centerTop = (he/2);
+
+			centerLeft = (wi/2);
 			// centerLeft = centerTop;
 			// alex-patch end
 		}

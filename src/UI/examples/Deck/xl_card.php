@@ -8,6 +8,7 @@ function xl_card() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
+	//Generate some content
 	$content = $f->listing()->descriptive(
 		array(
 			"Entry 1" => "Some text",
@@ -15,9 +16,11 @@ function xl_card() {
 		)
 	);
 
+	//Define the some responsive image
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
+	//Define the card by using the content and the image
 	$card = $f->card(
 		"Title",
 		$image
@@ -25,8 +28,8 @@ function xl_card() {
 		$content
 	));
 
-	$deck = $f->deck(array($card,$card,$card))
-		->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_XL);
+	//Define the extra large deck
+	$deck = $f->deck(array($card,$card,$card))->withExtraLargeCardsSize();
 
 	//Render
 	return $renderer->render($deck);

@@ -360,5 +360,51 @@ class ilInternalLink
 		$target = explode("_", $a_target);
 		return $target[count($target) - 2];
 	}
+
+	/**
+	 * Search users
+	 *
+	 * @param
+	 * @return
+	 */
+	static function searchUsers($a_search_str)
+	{
+		$result = new ilSearchResult();
+
+		$query_parser = new ilQueryParser($a_search_str, '%_');
+		$query_parser->setCombination(QP_COMBINATION_AND);
+		$query_parser->setMinWordLength(3);
+		$query_parser->parse();
+
+		$user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+		$user_search->enableActiveCheck(true);
+		$user_search->setFields(array('login'));
+		$result_obj = $user_search->performSearch();
+		$result->mergeEntries($result_obj);
+
+		$user_search->setFields(array('firstname'));
+		$result_obj = $user_search->performSearch();
+		$result->mergeEntries($result_obj);
+
+		$user_search->setFields(array('lastname'));
+		$result_obj = $user_search->performSearch();
+		$result->mergeEntries($result_obj);
+
+		$result->setMaxHits(100000);
+		$result->preventOverwritingMaxhits(true);
+		$result->filter(ROOT_FOLDER_ID, true);
+
+		// Filter users (depends on setting in user accounts)
+		include_once 'Services/User/classes/class.ilUserFilter.php';
+		$users = ilUserFilter::getInstance()->filter($result->getResultIds());
+
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		$p = ilObjUser::getProfileStatusOfUsers($users);
+
+		$users = array_intersect($users, $p["public"]);
+
+		return $users;
+	}
+
 }
 ?>

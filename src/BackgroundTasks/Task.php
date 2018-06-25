@@ -2,6 +2,7 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\Type;
 
 /**
@@ -65,10 +66,20 @@ interface Task {
 
 
 	/**
-	 * @return int the amount of seconds this task usually taskes. If your task-duration scales
-	 *             with the the amount of data, try to set a possible high value of try to
-	 *             calculate it. If a task duration exceeds this value, it will be displayed as
-	 *             "possibly failed" to the user
+	 * @return Option   An Option to remove the current task and do some cleanup if possible. This
+	 *                  Option is displayed if the Bucket is completed. You do not have to provide
+	 *                  an additional Option to remove in your UserInteraction, the remove-Option
+	 *                  is added to the list of Options (last position)
+	 *
+	 * @see self::getAbortOption();
 	 */
-	public function getExpectedTimeOfTaksInSeconds();
+	public function getRemoveOption();
+
+
+	/**
+	 * @return Option   In case a Job is failed or did not respond for some time, an Abort-Option
+	 *                  is displayed. There is already a Standard-Abort-Option registered, you can
+	 *                  override with your own and do some cleanup if possible.
+	 */
+	public function getAbortOption();
 }

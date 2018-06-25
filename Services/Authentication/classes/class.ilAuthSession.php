@@ -18,6 +18,9 @@ class ilAuthSession
 	
 	private static $instance = null;
 	
+	/**
+	 * @var ilLogger
+	 */
 	private $logger = null;
 	
 	private $id = '';
@@ -27,29 +30,31 @@ class ilAuthSession
 	
 	/**
 	 * Consctructor
+	 * @param \ilLogger
 	 */
-	private function __construct()
+	private function __construct(\ilLogger $logger)
 	{
-		$this->logger = ilLoggerFactory::getLogger('auth');
+		$this->logger = $logger;
 	}
 	
 	/**
 	 * Get instance
+	 * @param \ilLogger
 	 * @return ilAuthSession
 	 */
-	public static function getInstance()
+	public static function getInstance(\ilLogger $logger)
 	{
 		if(self::$instance)
 		{
 			return self::$instance;
 		}
-		return self::$instance = new self();
+		return self::$instance = new self($logger);
 	}
 	
 	/**
 	 * @return ilLogger
 	 */
-	public function getLogger()
+	protected function getLogger()
 	{
 		return $this->logger;
 	}
@@ -102,7 +107,7 @@ class ilAuthSession
 		$old_session_id = session_id();
 		session_regenerate_id(true);
 		$this->setId(session_id());
-		$this->getLogger()->info('Session regenrate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
+		$this->getLogger()->info('Session regenerate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
 	}
 	
 	/**
@@ -136,6 +141,10 @@ class ilAuthSession
 		ilSession::set(self::SESSION_AUTH_AUTHENTICATED, $a_status);
 		ilSession::set(self::SESSION_AUTH_USER_ID, (int) $a_user_id);
 		$this->setExpired(false);
+		if($a_status)
+		{
+			$this->regenerateId();
+		}
 	}
 	
 	/**
@@ -159,7 +168,7 @@ class ilAuthSession
 	
 	/**
 	 * Set authenticated user id
-	 * @param type $a_id
+	 * @param int $a_id
 	 */
 	public function setUserId($a_id)
 	{
@@ -195,11 +204,19 @@ class ilAuthSession
 		return true;
 	}
 	
-	public function setId($a_id)
+	/**
+	 * Set id
+	 * @param string $a_id
+	 */
+	protected function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 	
+	/**
+	 * get session id
+	 * @return string
+	 */
 	public function getId()
 	{
 		return $this->id;

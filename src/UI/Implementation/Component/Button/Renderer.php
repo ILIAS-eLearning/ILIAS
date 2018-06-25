@@ -22,15 +22,16 @@ class Renderer extends AbstractComponentRenderer {
 		} else {
 			return $this->renderButton($component, $default_renderer);
 		}
-
-
 	}
 
-	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		// TODO: It would be nice if we could use <button> for rendering a button
-		// instead of <a>. This was not done atm, as there is no attribute on a
-		// button to make it open an URL. This would require JS.
 
+	/**
+	 * @param \ILIAS\UI\Component\Button\Button $component
+	 * @param \ILIAS\UI\Renderer                $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -43,20 +44,38 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Tag) {
 			$tpl_name = "tpl.tag.html";
 		}
+		if ($component instanceof Component\Button\Bulky) {
+			$tpl_name = "tpl.bulky.html";
+		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
+
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.
-		$tpl->setVariable("ACTION", $action);
+		if (is_string($action)) {
+			$tpl->setCurrentBlock("with_data_action");
+			$tpl->setVariable("ACTION", $action);
+			$tpl->parseCurrentBlock();
+		}
+
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
-			$tpl->setCurrentBlock("with_href");
-			$tpl->setVariable("HREF", $action);
-			$tpl->parseCurrentBlock();
+			// The actions might also be a list of signals, these will be appended by
+			// bindJavascript in maybeRenderId.
+			if (is_string($action)) {
+				$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
+					$action = str_replace("&amp;", "&", $action);
+
+					return "$('#$id').on('click', function(event) {
+							window.location = '{$action}';
+							return false; // stop event propagation
+					});";
+				});
+			}
 		} else {
 			$tpl->touchBlock("disabled");
 		}
@@ -75,6 +94,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Tag) {
 			$this->additionalRenderTag($component, $tpl);
+		}
+
+		if ($component instanceof Component\Button\Bulky) {
+			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
 
 		return $tpl->get();
@@ -113,13 +136,13 @@ class Renderer extends AbstractComponentRenderer {
 
 		for ($i = 1; $i<=12; $i++)
 		{
-			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_long"));
+			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_short"));
 		}
 
 		$tpl = $this->getTemplate("tpl.month.html", true, true);
 
 		$month = explode("-", $def);
-		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_short")." ".$month[1]);
 		$tpl->setVariable("DEF_DATE", $month[0]."/1/".$month[1]);
 		// see https://github.com/moment/moment/tree/develop/locale
 		$lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",
@@ -160,7 +183,25 @@ class Renderer extends AbstractComponentRenderer {
 		if($forecol) {
 			$tpl->setVariable("FORECOL", $forecol->asHex());
 		}
+	}
 
+	protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl) {
+		$renderer = $default_renderer->withAdditionalContext($component);
+		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
+		$label = $component->getLabel();
+		if ($label !== null) {
+			$tpl->setVariable("LABEL", $label);
+		}
+		if ($component->isEngaged()) {
+			$tpl->touchBlock("engaged");
+			$tpl->setVariable("ARIA_PRESSED", 'true');
+		} else {
+			if (is_string($component->getAction())) {
+				$tpl->setVariable("ARIA_PRESSED", 'undefined');
+			}else {
+				$tpl->setVariable("ARIA_PRESSED", 'false');
+			}
+		}
 	}
 
 	/**
@@ -174,6 +215,7 @@ class Renderer extends AbstractComponentRenderer {
 		, Component\Button\Shy::class
 		, Component\Button\Month::class
 		, Component\Button\Tag::class
+		, Component\Button\Bulky::class
 		);
 	}
 }

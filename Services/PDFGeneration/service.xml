@@ -10,4 +10,5 @@
     <pluginslots>
         <pluginslot id="renderer" name="Renderer" />
     </pluginslots>
+    <logging />
 </service>

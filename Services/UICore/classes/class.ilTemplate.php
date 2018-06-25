@@ -985,7 +985,7 @@ class ilTemplate extends HTML_Template_ITX
 			}
 			
 			$ftpl->setCurrentBlock("items");
-			$ftpl->setVariable("URL_ITEM", $url);
+			$ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
 			$ftpl->setVariable("TXT_ITEM", $caption[0]);
 			$ftpl->parseCurrentBlock();			
 		}

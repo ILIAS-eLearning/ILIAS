@@ -5,7 +5,15 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
  * Exercise data set class
- * 
+ *
+ * Entities:
+ *
+ * - exc: Exercise data
+ * - exc_assignment: Assignment data
+ * - exc_crit_cat: criteria category
+ * - exc_crit: criteria
+ * - exc_ass_file_order: Order of instruction files
+ *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ingroup ModulesExercise
@@ -221,6 +229,7 @@ class ilExerciseDataSet extends ilDataSet
 			{
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer"
 						,"Parent" => "integer"
@@ -236,6 +245,7 @@ class ilExerciseDataSet extends ilDataSet
 			{
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer"
 						,"Parent" => "integer"
@@ -248,6 +258,21 @@ class ilExerciseDataSet extends ilDataSet
 					);					
 			}
 		}
+
+		if ($a_entity == "exc_ass_file_order")
+		{
+			switch ($a_version)
+			{
+				case "5.3.0":
+					return array(
+					"Id" => "integer"
+					, "AssignmentId" => "integer"
+					, "Filename" => "text"
+					, "OrderNr" => "integer"
+					);
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -341,6 +366,7 @@ class ilExerciseDataSet extends ilDataSet
 			{
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT id, parent, title, pos".
 						" FROM exc_crit_cat".
 						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
@@ -354,12 +380,26 @@ class ilExerciseDataSet extends ilDataSet
 			{
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT id, parent, type, title".
 						", descr, pos, required, def".
 						" FROM exc_crit".
 						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
 					break;	
 			}
+		}
+
+		if ($a_entity == "exc_ass_file_order")
+		{
+			switch ($a_version)
+			{
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT id, assignment_id, filename, order_nr".
+						" FROM exc_ass_file_order".
+						" WHERE ".$ilDB->in("assignment_id", $a_ids, false, "integer"));
+					break;
+			}
+
 		}
 	}
 
@@ -416,17 +456,41 @@ class ilExerciseDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "exc":
-				return array (					
-					"exc_crit_cat" => array("ids" => $a_rec["Id"]),
-					"exc_assignment" => array("ids" => $a_rec["Id"])
-				);
-				
+				switch ($a_version)
+				{
+					case "4.1.0":
+					case "4.4.0":
+					case "5.0.0":
+						return array(
+							"exc_assignment" => array("ids" => $a_rec["Id"])
+						);
+
+					case "5.1.0":
+					case "5.2.0":
+					case "5.3.0":
+						return array(
+							"exc_crit_cat" => array("ids" => $a_rec["Id"]),
+							"exc_assignment" => array("ids" => $a_rec["Id"])
+						);
+				}
+				break;
+
 			case "exc_crit_cat":
-				return array (
+				return array(
 					"exc_crit" => array("ids" => $a_rec["Id"])
 				);
-		}
 
+			case "exc_assignment":
+				switch ($a_version)
+				{
+					case "5.3.0":
+						return array(
+							"exc_ass_file_order" => array("ids" => $a_rec["Id"])
+						);
+
+				}
+				break;
+		}
 		return false;
 	}
 	
@@ -614,6 +678,15 @@ class ilExerciseDataSet extends ilDataSet
 					$crit->importDefinition($a_rec["Def"]);
 					$crit->save();
 				}				
+				break;
+
+			case "exc_ass_file_order":
+
+				$ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssignmentId"]);
+				if ($ass_id > 0)
+				{
+					ilExAssignment::instructionFileInsertOrder($a_rec["Filename"], $ass_id, $a_rec["OrderNr"]);
+				}
 				break;
 		}
 	}

@@ -142,8 +142,14 @@ a.callink:link, a.callink:visited {
 }
 a.callink:hover {
 }
-.calevent .btn.btn-link, .il_calevent .btn.btn-link {
+.il_calevent > .btn.btn-link {
 	color:inherit;
+	vertical-align: inherit;
+}
+.cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
+	text-align:left;
+	vertical-align: top;
+	font-size: 90%;
 }
 
 //** Moved from Services/Calendar/templates/calendar.css
@@ -200,7 +206,8 @@ td.calempty_border {
 }
 
 tr.calstd{
-	background-color: inherit;
+	/*background-color: inherit;*/
+	background-color:white;
 	height: 6em;
 }
 
@@ -296,21 +303,27 @@ p.il_calevent {
 }
 
 td.calevent {
-	color:white;
+	//color:white;
 	vertical-align: top;
-	padding: 3px;
+	/*padding: 3px;*/
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style: solid;
 	border-color: @table-border-color;
 	font-size:90%;
+	/*background-color:white;*/
 }
 
 div.calevent {
 	font-size:90%;
 	padding: 3px;
 	margin: 3px;
+}
+
+div.calfullcontent {
+	padding:4px;
+	height:100%;
 }
 
 p.il_cal_monthday {
@@ -422,4 +435,8 @@ td.calminiweek, th.calminiweek {
 
 span.calminiinactive {
 	color: #CCCCCC;
+}
+.calnewapplink {
+	float: right;
+	visibility:hidden;
 }

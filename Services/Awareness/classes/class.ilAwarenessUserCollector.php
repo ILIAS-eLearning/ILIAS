@@ -80,11 +80,17 @@ class ilAwarenessUserCollector
 		if (self::$online_users === false)
 		{
 			self::$online_user_ids = array();
+			self::$online_users = array();
 			include_once("./Services/User/classes/class.ilObjUser.php");
-			self::$online_users = ilObjUser::_getUsersOnline();
-			foreach (self::$online_users as $u)
+			foreach (ilObjUser::_getUsersOnline() as $u)
 			{
-				self::$online_user_ids[] = $u["user_id"];
+				// ask context $u["context"] if it supports pushMessages
+				if ($u["context"] &&
+					ilContext::directCall($u["context"], "supportsPushMessages"))
+				{
+					self::$online_users[$u["user_id"]] = $u;
+					self::$online_user_ids[] = $u["user_id"];
+				}
 			}
 		}
 		return self::$online_users;
@@ -98,15 +104,21 @@ class ilAwarenessUserCollector
 	 */
 	public function collectUsers($a_online_only = false)
 	{
+		global $rbacreview;
+
 		$this->collections = array();
 
 		$awrn_logger = ilLoggerFactory::getLogger('awrn');
+
+		$awrn_logger->debug("Start, Online Only: ".$a_online_only.", Current User: ".$this->user_id);
 
 		self::getOnlineUsers();
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		$all_users = array();
 		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
+			$awrn_logger->debug("Provider: ".$prov->getProviderId().", Activation Mode: ".$prov->getActivationMode().", Current User: ".$this->user_id);
+
 			// overall collection of users
 			include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
 			$collection = ilAwarenessUserCollection::getInstance();
@@ -118,10 +130,13 @@ class ilAwarenessUserCollector
 				$prov->setOnlineUserFilter(false);
 				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY || $a_online_only)
 				{
+					$awrn_logger->debug("Provider: ".$prov->getProviderId().", Online Filter Users: ".count(self::$online_user_ids).", Current User: ".$this->user_id);
 					$prov->setOnlineUserFilter(self::$online_user_ids);
 				}
 
 				$coll = $prov->collectUsers();
+				$awrn_logger->debug("Provider: ".$prov->getProviderId().", Collected Users: ".count($coll).", Current User: ".$this->user_id);
+
 				foreach ($coll->getUsers() as $user_id)
 				{
 					// filter out the anonymous user
@@ -130,7 +145,7 @@ class ilAwarenessUserCollector
 						continue;
 					}
 
-					$awrn_logger->debug("AwarenessUserCollector: Current User: ".$this->user_id.", ".
+					$awrn_logger->debug("Current User: ".$this->user_id.", ".
 						"Provider: ".$prov->getProviderId().", Collected User: ".$user_id);
 
 					// cross check online, filter out offline users (if necessary)
@@ -166,7 +181,8 @@ class ilAwarenessUserCollector
 		{
 			foreach (ilObjUser::getUsersAgreed(false, $all_users) as $u)
 			{
-				if ($u != SYSTEM_USER_ID)
+				if ($u != SYSTEM_USER_ID && !$rbacreview->isAssigned($u, SYSTEM_ROLE_ID))
+				//if ($u != SYSTEM_USER_ID)
 				{
 					$remove_users[] = $u;
 				}

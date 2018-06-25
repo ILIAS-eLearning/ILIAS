@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use ILIAS\UI\Component\Signal;
+
 /**
  * This is how a factory for buttons looks like.
  */
@@ -42,8 +44,8 @@ interface Factory {
 	 *       2: >
 	 *          Standard buttons MAY define aria-checked attribute. Use it to inform which is the currently active button.
 	 * ---
-	 * @param	string		$label
-	 * @param	string		$action
+	 * @param	string				$label
+	 * @param	string|Signal		$action		will be triggered on click
 	 * @return  \ILIAS\UI\Component\Button\Standard
 	 */
 	public function standard($label, $action);
@@ -90,7 +92,7 @@ interface Factory {
 	 *           by the JF.
 	 * ---
 	 * @param	string		$label
-	 * @param	string		$action
+	 * @param	string|Signal		$action		will be triggered on click
 	 * @return  \ILIAS\UI\Component\Button\Primary
 	 */
 	public function primary($label, $action);
@@ -138,7 +140,7 @@ interface Factory {
 	 *           standard button presentation.
 	 * ---
 	 * @param	string		$label
-	 * @param	string		$action
+	 * @param	string|Signal		$action		will be triggered on click
 	 * @return  \ILIAS\UI\Component\Button\Shy
 	 */
 	public function shy($label, $action);
@@ -202,10 +204,60 @@ interface Factory {
 	 *           readers by an aria-label.
 	 * ---
 	 * @param	string		$label
-	 * @param	string		$action
+	 * @param	string|Signal		$action		will be triggered on click
 	 * @return  \ILIAS\UI\Component\Button\Tag
 	 */
 	public function tag($label, $action);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     The bulky button is highly obtrusive. It combines the recognisability
+	 *     of a graphical element with an explicit textual label on an unusually
+	 *     sized button. It is hard to overlook and indicates an important action
+	 *     on the screen.
+	 *
+	 *   composition: >
+	 *     The Bulky Button consists of an icon or glyph and a (very short) text.
+	 *
+	 *   effect: >
+	 *     The button has an "engaged"-state: When the button is used to toggle the
+	 *     visibility of a component, it stays engaged until the component is hidden again.
+	 *
+	 *   rivals:
+	 *     Primary Button: >
+	 *       Primary Buttons indicate the most important action among a collection
+	 *       of actions, e.g. in a tool bar, controls of a form or in a modal. Bulky
+	 *       Buttons make it hard to miss the indicated action by occupying space.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Since Bulky Buttons are so obtrusive they MUST only be used
+	 *       to indicate important actions on the screen.
+	 *   wording:
+	 *     1: The icon/glyph and the text on the Bulky Button MUST be corresponding.
+	 *   style:
+	 *     1: >
+	 *       Bulky Buttons MUST occupy as much space as their container
+	 *       leaves them.
+	 *     2: >
+	 *       When used to toggle the visibility of another component, the button
+	 *       MUST reflect the componentes state of visibility.
+	 *
+	 *   accessibility:
+	 *     1: >
+	 *       The functionality of the Bulky Button MUST be indicated for screen
+	 *       readers by an aria-label.
+	 *     2: Bulky Buttons MUST define aria-pressed attribute.
+	 *
+	 * ---
+	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
+	 * @param	string		$label
+	 * @param	string		$action
+	 * @return  \ILIAS\UI\Component\Button\Bulky
+	 */
+	public function bulky($icon_or_glyph, $label, $action);
 
 }

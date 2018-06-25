@@ -22,12 +22,20 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	protected $contexts = array();
 
 	/**
+	 * @var bool
+	 */
+	protected $readOnly = false;
+
+	/**
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param bool   $readOnly
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $readOnly = false)
 	{
 		global $DIC;
+
+		$this->readOnly = $readOnly;
 
 		$this->ctrl = $DIC->ctrl();
 
@@ -38,7 +46,12 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection('ASC');
 		$this->setDefaultOrderField('title');
 
-		$this->addColumn('', '', '1%', true);
+		if (!$this->readOnly) {
+			$this->addColumn('', '', '1%', true);
+			$this->setSelectAllCheckbox('tpl_id');
+			$this->addMultiCommand('confirmDeleteTemplate', $this->lng->txt('delete'));
+		}
+
 		$this->addColumn($this->lng->txt('title'), 'title', '30%');
 		$this->addColumn($this->lng->txt('mail_template_context'), 'context', '20%');
 		/*$this->addColumn($this->lng->txt('language'), 'lang', '20%');*/
@@ -46,9 +59,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
 		$this->setRowTemplate('tpl.mail_template_row.html', 'Services/Mail');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-
-		$this->setSelectAllCheckbox('tpl_id');
-		$this->addMultiCommand('confirmDeleteTemplate', $this->lng->txt('delete'));
 
 		$this->contexts = ilMailTemplateService::getTemplateContexts();
 	}
@@ -90,6 +100,10 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	{
 		foreach($row as $column => $value)
 		{
+			if ($column == 'tpl_id' && $this->readOnly) {
+				continue;
+			}
+
 			$value = $this->formatCellValue($column, $row);
 			$this->tpl->setVariable('VAL_' . strtoupper($column), $value);
 		}
@@ -100,9 +114,16 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		$actions->setId('act_' . $row['tpl_id']);
 		if(count($this->contexts))
 		{
-			$actions->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+			if (!$this->readOnly) {
+				$actions->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+			} else {
+				$actions->addItem($this->lng->txt('view'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+			}
 		}
-		$actions->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
+		if (!$this->readOnly) {
+			$actions->addItem($this->lng->txt('delete'), '',
+				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
+		}
 		$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
 		$this->ctrl->clearParameters($this->getParentObject());
 	}

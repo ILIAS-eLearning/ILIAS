@@ -39,7 +39,7 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
 		}
 		
 		return $this->decorate(
-			'<a href="'.$this->getADT()->getUrl().'">'.$this->getADT()->getTitle().'</a>'
+			'<a target="_blank" href="'.$this->getADT()->getUrl().'">'.$this->getADT()->getTitle().'</a>'
 		);
 		
 	}

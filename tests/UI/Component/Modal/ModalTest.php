@@ -53,4 +53,7 @@ class ModalTest extends ModalBase {
 }
 
 class ModalMock extends \ILIAS\UI\Implementation\Component\Modal\Modal {
+	public function getCanonicalName() {
+		return "Modal Mock";
+	}
 }

@@ -53,7 +53,7 @@ il.UI = il.UI || {};
          * @param {Object} options possible settings for this dropzone
          */
         var initializeDropzone = function (type, options) {
-
+            // console.log("INIT DROPZONE " + options.id);
             // disable default behavior of browsers for file drops
             $(document).on("dragenter dragstart dragend dragleave dragover drag drop", function (e) {
                 e.preventDefault();
@@ -129,28 +129,6 @@ il.UI = il.UI || {};
                 .removeClass(CSS.defaultDropzoneHighlight);
         };
 
-        /**
-         * Triggers all passed in signals with the passed in event.
-         *
-         * @param {Array} signalList all signals to trigger
-         * @param {Object} event the javascript event to trigger
-         * @param $dropzone JQuery Object representing the dropzone
-         * @private
-         */
-        var _triggerSignals = function (signalList, event, $dropzone) {
-            $.each(signalList, function (index, signal) {
-                $dropzone.trigger(signal.id,
-                    {
-                        'id': signal.id,
-                        'event': 'drop',
-                        'originalEvent': event,
-                        'triggerer': $dropzone,
-                        'options': signal.options
-                    }
-                );
-            });
-        };
-
 
         /**
          * @private functions to initialize different types of dropzones -----------------------------------
@@ -172,7 +150,7 @@ il.UI = il.UI || {};
             var $dropzone = $("#" + options.id).find(".il-dropzone");
             // Find the element acting as "Select Files" button/link
             var $selectFilesButton = $dropzone.find('.il-dropzone-standard-select-files-wrapper')
-                .children('a.btn');
+                .children('a');
             if ($selectFilesButton.length) {
                 options.selectFilesButton = $selectFilesButton;
             }
@@ -194,7 +172,6 @@ il.UI = il.UI || {};
                     $.each(files, function (index, file) {
                         il.UI.uploader.addFile(options.id, file);
                     });
-                    _triggerSignals(options.registeredSignals, event, $dropzone);
                 }
             });
         };
@@ -209,29 +186,33 @@ il.UI = il.UI || {};
          */
         var _initWrapperDropzone = function (options) {
             var $dropzone = $("#" + options.id);
+            var topmost = ($dropzone.find(".il-dropzone").length === 1);
 
-            $(document).dragster({
-                enter: function (dragsterEvent, event) {
-                    _enableHighlighting(_darkenedBackground);
-                },
-                leave: function (dragsterEvent, event) {
-                    _disableHighlighting();
-                },
-                drop: function (dragsterEvent, event) {
-                    _disableHighlighting();
-                }
-            });
+            if (topmost) {
+                // Highlighting handler
+                $(document).dragster({
+                    enter: function (dragsterEvent, event) {
+                        _enableHighlighting(_darkenedBackground);
+                    },
+                    leave: function (dragsterEvent, event) {
+                        _disableHighlighting();
+                    },
+                    drop: function (dragsterEvent, event) {
+                        _disableHighlighting();
+                    }
+                });
 
-            options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
-            options.uploadButton = $dropzone.find('.modal-footer a.btn-primary:first');
+                options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
+                options.uploadButton = $dropzone.find('.modal-footer button.btn-primary:first');
 
-            il.UI.uploader.init(options.id, options);
+                il.UI.uploader.init(options.id, options);
+            }
 
             /*
-             * event.stopImmediatePropagation() is needed
-             * to prevent dragster to fire leave events on the document,
-             * when a user just leaves on the dropzone.
-             */
+                * event.stopImmediatePropagation() is needed
+                * to prevent dragster to fire leave events on the document,
+                * when a user just leaves on the dropzone.
+                */
             $dropzone.dragster({
                 enter: function (dragsterEvent, event) {
                     dragsterEvent.stopImmediatePropagation();
@@ -244,6 +225,10 @@ il.UI = il.UI || {};
                 drop: function (dragsterEvent, event) {
                     $(this).find(".il-dropzone").removeClass(CSS.dropzoneDragHover);
                     _disableHighlighting();
+                    if (!topmost) {
+                        event.stopImmediatePropagation();
+                        return false;
+                    }
                     // Reset the uploader in case files have been dropped before, e.g.
                     // the user drops some files, closes the modal and drops again
                     il.UI.uploader.reset(options.id);
@@ -252,9 +237,10 @@ il.UI = il.UI || {};
                         il.UI.uploader.addFile(options.id, file);
                     });
                     // This will trigger (at least) the show signal of the modal
-                    _triggerSignals(options.registeredSignals, event, $dropzone);
+                    // _triggerSignals(options.registeredSignals, event, $dropzone);
                 }
             });
+
         };
 
         return {

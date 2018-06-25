@@ -123,7 +123,7 @@ class ilTestGradingMessageBuilder
 				$this->resultData['max_points']
 			);
 
-			$this->resultData['ects_grade'] = $this->lng->txt('ects_grade_'.strtolower($ectsMark));
+			$this->resultData['ects_grade'] = strtoupper($ectsMark);
 		}
 	}
 

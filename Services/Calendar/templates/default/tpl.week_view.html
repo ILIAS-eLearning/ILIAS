@@ -13,7 +13,6 @@
 			{HEADER_DATE}
 			<!-- END day_view_no_link -->
 
-
 			<!-- BEGIN new_app -->{NEW_APP_GLYPH}<!-- END new_app -->
 			<!-- BEGIN new_ms -->
 			<div class="btn-group">
@@ -37,7 +36,9 @@
 			<td class="calheadertime">{TXT_F_DAY}</th>
 			<!-- BEGIN f_day_row -->
 			<td class="calstd" colspan="{COLSPAN}">
+				<!-- BEGIN content_fd -->
 				{CONTENT_EVENT_FD}
+				<!-- END content_fd -->
 			</td>
 			<!-- END f_day_row -->
 		</tr>
@@ -50,7 +51,27 @@
 			</td>
 			<!-- END time_txt -->
 			<!-- BEGIN not_full_day_event -->
-			{CONTENT_EVENT}
+				<!-- BEGIN scrd_day_cell -->
+				<td id="show_{DAY_ID}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}">
+					<!-- BEGIN scrd_not_empty -->
+					<div class="calevent" style="{DIV_STYLE}">
+						{GRID_CONTENT}
+					</div>
+					<!-- END scrd_not_empty -->
+				</td>
+				<!-- END scrd_day_cell -->
+				<!-- BEGIN day_cell -->
+				<td id="show_{DAY_ID}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}">
+					<!-- BEGIN new_app_link -->
+					<div id="new_link_{DAY_NEW_ID}" class="calnewapplink">
+						{DAY_NEW_APP_LINK}
+					</div>
+					<!-- END new_app_link -->
+					<!-- BEGIN not_empty -->
+					{GRID_CONTENT}
+					<!-- END not_empty -->
+				</td>
+				<!-- END day_cell -->
 			<!-- END not_full_day_event -->
 		</tr>
 		<!-- END time_row -->

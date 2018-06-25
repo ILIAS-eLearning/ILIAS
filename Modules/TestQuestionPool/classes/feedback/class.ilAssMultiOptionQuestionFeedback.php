@@ -158,6 +158,33 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 	}
 	
 	/**
+	 * returns the SPECIFIC feedback content for a given question id and answer index.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $questionId
+	 * @return string $feedbackContent
+	 */
+	public function getAllSpecificAnswerFeedbackContents($questionId)
+	{
+		require_once 'Services/RTE/classes/class.ilRTE.php';
+		
+		$res = $this->db->queryF(
+			"SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+			array('integer'), array($questionId)
+		);
+		
+		$allFeedbackContents = '';
+		
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			$allFeedbackContents .= ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}
+		
+		return $allFeedbackContents;
+	}
+	
+	/**
 	 * saves SPECIFIC answer feedback content for the given question id and answer index to the database.
 	 *
 	 * @access public

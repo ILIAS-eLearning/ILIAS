@@ -62,7 +62,8 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		$xmlWriter->xmlElement('RandomQuestionSetSettings', array(
 			'amountMode' => $questionSetConfig->getQuestionAmountConfigurationMode(),
 			'questAmount' => $questionSetConfig->getQuestionAmountPerTest(),
-			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired()
+			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(),
+			'synctimestamp' => $questionSetConfig->getLastQuestionSyncTimestamp()
 		));
 	}
 	
@@ -95,17 +96,18 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 				'questAmount' => $definition->getQuestionAmount(),
 				'position' => $definition->getSequencePosition()
 			);
-			
-			if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+
+			// #21330
+			$mappedTaxFilter   = $definition->getMappedTaxonomyFilter();
+			if( is_array($mappedTaxFilter) && count($mappedTaxFilter) > 0 )
 			{
-				$attributes['tax'] = $definition->getMappedFilterTaxId();
-				$attributes['taxNode'] = $definition->getMappedFilterTaxNodeId();
+				$attributes['taxFilter'] = serialize($mappedTaxFilter);
 			}
-			
+
 			$xmlWriter->xmlStartTag('RandomQuestionSelectionDefinition', $attributes);
 			$xmlWriter->xmlElement('RandomQuestionSourcePoolTitle', null, $definition->getPoolTitle());
 			$xmlWriter->xmlElement('RandomQuestionSourcePoolPath', null, $definition->getPoolPath());
-			$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition', $attributes);
+			$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition');
 		}
 		
 		$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');

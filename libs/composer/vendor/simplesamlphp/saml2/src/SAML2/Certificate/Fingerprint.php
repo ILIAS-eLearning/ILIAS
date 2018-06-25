@@ -1,9 +1,15 @@
 <?php
 
+namespace SAML2\Certificate;
+
+use SAML2\Exception\InvalidArgumentException;
+
 /**
  * Simple representation of the fingerprint of a certificate
+ *
+ * @deprecated Please use full certificates instead.
  */
-class SAML2_Certificate_Fingerprint
+class Fingerprint
 {
     /**
      * @var string
@@ -12,11 +18,13 @@ class SAML2_Certificate_Fingerprint
 
     /**
      * @param string $fingerPrint
+     *
+     * @deprecated Please use full certificates instead.
      */
     public function __construct($fingerPrint)
     {
         if (!is_string($fingerPrint)) {
-            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $fingerPrint);
+            throw InvalidArgumentException::invalidType('string', $fingerPrint);
         }
 
         $this->contents = $fingerPrint;
@@ -41,11 +49,11 @@ class SAML2_Certificate_Fingerprint
     }
 
     /**
-     * @param SAML2_Certificate_Fingerprint $fingerprint
+     * @param \SAML2\Certificate\Fingerprint $fingerprint
      *
      * @return bool
      */
-    public function equals(SAML2_Certificate_Fingerprint $fingerprint)
+    public function equals(Fingerprint $fingerprint)
     {
         return $this->getNormalized() === $fingerprint->getNormalized();
     }

@@ -17,6 +17,10 @@ class ilFrameTargetInfo
 	 */
 	public static function _getFrame($a_class, $a_type = '')
 	{
+		// LTI
+		global $DIC;
+		$ltiview = $DIC['lti'];
+
 		switch($a_type)
 		{
 			default:
@@ -26,7 +30,13 @@ class ilFrameTargetInfo
 						if($_SESSION['il_rep_mode'] == 'flat' or !isset($_SESSION['il_rep_mode']))
 						{
 							//return 'bottom';
-							return '_top';
+							// LTI
+							if ($ltiview->isActive()) {
+								return '_self';
+							}
+							else {
+								return '_top';
+							}
 						}
 						else
 						{
@@ -35,7 +45,13 @@ class ilFrameTargetInfo
 
 					case 'MainContent':
 						//return 'bottom';
-						return '_top';
+						// LTI
+						if ($ltiview->isActive()) {
+							return '_self';
+						}
+						else {
+							return '_top';
+						}
 
 					// frame for external content (e.g. web bookmarks, external links) 
 					case 'ExternalContent':

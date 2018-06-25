@@ -381,7 +381,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$thumb = "thb_".$this->id."_".$clean_name;
 		$processed = $this->id."_".$clean_name;
 		
-		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path.$original))
 		{
 			chmod($path.$original, 0770);
 			
@@ -627,7 +627,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 			}		
 		}
 
-		ilPortfolioPage::updateInternalLinks($page_map);
+		ilPortfolioPage::updateInternalLinks($page_map, $a_target);
 	}
 		
 	protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)

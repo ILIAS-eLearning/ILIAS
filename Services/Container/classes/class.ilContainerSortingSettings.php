@@ -113,7 +113,6 @@ class ilContainerSortingSettings
 	
 	/**
 	 * Read inherited settings of course/group
-	 * @global ilTree $tree
 	 * @param int $a_container_obj_id
 	 */
 	public function getInheritedSettings($a_container_obj_id)

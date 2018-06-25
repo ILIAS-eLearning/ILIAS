@@ -168,17 +168,27 @@ class ilTestSession
 	function increaseTestPass()
 	{
 		global $ilDB, $ilLog;
+		
+		if( !$this->active_id )
+		{
+			require_once 'Modules/Test/exceptions/class.ilTestException.php';
+			throw new ilTestException('missing active id on test pass increase!');
+		}
 
 		$this->increasePass();
 		$this->setLastSequence(0);
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
-		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
-		if (time() - $_SESSION['tst_last_increase_pass'] > 10)
+		
+		if( !isset($_SESSION[$this->active_id]['tst_last_increase_pass']) )
 		{
-			$_SESSION['tst_last_increase_pass'] = time();
+			$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
+		}
+		
+		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
+		if (time() - $_SESSION[$this->active_id]['tst_last_increase_pass'] > 10)
+		{
+			$_SESSION[$this->active_id]['tst_last_increase_pass'] = time();
 			$this->tstamp = time();
-			if ($this->active_id > 0)
-			{
 				$ilDB->update('tst_active',
 					array(
 						'lastindex' => array('integer', $this->getLastSequence()),
@@ -194,32 +204,6 @@ class ilTestSession
 						'active_id' => array('integer', $this->getActiveId())
 					)
 				);
-			}
-			else
-			{
-				if (!$this->activeIDExists($this->getUserId(), $this->getTestId()))
-				{
-					$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
-					$submittedTs = (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL;
-					$next_id = $ilDB->nextId('tst_active');
-
-					$ilDB->insert('tst_active', array(
-						'active_id' => array('integer', $next_id),
-						'user_fi' => array('integer', $this->getUserId()),
-						'anonymous_id' => array('text', $anonymous_id),
-						'test_fi' => array('integer', $this->getTestId()),
-						'lastindex' => array('integer', $this->getLastSequence()),
-						'tries' => array('integer', $this->getPass()),
-						'submitted' => array('integer', $submitted),
-						'submittimestamp' => array('timestamp', $submittedTs),
-						'tstamp' => array('integer', time()),
-						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId()),
-						'last_started_pass' => array('integer', (int) $this->getLastStartedPass())
-					));
-
-					$this->active_id = $next_id;
-				}
-			}
 		}
 	}
 	
@@ -602,4 +586,54 @@ class ilTestSession
 	{
 		return $this->getUserId() == ANONYMOUS_USER_ID;
 	}
+	
+	/**
+	 * @var null|bool
+	 */
+	private $reportableResultsAvailable = null;
+	
+	/**
+	 * @param ilObjTest $testOBJ
+	 * @return bool
+	 */
+	public function reportableResultsAvailable(ilObjTest $testOBJ)
+	{
+		if( $this->reportableResultsAvailable === null )
+		{
+			$this->reportableResultsAvailable = true;
+			
+			if( !$this->getActiveId() )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+			
+			if( !$testOBJ->canShowTestResults($this) )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+		}
+		
+		return $this->reportableResultsAvailable;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasSinglePassReportable(ilObjTest $testObj)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($DIC->database(), $testObj);
+		$testPassesSelector->setActiveId($this->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());
+		
+		if( count($testPassesSelector->getReportablePasses()) == 1 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

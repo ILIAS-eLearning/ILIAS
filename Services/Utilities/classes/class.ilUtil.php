@@ -218,6 +218,9 @@ class ilUtil
 		{
 			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
+			// use version from template xml to force reload on changes
+            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+            $vers .= ($skin->getVersion() != '' ? str_replace(".", "-", '-' . $skin->getVersion()) : '');
 		}
 		return $filename . $vers;
 	}
@@ -1136,32 +1139,34 @@ class ilUtil
 	}
 
 	/**
-	* This preg-based function checks whether an e-mail address is formally valid.
-	* It works with all top level domains including the new ones (.biz, .info, .museum etc.)
-	* and the special ones (.arpa, .int etc.)
-	* as well as with e-mail addresses based on IPs (e.g. webmaster@123.45.123.45)
-	* Valid top level domains: http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-	* @author	Unknown <mail@philipp-louis.de> (source: http://www.php.net/preg_match)
-	* @access	public
-	* @param	string	email address
-	* @return	boolean	true if valid
-	* @static
-	* 
-	*/
-	public static function is_email($a_email)
+	 * This preg-based function checks whether an e-mail address is formally valid.
+	 * It works with all top level domains including the new ones (.biz, .info, .museum etc.)
+	 * and the special ones (.arpa, .int etc.)
+	 * as well as with e-mail addresses based on IPs (e.g. webmaster@123.45.123.45)
+	 * Valid top level domains: http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+	 * @author    Unknown <mail@philipp-louis.de> (source: http://www.php.net/preg_match)
+	 * @access    public
+	 * @param    string    email address
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
+	 * @return bool true if valid
+	 * @static
+	 */
+	public static function is_email($a_email, ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
 
 		$ilErr = $DIC["ilErr"];
 
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
 		if(is_object($ilErr)) // seems to work in Setup now
 		{
 			try
 			{
-				require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-				$parser    = ilMailRfc822AddressParserFactory::getParser($a_email);
+				$parser    = $mailAddressParserFactory->getParser($a_email);
 				$addresses = $parser->parse();
 				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}
@@ -1691,22 +1696,6 @@ class ilUtil
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		return ilObjUser::_getUsersOnline($a_user_id);
-	}
-
-	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @static
-	* 
-	*/
-	public static function getAssociatedUsersOnline($a_user_id)
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
 	}
 
 	/**
@@ -4170,14 +4159,18 @@ class ilUtil
 	 *
 	 * @return bool
 	 *
+	 * @throws ilException Thrown if no uploaded files are found and raise error is set to true.
+	 *
 	 * @deprecated in favour of the FileUpload service.
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
-	{
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded") {
 		global $DIC;
 		$targetFilename = basename($a_target);
+
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
 
 		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
 		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
@@ -4185,7 +4178,7 @@ class ilUtil
 		$upload = $DIC->upload();
 
 		// If the upload has not yet been processed make sure he gets processed now.
-		if(!$upload->hasBeenProcessed()) {
+		if (!$upload->hasBeenProcessed()) {
 			$upload->process();
 		}
 
@@ -4473,6 +4466,9 @@ class ilUtil
 			case strpos($a_target, CLIENT_WEB_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
 				break;
+			case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
+				break;
 			case strpos($a_target, CLIENT_DATA_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
 				break;
@@ -4588,7 +4584,7 @@ class ilUtil
 	 */
 	public static function isHTML($a_text)
 	{
-		if( preg_match("/<[^>]*?>/", $a_text) )
+		if( strlen(strip_tags($a_text)) < strlen($a_text) )
 		{
 			return true;
 		}
@@ -4883,9 +4879,9 @@ class ilUtil
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-		if(is_object($tpl))
+		if(isset($DIC["tpl"]))
 		{
+			$tpl = $DIC["tpl"];
 			$tpl->setMessage("failure", $a_info, $a_keep);
 		}
 	}
@@ -5021,14 +5017,19 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
-		
+		/* We MUST NOT set the global constant here, because this affects the session_set_cookie_params() call as well
 		if(!defined('IL_COOKIE_SECURE'))
 		{
 			define('IL_COOKIE_SECURE', false);
 		}
+		*/
+		$secure = false;
+		if (defined('IL_COOKIE_SECURE')) {
+			$secure = IL_COOKIE_SECURE;
+		}
 
 		setcookie( $a_cookie_name, $a_cookie_value, $expire,
-			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, $secure, IL_COOKIE_HTTPONLY
 		);
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;
@@ -5412,7 +5413,17 @@ class ilUtil
 		return self::$db_supports_distinct_umlauts;
 	}
 
-
+	/**
+	 * Dump var
+	 *
+	 * @param null $mixed
+	 */
+	static function dumpVar($mixed = null)
+	{
+		echo '<pre>';
+		var_dump($mixed);
+		echo '</pre>';
+	}
 
 } // END class.ilUtil
 

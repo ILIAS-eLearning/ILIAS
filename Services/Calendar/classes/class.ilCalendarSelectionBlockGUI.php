@@ -215,7 +215,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			{
 				$this->calendars[self::CAL_GRP_CURRENT_CONT][] = $cal;
 			}
-			else if ($cal["type"] == ilCalendarCategory::TYPE_USR || $cal["type"] == ilCalendarCategory::TYPE_BOOK)
+			else if ($cal["type"] == ilCalendarCategory::TYPE_USR || $cal["type"] == ilCalendarCategory::TYPE_BOOK ||
+				($cal["type"] == ilCalendarCategory::TYPE_CH && $this->user->getId() == $cal["obj_id"]))
 			{
 				$this->calendars[self::CAL_GRP_PERSONAL][] = $cal;
 			}

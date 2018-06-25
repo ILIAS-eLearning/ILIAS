@@ -30,4 +30,9 @@ interface Location {
 	 * Equal to the filesystem->customizing
 	 */
 	const CUSTOMIZING = 3;
+	/**
+	 * The ILIAS temporary directory.
+	 * Equal to the filesystem->temp
+	 */
+	const TEMPORARY = 4;
 }

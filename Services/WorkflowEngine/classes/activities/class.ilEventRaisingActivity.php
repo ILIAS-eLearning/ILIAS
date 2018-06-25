@@ -93,8 +93,10 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	public function execute()
 	{
+		global $DIC;
 		/** @var ilAppEventHandler $ilAppEventHandler */
-		global $ilAppEventHandler;
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+
 		$ilAppEventHandler->raise(
 			$this->event_type,
 			$this->event_name,

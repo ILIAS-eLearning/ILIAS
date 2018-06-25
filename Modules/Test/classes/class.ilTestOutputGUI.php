@@ -283,10 +283,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
 			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
 		);
-		$missingQuestionResultExists = assQuestion::missingResultRecordExists(
-			$this->testSession->getActiveId(), $this->testSession->getPass(),
-			$this->testSequence->getOrderedSequenceQuestions()
-		);
 		
 // fau: testNav - always use edit mode, except for fixed answer
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -338,7 +334,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
 		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
-
+		
+		$isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
+		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 		$formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
@@ -355,8 +353,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-
-				$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 				
 				if( $this->testSequence->isQuestionOptional($questionGui->object->getId()) )
 				{
@@ -377,7 +373,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
 // fau: testNav - enable the question navigation in edit mode
-		$this->populateQuestionNavigation($sequenceElement, false);
+		$this->populateQuestionNavigation($sequenceElement, false, $isNextPrimary);
 // fau.
 		
 		if ($instantResponse)
@@ -530,19 +526,38 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
+	
+	protected function handleQuestionPostponing($sequenceElement)
+	{
+		$questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
+	
+		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+		);
+		
+		if( !$isQuestionWorkedThrough )
+		{
+			$this->testSequence->postponeQuestion($questionId);
+			$this->testSequence->saveToDb();
+		}
+	}
 
 	protected function nextQuestionCmd()
 	{
-		$sequenceElement = $this->testSequence->getNextSequence(
-			$this->getCurrentSequenceElement()
-		);
-
-		if(!$this->isValidSequenceElement($sequenceElement))
+		$lastSequenceElement = $this->getCurrentSequenceElement();
+		$nextSequenceElement = $this->testSequence->getNextSequence($lastSequenceElement);
+		
+		if( $this->object->isPostponingEnabled() )
 		{
-			$sequenceElement = $this->testSequence->getFirstSequence();
+			$this->handleQuestionPostponing($lastSequenceElement);
+		}
+		
+		if(!$this->isValidSequenceElement($nextSequenceElement))
+		{
+			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
 
-		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', '');
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -880,5 +895,41 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
 
 		$this->backToInfoScreenCmd();
+	}
+	
+	/**
+	 * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
+	 */
+	protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId)
+	{
+		$isNextPrimary = true;
+		
+		if( $this->object->isForceInstantFeedbackEnabled() )
+		{
+			$isNextPrimary = false;
+		}
+		
+		$questionsMissingResult = assQuestion::getQuestionsMissingResultRecord(
+			$this->testSession->getActiveId(), $this->testSession->getPass(),
+			$this->testSequence->getOrderedSequenceQuestions()
+		);
+
+		if( !count($questionsMissingResult) )
+		{
+			$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+			$isNextPrimary = false;
+		}
+		elseif( count($questionsMissingResult) == 1 )
+		{
+			$lastOpenQuestion = current($questionsMissingResult);
+			
+			if($currentQuestionId == $lastOpenQuestion)
+			{
+				$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+				$isNextPrimary = false;
+			}
+		}
+		
+		return $isNextPrimary;
 	}
 }

@@ -153,20 +153,22 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$item->readFromSession();
 		$this->filter['user'] = $item->getValue();
 
-		//org unit
-		$root = ilObjOrgUnit::getRootOrgRefId();
-		$tree = ilObjOrgUnitTree::_getInstance();
-		$nodes = $tree->getAllChildren($root);
-		$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-		$options[0] = $this->lng()->txt('mst_opt_all');
-		foreach ($paths as $org_ref_id => $path) {
-			$options[$org_ref_id] = $path;
+		if(ilUserSearchOptions::_isEnabled('org_units')) {
+			//org unit
+			$root = ilObjOrgUnit::getRootOrgRefId();
+			$tree = ilObjOrgUnitTree::_getInstance();
+			$nodes = $tree->getAllChildren($root);
+			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+			$options[0] = $this->lng()->txt('mst_opt_all');
+			foreach ($paths as $org_ref_id => $path) {
+				$options[$org_ref_id] = $path;
+			}
+			$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
+			$item->setOptions($options);
+			$this->addFilterItem($item);
+			$item->readFromSession();
+			$this->filter['org_unit'] = $item->getValue();
 		}
-		$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
-		$item->setOptions($options);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
 	}
 
 
@@ -232,11 +234,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				'sort_field' => 'usr_email',
 			);
 		}
-		$cols['usr_assinged_orgus'] = array(
-			'txt'     => $this->lng()->txt('objs_orgu'),
-			'default' => true,
-			'width'   => 'auto',
-		);
+
+		if ($arr_searchable_user_columns['org_units']) {
+			$cols['usr_assinged_orgus'] = array(
+				'txt'     => $this->lng()->txt('objs_orgu'),
+				'default' => true,
+				'width'   => 'auto',
+			);
+		}
 
 		return $cols;
 	}
@@ -324,16 +329,42 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		};
 
 		$org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
-		foreach (ilOrgUnitUserAssignment::where(array( 'user_id' => $my_staff_course->getUsrId() ))
+		foreach (ilOrgUnitUserAssignment::innerjoin('object_reference','orgu_id','ref_id')
+			         ->where(array( 'user_id' => $my_staff_course->getUsrId(),'object_reference.deleted' => NULL ), array( 'user_id' => '=', 'object_reference.deleted' => '!='))
 		                                ->get() as $org_unit_assignment) {
-			$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-			$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+			if($ilAccess->checkAccess("read","",$org_unit_assignment->getOrguId()))	{
+				$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+				$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+			}
 		}
 
 		foreach ($action_collection->getActions() as $action) {
-			$selection->addItem($action->getText(), '', $action->getHref());
+			switch ($action->getType()) {
+				case "profile": //personal profile
+					$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
+					break;
+				case "compose": //mail
+				case "invite": //public chat
+				case "invite_osd": //direct chat (start conversation)
+					//do only display those actions if the displayed user is not the current user
+					if($my_staff_course->getUsrId() != $ilUser->getId()) {
+						$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+					}
+					break;
+				default:
+					$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+					break;
+			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function getProfileBackUrl() {
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), ilMStListCoursesGUI::CMD_INDEX));
 	}
 
 
@@ -373,7 +404,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
 
 		$field_values = array();
-		foreach ($this->getSelectableColumns() as $k => $v) {
+		foreach ($this->getSelectedColumns() as $k => $v) {
 			switch ($k) {
 				case 'usr_assinged_orgus':
 					$field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());

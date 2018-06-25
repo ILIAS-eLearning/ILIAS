@@ -82,7 +82,7 @@ class SlowPlusJob extends AbstractJob {
 	/**
 	 * @inheritdoc
 	 */
-	public function getExpectedTimeOfTaksInSeconds() {
+	public function getExpectedTimeOfTaskInSeconds() {
 		return 2;
 	}
 }

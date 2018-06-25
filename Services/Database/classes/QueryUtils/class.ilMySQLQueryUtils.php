@@ -281,11 +281,38 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "") {
 		if ($a_collation != "") {
-			$sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
+			$sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
 		} else {
-			$sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset;
+			$sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset;
 		}
 
 		return $sql;
 	}
+	
+
+	/**
+	 * 
+	 * @param string $a_field_name
+	 * @param string $a_seperator
+	 * @param string $a_order
+	 * @return string
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		if ($a_order === NULL) {
+			$sql = "GROUP_CONCAT(" . $a_field_name . " SEPARATOR " . $this->quote($a_seperator, "text") . ")";
+		} else {
+			$sql = "GROUP_CONCAT(" . $a_field_name . " ORDER BY " . $a_order . " SEPARATOR " . $this->quote($a_seperator, "text"). ")";
+			
+		}
+		return $sql;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $a_field_name;
+	}
+
 }

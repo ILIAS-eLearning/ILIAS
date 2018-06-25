@@ -83,7 +83,7 @@ class ilContextRest implements ilContextTemplate
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Check if persistent session handling is supported
 	 * @return boolean
@@ -93,6 +93,17 @@ class ilContextRest implements ilContextTemplate
 		return false;
 	}
 	
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 
 ?>

@@ -58,6 +58,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	protected $client_ini;
 
 	/**
+	 * @var ilBenchmark
+	 */
+	protected $bench;
+
+	/**
 	* ILIAS3 object type abbreviation
 	* @var		string
 	* @access	public
@@ -88,6 +93,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->client_ini = $DIC["ilClientIniFile"];
 		$this->type = "adm";
+		$this->bench = $DIC["ilBench"];
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
 		$this->lng->loadLanguageModule("administration");
@@ -812,7 +818,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		$tpl = $this->tpl;
 
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->bench;
 		$rec = $ilBench->getDbBenchRecords();
 
 		include_once("./Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php");
@@ -832,7 +838,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->bench;
 		$ilTabs->activateTab("benchmarks"); // #18083
 
 		$ilTabs->addSubtab("settings",
@@ -865,9 +871,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	function saveBenchSettingsObject()
 	{
-		global $DIC;
-
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->bench;
 		if ($_POST["enable_db_bench"])
 		{
 			$ilBench->enableDbBench(true, ilUtil::stripSlashes($_POST["db_bench_user"]));
@@ -898,9 +902,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function clearBenchObject()
 	{
-		global $DIC;
-
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->bench;
 		$ilBench->clearData();
 		$this->saveBenchSettingsObject();
 

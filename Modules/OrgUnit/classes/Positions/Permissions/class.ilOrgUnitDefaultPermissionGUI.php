@@ -13,6 +13,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands {
 
 	protected function index() {
 		$this->getParentGui()->addSubTabs();
+		$this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
 		$ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId());
 		$ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI($this, $ilOrgUnitPermissions);
 		$ilOrgUnitDefaultPermissionFormGUI->fillForm();
@@ -44,6 +45,10 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands {
 		}
 
 		return (int)$id;
+	}
+
+	protected function cancel() {
+		$this->ctrl()->redirectByClass(ilOrgUnitPositionGUI::class);
 	}
 }
 

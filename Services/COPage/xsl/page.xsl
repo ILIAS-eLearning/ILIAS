@@ -83,6 +83,7 @@
 <xsl:param name="enable_amd_page_list"/>
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
+<xsl:param name="page_perma_link"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -1339,7 +1340,7 @@
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
 	<xsl:if test="not(name(..) = 'Section')">
-	<a class="ilc_link_ExtLink">
+	<a class="ilc_link_ExtLink" rel="noopener">
 		<xsl:call-template name="SetExtLinkAttributes" />
 		<xsl:apply-templates/>
 	</a>
@@ -2040,9 +2041,17 @@
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
-			<span class="ilc_Print_FileItem">
-				<xsl:call-template name="FileItemText"/>
-			</span>
+			<xsl:if test="$page_perma_link = ''">
+				<span class="ilc_Print_FileItem">
+					<xsl:call-template name="FileItemText"/>
+				</span>
+			</xsl:if>
+			<xsl:if test="$page_perma_link != ''">
+				<a class="ilc_flist_a_FileListItemLink" target="_blank">
+					<xsl:attribute name="href"><xsl:value-of select="$page_perma_link"/></xsl:attribute>
+					<xsl:call-template name="FileItemText"/>
+				</a>
+			</xsl:if>
 		</xsl:if>
 	</li>
 </xsl:template>
@@ -2181,6 +2190,18 @@
 					</xsl:choose>
 				</xsl:variable>
 
+				<!-- determine title -->
+				<xsl:variable name="title">
+					<xsl:choose>
+						<xsl:when test="$location_mode = 'curpurpose'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Title"/>
+						</xsl:when>
+						<xsl:when test="$location_mode = 'standard'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Title"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+
 				<!-- determine format (mime type) -->
 				<xsl:variable name="type">
 					<xsl:choose>
@@ -2258,6 +2279,7 @@
 					<xsl:with-param name="cmobid" select="$cmobid" />
 					<xsl:with-param name="location_mode" select="$location_mode" />
 					<xsl:with-param name="curType" select="$curType" />
+					<xsl:with-param name="title" select="$title" />
 				</xsl:call-template>
 
 				<!-- parameter -->
@@ -2387,7 +2409,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-	<img border="0" style="width:100%">
+	<img border="0">
 		<!-- see 0020796 -->
 		<xsl:if test = "name(..) != 'Paragraph'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
@@ -2449,6 +2471,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="location_mode"/>
 	<xsl:param name="curType"/>
+	<xsl:param name="title"/>
 	<xsl:param name="inline">n</xsl:param>
 	<xsl:variable name="httpprefix"><xsl:if test="$mode = 'offline'">http:</xsl:if></xsl:variable>
 	<xsl:choose>
@@ -2511,6 +2534,62 @@
 					</xsl:if>
 				</input>
 			</xsl:if>
+		</xsl:when>
+
+		<!-- text/html -->
+		<xsl:when test="$type = 'text/html'">
+			<xsl:if test = "$enable_html_mob = 'y'">
+				<iframe frameborder="0">
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+				</iframe>
+			</xsl:if>
+		</xsl:when>
+
+		<!-- application/pdf -->
+		<xsl:when test="$type = 'application/pdf'">
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">attributes</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+			</iframe>
+		</xsl:when>
+
+		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
+		<xsl:when test="$mode = 'print'">
+			<div class="ilCOPGMediaPrint">
+				<xsl:attribute name="style">width:<xsl:value-of select="$width"/>px; height:<xsl:value-of select="$height"/>px; max-width: 100%;</xsl:attribute>
+				<xsl:if test="$page_perma_link = ''">
+					<xsl:value-of select="$title"/>
+				</xsl:if>
+				<xsl:if test="$page_perma_link != ''">
+					<a>
+						<xsl:attribute name="href"><xsl:value-of select="$page_perma_link"/></xsl:attribute>
+						<xsl:value-of select="$title"/>
+					</a>
+				</xsl:if>
+			</div>
 		</xsl:when>
 
 		<!-- flash -->
@@ -2674,50 +2753,26 @@
 			</applet>
 		</xsl:when>
 
-		<!-- text/html -->
-		<xsl:when test="$type = 'text/html'">
-			<xsl:if test = "$enable_html_mob = 'y'">
-				<iframe frameborder="0">
-					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-					<xsl:if test="$width != ''">
-						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$height != ''">
-						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</xsl:if>
-					<xsl:call-template name="MOBParams">
-						<xsl:with-param name="curPurpose" select="$curPurpose" />
-						<xsl:with-param name="mode">attributes</xsl:with-param>
-						<xsl:with-param name="cmobid" select="$cmobid" />
-					</xsl:call-template>
-					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-				</iframe>
-			</xsl:if>
-		</xsl:when>
-		
-		<!-- application/pdf -->
-		<xsl:when test="$type = 'application/pdf'">
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+
+		<!-- mp4 -->
+
+		<!-- YouTube -->
+		<xsl:when test = "substring-after($data,'youtube.com') != ''">
+			<!-- iframe instead of object tag, see bug #21657 -->
+			<iframe frameborder="0" allowfullscreen="1">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				</xsl:if>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">attributes</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
+				<xsl:attribute name="src">
+					<xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />
+				</xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
-
-		<!-- mp4 -->
-
-		<!-- YouTube -->
-		<xsl:when test = "substring-after($data,'youtube.com') != ''">
+		<xsl:when test = "substring-after($data,'xxxyoutube.com') != ''">
 			<object>
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -3424,7 +3479,7 @@
 		</xsl:variable>
 		<div>
 		<xsl:choose>
-		<xsl:when test="$mode = 'edit'">
+		<xsl:when test="$mode = 'edit' or $mode = 'print'">
 			<xsl:attribute name="class">ilEditVAccordCntr</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Type = 'VerticalAccordion'">
@@ -3564,12 +3619,12 @@
 	<xsl:param name="cwidth"/>
 	<xsl:param name="cheight"/>
 	<xsl:param name="ttemp"/>
-	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
+	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
 	
 	<!-- TabContainer -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="$mode = 'edit'">
+	<xsl:when test="$mode = 'edit' or $mode = 'print'">
 		<xsl:attribute name="class">ilEditVAccordICntr</xsl:attribute>
 	</xsl:when>
 	<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3596,7 +3651,7 @@
 	<!-- Caption -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
+	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print'">
 		<xsl:attribute name="class">il_VAccordionToggleDef</xsl:attribute>
 	</xsl:when>
 	<xsl:when test="../@Type = 'HorizontalAccordion'">
@@ -3606,7 +3661,7 @@
 
 		<div>
 		<xsl:choose>
-		<xsl:when test="$mode = 'edit'">
+		<xsl:when test="$mode = 'edit' or $mode = 'print'">
 			<xsl:attribute name="class">ilEditVAccordIHead</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3628,7 +3683,7 @@
 			</xsl:if>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
+		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
 		<xsl:if test="$javascript='disable'">
 			<!-- checkbox -->
 			<!--
@@ -3667,7 +3722,7 @@
 		</xsl:if>
 		<div>
 			<xsl:choose>
-			<xsl:when test="$mode = 'edit'">
+			<xsl:when test="$mode = 'edit' or $mode = 'print'">
 				<xsl:attribute name="class">ilEditVAccordIHeadCap</xsl:attribute>
 			</xsl:when>
 			<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3693,19 +3748,19 @@
 	<!-- Content -->
 	<div>
 		<xsl:choose>
-		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
-			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print'">
+			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and ../@Behavior = 'ForceAllOpen'">
+		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and $mode != 'print' and ../@Behavior = 'ForceAllOpen'">
 			<xsl:attribute name="style">width:<xsl:value-of select = "$cwidth" />px;</xsl:attribute>
 		</xsl:if>
 		<div>
 			<xsl:choose>
-			<xsl:when test="$mode = 'edit'">
+			<xsl:when test="$mode = 'edit' or $mode = 'print'">
 				<xsl:attribute name="class">ilEditVAccordICont</xsl:attribute>
 			</xsl:when>
 			<xsl:when test="../@Type = 'VerticalAccordion'">

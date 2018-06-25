@@ -11,4 +11,10 @@ namespace ILIAS\UI\Component;
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 interface Component {
+	/**
+	 * Get the canonical name of the component.
+	 *
+	 * @return string
+	 */
+	public function getCanonicalName();
 }

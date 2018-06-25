@@ -239,9 +239,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$autosave_drafts->addSubItem($autosave_interval);
 		$drafts->addSubItem($autosave_drafts);
 		$form->addItem($drafts);
-		
-		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
-		$form->addCommandButton('editSettings', $this->lng->txt('cancel'));
+
+		if ($this->checkPermissionBool("write")) {
+			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		}
 
 		return $form;
 	}

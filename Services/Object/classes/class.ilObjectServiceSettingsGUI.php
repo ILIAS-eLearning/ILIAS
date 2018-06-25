@@ -85,19 +85,20 @@ class ilObjectServiceSettingsGUI
 
 		$ilSetting = $DIC->settings();
 		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		// info tab
 		if(in_array(self::INFO_TAB_VISIBILITY, $services))
 		{
-			$info = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_info_tab'), self::INFO_TAB_VISIBILITY);
+			$info = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_info_tab'), self::INFO_TAB_VISIBILITY);
 			$info->setValue(1);
 			$info->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
 						self::INFO_TAB_VISIBILITY,
 						true
 				));
-			//$info->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_info_tab'));
-			$info->setInfo($GLOBALS['lng']->txt('obj_tool_setting_info_tab_info'));
+			//$info->setOptionTitle($lng->txt('obj_tool_setting_info_tab'));
+			$info->setInfo($lng->txt('obj_tool_setting_info_tab_info'));
 			$form->addItem($info);
 		}
 		
@@ -108,12 +109,12 @@ class ilObjectServiceSettingsGUI
 			if(ilCalendarSettings::_getInstance()->isEnabled())
 			{
 				// Container tools (calendar, news, ... activation)
-				$cal = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_calendar'), self::CALENDAR_VISIBILITY);
+				$cal = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_calendar'), self::CALENDAR_VISIBILITY);
 				$cal->setValue(1);
 				include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
 				$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
-				//$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
-				$cal->setInfo($GLOBALS['lng']->txt('obj_tool_setting_calendar_info'));
+				//$cal->setOptionTitle($lng->txt('obj_tool_setting_calendar'));
+				$cal->setInfo($lng->txt('obj_tool_setting_calendar_info'));
 				$form->addItem($cal);
 			}
 		}
@@ -121,7 +122,7 @@ class ilObjectServiceSettingsGUI
 		// news
 		if(in_array(self::USE_NEWS, $services))
 		{
-			$news = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_use_news'), self::USE_NEWS);
+			$news = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_use_news'), self::USE_NEWS);
 			$news->setValue(1);
 			$checked = ilContainer::_lookupContainerSetting(
 				$a_obj_id,
@@ -129,11 +130,11 @@ class ilObjectServiceSettingsGUI
 				true
 			);
 			$news->setChecked($checked);
-			$info = $GLOBALS['lng']->txt('obj_tool_setting_use_news_info');
+			$info = $lng->txt('obj_tool_setting_use_news_info');
 			if ($checked)
 			{
 				$info.=" <a href='".$ilCtrl->getLinkTargetByClass("ilcontainernewssettingsgui", "").
-					"'>» ".$GLOBALS['lng']->txt('obj_tool_setting_use_news_open_settings')."</a>";
+					"'>» ".$lng->txt('obj_tool_setting_use_news_open_settings')."</a>";
 			}
 			$news->setInfo($info);
 			$form->addItem($news);
@@ -144,15 +145,15 @@ class ilObjectServiceSettingsGUI
 			if($ilSetting->get('block_activated_news'))
 			{
 				// Container tools (calendar, news, ... activation)
-				$news = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_news'), self::NEWS_VISIBILITY);
+				$news = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_news'), self::NEWS_VISIBILITY);
 				$news->setValue(1);
 				$news->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
 						self::NEWS_VISIBILITY,
 						$ilSetting->get('block_activated_news',true)
 				));
-				//$news->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_news'));
-				$news->setInfo($GLOBALS['lng']->txt('obj_tool_setting_news_info'));
+				//$news->setOptionTitle($lng->txt('obj_tool_setting_news'));
+				$news->setInfo($lng->txt('obj_tool_setting_news_info'));
 				$form->addItem($news);
 				
 				if(in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp')))
@@ -168,8 +169,8 @@ class ilObjectServiceSettingsGUI
 		// (local) custom metadata
 		if(in_array(self::CUSTOM_METADATA, $services))
 		{						
-			$md = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_custom_metadata'), self::CUSTOM_METADATA);
-			$md->setInfo($GLOBALS['lng']->txt('obj_tool_setting_custom_metadata_info'));
+			$md = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_custom_metadata'), self::CUSTOM_METADATA);
+			$md->setInfo($lng->txt('obj_tool_setting_custom_metadata_info'));
 			$md->setValue(1);		
 			$md->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
@@ -185,8 +186,8 @@ class ilObjectServiceSettingsGUI
 			$tags_active = new ilSetting("tags");
 			if($tags_active->get("enable", false))
 			{
-				$tag = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_tag_cloud'), self::TAG_CLOUD);
-				$tag->setInfo($GLOBALS['lng']->txt('obj_tool_setting_tag_cloud_info'));
+				$tag = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_tag_cloud'), self::TAG_CLOUD);
+				$tag->setInfo($lng->txt('obj_tool_setting_tag_cloud_info'));
 				$tag->setValue(1);		
 				$tag->setChecked(ilContainer::_lookupContainerSetting(
 							$a_obj_id,
@@ -200,7 +201,7 @@ class ilObjectServiceSettingsGUI
 		// taxonomies
 		if(in_array(self::TAXONOMIES, $services))
 		{	
-			$tax = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
+			$tax = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
 			$tax->setValue(1);		
 			$tax->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
@@ -212,14 +213,14 @@ class ilObjectServiceSettingsGUI
 		
 		// auto rating
 		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
-		{			
-			$GLOBALS['lng']->loadLanguageModule("rating");
+		{
+			$lng->loadLanguageModule("rating");
 			
 			// auto rating for new objects
-			$rate = new ilCheckboxInputGUI($GLOBALS['lng']->txt('rating_new_objects_auto'), self::AUTO_RATING_NEW_OBJECTS);
+			$rate = new ilCheckboxInputGUI($lng->txt('rating_new_objects_auto'), self::AUTO_RATING_NEW_OBJECTS);
 			$rate->setValue(1);
-			//$rate->setOptionTitle($GLOBALS['lng']->txt('rating_new_objects_auto'));
-			$rate->setInfo($GLOBALS['lng']->txt('rating_new_objects_auto_info'));
+			//$rate->setOptionTitle($lng->txt('rating_new_objects_auto'));
+			$rate->setInfo($lng->txt('rating_new_objects_auto_info'));
 			$rate->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
 						self::AUTO_RATING_NEW_OBJECTS,
@@ -234,8 +235,8 @@ class ilObjectServiceSettingsGUI
 			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
 			if(ilBadgeHandler::getInstance()->isActive())
 			{
-				$bdg = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_badges'), self::BADGES);
-				$bdg->setInfo($GLOBALS['lng']->txt('obj_tool_setting_badges_info'));
+				$bdg = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_badges'), self::BADGES);
+				$bdg->setInfo($lng->txt('obj_tool_setting_badges_info'));
 				$bdg->setValue(1);		
 				$bdg->setChecked(ilContainer::_lookupContainerSetting(
 							$a_obj_id,
@@ -251,8 +252,7 @@ class ilObjectServiceSettingsGUI
 				ilObject::_lookupType($a_obj_id)
 			);
 			if(
-				$position_settings->isActive() &&
-				$position_settings->isChangeableForObject()
+				$position_settings->isActive()
 			)
 			{
 				$lia = new ilCheckboxInputGUI(
@@ -264,6 +264,9 @@ class ilObjectServiceSettingsGUI
 				$lia->setChecked(
 					(bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($a_obj_id)
 				);
+				if(!$position_settings->isChangeableForObject()) {
+					$lia->setDisabled(true);
+				}
 				$form->addItem($lia);
 			}
 		}
@@ -271,8 +274,8 @@ class ilObjectServiceSettingsGUI
 		// skills
 		if(in_array(self::SKILLS, $services))
 		{
-			$skill = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_skills'), self::SKILLS);
-			$skill->setInfo($GLOBALS['lng']->txt('obj_tool_setting_skills_info'));
+			$skill = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_skills'), self::SKILLS);
+			$skill->setInfo($lng->txt('obj_tool_setting_skills_info'));
 			$skill->setValue(1);
 			$skill->setChecked(ilContainer::_lookupContainerSetting(
 				$a_obj_id,
@@ -284,12 +287,16 @@ class ilObjectServiceSettingsGUI
 
 		return $form;
 	}
-	
+
+
 	/**
 	 * Update service settings
-	 * @param type $a_obj_id
+	 *
+	 * @param int               $a_obj_id
 	 * @param ilPropertyFormGUI $form
-	 * @param type $services
+	 * @param string[]          $services
+	 *
+	 * @return bool
 	 */
 	public static function updateServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
@@ -411,7 +418,8 @@ class ilObjectServiceSettingsGUI
 	
 	protected function cancel()
 	{
-		$GLOBALS['ilCtrl']->returnToParent($this);
+		$ilCtrl = $this->ctrl;
+		$ilCtrl->returnToParent($this);
 	}
 	
 	/**
@@ -420,11 +428,15 @@ class ilObjectServiceSettingsGUI
 	 */
 	protected function editSettings(ilPropertyFormGUI $form = null)
 	{
+		global $DIC;
+
+		$tpl = $DIC->ui()->mainTemplate();
+
 		if(!$form instanceof ilPropertyFormGUI)
 		{
 			$form = $this->initSettingsForm();
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$tpl->setContent($form->getHTML());
 	}
 	
 	
@@ -433,6 +445,11 @@ class ilObjectServiceSettingsGUI
 	 */
 	protected function updateToolSettings()
 	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ctrl = $this->ctrl;
+
 		$form = $this->initSettingsForm();
 		if($form->checkInput())
 		{
@@ -444,11 +461,11 @@ class ilObjectServiceSettingsGUI
 					ilContainer::_writeContainerSetting($this->getObjId(),'show_calendar',(int) $form->getInput('calendar'));
 				}
 			}
-			ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'),true);
-			$GLOBALS['ilCtrl']->redirect($this);
+			ilUtil::sendSuccess($lng->txt('settings_saved'),true);
+			$ctrl->redirect($this);
 		}
 		
-		ilUtil::sendFailure($GLOBALS['lng']->txt('err_check_input'));
+		ilUtil::sendFailure($lng->txt('err_check_input'));
 		$form->setValuesByPost();
 		$this->editSettings($form);
 	}

@@ -48,7 +48,7 @@ interface Constraint {
 	 * Must replace the result with an error according to problemWith() if
 	 * !accepts($result->value()).
 	 *
-	 * @param   Result $value
+	 * @param   Result $result
 	 * @return  Result
 	 */
 	public function restrict(Result $result);

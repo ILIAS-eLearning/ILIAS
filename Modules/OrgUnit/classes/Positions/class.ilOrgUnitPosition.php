@@ -25,6 +25,7 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 * @return \ilOrgUnitPosition[]
 	 */
 	public static function get() {
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return parent::get();
 	}
 
@@ -35,9 +36,19 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 * @return \ilOrgUnitPosition
 	 */
 	public static function getCorePosition($core_identifier) {
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return ilOrgUnitPosition::where([ 'core_identifier' => $core_identifier ])->first();
 	}
 
+
+	/**
+	 * @param $core_identifier
+	 *
+	 * @return int
+	 */
+	public static function getCorePositionId($core_identifier) {
+		return self::getCorePosition($core_identifier)->getId();
+	}
 
 	/**
 	 * @throws \ilException whenever you try to delete a core-position like employee or superior

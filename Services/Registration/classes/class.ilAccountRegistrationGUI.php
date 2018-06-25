@@ -846,13 +846,16 @@ class ilAccountRegistrationGUI
 			!$this->registration_settings->passwordGenerationEnabled()
 		)
 		{
+			// store authenticated user in session
+			ilSession::set('registered_user', $this->userObj->getId());
+			
 			$this->tpl->setCurrentBlock('activation');
 			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
-			$this->tpl->setVariable('FORMACTION', 'login.php?cmd=post&target=' . ilUtil::stripSlashes($_GET['target']));
-			$this->tpl->setVariable('TARGET', 'target="_parent"');
+			
+			$action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login').'&target='. ilUtil::stripSlashes($_GET['target']);
+			$this->tpl->setVariable('FORMACTION', $action);
+			
 			$this->tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
-			$this->tpl->setVariable('USERNAME', $this->userObj->getLogin());
-			$this->tpl->setVariable('PASSWORD', $password);
 			$this->tpl->parseCurrentBlock();
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
@@ -869,6 +872,24 @@ class ilAccountRegistrationGUI
 		{
 			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
 		}
+	}
+	
+	/**
+	 * Do Login
+	 * @todo refactor this method should be renamed, but i don't wanted to make changed in 
+	 * tpl.usr_registered.html in stable release.
+	 */
+	protected function showLogin()
+	{
+		/**
+		 * @var ilAuthSession
+		 */
+		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
+		$auth_session->setAuthenticated(
+			true,
+			ilSession::get('registered_user')
+		);
+		return ilInitialisation::redirectToStartingPage();
 	}
 
 	protected function doProfileAutoComplete()

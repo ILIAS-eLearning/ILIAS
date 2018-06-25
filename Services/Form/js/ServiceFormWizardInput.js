@@ -34,6 +34,8 @@ var ilWizardInput = {
 		$(source).after(target);	
 					
 		this.reindexRows(this.getContainerFromEvent(e));		
+
+		il.Form.registerFileUploadInputEventTrigger();
 	},
 	
 	removeRow: function(e) {		

@@ -129,6 +129,8 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	{
 		$this->atom_query = $this->db->buildAtomQuery();
 		$this->atom_query->addTableLock('tst_result_cache');
+		$this->atom_query->addTableLock('tst_test_result')->lockSequence(true);
+		$this->atom_query->addTableLock('tst_solutions')->lockSequence(true);
 	}
 
 	/**

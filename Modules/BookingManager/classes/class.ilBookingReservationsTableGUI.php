@@ -64,7 +64,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->has_schedule = (bool)$a_has_schedule;		
 		$this->group_id = $a_group_id;
 		
-		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->pool_id);
+		$this->advmd = ilObjBookingPool::getAdvancedMDFields($a_ref_id);
 		
 		$this->setId("bkrsv".$a_ref_id);
 		
@@ -218,12 +218,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->lng->txt("object")." ".$this->lng->txt("title")."/".$this->lng->txt("description")
 		);		
 		$this->filter["title"] = $title->getValue();
-		
+
 		if($this->has_schedule)
 		{
 			// default period: from:today [ to:(today + n days) ]
 			if(!$_SESSION["form_".$this->getId()]["fromto"])
-			{				
+			{
 				$from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
 				$to = null;
 				
@@ -245,8 +245,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 					"from" => serialize($from),
 					"to" => $to
 				));			
-			}			
-			
+			}
 			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
 			$this->filter["fromto"] = $item->getDate();
 			

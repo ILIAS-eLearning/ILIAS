@@ -287,11 +287,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
+			if ($a_mode == "create" || $std_item->getLocationType() != "LocalFile")
+			{
+				$up->setRequired(true);
+			}
 			$op1->addSubItem($up);
 			$radio_prop->addOption($op1);
 		$op2 = new ilRadioOption($lng->txt("url"), "Reference");
 			$ref = new ilTextInputGUI("", "standard_reference");
 			$ref->setInfo($lng->txt("cont_ref_helptext"));
+			$ref->setRequired(true);
 			$op2->addSubItem($ref);
 			$radio_prop->addOption($op2);
 		$radio_prop->setValue("File");
@@ -413,11 +418,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
+			if ($a_mode == "create" || !$full_item || $full_item->getLocationType() != "LocalFile")
+			{
+				$up->setRequired(true);
+			}
 			$op2->addSubItem($up);
 		$radio_prop2->addOption($op2);
 		$op3 = new ilRadioOption($lng->txt("url"), "Reference");
 			$ref = new ilTextInputGUI("", "full_reference");
 			$ref->setInfo($lng->txt("cont_ref_helptext"));
+			$ref->setRequired(true);
 			$op3->addSubItem($ref);
 		$radio_prop2->addOption($op3);
 		$radio_prop2->setValue("None");
@@ -1434,8 +1444,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			: $mob_dir;
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
-			//move_uploaded_file($_FILES["new_file"]["tmp_name"],
-				//$cur_dir."/".$_FILES["new_file"]["name"]);
 			$file_name = ilObjMediaObject::fixFilename($_FILES["new_file"]["name"]);
 			$file = $cur_dir."/".$file_name;
 			ilUtil::moveUploadedFile($_FILES['new_file']['tmp_name'],
@@ -1829,14 +1837,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			
 			$st_item = $this->object->getMediaItem("Standard");
 
-			// video tools
-			if (substr($st_item->getFormat(), 0, 6) == "video/" && DEVMODE)
-			{
-				$this->tabs_gui->addTarget("mob_video_tools",
-					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
-					"showVideoTool", "ilobjmediaobjectgui");
-			}
-			
 			// link areas
 			
 			if (is_object($st_item) && $this->getEnabledMapAreas())

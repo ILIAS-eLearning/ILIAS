@@ -30,52 +30,103 @@
  * @ilCtrl_IsCalledBy ilLTIViewGUI: ilLTIRouterGUI
  * 
  */
- 
-include_once 'Services/LTI/classes/class.ilBaseViewGUI.php'; 
-
-class ilLTIViewGUI extends ilBaseViewGUI
+class ilLTIViewGUI
 {	
-	private static $instance = null;
+	const LTI_DEBUG = false; // deprecated
+	
+	/**
+	 * messsage codes
+	 */ 
+	const MSG_ERROR = "failure";
+	const MSG_INFO = "info";
+	const MSG_QUESTION = "question";
+	const MSG_SUCCESS = "success";
+	
+	/**
+	 * private variables
+	 */ 
+	private $user = null;
+	private $home_id = "";
+	private $home_obj_id = "";
+	private $home_type = "";
+	private $home_title = "";
+	private $home_url = "";
+	private $link_dir = "";
+	private $current_ref_id = "";
+	private $current_type = "";
+	
+	/**
+	 * public variables
+	 */
+	public $show_locator = true;
+	public $member_view = false;
+	public $member_view_url = "";
+	public $member_view_close_txt = "";
 	
 	/**
 	 * Constructor
 	 * @return 
 	 */
-	public function __construct()
+	public function __construct(\ilObjUser $user)
 	{
-		
-		parent::__construct();
-		
-		$this->allow_desktop = false;
-		$this->view_nav = true;
-		$this->use_top_bar_url = false;
-		
-		
-		// for Testing: 
-		// With this settings a fix folder with id $this->root_folder_id is set for locator and tree
-		//$this->root_folder_id = 69;
-		//$this->fix_tree_id = 69;
-		//$this->tree_root_types[] = 'crs';
+		if(ilContext::hasUser()) {
+			$this->user = $user;
+			$this->init();
+		}
+		else {
+			if ($this->isActive()) {
+				$this->deactivate();
+			}
+		}
 	}
 	
 	/**
-	 * Get instance
-	 * @return object ilLTIViewGUI
+	 * Init LTI mode for lit authenticated users
 	 */
-	public static function getInstance()
+	private function init()
 	{
-		if(self::$instance != null)
+		$this->link_dir = (defined("ILIAS_MODULE"))
+					? "../"
+					: "";
+		if ($this->isLTIUser())
 		{
-			return self::$instance;
+			$this->activate();
 		}
-		return self::$instance = new ilLTIViewGUI();
+		else
+		{
+			if ($this->isActive()) {
+				$this->deactivate();
+			}
+		}
+	}
+	
+	
+	/**
+	 * for compatiblity with ilLTIRouterGUI
+	 */ 
+	public static function getInstance() {
+		global $DIC;
+		return $DIC["lti"];
+	}
+	
+	/**
+	 * get LTI Mode from Users->getAuthMode
+	 * @return boolean 
+	 */ 
+	private function isLTIUser() {
+		if(!$this->user instanceof ilObjUser)
+		{
+			return false;
+		}
+		return (strpos($this->user->getAuthMode(),'lti_') === 0);
 	}
 	
 	/**
 	 * for ctrl commands
 	 */ 
-	function executeCommand() {
-		$cmd = $this->ctrl->getCmd();
+	public function executeCommand() {
+		global $ilCtrl;
+		$cmd = $ilCtrl->getCmd();
 		switch ($cmd) {
 			case 'exit' :
 				$this->exitLti();
@@ -90,9 +141,28 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	public function activate() 
 	{
 		$this->findEffectiveRefId();
-		$this->active = true;
 		$_SESSION['il_lti_mode'] = "1";
  		$this->initGUI();
+ 		$this->log("lti view activated");
+	}
+	
+	/** 
+	 * deactivate LTI GUI
+	 * @return void
+	 * */
+	public function deactivate() 
+	{
+		unset($_SESSION['il_lti_mode']);
+		$this->log("lti view deactivated");
+	}
+	
+	/** 
+	 * LTI is active
+	 * @return boolean
+	 * */
+	public function isActive() 
+	{
+		return (isset($_SESSION['il_lti_mode']));
 	}
 	
 	/**
@@ -107,8 +177,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$lng->loadLanguageModule("lti");
 		$baseclass = strtolower($_GET['baseClass']);
 		$cmdclass = strtolower($_GET['cmdClass']);
-		$this->log("baseClass=".$baseclass);
-		$this->log("cmdClass=".$cmdclass);
+		
 		// init home_id, home_type, home_url and home_items if not already set
 		if ($this->home_id === '') 
 		{
@@ -121,6 +190,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		if ($this->home_type === '') 
 		{
 			$this->home_type = ilObject::_lookupType($this->home_id,true);
+			$this->show_locator = $this->showLocator($this->home_type);
 		}
 		if ($this->home_url === '') 
 		{
@@ -130,142 +200,12 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		{
 			$this->home_title = $this->getHomeTitle();
 		}
-		if (count($this->home_items) == 0) 
-		{
-			$this->home_items = $this->dic['tree']->getSubTreeIds($this->home_id);
-			// add home_id to the item list too
-			$this->home_items[] = $this->home_id;
-		}
-		$this->log("home_id: " . $this->home_id);
-		$this->log("home_obj_id: " . $this->home_obj_id);
-		$this->log("home_type: " . $this->home_type);
-		$this->log("home_url: " . $this->home_url);
-		$this->log("home_title: " . $this->home_title);
-		$this->log("home_items: " . $this->home_items);
-		$this->log("current_ref_id: " . $this->current_ref_id);
-		$this->log("current_type: " . $this->current_type);
-		
+	
 		switch ($baseclass) 
 		{
 			case 'illtiroutergui' :
 				return;
 				break;
-			case 'ilpersonaldesktopgui' :
-				//return;
-				if (!$this->allowDesktop()) 
-				{
-					$this->log("desktop is not allowed");
-					//$_SESSION['failure'] = "lti_not_allowed";
-					$this->redirectToHome(self::MSG_ERROR,$lng->txt("lti_not_allowed"));
-					$this->redirectToHome();
-					return;
-				} 
-				break;
-		}
-		
-		if ($this->current_ref_id === '') 
-		{ // ToDo: conceptual discussion, only initGUI on baseClass=repositorygui? 
-			return;
-		}
-		if ($this->use_top_bar_url) {
-		
-			// set the tree_root_id for tree and locator if ref_id is sub_item or context itself
-			if (in_array($this->current_ref_id, $this->home_items)) 
-			{
-				$this->log($this->current_ref_id . " in lti context"); 
-				$this->setInContext();
-			}
-			else // check if another parent root_folder_id exists for the view
-			{
-				$this->log($this->current_ref_id . " NOT in lti context");
-				$this->setOutContext();
-			}
-		}
-		else {
-			$this->setContext();
-		}
-	}
-	
-	// Maybe moving to the BaseViewGUI Template?
-	/**
-	 * default view in home context
-	 */  
-	private function setInContext() 
-	{
-		global $tpl;
-		$this->log($tpl);
-		$this->show_home_link = false;
-		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
-		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
-		ilUtil::sendInfo("sdfsdfsdfsdf");
-	}
-	 
-	/**
-	 * view out of the home context with link back to home
-	 */
-	private function setOutContext() 
-	{
-		$this->show_home_link = true;
-		// is there a root folder > ROOT_FOLDER_ID defined? check view access
-		$allowed = false;
-		if ($this->root_folder_id > ROOT_FOLDER_ID) 
-		{
-			if ($this->dic['tree']->isGrandChild($this->root_folder_id,$this->current_ref_id) || $this->current_ref_id == $this->root_folder_id) 
-			{
-				$this->log("isGrandChild of root_folder_id");
-				$allowed = true;
-			}
-			else 
-			{
-				$this->log("is not allowed");
-				$allowed = false;
-			}
-		}
-		else 
-		{
-			$allowed = true;
-		}
-		if ($allowed) 
-		{
-			if (in_array($this->current_type, $this->tree_root_types)) 
-			{
-				$this->tree_root_id = ($this->fix_tree_id === '') ? $this->current_ref_id : $this->fix_tree_id;
-			}
-			else
-			{
-				foreach($this->tree_root_types as $obj_type) 
-				{
-					$ref_id = $this->dic['tree']->checkForParentType($this->current_ref_id,$obj_type);
-					if ($ref_id > 0) 
-					{
-						$this->tree_root_id = ($this->fix_tree_id === '') ? $ref_id : $this->fix_tree_id;
-					}
-					else {
-						$this->tree_root_id = ($this->fix_tree_id === '') ? $this->current_ref_id : $this->fix_tree_id;
-					}
-				}
-			} 
-			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
-		}
-		else 
-		{
-			//$this->redirectToReferer();
-			$this->redirectToHome(self::MSG_ERROR,"lti_not_allowed");
-		}
-		
-	}
-	
-	/**
-	 * current container object is set as root for locator and tree
-	 */ 
-	private function setContext() 
-	{
-		$this->log("setContext");
-		if ($this->isContainer($this->current_type)) 
-		{
-			$this->tree_root_id = $this->current_ref_id;
-			$this->log("set lti_tree_root_id: " . $this->tree_root_id);
-			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 		}
 	}
 	
@@ -278,30 +218,25 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		switch ($part) 
 		{
 			case 'top_bar_header' :
-				if(!$this->show_home_link) 
+				if(!$this->member_view) 
 				{
 					if (!$tpl->blockExists("header_top_title"))
 					{
 						$tpl->addBlockFile("HEADER_TOP_TITLE","header_top_title","tpl.header_top_title.html","Services/LTI");
 					}
-					//$tpl->setVariable("TXT_HEADER_TITLE", "LTI header replaced");
-					$tpl->setVariable("TXT_HEADER_TITLE", "LTI Sitzung");
+					$tpl->setVariable("TXT_HEADER_TITLE", $lng->txt("lti_session"));					
 				}
 				else {
 					if (!$tpl->blockExists("header_back_bl")) 
 					{
 						$tpl->addBlockFile("HEADER_BACK_BL","header_back_bl","tpl.header_back_bl.html","Services/LTI");
 					}
-					$tpl->setVariable("URL_HEADER_BACK", $this->home_url);
+					$tpl->setVariable("URL_HEADER_BACK", $this->member_view_url);
 					//$tpl->setVariable("TXT_HEADER_BACK", $lng->txt("lti_back_to_home")); // ToDo: $lng variable
-					$tpl->setVariable("TXT_HEADER_BACK", "Zurück zu ". $this->home_title); // ToDo: $lng variable		
+					$tpl->setVariable("TXT_HEADER_BACK", $this->member_view_close_txt); // ToDo: $lng variable		
 				}
 				break;
 			case 'view_nav' :
-				if (!$this->view_nav) 
-				{
-					break;
-				}
 				$tpl->setVariable("TXT_VIEW_NAV", $lng->txt("lti_navigation")); // ToDo: language files
 				$nav_entries = $this->getNavEntries();
 				$tpl->setVariable("VIEW_NAV_EN", $nav_entries);
@@ -333,7 +268,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$icon = ilUtil::img(ilObject::_getIcon((int)$this->home_obj_id, "tiny"));
 		
 		$gl->addEntry($icon." ". $this->getHomeTitle(), $this->getHomeLink(),
-			"_top");
+			"_self");
 		
 		
 		$items = $ilNavigationHistory->getItems();
@@ -356,7 +291,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				$cnt ++;
 				$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 				$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-				$gl->addEntry($icon." ".$ititle, $item["link"],	"_top", "", "ilLVNavEnt");
+				$gl->addEntry($icon." ".$ititle, $item["link"],	"_self", "", "ilLVNavEnt");
 
 			}
 			$first = false;
@@ -398,6 +333,19 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	}
 	
 	/**
+	 * helper function for home link creation
+	 */ 
+	protected function getHomeLink() 
+	{
+		return $this->link_dir."goto.php?target=".$this->home_type."_".$this->home_id;
+	}
+	
+	public function getHomeTitle() 
+	{
+		return ilObject::_lookupTitle($this->home_obj_id);
+	}
+	
+	/**
 	 * exit LTI session and if defined redirecting to returnUrl
 	 * ToDo: Standard Template with delos ...
 	 */
@@ -428,11 +376,74 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	function logout() 
 	{
 		//$DIC->logger()->root()->debug("logout");
+		$this->deactivate();
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$this->dic['ilAuthSession']->logout();
+		//$this->dic['ilAuthSession']->logout();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
+	}
+	
+	/**
+	 * Find effective ref_id for request
+	 */
+	private function findEffectiveRefId()
+	{
+		if((int) $_GET['ref_id'])
+		{
+			$this->current_type = ilObject::_lookupType($_GET['ref_id'],true);
+			return $this->current_ref_id = (int) $_GET['ref_id'];
+		}
+		
+		$target_arr = explode('_',(string) $_GET['target']);
+		if(isset($target_arr[1]) and (int) $target_arr[1])
+		{
+			$this->current_type = ilObject::_lookupType($target_arr[1],true);
+			$this->home_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($target_arr[1]));
+			return $this->current_ref_id = (int) $target_arr[1];
+		}
+	}
+	
+	/**
+	 * @return bool
+	 */
+	private function showLocator($obj_type) {
+		//return true;
+		return preg_match("/(crs|grp|cat|root|fold|lm)/",$obj_type);
+	}
+	
+	/**
+	 * helper function for cmd link creation
+	 */ 
+	protected function getCmdLink($cmd) {
+		global $ilCtrl;
+		$targetScript = ($ilCtrl->getTargetScript() !== 'ilias.php') ? "ilias.php" : "";
+		return $this->link_dir.$targetScript.$ilCtrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui";
+	}
+	
+	/**
+	 * get session value != ''
+	 * 
+	 * @param $sess_key string 
+	 * @return string
+	 */ 
+	function getSessionValue($sess_key) 
+	{
+		if (isset($_SESSION[$sess_key]) && $_SESSION[$sess_key] != '') {
+			return $_SESSION[$sess_key];
+		}
+		else {
+			return '';
+		}
+	}
+	
+	private function log($txt) 
+	{
+		global $DIC;
+		if (self::LTI_DEBUG) {
+			 $DIC->logger()->lti()->write($txt);
+		}
 	}
 }
 ?>

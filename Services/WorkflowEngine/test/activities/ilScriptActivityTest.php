@@ -97,8 +97,9 @@ class ilScriptActivityTest extends PHPUnit_Framework_TestCase
 		// Arrange
 		$activity = new ilScriptActivity($this->node);
 
-		$code = "return 'Hallo, Welt!';";
-		$activity->setMethod(create_function(null,$code));
+		$activity->setMethod(function() {
+			return 'Hallo, Welt!';
+		});
 
 		// Act
 		$response = $activity->getScript();

@@ -174,5 +174,4 @@ var Room = function Room(id)
 	}
 };
 
-
 module.exports = Room;

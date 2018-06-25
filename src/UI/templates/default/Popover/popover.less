@@ -20,7 +20,7 @@
   }
   .il-popover-inner {
 	max-height: @popover-max-height;
-	overflow:   scroll;
+	overflow:   auto;
 	.close {
 	  margin: 0;
 	  &::after {
@@ -50,5 +50,15 @@
   }
   &.webui-popover-fixed {
 	position: fixed;
+  }
+}
+
+@media (max-width: 768px) {
+  .il-popover {
+	&.webui-popover-fixed {
+	  position: absolute;
+	  left:     0 !important;
+	  width:    100%;
+	}
   }
 }

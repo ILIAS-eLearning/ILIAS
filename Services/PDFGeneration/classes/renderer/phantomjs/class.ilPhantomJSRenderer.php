@@ -6,6 +6,9 @@ require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
 
 class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 {
+	const PAGE = 0;
+	const VIEWPORT = 1;
+
 	/** @var ilLanguage $lng */
 	protected $lng;
 
@@ -103,7 +106,12 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	 * @var string
 	 */
 	protected $path;
-	
+
+	/**
+	 * @var int
+	 */
+	protected $page_type = self::PAGE;
+
 	/**
 	 * @return string
 	 */
@@ -132,13 +140,12 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$path->setValue($this->path);
 		$form->addItem($path);
 
-		$form->addItem($this->buildJavascriptDelayForm());
-		$form->addItem($this->buildPageSettingsHeader());
-		$form->addItem($this->buildViewPortForm());
-		$form->addItem($this->buildMarginForm());
-		$form->addItem($this->buildOrientationForm());
-		$form->addItem($this->buildPageSizesForm());
+		$item_group = new ilRadioGroupInputGUI($this->lng->txt('page_settings'), 'page_type');
 
+		$op = new ilRadioOption($this->lng->txt('page'), self::PAGE);
+		$op->addSubItem($this->buildMarginForm());
+		$op->addSubItem($this->buildOrientationForm());
+		$op->addSubItem($this->buildPageSizesForm());
 		$header_select	= new ilRadioGroupInputGUI($this->lng->txt('header_type'), 'header_select');
 		$header_select->addOption(new ilRadioOption($this->lng->txt('none'), ilPDFGenerationConstants::HEADER_NONE, ''));
 		$header_text = new ilRadioOption($this->lng->txt('text'), ilPDFGenerationConstants::HEADER_TEXT, '');
@@ -147,8 +154,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$header_text->addSubItem($this->buildHeaderPageNumbersForm());
 		$header_select->addOption($header_text);
 		$header_select->setValue($this->header_type);
-		$form->addItem($header_select);
-
+		$op->addSubItem($header_select);
 		$footer_select	= new ilRadioGroupInputGUI($this->lng->txt('footer_type'), 'footer_select');
 		$footer_select->addOption(new ilRadioOption($this->lng->txt('none'), ilPDFGenerationConstants::FOOTER_NONE, ''));
 		$footer_text = new ilRadioOption($this->lng->txt('text'), ilPDFGenerationConstants::FOOTER_TEXT, '');
@@ -157,7 +163,16 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$footer_text->addSubItem($this->buildFooterPageNumbersForm());
 		$footer_select->addOption($footer_text);
 		$footer_select->setValue($this->footer_type);
-		$form->addItem($footer_select);
+		$op->addSubItem($footer_select);
+		$item_group->addOption($op);
+
+		$op = new ilRadioOption($this->lng->txt('viewport'), self::VIEWPORT);
+		$op->addSubItem($this->buildViewPortForm());
+		$item_group->addOption($op);
+		$item_group->setValue($this->page_type);
+		$form->addItem($item_group);
+
+		$form->addItem($this->buildJavascriptDelayForm());
 	}
 
 	/**
@@ -181,11 +196,12 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('header_select')->setValue($config['header_type']);
 		$form->getItemByPostVar('header_text')->setValue($config['header_text']);
 		$form->getItemByPostVar('header_height')->setValue($config['header_height']);
-		$form->getItemByPostVar('header_show_pages')->setValue($config['header_show_pages']);
+		$form->getItemByPostVar('header_show_pages')->setChecked($config['header_show_pages']);
 		$form->getItemByPostVar('footer_select')->setValue($config['footer_type']);
 		$form->getItemByPostVar('footer_text')->setValue($config['footer_text']);
 		$form->getItemByPostVar('footer_height')->setValue($config['footer_height']);
-		$form->getItemByPostVar('footer_show_pages')->setValue($config['footer_show_pages']);
+		$form->getItemByPostVar('footer_show_pages')->setChecked($config['footer_show_pages']);
+		$form->getItemByPostVar('page_type')->setValue($config['page_type']);
 
 		ilPDFGeneratorUtils::setCheckedIfTrue($form);
 	}
@@ -235,6 +251,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['footer_text'] = $form->getItemByPostVar('footer_text')->getValue();
 		$config['footer_height'] = $form->getItemByPostVar('footer_height')->getValue();
 		$config['footer_show_pages'] = $form->getItemByPostVar('footer_show_pages')->getChecked();
+		$config['page_type'] = $form->getItemByPostVar('page_type')->getValue();
 
 		return $config;
 	}
@@ -272,6 +289,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['footer_text'] = '';
 		$config['footer_height'] = '0cm';
 		$config['footer_show_pages'] = 0;
+		$config['page_type'] = self::PAGE;
 
 		return $config;
 	}
@@ -319,7 +337,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			if(file_exists($temp_file))
 			{
 				$ilLog->write('ilPhantomJSRenderer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $job->getFilename());
-				rename($temp_file, $job->getFilename());
+				ilFileUtils::rename($temp_file, $job->getFilename());
 			}
 			else
 			{
@@ -438,21 +456,12 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * @return ilFormSectionHeaderGUI
-	 */
-	protected function buildPageSettingsHeader()
-	{
-		$section_header = new ilFormSectionHeaderGUI();
-		$section_header->setTitle($this->lng->txt('page_settings'));
-		return $section_header;
-	}
-
-	/**
 	 * @return ilTextInputGUI
 	 */
 	protected function buildJavascriptDelayForm()
 	{
 		$javascript_delay = new ilTextInputGUI($this->lng->txt('javascript_delay'), 'javascript_delay');
+		$javascript_delay->setInfo($this->lng->txt('javascript_delay_info'));
 		$javascript_delay->setValue($this->javascript_delay);
 		return $javascript_delay;
 	}
@@ -529,6 +538,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$r_config['viewport']		= $config['viewport'];
 		$r_config['header']			= $h_config;
 		$r_config['footer']			= $f_config;
+		$r_config['page_type']		= $config['page_type'];
 
 		return json_encode( json_encode($r_config) );
 

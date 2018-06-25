@@ -19,9 +19,9 @@ class ilOrgUnitObjectPositionSetting {
 	 */
 	private $obj_id;
 	/**
-	 * @var bool
+	 * @var null|bool
 	 */
-	private $active = false;
+	private $active;
 
 
 	/**
@@ -56,7 +56,9 @@ class ilOrgUnitObjectPositionSetting {
 
 
 	/**
-	 * Check if position access is active
+	 * Check if position access is active. This returns true or false if it is object specific or null if the object has no setting.
+	 *
+	 * @return null|bool
 	 */
 	public function isActive() {
 		return $this->active;
@@ -92,6 +94,15 @@ class ilOrgUnitObjectPositionSetting {
 		$query = 'DELETE from orgu_obj_pos_settings ' . 'WHERE obj_id = '
 		         . $this->db->quote($this->obj_id, 'integer');
 		$this->db->manipulate($query);
+	}
+
+
+	/**
+	 * @return bool Returns true if the object has a specific setting false if there is no object specific setting, take the global setting in this
+	 * case.
+	 */
+	public function hasObjectSpecificActivation() {
+		return $this->active !== null;
 	}
 
 

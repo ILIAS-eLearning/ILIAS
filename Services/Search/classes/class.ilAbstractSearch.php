@@ -197,7 +197,7 @@ class ilAbstractSearch
 		return $found ? $found : array();
 	}
 
-	function &performSearch()
+	public function performSearch()
 	{
 		echo "Should be overwritten.";
 	}

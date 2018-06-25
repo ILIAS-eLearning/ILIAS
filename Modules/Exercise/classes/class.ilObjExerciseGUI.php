@@ -307,7 +307,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fdb->addOption($option);
 		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_text"), ilObjExercise::TUTOR_FEEDBACK_TEXT);
 		$option->setInfo($this->lng->txt("exc_settings_feedback_text_info"));
-		$fdb->addOption($option);		
+		$fdb->addOption($option);	
+		
+		$position_settings = ilOrgUnitGlobalSettings::getInstance()
+			->getObjectPositionSettingsByType($this->object->getType());
+
+		if($position_settings->isActive())
+		{
+			// add additional feature section
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$a_form->addItem($feat);
+
+			// add orgunit settings
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$a_form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+
+			}
 	}
 	
 	/**
@@ -345,7 +366,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$tfeedback[] = ilObjExercise::TUTOR_FEEDBACK_FILE;
 		}		
-		$a_values['tfeedback'] = $tfeedback;			
+		$a_values['tfeedback'] = $tfeedback;	
+
+		// orgunit position setting enabled
+		$a_values['obj_orgunit_positions'] = (bool) ilOrgUnitGlobalSettings::getInstance()
+			->isPositionAccessActiveForObject($this->object->getId());
+
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -369,6 +395,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),
 			(bool)$a_form->getInput("notification"));
+		
+		
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$a_form,
+			array(
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+			)
+		);
+		
 	}
   
 	/**
@@ -412,7 +448,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 
 		$next_class = strtolower($this->ctrl->getNextClass());
-		if ($this->checkPermissionBool("visible"))
+		if ($this->checkPermissionBool("visible") || $this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTab("info",
 				$lng->txt("info_short"),
@@ -431,7 +467,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
 		}
-		if($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+		if($this->access->checkRbacOrPositionPermissionAccess(
 			'edit_submissions_grades',
 			'edit_submissions_grades', 
 			$this->object->getRefId()))
@@ -500,7 +536,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("info");
 
-		$this->checkPermission("visible");
+		if (!$this->checkPermissionBool("read"))
+		{
+			$this->checkPermission("visible");
+		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -645,11 +684,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		//ilExerciseMailNotification has links to:
 		// "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".
 		$ass_id = $_GET['ass_id'];
+		$parts = explode("_", $a_raw);
 		if(!$ass_id)
 		{
 			$ass_id = null;
 			$action = null;
-			$parts = explode("_", $a_raw);
 
 			switch(end($parts))
 			{
@@ -699,6 +738,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 					break;
 
 				default:
+					if ($parts[1] != "")
+					{
+						$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id", $parts[1]);
+						$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id_goto", $parts[1]);
+					}
 					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "showOverview");
 					break;
 

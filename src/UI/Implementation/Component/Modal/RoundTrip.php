@@ -89,4 +89,14 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	public function getCancelButtonLabel() {
 		return $this->cancel_button_label;
 	}
+
+	/**
+	 * @param string $label
+	 * @return RoundTrip
+	 */
+	public function withCancelButtonLabel($label) {
+		$clone = clone $this;
+		$clone->cancel_button_label = $label;
+		return $clone;
+	}
 }

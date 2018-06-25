@@ -886,14 +886,24 @@ class ilPermissionGUI extends ilPermission2GUI
 
 	protected function savePositionsPermissions() {
 		$this->__initSubTabs(self::CMD_PERM_POSITIONS);
+
+		$positions = ilOrgUnitPosition::getArray(null, 'id');
 		$ref_id = $this->getCurrentObject()->getRefId();
-		if ($_POST['local']) {
-			foreach ($_POST['local'] as $position_id => $item) {
+
+		// handle local sets
+		foreach ($positions as $position_id) {
+			if (isset($_POST['local'][$position_id])) {
 				ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+			} else {
+				ilOrgUnitPermissionQueries::removeLocalSetForRefId($ref_id, $position_id);
 			}
 		}
+
 		if ($_POST['position_perm']) {
 			foreach ($_POST['position_perm'] as $position_id => $ops) {
+				if (!isset($_POST['local'][$position_id])) {
+					continue;
+				}
 				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
 				$new_ops = [];
 				foreach ($ops as $op_id => $op) {
@@ -905,8 +915,5 @@ class ilPermissionGUI extends ilPermission2GUI
 		}
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		$this->ctrl->redirect($this, self::CMD_PERM_POSITIONS);
-
 	}
-
-
 }

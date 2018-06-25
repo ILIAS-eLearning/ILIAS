@@ -11,15 +11,19 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 
 		if(conversation.isParticipant(this.participant))
 		{
-			namespace.getDatabase().loadConversationHistory(conversation.getId(), oldestMessageTimestamp, function(row){
-				if(oldestTimestamp == null || oldestTimestamp > row.timestamp) {
+			function onConversationResult(row){
+				if(oldestTimestamp === null || oldestTimestamp > row.timestamp) {
 					oldestTimestamp = row.timestamp;
 				}
 				row.userId = row.user_id;
 				row.conversationId = row.conversation_id;
 				history.push(row);
-			}, function(err){
-				if(err) throw err;
+			}
+
+			function emitConversationHistory(err){
+				if(err) {
+					throw err;
+				}
 
 				var json = conversation.json();
 				json.messages = history;
@@ -28,7 +32,14 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				socket.participant.emit('history', json);
 
 				Container.getLogger().info('Requested History for %s since %s', conversationId, oldestMessageTimestamp);
-			});
+			}
+
+			namespace.getDatabase().loadConversationHistory(
+				conversation.getId(),
+				oldestMessageTimestamp,
+				onConversationResult,
+				emitConversationHistory
+			);
 		}
 	}
 

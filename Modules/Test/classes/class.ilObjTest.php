@@ -3391,6 +3391,18 @@ function getAnswerFeedbackPoints()
 		return false;
 	}
 	
+	/**
+	 * @param array $removeQuestionIds
+	 */
+	public function removeQuestions($removeQuestionIds)
+	{
+		foreach ($removeQuestionIds as $value) {
+			$this->removeQuestion($value);
+		}
+		
+		$this->reindexFixedQuestionOrdering();
+	}
+	
 /**
 * Removes a question from the test object
 *
@@ -3407,6 +3419,29 @@ function getAnswerFeedbackPoints()
 			$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
 		}
 		$question->delete($question_id);
+	}
+	
+	/**
+	 * - at the time beeing ilObjTest::removeTestResults needs to call the LP service for deletion
+	 * - ilTestLP calls ilObjTest::removeTestResultsByUserIds
+	 * 
+	 * this method should only be used from non refactored soap context i think
+	 * 
+	 * @param $userIds
+	 */
+	public function removeTestResultsFromSoapLpAdministration($userIds)
+	{
+		$this->removeTestResultsByUserIds($userIds);
+		
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+		$participantData->setUserIdsFilter($userIds);
+		$participantData->load($this->getTestId());
+		
+		$this->removeTestActives($participantData->getActiveIds());
 	}
 	
 	public function removeTestResults(ilTestParticipantData $participantData)
@@ -3437,7 +3472,7 @@ function getAnswerFeedbackPoints()
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
-		$participantData->setUserIds($userIds);
+		$participantData->setUserIdsFilter($userIds);
 		$participantData->load($this->getTestId());
 
 		$IN_userIds = $ilDB->in('usr_id', $participantData->getUserIds(), false, 'integer');
@@ -4672,6 +4707,11 @@ function getAnswerFeedbackPoints()
 		$persons_array = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if( $this->getAccessFilteredParticipantList() && !$this->getAccessFilteredParticipantList()->isActiveIdInList($row["active_id"]) )
+			{
+				continue;
+			}
+			
 			if ($this->getAnonymity())
 			{
 				$persons_array[$row["active_id"]] = $this->lng->txt("anonymous");
@@ -4738,24 +4778,6 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return $persons_array;
-	}
-
-/**
-* Returns the number of total finished tests
-*
-* @return integer The number of total finished tests
-* @access public
-*/
-	function evalTotalFinished()
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s AND submitted = %s",
-			array('integer', 'integer'),
-			array($this->getTestId(), 1)
-		);
-		$row = $ilDB->fetchAssoc($result);
-		return $row["total"];
 	}
 
 	/**
@@ -4845,10 +4867,52 @@ function getAnswerFeedbackPoints()
 		return $qpass;
 	}
 	
+	/**
+	 * @var ilTestParticipantList
+	 */
+	protected $accessFilteredParticipantList;
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getAccessFilteredParticipantList()
+	{
+		return $this->accessFilteredParticipantList;
+	}
+	
+	/**
+	 * @param ilTestParticipantList $accessFilteredParticipantList
+	 */
+	public function setAccessFilteredParticipantList($accessFilteredParticipantList)
+	{
+		$this->accessFilteredParticipantList = $accessFilteredParticipantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function buildStatisticsAccessFilteredParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		
+		$list = new ilTestParticipantList($this);
+		$list->initializeFromDbRows($this->getTestParticipants());
+		
+		$list = $list->getAccessFilteredList(
+			ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
+		);
+		
+		return $list;
+	}
+	
 	function getUnfilteredEvaluationData()
 	{
-		global $ilDB;
-		
+		/** @var $DIC ILIAS\DI\Container */
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -4877,7 +4941,8 @@ function getAnswerFeedbackPoints()
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
-		
+		$questionData  = [];
+
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			$participantObject = $data->getParticipant($row["active_fi"]);
@@ -4895,7 +4960,8 @@ function getAnswerFeedbackPoints()
 			}
 
 			$passObject->addAnsweredQuestion(
-				$row["question_fi"], $row["maxpoints"], $row["points"], $row['answered'], null, $row['manual']
+				$row["question_fi"], $row["maxpoints"], $row["points"],
+				$row['answered'], null, $row['manual']
 			);
 		}
 
@@ -4906,36 +4972,107 @@ function getAnswerFeedbackPoints()
 				for( $testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++ )
 				{
 					$ilDB->setLimit($this->getQuestionCount(), 0);
-					$result = $ilDB->queryF("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, qpl_questions.original_id, " .
-						"tst_test_rnd_qst.pass, qpl_questions.points, qpl_questions.title " .
-						"FROM tst_test_rnd_qst, qpl_questions " .
-						"WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
-						"AND tst_test_rnd_qst.pass = %s " .
-						"AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence",
-						array('integer','integer'),
-						array($testpass, $active_id)
+					
+					$query = "
+						SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, qpl_questions.original_id,
+						tst_test_rnd_qst.pass, qpl_questions.points, qpl_questions.title
+						FROM tst_test_rnd_qst, qpl_questions
+						WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id
+						AND tst_test_rnd_qst.pass = %s
+						AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence
+					";
+					
+					$result = $ilDB->queryF(
+						$query, array('integer','integer'), array($testpass, $active_id)
 					);
+					
 					if ($result->numRows())
 					{
 						while ($row = $ilDB->fetchAssoc($result))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
+							
+							$data->getParticipant($active_id)->addQuestion(
+								$row["original_id"], $row["question_fi"], $row["points"],
+								$row["sequence"], $tpass
+							);
+							
 							$data->addQuestionTitle($row["question_fi"], $row["title"]);
 						}
 					}
 				}
 			}
+			else if($this->isDynamicTest())
+			{
+				$lastPass = $data->getParticipant($active_id)->getLastPass();
+				for($testpass = 0; $testpass <= $lastPass; $testpass++)
+				{
+					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
+						$DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this
+					);
+					$dynamicQuestionSetConfig->loadFromDb();
+
+					require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+					$testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this);
+					$testSequence        = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
+
+					$testSequence->loadFromDb($dynamicQuestionSetConfig);
+					$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+
+					$sequence = (array)$testSequence->getUserSequenceQuestions();
+
+					$questionsIdsToRequest = array_diff(array_values($sequence), array_values($questionData));
+					if(count($questionsIdsToRequest) > 0)
+					{
+						$questionIdsCondition = ' ' . $DIC->database()->in('question_id', array_values($questionsIdsToRequest), false, 'integer') . ' ';
+
+						$res = $DIC->database()->queryF("
+							SELECT * 
+							FROM qpl_questions
+							WHERE {$questionIdsCondition}",
+							array('integer'),
+							array($active_id)
+						);
+						while($row = $DIC->database()->fetchAssoc($res))
+						{
+							$questionData[$row['question_id']] = $row;
+							$data->addQuestionTitle($row['question_id'], $row['title']);
+						}
+					}
+
+					foreach($sequence as $questionId)
+					{
+						if(!isset($questionData[$questionId]))
+						{
+							continue;
+						}
+
+						$row = $questionData[$questionId];
+
+						$data->getParticipant(
+							$active_id)->addQuestion($row['original_id'], $row['question_id'], $row['points'],
+							NULL, $testpass
+						);
+					}
+				}
+			}
 			else
 			{
-				$result = $ilDB->queryF("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
-					"qpl_questions.points, qpl_questions.title, qpl_questions.original_id " .
-					"FROM tst_test_question, tst_active, qpl_questions " .
-					"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
-					"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi ORDER BY tst_test_question.sequence",
-					array('integer'),
-					array($active_id)
+				$query = "
+					SELECT tst_test_question.sequence, tst_test_question.question_fi,
+					qpl_questions.points, qpl_questions.title, qpl_questions.original_id
+					FROM tst_test_question, tst_active, qpl_questions
+					WHERE tst_test_question.question_fi = qpl_questions.question_id
+					AND tst_active.active_id = %s
+					AND tst_active.test_fi = tst_test_question.test_fi
+					ORDER BY tst_test_question.sequence
+				";
+				
+				$result = $ilDB->queryF(
+					$query, array('integer'), array($active_id)
 				);
+				
 				if ($result->numRows())
 				{
 					$questionsbysequence = array();
@@ -4945,18 +5082,28 @@ function getAnswerFeedbackPoints()
 						$questionsbysequence[$row["sequence"]] = $row;
 					}
 					
-					$seqresult = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s",
-						array('integer'),
-						array($active_id)
+					$seqresult = $ilDB->queryF(
+						"SELECT * FROM tst_sequence WHERE active_fi = %s",
+						array('integer'), array($active_id)
 					);
 					
 					while ($seqrow = $ilDB->fetchAssoc($seqresult))
 					{
 						$questionsequence = unserialize($seqrow["sequence"]);
+						
 						foreach ($questionsequence as $sidx => $seq)
 						{
-							$data->getParticipant($active_id)->addQuestion($questionsbysequence[$seq]["original_id"], $questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
-							$data->addQuestionTitle($questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["title"]);
+							$data->getParticipant($active_id)->addQuestion(
+								$questionsbysequence[$seq]["original_id"],
+								$questionsbysequence[$seq]["question_fi"],
+								$questionsbysequence[$seq]["points"],
+								$sidx + 1,
+								$seqrow["pass"]
+							);
+							
+							$data->addQuestionTitle(
+								$questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["title"]
+							);
 						}
 					}
 				}
@@ -5298,16 +5445,20 @@ function getAnswerFeedbackPoints()
 * @return integer The average processing time for all started tests
 * @access public
 */
-	function evalTotalStartedAverageTime()
+	function evalTotalStartedAverageTime($activeIdsFilter = null)
 	{
-		global $ilDB;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			array('integer'),
-			array($this->getTestId())
-		);
+		$query = "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi";
+		
+		if( is_array($activeIdsFilter) && count($activeIdsFilter) )
+		{
+			$query .= " AND ".$DIC->database()->in('active_id', $activeIdsFilter, false, 'integer');
+		}
+		
+		$result = $DIC->database()->queryF($query, array('integer'), array($this->getTestId()));
 		$times = array();
-		while ($row = $ilDB->fetchObject($result))
+		while ($row = $DIC->database()->fetchObject($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -7202,6 +7353,11 @@ function getAnswerFeedbackPoints()
 		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
 		$newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
 		$newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
+		$newObj->setAutosave($this->getAutosave());
+		$newObj->setAutosaveIval($this->getAutosaveIval());
+		$newObj->setOfferingQuestionHintsEnabled($this->isOfferingQuestionHintsEnabled());
+		$newObj->setSpecificAnswerFeedback($this->getSpecificAnswerFeedback());
+		$newObj->setObligationsEnabled($this->areObligationsEnabled());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -7427,6 +7583,30 @@ function getAnswerFeedbackPoints()
 		}
 		return $res;
 	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getInvitedParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this);
+		$participantList->initializeFromDbRows( $this->getInvitedUsers() );
+		
+		return $participantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getActiveParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this);
+		$participantList->initializeFromDbRows( $this->getTestParticipants() );
+		
+		return $participantList;
+	}
 
 /**
 * Returns a list of all invited users in a test
@@ -7445,7 +7625,7 @@ function getAnswerFeedbackPoints()
 			if (is_numeric($user_id))
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY $order",
@@ -7456,7 +7636,7 @@ function getAnswerFeedbackPoints()
 			else
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY $order",
@@ -7470,7 +7650,7 @@ function getAnswerFeedbackPoints()
 			if (is_numeric($user_id))
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY $order",
@@ -7481,7 +7661,7 @@ function getAnswerFeedbackPoints()
 			else
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY $order",
@@ -7521,7 +7701,7 @@ function getAnswerFeedbackPoints()
 						usr_data.matriculation,
 						usr_data.active,
 						tst_active.lastindex,
-						IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
+						COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
@@ -7546,7 +7726,7 @@ function getAnswerFeedbackPoints()
 						usr_data.matriculation,
 						usr_data.active,
 						tst_active.lastindex,
-						IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
+						COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
@@ -8072,7 +8252,7 @@ function getAnswerFeedbackPoints()
 		public static function _getMaxPass($active_id)
 		{
 			global $ilDB;
-			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
+			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
 				array('integer'),
 				array($active_id)
 			);
@@ -10392,6 +10572,11 @@ function getAnswerFeedbackPoints()
 		/** @noinspection PhpAssignmentInConditionInspection */
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if( $this->getAccessFilteredParticipantList() && !$this->getAccessFilteredParticipantList()->isActiveIdInList($row["active_fi"]) )
+			{
+				continue;
+			}
+			
 			if (!array_key_exists($row["active_fi"], $foundusers))
 			{
 				$foundusers[$row["active_fi"]] = array();
@@ -10414,9 +10599,9 @@ function getAnswerFeedbackPoints()
 		if (count($foundParticipants)) 
 		{
 			$results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
-			$total_finished = $this->evalTotalFinished();
+			$total_finished = $data->getTotalFinishedParticipants();
 			$results["overview"][$this->lng->txt("tst_eval_total_finished")] = $total_finished;
-			$average_time = $this->evalTotalStartedAverageTime();
+			$average_time = $this->evalTotalStartedAverageTime( $data->getParticipantIds() );
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
@@ -10473,7 +10658,6 @@ function getAnswerFeedbackPoints()
 				}
 			}
 			$percent = $max ? $reached/$max * 100.0 : 0;
-			$counter++;
 			$results["questions"][$question_id] = array(
 				$question_title, 
 				sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
@@ -10852,6 +11036,22 @@ function getAnswerFeedbackPoints()
 	public function setPoolUsage($usage) {
 	    $this->poolUsage = (boolean)$usage;
 	}
+	
+	public function reindexFixedQuestionOrdering()
+	{
+		$tree = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tree'] : $GLOBALS['tree'];
+		$db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$pluginAdmin = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin'];
+		
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
+		$questionSetConfig = $qscFactory->getQuestionSetConfig();
+		
+		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+		$questionSetConfig->reindexQuestionOrdering();
+		
+		$this->loadQuestions();
+	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
 	{
@@ -10911,6 +11111,7 @@ function getAnswerFeedbackPoints()
 	    $values = array($row['sequence'] + 1, $question_to_move);
 	    $ilDB->manipulateF($update, $types, $values);
 
+	    $this->reindexFixedQuestionOrdering();
 	}
 
 	public function hasQuestionsWithoutQuestionpool()
@@ -11627,44 +11828,43 @@ function getAnswerFeedbackPoints()
 
 	public function addExtraTime($active_id, $minutes)
 	{
-		global $ilDB;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		$participants = array();
-		if ($active_id == 0)
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		
+		$participantData->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getRefId())
+		);
+		
+		if($active_id)
 		{
-			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
-				array('integer'),
-				array($this->getTestId())
-			);
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				array_push($participants, $row['active_id']);
-			}
+			$participantData->setActiveIdsFilter( array($active_id) );
 		}
-		else
+		
+		$participantData->load($this->getTestId());
+		
+		foreach($participantData->getActiveIds() as $active_id)
 		{
-			array_push($participants, $active_id);
-		}
-		foreach ($participants as $active_id)
-		{
-			$result = $ilDB->queryF("SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
-				array('integer'),
-				array($active_id)
+			$result = $DIC->database()->queryF(
+				"SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
+				array('integer'), array($active_id)
 			);
+			
 			if ($result->numRows() > 0)
 			{
-				$ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
+				$DIC->database()->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
 					array('integer'),
 					array($active_id)
 				);
 			}
-
-			$ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
+			
+			$DIC->database()->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
 				array('integer','integer','timestamp','integer'),
 				array(0, 0, NULL, $active_id)
 			);
-
-			$ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
+			
+			$DIC->database()->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
 				array('integer','integer','integer'),
 				array($active_id, $minutes, time())
 			);
@@ -12182,4 +12382,99 @@ function getAnswerFeedbackPoints()
 	{
 		$this->testFinalBroken = $testFinalBroken;
 	}
+	
+	public function adjustTestSequence()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+		
+		$query = "
+			SELECT COUNT(test_question_id) cnt
+			FROM tst_test_question
+			WHERE test_fi = %s
+			ORDER BY sequence
+		";
+		
+		$questRes = $ilDB->queryF($query, array('integer'), array($this->getTestId()));
+		
+		$row = $ilDB->fetchAssoc($questRes);
+		$questCount = $row['cnt'];
+		
+		if( $this->getShuffleQuestions() )
+		{
+			$query = "
+				SELECT tseq.*
+				FROM tst_active tac
+				INNER JOIN tst_sequence tseq
+					ON tseq.active_fi = tac.active_id
+				WHERE tac.test_fi = %s
+			";
+			
+			$partRes = $ilDB->queryF(
+				$query, array('integer'), array($this->getTestId())
+			);
+			
+			while($row = $ilDB->fetchAssoc($partRes))
+			{
+				$sequence = @unserialize($row['sequence']);
+				
+				if(!$sequence)
+				{
+					$sequence = array();
+				}
+				
+				$sequence = array_filter($sequence, function($value) use ($questCount) {
+					return $value <= $questCount;
+				});
+				
+				$num_seq = count($sequence);
+				if($questCount > $num_seq)
+				{
+					$diff = $questCount - $num_seq;
+					for($i = 1; $i <= $diff; $i++)
+					{
+						$sequence[$num_seq + $i - 1] = $num_seq + $i;
+					}
+				}
+				
+				$new_sequence = serialize($sequence);
+				
+				$ilDB->update('tst_sequence', array(
+					'sequence' => array('clob', $new_sequence)
+				), array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass'      => array('integer', $row['pass'])
+				));
+			}
+		}
+		else
+		{
+			$new_sequence = serialize($questCount > 0 ? range(1, $questCount) : array());
+			
+			$query = "
+				SELECT tseq.*
+				FROM tst_active tac
+				INNER JOIN tst_sequence tseq
+					ON tseq.active_fi = tac.active_id
+				WHERE tac.test_fi = %s
+			";			
+			
+			$part_rest = $ilDB->queryF(
+				$query, array('integer'), array($this->getTestId())
+			);
+			
+			while($row = $ilDB->fetchAssoc($part_rest))
+			{
+				$ilDB->update('tst_sequence', array(
+					'sequence' => array('clob', $new_sequence)
+				), array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass'      => array('integer', $row['pass'])
+				));
+			}
+		}
+	}
+	
 }

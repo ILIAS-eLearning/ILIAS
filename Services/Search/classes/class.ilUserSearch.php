@@ -61,7 +61,7 @@ class ilUserSearch extends ilAbstractSearch
 	 	$this->inactive_check = $a_enabled;
 	}
 
-	function &performSearch()
+	public function performSearch()
 	{
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();

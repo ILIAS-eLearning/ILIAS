@@ -306,7 +306,7 @@ class ilExSubmission
 				$ilDB->quote($this->assignment->getExerciseId(), "integer"),
 				$ilDB->quote($this->getUserId(), "integer"),
 				$ilDB->quote($deliver_result["fullname"], "text"),
-				$ilDB->quote($a_http_post_files["name"], "text"),
+				$ilDB->quote(ilFileUtils::getValidFilename($a_http_post_files["name"]), "text"),
 				$ilDB->quote($deliver_result["mimetype"], "text"),
 				$ilDB->quote(ilUtil::now(), "timestamp"),
 				$ilDB->quote($this->assignment->getId(), "integer"),
@@ -467,7 +467,13 @@ class ilExSubmission
 					substr($row["ts"], 17, 2);
 				$row["filename"] = $path.
 					"/".$row["user_id"]."/".basename($row["filename"]);
-				array_push($delivered_files, $row);
+
+				// see 22301, 22719
+				if (is_file($row["filename"]) || (!in_array($this->assignment->getType(),
+						array(ilExAssignment::TYPE_UPLOAD, ilExAssignment::TYPE_UPLOAD_TEAM))))
+				{
+					array_push($delivered_files, $row);
+				}
 			}
 		}
 				

@@ -556,7 +556,7 @@ class ilLMPresentationGUI
 				{
 					case "ilMainMenu":
 						$this->ilMainMenu();
-						$this->renderPageTitle();
+						//$this->renderPageTitle();
 						break;
 
 					case "ilTOC":
@@ -564,6 +564,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
+						$this->renderPageTitle();
 						switch($this->lm->getType())
 						{
 							case "lm":
@@ -808,15 +809,24 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
+		// LTI
+		global $DIC;
+		$ltiview = $DIC["lti"];
+ 		if ($ltiview->isActive()) 
+ 		{
+ 			include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
+ 			$ilMainMenu = new LTI\ilMainMenuGUI("_top", false, $this->tpl);
+ 		}
+ 		else 
+ 		{
+ 			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+ 			$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
+ 		}
 
 		if ($this->offlineMode())
 		{
 			$this->tpl->touchBlock("pg_intro");
 			$this->tpl->touchBlock("pg_outro");
-			// LTI
-			$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-			$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 			return;
 		}
 
@@ -928,7 +938,8 @@ class ilLMPresentationGUI
 	function ilLMMenu()
 	{
 		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId()));
+			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId(),
+			$this->lang, $this->export_all_languages));
 	}
 
 	/**
@@ -1052,13 +1063,14 @@ class ilLMPresentationGUI
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
 		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 			
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
-			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false),
+			$this->tpl);
 
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
 				
-		if($this->lm->hasRating())
+		if($this->lm->hasRating() && !$this->offlineMode())
 		{
 			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
@@ -1066,7 +1078,7 @@ class ilLMPresentationGUI
 		
 		if(!$a_redraw)
 		{
-			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction());
+			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction($this->tpl));
 		}
 		else
 		{
@@ -1153,6 +1165,8 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator($a_std_templ_loaded = false)
 	{
+		global $DIC;
+		$ltiview = $DIC["lti"];
 		$ilLocator = $this->locator;
 		$tree = $this->tree;
 		$ilCtrl = $this->ctrl;
@@ -1192,7 +1206,7 @@ class ilLMPresentationGUI
 		if (!$this->offlineMode())
 		{
 			// LTI
-			if (isset($_SESSION['il_lti_mode'])) 
+			if ($ltiview->isActive()) 
 			{
 				// Do nothing, its complicated...
 			}
@@ -1737,8 +1751,8 @@ class ilLMPresentationGUI
 		
 		// rating
 		$rating = "";
-		if($this->lm->hasRatingPages())
-		{														
+		if($this->lm->hasRatingPages() && !$this->offlineMode())
+		{
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");			
 			$rating_gui = new ilRatingGUI();
 			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");	
@@ -1821,7 +1835,15 @@ class ilLMPresentationGUI
 			$a_page_gui->setOfflineDirectory($this->getOfflineDirectory());
 			$this->fill_on_load_code = false;
 		}
+		if (!$this->offlineMode())
+		{
+			$this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
+		}
 		$a_page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+		if (!$this->offlineMode())
+		{
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		}
 		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 	}
 
@@ -2843,9 +2865,12 @@ class ilLMPresentationGUI
 		//exit;
 		$this->tpl->getStandardTemplate();
 		$this->ilLocator(true);
-		
+
+		$a_global_tabs = !$this->offlineMode();
+
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "toc", true));
+			,$this->getExportFormat(), "toc", $a_global_tabs, false, 0,
+			$this->lang, $this->export_all_languages));
 
 		// set title header
 		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
@@ -2864,39 +2889,61 @@ class ilLMPresentationGUI
 			{
 				$page_id = $_GET["obj_id"];
 			}
-			// empty chapter
-			if ($this->chapter_has_no_active_page &&
-				ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+
+			// highlight current node
+			if (!$this->offlineMode())
 			{
-				$exp->setHighlightNode($_GET["obj_id"]);
-			}
-			else
-			{
-				if ($this->lm->getTOCMode() == "pages")
+				// empty chapter
+				if ($this->chapter_has_no_active_page &&
+					ilLMObject::_lookupType($_GET["obj_id"]) == "st")
 				{
-					if ($this->deactivated_page)
-					{
-						$exp->setHighlightNode($_GET["obj_id"]);
-					}
-					else
-					{
-						$exp->setHighlightNode($page_id);
-					}
-				}
-				else
+					$exp->setHighlightNode($_GET["obj_id"]);
+				} else
 				{
-					$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+					if ($this->lm->getTOCMode() == "pages")
+					{
+						if ($this->deactivated_page)
+						{
+							$exp->setHighlightNode($_GET["obj_id"]);
+						} else
+						{
+							$exp->setHighlightNode($page_id);
+						}
+					} else
+					{
+						$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+					}
 				}
 			}
 			if ($this->offlineMode())
 			{
 				$exp->setOfflineMode(true);
 			}
-
+//	var_dump($exp->getHTML()."_");
 			$this->tpl->setVariable("ADM_CONTENT", $exp->getHTML());
 		}
 		if ($this->offlineMode())
 		{
+			// reset standard css files
+			$this->tpl->resetJavascript();
+			$this->tpl->resetCss();
+			$this->tpl->setBodyClass("ilLMNoMenu");
+
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
+			{
+				if ($f["type"] == "js")
+				{
+					$this->tpl->addJavascript($f["target"]);
+				}
+				if ($f["type"] == "css")
+				{
+					$this->tpl->addCSS($f["target"]);
+				}
+			}
+			$this->tpl->fillJavaScriptFiles(true);
+			$this->tpl->fillOnLoadCode();
+			//var_dump(htmlentities($this->tpl->get())); exit;
 			return $this->tpl->get();
 		}
 		else
@@ -2950,7 +2997,8 @@ class ilLMPresentationGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), $a_active_tab, true));
+			,$this->getExportFormat(), $a_active_tab, true, false, 0,
+			$this->lang, $this->export_all_languages));
 		
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -3063,7 +3111,8 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "print", true));
+			,$this->getExportFormat(), "print", true,false, 0,
+			$this->lang, $this->export_all_languages));
 			
 		$this->ilLocator(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
@@ -3913,7 +3962,8 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "download", true));
+			,$this->getExportFormat(), "download", true,false, 0,
+			$this->lang, $this->export_all_languages));
 
 		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();

@@ -37,7 +37,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 class ilWebresourceSearch extends ilAbstractSearch
 {
 
-	function &performSearch()
+	public function performSearch()
 	{
 		$this->setFields(array('title'));
 

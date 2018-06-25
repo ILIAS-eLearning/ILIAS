@@ -61,7 +61,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 	}
 
 
-	function &performSearch()
+	public function performSearch()
 	{
 		switch($this->getMode())
 		{

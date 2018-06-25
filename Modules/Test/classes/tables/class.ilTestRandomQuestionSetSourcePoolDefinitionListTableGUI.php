@@ -38,7 +38,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 	/**
 	 * @var boolean
 	 */
-	private $showMappedTaxomomyFilter = false;
+	private $showMappedTaxonomyFilter = false;
 	// fau.
 
 	/**

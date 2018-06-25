@@ -48,9 +48,11 @@ class ilWorkflowEngine
 		$context_id
 	)
 	{
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
-		if(0 === (bool)$ilSetting->get('wfe_activation', 0))
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
 		{
 			return;
 		}
@@ -94,6 +96,15 @@ class ilWorkflowEngine
 	 */
 	public function handleEvent($component, $event, $parameter)
 	{
+		global $DIC;
+		/** @var ilSetting $ilSetting */
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
+
 		// Event incoming, check ServiceDisco (TODO, for now we're using a non-disco factory), call appropriate extractors.
 
 		/** @noinspection PhpIncludeInspection */
@@ -107,8 +118,8 @@ class ilWorkflowEngine
 		{
 			$extracted_params = $extractor->extract($event, $parameter);
 
-			$ilSetting = new ilSetting('wfe');
-			$mappers = json_decode($ilSetting->get('custom_mapper',json_encode(array())), true);
+			$ilLocalSetting = new ilSetting('wfe');
+			$mappers = json_decode($ilLocalSetting->get('custom_mapper',json_encode(array())), true);
 			foreach((array)$mappers as $mapper)
 			{
 				if(!file_exists($mapper['location']))
@@ -146,11 +157,20 @@ class ilWorkflowEngine
 	 */
 	public function launchArmedWorkflows($component, $event, $extractedParams)
 	{
+
+		global $DIC;
+		/** @var ilSetting $ilSetting */
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
+
 		$workflows = ilWorkflowDbHelper::findApplicableWorkflows($component, $event, $extractedParams);
 
 		foreach($workflows as $workflow)
 		{
-			$a = 1;
 			$data = ilWorkflowDbHelper::getStaticInputDataForEvent($workflow['event']);
 
 			/** @noinspection PhpIncludeInspection */

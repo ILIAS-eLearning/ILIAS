@@ -2,7 +2,6 @@
 require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcache.php');
 require_once('./Services/GlobalCache/classes/Xcache/class.ilXcache.php');
 require_once('./Services/GlobalCache/classes/Apc/class.ilApc.php');
-require_once('./Services/GlobalCache/classes/Redis/class.ilRedis.php');
 require_once('./Services/GlobalCache/classes/Static/class.ilStaticCache.php');
 require_once('Settings/class.ilGlobalCacheSettings.php');
 
@@ -20,7 +19,6 @@ class ilGlobalCache {
 	const TYPE_XCACHE = 1;
 	const TYPE_MEMCACHED = 2;
 	const TYPE_APC = 3;
-	const TYPE_REDIS = 4;
 	const TYPE_FALLBACK = self::TYPE_STATIC;
 	const COMP_CLNG = 'clng';
 	const COMP_OBJ_DEF = 'obj_def';
@@ -40,7 +38,6 @@ class ilGlobalCache {
 		self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC,
-		self::TYPE_REDIS,
 	);
 	/**
 	 * @var array
@@ -255,9 +252,6 @@ class ilGlobalCache {
 			case self::TYPE_MEMCACHED:
 				return 'ilMemcache';
 				break;
-			case self::TYPE_REDIS:
-				return 'ilRedis';
-				break;
 			case self::TYPE_XCACHE:
 				return 'ilXcache';
 				break;
@@ -418,11 +412,7 @@ class ilGlobalCache {
 	 */
 	public function flush($complete = false) {
 		if ($this->global_cache->isActive()) {
-			if ($complete) {
-				return $this->global_cache->flush();
-			} else {
-				$this->global_cache->setInvalid();
-			}
+			return $this->global_cache->flush();
 		}
 
 		return false;

@@ -44,16 +44,18 @@ class ilOrgUnitUserAssignmentQueries {
 
 
 	/**
-	 * @param $user_id
-	 * @param $position_id
+	 * @param int $user_id
+	 * @param int $position_id
+	 * @param int $orgu_id Org-Units Ref-ID
 	 *
 	 * @return \ActiveRecord
 	 * @throws \ilException
 	 */
-	public function getAssignmentOrFail($user_id, $position_id) {
+	public function getAssignmentOrFail($user_id, $position_id, $orgu_id) {
 		$ua = ilOrgUnitUserAssignment::where([
 			'user_id'     => $user_id,
 			'position_id' => $position_id,
+			'orgu_id' => $orgu_id,
 		])->first();
 		if (!$ua) {
 			throw new  ilException('UserAssignement not found');
@@ -195,5 +197,16 @@ class ilOrgUnitUserAssignmentQueries {
 		return ilOrgUnitUserAssignment::where([
 			'position_id' => $position_id,
 		])->get();
+	}
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return void
+	 */
+	public function deleteAllAssignmentsOfUser($user_id) {
+		global $DIC;
+		$q = "DELETE FROM il_orgu_ua WHERE user_id = " . $DIC->database()->quote($user_id, "integer");
+		$DIC->database()->manipulate($q);
 	}
 }

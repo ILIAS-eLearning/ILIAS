@@ -238,7 +238,15 @@ class ilGroupXMLWriter extends ilXmlWriter
 		
 	function __buildAdmin()
 	{
-		foreach($this->group_obj->getGroupAdminIds() as $id)
+		$admins = $this->group_obj->getGroupAdminIds();
+		$admins = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->group_obj->getRefId(),
+			$admins
+		);
+		
+		foreach($admins as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
 			$attr['notification'] = $this->participants->isNotificationEnabled($id) ? 'Yes' : 'No';
@@ -250,7 +258,14 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 	function __buildMember()
 	{
-		foreach($this->group_obj->getGroupMemberIds() as $id)
+		$members = $this->group_obj->getGroupMemberIds();
+		$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->group_obj->getRefId(),
+			$members
+		);
+		foreach($members as $id)
 		{
 			if(!$this->group_obj->isAdmin($id))
 			{

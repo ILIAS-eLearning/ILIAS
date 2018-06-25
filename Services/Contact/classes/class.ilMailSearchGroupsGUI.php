@@ -456,7 +456,7 @@ class ilMailSearchGroupsGUI
 			$this->tpl->setTitle($this->lng->txt("mail_addressbook"));
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 	
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context);
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context, $_POST["search_grp"]);
 			$this->lng->loadLanguageModule('crs');
 
 			$tableData = array();

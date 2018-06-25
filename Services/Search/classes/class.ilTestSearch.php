@@ -114,7 +114,7 @@ class ilTestSearch extends ilAbstractSearch
 	}
 
 
-	function &performSearch()
+	public function performSearch()
 	{
 		$this->__searchTestTitle();
 		$this->__searchTestIntroduction();

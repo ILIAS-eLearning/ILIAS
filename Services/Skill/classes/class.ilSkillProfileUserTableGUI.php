@@ -27,7 +27,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_profile)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_profile, $a_write_permission = false)
 	{
 		global $DIC;
 
@@ -53,7 +53,10 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");
 
-		$this->addMultiCommand("confirmUserRemoval", $lng->txt("remove"));
+		if ($a_write_permission)
+		{
+			$this->addMultiCommand("confirmUserRemoval", $lng->txt("remove"));
+		}
 		//$this->addCommandButton("", $lng->txt(""));
 	}
 	

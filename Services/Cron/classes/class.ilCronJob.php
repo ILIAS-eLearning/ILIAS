@@ -77,7 +77,6 @@ abstract class ilCronJob
 	 * 
 	 * @param integer $a_type
 	 * @param integer $a_value
-	 * @return int
 	 */
 	public function setSchedule($a_type, $a_value)
 	{
@@ -89,20 +88,46 @@ abstract class ilCronJob
 			$this->schedule_value = $a_value;
 		}
 	}
-	
+
 	/**
 	 * Get all available schedule types
-	 * 
-	 * @return int
+	 * @return int[]
+	 */
+	public function getAllScheduleTypes()
+	{
+		return array(
+			self::SCHEDULE_TYPE_DAILY,
+			self::SCHEDULE_TYPE_WEEKLY,
+			self::SCHEDULE_TYPE_MONTHLY,
+			self::SCHEDULE_TYPE_QUARTERLY,
+			self::SCHEDULE_TYPE_YEARLY,
+			self::SCHEDULE_TYPE_IN_MINUTES,
+			self::SCHEDULE_TYPE_IN_HOURS,
+			self::SCHEDULE_TYPE_IN_DAYS
+		);
+	}
+
+	/**
+	 * @return int[]
+	 */
+	public function getScheduleTypesWithValues()
+	{
+		return [
+			ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+			ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+			ilCronJob::SCHEDULE_TYPE_IN_DAYS
+		];
+	}
+
+	/**
+	 * Returns a collection of all valid schedule types for a specific job
+	 * @return int[]
 	 */
 	public function getValidScheduleTypes()
 	{
-		return array(self::SCHEDULE_TYPE_DAILY, self::SCHEDULE_TYPE_IN_MINUTES,
-			self::SCHEDULE_TYPE_IN_HOURS, self::SCHEDULE_TYPE_IN_DAYS,
-			self::SCHEDULE_TYPE_WEEKLY, self::SCHEDULE_TYPE_MONTHLY,
-			self::SCHEDULE_TYPE_QUARTERLY, self::SCHEDULE_TYPE_YEARLY);
-	}		
-	
+		return $this->getAllScheduleTypes();
+	}
+
 	/*
 	 * Check if next run is due
 	 * 

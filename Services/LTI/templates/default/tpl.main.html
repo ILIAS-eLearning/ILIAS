@@ -2,7 +2,6 @@
 <html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}">
 <head>
 	<meta charset="utf-8" />
-	<meta pups="pups" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{WINDOW_TITLE} {PAGETITLE}</title>
@@ -51,6 +50,7 @@
 {CONTENT_BLOCK}
 <!-- END HeadContent -->
 <!-- BEGIN CalendarJS -->
+<style type="text/css">@import url({LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET});</style>
 <script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR}"></script>
 {CALENDAR_LANG_JAVASCRIPT}
 <script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script>

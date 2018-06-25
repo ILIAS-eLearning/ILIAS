@@ -111,7 +111,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $ilAccess;
 		
  		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
@@ -306,6 +306,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		
 		include_once './Services/Logging/classes/class.ilLogComponentTableGUI.php';
 		$table = new ilLogComponentTableGUI($this, 'components');
+		$table->setEditable($this->checkPermissionBool('write'));
 		$table->init();
 		$table->parse();
 		
@@ -318,7 +319,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	 */
 	protected function saveComponentLevels()
 	{
-		ilLoggerFactory::getLogger('log')->dump($_POST,  ilLogLevel::DEBUG);
+		$this->checkPermission('write');
 		
 		foreach($_POST['level'] as $component_id => $value)
 		{
@@ -336,6 +337,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	
 	protected function resetComponentLevels()
 	{
+		$this->checkPermission('write');
+		
 		foreach(ilLogComponentLevels::getInstance()->getLogComponents() as $component)
 		{
 			$component->setLevel(null);

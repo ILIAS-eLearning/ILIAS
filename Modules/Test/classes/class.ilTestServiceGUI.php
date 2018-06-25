@@ -169,6 +169,11 @@ class ilTestServiceGUI
 		}
 
 		$scoredPass = $this->object->_getResultPass($testSession->getActiveId());
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		$questionHintRequestRegister = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
+			$testSession->getActiveId()
+		);
 
 		foreach($passes as $pass)
 		{
@@ -200,6 +205,25 @@ class ilTestServiceGUI
 			if($withResults)
 			{
 				$result_array = $this->object->getTestResult($testSession->getActiveId(), $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
+				
+				foreach($result_array as $resultStructKEY => $question)
+				{
+					if( $resultStructKEY === 'test' || $resultStructKEY === 'pass' )
+					{
+						continue;
+					}
+					
+					$requestData = $questionHintRequestRegister->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
+					
+					if( $requestData instanceof ilAssQuestionHintRequestStatisticData && $result_array[$resultStructKEY]['requested_hints'] === null )
+					{
+						$result_array['pass']['total_requested_hints'] += $requestData->getRequestsCount();
+						
+						$result_array[$resultStructKEY]['requested_hints'] = $requestData->getRequestsCount();
+						$result_array[$resultStructKEY]['hint_points'] = $requestData->getRequestsPoints();
+					}
+				}
+				
 				if(!$result_array['pass']['total_max_points'])
 				{
 					$percentage = 0;
@@ -972,6 +996,10 @@ class ilTestServiceGUI
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
 		$output     = '';
 		foreach($foundusers as $active_id => $passes)
@@ -1011,6 +1039,11 @@ class ilTestServiceGUI
 	 */
 	protected function buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD)
 	{
+		if( !isset($targetGUI->object) && method_exists($targetGUI, 'getTestObj') )
+		{
+			$targetGUI->object = $targetGUI->getTestObj();
+		}
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
 		$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
 		$tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
@@ -1150,8 +1183,6 @@ class ilTestServiceGUI
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
-		$toolbar->setSkillResultButtonEnabled($this->object->isSkillServiceToBeConsidered());
-
 		return $toolbar;
 	}
 
@@ -1216,6 +1247,7 @@ class ilTestServiceGUI
 				$this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails')
 			);
 		}
+		$ilTabs->clearSubTabs();
 
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");

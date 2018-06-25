@@ -127,7 +127,7 @@ class {CLASS_NAME} extends ActiveRecord {
 
 	";
 
-			$member = str_replace('{FIELD_NAME}', $str->field, $member);
+			$member = str_replace('{FIELD_NAME}', $str->Field, $member);
 			$member = str_replace('{DECLARATION}', ' ', $member);
 
 			$all_members .= $member;
@@ -154,16 +154,15 @@ class {CLASS_NAME} extends ActiveRecord {
 	protected function returnAttributesForField(stdClass $field) {
 		$attributes = array();
 		$attributes[arFieldList::HAS_FIELD] = 'true';
-		$attributes[arFieldList::FIELDTYPE] = self::lookupFieldType($field->type);
-		$attributes[arFieldList::LENGTH] = self::lookupFieldLength($field->type);
+		$attributes[arFieldList::FIELDTYPE] = self::lookupFieldType($field->Type);
+		$attributes[arFieldList::LENGTH] = self::lookupFieldLength($field->Type);
 
-		if ($field->null == 'NO') {
+		if ($field->Null == 'NO') {
 			$attributes[arFieldList::IS_NOTNULL] = 'true';
 		}
 
-		if ($field->key == 'PRI') {
+		if ($field->Key == 'PRI') {
 			$attributes[arFieldList::IS_PRIMARY] = 'true';
-			$attributes[arFieldList::IS_UNIQUE] = 'true';
 		}
 
 		return $attributes;
@@ -251,9 +250,9 @@ class {CLASS_NAME} extends ActiveRecord {
 	 * @param stdClass $structure
 	 */
 	public function addStructure(stdClass $structure) {
-		if(!in_array($structure->field, $this->ids)) {
+		if(!in_array($structure->Field, $this->ids)) {
 			$this->structure[] = $structure;
-			$this->ids[] = $structure->field;
+			$this->ids[] = $structure->Field;
 		}
 	}
 

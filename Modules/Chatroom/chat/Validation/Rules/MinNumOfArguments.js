@@ -35,11 +35,11 @@ module.exports = function MinNumOfArguments(min) {
 		}
 	};
 
-	var isGreaterEqualsMin = function(){
+	function isGreaterEqualsMin() {
 		return process.argv.length >= _min + CONST_NUM_COMMAND_ARGS;
-	};
+	}
 
-	var getNumExistingArguments = function() {
+	function getNumExistingArguments() {
 		return process.argv.length - CONST_NUM_COMMAND_ARGS;
-	};
+	}
 };

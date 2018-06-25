@@ -104,7 +104,6 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
 			$this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
 			$this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
-			$this->setIe_compatibility(ilUtil::yn2tf($lm_rec["ie_compatibility"]));
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			$this->setIdSetting($lm_rec["id_setting"]);
@@ -153,7 +152,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* lookup subtype id (scorm, aicc, hacp)
+	* lookup subtype id (scorm, )
 	*
 	* @param	int		$a_id		object id
 	*/
@@ -355,14 +354,14 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 	/**
-	* set auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
+	* set auto review as true/false for SCORM 1.2
 	*/
 	function setAutoReview($a_auto_review)
 	{
 		$this->auto_review = ilUtil::tf2yn($a_auto_review);
 	}
 	/**
-	* get auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
+	* get auto review as true/false for SCORM 1.2
 	*/
 	function getAutoReview()
 	{
@@ -511,19 +510,6 @@ class ilObjSAHSLearningModule extends ilObject
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get("scormdebug_global_activate") == "1") return true;
 		return false;
-	}
-
-	/**
-	* set compatibility mode for Internet Exlorer manually
-	*/
-	function getIe_compatibility()
-	{
-		return $this->ie_compatibility;
-	}
-
-	function setIe_compatibility($a_ie_compatibility)
-	{
-		$this->ie_compatibility = $a_ie_compatibility;
 	}
 
 	/**
@@ -984,7 +970,6 @@ class ilObjSAHSLearningModule extends ilObject
 				check_values = %s,
 				offline_mode = %s,
 				auto_suspend = %s,
-				ie_compatibility = %s, 
 				ie_force_render = %s,
 				mastery_score = %s,
 				id_setting = %s,
@@ -1019,7 +1004,6 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
-				'text',
 				'text',
 				'text',
 				'text',
@@ -1065,7 +1049,6 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getCheck_values()),
 				ilUtil::tf2yn($this->getOfflineMode()),
 				ilUtil::tf2yn($this->getAutoSuspend()),
-				ilUtil::tf2yn($this->getIe_compatibility()),
 				ilUtil::tf2yn($this->getIe_force_render()),
 				$s_mastery_score,
 				$this->getIdSetting(),
@@ -1339,7 +1322,7 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
+		global $ilDB, $ilUser, $ilias, $lng;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
@@ -1353,7 +1336,7 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 
 		// copy properties
-		$new_obj->setTitle($this->getTitle());
+		$new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
@@ -1388,7 +1371,6 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setCheck_values($this->getCheck_values());
 		$new_obj->setOfflineMode($this->getOfflineMode());
 		$new_obj->setAutoSuspend($this->getAutoSuspend());
-		$new_obj->setIe_compatibility($this->getIe_compatibility());
 		$new_obj->setIe_force_render($this->getIe_force_render());
 		$new_obj->setStyleSheetId($this->getStyleSheetId());
 		$new_obj->update();
@@ -1422,19 +1404,6 @@ class ilObjSAHSLearningModule extends ilObject
 				$source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
 				$new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
 				break;
-
-			case "aicc":
-				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
-				$source_obj = new ilObjAICCLearningModule($this->getRefId());
-				$new_obj = new ilObjAICCLearningModule($new_obj->getRefId());
-				break;
-
-			case "hacp":
-				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
-				$source_obj = new ilObjHACPLearningModule($this->getRefId());
-				$new_obj = new ilObjHACPLearningModule($new_obj->getRefId());
-				break;
-
 		}
 
 		// copy data directory
@@ -1514,5 +1483,28 @@ class ilObjSAHSLearningModule extends ilObject
 		return $studentName;
 	}
 
+	/**
+	* get button for view
+	*/
+	public function getViewButton() {
+		$setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->getRefID();
+		// $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
+		$setTarget = "ilContObj".$this->getId();
+		$om = $this->getOpenMode();
+		$width = $this->getWidth();
+		$height = $this->getHeight();
+		if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
+		if ($om != 0) {
+			$setUrl = "javascript:void(0); onclick=startSAHS('".$setUrl."','ilContObj".$this->getId()."',".$om.",".$width.",".$height.");";
+			$setTarget = "";
+		}
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("view");
+		$button->setPrimary(true);
+		$button->setUrl($setUrl);
+		$button->setTarget($setTarget);
+		return $button;
+	}
 }
 ?>

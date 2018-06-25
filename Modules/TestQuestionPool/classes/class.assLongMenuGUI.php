@@ -156,7 +156,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		else
 		{
-			$long_menu_text->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$long_menu_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$long_menu_text->setUseTagsForRteOnly(false);
 		}
 
@@ -309,7 +310,15 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
-		if (strlen($feedback)) $solution_template->setVariable("FEEDBACK", $feedback);
+		if (strlen($feedback))
+		{
+			$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
+				ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+			);
+			
+			$solution_template->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+			$solution_template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
+		}
 
 		$solution_template->setVariable("SOLUTION_OUTPUT", $question_output);
 
@@ -515,8 +524,41 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		// Empty implementation here since a feasible way to aggregate answer is not known.
-		return ''; //print_r($relevant_answers,true);
+		$overview = array();
+		$aggregation = array();
+		foreach ($relevant_answers as $answer)
+		{
+			$overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
+		}
+
+		foreach($overview as $active)
+		{
+			foreach ($active as $answer)
+			{
+				foreach ($answer as $option => $value)
+				{
+					$aggregation[$option][$value] = $aggregation[$option][$value] + 1;
+				}
+			}
+		}
+		$tpl = new ilTemplate('tpl.il_as_aggregated_long_menu_answers_table.html', true, true, "Modules/TestQuestionPool");
+		$json = json_decode($this->object->getJsonStructure());
+		foreach ($json as $key => $value)
+		{
+				$tpl->setVariable('TITLE','Longmenu '. ($key+1));
+				if(array_key_exists($key, $aggregation))
+				{
+					$aggregate = $aggregation[$key];
+					foreach($aggregate as $answer => $counts)
+					{
+						$tpl->setVariable('OPTION',$answer);
+						$tpl->setVariable('COUNT',$counts);
+						$tpl->parseCurrentBlock();
+					}
+				}
+		}
+
+		return $tpl->get();
 	}
 
 	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false, $graphical = false)

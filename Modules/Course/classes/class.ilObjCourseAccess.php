@@ -69,8 +69,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
-
-
+		
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
@@ -305,7 +304,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 * @param int $a_obj_id
 	 * @return bool
 	 */
-	protected static function _isOnline($a_obj_id)
+	public static function _isOnline($a_obj_id)
 	{
 		global $ilDB;
 		

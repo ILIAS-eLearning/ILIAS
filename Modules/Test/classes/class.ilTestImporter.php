@@ -13,6 +13,11 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilTestImporter extends ilXmlImporter
 {
 	/**
+	 * @var array
+	 */
+	static $finallyProcessedTestsRegistry = array();
+	
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -153,6 +158,11 @@ class ilTestImporter extends ilXmlImporter
 			{
 				continue;
 			}
+			
+			if( isset(self::$finallyProcessedTestsRegistry[$new]) )
+			{
+				continue;
+			}
 
 			/* @var ilObjTest $testOBJ */
 			$testOBJ = ilObjectFactory::getInstanceByObjId($new, false);
@@ -160,6 +170,8 @@ class ilTestImporter extends ilXmlImporter
 			{
 				$this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new, $testOBJ);
 			}
+			
+			self::$finallyProcessedTestsRegistry[$new] = true;
 		}
 	}
 	
@@ -201,25 +213,60 @@ class ilTestImporter extends ilXmlImporter
 
 		foreach($srcPoolDefList as $definition)
 		{
-			if( !$definition->getMappedFilterTaxId() && !$definition->getMappedFilterTaxNodeId() )
+			// #21330
+			if( !is_array($definition->getMappedTaxonomyFilter()) || 0 === count($definition->getMappedTaxonomyFilter())  )
 			{
 				continue;
 			}
-			
-			$newTaxId = $mapping->getMapping(
-				'Services/Taxonomy', 'tax', $definition->getMappedFilterTaxId()
+
+			$definition->setMappedTaxonomyFilter(
+				$this->getNewMappedTaxonomyFilter(
+					$mapping,
+					$definition->getMappedTaxonomyFilter()
+				)
 			);
-			
-			$definition->setMappedFilterTaxId($newTaxId ? $newTaxId : null);
-
-			$newTaxNodeId = $mapping->getMapping(
-				'Services/Taxonomy', 'tax_tree', $definition->getMappedFilterTaxNodeId()
-			);
-
-			$definition->setMappedFilterTaxNodeId($newTaxNodeId ? $newTaxNodeId : null);
-
 			$definition->saveToDb();
 		}
+	}
+
+	/**
+	 * @param ilImportMapping $mapping
+	 * @param  array $mappedFilter
+	 * @return array
+	 */
+	protected function getNewMappedTaxonomyFilter(ilImportMapping $mapping, array $mappedFilter)
+	{
+		$newMappedFilter = array();
+
+		foreach($mappedFilter as $taxId => $taxNodes)
+		{
+			$newTaxId = $mapping->getMapping(
+				'Services/Taxonomy', 'tax', $taxId
+			);
+
+			if(!$newTaxId)
+			{
+				continue;
+			}
+
+			$newMappedFilter[$newTaxId] = array();
+
+			foreach($taxNodes as $taxNodeId)
+			{
+				$newTaxNodeId = $mapping->getMapping(
+					'Services/Taxonomy', 'tax_tree', $taxNodeId
+				);
+
+				if(!$newTaxNodeId)
+				{
+					continue;
+				}
+
+				$newMappedFilter[$newTaxId][] = $newTaxNodeId;
+			}
+		}
+
+		return $newMappedFilter;
 	}
 
 	/**

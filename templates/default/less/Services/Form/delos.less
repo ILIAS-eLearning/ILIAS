@@ -7,12 +7,12 @@ label, input[type=checkbox], input[type=radio], select {
 }
 
 .form-control {
-	font-size: @ilFormInputFontSize;
+	font-size: @il-standard-form-font-size;
 }
 
 .form-horizontal {
 	margin-bottom: 20px;
-	background-color: @ilFormBgColor;
+	background: @il-standard-form-bg;
 }
 
 form.form-inline {
@@ -34,25 +34,22 @@ form.form-inline {
 
 select.form-control {
 	width: auto;
+	max-width:100%;
 }
 
 .form-horizontal label {
-	color: darken(@ilFormColor, 20%);
+	color: @il-standard-form-label-color;
 	font-size: 100%;
 }
 
 .form-horizontal {
 	.control-label {
-		padding-top: 0;
-		line-height: 24px;
+		//padding-top: 0;
+		//line-height: 24px;
+		padding-bottom: (@padding-base-vertical + 1);
 		&.col-sm-3.il_textarea {
 			text-align: left;
 			width: 100%;
-		}
-	}
-	.form-group {
-		.col-sm-9 {
-			line-height: 24px;
 		}
 	}
 	
@@ -61,10 +58,13 @@ select.form-control {
 	.radio-inline,
 	.checkbox-inline {
 		padding-top: 0;
-		line-height: 24px;
+		line-height: normal;
 	}
 	.help-block {
 		line-height: normal;
+	}
+	div.radio label.radio-inline {
+		line-height: @input-height-base;
 	}
 }
 
@@ -73,11 +73,14 @@ select.form-control {
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
 	position: static;
+	display: inline-block;
 	margin-left: -20px;
-	margin-top: 0;
-	min-height: 24px;
+	margin-top: 7px;
+	min-width: 13px;
 	vertical-align: top;
-	line-height: 24px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		min-width: 16px;
+	}
 }
 
 [dir="rtl"] .form-horizontal .control-label {
@@ -89,10 +92,10 @@ label {
 }
 
 .form-horizontal .help-block {
-	color: lighten(@ilFormColor, 10%);
+	color: @il-standard-form-byline-color;
 	margin: 2px 0 4px;
 	padding: 0;
-	font-size: 90%;
+	font-size: @il-standard-form-byline-font-size;
 	clear: both;
 }
 
@@ -122,13 +125,12 @@ input[type="file"].form-control {
 }
 
 .ilFormHeader, .ilFormFooter {
-	color: darken(@ilFormColor, 20%);
-	/* background-color: lighten(@ilFormColor, 45%); */
-	background-color: @body-bg;
+	color: @il-standard-form-header-color;
+	background-color: @il-standard-form-header-bg;
 }
 
 .ilSubForm {
-	background-color: darken(@ilFormBgColor, 2%);
+	background-color: @il-standard-form-dependant-group-bg;
 	padding: 3px 0;
 	.form-group {
 		margin: 0;
@@ -181,8 +183,8 @@ div[id^="ilFormField"] {
 
 /* Hierarchy Form */
 div.ilHFormHeader, div.ilHFormFooter {
-	color: darken(@ilFormColor, 20%);
-	background-color: @body-bg;
+	color: @il-standard-form-header-color;
+	background-color: @il-standard-form-header-bg;
 	padding: 4px 0 4px 22px;
 }
 
@@ -282,4 +284,9 @@ input:invalid {
 
 .bootstrap-datetimepicker-widget {
 	z-index: 2000;
+}
+
+/* provisory fix for #0021322  */
+div[id$="color-picker-menu"] {
+	z-index: 3;
 }

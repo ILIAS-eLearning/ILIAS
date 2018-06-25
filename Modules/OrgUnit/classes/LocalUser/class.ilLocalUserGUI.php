@@ -375,7 +375,6 @@ class ilLocalUserGUI {
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 		// SET FOOTER BUTTONS
-		$tpl->setVariable("COLUMN_COUNTS", 4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->setVariable("BTN_NAME", "assignSave");
 		$tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
@@ -415,7 +414,7 @@ class ilLocalUserGUI {
 		$this->set_unlimited = true;
 		$this->parent_gui->__setTableGUIBasicData($tbl, $a_result_set, $a_from, true);
 		$tbl->render();
-		$this->tpl->setVariable("ROLES_TABLE", $tbl->tpl->get());
+		$this->tpl->setVariable('OBJECTS', $tbl->getTemplateObject()->get());
 
 		return true;
 	}

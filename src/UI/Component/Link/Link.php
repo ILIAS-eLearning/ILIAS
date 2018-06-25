@@ -16,4 +16,18 @@ interface Link extends Component {
 	 * @return	string
 	 */
 	public function getAction();
+
+	/**
+	 * Set if link should be opened in new viewport
+	 * @param bool $open_in_new_viewport
+	 * @return Link
+	 */
+	public function withOpenInNewViewport($open_in_new_viewport);
+
+	/**
+	 * Get if the link should be opened in new viewport
+	 * @return bool
+	 */
+	public function getOpenInNewViewport();
+
 }

@@ -25,7 +25,8 @@ class ilICalWriter
 {
 	const LINEBREAK = "\r\n";
 	#const LINEBREAK = '<br />';
-	const LINE_SIZE = 75;
+	// minus one to fix multi line breaks.
+	const LINE_SIZE = 74;
 	const BEGIN_LINE_WHITESPACE = ' ';
 	
 	private $ical = '';

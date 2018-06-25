@@ -134,8 +134,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			foreach ($positions as $position) {
 				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(), $position->getId());
 
-				$isTemplate = $ilOrgUnitPermission->isTemplate();
-				$from_templates[$position->getId()] = $isTemplate;
+				$is_template = $ilOrgUnitPermission->isTemplate();
+				$from_templates[$position->getId()] = $is_template;
 
 				$ops[] = [
 					"op_id"          => $op->getOperationId(),
@@ -143,7 +143,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 					"position"       => $position,
 					"permission"     => $ilOrgUnitPermission,
 					"permission_set" => $ilOrgUnitPermission->isOperationIdSelected($op->getOperationId()),
-					"from_template"  => $isTemplate,
+					"from_template"  => $is_template,
 				];
 			}
 			$perms[] = $ops;
@@ -230,7 +230,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			                                                   ->txt('positions_override_operations'));
 			if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
 				$this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
-				$this->tpl->setVariable('HEADER_DISABLED', "disabled='disabled'");
 			}
 
 			$this->tpl->parseCurrentBlock();

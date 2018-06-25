@@ -31,13 +31,6 @@
  */
 abstract class ilBaseViewGUI
 {	
-	/**
-	 * Messsage Codes
-	 */ 
-	const MSG_ERROR = "failure";
-	const MSG_INFO = "info";
-	const MSG_QUESTION = "question";
-	const MSG_SUCCESS = "success";
 	
 	/*
 	 * Spacer CSS Classes
@@ -65,7 +58,6 @@ abstract class ilBaseViewGUI
 	/**
 	 * 
 	 */ 
-	protected $active = false;
 	
 	protected $dic = null;
 	
@@ -167,81 +159,6 @@ abstract class ilBaseViewGUI
 					: "";
 	}
 	
-	/*
-	 * activate 
-	 * the activation logic must be implemented in the view
-	 * @return bool
-	 */ 
-	public abstract function activate();
-	
-	/**
-	 * if activated return true
-	 * @return bool
-	 */
-	public function isActive() {
-		return $this->active;
-	}
-	
-	/**
-	 * Activate view for this session and root_folder_id.
-	 * @return 
-	 * @param int $a_ref_id Reference Id of course or group. We have to discuss the handling of "not container" object types
-	 */
-	 
-	/* 
-	 * 
-	public function activate($view, $a_ref_id = ROOT_FOLDER_ID)
-	{
-		global $DIC;
-		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== "") {			
-			if (array_key_exists($_SESSION['il_view_mode'],$DIC)) {
-				$current_view = $_SESSION['il_view_mode'];
-				$current_view->deactivate();
-				$this->last_view = $_SESSION['il_view_mode'];
-				$_SESSION['il_view_mode_last'] = $this->last_view;
-				$_SESSION['il_view_root_folder_last'] = $current_view->getRootFolderId(); // maybe not needed
-			}
-		}
-		 
-		$this->active = true;
-		$_SESSION['il_view_mode'] = $view;
-		$this->setRootFolderId = (int) $a_ref_id;
-	}
-	*/
-	
-	/**
-	 * Deactivate view
-	 * @return 
-	 */
-	 
-	/* 
-	public function deactivate()
-	{
-		$this->active = false;
-		//$this->setRootFolderId = ROOT_FOLDER_ID;
-	}
-	*/
-	/**
-	 * Toggle activation status
-	 * @return 
-	 * @param int $a_ref_id
-	 * @param bool $a_activation
-	 */
-	/* 
-	public function toggleActivation($a_ref_id, $a_activation)
-	{
-		if($a_activation)
-		{
-			return $this->activate($a_ref_id);
-		}
-		else
-		{
-			return $this->deactivate();
-		}
-	}
-	*/
-	
 	/**
 	 * @return bool
 	 */
@@ -292,8 +209,9 @@ abstract class ilBaseViewGUI
 	 * helper function for cmd link creation
 	 */ 
 	protected function getCmdLink($cmd) {
-		$targetScript = ($this->ctrl->getTargetScript() !== 'ilias.php') ? "ilias.php" : "";
-		return $this->link_dir.$targetScript.$this->ctrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui";
+		global $ilCtrl;
+		$targetScript = ($ilCtrl->getTargetScript() !== 'ilias.php') ? "ilias.php" : "";
+		return $this->link_dir.$targetScript.$ilCtrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui";
 	}
 	
 	/**
@@ -304,7 +222,7 @@ abstract class ilBaseViewGUI
 		//$link = $this->getHomeLink().$msg;
 		$_SESSION[$_msg_type] = $_msg;
 		$link = $this->getHomeLink();
-		$this->dic->logger()->root()->write("redirectLink: " . $link);
+		$this->dic->logger()->lti()->write("redirectLink: " . $link);
 		ilUtil::redirect($link);
 		exit;
 	}
@@ -361,7 +279,7 @@ abstract class ilBaseViewGUI
 	
 	protected function log($txt) 
 	{
-		$this->dic->logger()->root()->write($txt);
+		$this->dic->logger()->lti()->write($txt);
 	} 
 	
 	/**

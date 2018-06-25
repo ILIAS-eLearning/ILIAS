@@ -1,3 +1,4 @@
+var Container  = require('../AppContainer');
 
 var Conversation = function Conversation(id, participants)
 {
@@ -48,17 +49,55 @@ var Conversation = function Conversation(id, participants)
 		_numNewMessages = num;
 	};
 
-	this.send = function(message) {
-
-		forParticipants(function(participant){
-			participant.send(message);
-		});
+	this.getNumNewMessages = function() {
+		return _numNewMessages;
 	};
 
+	/**
+	 * @param message
+	 * @return object Returns a collection of users who did not want to receive messages 
+	 */
+	this.send = function(message) {
+
+		var ignoredParticipants = {};
+
+		function sendParticipantMessage(participant) {
+			if (!participant.getAcceptsMessages()) {
+				Container.getLogger().info("Conversation.send: User %s does not want to further receive messages", participant.getId());
+				ignoredParticipants[participant.getId()] = participant.getId();
+				return;
+			}
+
+			participant.send(message);
+		}
+
+		forParticipants(sendParticipantMessage);
+
+		return ignoredParticipants;
+	};
+
+	/**
+	 * 
+	 * @param event
+	 * @param data
+	 * @return object Returns a collection of users who did not want to receive messages
+	 */
 	this.emit = function(event, data) {
-		forParticipants(function(participant){
+		var ignoredParticipants = {};
+
+		function emitParticipant(participant){
+			if (!participant.getAcceptsMessages()) {
+				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
+				ignoredParticipants[participant.getId()] = participant.getId();
+				return;
+			}
+
 			participant.emit(event, data);
-		});
+		}
+
+		forParticipants(emitParticipant);
+
+		return ignoredParticipants;
 	};
 
 	this.addParticipant = function(participant) {
@@ -112,20 +151,20 @@ var Conversation = function Conversation(id, participants)
 		};
 	};
 
-	var forParticipants = function(callback) {
+	function forParticipants(callback) {
 		for(var key in _participants) {
 			if(_participants.hasOwnProperty(key)) {
 				callback(_participants[key]);
 			}
 		}
-	};
+	}
 
-	var getParticipantIndex = function(participant, participants) {
+	function getParticipantIndex(participant, participants) {
 		for (var key in participants) {
 			if (participants.hasOwnProperty(key)) {
 				var id = participants[key].id;
 
-				if (typeof participants[key].getId == 'function'){
+				if (typeof participants[key].getId === 'function'){
 					id = participants[key].getId();
 				}
 
@@ -135,18 +174,18 @@ var Conversation = function Conversation(id, participants)
 			}
 		}
 		return false;
-	};
+	}
 
-	var hasParticipant = function(participant, participants) {
+	function hasParticipant(participant, participants) {
 		for(var key in participants) {
 			if(participants.hasOwnProperty(key)) {
 				var id = participants[key].id;
 
-				if(typeof participants[key].getId == 'function'){
+				if(typeof participants[key].getId === 'function'){
 					id = participants[key].getId();
 				}
 
-				if(id == participant.getId()) {
+				if(id > 0 && id == participant.getId()) {
 					return true;
 				}
 			}

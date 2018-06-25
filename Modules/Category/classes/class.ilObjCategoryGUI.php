@@ -292,6 +292,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function addHeaderAction() {
+		ilPreviewGUI::initPreview();
+		parent::addHeaderAction();
+	}
+
+
 	/**
 	 * Get object metadata gui
 	 *
@@ -426,10 +436,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
-			
-			// metadata
+
+
+
+			// metadata / taxonomies
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdgui = new ilObjectMetaDataGUI($this->object);
+			if (ilContainer::_lookupContainerSetting(
+				$this->object->getId(),
+				ilObjectServiceSettingsGUI::TAXONOMIES,
+				false
+				))
+			{
+				$mdgui->enableTaxonomyDefinition(true);
+			}
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
@@ -438,18 +458,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$mdtab);
 			}
 
-			/*
-			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-			if(ilContainer::_lookupContainerSetting(
-						$this->object->getId(),
-						ilObjectServiceSettingsGUI::TAXONOMIES,
-						false
-				))
-			{
-				$this->tabs_gui->addTarget("obj_tool_setting_taxonomies",
-					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
-			}*/
-		}				
+		}
 
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		if(
@@ -1162,7 +1171,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$parts = pathinfo($file_name);
 		$full_path = $import_dir."/".$file_name;
-		//move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
 		ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"], $file_name, $full_path);
 
 		// unzip file

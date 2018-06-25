@@ -180,7 +180,6 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function lockTables($a_tables) {
-		global $ilLog;
 
 		$locks = array();
 
@@ -276,7 +275,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return mixed
 	 */
 	public function quoteIdentifier($identifier, $check_option = false) {
-		return $identifier;
+		return '"'.$identifier.'"';
 	}
 
 
@@ -436,5 +435,6 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	public function dropPrimaryKey($table_name) {
 		return $this->manager->dropConstraint($table_name, "pk", true);
 	}
+
 }
 

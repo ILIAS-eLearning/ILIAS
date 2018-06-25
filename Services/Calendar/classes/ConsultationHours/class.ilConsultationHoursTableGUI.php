@@ -112,11 +112,19 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 		}
 		if($row['bookings'])
 		{
-			$this->tpl->setCurrentBlock('bookings');
 			foreach($row['bookings'] as $user_id => $name)
 			{
-				$ilCtrl->setParameter($this->getParentObject(), 'user', $user_id);
-				$this->tpl->setVariable('URL_BOOKING', $ilCtrl->getLinkTarget($this->getParentObject(), 'showprofile'));
+				$user_profile_prefs = ilObjUser::_getPreferences($user_id);
+				if($user_profile_prefs["public_profile"] == "y")
+				{
+					$this->tpl->setCurrentBlock('booking_with_link');
+					$ilCtrl->setParameter($this->getParentObject(), 'user', $user_id);
+					$this->tpl->setVariable('URL_BOOKING', $ilCtrl->getLinkTarget($this->getParentObject(), 'showprofile'));
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock('booking_without_link');
+				}
 				$ilCtrl->setParameter($this->getParentObject(), 'user', '');
 				$this->tpl->setVariable('TXT_BOOKING', $name);
 				$this->tpl->parseCurrentBlock();

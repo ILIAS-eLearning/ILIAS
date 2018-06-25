@@ -135,6 +135,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		//$this->enable('header');
 		$this->enable('select_all');
 		$this->initFilter();
+		$this->setDisableFilterHiding(true);
 	}
 
 	public function setWriteAccess($value)

@@ -65,4 +65,12 @@ class ilContextSoapNoAuth implements ilContextTemplate {
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }

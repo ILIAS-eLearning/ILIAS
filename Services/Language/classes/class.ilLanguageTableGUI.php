@@ -13,42 +13,49 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilLanguageTableGUI extends ilTable2GUI
 {
-	
+	/** @var ilObjLanguageFolder */
+	protected $folder;
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_folder)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilSetting;
-		
+		global $DIC;
+		$ilAccess = $DIC->access();
+
 		$this->folder = $a_folder;
-		
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-//		$this->setTitle($lng->txt(""));
 		$this->setLimit(9999);
-		
-		$this->addColumn("", "", "1", 1);
+
+		if ($ilAccess->checkAccess('write', '', $this->folder->getRefId()))
+		{
+			$this->addColumn("", "", "1", 1);
+		}
 		$this->addColumn($this->lng->txt("language"));
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("users"));
 		$this->addColumn($this->lng->txt("last_refresh"));
 		$this->addColumn($this->lng->txt("last_change"));
 
-		$this->setSelectAllCheckbox("id[]");
-		
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.lang_list_row_extended.html", "Services/Language");
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-        $this->addMultiCommand("confirmRefreshSelected", $lng->txt("refresh"));
-		$this->addMultiCommand("install", $lng->txt("install"));
-		$this->addMultiCommand("installLocal", $lng->txt("install_local"));
-		$this->addMultiCommand("confirmUninstall", $lng->txt("uninstall"));
-		$this->addMultiCommand("confirmUninstallChanges", $lng->txt("lang_uninstall_changes"));
-		$this->addMultiCommand("setSystemLanguage", $lng->txt("setSystemLanguage"));
-		$this->addMultiCommand("setUserLanguage", $lng->txt("setUserLanguage"));
+		if ($ilAccess->checkAccess('write', '', $this->folder->getRefId()))
+		{
+			$this->setSelectAllCheckbox("id[]");
+			$this->addMultiCommand("confirmRefreshSelected", $this->lng->txt("refresh"));
+			$this->addMultiCommand("install", $this->lng->txt("install"));
+			$this->addMultiCommand("installLocal", $this->lng->txt("install_local"));
+			$this->addMultiCommand("confirmUninstall", $this->lng->txt("uninstall"));
+			$this->addMultiCommand("confirmUninstallChanges", $this->lng->txt("lang_uninstall_changes"));
+			$this->addMultiCommand("setSystemLanguage", $this->lng->txt("setSystemLanguage"));
+			$this->addMultiCommand("setUserLanguage", $this->lng->txt("setUserLanguage"));
+		}
+
 		$this->getItems();
 	}
 	
@@ -77,19 +84,21 @@ class ilLanguageTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $rbacsystem, $ilCtrl, $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+		$ilAccess = $DIC->access();
 
 		// set status info (in use or systemlanguage)
 		if ($a_set["status"])
 		{
-			$status = "<span class=\"small\"> (".$lng->txt($a_set["status"]).")</span>";
+			$status = "<span class=\"small\"> (".$this->lng->txt($a_set["status"]).")</span>";
 		}
 
 		// set remark color
 		switch ($a_set["info"])
 		{
 			case "file_not_found":
-				$remark = "<span class=\"smallred\"> ".$lng->txt($a_set["info"])."</span>";
+				$remark = "<span class=\"smallred\"> ".$this->lng->txt($a_set["info"])."</span>";
 				break;
 			case "new_language":
 				//$remark = "<span class=\"smallgreen\"> ".$lng->txt($a_set["info"])."</span>";
@@ -103,7 +112,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 		if($ilSetting->get("lang_translate_". $a_set['key'], false))
 		{
 			$remark .= $remark ? '<br />' : '';
-			$remark .= "<span class=\"smallgreen\"> ".$lng->txt('language_translation_enabled')."</span>";
+			$remark .= "<span class=\"smallgreen\"> ".$this->lng->txt('language_translation_enabled')."</span>";
 		}
 
 		if ($a_set["desc"] != "not_installed")
@@ -119,20 +128,23 @@ class ilLanguageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("NR_OF_USERS", ilObjLanguage::countUsers($a_set["key"]));
 
 		// make language name clickable
-		if ($rbacsystem->checkAccess("write",$this->folder->getRefId()))
+		if ($ilAccess->checkAccess("write", "", $this->folder->getRefId()))
 		{
 				if (substr($a_set["description"],0,9) == "installed")
 				{
-					$ilCtrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
-					$url = $ilCtrl->getLinkTargetByClass("ilobjlanguageextgui", "");
+					$this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
+					$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui", "");
 					$a_set["name"] = '<a href="'.$url.'">'.$a_set["name"].'</a>';
 				}
 		}
 
 		$this->tpl->setVariable("VAL_LANGUAGE", $a_set["name"].$status);
-		$this->tpl->setVariable("VAL_STATUS", $lng->txt($a_set["desc"])."<br/>".$remark);
-		$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-	}
+		$this->tpl->setVariable("VAL_STATUS", $this->lng->txt($a_set["desc"])."<br/>".$remark);
 
+		if ($ilAccess->checkAccess('write', '', $this->folder->getRefId()))
+		{
+			$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
+		}
+	}
 }
 ?>

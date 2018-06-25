@@ -116,6 +116,31 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		// TODO: Implement saveToDb() method.
 	}
+	
+	public function reindexQuestionOrdering()
+	{
+		$query = "
+			SELECT question_fi FROM tst_test_question
+			WHERE test_fi = %s
+			ORDER BY sequence ASC
+		";
+		
+		$res = $this->db->queryF(
+			$query, array('integer'), array($this->testOBJ->getTestId())
+		);
+		
+		$sequenceIndex = 0;
+		
+		while($row = $this->db->fetchAssoc($res))
+		{
+			$sequenceIndex++; // start with 1
+			
+			$this->db->update('tst_test_question',
+				array('sequence' => array('integer', $sequenceIndex)),
+				array('question_fi' => array('integer', $row['question_fi']))
+			);
+		}
+	}
 
 	/**
 	 * saves the question set config for test with given id to the database

@@ -103,11 +103,12 @@ class ilDownloadFilesBackgroundTask
 	
 	/**
 	 * Run task
+	 * @return bool 
 	 */
 	public function run()
 	{
 		$definition = new ilCalendarCopyDefinition();
-		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
+		$normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
 		$definition->setTempDir($normalized_name);
 
 		$this->collectFiles($definition);
@@ -115,7 +116,7 @@ class ilDownloadFilesBackgroundTask
 		if(!$this->has_files)
 		{
 			ilUtil::sendInfo($this->lng->txt("cal_down_no_files"), true);
-			return;
+			return false;
 		}
 
 		$bucket = new BasicBucket();
@@ -130,14 +131,7 @@ class ilDownloadFilesBackgroundTask
 		$this->logger->debug("Normalized name = ".$normalized_name);
 		$download_name->setValue($normalized_name.'.zip');
 
-		
-		$download_interaction = $this->task_factory->createTask(
-			ilCalendarDownloadZipInteraction::class,
-			[
-				$zip_job,
-				$download_name
-			]
-		);
+		$download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,[$zip_job, $download_name]);
 
 		// last task to bucket
 		$bucket->setTask($download_interaction);
@@ -146,6 +140,7 @@ class ilDownloadFilesBackgroundTask
 		
 		$task_manager = $GLOBALS['DIC']->backgroundTasks()->taskManager();
 		$task_manager->run($bucket);
+		return true;
 	}
 	
 	/**
@@ -153,81 +148,90 @@ class ilDownloadFilesBackgroundTask
 	 */
 	private function collectFiles(ilCalendarCopyDefinition $def)
 	{
+		//filter here the objects, don't repeat the object Id
+		$object_ids = array();
 		foreach($this->getEvents() as $event)
 		{
-			$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
-			$folder_app = $this->normalizeFileName($event['event']->getPresentationTitle());   //title formalized
+			$cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
+			$obj_id = $cat->getObjId();
 
-			$this->logger->debug("collecting files...event title = ".$folder_app);
+			//22295 If the object type is exc then we need all the assignments.Otherwise we will get only one.
+			if(!in_array($obj_id, $object_ids) || $cat->getObjType() == "exc")
+			{
+				$object_ids[] = $obj_id;
+				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
 
-			$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
-			if($files = $file_handler->getFiles())
-			{
-				$this->has_files = true;
-			}
-			foreach($files as $file_with_absolut_path)
-			{
-				$basename = $this->normalizeFileName(basename($file_with_absolut_path));
-				$def->addCopyDefinition(
-					$file_with_absolut_path,
-					$folder_date.'/'.$folder_app.'/'.$basename
-				);
-				$this->logger->debug('Added new copy definition: ' . $folder_date.'/'.$folder_app.'/'.$basename. ' -> '. $file_with_absolut_path);
+				if($event['fullday'])
+				{
+					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
+				}
+				else
+				{
+					$time = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'H.i');
+					$end_time = $event['event']->getEnd()->get(IL_CAL_FKT_DATE,'H.i');
+					if($time != $end_time) {
+						$time .= " - ".$end_time;
+					}
+					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
+				}
+
+				$this->logger->debug("collecting files...event title = ".$folder_app);
+
+				$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
+
+				if($files = $file_handler->getFiles())
+				{
+					$this->has_files = true;
+				}
+				//if file_system_path is set, it is the real path of the file (courses use ids as names file->getId())
+				//otherwise $file_with_absolut_path is the path. ($file->getName())
+				foreach($files as $file_system_path => $file_with_absolut_path)
+				{
+					#22198 check if the key is a string defined by ILIAS or a number set by PHP as a sequential key
+					//[/Sites/data/client/ilCourse/2/crs_xx/info/1] => /Sites/data/client/ilCourse/2/crs_xxx/info/image.png
+					//[0] =>  /Sites/data/client/ilFile/3/file_3xx/001/image.png
+					if(is_string($file_system_path))
+					{
+						$file_with_absolut_path = $file_system_path;
+						$file_id = (int)basename($file_system_path);
+						$basename = $this->getEventFileNameFromId($event['event'], $file_id);
+					}
+					else
+					{
+						$basename = ilUtil::getASCIIFilename(basename($file_with_absolut_path));
+					}
+					$def->addCopyDefinition(
+						$file_with_absolut_path,
+						$folder_date.'/'.$folder_app.'/'.$basename
+					);
+
+					$this->logger->debug('Added new copy definition: ' . $folder_date.'/'.$folder_app.'/'.$basename. ' -> '. $file_with_absolut_path);
+				}
 			}
 			
 		}
 	}
 
-	//Is this method really needed? do we have something centralized for this stuff?
-	protected function normalizeFileName($s)
+	/**
+	 * Only courses store the files using the id for naming.
+	 * @param ilCalendarEntry
+	 * @return string
+	 */
+	private function getEventFileNameFromId(ilCalendarEntry $a_event, $a_file_id)
 	{
-		$org = $s;
-		$s = str_replace(
-			array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
-			array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
-			$s
-		);
-		$s = str_replace(
-			array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
-			array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
-			$s );
-		$s = str_replace(
-			array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
-			array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
-			$s );
-		$s = str_replace(
-			array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
-			array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
-			$s );
-		$s = str_replace(
-			array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
-			array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
-			$s );
-		$s = str_replace(
-			array('ñ', 'Ñ', 'ç', 'Ç'),
-			array('n', 'N', 'c', 'C'),
-			$s
-		);
-		$s = str_replace('ÿ', 'yu', $s);
-		$s    = preg_replace( '@\x{00df}@u'    , "ss",    $s );    // maps German ß onto ss
-		$s    = preg_replace( '@\x{00c6}@u'    , "AE",    $s );    // Æ => AE
-		$s    = preg_replace( '@\x{00e6}@u'    , "ae",    $s );    // æ => ae
-		$s    = preg_replace( '@\x{0152}@u'    , "OE",    $s );    // Œ => OE
-		$s    = preg_replace( '@\x{0153}@u'    , "oe",    $s );    // œ => oe
-		$s    = preg_replace( '@\x{00d0}@u'    , "D",    $s );    // Ð => D
-		$s    = preg_replace( '@\x{0110}@u'    , "D",    $s );    // Ð => D
-		$s    = preg_replace( '@\x{00f0}@u'    , "d",    $s );    // ð => d
-		// remove all non-ASCii characters
-		$s    = preg_replace( '@[^\0-\x80]@u'    , "",    $s );
-		$s = preg_replace('/\s+/', '_', $s);
-		$s = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $s);
-		// possible errors in UTF8-regular-expressions
-		if (empty($s)) {
-			$this->logger->debug("Error when normalize filename.");
-			return $org;
-		}else {
-			//$this->logger->debug("Filename normalized successfully");
-			return $s;
+		$filename = "";
+		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId());
+		$cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
+		$cat_type = $cat->getType();
+		$obj_id = $cat->getObjId();
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		if($cat_type == ilCalendarCategory::TYPE_OBJ && $obj_type == "crs")
+		{
+			$course_file = new ilCourseFile((int)$a_file_id);
+			$filename = $course_file->getFileName();
 		}
+		return ilUtil::getASCIIFilename($filename);
+
 	}
 }

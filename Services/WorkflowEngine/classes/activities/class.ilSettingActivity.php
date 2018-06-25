@@ -129,8 +129,10 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	public function execute()
 	{
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
+		$ilSetting = $DIC['ilSetting'];
+
 		$ilSetting->set($this->setting_name, $this->setting_value);
 	}
 

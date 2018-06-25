@@ -30,8 +30,6 @@ class ilServicesUserTasks
 		// IN: useridlist
 		// OUT: anonaccountlist, userIdList
 
-		global $rbacadmin;
-
 		$pseudonymousUserMap = array();
 		$discloseMap = array();
 		$usrIdList = array();
@@ -112,7 +110,8 @@ class ilServicesUserTasks
 	 */
 	protected static function createUser($login, $password, $email)
 	{
-		global $rbacadmin;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$user = new ilObjUser();
 		$user->setTimeLimitUnlimited(TRUE);

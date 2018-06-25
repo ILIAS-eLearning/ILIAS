@@ -21,9 +21,10 @@ class ilIndividualAssessmentMember {
 	protected $lp_status;
 	protected $place;
 	protected $event_time;
+	protected $changer_id;
+	protected $change_time;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
-
 		$this->record = $data[ilIndividualAssessmentMembers::FIELD_RECORD];
 		$this->internal_note = $data[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE];
 		$this->examiner_id = $data[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
@@ -33,8 +34,10 @@ class ilIndividualAssessmentMember {
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
 		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->changer_id = $data[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
+		$this->change_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_DATETIME);
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -60,6 +63,24 @@ class ilIndividualAssessmentMember {
 	 */
 	public function examinerId() {
 		return $this->examiner_id;
+	}
+
+	/**
+	 * Get the user id of the changer
+	 *
+	 * @return	int
+	 */
+	public function changerId() {
+		return $this->changer_id;
+	}
+
+	/**
+	 * Get the datetime of change
+	 *
+	 * @return ilDateTime
+	 */
+	public function changeTime() {
+		return $this->change_time;
 	}
 
 	/**
@@ -207,6 +228,34 @@ class ilIndividualAssessmentMember {
 		assert('ilObjUser::_exists($examiner_id)');
 		$clone = clone $this;
 		$clone->examiner_id = $examiner_id;
+		return $clone;
+	}
+
+	/**
+	 * Clone this object and set an changer_id
+	 *
+	 * @param	int|string	$changer_id
+	 * @return	ilIndividualAssessmentMember
+	 */
+	public function withChangerId($changer_id) {
+		assert('is_numeric($changer_id)');
+		assert('ilObjUser::_exists($changer_id)');
+		$clone = clone $this;
+		$clone->changer_id = $changer_id;
+		return $clone;
+	}
+
+	/**
+	 * Clone this object and set an change time
+	 *
+	 * @param	ilDateTime | null	$change_time
+	 * @return	ilManualAssessmentMember
+	 */
+	public function withChangeTime($change_time)
+	{
+		assert('$change_time instanceof ilDateTime || is_null($change_time)');
+		$clone = clone $this;
+		$clone->change_time = $change_time;
 		return $clone;
 	}
 

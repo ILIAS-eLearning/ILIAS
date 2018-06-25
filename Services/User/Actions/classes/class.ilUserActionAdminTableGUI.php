@@ -33,7 +33,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_data)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_data, $a_write_permission = false)
 	{
 		global $DIC;
 
@@ -53,7 +53,10 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.user_action_admin_row.html", "Services/User/Actions");
 
 		//$this->addMultiCommand("", $this->lng->txt(""));
-		$this->addCommandButton("save", $this->lng->txt("save"));
+		if ($a_write_permission)
+		{
+			$this->addCommandButton("save", $this->lng->txt("save"));
+		}
 	}
 	
 	/**

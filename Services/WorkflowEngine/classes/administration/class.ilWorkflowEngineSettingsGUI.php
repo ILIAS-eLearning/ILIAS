@@ -32,9 +32,9 @@ class ilWorkflowEngineSettingsGUI
 	 */
 	public function handle($command)
 	{
-		$a = 1;
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
+		$ilSetting = $DIC['ilSetting'];
 
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsForm.php';
 		$form = new ilWorkflowEngineSettingsForm();

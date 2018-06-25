@@ -10,10 +10,12 @@ var AbstractValidator = function(){
 	 */
 	var _rules = [];
 
+	function validateRule(rule){
+		rule.validate();
+	}
+
 	this.validate = function() {
-		_rules.forEach(function(rule){
-			rule.validate();
-		});
+		_rules.forEach(validateRule);
 	};
 
 	/**
@@ -28,4 +30,3 @@ var AbstractValidator = function(){
 };
 
 module.exports = AbstractValidator;
-

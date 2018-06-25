@@ -36,7 +36,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-	function &performSearch()
+	public function performSearch()
 	{
 		// Search in glossary term
 		

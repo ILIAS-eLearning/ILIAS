@@ -54,7 +54,9 @@ class ilObjSession extends ilObject
 	*/
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
@@ -73,7 +75,9 @@ class ilObjSession extends ilObject
 	 */
 	public static function _lookupRegistrationEnabled($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT reg_type FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -92,7 +96,9 @@ class ilObjSession extends ilObject
 	 */
 	public static function lookupSession($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
@@ -395,7 +401,7 @@ class ilObjSession extends ilObject
 	 * get first appointment
 	 *
 	 * @access public
-	 * @return object ilSessionAppointment
+	 * @return  ilSessionAppointment
 	 */
 	public function getFirstAppointment()
 	{
@@ -423,7 +429,9 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		// #17114
 		if($this->isRegistrationUserLimitEnabled() &&
@@ -515,7 +523,9 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 
@@ -537,8 +547,12 @@ class ilObjSession extends ilObject
 	 */
 	public function create($a_skip_meta_data = false)
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 	
 		parent::create();
 		
@@ -587,8 +601,12 @@ class ilObjSession extends ilObject
 	 */
 	public function update($a_skip_meta_update = false)
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		if(!parent::update())
 		{
@@ -631,8 +649,12 @@ class ilObjSession extends ilObject
 	 */
 	public function delete()
 	{
-		global $ilDB;
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		
 		if(!parent::delete())
 		{
@@ -768,45 +790,65 @@ class ilObjSession extends ilObject
 		}
 	}
 	
+	/**
+	 * Handle auto fill for session members
+	 */
 	public function handleAutoFill()
 	{	
-		if($this->isRegistrationWaitingListEnabled() &&
-			$this->hasWaitingListAutoFill())
-		{					
-			// :TODO: what about ilSessionParticipants?
-			
-			include_once './Modules/Session/classes/class.ilEventParticipants.php'; 
-			$part_obj = new ilEventParticipants($this->getId());			
-			$all_reg = $part_obj->getRegistered();
-			$now = sizeof($all_reg);
-			$max = $this->getRegistrationMaxUsers();
-			if($max > $now)
-			{				
-				include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
-				$waiting_list = new ilSessionWaitingList($this->getId());
-
-				foreach($waiting_list->getUserIds() as $user_id)
-				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
-					{
-						continue;
-					}
-					if(in_array($user_id, $all_reg))
-					{
-						continue;
-					}
-					
-					ilEventParticipants::_register($user_id, $this->getId());					
-					$waiting_list->removeFromList($user_id);
-
-					$now++;
-					if($now >= $max)
-					{
-						break;
-					}
-				}
+		if(
+			!$this->isRegistrationWaitingListEnabled() || 
+			!$this->hasWaitingListAutoFill()
+		)
+		{
+			$this->session_logger->debug('Waiting list or auto fill is disabled.');
+			return true;
+		}
+		
+		$parts = ilSessionParticipants::_getInstanceByObjId($this->getId());
+		$current = $parts->getCountParticipants();
+		$max = $this->getRegistrationMaxUsers();
+		
+		if($max <= $current)
+		{
+			$this->session_logger->debug('Maximum number of participants not reached.');
+			$this->session_logger->debug('Maximum number of members: ' . $max);
+			$this->session_logger->debug('Current number of members: ' . $current);
+			return true;
+		}
+		
+		$session_waiting_list = new ilSessionWaitingList($this->getId());
+		foreach($session_waiting_list->getUserIds() as $user_id)
+		{
+			$user = ilObjectFactory::getInstanceByObjId($user_id);
+			if(!$user instanceof ilObjUser)
+			{
+				$this->session_logger->warning('Found invalid user id on waiting list: ' . $user_id);
+				continue;
 			}
-		}		
+			if(in_array($user_id, $parts->getParticipants()))
+			{
+				$this->session_logger->notice('User on waiting list already session member: ' . $user_id);
+			}
+			
+			if($this->enabledRegistration())
+			{
+				$this->session_logger->debug('Registration enabled: register user');
+				$parts->register($user_id);
+			}
+			else
+			{
+				$this->session_logger->debug('Registration disabled: set user status to participated.');
+				$parts->getEventParticipants()->updateParticipation($user_id, true);
+			}
+			
+			$session_waiting_list->removeFromList($user_id);
+			
+			$current++;
+			if($current >= $max)
+			{
+				break;
+			}
+		}
 	}
 	
 	/**

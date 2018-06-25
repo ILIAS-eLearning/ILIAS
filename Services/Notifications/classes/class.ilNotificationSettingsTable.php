@@ -2,33 +2,53 @@
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
-class ilNotificationSettingsTable extends ilTable2GUI {
-
+class ilNotificationSettingsTable extends ilTable2GUI
+{
     private $channels;
     private $userdata = array();
 
     private $adminMode = false;
     private $editable = true;
 
-    public function __construct($a_ref, $title, $channels, $userdata, $adminMode = false) {
+    /** @var ilLanguage */
+    private $language;
 
-        global $lng, $ilCtrl;
+    public function __construct(
+        $a_ref,
+        $title,
+        $channels,
+        $userdata,
+        $adminMode = false,
+        \ilLanguage $language = null
+    ) {
 
-        $lng->loadLanguageModule('notification');
+        if ($language === null) {
+            global $DIC;
+            $language = $DIC->language();
+        }
+        $this->language = $language;
+
+        $this->language->loadLanguageModule('notification');
 
         $this->channels = $channels;
         $this->userdata = $userdata;
         $this->adminMode = $adminMode;
 
         parent::__construct($a_ref, $title);
-        $this->setTitle($lng->txt('notification_options'));
+        $this->setTitle($this->language->txt('notification_options'));
 
         $this->setId('notifications_settings');
 
-        $this->addColumn($lng->txt('notification_target'), '', '');
+        $this->addColumn($this->language->txt('notification_target'), '', '');
 
         foreach ($channels as $key => $channel) {
-            $this->addColumn($lng->txt('notc_' . $channel['title']), '', '20%', false, ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser' : ''));
+            $this->addColumn($this->language->txt(
+                'notc_' . $channel['title']),
+                '',
+                '20%',
+                false,
+                ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser' : '')
+            );
         }
 
         $this->setRowTemplate('tpl.type_line.html', 'Services/Notifications');
@@ -44,8 +64,7 @@ class ilNotificationSettingsTable extends ilTable2GUI {
     }
 
     public function fillRow($type) {
-        global $ilCtrl, $lng;
-        $this->tpl->setVariable('NOTIFICATION_TARGET', $lng->txt('nott_' . $type['title']));
+        $this->tpl->setVariable('NOTIFICATION_TARGET', $this->language->txt('nott_' . $type['title']));
 
         foreach ($this->channels as $channeltype => $channel) {
             if (array_key_exists($type['name'], $this->userdata) && in_array($channeltype, $this->userdata[$type['name']]))

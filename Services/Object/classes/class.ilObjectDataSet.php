@@ -248,11 +248,14 @@ class ilObjectDataSet extends ilDataSet
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::USE_NEWS
 				);
-
 				$new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['ObjId']);
 				if (!$new_id)
 				{
 					$new_id = $a_mapping->getMapping('Services/Object','objs',$a_rec['ObjId']);
+				}
+				if (!$new_id)
+				{
+					$new_id = $a_mapping->getMapping('Services/Object','obj',$a_rec['ObjId']);
 				}
 				if ($new_id > 0)
 				{

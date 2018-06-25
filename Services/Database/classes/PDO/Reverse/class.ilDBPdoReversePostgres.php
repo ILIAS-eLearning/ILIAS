@@ -321,7 +321,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse {
 			return $db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null, 'Could not generate result resource', __FUNCTION__);
 		}
 
-		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+		if ($db->options['portability']) {
 			if ($db->options['field_case'] == CASE_LOWER) {
 				$case_func = 'strtolower';
 			} else {

@@ -117,9 +117,9 @@ class ilDclBaseFieldModel {
 	 */
 	public static function _getTitleInvalidChars($a_as_regex = true) {
 		if ($a_as_regex) {
-			return '/^[^<>\\\\"]*$/i';
+			return '/^[^<>\\\\":]*$/i';
 		} else {
-			return '\ < > "';
+			return '\ < > " :';
 		}
 	}
 
@@ -948,5 +948,42 @@ class ilDclBaseFieldModel {
 		$form->setValuesByArray($values);
 
 		return true;
+	}
+
+
+	/**
+	 * called by ilDclFieldEditGUI when updating field properties
+	 * if you overwrite this method, remember to also overwrite getConfirmationGUI
+	 *
+	 * @param ilPropertyFormGUI $form
+	 *
+	 * @return bool
+	 */
+	public function isConfirmationRequired(ilPropertyFormGUI $form) {
+		return false;
+	}
+
+
+	/**
+	 * called by ilDclFieldEditGUI if isConfirmationRequired returns true
+	 *
+	 * @param ilPropertyFormGUI $form
+	 *
+	 * @return ilConfirmationGUI
+	 */
+	public function getConfirmationGUI(ilPropertyFormGUI $form) {
+		global $DIC;
+		$ilConfirmationGUI = new ilConfirmationGUI();
+		$ilConfirmationGUI->setFormAction($form->getFormAction());
+		$ilConfirmationGUI->addHiddenItem('confirmed', 1);
+		$ilConfirmationGUI->addHiddenItem('field_id', $form->getInput('field_id'));
+		$ilConfirmationGUI->addHiddenItem('title', $form->getInput('title'));
+		$ilConfirmationGUI->addHiddenItem('description', $form->getInput('description'));
+		$ilConfirmationGUI->addHiddenItem('datatype', $form->getInput('datatype'));
+		$ilConfirmationGUI->addHiddenItem('required', $form->getInput('required'));
+		$ilConfirmationGUI->addHiddenItem('unique', $form->getInput('unique'));
+		$ilConfirmationGUI->setConfirm($DIC->language()->txt('dcl_update_field'), 'update');
+		$ilConfirmationGUI->setCancel($DIC->language()->txt('cancel'), 'edit');
+		return $ilConfirmationGUI;
 	}
 }

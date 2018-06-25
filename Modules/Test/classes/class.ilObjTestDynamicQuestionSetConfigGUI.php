@@ -164,12 +164,20 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			
 		if( $form === null )
 		{
-			$form = $this->buildForm();
+			$form = $this->buildForm($this->questionSetConfig->getSourceQuestionPoolId());
 		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 		
 		$this->tpl->addJavaScript('Modules/Test/js/ilTestDynamicQuestionSetConfig.js');
+	}
+	
+	/**
+	 * @return integer
+	 */
+	protected function getSubmittedSourceQuestionPoolId()
+	{
+		return (int)$_POST['source_qpl_id'];
 	}
 	
 	/**
@@ -180,7 +188,9 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 */
 	public function saveFormCmd()
 	{
-		$form = $this->buildForm();
+		$form = $this->buildForm(
+			$this->getSubmittedSourceQuestionPoolId()
+		);
 
 		if( $this->testOBJ->participantDataExist() )
 		{
@@ -250,7 +260,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 * 
 	 * @return ilPropertyFormGUI $form
 	 */
-	private function buildForm()
+	private function buildForm($sourceQuestionPoolId)
 	{
 		$this->questionSetConfig->loadFromDb( $this->testOBJ->getTestId() );
 		
@@ -282,7 +292,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			$poolInput->setOptions($this->buildQuestionPoolSelectInputOptionArray(
 					$this->testOBJ->getAvailableQuestionpools(true, false, false, true, true)
 			));
-			$poolInput->setValue( $this->questionSetConfig->getSourceQuestionPoolId() );
+			$poolInput->setValue( $sourceQuestionPoolId );
 			$poolInput->setRequired(true);
 			$form->addItem($poolInput);
 		}
@@ -308,9 +318,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			$orderTaxInput->setInfo($this->lng->txt('tst_input_dynamic_question_set_ordering_tax_description'));
 			$orderTaxInput->setValue($this->questionSetConfig->getOrderingTaxonomyId());
 			$orderTaxInput->setRequired(true);
-			$orderTaxInput->setOptions($this->buildTaxonomySelectInputOptionArray(
-					$this->questionSetConfig->getSourceQuestionPoolId()
-			));
+			$orderTaxInput->setOptions($this->buildTaxonomySelectInputOptionArray( $sourceQuestionPoolId ));
 		$optionOrderByTax->addSubItem($orderTaxInput);
 		$questionOderingInput->addOption($optionOrderByTax);
 		$form->addItem($questionOderingInput);

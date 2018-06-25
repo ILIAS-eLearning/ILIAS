@@ -12,8 +12,10 @@ class MainFactoryTest extends AbstractFactoryTest {
 		, "image"			=> array("context" => false, "rules" => false)
 		, "legacy"			=> array("context" => false)
 		, "viewControl"		=> array("rules" => false)
+		, "input"		    => array("rules" => false)
+        , "table"		    => array("rules" => false)
 
-	);
+    );
 
 	public $factory_title = 'ILIAS\\UI\\Factory';
 

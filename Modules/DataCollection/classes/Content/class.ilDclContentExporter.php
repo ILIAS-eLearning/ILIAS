@@ -2,6 +2,11 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php');
+require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
+require_once ('./Services/Export/classes/class.ilExport.php');
 
 
 
@@ -16,7 +21,7 @@ class ilDclContentExporter
 {
 	const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
-	const EXPORT_EXCEL = 'xls';
+	const EXPORT_EXCEL = 'xlsx';
 	const IN_PROGRESS_POSTFIX = '.prog';
 
 	/**
@@ -166,6 +171,7 @@ class ilDclContentExporter
 		file_put_contents($in_progress_file, "");
 
 		$data_available = false;
+		$fields_available = false;
 		switch ($format) {
 			case self::EXPORT_EXCEL:
 				require_once "./Services/Excel/classes/class.ilExcel.php";
@@ -175,6 +181,8 @@ class ilDclContentExporter
 					ilDclCache::resetCache();
 
 					$list = $table->getPartialRecords(null, null, null, 0, $this->filter);
+					$data_available = $data_available || ($list['total'] > 0);
+					$fields_available = $fields_available || (count($table->getExportableFields()) > 0);
 					if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
 						// only 31 character-long table-titles are allowed
 						$title = substr($table->getTitle(), 0, 31);
@@ -201,12 +209,19 @@ class ilDclContentExporter
 				break;
 		}
 		
-		if(file_exists($in_progress_file)) {
+		if (file_exists($in_progress_file)) {
 			unlink($in_progress_file);
 		}
 
-		if(!$data_available) {
-			ilUtil::sendInfo($this->lng->txt('dcl_no_export_data_available'));
+		if (!$data_available) {
+			ilUtil::sendInfo($this->lng->txt('dcl_no_export_content_available'));
+			return false;
+		}
+
+		if (!$fields_available) {
+			global $ilCtrl;
+			ilUtil::sendInfo(sprintf($this->lng->txt('dcl_no_export_fields_available'),
+				$ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')));
 			return false;
 		}
 
@@ -259,8 +274,9 @@ class ilDclContentExporter
 		else
 		{
 			$ilLog->warning('SOAP clone call failed. Calling clone method manually');
-						if(method_exists('ilSoapFunctions', $method)) {
-				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $soap_params);
+			require_once('./webservice/soap/include/inc.soap_functions.php');
+			if(method_exists('ilSoapFunctions', $method)) {
+				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $this->dcl->getRefId(), $this->table_id, $format, $filepath);
 			} else {
 				throw new ilDclException("SOAP call ".$method." does not exists!");
 			}
@@ -269,5 +285,3 @@ class ilDclContentExporter
 		return $res;
 	}
 }
-
-?>

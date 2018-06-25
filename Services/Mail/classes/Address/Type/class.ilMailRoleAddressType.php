@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
 
 /**
  * Class ilMailRoleAddressType
@@ -179,18 +180,31 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 * objects that are possible recipients for the role mailbox address.
 	 *
 	 * If Pear Mail is not installed, then the mailbox address
-	 * @param	string	IETF RFX 822 address list containing role mailboxes.
-	 * @return	int[] Array with role ids that were found
+	 * @param $a_address_list
+	 * @param ilMailRfc822AddressParserFactory|null $parserFactory
+	 * @param ilMailRfc822AddressParser|null $parser
+	 * @return int[] Array with role ids that were found
+	 * @internal param null $dic
+	 * @internal param IETF $string RFX 822 address list containing role mailboxes.
 	 */
-	public static function searchRolesByMailboxAddressList($a_address_list)
-	{
+	public static function searchRolesByMailboxAddressList(
+		$a_address_list,
+		ilMailRfc822AddressParserFactory $parserFactory = null,
+		ilMailRfc822AddressParser $parser = null
+	) {
 		global $DIC;
+		
+		if ($parserFactory === null) {
+			$parserFactory = new ilMailRfc822AddressParserFactory();
+		}
+
+		if ($parser === null) {
+			$parser = $parserFactory->getParser($a_address_list);
+		}
 
 		$role_ids = array();
-
-		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser     = ilMailRfc822AddressParserFactory::getParser($a_address_list);
 		$parsedList = $parser->parse();
+
 		foreach($parsedList as $address)
 		{
 			$local_part = $address->getMailbox();
@@ -272,6 +286,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				$role_ids[] = $row['obj_id'];
+
 				$count++;
 			}
 
@@ -357,13 +372,22 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 * backslash.
 	 *
 	 *
-	 * @param int a role id
-	 * @param boolean is_localize whether mailbox addresses should be localized
-	 * @return	String mailbox address or null, if role does not exist.
+	 * @param $a_role_id
+	 * @param bool $is_localize is_localize whether mailbox addresses should be localized
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
+	 * @return String mailbox address or null, if role does not exist.
+	 * @internal param a $int role id
 	 */
-	public static function getRoleMailboxAddress($a_role_id, $is_localize = true)
-	{
+	public static function getRoleMailboxAddress(
+		$a_role_id,
+		$is_localize = true,
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null
+	) {
 		global $DIC;
+
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
 
 		// Retrieve the role title and the object title.
 		$query = "SELECT rdat.title role_title,odat.title object_title, ".
@@ -385,7 +409,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		$object_ref   = $row->object_ref;
 		$role_title   = $row->role_title;
 
-		// In a perfect world, we could use the object_title in the 
+		// In a perfect world, we could use the object_title in the
 		// domain part of the mailbox address, and the role title
 		// with prefix '#' in the local part of the mailbox address.
 		$domain = $object_title;
@@ -474,7 +498,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		$res = $DIC->database()->query($q);
 		$row = $DIC->database()->fetchObject($res);
 
-		// if the local_part is not unique, we use the unambiguous role title 
+		// if the local_part is not unique, we use the unambiguous role title
 		//   instead for the local part of the mailbox address
 		if ($row->count > 1)
 		{
@@ -523,7 +547,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			if($use_phrase)
 			{
 				// make phrase RFC 822 conformant:
-				// - strip excessive whitespace 
+				// - strip excessive whitespace
 				// - strip special characters
 				$phrase = preg_replace('/\s\s+/', ' ', $phrase);
 				$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
@@ -534,8 +558,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-			$parser = ilMailRfc822AddressParserFactory::getParser($mailbox);
+			$parser = $mailAddressParserFactory->getParser($mailbox);
 			$parser->parse();
 
 			return $mailbox;

@@ -109,7 +109,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 5.5+ and 7.0+ are supported
+  * PHP: Version 5.6, 7.0 and 7.1 are supported
   
 <a name="client"></a>
 ### Client
@@ -130,6 +130,9 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
   * innodb_buffer_pool_size (>= 2G, depending on DB size)
 
 On MySQL 5.6+ and Galera the ```Strict SQL Mode``` MUST be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
+
+On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
+is set to `COMPACT`.
 
 <a name="manual-installation-on-linux"></a>
 # Manual Installation on Linux
@@ -184,7 +187,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ServerAdmin webmaster@example.com
 
     DocumentRoot /var/www/html/ilias/
-    <Directory /var/drbd/www/html/>
+    <Directory /var/www/html/>
         Options FollowSymLinks
         AllowOverride All
         Require all granted
@@ -198,6 +201,11 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 ```
+
+Please take care to [restrict access to the setup-folder](#secure-installation-files)
+Normal users should not be able to access the setup at all. Also see
+[Hardening and Security Guidance](#hardening-and-security-guidance) for further
+security enhancing configuration.
 
 After changing the configuration remember to reload the web server daemon:
 
@@ -214,9 +222,14 @@ systemctl restart httpd.service
 <a name="php-installationconfiguration"></a>
 ## PHP Installation/Configuration
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu 14.04 execute:
 ```
 apt-get install libapache2-mod-php5
+```
+
+On Ubuntu 16.04 execute:
+```
+apt-get install libapache2-mod-php7.0
 ```
 
 On RHEL/CentOS execute: 
@@ -242,8 +255,6 @@ We RECOMMEND the following settings for your php.ini:
 max_execution_time = 600
 memory_limit = 512M
  
-error_reporting = E_ALL & ~E_NOTICE ; up to PHP 5.2.x
-error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED ; PHP 5.3.0 and higher
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT ; PHP 5.4.0 and higher
 display_errors = Off
  
@@ -256,6 +267,9 @@ session.gc_probability = 1
 session.gc_divisor = 100
 session.gc_maxlifetime = 14400
 session.hash_function = 0
+session.cookie_httponly = On
+; If you installation is served via HTTPS also use:
+session.cookie_secure = On
  
 ; for chat server since ILIAS 4.2
 allow_url_fopen = 1
@@ -263,6 +277,10 @@ allow_url_fopen = 1
 ; How many GET/POST/COOKIE input variables may be accepted
 max_input_vars = 10000
 ```
+
+Please see [Hardening and Security Guidance](#hardening-and-security-guidance)
+for [HTTPS configuration](#enable-http-strict-transport-security) and further
+security relevant configuration.
 
 Remember to reload your web server configuration to apply those changes.
 
@@ -381,6 +399,8 @@ On RHEL/CentOS execute:
 yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
 
+Please ensure that the phantomjs version you use is at least 2.0.0.
+
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
 * php-curl
 * php-xmlrpc
@@ -421,7 +441,7 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 
 ILIAS can generate a proper configuration file via the Administration menu ("Administration -> General Settings -> Server -> Java-Server -> Create Configuration File"). Please note that the configuration file is not directly written to the file system, you MUST copy the displayed content and create the file manually.
 
-You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) documentation.
+You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) documentation.
 
 ```
 [Unit]
@@ -440,7 +460,7 @@ ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
 WantedBy=multi-user.target
 ```
 
-At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) for details.
+At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) for details.
 
 <a name="hardening-and-security-guidance"></a>
 # Hardening and Security Guidance
@@ -642,7 +662,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
+| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
+| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
 | 4.4.x           | 5.3.x - 5.5.x                         |
 | 4.3.x           | 5.2.6 - 5.4.x                         |
@@ -655,6 +676,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
+| 5.3.x - x.x.x   | 5.5.x, 5.6.x, 5.7.x                   |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
 | 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
@@ -689,13 +711,13 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows:
+The ILIAS Testserver (http://ilias.de/test53) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
 | Distribution   | Ubuntu 14.04.5 LTS          |
-| MySQL          | MySQL 5.5.54                |
-| PHP            | 7.0.17                      |
+| MySQL          | MySQL 5.5.58                |
+| PHP            | 5.5.9                       |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |

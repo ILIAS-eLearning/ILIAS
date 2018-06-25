@@ -441,8 +441,7 @@ class ilDclTable {
 			/**
 			 * @var $ilDB ilDBInterface
 			 */
-			$desc = $ilDB->getDBType() == 'oracle' ? '' : 'il_dcl_field.description, ';
-			$query = "SELECT DISTINCT il_dcl_field.*
+			$query = "SELECT DISTINCT il_dcl_field.*, il_dcl_tfield_set.field_order
 						    FROM il_dcl_field
 						         INNER JOIN il_dcl_tfield_set
 						            ON (    il_dcl_tfield_set.field NOT IN ('owner',
@@ -451,7 +450,7 @@ class ilDclTable {
 						                                                    'id',
 						                                                    'create_date')
 						                AND il_dcl_tfield_set.table_id = il_dcl_field.table_id
-						                AND il_dcl_tfield_set.field = il_dcl_field.id)
+						                AND il_dcl_tfield_set.field = ".$ilDB->cast("il_dcl_field.id","text").")
 						   WHERE il_dcl_field.table_id = %s
 						ORDER BY il_dcl_tfield_set.field_order ASC";
 
@@ -463,7 +462,7 @@ class ilDclTable {
 			}
 			$this->fields = $fields;
 
-			ilDclCache::preloadFieldProperties(array_keys($fields));
+			ilDclCache::preloadFieldProperties($fields);
 		}
 	}
 
@@ -1255,7 +1254,7 @@ class ilDclTable {
 		$org_std_fields = $original->getStandardFields();
 		foreach ($this->getStandardFields() as $element_key => $std_field) {
 			$std_field->cloneStructure($org_std_fields[$element_key]);
-			if ($std_field->getId() == $original->getDefaultSortField()) {
+			if ($std_field->getId() === $original->getDefaultSortField()) {
 				$default_sort_field = $std_field->getId();
 			}
 		}
@@ -1270,7 +1269,7 @@ class ilDclTable {
 				$new_field->cloneStructure($orig_field->getId());
 				$new_fields[$orig_field->getId()] = $new_field;
 
-				if ($orig_field->getId() == $original->getDefaultSortField()) {
+				if ($orig_field->getId() === $original->getDefaultSortField()) {
 					$default_sort_field = $new_field->getId();
 				}
 			}

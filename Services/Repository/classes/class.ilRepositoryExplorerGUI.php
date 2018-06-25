@@ -99,11 +99,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			
 		}
 		
-		// LTI
-		if (isset($_SESSION['lti_tree_root_id'])) 
-		{
-			$this->top_node_id = $_SESSION['lti_tree_root_id'];
-		}
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
@@ -296,7 +291,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 			case 'prg':
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
-				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
@@ -593,14 +588,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		switch ($a_node["type"])
 		{
-			case "crs":
-				return $ilAccess->checkAccess("read", "", $a_node["child"]);			
-
-			// visible groups can allways be clicked; group processing decides
-			// what happens next
-			case "grp":
-				return true;
-				
 			case 'tst':
 				if(!$rbacsystem->checkAccess("read", $a_node["child"]))
 				{
@@ -647,7 +634,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
 			
 			case 'prg': 
-					return $rbacsystem->checkAccess("visible", $a_node["child"]);
+					return $rbacsystem->checkAccess("read", $a_node["child"]);
 
 			// all other types are only clickable, if read permission is given
 			default:

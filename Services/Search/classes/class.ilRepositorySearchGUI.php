@@ -338,6 +338,7 @@ class ilRepositorySearchGUI
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
 		$auto->setUserLimitations($this->getUserLimitations());
+		$auto->addUserAccessFilterCallable($this->user_filter);
 
 		echo $auto->getList($_REQUEST['term']);
 		exit();
@@ -414,7 +415,7 @@ class ilRepositorySearchGUI
 		
 		// call callback if that function does give a return value => show error message
 		// listener redirects if everything is ok.
-		$class->$method($_POST['user']);
+		$class->$method((array) $_POST['user']);
 
 		$this->showSearchResults();
 	}

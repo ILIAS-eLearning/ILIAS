@@ -40,7 +40,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$mems = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'edit_submissions_grades',
 			'edit_submissions_grades',
-			$this->exc,
+			$this->exc->getRefId(),
 			$mems
 		);
 		

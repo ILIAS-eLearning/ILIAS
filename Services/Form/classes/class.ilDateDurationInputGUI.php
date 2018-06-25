@@ -242,10 +242,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function setValueByArray($a_values)
 	{		
-		$incoming = $a_values[$this->getPostVar()];				
+		$incoming = $a_values[$this->getPostVar()];
 		if(is_array($incoming))
 		{
-			$format = $this->getDatePickerTimeFormat();
+			$format = $incoming['tgl'] ?  0 : $this->getDatePickerTimeFormat();
+			$this->toggle_fulltime_checked = (bool) $incoming['tgl'];
 			$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
 			$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
 		}
@@ -353,19 +354,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setAlert($lng->txt("form_msg_wrong_date"));
 		}	
 		else
-		{			
-			if($this->getStart() &&
-				$this->getEnd())
-			{
-				// getInput() should return a generic format	
-				$post_format = $format
-					? IL_CAL_DATETIME
-					: IL_CAL_DATE;			
-				$_POST[$this->getPostVar()]["start"] = $this->getStart()->get($post_format);
-				$_POST[$this->getPostVar()]["end"] = $this->getEnd()->get($post_format);				
-				unset($_POST[$this->getPostVar()]["tgl"]);		
-			}
-			else
+		{
+			if(
+				!$this->getStart() ||
+				!$this->getEnd()
+			)
 			{
 				$_POST[$this->getPostVar()]["start"] = null;
 				$_POST[$this->getPostVar()]["end"] = null;
@@ -491,7 +484,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		
 		// values
 		
-		$date_value = $this->invalid_input_start;			
+		$date_value = htmlspecialchars($this->invalid_input_start);			
 		if(!$date_value &&
 			$this->getStart())
 		{						
@@ -500,7 +493,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		}
 		$tpl->setVariable('DATEPICKER_START_VALUE', $date_value);
 		
-		$date_value = $this->invalid_input_end;			
+		$date_value = htmlspecialchars($this->invalid_input_end);			
 		if(!$date_value &&
 			$this->getEnd())
 		{						

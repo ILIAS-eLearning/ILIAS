@@ -168,8 +168,6 @@ abstract class ilContainerContentGUI
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		$ilUser = $this->user;
-//global $log;
-//$log->write("setOutput");
 
 		$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
 		ilChangeEvent::_recordReadEvent(
@@ -258,7 +256,7 @@ abstract class ilContainerContentGUI
 		
 		$tpl->addOnLoadCode("il.Object.setRedrawListItemUrl('".
 			$ilCtrl->getLinkTarget($this->container_gui, "redrawListItem", "", true)."');");
-		
+
 		$tpl->addOnLoadCode("il.Object.setRatingUrl('".
 			$ilCtrl->getLinkTargetByClass(array(get_class($this->container_gui), "ilcommonactiondispatchergui", "ilratinggui"), 
 				"saveRating", "", true, false)."');");

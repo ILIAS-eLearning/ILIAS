@@ -24,13 +24,11 @@ class arField {
 			arFieldList::LENGTH,
 			arFieldList::IS_NOTNULL,
 			arFieldList::IS_PRIMARY,
-			arFieldList::IS_UNIQUE,
 		),
 		self::FIELD_TYPE_INTEGER => array(
 			arFieldList::LENGTH,
 			arFieldList::IS_NOTNULL,
 			arFieldList::IS_PRIMARY,
-			arFieldList::IS_UNIQUE,
 			arFieldList::SEQUENCE,
 		),
 		self::FIELD_TYPE_FLOAT => array(
@@ -152,10 +150,6 @@ class arField {
 	/**
 	 * @var bool
 	 */
-	protected $unique = false;
-	/**
-	 * @var bool
-	 */
 	protected $has_field = false;
 	/**
 	 * @var bool
@@ -260,22 +254,6 @@ class arField {
 	 */
 	public function getPrimary() {
 		return $this->is_primary;
-	}
-
-
-	/**
-	 * @param boolean $unique
-	 */
-	public function setUnique($unique) {
-		$this->unique = $unique;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function getUnique() {
-		return $this->unique;
 	}
 
 

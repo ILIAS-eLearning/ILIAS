@@ -29,11 +29,16 @@ class ilMemcache extends ilGlobalCacheService {
 			$memcached = new Memcached();
 
 			if (ilMemcacheServer::count() > 0) {
-
 				$memcached->resetServerList();
 				$servers = array();
-				foreach (ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))->get() as $ilMemcacheServer) {
-					$servers[] = array( $ilMemcacheServer->getHost(), $ilMemcacheServer->getPort(), $ilMemcacheServer->getWeight() );
+				$list = ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))
+				                        ->get();
+				foreach ($list as $ilMemcacheServer) {
+					$servers[] = array(
+						$ilMemcacheServer->getHost(),
+						$ilMemcacheServer->getPort(),
+						$ilMemcacheServer->getWeight(),
+					);
 				}
 				$memcached->addServers($servers);
 			}
@@ -63,14 +68,15 @@ class ilMemcache extends ilGlobalCacheService {
 
 
 	/**
-	 * @param      $key
-	 * @param      $serialized_value
+	 * @param          $key
+	 * @param          $serialized_value
 	 * @param null|int $ttl
 	 *
 	 * @return bool
 	 */
 	public function set($key, $serialized_value, $ttl = null) {
-		return $this->getMemcacheObject()->set($this->returnKey($key), $serialized_value, (int)$ttl);
+		return $this->getMemcacheObject()
+		            ->set($this->returnKey($key), $serialized_value, (int)$ttl);
 	}
 
 
@@ -184,6 +190,12 @@ class ilMemcache extends ilGlobalCacheService {
 			return $return;
 		}
 	}
-}
 
-?>
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isValid($key) {
+		return true;
+	}
+}

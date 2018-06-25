@@ -130,10 +130,11 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 		{
 			foreach($option->getSubItems() as $item)
 			{
-				$item_ok = $item->checkInput();
-				if (!$item_ok && ($_POST[$this->getPostVar()] == $option->getValue()))
+				if ($_POST[$this->getPostVar()] == $option->getValue())
 				{
-					$ok = false;
+					if (!$item->checkInput()) {
+						$ok = false;
+					}
 				}
 			}
 		}

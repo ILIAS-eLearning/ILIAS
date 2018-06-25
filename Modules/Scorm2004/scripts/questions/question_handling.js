@@ -21,7 +21,8 @@ ilias.questions.txt = {
 	ov_all_correct: "You have correctly answered all questions.",
 	ov_some_correct: "You have correctly answered [x] out of [y] questions.",
 	ov_wrong_answered: "The following questions were not answered or answered wrong",
-	please_select: "Please Select"
+	please_select: "Please Select",
+	submit_answers: "Submit"
 };
 
 // these question types disable themself in checkAnswers instead of showCorrectAnswers
@@ -45,6 +46,8 @@ ilias.questions.refresh_lang = function() {
 
 		$(this).val("");
 	});
+
+	jQuery("input[value='TXT_SUBMIT_ANSWERS']").val(ilias.questions.txt.submit_answers);
 	
 };
 
@@ -652,7 +655,7 @@ ilias.questions.initLongMenu = function(a_id) {
 		{
 			if(questions[a_id].correct_answers[key][2] == 1)
 			{
-				replaced_text += '<input class="long_menu_input" name="answer[' + key + ']" value=""/>';
+				replaced_text += '<input class="ilc_qinput_TextInput long_menu_input" name="answer[' + key + ']" value=""/>';
 			}
 			else
 			{

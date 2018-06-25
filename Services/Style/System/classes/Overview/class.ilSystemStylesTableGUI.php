@@ -62,7 +62,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt("manage_system_styles"));
 		$this->addColumn($this->lng->txt(""));
 		$this->addColumn($this->lng->txt("style_name"),"style_name");
-		$this->addColumn($this->lng->txt("skin_name"),"style_id");
+		$this->addColumn($this->lng->txt("skin_name"),"skin_name");
 		$this->addColumn($this->lng->txt("sty_substyle_of"));
 		$this->addColumn($this->lng->txt("scope"));
 		$this->addColumn($this->lng->txt("default"));

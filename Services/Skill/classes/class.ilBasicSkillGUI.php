@@ -795,7 +795,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		
 		include_once("./Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php");
 		$tab = new ilSkillLevelResourcesTableGUI($this, "showLevelResources",
-			$this->base_skill_id, $this->tref_id, (int) $_GET["level_id"]);
+			$this->base_skill_id, $this->tref_id, (int) $_GET["level_id"],
+			$this->checkPermissionBool("write"));
 		
 		$tpl->setContent($tab->getHTML());
 	}
@@ -810,7 +811,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$lng = $this->lng;
 		$tree = $this->tree;
 		$tpl = $this->tpl;
-		
+
 		$this->setLevelHead();
 		$ilTabs->activateTab("level_resources");
 

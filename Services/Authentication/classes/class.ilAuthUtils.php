@@ -78,6 +78,18 @@ class ilAuthUtils
 		
 	}
 	
+	/**
+	 * Check if authentication is should be forced.
+	 */
+	public static function isAuthenticationForced()
+	{
+		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static function handleForcedAuthentication()
 	{
 		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
@@ -661,18 +673,32 @@ class ilAuthUtils
 				return true;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isPasswordModificationHidden()
+	{
+		/** @var $ilSetting \ilSetting */
+		global $ilSetting;
+
+		if ($ilSetting->get('usr_settings_hide_password') || $ilSetting->get('usr_settings_disable_password')) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	/**
 	 * Check if password modification is enabled
 	 * @param object $a_authmode
-	 * @return 
+	 * @return bool
 	 */
 	public static function isPasswordModificationEnabled($a_authmode)
 	{
 		global $ilSetting;
-		
-		if($ilSetting->get('usr_settings_hide_password') or $ilSetting->get('usr_settings_disable_password'))
-		{
+
+		if (self::isPasswordModificationHidden()) {
 			return false;
 		}
 		
@@ -771,7 +797,7 @@ class ilAuthUtils
 	
 	/**
 	 * 
-	 * @param string $a_authmode
+	 * @param string $a_auth_key
 	 */
 	public static function getAuthModeTranslation($a_auth_key)
 	{

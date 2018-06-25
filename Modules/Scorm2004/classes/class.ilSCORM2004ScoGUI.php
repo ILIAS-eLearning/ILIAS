@@ -14,7 +14,7 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilSCORM2004ScoGUI: ilObjectMetaDataGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
+ * @ilCtrl_Calls ilSCORM2004ScoGUI: ilObjectMetaDataGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI, ilAssGenFeedbackPageGUI
  *
  * @ingroup ModulesScorm2004
  */
@@ -106,6 +106,10 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				//$page_obj->setPresentationTitle($page["title"]);
 				$page_obj->setOutputMode(IL_PAGE_PREVIEW);
 				$ilCtrl->forwardCommand($page_obj);
+				break;
+
+			// mainly to fix #21631
+			case "ilassgenfeedbackpagegui":
 				break;
 
 			default:
@@ -388,9 +392,9 @@ die("deprecated");
 	 */
 	function sco_preview()
 	{
-		$tpl = $this->tpl;
+		global $tpl;
+
 		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
 		
 		// init main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -477,6 +481,8 @@ die("deprecated");
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
 		$tpl->setVariable("CONTENT", $output);
+		$tpl->show();
+		exit;
 	}
 	
 	//callback function for question export

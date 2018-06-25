@@ -254,8 +254,11 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 
 		// command buttons
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton("saveSettings", $lng->txt("save"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
+		}
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -267,6 +270,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
+
+		$this->checkPermission("write");
 		
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",

@@ -4,6 +4,8 @@ include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinCon
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColorSet.php");
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconFolder.php");
 
+use ILIAS\FileUpload\Location;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
@@ -248,11 +250,12 @@ class  ilSystemStyleIconsGUI
 		$this->getStyleContainer()->resetImages($style);
 		$this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style->getId())));
 		$message_stack = new ilSystemStyleMessageStack();
-		$message_stack->sendMessages(true);
 		$message_stack->addMessage(new ilSystemStyleMessage(
 			$this->lng->txt("color_reset"),
 			ilSystemStyleMessage::TYPE_SUCCESS));
-		$this->ctrl->redirect($this,"edit");
+        $message_stack->sendMessages(true);
+
+        $this->ctrl->redirect($this,"edit");
 	}
 
 	public function update()
@@ -278,7 +281,12 @@ class  ilSystemStyleIconsGUI
 			}
 			$this->getIconFolder()->changeIconColors($color_changes);
 			$this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($_GET["style_id"])));
-			$message_stack->sendMessages(true);
+            $skin = $this->getStyleContainer()->getSkin();
+            $skin->getVersionStep($skin->getVersion());
+            $this->getStyleContainer()->updateSkin($skin);
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),
+                ilSystemStyleMessage::TYPE_SUCCESS));
+            $message_stack->sendMessages(true);
 			$this->ctrl->redirect($this,"edit");
 		}
 		$form->setValuesByPost();
@@ -406,6 +414,8 @@ class  ilSystemStyleIconsGUI
 
 	public function updateIcon()
 	{
+        global $DIC;
+
 
 		$icon_name = $_POST['selected_icon'];
 		$icon = $this->getIconFolder()->getIconByName($icon_name);
@@ -434,11 +444,31 @@ class  ilSystemStyleIconsGUI
 			$icon->changeColors($color_changes);
 
 			if($_POST["changed_icon"]){
-				$old_icon = $this->getIconFolder()->getIconByName($icon_name);
-				move_uploaded_file($_POST["changed_icon"]["tmp_name"],$old_icon->getPath());
+                /**
+                 * @var \ILIAS\FileUpload\FileUpload $upload
+                 */
+                $upload = $DIC->upload();
+                $upload->process();
+                $old_icon = $this->getIconFolder()->getIconByName($icon_name);
+
+                $upload->moveOneFileTo(array_pop($upload->getResults()),
+                    $old_icon->getDirRelToCustomizing(),
+                    Location::CUSTOMIZING,
+                    $old_icon->getName(),
+                    true
+                );
 			}
 
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),ilSystemStyleMessage::TYPE_SUCCESS));
 
+			foreach ($message_stack->getJoinedMessages() as $type => $message) {
+			    if($type == ilSystemStyleMessage::TYPE_SUCCESS) {
+                    $skin = $this->getStyleContainer()->getSkin();
+                    $skin->getVersionStep($skin->getVersion());
+                    $this->getStyleContainer()->updateSkin($skin);
+			        continue;
+                }
+            }
 			$message_stack->sendMessages(true);
 			$this->ctrl->setParameter($this,"selected_icon",$icon->getName());
 			$this->ctrl->redirect($this,"editIcon");

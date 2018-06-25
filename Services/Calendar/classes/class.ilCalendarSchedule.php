@@ -39,6 +39,9 @@ class ilCalendarSchedule
 	const TYPE_WEEK = 2;
 	const TYPE_MONTH = 3;
 	const TYPE_INBOX = 4;
+	const TYPE_HALF_YEAR = 6;
+	
+	// @deprecated
 	const TYPE_PD_UPCOMING = 5;	
 	
 	protected $limit_events = -1;
@@ -55,6 +58,11 @@ class ilCalendarSchedule
 	protected $user_settings = null;
 	protected $db = null;
 	protected $filters = array();
+
+	/**
+	 * @var bool strict_period true if no extra range of days are needed. (e.g. month view needs days before and after)
+	 */
+	protected $strict_period;
 	
 	/**
 	 * Constructor
@@ -63,16 +71,21 @@ class ilCalendarSchedule
 	 * @param ilDate seed date
 	 * @param int type of schedule (TYPE_DAY,TYPE_WEEK or TYPE_MONTH)
 	 * @param int user_id
+	 * @param bool strict_period true if no extra days needed.
 	 * 
 	 */
-	public function __construct(ilDate $seed,$a_type,$a_user_id = 0)
+	public function __construct(ilDate $seed,$a_type,$a_user_id = 0, $a_strict_period = false)
 	{
 	 	global $ilUser,$ilDB;
 	 	
 	 	$this->db = $ilDB;
 
 		$this->type = $a_type;
-		$this->initPeriod($seed);
+
+		//this strict period is just to avoid possible side effects.
+		//I there are none, we can get rid of this strict period control and remove it from the constructor
+		//and from the calls in ilCalendarView getEvents.
+		$this->strict_period = $a_strict_period;
 
 	 	if(!$a_user_id || $a_user_id == $ilUser->getId())
 	 	{
@@ -85,6 +98,8 @@ class ilCalendarSchedule
 	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	 	$this->weekstart = $this->user_settings->getWeekStart();
 	 	$this->timezone = $this->user->getTimeZone();
+
+		$this->initPeriod($seed);
 	 					
 		
 		// category / event filters
@@ -518,33 +533,64 @@ class ilCalendarSchedule
 			case self::TYPE_DAY:
 				$this->start = clone $seed;
 				$this->end = clone $seed;
-				$this->start->increment(IL_CAL_DAY,-2);
-				$this->end->increment(IL_CAL_DAY,2);
+				//this strict period is just to avoid possible side effects.
+				if(!$this->strict_period) {
+					$this->start->increment(IL_CAL_DAY, -2);
+					$this->end->increment(IL_CAL_DAY, 2);
+				} else {
+					$this->end->increment(IL_CAL_DAY, 1);
+				}
 				break;
 			
 			case self::TYPE_WEEK:
 				$this->start = clone $seed;
 				$start_info = $this->start->get(IL_CAL_FKT_GETDATE,'','UTC');
 				$day_diff = $this->weekstart - $start_info['isoday'];
+
 				if($day_diff == 7)
 				{
 					$day_diff = 0;
 				}
-				$this->start->increment(IL_CAL_DAY,$day_diff);
-				$this->start->increment(IL_CAL_DAY,-1);
-				$this->end = clone $this->start;
-				$this->end->increment(IL_CAL_DAY,9);
+
+				//this strict period is just to avoid possible side effects.
+				if($this->strict_period) {
+					$this->start->increment(IL_CAL_DAY,$day_diff);
+					$this->end = clone $this->start;
+					$this->end->increment(IL_CAL_WEEK); #22173
+				} else {
+					$this->start->increment(IL_CAL_DAY,$day_diff);
+					$this->start->increment(IL_CAL_DAY,-1);
+					$this->end = clone $this->start;
+					$this->end->increment(IL_CAL_DAY,9);
+				}
 				break;
 			
 			case self::TYPE_MONTH:
-				$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
-				list($year,$month) = explode('-',$year_month);
+				if($this->strict_period)
+				{
+					$this->start = clone $seed;
+					$this->end = clone $seed;
+					$this->end->increment(IL_CAL_MONTH,1);
+				}
+				else
+				{
+					//todo: previous implementation still taking more days than represented in the view.
+					$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
+					list($year,$month) = explode('-',$year_month);
+
+					$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
+					$this->start->increment(IL_CAL_DAY,-6);
+
+					$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
+					$this->end->increment(IL_CAL_DAY,6);
+				}
+
+				break;
 			
-				$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
-				$this->start->increment(IL_CAL_DAY,-6);
-				
-				$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
-				$this->end->increment(IL_CAL_DAY,6);
+			case self::TYPE_HALF_YEAR:
+				$this->start = clone $seed;
+				$this->end = clone $this->start;
+				$this->end->increment(IL_CAL_MONTH,6);
 				break;
 			
 			case self::TYPE_PD_UPCOMING:
@@ -560,11 +606,11 @@ class ilCalendarSchedule
 
 	/**
 	 * Set period
-	 *
-	 * @param
+	 * @param ilDate start
+	 * @param ilDate end
 	 * @return
 	 */
-	function setPeriod(ilDate $a_start, ilDate $a_end)
+	public function setPeriod(ilDate $a_start, ilDate $a_end)
 	{
 		$this->start = $a_start;
 		$this->end = $a_end;

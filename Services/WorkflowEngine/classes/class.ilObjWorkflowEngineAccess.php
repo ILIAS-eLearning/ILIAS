@@ -29,7 +29,11 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 	 */
 	public function _checkAccess($cmd, $permission, $ref_id, $a_obj_id, $user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if ($user_id == "")
 		{
@@ -55,13 +59,7 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 				break;
 
 			case 'read':
-				return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
-				// Sample denial.
-				if(!$active)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}
+					return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
 				break;
 		}
 

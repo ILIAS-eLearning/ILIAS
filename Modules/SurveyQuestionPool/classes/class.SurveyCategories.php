@@ -315,6 +315,18 @@ class SurveyCategories
 	{
 		$this->categories = array();
 	}
+
+	/**
+	 * Get categories
+	 *
+	 * @param
+	 * @return
+	 */
+	function getCategories()
+	{
+		return $this->categories;
+	}
+
 		
-} // END class.SurveyCategories
+}
 ?>

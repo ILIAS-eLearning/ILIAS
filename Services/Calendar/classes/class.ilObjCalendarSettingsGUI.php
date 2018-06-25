@@ -20,8 +20,6 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-include_once('./Services/Object/classes/class.ilObjectGUI.php');
-
 
 /** 
 *
@@ -131,15 +129,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
-		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		$this->checkPermission('read');
 		
-		include_once('./Services/Calendar/classes/iCal/class.ilICalParser.php');
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-
-				
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Calendar');
@@ -154,6 +145,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	protected function save()
 	{
+		$this->checkPermission('write');
+		
 		$this->settings->setEnabled((int) $_POST['enable']);
 		$this->settings->setDefaultWeekStart((int) $_POST['default_week_start']);
 		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
@@ -212,14 +205,16 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		{
 			return true;
 		}
-		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('cal_global_settings'));
-		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		#$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+
+
+		if($this->checkPermissionBool('write'))
+		{
+			$this->form->addCommandButton('save',$this->lng->txt('save'));
+		}
 		
 		$check = new ilCheckboxInputGUI($this->lng->txt('enable_calendar'),'enable');
 		$check->setValue(1);
@@ -266,7 +261,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->addItem($radio);
 
 		// show weeks
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cal_show_weeks"), "show_weeks");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cal_def_show_weeks"), "show_weeks");
 		$cb->setInfo($this->lng->txt("cal_show_weeks_info"));
 		$cb->setValue(1);
 		$cb->setChecked($this->settings->getShowWeeks());
@@ -274,14 +269,14 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
 
 		// Day start
-		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');
+		$day_start = new ilSelectInputGUI($this->lng->txt('cal_def_day_start'),'dst');
 		$day_start->setOptions(
 			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
 		);
 		$day_start->setValue($this->settings->getDefaultDayStart());
 		$this->form->addItem($day_start);
 
-		$day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'),'den');
+		$day_end = new ilSelectInputGUI($this->lng->txt('cal_def_day_end'),'den');
 		$day_end->setOptions(
 			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
 		);

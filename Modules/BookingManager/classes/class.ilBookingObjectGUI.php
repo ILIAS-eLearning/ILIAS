@@ -56,7 +56,12 @@ class ilBookingObjectGUI
 	protected $pool_id; // [int]
 	protected $pool_has_schedule; // [bool]
 	protected $pool_overall_limit; // [int]
-	
+
+	/**
+	 * @var int
+	 */
+	protected $object_id;
+
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
@@ -74,12 +79,16 @@ class ilBookingObjectGUI
 		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->user = $DIC->user();
 		$this->ref_id = $a_parent_obj->ref_id;
-		$this->pool_id = $a_parent_obj->object->getId();		
+		$this->pool_id = $a_parent_obj->object->getId();
+		$this->pool_gui = $a_parent_obj;
 		$this->pool_has_schedule = 
 			($a_parent_obj->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE);
 		$this->pool_overall_limit = $this->pool_has_schedule 
 			? null
-			: $a_parent_obj->object->getOverallLimit();		
+			: $a_parent_obj->object->getOverallLimit();
+
+		$this->object_id = (int) $_REQUEST['object_id'];
+		$this->rsv_ids = array_map('intval', explode(";", $_GET["rsv_ids"]));
 	}
 
 	/**
@@ -108,6 +117,8 @@ class ilBookingObjectGUI
 	 */
 	function render()
 	{
+		$this->pool_gui->showNoScheduleMessage();
+
 		$tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
@@ -185,7 +196,7 @@ class ilBookingObjectGUI
 
 		if(!$a_form)
 		{
-			$a_form = $this->initForm('edit', (int)$_GET['object_id']);
+			$a_form = $this->initForm('edit', $this->object_id);
 		}
 		$tpl->setContent($a_form->getHTML());
 	}
@@ -388,7 +399,7 @@ class ilBookingObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		$form = $this->initForm('edit', (int)$_POST['object_id']);
+		$form = $this->initForm('edit', $this->object_id);
 		if($form->checkInput())
 		{
 			$valid = true;
@@ -401,7 +412,7 @@ class ilBookingObjectGUI
 			if($valid)
 			{			
 				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-				$obj = new ilBookingObject((int)$_POST['object_id']);
+				$obj = new ilBookingObject($this->object_id);
 				$obj->setTitle($form->getInput("title"));
 				$obj->setDescription($form->getInput("desc"));
 				$obj->setNrOfItems($form->getInput("items"));
@@ -467,8 +478,8 @@ class ilBookingObjectGUI
 		$conf->setHeaderText($lng->txt('book_confirm_delete'));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$type = new ilBookingObject((int)$_GET['object_id']);
-		$conf->addItem('object_id', (int)$_GET['object_id'], $type->getTitle());
+		$type = new ilBookingObject($this->object_id);
+		$conf->addItem('object_id', $this->object_id, $type->getTitle());
 		$conf->setConfirm($lng->txt('delete'), 'delete');
 		$conf->setCancel($lng->txt('cancel'), 'render');
 
@@ -484,7 +495,7 @@ class ilBookingObjectGUI
 		$lng = $this->lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$obj = new ilBookingObject((int)$_POST['object_id']);
+		$obj = new ilBookingObject($this->object_id);
 		$obj->delete();
 
 		ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
@@ -497,7 +508,7 @@ class ilBookingObjectGUI
 		$lng = $this->lng;
 		$tpl = $this->tpl;
 		
-		$id = (int)$_GET["object_id"];
+		$id = $this->object_id;
 		if(!$id)
 		{
 			return;
@@ -525,7 +536,7 @@ class ilBookingObjectGUI
 		$ilUser = $this->user;
 		$lng = $this->lng;
 		
-		$id = (int)$_REQUEST["object_id"];
+		$id = $this->object_id;
 		if(!$id)
 		{
 			return;
@@ -549,7 +560,7 @@ class ilBookingObjectGUI
 	
 	function deliverInfo()
 	{
-		$id = (int)$_GET["object_id"];
+		$id = $this->object_id;
 		if(!$id)
 		{
 			return;
@@ -571,7 +582,7 @@ class ilBookingObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		$id = (int)$_GET["object_id"];
+		$id = $this->object_id;
 		if(!$id)
 		{
 			return;
@@ -583,10 +594,9 @@ class ilBookingObjectGUI
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$book_ids = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId(), true);				
 		$tmp = array();
-		$rsv_ids = explode(";", $_GET["rsv_ids"]);
 		foreach($book_ids as $book_id)
 		{		
-			if(in_array($book_id, $rsv_ids))
+			if(in_array($book_id, $this->rsv_ids))
 			{
 				$obj = new ilBookingReservation($book_id);
 				$from = $obj->getFrom();
@@ -664,7 +674,7 @@ class ilBookingObjectGUI
 	{
 		$ilUser = $this->user;
 		
-		$id = (int)$_GET["object_id"];
+		$id = $this->object_id;
 		if(!$id)
 		{
 			return;

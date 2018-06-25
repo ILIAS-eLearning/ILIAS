@@ -21,23 +21,31 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 	/**
+	 * @var string
+	 */
+	protected $type = 'bibs';
+	/**
 	 * @var ilTabsGUI
 	 */
 	protected $tabs_gui;
 
 
 	/**
+	 * ilObjBibliographicAdminGUI constructor.
+	 *
 	 * @param      $a_data
 	 * @param      $a_id
 	 * @param bool $a_call_by_reference
 	 * @param bool $a_prepare_output
+	 *
+	 * @throws \ilObjectException
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
 		$this->type = 'bibs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('bibl');
-		//Check Permissions globally for all SubGUIs. We only check write permissions
-		$this->checkPermission('write');
+		// Check Permissions globally for all SubGUIs. We check read-permission first
+		$this->checkPermission('read');
 	}
 
 

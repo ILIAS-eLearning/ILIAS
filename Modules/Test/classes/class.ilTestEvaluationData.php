@@ -31,7 +31,7 @@ class ilTestEvaluationData
 	/**
 	* Participants
 	*
-	* @var array
+	* @var ilTestEvaluationUserData[]
 	*/
 	var $participants;
 
@@ -54,6 +54,11 @@ class ilTestEvaluationData
 	* @var integer
 	*/
 	var $datasets;
+	
+	/**
+	 * @var ilTestParticipantList
+	 */
+	protected $accessFilteredParticipantList;
 
 	public function __sleep()
 	{
@@ -72,26 +77,56 @@ class ilTestEvaluationData
 		if( $test !== null )
 		{
 			$this->test = $test;
+			
+			if( $this->getTest()->getAccessFilteredParticipantList() )
+			{
+				$this->setAccessFilteredParticipantList(
+					$this->getTest()->getAccessFilteredParticipantList()
+				);
+			}
+			
 			$this->generateOverview();
 		}
 	}
 	
-	function generateOverview()
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getAccessFilteredParticipantList()
 	{
-		global $ilDB;
+		return $this->accessFilteredParticipantList;
+	}
+	
+	/**
+	 * @param ilTestParticipantList $accessFilteredParticipantList
+	 */
+	public function setAccessFilteredParticipantList($accessFilteredParticipantList)
+	{
+		$this->accessFilteredParticipantList = $accessFilteredParticipantList;
+	}
+	
+	protected function checkParticipantAccess($activeId)
+	{
+		if( $this->getAccessFilteredParticipantList() === null )
+		{
+			return true;
+		}
 		
-		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-		
-		$this->participants = array();
-		
+		return $this->getAccessFilteredParticipantList()->isActiveIdInList($activeId);
+	}
+	
+	protected function loadRows()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+
 		$query = "
 			SELECT			usr_data.usr_id,
 							usr_data.firstname,
 							usr_data.lastname,
 							usr_data.title,
 							usr_data.login,
-							tst_pass_result.*
+							tst_pass_result.*,
+							tst_active.submitted
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -104,15 +139,37 @@ class ilTestEvaluationData
 							tst_pass_result.tstamp
 		";
 		
-		$result = $ilDB->queryF(
+		$result = $DIC->database()->queryF(
 			$query,	array('integer'), array($this->getTest()->getTestId())
 		);
+		
+		$rows = array();
+		
+		while( $row = $DIC->database()->fetchAssoc($result) )
+		{
+			if( !$this->checkParticipantAccess($row['active_fi']) )
+			{
+				continue;
+			}
+			
+			$rows[] = $row;
+		}
+		
+		return $rows;
+	}
+	
+	function generateOverview()
+	{
+		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
+		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
+		
+		$this->participants = array();
 		
 		$pass = NULL;
 		$checked = array();
 		$thissets = 0;
 		
-		while( $row = $ilDB->fetchAssoc($result) )
+		foreach($this->loadRows() as $row)
 		{
 			$thissets++;
 			
@@ -129,6 +186,8 @@ class ilTestEvaluationData
 				$this->getParticipant($row["active_fi"])->setLogin($row["login"]);
 				
 				$this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
+				
+				$this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
 			}
 			
 			if( !is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"])) )
@@ -207,6 +266,23 @@ class ilTestEvaluationData
 	{
 		include_once "./Modules/Test/classes/class.ilTestStatistics.php";
 		$this->statistics = new ilTestStatistics($this);
+	}
+	
+	public function getTotalFinishedParticipants()
+	{
+		$finishedParticipants = 0;
+		
+		foreach ($this->participants as $active_id => $participant)
+		{
+			if( !$participant->isSubmitted() )
+			{
+				continue;
+			}
+			
+			$finishedParticipants++;
+		}
+		
+		return $finishedParticipants;
 	}
 
 	function getParticipants()
@@ -308,7 +384,7 @@ class ilTestEvaluationData
 	 * @param integer $active_id
 	 * @return ilTestEvaluationUserData
 	 */
-	function &getParticipant($active_id)
+	function getParticipant($active_id)
 	{
 		return $this->participants[$active_id];
 	}
@@ -323,7 +399,7 @@ class ilTestEvaluationData
 		unset($this->participants[$active_id]);
 	}
 	
-	function &getStatistics()
+	function getStatistics()
 	{
 		return $this->statistics;
 	}

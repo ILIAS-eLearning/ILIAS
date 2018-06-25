@@ -135,10 +135,14 @@ var Namespace = function Namespace(name)
 		return null;
 	};
 
+	this.getSubscribers = function() {
+		return _subscribers;
+	};
+
 	this.getSubscriberWithOfflines = function(id, name) {
 		var subscriber = this.getSubscriber(id);
 
-		if(subscriber == null) {
+		if(subscriber === null) {
 			subscriber = new Participant(id, name);
 			_subscribers[id] = subscriber;
 		}
@@ -167,7 +171,7 @@ var Namespace = function Namespace(name)
 	};
 
 	this.disconnectSockets = function() {
-		if(this.getIO() != undefined) {
+		if(this.getIO() !== undefined) {
 			var sockets = this.getIO().sockets;
 
 			for(var key in sockets) {
@@ -193,7 +197,5 @@ var Namespace = function Namespace(name)
 		return _conversations;
 	}
 };
-
-
 
 module.exports = Namespace;

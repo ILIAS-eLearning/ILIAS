@@ -3,7 +3,7 @@
   padding:          @il-item-task-button-padding 14px;
   border-top:       1px @panel-inner-border solid;
   min-width:        300px;
-  max-width:        350px;
+  max-width:        300px;
   margin-top:       -1px;
   background-color: white;
   .il-item-task-title {
@@ -17,5 +17,13 @@
 	.progress {
 	  margin-bottom: @il-item-task-button-padding;
 	}
+  }
+}
+
+@media (max-width: 768px) {
+  .il-item-task {
+	min-width: inherit;
+	max-width: inherit;
+	width:     100%;
   }
 }

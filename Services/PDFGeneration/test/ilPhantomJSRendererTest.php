@@ -24,7 +24,8 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 									  'footer_type' => 0,
 									  'footer_text' => '',
 									  'footer_height' => '0cm',
-									  'footer_show_pages' => 0);
+									  'footer_show_pages' => 0,
+									  'page_type' => 0);
 
 
 	protected $beckersche_config = array('path' => '/usr/local/bin/phantomjs',
@@ -40,7 +41,8 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 									  'footer_type' => 0,
 									  'footer_text' => '',
 									  'footer_height' => '0cm',
-									  'footer_show_pages' => 0);
+									  'footer_show_pages' => 0,
+									  'page_type' => 0);
 
 	protected static function getMethod($name) {
 		$class = new ReflectionClass('ilPhantomJSRenderer');
@@ -68,7 +70,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 		$transformer = self::getMethod('getCommandLineConfig');
 		$obj = new ilPhantomJSRenderer(true);
 		$config = $this->beckersche_config;
-		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":null}"' ,  $transformer->invokeArgs($obj, array($config)));
+		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":null,\"page_type\":0}"' ,  $transformer->invokeArgs($obj, array($config)));
 	}
 
 	public function testHeaderSettingsWithoutPageNumber()
@@ -82,7 +84,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 		$config['header_type'] = '1';
 		$config['header_show_pages'] = false;
 
-		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":false},\"footer\":null}"' ,  $transformer->invokeArgs($obj, array($config)));
+		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":false},\"footer\":null,\"page_type\":0}"' ,  $transformer->invokeArgs($obj, array($config)));
 	}
 
 	public function testFooterSettingsText()
@@ -96,7 +98,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 		$config['footer_type'] = '1';
 		$config['footer_show_pages'] = true;
 
-		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":true}}"' ,  $transformer->invokeArgs($obj, array($config)));
+		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":true},\"page_type\":0}"' ,  $transformer->invokeArgs($obj, array($config)));
 	}
 
 	public function testFooterSettingsTextWithoutPageNumber()
@@ -110,7 +112,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 		$config['footer_type'] = '1';
 		$config['footer_show_pages'] = false;
 
-		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":false}}"' ,  $transformer->invokeArgs($obj, array($config)));
+		$this->assertSame('"{\"page_size\":\"A4\",\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":{\"text\":\"Hello\",\"height\":\"1cm\",\"show_pages\":false},\"page_type\":0}"' ,  $transformer->invokeArgs($obj, array($config)));
 	}
 
 } 

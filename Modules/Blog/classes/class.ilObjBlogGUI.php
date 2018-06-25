@@ -53,10 +53,67 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $month_default; // [bool]
 
 	/**
+	 * Goto link posting
+	 * @var int
+	 */
+	protected $gtp;
+
+	/**
+	 * @var int
+	 */
+	protected $blpg;
+
+	/**
+	 * @var int
+	 */
+	protected $old_nr;
+
+	/**
+	 * user page? deprecated?
+	 * @var int
+	 */
+	protected $ppage;
+
+	/**
+	 * user page (necessary?)
+	 * @var int
+	 */
+	protected $user_page;
+
+	/**
 	 * @var bool		// note: this is currently set in ilPortfolioPageGUI, should use getter/setter
 	 */
 	public $prtf_embed = false;
-	
+
+	/**
+	 * preview mode (fsc|emb)
+	 *
+	 * @var string
+	 */
+	protected $prvm;
+
+	/**
+	 * @var int
+	 */
+	protected $ntf;
+
+	/**
+	 * approved posting id
+	 * @var int
+	 */
+	protected $apid;
+
+	/**
+	 * @var string
+	 */
+	protected $new_type;
+
+	/**
+	 * portfolio id (quick editing in portfolio)
+	 * @var int
+	 */
+	protected $prt_id;
+
 	protected static $keyword_export_map; // [array]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -77,15 +134,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
-		
-	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
+
+		$this->gtp = (int) $_GET["gtp"];
+		$this->blpg = (int) $_REQUEST["blpg"];
+		$this->old_nr = (int) $_GET["old_nr"];
+		$this->ppage = (int) $_GET["ppage"];
+		$this->user_page = (int) $_REQUEST["user_page"];
+		$this->new_type = ilUtil::stripSlashes($_REQUEST["new_type"]);
+		$this->prvm = ilUtil::stripSlashes($_REQUEST["prvm"]);
+		$this->ntf = (int) $_GET["ntf"];
+		$this->apid = (int) $_GET["apid"];
+		$this->month = ilUtil::stripSlashes($_REQUEST["bmn"]);
+		$this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
+		$this->author = (int) $_REQUEST["ath"];
+		$this->prt_id = (int) $_REQUEST["prt_id"];
+
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		
 		if($this->object)
 		{
-			$this->month = (string)$_REQUEST["bmn"];
-			$this->keyword = (string)$_REQUEST["kwd"];
-			$this->author = (int)$_REQUEST["ath"];
-
 			// gather postings by month
 			$this->items = $this->buildPostingList($this->object->getId());	
 			if($this->items)
@@ -508,16 +575,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilNavigationHistory = $this->nav_history;
 
 		// goto link to blog posting
-		if($_GET["gtp"])
+		if($this->gtp > 0)
 		{
-			$page_id = (int)$_GET["gtp"];
+			$page_id = $this->gtp;
 			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			if(ilBlogPosting::exists($this->object_id, $page_id))
 			{			
 				// #12312
-				$ilCtrl->setCmdClass("ilblogpostinggui");			
-				$_GET["blpg"] = $page_id;
-				$ilCtrl->setCmd("previewFullscreen");			
+				$ilCtrl->setCmdClass("ilblogpostinggui");
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $page_id);
+				$ilCtrl->redirectByClass("ilblogpostinggui", "previewFullscreen");
 			}
 			else
 			{
@@ -565,10 +632,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id,
 					$this->getAccessHandler(),
-					$_GET["blpg"],
-					$_GET["old_nr"],
+					$this->blpg,
+					$this->old_nr,
 					($this->object->getNotesStatus() && !$this->disable_notes),
-					$this->mayEditPosting($_GET["blpg"]),
+					$this->mayEditPosting($this->blpg),
 					$style_sheet_id);
 
 				// keep preview mode through notes gui (has its own commands)
@@ -591,14 +658,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 						if (!$this->prtf_embed)
 						{
-							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
+							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
 							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
 								$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
 							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 						}
 						else
 						{
-							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $this->ppage);
 							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
 								$this->ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview"));
 							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", "");
@@ -607,9 +674,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 
 				// keep preview mode through notes gui
-				if($_REQUEST["prvm"])
+				if($this->prvm)
 				{
-					$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");
+					$cmd = "preview".(($this->prvm == "fsc") ? "Fullscreen" : "Embedded");
 				}
 				if (in_array($cmd, array("previewFullscreen", "previewEmbedded")))
 				{
@@ -751,7 +818,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
-				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				if ($cmd == "create" || $this->new_type == "sty")
 				{
 					$style_gui->setCreationMode(true);
 				}
@@ -796,7 +863,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					if($cmd == "addToDesk" || $cmd == "removeFromDesk")
 					{
 						$this->{$cmd."Object"}();
-						if($_GET["prvm"])
+						if ($this->prvm)
 						{
 							$cmd = "preview";
 						}
@@ -1010,7 +1077,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @return string 
 	 */	
 	function getHTML()
-	{				
+	{
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
 		// getHTML() is called by ilRepositoryGUI::show()
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
@@ -1030,17 +1101,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
 		}		
 		// quick editing in portfolio
-		else if($_REQUEST["prt_id"])
-		{		
-		$ilUser = $this->user;
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-			
+		else if($this->prt_id)
+		{
 			// see renderList()
-			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+			if(ilObject::_lookupOwner($this->prt_id) == $ilUser->getId())
 			{				
 				// see ilPortfolioPageTableGUI::fillRow()
-				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $this->user_page);
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
 				
@@ -1208,19 +1275,18 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// from editor (#10073)
 			else if($this->mayContribute())
 			{
-				$prvm = $_GET["prvm"];
-				$this->ctrl->setParameter($this, "prvm", "");				
-				if(!$_GET["blpg"])
+				$this->ctrl->setParameter($this, "prvm", "");
+				if($this->blpg == 0)
 				{								
 					$back = $this->ctrl->getLinkTarget($this, "");
 				}
 				else
 				{
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
-					$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
 					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 				}
-				$this->ctrl->setParameter($this, "prvm", $prvm);								
+				$this->ctrl->setParameter($this, "prvm", $this->prvm);
 			}
 			
 			$back_caption = $this->lng->txt("blog_back_to_blog_owner");
@@ -1319,10 +1385,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			if($this->id_type == self::REPOSITORY_NODE_ID)
 			{				
 				// #15030
-				if($_GET["blpg"] && !$a_export)
+				if($this->blpg > 0 && !$a_export)
 				{										
 					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-					$post = new ilBlogPosting($_GET["blpg"]);
+					$post = new ilBlogPosting($this->blpg);
 					$author_id = $post->getAuthor();		
 					if($author_id)
 					{
@@ -1405,19 +1471,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 		
 		// quick editing in portfolio
-		if($_REQUEST["prt_id"] && 
+		if ($this->prt_id > 0 &&
 			stristr($a_cmd, "embedded"))
-		{		
-		$ilUser = $this->user;
-			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+		{
+			if(ilObject::_lookupOwner($this->prt_id) == $ilUser->getId())
 			{	
 				// see ilPortfolioPageTableGUI::fillRow()
-				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $this->user_page);
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
 						
@@ -1638,7 +1704,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();
 			}
 			
-			$wtpl->setCurrentBlock("posting");
+
 			
 			if(!$is_active)
 			{
@@ -1647,6 +1713,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();
 				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
 			}
+
+			$wtpl->setCurrentBlock("posting");
 			
 			$author = "";
 			if($this->id_type == self::REPOSITORY_NODE_ID)
@@ -1711,10 +1779,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param bool $a_show_inactive
 	 * @return string
 	 */
-	protected function renderNavigationByDate(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
+	protected function renderNavigationByDate(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
 	{
 		$ilCtrl = $this->ctrl;
-			
+
+		$blpg = ($a_blpg > 0)
+			? $a_blpg
+			: $this->blpg;
+
+
 		// gather page active status
 		foreach($a_items as $month => $postings)
 		{
@@ -1915,7 +1988,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					}
 
 					$wtpl->setCurrentBlock("navigation_month_details");
-					if($_GET["blpg"])
+					if($blpg > 0)
 					{
 						$wtpl->setVariable("NAV_MONTH", $month_name);
 						$wtpl->setVariable("URL_MONTH", $month_url);
@@ -1924,7 +1997,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}	
 			}
 			
-			if(!$_GET["blpg"])
+			if($blpg == 0)
 			{
 				$wtpl->setCurrentBlock("option_bl");
 				foreach($month_options as $value => $caption)
@@ -1955,11 +2028,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param bool $a_show_inactive
 	 * @return string
 	 */
-	protected function renderNavigationByKeywords($a_list_cmd = "render", $a_show_inactive = false, $a_link_template = false)
+	protected function renderNavigationByKeywords($a_list_cmd = "render", $a_show_inactive = false, $a_link_template = false,
+												  $a_blpg = 0)
 	{
 		$ilCtrl = $this->ctrl;
-		
-		$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+
+		$blpg = ($a_blpg > 0)
+			? $a_blpg
+			: $this->blpg;
+
+		$keywords = $this->getKeywords($a_show_inactive, $blpg);
 		if($keywords)
 		{		
 			$wtpl = new ilTemplate("tpl.blog_list_navigation_keywords.html", true, true, "Modules/Blog");
@@ -2077,7 +2155,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 
 			$latest_posting = $this->getLatestPosting($a_items);
-			if ($latest_posting != "" && $_GET["blpg"] != $latest_posting)
+			if ($latest_posting != "" && $this->blpg != $latest_posting)
 			{
 				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $latest_posting);
 				$mb = $f->button()->standard($lng->txt("blog_latest_posting"),
@@ -2109,7 +2187,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$nb = $f->button()->standard($lng->txt("next"), "#")->withUnavailableAction();
 			}
-			$ctrl->setParameter($this, "blpg", $_GET["blpg"]);
+			$ctrl->setParameter($this, "blpg", $this->blpg);
 			$vc = $f->viewControl()->section($pb, $mb, $nb);
 			$toolbar->addComponent($vc);
 		}
@@ -2118,7 +2196,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 
 			$latest_month = $this->getLatestMonth($a_items);
-			if ($latest_month != "" && $_GET["bmn"] != $latest_month)
+			if ($latest_month != "" && $this->month != $latest_month)
 			{
 				$ctrl->setParameter($this, "bmn", $latest_month);
 				$mb = $f->button()->standard($lng->txt("blog_latest_posting"),
@@ -2148,7 +2226,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$nb = $f->button()->standard($lng->txt("next"), "#")->withUnavailableAction();
 			}
-			$ctrl->setParameter($this, "bmn", $_GET["bmn"]);
+			$ctrl->setParameter($this, "bmn", $this->month);
 			$vc = $f->viewControl()->section($pb, $mb, $nb);
 			$toolbar->addComponent($vc);
 		}
@@ -2221,7 +2299,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			foreach ($items as $item)
 			{
-				if ($item["id"] == $_GET["blpg"])
+				if ($item["id"] == $this->blpg)
 				{
 					$found = true;
 				}
@@ -2253,7 +2331,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					$prev_blpg = $item["id"];
 				}
-				if ($item["id"] == $_GET["blpg"])
+				if ($item["id"] == $this->blpg)
 				{
 					$found = true;
 				}
@@ -2287,12 +2365,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param string $a_posting_cmd
 	 * @param bool $a_link_template
 	 * @param bool $a_show_inactive
+	 * @param int $a_blpg blog page id
 	 * @return string
 	 */
-	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
+	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
 	{
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
+
+		$blpg = ($a_blpg > 0)
+			? $a_blpg
+			: $this->blpg;
 
 		if($this->object->getOrder())
 		{
@@ -2316,19 +2399,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{			
 			$blocks[$order["navigation"]] = array(
 				$this->lng->txt("blog_navigation"),
-				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
+				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive, $a_blpg)
 			);
 		}
 		
 		if($this->object->hasKeywords())
 		{
 			// keywords 		
-			$may_edit_keywords = ($_GET["blpg"] && 
-				$this->mayEditPosting($_GET["blpg"]) && 
+			$may_edit_keywords = ($blpg > 0 &&
+				$this->mayEditPosting($blpg) &&
 				$a_list_cmd != "preview" && 
 				$a_list_cmd != "gethtml" &&				 
 				!$a_link_template);
-			$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive, $a_link_template);	
+			$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive, $a_link_template, $a_blpg);
 			if($keywords || $may_edit_keywords)
 			{
 				if(!$keywords)
@@ -2338,7 +2421,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$cmd = null;
 				if($may_edit_keywords)
 				{
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $blpg);
 					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
 					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 				}
@@ -2650,10 +2733,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}		
 				
 				// posting nav
-				$_GET["blpg"] = $page["id"];
-				$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
-				$_GET["blpg"] = null;
-				
+				$nav = $this->renderNavigation($this->items, "", "", $a_link_template,
+					false, $page["id"]);
+
 				$this->writeExportFile($a_target_directory, $file, $tpl, 
 					$page_content, $nav, $back);
 				
@@ -2783,11 +2865,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	function getNotesSubId()
 	{
-		if($_REQUEST["blpg"])
-		{
-			return $_REQUEST["blpg"];
-		}
-		return 0;
+		return $this->blpg;
 	}
 	
 	function disableNotes($a_value = false)
@@ -2801,17 +2879,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		
 		// preview?
-		if($a_cmd == "preview" || $a_cmd == "previewFullscreen" || $_GET["prvm"])
+		if($a_cmd == "preview" || $a_cmd == "previewFullscreen" || $this->prvm)
 		{						
 			// notification
 			if($ilUser->getId() != ANONYMOUS_USER_ID)			
 			{			
-				if(!$_GET["prvm"])
+				if(!$this->prvm)
 				{
 					$ilCtrl->setParameter($this, "prvm", "fsc");
 				}
 				$this->insertHeaderAction($this->initHeaderAction(null, null, true));	
-				if(!$_GET["prvm"])
+				if(!$this->prvm)
 				{
 					$ilCtrl->setParameter($this, "prvm", "");
 				}
@@ -2834,10 +2912,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 
 		$sub_type = $sub_id = null;
-		if($_GET["blpg"])
+		if($this->blpg > 0)
 		{
 			$sub_type = "blp";
-			$sub_id = $_GET["blpg"];
+			$sub_id = $this->blpg;
 		}		
 				
 		$lg = parent::initHeaderAction($sub_type, $sub_id);
@@ -2908,7 +2986,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
-		switch($_GET["ntf"])
+		switch($this->ntf)
 		{
 			case 1:
 				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->obj_id, false);
@@ -3079,10 +3157,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	function approve()
 	{
-		if($this->isAdmin() && (int)$_GET["apid"])
+		if($this->isAdmin() && $this->apid > 0)
 		{			
 			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-			$post = new ilBlogPosting((int)$_GET["apid"]);			
+			$post = new ilBlogPosting($this->apid);
 			$post->setApproved(true);
 			$post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));
 			$post->update(true, false, true, "new"); // #13434
@@ -3148,13 +3226,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	public function addUserFromAutoComplete()
 	{		
 		$lng = $this->lng;
-		
-		if(!strlen(trim($_POST['user_login'])))
+
+		$user_login = ilUtil::stripSlashes($_POST['user_login']);
+		$user_type = ilUtil::stripSlashes($_POST["user_type"]);
+
+		if(!strlen(trim($user_login)))
 		{
 			ilUtil::sendFailure($lng->txt('msg_no_search_string'));
 			return $this->contributors();
 		}
-		$users = explode(',', $_POST['user_login']);
+		$users = explode(',', $user_login);
 				
 		$user_ids = array();
 		foreach($users as $user)
@@ -3170,7 +3251,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$user_ids[] = $user_id;
 		}
 	
-		return $this->addContributor($user_ids, $_POST["user_type"]);											
+		return $this->addContributor($user_ids, $user_type);
 	}
 		
 	/**
@@ -3221,9 +3302,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	public function confirmRemoveContributor()
 	{	
-		$ids = $_POST["id"];
+		$ids = ilUtil::stripSlashesRecursive($_POST["id"]);
 		
-		if(!sizeof($ids))
+		if(!is_array($ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "contributors");
@@ -3256,9 +3337,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$rbacadmin = $this->rbacadmin;
 		
-		$ids = $_POST["id"];
+		$ids = ilUtil::stripSlashesRecursive($_POST["id"]);
 		
-		if(!sizeof($ids))
+		if(!is_array($ids))
 		{
 			ilUtil::sendFailure($lng->txt("select_one"), true);
 			$ilCtrl->redirect($this, "contributors");
@@ -3310,11 +3391,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	public function deactivateAdmin()
 	{
-		if($this->checkPermissionBool("write") && (int)$_GET["apid"])
+		if($this->checkPermissionBool("write") && $this->apid > 0)
 		{			
 			// ilBlogPostingGUI::deactivatePage()
 			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-			$post = new ilBlogPosting((int)$_GET["apid"]);
+			$post = new ilBlogPosting($this->apid);
 			$post->setApproved(false);
 			$post->setActive(false);
 			$post->update(true, false, false);
@@ -3383,7 +3464,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		else
 		{
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
-				$_GET["ref_id"]);
+				$this->ref_id);
 
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
@@ -3446,7 +3527,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))
 		{
-			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->setStyleSheetId((int) $_POST["style_id"]);
 			$this->object->update();
 			
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -3460,40 +3541,53 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param string $a_target 
 	 */
 	public static function _goto($a_target)
-	{							
+	{
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+
 		if(substr($a_target, -3) == "wsp")
 		{		
-			$id = explode("_", $a_target);		
+			$id = explode("_", $a_target);
 
-			$_GET["baseClass"] = "ilSharedResourceGUI";	
-			$_GET["wsp_id"] = $id[0];		
-			if(sizeof($id) == 3)
+			$ilCtrl->setTargetScript("ilias.php");
+			$ilCtrl->initBaseClass("ilSharedResourceGUI");
+			$ilCtrl->setParameterByClass("ilSharedResourceGUI", "wsp_id", $id[0]);
+
+			if(sizeof($id) >= 2)
 			{
-				$_GET["gtp"] = $id[1];
-			}						
+				if(is_numeric($id[1]))
+				{
+					$ilCtrl->setParameterByClass("ilSharedResourceGUI", "gtp", $id[1]);
+				}
+				else
+				{
+					$ilCtrl->setParameterByClass("ilSharedResourceGUI", "kwd", $id[1]);
+				}
+			}
+			$ilCtrl->redirectByClass("ilSharedResourceGUI", "");
 		}
 		else
 		{
-			$id = explode("_", $a_target);		
-			
-			$_GET["baseClass"] = "ilRepositoryGUI";	
-			$_GET["ref_id"] = $id[0];		
-			$_GET["cmd"] = "preview";
+			$id = explode("_", $a_target);
+
+			$ilCtrl->setTargetScript("ilias.php");
+			$ilCtrl->initBaseClass("ilRepositoryGUI");
+			$ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $id[0]);
+
 			if(sizeof($id) == 2)
 			{
 				if(is_numeric($id[1]))
 				{
-					$_GET["gtp"] = $id[1];
+					$ilCtrl->setParameterByClass("ilRepositoryGUI", "gtp", $id[1]);
 				}
 				else
 				{
-					$_REQUEST["kwd"] = $id[1];
+					$ilCtrl->setParameterByClass("ilRepositoryGUI", "kwd", $id[1]);
 				}				
-			}	
+			}
+			$ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
 		}
-		
-		include("ilias.php");
-		exit;
 	}
 }
 

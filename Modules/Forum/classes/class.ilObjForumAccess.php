@@ -194,7 +194,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function getCachedUserInstance($usr_id)
 	{
-		if(!isset(self::$userInstanceCache[$usr_id]))
+		if(!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id]))
 		{
 			self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);
 		}

@@ -76,7 +76,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->type = $this->getType();
 		$this->html = "";
 		
-		// use globals instead?
 		$this->tabs_gui = $ilTabs;
 		$this->objDefinition = $objDefinition;
 		$this->tpl = $tpl;
@@ -873,8 +872,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$plink->setAlignCenter($a_center);
 		return $plink->getHTML();
 	}
-	
-	
+
+
+	/**
+	 * @param \ilObject $a_new_obj
+	 */
 	protected function handleAutoRating(ilObject $a_new_obj)
 	{
 		// only needed in repository
@@ -884,5 +886,3 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}				
 	}
 }
-
-?>

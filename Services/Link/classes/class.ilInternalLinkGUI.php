@@ -121,7 +121,7 @@ class ilInternalLinkGUI
 
 		// current parent object
 		$this->parent_ref_id = (int) $_GET["link_par_ref_id"];
-		$this->parent_fold_ud = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
+		$this->parent_fold_id = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
 		if ($this->parent_ref_id > 0)
 		{
 			$this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
@@ -155,7 +155,8 @@ class ilInternalLinkGUI
 			"PortfolioPage" => "prtf",
 			"PortfolioTemplatePage" => "prtt",
 			"File" => "",
-			"RepositoryItem" => ""
+			"RepositoryItem" => "",
+			"User" => ""
 		);
 
 		// filter link types
@@ -197,7 +198,6 @@ class ilInternalLinkGUI
 			}
 			$this->ltypes = $ltypes;
 		}
-
 		// determine link type and target
 		$this->link_type = ($_GET["link_type"] == "")
 			? $this->default_link_type
@@ -338,11 +338,16 @@ class ilInternalLinkGUI
 			(($this->parent_ref_id > 0) &&
 			!in_array(ilObject::_lookupType($this->parent_ref_id, true), array($parent_type))))
 		{
-			$this->changeTargetObject($parent_type);
+			if ($parent_type != "")
+			{
+				$this->changeTargetObject($parent_type);
+			}
 		}
 		if ($ilCtrl->isAsynch())
 		{
 			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+			$tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget($this,
+				"", false, true, false));
 		}
 		else
 		{
@@ -365,10 +370,7 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
 		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 
-		$chapterRowBlock = "chapter_row";
-		$anchor_row_block = "anchor_link";
-
-		$chapterRowBlock .= "_js";
+		$chapterRowBlock = "chapter_row_js";
 
 		// switch link type
 		switch($this->base_link_type)
@@ -398,9 +400,8 @@ class ilInternalLinkGUI
 				{
 					if($node["type"] == "st")
 					{
-						$tpl->setCurrentBlock("chapter_row");
-						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-						$tpl->setVariable("ROWCLASS", "tblrow1");
+						$tpl->setCurrentBlock("header_row");
+						$tpl->setVariable("TXT_HEADER", $node["title"]);
 						$tpl->parseCurrentBlock();
 						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
@@ -427,9 +428,8 @@ class ilInternalLinkGUI
 				}
 				if(count($free_pages) > 0)
 				{
-					$tpl->setCurrentBlock(str_replace("_js","",$chapterRowBlock));
-					$tpl->setVariable("TXT_CHAPTER", $this->lng->txt("cont_free_pages"));
-					$tpl->setVariable("ROWCLASS", "tblrow1");
+					$tpl->setCurrentBlock("header_row");
+					$tpl->setVariable("TXT_HEADER", $this->lng->txt("cont_free_pages"));
 					$tpl->parseCurrentBlock();
 
 					foreach ($free_pages as $node)
@@ -852,6 +852,13 @@ class ilInternalLinkGUI
 		$ctrl = $this->ctrl;
 
 		$ctrl->setParameter($this, "link_type", $_GET["link_type"]);
+		$base_type = explode("_", $_GET["link_type"])[0];
+		if ($this->parent_type[$base_type] != ilObject::_lookupType($this->parent_ref_id, true))
+		{
+			$ctrl->setParameter($this, "link_par_ref_id", 0);
+			$ctrl->setParameter($this, "link_par_obj_id", 0);
+		}
+
 		$ctrl->redirect($this, "showLinkHelp", "", true);
 	}
 
@@ -931,7 +938,7 @@ class ilInternalLinkGUI
 			{
 				$tpl->setVariable("LINK_CLIPBOARD", "#");
 				$tpl->setVariable("CLIPBOARD_ONCLICK",
-					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0);\" ");
+					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0, '".$this->link_type."');\" ");
 				
 			}
 			else
@@ -1024,10 +1031,8 @@ class ilInternalLinkGUI
 	function renderLink($tpl, $a_title, $a_obj_id, $a_type, $a_type_short, $a_bb_type,
 		$a_anchors = array(), $a_link_content = "")
 	{
-		$chapterRowBlock = "chapter_row";
-		$anchor_row_block = "anchor_link";
-		$chapterRowBlock .= "_js";
-		$anchor_row_block .= "_js";
+		$chapterRowBlock = "chapter_row_js";
+		$anchor_row_block = "anchor_link_js";
 
 		$target_str = ($this->link_target == "")
 			? ""
@@ -1037,12 +1042,29 @@ class ilInternalLinkGUI
 		{
 			foreach ($a_anchors as $anchor)
 			{
-				$tpl->setCurrentBlock($anchor_row_block);
-				$tpl->setVariable("ALINK_BEGIN",
-					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"".$target_str." anchor=\"$anchor\"]"));
-				$tpl->setVariable("ALINK_END", "[/iln]");
-				$tpl->setVariable("TXT_LINK", "#".$anchor);
-				$tpl->parseCurrentBlock();
+				if ($this->getSetLinkTargetScript() != "")
+				{
+					// not implemented yet (anchors that work with map areas)
+
+					/*$tpl->setCurrentBlock("anchor_link");
+					$tpl->setVariable("ALINK",
+						ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+							"linktype=".$a_type.
+							"&linktarget=il__".$a_type_short."_".$a_obj_id.
+							"&linktargetframe=".$this->link_target).
+							"&linkanchor=".$anchor);
+					$tpl->setVariable("TXT_ALINK", "#" . $anchor);
+					$tpl->parseCurrentBlock();*/
+				}
+				else
+				{
+					$tpl->setCurrentBlock($anchor_row_block);
+					$tpl->setVariable("ALINK_BEGIN",
+						$this->prepareJavascriptOutput("[iln " . $a_bb_type . "=\"" . $a_obj_id . "\"" . $target_str . " anchor=\"$anchor\"]"));
+					$tpl->setVariable("ALINK_END", "[/iln]");
+					$tpl->setVariable("TXT_LINK", "#" . $anchor);
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
 
@@ -1121,12 +1143,10 @@ class ilInternalLinkGUI
 		$form = new ilPropertyFormGUI();
 		$form->setId("link_user_search_form");
 
-		//
+		// user search
 		$ti = new ilTextInputGUI($this->lng->txt("obj_user"), "usr_search_str");
 		$ti->setValue($_POST["usr_search_str"]);
-		//$ti->setInfo($this->lng->txt("cont_usr_search_"));
 		$form->addItem($ti);
-
 
 		$form->addCommandButton("searchUser", $this->lng->txt("search"));
 
@@ -1160,50 +1180,7 @@ class ilInternalLinkGUI
 		$form = $this->initUserSearchForm();
 		$form->checkInput();
 
-		$rbacsys = $DIC->rbac()->system();
-
-		$admin = ($rbacsys->checkAccess("read", USER_FOLDER_ID));
-
-		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-		$relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
-		$users = array();
-		if ($admin || count($relations))
-		{
-			$result = new ilSearchResult();
-
-			$query_parser = new ilQueryParser($form->getInput("usr_search_str"), '%_');
-			$query_parser->setCombination(QP_COMBINATION_AND);
-			$query_parser->setMinWordLength(3);
-			$query_parser->parse();
-
-			$user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
-			$user_search->enableActiveCheck(true);
-			$user_search->setFields(array('login'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$user_search->setFields(array('firstname'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$user_search->setFields(array('lastname'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$result->setMaxHits(100000);
-			$result->preventOverwritingMaxhits(true);
-			$result->filter(ROOT_FOLDER_ID, true);
-
-			// Filter users (depends on setting in user accounts)
-			include_once 'Services/User/classes/class.ilUserFilter.php';
-			$users = ilUserFilter::getInstance()->filter($result->getResultIds());
-			if (!$admin)
-			{
-				$users = array_intersect($users, $relations->getKeys());
-			}
-		}
-
-
+		$users = ilInternalLink::searchUsers($form->getInput("usr_search_str"));
 		if (count($users) == 0)
 		{
 			return $tpl->getMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");
@@ -1225,7 +1202,7 @@ class ilInternalLinkGUI
 			$cards[] = $f->card($name, $f->image()->responsive(ilObjUser::_getPersonalPicturePath($user, "small") , $name))
 				->withSections(array($b));
 		}
-		$deck = $f->deck($cards)->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_L);
+		$deck = $f->deck($cards)->withLargeCardsSize();
 
 		return $r->renderAsync($deck);
 	}

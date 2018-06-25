@@ -24,8 +24,12 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	protected $rep_object;
 
 	
+	/**
+	 * Init table filter
+	 */
 	public function initFilter()
 	{
+		$this->setDefaultFilterVisiblity(true);
 		
 		$login = $this->addFilterItemByMetaType(
 			'login',
@@ -61,8 +65,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			
 			include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
 			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-			ilLoggerFactory::getLogger('crs')->dump($paths);
-			
 			
 			$options[0] = $this->lng->txt('select_one');
 			foreach($paths as $org_ref_id => $path)
@@ -88,9 +90,11 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	 */
 	public function getSelectableColumns()
 	{		
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
-		$GLOBALS['lng']->loadLanguageModule('ps');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('ps');
 		if(self::$all_columns)
 		{
 			# return self::$all_columns;
@@ -108,11 +112,18 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			);			
 		}
 		
-		self::$all_columns['roles'] = array(
-			'txt' => $this->lng->txt('objs_role'),
-			'default' => true
+		$login = array_splice(self::$all_columns,0,1);
+		self::$all_columns = array_merge(
+			array(
+				'roles' => 
+					array(
+						'txt' => $this->lng->txt('objs_role'),
+						'default' => true
+				)
+			),
+			self::$all_columns
 		);
-		
+		self::$all_columns = array_merge($login, self::$all_columns);
 		return self::$all_columns;
 	}
 	

@@ -48,6 +48,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->type = "book";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->lng->loadLanguageModule("book");
+
+		$this->user_profile_id = (int)$_GET["user_id"];
+		$this->book_obj_id = (int)$_REQUEST['object_id'];
+		$this->seed = ilUtil::stripSlashes($_GET['seed']);
+		$this->sseed = ilUtil::stripSlashes($_GET['sseed']);
+		$this->reservation_id = (int) $_GET["reservation_id"];
+		$this->profile_user_id = (int) $_GET['user_id'];
 	}
 
 	/**
@@ -112,7 +119,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			case 'ilpublicuserprofilegui':
 				$ilTabs->clearTargets();
 				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
-				$profile = new ilPublicUserProfileGUI((int)$_GET["user_id"]);
+				$profile = new ilPublicUserProfileGUI($this->user_profile_id);
 				$profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
 				$ret = $this->ctrl->forwardCommand($profile);
 				$tpl->setContent($ret);
@@ -175,6 +182,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	public function editObject()
 	{
+		$this->showNoScheduleMessage();
+		return parent::editObject();
+	}
+
+	/**
+	 * Show no schedule message
+	 *
+	 * @param
+	 * @return
+	 */
+	function showNoScheduleMessage()
+	{
 		// if we have no schedules yet - show info
 		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
 		if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE &&
@@ -182,9 +201,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
 		}
-
-		return parent::editObject();
 	}
+
 	
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
@@ -448,16 +466,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				}
 			}
 
-			if(isset($_GET['seed']))
+			if ($this->seed != "")
 			{
 				$find_first_open = false;
-				$seed = new ilDate($_GET['seed'], IL_CAL_DATE);
+				$seed = new ilDate($this->seed, IL_CAL_DATE);
 			}
 			else
 			{
 				$find_first_open = true;
-				$seed = isset($_GET['sseed']) 
-					? new ilDate($_GET['sseed'], IL_CAL_DATE)
+				$seed = ($this->sseed != "")
+					? new ilDate($this->sseed, IL_CAL_DATE)
 					: new ilDate(time(), IL_CAL_UNIX);
 			}
 			
@@ -761,9 +779,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if($this->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{	
-			if($_POST['object_id'])
+			if($this->book_obj_id > 0)
 			{
-				$object_id = $_POST['object_id'];
+				$object_id = $this->book_obj_id;
 				if($object_id)
 				{
 					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id) &&
@@ -790,20 +808,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			}
 						
 			// single object reservation(s)
-			if(isset($_GET['object_id']))
+			if($this->book_obj_id > 0)
 			{
 				$confirm = array();
 				
-				$object_id = (int)$_GET['object_id'];
+				$object_id = $this->book_obj_id;
 				if($object_id)
 				{	
 					$group_id = null;
 					$nr = ilBookingObject::getNrOfItemsForObjects(array($object_id));
 					// needed for recurrence
-					if(true) // if($nr[$object_id] > 1 || sizeof($_POST['date']) > 1)
-					{
-						$group_id = ilBookingReservation::getNewGroupId();									
-					}
+					$group_id = ilBookingReservation::getNewGroupId();
 					foreach($_POST['date'] as $date)
 					{										
 						$fromto = explode('_', $date);
@@ -814,15 +829,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						if($counter)
 						{					
 							// needed for recurrence
-							if(true) // if($counter > 1)
-							{
-								$confirm[$object_id."_".$fromto[0]."_".($fromto[1]+1)] = $counter;
-							}
-							else
-							{								
-								$rsv_ids[] = $this->processBooking($object_id, $fromto[0], $fromto[1], $group_id);
-								$success = $object_id;									
-							}
+							$confirm[$object_id."_".$fromto[0]."_".($fromto[1]+1)] = $counter;
 						}
 					}
 				}
@@ -832,56 +839,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					return $this->confirmBookingNumbers($confirm, $group_id);					
 				}
 			}
-			/*
-			// group object reservation(s)
-			else
-			{														
-				$all_object_ids = array();
-				foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
-				{
-					$all_object_ids[] = $item['booking_object_id'];
-				}
-
-				$possible_objects = $counter = array();	
-				sort($_POST['date']);			
-				foreach($_POST['date'] as $date)
-				{
-					$fromto = explode('_', $date);
-					$fromto[1]--;
-					$possible_objects[$date] = ilBookingReservation::getAvailableObject($all_object_ids, $fromto[0], $fromto[1], false);		
-					foreach($possible_objects[$date] as $obj_id)
-					{
-						$counter[$obj_id]++;
-					}
-				}
-
-				if(max($counter))
-				{			
-					// we prefer the objects which are available for most slots
-					arsort($counter);
-					$counter = array_keys($counter);
-
-					// book each slot
-					foreach($possible_objects as $date => $available_ids)
-					{
-						$fromto = explode('_', $date);
-						$fromto[1]--;
-
-						// find "best" object for slot
-						foreach($counter as $best_object_id)
-						{
-							if(in_array($best_object_id, $available_ids))
-							{
-								$object_id = $best_object_id;
-								break;
-							}
-						}				
-						$this->processBooking($object_id, $fromto[0], $fromto[1]);
-						$success = true;	
-					}
-				}
-			}			 
-			*/
 		}
 		
 		if($success)
@@ -1151,27 +1108,25 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		else
 		{			
 			// ilDateTimeInputGUI does NOT add hidden values on disabled!
-			
-			$rece_year = $_POST["rece"]["date"]["y"];
-			$rece_month = str_pad($_POST["rece"]["date"]["m"], 2, "0", STR_PAD_LEFT);
-			$rece_day = str_pad($_POST["rece"]["date"]["d"], 2, "0", STR_PAD_LEFT);
-			
+
+			$rece_array = explode(".", $_POST['rece']);
+
+			$rece_day = str_pad($rece_array[0], 2, "0", STR_PAD_LEFT);
+			$rece_month = str_pad($rece_array[1], 2, "0", STR_PAD_LEFT);
+			$rece_year = $rece_array[2];
+
 			// ilDateTimeInputGUI will choke on POST array format
 			$_POST["rece"] = null;		
 			
 			$form->setValuesByPost();
-			
-			$form->getItemByPostVar("rece")->setDate(new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE));
+
+			$rece_date = new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE);
+
+			$form->getItemByPostVar("rece")->setDate($rece_date);
 			$form->getItemByPostVar("recm")->setHideSubForm($_POST["recm"] < 1);
-			
-			$hidden_date = new ilHiddenInputGUI("rece[date][y]");
-			$hidden_date->setValue($rece_year);			
-			$form->addItem($hidden_date);
-			$hidden_date = new ilHiddenInputGUI("rece[date][m]");
-			$hidden_date->setValue($rece_month);			
-			$form->addItem($hidden_date);
-			$hidden_date = new ilHiddenInputGUI("rece[date][d]");
-			$hidden_date->setValue($rece_day);			
+
+			$hidden_date = new ilHiddenInputGUI("rece");
+			$hidden_date->setValue($rece_date);
 			$form->addItem($hidden_date);
 			
 			return $this->confirmBookingNumbers($counter, $group_id, $form);				
@@ -1241,9 +1196,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$show_all = ($this->checkPermissionBool('write') || $this->object->hasPublicLog());
 		
 		$filter = null;
-		if($_GET["object_id"])
+		if ($this->book_obj_id > 0)
 		{
-			$filter["object"] = (int)$_GET["object_id"];
+			$filter["object"] = $this->book_obj_id;
 		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
@@ -1265,16 +1220,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$show_all = ($this->checkPermissionBool('write') ||	$this->object->hasPublicLog());
 		
 		$filter = null;
-		if($_GET["object_id"])
+		if ($this->book_obj_id > 0)
 		{
-			$filter["object"] = (int)$_GET["object_id"];
+			$filter["object"] = $this->book_obj_id;
 		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
 		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, 
 			$this->object->getId(), $show_all, 
 			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
-			$filter, $_GET["reservation_id"]);
+			$filter, $this->reservation_id);
 		$tpl->setContent($table->getHTML());
 	}
 	
@@ -1413,9 +1368,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			return $_POST["mrsv"];			
 		}
-		else if($_GET["reservation_id"])
+		else if($this->reservation_id > 0)
 		{
-			return array($_GET["reservation_id"]);
+			return array($this->reservation_id);
 		}				
 	}
 	
@@ -1735,7 +1690,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		$this->tabs_gui->clearTargets();
 		
-		$user_id = (int)$_GET['user_id'];
+		$user_id = $this->profile_user_id;
 		
 		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
 		$profile = new ilPublicUserProfileGUI($user_id);
@@ -1749,7 +1704,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "render"), "", $_GET["ref_id"]);
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "render"), "", $this->object->getRefId());
 		}
 	}		
 }

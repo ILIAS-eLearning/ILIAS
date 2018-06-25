@@ -317,22 +317,35 @@ class ilExerciseManagementGUI
 		}
 		
 		// add member
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$ilToolbar,
-			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add'),
-				'add_search'			=> true,
-				'add_from_container'    => $this->exercise->getRefId()
-			)
+		// is only shown if 'edit_submissions_grades' is granted by rbac. positions
+		// access is not sufficient.
+		$has_rbac_access = $GLOBALS['DIC']->access()->checkAccess(
+			'edit_submissions_grades',
+			'',
+			$this->exercise->getRefId()
 		);
+		if($has_rbac_access)
+		{
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$ilToolbar,
+				array(
+					'auto_complete_name'	=> $lng->txt('user'),
+					'submit_name'			=> $lng->txt('add'),
+					'add_search'			=> true,
+					'add_from_container'    => $this->exercise->getRefId()
+				)
+			);
+		}
 		
 		// #16168 - no assignments
 		if (count($ass) > 0)
-		{	
-			$ilToolbar->addSeparator();
+		{
+			if($has_rbac_access)
+			{
+				$ilToolbar->addSeparator();
+			}
 
 			// we do not want the ilRepositorySearchGUI form action		
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
@@ -1026,8 +1039,7 @@ class ilExerciseManagementGUI
 			{
 				$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
 			}
-		}				
-		
+		}
 		$this->saveStatus($data);
 	}
 	
@@ -1060,7 +1072,6 @@ class ilExerciseManagementGUI
 			$ass = ($ass_id < 0)
 				? $this->assignment
 				: new ilExAssignment($ass_id);
-			
 			foreach($users as $user_id => $values)
 			{				
 				// this will add team members if available
@@ -1071,7 +1082,14 @@ class ilExerciseManagementGUI
 					$saved_for[$sub_user_id] = $uname["lastname"].", ".$uname["firstname"];					
 
 					$member_status = $ass->getMemberStatus($sub_user_id);
-					$member_status->setStatus($values["status"]);	
+
+					// see bug #22566
+					$status = $values["status"];
+					if ($status == "")
+					{
+						$status = "notgraded";
+					}
+					$member_status->setStatus($status);
 					if(array_key_exists("mark", $values))
 					{
 						$member_status->setMark($values["mark"]);					
@@ -1122,6 +1140,7 @@ class ilExerciseManagementGUI
 					{
 						$member_status = $this->assignment->getMemberStatus($user_id);
 						$member_status->setComment(ilUtil::stripSlashes($comment));
+						$member_status->setFeedback(true);
 						$member_status->update();
 						
 						if(trim($comment))

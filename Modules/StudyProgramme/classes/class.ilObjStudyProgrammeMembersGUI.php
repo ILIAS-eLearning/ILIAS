@@ -253,13 +253,15 @@ class ilObjStudyProgrammeMembersGUI {
 		$assignments = $this->_addUsers($users);
 
 		$completed_programmes = $_POST["courses"];
-		foreach ($completed_programmes as $user_id => $prg_ref_ids) {
-			$ass_id = $assignments[$user_id]->getId();
-			foreach ($prg_ref_ids as $ids) {
-				list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
-				$prg = $this->getStudyProgramme($prg_ref_id);
-				$progress = $prg->getProgressForAssignment($ass_id);
-				$progress->setLPCompleted($crsr_id, $user_id);
+		if (is_array($completed_programmes)) {
+			foreach ($completed_programmes as $user_id => $prg_ref_ids) {
+				$ass_id = $assignments[$user_id]->getId();
+				foreach ($prg_ref_ids as $ids) {
+					list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
+					$prg = $this->getStudyProgramme($prg_ref_id);
+					$progress = $prg->getProgressForAssignment($ass_id);
+					$progress->setLPCompleted($crsr_id, $user_id);
+				}
 			}
 		}
 
@@ -293,6 +295,21 @@ class ilObjStudyProgrammeMembersGUI {
 	}
 
 	/**
+	 * Get post prgs ids
+	 *
+	 * @return string[]
+	 */
+	protected function getPostPrgsIds()
+	{
+		$prgrs_ids = $_POST['prgs_ids'];
+		if($prgrs_ids === null) {
+			$this->showInfoMessage("no_user_selected");
+			$this->ctrl->redirect($this, "view");
+		}
+		return $prgrs_ids;
+	}
+
+	/**
 	 * Mark SP for single user accredited
 	 *
 	 * @return null
@@ -313,7 +330,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markAccreditedMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$this->markAccreditedById((int)$prgrs_id);
 		}
@@ -368,11 +385,13 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function unmarkAccreditedMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			if ($this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+				$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			}
 		}
-		$this->showSuccessMessage("unmark_accredited_success");
+		$this->showSuccessMessage("unmark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -383,10 +402,16 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markRelevantMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			if (
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED
+			) {
+				continue;
+			}
 			$prgrs->markRelevant($this->user->getId());
 		}
 
@@ -401,7 +426,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markNotRelevantMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
@@ -419,7 +444,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function updateFromCurrentPlanMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		$not_updated = array();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
@@ -466,7 +491,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	protected function removeUserMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		$not_removed = array();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			try {
@@ -515,7 +540,7 @@ class ilObjStudyProgrammeMembersGUI {
 		assert('is_int($prgrs_id)');
 		if (!array_key_exists($prgrs_id, $this->progress_objects)) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($id);
+			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 		}
 		return $this->progress_objects[$prgrs_id];
 	}
@@ -543,6 +568,16 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function showSuccessMessage($a_lng_var) {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
+	}
+
+	/**
+	 * Shows ilutil failed message
+	 *
+	 * @return null
+	 */
+	protected function showInfoMessage($a_lng_var) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::sendInfo($this->lng->txt("prg_$a_lng_var"), true);
 	}
 
 	protected function initSearchGUI() {

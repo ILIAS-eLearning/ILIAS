@@ -24,7 +24,7 @@ abstract class Button implements C\Button\Button {
 	protected $label;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	protected $action;
 
@@ -46,9 +46,19 @@ abstract class Button implements C\Button\Button {
 
 	public function __construct($label, $action) {
 		$this->checkStringArg("label", $label);
-		$this->checkStringArg("action", $action);
+		$this->checkArg(
+			"action",
+			is_string($action) || $action instanceof Signal,
+			$this->wrongTypeMessage("string or Signal", gettype($action))
+		);
 		$this->label = $label;
-		$this->action = $action;
+		if (is_string($action)) {
+			$this->action = $action;
+		}
+		else {
+			$this->action = null;
+			$this->setTriggeredSignal($action, "click");
+		}
 	}
 
 	/**
@@ -72,7 +82,17 @@ abstract class Button implements C\Button\Button {
 	 * @inheritdoc
 	 */
 	public function getAction() {
-		return $this->action;
+		if ($this->action !== null) {
+			return $this->action;
+		}
+		$triggered_click_signals = $this->triggered_signals["click"];
+		if ($triggered_click_signals === null) {
+			return [];
+		}
+		return array_map(
+			function($ts) { return $ts->getSignal(); },
+			$triggered_click_signals
+		);
 	}
 
 	/**
@@ -95,6 +115,7 @@ abstract class Button implements C\Button\Button {
 	 * @inheritdoc
 	 */
 	public function withOnClick(Signal $signal) {
+		$this->action = null;
 		return $this->addTriggeredSignal($signal, 'click');
 	}
 

@@ -162,7 +162,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$this->persistence->setConnector($observerConnector);
 		$observer_ids = $this->persistence->getBucketIdsOfUser(5);
-		$this->assertEquals($observer_ids, [2 => 2, 3 => 3]);
+		$this->assertEquals($observer_ids, [0 => 2, 1 => 3]);
 	}
 
 	public function testGetObserverIdsByState() {
@@ -201,7 +201,9 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
-		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
+		$dismiss = $download_integer->getRemoveOption();
+
+		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
 		self::assertEquals($this->bucket->getState(), State::FINISHED);
@@ -235,7 +237,9 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
-		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
+		$dismiss = $download_integer->getRemoveOption();
+
+		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
 		/** @var IntegerValue $result */

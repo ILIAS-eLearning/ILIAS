@@ -119,7 +119,7 @@ class ilGroupAddToGroupActionGUI
 		$url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
 		$button1 = $this->ui->factory()->button()->standard($lng->txt("grp_use_existing"), "#")
 			->withOnLoadCode(function ($id) use ($url1) {
-				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url1', 'il_grp_action_modal_content');})";
+				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url1', 'il_grp_action_modal_content'); return false;})";
 			});
 		$toolbar->addComponent($button1);
 
@@ -127,7 +127,7 @@ class ilGroupAddToGroupActionGUI
 		$url2 = $ctrl->getLinkTarget($this, "selectParent", "", true, false);
 		$button2 = $this->ui->factory()->button()->standard($lng->txt("grp_create_new"), "#")
 			->withOnLoadCode(function ($id) use ($url2) {
-				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url2', 'il_grp_action_modal_content');})";
+				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url2', 'il_grp_action_modal_content'); return false;})";
 			});
 		$toolbar->addComponent($button2);
 
@@ -210,7 +210,7 @@ class ilGroupAddToGroupActionGUI
 			$url = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
 			$button = $this->ui->factory()->button()->standard($lng->txt("back"), "#")
 				->withOnLoadCode(function ($id) use ($url) {
-					return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content');})";
+					return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
 				});
 
 			echo
@@ -227,7 +227,7 @@ class ilGroupAddToGroupActionGUI
 		$url = $ctrl->getLinkTarget($this, "addUser", "", true, false);
 		$button = $this->ui->factory()->button()->standard($lng->txt("grp_add_user"), "#")
 			->withOnLoadCode(function ($id) use ($url) {
-				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content');})";
+				return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
 			});
 
 		echo
@@ -327,7 +327,11 @@ class ilGroupAddToGroupActionGUI
 
 		$group_gui = new ilObjGroupGUI("", 0, true);
 		$group_gui->setCreationMode(true);
+		// workaround for bug #22748 (which is triggered, if a didactic template for groups exist which is limited to a rep node)
+		$ref_id = $_GET["ref_id"];
+		$_GET["ref_id"] = $_GET["grp_act_par_ref_id"];
 		$form = $group_gui->initForm("create", true);
+		$_GET["ref_id"] = $ref_id;
 		$form->clearCommandButtons();
 		$form->addCommandButton("save", $lng->txt("grp_next"));
 		$form->setShowTopButtons(false);

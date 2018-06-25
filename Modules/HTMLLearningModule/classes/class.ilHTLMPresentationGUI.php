@@ -113,8 +113,10 @@ class ilHTLMPresentationGUI
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
+			$ilCtrl->setParameterByClass("ilobjfilebasedlmgui", "ref_id", $_GET["ref_id"]);
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen"), "lm");
+				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfilebasedlmgui"), "infoScreen"), "htlm");
+
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);

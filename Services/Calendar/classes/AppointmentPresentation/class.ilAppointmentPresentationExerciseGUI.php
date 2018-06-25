@@ -42,14 +42,20 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//Assignment title information
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
-		//TODO Work instructions, Instruction files, pass mode.
 		//var_dump($a_app); exit;
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
 		$assignment = new ilExAssignment($ass_id);
-		if($assignment->getInstruction() != "")
+		$assignment_instructions = trim($assignment->getInstruction());
+		if($assignment_instructions != "")
 		{
-			$this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment->getInstruction());
+			#21517
+			$is_html = (strlen($assignment_instructions) != strlen(strip_tags($assignment_instructions)));
+			if(!$is_html)
+			{
+				$assignment_instructions = nl2br($assignment_instructions);
+			}
+			$this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment_instructions);
 		}
 		$files = $assignment->getFiles();
 		if(count($files) > 0)
@@ -65,8 +71,9 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
-				$str_files[] = $r->render($f->button()->shy($file["name"],$url));
+				$str_files[$file["name"]] = $r->render($f->button()->shy($file["name"],$url));
 			}
+			ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
 			$str_files = implode("<br>", $str_files);
 			$this->addInfoProperty($this->lng->txt("exc_instruction_files"),$str_files);
 			$this->addListItemProperty($this->lng->txt("exc_instruction_files"),str_replace("<br>", ", ", $str_files));
@@ -82,11 +89,11 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 			$this->addListItemProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
 		}
 
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		// last edited
+		$this->addLastUpdate($a_app);
 
 		//go to the exercise.
-		$this->addAction($this->lng->txt("cal_exc_open"), ilLink::_getStaticLink($exc_ref, "exc"));
-
+		$this->addAction($this->lng->txt("cal_exc_open"),
+			"goto.php?target=exc_".$exc_ref."_".$ass_id."&client_id=".CLIENT_ID);
 	}
 }

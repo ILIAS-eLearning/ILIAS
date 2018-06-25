@@ -63,7 +63,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
 	*/
 	function init()
 	{
-		$this->copy_enabled = false;
+		$this->copy_enabled = true;
 		$this->static_link_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;

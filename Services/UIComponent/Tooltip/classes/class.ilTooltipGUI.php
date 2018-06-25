@@ -20,21 +20,16 @@ class ilTooltipGUI
 	static function addTooltip($a_el_id, $a_text, $a_container = "",
 		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
-		global $DIC;
+		// to get rid of globals here, we need to change the
+		// process in learning modules, e.g. which does not work with $DIC (since it does not
+		// use the standard template)
+		$tpl = $GLOBALS["tpl"];
+		
+		self::init();
 
-		$tpl = $DIC["tpl"];
-		
-		self::initLibrary();		
-		if (!self::$initialized)
-		{
-			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
-			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
-			self::$initialized = true;
-		}
-		
 		$code = self::getTooltip($a_el_id, $a_text, $a_container, $a_my, $a_at,
 			$a_use_htmlspecialchars);
-		$tpl->addOnLoadCode($code); 
+		$tpl->addOnLoadCode($code);
 	}
 	
 	/**
@@ -75,19 +70,19 @@ class ilTooltipGUI
 	/**
 	 * Initializes the needed tooltip libraries.
 	 */
-	static function initLibrary()
+	static function init()
 	{
-		global $DIC;
-
-		$tpl = $DIC["tpl"];
+		// for globals use, see comment above
+		$tpl = $GLOBALS["tpl"];
 		
-		if (self::$library_initialized)
-			return;
-
-		$tpl->addCss("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.css");
-		$tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
-		
-		self::$library_initialized = true;
+		if (!self::$initialized)
+		{
+			$tpl->addCss("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.css");
+			$tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
+			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
+			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
+			self::$initialized = true;
+		}
 	}
 }
 ?>

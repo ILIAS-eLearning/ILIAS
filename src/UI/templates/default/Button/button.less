@@ -2,9 +2,10 @@
   font-size: @il-button-font-size;
 }
 
+//This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
 input.btn{
   display: inline-block;
-  min-width: @il-button-min-width;
+  min-width: @il-button-min-width-forms;
   vertical-align: top;
 
   @media (max-width: @grid-float-breakpoint-max){
@@ -33,6 +34,17 @@ input.btn{
       border-color: @il-disabled-btn-border;
       color: @il-disabled-btn-color;
       cursor: default;
+    }
+  }
+  &.engaged {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @il-disabled-btn-bg;
+      border-color: @il-disabled-btn-border;
+      color: @il-disabled-btn-color;
     }
   }
 }
@@ -86,7 +98,12 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
 
 // shy buttons
 .btn-link {
-	padding: 0;
-	text-align: left;
-	white-space: normal;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+// bulky buttons
+.btn-bulky {
+	width: 100%
 }

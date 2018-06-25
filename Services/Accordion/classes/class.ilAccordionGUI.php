@@ -29,7 +29,7 @@ class ilAccordionGUI
 	const FIRST_OPEN = "FirstOpen";
 	const ALL_CLOSED = "AllClosed";
 
-	static $owl_path = "./Services/Accordion/lib/owl.carousel.2.0.0-beta.2.4";
+	static $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
 	static $owl_js_path = "/owl.carousel.js";
 	static $owl_css_path = "/assets/owl.carousel.css";
 
@@ -331,18 +331,24 @@ class ilAccordionGUI
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
-	static function addJavaScript()
+	static function addJavaScript(ilTemplate $main_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-
+		if ($main_tpl != null)
+		{
+			$tpl = $main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initConnection();
+		ilYuiUtil::initConnection($tpl);
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQueryUI();
+		iljQueryUtil::initjQueryUI($tpl);
 
 		foreach (self::getLocalJavascriptFiles() as $f)
 		{

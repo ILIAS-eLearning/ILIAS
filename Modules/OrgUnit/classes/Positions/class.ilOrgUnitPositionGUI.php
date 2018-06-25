@@ -12,7 +12,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 	const SUBTAB_SETTINGS = 'settings';
 	const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
 	const CMD_CONFIRM_DELETION = 'confirmDeletion';
-	const CMD_CONFIRM_DELETION_AND_ASSIGN = 'confirmDeletionAndAssign';
+	const CMD_ASSIGN = 'assign';
 
 
 	/**
@@ -38,7 +38,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		self::initAuthoritiesRenderer();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
-		$b->setCaption(self::CMD_ADD);
+		$b->setCaption('add_position');
 		$this->dic()->toolbar()->addButtonInstance($b);
 
 		$table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
@@ -78,7 +78,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$form = new ilOrgUnitPositionFormGUI($this, $position);
 		$form->setValuesByPost();
 		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->txt('msg_position_udpated'), true);
+			ilUtil::sendSuccess($this->txt('msg_position_updated'), true);
 			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 
@@ -86,34 +86,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 	}
 
 
-	protected function confirm() {
-		$position = $this->getPositionFromRequest();
-		if ($position->isCorePosition()) {
-			$this->cancel();
-		}
-
-		$this->dic()->language()->loadLanguageModule('orgu');
-		$user_string = $this->dic()->language()->txt("user_assignments") . ": ";
-		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
-
-		$confirmation = new ilConfirmationGUI();
-		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
-		$confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-		$confirmation->setConfirm($this->txt('confirm_deletion_and_assign'), self::CMD_CONFIRM_DELETION_AND_ASSIGN);
-		$confirmation->addButton($this->txt('confirm_deletion_button'), self::CMD_CONFIRM_DELETION);
-		$confirmation->setHeaderText($this->txt('msg_confirm_d_ua'));
-
-		$confirmation->addHiddenItem(self::AR_ID, $position->getId());
-
-		// Amount uf user-assignments
-		$userIdsOfPosition = $ilOrgUnitUserAssignmentQueries->getUserIdsOfPosition($position->getId());
-		$confirmation->addItem('users', true, $user_string . count($userIdsOfPosition));
-
-		$this->tpl()->setContent($confirmation->getHTML());
-	}
-
-
-	protected function confirmDeletionAndAssign() {
+	protected function assign() {
 		$position = $this->getPositionFromRequest();
 		if ($position->isCorePosition()) {
 			$this->cancel();
@@ -128,7 +101,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 			$assignment->delete();
 		}
 
-		$this->confirmDeletion();
+		ilUtil::sendSuccess($this->txt('msg_assignment_to_employee_done'), true);
 	}
 
 
@@ -151,23 +124,32 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$confirmation->setHeaderText($this->txt('msg_confirm_deletion'));
 		$confirmation->addItem(self::AR_ID, $position->getId(), $position_string
 		                                                        . $position->getTitle());
-
 		// Authorities
 		$authority_string .= implode(", ", $position->getAuthorities());
 		$confirmation->addItem('authorities', true, $authority_string);
 
 		// Amount uf user-assignments
 		$userIdsOfPosition = $ilOrgUnitUserAssignmentQueries->getUserIdsOfPosition($position->getId());
-		$count = count($userIdsOfPosition);
-		if ($count) {
-			$confirmation->addItem('users', true, $user_string . $count);
-		}
+		$ilOrgUnitUserQueries = new ilOrgUnitUserQueries();
+		$usersOfPosition = $ilOrgUnitUserQueries->findAllUsersByUserIds($userIdsOfPosition);
+		$userNames = $ilOrgUnitUserQueries->getAllUserNames($usersOfPosition);
+
+		$confirmation->addItem('users', true, $user_string . implode(', ', $userNames));
+
+		$checkbox_assign_users = new ilCheckboxInputGUI('', 'assign_users');
+		$checkbox_assign_users->setChecked(true);
+		$checkbox_assign_users->setValue(1);
+		$checkbox_assign_users->setOptionTitle('Assign affected users to employee role');
+		$confirmation->addItem('assign_users', '', $checkbox_assign_users->render());
 
 		$this->tpl()->setContent($confirmation->getHTML());
 	}
 
 
 	protected function delete() {
+		if($_POST['assign_users']) {
+			$this->assign();
+		}
 		$position = $this->getPositionFromRequest();
 		$position->deleteWithAllDependencies();
 		ilUtil::sendSuccess($this->txt('msg_deleted'), true);

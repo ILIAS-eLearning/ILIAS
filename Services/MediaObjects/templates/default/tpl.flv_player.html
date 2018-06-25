@@ -46,13 +46,8 @@
 	</div>
 	<!-- END ytpreview -->
 	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
-		<object id="player_{PLAYER_NR}" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}">
-			<param name="movie" value="http://www.youtube.com/v/{PV}?fs=1"></param>
-			<param name="allowFullScreen" value="true"></param>
-			<param name="allowscriptaccess" value="always"></param>
-			<embed src="http://www.youtube.com/v/{PV}?fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}">
-			</embed>
-		</object>
+		<iframe id="player_{PLAYER_NR}" frameborder="0" allowfullscreen="1" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" src="https://www.youtube.com/embed/{PV}">
+		</iframe>
 		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 			<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 			<p>{TITLE}</p>

@@ -308,9 +308,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				foreach($values as $key => $value)
 				{
-					$file_content .= $value . '\n';
+					$file_content .= $value . "\n";
 				}
-				$file_content = rtrim($file_content, '\n'); 
+				$file_content = rtrim($file_content, "\n"); 
 				$file = fopen($this->buildFileName($gap), "w");
 				fwrite($file, $file_content);
 				fclose($file);
@@ -413,7 +413,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$correct_answers	= array();
 		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$correct_answers[$data['gap_number']][0][$data['position']]	= $data['answer_text'];
+			$correct_answers[$data['gap_number']][0][$data['position']]	= rtrim($data['answer_text']);
 			$correct_answers[$data['gap_number']][1]					= $data['points'];
 			$correct_answers[$data['gap_number']][2]					= $data['type'];
 		}
@@ -434,11 +434,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			if(array_key_exists($data['gap_number'], $correct_answers))
 			{
 				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
-				$correct_answers[$data['gap_number']] .= $data['answer_text'];
+				$correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
 			}
 			else
 			{
-				$correct_answers[$data['gap_number']] .= $data['answer_text'];
+				$correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
 			}
 		}
 		return $correct_answers;
@@ -453,7 +453,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$correct_answers[] = $data['answer_text'];
+			$correct_answers[] = rtrim($data['answer_text']);
 		}
 		return $correct_answers;
 	}
@@ -726,8 +726,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
 			AND pass = " .$ilDB->quote($pass, 'integer') ."
 			AND value2 <> '-1'
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($result))
@@ -898,7 +907,15 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		parent::delete($original_id);
 		$this->clearFolder(false);
 	}
-
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setLongMenuTextValue( $migrator->migrateToLmContent($this->getLongMenuTextValue()) );
+	}
+	
 	/**
 	 * Returns a JSON representation of the question
 	 */
@@ -910,7 +927,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
 		$replaced_quesiton_text =  $this->getLongMenuTextValue();
-		$result['question'] =  $this->formatSAQuestion($this->getQuestion()) . '<br/>' .$replaced_quesiton_text;
+		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
+		$result['lmtext'] =  $this->formatSAQuestion($replaced_quesiton_text);
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(

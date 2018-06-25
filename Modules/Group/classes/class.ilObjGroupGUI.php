@@ -149,7 +149,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				if ($_GET["back_url"] == "")
 				{
-					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI", 'view'));
+					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilGroupMembershipGUI", "ilUsersGalleryGUI"], 'view'));
 				}
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
@@ -280,6 +280,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
 				$gui = new ilContainerSkillGUI($this);
 				$this->ctrl->forwardCommand($gui);
+				break;
 
 			case 'ilcalendarpresentationgui':
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
@@ -522,104 +523,103 @@ class ilObjGroupGUI extends ilContainerGUI
 
 				$modified = ($new_type != $old_type);
 				ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
-
-				$old_autofill = $this->object->hasWaitingListAutoFill();
-				
-				$this->object->setTitle(ilUtil::stripSlashes($form->getInput('title')));
-				$this->object->setDescription(ilUtil::stripSlashes($form->getInput('desc')));
-				$this->object->setGroupType(ilUtil::stripSlashes($form->getInput('grp_type')));
-				$this->object->setRegistrationType(ilUtil::stripSlashes($form->getInput('registration_type')));
-				$this->object->setPassword(ilUtil::stripSlashes($form->getInput('password')));
-				$this->object->enableUnlimitedRegistration((bool) !$form->getInput('reg_limit_time'));
-				$this->object->enableMembershipLimitation((bool) $form->getInput('registration_membership_limited'));
-				$this->object->setMinMembers((int) $form->getInput('registration_min_members'));
-				$this->object->setMaxMembers((int) $form->getInput('registration_max_members'));
-				$this->object->enableRegistrationAccessCode((bool) $form->getInput('reg_code_enabled'));
-				$this->object->setRegistrationAccessCode($form->getInput('reg_code'));
-				$this->object->setViewMode($form->getInput('view_mode'));
-				$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
-				$this->object->setShowMembers((int) $form->getInput('show_members'));
-				
-				// group period
-				$period = $form->getItemByPostVar('period');
-				$this->object->setStart($period->getStart());
-				$this->object->setEnd($period->getEnd());
-
-				$reg = $form->getItemByPostVar("reg");
-				if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
-				{
-					$this->object->enableUnlimitedRegistration(false);
-				}
-				else
-				{
-					$this->object->enableUnlimitedRegistration(true);
-				}
-		
-				$this->object->setRegistrationStart($reg->getStart());
-				$this->object->setRegistrationEnd($reg->getEnd());
-		
-				$cancel_end = $form->getItemByPostVar("cancel_end");
-				$this->object->setCancellationEnd($cancel_end->getDate());		
-		
-				switch((int)$_POST['waiting_list'])
-				{
-					case 2:
-						$this->object->enableWaitingList(true);
-						$this->object->setWaitingListAutoFill(true);
-						break;
-
-					case 1:
-						$this->object->enableWaitingList(true);
-						$this->object->setWaitingListAutoFill(false);
-						break;
-
-					default:
-						$this->object->enableWaitingList(false);
-						$this->object->setWaitingListAutoFill(false);
-						break;
-				}
-				
-				// update object settings
-				$this->object->update();
-
-
-				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-					$this->object->getId(),
-					$form,
-					array(
-						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-						ilObjectServiceSettingsGUI::USE_NEWS,
-						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-						ilObjectServiceSettingsGUI::TAG_CLOUD,
-						ilObjectServiceSettingsGUI::BADGES,
-						ilObjectServiceSettingsGUI::SKILLS,
-						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
-					)
-				);
-				
-				// Save sorting
-				$this->saveSortingSettings($form);
-				// if autofill has been activated trigger process
-				if(
-					!$old_autofill &&
-					$this->object->hasWaitingListAutoFill())
-				{
-					$this->object->handleAutoFill();
-				}
-				
-				// BEGIN ChangeEvents: Record update Object.
-				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-				global $ilUser;
-				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());		
-				// END PATCH ChangeEvents: Record update Object.
-
-				// Update ecs export settings
-				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';	
-				$ecs = new ilECSGroupSettings($this->object);			
-				$ecs->handleSettingsUpdate();
 			}
+			
+			$old_autofill = $this->object->hasWaitingListAutoFill();
+
+			$this->object->setTitle(ilUtil::stripSlashes($form->getInput('title')));
+			$this->object->setDescription(ilUtil::stripSlashes($form->getInput('desc')));
+			$this->object->setGroupType(ilUtil::stripSlashes($form->getInput('grp_type')));
+			$this->object->setRegistrationType(ilUtil::stripSlashes($form->getInput('registration_type')));
+			$this->object->setPassword(ilUtil::stripSlashes($form->getInput('password')));
+			$this->object->enableUnlimitedRegistration((bool) !$form->getInput('reg_limit_time'));
+			$this->object->enableMembershipLimitation((bool) $form->getInput('registration_membership_limited'));
+			$this->object->setMinMembers((int) $form->getInput('registration_min_members'));
+			$this->object->setMaxMembers((int) $form->getInput('registration_max_members'));
+			$this->object->enableRegistrationAccessCode((bool) $form->getInput('reg_code_enabled'));
+			$this->object->setRegistrationAccessCode($form->getInput('reg_code'));
+			$this->object->setViewMode($form->getInput('view_mode'));
+			$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
+			$this->object->setShowMembers((int) $form->getInput('show_members'));
+
+			// group period
+			$period = $form->getItemByPostVar('period');
+			$this->object->setStart($period->getStart());
+			$this->object->setEnd($period->getEnd());
+
+			$reg = $form->getItemByPostVar("reg");
+			if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
+			{
+				$this->object->enableUnlimitedRegistration(false);
+			}
+			else
+			{
+				$this->object->enableUnlimitedRegistration(true);
+			}
+
+			$this->object->setRegistrationStart($reg->getStart());
+			$this->object->setRegistrationEnd($reg->getEnd());
+
+			$cancel_end = $form->getItemByPostVar("cancel_end");
+			$this->object->setCancellationEnd($cancel_end->getDate());
+
+			switch((int) $_POST['waiting_list'])
+			{
+				case 2:
+					$this->object->enableWaitingList(true);
+					$this->object->setWaitingListAutoFill(true);
+					break;
+
+				case 1:
+					$this->object->enableWaitingList(true);
+					$this->object->setWaitingListAutoFill(false);
+					break;
+
+				default:
+					$this->object->enableWaitingList(false);
+					$this->object->setWaitingListAutoFill(false);
+					break;
+			}
+
+			// update object settings
+			$this->object->update();
+
+
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+				$this->object->getId(), $form,
+				array(
+					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+					ilObjectServiceSettingsGUI::USE_NEWS,
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::BADGES,
+					ilObjectServiceSettingsGUI::SKILLS,
+					ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+				)
+			);
+
+			// Save sorting
+			$this->saveSortingSettings($form);
+			// if autofill has been activated trigger process
+			if(
+				!$old_autofill &&
+				$this->object->hasWaitingListAutoFill())
+			{
+				$this->object->handleAutoFill();
+			}
+
+			// BEGIN ChangeEvents: Record update Object.
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(),
+									'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+			// END PATCH ChangeEvents: Record update Object.
+			// Update ecs export settings
+			include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';
+			$ecs = new ilECSGroupSettings($this->object);
+			$ecs->handleSettingsUpdate();
 		}
 		else
 		{
@@ -911,7 +911,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$all_prtf = ilObjPortfolio::getAvailablePortfolioLinksForUserIds($ids,
 				$this->ctrl->getLinkTarget($this, "members"));
 		}
-
+		
+		$profile_data = ilObjUser::_readUsersProfileData($ids);
 		foreach($ids as $usr_id)
 		{
 			$name = ilObjUser::_lookupName($usr_id);
@@ -921,6 +922,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+			
+			foreach((array) $profile_data[$usr_id] as $field => $value)
+			{
+				$tmp_data[$field] = $value;
+			}
 
 			if($this->show_tracking)
 			{
@@ -1066,7 +1072,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->addContentTab();
 			}
 		}
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		if(
+			$ilAccess->checkAccess('visible','',$this->ref_id) ||
+			$ilAccess->checkAccess('join','',$this->ref_id) ||
+			$ilAccess->checkAccess('read','',$this->ref_id)
+		)
 		{
 			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
@@ -1193,9 +1203,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tabs_gui->setTabActive('info_short');
 
-		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
+		if(!$this->checkPermissionBool('read'))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$this->checkPermission('visible');
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -1375,7 +1385,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				);
 			}
 			
-			// Redirects to target location after assigning user to course
+			// Redirects to target location after assigning user to group
 			ilMembershipRegistrationCodeUtils::handleCode(
 				$a_target,
 				ilObject::_lookupType(ilObject::_lookupObjId($a_target)),
@@ -1499,7 +1509,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
-			$pass->setSize(10);
+			$pass->setSize(32);
 			$pass->setMaxLength(32);
 			$opt_pass->addSubItem($pass);
 			$reg_type->addOption($opt_pass);

@@ -38,6 +38,11 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	 * @var ilTree
 	 */
 	protected $tree;
+	
+	/**
+	 * @var int
+	 */
+	protected $editable = false;
 
 	
 	/**
@@ -90,29 +95,59 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 		{
 			if ($_SESSION["clipboard"])
 			{
-				$this->addCommandButton("paste", $lng->txt("paste"));
-				$this->addCommandButton("clear", $lng->txt("clear"));
+				if($this->isEditable())
+				{
+					$this->addCommandButton("paste", $lng->txt("paste"));
+					$this->addCommandButton("clear", $lng->txt("clear"));
+				}
 			}
 			else
 			{
-				$this->addMultiCommand("cut", $lng->txt("cut"));
-				$this->addMultiCommand("delete", $lng->txt("delete"));
-				$this->addMultiCommand("link", $lng->txt("link"));
+				if($this->isEditable())
+				{
+					$this->addMultiCommand("cut", $lng->txt("cut"));
+					$this->addMultiCommand("delete", $lng->txt("delete"));
+					$this->addMultiCommand("link", $lng->txt("link"));
+				}
 			}
 		}
 		else
 		{
 			if ($_SESSION["clipboard"])
 			{
-				$this->addCommandButton("clear", $lng->txt("clear"));
+				if($this->isEditable())
+				{
+					$this->addCommandButton("clear", $lng->txt("clear"));
+				}
 			}
 			else
 			{
-				$this->addMultiCommand("cut", $lng->txt("cut"));
-				$this->addMultiCommand("removeFromSystem", $lng->txt("btn_remove_system"));
+				if($this->isEditable())
+				{
+					$this->addMultiCommand("cut", $lng->txt("cut"));
+					$this->addMultiCommand("removeFromSystem", $lng->txt("btn_remove_system"));
+				}
 			}
 		}
 		$this->getItems();
+	}
+	
+	/**
+	 * Set editable (write permission)
+	 * @param int $a_status
+	 */
+	public function setEditable($a_status)
+	{
+		$this->editable = $a_status;
+	}
+	
+	/**
+	 * Check if table is editable (write permission granted)
+	 * @return type
+	 */
+	public function isEditable()
+	{
+		return $this->editable;
 	}
 	
 	/**

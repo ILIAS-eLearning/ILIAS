@@ -18,7 +18,23 @@ il.IntLink =
 	},
 
 	getURLParameter: function(url, name) {
-		return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(url.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+		return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(window.location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+	},
+
+	getUrlParameters: function (url) {
+		var match,
+			pl     = /\+/g,  // Regex for replacing addition symbol with a space
+			search = /([^&=]+)=?([^&]*)/g,
+			decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+			query;
+
+		query = url.substring(url.indexOf("?") + 1);
+
+		var urlParams = {};
+		while (match = search.exec(query)) {
+			urlParams[decode(match[1])] = decode(match[2]);
+		}
+		return urlParams;
 	},
 
 	replaceUrlParam: function (url, paramName, paramValue) {
@@ -48,6 +64,8 @@ il.IntLink =
 
 	init: function(cfg)
 	{
+		//console.log("init with cfgurl:" + cfg.url);
+		//console.trace();
 		// new: get link dynamically
 		if(cfg.url == "")
 		{
@@ -71,9 +89,14 @@ il.IntLink =
 	setInternalLinkUrl: function(url) {
 		var p;
 		var t = il.IntLink;
+		var pars = t.getUrlParameters(url);
 
+		//console.log("setInternalLinkUrl: " + url);
 		for (p in t.save_pars) {
-			t.save_pars[p] = t.getURLParameter(t.int_link_url, p);
+			t.save_pars[p] = "";
+			if (pars[p]) {
+				t.save_pars[p] = pars[p];
+			}
 		}
 		t.int_link_url = url;
 	},
@@ -99,6 +122,8 @@ il.IntLink =
 	{
 		// move node to body to prevent form in form, see e.g. #16369
 		$("#ilIntLinkModal").appendTo("body");
+		//console.log("ilIntLinkModal: appendTo body");
+		//console.trace();
 		// new: get link from onclick event
 		if(internal_link != undefined)
 		{
@@ -132,7 +157,7 @@ il.IntLink =
 			failure: this.handleAjaxFailure,
 			argument: { mode: cfg.mode}
 		};
-		console.log(cfg.mode);
+		//console.log(cfg.mode);
 		if (cfg.mode == "select_type")
 		{
 			f = document.getElementById("ilIntLinkTypeForm");
@@ -141,10 +166,11 @@ il.IntLink =
 			//sUrl = this.getInternalLinkUrl() + "&cmd=changeLinkType";
 
 			this.save_pars.link_type = $("#ilIntLinkTypeSelector").val();
-			this.save_pars.link_par_ref_id = "";
-			this.save_pars.link_par_obj_id = "";
+			//this.save_pars.link_par_ref_id = "";
+			//this.save_pars.link_par_obj_id = "";
 			sUrl = this.replaceSavePars(sUrl);
-			console.log("Select Type: " + sUrl);
+			//console.log(this.save_pars);
+			//console.log("Select Type: " + sUrl);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "reset")
@@ -184,6 +210,7 @@ il.IntLink =
 			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
 				cfg.mep_fold;
 			sUrl = this.replaceSavePars(sUrl);
+			//console.log("Set mep folder: " + cfg.mep_fold);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else
@@ -238,7 +265,7 @@ il.IntLink =
 					il.IntLink.initEvents();
 				}
 			});
-			console.log("search user");
+			//console.log("search user");
 		});
 	},
 

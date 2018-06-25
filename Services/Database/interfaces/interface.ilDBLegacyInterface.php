@@ -110,12 +110,6 @@ interface ilDBLegacyInterface {
 	public function now();
 
 
-	/**
-	 * @param a_table
-	 */
-	public function optimizeTable($a_table);
-
-
 	public function getDBVersion();
 
 

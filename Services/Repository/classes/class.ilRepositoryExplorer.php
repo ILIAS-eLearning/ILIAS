@@ -261,14 +261,6 @@ class ilRepositoryExplorer extends ilExplorer
 
 		switch ($a_type)
 		{
-			case "crs":
-				return $ilAccess->checkAccess("read", "", $a_ref_id);			
-
-			// visible groups can allways be clicked; group processing decides
-			// what happens next
-			case "grp":
-				return true;
-				
 			case 'tst':
 				if(!$rbacsystem->checkAccess("read", $a_ref_id))
 				{

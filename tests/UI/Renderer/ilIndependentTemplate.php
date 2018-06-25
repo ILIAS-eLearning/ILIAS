@@ -10,6 +10,9 @@ require_once("./Services/UICore/lib/html-it/ITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
 
 class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Render\Template {
+	// This makes PHP happy, baseclass needs that
+	protected $blockparents = null;
+
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
@@ -84,23 +87,26 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	}
 
 	// Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-	public function get($block = null) {
-		if ($block === null) {
-			$block = "__global__";
+	public function get($part = null, $add_error_mess = false,
+			$handle_referer = false, $add_ilias_footer = false,
+			$add_standard_elements = false, $a_main_menu = true, $a_tabs = true) {
+
+		if ($part === null) {
+			$part = "__global__";
 		}
-		if ($block == '__global__'  && !$this->flagGlobalParsed) {
+		if ($part == '__global__'  && !$this->flagGlobalParsed) {
 			$this->parse('__global__');
 		}
 
-		if (!isset($this->blocklist[$block])) {
+		if (!isset($this->blocklist[$part])) {
 			throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
 				'"' . $block . "'"));
 		}
 
-		if (isset($this->blockdata[$block])) {
-			$ret = $this->blockdata[$block];
+		if (isset($this->blockdata[$part])) {
+			$ret = $this->blockdata[$part];
 			if ($this->clearCache) {
-				unset($this->blockdata[$block]);
+				unset($this->blockdata[$part]);
 			}
 			if ($this->_options['preserve_data']) {
 				$ret = str_replace(

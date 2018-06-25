@@ -348,6 +348,56 @@ class ilAssQuestionHintTracking
 	}
 	
 	/**
+	 * @param integer $activeId
+	 * @return ilAssQuestionHintRequestStatisticRegister
+	 */
+	public static function getRequestRequestStatisticDataRegisterByActiveId($activeId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticRegister.php';
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
+		
+		/* @var ILIAS\DI\Container $DIC */ global $DIC; $db = $DIC->database();
+		
+		$query = "
+			SELECT		qhtr_pass requests_pass,
+						qhtr_question_fi requests_question,
+						COUNT(qhtr_track_id) requests_count,
+						SUM(qht_hint_points) requests_points
+			
+			FROM		qpl_hint_tracking
+			
+			INNER JOIN	qpl_hints
+			ON			qht_hint_id = qhtr_hint_fi
+			
+			WHERE		qhtr_active_fi = %s
+			
+			GROUP BY	qhtr_pass, qhtr_question_fi
+		";
+		
+		$res = $db->queryF(
+			$query, array('integer'), array($activeId)
+		);
+		
+		$register = new ilAssQuestionHintRequestStatisticRegister();
+		
+		while( $row = $db->fetchAssoc($res) )
+		{
+			if( $row['requests_points'] === null )
+			{
+				$row['requests_points'] = 0;
+			}
+			
+			$requestsStatisticData = new ilAssQuestionHintRequestStatisticData();
+			$requestsStatisticData->setRequestsCount($row['requests_count']);
+			$requestsStatisticData->setRequestsPoints($row['requests_points']);
+			
+			$register->addRequestByTestPassIndexAndQuestionId($row['requests_pass'], $row['requests_question'], $requestsStatisticData);
+		}
+		
+		return $register;
+	}
+	
+	/**
 	 * Deletes all hint requests relating to a question included in given question ids
 	 * @param array[integer] $questionIds
 	 */

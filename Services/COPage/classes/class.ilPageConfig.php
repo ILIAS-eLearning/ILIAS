@@ -16,7 +16,7 @@ abstract class ilPageConfig
 	 */
 	protected $lng;
 
-	protected $int_link_filter = array("File", "PortfolioPage");
+	protected $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
 	protected $pc_defs = array();
@@ -260,6 +260,10 @@ abstract class ilPageConfig
 	function setIntLinkFilterWhiteList($a_white_list)
 	{
 		$this->link_filter_white_list = $a_white_list;
+		if ($a_white_list)
+		{
+			$this->int_link_filter = array();
+		}
 	}
 
 	/**

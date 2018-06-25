@@ -86,6 +86,12 @@ public class FileObjectPathCreator implements PathCreator {
 		File file;
 		
 		try {
+			int versionCode = 1;
+			int resVersion = res.getInt("version");
+			if (resVersion > 0) {
+				versionCode = resVersion;
+			}
+
 			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getDataDirectory().getAbsolutePath());
 			fullPath.append(System.getProperty("file.separator"));
 			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getClient());
@@ -95,7 +101,7 @@ public class FileObjectPathCreator implements PathCreator {
 			fullPath.append(PathUtils.buildSplittedPathFromId(objId,"file"));
 			
 			versionPath.append(fullPath);
-			versionPath.append(PathUtils.buildVersionDirectory(res.getInt("version")));
+			versionPath.append(PathUtils.buildVersionDirectory(versionCode));
 			versionPath.append(System.getProperty("file.separator"));
 			versionPath.append(DBFactory.getString(res,"file_name"));
 

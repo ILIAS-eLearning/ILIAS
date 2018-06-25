@@ -28,6 +28,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 
 		$m = new ilOrgUnitGenericMultiInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
 		$m->setShowLabel(true);
+		$m->setRenderOneForEmptyValue(false);
 		$m->setMulti(true);
 
 		$id = new ilHiddenInputGUI('id');

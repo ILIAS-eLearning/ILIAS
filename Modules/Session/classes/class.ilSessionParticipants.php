@@ -128,13 +128,11 @@ class ilSessionParticipants extends ilParticipants
 	 */
 	public function register($a_usr_id)
 	{
-		$this->logger->debug('Registering user: ' . $a_usr_id);
-		if($this->add($a_usr_id, IL_SESS_MEMBER))
-		{
-			$this->logger->debug('Registering for event');
-			$this->getEventParticipants()->register($a_usr_id);
-			return true;
-		}
+		$this->logger->debug('Registering user: ' . $a_usr_id. ' for session: ' . $this->getObjId());
+		$this->add($a_usr_id, IL_SESS_MEMBER);
+		// in any (already participant since status attended) case register user.
+		$this->getEventParticipants()->register($a_usr_id);
+		return true;
 	}
 	
 	/**
