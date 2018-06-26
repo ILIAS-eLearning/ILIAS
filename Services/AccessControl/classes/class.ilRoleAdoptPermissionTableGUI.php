@@ -18,7 +18,10 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -41,7 +44,10 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->tpl->setVariable("PARAM", "adopt");
 		$this->tpl->setVariable("VAL_ID", $a_set["role_id"]);
 		$this->tpl->setVariable("VAL_TITLE", $a_set["role_name"]);

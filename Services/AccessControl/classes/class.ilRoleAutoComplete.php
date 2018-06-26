@@ -12,7 +12,9 @@ class ilRoleAutoComplete
 	*/
 	public static function getList($a_str)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->setLimit(20);
 		$query = "SELECT o1.title role,o2.title container FROM object_data o1 ".
@@ -53,7 +55,10 @@ class ilRoleAutoComplete
 	 */
 	public static function getListByObject($a_str)
 	{
-		global $rbacreview,$ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		$result = array();

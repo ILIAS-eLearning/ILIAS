@@ -45,7 +45,9 @@ class ilSearchObjectListFactory
 	 */
 	function &_getInstance($a_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);

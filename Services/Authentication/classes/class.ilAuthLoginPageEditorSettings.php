@@ -68,7 +68,9 @@ class ilAuthLoginPageEditorSettings
 	 */
 	public function getIliasEditorLanguage($a_langkey)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if($this->getMode() != self::MODE_IPE)
 		{
@@ -124,7 +126,9 @@ class ilAuthLoginPageEditorSettings
 	 */
 	public function read()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->setMode($this->getStorage()->get('mode', self::MODE_RTE));
 

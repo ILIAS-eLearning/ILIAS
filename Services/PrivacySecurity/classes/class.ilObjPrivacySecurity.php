@@ -40,7 +40,9 @@ class ilObjPrivacySecurity extends ilObject
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilBench;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
 
 		$ilBench->start("Core", "ilObjPrivacySecurity_Constructor");
 		$this->type = "ps";

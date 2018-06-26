@@ -19,7 +19,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function hasAssignments($a_server_id, $a_mid, $a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT ref_id FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
@@ -44,7 +46,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function lookupSettings($a_server_id, $a_mid, $a_tree_id, $a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT title_update, position_update, tree_update FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
@@ -77,7 +81,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function lookupAssignmentIds($a_server_id, $a_mid, $a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT cs_id FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
@@ -102,7 +108,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function lookupAssignmentsByRefId($a_server_id, $a_mid, $a_tree_id, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT cs_id FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
@@ -127,7 +135,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function isWholeTreeMapped($a_server_id, $a_mid, $a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT depth FROM ecs_node_mapping_a '.
 			'JOIN ecs_cms_tree ON (tree = cs_root AND child = cs_id) '.
@@ -147,7 +157,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function lookupDefaultTitleUpdate($a_server_id, $a_mid, $a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT title_update FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
@@ -173,7 +185,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function lookupMappedItemsForRefId($a_server_id, $a_mid, $a_tree_id, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT cs_id FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
@@ -202,7 +216,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function deleteMappingsByCsId($a_server_id, $a_mid, $a_tree_id, $cs_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id).' '.
@@ -223,7 +239,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function deleteMappings($a_server_id, $a_mid, $a_tree_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id).' '.
@@ -241,7 +259,9 @@ class ilECSNodeMappingAssignments
 	 */
 	public static function deleteDisconnectableMappings($a_server_id, $a_mid, $a_tree_id, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';

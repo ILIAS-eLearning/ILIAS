@@ -47,8 +47,8 @@ class ilLOEditorStatus
 		$this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 		$this->assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
 		
-		$this->ctrl = $GLOBALS['ilCtrl'];
-		$this->lng = $GLOBALS['lng'];
+		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
+		$this->lng = $GLOBALS['DIC']['lng'];
 		
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		$this->objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId());
@@ -368,7 +368,7 @@ class ilLOEditorStatus
 	 */
 	protected function getMaterialsStatus($a_set_errors = true)
 	{
-		$childs = $GLOBALS['tree']->getChilds($this->getParentObject()->getRefId());
+		$childs = $GLOBALS['DIC']['tree']->getChilds($this->getParentObject()->getRefId());
 		foreach((array) $childs as $tnode)
 		{
 			if($tnode['type'] == 'rolf')
@@ -404,7 +404,7 @@ class ilLOEditorStatus
 			foreach($this->getObjectives() as $objective_id)
 			{
 				$tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
-				if(!$GLOBALS['tree']->isInTree($tst_ref))
+				if(!$GLOBALS['DIC']['tree']->isInTree($tst_ref))
 				{
 					if($a_set_errors)
 					{
@@ -427,7 +427,7 @@ class ilLOEditorStatus
 		
 		
 		$tst_ref = $this->getSettings()->getInitialTest();
-		if(!$GLOBALS['tree']->isInTree($tst_ref))
+		if(!$GLOBALS['DIC']['tree']->isInTree($tst_ref))
 		{
 			if($a_set_errors)
 			{
@@ -458,7 +458,7 @@ class ilLOEditorStatus
 			foreach($this->getObjectives() as $objective_id)
 			{
 				$tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-				if(!$GLOBALS['tree']->isInTree($tst_ref))
+				if(!$GLOBALS['DIC']['tree']->isInTree($tst_ref))
 				{
 					if($a_set_errors)
 					{
@@ -478,7 +478,7 @@ class ilLOEditorStatus
 			return TRUE;
 		}
 		$tst_ref = $this->getSettings()->getQualifiedTest();
-		if(!$GLOBALS['tree']->isInTree($tst_ref))
+		if(!$GLOBALS['DIC']['tree']->isInTree($tst_ref))
 		{
 			if($a_set_errors)
 			{
@@ -637,7 +637,7 @@ class ilLOEditorStatus
 			include_once './Modules/Course/classes/class.ilCourseObjective.php';
 			$obj_tries += ilCourseObjective::lookupMaxPasses($objective);
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$obj_tries);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$obj_tries);
 		return $obj_tries <= $tries;
 	}
 	

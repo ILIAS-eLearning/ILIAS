@@ -33,7 +33,11 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id,$a_role_id,$a_type,$a_show_admin_permissions = false)
 	{
-		global $ilCtrl,$rbacreview,$tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacreview = $DIC['rbacreview'];
+		$tpl = $DIC['tpl'];
 
 		$this->tpl_type = $a_type;
 		$this->show_admin_permissions = $a_show_admin_permissions;
@@ -73,7 +77,9 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function initTemplatePermissions()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		if(self::$template_permissions !== NULL)
 		{
@@ -155,7 +161,9 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		if(isset($row['show_ce']))
 		{
@@ -251,7 +259,10 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $rbacreview, $objDefinition;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$operations = $this->getPermissions($this->getTemplateType());
 
