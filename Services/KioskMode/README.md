@@ -72,6 +72,6 @@ kiosk mode of the object:
   controls.
 
 
-## Implementing a Provider
+## Public Interface
 
-## Implementing a Player
+* `ilKioskModeService` is the central entry  point for consumers of the service.
