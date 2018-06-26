@@ -76,4 +76,17 @@ kiosk mode of the object:
 
 ## Implementing a Provider
 
+TODO: finish me!
+
+* `State` MUST only contain information about the view (not about LP, completion, ...)
+* `View` MUST NOT maintain state of the view internally.
+
 ## Implementing a Player
+
+TODO: finish me!
+
+* The player SHOULD respect the order in which the view build controls.
+* The player MUST respect the order in which the view builds locator entries and TOC
+  entries.
+* The player MUST use the commands and parameters provided by the view via
+  `View::buildControls` when updating the View.
