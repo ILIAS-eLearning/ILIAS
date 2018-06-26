@@ -59,7 +59,7 @@ class Factory implements B\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function toggle($action_activated, $action_deactivated) {
-		return new Toggle($action_activated, $action_deactivated);
+	public function toggle($label, $action, $action_deactivated) {
+		return new Toggle($label, $action, $action_deactivated);
 	}
 }

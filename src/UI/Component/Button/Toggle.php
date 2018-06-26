@@ -10,14 +10,7 @@ namespace ILIAS\UI\Component\Button;
 interface Toggle extends Button {
 
 	/**
-	 * Get the activation action of the toggle button, i.e. a signal the toggle button triggers on click.
-	 *
-	 * @return	string|(Signal[])
-	 */
-	public function getActionActivated();
-
-	/**
-	 * Get the deactivation action of the toggle button, i.e. a signal the toggle button triggers on click.
+	 * Get the action of the Toggle Button when it is deactivated.
 	 *
 	 * @return	string|(Signal[])
 	 */

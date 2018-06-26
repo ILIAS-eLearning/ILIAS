@@ -287,10 +287,11 @@ interface Factory {
 	 *           The functionality of the Toggle Button MUST be indicated for screen
 	 *           readers by an aria-label.
 	 * ---
-	 * @param	string|Signal		$action_activated
+	 * @param	string		$label
+	 * @param	string|Signal		$action
 	 * @param	string|Signal		$action_deactivated
 	 * @return  \ILIAS\UI\Component\Button\Toggle
 	 */
-	public function toggle($action_activated, $action_deactivated);
+	public function toggle($label, $action, $action_deactivated);
 
 }

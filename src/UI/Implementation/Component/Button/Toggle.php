@@ -18,27 +18,11 @@ class Toggle extends Button implements C\Button\Toggle {
 	/**
 	 * @var string|null
 	 */
-	protected $action_activated;
-
-	/**
-	 * @var string|null
-	 */
 	protected $action_deactivated;
 
-	public function __construct($action_activated, $action_deactivated)
+	public function __construct($label, $action, $action_deactivated)
 	{
-		$this->checkArg(
-			"action_activated",
-			is_string($action_activated) || $action_activated instanceof Signal,
-			$this->wrongTypeMessage("string or Signal", gettype($action_activated))
-		);
-		if (is_string($action_activated)) {
-			$this->action_activated = $action_activated;
-		}
-		else {
-			$this->action_activated = null;
-			$this->setTriggeredSignal($action_activated, "click");
-		}
+		parent::__construct($label, $action);
 
 		$this->checkArg(
 			"action_deactivated",
@@ -52,24 +36,6 @@ class Toggle extends Button implements C\Button\Toggle {
 			$this->action_deactivated = null;
 			$this->setTriggeredSignal($action_deactivated, "click");
 		}
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getActionActivated()
-	{
-		if ($this->action_activated !== null) {
-			return $this->action_activated;
-		}
-		$triggered_click_signals = $this->triggered_signals["click"];
-		if ($triggered_click_signals === null) {
-			return [];
-		}
-		return array_map(
-			function($ts) { return $ts->getSignal(); },
-			$triggered_click_signals
-		);
 	}
 
 	/**
