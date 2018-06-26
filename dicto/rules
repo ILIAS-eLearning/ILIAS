@@ -32,6 +32,7 @@ SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
+IsDependencyAvailableMethod = Methods with name:"isDependencyAvailable"
 
 
 /**
@@ -134,3 +135,10 @@ IliasTemplateFiles cannot contain text: "on(blur|change|click|dblclick|focus|key
  * Decision by JF 2015-08-03: http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03#ilPageTocA123
  */
 WholeIliasCodebaseExceptInitialisation cannot depend on: GlobalsExceptDIC
+
+/**
+ * isDependencyAvailable of Container is only to be used if strictly required. The need for this,
+ * mostly points to some underlying problem needing to be solved instead of using this.
+ * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064
+ */
+WholeIliasCodebase cannot depend on: IsDependencyAvailableMethod

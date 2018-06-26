@@ -193,6 +193,10 @@ class Container extends \Pimple\Container {
 	}
 
 	/**
+	 * Note: Only use isDependencyAvailable if strictly required. The need for this,
+	 * mostly points to some underlying problem needing to be solved instead of using this.
+	 * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064
+	 *
 	 * This is syntactic sugar for executing the try catch statement in the clients code.
 	 * Note that the use of the offsetSet code of the default container should be avoided,
 	 * since knowledge about the containers internal mechanism is injected.
