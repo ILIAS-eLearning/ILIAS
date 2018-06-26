@@ -13174,7 +13174,7 @@ chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#chatroom_client_name#:#Name
-chatroom#:#chatroom_client_name_info#:#Definieren Sie hier einen global eindeutigen Namen des Mandanten. Initial wird hier die Mandanten-ID genutzt.
+chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
