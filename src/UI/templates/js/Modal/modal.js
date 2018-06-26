@@ -8,10 +8,14 @@ il.UI = il.UI || {};
         var defaultShowOptions = {
             backdrop: true,
             keyboard: true,
-            ajaxRenderUrl: ''
+            ajaxRenderUrl: '',
+            trigger: 'click'
         };
 
-        var showModal = function (id, options) {
+        var initializedModalboxes = {};
+
+
+        var showModal = function (id, options, signalData) {
             options = $.extend(defaultShowOptions, options);
             if (options.ajaxRenderUrl) {
                 var $container = $('#' + id);
@@ -25,15 +29,30 @@ il.UI = il.UI || {};
                 var $modal = $('#' + id);
                 $modal.modal(options);
             }
-        };
+			initializedModalboxes[signalData.id] = id;
+		};
 
         var closeModal = function (id) {
             $('#' + id).modal('close');
         };
 
+        /**
+         * Replace the content of the modalbox showed by the given showSignal with the data returned by the URL
+         * set in the signal options.
+         *
+         * @param id component ID
+         * @param signalData Object containing all data from the replace signal
+         */
+        var replaceFromSignal = function (id, signalData) {
+            var url = signalData.options.url;
+
+            il.UI.core.replaceContent(id, url, "component");
+        };
+
         return {
             showModal: showModal,
-            closeModal: closeModal
+            closeModal: closeModal,
+            replaceFromSignal: replaceFromSignal
         };
 
     })($);
