@@ -14233,6 +14233,21 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
+common#:#obj_copa#:#Inhaltsseite
+common#:#objs_copa#:#Inhaltsseiten
+rbac#:#copa_visible#:#Inhaltsseite ist sichtbar
+rbac#:#copa_read#:#Inhaltsseite lesen
+rbac#:#copa_copy#:#Inhaltsseite kopieren
+rbac#:#copa_write#:#Inhaltsseite bearbeiten
+rbac#:#copa_delete#:#Inhaltsseite löschen
+rbac#:#copa_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
+copa#:#copa_new#:#Neue Inhaltsseite anlegen
+copa#:#copa_import#:#Inhaltsseite importieren
+copa#:#copa_copy#:#Inhaltsseite kopieren
+copa#:#copa_add#:#Inhaltsseite hinzufügen
+copa#:#copa_edit#:#Inhaltsseite bearbeiten
+copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
