@@ -1149,15 +1149,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
 			$alt = $this->lng->txt("obj_".$a_image_type);
-			
-			// custom icon
-			if ($ilSetting->get("custom_icons") &&
-				in_array($a_image_type, array("cat","grp","crs")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
-				{
-					$icon = $path;
+
+			if ($ilSetting->get('custom_icons')) {
+				global $DIC;
+				/** @var \ilObjectCustomIconFactory $customIconFactory */
+				$customIconFactory = $DIC['object.customicons.factory'];
+				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+
+				if ($customIcon->exists()) {
+					$icon = $customIcon->getFullPath();
 				}
 			}
 
@@ -2650,48 +2650,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		return true;
-	}
-
-	
-	/**
-	* show edit section of custom icons for container
-	* 
-	*/
-	function showCustomIconsEditing($a_input_colspan = 1, ilPropertyFormGUI $a_form = null, $a_as_section = true)
-	{
-		$ilSetting = $this->settings;
-		if ($ilSetting->get("custom_icons"))
-		{
-			if($a_form)
-			{
-				$custom_icon = $this->object->getCustomIconPath();
-
-				if($a_as_section)
-				{					
-					$title = new ilFormSectionHeaderGUI();
-					$title->setTitle($this->lng->txt("icon_settings"));
-				}
-				else
-				{
-					$title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
-				}
-				$a_form->addItem($title);
-
-				$caption = $this->lng->txt("cont_custom_icon");
-				$icon = new ilImageFileInputGUI($caption, "cont_icon");
-				$icon->setSuffixes(array("svg"));
-				$icon->setUseCache(false);
-				$icon->setImage($custom_icon);
-				if($a_as_section)
-				{
-					$a_form->addItem($icon);
-				}
-				else
-				{
-					$title->addSubItem($icon);
-				}
-			}
-		}
 	}
 
 	function isActiveAdministrationPanel()

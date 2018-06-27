@@ -1909,6 +1909,11 @@ class ilObject
 		$res = $ilDB->manipulate($query);
 		// END WebDAV: Clone WebDAV properties
 
+		/** @var \ilObjectCustomIconFactory  $customIconFactory */
+		$customIconFactory = $DIC['object.customicons.factory'];
+		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
+		$customIcon->copy($new_obj->getId());
+
 		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
 			'object'             => $new_obj,
 			'cloned_from_object' => $this,
@@ -2040,23 +2045,16 @@ class ilObject
 			$a_size = "big";
 		}
 
-		if ($ilSetting->get("custom_icons") &&
-			in_array($a_type, array("cat","grp","crs", "root", "fold", "prg")))
-		{
-			require_once("./Services/Container/classes/class.ilContainer.php");
-			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_custom"))
-			{
-				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
-
-				$file_name = $cont_dir."/icon_custom.svg";
-				if (is_file($file_name))
-				{
-					// prevent caching
-					return $file_name."?tmp=".filemtime($file_name);
-				}
+		if ($ilSetting->get('custom_icons')) {
+			/** @var \ilObjectCustomIconFactory  $customIconFactory */
+			$customIconFactory = $DIC['object.customicons.factory'];
+			$customIcon        = $customIconFactory->getByObjId($a_obj_id, $a_type);
+			if ($customIcon->exists()) {
+				$filename = $customIcon->getFullPath();
+				return $filename . '?tmp=' . filemtime($filename);
 			}
 		}
-		
+
 		if (!$a_offline)
 		{			
 			if ($objDefinition->isPluginTypeName($a_type))

@@ -20,7 +20,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
 * 
 *
 *
@@ -81,6 +81,20 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->setSubTabs('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('grp_icon_settings');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
@@ -691,78 +705,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			return true;
 		}
 	}
-	
-	/**
-	* edit container icons
-	*/
-	public function editGroupIconsObject($a_form = null)
-	{
-		global $DIC;
 
-		$tpl = $DIC['tpl'];
-
-		$this->checkPermission('write');
-		
-		$this->setSubTabs("settings");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('grp_icon_settings');
-
-		if(!$a_form)
-		{
-			$a_form = $this->initGroupIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-	
-	function initGroupIconsForm()
-	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateGroupIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-	
-	/**
-	 * update group icons
-	 *
-	 * @access public
-	 * @return
-	 */
-	public function updateGroupIconsObject()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-
-		$this->checkPermission('write');
-		
-		$form = $this->initGroupIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this,"editGroupIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editGroupIconsObject($form);	
-	}
-	
 	/**
 	* Edit Map Settings
 	*/
@@ -1850,12 +1793,12 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 
-				// custom icon
-				if ($this->ilias->getSetting("custom_icons"))
-				{
-					$this->tabs_gui->addSubTabTarget("grp_icon_settings",
-													 $this->ctrl->getLinkTarget($this,'editGroupIcons'),
-													 "editGroupIcons", get_class($this));
+				if ($this->ilias->getSetting('custom_icons')) {
+					$this->tabs_gui->addSubTabTarget(
+						'grp_icon_settings',
+						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
+						'editGroupIcons', get_class($this)
+					);
 				}
 				
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
