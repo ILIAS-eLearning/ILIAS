@@ -2272,10 +2272,6 @@ class ilObjUser extends ilObject
     */
     function syncActive()
     {
-        global $DIC;
-
-        $ilAuth = $DIC['ilAuth'];
-
         $storedActive   = 0;
         if ($this->getStoredActive($this->id))
         {
