@@ -64,6 +64,11 @@ class ilMailOptionsGUI
 
 		if(!$this->settings->get('show_mail_settings'))
 		{
+			$referrer = $_GET['referrer'];
+			if($referrer == 'ilPersonalSettingsGUI')
+			{
+				$this->ctrl->redirectByClass('ilPersonalSettingsGUI');
+			}
 			$this->ctrl->redirectByClass('ilMailGUI');
 		}
 		$this->lng->loadLanguageModule('mail');
