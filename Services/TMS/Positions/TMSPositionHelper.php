@@ -34,6 +34,33 @@ class TMSPositionHelper {
 	}
 
 	/**
+	 * Get all orgu ids where use has any auhtority
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return int[]
+	 */
+	public function getOrgUnitIdsWhereUserHasAuthority($user_id) {
+		$positons = $this->getPositionsOf($user_id);
+		$positons = array_filter($positons, function($p) {
+			if(count($p->getAuthorities()) > 0) {
+				return $p;
+			}
+		});
+
+		$orgus = array();
+
+		foreach($positons as $positon) {
+			$orgus = array_merge(
+				$orgus,
+				$orgus = $this->orgua_queries->getOrgUnitIdsOfUsersPosition($positon->getId(), $user_id)
+			);
+		}
+
+		return array_unique($orgus);
+	}
+
+	/**
 	 * Get all orgu assignments of user
 	 *
 	 * @param int 	$user_id
@@ -67,7 +94,7 @@ class TMSPositionHelper {
 	 *
 	 * @return int[]
 	 */
-	protected function getUserIdsByPositionAndUser($position, $user_id) {
+	protected function getUserIdsByPositionAndUser(ilOrgUnitPosition $position, $user_id) {
 		require_once("Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitAuthority.php");
 		$ids = array();
 		foreach ($position->getAuthorities() as $authority) {
