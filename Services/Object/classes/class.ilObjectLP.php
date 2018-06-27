@@ -133,7 +133,10 @@ class ilObjectLP
 
 				case "iass":
 					include_once "Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php";
-					return "ilIndividualAssessmentLP";	
+					return "ilIndividualAssessmentLP";
+
+				case "copa":
+					return "ilContentPageLP";
 
 				// plugin
 				case $objDefinition->isPluginTypeName($a_type):
@@ -149,7 +152,7 @@ class ilObjectLP
 
 		$objDefinition = $DIC["objDefinition"];
 		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "iass");
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "iass", "copa");
 		
 		if(in_array($a_type, $valid))
 		{
@@ -706,7 +709,7 @@ class ilObjectLP
 	
 	public static function supportsSpentSeconds($a_obj_type)
 	{
-		return !in_array($a_obj_type, array("exc", "file", "mcst", "mob", "htlm"));
+		return !in_array($a_obj_type, array("exc", "file", "mcst", "mob", "htlm", "copa"));
 	}
 	
 	public static function supportsMark($a_obj_type)
@@ -716,7 +719,7 @@ class ilObjectLP
 	
 	public static function supportsMatrixView($a_obj_type)
 	{
-		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg'));
+		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg', 'copa'));
 	}		
 	
 	

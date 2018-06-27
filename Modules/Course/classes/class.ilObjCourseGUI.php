@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
  *
  * @extends ilContainerGUI
  */
@@ -1517,43 +1517,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		// values are done in initEditForm()
 	}
 
-	/**
-	* edit container icons
-	*/
-	function editCourseIconsObject($a_form = null)
-	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-
-		$this->checkPermission('write');
-	
-		$this->setSubTabs("properties");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->activateSubTab('icon_settings');
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initCourseIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-
-	function initCourseIconsForm()
-	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateCourseIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-
 	function sendFileObject()
 	{
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
@@ -1561,39 +1524,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
 		return true;
 	}
-	
-	/**
-	* update container icons
-	*/
-	function updateCourseIconsObject()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-
-		$this->checkPermission('write');
-		
-		$form = $this->initCourseIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this,"editCourseIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editCourseIconsObject($form);	
-	}
-
 
 	/**
 	* set sub tabs
@@ -1639,12 +1569,12 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				// custom icon
-				if ($this->ilias->getSetting("custom_icons"))
-				{
-					$this->tabs_gui->addSubTabTarget("icon_settings",
-													 $this->ctrl->getLinkTarget($this,'editCourseIcons'),
-													 "editCourseIcons", get_class($this));
+				if ($this->ilias->getSetting('custom_icons')) {
+					$this->tabs_gui->addSubTabTarget(
+						'icon_settings',
+						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
+						'editCourseIcons', get_class($this)
+					);
 				}
 				
 				// map settings
@@ -1712,39 +1642,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::showPossibleSubObjects();
 	}
 
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	function removeSmallIconObject()
-	{
-		$this->object->removeSmallIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
-
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	function removeBigIconObject()
-	{
-		$this->object->removeBigIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
-
-
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	function removeTinyIconObject()
-	{
-		$this->object->removeTinyIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
 
 	/**
 	* save object
@@ -2300,17 +2197,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 			
 		}
-
-//		$this->tabs_gui->addTarget('certificates',
-//			$this->ctrl->getLinkTargetByClass('ilusercertificatetablegui', 'show'),
-//			'show',
-//			''
-//		);
-
-		$this->tabs_gui->addTarget("certificates",
-			$this->ctrl->getLinkTarget($this, "certificates"),
-			'certificates',
-			"");
 	}
 	
 
@@ -2319,7 +2205,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $DIC;
 
 		$rbacsystem = $DIC['rbacsystem'];
-  		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
 		$ilErr = $DIC['ilErr'];
 		$ilTabs = $DIC['ilTabs'];
@@ -2566,10 +2452,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilcertificategui":
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
-
-				$guiFactory = new ilCertificateGUIFactory();
-				$output_gui = $guiFactory->create($this->object);
-
+				
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -2646,7 +2532,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-
+				
 				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberCourseRoles());
 				$mail_search->setObjParticipants(
 					ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
@@ -2690,6 +2576,21 @@ class ilObjCourseGUI extends ilContainerGUI
 				$gui = new ilContainerSkillGUI($this);
 				$this->ctrl->forwardCommand($gui);
 				break;
+
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('icon_settings');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 /*                if(!$this->creation_mode)
                 {
@@ -2790,40 +2691,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		return true;
-	}
-
-	private function certificatesObject()
-	{
-		global $DIC;
-
-		$database = $DIC->database();
-
-		$logger = $DIC->logger()->root();
-
-		$provider = new ilUserCertificateRepository($database, $logger);
-
-		$table = new ilUserCertificateTableGUI($this, 'show');
-		$certificates = $provider->fetchActiveCertificates($DIC->user()->getId());
-
-		$data = array();
-
-		/** @var ilUserCertificate $certificate */
-		foreach ($certificates as $certificate) {
-			/** @var ilObject $object */
-			$object = ilObjectFactory::getInstanceByObjId($certificate->getObjId());
-
-			$acquiredTimestamp = $certificate->getAcquiredTimestamp();
-			$data[] = array(
-				'id'    => $certificate->getId(),
-				'title' => $object->getTitle(),
-				'date'  => ilDatePresentation::formatDate(new ilDateTime($acquiredTimestamp, IL_CAL_UNIX)),
-				'action' => $DIC->ctrl()->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
-			);
-		}
-
-		$table->setData($data);
-
-		$this->tpl->setContent($table->getHTML());
 	}
 	
 	/**
@@ -3259,13 +3126,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		$usr_results = new ilLOUserResults($this->object->getId(), $GLOBALS['DIC']['ilUser']->getId());
 		$usr_results->delete();
 
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		ilLOTestRun::deleteRuns(
 			$this->object->getId(), 
 				$GLOBALS['DIC']['ilUser']->getId()
 		);
-
+		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
-
+		
 		$tmp_obj_res = new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->object->getId());
 		
@@ -3276,22 +3146,21 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	function __checkStartObjects()
-	{
+	{		
 		global $DIC;
 
 		$ilAccess = $DIC['ilAccess'];
 		$ilUser = $DIC['ilUser'];
 
-		if($ilAccess->checkAccess('write','',$this->object->getRefId())) {
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
 			return true;
 		}
-
-		$this->start_obj = new ilContainerStartObjects(
-			$this->object->getRefId(),
-			$this->object->getId()
-		);
-
-		if(count($this->start_obj->getStartObjects()) &&
+		
+		include_once './Services/Container/classes/class.ilContainerStartObjects.php';
+		$this->start_obj = new ilContainerStartObjects($this->object->getRefId(),
+			$this->object->getId());
+		if(count($this->start_obj->getStartObjects()) && 
 			!$this->start_obj->allFullfilled($ilUser->getId()))
 		{
 			return false;
@@ -3331,8 +3200,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt('crs_mail_permanent_link');
 		$link .= chr(13).chr(10).chr(13).chr(10);
+		include_once './Services/Link/classes/class.ilLink.php';
 		$link .= ilLink::_getLink($this->object->getRefId());
-
 		return rawurlencode(base64_encode($link));
 	}
 	
@@ -3348,6 +3217,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{							
 			// certificate
+			include_once "Services/Certificate/classes/class.ilCertificate.php";
 			if (ilCertificate::isActive() &&
 				ilCertificate::isObjectActive($this->object->getId()) && 
 				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
@@ -3366,7 +3236,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			
 			// notification
-			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
 			if(ilMembershipNotifications::isActive())
 			{
 				$noti = new ilMembershipNotifications($this->ref_id);				
@@ -3406,10 +3276,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilUser   = $DIC['ilUser'];
+		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-		$logger   = $DIC->logger()->root();
-		$database = $DIC->database();
 	
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
@@ -3421,6 +3289,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$user_id = $ilUser->getId();
 		}
 		
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if(!ilCertificate::isActive() ||
 			!ilCertificate::isObjectActive($this->object->getId()) ||
 			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
@@ -3428,15 +3297,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
-
-		$factory = new ilCertificateFactory();
-
-		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
-
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
-
-		$pdfAction->downloadPdf($user_id, $this->object->getid());
+		
+		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
+		$certificate->outCertificate(array("user_id" => $user_id), true);				
 	}
 	
 	
@@ -3470,6 +3334,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			
 			// material order
+			include_once "Modules/Course/classes/class.ilCourseObjectiveMaterials.php";
 			foreach($lobj as $objective_id => $materials)
 			{
 				$objmat = new ilCourseObjectiveMaterials($objective_id);
@@ -3492,8 +3357,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function redirectLocToTestConfirmedObject()
 	{
+		include_once './Services/Link/classes/class.ilLink.php';
 		ilUtil::redirect(ilLink::_getLink((int) $_REQUEST['tid']));
-
 		return TRUE;
 		
 	}
@@ -3505,7 +3370,12 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$objective_id = (int) $_REQUEST['objective_id'];
 		$test_id = (int) $_REQUEST['tid'];
-
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		
+		
 		$res = new ilLOUserResults(
 				$this->object->getId(),
 				$GLOBALS['DIC']['ilUser']->getId());
