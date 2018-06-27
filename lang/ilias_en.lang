@@ -2084,7 +2084,7 @@ common#:#editor#:#Editor
 common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
-common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
+common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.

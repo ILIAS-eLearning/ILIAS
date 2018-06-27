@@ -2554,7 +2554,7 @@ common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
-common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
+common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
 common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
 common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
