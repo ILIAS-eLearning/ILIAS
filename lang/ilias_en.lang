@@ -14230,7 +14230,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
-common#:#obj_copa#:#Neutral Learning Object
+common#:#obj_copa#:#Content Page Object
 common#:#objs_copa#:#Content Page Objects
 rbac#:#copa_visible#:#Content Page Object is visible
 rbac#:#copa_read#:#User can read Content Page Object
