@@ -80,6 +80,12 @@ TODO: finish me!
 
 * `State` MUST only contain information about the view (not about LP, completion, ...)
 * `View` MUST NOT maintain state of the view internally.
+* `View::render` MUST NOT render controls that trigger a page change. It MAY provide
+  controls that open new browser windows.
+* `View::render` MAY make asynchronues request and change the displayed HTML on the
+  client-side accordingly.
+* The button-controls provided in `View::buildControls` MUST only be used to change the
+  views status. Changes in the systems status MUST be initiated via a POST-request.
 
 ## Implementing a Player
 
@@ -90,3 +96,4 @@ TODO: finish me!
   entries.
 * The player MUST use the commands and parameters provided by the view via
   `View::buildControls` when updating the View.
+* The player MUST call updateGet on GET-Requests and updatePost on POST-requests.

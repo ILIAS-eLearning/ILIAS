@@ -18,3 +18,5 @@ construct views for certain objects and persist state in the database.
 ## Public Interface
 
 * `ilKioskModeService` is the central entry  point for consumers of the service.
+* `ilKioskModeView` MUST be implemented by modules that want to provide a kiosk
+  mode.

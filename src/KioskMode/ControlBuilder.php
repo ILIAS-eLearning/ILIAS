@@ -21,19 +21,19 @@ interface ControlBuilder {
 	 *
 	 * @throws \LogicException if view wants to introduce a second next button.
 	 */
-	public function nextButton(string $command) : ControlBuilder;
+	public function nextButton(string $command, int $parameter) : ControlBuilder;
 
 	/**
 	 * Build a previous button.
 	 *
 	 * @throws \LogicException if view wants to introduce a second previous button.
 	 */
-	public function previousButton(string $command) : ControlBuilder;
+	public function previousButton(string $command, int $parameter) : ControlBuilder;
 
 	/**
 	 * Build a generic button.
 	 */
-	public function button(string $label, string $command) : ControlBuilder;
+	public function button(string $label, string $command, int $parameter) : ControlBuilder;
 
 	/**
 	 * Build a toggle.
