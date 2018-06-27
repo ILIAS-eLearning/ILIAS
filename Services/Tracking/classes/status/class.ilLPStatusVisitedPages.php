@@ -94,7 +94,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
 		*/
 		
 		$all_page_ids = sizeof(self::getLMPages($a_obj_id));				
-		if(!sizeof($all_page_ids))
+		if(!$all_page_ids)
 		{
 			return 0;
 		}
