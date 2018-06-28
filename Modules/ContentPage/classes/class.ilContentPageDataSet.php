@@ -45,6 +45,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 					'id' => 'integer',
 					'title' => 'text',
 					'description' => 'text',
+					'info-tab' => 'integer',
 				];
 
 			default:
@@ -84,6 +85,11 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 							'id' => $obj->getId(),
 							'title' => $obj->getTitle(),
 							'description' => $obj->getDescription(),
+							'info-tab' => (int)\ilContainer::_lookupContainerSetting(
+								$obj->getId(),
+								\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+								true
+							),
 						];
 					}
 				}
@@ -111,12 +117,18 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 					$newObject = new \ilObjContentPage();
 				}
 
-				$newObject->setTitle($a_rec['title']);
-				$newObject->setDescription($a_rec['description']);
+				$newObject->setTitle(\ilUtil::stripSlashes($a_rec['title']));
+				$newObject->setDescription(\ilUtil::stripSlashes($a_rec['description']));
 
 				if (!$newObject->getId()) {
 					$newObject->create();
 				}
+
+				\ilContainer::_writeContainerSetting(
+					$newObject->getId(),
+					\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+					(int)$a_rec['info-tab']
+				);
 
 				$a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
 				$a_mapping->addMapping(

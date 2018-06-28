@@ -14,6 +14,7 @@
 			<element ref="t:id" minOccurs="1" maxOccurs="1"/>
 			<element ref="t:title" minOccurs="1" maxOccurs="1"/>
 			<element ref="t:description" minOccurs="1" maxOccurs="1"/>
+			<element ref="t:info-tab" minOccurs="1" maxOccurs="1"/>
 		</sequence>
 		</complexType>
 	</element>
@@ -21,5 +22,6 @@
 	<element name="id" type="t:Data" />
 	<element name="title" type="t:Data" />
 	<element name="description" type="t:Data" />
+	<element name="info-tab" type="t:Data" />
 
 </schema>

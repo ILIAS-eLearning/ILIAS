@@ -25,7 +25,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+		\ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
@@ -65,7 +65,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
 			}
 		}
 
-		if (count($pageObjectIds)) {
+		if (count($pageObjectIds) > 0) {
 			return [
 				[
 					'component' => 'Services/COPage',
