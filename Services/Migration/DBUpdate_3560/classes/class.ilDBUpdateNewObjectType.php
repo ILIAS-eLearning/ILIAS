@@ -519,6 +519,26 @@ class ilDBUpdateNewObjectType
 			}
 		}
 	}
+
+	public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		foreach ($a_ops as $op) {
+			$ilDB->replace(
+				'rbac_templates',
+				[
+					'rol_id' => ['integer', $a_rol_id],
+					'type' => ['text', $a_type],
+					'ops_id' => ['integer', $op],
+					'parent' => ['integer', $a_ref_id]
+				],
+				[]
+			);
+		}
+	}
 }
 
 ?>
