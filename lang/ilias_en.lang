@@ -14217,19 +14217,19 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
-common#:#obj_copa#:#Content Page Object
-common#:#objs_copa#:#Content Page Objects
-rbac#:#copa_visible#:#Content Page Object is visible
-rbac#:#copa_read#:#User can read Content Page Object
-rbac#:#copa_copy#:#Copy Content Page Object
-rbac#:#copa_write#:#User can edit Content Page Object
-rbac#:#copa_delete#:#User can move or delete Content Page Object
+common#:#obj_copa#:#Content Page
+common#:#objs_copa#:#Content Pages
+rbac#:#copa_visible#:#Content Page is visible
+rbac#:#copa_read#:#User can read Content Page
+rbac#:#copa_copy#:#Copy Content Page
+rbac#:#copa_write#:#User can edit Content Page
+rbac#:#copa_delete#:#User can move or delete Content Page
 rbac#:#copa_edit_permission#:#User can change permission settings
-rbac#:#rbac_create_copa#:#Create Content Page Object
-copa#:#copa_new#:#Create Content Page Object
-copa#:#copa_import#:#Import Content Page Object
-copa#:#copa_copy#:#Copy Content Page Object
-copa#:#copa_add#:#Add Content Page Object
-copa#:#copa_edit#:#Edit Content Page Object
-copa#:#obj_copa_duplicate#:#Duplicate Content Page Object
+rbac#:#rbac_create_copa#:#Create Content Page
+copa#:#copa_new#:#Create Content Page
+copa#:#copa_import#:#Import Content Page
+copa#:#copa_copy#:#Copy Content Page
+copa#:#copa_add#:#Add Content Page
+copa#:#copa_edit#:#Edit Content Page
+copa#:#obj_copa_duplicate#:#Duplicate Content Page
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
