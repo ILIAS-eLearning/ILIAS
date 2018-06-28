@@ -88,9 +88,9 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 		$this->lng->loadLanguageModule('copa');
 
 		if ($this->object instanceof \ilObjContentPage) {
-			$this->infoScreenEnabled = ilContainer::_lookupContainerSetting(
+			$this->infoScreenEnabled = \ilContainer::_lookupContainerSetting(
 				$this->object->getId(),
-				ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+				\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 				true
 			);
 		}
@@ -99,7 +99,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 	/**
 	 * @inheritdoc
 	 */
-	protected function afterSave(ilObject $a_new_object)
+	protected function afterSave(\ilObject $a_new_object)
 	{
 		\ilUtil::sendSuccess($this->lng->txt('object_added'), true);
 		$this->ctrl->redirect($this, 'edit');
