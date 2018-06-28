@@ -22315,11 +22315,10 @@ if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
 	}
 }
 ?>
-<#5278>
+<#5279>
 <?php
 $ilCtrlStructureReader->getStructure();
-?>
-<#5279>
+?><#5279>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
