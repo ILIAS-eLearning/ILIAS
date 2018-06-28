@@ -33,31 +33,67 @@ class TMSPositionHelper {
 		return array_unique($user_ids);
 	}
 
+	public function getUserIdsForPositionsAndOrgunits(array $positions, array $orgus) {
+		$user_ids = array();
+		foreach($positions as $position) {
+			foreach($position->getAuthorities() as $authority) {
+				$user_ids = array_merge(
+					$user_ids,
+					$this->orgua_queries->getUserIdsOfOrgUnitsInPosition($orgus, $authority->getOver())
+				);
+			}
+		}
+
+		return array_unique($user_ids);
+	}
+
 	/**
-	 * Get all orgu ids where use has any auhtority
+	 * Get all orgu ids where use has any authority
 	 *
 	 * @param int 	$user_id
 	 *
 	 * @return int[]
 	 */
 	public function getOrgUnitIdsWhereUserHasAuthority($user_id) {
-		$positons = $this->getPositionsOf($user_id);
-		$positons = array_filter($positons, function($p) {
-			if(count($p->getAuthorities()) > 0) {
-				return $p;
-			}
-		});
+		$positions = $this->getPositionsOfUserWithAuthority($user_id);
+		return $this->getOrgUnitByPositions($positions, $user_id);
+	}
 
+	/**
+	 * Get all org units where user as position
+	 *
+	 * @param ilOrgUnitPosition[] 	$positions
+	 * @param int 	$user_id
+	 *
+	 * @return int[]
+	 */
+	public function getOrgUnitByPositions(array $positions, $user_id) {
 		$orgus = array();
-
-		foreach($positons as $positon) {
+		foreach($positions as $position) {
 			$orgus = array_merge(
 				$orgus,
-				$orgus = $this->orgua_queries->getOrgUnitIdsOfUsersPosition($positon->getId(), $user_id)
+				$orgus = $this->orgua_queries->getOrgUnitIdsOfUsersPosition($position->getId(), $user_id)
 			);
 		}
 
 		return array_unique($orgus);
+	}
+
+	/**
+	 * Get positions where user has any authority
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return ilOrgUnitPosition[]
+	 */
+	public function getPositionsOfUserWithAuthority($user_id) {
+		$positions = $this->getPositionsOf($user_id);
+		$positions = array_filter($positions, function($p) {
+			if(count($p->getAuthorities()) > 0) {
+				return $p;
+			}
+		});
+		return $positions;
 	}
 
 	/**
