@@ -22272,15 +22272,54 @@ if(!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring'))
 ?>
 <#5277>
 <?php
-$ilSetting = new ilSetting();
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
-if($ilSetting->get('show_mail_settings', false) === false)
-{
-	$ilSetting->set('show_mail_settings', 1);
+$type_id  = ilDBUpdateNewObjectType::addNewType('copa', 'Content Page Object');
+
+ilDBUpdateNewObjectType::addRBACOperations($type_id, [
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY
+]);
+
+ilDBUpdateNewObjectType::addRBACCreate('create_copa', 'Create Content Page Object', [
+	'root',
+	'cat',
+	'crs',
+	'fold',
+	'grp'
+]);
+?>
+<#5278>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id  = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
+	$lp_types = array('copa');
+
+	foreach ($lp_types as $lp_type) {
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+
+		if ($lp_type_id) {
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
 }
 ?>
-
 <#5278>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5279>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
