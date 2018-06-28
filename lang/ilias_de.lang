@@ -14241,6 +14241,8 @@ rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_write#:#Inhaltsseite bearbeiten
 rbac#:#copa_delete#:#Inhaltsseite löschen
 rbac#:#copa_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#copa_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#copa_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
 copa#:#copa_new#:#Neue Inhaltsseite anlegen
 copa#:#copa_import#:#Inhaltsseite importieren
