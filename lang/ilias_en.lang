@@ -14247,6 +14247,7 @@ copa#:#copa_copy#:#Copy Content Page
 copa#:#copa_add#:#Add Content Page
 copa#:#copa_edit#:#Edit Content Page
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
+adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
