@@ -236,6 +236,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$show_mail_settings_gui = new ilCheckboxInputGUI($this->lng->txt('show_mail_settings'), 'show_mail_settings');
 		$show_mail_settings_gui->setInfo($this->lng->txt('show_mail_settings_info'));
+		$show_mail_settings_gui->setValue(1);
 		$form->addItem($show_mail_settings_gui);
 
 		$ti = new ilNumberInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
