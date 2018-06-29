@@ -59,6 +59,7 @@ class ilDBUpdateNewObjectType
 				]
 			],
 			'il_crs_member' => [
+				'ignore_for_authoring_objects' => true,
 				'object' => [
 					self::RBAC_OP_VISIBLE,
 					self::RBAC_OP_READ,
@@ -80,6 +81,7 @@ class ilDBUpdateNewObjectType
 				]
 			],
 			'il_grp_member' => [
+				'ignore_for_authoring_objects' => true,
 				'object' => [
 					self::RBAC_OP_VISIBLE,
 					self::RBAC_OP_READ,
