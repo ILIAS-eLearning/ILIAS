@@ -8481,6 +8481,14 @@ ul.breadcrumb li:hover {
 .il-input-tag .bootstrap-tagsinput {
   margin-bottom: -3px;
 }
+.il-input-tag .tt-suggestion:hover,
+.il-input-tag .tt-suggestion:focus,
+.il-input-tag .tt-cursor {
+  color: #FFFFFF;
+  text-decoration: none;
+  outline: 0;
+  background-color: #4c6586;
+}
 .il-table-presentation-viewcontrols {
   height: 40px;
 }
