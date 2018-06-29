@@ -702,7 +702,7 @@ class ilDBUpdateNewObjectType
 						$operationIds = array_merge($operationIds, $learningProgressPermissions);
 					}
 
-					ilDBUpdateNewObjectType::setRolePermission(
+					self::setRolePermission(
 						$roleId,
 						$objectType,
 						array_filter(array_map('intval', $operationIds)),
@@ -711,7 +711,7 @@ class ilDBUpdateNewObjectType
 
 					if (array_key_exists('create', $definition) && is_array($definition['create'])) {
 						foreach ($definition['create'] as $containerObjectType) {
-							ilDBUpdateNewObjectType::setRolePermission(
+							self::setRolePermission(
 								$roleId,
 								$containerObjectType,
 								[
