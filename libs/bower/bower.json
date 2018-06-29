@@ -197,7 +197,7 @@
       "introduction-date": "2017-12-18",
       "approved-by": "Jour Fixe",
       "developer": "fschmid",
-      "purpose": "UI Service MultiSelect",
+      "purpose": "UI Service Input Tag",
       "last-update-for-ilias": "5.3.0",
       "note": ""
     },
@@ -205,7 +205,7 @@
       "introduction-date": "2017-12-18",
       "approved-by": "Jour Fixe",
       "developer": "fschmid",
-      "purpose": "UI Service MultiSelect",
+      "purpose": "UI Service Input Tag",
       "last-update-for-ilias": "5.3.0",
       "note": ""
     },
