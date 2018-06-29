@@ -8,8 +8,6 @@ il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 (function ($) {
     il.UI.Input.tagInput = (function ($) {
-
-
         /**
          *
          * @param raw_id
@@ -17,8 +15,7 @@ il.UI.Input = il.UI.Input || {};
          */
         var init = function (raw_id, config) {
             var _DEBUG = false;
-            var _CONFIG = {
-            };
+            var _CONFIG = {};
 
             var _ELEMENTS = {
                 hidden_template: null,
@@ -102,7 +99,6 @@ il.UI.Input = il.UI.Input || {};
                 hidden.remove();
             });
         };
-
 
         return {
             init: init
