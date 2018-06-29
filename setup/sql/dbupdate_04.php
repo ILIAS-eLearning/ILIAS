@@ -22319,3 +22319,8 @@ if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5280>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::applyInitialPermissionGuideline('copa', true);
+?>
