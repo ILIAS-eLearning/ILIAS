@@ -5,7 +5,7 @@
  * Base class to be implemented and put in class-directory of module with the name
  * il$MODULEKioskModeView (e.g. ilTestKioskModeView).
  */
-abstract class ilKioskModeView implements ILIAS\KioskModeView {
+abstract class ilKioskModeView implements ILIAS\KioskMode\View {
 	/**
 	 * @var	\ilCtrl
 	 */

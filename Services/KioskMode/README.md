@@ -19,4 +19,6 @@ construct views for certain objects and persist state in the database.
 
 * `ilKioskModeService` is the central entry  point for consumers of the service.
 * `ilKioskModeView` MUST be implemented by modules that want to provide a kiosk
-  mode.
+  mode. Implementation MUST be located in the `classes` folder of their respective
+  Module where the implementation is named il$MODULEKioskModeView. Implementations
+  must adhere to the interface `ILIAS\KioskMode\View`.

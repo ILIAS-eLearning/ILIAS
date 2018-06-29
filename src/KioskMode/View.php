@@ -6,8 +6,9 @@ namespace ILIAS\KioskMode;
 use ILIAS\UI;
 
 /**
- * A kiosk mode view on a certain object. See README#Architecture for further
- * details.
+ * A kiosk mode view on a certain object. See README/Architecture for further
+ * details and README/Implementing a Provider for further directions about
+ * implementation.
  */
 interface View {
 	/**

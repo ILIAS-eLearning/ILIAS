@@ -76,10 +76,11 @@ kiosk mode of the object:
 
 ## Implementing a Provider
 
-TODO: finish me!
+Please use `ilKioskModeView` in `Services\KioskMode\classes\` as a base to implement
+this for ILIAS-objects.
 
 * `State` MUST only contain information about the view (not about LP, completion, ...)
-* `View` MUST NOT maintain state of the view internally.
+* `View` MUST NOT maintain state of the view internally but put it into `State`.
 * `View::render` MUST NOT render controls that trigger a page change. It MAY provide
   controls that open new browser windows.
 * `View::render` MAY make asynchronues request and change the displayed HTML on the
@@ -97,3 +98,5 @@ TODO: finish me!
 * The player MUST use the commands and parameters provided by the view via
   `View::buildControls` when updating the View.
 * The player MUST call updateGet on GET-Requests and updatePost on POST-requests.
+* The player MUST ensure that a given `State` is unique per instance of View, i.e.
+  keys and values MUST NOT leak to other instances of View.
