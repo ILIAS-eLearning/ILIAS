@@ -661,8 +661,8 @@ class ilDBUpdateNewObjectType
 			die("Something went wrong, there MUST be valid id for object_type " . $objectType);
 		}
 
-		$contentPageCreateOperationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_' . $objectType);
-		if (!$contentPageCreateOperationId) {
+		$objectCreateOperationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_' . $objectType);
+		if (!$objectCreateOperationId) {
 			die("Something went wrong, missing CREATE operation id for object type " . $objectType);
 		}
 
@@ -715,7 +715,7 @@ class ilDBUpdateNewObjectType
 								$roleId,
 								$containerObjectType,
 								[
-									$contentPageCreateOperationId
+									$objectCreateOperationId
 								],
 								$globalRoleFolderId
 							);
