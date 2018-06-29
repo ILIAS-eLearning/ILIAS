@@ -32,11 +32,6 @@ class ilTemplate extends HTML_Template_ITX
 	);
 
 	/**
-	* Content-type for template output
-	* @var	string
-	*/
-	var $contenttype;
-	/**
 	* variablen die immer in jedem block ersetzt werden sollen
 	* @var	array
 	*/
@@ -66,12 +61,8 @@ class ilTemplate extends HTML_Template_ITX
 	protected $title_url = "";
 	protected $upper_icon = "";
 	protected $tree_flat_link = "";
-	protected $mount_webfolder = "";
-	protected $stop_floating = "";
 	protected $page_form_action = "";
-	protected $page_actions = array();
 	protected $permanent_link = false;
-	protected $content_style_sheet = "";
 	protected $main_content = "";
 	
 	protected $title_alerts = array();
@@ -90,7 +81,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
-	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+	public function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
 		global $DIC;
@@ -110,8 +101,6 @@ class ilTemplate extends HTML_Template_ITX
 		$this->tplPath = dirname($fname);
 		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
 		
-		// set default content-type to text/html
-		$this->contenttype = "text/html";
 		if (!file_exists($fname))
 		{
 			if (isset($DIC["ilErr"]))
@@ -158,7 +147,7 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 	// overwrite their init function
-    function init()
+    public function init()
     {
         $this->free();
         $this->buildFunctionlist();
@@ -208,7 +197,7 @@ class ilTemplate extends HTML_Template_ITX
 	*
 	* @param boolean $value TRUE to show the ILIAS footer, FALSE to hide it
 	*/
-	function setAddFooter($value)
+	public function setAddFooter($value)
 	{
 		$this->addFooter = $value;
 	}
@@ -218,7 +207,7 @@ class ilTemplate extends HTML_Template_ITX
 	*
 	* @return boolean TRUE if the ILIAS footer will be shown, FALSE otherwise
 	*/
-	function getAddFooter()
+	private function getAddFooter()
 	{
 		return $this->addFooter;
 	}
@@ -228,9 +217,9 @@ class ilTemplate extends HTML_Template_ITX
 	* Use this for final get before sending asynchronous output (ajax)
 	* per echo to output.
 	*/
-	function getAsynch()
+	public function getAsynch()
 	{
-		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
+		header("Content-type: text/html; charset=UTF-8");
 		return $this->get();
 	}
 	
@@ -240,7 +229,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	string
 	* @return	string
 	*/
-	function get($part = "DEFAULT", $add_error_mess = false,
+	public function get($part = "DEFAULT", $add_error_mess = false,
 		$handle_referer = false, $add_ilias_footer = false,
 		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
 	{
@@ -272,7 +261,6 @@ class ilTemplate extends HTML_Template_ITX
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
 			$this->fillInlineCss();
-			$this->fillContentStyle();
 			$this->fillBodyClass();
 
 			// these fill just plain placeholder variables in tpl.main.html
@@ -285,7 +273,6 @@ class ilTemplate extends HTML_Template_ITX
 			$this->fillHeader();
 			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
-			$this->fillStopFloating();
 			$this->fillLeftContent();
 			$this->fillLeftNav();
 			$this->fillRightContent();
@@ -389,12 +376,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function hasMessage($a_type)
-	{		
-		return (isset($this->message[$a_type]) && strlen($this->message[$a_type]));
-	}
-	
-	function fillMessage()
+	private function fillMessage()
 	{
 		global $DIC;
 
@@ -468,33 +450,6 @@ class ilTemplate extends HTML_Template_ITX
 	}
 	
 	/**
-	* Get the content type for the template output
-	*
-	* @return string Content type
-	* @access	public
-	*/
-	function getContentType()
-	{
-		return $this->contenttype;
-	}
-	
-	/**
-	* Set the content type for the template output
-	*
-	* Set the content type for the template output
-	* Usually this is text/html. For MathML output the
-	* content type should be set to text/xml
-	*
-	* @param string $a_content_type Content type
-	* @access	public
-	*/
-	function setContentType($a_content_type = "text/html")
-	{
-		$this->contenttype = $a_content_type;
-	}
-
-
-	/**
 	 * @param string $part
 	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs
 	 * @param bool   $a_skip_main_menu
@@ -520,7 +475,7 @@ class ilTemplate extends HTML_Template_ITX
 				ilYuiUtil::initDom();
 
 				header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
-				header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
+				header("Content-type: text/html; charset=UTF-8");
 
 				$this->fillMessage();
 
@@ -564,7 +519,6 @@ class ilTemplate extends HTML_Template_ITX
 					$this->fillCssFiles();
 					$this->fillInlineCss();
 					//$this->fillJavaScriptFiles();
-					$this->fillContentStyle();
 
 					// these fill just plain placeholder variables in tpl.main.html
 					$this->setCurrentBlock("DEFAULT");
@@ -575,7 +529,6 @@ class ilTemplate extends HTML_Template_ITX
 					$this->fillHeader();
 					$this->fillSideIcons();
 					$this->fillScreenReaderFocus();
-					$this->fillStopFloating();
 					$this->fillLeftContent();
 					$this->fillLeftNav();
 					$this->fillRightContent();
@@ -678,7 +631,7 @@ class ilTemplate extends HTML_Template_ITX
 		return true;	 	
 	}
 
-	function fillWindowTitle()
+	public function fillWindowTitle()
 	{
 		global $DIC;
 
@@ -708,7 +661,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param
 	 * @return
 	 */
-	function getTabsHTML()
+	private function getTabsHTML()
 	{
 		global $DIC;
 
@@ -722,7 +675,7 @@ class ilTemplate extends HTML_Template_ITX
 	}
 	
 	
-	function fillTabs()
+	public function fillTabs()
 	{
 		if ($this->blockExists("tabs_outer_start"))
 		{
@@ -739,7 +692,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function fillToolbar()
+	private function fillToolbar()
 	{
 		global $DIC;
 
@@ -754,7 +707,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 
-	function fillPageFormAction()
+	private function fillPageFormAction()
 	{
 		if ($this->page_form_action != "")
 		{
@@ -765,7 +718,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function fillJavaScriptFiles($a_force = false)
+	public function fillJavaScriptFiles($a_force = false)
 	{
 		global $DIC;
 
@@ -813,7 +766,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * 
 	 * @param boolean $a_force
 	 */
-	function fillCssFiles($a_force = false)
+	public function fillCssFiles($a_force = false)
 	{
 		if (!$this->blockExists("css_file"))
 		{
@@ -838,7 +791,7 @@ class ilTemplate extends HTML_Template_ITX
 	 *
 	 * @param boolean $a_force
 	 */
-	function fillInlineCss()
+	private function fillInlineCss()
 	{
 		if (!$this->blockExists("css_inline"))
 		{
@@ -854,28 +807,6 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 	/**
-	* Set content style (used for page content editor)
-	*/
-	function setContentStyleSheet($a_style)
-	{
-		$this->content_style_sheet = $a_style;
-	}
-	
-	/**
-	* Fill Content Style
-	*/
-	function fillContentStyle()
-	{
-		if ($this->content_style_sheet != "")
-		{
-			$this->setCurrentBlock("ContentStyle");
-			$this->setVariable("LOCATION_CONTENT_STYLESHEET",
-				$this->content_style_sheet);
-			$this->parseCurrentBlock();
-		}
-	}
-	
-	/**
 	* Fill Content Style
 	*/
 	private function fillNewContentStyle()
@@ -886,7 +817,7 @@ class ilTemplate extends HTML_Template_ITX
 			.'" />');
 	}
 	
-	function getMainMenu()
+	private function getMainMenu()
 	{
 		global $DIC;
 
@@ -900,7 +831,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function fillMainMenu()
+	private function fillMainMenu()
 	{
 		global $DIC;
 		$tpl = $DIC["tpl"];
@@ -914,7 +845,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Init help
 	 */
-	function initHelp()
+	private function initHelp()
 	{
 		include_once("./Services/Help/classes/class.ilHelpGUI.php");
 		ilHelpGUI::initHelp($this);
@@ -924,7 +855,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* add ILIAS footer
 	*/
-	function addILIASFooter()
+	private function addILIASFooter()
 	{
 		global $DIC;
 
@@ -1112,7 +1043,7 @@ class ilTemplate extends HTML_Template_ITX
 	* TODO: this is nice, but shouldn't be done here
 	* (-> maybe at the end of ilias.php!?, alex)
 	*/
-	function handleReferer()
+	private function handleReferer()
 	{
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
@@ -1192,7 +1123,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param string blockname
 	* @return	boolean
 	*/
-	function blockExists($a_blockname)
+	public function blockExists($a_blockname)
 	{
 		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)		
 		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
@@ -1209,7 +1140,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @access	private
 	* @return	integer
 	*/
-	function fillVars()
+	private function fillVars()
 	{
 		$count = 0;
 		reset($this->vars);
@@ -1236,7 +1167,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	string
 	* @return	???
 	*/
-	function setCurrentBlock ($part = "DEFAULT")
+	public function setCurrentBlock ($part = "DEFAULT")
 	{
 		$this->activeBlock = $part;
 
@@ -1256,7 +1187,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	string
 	* @return	???
 	*/
-	function touchBlock($block)
+	public function touchBlock($block)
 	{
 		$this->setCurrentBlock($block);
 		$count = $this->fillVars();
@@ -1274,7 +1205,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	string
 	* @return	string
 	*/
-	function parseCurrentBlock($part = "DEFAULT")
+	public function parseCurrentBlock($part = "DEFAULT")
 	{
 		// Hier erst noch ein replace aufrufen
 		if ($part != "DEFAULT")
@@ -1303,134 +1234,6 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 	/**
-	* ???
-	* TODO: Adjust var names to ilias. This method wasn't used so far
-	* and isn't translated yet
-	* @access	public
-	* @param	string
-	* @param	string
-	* @param	string
-	* @param	string
-	*/
-	function replaceFromDatabase(&$DB,$block,$conv,$select="default")
-	{
-		$res = $DB->selectDbAll();
-
-		while ($DB->getDbNextElement($res))
-		{
-			$this->setCurrentBlock($block);
-			$result = array();
-			reset($conv);
-
-			while (list ($key,$val) = each ($conv))
-			{
-				$result[$val]=$DB->element->data[$key];
-			}
-
-			if (($select != "default")
-				&& ($DB->element->data[$select["id"]]==$select["value"]
-				|| (strtolower($select["text"]) == "checked"
-				&& strpos( ",,".$select["value"].",," , ",".$DB->element->data[$select["id"]]."," )!=false)))
-			{
-				$result[$select["field"]] = $select["text"];
-			}
-
-			$this->replace($result);
-			$this->parseCurrentBlock($block);
-		}
-	}
-
-	/**
-	* Wird angewendet, wenn die Daten in ein Formular replaced werden sollen,
-	* Dann wird erst noch ein htmlspecialchars drumherum gemacht.
-	* @access	public
-	* @param	string
-	*/
-	function prepareForFormular($vars)
-	{
-		if (!is_array($vars))
-		{
-			return;
-		}
-
-		reset($vars);
-
-		while (list($i) = each($vars))
-		{
-			$vars[$i] = stripslashes($vars[$i]);
-			$vars[$i] = htmlspecialchars($vars[$i]);
-		}
-
-		return($vars);
-	}
-
-	/**
-	* ???
-	* @access	public
-	*/
-	function replace()
-	{
-		reset($this->vars);
-
-		while(list($key, $val) = each($this->vars))
-		{
-			$this->setVariable($key, $val);
-		}
-	}
-
-	/**
-	* ???
-	* @access	public
-	*/
-	function replaceDefault()
-	{
-		$this->replace($this->vars);
-	}
-
-	/**
-	* checks for a topic in the template
-	* @access	private
- 	* @param	string
-	* @param	string
-	* @return	boolean
-	*/
-	function checkTopic($a_block, $a_topic)
-	{
-		return array_key_exists($a_topic, $this->blockvariables[$a_block]);
-	}
-
-	/**
-	* check if there is a NAVIGATION-topic
-	* @access	public
-	* @return	boolean
-	*/
-	function includeNavigation()
-	{
-		return $this->checkTopic("__global__", "NAVIGATION");
-	}
-
-	/**
-	* check if there is a TREE-topic
-	* @access	public
-	* @return	boolean
-	*/
-	function includeTree()
-	{
-		return $this->checkTopic("__global__", "TREE");
-	}
-
-	/**
-	* check if a file exists
-	* @access	public
-	* @return	boolean
-	*/
-	function fileExists($filename)
-	{
-		return file_exists($this->tplPath."/".$filename);
-	}
-
-
-	/**
 	* overwrites ITX::addBlockFile
 	* @access	public
 	* @param	string
@@ -1439,7 +1242,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
 	* @return	boolean/string
 	*/
-	function addBlockFile($var, $block, $tplname, $in_module = false)
+	public function addBlockFile($var, $block, $tplname, $in_module = false)
 	{
 		global $DIC;
 
@@ -1492,7 +1295,7 @@ class ilTemplate extends HTML_Template_ITX
      * @see      $template, setTemplate(), $removeUnknownVariables,
      *           $removeEmptyBlocks
      */
-    function loadTemplatefile( $filename,
+    public function loadTemplatefile( $filename,
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
@@ -1544,7 +1347,7 @@ class ilTemplate extends HTML_Template_ITX
 	*
 	* @return	string		full template path
 	*/
-	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
+	protected function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
 	{
 		global $DIC;
 
@@ -1636,7 +1439,7 @@ class ilTemplate extends HTML_Template_ITX
 	 *
 	 * @return	string				template identifier, e.g. "tpl.confirm.html"
 	 */
-	function getTemplateIdentifier($a_tplname, $a_in_module = false)
+	private function getTemplateIdentifier($a_tplname, $a_in_module = false)
 	{
 		global $DIC;
 
@@ -1680,23 +1483,18 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 
-	function setHeaderPageTitle($a_title)
+	public function setHeaderPageTitle($a_title)
 	{
 		$a_title = ilUtil::stripScriptHTML($a_title);	
 		$this->header_page_title = $a_title;
 	}
 	
-	function setStyleSheetLocation($a_stylesheet)
+	public function setStyleSheetLocation($a_stylesheet)
 	{
 		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
 	}
 
-	function setNewContentStyleSheetLocation($a_stylesheet)
-	{
-		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET", $a_stylesheet);
-	}
-
-	function getStandardTemplate()
+	public function getStandardTemplate()
 	{
 		if ($this->standard_template_loaded)
 		{
@@ -1725,7 +1523,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets title in standard template
 	*/
-	function setTitle($a_title)
+	public function setTitle($a_title)
 	{
 		$this->title = ilUtil::stripScriptHTML($a_title);
 		$this->header_page_title = $a_title;
@@ -1734,31 +1532,11 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets title url in standard template
 	*/
-	function setTitleUrl($a_url)
+	public function setTitleUrl($a_url)
 	{
 		$this->title_url = $a_url;
 	}
 	
-	/**
-	 * Set title color
-	 *
-	 * @param string $a_val color	
-	 */
-	function setTitleColor($a_val)
-	{
-		$this->title_color = $a_val;
-	}
-	
-	/**
-	 * Get title color
-	 *
-	 * @return string color
-	 */
-	function getTitleColor()
-	{
-		return $this->title_color;
-	}
-
 	/**
 	 * Set alert properties
 	 * @param array $a_props
@@ -1772,7 +1550,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Clear header
 	 */
-	function clearHeader()
+	public function clearHeader()
 	{
 		$this->setTitle("");
 		$this->setTitleIcon("");
@@ -1813,10 +1591,6 @@ class ilTemplate extends HTML_Template_ITX
 			if ($this->title_url != "")
 			{
 				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
-			}
-			if ($this->getTitleColor() != "")
-			{
-				$this->setVariable("HEADER_COLOR", " style=\"color: #".$this->getTitleColor()."\"");
 			}
 			
 			if ($icon)
@@ -1882,18 +1656,18 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* set title icon
 	*/
-	function setTitleIcon($a_icon_path, $a_icon_desc = "")
+	public function setTitleIcon($a_icon_path, $a_icon_desc = "")
 	{
 		$this->icon_desc = $a_icon_desc;
 		$this->icon_path = $a_icon_path;
 	}
 
-	function setBodyClass($a_class = "")
+	public function setBodyClass($a_class = "")
 	{
 		$this->body_class = $a_class;
 	}
 	
-	function fillBodyClass()
+	public function fillBodyClass()
 	{
 		if ($this->body_class != "" && $this->blockExists("body_class"))
 		{
@@ -1903,7 +1677,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setPageFormAction($a_action)
+	public function setPageFormAction($a_action)
 	{
 		$this->page_form_action = $a_action;
 	}
@@ -1911,29 +1685,10 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets title in standard template
 	*/
-	function setDescription($a_descr)
+	public function setDescription($a_descr)
 	{
 		$this->title_desc = $a_descr;
 //		$this->setVariable("H_DESCRIPTION", $a_descr);
-	}
-	
-	/**
-	* set stop floating (if no tabs are used)
-	*/
-	function stopTitleFloating()
-	{
-		$this->stop_floating = true;
-	}
-	
-	/**
-	* stop floating
-	*/
-	private function fillStopFloating()
-	{
-		if ($this->stop_floating)
-		{
-			$this->touchBlock("stop_floating");
-		}
 	}
 	
 	/**
@@ -1941,7 +1696,7 @@ class ilTemplate extends HTML_Template_ITX
 	 *
 	 * @param string $a_gui $a_header
 	 */
-	function setHeaderActionMenu($a_header)
+	public function setHeaderActionMenu($a_header)
 	{
 		$this->header_action = $a_header;
 	}
@@ -1951,7 +1706,7 @@ class ilTemplate extends HTML_Template_ITX
 	 *
 	 * @return int ref id
 	 */
-	function getHeaderActionMenu()
+	private function getHeaderActionMenu()
 	{
 		return $this->header_action;
 	}
@@ -1959,7 +1714,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets content for standard template
 	*/
-	function setContent($a_html)
+	public function setContent($a_html)
 	{
 		if ($a_html != "")
 		{
@@ -1970,7 +1725,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Fill main content
 	*/
-	public function fillMainContent()
+	private function fillMainContent()
 	{
 		if (trim($this->main_content) != "")
 		{
@@ -1981,7 +1736,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets content of right column
 	*/
-	function setRightContent($a_html)
+	public function setRightContent($a_html)
 	{
 		$this->right_content = $a_html;
 	}
@@ -2032,7 +1787,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets content of left column
 	*/
-	function setLeftContent($a_html)
+	public function setLeftContent($a_html)
 	{
 		$this->left_content = $a_html;
 	}
@@ -2057,7 +1812,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Sets content of left navigation column
 	 */
-	function setLeftNavContent($a_content)
+	public function setLeftNavContent($a_content)
 	{
 		$this->left_nav_content = $a_content;
 	}
@@ -2065,7 +1820,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Fill left navigation frame
 	 */
-	function fillLeftNav()
+	public function fillLeftNav()
 	{
 		if (trim($this->left_nav_content) != "")
 		{
@@ -2079,7 +1834,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Insert locator.
 	*/
-	function setLocator()
+	public function setLocator()
 	{
 		global $DIC;
 
@@ -2119,7 +1874,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets tabs in standard template
 	*/
-	function setTabs($a_tabs_html)
+	public function setTabs($a_tabs_html)
 	{
 		if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start"))
 		{
@@ -2134,7 +1889,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets subtabs in standard template
 	*/
-	function setSubTabs($a_tabs_html)
+	public function setSubTabs($a_tabs_html)
 	{
 		$this->setVariable("SUB_TABS", $a_tabs_html);
 	}
@@ -2142,7 +1897,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* sets icon to upper level
 	*/
-	function setUpperIcon($a_link, $a_frame = "")
+	public function setUpperIcon($a_link, $a_frame = "")
 	{
 		$this->upper_icon = $a_link;
 		$this->upper_icon_frame = $a_frame;
@@ -2160,7 +1915,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Get target parameter for login
 	 */
-	public function getLoginTargetPar()
+	private function getLoginTargetPar()
 	{
 		return $this->login_target_par;
 	}
@@ -2168,7 +1923,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Accessibility focus for screen readers
 	*/
-	function fillScreenReaderFocus()
+	public function fillScreenReaderFocus()
 	{
 		global $DIC;
 
@@ -2183,7 +1938,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Fill side icons (upper icon, tree icon, webfolder icon)
 	*/
-	function fillSideIcons()
+	private function fillSideIcons()
 	{
 		global $DIC;
 
@@ -2191,12 +1946,6 @@ class ilTemplate extends HTML_Template_ITX
 
 		$lng = $DIC->language();
 
-		if ($this->upper_icon == "" && $this->tree_flat_link == ""
-			&& $this->mount_webfolder == "")
-		{
-			return;
-		}
-		
 		// upper icon
 		// deprecated
 		if ($this->upper_icon != "")
@@ -2283,22 +2032,12 @@ class ilTemplate extends HTML_Template_ITX
 		$this->parseCurrentBlock();
 	}
 	
-	// BEGIN WebDAV: Mount webfolder icon.
-	/**
-	* shows icon for mounting a webfolder
-	*/
-	function setMountWebfolderIcon($a_ref_id)
-	{
-		$this->mount_webfolder = $a_ref_id;
-	}
-	// END WebDAV: Mount webfolder icon.
-
 	/**
 	* set tree/flat icon
 	* @param	string		link target
 	* @param	strong		mode ("tree" | "flat")
 	*/
-	function setTreeFlatIcon($a_link, $a_mode)
+	public function setTreeFlatIcon($a_link, $a_mode)
 	{
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
@@ -2307,7 +2046,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Add a javascript file that should be included in the header.
 	*/
-	function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
+	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
 	{
 		// three batches currently
 		if ($a_batch < 1 || $a_batch > 3)
@@ -2334,7 +2073,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Reset javascript files
 	 */
-	function resetJavascript()
+	public function resetJavascript()
 	{
 		$this->js_files = array();
 		$this->js_files_vp = array();
@@ -2347,7 +2086,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param
 	 * @return
 	 */
-	function resetCss()
+	public function resetCss()
 	{
 		$this->css_files = array();
 	}
@@ -2356,7 +2095,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Add on load code
 	*/
-	function addOnLoadCode($a_code, $a_batch = 2)
+	public function addOnLoadCode($a_code, $a_batch = 2)
 	{
 		// three batches currently
 		if ($a_batch < 1 || $a_batch > 3)
@@ -2369,7 +2108,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Add a css file that should be included in the header.
 	 */
-	function addCss($a_css_file, $media = "screen")
+	public function addCss($a_css_file, $media = "screen")
 	{
 		if (!array_key_exists($a_css_file . $media, $this->css_files))
 		{
@@ -2380,7 +2119,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Add a css file that should be included in the header.
 	 */
-	function addInlineCss($a_css, $media = "screen")
+	public function addInlineCss($a_css, $media = "screen")
 	{
 		$this->inline_css[] = array("css" => $a_css, "media" => $media);
 	}
@@ -2388,7 +2127,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	 * Add lightbox html
 	 */
-	function addLightbox($a_html, $a_id)
+	public function addLightbox($a_html, $a_id)
 	{
 		$this->lightbox[$a_id] = $a_html;
 	}
@@ -2399,7 +2138,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param
 	 * @return
 	 */
-	function fillLightbox()
+	private function fillLightbox()
 	{
 		$html = "";
 
@@ -2410,38 +2149,6 @@ class ilTemplate extends HTML_Template_ITX
 		$this->setVariable("LIGHTBOX", $html);
 	}
 	
-	/**
-	* Show admin view button
-	*/
-	function setPageActions($a_page_actions_html)
-	{
-		$this->page_actions = $a_page_actions_html;
-	}
-	
-	/**
-	* Show admin view button
-	*/
-	function setEditPageButton($a_link, $a_txt, $a_frame)
-	{
-		$this->edit_page_button =
-			array("link" => $a_link, "txt" => $a_txt, "frame" => $a_frame);
-	}
-	
-	/**
-	* Add a command to the admin panel
-	* @deprecated use addAdminPanelToolbar
-	*/
-	function addAdminPanelCommand($a_cmd, $a_txt, $a_arrow = false)
-	{
-		$this->admin_panel_commands[] =
-			array("cmd" => $a_cmd, "txt" => $a_txt);
-		if ($a_arrow)
-		{
-			$this->admin_panel_arrow = true;
-		}
-		$this->admin_panel_top_only = false;
-	}
-
 	/**
 	 * Add admin panel commands as toolbar
 	 * @param ilToolbarGUI $toolb
@@ -2459,7 +2166,7 @@ class ilTemplate extends HTML_Template_ITX
 	* - creation selector
 	* - admin view on/off button
 	*/
-	function fillAdminPanel()
+	private function fillAdminPanel()
 	{
 		global $DIC;
 
@@ -2499,13 +2206,6 @@ class ilTemplate extends HTML_Template_ITX
 			$adm_view_cmp = true;
 		}
 		
-		// admin view button
-		if ($this->page_actions != "")
-		{
-			$this->setVariable("PAGE_ACTIONS", $this->page_actions);
-			$adm_view = true;
-		}
-
 		// creation selector
 		// see: ilObjectAddNewItemGUI
 		// placeholder "SELECT_OBJTYPE_REPOS" still needed!
@@ -2523,7 +2223,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
+	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
 	{
 		$this->permanent_link = array(
 			"type" => $a_type,
@@ -2537,7 +2237,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Fill in permanent link
 	*/
-	function fillPermanentLink()
+	private function fillPermanentLink()
 	{
 		if (is_array($this->permanent_link))
 		{
@@ -2558,7 +2258,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Fill add on load code
 	*/
-	function fillOnLoadCode()
+	public function fillOnLoadCode()
 	{
 		for ($i = 1; $i <= 3; $i++)
 		{
@@ -2582,7 +2282,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * 
 	 * @return string
 	 */
-	function getOnLoadCodeForAsynch()
+	public function getOnLoadCodeForAsynch()
 	{
 		$js = "";
 		for ($i = 1; $i <= 3; $i++)
@@ -2603,7 +2303,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setBackgroundColor($a_bg_color)
+	public function setBackgroundColor($a_bg_color)
 	{
 		// :TODO: currently inactive, JF should discuss this
 		return;
@@ -2622,7 +2322,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param int $a_height banner height
 	 * @param bool $a_export
 	 */
-	function setBanner($a_img, $a_width = 1370, $a_height = 100, $a_export = false)
+	public function setBanner($a_img, $a_width = 1370, $a_height = 100, $a_export = false)
 	{		
 		if($a_img)
 		{
@@ -2685,19 +2385,9 @@ class ilTemplate extends HTML_Template_ITX
 	}
 	
 	/**
-	 * Set variable
-	 */
-/*	function setVariable($a, $b = "")
-	{
-parent::setVariable($a, $b); return;
-if ($a == "HEADER") mk();
-		parent::setVariable($a, $b);
-	}*/
-	
-	/**
 	 * Reset all header properties: title, icon, description, alerts, action menu
 	 */
-	function resetHeaderBlock($a_reset_header_action = true)
+	public function resetHeaderBlock($a_reset_header_action = true)
 	{
 		$this->setTitle(null);
 		$this->setTitleIcon(null);
@@ -2715,7 +2405,7 @@ if ($a == "HEADER") mk();
 	/**
 	 * Enables the file upload into this object by dropping a file.
 	 */
-	function enableDragDropFileUpload($a_ref_id)
+	public function enableDragDropFileUpload($a_ref_id)
 	{
 		$this->enable_fileupload = $a_ref_id;
 	}
@@ -2739,5 +2429,3 @@ if ($a == "HEADER") mk();
 		return $txt;
 	}
 }
-
-?>
