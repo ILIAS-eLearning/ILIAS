@@ -5,7 +5,6 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -24,11 +23,7 @@ class Toggle extends Button implements C\Button\Toggle {
 	{
 		parent::__construct($label, $action);
 
-		$this->checkArg(
-			"action_deactivated",
-			is_string($action_deactivated) || $action_deactivated instanceof Signal,
-			$this->wrongTypeMessage("string or Signal", gettype($action_deactivated))
-		);
+		$this->checkStringOrSignalArg("action_deactivated", $action_deactivated);
 		if (is_string($action_deactivated)) {
 			$this->action_deactivated = $action_deactivated;
 		}

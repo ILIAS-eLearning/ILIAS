@@ -17,6 +17,8 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Close) {
 			return $this->renderClose($component);
+		}else if ($component instanceof Component\Button\Toggle) {
+			return $this->renderToggle($component);
 		} else if ($component instanceof Component\Button\Month) {
 			return $this->renderMonth($component, $default_renderer);
 		} else {
@@ -122,6 +124,18 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	protected function renderToggle(Component\Button\Toggle $component) {
+		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
+
+		//The incomplete rendering of the Toggle Button is work in progress
+
+		$label = $component->getLabel();
+		if ($label !== null) {
+			$tpl->setVariable("LABEL", $label);
+		}
+		return $tpl->get();
+	}
+
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
@@ -216,6 +230,7 @@ class Renderer extends AbstractComponentRenderer {
 		, Component\Button\Month::class
 		, Component\Button\Tag::class
 		, Component\Button\Bulky::class
+		, Component\Button\Toggle::class
 		);
 	}
 }
