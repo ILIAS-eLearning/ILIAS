@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -64,7 +65,7 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Password) {
+		} elseif ($input instanceof Password) {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
@@ -262,6 +263,7 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Text):
 			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
+			case ($input instanceof Password):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
