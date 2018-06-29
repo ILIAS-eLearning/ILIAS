@@ -810,7 +810,7 @@ class ilAccountRegistrationGUI
 				include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 				/** @var ilMailMimeSenderFactory $senderFactory */
-				$senderFactory = $GLOBALS['DIC']["DIC"]["mail.mime.sender.factory"];
+				$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 				$mmail = new ilMimeMail();
 				$mmail->From($senderFactory->system());

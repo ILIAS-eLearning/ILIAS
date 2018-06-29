@@ -738,8 +738,7 @@ class ilPersonalProfileGUI
 		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
 		$ilTabs = $DIC['ilTabs'];
-		$DIC = $DIC['DIC'];
-		
+
 		$ilTabs->activateTab("personal_data");
 		$ctrl = $DIC->ctrl();
 

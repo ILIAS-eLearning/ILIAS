@@ -181,8 +181,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$lng = $DIC['lng'];
 		$ilDB = $DIC['ilDB'];
-		$DIC = $DIC['DIC'];
-		
+
 		$access = $GLOBALS['DIC']->access();
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
