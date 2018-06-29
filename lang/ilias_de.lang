@@ -14323,12 +14323,10 @@ tms#:#create_course_from_template#:#Kurs aus Vorlage erzeugen
 tms#:#choose_course_template#:#Vorlage auswählen
 tms#:#oclock#:#Uhr
 tms#:#create_course#:#Training anlegen
-tms#:#placeholder_desc_crs_booking_link#:#Link zur Kursbuchung
 tms#:#course_creation_message#:#Derzeit wird das Training "%s" für Sie angelegt. Die Anlage wird einige Minuten dauern. In dieser Zeit können keine weiteren Trainings angelegt werden. Sobald der Vorgang abgeschlossen ist, werden Sie per E-Mail informiert. Das Training ist im Anschluss in Ihrer "Meine Trainingsverwaltung" enthalten.
 tms#:#show_in_cockpit#:#In Cockpit anzeigen
 tms#:#filter_period_from#:#Von
 tms#:#filter_period_to#:#Bis
-tms#:#no_permissions_to_book#:#Sie haben keine Berechtigung dieses Training für sich oder einen anderen Benutzer zu buchen.
 tms#:#placeholder_desc_crs_members_count#:#Anzahl Teilnehmer (Trainer + Teilnehmer)
 search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
 search#:#search_for_orgu_members_orgu#:#Organisationseinheit
