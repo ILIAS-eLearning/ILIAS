@@ -59,7 +59,7 @@ interface Factory {
 	 *     The currently active step is marked as such.
 	 *     Clicking the step of a workflow MAY trigger navigation.
 	 *   rivals:
-	 *      Ordered Listing: >
+	 *      OrderedListing: >
 	 *        Items (Steps) in a workflow relate to some task;
 	 *        they reflect the tasks's progress and may be used to navigate to
 	 *        respective views.

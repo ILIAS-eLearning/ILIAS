@@ -8,24 +8,4 @@ namespace ILIAS\UI\Component\Listing\Workflow;
  */
 interface Linear extends Workflow {
 
-	const HORIZONTAL	= 'horizontal';
-	const VERTICAL		= 'vertical';
-
-	/**
-	 * Linear workflow can be rendered horizontally or vertically.
-	 * This gives its orientation.
-	 *
-	 * @return mixed
-	 */
-	public function getOrientation();
-
-	/**
-	 * Linear workflow can be rendered horizontally or vertically.
-	 * Set the orientation to either Linear::HORIZONTAL or Linear::VERTICAL.
-	 *
-	 * @param mixed 	$orientation
-	 * @return Linear
-	 */
-	public function withOrientation($orientation);
-
 }

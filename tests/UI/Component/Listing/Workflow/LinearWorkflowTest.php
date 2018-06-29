@@ -39,7 +39,6 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($this->title, $this->wf->getTitle());
 		$this->assertEquals($this->steps, $this->wf->getSteps());
 		$this->assertEquals(0, $this->wf->getActive());
-		$this->assertEquals(Workflow\Linear::HORIZONTAL, $this->wf->getOrientation());
 	}
 
 	public function test_amount_of_steps() {
@@ -70,21 +69,4 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase {
 		}
 		$this->assertTrue($raised);
 	}
-
-	public function test_orientation() {
-		$wf = $this->wf->withOrientation(Workflow\Linear::VERTICAL);
-		$this->assertEquals(Workflow\Linear::VERTICAL, $wf->getOrientation());
-	}
-
-	public function test_withOrientation_throws() {
-		$raised = false;
-		try {
-			$this->wf->withOrientation('wrong_orientation');
-			$this->assertFalse("This should not happen.");
-		} catch (\InvalidArgumentException $e) {
-			$raised = true;
-		}
-		$this->assertTrue($raised);
-	}
-
 }
