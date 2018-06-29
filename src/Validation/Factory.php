@@ -84,16 +84,6 @@ class Factory {
 
 
 	/**
-	 * Get a constraint for a general array.
-	 *
-	 * @return  Constraint
-	 */
-	public function isArrayOfAny() {
-		return new Constraints\IsArrayOfAny($this->data_factory);
-	}
-
-
-	/**
 	 * Get a constraint for a array with constraint to all elements.
 	 *
 	 * @param Constraint $on_element

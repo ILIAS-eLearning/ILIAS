@@ -824,7 +824,6 @@ return array(
     'ILIAS\\Validation\\Constraints\\GreaterThan' => $baseDir . '/../../src/Validation/Constraints/GreaterThan.php',
     'ILIAS\\Validation\\Constraints\\HasMinLength' => $baseDir . '/../../src/Validation/Constraints/HasMinLength.php',
     'ILIAS\\Validation\\Constraints\\IsArrayOf' => $baseDir . '/../../src/Validation/Constraints/IsArrayOf.php',
-    'ILIAS\\Validation\\Constraints\\IsArrayOfAny' => $baseDir . '/../../src/Validation/Constraints/IsArrayOfAny.php',
     'ILIAS\\Validation\\Constraints\\IsInt' => $baseDir . '/../../src/Validation/Constraints/IsInt.php',
     'ILIAS\\Validation\\Constraints\\IsNull' => $baseDir . '/../../src/Validation/Constraints/IsNull.php',
     'ILIAS\\Validation\\Constraints\\IsNumeric' => $baseDir . '/../../src/Validation/Constraints/IsNumeric.php',

@@ -1016,7 +1016,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\Validation\\Constraints\\GreaterThan' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/GreaterThan.php',
         'ILIAS\\Validation\\Constraints\\HasMinLength' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/HasMinLength.php',
         'ILIAS\\Validation\\Constraints\\IsArrayOf' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsArrayOf.php',
-        'ILIAS\\Validation\\Constraints\\IsArrayOfAny' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsArrayOfAny.php',
         'ILIAS\\Validation\\Constraints\\IsInt' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsInt.php',
         'ILIAS\\Validation\\Constraints\\IsNull' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsNull.php',
         'ILIAS\\Validation\\Constraints\\IsNumeric' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsNumeric.php',
