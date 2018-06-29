@@ -2994,7 +2994,7 @@ common#:#keywords#:#Schlagwörter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum.
+common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprache lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
 common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
@@ -6567,7 +6567,7 @@ mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_smtp_status#:#SMTP-Versand aktivieren
-mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funtkion, sendmail).
+mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funktion, sendmail).
 mail#:#mail_smtp_host#:#Host
 mail#:#mail_smtp_host_info#:#Bitte tragen Sie hier den Hostsnamen oder die IP des Mail-Servers ein.
 mail#:#mail_smtp_port#:#Port
@@ -8750,7 +8750,7 @@ survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#Sie haben erfolgreich einen Verweis auf Material eingestellt!
 survey#:#materials#:#Materialien
-survey#:#materials_deleted#:#Material(ien) gelöscht
+survey#:#materials_deleted#:#Die Materialien wurden von der Frage entfernt.
 survey#:#matrix_appearance#:#Darstellung
 survey#:#matrix_bipolar_adjectives#:#Pol und Gegenpol
 survey#:#matrix_bipolar_adjectives_description#:#Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben
@@ -13173,6 +13173,8 @@ chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
+chatroom#:#chatroom_client_name#:#Name
+chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
@@ -14181,3 +14183,4 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
