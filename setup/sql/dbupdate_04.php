@@ -22318,7 +22318,13 @@ if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
 <#5279>
 <?php
 $ilCtrlStructureReader->getStructure();
-?><#5279>
+?>
+<#5280>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::applyInitialPermissionGuideline('copa', true);
+?>
+<#5281>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
