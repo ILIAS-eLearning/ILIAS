@@ -82,9 +82,9 @@ class ilICalParser
 			
 			if(!strlen($this->ical))
 			{
-				throw new ilICalParserException($GLOBALS['cal_err_no_input']);
+				throw new ilICalParserException($GLOBALS['DIC']['cal_err_no_input']);
 			}
-			#$GLOBALS['ilLog']->write(__METHOD__.': Ical content: '. $this->ical);
+			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Ical content: '. $this->ical);
 		}
 	 	$this->log = $GLOBALS['DIC']->logger()->cal();
 	}

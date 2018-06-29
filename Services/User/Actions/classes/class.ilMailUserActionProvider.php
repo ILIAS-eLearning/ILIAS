@@ -23,7 +23,9 @@ class ilMailUserActionProvider extends ilUserActionProvider
 	 */
 	function checkUserMailAccess($a_user_id)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if (!isset(self::$user_access[$a_user_id]))
 		{

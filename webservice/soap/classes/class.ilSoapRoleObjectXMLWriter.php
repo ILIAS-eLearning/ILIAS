@@ -33,7 +33,10 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 	*/
 	function __construct()
 	{
-		global $ilias,$ilUser;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
 
 		parent::__construct();
 
@@ -55,7 +58,9 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		if (!is_array($this->roles))
 			return false;
 

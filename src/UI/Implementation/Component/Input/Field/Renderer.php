@@ -64,6 +64,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Password) {
+			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -174,9 +176,11 @@ class Renderer extends AbstractComponentRenderer {
 		$hide = $dependant_group->getHideSignal();
 		$init = $dependant_group->getInitSignal();
 
-		$dependant_group = $dependant_group->withAdditionalOnLoadCode(function ($id) use ($toggle, $show, $hide, $init) {
-			return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
-		});
+		$dependant_group = $dependant_group->withAdditionalOnLoadCode(
+			function ($id) use ($toggle, $show, $hide, $init) {
+				return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
+			}
+		);
 
 		/**
 		 * @var $dependant_group DependantGroup
@@ -309,14 +313,13 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return [
-			Component\Input\Field\Text::class,
-			Component\Input\Field\Numeric::class,
-			Component\Input\Field\Group::class,
-			Component\Input\Field\Section::class,
-			Component\Input\Field\Checkbox::class,
-			Component\Input\Field\Tag::class,
-			Component\Input\Field\DependantGroup::class,
-		];
+		return [Component\Input\Field\Text::class,
+		        Component\Input\Field\Numeric::class,
+		        Component\Input\Field\Group::class,
+		        Component\Input\Field\Section::class,
+		        Component\Input\Field\Checkbox::class,
+		        Component\Input\Field\Tag::class,
+		        Component\Input\Field\DependantGroup::class,
+		        Component\Input\Field\Password::class];
 	}
 }

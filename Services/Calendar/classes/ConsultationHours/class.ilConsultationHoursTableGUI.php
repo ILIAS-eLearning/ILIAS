@@ -27,7 +27,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_gui,$a_cmd,$a_user_id)
 	{
-		global $lng,$ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->user_id = $a_user_id;
 		
@@ -90,7 +93,9 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->tpl->setVariable('VAL_ID',$row['id']);
 		$this->tpl->setVariable('START',$row['start_p']);
@@ -164,7 +169,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $ilDB, $ilObjDataCache;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 

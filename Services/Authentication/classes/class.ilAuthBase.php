@@ -110,7 +110,11 @@ abstract class ilAuthBase
 	 */
 	protected function loginObserver($a_username,$a_auth)
 	{		
-		global $ilLog, $ilAppEventHandler, $ilSetting;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
 		{
@@ -225,7 +229,9 @@ abstract class ilAuthBase
 	 */
 	protected function failedLoginObserver($a_username, $a_auth)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		ilLoggerFactory::getLogger('auth')->info(
 			': login failed for user '.$a_username.
@@ -274,7 +280,10 @@ abstract class ilAuthBase
 	 */
 	protected function logoutObserver($a_username,$a_auth)
 	{
-		global $ilLog, $ilAppEventHandler;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		
 		ilLoggerFactory::getLogger('auth')->info('Logout observer called for ' . $a_username);
 

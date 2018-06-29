@@ -60,8 +60,8 @@ class ilECSDataMappingSettings
 	 */
 	public static function _getInstance()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecate call');
-		$GLOBALS['ilLog']->logStack();
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecate call');
+		$GLOBALS['DIC']['ilLog']->logStack();
 
 		return self::getInstanceByServerId(1);
 	}
@@ -87,7 +87,9 @@ class ilECSDataMappingSettings
 	 */
 	public static function delete($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE from ecs_data_mapping '.
 			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
@@ -151,7 +153,9 @@ class ilECSDataMappingSettings
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->mappings = array();
 

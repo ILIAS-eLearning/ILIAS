@@ -281,7 +281,13 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function __construct($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
-		global $lng, $tree, $ilias, $ilUser, $styleDefinition;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
+		$styleDefinition = $DIC['styleDefinition'];
 
 		$this->roles = array();
 		$this->mode = $a_mode;
@@ -459,7 +465,10 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-		global $ilias,$lng;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		switch($a_name)
 		{
@@ -619,7 +628,9 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		switch($a_name)
 		{
@@ -811,7 +822,11 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	function getCourseMembersObjectForRole($a_role_id)
 	{
-		global $rbacreview, $rbacadmin, $tree;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
 
 		if (array_key_exists($a_role_id.'_courseMembersObject', $this->localRoleCache))
 		{
@@ -841,7 +856,11 @@ class ilUserImportParser extends ilSaxParser
 		#require_once "Modules/Course/classes/class.ilObjCourse.php";
 		#require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
-		global $rbacreview, $rbacadmin, $tree;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
 
 		// Do nothing, if the user is already assigned to the role.
                 // Specifically, we do not want to put a course object or
@@ -878,7 +897,9 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	function getParentRoleIds($a_role_id)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 	
 		if (! array_key_exists($a_role_id, $this->parentRolesCache))
 		{
@@ -945,7 +966,11 @@ class ilUserImportParser extends ilSaxParser
      */
 	function detachFromRole($a_user_obj, $a_role_id)
 	{
-		global $rbacreview, $rbacadmin, $tree;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
 
 		$rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
 		
@@ -964,7 +989,14 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin, $rbacreview, $ilUser, $lng, $ilSetting;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 
 		switch($a_name)
 		{
@@ -1755,7 +1787,12 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyEndTag($a_xml_parser, $a_name)
 	{
-		global $lng,$ilAccess,$ilSetting,$ilObjDataCache;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		switch($a_name)
 		{
@@ -2198,7 +2235,9 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	function getProtocolAsHTML($a_log_title)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$block = new ilTemplate("tpl.usr_import_log_block.html", true, true, "Services/User");
 		$block->setVariable("TXT_LOG_TITLE", $a_log_title);
@@ -2284,7 +2323,7 @@ class ilUserImportParser extends ilSaxParser
 	{
 		if(!isset(self::$account_mail_cache[$lang_key]))
 		{
-			$default_lang_key = $GLOBALS["lng"]->getDefaultLanguage();
+			$default_lang_key = $GLOBALS['DIC']["lng"]->getDefaultLanguage();
 
 			// try individual account mail in user administration
 			include_once './Services/User/classes/class.ilObjUserFolder.php';
@@ -2357,7 +2396,9 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	private function readRequiredFields()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 	 	if(is_array($this->required_fields))
 	 	{

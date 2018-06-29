@@ -17,7 +17,9 @@ class ilDidacticTemplateFilterPatternFactory
 	 */
 	public static function lookupPatternsByParentId($a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT pattern_id,pattern_type FROM didactic_tpl_fp '.
 			'WHERE parent_id = '.$ilDB->quote($a_parent_id).' '.

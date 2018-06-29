@@ -100,7 +100,15 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	public function tag(string $label, array $tags, $byline = null) {
+	public function tag(string $label, array $tags, $byline = null): Field\Tag {
 		return new Tag($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $tags);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function password($label, $byline = null) {
+		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 }

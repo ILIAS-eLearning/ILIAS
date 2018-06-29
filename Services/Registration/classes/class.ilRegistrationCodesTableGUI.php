@@ -20,7 +20,10 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setId("registration_code");
 		
@@ -62,7 +65,10 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $rbacreview, $ilObjDataCache;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->determineOffsetAndOrder();
 		
@@ -194,7 +200,12 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser, $ilObjDataCache;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
 		

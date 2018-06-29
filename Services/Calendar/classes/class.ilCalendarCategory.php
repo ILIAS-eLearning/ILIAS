@@ -77,7 +77,9 @@ class ilCalendarCategory
 	 */
 	public function __construct($a_cat_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->db = $ilDB;
 		$this->cat_id = $a_cat_id;
@@ -94,7 +96,9 @@ class ilCalendarCategory
 	 */
 	 public static function _getInstanceByObjId($a_obj_id)
 	 {
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT cat_id FROM cal_categories ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
@@ -135,7 +139,9 @@ class ilCalendarCategory
 	  */
 	 public static function lookupAppointments($a_category_id)
 	 {
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	
 		$query = "SELECT * FROM cal_cat_assignments ".
 			'WHERE cat_id = '.$ilDB->quote($a_category_id,'integer');
@@ -330,7 +336,9 @@ class ilCalendarCategory
 	 */
 	public function add()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$next_id = $ilDB->nextId('cal_categories');
 		
@@ -362,7 +370,9 @@ class ilCalendarCategory
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE cal_categories ".
 			"SET obj_id = ".$this->db->quote($this->getObjId() ,'integer').", ".
@@ -387,7 +397,9 @@ class ilCalendarCategory
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM cal_categories ".
 			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
@@ -431,7 +443,9 @@ class ilCalendarCategory
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->cat_id)
 		{

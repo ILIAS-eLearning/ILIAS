@@ -259,12 +259,46 @@ interface Factory {
 	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
-	 * @param string $label
-	 * @param string $byline
-	 * @param string[]  $tags    List of tags to select from, given as a list of texts
+	 * @param string   $label
+	 * @param string   $byline
+	 * @param string[] $tags  List of tags to select from, given as a list of texts
 	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function tag(string $label, array $tags, $byline = null);
+	public function tag(string $label, array $tags, $byline = null): Tag;
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A password-field is intended for entering passwords.
+	 *   composition: >
+	 *      Text password will render an input-tag with type="password".
+	 *   effect: >
+	 *      Text password is restricted to one line of text and will
+	 *      mask the entered characters.
+	 *   rivals:
+	 *      text field: >
+	 *          Use a text field for discloseable information (i.e.
+	 *          information that can safely be displayed to an audience)
+	 *
+	 * context: Login-Form and own profile (change Password).
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Password Input MUST be used for passwords.
+	 *   interaction:
+	 *     1: >
+	 *         Password Input SHOULD NOT limit the number of characters.
+	 *
+	 * ---
+	 *
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Password
+	 */
+	public function password($label, $byline = null);
 }

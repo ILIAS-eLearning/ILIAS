@@ -47,7 +47,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function lookupLastExistingAttribute($a_sid,$a_mid,$a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT attribute FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
@@ -71,7 +73,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function getRuleRefIds($a_sid, $a_mid)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT DISTINCT(ref_id) ref_id, rid FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
@@ -108,7 +112,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function getRulesOfRefId($a_sid, $a_mid, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT rid FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
@@ -125,7 +131,9 @@ class ilECSCourseMappingRule
 	
 	public static function hasRules($a_sid, $a_mid, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT ref_id FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
@@ -143,7 +151,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function isMatching($course, $a_sid, $a_mid, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT rid FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer'). ' '.
@@ -182,7 +192,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function doMappings($course,$a_sid,$a_mid, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT rid FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer'). ' '.
@@ -229,7 +241,9 @@ class ilECSCourseMappingRule
 	 */
 	public function doMapping($course,$parent_ref)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		if(!$this->isSubdirCreationEnabled())
 		{
@@ -275,11 +289,11 @@ class ilECSCourseMappingRule
 		$cat->createReference();
 		$cat->putInTree($a_parent_ref);
 		$cat->setPermissions($a_parent_ref);
-		$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
+		$cat->deleteTranslation($GLOBALS['DIC']['lng']->getDefaultLanguage());
 		$cat->addTranslation(
 			$a_title,
 			$cat->getLongDescription(),
-			$GLOBALS['lng']->getDefaultLanguage(),
+			$GLOBALS['DIC']['lng']->getDefaultLanguage(),
 			1
 		);
 		return $cat->getRefId();
@@ -330,7 +344,9 @@ class ilECSCourseMappingRule
 	 */
 	public static function getInstanceByAttribute($a_sid,$a_mid,$a_ref_id,$a_att)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT rid FROM ecs_cmap_rule '.
 				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
@@ -453,7 +469,9 @@ class ilECSCourseMappingRule
 	
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE from ecs_cmap_rule '.
 				'WHERE rid = '.$ilDB->quote($this->getRuleId(),'integer');
@@ -468,7 +486,9 @@ class ilECSCourseMappingRule
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->setRuleId($ilDB->nextId('ecs_cmap_rule'));
 		$query = 'INSERT INTO ecs_cmap_rule '.
@@ -495,7 +515,9 @@ class ilECSCourseMappingRule
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE ecs_cmap_rule '.' '.
 				'SET '.
@@ -515,7 +537,9 @@ class ilECSCourseMappingRule
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getRuleId())
 		{

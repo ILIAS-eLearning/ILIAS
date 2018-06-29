@@ -44,7 +44,9 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 	 */
 	public function __construct($parent_obj,$parent_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		parent::__construct($parent_obj,$parent_cmd);
 		

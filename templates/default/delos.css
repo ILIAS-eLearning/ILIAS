@@ -7467,6 +7467,11 @@ hr.il-divider-with-label {
   width: 45px;
   height: 45px;
 }
+.icon.disabled {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
 .icon.custom {
   background-image: none;
 }
@@ -8544,6 +8549,21 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
+}
+div.alert div {
+  margin-top: 10px;
+}
+div.alert ul {
+  margin-top: 15px;
+  background-color: white;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #909090;
+  list-style-type: none;
+}
+div.alert ul > li:before {
+  content: "\00BB \0020";
+  /* margin-left: -10px; */
 }
 /*		Color scheme
 		Dark BLue: #0f2152;

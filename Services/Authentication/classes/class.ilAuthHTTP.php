@@ -71,7 +71,7 @@ class ilAuthHTTP extends Auth_HTTP
 	{
 		if(isset($_GET['mount-instructions']))
 		{
-			$GLOBALS['ilLog']->write('Trying authentication as anonymous for displaying mount instructions');
+			$GLOBALS['DIC']['ilLog']->write('Trying authentication as anonymous for displaying mount instructions');
 			$this->username = 'anonymous';
 			$this->password = 'anonymous';
 		}
@@ -93,7 +93,7 @@ class ilAuthHTTP extends Auth_HTTP
 		// First, call parent observer and
 		if(!parent::failedLoginObserver($a_username,$a_auth))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': HTTP authentication failed. Sending status 401');
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': HTTP authentication failed. Sending status 401');
 			$this->drawLogin($a_username);
 			return false;
 		}

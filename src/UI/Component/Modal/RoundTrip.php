@@ -23,6 +23,14 @@ interface RoundTrip extends Modal {
 	 */
 	public function getContent();
 
+	/**
+	 * Get Modal like this with the provided components representing the content of the modal
+	 *
+	 * @param \ILIAS\UI\Component\Component[] $a_content
+	 * @return RoundTrip
+	 */
+	public function withContent($a_content);
+
 
 	/**
 	 * Get all action buttons in the footer of the modal
@@ -57,4 +65,16 @@ interface RoundTrip extends Modal {
 	 * @return RoundTrip
 	 */
 	public function withCancelButtonLabel($label);
+
+	/**
+	 * Get the signal to replace the content of this modal.
+	 *
+	 * @return \ILIAS\UI\Component\ReplaceSignal
+	 */
+	public function getReplaceSignal();
+
+	/**
+	 * Init the default signals plus extra signals like Replace
+	 */
+	public function initSignals();
 }

@@ -29,7 +29,11 @@ class ilAccountRegistrationGUI
 
 	public function __construct()
 	{
-		global $ilCtrl,$tpl,$lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$this->tpl =& $tpl;
 
@@ -47,7 +51,10 @@ class ilAccountRegistrationGUI
 
 	public function executeCommand()
 	{
-		global $ilErr, $tpl;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
 
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
@@ -83,7 +90,9 @@ class ilAccountRegistrationGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -97,7 +106,10 @@ class ilAccountRegistrationGUI
 	
 	protected function __initForm()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		// needed for multi-text-fields (interests)
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
@@ -266,7 +278,11 @@ class ilAccountRegistrationGUI
 	
 	public function saveForm()
 	{
-		global $lng, $ilSetting, $rbacreview;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$this->__initForm();
 		$form_valid = $this->form->checkInput();
@@ -449,13 +465,19 @@ class ilAccountRegistrationGUI
 		 * @var $rbacadmin ilRbacAdmin
 		 * @var $lng       ilLanguage
 		 */
-		global $ilSetting, $rbacadmin, $lng;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$lng = $DIC['lng'];
 		
 		
 		// something went wrong with the form validation
 		if(!$a_role)
 		{			
-			global $ilias;
+			global $DIC;
+
+			$ilias = $DIC['ilias'];
 			$ilias->raiseError("Invalid role selection in registration".
 				", IP: ".$_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
 		}
@@ -687,7 +709,7 @@ class ilAccountRegistrationGUI
 					$rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
 
 					// patch to remove for 45 due to mantis 21953
-					$role_obj = $GLOBALS['rbacreview']->getObjectOfRole($local_role_obj_id);
+					$role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($local_role_obj_id);
 					switch(ilObject::_lookupType($role_obj))
 					{
 						case 'crs':
@@ -706,7 +728,9 @@ class ilAccountRegistrationGUI
 
 	protected function __distributeMails($password, $a_language = null)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -758,7 +782,7 @@ class ilAccountRegistrationGUI
 			$amail = ilObjUserFolder::_lookupNewAccountMail($a_language);
 			if (trim($amail["body"]) == "" || trim($amail["subject"]) == "")
 			{
-				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS['DIC']["lng"]->getDefaultLanguage());
 			}
 			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 			{				
@@ -831,7 +855,9 @@ class ilAccountRegistrationGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));

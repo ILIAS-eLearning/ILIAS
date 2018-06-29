@@ -43,7 +43,10 @@ class ilLuceneSearchObjectListGUIFactory
 	 */
 	 public static function factory($a_type)
 	 {
-		global $objDefinition,$ilLog;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		$ilLog = $DIC['ilLog'];
 		
 		if(isset(self::$item_list_gui[$a_type]))
 		{

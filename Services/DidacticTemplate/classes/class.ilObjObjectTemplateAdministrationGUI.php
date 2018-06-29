@@ -37,7 +37,12 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess, $ilTabs;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -78,7 +83,12 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess,$lng,$ilTabs;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$ilTabs = $DIC['ilTabs'];
 
 		if($this->checkPermissionBool('write'))
 		{

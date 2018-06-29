@@ -93,7 +93,9 @@ class ilECSServerSettings
 	 */
 	public function readInactiveServers()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT server_id FROM ecs_server '.
 			'WHERE active =  '.$ilDB->quote(0,'integer').' '.
@@ -112,7 +114,9 @@ class ilECSServerSettings
 	 */
 	private function readActiveServers()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT server_id FROM ecs_server '.
 			'WHERE active =  '.$ilDB->quote(1,'integer').' '.

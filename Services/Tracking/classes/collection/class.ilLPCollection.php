@@ -77,7 +77,9 @@ abstract class ilLPCollection
 	
 	public function cloneCollection($a_target_id, $a_copy_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$target_obj_id = ilObject::_lookupObjId($a_target_id);
 		
@@ -112,7 +114,9 @@ abstract class ilLPCollection
 	
 	protected function read($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$items = array();
 		
@@ -135,7 +139,9 @@ abstract class ilLPCollection
 	
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM ut_lp_collections".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id ,"integer");
@@ -171,7 +177,9 @@ abstract class ilLPCollection
 
 	protected function addEntry($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->isAssignedEntry($a_item_id))
 		{
@@ -189,7 +197,9 @@ abstract class ilLPCollection
 	
 	protected function deleteEntry($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ut_lp_collections".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").

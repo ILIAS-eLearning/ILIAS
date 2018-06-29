@@ -77,7 +77,10 @@ class ilCalendarCategories
 	 */
 	protected function __construct($a_usr_id = 0)
 	{
-		global $ilUser,$ilDB;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 		
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		
@@ -116,7 +119,9 @@ class ilCalendarCategories
 	 */
 	public static function _lookupCategoryIdByObjId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT cat_id FROM cal_categories  ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
@@ -142,7 +147,9 @@ class ilCalendarCategories
 	 */
 	public static function _isOwner($a_usr_id,$a_cal_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE cat_id = ".$ilDB->quote($a_cal_id ,'integer')." ".
@@ -452,7 +459,9 @@ class ilCalendarCategories
 	 */
 	public function prepareCategoriesOfUserForSelection()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$has_personal_calendar = false;
 		foreach($this->categories_info as $info)
@@ -537,7 +546,9 @@ class ilCalendarCategories
 	 */
 	protected function readPDCalendars()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		
 		$this->readPublicCalendars();
@@ -579,7 +590,10 @@ class ilCalendarCategories
 	 */
 	 protected function readSelectedItemCalendars()
 	 {
-	 	global $ilUser,$ilAccess;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
+	 	$ilAccess = $DIC['ilAccess'];
 	 	
 	 	$this->readPublicCalendars();
 	 	$this->readPrivateCalendars();
@@ -634,8 +648,13 @@ class ilCalendarCategories
 	 */
 	protected function readReposCalendars($a_container_only = false)
 	{
-		global $ilAccess,$tree;
-		global $ilDB;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$tree = $DIC['tree'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!$a_container_only)
 		{
@@ -658,7 +677,7 @@ class ilCalendarCategories
 		// alternative 1: do not aggregate items of current course
 		if (!true)		//
 		{
-			$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
+			$subtree_query = $GLOBALS['DIC']['tree']->getSubTreeQuery(
 				$this->root_ref_id,
 				array('object_reference.ref_id', 'object_data.obj_id'),
 				array('crs', 'grp', 'sess', 'exc')
@@ -743,7 +762,10 @@ class ilCalendarCategories
 	 */
 	protected function readPublicCalendars($cat_ids = null)
 	{
-		global $rbacsystem,$ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$in = "";
 		if (is_array($cat_ids))
@@ -782,8 +804,12 @@ class ilCalendarCategories
 	 */
 	protected function readPrivateCalendars($only_cat_ids = null)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$in = "";
 		if (is_array($only_cat_ids))
@@ -891,7 +917,10 @@ class ilCalendarCategories
 	 */
 	public function readConsultationHoursCalendar($a_target_ref_id = NULL, $a_cat_id = 0)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		if(!$this->getCHUserId())
 		{
@@ -979,7 +1008,9 @@ class ilCalendarCategories
 	 */
 	public function readBookingCalendar($user_id = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$user_id)
 		{
@@ -1013,8 +1044,13 @@ class ilCalendarCategories
 	 */
 	protected function readSelectedCategories($a_obj_ids, $a_source_ref_id = 0)
 	{
-		global $ilAccess,$tree;
-		global $ilDB;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$tree = $DIC['tree'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!count($a_obj_ids))
 		{
@@ -1087,7 +1123,9 @@ class ilCalendarCategories
 	 */
 	protected function addSubitemCalendars()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$course_ids = array();
 		foreach($this->categories as $cat_id)
@@ -1150,7 +1188,9 @@ class ilCalendarCategories
 	 */
 	static function lookupPrivateCategories($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// First read private calendars of user
 		$set = $ilDB->query("SELECT * FROM cal_categories ".

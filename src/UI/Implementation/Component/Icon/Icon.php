@@ -30,6 +30,11 @@ class Icon implements C\Icon\Icon {
 	protected $abbreviation;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_disabled;
+
+	/**
 	 * @var	string[]
 	 */
 	protected static $possible_sizes = array(
@@ -89,5 +94,23 @@ class Icon implements C\Icon\Icon {
 	 */
 	public function getSize(){
 		return $this->size;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isDisabled()
+	{
+		return $this->is_disabled;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDisabled($is_disabled) {
+		$this->checkBoolArg("is_disabled", $is_disabled);
+		$clone = clone $this;
+		$clone->is_disabled = $is_disabled;
+		return $clone;
 	}
 }

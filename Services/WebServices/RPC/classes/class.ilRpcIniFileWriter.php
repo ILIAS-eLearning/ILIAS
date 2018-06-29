@@ -46,7 +46,10 @@ class ilRpcIniFileWriter
 	
 	public function write()
 	{
-		global $ilSetting,$ilIliasIniFile;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
 		
 		// Main section 
 		$this->ini = "[Server]\n";

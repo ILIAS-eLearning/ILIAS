@@ -38,7 +38,9 @@ class ilLOUserResults
 	 */
 	public static function lookupResult($a_course_obj_id, $a_user_id, $a_objective_id, $a_tst_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM loc_user_results '.
 				'WHERE user_id = '.$ilDB->quote($a_user_id,'integer').' '.
@@ -67,9 +69,9 @@ class ilLOUserResults
 	public static function resetFinalByObjective($a_objective_id)
 	{
 		$query = 'UPDATE loc_user_results '.
-				'SET is_final = '.$GLOBALS['ilDB']->quote(0,'integer').' '.
-				'WHERE objective_id = '.$GLOBALS['ilDB']->quote($a_objective_id,'integer');
-		$GLOBALS['ilDB']->manipulate($query);
+				'SET is_final = '.$GLOBALS['DIC']['ilDB']->quote(0,'integer').' '.
+				'WHERE objective_id = '.$GLOBALS['DIC']['ilDB']->quote($a_objective_id,'integer');
+		$GLOBALS['DIC']['ilDB']->manipulate($query);
 	}
 	
 
@@ -103,7 +105,9 @@ class ilLOUserResults
 	 */
 	public static function deleteResultsForUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!(int)$a_user_id)
 		{
@@ -124,7 +128,9 @@ class ilLOUserResults
 	 */
 	public static function deleteResultsForCourse($a_course_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!(int)$a_course_id)
 		{
@@ -142,7 +148,9 @@ class ilLOUserResults
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM loc_user_results '.
 				'WHERE course_id = '.$ilDB->quote($this->course_obj_id).' '.
@@ -162,7 +170,9 @@ class ilLOUserResults
 	 */
 	public static function deleteResultsFromLP($a_course_id, array $a_user_ids, $a_remove_initial, $a_remove_qualified, array $a_objective_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!(int)$a_course_id || 
 			!sizeof($a_user_ids))
@@ -214,7 +224,9 @@ class ilLOUserResults
 	 */
 	public function saveObjectiveResult($a_objective_id, $a_type, $a_status, $a_result_percentage, $a_limit_percentage, $a_tries, $a_is_final)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!self::isValidType($a_type) ||
 			!self::isValidStatus($a_status))
@@ -250,7 +262,9 @@ class ilLOUserResults
 	 */
 	protected function findObjectiveIds($a_type = null, $a_status = null, $a_is_final = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -359,7 +373,9 @@ class ilLOUserResults
 	 */	
 	public function getCourseResultsForUserPresentation()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 
@@ -393,7 +409,9 @@ class ilLOUserResults
 	
 	public static function getObjectiveStatusForLP($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 				
 		// are initital test(s) qualifying?
 		include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
@@ -454,7 +472,9 @@ class ilLOUserResults
 	
 	public static function getSummarizedObjectiveStatusForLP($a_obj_id, array $a_objective_ids, $a_user_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$GLOBALS['DIC']->logger()->trac()->debug('Get summorized objective status');
 		
@@ -549,7 +569,9 @@ class ilLOUserResults
 	
 	public static function hasResults($a_container_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT objective_id FROM loc_user_results '.
 				'WHERE course_id = '.$ilDB->quote($a_container_id,'integer').' '.
