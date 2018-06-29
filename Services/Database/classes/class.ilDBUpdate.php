@@ -294,6 +294,7 @@ class ilDBUpdate {
 		if ($DIC->offsetExists('ilCtrlStructureReader')) {
 			$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
 		} else {
+			require_once 'setup/classes/class.ilCtrlStructureReader.php';
 			$ilCtrlStructureReader = new ilCtrlStructureReader();
 			$DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
 		}
