@@ -66,7 +66,7 @@ class Password extends Input implements C\Input\Field\Password {
 		$validation = new \ILIAS\Validation\Factory($data);
 		$pw_validation = $validation->password();
 		$constraints = [
-            $pw_validation->hasMinLength($min_length),
+			$pw_validation->hasMinLength($min_length),
 		];
 
 		if($lower) {
