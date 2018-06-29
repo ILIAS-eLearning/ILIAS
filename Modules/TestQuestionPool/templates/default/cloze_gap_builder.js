@@ -263,6 +263,7 @@ var ClozeGapBuilder = (function () {
 				pro.createNewGapCode('text');
 				pro.cleanGapCode();
 				ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
+				alert('paste');
 				pro.correctCursorPositionInTextarea();
 			}, 200);
 		});
@@ -322,7 +323,7 @@ var ClozeGapBuilder = (function () {
 		var newText = pro.getTextAreaValue();
 		var iterator = newText.match(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g);
 		var last = 0;
-		for (var i = 0; i < iterator.length; i++) {
+		if(iterator) for (var i = 0; i < iterator.length; i++) {
 			last = i;
 			if (iterator[i].match(/\[gap\]/)) {
 				var values = iterator[i].replace(/\[gap\]/, '');

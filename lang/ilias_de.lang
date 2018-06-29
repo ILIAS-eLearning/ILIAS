@@ -1196,7 +1196,7 @@ assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
 assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!###deprecated
 assessment#:#text_correct#:#Korrekter Text
 assessment#:#text_gap#:#Textlücke
-assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten. Eingaben über das Limit hinaus werden nicht abgeschnitten, können aber ggf. in die Bewertung mit eingehen.
+assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Eingaben über das Limit hinaus werden nicht abgeschnitten, können aber ggf. in die Bewertung mit eingehen.
 assessment#:#text_rating#:#Methode für Textvergleiche
 assessment#:#text_wrong#:#Fehlerhafter Text
 assessment#:#textsize#:#Textgröße
@@ -11325,7 +11325,7 @@ wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_article#:#Artikel###deprecated
 wiki#:#wiki_block_page#:#Schreibschutz für Seite
-wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt###deprecated
+wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert###deprecated
 wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht###deprecated
@@ -15375,6 +15375,8 @@ chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
+chatroom#:#chatroom_client_name#:#Name
+chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server

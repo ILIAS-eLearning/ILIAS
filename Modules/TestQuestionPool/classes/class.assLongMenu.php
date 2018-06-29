@@ -332,7 +332,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		foreach( $files as $file)
 		{
 			$gap					= str_replace('.txt', '', basename($file));
-			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));
+			$answers[(int) $gap] 	= explode("\n", file_get_contents($file));
 		}
 		$this->setAnswers($answers);
 		return $answers;

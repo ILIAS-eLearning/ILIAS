@@ -116,6 +116,11 @@ class ilDbSetup {
 
 	public function provideGlobalDB() {
 		global $DIC;
+
+		if($DIC->offsetExists('ilDB')) {
+			$DIC->offsetUnset('ilDB');
+		}
+
 		$GLOBALS["ilDB"] = $this->ilDBInterface;
 		$DIC["ilDB"] = $this->ilDBInterface;
 		$this->client->db = $this->ilDBInterface; // TODO ugly and dirty, but ilClient requires it

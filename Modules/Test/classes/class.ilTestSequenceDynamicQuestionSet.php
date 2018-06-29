@@ -585,16 +585,13 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	{
 		$i = 0;
 		
-		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
+		foreach($this->getSelectionOrderedSequence() as $qId)
 		{
-			foreach($questions as $pos => $qId)
+			$i++;
+			
+			if($qId == $questionId)
 			{
-				$i++;
-				
-				if($qId == $questionId)
-				{
-					return $i;
-				}
+				return $i;
 			}
 		}
 
@@ -603,14 +600,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	
 	public function getLastPositionIndex()
 	{
-		$count = 0;
-		
-		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
-		{
-			$count += count($questions);
-		}
-		
-		return $count;
+		return count($this->getSelectionOrderedSequence());
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -696,7 +686,15 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-
+	
+	/**
+	 * @return ilTestDynamicQuestionSet
+	 */
+	public function getQuestionSet()
+	{
+		return $this->questionSet;
+	}
+	
 	public function getCompleteQuestionsData()
 	{
 		return $this->questionSet->getCompleteQuestionList()->getQuestionDataArray();
@@ -776,7 +774,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		return $orderedSequence;
 	}
 	
-	private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions, $excludeQuestionId)
+	private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions)
 	{
 		$questionSequence = array();
 		
@@ -786,11 +784,6 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 			foreach($questions as $pos => $qId)
 			{
-				if( $qId == $excludeQuestionId )
-				{
-					continue;
-				}
-				
 				if( isset($this->correctAnsweredQuestions[$qId]) )
 				{
 					continue;
@@ -827,18 +820,13 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		return $questionSequence;
 	}
 	
-	private function fetchTrackedCorrectAnsweredSequence($excludeQuestionId)
+	private function fetchTrackedCorrectAnsweredSequence()
 	{
 		$questionSequence = array();
 		
 		foreach($this->questionTracking as $key => $question)
 		{
 			$qId = $question['qid'];
-			
-			if($qId == $excludeQuestionId)
-			{
-				continue;
-			}
 			
 			if( !isset($this->correctAnsweredQuestions[$qId]) )
 			{
@@ -853,42 +841,58 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 	private function getOrderedSequence()
 	{
-		$correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence(
-			$this->getCurrentQuestionId()
-		);
+		$correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence();
 		
 		$nonAnsweredQuestions = $this->fetchQuestionSequence(
-			true, true, $this->getCurrentQuestionId()
+			true, true
 		);
 		
 		$postponedNonAnsweredQuestions = $this->fetchQuestionSequence(
-			false, true, $this->getCurrentQuestionId()
+			false, true
 		);
 		
 		$wrongAnsweredQuestions = $this->fetchQuestionSequence(
-			true, false, $this->getCurrentQuestionId()
+			true, false
 		);
 		
 		$postponedWrongAnsweredQuestions = $this->fetchQuestionSequence(
-			false, false, $this->getCurrentQuestionId()
+			false, false
 		);
 		
-		$questionOrder = array_merge(
-			$correctAnsweredQuestions, array($this->getCurrentQuestionId()),
+		$questionOrder = array_merge( $correctAnsweredQuestions,
 			$nonAnsweredQuestions, $postponedNonAnsweredQuestions,
 			$wrongAnsweredQuestions, $postponedWrongAnsweredQuestions
 		);
 
 		return $questionOrder;
 	}
+	
+	public function getSelectionOrderedSequence()
+	{
+		$sequence = array();
+		
+		foreach($this->getOrderedSequence() as $qId)
+		{
+			if( !$this->getQuestionSet()->getSelectionQuestionList()->isInList($qId) )
+			{
+				continue;
+			}
+			
+			$sequence[] = $qId;
+		}
+		
+		return $sequence;
+	}
 
 	public function getSequenceSummary($obligationsFilterEnabled = false)
 	{
-		$questionOrder = $this->getOrderedSequence();
+		$questionOrder = $this->getSelectionOrderedSequence();
 
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->getActiveId());
 
 		$key = 1;
+		
+		$summary = array();
 
 		foreach ($questionOrder as $qId)
 		{
