@@ -1,20 +1,22 @@
 <?php
 
+namespace SAML2\Certificate;
+
 /**
  * Specific Certificate Key.
  */
-class SAML2_Certificate_X509 extends SAML2_Certificate_Key
+class X509 extends Key
 {
     /**
-     * @var SAML2_Certificate_Fingerprint
+     * @var \SAML2\Certificate\Fingerprint
      */
     private $fingerprint;
 
     public static function createFromCertificateData($certificateContents)
     {
         $data = array(
-            'encryption'      => TRUE,
-            'signing'         => TRUE,
+            'encryption'      => true,
+            'signing'         => true,
             'type'            => 'X509Certificate',
             'X509Certificate' => $certificateContents
         );
@@ -47,7 +49,9 @@ class SAML2_Certificate_X509 extends SAML2_Certificate_Key
     }
 
     /**
-     * @return SAML2_Certificate_Fingerprint
+     * @return \SAML2\Certificate\Fingerprint
+     *
+     * @deprecated Please use full certificates instead.
      */
     public function getFingerprint()
     {
@@ -57,6 +61,6 @@ class SAML2_Certificate_X509 extends SAML2_Certificate_Key
 
         $fingerprint = strtolower(sha1(base64_decode($this->keyData['X509Certificate'])));
 
-        return $this->fingerprint = new SAML2_Certificate_Fingerprint($fingerprint);
+        return $this->fingerprint = new Fingerprint($fingerprint);
     }
 }

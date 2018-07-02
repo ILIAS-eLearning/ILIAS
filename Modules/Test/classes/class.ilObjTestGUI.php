@@ -731,6 +731,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->getId(), $DIC->user()->getId()
 		);
 	}
+	
+	/**
+	 * Gateway for exports initiated from workspace, as there is a generic
+	 * forward to {objTypeMainGUI}::export()
+	 */
+	protected function exportObject()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC->ctrl()->redirectByClass('ilTestExportGUI');
+	}
 
 	private function questionsTabGatewayObject()
 	{
@@ -2063,6 +2073,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function questionsObject()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		global $ilAccess, $ilTabs;
 
 		$ilTabs->activateTab('assQuestions');
@@ -2126,7 +2137,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if($total != 0)
 			{
-				$link = $this->ctrl->getLinkTarget($this, "participants");
+				$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
 				$link = "<a href=\"".$link."\">".$this->lng->txt("test_has_datasets_warning_page_view_link")."</a>";
 				ilUtil::sendInfo($this->lng->txt("test_has_datasets_warning_page_view")." ".$link);
 			}

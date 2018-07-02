@@ -32,8 +32,6 @@ exit;
  */
 chdir('../..');
 
-global $HTTP_RAW_POST_DATA;
-
 include_once './Services/SOAPAuth/classes/class.ilSoapDummyAuthServer.php';
 $server =& new ilSoapDummyAuthServer();
 $server->start();

@@ -49,7 +49,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRbacFA()
 	{
-		global $rbacreview,$rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		// Protected
 		#$rbacadmin->setProtected(1,4,'y');
@@ -78,7 +81,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRbacUA()
 	{
-		global $rbacreview,$rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$obj = ilUtil::_getObjectsByOperations('crs','join');
 		
@@ -94,7 +100,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRbacTA()
 	{
-		global $rbacreview,$rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$sess_ops = $rbacreview->getOperationsOnTypeString('sess');
 		
@@ -113,7 +122,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRbacPA()
 	{
-		global $rbacreview,$rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$sess_ops = $rbacreview->getOperationsOnTypeString('cat');
 		
@@ -186,7 +198,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAssignUser()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		//assign User 15 to role 10
 		$rbacadmin->assignUser(10,15);
 
@@ -206,7 +221,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeassignUser()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		//deassign User 15 from role 10
 		$rbacadmin->deassignUser(10,15);
 
@@ -222,7 +240,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGrantPermission()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		//grant permissions 10,20 and 30 for role 10 on object 60
 		$rbacadmin->grantPermission(10,array(10,20,30),60);
 
@@ -240,7 +261,11 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRevokePermission()
 	{
-		global $rbacreview, $rbacadmin, $ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilDB = $DIC['ilDB'];
 
 		$req = $ilDB->query("SELECT ref.ref_id FROM object_reference AS ref LEFT JOIN object_data AS data ON data.obj_id = ref.obj_id WHERE data.type='seas';");
 
@@ -306,7 +331,12 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRevokeSubtreePermissions()
 	{
-		global $rbacreview, $rbacadmin, $tree, $ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
 		$req = $ilDB->query("SELECT ref.ref_id FROM object_reference AS ref LEFT JOIN object_data AS data ON data.obj_id = ref.obj_id WHERE data.type='adm';");
 
 		$ref_id = 0;
@@ -350,7 +380,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRevokePermissionList()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$list = array(1001, 1003, 1005, 1007);
 
 		foreach($list as $id)
@@ -375,7 +408,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetRolePermission()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 
 		$rbacadmin->setRolePermission(1010,"a",array(10,11,13,15),1100);
@@ -402,7 +438,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeleteRolePermission()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 
 		$rbacadmin->setRolePermission(1010,"a",array(10,11,13,15),1100);
@@ -437,7 +476,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyRoleTemplatePermissions()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 		$rbacadmin->deleteTemplate(2020);
 
@@ -468,7 +510,11 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyRolePermissions()
 	{
-		global $rbacreview, $rbacadmin, $ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilDB = $DIC['ilDB'];
 
 		$req = $ilDB->query("SELECT ref.ref_id FROM object_reference AS ref LEFT JOIN object_data AS data ON data.obj_id = ref.obj_id WHERE data.type='seas';");
 
@@ -537,7 +583,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyRolePermissionIntersection()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 		$rbacadmin->deleteTemplate(2020);
 		$rbacadmin->deleteTemplate(3030);
@@ -579,7 +628,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyRolePermissionUnion()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 		$rbacadmin->deleteTemplate(2020);
 		$rbacadmin->deleteTemplate(3030);
@@ -618,7 +670,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyRolePermissionSubtract()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deleteTemplate(1010);
 		$rbacadmin->deleteTemplate(2020);
 
@@ -654,7 +709,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAssignOperationToObject()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$rbacadmin->assignOperationToObject(1001,10);
 		$rbacadmin->assignOperationToObject(1001,20);
@@ -670,7 +728,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeassignOperationFromObject()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		$rbacadmin->deassignOperationFromObject(1001,10);
 
 		$this->assertEquals($rbacreview->getOperationsOnType(1001), array(20));

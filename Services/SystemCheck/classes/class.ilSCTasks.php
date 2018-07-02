@@ -75,7 +75,9 @@ class ilSCTasks
 	 */
 	public static function lookupGroupId($a_task_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT grp_id FROM sysc_tasks '.
 				'WHERE id = '.$ilDB->quote($a_task_id,'integer');
@@ -93,7 +95,9 @@ class ilSCTasks
 	 */
 	public static function lookupCompleted($a_grp_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT count(id) num FROM sysc_tasks '.
 				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_COMPLETED,'integer').' '.
@@ -112,7 +116,9 @@ class ilSCTasks
 	 */
 	public static function lookupFailed($a_grp_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT count(id) num FROM sysc_tasks '.
 				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
@@ -133,7 +139,9 @@ class ilSCTasks
 	 */
 	public static function lookupLastUpdate($a_grp_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT MAX(last_update) last_update FROM sysc_tasks '.
 				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
@@ -166,7 +174,9 @@ class ilSCTasks
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT id FROM sysc_tasks '.
 				'ORDER BY id ';

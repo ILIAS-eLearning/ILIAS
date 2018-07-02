@@ -53,7 +53,9 @@ class ilParameterAppender
 	*/
 	function __construct($webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->webr_id = $webr_id;
 		$this->db = $ilDB;
@@ -67,7 +69,9 @@ class ilParameterAppender
 	 */
 	public static function getParameterIds($a_webr_id,$a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM webr_params ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer')." ".
@@ -136,7 +140,9 @@ class ilParameterAppender
 	
 	function add($a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_link_id)
 		{
@@ -163,7 +169,9 @@ class ilParameterAppender
 	
 	function delete($a_param_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM webr_params ".
 			"WHERE param_id = ".$ilDB->quote($a_param_id ,'integer')." ".
@@ -178,14 +186,18 @@ class ilParameterAppender
 	 */
 	public static function _isEnabled()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		return $ilSetting->get('links_dynamic',false) ? true : false;
 	}
 
 	public static function _append($a_link_data)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if(!is_array($a_link_data))
 		{
@@ -235,7 +247,9 @@ class ilParameterAppender
 	 */
 	public static function _getParams($a_link_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = ".
 			$ilDB->quote((int) $a_link_id ,'integer'));
@@ -277,7 +291,9 @@ class ilParameterAppender
 
 	static function _deleteAll($a_webr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM webr_params WHERE webr_id = ".
 			$ilDB->quote((int) $a_webr_id ,'integer');
@@ -292,7 +308,9 @@ class ilParameterAppender
 	 */
 	public static function _getOptionSelect()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		return array(0 => $lng->txt('links_select_one'),
 					 LINKS_USER_ID => $lng->txt('links_user_id'),

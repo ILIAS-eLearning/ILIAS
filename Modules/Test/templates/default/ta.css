@@ -470,7 +470,8 @@ div.ilc_Page.readonly div.ilc_question_Standard
 	background-image: url(../../../../templates/default/images/qmark-ro.svg);
 }
 
-ul.ilAssQuestionRelatedNavigationContainer
+ul.ilAssQuestionRelatedNavigationContainer,
+div.ilAssQuestionRelatedNavigationContainer
 {
 	margin: 15px 0;
 	float: none;

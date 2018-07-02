@@ -38,7 +38,9 @@ class ilLPStatusEvent extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -130,7 +132,9 @@ class ilLPStatusEvent extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))

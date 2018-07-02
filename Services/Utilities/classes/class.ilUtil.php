@@ -1602,6 +1602,8 @@ class ilUtil
 	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
+		$a_sdir = realpath($a_sdir); // See https://www.ilias.de/mantis/view.php?id=23056
+		$a_tdir = realpath($a_tdir); // See https://www.ilias.de/mantis/view.php?id=23056
 		try {
 			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
 			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
@@ -1696,22 +1698,6 @@ class ilUtil
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		return ilObjUser::_getUsersOnline($a_user_id);
-	}
-
-	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @static
-	* 
-	*/
-	public static function getAssociatedUsersOnline($a_user_id)
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
 	}
 
 	/**
@@ -4600,7 +4586,7 @@ class ilUtil
 	 */
 	public static function isHTML($a_text)
 	{
-		if( preg_match("/<[^>]*?>/", $a_text) )
+		if( strlen(strip_tags($a_text)) < strlen($a_text) )
 		{
 			return true;
 		}
@@ -5033,14 +5019,19 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
-		
+		/* We MUST NOT set the global constant here, because this affects the session_set_cookie_params() call as well
 		if(!defined('IL_COOKIE_SECURE'))
 		{
 			define('IL_COOKIE_SECURE', false);
 		}
+		*/
+		$secure = false;
+		if (defined('IL_COOKIE_SECURE')) {
+			$secure = IL_COOKIE_SECURE;
+		}
 
 		setcookie( $a_cookie_name, $a_cookie_value, $expire,
-			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, $secure, IL_COOKIE_HTTPONLY
 		);
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;

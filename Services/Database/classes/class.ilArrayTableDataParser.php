@@ -18,32 +18,34 @@ class ilArrayTableDataParser
 	
 	public function startParsing()
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilLogger = $DIC->logger()->root();
 		
 		if(!$dp = opendir($this->dir))
 		{
-			$ilLog->write(__METHOD__.': Cannot open data directory: '.$this->dir);
+			$ilLogger->error(__METHOD__.': Cannot open data directory: '.$this->dir);
 			return false;
 		}
 	
-		$ilLog->write(__METHOD__.': Reading table data from: '.$this->dir);
+		$ilLogger->log(__METHOD__.': Reading table data from: '.$this->dir);
 		while (false !== ($file = readdir($dp))) 
 		{
-			$ilLog->write(__METHOD__.': Handling file: '.$file);
+			$ilLogger->log(__METHOD__.': Handling file: '.$file);
 			if(substr($file, -5) != '.data')
 			{
-				$ilLog->write(__METHOD__.': Ignoring file: '.$file);
+				$ilLogger->log(__METHOD__.': Ignoring file: '.$file);
 				continue;
 			}
 			
 			$content = file_get_contents($this->dir.DIRECTORY_SEPARATOR.$file);
 
-			$ilLog->write(__METHOD__.': Reading inserts of '.$this->dir.'/'.$file);
+			$ilLogger->log(__METHOD__.': Reading inserts of '.$this->dir.'/'.$file);
 			$content = unserialize($content);
 
 			if(!is_array($content))
 			{
-				$ilLog->write(__METHOD__.': No entries found in '.$this->dir.'/'.$file);
+				$ilLogger->log(__METHOD__.': No entries found in '.$this->dir.'/'.$file);
 				continue;
 			}
 
@@ -56,7 +58,7 @@ class ilArrayTableDataParser
 			}
 			if(function_exists('memory_get_usage'))
 			{
-				$ilLog->write(__METHOD__.': Memory usage '.memory_get_usage(true));
+				$ilLogger->log(__METHOD__.': Memory usage '.memory_get_usage(true));
 			}
 		}
 		fclose($dp);

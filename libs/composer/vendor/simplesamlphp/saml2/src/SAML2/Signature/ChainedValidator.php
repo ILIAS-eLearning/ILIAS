@@ -1,22 +1,27 @@
 <?php
 
+namespace SAML2\Signature;
+
+use SAML2\Configuration\CertificateProvider;
+use SAML2\SignedElement;
+
 /**
- * Interface SAML2_Validator_Responsible
+ * Interface \SAML2\Validator\Responsible
  *
  * should be renamed.
  */
-interface SAML2_Signature_ChainedValidator extends SAML2_Signature_ValidatorInterface
+interface ChainedValidator extends ValidatorInterface
 {
     /**
      * Test whether or not this link in the chain can validate the signedElement signature.
      *
-     * @param SAML2_SignedElement             $signedElement
-     * @param SAML2_Configuration_CertificateProvider $configuration
+     * @param \SAML2\SignedElement             $signedElement
+     * @param \SAML2\Configuration\CertificateProvider $configuration
      *
      * @return bool
      */
     public function canValidate(
-        SAML2_SignedElement $signedElement,
-        SAML2_Configuration_CertificateProvider $configuration
+        SignedElement $signedElement,
+        CertificateProvider $configuration
     );
 }

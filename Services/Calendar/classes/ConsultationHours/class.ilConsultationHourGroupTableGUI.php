@@ -37,13 +37,13 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
 	{
 		$this->setRowTemplate('tpl.ch_group_row.html','Services/Calendar');
 		
-		$this->setTitle($GLOBALS['lng']->txt('cal_ch_grps'));
-		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject(),$this->getParentCmd()));
+		$this->setTitle($GLOBALS['DIC']['lng']->txt('cal_ch_grps'));
+		$this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		
-		$this->addColumn($GLOBALS['lng']->txt('title'),'title');
-		$this->addColumn($GLOBALS['lng']->txt('cal_ch_assigned_apps'),'apps');
-		$this->addColumn($GLOBALS['lng']->txt('cal_ch_max_books'), 'max_books');
-		$this->addColumn($GLOBALS['lng']->txt('actions'), '');
+		$this->addColumn($GLOBALS['DIC']['lng']->txt('title'),'title');
+		$this->addColumn($GLOBALS['DIC']['lng']->txt('cal_ch_assigned_apps'),'apps');
+		$this->addColumn($GLOBALS['DIC']['lng']->txt('cal_ch_max_books'), 'max_books');
+		$this->addColumn($GLOBALS['DIC']['lng']->txt('actions'), '');
 		
 		$this->enable('sort');
 		$this->enable('header');
@@ -58,7 +58,9 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->tpl->setVariable('TITLE',$a_set['title']);
 		$this->tpl->setVariable('MAX_BOOKINGS',$a_set['max_books']);

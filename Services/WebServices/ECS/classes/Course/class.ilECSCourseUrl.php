@@ -65,11 +65,11 @@ class ilECSCourseUrl
 			$con = new ilECSCourseUrlConnector($setting);
 			$url_id = $con->addUrl($this, $ecs_receiver_mid);
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': Received new url id ' . $url_id);
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Received new url id ' . $url_id);
 		}
 		catch(Exception $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$e->getMessage());
 		}
 	}
 }

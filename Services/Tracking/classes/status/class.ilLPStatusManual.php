@@ -16,7 +16,9 @@ class ilLPStatusManual extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -35,7 +37,9 @@ class ilLPStatusManual extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$usr_ids = array();
 
@@ -62,7 +66,10 @@ class ilLPStatusManual extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilDB = $DIC['ilDB'];
 
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))

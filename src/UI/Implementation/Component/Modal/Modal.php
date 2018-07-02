@@ -33,7 +33,6 @@ abstract class Modal implements Component\Modal\Modal {
 	 * @var Signal
 	 */
 	protected $close_signal;
-
 	/**
 	 * @var string
 	 */

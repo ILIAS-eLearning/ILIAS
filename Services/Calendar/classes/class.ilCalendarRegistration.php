@@ -34,7 +34,9 @@ class ilCalendarRegistration
 	 */
 	public static function deleteByUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	 	$query = "DELETE FROM cal_registrations ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
@@ -43,7 +45,9 @@ class ilCalendarRegistration
 	
 	public static function deleteByAppointment($a_cal_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	 	$query = "DELETE FROM cal_registrations ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id,'integer');
@@ -104,7 +108,9 @@ class ilCalendarRegistration
 	 */
 	public function register($a_usr_id,ilDateTime $start, ilDateTime $end)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->unregister($a_usr_id,$start,$end);
 		
@@ -128,7 +134,9 @@ class ilCalendarRegistration
 	 */
 	public function unregister($a_usr_id,ilDateTime $start, ilDateTime $end)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM cal_registrations ".
 			"WHERE cal_id = ".$ilDB->quote($this->getAppointmentId(),'integer').' '.
@@ -145,7 +153,9 @@ class ilCalendarRegistration
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$this->getAppointmentId())
 		{

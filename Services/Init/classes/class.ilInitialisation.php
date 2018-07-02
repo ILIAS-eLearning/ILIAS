@@ -323,7 +323,7 @@ class ilInitialisation
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			foreach($dirs as $dir)
+			if (count($dirs) > 0)
 			{
 				$uri = dirname($uri);
 			}
@@ -592,14 +592,18 @@ class ilInitialisation
 	{
 		global $ilSetting;
 
-		// TODO: Has to be revised/moved
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
-		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+		if (!defined('IL_COOKIE_SECURE')) {
+			// If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
+			// \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-		session_set_cookie_params(
-			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-		);
+			include_once './Services/Http/classes/class.ilHTTPS.php';
+			$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+			define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
+
+			session_set_cookie_params(
+				IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			);
+		}
 	}
 
 	/**
@@ -850,15 +854,29 @@ class ilInitialisation
 	/**
 	 * $lng initialisation
 	 */
-	protected static function initLanguage()
+	protected static function initLanguage($a_use_user_language = true)
 	{
+		global $DIC;
+
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
 		global $rbacsystem;
 
 		require_once 'Services/Language/classes/class.ilLanguage.php';
-		self::initGlobal('lng', ilLanguage::getGlobalInstance());
+
+		if($a_use_user_language)
+		{
+			if($DIC->offsetExists('lng'))
+			{
+				$DIC->offsetUnset('lng');
+			}
+			self::initGlobal('lng', ilLanguage::getGlobalInstance());
+		}
+		else
+		{
+			self::initGlobal('lng', ilLanguage::getFallbackInstance());
+		}
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -1024,7 +1042,7 @@ class ilInitialisation
 			self::includePhp5Compliance();
 			
 			// language may depend on user setting
-			self::initLanguage();
+			self::initLanguage(true);
 			$GLOBALS['DIC']['tree']->initLangCode();
 
 			self::initInjector($GLOBALS['DIC']);
@@ -1137,6 +1155,9 @@ class ilInitialisation
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
+
+		// init dafault language
+		self::initLanguage(false);
 		
 		// moved after databases 
 		self::initLog();		
@@ -1222,8 +1243,9 @@ class ilInitialisation
 	public static function resumeUserSession()
 	{
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-		if(ilAuthUtils::handleForcedAuthentication())
+		if(ilAuthUtils::isAuthenticationForced())
 		{
+			ilAuthUtils::handleForcedAuthentication();
 		}
 		
 		if(
@@ -1391,6 +1413,12 @@ class ilInitialisation
 					( $c["ui.resource_registry"]
 					, new ILIAS\UI\Implementation\Render\FSLoader
 						( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
+							($c["ui.factory"]
+							, $c["ui.template_factory"]
+							, $c["lng"]
+							, $c["ui.javascript_binding"]
+							),
+						  new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]

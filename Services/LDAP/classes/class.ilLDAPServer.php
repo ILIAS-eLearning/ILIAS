@@ -41,7 +41,10 @@ class ilLDAPServer
 
 	public function __construct($a_server_id = 0)
 	{
-		global $ilDB,$lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		$this->db = $ilDB;
 		$this->lng = $lng;
@@ -70,7 +73,9 @@ class ilLDAPServer
 	 */
 	public function rotateFallbacks()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->fallback_urls)
 		{
@@ -104,7 +109,9 @@ class ilLDAPServer
 	 */
 	public static function _getActiveServerList() 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE active = 1 AND authentication = 1 ".
@@ -125,7 +132,9 @@ class ilLDAPServer
 	 */
 	public static function _getCronServerIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE active = 1 ".
@@ -149,7 +158,9 @@ class ilLDAPServer
 	 */
 	public static function _getRoleSyncServerIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE active = 1 ".
@@ -199,7 +210,9 @@ class ilLDAPServer
 	 */
 	public static function _getServerList()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
 		
@@ -218,7 +231,9 @@ class ilLDAPServer
 	 */
 	public static function getServerIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
 		
@@ -240,7 +255,9 @@ class ilLDAPServer
 	 */
 	public static function _getAllServer()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM ldap_server_settings ORDER BY name";
 		
@@ -273,7 +290,9 @@ class ilLDAPServer
 
 	public static function getAvailableDataSources($a_auth_mode)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE active = ".$ilDB->quote(1,'integer')." ".
@@ -298,7 +317,9 @@ class ilLDAPServer
 	 */
 	public static function isDataSourceActive($a_auth_mode)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
@@ -313,7 +334,9 @@ class ilLDAPServer
 
 	public static function getDataSource($a_auth_mode)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ";
@@ -330,7 +353,9 @@ class ilLDAPServer
 	 */
 	public static function disableDataSourceForAuthMode($a_authmode)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE ldap_server_settings '.
 			'SET authentication_type = '. $ilDB->quote(0,'integer').' '.
@@ -349,7 +374,9 @@ class ilLDAPServer
 	 */
 	public static function toggleDataSource($a_ldap_server_id, $a_auth_mode,$a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		self::disableDataSourceForAuthMode($a_auth_mode);
 		
@@ -372,7 +399,7 @@ class ilLDAPServer
 	{
 		if(!$a_auth_mode)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': No auth mode given..............');
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': No auth mode given..............');
 			return false;
 		}
 		$auth_arr = explode('_', $a_auth_mode);
@@ -844,7 +871,9 @@ class ilLDAPServer
 	 */
 	public function validate() 
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		$ilErr->setMessage('');
 		if(!strlen($this->getName()) ||
@@ -875,7 +904,9 @@ class ilLDAPServer
 	
 	public function create() 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		// start Patch Name Filter remove ",username_filter", ",%s", ",$this->getUsernameFilter()"
 		$next_id = $ilDB->nextId('ldap_server_settings');
 		
@@ -931,7 +962,9 @@ class ilLDAPServer
 	
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "UPDATE ldap_server_settings SET ".
 			"active = ".$this->db->quote($this->isActive(),'integer').", ".

@@ -205,4 +205,38 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
+
+		/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A password-field is intended for entering passwords.
+	 *   composition: >
+	 *      Text password will render an input-tag with type="password".
+	 *   effect: >
+	 *      Text password is restricted to one line of text and will
+	 *      mask the entered characters.
+	 *   rivals:
+	 *      text field: >
+	 *          Use a text field for discloseable information (i.e.
+	 *          information that can safely be displayed to an audience)
+	 *
+	 * context: Login-Form and own profile (change Password).
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Password Input MUST be used for passwords.
+	 *   interaction:
+	 *     1: >
+	 *         Password Input SHOULD NOT limit the number of characters.
+	 *
+	 * ---
+	 *
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Password
+	 */
+	public function password($label, $byline = null);
+
 }

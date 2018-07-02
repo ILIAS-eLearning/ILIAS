@@ -124,7 +124,11 @@ class ilCalendarCategoryGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilSetting,$tpl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
+		$tpl = $DIC['tpl'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this,'category_id');
@@ -170,7 +174,10 @@ class ilCalendarCategoryGUI
 	 */
 	protected function add(ilPropertyFormGUI $form = null)
 	{
-		global $tpl, $ilTabs;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -295,7 +302,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function details()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 
 		if(!$this->category_id)
 		{
@@ -411,7 +420,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function confirmDelete()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 
 		$cat_ids = (is_array($_POST['selected_cat_ids']) && count($_POST['selected_cat_ids']) > 0)
 			? $_POST['selected_cat_ids']
@@ -460,7 +471,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function delete()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(!$_POST['category_id'])
 		{
@@ -500,7 +513,9 @@ class ilCalendarCategoryGUI
 	 */
 	public function saveSelection()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
@@ -580,7 +595,9 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareSearch()
 	{
-		global $tpl, $DIC;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 
 		$tabs = $DIC->tabs();
 		$tabs->activateTab("share");
@@ -739,7 +756,9 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareAssign($a_editable = false)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->category_id)
 		{
@@ -793,7 +812,9 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareAssignRoles($a_editable = false)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->category_id)
 		{
@@ -878,7 +899,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function showUserList($a_ids = array())
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedUserListTableGUI.php');
 		
@@ -903,7 +926,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function showRoleList($a_ids = array())
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedRoleListTableGUI.php');
 		
@@ -968,7 +993,11 @@ class ilCalendarCategoryGUI
 	 */
 	protected function initFormCategory($a_mode)
 	{
-		global $rbacsystem,$ilUser, $ilHelp;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilHelp = $DIC['ilHelp'];
 
 		$ilHelp->setScreenIdComponent("cal");
 		$ilHelp->setScreenId("cal");
@@ -1123,7 +1152,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function unshare()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->category_id)
 		{
@@ -1178,7 +1209,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function askDeleteAppointments()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		if(!count($_POST['appointments']))
 		{
@@ -1238,7 +1271,10 @@ class ilCalendarCategoryGUI
 
 	public function getHTML()
 	{
-		global $ilUser, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
 		$block_gui = new ilCalendarSelectionBlockGUI($this->seed, $this->ref_id);
@@ -1254,7 +1290,9 @@ class ilCalendarCategoryGUI
 	 */
 	 protected function appendCalendarSelection()
 	 {
-	 	global $ilUser;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
 	 	
 	 	$this->lng->loadLanguageModule('pd');
 	 	
@@ -1317,7 +1355,11 @@ class ilCalendarCategoryGUI
 	 */
 	private function readPermissions()
 	{
-		global $ilUser,$rbacsystem,$ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$this->editable = false;
 
@@ -1388,7 +1430,9 @@ class ilCalendarCategoryGUI
 	 */
 	 protected function checkVisible()
 	 {
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 		
 		if(!$this->visible)
 		{
@@ -1419,7 +1463,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function addReferenceLinks($a_obj_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$tpl = new ilTemplate('tpl.cal_reference_links.html',true,true,'Services/Calendar');
 		
@@ -1458,7 +1504,11 @@ class ilCalendarCategoryGUI
 	 */
 	protected function manage($a_reset_offsets = false)
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		$this->addSubTabs("manage");
 
@@ -1485,7 +1535,10 @@ class ilCalendarCategoryGUI
 	 */
 	protected function importAppointments(ilPropertyFormGUI $form = null)
 	{
-		global $ilTabs, $tpl;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$tpl = $DIC['tpl'];
 		
 		if(!$this->category_id)
 		{
@@ -1572,8 +1625,6 @@ class ilCalendarCategoryGUI
 		include_once './Services/Calendar/classes/../classes/iCal/class.ilICalParser.php';
 		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Starting ical import...');
-		
 		$assigned_before = ilCalendarCategoryAssignments::lookupNumberOfAssignedAppointments(array($category_id));
 		
 		$parser = new ilICalParser($file,ilICalParser::INPUT_FILE);
@@ -1643,7 +1694,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function acceptShared()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
 		{
@@ -1680,7 +1733,9 @@ class ilCalendarCategoryGUI
 	 */
 	protected function declineShared()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
 		{

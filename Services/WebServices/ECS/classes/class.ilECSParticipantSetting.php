@@ -220,7 +220,9 @@ class ilECSParticipantSetting
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$this->exists())
 		{
@@ -247,7 +249,9 @@ class ilECSParticipantSetting
 
 	private function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'INSERT INTO ecs_part_settings '.
 			'(sid,mid,export,import,import_type,title,cname,token,dtoken,export_types, import_types) '.
@@ -276,7 +280,9 @@ class ilECSParticipantSetting
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
@@ -291,7 +297,9 @@ class ilECSParticipantSetting
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
@@ -319,7 +327,9 @@ class ilECSParticipantSetting
 	
 	public static function deleteByServerId($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_events'.
 			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');

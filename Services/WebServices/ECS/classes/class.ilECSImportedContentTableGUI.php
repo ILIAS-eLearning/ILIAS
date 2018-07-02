@@ -45,7 +45,10 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd = '')
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -72,7 +75,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		include_once('./Services/Link/classes/class.ilLink.php');
 		
@@ -170,7 +175,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 	 */
 	public function parse($a_rcrs)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		// Preload object data
 		$ilObjDataCache->preloadReferenceCache($a_rcrs);

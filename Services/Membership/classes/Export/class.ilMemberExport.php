@@ -74,7 +74,10 @@ class ilMemberExport
 	 */
 	public function __construct($a_ref_id, $a_type = self::EXPORT_CSV)
 	{
-		global $ilObjDataCache,$lng;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$lng = $DIC['lng'];
 		
 		$this->lng = $lng;
 		
@@ -480,7 +483,7 @@ class ilMemberExport
 					
 					case 'consultation_hour':
 						include_once './Services/Booking/classes/class.ilBookingEntry.php';
-						$bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id, $GLOBALS['ilUser']->getId());
+						$bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id, $GLOBALS['DIC']['ilUser']->getId());
 						
 						$uts = array();
 						foreach((array) $bookings[$usr_id] as $ut)
@@ -706,7 +709,10 @@ class ilMemberExport
 
 	protected function initGroups()
 	{
-		global $tree, $ilAccess;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilAccess = $DIC['ilAccess'];
 		$parent_node = $tree->getNodeData($this->ref_id);
 		$groups = $tree->getSubTree($parent_node, true, "grp");
 		if(is_array($groups) && sizeof($groups))

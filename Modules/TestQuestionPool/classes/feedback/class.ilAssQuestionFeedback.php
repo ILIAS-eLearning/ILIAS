@@ -294,12 +294,18 @@ abstract class ilAssQuestionFeedback
 				$property->addPlugin("latex");
 				$property->addButton("latex");
 				$property->addButton("pastelatex");
+
+				require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+				$property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
+			}
+			else
+			{
+				require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+				$property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
+				$property->setUseTagsForRteOnly(false);
 			}
 
-			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
-			$property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
-			$property->setUseTagsForRteOnly(false);
-			
 			$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
 		}
 		
@@ -359,6 +365,17 @@ abstract class ilAssQuestionFeedback
 	 * @return string $feedbackContent
 	 */
 	abstract public function getAllSpecificAnswerFeedbackContents($questionId);
+	
+	/**
+	 * returns the fact wether any specific feedback content is available or not
+	 * 
+	 * @param integer $questionId
+	 * @return bool
+	 */
+	public function isSpecificAnswerFeedbackAvailable($questionId)
+	{
+		return (bool)strlen( $this->getAllSpecificAnswerFeedbackContents($questionId) );
+	}
 
 	/**
 	 * saves GENERIC feedback content for the given question id to the database.

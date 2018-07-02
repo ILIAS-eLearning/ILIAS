@@ -35,7 +35,9 @@ class ilLearningProgress
 
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->db = $ilDB;
 	}

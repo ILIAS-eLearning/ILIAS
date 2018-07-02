@@ -12,7 +12,7 @@ interface Factory {
  	 *   composition: >
 	 *       A list item consists of a title and the following optional elements:
 	 *       description, action drop down, properties (name/value), a text or
-	 *       image lead and a color. Property values MAY be interactive by using
+	 *       image or icon lead and a color. Property values MAY be interactive by using
 	 *       Shy Buttons.
  	 * rules:
 	 *    accessibility:

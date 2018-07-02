@@ -190,7 +190,7 @@ class ilObjectListGUI
 		$this->enableTags(false);
 		
 		// unique js-ids
-		$this->setParentRefId($_REQUEST["ref_id"]);
+		$this->setParentRefId((int) $_REQUEST["ref_id"]);
 		
 //echo "list";
 		$this->init();

@@ -1273,6 +1273,42 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		return $this->calculateReachedPointsForSolution($user_result);
 	}
 	
+	protected function isValidNumericSubmitValue($submittedValue)
+	{
+		if( is_numeric($submittedValue) )
+		{
+			return true;
+		}
+		
+		if( preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function validateSolutionSubmit()
+	{
+		foreach($this->getSolutionSubmit() as $gapIndex => $value)
+		{
+			$gap = $this->getGap($gapIndex);
+			
+			if($gap->getType() != CLOZE_NUMERIC)
+			{
+				continue;
+			}
+			
+			if( !$this->isValidNumericSubmitValue($value) )
+			{
+				ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public function getSolutionSubmit()
 	{
 		$solutionSubmit = array();
@@ -1302,7 +1338,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		return $solutionSubmit;
 	}
-
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
@@ -1564,15 +1600,23 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				if ($gap_index == $solutionvalue["value1"])
 				{
-					switch ($gap->getType())
-					{
-						case CLOZE_SELECT:
-							$worksheet->setCell($startrow + $i, 1, $gap->getItem($solutionvalue["value2"])->getAnswertext());
-							break;
-						case CLOZE_NUMERIC:
-						case CLOZE_TEXT:
-							$worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
-							break;
+					$string_escaping_org_value = $worksheet->getStringEscaping();
+					try {
+						$worksheet->setStringEscaping(false);
+
+						switch ($gap->getType())
+						{
+							case CLOZE_SELECT:
+								$worksheet->setCell($startrow + $i, 1, $gap->getItem($solutionvalue["value2"])->getAnswertext());
+								break;
+							case CLOZE_NUMERIC:
+							case CLOZE_TEXT:
+								$worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
+								break;
+						}
+
+					} finally {
+						$worksheet->setStringEscaping($string_escaping_org_value);
 					}
 				}
 			}

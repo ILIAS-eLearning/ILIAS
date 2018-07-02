@@ -35,7 +35,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	public function __construct()
 	{
-		global $ilUser, $lng;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule("search");
 		
@@ -75,7 +78,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	public function executeCommand()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 
 
@@ -247,7 +253,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 	
 	function showSearch()
 	{
-		global $ilLocator, $ilCtrl, $lng;
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		// include js needed
 		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
@@ -301,7 +311,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function showSavedResults()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		// Read old result sets
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -340,7 +352,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 	 */
 	function performSearch()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
 		{
@@ -434,7 +448,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function prepareOutput()
 	{
-		global $ilTabs, $ilHelp;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilHelp = $DIC['ilHelp'];
 		
 		parent::prepareOutput();
 		
@@ -726,7 +743,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initUserSearchCache()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());

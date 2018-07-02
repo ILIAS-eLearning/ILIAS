@@ -17,7 +17,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -25,7 +27,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
@@ -55,7 +59,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
@@ -84,7 +90,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 	static function _getNotAttempted($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
@@ -118,7 +126,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 	 */
 	static function getParticipants($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
@@ -144,7 +154,9 @@ class ilLPStatusTestFinished extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 

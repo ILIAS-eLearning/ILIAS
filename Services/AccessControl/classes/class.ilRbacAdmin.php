@@ -23,7 +23,11 @@ class ilRbacAdmin
 	*/
 	public function __construct()
 	{
-		global $ilDB,$ilErr,$ilias;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilErr = $DIC['ilErr'];
+		$ilias = $DIC['ilias'];
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -47,7 +51,9 @@ class ilRbacAdmin
 	 */
 	public function setBlockedStatus($a_role_id, $a_ref_id, $a_blocked_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		ilLoggerFactory::getLogger('crs')->logStack();
 		$query = 'UPDATE rbac_fa set blocked = '. $ilDB->quote($a_blocked_status,'integer').' '.
@@ -65,7 +71,9 @@ class ilRbacAdmin
 	 */
 	public function removeUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_usr_id))
 		{
@@ -88,7 +96,10 @@ class ilRbacAdmin
 	 */
 	public function deleteRole($a_rol_id,$a_ref_id)
 	{
-		global $lng,$ilDB;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
@@ -134,7 +145,9 @@ class ilRbacAdmin
 	 */
 	public function deleteTemplate($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_obj_id))
 		{
@@ -162,7 +175,9 @@ class ilRbacAdmin
 	 */
 	public function deleteLocalRole($a_rol_id,$a_ref_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_rol_id))
 		{
@@ -201,7 +216,9 @@ class ilRbacAdmin
 	 */
 	public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = array())
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
 		$ilAtomQuery->addTableLock('rbac_ua');
@@ -234,7 +251,7 @@ class ilRbacAdmin
 			return false;
 		}
 
-		$GLOBALS['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
+		$GLOBALS['DIC']['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
 		
 		$this->addDesktopItem($a_role_id,$a_usr_id);
 	
@@ -271,7 +288,10 @@ class ilRbacAdmin
 	 */
 	public function assignUser($a_rol_id,$a_usr_id)
 	{
-		global $ilDB,$rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
@@ -299,14 +319,14 @@ class ilRbacAdmin
 		$mapping->assign($a_rol_id,$a_usr_id); 
 		
 		
-		$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
+		$ref_id = $GLOBALS['DIC']['rbacreview']->getObjectReferenceOfRole($a_rol_id);
 		$obj_id = ilObject::_lookupObjId($ref_id);
 		$type = ilObject::_lookupType($obj_id);
 		
 		if(!$alreadyAssigned)
 		{
 			ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event assign user');
-			$GLOBALS['ilAppEventHandler']->raise(
+			$GLOBALS['DIC']['ilAppEventHandler']->raise(
 					'Services/AccessControl',
 					'assignUser',
 					array(
@@ -331,7 +351,10 @@ class ilRbacAdmin
 	 */
 	public function deassignUser($a_rol_id,$a_usr_id)
 	{
-		global $ilDB, $rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
@@ -351,12 +374,12 @@ class ilRbacAdmin
 		$mapping->deassign($a_rol_id, $a_usr_id);
 
 		if ($res) {
-			$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
+			$ref_id = $GLOBALS['DIC']['rbacreview']->getObjectReferenceOfRole($a_rol_id);
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$type = ilObject::_lookupType($obj_id);
 
 			ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
-			$GLOBALS['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', array(
+			$GLOBALS['DIC']['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', array(
 					'obj_id'  => $obj_id,
 					'usr_id'  => $a_usr_id,
 					'role_id' => $a_rol_id,
@@ -377,7 +400,9 @@ class ilRbacAdmin
 	 */
 	public function grantPermission($a_rol_id,$a_ops,$a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id))
 		{
@@ -442,7 +467,12 @@ class ilRbacAdmin
 	 */
 	public function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
 	{
-		global $rbacreview,$log,$ilDB,$ilLog;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$log = $DIC['log'];
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		if (!isset($a_ref_id))
 		{
@@ -543,11 +573,13 @@ class ilRbacAdmin
 	 */
 	public function revokeSubtreePermissions($a_ref_id,$a_role_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM rbac_pa '.
 				'WHERE ref_id IN '.
-				'( '.$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
+				'( '.$GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
 				'AND rol_id = '.$ilDB->quote($a_role_id,'integer');
 		
 		$ilDB->manipulate($query);
@@ -562,18 +594,20 @@ class ilRbacAdmin
 	 */
 	public function deleteSubtreeTemplates($a_ref_id,$a_rol_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM rbac_templates '.
 				'WHERE parent IN ( '.
-				$GLOBALS['tree']->getSubTreeQuery($a_ref_id, array('child')).' ) '.
+				$GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')).' ) '.
 				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
 		
 		$ilDB->manipulate($query);
 
 		$query = 'DELETE FROM rbac_fa '.
 				'WHERE parent IN ( '.
-				$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
+				$GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
 				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
 		
 		$ilDB->manipulate($query);
@@ -590,7 +624,9 @@ class ilRbacAdmin
 	 */
 	public function revokePermissionList($a_ref_ids,$a_rol_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_ref_ids) or !is_array($a_ref_ids))
 		{
@@ -630,7 +666,10 @@ class ilRbacAdmin
 	 */
 	public function copyRolePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
-		global $tree,$rbacreview;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		// Copy template permissions
 		$this->copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected);
@@ -654,7 +693,10 @@ class ilRbacAdmin
 	 */
 	public function copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
-		global $rbacreview,$ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilDB = $DIC['ilDB'];
 
 		if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent))
 		{
@@ -727,7 +769,10 @@ class ilRbacAdmin
 	 */
 	public function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
 	{
-		global $rbacreview,$ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_source1_id) or !isset($a_source1_parent) 
 		or !isset($a_source2_id) or !isset($a_source2_parent) 
@@ -751,7 +796,7 @@ class ilRbacAdmin
 		
 		if ($rbacreview->isProtected($a_source2_parent,$a_source2_id))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Role is protected');
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Role is protected');
 			return true;
 		}
 
@@ -815,7 +860,10 @@ class ilRbacAdmin
 		$a_dest_id,
 		$a_dest_parent)
 	{
-		global $ilDB, $rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
 
 		
 		$s1_ops = $rbacreview->getAllOperationsOfRole($a_source1_id,$a_source1_parent);
@@ -823,8 +871,8 @@ class ilRbacAdmin
 		
 		$this->deleteRolePermission($a_dest_id, $a_dest_parent);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($s1_ops,TRUE));
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($s2_ops,TRUE));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($s1_ops,TRUE));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($s2_ops,TRUE));
 
 		foreach($s1_ops as $type => $ops)
 		{
@@ -874,7 +922,10 @@ class ilRbacAdmin
 	 */
 	public function copyRolePermissionSubtract($a_source_id, $a_source_parent, $a_dest_id, $a_dest_parent)
 	{
-		global $rbacreview, $ilDB;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilDB = $DIC['ilDB'];
 		
 		$s1_ops = $rbacreview->getAllOperationsOfRole($a_source_id,$a_source_parent);
 		$d_ops = $rbacreview->getAllOperationsOfRole($a_dest_id,$a_dest_parent);
@@ -910,7 +961,9 @@ class ilRbacAdmin
 	 */
 	public function deleteRolePermission($a_rol_id,$a_ref_id,$a_type = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
@@ -951,7 +1004,9 @@ class ilRbacAdmin
 	 */
 	public function setRolePermission($a_rol_id,$a_type,$a_ops,$a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_rol_id) or !isset($a_type) or !isset($a_ops) or !isset($a_ref_id))
 		{
@@ -1012,7 +1067,10 @@ class ilRbacAdmin
 	 */
 	public function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
-		global $ilDB,$rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		if (!isset($a_rol_id) or !isset($a_parent))
 		{
@@ -1067,7 +1125,9 @@ class ilRbacAdmin
 	 */
 	public function assignOperationToObject($a_type_id,$a_ops_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
@@ -1093,7 +1153,9 @@ class ilRbacAdmin
 	 */
 	function deassignOperationFromObject($a_type_id,$a_ops_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
@@ -1121,7 +1183,9 @@ class ilRbacAdmin
 	 */
 	public function setProtected($a_ref_id,$a_role_id,$a_value)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// ref_id not used yet. protected permission acts 'global' for each role, 
 		// regardless of any broken inheritance before
@@ -1144,7 +1208,11 @@ class ilRbacAdmin
 	 */
 	public function copyLocalRoles($a_source_id,$a_target_id)
 	{
-	 	global $rbacreview,$ilLog,$ilObjDataCache;
+	 	global $DIC;
+
+	 	$rbacreview = $DIC['rbacreview'];
+	 	$ilLog = $DIC['ilLog'];
+	 	$ilObjDataCache = $DIC['ilObjDataCache'];
 	 	
 	 	$real_local = array();
 	 	foreach($rbacreview->getRolesOfRoleFolder($a_source_id,false) as $role_data)
@@ -1193,7 +1261,9 @@ class ilRbacAdmin
 	 */
 	public function initIntersectionPermissions($a_ref_id, $a_role_id, $a_role_parent, $a_template_id, $a_template_parent)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		if($rbacreview->isProtected($a_role_parent, $a_role_id))
 		{
@@ -1253,6 +1323,32 @@ class ilRbacAdmin
 			
 		return;
 	}
+
+	/**
+	 * Apply didactic templates after object movement
+	 * @param int $a_ref_id
+	 * @param int $a_old_parent
+	 *
+	 * @deprecated since version 5.1.0 will be removed with 5.4 and implemented using event handler
+	 */
+	protected function applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent)
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($a_ref_id);
+		if(!$tpl_id) {
+			return;
+		}
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($tpl_id) as $action) {
+			if($action instanceof ilDidacticTemplateLocalRoleAction) {
+				continue;
+			}
+			$action->setRefId($a_ref_id);
+			$action->apply();
+		}
+		return;
+	}
+
 	
 	/**
 	 * Adjust permissions of moved objects
@@ -1267,7 +1363,11 @@ class ilRbacAdmin
 	 */
 	public function adjustMovedObjectPermissions($a_ref_id,$a_old_parent)
 	{
-		global $rbacreview,$tree,$ilLog;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 		
 		$new_parent = $tree->getParentId($a_ref_id);
 		$old_context_roles = $rbacreview->getParentRoleIds($a_old_parent,false);
@@ -1297,6 +1397,7 @@ class ilRbacAdmin
 		
 		if(!count($for_deletion) and !count($for_addition))
 		{
+			$this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
 			return true;
 		}
 		
@@ -1387,6 +1488,8 @@ class ilRbacAdmin
 				ilRbacLog::add(ilRbacLog::MOVE_OBJECT, $node_id, $log);
 			}
 		}
+
+		$this->applyMovedObjectDidacticTemplates($a_ref_id,$a_old_parent);
 
 	}
 	

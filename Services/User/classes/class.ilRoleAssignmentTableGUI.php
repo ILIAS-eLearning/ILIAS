@@ -19,7 +19,11 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$lng->loadLanguageModule('rbac');
 		$this->setId("usrroleass");
@@ -49,7 +53,9 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		// roles
 		$option[0] = $lng->txt('assigned_roles');
@@ -72,7 +78,9 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if($a_set['checkbox'])
 		{
