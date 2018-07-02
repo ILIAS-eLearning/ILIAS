@@ -10154,14 +10154,14 @@ rbac#:#blog_contribute#:#A felhasználó blogbejegyzést írhat és tehet közz�
 blog#:#blog_contribute_other_roles#:#A 'Blogszerzők' szerepkör mellett a következő szerepek tagjai is hozhatnak létre új bejegyzéseket: %s.
 dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_visible#:#Az összes felhasználó láthatja 
-dcl#:#dcl_empty_view#:#Ezen nézet törlése
+dcl#:#dcl_empty_detailed_view#:#Ezen nézet törlése
 dcl#:#dcl_activate_view#:#Nézet bekapcsolása
 dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törli ezt a mezőt?
 dcl#:#dcl_table_info_title#:#Információ
-dcl#:#dcl_confirm_delete_view_title#:#Biztos, hogy törli ezt a nézetet?
-dcl#:#dcl_confirm_delete_view_text#:#A tábla bejegyzéseinek nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
-dcl#:#dcl_empty_view_success#:#A nézetsablont sikeresen törölte.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Biztos, hogy törli ezt a nézetet?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#A tábla bejegyzéseinek nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
+dcl#:#dcl_empty_detailed_view_success#:#A nézetsablont sikeresen törölte.
 dcl#:#dcl_permissions_form#:#Felhasználói műveletek
 rating#:#rating_number_votes#:#%s értékelés
 administration#:#system_check_no_owner#:#Tulajdonos nélküli objektumok
