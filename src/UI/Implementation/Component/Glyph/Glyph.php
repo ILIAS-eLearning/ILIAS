@@ -147,7 +147,7 @@ class Glyph implements C\Glyph\Glyph {
 	 * @inheritdoc
 	 */
 	public function withOnClick(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'click');
+		return $this->withTriggeredSignal($signal, 'click');
 	}
 
 	/**

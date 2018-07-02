@@ -132,7 +132,7 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	 * @inheritdoc
 	 */
 	public function withOnChange(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'change');
+		return $this->withTriggeredSignal($signal, 'change');
 	}
 
 
@@ -148,7 +148,7 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	 * @inheritdoc
 	 */
 	public function withOnLoad(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'load');
+		return $this->withTriggeredSignal($signal, 'load');
 	}
 
 

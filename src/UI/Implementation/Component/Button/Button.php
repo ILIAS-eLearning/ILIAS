@@ -116,7 +116,7 @@ abstract class Button implements C\Button\Button {
 	 */
 	public function withOnClick(Signal $signal) {
 		$this->action = null;
-		return $this->addTriggeredSignal($signal, 'click');
+		return $this->withTriggeredSignal($signal, 'click');
 	}
 
 	/**
@@ -134,7 +134,7 @@ abstract class Button implements C\Button\Button {
 		// it encodes the 'mouseenter' and 'mouseleave' events and thus expects two event handlers.
 		// In the context of this framework, the signal MUST only be triggered on the 'mouseenter' event.
 		// See also: https://api.jquery.com/hover/
-		return $this->addTriggeredSignal($signal, 'mouseenter');
+		return $this->withTriggeredSignal($signal, 'mouseenter');
 	}
 
 	/**
