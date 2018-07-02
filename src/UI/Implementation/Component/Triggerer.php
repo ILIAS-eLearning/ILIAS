@@ -16,7 +16,7 @@ use ILIAS\UI\Component;
 trait Triggerer {
 
 	/**
-	 * @var \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
+	 * @var \ILIAS\UI\Implementation\Component\TriggeredSignal[]
 	 */
 	protected $triggered_signals = array();
 
@@ -65,7 +65,7 @@ trait Triggerer {
 	}
 
 	/**
-	 * @return \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
+	 * @return \ILIAS\UI\Implementation\Component\TriggeredSignal[]
 	 */
 	public function getTriggeredSignals() {
 		return $this->flattenArray($this->triggered_signals);
