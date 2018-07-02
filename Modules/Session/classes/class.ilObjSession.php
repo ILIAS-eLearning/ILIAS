@@ -133,6 +133,7 @@ class ilObjSession extends ilObject
 		}
 		return (array) $data;
 	}
+
 	// cat-tms-patch start
 	/**
 	 * Get tutor data from event_tutor
@@ -142,8 +143,10 @@ class ilObjSession extends ilObject
 	protected static function addTutorInformation(&$data)
 	{
 		foreach ($data['tutor_ids'] as $tutor_id) {
-			$tutor = new ilObjUser($tutor_id);
-			$data['tutor']["name"][] = $tutor->getFullName();
+			if(\ilObjUser::userExists(array($tutor_id))) {
+				$tutor = new \ilObjUser($tutor_id);
+				$data['tutor']["name"][] = $tutor->getFullName();
+			}
 		}
 	}
 	// cat-tms-patch end
