@@ -7912,6 +7912,69 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
+/*fixes glyphicons*/
+.il-table-presentation-row-controls-expander .glyphicon:before {
+  content: "\e080";
+}
+.il-table-presentation-row-controls-collapser .glyphicon:before {
+  content: "\e114";
+}
+/*end of fix*/
+.il-table-presentation-viewcontrols {
+  margin-bottom: 10px;
+}
+.il-table-presentation-viewcontrols div,
+.il-table-presentation-viewcontrols a {
+  display: table-cell;
+  margin: 0 auto;
+}
+.il-table-presentation-row {
+  white-space: nowrap;
+  border-top: 1px solid #dddddd;
+  padding-top: 5px;
+}
+.il-table-presentation-row .il-table-presentation-row-controls,
+.il-table-presentation-row .il-table-presentation-row-contents {
+  display: inline-block;
+  vertical-align: top;
+}
+.il-table-presentation-row .il-table-presentation-row-controls {
+  width: 5%;
+}
+.il-table-presentation-row .il-table-presentation-row-contents {
+  width: 95%;
+}
+.il-table-presentation-row .il-table-presentation-row-header {
+  white-space: normal;
+}
+.il-table-presentation-row .il-table-presentation-row-header h4 {
+  font-size: 17px;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded {
+  white-space: nowrap;
+  margin-top: 5px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist,
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+  width: 60%;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+  width: 40%;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields {
+  font-size: 12px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
+  color: #909090;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;

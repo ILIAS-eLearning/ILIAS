@@ -690,5 +690,16 @@ interface Factory {
 	 */
 	public function chart();
 
-
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Tables present a set of uniformly structured data.
+	 *
+	 * rules: []
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Table\Factory
+	 */
+	public function table();
 }

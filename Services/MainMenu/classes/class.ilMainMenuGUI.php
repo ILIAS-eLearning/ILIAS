@@ -463,12 +463,46 @@ class ilMainMenuGUI
 		$tree = $this->tree;
 		$ilAccess = $this->access;
 
+		// cat-tms-patch start
 		// personal desktop
 		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->renderEntry($a_tpl, "desktop",
-				$lng->txt("personal_desktop"), "#");
+			$link = $this->ctrl->getLinkTargetByClass(
+				array("ilPersonalDesktopGUI", "ilTrainingSearchGUI"),
+				"",
+				"",
+				false,
+				false
+			);
+
+			$this->renderEntry($a_tpl, "training_search",
+				$lng->txt("training_search"), $link);
+
+			require_once("Services/Component/classes/class.ilPluginAdmin.php");
+			if(ilPluginAdmin::isPluginActive('cockpit')) {
+				$plugin = ilPluginAdmin::getPluginObjectById('cockpit');
+				$basic_links = $plugin->getActions()->read();
+				$link = null;
+
+				foreach($basic_links as $basic_link) {
+					$ref_id = $basic_link->getRefId();
+					if($ilAccess->checkAccess('visible','', $ref_id)
+						&& $ilAccess->checkAccess('read','', $ref_id)
+					) {
+						include_once('./Services/Link/classes/class.ilLink.php');
+						$link = ilLink::_getStaticLink($ref_id);
+						$link .= "&cockpit";
+						break;
+					}
+				}
+
+				if($link !== null) {
+					$this->renderEntry($a_tpl, "training_search",
+					$lng->txt("cockpit"), $link);
+				}
+			}
 		}
+		// cat-tms-patch end
 
 		// repository
 		if($ilAccess->checkAccess('visible','',ROOT_FOLDER_ID))
@@ -517,9 +551,22 @@ class ilMainMenuGUI
 	
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
+
 		$a_tpl->setCurrentBlock("entry_".$id);
 
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+
+		// cat-tms-patch start
+		if ($a_id == "training_search")
+		{
+			$gl = new ilGroupedListGUI();
+			$gl->setAsDropDown(false);
+			$a_tpl->setVariable("TXT_".$id_up, $a_txt);
+			$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
+			$a_tpl->setVariable("TARGET_".$id_up, $a_target);
+			$a_tpl->setVariable("TRAINING_SEARCH_CONT_OV", $gl->getHTML());
+		}
+		// cat-tms-patch end
 
 		// repository
 		if ($a_id == "repository")

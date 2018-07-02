@@ -57,6 +57,16 @@ class ilCourseConstants
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
+
+	// cat-tms-patch start
+	const VENUE_FROM_TEXT = 0;
+	const VENUE_FROM_LIST = 1;
+	// cat-tms-patch end
+
+	// cat-tms-patch start
+	const PROVIDER_FROM_TEXT = 0;
+	const PROVIDER_FROM_LIST = 1;
+	// cat-tms-patch end
 }
 
 ?>

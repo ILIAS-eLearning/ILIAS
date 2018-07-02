@@ -317,6 +317,12 @@ class ilLocatorGUI
 		{
 			foreach($items as $item)
 			{
+				// cat-tms-patch start
+				if ($first && ilObject::_lookupType($item["ref_id"], true) != "crs" && !$this->seeFullPath()) {
+					continue;
+				}
+				// cat-tms-patch end
+
 				if (!$first)
 				{
 					$loc_tpl->touchBlock("locator_separator_prefix");
@@ -398,6 +404,25 @@ class ilLocatorGUI
 		
 		return $str;
 	}
+
+	// cat-tms-patch start
+	/**
+	 * Checks user is allowed to the full path of locator
+	 *
+	 * @return bool
+	 */
+	protected function seeFullPath() {
+		global $DIC;
+		$g_user = $DIC->user();
+		$g_rbacreview = $DIC->rbac()->review();
+		$role_ids = $g_rbacreview->assignedGlobalRoles($g_user->getId());
+
+		require_once("Services/TMS/Roles/classes/class.ilTMSRolesDB.php");
+		$tms_role_settings_db = new ilTMSRolesDB($DIC->database());
+
+		return $tms_role_settings_db->viewFullBreadcrumb($role_ids);
+	}
+	// cat-tms-patch end
 
 } // END class.LocatorGUI
 ?>

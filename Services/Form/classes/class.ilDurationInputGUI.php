@@ -20,7 +20,9 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
+// cat-tms-patch start
+require_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+// cat-tms-patch end
 /**
 * This class represents a duration (typical hh:mm:ss) property in a property form.
 *

@@ -11,8 +11,16 @@
 */
 abstract class ilBlockGUI
 {
-	abstract static function getBlockType();		// return block type, e.g. "feed"
-	abstract static function isRepositoryObject();	// returns whether block has a
+	// cat-tms patch start
+	// return block type, e.g. "feed"
+	/**
+	 * deleted abstract static function getBlockType()
+	 */
+	// returns whether block has a
+	/**
+	 * deleted abstract static function isRepositoryObject()
+	 */
+	// cat-tms patch end
 													// corresponding repository object
 	
 	protected $data = array();

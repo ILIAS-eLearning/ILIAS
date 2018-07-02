@@ -693,6 +693,19 @@ class ilRepositorySearchGUI
 		$group->setMaxLength(120);
 		$groups->addSubItem($group);
 		$kind->addOption($groups);
+
+		//cat-tms-patch start
+
+		// OrgUnits
+		$groups = new ilRadioOption($this->lng->txt('search_for_orgu_members'),'orgu');
+		$orgus = new ilSelectInputGUI($this->lng->txt('search_for_orgu_members_orgu'), 'rep_query[orgu][orgu_id]');
+		$orgus->setOptions(ilUserSearchOptions::getOrgusAsOption());
+		$recurse = new ilCheckboxInputGUI($this->lng->txt('search_for_orgu_members_recursive'), 'rep_query[orgu][recurse]');
+		$groups->addSubItem($orgus);
+		$groups->addSubItem($recurse);
+		$kind->addOption($groups);
+
+		//cat-tms-patch end
 	}
 	
 
@@ -752,6 +765,12 @@ class ilRepositorySearchGUI
 			case 'role':
 				$this->__performRoleSearch();
 				break;
+
+			//cat-tms-patch start
+			case 'orgu':
+				$this->__performOrguSearch();
+				break;
+			//cat-tms-patch end
 
 			default:
 				echo 'not defined';
@@ -1094,6 +1113,12 @@ class ilRepositorySearchGUI
 			case 'role':
 				$this->showSearchRoleTable($_SESSION['rep_search']['role']);
 				break;
+
+			//cat-tms-patch start
+			case "orgu":
+				$this->showSearchUserTable($_SESSION['rep_search']['orgu'],'showSearchResults');
+				break;
+			//cat-tms-patch end
 		}
 	}
 
@@ -1344,5 +1369,39 @@ class ilRepositorySearchGUI
 	{
 		return $this->user_limitations;
 	}
+
+
+
+
+
+
+	//cat-tms-patch start
+
+	/**
+	 * get users by orgu(s)
+	 * @return bool
+	 */
+	private function __performOrguSearch() {
+		include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+		$tree = ilObjOrgUnitTree::_getInstance();
+
+		$query_orgu = (int)$_SESSION['rep_query']['orgu']['orgu_id'];
+		$query_recurse = (bool)$_SESSION['rep_query']['orgu']['recurse'];
+
+		$user_ids = array_merge(
+			$tree->getEmployees($query_orgu, $query_recurse),
+			$tree->getSuperiors($query_orgu, $query_recurse)
+		);
+		$result = new ilSearchResult();
+		foreach ($user_ids as $usr_id) {
+			$result->addEntry($usr_id, 'user', []);
+		}
+
+		$this->__storeEntries($result);
+		return true;
+	}
+
+	//cat-tms-patch end
+
 }
 ?>

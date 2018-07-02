@@ -25,7 +25,7 @@
 <#4185>
 <?php
 
-if(!$ilDB->tableColumnExists('il_blog','abs_shorten')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -38,7 +38,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_shorten'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -51,7 +51,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_image')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_image'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -64,7 +64,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_image'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_img_width')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_img_width'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -77,7 +77,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_img_width'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_img_height')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_img_height'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -136,34 +136,34 @@ $set = $ilDB->query("SELECT od.owner, prtf.id prtf_id, pref.value public".
 	" WHERE prtf.is_default = ".$ilDB->quote(1, "integer").
 	" GROUP BY od.owner, prtf.id, pref.value");
 while($row = $ilDB->fetchAssoc($set))
-{	
+{
 	$acl_type = (int)$row["acl_type"];
 	$pref = trim($row["public"]);
 	$user_id = (int)$row["owner"];
 	$prtf_id = (int)$row["prtf_id"];
-	
+
 	if(!$user_id || !$prtf_id) // #12862
 	{
 		continue;
 	}
-	
+
 	// portfolio is not published, remove as profile
 	if($acl_type >= 0)
 	{
 		$ilDB->manipulate("UPDATE usr_portfolio".
 			" SET is_default = ".$ilDB->quote(0, "integer").
-			" WHERE id = ".$ilDB->quote($prtf_id, "integer"));		
+			" WHERE id = ".$ilDB->quote($prtf_id, "integer"));
 		$new_pref = "n";
 	}
 	// check if portfolio sharing matches user preference
-	else 
-	{		
+	else
+	{
 		// registered vs. published
 		$new_pref = ($acl_type < -1)
 			? "g"
-			: "y";		
-	}	
-	
+			: "y";
+	}
+
 	if($pref)
 	{
 		if($pref != $new_pref)
@@ -173,14 +173,14 @@ while($row = $ilDB->fetchAssoc($set))
 				" WHERE usr_id = ".$ilDB->quote($user_id, "integer").
 				" AND keyword = ".$ilDB->quote("public_profile", "text"));
 		}
-	}	
+	}
 	else
 	{
 		$ilDB->manipulate("INSERT INTO usr_pref (usr_id, keyword, value) VALUES".
 			" (".$ilDB->quote($user_id, "integer").
 			", ".$ilDB->quote("public_profile", "text").
 			", ".$ilDB->quote($new_pref, "text").")");
-	}	
+	}
 }
 
 ?>
@@ -188,11 +188,11 @@ while($row = $ilDB->fetchAssoc($set))
 <#4189>
 <?php
 $ilDB->modifyTableColumn(
-		'object_data', 
+		'object_data',
 		'title',
 		array(
-			"type" => "text", 
-			"length" => 255, 
+			"type" => "text",
+			"length" => 255,
 			"notnull" => false,
 			'fixed' => true
 		)
@@ -203,11 +203,11 @@ $ilDB->modifyTableColumn(
 <?php
 
 $ilDB->modifyTableColumn(
-		'usr_pwassist', 
+		'usr_pwassist',
 		'pwassist_id',
 		array(
-			"type" => "text", 
-			"length" => 180, 
+			"type" => "text",
+			"length" => 180,
 			"notnull" => true,
 			'fixed' => true
 		)
@@ -246,21 +246,21 @@ if( !$ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')
 		{
 			echo "<pre>
 				Dear Administrator,
-				
+
 				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
-				
+
 				The update process has been stopped due to data security reasons.
 				A Bug has let to duplicate datasets in tst_pass_result table.
 				Duplicates have been detected in your installation.
-				
+
 				Please have a look at: http://www.ilias.de/mantis/view.php?id=12904
-				
-				You have the opportunity to review the data in question and apply 
+
+				You have the opportunity to review the data in question and apply
 				manual fixes on your own risk.
-				
+
 				If you try to rerun the update process, this warning will be skipped.
 				The duplicates will be removed automatically by the criteria documented at Mantis #12904
-				
+
 				Best regards,
 				The Test Maintainers
 			</pre>";
@@ -353,21 +353,21 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		{
 			echo "<pre>
 				Dear Administrator,
-				
+
 				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
-				
+
 				The update process has been stopped due to data security reasons.
 				A Bug has let to duplicate datasets in tst_sequence table.
 				Duplicates have been detected in your installation.
-				
+
 				Please have a look at: http://www.ilias.de/mantis/view.php?id=12904
-				
-				You have the opportunity to review the data in question and apply 
+
+				You have the opportunity to review the data in question and apply
 				manual fixes on your own risk.
-				
+
 				If you try to rerun the update process, this warning will be skipped.
 				The duplicates will be removed automatically by the criteria documented at Mantis #12904
-				
+
 				Best regards,
 				The Test Maintainers
 			</pre>";
@@ -431,14 +431,14 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 
 	$ilDB->dropIndexByFields('cal_entry_responsible',array('cal_id'));
 	$ilDB->dropIndexByFields('cal_entry_responsible',array('user_id'));
-	
+
 ?>
 <#4198>
 <?php
 
 	$ilDB->dropIndexByFields('cal_cat_assignments',array('cal_id','cat_id'));
 	$ilDB->addPrimaryKey('cal_cat_assignments',array('cal_id','cat_id'));
-	
+
 ?>
 
 <#4199>
@@ -454,13 +454,13 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$query = 'SELECT value from settings where module = '.$ilDB->quote('common','text').
 			'AND keyword = '.$ilDB->quote('main_tree_impl','text');
 	$res = $ilDB->query($query);
-	
+
 	$tree_impl = 'ns';
 	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$tree_impl = $row->value;
 	}
-	
+
 	if($tree_impl == 'mp')
 	{
 		if(!$ilDB->indexExistsByFields('tree',array('path')))
@@ -516,11 +516,11 @@ if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
 <?php
 
 	$ilDB->modifyTableColumn(
-			'usr_data', 
+			'usr_data',
 			'ext_account',
 			array(
-				"type" => "text", 
-				"length" => 250, 
+				"type" => "text",
+				"length" => 250,
 				"notnull" => false,
 				'fixed' => false
 			)
@@ -531,11 +531,11 @@ if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
 <?php
 
 	$ilDB->modifyTableColumn(
-			'usr_session', 
+			'usr_session',
 			'session_id',
 			array(
-				"type" => "text", 
-				"length" => 250, 
+				"type" => "text",
+				"length" => 250,
 				"notnull" => true,
 				'fixed' => false
 			)
@@ -633,24 +633,24 @@ $groupQuery = "
 						tst_test_result.question_fi,
 						tst_test_result.pass,
 						MAX(test_result_id) keep_id
-			
+
 			FROM        tst_test_result
 
             INNER JOIN  tst_active
             ON          tst_active.active_id = tst_test_result.active_fi
-			
+
             INNER JOIN  tst_tests
             ON          tst_tests.test_id = tst_active.test_fi
-			
+
             INNER JOIN  object_data
             ON          object_data.obj_id = tst_tests.obj_fi
 
             WHERE       object_data.type = %s
-			
+
 			GROUP BY    tst_test_result.active_fi,
 						tst_test_result.question_fi,
 						tst_test_result.pass
-			
+
 			HAVING      COUNT(*) > 1
 		";
 
@@ -666,27 +666,27 @@ if( (int)$numRow['num'] && !(int)$setting )
 	echo "<pre>
 
 		Dear Administrator,
-		
+
 		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
-		
+
 		The update process has been stopped due to data security reasons.
 		A Bug has let to duplicate datasets in \"tst_test_result\" table.
 		Duplicates have been detected in your installation.
-		
+
 		Please have a look at: http://www.ilias.de/mantis/view.php?id=8992#c27369
-		
-		You have the opportunity to review the data in question and apply 
+
+		You have the opportunity to review the data in question and apply
 		manual fixes on your own risk.
 		If you change any data manually, make sure to also add an entry in the table \"tmp_tst_to_recalc\"
 		for each active_fi/pass combination that is involved.
 		The required re-calculation of related result aggregations won't be triggered otherwise.
-		
+
 		If you try to rerun the update process, this warning will be skipped.
 		The remaining duplicates will be removed automatically by the criteria documented at Mantis #8992
-		
+
 		Best regards,
 		The Test Maintainers
-		
+
 	</pre>";
 
 	$ilSetting->set('tst_test_results_dupl_del_warn', 1);
@@ -708,7 +708,7 @@ if( (int)$numRow['num'] )
 			'active_fi' => array('integer', $groupRow['active_fi']),
 			'pass' => array('integer', $groupRow['pass'])
 		);
-		
+
 		$ilDB->replace('tmp_tst_to_recalc', $pkCols, array());
 
 		$ilDB->execute($deleteStmt, array(
@@ -726,19 +726,19 @@ if( $ilDB->tableExists('tmp_tst_to_recalc') )
 	$deleteStmt = $ilDB->prepareManip(
 		"DELETE FROM tmp_tst_to_recalc WHERE active_fi = ? AND pass = ?", array('integer', 'integer')
 	);
-	
+
 	$res = $ilDB->query("
 			SELECT		tmp_tst_to_recalc.*,
 						tst_tests.obligations_enabled,
 						tst_tests.question_set_type,
 						tst_tests.obj_fi,
 						tst_tests.pass_scoring
-	
+
 			FROM		tmp_tst_to_recalc
-	
+
 			INNER JOIN  tst_active
 			ON          tst_active.active_id = tmp_tst_to_recalc.active_fi
-			
+
 			INNER JOIN  tst_tests
 			ON          tst_tests.test_id = tst_active.test_fi
 	");
@@ -755,10 +755,10 @@ if( $ilDB->tableExists('tmp_tst_to_recalc') )
 		DBUpdateTestResultCalculator::_updateTestResultCache(
 			$row['active_fi'], $row['pass_scoring']
 		);
-		
+
 		$ilDB->execute($deleteStmt, array($row['active_fi'], $row['pass']));
 	}
-	
+
 	$ilDB->dropTable('tmp_tst_to_recalc');
 }
 
@@ -975,9 +975,9 @@ if( !$ilDB->tableExists('adv_md_values_int') )
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => false
-		)	
+		)
 	));
-		
+
 	$ilDB->addPrimaryKey('adv_md_values_int', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 }
 
@@ -1013,11 +1013,11 @@ if( !$ilDB->tableExists('adv_md_values_float') )
 			'default' => 0
 		),
 		'value' => array(
-			'type' => 'float',			
+			'type' => 'float',
 			'notnull' => false
-		)	
+		)
 	));
-		
+
 	$ilDB->addPrimaryKey('adv_md_values_float', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 }
 
@@ -1053,11 +1053,11 @@ if( !$ilDB->tableExists('adv_md_values_date') )
 			'default' => 0
 		),
 		'value' => array(
-			'type' => 'date',			
+			'type' => 'date',
 			'notnull' => false
-		)	
+		)
 	));
-		
+
 	$ilDB->addPrimaryKey('adv_md_values_date', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 }
 
@@ -1093,11 +1093,11 @@ if( !$ilDB->tableExists('adv_md_values_datetime') )
 			'default' => 0
 		),
 		'value' => array(
-			'type' => 'timestamp',			
+			'type' => 'timestamp',
 			'notnull' => false
-		)	
+		)
 	));
-		
+
 	$ilDB->addPrimaryKey('adv_md_values_datetime', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 }
 
@@ -1133,20 +1133,20 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 			'default' => 0
 		),
 		'loc_lat' => array(
-			'type' => 'float',			
+			'type' => 'float',
 			'notnull' => false
 		),
 		'loc_long' => array(
-			'type' => 'float',			
+			'type' => 'float',
 			'notnull' => false
 		),
 		'loc_zoom' => array(
-			'type' => 'integer',			
+			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false
-		)	
+		)
 	));
-		
+
 	$ilDB->addPrimaryKey('adv_md_values_location', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 }
 
@@ -1155,7 +1155,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 <?php
 
 	if (!$ilDB->tableColumnExists('adv_md_values_location', 'disabled'))
-	{		
+	{
 		$ilDB->addTableColumn('adv_md_values_location', 'disabled', array(
 			"type" => "integer",
 			"length" => 1,
@@ -1164,7 +1164,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 		));
 	}
 	if (!$ilDB->tableColumnExists('adv_md_values_datetime', 'disabled'))
-	{		
+	{
 		$ilDB->addTableColumn('adv_md_values_datetime', 'disabled', array(
 			"type" => "integer",
 			"length" => 1,
@@ -1173,7 +1173,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 		));
 	}
 	if (!$ilDB->tableColumnExists('adv_md_values_date', 'disabled'))
-	{		
+	{
 		$ilDB->addTableColumn('adv_md_values_date', 'disabled', array(
 			"type" => "integer",
 			"length" => 1,
@@ -1182,7 +1182,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 		));
 	}
 	if (!$ilDB->tableColumnExists('adv_md_values_float', 'disabled'))
-	{		
+	{
 		$ilDB->addTableColumn('adv_md_values_float', 'disabled', array(
 			"type" => "integer",
 			"length" => 1,
@@ -1191,7 +1191,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 		));
 	}
 	if (!$ilDB->tableColumnExists('adv_md_values_int', 'disabled'))
-	{		
+	{
 		$ilDB->addTableColumn('adv_md_values_int', 'disabled', array(
 			"type" => "integer",
 			"length" => 1,
@@ -1199,7 +1199,7 @@ if( !$ilDB->tableExists('adv_md_values_location') )
 			"default" => 0
 		));
 	}
-	
+
 ?>
 <#4228>
 <?php
@@ -1240,20 +1240,20 @@ if(sizeof($field_map))
 				$value = date("Y-m-d H:i:s", $row["value"]);
 				$type = "timestamp";
 			}
-			
+
 			$fields = array(
 				"obj_id" => array("integer", $row["obj_id"])
 				,"sub_type" => array("text", $row["sub_type"])
 				,"sub_id" => array("integer", $row["sub_id"])
-				,"field_id" => array("integer", $row["field_id"])				
+				,"field_id" => array("integer", $row["field_id"])
 				,"disabled" => array("integer", $row["disabled"])
 				,"value" => array($type, $value)
 			);
-			
+
 			$ilDB->insert($table, $fields);
-		}		
-	}	
-	
+		}
+	}
+
 	$ilDB->manipulate("DELETE FROM adv_md_values_text".
 		" WHERE ".$ilDB->in("field_id", array_keys($field_map), "", "integer"));
 }
@@ -1263,7 +1263,7 @@ if(sizeof($field_map))
 <?php
 
 if (!$ilDB->tableColumnExists('il_blog', 'keywords'))
-{		
+{
 	$ilDB->addTableColumn('il_blog', 'keywords', array(
 		"type" => "integer",
 		"length" => 1,
@@ -1307,12 +1307,12 @@ if (!$ilDB->tableColumnExists('il_blog', 'keywords'))
 <?php
 
 if (!$ilDB->tableColumnExists('il_blog', 'nav_order'))
-{	
+{
 	$ilDB->addTableColumn('il_blog', 'nav_order', array(
 		"type" => "text",
 		"length" => 255,
 		"notnull" => false
-	));	
+	));
 }
 
 ?>
@@ -1320,22 +1320,22 @@ if (!$ilDB->tableColumnExists('il_blog', 'nav_order'))
 <?php
 
 if (!$ilDB->tableColumnExists('svy_svy', 'own_results_view'))
-{	
+{
 	$ilDB->addTableColumn('svy_svy', 'own_results_view', array(
 		"type" => "integer",
 		"length" => 1,
 		"notnull" => false,
 		"default" => 0
-	));	
+	));
 }
 if (!$ilDB->tableColumnExists('svy_svy', 'own_results_mail'))
-{	
+{
 	$ilDB->addTableColumn('svy_svy', 'own_results_mail', array(
 		"type" => "integer",
 		"length" => 1,
 		"notnull" => false,
 		"default" => 0
-	));	
+	));
 }
 
 ?>
@@ -1343,13 +1343,13 @@ if (!$ilDB->tableColumnExists('svy_svy', 'own_results_mail'))
 <?php
 
 if (!$ilDB->tableColumnExists('exc_data', 'add_desktop'))
-{	
+{
 	$ilDB->addTableColumn('exc_data', 'add_desktop', array(
 		"type" => "integer",
 		"length" => 1,
 		"notnull" => true,
 		"default" => 1
-	));	
+	));
 }
 
 ?>
@@ -1404,9 +1404,9 @@ if( !$ilDB->tableExists('pg_amd_page_list') )
 			'type' => 'text',
 			'length' => 4000,
 			'notnull' => false
-		),		
+		),
 	));
-		
+
 	$ilDB->addPrimaryKey('pg_amd_page_list', array('id', 'field_id'));
 	$ilDB->createSequence('pg_amd_page_list');
 }
@@ -1430,7 +1430,7 @@ if( !$ilDB->tableColumnExists('tst_tests', 'skill_service') )
 		'notnull' => false,
 		'default' => null
 	));
-	
+
 	$ilDB->manipulateF(
 		'UPDATE tst_tests SET skill_service = %s',
 		array('integer'), array(0)
@@ -1471,7 +1471,7 @@ if( !$ilDB->tableExists('tst_skl_qst_assigns') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_skl_qst_assigns', array('test_fi', 'question_fi', 'skill_base_fi', 'skill_tref_fi'));
 }
 
@@ -1509,7 +1509,7 @@ if( !$ilDB->tableExists('tst_skl_thresholds') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_skl_thresholds', array('test_fi', 'skill_base_fi', 'skill_tref_fi', 'skill_level_fi'));
 }
 
@@ -1908,7 +1908,7 @@ if( !$ilDB->tableColumnExists('wiki_stat_page', 'avg_rating') )
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => true
-		));			
+		));
 }
 ?>
 <#4261>
@@ -1922,13 +1922,13 @@ if( !$ilDB->tableColumnExists('wiki_stat', 'ts_day') )
 			'length' => 10,
 			'fixed' => true,
 			'notnull' => false
-		));		
+		));
 	$ilDB->addTableColumn('wiki_stat', 'ts_hour',
 		array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false
-		));			
+		));
 }
 
 if( !$ilDB->tableColumnExists('wiki_stat_page', 'ts_day') )
@@ -1939,13 +1939,13 @@ if( !$ilDB->tableColumnExists('wiki_stat_page', 'ts_day') )
 			'length' => 10,
 			'fixed' => true,
 			'notnull' => false
-		));		
+		));
 	$ilDB->addTableColumn('wiki_stat_page', 'ts_hour',
 		array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false
-		));			
+		));
 }
 
 if( !$ilDB->tableColumnExists('wiki_stat_user', 'ts_day') )
@@ -1956,13 +1956,13 @@ if( !$ilDB->tableColumnExists('wiki_stat_user', 'ts_day') )
 			'length' => 10,
 			'fixed' => true,
 			'notnull' => false
-		));		
+		));
 	$ilDB->addTableColumn('wiki_stat_user', 'ts_hour',
 		array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false
-		));			
+		));
 }
 
 if( !$ilDB->tableColumnExists('wiki_stat_page_user', 'ts_day') )
@@ -1973,13 +1973,13 @@ if( !$ilDB->tableColumnExists('wiki_stat_page_user', 'ts_day') )
 			'length' => 10,
 			'fixed' => true,
 			'notnull' => false
-		));		
+		));
 	$ilDB->addTableColumn('wiki_stat_page_user', 'ts_hour',
 		array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false
-		));			
+		));
 }
 
 ?>
@@ -2040,14 +2040,14 @@ if(!$ilDB->tableColumnExists('il_wiki_data', 'empty_page_templ') )
 <?php
 
 if( !$ilDB->tableColumnExists('wiki_stat_page', 'deleted') )
-{	
+{
 	$ilDB->addTableColumn('wiki_stat_page', 'deleted',
 		array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => true,
 			'default' => 0
-		));			
+		));
 }
 
 ?>
@@ -2058,12 +2058,12 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 
 $wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
 if($wiki_type_id)
-{	
+{
 	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('statistics_read', 'Read Statistics', 'object', 2200);
 	if($new_ops_id)
 	{
 		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
-		
+
 		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 		if($src_ops_id)
 		{
@@ -2355,14 +2355,14 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 
 $tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
 if(!$tgt_ops_id)
-{	
+{
 	$tgt_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('read_learning_progress', 'Read Learning Progress', 'object', 2300);
 }
 
-$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
-if($src_ops_id && 
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+if($src_ops_id &&
 	$tgt_ops_id)
-{			
+{
 	// see ilObjectLP
 	$lp_types = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess");
 
@@ -2370,8 +2370,8 @@ if($src_ops_id &&
 	{
 		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
 		if($lp_type_id)
-		{			
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+		{
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
 			ilDBUpdateNewObjectType::cloneOperation($lp_type, $src_ops_id, $tgt_ops_id);
 		}
 	}
@@ -2445,7 +2445,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	$stmt  = $ilDB->prepareManip("UPDATE rbac_fa SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
 	$stmt2 = $ilDB->prepareManip("INSERT INTO rbac_fa_temp (role_id, parent_id) VALUES(?, ?)", array("integer", "integer"));
 	$stmt3 = $ilDB->prepare("SELECT object_data.type FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE ref_id = ?", array("integer"));
-	    
+
 	$query = "
 	    SELECT f.*, t.parent grandparent
 	    FROM rbac_fa f
@@ -2471,7 +2471,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	    }
 
 	    $new_parent_id = $row['grandparent'];
-	        
+
 	    $parent_res = $ilDB->execute($stmt3, array($parent_id));
 	    $parent_row = $ilDB->fetchAssoc($parent_res);
 	    if($parent_row['type'] != 'rolf')
@@ -2495,7 +2495,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 
 	if($ilDB->tableColumnExists('rbac_fa', 'old_parent'))
 	{
-	 	$ilDB->dropTableColumn('rbac_fa', 'old_parent');  
+	 	$ilDB->dropTableColumn('rbac_fa', 'old_parent');
 	    $ilLog->write("Dropped new temporary column: rbac_fa->old_parent");
 	}
 
@@ -2574,7 +2574,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	    }
 
 	    $new_parent_id = $row['grandparent'];
-	        
+
 	    $parent_res = $ilDB->execute($stmt3, array($parent_id));
 	    $parent_row = $ilDB->fetchAssoc($parent_res);
 	    if($parent_row['type'] != 'rolf')
@@ -2598,7 +2598,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 
 	if($ilDB->tableColumnExists('rbac_templates', 'old_parent'))
 	{
-	 	$ilDB->dropTableColumn('rbac_templates', 'old_parent');  
+	 	$ilDB->dropTableColumn('rbac_templates', 'old_parent');
 	    $ilLog->write("Dropped new temporary column: rbac_templates->old_parent");
 	}
 
@@ -2752,7 +2752,7 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
 <#4305>
 <?php
 
-// #13822 
+// #13822
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::varchar2text('exc_assignment_peer', 'pcomment');
 
@@ -2837,11 +2837,11 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 	$a_scope_id = array();
 	$a_scope_id_one = array();
 	//select targetobjectiveid = cmi_gobjective.objective_id
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid 
-		FROM cp_package, cp_mapinfo, cp_node 
-		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid
+		FROM cp_package, cp_mapinfo, cp_node
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id
 		GROUP BY cp_mapinfo.targetobjectiveid');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_obj_id[] = $data['targetobjectiveid'];
 	}
@@ -2851,18 +2851,18 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 		$a_scope_id_one[$a_obj_id[$i]] = array();
 	}
 	//only global_to_system=0 -> should be updated
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
-		FROM cp_package, cp_mapinfo, cp_node 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id
+		FROM cp_package, cp_mapinfo, cp_node
 		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_scope_id[$data['targetobjectiveid']][] = $data['obj_id'];
 	}
 	//only global_to_system=1 -> should maintain
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
-		FROM cp_package, cp_mapinfo, cp_node 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id
+		FROM cp_package, cp_mapinfo, cp_node
 		WHERE cp_package.global_to_system = 1 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_scope_id_one[$data['targetobjectiveid']][] = $data['obj_id'];
 	}
@@ -2876,7 +2876,7 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 			array('integer', 'text'),
 			array(0, $a_obj_id[$i])
 		);
-		while($data = $ilDB->fetchAssoc($res)) 
+		while($data = $ilDB->fetchAssoc($res))
 		{
 			$a_toupdate[] = $data;
 		}
@@ -2924,8 +2924,8 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 			);
 		}
 	}
-	
-	
+
+
 ?>
 <#4313>
 <?php
@@ -3076,7 +3076,7 @@ if( !$ilDB->tableExists('qpl_a_kprim') )
 <#4318>
 <?php
 
-// #13858 
+// #13858
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
 
@@ -3128,7 +3128,7 @@ if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 		'notnull' => false,
 		'default' => 0
 	));
-	
+
 ?>
 
 <#4323>
@@ -3275,7 +3275,7 @@ if( !$ilDB->tableExists('il_bibl_settings') )
 	{
 		$ilDB->dropTableColumn('frm_threads', 'thr_usr_id');
 	}
-	
+
 ?>
 <#4336>
 <?php
@@ -3363,7 +3363,7 @@ $ini = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini.php");
 if($ini->read())
 {
 	$ilSetting = new ilSetting();
-	
+
 	$https_header_enable = (bool) $ilSetting->get('ps_auto_https_enabled',false);
 	$https_header_name = (string) $ilSetting->get('ps_auto_https_headername',"ILIAS_HTTPS_ENABLED");
 	$https_header_value = (string) $ilSetting->get('ps_auto_https_headervalue',"1");
@@ -3372,7 +3372,7 @@ if($ini->read())
 	{
 		$ini->addGroup('https');
 	}
-	
+
 	$ini->setVariable("https","auto_https_detect_enabled", (!$https_header_enable) ? 0 : 1);
 	$ini->setVariable("https","auto_https_detect_header_name", $https_header_name);
 	$ini->setVariable("https","auto_https_detect_header_value", $https_header_value);
@@ -3474,10 +3474,10 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		$ilDB->manipulate("INSERT INTO settings (module, keyword, value) VALUES ('maps', 'type', 'googlemaps')");
 	}
-	
+
 	// adjust naming in settings
 	$ilDB->manipulate("UPDATE settings SET module = 'maps' WHERE module = 'google_maps'");
-	
+
 	// adjust naming in language data
 	$ilDB->manipulate("UPDATE lng_data SET module = 'maps' WHERE module = 'gmaps'");
 	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_enable_maps_info' WHERE identifier = 'gmaps_enable_gmaps_info'");
@@ -3496,7 +3496,7 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 <#4352>
 <?php
 
-if(!$ilDB->tableColumnExists('il_blog','abs_shorten')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -3509,7 +3509,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_shorten'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -3522,7 +3522,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_image')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_image'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -3535,7 +3535,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_image'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_img_width')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_img_width'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -3548,7 +3548,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_img_width'))
         ));
 }
 
-if(!$ilDB->tableColumnExists('il_blog','abs_img_height')) 
+if(!$ilDB->tableColumnExists('il_blog','abs_img_height'))
 {
     $ilDB->addTableColumn(
         'il_blog',
@@ -3955,11 +3955,11 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 	$a_scope_id = array();
 	$a_scope_id_one = array();
 	//select targetobjectiveid = cmi_gobjective.objective_id
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid 
-		FROM cp_package, cp_mapinfo, cp_node 
-		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid
+		FROM cp_package, cp_mapinfo, cp_node
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id
 		GROUP BY cp_mapinfo.targetobjectiveid');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_obj_id[] = $data['targetobjectiveid'];
 	}
@@ -3969,18 +3969,18 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 		$a_scope_id_one[$a_obj_id[$i]] = array();
 	}
 	//only global_to_system=0 -> should be updated
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
-		FROM cp_package, cp_mapinfo, cp_node 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id
+		FROM cp_package, cp_mapinfo, cp_node
 		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_scope_id[$data['targetobjectiveid']][] = $data['obj_id'];
 	}
 	//only global_to_system=1 -> should maintain
-	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
-		FROM cp_package, cp_mapinfo, cp_node 
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id
+		FROM cp_package, cp_mapinfo, cp_node
 		WHERE cp_package.global_to_system = 1 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
-	while($data = $ilDB->fetchAssoc($res)) 
+	while($data = $ilDB->fetchAssoc($res))
 	{
 		$a_scope_id_one[$data['targetobjectiveid']][] = $data['obj_id'];
 	}
@@ -3994,7 +3994,7 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 			array('integer', 'text'),
 			array(0, $a_obj_id[$i])
 		);
-		while($data = $ilDB->fetchAssoc($res)) 
+		while($data = $ilDB->fetchAssoc($res))
 		{
 			$a_toupdate[] = $data;
 		}
@@ -4042,8 +4042,8 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 			);
 		}
 	}
-	
-	
+
+
 ?>
 <#4372>
 <?php
@@ -4207,7 +4207,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		$alimit = 'absolute';
 		$a_limitdt = $until;
 	}
-	
+
 	$next_id = $ilDB->nextId('reg_registration_codes');
 	$query = 'INSERT INTO reg_registration_codes '.
 			'(code_id, code, role, generated_on, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
@@ -4241,7 +4241,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#4387>
 <?php
-	$ilDB->update('tst_tests', 
+	$ilDB->update('tst_tests',
 		array('forcejs' => array('integer', 1)),
 		array('forcejs' => array('integer', 0))
 	);
@@ -4311,7 +4311,7 @@ if( !$ilDB->tableExists('tst_seq_qst_tracking') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_seq_qst_tracking', array('active_fi', 'pass', 'question_fi'));
 	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'pass'), 'i1');
 	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'question_fi'), 'i2');
@@ -4338,7 +4338,7 @@ $res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
 while( $row = $ilDB->fetchAssoc($res) )
 {
 	$tracking = unserialize($row['sequence']);
-	
+
 	if( is_array($tracking) )
 	{
 		foreach($tracking as $index => $question)
@@ -4355,7 +4355,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 				)
 			);
 		}
-		
+
 		$ilDB->update('tst_sequence',
 			array(
 				'sequence' => array('text', null)
@@ -4401,7 +4401,7 @@ if( !$ilDB->tableExists('tst_seq_qst_postponed') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_seq_qst_postponed', array('active_fi', 'pass', 'question_fi'));
 	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'pass'), 'i1');
 	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'question_fi'), 'i2');
@@ -4428,7 +4428,7 @@ $res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
 while( $row = $ilDB->fetchAssoc($res) )
 {
 	$postponed = unserialize($row['postponed']);
-	
+
 	if( is_array($postponed) )
 	{
 		foreach($postponed as $questionId => $postponeCount)
@@ -4444,7 +4444,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 				)
 			);
 		}
-		
+
 		$ilDB->update('tst_sequence',
 			array(
 				'postponed' => array('text', null)
@@ -4490,7 +4490,7 @@ if( !$ilDB->tableExists('tst_seq_qst_answstatus') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_seq_qst_answstatus', array('active_fi', 'pass', 'question_fi'));
 	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'pass'), 'i1');
 	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'question_fi'), 'i2');
@@ -4517,7 +4517,7 @@ $res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
 while( $row = $ilDB->fetchAssoc($res) )
 {
 	$answerStatus = unserialize($row['hidden']);
-	
+
 	if( is_array($answerStatus) )
 	{
 		foreach($answerStatus['correct'] as $questionId)
@@ -4533,7 +4533,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 				)
 			);
 		}
-		
+
 		foreach($answerStatus['wrong'] as $questionId)
 		{
 			$ilDB->replace('tst_seq_qst_answstatus',
@@ -4547,7 +4547,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 				)
 			);
 		}
-		
+
 		$ilDB->update('tst_sequence',
 			array(
 				'hidden' => array('text', null)
@@ -4600,11 +4600,11 @@ if( $indexDefinition instanceof MDB2_Error )
 		) VALUES (?, ?, ?, ?, ?, ?)
 		", array('integer', 'integer', 'text', 'integer', 'integer', 'integer')
 	);
-	
+
 	while($row = $ilDB->fetchAssoc($res) )
 	{
 		$expressions = array();
-		
+
 		foreach($row as $field => $value)
 		{
 			if($value === null)
@@ -4621,18 +4621,18 @@ if( $indexDefinition instanceof MDB2_Error )
 				{
 					$value = $ilDB->quote($value, 'integer');
 				}
-				
+
 				$expressions[] = "$field = $value";
 			}
 		}
-		
+
 		$expressions = implode(' AND ', $expressions);
-		
+
 		$ilDB->manipulate("DELETE FROM tst_dyn_quest_set_cfg WHERE $expressions");
-		
+
 		$ilDB->execute($insertStmt, array_values($row));
 	}
-	
+
 	$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
 }
 
@@ -4725,16 +4725,16 @@ if( $fixState === '0' )
 {
 	$query = "
 		SELECT		tst_tests.test_id, COUNT(tst_rnd_quest_set_qpls.def_id)
-		 
+
 		FROM		tst_tests
 
 		LEFT JOIN	tst_rnd_quest_set_qpls
 		ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
-		 
+
 		WHERE		question_set_type = %s
-		
+
 		GROUP BY	tst_tests.test_id
-		
+
 		HAVING		COUNT(tst_rnd_quest_set_qpls.def_id) < 1
 	";
 
@@ -4753,11 +4753,11 @@ if( $fixState === '0' )
 		echo "<pre>
 
 		Dear Administrator,
-		
+
 		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
 
 		The update process has been stopped, because your attention is required.
-		
+
 		If you did not migrate ILIAS from version 4.3 to 4.4, but installed a 4.4 version from scratch,
 		please ignore this message and simply refresh the page.
 
@@ -4766,18 +4766,18 @@ if( $fixState === '0' )
 		A bug in the db migration for ILIAS 4.4.x has lead to missing source pool definitions within several random tests.
 		Your installation could be affected, because random tests without any source pool definition were detected.
 		Perhaps, these tests were just created, but the update process has to assume that these tests are broken.
-		
+
 		If you have a backup of your old ILIAS 4.3.x database the update process can repair these tests.
 		Therefor please restore the table > tst_test_random < from your ILIAS 4.3.x backup database to your productive ILIAS 4.4.x database.
-		
+
 		If you try to rerun the update process by refreshing the page, this message will be skipped.
-		
+
 		Possibly broken random tests will be repaired, if the old database table mentioned above is available.
 		After repairing the tests, the old database table will be dropped again.
-		
+
 		Best regards,
 		The Test Maintainers
-		
+
 		</pre>";
 
 		$setting->set('dbupdate_randtest_pooldef_migration_fix', '1');
@@ -4800,18 +4800,18 @@ elseif( $fixState === '1' )
 						tst_test_random.tstamp,
 						tst_test_random.sequence,
 						object_data.title pool_title
-			 
+
 			FROM		tst_tests
-			 
+
 			INNER JOIN	tst_test_random
 			ON			tst_tests.test_id = tst_test_random.test_fi
-			 
+
 			LEFT JOIN	tst_rnd_quest_set_qpls
 			ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
-			
+
 			LEFT JOIN	object_data
 			ON 			object_data.obj_id = tst_test_random.questionpool_fi
-			 
+
 			WHERE		question_set_type = %s
 			AND			tst_rnd_quest_set_qpls.def_id IS NULL
 		";
@@ -4971,7 +4971,7 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 	));
 
 	$ilDB->addPrimaryKey('tmp_active_fix', array('test_fi', 'user_fi', 'anonymous_id'));
-	
+
 	$res = $ilDB->query("
 		SELECT COUNT(*), test_fi, user_fi, anonymous_id
 		FROM tst_active
@@ -4985,7 +4985,7 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 		{
 			$row['anonymous_id'] = '-';
 		}
-		
+
 		$ilDB->replace('tmp_active_fix',
 			array(
 				'test_fi' => array('integer', $row['test_fi']),
@@ -5031,7 +5031,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 	);
 
 	$res1 = $ilDB->query("SELECT * FROM tmp_active_fix WHERE active_id IS NULL");
-	
+
 	while($row1 = $ilDB->fetchAssoc($res1))
 	{
 		if(!$row1['user_fi'])
@@ -5052,11 +5052,11 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
 			));
 		}
-		
+
 		$activeId = null;
 		$passed = null;
 		$points = null;
-		
+
 		while($row2 = $ilDB->fetchAssoc($res2))
 		{
 			if($activeId === null)
@@ -5066,7 +5066,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$points = $row2['reached_points'];
 				continue;
 			}
-			
+
 			if( !$row2['max_points'] )
 			{
 				continue;
@@ -5079,7 +5079,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$points = $row2['reached_points'];
 				continue;
 			}
-			
+
 			if($passed && !$row2['passed'])
 			{
 				continue;
@@ -5093,7 +5093,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				continue;
 			}
 		}
-		
+
 		$ilDB->execute($update, array(
 			$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
 		));
@@ -5130,11 +5130,11 @@ if( $ilDB->tableExists('tmp_active_fix') )
 		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?",
 		array('integer', 'integer', 'text')
 	);
-	
+
 	$res = $ilDB->query("
 		SELECT tmp_active_fix.*, obj_fi FROM tmp_active_fix INNER JOIN tst_tests ON test_id = test_fi
 	");
-	
+
 	while($row = $ilDB->fetchAssoc($res))
 	{
 		if(!$row['user_fi'])
@@ -5164,7 +5164,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			$row['test_fi'], $row['user_fi'], $row['anonymous_id']
 		));
 	}
-	
+
 	$ilDB->dropTable('tmp_active_fix');
 }
 
@@ -5222,7 +5222,7 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 		" FROM usr_portfolio prtf".
 		" JOIN object_data od ON (prtf.id = od.obj_id)");
 	while($row = $ilDB->fetchAssoc($set))
-	{		
+	{
 		$row["comments"] = (bool)$row["comments"];
 		$data[] = $row;
 	}
@@ -5230,7 +5230,7 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 	$set = $ilDB->query("SELECT id,notes comments".
 		" FROM il_blog");
 	while($row = $ilDB->fetchAssoc($set))
-	{		
+	{
 		$row["type"] = "blog";
 		$row["comments"] = (bool)$row["comments"];
 		$data[] = $row;
@@ -5240,22 +5240,22 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 		" FROM content_object cobj".
 		" JOIN object_data od ON (cobj.id = od.obj_id)");
 	while($row = $ilDB->fetchAssoc($set))
-	{		
+	{
 		$row["comments"] = ($row["comments"] == "y" ? true : false);
 		$data[] = $row;
 	}
-	
+
 	$set = $ilDB->query("SELECT id,show_comments comments".
 		" FROM il_poll");
 	while($row = $ilDB->fetchAssoc($set))
-	{		
+	{
 		$row["type"] = "poll";
 		$row["comments"] = (bool)$row["comments"];
 		$data[] = $row;
 	}
 
 	if(sizeof($data))
-	{	
+	{
 		foreach($data as $item)
 		{
 			if($item["id"] && $item["type"])
@@ -5275,7 +5275,7 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 						", ".$ilDB->quote(1, "integer").")");
 				}
 			}
-		}		
+		}
 	}
 }
 
@@ -5305,10 +5305,10 @@ if($ilDB->tableColumnExists('ecs_cms_data','cms_id'))
 			"length" => 512
 		)
 	);
-	
+
 	$query = 'UPDATE ecs_cms_data SET cms_id = cms_bak ';
 	$ilDB->manipulate($query);
-	
+
 	$ilDB->dropTableColumn('ecs_cms_data','cms_bak');
 }
 ?>
@@ -5328,10 +5328,10 @@ if($ilDB->tableColumnExists('ecs_import','econtent_id'))
 			"length" => 512
 		)
 	);
-	
+
 	$query = 'UPDATE ecs_import SET econtent_id = econtent_id_bak ';
 	$ilDB->manipulate($query);
-	
+
 	$ilDB->dropTableColumn('ecs_import','econtent_id_bak');
 }
 ?>
@@ -5339,26 +5339,26 @@ if($ilDB->tableColumnExists('ecs_import','econtent_id'))
 <?php
 
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
 if($tgt_ops_id)
-{				
+{
 	$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
 	if($lp_type_id)
-	{			
+	{
 		// add "edit_learning_progress" to session
-		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
-									
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
+
 		// clone settings from "write" to "edit_learning_progress"
-		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 		ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
-		
+
 		// clone settings from "write" to "read_learning_progress" (4287 did not work for sessions)
-		$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');	
+		$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
 		if($tgt_ops_id)
 		{
 			ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
 		}
-	}	
+	}
 }
 
 ?>
@@ -5416,7 +5416,7 @@ if( $ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
 <#4436>
 <?php
 if(! $ilDB->tableColumnExists('il_wiki_page', 'hide_adv_md'))
-{	
+{
 	$ilDB->addTableColumn('il_wiki_page', 'hide_adv_md',
 		array(
 			'type' => 'integer',
@@ -5428,7 +5428,7 @@ if(! $ilDB->tableColumnExists('il_wiki_page', 'hide_adv_md'))
 <#4437>
 <?php
 if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
-{	
+{
 	$ilDB->addTableColumn('tst_active', 'start_lock',
 		array(
 			'type' => 'text',
@@ -5464,13 +5464,13 @@ else
 			'keyword' => array('text', 'quest_process_lock_mode')
 		)
 	);
-}	
+}
 
 ?>
 <#4439>
 <?php
 if( !$ilDB->tableColumnExists('file_based_lm', 'show_lic'))
-{	
+{
 	$ilDB->addTableColumn('file_based_lm', 'show_lic',
 		array(
 			'type' => 'integer',
@@ -5480,7 +5480,7 @@ if( !$ilDB->tableColumnExists('file_based_lm', 'show_lic'))
 		));
 }
 if( !$ilDB->tableColumnExists('file_based_lm', 'show_bib'))
-{	
+{
 	$ilDB->addTableColumn('file_based_lm', 'show_bib',
 		array(
 			'type' => 'integer',
@@ -5510,19 +5510,19 @@ $ilDB->manipulate("UPDATE settings ".
 <?php
 
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
 if($tgt_ops_id)
-{				
+{
 	$feed_type_id = ilDBUpdateNewObjectType::getObjectTypeId('feed');
 	if($feed_type_id)
-	{			
+	{
 		// add "copy" to (external) feed
-		ilDBUpdateNewObjectType::addRBACOperation($feed_type_id, $tgt_ops_id);				
-									
+		ilDBUpdateNewObjectType::addRBACOperation($feed_type_id, $tgt_ops_id);
+
 		// clone settings from "write" to "copy"
-		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
-		ilDBUpdateNewObjectType::cloneOperation('feed', $src_ops_id, $tgt_ops_id);		
-	}	
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		ilDBUpdateNewObjectType::cloneOperation('feed', $src_ops_id, $tgt_ops_id);
+	}
 }
 
 ?>
@@ -5709,7 +5709,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 	$parts = explode('_', $objective_ref_id);
 	$objective_id = $parts[0];
 	$tst_ref_id = $parts[1];
-	
+
 	$sum = 0;
 	foreach((array) $qst_ids as $qst_id)
 	{
@@ -5725,7 +5725,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 			$query = 'SELECT tst_limit FROM crs_objective_tst '.
 					'WHERE objective_id = '.$ilDB->quote($objective_id,'integer');
 			$res_limit = $ilDB->query($query);
-			
+
 			$limit_points = 0;
 			while($row = $res_limit->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
@@ -5735,7 +5735,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 			$limit_p = $limit_points / $sum * 100;
 			$limit_p = intval($limit_p);
 			$limit_p = ($limit_p >= 100 ? 100 : $limit_p);
-			
+
 			// update
 			$query = 'UPDATE crs_objective_tst '.
 					'SET tst_limit_p = '.$ilDB->quote($limit_p,'integer').' '.
@@ -5953,28 +5953,28 @@ $ilDB->manipulate(
 <#4474>
 <?php
 
-include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');				
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('svy');
 if($lp_type_id)
-{				
-	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+{
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 
 	// clone settings from "write" to "edit_learning_progress"
-	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
 	if($tgt_ops_id)
 	{
-		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
 		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 	}
 
 	// clone settings from "write" to "read_learning_progress"
-	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');	
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
 	if($tgt_ops_id)
 	{
-		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);		
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
 		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 	}
-}	
+}
 
 ?>
 <#4475>
@@ -6050,7 +6050,7 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 $query = "
 	UPDATE tst_rnd_quest_set_qpls SET pool_title = (
 		COALESCE(
-			(SELECT title FROM object_data WHERE obj_id = pool_fi), %s 
+			(SELECT title FROM object_data WHERE obj_id = pool_fi), %s
 		)
 	) WHERE pool_title IS NULL OR pool_title = %s
 ";
@@ -6797,8 +6797,8 @@ if($data['cnt'])
 			HAVING COUNT(*) > 1
 		) duplicateChatroomBans
 			ON duplicateChatroomBans.room_id = chatroom_bans.room_id
-			AND duplicateChatroomBans.user_id = chatroom_bans.user_id 
-			AND duplicateChatroomBans.ts = chatroom_bans.timestamp 
+			AND duplicateChatroomBans.user_id = chatroom_bans.user_id
+			AND duplicateChatroomBans.ts = chatroom_bans.timestamp
 	) finalDuplicateChatroomBans
 	";
 	$res = $ilDB->query($chrban_dup_query);
@@ -7524,7 +7524,7 @@ if(!$ilDB->tableExists('sysc_groups'))
 	'last_update' => array(
 			"type" => "timestamp",
 			"notnull" => false),
-		
+
 	'status' => array(
 			"type" => "integer",
 			"notnull" => true,
@@ -7554,7 +7554,7 @@ if(!$ilDB->tableExists('sysc_tasks'))
 	'last_update' => array(
 			"type" => "timestamp",
 			"notnull" => false),
-		
+
 	'status' => array(
 			"type" => "integer",
 			"notnull" => true,
@@ -7755,7 +7755,7 @@ if( $ilDB->indexExistsByFields('tst_addtime', array('active_fi')) )
 $ilDB->addPrimaryKey('tst_addtime', array('active_fi'));
 ?>
 <#4573>
-<?php 
+<?php
 
 // delete all entries
 // structure reload is done at end of db update.
@@ -7926,20 +7926,20 @@ if($data['cnt'] > 0 && !(int)$setting)
 	echo "<pre>
 
 		Dear Administrator,
-		
+
 		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
-		
+
 		The update process has been stopped due to a data consistency issue in table 'mail_obj_data'.
 		The values in field 'obj_id' should be unique, but there are different values in field 'user_id', associated to the same 'obj_id'.
 		You have the opportunity to review the data and apply manual fixes on your own risk. The duplicates can be determined with the following SQL string:
 
 		SELECT mail_obj_data.* FROM mail_obj_data INNER JOIN (SELECT obj_id FROM mail_obj_data GROUP BY obj_id HAVING COUNT(*) > 1) duplicateMailFolders ON duplicateMailFolders.obj_id = mail_obj_data.obj_id ORDER BY mail_obj_data.obj_id
-		
+
 		If you try to rerun the update process, this warning will be skipped.
 		The remaining duplicates will be removed automatically by the criteria documented below.
 
 		Foreach each duplicate record, ...
-		
+
 		1. ILIAS temporarily stores the value of the duplicate 'obj_id' in a variable: \$old_folder_id .
 		2. ILIAS deletes every duplicate row in table 'mail_obj_data' determined by \$old_folder_id (field: 'obj_id') and the respective 'user_id'.
 		3. ILIAS creates a new record for the user account (with a unique 'obj_id') and stores this value in a variable: \$new_folder_id .
@@ -7951,7 +7951,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 
 		Best regards,
 		The mail system maintainer
-		
+
 	</pre>";
 
 	$ilSetting->set('mail_mod_dupl_warn_51x_shown', 1);
@@ -8157,7 +8157,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 
 		If you try to rerun the update process, this warning will be skipped.
 		The remaining duplicates will be removed automatically by the criteria documented below.
-		
+
 		1. ILIAS determines the relevant unique users for the duplicate entries (field: tree)
 		2. ILIAS ensures that the default folders (root, inbox, trash, drafts, sent, local) exist in table 'mail_obj_data'
 		3. For every affected user ILIAS deletes all records in table 'mail_tree'
@@ -8170,7 +8170,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 
 		Best regards,
 		The mail system maintainer
-		
+
 	</pre>";
 
 	$ilSetting->set('mail_mt_dupl_warn_51x_shown', 1);
@@ -8258,12 +8258,12 @@ if($ilDB->tableExists('mail_tree_migr'))
 		"INSERT INTO mail_obj_data (obj_id, user_id, title, m_type) VALUES(?, ?, ?, ?)",
 		array('integer','integer', 'text', 'text')
 	);
-	
+
 	$ps_in_tree_entry = $ilDB->prepareManip(
 		"INSERT INTO mail_tree (tree, child, parent, lft, rgt, depth) VALUES(?, ?, ?, ?, ?, ?)",
 		array('integer', 'integer', 'integer', 'integer', 'integer', 'integer')
 	);
-	
+
 	$ps_sel_tree_entry = $ilDB->prepare(
 		"SELECT rgt, lft, parent FROM mail_tree WHERE child = ? AND tree = ?",
 		array('integer', 'integer')
@@ -8329,7 +8329,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 				"DB Step %s, iteration %s: Created 'mail_obj_data' record (missing folder type): %s, %s, %s, %s .",
 				$db_step, $i, $folder_id, $usr_id, $title, $type
 			));
-		}		
+		}
 
 		// Create a new root folder node
 		$root_id  = null;
@@ -8534,7 +8534,7 @@ if( !$ilDB->tableExists('member_noti') )
 			'default' => 0
 		)
 	));
-		
+
 	$ilDB->addPrimaryKey('member_noti', array('ref_id'));
 }
 
@@ -8564,7 +8564,7 @@ if( !$ilDB->tableExists('member_noti_user') )
 			'default' => 0
 		)
 	));
-		
+
 	$ilDB->addPrimaryKey('member_noti_user', array('ref_id', 'user_id'));
 }
 
@@ -8843,7 +8843,7 @@ if(!$ilDB->tableExists('exc_crit_cat'))
 			'notnull' => true,
 			'default' => 0
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('exc_crit_cat',array('id'));
 	$ilDB->createSequence('exc_crit_cat');
 }
@@ -8888,7 +8888,7 @@ if(!$ilDB->tableExists('exc_crit'))
 			'notnull' => true,
 			'default' => 0
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('exc_crit',array('id'));
 	$ilDB->createSequence('exc_crit');
 }
@@ -8969,17 +8969,17 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
 <#4622>
 <?php
 
-include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');				
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $blog_type_id = ilDBUpdateNewObjectType::getObjectTypeId('blog');
 if($blog_type_id)
-{					
+{
 	// not sure if we want to clone "write" or "contribute"?
-	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 6100);	
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 6100);
 	if($new_ops_id)
 	{
-		ilDBUpdateNewObjectType::addRBACOperation($blog_type_id, $new_ops_id);						
+		ilDBUpdateNewObjectType::addRBACOperation($blog_type_id, $new_ops_id);
 	}
-}	
+}
 
 ?>
 <#4623>
@@ -8989,7 +8989,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 $redact_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('redact');
 if($redact_ops_id)
 {
-	ilDBUpdateNewObjectType::addRBACTemplate('blog', 'il_blog_editor', 'Editor template for blogs', 
+	ilDBUpdateNewObjectType::addRBACTemplate('blog', 'il_blog_editor', 'Editor template for blogs',
 		array(
 			ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
 			ilDBUpdateNewObjectType::RBAC_OP_READ,
@@ -9011,7 +9011,7 @@ if (!$ilDB->tableColumnExists('adv_md_record_objs', 'optional'))
 		"default" => 0
 	));
 }
-	
+
 ?>
 <#4625>
 <?php
@@ -9024,7 +9024,7 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 		"length" => 4
 	));
 }
-	
+
 ?>
 <#4626>
 <?php
@@ -9546,7 +9546,7 @@ if($wiki_type_id)
 <#4660>
 <?php
 
-if(!$ilDB->tableColumnExists('loc_settings','it_type')) 
+if(!$ilDB->tableColumnExists('loc_settings','it_type'))
 {
     $ilDB->addTableColumn(
         'loc_settings',
@@ -9562,7 +9562,7 @@ if(!$ilDB->tableColumnExists('loc_settings','it_type'))
 <#4661>
 <?php
 
-if(!$ilDB->tableColumnExists('loc_settings','qt_type')) 
+if(!$ilDB->tableColumnExists('loc_settings','qt_type'))
 {
     $ilDB->addTableColumn(
         'loc_settings',
@@ -9580,7 +9580,7 @@ if(!$ilDB->tableColumnExists('loc_settings','qt_type'))
 <#4662>
 <?php
 
-if(!$ilDB->tableColumnExists('loc_settings','it_start')) 
+if(!$ilDB->tableColumnExists('loc_settings','it_start'))
 {
     $ilDB->addTableColumn(
         'loc_settings',
@@ -9598,7 +9598,7 @@ if(!$ilDB->tableColumnExists('loc_settings','it_start'))
 <#4663>
 <?php
 
-if(!$ilDB->tableColumnExists('loc_settings','qt_start')) 
+if(!$ilDB->tableColumnExists('loc_settings','qt_start'))
 {
     $ilDB->addTableColumn(
         'loc_settings',
@@ -9678,7 +9678,7 @@ if(!$ilDB->tableExists('loc_tst_assignments'))
 <#4667>
 <?php
 
-if(!$ilDB->tableColumnExists('loc_settings','passed_obj_mode')) 
+if(!$ilDB->tableColumnExists('loc_settings','passed_obj_mode'))
 {
     $ilDB->addTableColumn(
         'loc_settings',
@@ -9716,11 +9716,11 @@ if( !$ilDB->tableExists('tst_seq_qst_optional') )
 			'default' => 0
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('tst_seq_qst_optional', array(
 		'active_fi', 'pass', 'question_fi'
 	));
-}	
+}
 ?>
 
 <#4669>
@@ -10248,8 +10248,8 @@ if ($ilDB->tableExists('rbac_templates'))
 		'select * from rbac_templates GROUP BY rol_id, type, ops_id, parent '.
 		'having count(*) > 1'
 	);
-	
-	
+
+
 	/*
 	$res = $ilDB->query("
 		SELECT first.rol_id rol_id, first.type type, first.ops_id ops_id, first.parent parent
@@ -10815,16 +10815,16 @@ $ilCtrlStructureReader->getStructure();
 
 <#4723>
 <?php
-	
+
 	$query = 'SELECT child FROM tree group by child having count(child) > 1';
 	$res = $ilDB->query($query);
-	
+
 	$found_dup = FALSE;
 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$found_dup = TRUE;
 	}
-	
+
 	if(!$found_dup)
 	{
 		$ilDB->addPrimaryKey('tree',array('child'));
@@ -10841,9 +10841,9 @@ $ilCtrlStructureReader->getStructure();
 
 					DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
 
-					The update process has been stopped due to an invalid data structure of the repository tree. 
+					The update process has been stopped due to an invalid data structure of the repository tree.
 					Duplicates have been detected in your installation.
-					
+
 					You can continue with the update process.
 					But you should perform a system check and repair the tree structure in \"Adminstration -> Systemcheck -> Tree\"
 
@@ -11516,7 +11516,7 @@ $obj_type_id = ilDBUpdateNewObjectType::addNewType("prg", "StudyProgramme");
 $existing_ops = array("visible", "write", "copy", "delete", "edit_permission");
 foreach ($existing_ops as $op) {
 	$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
-	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);		
+	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
 }
 
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
@@ -11659,8 +11659,8 @@ ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
 if(!$ilDB->tableColumnExists("obj_members", "admin"))
 {
         $ilDB->addTableColumn(
-				"obj_members", 
-				"admin", 
+				"obj_members",
+				"admin",
 				array(
 					'type' => 'integer',
 					'length' => 1,
@@ -11671,8 +11671,8 @@ if(!$ilDB->tableColumnExists("obj_members", "admin"))
 if(!$ilDB->tableColumnExists("obj_members", "tutor"))
 {
         $ilDB->addTableColumn(
-				"obj_members", 
-				"tutor", 
+				"obj_members",
+				"tutor",
 				array(
 					'type' => 'integer',
 					'length' => 1,
@@ -11683,8 +11683,8 @@ if(!$ilDB->tableColumnExists("obj_members", "tutor"))
 if(!$ilDB->tableColumnExists("obj_members", "member"))
 {
         $ilDB->addTableColumn(
-				"obj_members", 
-				"member", 
+				"obj_members",
+				"member",
 				array(
 					'type' => 'integer',
 					'length' => 2,
@@ -11741,7 +11741,7 @@ $ilDB->modifyTableColumn('il_wac_secure_path', 'path', array(
 ?>
 <#4756>
 <?php
-$obj_type = 'icla'; 
+$obj_type = 'icla';
 $set      = $ilDB->queryF(
 	"SELECT obj_id FROM object_data WHERE type = %s",
 	array('text'),
@@ -12365,7 +12365,7 @@ do
 			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') '.
 			$ilDB->setLimit($limit, $offset);
 	$res = $ilDB->query($query);
-	
+
 	if(!$res->numRows())
 	{
 		break;
@@ -12395,9 +12395,9 @@ do
 						$ilDB->quote($ua_row->usr_id,'integer').' '.
 						')';
 				$ilDB->manipulate($query);
-						
+
 			}
-			
+
 			// find users which are assigned to obj_members and update their role assignment
 			$query = 'select * from rbac_ua ua '.
 					'left join obj_members om on ua.usr_id = om.usr_id '.
@@ -12414,18 +12414,18 @@ do
 					case 'il_grp_a':
 						$admin = 1;
 						break;
-					
+
 					case 'il_crs_t':
 						$tutor = 1;
 						break;
-					
+
 					default:
 					case 'il_grp_m':
 					case 'il_crs_m':
 						$member = 1;
 						break;
 				}
-				
+
 				$query = 'update obj_members '.
 						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
 						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.
@@ -12484,22 +12484,22 @@ $ilDB->modifyTableColumn(
 				"length" => 1000,
 				"notnull" => false,
 				"default" => null)
-			);			
-			$ilDB->manipulate('UPDATE svy_qst_matrixrows SET title_tmp = title');			
-			$ilDB->dropTableColumn('svy_qst_matrixrows', 'title');			
+			);
+			$ilDB->manipulate('UPDATE svy_qst_matrixrows SET title_tmp = title');
+			$ilDB->dropTableColumn('svy_qst_matrixrows', 'title');
 			$ilDB->renameTableColumn('svy_qst_matrixrows', 'title_tmp', 'title');
-		}			
+		}
 	}
 	else
 	{
 		$ilDB->modifyTableColumn('svy_qst_matrixrows','title', array(
-			"type" => "text", 
-			"length" => 1000, 
-			"default" => null, 
+			"type" => "text",
+			"length" => 1000,
+			"default" => null,
 			"notnull" => false)
 		);
 	}
-	
+
 ?>
 <#4778>
 <?php
@@ -12597,13 +12597,13 @@ $ilCtrlStructureReader->getStructure();
 
 	$query = 'SELECT server_id FROM ldap_server_settings';
 	$res = $ilDB->query($query);
-	
+
 	$server_id = 0;
 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$server_id = $row->server_id;
 	}
-	
+
 	if($server_id)
 	{
 		$query = 'UPDATE usr_data SET auth_mode = '.$ilDB->quote('ldap_'.(int) $server_id,'text').' '.
@@ -12637,7 +12637,7 @@ $res = $ilDB->queryF($selQuery, array('text', 'text'), array('qpl', 'quest'));
 while($row = $ilDB->fetchAssoc($res))
 {
 	$ilDB->manipulateF($delQuery, $types, array(
-		$row['node_id'], $row['component'], $row['obj_id'], $row['item_type'], $row['item_id'] 
+		$row['node_id'], $row['component'], $row['obj_id'], $row['item_type'], $row['item_id']
 	));
 }
 ?>
@@ -12720,7 +12720,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#4803>
 <?php
-if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id')) 
+if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id'))
 {
 	$ilDB->addTableColumn(
         'adl_shared_data',
@@ -12745,7 +12745,7 @@ if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id'))
 		);
 	}
 	$ilDB->manipulate("delete from adl_shared_data WHERE cp_node_id = 0");
-	
+
 	$ilDB->addPrimaryKey("adl_shared_data", array('cp_node_id','user_id'));
 }
 ?>
@@ -13098,7 +13098,7 @@ if ($ilDB->tableExists('il_verification_tmp'))
 			FROM il_verification
 			WHERE
 			id = ".$ilDB->quote($row['id'] ,'integer')." AND
-			type = ".$ilDB->quote($row['type'], 'text')							
+			type = ".$ilDB->quote($row['type'], 'text')
 		);
 		$data = $ilDB->fetchAssoc($res_data);
 
@@ -14915,10 +14915,10 @@ if($ilDB->tableExists('skl_user_skill_level'))
 
 
 $ilDB->manipulate(
-		'update usr_data set passwd = '. 
-		$ilDB->quote('','text').' , auth_mode = ' . 
-		$ilDB->quote('local','text').', active = '. 
-		$ilDB->quote(0, 'integer'). ' WHERE auth_mode = '. 
+		'update usr_data set passwd = '.
+		$ilDB->quote('','text').' , auth_mode = ' .
+		$ilDB->quote('local','text').', active = '.
+		$ilDB->quote(0, 'integer'). ' WHERE auth_mode = '.
 		$ilDB->quote('openid','text')
 );
 
@@ -14978,7 +14978,7 @@ $ilCtrlStructureReader->getStructure();
 $payment_tables = array(
 	'payment_coupons', 'payment_coupons_codes', 'payment_coupons_obj', 'payment_coupons_track',
 	'payment_currencies', 'payment_erp', 'payment_erps', 'payment_news',
-	'payment_objects', 'payment_paymethods', 'payment_prices', 'payment_settings', 
+	'payment_objects', 'payment_paymethods', 'payment_prices', 'payment_settings',
 	'payment_shopping_cart', 'payment_statistic', 'payment_statistic_coup', 'payment_topics',
 	'payment_topic_usr_sort', 'payment_trustees', 'payment_vats', 'payment_vendors'
 );
@@ -15123,20 +15123,20 @@ $ilDB->manipulateF(
 <?php
 
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
 if($tgt_ops_id)
-{				
+{
 	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
 	if($book_type_id)
-	{			
+	{
 		// add "copy" to booking tool - returns false if already exists
 		if(ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id))
-		{									
-			// clone settings from "write" to "copy" 
-			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
-			ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+		{
+			// clone settings from "write" to "copy"
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+			ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);
 		}
-	}	
+	}
 }
 
 ?>
@@ -15192,7 +15192,7 @@ if($ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
 				if(is_array($matches))
 				{
 					if(checkdate($matches[2], $matches[3], $matches[1]))
-					{	
+					{
 						$new_starting_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 					}
 				}
@@ -15248,7 +15248,7 @@ if($ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
 				if(is_array($matches))
 				{
 					if(checkdate($matches[2], $matches[3], $matches[1]))
-					{	
+					{
 						$new_ending_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 					}
 				}
@@ -15308,7 +15308,7 @@ if(!$ilDB->tableColumnExists('il_dcl_field_prop', 'name')) {
 
 	$ilDB->addPrimaryKey(ilDclFieldProperty::returnDbTableName(), array('id'));
 	$ilDB->createSequence(ilDclFieldProperty::returnDbTableName());
-	
+
 	if($ilDB->tableExists('il_dcl_datatype_prop')) {
 		$query = "SELECT field_id, inputformat, title, ".$backup_table_name.".value FROM ".$backup_table_name." LEFT JOIN il_dcl_datatype_prop ON il_dcl_datatype_prop.id = ".$backup_table_name.".datatype_prop_id WHERE ".$backup_table_name.".value IS NOT NULL";
 		$result = $ilDB->query($query);
@@ -15528,7 +15528,7 @@ if (! $ilDB->tableExists('il_dcl_tableview')) {
         $ilDB->createSequence('il_dcl_tableview');
     }
 	if(! $ilDB->indexExistsByFields('il_dcl_tableview', array('table_id'))) {
-		$ilDB->addIndex('il_dcl_tableview', array('table_id'), 't1');		
+		$ilDB->addIndex('il_dcl_tableview', array('table_id'), 't1');
 	}
 }
 
@@ -15662,7 +15662,7 @@ if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }
 //
-$table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table 
+$table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table
                           INNER JOIN object_reference ON (object_reference.obj_id = il_dcl_table.obj_id)');
 
 $mapping = array();
@@ -15708,7 +15708,7 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 			continue;
 		}
 		$next_id = $ilDB->nextId('il_dcl_tview_set');
-		$ilDB->query('INSERT INTO il_dcl_tview_set (id, tableview_id, field, visible, in_filter, filter_value, 
+		$ilDB->query('INSERT INTO il_dcl_tview_set (id, tableview_id, field, visible, in_filter, filter_value,
         filter_changeable) VALUES ('
 			. $ilDB->quote($next_id, 'integer') . ', '
 			. $ilDB->quote($mapping[$rec['table_id']], 'integer') . ', '
@@ -15730,7 +15730,7 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 
 	//set editability/exportability
 	while ($rec = $ilDB->fetchAssoc($view_query)) {
-		$temp_sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set 
+		$temp_sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set
 								WHERE table_id = ' . $ilDB->quote($rec['table_id'], 'integer') . '
 								AND field = ' . $ilDB->quote($rec['field'], 'text'));
 
@@ -15747,8 +15747,8 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 	}
 
 	//migrate page object
-	$query = $ilDB->query('SELECT * 
-        FROM il_dcl_view 
+	$query = $ilDB->query('SELECT *
+        FROM il_dcl_view
         INNER JOIN page_object on (il_dcl_view.id = page_object.page_id)
           WHERE il_dcl_view.type = 0
             AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
@@ -15758,18 +15758,18 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 			continue;
 		}
 
-		$temp_sql = $ilDB->query('SELECT * FROM page_object 
-						WHERE page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
+		$temp_sql = $ilDB->query('SELECT * FROM page_object
+						WHERE page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . '
 						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
 
 		if ($ilDB->numRows($temp_sql)) {
-			$ilDB->query('DELETE FROM page_object 
-						WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
+			$ilDB->query('DELETE FROM page_object
+						WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . '
 						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
 		} else {
-			$ilDB->query('UPDATE page_object 
-                  SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
-                  WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
+			$ilDB->query('UPDATE page_object
+                  SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . '
+                  WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . '
                       AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
 		}
 	}
@@ -15954,7 +15954,7 @@ if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
 <#4935>
 <?php
 
-if(!$ilDB->tableColumnExists('svy_svy','confirmation_mail')) 
+if(!$ilDB->tableColumnExists('svy_svy','confirmation_mail'))
 {
     $ilDB->addTableColumn(
         'svy_svy',
@@ -15971,7 +15971,7 @@ if(!$ilDB->tableColumnExists('svy_svy','confirmation_mail'))
 <#4936>
 <?php
 
-$ilDB->manipulate("UPDATE svy_svy".	
+$ilDB->manipulate("UPDATE svy_svy".
 	" SET confirmation_mail = ".$ilDB->quote(1, "integer").
 	" WHERE own_results_mail = ".$ilDB->quote(1, "integer").
 	" AND confirmation_mail IS NULL");
@@ -15980,7 +15980,7 @@ $ilDB->manipulate("UPDATE svy_svy".
 <#4937>
 <?php
 
-if(!$ilDB->tableColumnExists('svy_svy','anon_user_list')) 
+if(!$ilDB->tableColumnExists('svy_svy','anon_user_list'))
 {
     $ilDB->addTableColumn(
         'svy_svy',
@@ -16221,7 +16221,7 @@ if(!$ilDB->tableExists('badge_badge'))
 			'length' => 1,
 			'notnull' => true,
 			'default' => 0
-		),		
+		),
 		'title' => array(
 			'type' => 'text',
 			'length' => 255,
@@ -16237,7 +16237,7 @@ if(!$ilDB->tableExists('badge_badge'))
 			'length' => 4000,
 			'notnull' => false
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('badge_badge',array('id'));
 	$ilDB->createSequence('badge_badge');
 }
@@ -16254,7 +16254,7 @@ if(!$ilDB->tableExists('badge_image_template'))
 			'length' => 4,
 			'notnull' => true,
 			'default' => 0
-		),		
+		),
 		'title' => array(
 			'type' => 'text',
 			'length' => 255,
@@ -16265,7 +16265,7 @@ if(!$ilDB->tableExists('badge_image_template'))
 			'length' => 255,
 			'notnull' => false
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('badge_image_template',array('id'));
 	$ilDB->createSequence('badge_image_template');
 }
@@ -16274,7 +16274,7 @@ if(!$ilDB->tableExists('badge_image_template'))
 <#4953>
 <?php
 
-if(!$ilDB->tableColumnExists('badge_badge','image')) 
+if(!$ilDB->tableColumnExists('badge_badge','image'))
 {
     $ilDB->addTableColumn(
         'badge_badge',
@@ -16282,7 +16282,7 @@ if(!$ilDB->tableColumnExists('badge_badge','image'))
         array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => false)	
+			'notnull' => false)
         );
 }
 
@@ -16305,7 +16305,7 @@ if(!$ilDB->tableExists('badge_image_templ_type'))
 			'notnull' => true,
 			'default' => ""
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('badge_image_templ_type',array('tmpl_id', 'type_id'));
 }
 
@@ -16344,7 +16344,7 @@ if(!$ilDB->tableExists('badge_user_badge'))
 			'length' => 2,
 			'notnull' => false
 		)
-	));	
+	));
 	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
 }
 
@@ -16352,15 +16352,15 @@ if(!$ilDB->tableExists('badge_user_badge'))
 <#4956>
 <?php
 
-if(!$ilDB->tableColumnExists('badge_badge','valid')) 
+if(!$ilDB->tableColumnExists('badge_badge','valid'))
 {
     $ilDB->addTableColumn(
         'badge_badge',
         'valid',
-        array(            
+        array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => false)	
+			'notnull' => false)
         );
 }
 
@@ -16387,8 +16387,8 @@ if(!$ilDB->tableExists('object_data_del'))
 			'length' => 4,
 			'notnull' => true,
 			'default' => 0
-		),		
-	));	
+		),
+	));
 	$ilDB->addPrimaryKey('object_data_del',array('obj_id'));
 }
 
@@ -16396,16 +16396,16 @@ if(!$ilDB->tableExists('object_data_del'))
 <#4958>
 <?php
 
-if(!$ilDB->tableColumnExists('object_data_del','type')) 
+if(!$ilDB->tableColumnExists('object_data_del','type'))
 {
     $ilDB->addTableColumn(
         'object_data_del',
         'type',
-        array(            
+        array(
 			'type' => 'text',
 			'length' => 4,
 			'fixed' => true,
-			'notnull' => false)	
+			'notnull' => false)
         );
 }
 
@@ -16413,7 +16413,7 @@ if(!$ilDB->tableColumnExists('object_data_del','type'))
 <#4959>
 <?php
 
-if(!$ilDB->tableColumnExists('badge_badge','crit')) 
+if(!$ilDB->tableColumnExists('badge_badge','crit'))
 {
     $ilDB->addTableColumn(
         'badge_badge',
@@ -16438,7 +16438,7 @@ $ilCtrlStructureReader->getStructure();
 
 if(!$ilDB->tableExists('ut_lp_defaults'))
 {
-	$ilDB->createTable('ut_lp_defaults', array(	
+	$ilDB->createTable('ut_lp_defaults', array(
 		'type_id' => array(
 			'type' => 'text',
 			'length' => 10,
@@ -16451,7 +16451,7 @@ if(!$ilDB->tableExists('ut_lp_defaults'))
 			'notnull' => true,
 			'default' => 0
 		),
-	));	
+	));
 	$ilDB->addPrimaryKey('ut_lp_defaults',array('type_id'));
 }
 
@@ -16609,7 +16609,7 @@ if(!$ilDB->tableExists('frm_posts_drafts'))
 			'notnull' => true,
 			'default' => 0
 		)
-	    
+
 	);
 
 	$ilDB->createTable('frm_posts_drafts', $fields);
@@ -16665,11 +16665,11 @@ if(!$ilDB->tableExists('frm_drafts_history'))
 			'notnull' => true
 		),
 		'draft_date' => array(
-			'type'    => 'timestamp',	
+			'type'    => 'timestamp',
 			'notnull' => true
-			)	
+			)
 	);
-	
+
 	$ilDB->createTable('frm_drafts_history', $fields);
 	$ilDB->addPrimaryKey('frm_drafts_history', array('history_id'));
 	$ilDB->createSequence('frm_drafts_history');
@@ -17447,7 +17447,7 @@ if( !$ilDB->tableExists('background_task') )
 			'notnull' => false
 		)
 	));
-	
+
 	$ilDB->addPrimaryKey('background_task', array('id'));
 	$ilDB->createSequence('background_task');
 }
@@ -17574,7 +17574,7 @@ if($mass_type_id) {
 	$custom_ops = array('edit_members' => 'Manage members');
 	$counter = 1;
 	foreach ($custom_ops as $ops_id => $ops_description) {
-		$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation($ops_id, $ops_description, 
+		$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation($ops_id, $ops_description,
 							'object', 8000 + $counter*100);
 		$counter++;
 		if($new_ops_id) {
@@ -17888,7 +17888,7 @@ if($bdga_ref_id)
 		" WHERE child = ".$ilDB->quote($bdga_ref_id, "int").
 		" AND tree.tree = ".$ilDB->quote(1, "int"));
 	$bdga_tree = $ilDB->fetchAssoc($set);
-	$bdga_tree = (int)$bdga_tree["parent"];	
+	$bdga_tree = (int)$bdga_tree["parent"];
 	if($bdga_tree != SYSTEM_FOLDER_ID)
 	{
 		$tree = new ilTree(ROOT_FOLDER_ID);
@@ -17951,7 +17951,7 @@ if ($ilDB->tableExists('il_verification_tmp'))
 			FROM il_verification
 			WHERE
 			id = ".$ilDB->quote($row['id'] ,'integer')." AND
-			type = ".$ilDB->quote($row['type'], 'text')							
+			type = ".$ilDB->quote($row['type'], 'text')
 		);
 		$data = $ilDB->fetchAssoc($res_data);
 
@@ -17988,7 +17988,7 @@ if( $ilDB->indexExistsByFields('il_verification', array('id')) )
 //step 4/5 il_verification adding primary key
 if($ilDB->tableExists('il_verification'))
 {
-	$ilDB->dropPrimaryKey('il_verification'); 
+	$ilDB->dropPrimaryKey('il_verification');
 	$ilDB->addPrimaryKey('il_verification', array('id', 'type'));
 }
 ?>
@@ -18117,7 +18117,7 @@ if( !$ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 		'notnull' => false,
 		'default' => null
 	));
-	
+
 	$ilDB->manipulate("UPDATE qpl_a_ordering SET order_position = solution_order");
 	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_order', 'solution_keyvalue');
 }
@@ -18227,16 +18227,16 @@ $ilDB->modifyTableColumn(
 			'type'    => 'integer', 'length'  => 4,
 			'notnull' => false, 'default' => null
 		));
-		
+
 		$ilDB->manipulate("UPDATE qpl_a_mterm SET ident = term_id WHERE ident IS NULL");
 	}
-	
+
 	if( !$ilDB->tableColumnExists('qpl_a_mdef', 'ident') )
 	{
 		require_once 'Services/Database/classes/class.ilDBAnalyzer.php';
 		$ilDB->renameTableColumn('qpl_a_mdef', 'morder', 'ident');
 	}
-	
+
 ?>
 <#5068>
 <?php
@@ -18269,7 +18269,7 @@ do
 	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
 			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') ';
 	$res = $ilDB->query($query);
-	
+
 	if(!$res->numRows())
 	{
 		break;
@@ -18299,7 +18299,7 @@ do
 						')';
 				$ilDB->manipulate($query);
 			}
-			
+
 			// find users which are assigned to obj_members and update their role assignment
 			$query = 'select usr_id from rbac_ua '.
 				'where rol_id = '.$ilDB->quote($rol_row->rol_id,'integer');
@@ -18314,18 +18314,18 @@ do
 					case 'il_grp_a':
 						$admin = 1;
 						break;
-					
+
 					case 'il_crs_t':
 						$tutor = 1;
 						break;
-					
+
 					default:
 					case 'il_grp_m':
 					case 'il_crs_m':
 						$member = 1;
 						break;
 				}
-				
+
 				$query = 'update obj_members '.
 						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
 						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.

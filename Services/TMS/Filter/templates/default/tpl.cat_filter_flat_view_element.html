@@ -1,0 +1,45 @@
+<div class="ilFloatLeft tms-filter-element" style="width:330px">
+	<div class="tms-filter-title">
+		<!-- BEGIN checkbox -->
+		<input type="checkbox" id="toggle_{FILTER_PATH}">
+		<!-- END checkbox -->
+		<label for="toggle_{FILTER_PATH}">{FILTER_TITLE}</label>
+	</div>
+	<div class="tms-filter-control" id="fi_{FILTER_PATH}">{FILTER_GUI}</div>
+	<div class="ilFormInfo">{FILTER_INFO}</div>
+</div>
+<!-- BEGIN multiselect -->
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		var $toggle = $('#toggle_{FILTER_PATH}');
+		var $parent = $('#fi_{FILTER_PATH}');
+		
+		var set_toggle_state = function() {
+				var num_all = $.find('input:checkbox[id^="filter__{FILTER_PATH}"]').length;
+				var num_checked = $.find('input:checkbox[id^="filter__{FILTER_PATH}"]:checked').length;
+				
+				if (0 === num_checked) {
+					$toggle.prop("checked", false);
+					$toggle.prop("indeterminate", false)
+				} else if (num_checked === num_all) {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", false)
+				} else {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", true)
+				}
+			}
+
+		set_toggle_state();
+
+		$parent.find('input:checkbox[id^="filter__{FILTER_PATH}"]').on("change", set_toggle_state);
+		$toggle.on('change', function() {
+			$parent.find('input:checkbox[id^="filter__{FILTER_PATH}"]').prop("checked", $toggle.prop("checked"));
+		});
+	});
+</script>
+<!-- END multiselect -->
+<!-- BEGIN single -->
+<div class="ilClearFloat"></div>
+<!-- END single -->

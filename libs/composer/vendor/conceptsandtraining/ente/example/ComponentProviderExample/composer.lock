@@ -1,0 +1,47 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "3d742255057590cad00d70c503624e2c",
+    "content-hash": "272e30e103e1ef82a667b67c718bb48c",
+    "packages": [
+        {
+            "name": "cat/ente",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "../../lib/",
+                "reference": "66f0059afe55352a187b7293f0c83658869f2452",
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CaT\\Ente\\": "src"
+                }
+            },
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Richard Klees",
+                    "email": "richard.klees@concepts-and-training.de"
+                }
+            ],
+            "description": "An entity component framework for PHP."
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "cat/ente": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

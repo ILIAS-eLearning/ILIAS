@@ -42,4 +42,19 @@ class Factory implements VC\Factory {
 	public function sortation(array $options) {
 		return new Sortation($options, $this->signal_generator);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function pagination() {
+		return new Pagination($this->signal_generator);
+	}
+
+	/**
+	* @inheritdoc
+	*/
+	public function quickfilter(array $options)
+	{
+		return new Quickfilter($options, $this->signal_generator);
+	}
 }

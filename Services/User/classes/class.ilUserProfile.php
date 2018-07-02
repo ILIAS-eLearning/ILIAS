@@ -698,6 +698,10 @@ class ilUserProfile
 					if (ilUserProfile::userSettingVisible($f))
 					{
 						$em = new ilEMailInputGUI($lng->txt($lv), "usr_".$f);
+						// cat-tms-patch start 735
+						$em->setMaxLength(140);
+						$em->setSize(140);
+						// cat-tms-patch end
 						if($a_user)
 						{
 							$em->setValue($a_user->$m());

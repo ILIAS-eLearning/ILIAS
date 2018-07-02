@@ -14,6 +14,9 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
+	// cat-tms-patch start
+	use \ILIAS\TMS\CourseCreation\CourseListGUIExtension;
+	// cat-tms-patch end 
 
 	/**
 	* initialisation
@@ -40,6 +43,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		// general commands array
 		include_once('Modules/Course/classes/class.ilObjCourseAccess.php');
 		$this->commands = ilObjCourseAccess::_getCommands();
+
+		// cat-tms-patch start
+		global $DIC;
+		$this->user = $DIC->user();
+		// cat-tms-patch end
 	}
 	
 	/**

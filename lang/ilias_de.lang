@@ -1557,8 +1557,8 @@ assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
-assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
-assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen. 
+assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden.
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
@@ -5443,6 +5443,10 @@ crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
+crs#:#event_tutor_source#:#Tutor
+crs#:#event_tutor_selection#:#Tutoren
+crs#:#event_tutor_source_manually#:#Eingabe
+crs#:#event_tutor_source_from_course#:#Aus dem Kurs
 crs#:#events#:#Sitzungen
 crs#:#export_members#:#Teilnehmerexport
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
@@ -7434,6 +7438,7 @@ prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
 prtf#:#prtf_first_page_title#:#Beginnt mit:
+prtf#:#prtf_font_color#:#Schriftfarbe###deprecated
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
@@ -8184,6 +8189,12 @@ search#:#search_user#:#Benutzer
 search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_users#:#Benutzer suchen
 search#:#until#:#bis
+sess#:#event_static_date#:#Festes Datum
+sess#:#event_relativ_to_crs_date#:#Relativ zum Veranstaltungszeitraum
+sess#:#event_start_time#:#Startzeit
+sess#:#event_end_time#:#Endzeit
+sess#:#event_days_offset#:#Veranstaltungstag
+sess#:#event_planer#:#Datum/Uhrzeit
 sess#:#sess_import#:#Sitzung importieren
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
@@ -9026,6 +9037,7 @@ survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
+survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!###deprecated
 survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschlüssel ist ungültig oder wurde bereits verwendet.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
@@ -14184,3 +14196,138 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+sess#:#preview_crs_title#:#Beispielkurs
+sess#:#preview_crs_status#:#In Bearbeitung
+sess#:#preview_crs_mark#:#Unbekannt
+sess#:#preview_crs_time_spent#:#1 Stunde und 10 Minuten
+crs#:#crs_mail_context_invitation_title#:#Einladungsmail an Kurs-Mitglieder
+crs#:#crs_mail_context_invitation_info#:#Einladungsmail für die Mitglieder eines Kurses.
+crs#:#crs_mail_context_automatic_title#:#Automatische Mail an Kurs-Mitglieder
+crs#:#crs_mail_context_automatic_info#:#Weitere, automatische Mails im Kontext des Kurses (Austritt, Absage, Storno, etc.)
+common#:#training_search#:#Trainingssuche
+tms#:#booking_not_possible#:#Ihre Buchung ist nicht möglich.
+tms#:#cutting_trainings#:#Folgendes, bereits gebuchte Training überschneidet sich mit dem Training:
+tms#:#info_can_storno#:#Hinweis: Über "Meine Trainings" können Sie eine Stornierung des bereits gebuchten Trainings durchführen.
+tms#:#venue#:#Veranstalter
+tms#:#report_filter#:#Filter
+tms#:#header#:#Trainingssuche
+tms#:#available_slots#:#freie Plätze
+tms#:#target_groups#:#Zielgruppen
+tms#:#goals#:#Ziele und Nutzen
+tms#:#topics#:#Trainingsthemen
+tms#:#detail_information#:#Details
+tms#:#location#:#Ort
+tms#:#date#:#Datum
+tms#:#fee#:#Kosten
+tms#:#book_course#:#Buchen
+tms#:#title#:#Titel
+tms#:#type#:#Trainingstyp
+tms#:#topic#:#Trainingsthema
+tms#:#target_group#:#Zielgruppe
+tms#:#city#:#Ort
+tms#:#provider#:#Anbieter
+tms#:#duration#:#Zeitraum
+tms#:#not_min_member#:#Nur Trainings anzeigen, deren Mindestteilnehmerzahl noch nicht erreicht wurde.
+tms#:#filter#:#Erweiterte Suche
+tms#:#search#:#Suchen
+tms#:#process_aborted#:#Der Vorgang wurde abgebrochen.
+common#:#cockpit#:#Cockpit
+tms#:#no_detail_infos#:#<strong><i>Es liegen keine weiteren Informationen zu diesem Angebot vor.</i></strong>
+tms#:#overview_header#:#Zusammenfassung
+tms#:#no_trainings_available#:#Derzeit stehen für Sie keine Trainings zur Buchung zur Verfügung.
+tms#:#waitinglist#:#Warteliste
+tms#:#member#:#Teilnehmer
+tms#:#placeholder_desc_current_user_salutation#:#Aktueller Benutzer, Anrede
+tms#:#placeholder_desc_current_user_firstName#:#Aktueller Benutzer, Vorname
+tms#:#placeholder_desc_current_user_lastName#:#Aktueller Benutzer, Nachname
+tms#:#placeholder_desc_current_user_login#:#Aktueller Benutzer, Login
+tms#:#placeholder_desc_current_user_email#:#Aktueller Benutzer, E-Mail
+tms#:#booked_on_waitinglist#:#gebucht auf Warteliste
+tms#:#booked_as_member#:#gebucht
+tms#:#sorting#:#Sortierung
+tms#:#booking#:#Buchung
+tms#:#canceling#:#Stornierung
+tms#:#cancel_overview_description#:#Bitte prüfen Sie die Angaben und schließen Sie die Stornierung ab.
+tms#:#booking_overview_description#:#Bitte prüfen Sie die Angaben und schließen Sie die Buchung ab.
+tms#:#booking_confirm#:#Verbindlich buchen
+tms#:#cancel_confirm#:#Verbindlich stornieren
+tms#:#trainer#:#Trainer
+tms#:#tms_filter_period_from#:#Anfang:
+tms#:#tms_filter_period_to#:#Ende:
+tms#:#employees#:#Mitarbeiter
+tms#:#booking_for#:#Buchung für %s
+tms#:#canceling_for#:#Stornierung für %s
+tms#:#s_title_asc#:#Titel: aufsteigend
+tms#:#s_title_desc#:#Titel: absteigend
+tms#:#s_period_asc#:#Zeitraum: aufsteigend
+tms#:#s_period_desc#:#Zeitraum: absteigend
+tms#:#s_city_asc#:#Ort: aufsteigend
+tms#:#s_city_desc#:#Ort: absteigend
+tms#:#t_user#:#Ansicht: Mitarbeiter
+tms#:#t_course#:#Ansicht: Kurs
+tms#:#show_all#:#Alle anzeigen
+tms#:#period#:#Zeitplan
+tms#:#time_suffix#:#Uhr
+tms#:#duplicate_course_booked#:#Ein Training dieser Vorlage ist bereits gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher nicht buchen. Sie können die Buchungen in der Übersicht ihrer gebuchten Trainings im Cockpit einsehen und dort ggf. Stornierungen vornehmen.
+tms#:#superior_duplicate_course_booked#:#Ein Training dieser Vorlage ist für %s bereits gebucht. Eine Buchung dieses Angebots ist daher nicht möglich. In Ihrem Cockpit können Sie über "Buchungen meiner Mitarbeiter" bereits gebuchte Trainings stornieren.
+tms#:#tutor_assignment_period#:#Trainereinsatztage
+tms#:#request_book#:#Buchungsanfrage
+tms#:#user_bookings#:#Buchungen
+tms#:#booked_user#:#Gebuchte Teilnehmer
+tms#:#waiting_user#:#Teilnehmer auf Warteliste
+tms#:#min_member#:#minimale Teilnehmerzahl
+tms#:#max_member#:#maximale Teilnehmerzahl
+tms#:#hide_breadcrumb#:#Navigation einschränken
+tms#:#hide_breadcrumb_info#:#Mit dieser Einstellung wird die Navigation nur bis zum Kurs angezeigt.
+tms#:#hide_menu_tree#:#Navigationsbaum ausblenden
+tms#:#hide_menu_tree_info#:#Mit dieser Einstellung wird der Navigationsbaum für den Benutzer ausgeblendet.
+tms#:#form_hours#:#Stunden
+tms#:#form_minutes#:#Minuten
+tms#:#form_seconds#:#Sekunden
+tms#:#to_course#:#Zum Training
+tms#:#booking_waiting#:#Buchung auf Warteliste
+tms#:#book_waiting_for#:#Buchung auf Warteliste für %s
+tms#:#book_waiting_confirm#:#Verbindlich auf Warteliste buchen
+tms#:#to_course_member_tab#:#Buchungen vornehmen
+tms#:#cancel_course#:#Training absagen
+tms#:#only_bookable#:#Nur buchbare Trainings
+tms#:#idd_relevant#:#Nur IDD relevante Trainings
+tms#:#placeholder_desc_user_salutation#:#Anrede des Benutzers
+tms#:#placeholder_desc_user_firstName#:#Vorname des Benutzers
+tms#:#placeholder_desc_user_lastName#:#Nachname des Benutzers
+tms#:#placeholder_desc_user_login#:#Login des Benutzers
+tms#:#placeholder_desc_ilias_ilias_url#:#ILIAS-URL
+tms#:#placeholder_desc_ilias_client_name#:#Name der ILIAS-Instanz
+tms#:#placeholder_desc_crs_title#:#Kurstitel
+tms#:#placeholder_desc_crs_link#:#Link zum Kurs
+tms#:#placeholder_desc_crs_schedule#:#Zeitplan des Kurses
+tms#:#placeholder_desc_crs_startdate#:#Startdatum des Kurses
+tms#:#placeholder_desc_crs_enddate#:#Enddatum des Kurses
+tms#:#placeholder_desc_crs_trainer_firstname#:#Vorname des Trainers am Kurs (Verwendung nur bei max. 1 gebuchten Trainer möglich)
+tms#:#placeholder_desc_crs_trainer_lastname#:#Nachname des Trainers am Kurs (Verwendung nur bei max. 1 gebuchten Trainer möglich)
+tms#:#placeholder_desc_crs_all_trainers#:# Vor- und Nachnamen aller Trainer am Kurs
+tms#:#placeholder_desc_crs_admin_firstname#:#Vorname des Admins am Kurs
+tms#:#placeholder_desc_crs_admin_lastname#:#Nachname des Admins am Kurs
+tms#:#placeholder_desc_crs_admin_mail#:#E-Mail des Admins am Kurs
+tms#:#placeholder_desc_crs_venue#:#Veranstaltungsort des Kurses
+tms#:#placeholder_desc_crs_venuename#:#Name des Veranstaltungsorts
+tms#:#placeholder_desc_crs_provider#:#Trainingsanbieter
+tms#:#placeholder_desc_crs_booking_link#:#Link zur Kursbuchung
+tms#:#placeholder_desc_reminder#:#Für Einladungsmails - wird nur bei Erinnerungen gesetzt.
+tms#:#tms_mailsubject_reminder#:#Erinnerung:
+tms#:#placeholder_desc_oac_reminder#:#Für Übernachtungsliste - wird nur bei Erinnerungen gesetzt.
+tms#:#placeholder_mailsubject_oac_reminder#:#Bestätigung:
+tms#:#booking_not_available#:#Sie haben nicht die Berechtigung dieses Training zu buchen. In der „Trainingssuche“ finden Sie die für Sie verfügbaren Trainings.
+tms#:#no_permissions_to_book#:#Sie haben keine Berechtigung dieses Training für sich oder einen anderen Benutzer zu buchen.
+tms#:#create_course_from_template#:#Kurs aus Vorlage erzeugen
+tms#:#choose_course_template#:#Vorlage auswählen
+tms#:#oclock#:#Uhr
+tms#:#create_course#:#Training anlegen
+tms#:#course_creation_message#:#Derzeit wird das Training "%s" für Sie angelegt. Die Anlage wird einige Minuten dauern. In dieser Zeit können keine weiteren Trainings angelegt werden. Sobald der Vorgang abgeschlossen ist, werden Sie per E-Mail informiert. Das Training ist im Anschluss in Ihrer "Meine Trainingsverwaltung" enthalten.
+tms#:#show_in_cockpit#:#In Cockpit anzeigen
+tms#:#filter_period_from#:#Von
+tms#:#filter_period_to#:#Bis
+tms#:#placeholder_desc_crs_members_count#:#Anzahl Teilnehmer (Trainer + Teilnehmer)
+search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#search_for_orgu_members_orgu#:#Organisationseinheit
+search#:#search_for_orgu_members_recursive#:#Darunterliegende einbeziehen?

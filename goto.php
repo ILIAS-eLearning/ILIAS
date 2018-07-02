@@ -75,8 +75,10 @@ if(!ilStartUpGUI::_checkGoto($_GET["target"]))
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
 		}
-	
-		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+
+		// cat-tms-patch start (879)
+		ilUtil::redirect('');
+		// cat-tms-patch end
 	}
 }
 

@@ -1,0 +1,97 @@
+diff --git a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php
+index 6b26859..6665488 100644
+--- a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php
++++ b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php
+@@ -232,7 +232,12 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
+        $form_add_building_block->getTemplate()->setVariable("BTN_CMD","toAddCrsBuildingBlock");
+        $form_add_building_block->getTemplate()->setVariable("BTN_VALUE",$this->lng->txt("gev_dec_training_add_building_block"));
+ 
+-       $building_block_json_link = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateBuildingBlockDataGUI", 'changeData', '', true);
++       try {
++           $building_block_json_link = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateBuildingBlockDataGUI", 'changeData', '', true);
++       }
++       catch (\ilCtrlException $e) {
++           $building_block_json_link = $this->ctrl->getLinkTargetByClass(["ilRepositoryGUI", "gevDecentralTrainingCreateBuildingBlockDataGUI"], 'changeData', '', true);
++       }
+        $form_add_building_block->getTemplate()->setVariable("BUILDING_BLOCK_JSON",$building_block_json_link);
+        $form_add_building_block->setFormAction($this->ctrl->getFormAction($this));
+        $form_add_building_block->setShowTopButtons(false);
+@@ -964,7 +969,12 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
+        $settings = gevSettings::getInstance();
+        $mail_utils = gevMailUtils::getInstance();
+ 
+-       $mail_preview_json = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateMailPreviewDataGUI", 'createPreviewData', '', true);
++       try {
++           $mail_preview_json = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateMailPreviewDataGUI", 'createPreviewData', '', true);
++       }
++       catch (\ilCtrlException $e) {
++           $mail_preview_json = $this->ctrl->getLinkTargetByClass(["ilRepositoryGUI", "gevDecentralTrainingCreateMailPreviewDataGUI"], 'createPreviewData', '', true);
++       }
+        $tpl->setVariable("MAIL_PREVIEW_JSON", $mail_preview_json);
+        
+        if($this->crs_ref_id !== null) {
+@@ -1029,4 +1039,4 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
+ 
+        return $start_date;
+    }
+-}
+\ No newline at end of file
++}
+diff --git a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateBuildingBlockDataGUI.php b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateBuildingBlockDataGUI.php
+index 2e937c9..d33f273 100644
+--- a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateBuildingBlockDataGUI.php
++++ b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateBuildingBlockDataGUI.php
+@@ -29,6 +29,10 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
+        }
+    }
+ 
++   // This makes ilRepositoryGUI happy.
++   public function setCreationMode($foo) {
++   }
++
+    public function changeData() {
+        $selected = $_GET["selected"];
+        if($_GET["type"] == 0) {
+@@ -63,4 +67,4 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
+        echo json_encode($data,JSON_FORCE_OBJECT);
+        exit;
+    }
+-}
+\ No newline at end of file
++}
+diff --git a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateMailPreviewDataGUI.php b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateMailPreviewDataGUI.php
+index c080dbf..fe13d21 100755
+--- a/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateMailPreviewDataGUI.php
++++ b/Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateMailPreviewDataGUI.php
+@@ -34,6 +34,10 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
+        }
+    }
+ 
++   // This makes ilRepositoryGUI happy.
++   public function setCreationMode($foo) {
++   }
++
+    protected function createPreviewData() {
+        if(isset($_GET["crs_ref_id"]) || isset($_GET["crs_template_id"])) {
+            $id = isset($_GET["crs_ref_id"]) ? $_GET["crs_ref_id"] : null;
+@@ -355,4 +359,4 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
+    function replaceLastNewLine(&$data_base) {
+        $data_base["ZIELE UND NUTZEN"] =  rtrim($data_base["ZIELE UND NUTZEN"],"\n");
+    }
+-}
+\ No newline at end of file
++}
+diff --git a/Services/Repository/classes/class.ilRepositoryGUI.php b/Services/Repository/classes/class.ilRepositoryGUI.php
+index f647092..11b4036 100755
+--- a/Services/Repository/classes/class.ilRepositoryGUI.php
++++ b/Services/Repository/classes/class.ilRepositoryGUI.php
+@@ -25,6 +25,8 @@ include_once("Services/Payment/classes/class.ilPaymentObject.php");
+ * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
+ * @ilCtrl_Calls ilRepositoryGUI: ilObjManualAssessmentGUI
+ * @ilCtrl_Calls ilRepositoryGUI: ilObjStudyProgrammeGUI
++* @ilCtrl_Calls ilRepositoryGUI: gevDecentralTrainingCreateMailPreviewDataGUI 
++* @ilCtrl_Calls ilRepositoryGUI: gevDecentralTrainingCreateBuildingBlockDataGUI
+ */
+ class ilRepositoryGUI
+ {
+

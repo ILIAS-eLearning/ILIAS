@@ -65,6 +65,16 @@ class ilAuthSession
 	 */
 	public function init()
 	{
+		/**
+		 * cat-tms-patch start
+		 */
+		// Do not run in unit testing context
+ 		if (stripos($_SERVER["SCRIPT_NAME"], "phpunit") !== false) {
+ 			return true;
+ 		}
+		/**
+		 * cat-tms-patch end
+		 */
 		session_start();
 		
 		$this->setId(session_id());

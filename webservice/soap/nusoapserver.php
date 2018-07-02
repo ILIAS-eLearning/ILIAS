@@ -31,6 +31,8 @@
 * @package ilias
 */
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+
 if (ILIAS_MODULE != "webservice/soap") {
     //direct call to this endpoint 
     chdir("../..");

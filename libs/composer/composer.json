@@ -25,7 +25,11 @@
 		"simplesamlphp/simplesamlphp": "1.15.3",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
-		"james-heinrich/getid3": "^1.9"
+		"james-heinrich/getid3": "^1.9",
+		"eluceo/ical": "^0.14.0",
+		"conceptsandtraining/ente": "^3.1",
+		"conceptsandtraining/lib-excel-wrapper": "^0.3.0",
+		"setasign/fpdf": "^1.8"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",

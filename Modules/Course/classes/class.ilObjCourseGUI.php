@@ -30,6 +30,19 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  */
 class ilObjCourseGUI extends ilContainerGUI
 {
+
+	// cat-tms-patch start
+	const INPUT_VENUE_SOURCE = "venue_source";
+	const INPUT_VENUE_TEXT = "venue_text";
+	const INPUT_VENUE_LIST = "venue_list";
+	// cat-tms-patch end
+
+	// cat-tms-patch start
+	const INPUT_PROVIDER_SOURCE = "provider_source";
+	const INPUT_PROVIDER_TEXT = "provider_text";
+	const INPUT_PROVIDER_LIST = "provider_list";
+	// cat-tms-patch end
+
 	/**
 	 * Constructor
 	 * @access public
@@ -266,6 +279,26 @@ class ilObjCourseGUI extends ilContainerGUI
 							   "<strong>".nl2br(
 							   ilUtil::makeClickable($this->object->getImportantInformation(), true)."</strong>"));
 		}
+
+		// cat-tms-patch start
+		// CourseClassification (plugin)
+		if(ilPluginAdmin::isPluginActive('xccl')) {
+			$cc_instances = $this->getChildrenOfByType(
+				$this->object->getRefId(),
+				'xccl'
+			);
+
+			if(count($cc_instances)!==0) {
+				$cc = array_shift($cc_instances);
+				$txt = $cc->txtClosure();
+				$info->addProperty($txt('goals'),
+					nl2br(ilUtil::makeClickable ($cc->getCourseClassification()->getGoals(),
+						true))
+				);
+			}
+		}
+		// cat-tms-patch end
+
 		if(strlen($this->object->getSyllabus()))
 		{
 			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
@@ -676,13 +709,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setRows(6);
 		$area->setCols(80);
 		$form->addItem($area);
-		
-		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
-		$area->setValue($this->object->getSyllabus());
-		$area->setRows(6);
-		$area->setCols(80);
-		$form->addItem($area);
-		
+
+		// cat-tms-patch start
+		// course classification (plugin)
+		$cc_instances = $this->getChildrenOfByType(
+			$this->object->getRefId(),
+			'xccl'
+		);
+		if(count($cc_instances)===0 || ilPluginAdmin::isPluginActive('xccl') === false) {
+			$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
+			$area->setValue($this->object->getSyllabus());
+			$area->setRows(6);
+			$area->setCols(80);
+			$form->addItem($area);
+		}
+		// cat-tms-patch end
+
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
 		$form->addItem($section);
@@ -690,42 +732,102 @@ class ilObjCourseGUI extends ilContainerGUI
 		$file = new ilFileInputGUI($this->lng->txt('crs_file'),'file');
 		$file->enableFileNameSelection('file_name');
 		$form->addItem($file);
-		
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('crs_contact'));
-		$form->addItem($section);
-		
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
-		$text->setValue($this->object->getContactName());
-		$text->setSize(40);
-		$text->setMaxLength(70);
-		$form->addItem($text);
-		
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
-		$text->setValue($this->object->getContactResponsibility());
-		$text->setSize(40);
-		$text->setMaxLength(70);
-		$form->addItem($text);
 
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
-		$text->setValue($this->object->getContactPhone());
-		$text->setSize(40);
-		$text->setMaxLength(40);
-		$form->addItem($text);
+		// cat-tms-patch start
+		// course classification (plugin)
+		if(count($cc_instances)===0 || ilPluginAdmin::isPluginActive('xccl') === false) {
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('crs_contact'));
+			$form->addItem($section);
 
-		$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
-		$text->setValue($this->object->getContactEmail());
-		$text->setInfo($this->lng->txt('crs_contact_email_info'));
-		$text->setSize(40);
-		$text->setMaxLength(255);
-		$form->addItem($text);
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
+			$text->setValue($this->object->getContactName());
+			$text->setSize(40);
+			$text->setMaxLength(70);
+			$form->addItem($text);
 
-		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
-		$area->setValue($this->object->getContactConsultation());
-		$area->setRows(6);
-		$area->setCols(80);
-		$form->addItem($area);
-		
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
+			$text->setValue($this->object->getContactResponsibility());
+			$text->setSize(40);
+			$text->setMaxLength(70);
+			$form->addItem($text);
+
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
+			$text->setValue($this->object->getContactPhone());
+			$text->setSize(40);
+			$text->setMaxLength(40);
+			$form->addItem($text);
+
+			$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
+			$text->setValue($this->object->getContactEmail());
+			$text->setInfo($this->lng->txt('crs_contact_email_info'));
+			$text->setSize(40);
+			$text->setMaxLength(255);
+			$form->addItem($text);
+
+			$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
+			$area->setValue($this->object->getContactConsultation());
+			$area->setRows(6);
+			$area->setCols(80);
+			$form->addItem($area);
+		}
+		// cat-tms-patch end
+
+		// cat-tms-patch start
+		// provider (plugin)
+		if(ilPluginAdmin::isPluginActive('trainingprovider')) {
+			$pplug = ilPluginAdmin::getPluginObjectById('trainingprovider');
+			$pactions = $pplug->getActions();
+			$plugin_txt = $pplug->txtClosure();
+
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($plugin_txt('crs_info_provider'));
+			$form->addItem($section);
+
+			//build options for select-input
+			$provider = $pactions->getAllProviders('name', 'ASC');
+			$poptions = array(null => $plugin_txt("please_select"));
+			foreach ($provider as $p) {
+				$poptions[$p->getId()] = $p->getName() .', ' .$p->getCity();
+			}
+			$provider_opts = new ilRadioGroupInputGUI($plugin_txt('crs_provider_source'), self::INPUT_PROVIDER_SOURCE);
+
+			//create inputs
+			$provider_opt_text = new ilRadioOption($plugin_txt('crs_provider_source_text'), ilCourseConstants::PROVIDER_FROM_TEXT);
+			$provider_opt_text_inp = new ilTextAreaInputGUI($plugin_txt('crs_provider_text'), self::INPUT_PROVIDER_TEXT);
+			$provider_opt_text_inp->setRows(6);
+			$provider_opt_text_inp->setCols(80);
+			$provider_opt_text->addSubItem($provider_opt_text_inp);
+
+			$provider_opt_list = new ilRadioOption($plugin_txt('crs_provider_source_list'), ilCourseConstants::PROVIDER_FROM_LIST);
+			$provider_opt_list_inp = new ilSelectInputGUI($plugin_txt('crs_provider_list'), self::INPUT_PROVIDER_LIST);
+			$provider_opt_list_inp->setOptions($poptions);
+			$provider_opt_list->addSubItem($provider_opt_list_inp);
+
+			//set values
+			$passignment_type = ilCourseConstants::PROVIDER_FROM_LIST; //default
+			$passignment = $pactions->getAssignment((int)$this->object->getId());
+
+			if($passignment) {
+				if($passignment->isCustomAssignment()) {
+						$passignment_type = ilCourseConstants::PROVIDER_FROM_TEXT;
+						$provider_opt_text_inp->setValue($passignment->getProviderText());
+				}
+
+				if($passignment->isListAssignment()) {
+						$passignment_type = ilCourseConstants::PROVIDER_FROM_LIST;
+						$provider_opt_list_inp->setValue($passignment->getProviderId());
+				}
+			}
+			$provider_opts->setValue($passignment_type);
+
+			//add options to form
+			$provider_opts->addOption($provider_opt_text);
+			$provider_opts->addOption($provider_opt_list);
+			$form->addItem($provider_opts);
+		}
+		// cat-tms-patch end
+
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
 		$this->record_gui->setPropertyForm($form);
@@ -789,23 +891,72 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->editInfoObject($form);
 			return false;
 		}
-		
+
+		// cat-tms-patch start
+		// provider (plugin)
+		if(ilPluginAdmin::isPluginActive('trainingprovider')) {
+			$pplug = ilPluginAdmin::getPluginObjectById('trainingprovider');
+			$pactions = $pplug->getActions();
+
+			$passignment = $pactions->getAssignment((int)$this->object->getId());
+
+			switch($form->getInput(self::INPUT_PROVIDER_SOURCE)) {
+
+				case ilCourseConstants::PROVIDER_FROM_TEXT:
+					if($passignment && $passignment->isCustomAssignment()) {
+						$passignment = $passignment->withProviderText($form->getInput(self::INPUT_PROVIDER_TEXT));
+
+
+						$pactions->updateAssignment($passignment);
+					} else {
+						$pactions->removeAssignment((int)$this->object->getId());
+						$passignment = $pactions->createCustomProviderAssignment(
+							(int)$this->object->getId(),
+							$form->getInput(self::INPUT_PROVIDER_TEXT)
+						);
+					}
+					break;
+
+				case ilCourseConstants::PROVIDER_FROM_LIST:
+					$selected_provider = $form->getInput(self::INPUT_PROVIDER_LIST);
+
+					if($selected_provider === "") {
+						$pactions->removeAssignment((int)$this->object->getId());
+					} else {
+						if($passignment && $passignment->isListAssignment()) {
+							$passignment = $passignment->withProviderId((int)$selected_provider);
+							$pactions->updateAssignment($passignment);
+						} else {
+							$pactions->removeAssignment((int)$this->object->getId());
+							$passignment = $pactions->createListProviderAssignment(
+								(int)$this->object->getId(),
+								(int)$selected_provider
+							);
+						}
+					}
+
+					break;
+			}
+		}
+		// cat-tms-patch end
+
 		$this->object->update();
 		$file_obj->create();
 		$this->record_gui->writeEditForm();
-		
-		
+
+
+
 		// Update ecs content
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);
 		$ecs->handleContentUpdate();
-	
+
 		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
 	}
 
-	
+
 	/**
 	 * Update course settings
 	 * @global type $ilUser
@@ -972,9 +1123,58 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->handleAutoFill();
 		}
+
+		// cat-tms-patch start
+
+		// venues (plugin)
+		if(ilPluginAdmin::isPluginActive('venues')) {
+			$vplug = ilPluginAdmin::getPluginObjectById('venues');
+			$vactions = $vplug->getActions();
+
+			$vassignment = $vactions->getAssignment((int)$this->object->getId());
+
+			switch($form->getInput(self::INPUT_VENUE_SOURCE)) {
+
+				case ilCourseConstants::VENUE_FROM_TEXT:
+					if($vassignment && $vassignment->isCustomAssignment()) {
+						$vassignment = $vassignment->withVenueText($form->getInput(self::INPUT_VENUE_TEXT));
+						$vactions->updateAssignment($vassignment);
+					} else {
+						$vactions->removeAssignment((int)$this->object->getId());
+						$vassignment = $vactions->createCustomVenueAssignment(
+							(int)$this->object->getId(),
+							$form->getInput(self::INPUT_VENUE_TEXT)
+						);
+					}
+					break;
+
+				case ilCourseConstants::VENUE_FROM_LIST:
+					$selected_assignment = $form->getInput(self::INPUT_VENUE_LIST);
+					if($selected_assignment === "") {
+						$vactions->removeAssignment((int)$this->object->getId());
+					} else {
+						if($vassignment && $vassignment->isListAssignment()) {
+							$vassignment = $vassignment->withVenueId((int)$selected_assignment);
+							$vactions->updateAssignment($vassignment);
+						} else {
+							$vactions->removeAssignment((int)$this->object->getId());
+							$vassignment = $vactions->createListVenueAssignment(
+								(int)$this->object->getId(),
+								(int)$selected_assignment
+							);
+						}
+					}
+
+					break;
+			}
+
+		}
+
+		// cat-tms-patch end
+
 		$this->object->update();
-		
-		
+
+
 		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 			$this->object->getId(),
@@ -982,35 +1182,33 @@ class ilObjCourseGUI extends ilContainerGUI
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::USE_NEWS,
-				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-				ilObjectServiceSettingsGUI::BADGES,
-				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-				ilObjectServiceSettingsGUI::SKILLS
+				ilObjectServiceSettingsGUI::BADGES
 			)
 		);
-		
+
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		global $ilUser;
 		ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
+		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 
 		// lp sync confirmation required
 		if($show_lp_sync_confirmation)
 		{
 			return $this->confirmLPSync();
 		}
-		
+
 		// Update ecs export settings
-		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
-		$ecs = new ilECSCourseSettings($this->object);			
+		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
+		$ecs = new ilECSCourseSettings($this->object);
 		if(!$ecs->handleSettingsUpdate())
 		{
 			$form->setValuesByPost();
 			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
 			return $this->editObject($form);
-		}			
+		}
 
 		return $this->afterUpdate();
 	}
@@ -1112,10 +1310,64 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getCourseStart())
 		{
 			$cdur->setEnd($this->object->getCourseEnd());
-		}	
-		$form->addItem($cdur);			
-		
-			
+		}
+		$form->addItem($cdur);
+
+
+		// cat-tms-patch start
+
+		// venues (plugin)
+		if(ilPluginAdmin::isPluginActive('venues')) {
+			$vplug = ilPluginAdmin::getPluginObjectById('venues');
+			$vactions = $vplug->getActions();
+			$plugin_txt = $vplug->txtClosure();
+
+			//build options for select-input
+			$venues = $vactions->getAllVenues('name', 'ASC', null);
+			$voptions = array(null => $plugin_txt("please_select"));
+			foreach ($venues as $v) {
+				$voptions[$v->getGeneral()->getId()] = $v->getGeneral()->getName() .', ' .$v->getAddress()->getCity();
+			}
+			$venue_opts = new ilRadioGroupInputGUI($plugin_txt('crs_venue_source'), self::INPUT_VENUE_SOURCE);
+
+			//create inputs
+			$venue_opt_text = new ilRadioOption($plugin_txt('crs_venue_source_text'), ilCourseConstants::VENUE_FROM_TEXT);
+			$venue_opt_text_inp = new ilTextAreaInputGUI($plugin_txt('crs_venue_text'), self::INPUT_VENUE_TEXT);
+			$venue_opt_text_inp->setRows(6);
+			$venue_opt_text_inp->setCols(80);
+			$venue_opt_text->addSubItem($venue_opt_text_inp);
+
+			$venue_opt_list = new ilRadioOption($plugin_txt('crs_venue_source_list'), ilCourseConstants::VENUE_FROM_LIST);
+			$venue_opt_list_inp = new ilSelectInputGUI($plugin_txt('crs_venue_list'), self::INPUT_VENUE_LIST);
+			$venue_opt_list_inp->setOptions($voptions);
+			$venue_opt_list->addSubItem($venue_opt_list_inp);
+
+			//set values
+			$vassignment_type = ilCourseConstants::VENUE_FROM_LIST; //default
+			$vassignment = $vactions->getAssignment((int)$this->object->getId());
+
+			if($vassignment) {
+				if($vassignment->isCustomAssignment()) {
+						$vassignment_type = ilCourseConstants::VENUE_FROM_TEXT;
+						$venue_opt_text_inp->setValue($vassignment->getVenueText());
+				}
+
+				if($vassignment->isListAssignment()) {
+						$vassignment_type = ilCourseConstants::VENUE_FROM_LIST;
+						$venue_opt_list_inp->setValue($vassignment->getVenueId());
+				}
+			}
+			$venue_opts->setValue($vassignment_type);
+
+			//add options to form
+			$venue_opts->addOption($venue_opt_text);
+			$venue_opts->addOption($venue_opt_list);
+			$form->addItem($venue_opts);
+		}
+
+		// cat-tms-patch end
+
+
 		// activation/availability
 		
 		$this->lng->loadLanguageModule('rep');
@@ -3499,6 +3751,38 @@ class ilObjCourseGUI extends ilContainerGUI
 	function setSideColumnReturn()
 	{
 		$this->ctrl->setReturn($this, "view");
+	}
+
+	// cat-tms-patch start
+	/**
+	 * Get all children of type below ref id
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$plugin_type
+	 *
+	 * @return Object[] of plugin type
+	 */
+	protected function getChildrenOfByType($ref_id, $plugin_type) {
+		$ret = array();
+
+		global $DIC;
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
+
+		$childs = $tree->getChilds($ref_id);
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $plugin_type) {
+				$ret[] = \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($objDefinition->isContainer($type)) {
+				$ret2 = $this->getChildrenOfByType($child["child"], $plugin_type);
+				$ret = array_merge($ret, $ret2);
+			}
+		}
+
+		return $ret;
 	}
 
 

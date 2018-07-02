@@ -22,6 +22,9 @@
 */
 
 include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
+// cat-tms-patch start
+include_once "./Services/TMS/Certificate/classes/class.ilTMSCertificatePlaceholders.php";
+// cat-tms-patch end
 
 /**
 * Test certificate adapter
@@ -34,7 +37,14 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 {
 	protected $object;
 	protected static $has_certificate = array();
-	
+
+	// cat-tms-patch start
+	/**
+	 * @var \ilTMSCertificatePlaceholders
+	 */
+	protected $tms_adapter;
+	// cat-tms-patch end
+
 	/**
 	* ilTestCertificateAdapter contructor
 	*
@@ -44,6 +54,15 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	{
 		$this->object = $object;
 		parent::__construct();
+
+		// cat-tms-patch start
+		global $DIC;
+		$this->g_lng = $DIC->language();
+		$this->g_lng->loadLanguageModule("tms");
+		$this->g_db = $DIC->database();
+		$this->g_tree = $DIC->repositoryTree();
+		$this->g_objDefinition = $DIC["objDefinition"];
+		// cat-tms-patch end
 	}
 
 	/**
@@ -66,7 +85,11 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	{
 		$vars = $this->getBaseVariablesForPreview(false);
 		$vars["COURSE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
-		
+
+		// cat-tms-patch start
+		$vars = array_merge($vars, $this->getTMSVariablesForPreview());
+		// cat-tms-patch end
+
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{
@@ -95,7 +118,11 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
 		$vars["COURSE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
-		
+
+		// cat-tms-patch start
+		$vars = array_merge($vars, $this->getTMSVariablesForPresentation((int)$user_id));
+		// cat-tms-patch end
+
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{
@@ -114,7 +141,11 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	{
 		$vars = $this->getBaseVariablesDescription(false);
 		$vars["COURSE_TITLE"] = $this->lng->txt("crs_title");
-				
+
+		// cat-tms-patch start
+		$vars = array_merge($vars, $this->getTMSVariablesDescription());
+		// cat-tms-patch end
+
 		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
 		$template->setCurrentBlock("items");
 		foreach($vars as $id => $caption)
@@ -213,6 +244,116 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		}
 		return false;
 	}
+
+	// cat-tms-patch start
+	/**
+	 * Get all tms placeholder for description
+	 *
+	 * @return string[]
+	 */
+	protected function getTMSVariablesDescription() {
+		$ret = array();
+		$ret["COURSE_TYPE"] = $this->g_lng->txt("pl_course_type");
+		$ret["COURSE_STARTDATE"] = $this->g_lng->txt("pl_course_start_date");
+		$ret["COURSE_ENDDATE"] = $this->g_lng->txt("pl_course_start_date");
+		$ret["IDD_TIME"] = $this->g_lng->txt("pl_idd_learning_time");
+		$ret["IDD_USER_TIME"] = $this->g_lng->txt("pl_idd_learning_time_user");
+		return $ret;
+	}
+
+	/**
+	 * Get preview values for tms placeholder
+	 *
+	 * @return string[]
+	 */
+	protected function getTMSVariablesForPreview() {
+		$ret = array();
+		$ret["COURSE_STARTDATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 10), IL_CAL_UNIX));
+		$ret["COURSE_ENDDATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));
+		$ret["COURSE_TYPE"] = $this->g_lng->txt("pl_course_type_preview");
+		$ret["IDD_TIME"] = $this->g_lng->txt("pl_idd_learning_time_preview");
+		$ret["IDD_USER_TIME"] = $this->g_lng->txt("pl_idd_learning_time_user_preview");
+		return $ret;
+	}
+
+	/**
+	 * Get real values for print
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return string[]
+	 */
+	protected function getTMSVariablesForPresentation($user_id) {
+		assert('is_int($user_id)');
+		$ret = array();
+		$crs_ref_id = $this->object->getRefId();
+
+		$crs_start = $this->object->getCourseStart();
+		if($crs_start === null) {
+			$ret["COURSE_STARTDATE"] = null;
+			$ret["COURSE_ENDDATE"] = null;
+		} else {
+			$crs_end = $this->object->getCourseEnd();
+			$ret["COURSE_STARTDATE"] = ilDatePresentation::formatDate($crs_start);
+			$ret["COURSE_ENDDATE"] = ilDatePresentation::formatDate($crs_end);
+		}
+
+		$course_classification = $this->getFirstChildOfByType($crs_ref_id, "xccl");
+		$cc_actions = $course_classification->getActions();
+		$ret["COURSE_TYPE"] = array_shift($cc_actions->getTypeName($course_classification->getCourseClassification()->getType()));
+
+		$edu_tracking = $this->getFirstChildOfByType($crs_ref_id, "xetr");
+		$et_action = $edu_tracking->getActionsFor("IDD");
+		$ret["IDD_TIME"] = $this->transformIDDLearningTimeToString($et_action->select()->getMinutes())." ".$this->g_lng->txt("form_hours");
+
+		$course_member = $this->getFirstChildOfByType($crs_ref_id, "xcmb");
+		$ret["IDD_USER_TIME"] = $this->transformIDDLearningTimeToString($course_member->getMinutesFor($user_id))." ".$this->g_lng->txt("form_hours");
+
+		return $ret;
+	}
+
+	/**
+	 * Transforms the idd minutes into printable string
+	 *
+	 * @param int 	$minutes
+	 *
+	 * @return string
+	 */
+	protected function transformIDDLearningTimeToString($minutes)
+	{
+		$hours = floor($minutes / 60);
+		$minutes = $minutes - $hours * 60;
+		return str_pad($hours, "2", "0", STR_PAD_LEFT).":".str_pad($minutes, "2", "0", STR_PAD_LEFT);
+	}
+
+	/**
+	 * Get first child by type recursive
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$search_type
+	 *
+	 * @return Object 	of search type
+	 */
+	protected function getFirstChildOfByType($ref_id, $search_type) {
+		$childs = $this->g_tree->getChilds($ref_id);
+
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $search_type) {
+				return \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($this->g_objDefinition->isContainer($type)) {
+				$ret = $this->getFirstChildOfByType($child["child"], $search_type);
+				if(! is_null($ret)) {
+					return $ret;
+				}
+			}
+		}
+
+		return null;
+	}
+	// cat-tms-patch end
 
 }
 

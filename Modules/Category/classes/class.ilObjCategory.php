@@ -3,6 +3,10 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Container/classes/class.ilContainer.php";
+// cat-tms-patch start (1101)
+require_once("Services/TMS/Category/ilObjCategoryExtension.php");
+require_once("Services/TMS/Category/Settings.php");
+// cat-tms-patch end
 
 
 /** @defgroup ModulesCategory Modules/Category
@@ -18,6 +22,15 @@ require_once "./Services/Container/classes/class.ilContainer.php";
 */
 class ilObjCategory extends ilContainer
 {
+	// cat-tms-patch start (1101)
+	use ilObjCategoryExtension;
+
+	/**
+	 * @var \Settings
+	 */
+	protected $tms_settings;
+	// cat-tms-patch end
+
 	/**
 	* Constructor
 	* @access	public
@@ -47,6 +60,10 @@ class ilObjCategory extends ilContainer
 		$ilDB = $this->db;
 		$ilAppEventHandler = $this->app_event_handler;
 		
+		// cat-tms-patch start (1101)
+		$this->deleteTMSSettings();
+		// cat-tms-patch end
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -70,7 +87,7 @@ class ilObjCategory extends ilContainer
 				$tax->delete();
 			}
 		}
-		
+
 		$ilAppEventHandler->raise('Modules/Category',
 			'delete',
 			array('object' => $this,
@@ -191,6 +208,10 @@ class ilObjCategory extends ilContainer
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
 
+		// cat-tms-patch start (1101)
+		$this->updateNewObjectSettings($new_obj);
+		// cat-tms-patch end
+
 	 	return $new_obj;
 	}
 	
@@ -260,6 +281,5 @@ class ilObjCategory extends ilContainer
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
 	}
-	
 } // END class.ilObjCategory
 ?>

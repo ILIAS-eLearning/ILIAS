@@ -200,36 +200,55 @@ class ilObjSessionListGUI extends ilObjectListGUI
 				);
 			}
 			$has_new_line = false;
-			if(strlen($session_data['name']))
+
+			// cat-tms-patch start
+			if($session_data['tutor_source'] == ilObjSession::TUTOR_CFG_FROMCOURSE)
 			{
-				$props[] = array(
-					'alert'		=> false,
-					'property'	=> $this->lng->txt('event_lecturer'),
-					'value'		=> $session_data['name'],
-					'newline'	=> true
-				);
-				$has_new_line = true;				
+				if(count($session_data['tutor']['name']) > 0)
+				{
+					$props[] = array(
+						'alert'		=> false,
+						'property'	=> $this->lng->txt('event_lecturer'),
+						'value'		=> implode(", ", $session_data['tutor']['name']),
+						'newline'	=> true
+					);
+					$has_new_line = true;
+				}
 			}
-			if(strlen($session_data['email']))
+			else
 			{
-				$props[] = array(
-					'alert'		=> false,
-					'property'	=> $this->lng->txt('tutor_email'),
-					'value'		=> $session_data['email'],
-					'newline'	=> $has_new_line ? false : true
-				);
-				$has_new_line = true;				
+				if(strlen($session_data['name']))
+				{
+					$props[] = array(
+						'alert'		=> false,
+						'property'	=> $this->lng->txt('event_lecturer'),
+						'value'		=> $session_data['name'],
+						'newline'	=> true
+					);
+					$has_new_line = true;
+				}
+				if(strlen($session_data['email']))
+				{
+					$props[] = array(
+						'alert'		=> false,
+						'property'	=> $this->lng->txt('tutor_email'),
+						'value'		=> $session_data['email'],
+						'newline'	=> $has_new_line ? false : true
+					);
+					$has_new_line = true;
+				}
+				if(strlen($session_data['phone']))
+				{
+					$props[] = array(
+						'alert'		=> false,
+						'property'	=> $this->lng->txt('tutor_phone'),
+						'value'		=> $session_data['phone'],
+						'newline'	=> $has_new_line ? false : true
+					);
+					$has_new_line = true;
+				}
 			}
-			if(strlen($session_data['phone']))
-			{
-				$props[] = array(
-					'alert'		=> false,
-					'property'	=> $this->lng->txt('tutor_phone'),
-					'value'		=> $session_data['phone'],
-					'newline'	=> $has_new_line ? false : true
-				);
-				$has_new_line = true;	
-			}
+			// cat-tms-patch end
 		}
 
 		return $props;

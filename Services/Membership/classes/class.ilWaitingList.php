@@ -116,12 +116,17 @@ abstract class ilWaitingList
 	 */
 	public static function deleteUserEntry($a_usr_id, $a_obj_id)
 	{
-		global $ilDB;
-		
+		global $ilDB, $DIC;
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
+
 		$query = "DELETE FROM crs_waiting_list ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
 			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer');
 		$ilDB->query($query);
+
+		$payload = array("obj_id" => $a_obj_id, "usr_id" => $a_usr_id);
+		$ilAppEventHandler->raise("Services/Membership", "removeFromList", $payload);
+
 		return true;
 	}
 	
@@ -191,13 +196,17 @@ abstract class ilWaitingList
 	 */
 	public function removeFromList($a_usr_id)
 	{
-		global $ilDB;
+		global $ilDB, $DIC;
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
 		
 		$query = "DELETE FROM crs_waiting_list ".
 			" WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
 			" AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		$this->read();
+
+		$payload = array("obj_id" => $this->getObjId(), "usr_id" => $a_usr_id);
+		$ilAppEventHandler->raise("Services/Membership", "removeFromList", $payload);
 
 		return true;
 	}
@@ -367,5 +376,30 @@ abstract class ilWaitingList
 		return true;
 	}
 
+	// cat-tms-patch start
+	/**
+	 * Get all crs ids where user is on waiting list
+	 *
+	 * @param int 	$a_usr_id
+	 *
+	 * @return int[]
+	 */
+	public static function getIdsWhereUserIsOnList($a_usr_id)
+	{
+		global $ilDB;
+		$ret = array();
+
+		$query = "SELECT obj_id ".
+			"FROM crs_waiting_list ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id, 'integer');
+
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[] = (int)$row["obj_id"];
+		}
+
+		return $ret;
+	}
+	// cat-tms-patch end
 }
 ?>

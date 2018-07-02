@@ -1891,6 +1891,10 @@ class ilObject
 		{
 			ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
 		}
+
+		// cat-tms-patch start
+		$this->insertCopyMappingInfoToDB($new_obj);
+		// cat-tms-patch end
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		ilAdvancedMDValues::_cloneValues($this->getId(),$new_obj->getId());
@@ -1910,6 +1914,25 @@ class ilObject
 
 		return $new_obj;
 	}
+
+	// cat-tms-patch start
+
+	/**
+	 * Inserts copy-mapping info to database.
+	 *
+	 * @param	\ilObject	$new_object
+	 * @return	void
+	 */
+	protected function insertCopyMappingInfoToDB(\ilObject $new_object) {
+		global $DIC;
+		$db = $DIC["ilDB"];
+		$db->insert("copy_mappings",
+			[ "obj_id" => ["integer", $new_object->getId()]
+			, "source_id" => ["integer", $this->getId()]
+			]);
+	}
+
+	// cat-tms-patch end
 	
 	/**
 	 * Prepend Copy info if object with same name exists in that container
