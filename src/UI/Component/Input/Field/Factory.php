@@ -214,8 +214,10 @@ interface Factory {
 	 *     A textarea is intended for entering multi-line texts.
 	 *   composition: >
 	 *      Textarea fields will render an textarea HTML tag.
+	 *      If a limit is set, a byline about limitation is automatically set.
 	 *   effect: >
 	 *      Textarea inputs are NOT restricted to one line of text.
+	 *      A textarea counts the amount of character input by user and displays the number.
 	 *   rivals:
 	 *      text field: Use a text field if users should input only one line of text.
 	 *      numeric field: Use a numeric field if users should input numbers.
@@ -234,6 +236,9 @@ interface Factory {
 	 *     4: >
 	 *         Textare Input MUST NOT be used for single-line input, a Text Field
 	 *         is to be used instead.
+	 *     5: >
+	 *         If a min. or max. number of characters is set for textarea, a byline MUST
+	 *         be added stating the number of min. and/or max. characters.
 	 *   interaction:
 	 *     1: >
 	 *         Textarea Input MAY limit the number of characters, if a certain length
