@@ -43,7 +43,7 @@ trait Triggerer {
 	 * @param string $event
 	 * @return $this
 	 */
-	protected function addTriggeredSignal(Component\Signal $signal, $event) {
+	protected function withTriggeredSignal(Component\Signal $signal, $event) {
 		$clone = clone $this;
 		$clone->setTriggeredSignal($signal, $event);
 		return $clone;
