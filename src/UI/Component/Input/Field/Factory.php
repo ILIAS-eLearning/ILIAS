@@ -244,11 +244,17 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A select is used to allow users to pick among a number of options
+	 *     A select is used to allow users to pick among a number of options.
 	 *   composition: >
 	 *     Select field will render a select-tag with a number of options.
 	 *   effect: >
 	 *     Only one option is selectable.
+	 *   rivals:
+	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
+	 *     Radio buttons: >
+	 *       Use radio buttons when the alternatives matter. When is wanted to user
+	 *       to see what they are not choosing.
+	 *       If it is a long list or the alternatives are not that important, use a select.
 	 *
 	 * rules:
 	 *   usage:
