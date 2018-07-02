@@ -60,6 +60,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Password) {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
+		} else if ($input instanceof Component\Input\Field\Select) {
+			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -256,15 +258,57 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputField(Template $tpl, Input $input, $id) {
 		$tpl->setVariable("NAME", $input->getName());
 
-		if ($input->getValue() !== null) {
-			$tpl->setCurrentBlock("value");
-			$tpl->setVariable("VALUE", $input->getValue());
-			$tpl->parseCurrentBlock();
+		//Select input
+		if($input instanceof Select)
+		{
+			$value = $input->getValue();
+			if($input->hasFirstOptionDisabled())
+			{
+				$tpl->setCurrentBlock("options");
+				if(!$value)
+				{
+					$tpl->setVariable("SELECTED", "selected");
+				}
+				$tpl->setVariable("DISABLED", "disabled");
+				$tpl->setVariable("VALUE", "");
+				$tpl->setVariable("VALUE_STR", "Choose one option");
+				$tpl->parseCurrentBlock();
+			}
+			foreach ($input->getOptions() as $option_key => $option_value)
+			{
+				$tpl->setCurrentBlock("options");
+				if($value == $option_key)
+				{
+					$tpl->setVariable("SELECTED", "selected");
+				}
+				$tpl->setVariable("VALUE", $option_key);
+				$tpl->setVariable("VALUE_STR", $option_value);
+				$tpl->parseCurrentBlock();
+			}
+
+			/* //if decided to use this "has None option" feature.
+			if($input->hasNoneOption())
+			{
+				$tpl->setCurrentBlock("options");
+				$tpl->setVariable("VALUE", 0);
+				$tpl->setVariable("VALUE_STR", "None");
+				$tpl->parseCurrentBlock();
+			}
+			*/
+
 		}
-		if ($id) {
-			$tpl->setCurrentBlock("id");
-			$tpl->setVariable("ID", $id);
-			$tpl->parseCurrentBlock();
+		else //all other inputs
+		{
+			if ($input->getValue() !== null) {
+				$tpl->setCurrentBlock("value");
+				$tpl->setVariable("VALUE", $input->getValue());
+				$tpl->parseCurrentBlock();
+			}
+			if ($id) {
+				$tpl->setCurrentBlock("id");
+				$tpl->setVariable("ID", $id);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		return $tpl->get();
@@ -282,7 +326,8 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
 			Component\Input\Field\DependantGroup::class,
-			Component\Input\Field\Password::class
+			Component\Input\Field\Password::class,
+			Component\Input\Field\Select::class
 		];
 	}
 }
