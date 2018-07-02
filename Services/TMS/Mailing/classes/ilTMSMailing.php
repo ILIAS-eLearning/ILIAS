@@ -58,8 +58,12 @@ class ilTMSMailing implements Mailing\Actions {
 	 */
 	public function getStandardSender() {
 		require_once('./Services/TMS/Mailing/classes/class.ilTMSMailRecipient.php');
-		require_once './Services/Mail/classes/class.ilMail.php';
-		list($sender_mail, $sender_name) =  \ilMail::getIliasMailerAddress();
+
+		$dic = $this->getDIC();
+		$il_mail_sys = $dic["mail.mime.sender.factory"]->system();
+		$sender_name = $il_mail_sys->getFromName();
+		$sender_mail = $il_mail_sys->getFromAddress();
+
 		$from = new \ilTMSMailRecipient();
 		$from = $from
 			->withName($sender_name)
