@@ -264,32 +264,34 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Toggle Button triggers the activation/deactivation of some content already shown on the screen, i.e.
-	 *       a filter. The deactivation of content means, that it is still shown and the user can still interact
-	 *       with it, but it has no effect to the system.
+	 *       The Toggle Button triggers the activation/deactivation of some control already shown on the screen, i.e.
+	 *       a filter. The deactivation of a control means, that it is still shown and the user can still interact
+	 *       with it, but it has no effect on the system.
 	 *   composition: >
-	 *       The Toggle Button uses different colors as background for the activated and deactivated state.
+	 *       The Toggle Button uses different background colors for the activated and deactivated state.
 	 *       The toggle of the Toggle Button is placed on the left side when it is deactivated, and on the right side
 	 *       when it is activated.
 	 *   effect: >
-	 *       Clicking the Toggle Button activates/deactivates the related content. The activated/deactivated state of
-	 *       the content is visually noticeable for the user, i.e. by greying out the content in the deactivated state
-	 *       (like the Toggle Button itself).
+	 *       Clicking the Toggle Button activates/deactivates the related control. The activated/deactivated state of
+	 *       the control is visually noticeable for the user, i.e. by greying out the control in the deactivated state.
 	 *   rivals:
 	 *     Checkbox: >
 	 *       Checkboxes are established as controls for choosing a value for submission and are therefore handled as Inputs.
-	 *       Toggle Buttons are used for switching the functionality of some content and are therefore handled as Buttons.
+	 *       Toggle Buttons are used for switching the activation of some control and are therefore handled as Buttons.
 	 *     Collapse/Expand Glyph: >
-	 *       Collapse and Expand Glyphs hide or trigger the display of some content. Toggle Buttons leave the content
+	 *       Collapse and Expand Glyphs hide or trigger the display of some content. Toggle Buttons leave a control
 	 *       visible to the user, but activate or deactivate it.
+	 *     Mode View Control: >
+	 *       Mode View Controls enable the switching between different aspects of some data. Toggle Buttons
+	 *       activate/deactivate some control, but do not change or switch the control which the user see currently.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *           The Toggle Button MUST be placed in the same section as the content it activates/deactivates.
+	 *           The Toggle Button MUST be placed next to the control it activates/deactivates.
 	 *   ordering:
 	 *       1: >
-	 *           The Toggle Button SHOULD be placed above the content it activates/deactivates.
+	 *           The Toggle Button SHOULD be placed above the control it activates/deactivates.
 	 *   accessibility:
 	 *       1: >
 	 *           The functionality of the Toggle Button MUST be indicated for screen
