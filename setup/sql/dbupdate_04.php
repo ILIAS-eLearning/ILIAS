@@ -22361,9 +22361,15 @@ if(!$ilDB->tableExists('certificate_user_template')) {
 			'notnull' => true,
 			'default' => 0
 		),
-		'user_name' => array(
+		'user_id' => array(
 			'type' => 'integer',
 			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 255,
 			'notnull' => true,
 			'default' => 0
 		),
