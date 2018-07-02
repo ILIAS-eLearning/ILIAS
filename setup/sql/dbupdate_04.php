@@ -22279,3 +22279,164 @@ if($ilSetting->get('show_mail_settings', false) === false)
 	$ilSetting->set('show_mail_settings', 1);
 }
 ?>
+
+<#5278>
+<?php
+if(!$ilDB->tableExists('certificate_template')) {
+	$ilDB->createTable('certificate_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'certificate_hash' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'created_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addUniqueConstraint('certificate_template', array('id', 'obj_id'));
+}
+
+if(!$ilDB->tableExists('certificate_user_template')) {
+	$ilDB->createTable('certificate_user_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pattern_certificate_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_name' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'acquired_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'valid_until' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addUniqueConstraint('certificate_user_template', array('id', 'pattern_certificate_id'));
+}
+
+if(!$ilDB->tableExists('certificate_cron_queue')) {
+	$ilDB->createTable('certificate_cron_queue', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'adapter_class' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true,
+		),
+		'state' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true
+		),
+		'started_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+	));
+
+	$ilDB->addUniqueConstraint('certificate_user_template', array('id', 'pattern_certificate_id'));
+}
+?>
+
