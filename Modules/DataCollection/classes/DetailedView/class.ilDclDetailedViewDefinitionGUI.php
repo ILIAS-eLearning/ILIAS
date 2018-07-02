@@ -192,7 +192,8 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 
 		ilUtil::sendSuccess($lng->txt("dcl_empty_view_success"), true);
 
-		$ilCtrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		// Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
+		$ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
 	}
 
 	/**
