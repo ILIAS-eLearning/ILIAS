@@ -30,7 +30,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		global $rbacsystem, $ilErr;
 
 		
-		if(!$GLOBALS['ilAccess']->checkAccess('write','', $this->getParentObject()->getRefId()))
+		if(!$GLOBALS['ilAccess']->checkAccess('manage_members','', $this->getParentObject()->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 		}
