@@ -22,6 +22,7 @@ class ilDBUpdateNewObjectType
 	protected static $initialPermissionDefinition = [
 		'role' => [
 			'User' => [
+				'id' => 4,
 				'ignore_for_authoring_objects' => true,
 				'object' => [
 					self::RBAC_OP_VISIBLE,
@@ -647,8 +648,8 @@ class ilDBUpdateNewObjectType
 	 * This method will apply the 'Initial Permissions Guideline' when introducing new object types.
 	 * This method does not apply permissions to existing obejcts in the ILIAS repository ('change existing objects').
 	 * @param string $objectType
-	 * @param bool $hasLearningProgress
-	 * @param bool $usedForAuthoring
+	 * @param bool $hasLearningProgress A boolean flag whether or not the object type supports learning progress
+	 * @param bool $usedForAuthoring A boolean flag to tell whether or not the object type is mainly used for authoring
 	 * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
 	 */
 	public static function applyInitialPermissionGuideline(string $objectType, bool $hasLearningProgress = false, bool $usedForAuthoring = false) {
@@ -686,8 +687,18 @@ class ilDBUpdateNewObjectType
 					continue;
 				}
 
-				$query = "SELECT obj_id FROM object_data WHERE type = %s AND title = %s";
-				$res   = $ilDB->queryF($query, ['text', 'text'], [$roleType, $roleTitle]);
+				if (array_key_exists('id', $definition) && is_numeric($definition['id'])) {
+					// According to JF (2018-07-02), some roles have to be selected by if, not by title
+					$query = "SELECT obj_id FROM object_data WHERE type = %s AND obj_id = %s";
+					$queryTypes = ['text', 'integer'];
+					$queryValues = [$roleType, $definition['id']];
+				} else {
+					$query = "SELECT obj_id FROM object_data WHERE type = %s AND title = %s";
+					$queryTypes = ['text', 'text'];
+					$queryValues = [$roleType, $roleTitle];
+				}
+
+				$res   = $ilDB->queryF($query, $queryTypes, $queryValues);
 				if (1 == $ilDB->numRows($res)) {
 					$row = $ilDB->fetchAssoc($res);
 					$roleId = (int)$row['obj_id'];
