@@ -434,8 +434,8 @@ class ilChatroomFormFactory
 		$enable_smilies->setInfo($lng->txt('hint_enable_smilies'));
 		$enable_chat->addSubItem($enable_smilies);
 
-		$name = new \ilTextInputGUI($this->lng->txt('chatroom_client_name'), 'client_name');
-		$name->setInfo($this->lng->txt('chatroom_client_name_info'));
+		$name = new \ilTextInputGUI($lng->txt('chatroom_client_name'), 'client_name');
+		$name->setInfo($lng->txt('chatroom_client_name_info'));
 		$name->setRequired(true);
 		$name->setMaxLength(100);
 		$enable_chat->addSubItem($name);

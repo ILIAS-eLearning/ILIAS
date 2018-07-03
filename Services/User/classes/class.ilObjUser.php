@@ -4837,13 +4837,12 @@ class ilObjUser extends ilObject
 
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 		if (ilTermsOfServiceHelper::isEnabled()) {
-			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
-			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
+			$users = array_filter($users, function($user) {
 				if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
 					return true;
 				}
 
-				return isset($adminRoleUserIds[$user['user_id']]);
+				return false;
 			});
 		}
 
