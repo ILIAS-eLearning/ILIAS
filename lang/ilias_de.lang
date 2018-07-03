@@ -10144,12 +10144,12 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_view#:#Seitenvorlage löschen
+dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
-dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
