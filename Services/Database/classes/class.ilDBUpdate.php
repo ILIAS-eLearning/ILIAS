@@ -39,19 +39,15 @@ class ilDBUpdate {
 	 * @param ilDBInterface $a_db_handler
 	 * @param bool          $tmp_flag
 	 */
-	public function __construct($a_db_handler = 0, $tmp_flag = false) {
+	public function __construct($a_db_handler = 0, $client_ini = null) {
 		// workaround to allow setup migration
+		$this->client_ini = $client_ini;
 		if ($a_db_handler) {
 			$this->db =& $a_db_handler;
-
-			if ($tmp_flag) {
-				$this->PATH = "./";
-			} else {
-				$this->PATH = "./";
-			}
+			$this->PATH = "./";
 		} else {
 			global $DIC;
-			if($DIC->offsetExists('mySetup')) {
+			if ($DIC->offsetExists('mySetup')) {
 				$mySetup = $DIC['mySetup'];
 			}
 			$this->db = $mySetup->db;
@@ -89,14 +85,14 @@ class ilDBUpdate {
 		// NOTE: IF YOU ADD A NEW FILE HERE, CHANGE ALSO THE CONSTRUCTOR
 		//
 		switch (true) {
-		case ((int)$a_version > 4182): // last number in previous file
-			return "dbupdate_04.php";
-		case ((int)$a_version > 2948): // last number in previous file
-			return "dbupdate_03.php";
-		case ((int)$a_version > 864): // last number in previous file
-			return "dbupdate_02.php";
-		default:
-			return "dbupdate.php";
+			case ((int)$a_version > 4182): // last number in previous file
+				return "dbupdate_04.php";
+			case ((int)$a_version > 2948): // last number in previous file
+				return "dbupdate_03.php";
+			case ((int)$a_version > 864): // last number in previous file
+				return "dbupdate_02.php";
+			default:
+				return "dbupdate.php";
 		}
 	}
 
@@ -291,18 +287,29 @@ class ilDBUpdate {
 	 */
 	private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) {
 		global $DIC;
-		if ($DIC->offsetExists('ilCtrlStructureReader')) {
+		if (isset($GLOBALS['ilCtrlStructureReader'])) {
+			$ilCtrlStructureReader = $GLOBALS['ilCtrlStructureReader'];
+		} elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
 			$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
 		} else {
 			require_once 'setup/classes/class.ilCtrlStructureReader.php';
 			$ilCtrlStructureReader = new ilCtrlStructureReader();
 			$DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
 		}
+
+		$GLOBALS['ilCtrlStructureReader'] = $ilCtrlStructureReader;
+
 		if ($DIC->offsetExists('ilMySQLAbstraction')) {
 			$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
 		} else {
 			$ilMySQLAbstraction = new ilMySQLAbstraction();
 			$DIC->offsetSet('ilMySQLAbstraction', $ilMySQLAbstraction);
+		}
+
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+
+		if ($this->client_ini) {
+			$ilCtrlStructureReader->setIniFile($this->client_ini);
 		}
 		$ilDB = $DIC->database();
 	}
@@ -337,19 +344,15 @@ class ilDBUpdate {
 
 				$this->initStep($i);
 
-				if ($this->applyUpdateNr($i) == false) {
-					$msg[] = array(
-						"msg" => "update_error: " . $this->error,
-						"nr"  => $i,
-					);
+				if ($this->applyUpdateNr($i, $inifile) == false) {
+					$msg[] = array("msg" => "update_error: " . $this->error,
+					               "nr"  => $i,);
 					$this->updateMsg = $msg;
 
 					return false;
 				} else {
-					$msg[] = array(
-						"msg" => "update_applied",
-						"nr"  => $i,
-					);
+					$msg[] = array("msg" => "update_applied",
+					               "nr"  => $i,);
 				}
 			}
 
@@ -534,11 +537,9 @@ class ilDBUpdate {
 		$res = $this->db->query($query);
 		while ($row = $res->fetchRow()) {
 			$status = $this->getTableStatus($row[0]);
-			$a[] = array(
-				"name"   => $status["Table"],
-				"table"  => $row[0],
-				"status" => $status["Msg_text"],
-			);
+			$a[] = array("name"   => $status["Table"],
+			             "table"  => $row[0],
+			             "status" => $status["Msg_text"],);
 		}
 
 		return $a;
@@ -676,18 +677,14 @@ class ilDBUpdate {
 				$this->filecontent = $this->hotfix_content;
 
 				if ($this->applyUpdateNr($i, true) == false) {
-					$msg[] = array(
-						"msg" => "update_error: " . $this->error,
-						"nr"  => $i,
-					);
+					$msg[] = array("msg" => "update_error: " . $this->error,
+					               "nr"  => $i,);
 					$this->updateMsg = $msg;
 
 					return false;
 				} else {
-					$msg[] = array(
-						"msg" => "hotfix_applied",
-						"nr"  => $i,
-					);
+					$msg[] = array("msg" => "hotfix_applied",
+					               "nr"  => $i,);
 				}
 			}
 
@@ -773,7 +770,6 @@ class ilDBUpdate {
 		$ilDB = null;
 		$this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
 
-
 		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
@@ -790,18 +786,14 @@ class ilDBUpdate {
 				$this->filecontent = $this->custom_updates_content;
 
 				if ($this->applyUpdateNr($i, false, true) == false) {
-					$msg[] = array(
-						"msg" => "update_error: " . $this->error,
-						"nr"  => $i,
-					);
+					$msg[] = array("msg" => "update_error: " . $this->error,
+					               "nr"  => $i,);
 					$this->updateMsg = $msg;
 
 					return false;
 				} else {
-					$msg[] = array(
-						"msg" => "custom_update_applied",
-						"nr"  => $i,
-					);
+					$msg[] = array("msg" => "custom_update_applied",
+					               "nr"  => $i,);
 				}
 			}
 
