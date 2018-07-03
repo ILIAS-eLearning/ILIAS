@@ -6757,8 +6757,8 @@ dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_confirm_delete_record#:#Delete this record?
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_copy#:#Copy Data Collection
 dcl#:#dcl_create_field#:#Create Field
 dcl#:#dcl_create_fields#:#Należy utworzyć co najmniej jedno pole w zakładce "Pola."
@@ -6785,8 +6785,8 @@ dcl#:#dcl_edit_type_non_info#:#Creating New Records needs edit settings permissi
 dcl#:#dcl_edit_type_unlim#:#Unlimited###deprecated 
 dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries###deprecated 
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
-dcl#:#dcl_empty_view#:#Delete this View
-dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
+dcl#:#dcl_empty_detailed_view#:#Delete this View
+dcl#:#dcl_empty_detailed_view_success#:#The Viewdefinition has successfuly been deleted.
 dcl#:#dcl_export#:#Export###deprecated 
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_export_table_excel#:#Export .xls###deprecated 

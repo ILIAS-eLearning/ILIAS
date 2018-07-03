@@ -6725,8 +6725,8 @@ dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Eğer gerçekten bu alanda silmek istiyor musunuz?
 dcl#:#dcl_confirm_delete_record#:#Bu kayıt silinsin mi?
 dcl#:#dcl_confirm_delete_table#:#Eğer gerçekten içerik ve yapısı ile bu tabloyu silmek istediğinizden emin misiniz?
-dcl#:#dcl_confirm_delete_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
-dcl#:#dcl_confirm_delete_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
 dcl#:#dcl_copy#:#Kopya Veri Toplama
 dcl#:#dcl_create_field#:#Oluştur Alan
 dcl#:#dcl_datatype#:#Datatipi
@@ -6752,8 +6752,8 @@ dcl#:#dcl_edit_type_non_info#:#Yeni Kayıt Oluşturma ayarları düzenle izniniz
 dcl#:#dcl_edit_type_unlim#:#Sınırsız###deprecated 
 dcl#:#dcl_edit_type_unlim_info#:#Düzenleme / ekleme izni olan Kullanıcıları girdilerini eklemek / düzenlemek###deprecated 
 dcl#:#dcl_editable_in_table_gui#:#tablo görünümünde oy lütfen.
-dcl#:#dcl_empty_view#:#Bu Görünümü sil
-dcl#:#dcl_empty_view_success#:#Viewdefinition başarıyla silindi.
+dcl#:#dcl_empty_detailed_view#:#Bu Görünümü sil
+dcl#:#dcl_empty_detailed_view_success#:#Viewdefinition başarıyla silindi.
 dcl#:#dcl_export#:#Dışa Aktar###deprecated 
 dcl#:#dcl_export_table_excel#:#.xls Dışa Aktar###deprecated 
 dcl#:#dcl_field_datatype#:#Alan Datatipi

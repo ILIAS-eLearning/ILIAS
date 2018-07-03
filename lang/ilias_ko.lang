@@ -8761,8 +8761,8 @@ dcl#:#dcl_confirm_delete_fields#:#정말이 필드를 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_record#:#이 레코드를 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_records#:#이 레코드를 정말 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_table#:#내용이나 계층이 포함 된 테이블을 정말 삭제 하시겠습니까?
-dcl#:#dcl_confirm_delete_view_text#:#이 테이블의 기록보기 정의는 비가 역적으로 제거 되어도 레코드와 필드 자체는 변경되지 않습니다.
-dcl#:#dcl_confirm_delete_view_title#:#이보기를 정말 삭제 하시겠습니까?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#이 테이블의 기록보기 정의는 비가 역적으로 제거 되어도 레코드와 필드 자체는 변경되지 않습니다.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#이보기를 정말 삭제 하시겠습니까?
 dcl#:#dcl_confirm_storing_records#:#사용하여 입력을 확인하십시오.
 dcl#:#dcl_confirm_storing_records_no_permission#:#이후 기록을 수정할 수있는 권한이 없습니다.
 dcl#:#dcl_copy#:#데이터 수집을 작성
@@ -8811,8 +8811,8 @@ dcl#:#dcl_edit_type_non_info#:#새 레코드 작성은 권한 설정 편집이 �
 dcl#:#dcl_edit_type_unlim#:#무제한
 dcl#:#dcl_edit_type_unlim_info#:#추가 · 편집 권한을 가진 사용자는 항목의 추가 · 편집 할 수 있습니다
 dcl#:#dcl_editable_in_table_gui#:#테이블 뷰에 투표하십시오.
-dcl#:#dcl_empty_view#:#이보기 삭제
-dcl#:#dcl_empty_view_success#:#뷰 정의가 제대로 제거되었습니다.
+dcl#:#dcl_empty_detailed_view#:#이보기 삭제
+dcl#:#dcl_empty_detailed_view_success#:#뷰 정의가 제대로 제거되었습니다.
 dcl#:#dcl_err_formula_field_not_found#:#제목 '% s'필드를 찾을 수 없습니다
 dcl#:#dcl_error_parsing_expression#:#구문 분석 오류 일
 dcl#:#dcl_export#:#내보내기

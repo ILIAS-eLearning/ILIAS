@@ -8787,8 +8787,8 @@ dcl#:#dcl_confirm_delete_fields#:#Wil je deze velden echt verwijderen?
 dcl#:#dcl_confirm_delete_record#:#Verwijder dit gegevensveld?
 dcl#:#dcl_confirm_delete_records#:#Weet je zeker dat je de volgende gegevensvelden wilt verwijderen?
 dcl#:#dcl_confirm_delete_table#:#Wil je echt deze tabel met alle inhoud en structuur verwijderen?
-dcl#:#dcl_confirm_delete_view_text#:#De weergave definitie van deze tabel zal onherroepelijk worden verwijderd. De onderliggende gegevens en velden worden niet verwijderd.
-dcl#:#dcl_confirm_delete_view_title#:#Wil je deze weergave echt verwijderen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#De weergave definitie van deze tabel zal onherroepelijk worden verwijderd. De onderliggende gegevens en velden worden niet verwijderd.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Wil je deze weergave echt verwijderen?
 dcl#:#dcl_confirm_storing_records#:#Controleer en bevestig je invoer.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Je hebt geen rechten om de gegevens achteraf nog te bewerken.
 dcl#:#dcl_copy#:#Gegevensverzameling kopiëren
@@ -8837,8 +8837,8 @@ dcl#:#dcl_edit_type_non#:#Niet wijzigbaar
 dcl#:#dcl_edit_type_non_info#:#Voor het aanmaken van nieuwe records zijn 'wijzigen' rechten nodig.
 dcl#:#dcl_edit_type_unlim#:#Onbeperkt
 dcl#:#dcl_edit_type_unlim_info#:#Gebruikers met 'toevoegen' en 'wijzigen' rechten mogen gegevens toevoegen of wijzigen
-dcl#:#dcl_empty_view#:#Deze weergave verwijderen 
-dcl#:#dcl_empty_view_success#:#De weergave definitie is verwijderd
+dcl#:#dcl_empty_detailed_view#:#Deze weergave verwijderen
+dcl#:#dcl_empty_detailed_view_success#:#De weergave definitie is verwijderd
 dcl#:#dcl_error_parsing_expression#:#Fout bij ontleden uitdrukking
 dcl#:#dcl_err_formula_field_not_found#:#Veld met titel '%s' is niet gevonden
 dcl#:#dcl_export#:#Exporteren

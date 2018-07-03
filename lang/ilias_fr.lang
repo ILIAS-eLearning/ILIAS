@@ -8769,8 +8769,8 @@ dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
 dcl#:#dcl_confirm_delete_record#:#Supprimer cet enregistrement ?
 dcl#:#dcl_confirm_delete_records#:#àŠtes-vous sûr de vouloir supprimer les enregistrements suivants?
 dcl#:#dcl_confirm_delete_table#:#Voulez-vous vraiment supprimer ce tableau avec son contenu et sa structure ?
-dcl#:#dcl_confirm_delete_view_text#:#La vue des enregistrements de cette table sera supprimée définitivement. Les enregistrements et les champs ne seront pas modifiés.
-dcl#:#dcl_confirm_delete_view_title#:#Voulez-vous vraiment supprimer cette vue ?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#La vue des enregistrements de cette table sera supprimée définitivement. Les enregistrements et les champs ne seront pas modifiés.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Voulez-vous vraiment supprimer cette vue ?
 dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
 dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
 dcl#:#dcl_copy#:#Copier Collection de Données
@@ -8819,8 +8819,8 @@ dcl#:#dcl_edit_type_non_info#:#Pour créer de nouveau enregistrements, les droit
 dcl#:#dcl_edit_type_unlim#:#Illimité
 dcl#:#dcl_edit_type_unlim_info#:#Les utilisateurs avec des permissions d'ajout/édition peuvent ajouter/éditer des entées
 dcl#:#dcl_editable_in_table_gui#:#Veuillez voter dans le tableau.
-dcl#:#dcl_empty_view#:#Supprimer cette Vue
-dcl#:#dcl_empty_view_success#:#La vue a été supprimée avec succès.
+dcl#:#dcl_empty_detailed_view#:#Supprimer cette Vue
+dcl#:#dcl_empty_detailed_view_success#:#La vue a été supprimée avec succès.
 dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 dcl#:#dcl_export#:#Exporter
