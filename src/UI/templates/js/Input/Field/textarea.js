@@ -1,9 +1,16 @@
+/**
+ * Provides the behavior of textareas.
+ *
+ * @author Jesús López <lopez@leifos.com>
+ */
+
 var il = il || {};
 il.UI = il.UI || {};
 
 (function($, UI) {
 
     UI.textarea = (function ($) {
+alert("UI.textarea");
         /**
          * Old changeCounter
          * TODO-> I need the element id in the DOM.
@@ -26,6 +33,7 @@ il.UI = il.UI || {};
          * @param max_limit
          */
         var changeCounterNew = function(textarea_id, feedback_id, min_limit, max_limit) {
+ alert("changeCounterNew");
             $('#'+textarea_id).addEventListener("input", function(){
                 if(max_limit > 0) {
                     var currentLength = this.value.length;
