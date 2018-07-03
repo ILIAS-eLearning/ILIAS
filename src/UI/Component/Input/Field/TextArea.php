@@ -4,10 +4,12 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+
 /**
  * This describes textarea inputs.
  */
-interface TextArea extends Input {
+interface TextArea extends Input, JavaScriptBindable {
 
 	/**
 	 * set maximum number of characters

@@ -60,14 +60,23 @@ class Renderer extends AbstractComponentRenderer {
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} else if ($input instanceof Component\Input\Field\TextArea) {
-			/***
-			 * WORKING HERE
-			 *
-			 * I have to add the JS here...
-			 * $input->withAdditionalOnLoadCode(.....
-			 * with return il.UI.select.changeCounterNew
-			 *
-			 */
+			if ($input->isLimited())
+			{
+
+				$textarea_id = $this->bindJavaScript($input);
+				//todo move this "feedback_" to a constant
+				$counter_char_id = "textarea_feedback_".$textarea_id;
+				$min = $input->getMinLimit();
+				$max = $input->getMaxLimit();
+
+				$input->withOnLoadCode(function($id) {
+					return "alert('Component has id: $id');";
+				});
+
+				$counter_char = $input->withOnLoadCode(function($id) use($textarea_id, $counter_char_id, $min, $max) {
+						return "il.UI.Input.textarea.changeCounterNew('$textarea_id','$counter_char_id','$min','$max');";
+					});
+			}
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} else {
 			if ($input instanceof Component\Input\Field\Numeric) {
