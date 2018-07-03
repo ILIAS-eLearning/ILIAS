@@ -117,4 +117,22 @@ class ILIAS_UI_Component_TriggererTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals([], $mock->getTriggeredSignals());
 	}
+
+	public function testGetTriggeredSignalsForNonRegisteredSignal() {
+		$signals = $this->mock->getTriggeredSignalsFor("click");
+		$this->assertEquals([], $signals);
+	}
+
+	public function testGetTriggeredSignals() {
+		$signal1 = $this->getSignalMock();
+		$signal2 = $this->getSignalMock();
+
+		$mock = $this->mock
+			->_appendTriggeredSignal($signal1, "click")
+			->_appendTriggeredSignal($signal2, "click");
+
+		$signals = $mock->getTriggeredSignalsFor("click");
+
+		$this->assertEquals([$signal1, $signal2], $signals);
+	}
 }
