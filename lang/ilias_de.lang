@@ -817,6 +817,7 @@ assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
 assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Dieser Fragenpool liegt aktuell im Papierkorb.</b>
 assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
