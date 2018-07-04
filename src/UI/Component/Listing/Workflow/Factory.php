@@ -13,7 +13,7 @@ interface Factory {
 	 *      A workflow step represents a single step in a sequence of steps.
 	 *      The status of a step consists of two parts: its availability and its
 	 *      outcome or result.
-	 *      Possible variants of availability are "available", "not yet available"
+	 *      Possible variants of availability are "available", "not available"
 	 *      and "not available anymore". The status "active" will be set by the workflow.
 	 *      The status of a step is defined as "not started", "in progress",
 	 *      "completed successfully" and "unsuccessfully completed".

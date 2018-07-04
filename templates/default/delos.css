@@ -8545,24 +8545,24 @@ ul.breadcrumb li:hover {
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
 }
-.il-workflow-container .not-yet-available:before,
+.il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
   content: "\e033";
   color: #dddddd;
   background-color: #f5f5f5;
   border: none;
 }
-.il-workflow-container .not-yet-available.in-progress:before,
+.il-workflow-container .not-available.in-progress:before,
 .il-workflow-container .no-longer-available.in-progress:before {
   background-color: #a1b3ca;
   color: #ffffff;
 }
-.il-workflow-container .not-yet-available.in-progress .text span,
+.il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
   color: #434343;
   opacity: .5;
 }
-.il-workflow-container .not-yet-available .text,
+.il-workflow-container .not-available .text,
 .il-workflow-container .no-longer-available .text {
   color: #dddddd;
 }

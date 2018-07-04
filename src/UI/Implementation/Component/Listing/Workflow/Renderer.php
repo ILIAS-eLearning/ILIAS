@@ -66,8 +66,8 @@ class Renderer extends AbstractComponentRenderer {
 					case Component\Listing\Workflow\Step::AVAILABLE:
 						$tpl->touchBlock('available');
 						break;
-					case Component\Listing\Workflow\Step::NOT_YET:
-						$tpl->touchBlock('not_yet');
+					case Component\Listing\Workflow\Step::NOT_AVAILABLE:
+						$tpl->touchBlock('not_available');
 						break;
 					case Component\Listing\Workflow\Step::NOT_ANYMORE:
 						$tpl->touchBlock('not_anymore');

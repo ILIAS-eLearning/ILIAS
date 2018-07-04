@@ -19,14 +19,14 @@ function base() {
 			->withAvailability($step::AVAILABLE)->withStatus($step::IN_PROGRESS),
 		$f->step('active step', 'available, in progress, active (by workflow)')
 			->withAvailability($step::AVAILABLE)->withStatus($step::IN_PROGRESS),
-		$f->step('step 6', 'not yet available, not started')
-			->withAvailability($step::NOT_YET)->withStatus($step::NOT_STARTED),
-		$f->step('step 7', 'not yet available, in progress')
-			->withAvailability($step::NOT_YET)->withStatus($step::IN_PROGRESS),
-		$f->step('step 8', 'not yet available, successfully completed')
-			->withAvailability($step::NOT_YET)->withStatus($step::SUCCESSFULLY),
-		$f->step('step 9', 'not yet available, unsuccessfully completed')
-			->withAvailability($step::NOT_YET)->withStatus($step::UNSUCCESSFULLY),
+		$f->step('step 6', 'not available, not started')
+			->withAvailability($step::NOT_AVAILABLE)->withStatus($step::NOT_STARTED),
+		$f->step('step 7', 'not available, in progress')
+			->withAvailability($step::NOT_AVAILABLE)->withStatus($step::IN_PROGRESS),
+		$f->step('step 8', 'not available, successfully completed')
+			->withAvailability($step::NOT_AVAILABLE)->withStatus($step::SUCCESSFULLY),
+		$f->step('step 9', 'not available, unsuccessfully completed')
+			->withAvailability($step::NOT_AVAILABLE)->withStatus($step::UNSUCCESSFULLY),
 		$f->step('step 10', 'not available anymore, not started')
 			->withAvailability($step::NOT_ANYMORE)->withStatus($step::NOT_STARTED),
 		$f->step('step 11', 'not available anymore, in progress')
