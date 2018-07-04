@@ -44,7 +44,6 @@ class Renderer extends AbstractComponentRenderer {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
 
-		//Is this the proper place?
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 	}
 
@@ -60,24 +59,6 @@ class Renderer extends AbstractComponentRenderer {
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} else if ($input instanceof Component\Input\Field\TextArea) {
-			if ($input->isLimited())
-			{
-
-				$input = $input->withOnLoadCode(function($id) {
-					return "alert('Component has id: $id');";
-				});
-
-				$textarea_id = $this->bindJavaScript($input);
-				//todo move this "feedback_" to a constant
-				$counter_char_id = "textarea_feedback_".$textarea_id;
-				$min = $input->getMinLimit();
-				$max = $input->getMaxLimit();
-
-
-				$counter_char = $input->withOnLoadCode(function($id) use($textarea_id, $counter_char_id, $min, $max) {
-						return "il.UI.Input.textarea.changeCounterNew('$textarea_id','$counter_char_id','$min','$max');";
-					});
-			}
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} else {
 			if ($input instanceof Component\Input\Field\Numeric) {
@@ -135,7 +116,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $inputs;
 	}
-
 
 	/**
 	 * @param Component\JavascriptBindable $component
@@ -291,24 +271,33 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		//specific options for textarea component.
 		if($input instanceof TextArea){
-			$tpl = $this->renderTextareaField($tpl, $input, $id);
+			$tpl = $this->renderTextareaField($tpl, $input);
 		}
 
 		return $tpl->get();
 	}
 
-	protected function renderTextareaField(Template $tpl, TextArea $input, $id)
+	protected function renderTextareaField(Template $tpl, TextArea $input)
 	{
-		//TODO lang vars
+		global $DIC;
+
+		$lng = $DIC->language();
+		$lng->loadLanguageModule("form");
+		$lng->toJS("form_chars_remaining");
+
 		if($input->isLimited())
 		{
-			//todo create proper id
-			$id = "textarea_dummy_id";
+			$counter_id_prefix = "textarea_feedback_";
+			$min = $input->getMinLimit();
+			$max = $input->getMaxLimit();
 
-			$tpl->setVariable("ID", $id);
-			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $input->getMaxLimit());
-			$tpl->setVariable("FEEDBACK_ID", $id);
-			$tpl->setVariable("CHARS_REMAINING", "Characters remaining");
+			$input = $input->withOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
+				return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
+			});
+
+			$textarea_id = $this->bindJavaScript($input);
+			$tpl->setVariable("ID", $textarea_id);
+			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
 		}
 
 		return $tpl;
