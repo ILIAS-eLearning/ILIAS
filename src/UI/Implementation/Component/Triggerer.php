@@ -83,7 +83,7 @@ trait Triggerer {
 		}
 		return array_map(
 			function($ts) { return $ts->getSignal(); },
-			$this->triggered_signals["click"]
+			$this->triggered_signals[$event]
 		);
 	}
 
