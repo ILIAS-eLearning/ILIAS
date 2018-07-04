@@ -237,6 +237,14 @@ class ilWorkflowEngineDefinitionsGUI
 		$fs->put($repositoryDirectory . 'wfd.' . $repo_base_name . '_v' . $version . '.bpmn2', $bpmn);
 		$fs->delete($tmpDirectory . $uploadResult->getName());
 
+		// TODO: Workaround because of file extension whitelist. You currently cannot create/put '.php' files
+		$absRepositoryDirectory = ilObjWorkflowEngine::getRepositoryDir();
+		$sourceFile = $absRepositoryDirectory . str_replace('.', '', 'wfd.' . $repo_name) . '.sec';
+		$targetFile = $absRepositoryDirectory . 'wfd.' . $repo_name;
+		if (file_exists($sourceFile)) {
+			rename($sourceFile, $targetFile);
+		}
+
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('upload_parse_success'), true);
 		ilUtil::redirect(
 				html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view'))
