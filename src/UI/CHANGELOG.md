@@ -5,5 +5,5 @@
   previously defined action-url will be deleted when a click-signal is added. Button::getAction
   may thus also return a list of Signals instead of an url-string.
 * `ILIAS\UI\Implementation\Component\Triggerer::addTriggeredSignal` has been renamed to 
-  `ILIAS\UI\Implementation\Component\Triggerer::addTriggeredSignal`.
+  `ILIAS\UI\Implementation\Component\Triggerer::withTriggeredSignal`.
 
