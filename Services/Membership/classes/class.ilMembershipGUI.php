@@ -254,9 +254,21 @@ class ilMembershipGUI
 				
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-				
+
+
+				switch($this->getParentObject()->getType())
+				{
+					case 'grp':
+						$objroles = new ilMailMemberGroupRoles();
+						break;
+
+					default:
+						$objroles = new ilMailMemberCourseRoles();
+						break;
+				}
+
 				// @todo: fix mail course roles object
-				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), new ilMailMemberCourseRoles());
+				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), $objroles);
 				$mail_search->setObjParticipants(
 					ilParticipants::getInstanceByObjId($this->getParentObject()->getId())
 				);
@@ -1701,6 +1713,8 @@ class ilMembershipGUI
 	 */
 	protected function initAttendanceList($a_for_members = false)
 	{
+		global $DIC;
+
 		/**
 		 * @var ilWaitingList
 		 */
@@ -1708,9 +1722,24 @@ class ilMembershipGUI
 
 		if($this instanceof ilSessionMembershipGUI)
 		{
-			$parent_ref = $GLOBALS['DIC']->repositoryTree()->getParentId($this->getParentObject()->getRefId());
-			$part = ilParticipants::getInstance($parent_ref);
-			
+			$member_id = $DIC->repositoryTree()->checkForParentType(
+				$this->getParentObject()->getRefId(),
+				'grp'
+			);
+			if(!$member_id)
+			{
+				$member_id = $DIC->repositoryTree()->checkForParentType(
+					$this->getParentObject()->getRefId(),
+					'crs'
+				);
+			}
+			if(!$member_id)
+			{
+				$DIC->logger()->sess()->warning('Cannot find parent course or group for ref_id: ' . $this->getParentObject()->getRefId());
+				$member_id = $this->getParentObject()->getRefId();
+			}
+			$part = ilParticipants::getInstance($member_id);
+
 			$list = new ilAttendanceList(
 				$this,
 				$this->getParentObject(),

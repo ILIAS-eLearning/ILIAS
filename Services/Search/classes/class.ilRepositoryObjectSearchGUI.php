@@ -28,7 +28,10 @@ class ilRepositoryObjectSearchGUI
 	 */
 	public function __construct($a_ref_id, $a_parent_obj, $a_parent_cmd)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->ref_id = $a_ref_id;
 		$this->lng = $lng;
@@ -61,7 +64,7 @@ class ilRepositoryObjectSearchGUI
 	 */
 	public function executeCommand()
 	{
-		if(!$GLOBALS['ilAccess']->checkAccess('read','',$this->getObject()->getRefId()))
+		if(!$GLOBALS['DIC']['ilAccess']->checkAccess('read','',$this->getObject()->getRefId()))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->getCtrl()->returnToParent($this->getParentGUI());
@@ -155,7 +158,7 @@ class ilRepositoryObjectSearchGUI
 		$result_table->init();
 		$result_table->parse();
 		
-		$GLOBALS['tpl']->setContent($result_table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($result_table->getHTML());
 	}
 	
 	/**
@@ -165,7 +168,9 @@ class ilRepositoryObjectSearchGUI
 	 */
 	public function getResultTableInstance()
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 
 		$class = $objDefinition->getClassName($this->getObject()->getType());

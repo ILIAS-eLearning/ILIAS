@@ -21,7 +21,11 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
 	function __construct($a_parent_obj)
 	{
-		global $ilCtrl, $lng, $rbacsystem;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$this->log = ilLoggerFactory::getLogger("user");
 
@@ -56,7 +60,9 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		require_once "Services/Object/classes/class.ilObjectDataCache.php";
@@ -140,7 +146,10 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 

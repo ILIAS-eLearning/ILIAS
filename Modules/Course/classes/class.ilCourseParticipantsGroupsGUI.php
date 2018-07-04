@@ -27,7 +27,12 @@ class ilCourseParticipantsGroupsGUI
 
 	function executeCommand()
 	{
-		global $ilCtrl, $ilErr, $ilAccess, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 		
 		if(!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members',$this->ref_id))
 		{
@@ -44,7 +49,9 @@ class ilCourseParticipantsGroupsGUI
 	
 	function show()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		$tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
 		$tpl->setContent($tbl_gui->getHTML());
@@ -68,7 +75,11 @@ class ilCourseParticipantsGroupsGUI
 
 	function confirmRemove()
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
@@ -97,7 +108,11 @@ class ilCourseParticipantsGroupsGUI
 	 */
 	protected function remove()
 	{
-		global $ilObjDataCache, $lng, $ilCtrl;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members',(int) $_POST['grp_id']))
 		{
@@ -131,7 +146,12 @@ class ilCourseParticipantsGroupsGUI
 	 */
 	protected function add()
 	{
-		global $ilErr, $ilObjDataCache, $lng, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(sizeof($_POST["usrs"]))
 		{

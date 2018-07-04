@@ -55,7 +55,10 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function apply()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$source = $this->initSourceObject();
 
@@ -113,7 +116,9 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::save();
 
@@ -134,7 +139,9 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		parent::delete();
 
@@ -180,7 +187,9 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		parent::read();
 		

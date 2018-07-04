@@ -25,7 +25,9 @@ class ilADTMultiEnumDBBridge extends ilADTMultiDBBridge
 	
 	public function readRecord(array $a_row)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->doSingleFake())
 		{				
@@ -50,7 +52,9 @@ class ilADTMultiEnumDBBridge extends ilADTMultiDBBridge
 	
 	protected function readMultiRecord($a_set)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$elements = array();
 		

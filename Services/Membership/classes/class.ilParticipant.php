@@ -417,10 +417,7 @@ abstract class ilParticipant
 	 * @param int role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
 	 *
 	 * global ilRbacReview $rbacreview
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
-	 * 
+	 *
 	 */
 	public function add($a_usr_id,$a_role)
 	{

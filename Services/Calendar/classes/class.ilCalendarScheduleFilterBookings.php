@@ -34,7 +34,9 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 	
 	public function modifyEvent(ilCalendarEntry $a_event)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$booking = new ilBookingEntry($a_event->getContextId());
 		

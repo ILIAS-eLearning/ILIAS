@@ -48,7 +48,10 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $rep_object)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('grp');

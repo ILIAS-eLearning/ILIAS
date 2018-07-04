@@ -100,7 +100,9 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		$users = array();
 		foreach($this->role_ids as $id)

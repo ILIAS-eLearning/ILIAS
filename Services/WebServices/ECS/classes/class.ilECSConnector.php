@@ -66,8 +66,8 @@ class ilECSConnector
 		}
 		else
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
-			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecated call');
+			$GLOBALS['DIC']['ilLog']->logStack();
 		}
 	}
 
@@ -117,7 +117,9 @@ class ilECSConnector
 	 */
 	public function addAuth($a_post,$a_target_mid)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Add new Auth resource...');
 
@@ -172,7 +174,9 @@ class ilECSConnector
 	 */
 	public function getAuth($a_hash, $a_details_only = FALSE)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(!strlen($a_hash))
 		{
@@ -232,7 +236,9 @@ class ilECSConnector
 	 */
 	public function getEventQueues()
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$this->path_postfix = '/eventqueues';
 
@@ -269,7 +275,9 @@ class ilECSConnector
 	 */
 	public function readEventFifo($a_delete = false)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		$this->path_postfix = '/sys/events/fifo';
 
@@ -297,7 +305,7 @@ class ilECSConnector
 
 			$result = new ilECSResult($res);
 			
-			#$GLOBALS['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
+			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
 			
 			return $result;
 	 	}
@@ -313,7 +321,9 @@ class ilECSConnector
 
 	public function getResourceList($a_path)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		$this->path_postfix = $a_path;
 
@@ -354,7 +364,9 @@ class ilECSConnector
 	 */
 	public function getResource($a_path, $a_econtent_id, $a_details_only = false)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		if($a_econtent_id)
 		{
@@ -414,7 +426,9 @@ class ilECSConnector
 	 */
 	public function addResource($a_path, $a_post)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Add new EContent...');
 
@@ -462,7 +476,9 @@ class ilECSConnector
 	 */
 	public function updateResource($a_path, $a_econtent_id,$a_post_string)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Update resource with id '.$a_econtent_id);
 		
@@ -520,7 +536,9 @@ class ilECSConnector
 	 */
 	public function deleteResource($a_path, $a_econtent_id)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Delete resource with id '.$a_econtent_id);
 
@@ -562,7 +580,9 @@ class ilECSConnector
 	 */
 	public function getMemberships($a_mid = 0)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Get existing memberships');
 
@@ -672,7 +692,9 @@ class ilECSConnector
 	 */
 	protected static function _fetchEContentIdFromHeader($a_header)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(!isset($a_header['Location']))
 		{

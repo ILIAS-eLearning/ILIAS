@@ -113,7 +113,9 @@ class ilAdvancedMDRecordExportFiles
 	 */
 	public function create($a_xml)
 	{
-		 global $ilLog;
+		 global $DIC;
+
+		 $ilLog = $DIC['ilLog'];
 		 
 		 if(!$fp = @fopen($this->export_dir.'/'.time().'.xml','w+'))
 		 {
@@ -135,7 +137,9 @@ class ilAdvancedMDRecordExportFiles
 	 */
 	public function deleteByFileId($a_timest)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(!unlink($this->export_dir.'/'.$a_timest.'.xml'))
 		{
@@ -154,7 +158,9 @@ class ilAdvancedMDRecordExportFiles
 	 */
 	public function getAbsolutePathByFileId($a_file_basename)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 	 	
 	 	if(!@file_exists($this->export_dir.'/'.$a_file_basename.'.xml'))
 	 	{

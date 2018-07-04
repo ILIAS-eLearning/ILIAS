@@ -45,7 +45,9 @@ class ilECSMappingUtils
 	 */
 	public static function mappingStatusToString($a_status)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt('ecs_node_mapping_status_'.$a_status);
 	}
@@ -53,7 +55,9 @@ class ilECSMappingUtils
 	
 	public static function getCourseMappingFieldInfo()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$field_info = array();
 		$counter = 0;
@@ -79,7 +83,9 @@ class ilECSMappingUtils
 	
 	public static function getCourseMappingFieldSelectOptions()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$options[''] = $lng->txt('select_one');
 		foreach(self::getCourseMappingFieldInfo() as $info)
@@ -214,8 +220,8 @@ class ilECSMappingUtils
 	 */
 	public static function getAuthModeSelection()
 	{
-		$options[0] = $GLOBALS['lng']->txt('select_one');
-		$options['local'] = $GLOBALS['lng']->txt('auth_local');
+		$options[0] = $GLOBALS['DIC']['lng']->txt('select_one');
+		$options['local'] = $GLOBALS['DIC']['lng']->txt('auth_local');
 		
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 		foreach(ilLDAPServer::getServerIds() as $sid)
