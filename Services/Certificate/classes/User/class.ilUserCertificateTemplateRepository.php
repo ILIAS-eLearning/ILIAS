@@ -16,6 +16,10 @@ class ilUserCertificateTemplateRepository
 		$this->database = $database;
 	}
 
+	/**
+	 * @param ilUserCertificateTemplate $certificateTemplate
+	 * @throws ilDatabaseException
+	 */
 	public function save(ilUserCertificateTemplate $certificateTemplate)
 	{
 		$version = $this->fetchLatestVersion($certificateTemplate->getObjId(), $certificateTemplate->getUserId());
@@ -46,6 +50,10 @@ class ilUserCertificateTemplateRepository
 		$this->database->insert('user_certificates', $columns);
 	}
 
+	/**
+	 * @param $userId
+	 * @return array
+	 */
 	public function fetchActiveCertificates($userId)
 	{
 		$sql = 'SELECT * FROM user_certificates WHERE user_id = ' . $userId . ' AND currently_active = 1';
@@ -74,6 +82,11 @@ class ilUserCertificateTemplateRepository
 		return $result;
 	}
 
+	/**
+	 * @param $objId
+	 * @param $userId
+	 * @return array
+	 */
 	private function fetchCertificatesOfObject($objId, $userId)
 	{
 		$sql = 'SELECT * FROM user_certificates 

@@ -16,6 +16,9 @@ class ilCertificateQueueRepository
 		$this->database = $database;
 	}
 
+	/**
+	 * @param ilCertificateQueueEntry $certificateQueueEntry
+	 */
 	public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry)
 	{
 		$id = $this->database->nextId('certificate_cron_queue');
