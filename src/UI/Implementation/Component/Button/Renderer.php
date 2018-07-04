@@ -129,10 +129,15 @@ class Renderer extends AbstractComponentRenderer {
 
 		//The incomplete rendering of the Toggle Button is work in progress
 
+		$is_on = $component->isOn();
+		if ($is_on) {
+			$tpl->touchBlock("on");
+		}
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $label);
 		}
+		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
 

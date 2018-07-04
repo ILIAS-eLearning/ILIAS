@@ -15,31 +15,46 @@ class Toggle extends Button implements C\Button\Toggle {
 	use Triggerer;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_on;
+
+	/**
 	 * @var string|null
 	 */
-	protected $action_deactivated;
+	protected $action_off;
 
-	public function __construct($label, $action, $action_deactivated)
+	public function __construct($label, $action, $action_off, $is_on)
 	{
 		parent::__construct($label, $action);
 
-		$this->checkStringOrSignalArg("action_deactivated", $action_deactivated);
-		if (is_string($action_deactivated)) {
-			$this->action_deactivated = $action_deactivated;
+		$this->checkStringOrSignalArg("action_off", $action_off);
+		if (is_string($action_off)) {
+			$this->action_off = $action_off;
 		}
 		else {
-			$this->action_deactivated = null;
-			$this->setTriggeredSignal($action_deactivated, "click");
+			$this->action_off = null;
+			$this->setTriggeredSignal($action_off, "click");
 		}
+		$this->checkBoolArg("is_on", $is_on);
+		$this->is_on = $is_on;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getActionDeactivated()
+	public function isOn()
 	{
-		if ($this->action_deactivated !== null) {
-			return $this->action_deactivated;
+		return $this->is_on;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getActionOff()
+	{
+		if ($this->action_off !== null) {
+			return $this->action_off;
 		}
 		$triggered_click_signals = $this->triggered_signals["click"];
 		if ($triggered_click_signals === null) {

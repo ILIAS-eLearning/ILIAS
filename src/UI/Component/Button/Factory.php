@@ -268,12 +268,12 @@ interface Factory {
 	 *       a filter. The deactivation of a control means, that it is still shown and the user can still interact
 	 *       with it, but it has no effect on the system.
 	 *   composition: >
-	 *       The Toggle Button uses different background colors for the activated and deactivated state.
-	 *       The toggle of the Toggle Button is placed on the left side when it is deactivated, and on the right side
-	 *       when it is activated.
+	 *       The Toggle Button uses different background colors for the on and off state.
+	 *       The toggle of the Toggle Button is placed on the left side when it is off, and on the right side
+	 *       when it is on.
 	 *   effect: >
-	 *       Clicking the Toggle Button activates/deactivates the related control. The activated/deactivated state of
-	 *       the control is visually noticeable for the user, i.e. by greying out the control in the deactivated state.
+	 *       Clicking the Toggle Button activates/deactivates the related control. The on/off state of the control
+	 *       is visually noticeable for the user, i.e. by greying out the control in the off state.
 	 *   rivals:
 	 *     Checkbox: >
 	 *       Checkboxes are established as controls for choosing a value for submission and are therefore handled as Inputs.
@@ -302,9 +302,10 @@ interface Factory {
 	 * ---
 	 * @param	string		$label
 	 * @param	string|Signal		$action
-	 * @param	string|Signal		$action_deactivated
+	 * @param	string|Signal		$action_off
+	 * @param	bool		$is_on
 	 * @return  \ILIAS\UI\Component\Button\Toggle
 	 */
-	public function toggle($label, $action, $action_deactivated);
+	public function toggle($label, $action, $action_off, $is_on = false);
 
 }
