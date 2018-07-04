@@ -22462,4 +22462,3 @@ if(!$ilDB->tableExists('certificate_cron_queue')) {
 	$ilDB->addUniqueConstraint('certificate_cron_queue', array('id', 'obj_id', 'usr_id'));
 }
 ?>
-
