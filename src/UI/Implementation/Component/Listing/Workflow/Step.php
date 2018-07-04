@@ -86,7 +86,7 @@ class Step implements C\Listing\Workflow\Step {
 	public function withAvailability($status) {
 		$valid = [
 			static::AVAILABLE,
-			static::NOT_YET,
+			static::NOT_AVAILABLE,
 			static::NOT_ANYMORE
 		];
 		$this->checkArgIsElement('status', $status, $valid ,'valid status for availability');

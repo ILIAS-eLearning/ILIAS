@@ -17,8 +17,8 @@ function with_actions() {
 			->withAvailability($step::AVAILABLE)->withStatus($step::IN_PROGRESS),
 		$f->step('step 4', 'available, not started', '#')
 			->withAvailability($step::AVAILABLE)->withStatus($step::NOT_STARTED),
-		$f->step('step 5', 'not yet available, not started', '#')
-			->withAvailability($step::NOT_YET)->withStatus($step::NOT_STARTED),
+		$f->step('step 5', 'not available, not started', '#')
+			->withAvailability($step::NOT_AVAILABLE)->withStatus($step::NOT_STARTED),
 	];
 
 	//setup linear workflow
