@@ -14,7 +14,7 @@ class ilUserCertificateTemplate
 	private $objId;
 
 	/**
-	 * @var int
+	 * @var string
 	 */
 	private $objType;
 
@@ -64,9 +64,14 @@ class ilUserCertificateTemplate
 	private $currentlyActive;
 
 	/**
+	 * @var int|null
+	 */
+	private $id;
+
+	/**
 	 * @param integer $patternCertificateId
 	 * @param integer $objId
-	 * @param integer $objType
+	 * @param string $objType
 	 * @param integer $userId
 	 * @param string $userName
 	 * @param integer $acquiredTimestamp
@@ -105,6 +110,7 @@ class ilUserCertificateTemplate
 		$this->version = $version;
 		$this->iliasVersion = $iliasVersion;
 		$this->currentlyActive = $currentlyActive;
+		$this->id = $id;
 	}
 
 	/**
@@ -124,9 +130,9 @@ class ilUserCertificateTemplate
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getObjType(): int
+	public function getObjType(): string
 	{
 		return $this->objType;
 	}
@@ -174,7 +180,7 @@ class ilUserCertificateTemplate
 	/**
 	 * @return int
 	 */
-	public function getValidUntil(): int
+	public function getValidUntil()
 	{
 		return $this->validUntil;
 	}
@@ -201,5 +207,13 @@ class ilUserCertificateTemplate
 	public function isCurrentlyActive(): bool
 	{
 		return $this->currentlyActive;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getId(): int
+	{
+		return $this->id;
 	}
 }
