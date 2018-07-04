@@ -3,6 +3,8 @@ il.UI = il.UI || {};
 il.UI.button = il.UI.button || {};
 (function($, il) {
 	il.UI.button = (function($) {
+
+		/* month button */
 		var initMonth = function (id) {
 			$("#" + id).find(".inline-picker").each(function(o) {
 				$(this).datetimepicker({
@@ -28,8 +30,36 @@ il.UI.button = il.UI.button || {};
 			});
 		};
 
+		/* toggle button */
+		var handleToggleClick = function (event, id, on_url, on_signal, off_url, off_signal) {
+			var b = $("#" + id);
+
+			/*console.log(b.attr("aria-pressed"));
+			console.log(on_url);
+			console.log(off_url);
+			console.log(on_signal);
+			console.log(off_signal);*/
+
+			if (b.attr("aria-pressed") == "true") {
+				if (on_url != '') {
+					window.location = on_url;
+				} else {
+					$(on_signal.triggerer).trigger(on_signal.id, on_signal);
+				}
+			} else {
+				if (off_url != '') {
+					window.location = off_url;
+				} else {
+					$(off_signal.triggerer).trigger(off_signal.id, off_signal);
+				}
+			}
+			//console.log('handleToggelClick: ' + id);
+			return false;
+		};
+
 		return {
-			initMonth: initMonth
+			initMonth: initMonth,
+			handleToggleClick: handleToggleClick
 		};
 	})($);
 })($, il);

@@ -127,6 +127,55 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderToggle(Component\Button\Toggle $component) {
 		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
+		$on_action = $component->getAction();
+		$off_action = $component->getActionOff();
+
+
+		if (is_string($on_action))
+		{
+			$on_url = $on_action;
+			$on_options = "{}";
+		}
+		else
+		{
+			$on_url = "";
+			$on_signal = $on_action->getSignal();
+			$on_event = $on_action->getEvent();
+			$on_options = json_encode($on_signal->getOptions());
+		}
+
+		if (is_string($off_action))
+		{
+			$off_url = $off_action;
+			$off_options = "{}";
+		}
+		else
+		{
+			$off_url = "";
+			$off_signal = $off_action->getSignal();
+			$off_event = $off_action->getEvent();
+			$off_options = json_encode($off_signal->getOptions());
+		}
+
+
+		if ($component->isActive()) {
+			$component = $component->withAdditionalOnLoadCode(function ($id)
+				use ($on_url, $on_signal, $on_event, $on_options,
+					$off_url, $off_signal, $off_event, $off_options) {
+				return "$('#$id').on('click', function(event) {
+						il.UI.button.handleToggleClick(event, '$id', '$on_url', {
+								'id' : '{$on_signal}', 'event' : '{$on_event}',
+								'triggerer' : $('#{$id}'),
+								'options' : JSON.parse('{$on_options}')}, '$off_url', {
+								'id' : '{$off_signal}', 'event' : '{$off_event}',
+								'triggerer' : $('#{$id}'),
+								'options' : JSON.parse('{$off_options}')
+							});
+						return false; // stop event propagation
+				});";
+			});
+		}
+
 		//The incomplete rendering of the Toggle Button is work in progress
 
 		$is_on = $component->isOn();

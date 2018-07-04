@@ -7242,7 +7242,7 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: #75deea;
   color: #000000;
 }
-.Switch {
+.il-toggle-button {
   position: relative;
   height: 19px;
   padding: 0px 25px;
@@ -7251,7 +7251,7 @@ a.btn-link.ilSubmitInactive:hover {
   background: lightgrey;
   cursor: pointer;
 }
-.Switch .Toggle {
+.il-toggle-button .il-toggle-switch {
   position: absolute;
   top: -4px;
   left: -6%;
@@ -7264,10 +7264,10 @@ a.btn-link.ilSubmitInactive:hover {
   /* Safari */
   transition: all 0.25s ease-in-out;
 }
-.Switch.Activated {
+.il-toggle-button.on {
   background: #b3b3cc;
 }
-.Switch.Activated .Toggle {
+.il-toggle-button.on .il-toggle-switch {
   left: 53%;
   background: #666699;
 }
@@ -16113,4 +16113,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
