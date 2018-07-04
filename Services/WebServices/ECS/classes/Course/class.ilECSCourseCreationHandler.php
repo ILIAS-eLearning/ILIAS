@@ -252,7 +252,7 @@ class ilECSCourseCreationHandler
 		{
 			include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
 			$crsr = new ilObjCourseReference();
-			$crsr->setOwner(6);
+			$crsr->setOwner(SYTEM_USER_ID);
 			$crsr->setTargetRefId($ref_id);
 			$crsr->setTargetId(ilObject::_lookupObjId($ref_id));
 			$crsr->create();
@@ -359,6 +359,7 @@ class ilECSCourseCreationHandler
 		
 		include_once './Modules/Category/classes/class.ilObjCategory.php';
 		$cat = new ilObjCategory();
+		$cat->setOwner(SYSTEM_USER_ID);
 		$cat->setTitle($data->getTitle());
 		$cat->create(); // true for upload
 		$cat->createReference();
@@ -508,7 +509,7 @@ class ilECSCourseCreationHandler
 		
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
-		$course_obj->setOwner(6);
+		$course_obj->setOwner(SYSTEM_USER_ID);
 		$title = $course->title;
 		if(strlen($group->title))
 		{
@@ -590,6 +591,7 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		$group_obj = new ilObjGroup();
+		$group_obj->setOwner(SYSTEM_USER_ID);
 		$title = strlen($group->title) ? $group->title : $course->title;
 		$group_obj->setTitle($title);
 		$group_obj->setMaxMembers((int) $group->maxParticipants);
@@ -688,7 +690,7 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
-		$course_obj->setOwner(6);
+		$course_obj->setOwner(SYSTEM_USER_ID);
 		$title = $course->title;
 		$GLOBALS['ilLog']->write(__METHOD__.': Creating new course instance from ecs : '. $title);
 		$course_obj->setTitle($title);

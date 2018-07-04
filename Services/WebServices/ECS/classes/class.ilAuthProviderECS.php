@@ -280,6 +280,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 		global $ilClientIniFile, $ilSetting, $rbacadmin, $ilLog;
 
 		$userObj = new ilObjUser();
+		$userObj->setOwner(SYSTEM_USER_ID);
 
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
