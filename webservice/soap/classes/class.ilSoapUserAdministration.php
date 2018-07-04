@@ -311,7 +311,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
-	function __readUserData(&$usr_obj)
+	function __readUserData(\ilObjUser &$usr_obj)
 	{
 		$usr_data['usr_id'] = $usr_obj->getId();
 		$usr_data['login'] = $usr_obj->getLogin();
@@ -322,6 +322,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['title'] = $usr_obj->getUTitle();
 		$usr_data['gender'] = $usr_obj->getGender();
 		$usr_data['email'] = $usr_obj->getEmail();
+		$usr_data['second_email'] = $usr_obj->getSecondEmail();
 		$usr_data['institution'] = $usr_obj->getInstitution();
 		$usr_data['street'] = $usr_obj->getStreet();
 		$usr_data['city'] = $usr_obj->getCity();
