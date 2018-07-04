@@ -21,14 +21,18 @@ class ilCertificateTemplateRepository
 	 */
 	public function save(ilCertificateTemplate $certificateTemplate)
 	{
-		$version = $this->fetchLatestVersion($certificateTemplate->getObjId());
+		$objId = $certificateTemplate->getObjId();
+
+		$version = $this->fetchLatestVersion($objId);
 		$version += 1;
 
 		$id = $this->database->nextId('certificate_template');
 
+		$this->deactivatePreviousTemplates($objId);
+
 		$this->database->insert('certificate_template', array(
 			'id'                  => array('integer', $id),
-			'obj_id'              => array('integer', $certificateTemplate->getObjId()),
+			'obj_id'              => array('integer', $objId),
 			'certificate_content' => array('clob', $certificateTemplate->getCertificateContent()),
 			'certificate_hash'    => array('clob', $certificateTemplate->getCertificateHash()),
 			'template_values'     => array('clob', $certificateTemplate->getTemplateValues()),
@@ -43,7 +47,10 @@ class ilCertificateTemplateRepository
 	{
 		$result = array();
 
-		$sql = 'SELECT * FROM certificate_template WHERE obj_id = ' . $this->database->quote($objId, 'integer');
+		$sql = '
+SELECT * FROM
+certificate_template
+WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -66,7 +73,8 @@ class ilCertificateTemplateRepository
 
 	public function fetchCurrentlyActiveCertificate($objId)
 	{
-		$sql = 'SELECT * FROM certificate_template
+		$sql = '
+SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND currently_active = 1
 ';
@@ -102,5 +110,20 @@ AND currently_active = 1
 		}
 
 		return $version;
+	}
+
+	/**
+	 * @param $objId
+	 * @throws ilDatabaseException
+	 */
+	private function deactivatePreviousTemplates($objId)
+	{
+		$sql = '
+UPDATE certificate_template
+SET currently_active = 0
+WHERE obj_id = ' . $this->database->quote($objId, 'integer');
+
+		$query = $this->database->query($sql);
+		$this->database->execute($query);
 	}
 }

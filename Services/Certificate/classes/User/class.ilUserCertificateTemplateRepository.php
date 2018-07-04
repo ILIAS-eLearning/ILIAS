@@ -23,12 +23,17 @@ class ilUserCertificateTemplateRepository
 
 		$id = $this->database->nextId('user_certificates');
 
+		$objId = $certificateTemplate->getObjId();
+		$userId = $certificateTemplate->getUserId();
+
+		$this->deactivatePreviousCertificates($objId, $userId);
+
 		$columns = array(
 			'id'                     => array('integer', $id),
 			'pattern_certificate_id' => array('integer', $certificateTemplate->getPatternCertificateId()),
-			'obj_id'                 => array('integer', $certificateTemplate->getObjId()),
+			'obj_id'                 => array('integer', $objId),
 			'obj_type'               => array('clob', $certificateTemplate->getObjType()),
-			'user_id'                => array('integer', $certificateTemplate->getUserId()),
+			'user_id'                => array('integer', $userId),
 			'user_name'              => array('string', $certificateTemplate->getUserName()),
 			'acquired_timestamp'     => array('clob', $certificateTemplate->getAcquiredTimestamp()),
 			'certificate_content'    => array('clob', $certificateTemplate->getCertificateContent()),
@@ -38,7 +43,6 @@ class ilUserCertificateTemplateRepository
 			'ilias_version'          => array('text', $certificateTemplate->getIliasVersion()),
 			'currently_active'       => array('integer', (integer)$certificateTemplate->isCurrentlyActive())
 		);
-
 		$this->database->insert('user_certificates', $columns);
 	}
 
@@ -112,5 +116,22 @@ AND obj_id = ' . $objId;
 		}
 
 		return $version;
+	}
+
+	/**
+	 * @param $objId
+	 * @param $userId
+	 * @throws ilDatabaseException
+	 */
+	private function deactivatePreviousCertificates($objId, $userId)
+	{
+		$sql = '
+UPDATE certificate_template
+SET currently_active = 0
+WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+AND  user_id = ' . $this->database->quote($userId, 'integer');
+
+		$query = $this->database->query($sql);
+		$this->database->execute($query);
 	}
 }
