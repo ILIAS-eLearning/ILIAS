@@ -14,8 +14,8 @@ class ilCronStartUp
 	private $username = '';
 	private $password = '';
 
-	/** @var ilAuthSession|mixed|null */
-	private $authSession;
+	/** @var DIC|mixed|null */
+	private $dic;
 
 	/**
 	 * @param $a_client_id
@@ -26,18 +26,11 @@ class ilCronStartUp
 	public function __construct(
 		$a_client_id,
 		$a_login,
-		$a_password,
-		\ilAuthSession $authSession = null
+		$a_password
 	) {
 		$this->client = $a_client_id;
 		$this->username = $a_login;
 		$this->password = $a_password;
-
-		if ($authSession) {
-			global $DIC;
-			$authSession = $DIC['ilAuthSession'];
-		}
-		$this->authSession = $authSession;
 	}
 	
 	/** 
@@ -80,8 +73,11 @@ class ilCronStartUp
 		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 		$frontend_factory = new ilAuthFrontendFactory();
 		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
+
+		$authSession = $GLOBALS['DIC']['ilAuthSession'];
+
 		$frontend = $frontend_factory->getFrontend(
-			$this->authSession,
+			$authSession,
 			$status,
 			$credentials,
 			$providers
@@ -110,6 +106,8 @@ class ilCronStartUp
 	public function logout()
 	{
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-		$this->authSession->logout();
+		$authSession = $GLOBALS['DIC']['ilAuthSession'];
+
+		$authSession->logout();
 	}
 }
