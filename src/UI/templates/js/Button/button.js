@@ -63,3 +63,19 @@ il.UI.button = il.UI.button || {};
 		};
 	})($);
 })($, il);
+
+// toggle init
+$(document).ready(function() {
+    if ($('.il-toggle-button.on')) {
+        $('.il-toggle-button.on').attr("aria-pressed", "true");
+    }
+    $('.il-toggle-button').click(function() {
+        $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button');
+
+        if ($(this).attr("aria-pressed") == "false") {
+            $(this).attr("aria-pressed", "true");
+        } else {
+            $(this).attr("aria-pressed", "false");
+        }
+    });
+});

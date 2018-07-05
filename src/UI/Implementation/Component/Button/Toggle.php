@@ -16,6 +16,11 @@ class Toggle extends Button implements C\Button\Toggle {
 	use Triggerer;
 
 	/**
+	 * @var string
+	 */
+	protected $label;
+
+	/**
 	 * @var bool
 	 */
 	protected $is_on;
@@ -33,8 +38,10 @@ class Toggle extends Button implements C\Button\Toggle {
 		$this->checkStringArg("label", $label);
 		$this->checkStringOrSignalArg("action", $action);
 		$this->checkStringOrSignalArg("action_off", $action_off);
+		$this->checkBoolArg("is_on", $is_on);
 
 		$this->label = $label;
+
 		if (is_string($action)) {
 			$this->action = $action;
 		}
@@ -50,8 +57,13 @@ class Toggle extends Button implements C\Button\Toggle {
 			$this->action_off = null;
 			$this->action_off_signal = new TriggeredSignal($action_off, "click");
 		}
-		$this->checkBoolArg("is_on", $is_on);
+
 		$this->is_on = $is_on;
+	}
+
+	public function getLabel()
+	{
+		return $this->label;
 	}
 
 	/**
