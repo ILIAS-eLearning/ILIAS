@@ -649,7 +649,7 @@ class ilFileUtils
 			'ico',   // IMAGE__X_ICON,
 			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
-			'ipynb'						// iPython file for Jupyter Notebooks
+			'ipynb',						// iPython file for Jupyter Notebooks
 			'java',   // TEXT__X_JAVA_SOURCE,
 			'jbf', // scorm wbts
 			'jpeg',   // IMAGE__PJPEG,
@@ -723,7 +723,7 @@ class ilFileUtils
 			'pic',   // IMAGE__PICT,
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
-			'por'					// Portable SPSS file
+			'por',					// Portable SPSS file
 			'pov',   // MODEL__X_POV,
 			'project', // scorm wbts
 			'properties', // scorm wbts
@@ -742,10 +742,13 @@ class ilFileUtils
 			'qti',   // IMAGE__X_QUICKTIME,
 			'qtif',   // IMAGE__X_QUICKTIME,
 			'r',					// R script file
+			'r\d\d',				// RAR (application/vnd.rar)
 			'ra',   // AUDIO__X_PN_REALAUDIO,
 			'ram',   // AUDIO__X_PN_REALAUDIO,
+			'rar',				// RAR (application/vnd.rar)
 			'rast',   // IMAGE__CMU_RASTER,
 			'rda',					// R data file
+			'rev',				// RAR (application/vnd.rar)
 			'rexx',   // TEXT__X_SCRIPT_REXX,
 			'ris',	// ris
 			'rf',   // IMAGE__VND_RN_REALFLASH,
@@ -769,8 +772,8 @@ class ilFileUtils
 			'sgml',   // TEXT__SGML
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
-			'sps'					// SPSS syntax file
-			'spv'					// SPSS output file
+			'sps',					// SPSS syntax file
+			'spv',					// SPSS output file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
