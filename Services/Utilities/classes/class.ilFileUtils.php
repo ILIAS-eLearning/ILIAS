@@ -723,7 +723,7 @@ class ilFileUtils
 			'pic',   // IMAGE__PICT,
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
-			'por',					// Portable SPSS file
+			'por',    // Portable SPSS file
 			'pov',   // MODEL__X_POV,
 			'project', // scorm wbts
 			'properties', // scorm wbts
@@ -741,20 +741,19 @@ class ilFileUtils
 			'qtc',   // VIDEO__X_QTC,
 			'qti',   // IMAGE__X_QUICKTIME,
 			'qtif',   // IMAGE__X_QUICKTIME,
-			'r',					// R script file
-			'r\d\d',				// RAR (application/vnd.rar)
+			'r',    // R script file
 			'ra',   // AUDIO__X_PN_REALAUDIO,
 			'ram',   // AUDIO__X_PN_REALAUDIO,
-			'rar',				// RAR (application/vnd.rar)
+			'rar',    // RAR (application/vnd.rar)
 			'rast',   // IMAGE__CMU_RASTER,
-			'rda',					// R data file
-			'rev',				// RAR (application/vnd.rar)
+			'rda',    // R data file
+			'rev',    // RAR (application/vnd.rar)
 			'rexx',   // TEXT__X_SCRIPT_REXX,
 			'ris',	// ris
 			'rf',   // IMAGE__VND_RN_REALFLASH,
 			'rgb',   // IMAGE__X_RGB,
 			'rm',   // APPLICATION__VND_RN_REALMEDIA,
-			'rmd',					// R Markdown file
+			'rmd',    // R Markdown file
 			'rmi',   // AUDIO__MID,
 			'rmm',   // AUDIO__X_PN_REALAUDIO,
 			'rmp',   // AUDIO__X_PN_REALAUDIO,
@@ -765,15 +764,15 @@ class ilFileUtils
 			's',   // TEXT__X_ASM,
 			's3m',   // AUDIO__S3M,
 			'sav',   // SPSS data file
-			'sbs',					// SPSS script
+			'sbs',    // SPSS script
 			'sec',   //
 			'sdml',   // TEXT__PLAIN,
 			'sgm',   // TEXT__SGML,
 			'sgml',   // TEXT__SGML
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
-			'sps',					// SPSS syntax file
-			'spv',					// SPSS output file
+			'sps',    // SPSS syntax file
+			'spv',    // SPSS output file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
