@@ -634,6 +634,8 @@ class ilFileUtils
 			'gtar',   // APPLICATION__X_GTAR,
 			'gz',   // APPLICATION__X_GZIP,
 			'gzip',   // APPLICATION__X_GZIP,
+			'h',	// TEXT__X_C
+			'hpp',	// TEXT__X_C
 			'htm',   // TEXT__HTML,
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
