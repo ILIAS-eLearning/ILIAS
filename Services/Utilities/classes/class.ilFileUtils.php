@@ -599,6 +599,7 @@ class ilFileUtils
 			'c++', 	// TEXT__PLAIN
 			'cc', 	// TEXT__PLAIN
 			'cct', // scorm wbts
+			'cdf',						// (Wolfram) Computable Document Format
 			'cer', 	// APPLICATION__X_X509_CA_CERT
 			'class', // APPLICATION__X_JAVA_CLASS
 			'conf',	 // TEXT__PLAIN
@@ -692,6 +693,8 @@ class ilFileUtils
 			'mv',   // VIDEO__X_SGI_MOVIE,
 			'mw',
 			'mv4',   // VIDEO__MP4,
+			'nb',						// Wolfram Notebook files
+			'nbp',						// Wolfram Notebook Player files
 			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
