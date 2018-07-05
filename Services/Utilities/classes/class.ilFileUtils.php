@@ -589,6 +589,7 @@ class ilFileUtils
 			'avi',  // AUDIO__BASIC
 			'backup', // scorm wbts
 			'bak', // scorm wbts
+			'bas',						// SPSS script
 			'bpmn', // bpmn
 			'bpmn2', // bpmn2
 			'bmp',	// IMAGE__BMP
@@ -603,6 +604,7 @@ class ilFileUtils
 			'cdf',						// (Wolfram) Computable Document Format
 			'cer', 	// APPLICATION__X_X509_CA_CERT
 			'class', // APPLICATION__X_JAVA_CLASS
+			'cls',						// SPSS script
 			'conf',	 // TEXT__PLAIN
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
@@ -700,6 +702,7 @@ class ilFileUtils
 			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
+			'obm',						// SPSS script
 			'odt',   // Open document text,
 			'ods',   // Open document spreadsheet,
 			'odp',   // Open document presentation,
@@ -720,6 +723,7 @@ class ilFileUtils
 			'pic',   // IMAGE__PICT,
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
+			'por'					// Portable SPSS file
 			'pov',   // MODEL__X_POV,
 			'project', // scorm wbts
 			'properties', // scorm wbts
@@ -756,14 +760,17 @@ class ilFileUtils
 			'rtx',   // TEXT__RICHTEXT,
 			'rv',   // VIDEO__VND_RN_REALVIDEO,
 			's',   // TEXT__X_ASM,
-			'sav',   // SPSS
-			'sec',   //
 			's3m',   // AUDIO__S3M,
+			'sav',   // SPSS data file
+			'sbs',					// SPSS script
+			'sec',   //
 			'sdml',   // TEXT__PLAIN,
 			'sgm',   // TEXT__SGML,
 			'sgml',   // TEXT__SGML
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
+			'sps'					// SPSS syntax file
+			'spv'					// SPSS output file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
@@ -789,6 +796,7 @@ class ilFileUtils
 			'wmx',   // VIDEO__X_MS_WMX,
 			'wmz',   // VIDEO__X_MS_WMZ,
 			'woff',   // web open font format,
+			'wwd',						// SPSS script
 			'xhtml',   // APPLICATION__XHTML_XML,
 			'xif',   // IMAGE__VND_XIFF,
 			'xls',   // APPLICATION__EXCEL,
