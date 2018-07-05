@@ -49,6 +49,11 @@ class ilCertificateTemplate
 	private $id;
 
 	/**
+	 * @var string|null
+	 */
+	private $backgroundImagePath;
+
+	/**
 	 * @param integer $obj_id
 	 * @param string $certificateContent
 	 * @param string $certificateHash
@@ -57,6 +62,7 @@ class ilCertificateTemplate
 	 * @param string $iliasVersion
 	 * @param integer $createdTimestamp
 	 * @param boolean $currentlyActive
+	 * @param null $backgroundImagePath
 	 * @param integer|null $id
 	 */
 	public function __construct(
@@ -68,6 +74,7 @@ class ilCertificateTemplate
 		$iliasVersion,
 		$createdTimestamp,
 		$currentlyActive,
+		$backgroundImagePath = null,
 		$id = null
 	) {
 		$this->obj_id = $obj_id;
@@ -78,6 +85,7 @@ class ilCertificateTemplate
 		$this->iliasVersion = $iliasVersion;
 		$this->createdTimestamp = $createdTimestamp;
 		$this->currentlyActive = $currentlyActive;
+		$this->backgroundImagePath = $backgroundImagePath;
 		$this->id = $id;
 	}
 
@@ -151,5 +159,13 @@ class ilCertificateTemplate
 	public function getId(): int
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBackgroundImagePath()
+	{
+		return $this->backgroundImagePath;
 	}
 }

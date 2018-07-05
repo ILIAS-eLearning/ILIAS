@@ -1,7 +1,7 @@
 <?php
 
 
-class ilUserCertificateTemplate
+class ilUserCertificate
 {
 	/**
 	 * @var int
@@ -69,6 +69,11 @@ class ilUserCertificateTemplate
 	private $id;
 
 	/**
+	 * @var string|null
+	 */
+	private $backgroundImagePath;
+
+	/**
 	 * @param integer $patternCertificateId
 	 * @param integer $objId
 	 * @param string $objType
@@ -81,6 +86,7 @@ class ilUserCertificateTemplate
 	 * @param string $version
 	 * @param string $iliasVersion
 	 * @param boolean $currentlyActive
+	 * @param string|null $backgroundImagePath
 	 * @param integer|null $id
 	 */
 	public function __construct(
@@ -96,6 +102,7 @@ class ilUserCertificateTemplate
 		$version,
 		$iliasVersion,
 		$currentlyActive,
+		$backgroundImagePath = null,
 		$id = null
 	) {
 		$this->patternCertificateId = $patternCertificateId;
@@ -110,6 +117,7 @@ class ilUserCertificateTemplate
 		$this->version = $version;
 		$this->iliasVersion = $iliasVersion;
 		$this->currentlyActive = $currentlyActive;
+		$this->backgroundImagePath = $backgroundImagePath;
 		$this->id = $id;
 	}
 
@@ -215,5 +223,13 @@ class ilUserCertificateTemplate
 	public function getId(): int
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getBackgroundImagePath()
+	{
+		return $this->backgroundImagePath;
 	}
 }

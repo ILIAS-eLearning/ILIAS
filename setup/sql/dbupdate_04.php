@@ -22308,6 +22308,11 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'type' => 'clob',
 			'notnull' => true,
 		),
+		'background_image_path' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		),
 		'version' => array(
 			'type' => 'text',
 			'length' => 255,

@@ -31,15 +31,16 @@ class ilCertificateTemplateRepository
 		$this->deactivatePreviousTemplates($objId);
 
 		$this->database->insert('certificate_template', array(
-			'id'                  => array('integer', $id),
-			'obj_id'              => array('integer', $objId),
-			'certificate_content' => array('clob', $certificateTemplate->getCertificateContent()),
-			'certificate_hash'    => array('clob', $certificateTemplate->getCertificateHash()),
-			'template_values'     => array('clob', $certificateTemplate->getTemplateValues()),
-			'version'             => array('clob', $version),
-			'ilias_version'       => array('clob', $certificateTemplate->getIliasVersion()),
-			'created_timestamp'   => array('integer', $certificateTemplate->getCreatedTimestamp()),
-			'currently_active'    => array('integer', (integer) $certificateTemplate->isCurrentlyActive())
+			'id'                    => array('integer', $id),
+			'obj_id'                => array('integer', $objId),
+			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
+			'certificate_hash'      => array('clob', $certificateTemplate->getCertificateHash()),
+			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
+			'version'               => array('clob', $version),
+			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
+			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
+			'currently_active'      => array('integer', (integer) $certificateTemplate->isCurrentlyActive()),
+			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
 		));
 	}
 
@@ -64,6 +65,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 				$row['ilias_version'],
 				$row['created_timestamp'],
 				(boolean) $row['currently_active'],
+				$row['background_image_path'],
 				$row['id']
 			);
 		}
@@ -91,6 +93,7 @@ AND currently_active = 1
 				$row['ilias_version'],
 				$row['created_timestamp'],
 				(boolean) $row['currently_active'],
+				$row['background_image_path'],
 				$row['id']
 			);
 		}

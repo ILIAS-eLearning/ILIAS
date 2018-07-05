@@ -1,7 +1,7 @@
 <?php
 
 
-class ilUserCertificateTemplateRepository
+class ilUserCertificateRepository
 {
 	/**
 	 * @var ilDB
@@ -17,35 +17,36 @@ class ilUserCertificateTemplateRepository
 	}
 
 	/**
-	 * @param ilUserCertificateTemplate $certificateTemplate
+	 * @param ilUserCertificate $userCertificate
 	 * @throws ilDatabaseException
 	 */
-	public function save(ilUserCertificateTemplate $certificateTemplate)
+	public function save(ilUserCertificate $userCertificate)
 	{
-		$version = $this->fetchLatestVersion($certificateTemplate->getObjId(), $certificateTemplate->getUserId());
+		$version = $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
 		$version += 1;
 
 		$id = $this->database->nextId('user_certificates');
 
-		$objId = $certificateTemplate->getObjId();
-		$userId = $certificateTemplate->getUserId();
+		$objId = $userCertificate->getObjId();
+		$userId = $userCertificate->getUserId();
 
 		$this->deactivatePreviousCertificates($objId, $userId);
 
 		$columns = array(
 			'id'                     => array('integer', $id),
-			'pattern_certificate_id' => array('integer', $certificateTemplate->getPatternCertificateId()),
+			'pattern_certificate_id' => array('integer', $userCertificate->getPatternCertificateId()),
 			'obj_id'                 => array('integer', $objId),
-			'obj_type'               => array('clob', $certificateTemplate->getObjType()),
+			'obj_type'               => array('clob', $userCertificate->getObjType()),
 			'user_id'                => array('integer', $userId),
-			'user_name'              => array('string', $certificateTemplate->getUserName()),
-			'acquired_timestamp'     => array('clob', $certificateTemplate->getAcquiredTimestamp()),
-			'certificate_content'    => array('clob', $certificateTemplate->getCertificateContent()),
-			'template_values'        => array('clob', $certificateTemplate->getTemplateValues()),
-			'valid_until'            => array('integer', $certificateTemplate->getValidUntil()),
+			'user_name'              => array('string', $userCertificate->getUserName()),
+			'acquired_timestamp'     => array('clob', $userCertificate->getAcquiredTimestamp()),
+			'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
+			'template_values'        => array('clob', $userCertificate->getTemplateValues()),
+			'valid_until'            => array('integer', $userCertificate->getValidUntil()),
 			'version'                => array('text', $version),
-			'ilias_version'          => array('text', $certificateTemplate->getIliasVersion()),
-			'currently_active'       => array('integer', (integer)$certificateTemplate->isCurrentlyActive())
+			'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
+			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
+			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
 		);
 		$this->database->insert('user_certificates', $columns);
 	}
@@ -62,7 +63,7 @@ class ilUserCertificateTemplateRepository
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = new ilUserCertificateTemplate(
+			$result[] = new ilUserCertificate(
 				$row['pattern_certificate_id'],
 				$row['obj_id'],
 				$row['obj_type'],
@@ -75,6 +76,7 @@ class ilUserCertificateTemplateRepository
 				$row['version'],
 				$row['ilias_version'],
 				$row['currently_active'],
+				$row['background_image_path'],
 				$row['id']
 			);
 		}
@@ -97,7 +99,7 @@ AND obj_id = ' . $objId;
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = new ilUserCertificateTemplate(
+			$result[] = new ilUserCertificate(
 				$row['pattern_certificate_id'],
 				$row['obj_id'],
 				$row['obj_type'],
@@ -110,6 +112,7 @@ AND obj_id = ' . $objId;
 				$row['version'],
 				$row['ilias_version'],
 				$row['currently_active'],
+				$row['background_image_path'],
 				$row['id']
 			);
 		}
