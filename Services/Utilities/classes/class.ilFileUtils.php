@@ -579,6 +579,7 @@ class ilFileUtils
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
+			'7z',						// application/x-7z-compressed
 			'ai', 	// APPLICATION__POSTSCRIPT
 			'aif', 	// AUDIO__AIFF
 			'aifc', // AUDIO__AIFF
