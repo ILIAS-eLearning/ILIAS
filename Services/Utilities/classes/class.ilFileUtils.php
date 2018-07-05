@@ -788,6 +788,7 @@ class ilFileUtils
 			'txt',   // TEXT__PLAIN,
 			'tmp',
 			'uvproj',
+			'vdf',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
