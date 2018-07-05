@@ -316,7 +316,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				$this->tpl->getStandardTemplate();
 
 				$gui = new \ilObjectCopyGUI($this);
-				$gui->setType($this->object->getType());
+				$gui->setType(self::OBJ_TYPE);
 
 				$this->ctrl->forwardCommand($gui);
 				break;
