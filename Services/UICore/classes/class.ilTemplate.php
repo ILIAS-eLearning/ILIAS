@@ -51,7 +51,6 @@ class ilTemplate extends HTML_Template_ITX
 	var $css_files = array();		// list of css files that should be included
 	var $inline_css = array();
 	
-	private $addFooter; // creates an output of the ILIAS footer
 
 	protected static $il_cache = array();
 	protected $message = array();
@@ -185,26 +184,217 @@ class ilTemplate extends HTML_Template_ITX
         $this->template = '';
 
     } // end func init
+
+	// FOOTER
+	//
+	// Used in:
+	//  * ilStartUPGUI
+	//  * ilTestSubmissionReviewGUI
+	//  * ilTestPlayerAbstractGUI
+	//  * ilAssQuestionHintRequestGUI
+
+	private $show_footer = true;
 	
-	/*
-	* Sets wheather the ILIAS footer should be shown or not
-	*
-	* @param boolean $value TRUE to show the ILIAS footer, FALSE to hide it
-	*/
-	public function setAddFooter($value)
+	/**
+	 * Make the template hide the footer.
+	 */
+	public function hideFooter()
 	{
-		$this->addFooter = $value;
+		$this->show_footer = false;
 	}
 	
-	/*
-	* Returns wheather the ILIAS footer should be shown or not
-	*
-	* @return boolean TRUE if the ILIAS footer will be shown, FALSE otherwise
-	*/
-	private function getAddFooter()
+	/**
+	 * Fill the footer area.
+	 */
+	private function fillFooter()
 	{
-		return $this->addFooter;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		$lng = $DIC->language();
+
+		$ilCtrl = $DIC->ctrl();
+		$ilDB = $DIC->database();
+
+		if (!$this->show_footer)
+		{
+			return;
+		}
+
+		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
+
+		$php = "";
+		if (DEVMODE)
+		{
+			$php = ", PHP ".phpversion();
+		}
+		$ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version").$php);
+
+		$link_items = array();
+
+		// imprint
+		include_once "Services/Imprint/classes/class.ilImprint.php";
+		if($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive())
+		{
+			include_once "Services/Link/classes/class.ilLink.php";
+			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
+		}
+
+		// system support contacts
+		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
+		if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "")
+		{
+			$link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
+		}
+
+		if (DEVMODE)
+		{
+			if (function_exists("tidy_parse_string"))
+			{
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);
+			}
+		}
+
+        // output translation link
+		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
+		{
+			// fix #9992: remember linked translation instead of saving language usages here
+			$this->translation_linked = true;
+			$link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
+		}
+
+        $cnt = 0;
+		foreach($link_items as $url => $caption)
+		{
+			$cnt ++;
+			if($caption[1])
+			{
+				$ftpl->touchBlock("blank");
+			}
+			if($cnt < sizeof($link_items))
+			{
+				$ftpl->touchBlock("item_separator");
+			}
+
+			$ftpl->setCurrentBlock("items");
+			$ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
+			$ftpl->setVariable("TXT_ITEM", $caption[0]);
+			$ftpl->parseCurrentBlock();
+		}
+
+		if (DEVMODE)
+		{
+			// execution time
+			$t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
+			$t2 = explode(" ", microtime());
+			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
+
+			$mem_usage = array();
+			if(function_exists("memory_get_usage"))
+			{
+				$mem_usage[] =
+					"Memory Usage: ".memory_get_usage()." Bytes";
+			}
+			if(function_exists("xdebug_peak_memory_usage"))
+			{
+				$mem_usage[] =
+					"XDebug Peak Memory Usage: ".xdebug_peak_memory_usage()." Bytes";
+			}
+			$mem_usage[] = round($diff, 4)." Seconds";
+
+			if (sizeof($mem_usage))
+			{
+				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
+			}
+
+			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
+			{
+				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
+				$template2 = clone($this);
+				$ftpl->setCurrentBlock("xhtml_validation");
+				$ftpl->setVariable("VALIDATION",
+					ilValidatorAdapter::validate($template2->get("DEFAULT",
+					false, false, false, true), $_GET["do_dev_validate"]));
+				$ftpl->parseCurrentBlock();
+			}
+
+			// controller history
+			if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
+				$ftpl->blockExists("call_history"))
+			{
+				$hist = $ilCtrl->getCallHistory();
+				foreach($hist as $entry)
+				{
+					$ftpl->setCurrentBlock("c_entry");
+					$ftpl->setVariable("C_ENTRY", $entry["class"]);
+					if (is_object($ilDB))
+					{
+						$file = $ilCtrl->lookupClassPath($entry["class"]);
+						$add = $entry["mode"]." - ".$entry["cmd"];
+						if ($file != "")
+						{
+							$add.= " - ".$file;
+						}
+						$ftpl->setVariable("C_FILE", $add);
+					}
+					$ftpl->parseCurrentBlock();
+				}
+				$ftpl->setCurrentBlock("call_history");
+				$ftpl->parseCurrentBlock();
+
+				// debug hack
+				$debug = $ilCtrl->getDebug();
+				foreach($debug as $d)
+				{
+					$ftpl->setCurrentBlock("c_entry");
+					$ftpl->setVariable("C_ENTRY", $d);
+					$ftpl->parseCurrentBlock();
+				}
+				$ftpl->setCurrentBlock("call_history");
+				$ftpl->parseCurrentBlock();
+			}
+
+			// included files
+			if (is_object($ilCtrl) && $ftpl->blockExists("i_entry") &&
+				$ftpl->blockExists("included_files"))
+			{
+				$fs = get_included_files();
+				$ifiles = array();
+				$total = 0;
+				foreach($fs as $f)
+				{
+					$ifiles[] = array("file" => $f, "size" => filesize($f));
+					$total += filesize($f);
+				}
+				$ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+				foreach($ifiles as $f)
+				{
+					$ftpl->setCurrentBlock("i_entry");
+					$ftpl->setVariable("I_ENTRY", $f["file"]." (".$f["size"]." Bytes, ".round(100 / $total * $f["size"], 2)."%)");
+					$ftpl->parseCurrentBlock();
+				}
+				$ftpl->setCurrentBlock("i_entry");
+				$ftpl->setVariable("I_ENTRY", "Total (".$total." Bytes, 100%)");
+				$ftpl->parseCurrentBlock();
+				$ftpl->setCurrentBlock("included_files");
+				$ftpl->parseCurrentBlock();
+			}
+		}
+
+		// BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
+		// The corresponding $ilBench->start invocation is in inc.header.php
+		$ilBench = $DIC["ilBench"];
+		$ilBench->stop("Core", "ElapsedTimeUntilFooter");
+		$ftpl->setVariable("ELAPSED_TIME",
+			", ".number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"),1).' seconds');
+		// END Usability: Non-Delos Skins can display the elapsed time in the footer
+
+		$this->setVariable("FOOTER", $ftpl->get());
 	}
+
 
 	
 	/**
@@ -236,7 +426,7 @@ class ilTemplate extends HTML_Template_ITX
 
 		if ($add_ilias_footer)
 		{
-			$this->addILIASFooter();
+			$this->fillFooter();
 		}
 
 		// set standard parts (tabs and title icon)
@@ -476,7 +666,7 @@ class ilTemplate extends HTML_Template_ITX
 				// display ILIAS footer
 				if ($part !== false)
 				{
-					$this->addILIASFooter();
+					$this->fillFooter();
 				}
 
 				// set standard parts (tabs and title icon)
@@ -844,192 +1034,6 @@ class ilTemplate extends HTML_Template_ITX
 		ilHelpGUI::initHelp($this);
 	}
 	
-	
-	/**
-	* add ILIAS footer
-	*/
-	private function addILIASFooter()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC->settings();
-
-		$lng = $DIC->language();
-
-		$ilCtrl = $DIC->ctrl();
-		$ilDB = $DIC->database();
-
-		if (!$this->getAddFooter())
-		{
-			return;
-		}
-
-		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-
-		$php = "";
-		if (DEVMODE)
-		{
-			$php = ", PHP ".phpversion();
-		}
-		$ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version").$php);
-		
-		$link_items = array();
-		
-		// imprint
-		include_once "Services/Imprint/classes/class.ilImprint.php";
-		if($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive())
-		{
-			include_once "Services/Link/classes/class.ilLink.php";
-			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
-		}
-
-		// system support contacts
-		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
-		if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "")
-		{
-			$link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
-		}
-				
-		if (DEVMODE)
-		{
-			if (function_exists("tidy_parse_string"))
-			{
-				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
-				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);
-			}
-		}
-
-        // output translation link
-		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
-		{
-			// fix #9992: remember linked translation instead of saving language usages here
-			$this->translation_linked = true;
-			$link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-		}
-
-        $cnt = 0;
-		foreach($link_items as $url => $caption)
-		{
-			$cnt ++;		
-			if($caption[1])
-			{
-				$ftpl->touchBlock("blank");
-			} 
-			if($cnt < sizeof($link_items))
-			{
-				$ftpl->touchBlock("item_separator");
-			}
-			
-			$ftpl->setCurrentBlock("items");
-			$ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
-			$ftpl->setVariable("TXT_ITEM", $caption[0]);
-			$ftpl->parseCurrentBlock();			
-		}
-
-		if (DEVMODE)
-		{
-			// execution time
-			$t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
-			$t2 = explode(" ", microtime());
-			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
-
-			$mem_usage = array();
-			if(function_exists("memory_get_usage"))
-			{
-				$mem_usage[] =
-					"Memory Usage: ".memory_get_usage()." Bytes";
-			}
-			if(function_exists("xdebug_peak_memory_usage"))
-			{
-				$mem_usage[] =
-					"XDebug Peak Memory Usage: ".xdebug_peak_memory_usage()." Bytes";
-			}
-			$mem_usage[] = round($diff, 4)." Seconds";
-			
-			if (sizeof($mem_usage))
-			{
-				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
-			}
-			
-			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
-			{
-				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-				$template2 = clone($this);
-				$ftpl->setCurrentBlock("xhtml_validation");
-				$ftpl->setVariable("VALIDATION",
-					ilValidatorAdapter::validate($template2->get("DEFAULT",
-					false, false, false, true), $_GET["do_dev_validate"]));
-				$ftpl->parseCurrentBlock();
-			}
-			
-			// controller history
-			if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
-				$ftpl->blockExists("call_history"))
-			{
-				$hist = $ilCtrl->getCallHistory();
-				foreach($hist as $entry)
-				{
-					$ftpl->setCurrentBlock("c_entry");
-					$ftpl->setVariable("C_ENTRY", $entry["class"]);
-					if (is_object($ilDB))
-					{
-						$file = $ilCtrl->lookupClassPath($entry["class"]);
-						$add = $entry["mode"]." - ".$entry["cmd"];
-						if ($file != "")
-						{
-							$add.= " - ".$file;
-						}
-						$ftpl->setVariable("C_FILE", $add);
-					}
-					$ftpl->parseCurrentBlock();
-				}
-				$ftpl->setCurrentBlock("call_history");
-				$ftpl->parseCurrentBlock();
-				
-				$ftpl->setCurrentBlock("call_history");
-				$ftpl->parseCurrentBlock();
-			}
-			
-			// included files
-			if (is_object($ilCtrl) && $ftpl->blockExists("i_entry") &&
-				$ftpl->blockExists("included_files"))
-			{
-				$fs = get_included_files();
-				$ifiles = array();
-				$total = 0;
-				foreach($fs as $f)
-				{
-					$ifiles[] = array("file" => $f, "size" => filesize($f));
-					$total += filesize($f);
-				}
-				$ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
-				foreach($ifiles as $f)
-				{
-					$ftpl->setCurrentBlock("i_entry");
-					$ftpl->setVariable("I_ENTRY", $f["file"]." (".$f["size"]." Bytes, ".round(100 / $total * $f["size"], 2)."%)");
-					$ftpl->parseCurrentBlock();
-				}
-				$ftpl->setCurrentBlock("i_entry");
-				$ftpl->setVariable("I_ENTRY", "Total (".$total." Bytes, 100%)");
-				$ftpl->parseCurrentBlock();
-				$ftpl->setCurrentBlock("included_files");
-				$ftpl->parseCurrentBlock();				
-			}
-
-		}
-
-		// BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-		// The corresponding $ilBench->start invocation is in inc.header.php
-		$ilBench = $DIC["ilBench"];
-		$ilBench->stop("Core", "ElapsedTimeUntilFooter");
-		$ftpl->setVariable("ELAPSED_TIME",
-			", ".number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"),1).' seconds');
-		// END Usability: Non-Delos Skins can display the elapsed time in the footer
-		
-		$this->setVariable("FOOTER", $ftpl->get());
-	}
-
 
 	/**
 	* TODO: this is nice, but shouldn't be done here

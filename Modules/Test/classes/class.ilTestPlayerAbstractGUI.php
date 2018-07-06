@@ -1788,7 +1788,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
-			$this->tpl->setAddFooter(FALSE);
+			$this->tpl->hideFooter();
 			return "CONTENT";
 		}
 		else

@@ -1697,7 +1697,7 @@ class ilStartUpGUI
 
 		// fix #21612
 	//	$tpl = new ilTemplate("tpl.main.html", true, true);
-		$tpl->setAddFooter(false); // no client yet
+		$tpl->hideFooter(); // no client yet
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
         $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
