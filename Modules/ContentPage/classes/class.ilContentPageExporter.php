@@ -52,6 +52,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
 	 */
 	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) {
 		$pageObjectIds = [];
+		$styleIds      = [];
 
 		foreach ($a_ids as $copaObjId) {
 			$copa = \ilObjectFactory::getInstanceByObjId($copaObjId, false);
@@ -63,18 +64,30 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
 			foreach ($copaPageObjIds as $copaPageObjId) {
 				$pageObjectIds[] = self::OBJ_TYPE . ':' . $copaPageObjId;
 			}
+
+			if ($copa->getStyleSheetId() > 0) {
+				$styleIds[$copa->getStyleSheetId()] = $copa->getStyleSheetId();
+			}
 		}
 
+		$deps = [];
+
 		if (count($pageObjectIds) > 0) {
-			return [
-				[
-					'component' => 'Services/COPage',
-					'entity'    => 'pg',
-					'ids'       => $pageObjectIds,
-				]
+			$deps[] = [
+				'component' => 'Services/COPage',
+				'entity'    => 'pg',
+				'ids'       => $pageObjectIds,
 			];
 		}
 
-		return [];
+		if (count($styleIds) > 0) {
+			$deps[] = [
+				'component' => 'Services/Style',
+				'entity' => 'sty',
+				'ids' => array_values($styleIds),
+			];
+		}
+
+		return $deps;
 	}
 }
