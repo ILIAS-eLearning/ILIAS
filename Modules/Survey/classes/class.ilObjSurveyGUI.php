@@ -238,10 +238,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			case 'ilsurveyparticipantsgui':		
-				if(!$this->object->get360Mode())
+			case 'ilsurveyparticipantsgui':
+				if($this->object->getMode() == ilObjSurvey::MODE_STANDARD)
 				{
-					$ilTabs->activateTab("maintenance");				
+					$ilTabs->activateTab("maintenance");
 				}
 				else
 				{
@@ -364,6 +364,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}		
 	
 	/**
+	 * TODO -> remove the Participants and Routing tab for self evaluation mode.
+	 * TODO -> Configure new content tab for Appraisees when the svy is self eval only.
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
@@ -410,6 +412,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this,'properties'));
 		}
+		// TODO -> Check this!!
 		else if ($this->checkPermissionBool("read"))
 		{
 			if($this->object->get360Mode() && 
@@ -428,9 +431,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// questions
 		if ($this->checkPermissionBool("write") &&
 			!in_array("constraints", $hidden_tabs) &&
-			!$this->object->get360Mode())
+			$this->object->getMode() == ilObjSurvey::MODE_STANDARD)
 		{
-			// constraints
+			// constraints (tab called routing)
 			$this->tabs_gui->addTab("constraints",
 				$this->lng->txt("constraints"),
 				 $this->ctrl->getLinkTargetByClass("ilsurveyconstraintsgui", "constraints"));
@@ -438,29 +441,36 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($this->checkPermissionBool("write"))
 		{
-			// 360° 
-			if($this->object->get360Mode())
-			{
-				// 360 mode + competence service
-				include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
-				$skmg_set = new ilSkillManagementSettings();
-				if ($this->object->get360SkillService() && $skmg_set->isActivated())
-				{
-					$this->tabs_gui->addTab("survey_competences",
-						$this->lng->txt("survey_competences"),
-						$this->ctrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment"));
-				}
-				
-				$this->tabs_gui->addTab("survey_360_appraisees",
-					$this->lng->txt("survey_360_appraisees"),
-					$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'listAppraisees'));						
-			}
-			else
-			{
-				// maintenance
-				$this->tabs_gui->addTab("maintenance",
-					$this->lng->txt("maintenance"),
-					$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance'));
+			switch($this->object->getMode()) {
+				case ilObjSurvey::MODE_360:
+					// 360 mode + competence service
+					include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+					$skmg_set = new ilSkillManagementSettings();
+					if ($this->object->get360SkillService() && $skmg_set->isActivated())
+					{
+						// TODO -> Check this!
+						$this->tabs_gui->addTab("survey_competences",
+							$this->lng->txt("survey_competences"),
+							$this->ctrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment"));
+					}
+					$this->tabs_gui->addTab("survey_360_appraisees",
+						$this->lng->txt("survey_360_appraisees"),
+						$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'listAppraisees'));
+					break;
+
+				case ilObjSurvey::MODE_SELF_EVAL:
+					$this->tabs_gui->addTab("survey_360_appraisees",
+						$this->lng->txt("survey_360_appraisees"),
+						$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'listAppraisees'));
+					break;
+
+				default:
+					// maintenance (tab called participants)
+					$this->tabs_gui->addTab(
+						"maintenance",
+						$this->lng->txt("maintenance"),
+						$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance'));
+					break;
 			}
 		}
 			
