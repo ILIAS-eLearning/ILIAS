@@ -55,15 +55,11 @@ class ilTemplate extends HTML_Template_ITX
 	protected static $il_cache = array();
 	protected $message = array();
 	
-	protected $title_desc = "";	
-	protected $title_url = "";
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
 	protected $main_content = "";
 	
-	protected $title_alerts = array();
-	protected $header_action;
 	protected $lightbox = array();
 	protected $standard_template_loaded = false;
 
@@ -480,7 +476,7 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				$out.= $this->getMessageHTML($txt, $m);
 			}
-		
+
 			if ($m == self::MESSAGE_TYPE_QUESTION)
 			{
 				$m = "mess_question";
@@ -492,7 +488,7 @@ class ilTemplate extends HTML_Template_ITX
 				unset($_SESSION[$m]);
 			}
 		}
-		
+
 		if ($out != "")
 		{
 			$this->setVariable("MESSAGE", $out);
@@ -500,7 +496,587 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 
-	// TEMPLATING
+	// HEADER in standard page
+
+	protected $header_page_title = "";
+	protected $title = "";
+	protected $title_desc = "";
+	protected $title_url = "";
+	protected $title_alerts = array();
+	protected $header_action;
+
+	/**
+	 * Sets title in standard template.
+	 *
+	 * Will override the header_page_title.
+	 */
+	public function setTitle($a_title)
+	{
+		$this->title = $a_title;
+		$this->header_page_title = $a_title;
+	}
+
+	/**
+	 * Sets descripton below title in standard template.
+	 */
+	public function setDescription($a_descr)
+	{
+		$this->title_desc = $a_descr;
+	}
+
+	/**
+	 * Sets title url in standard template.
+	 */
+	public function setTitleUrl($a_url)
+	{
+		$this->title_url = $a_url;
+	}
+	
+	/**
+	 * set title icon
+	 */
+	public function setTitleIcon($a_icon_path, $a_icon_desc = "")
+	{
+		$this->icon_desc = $a_icon_desc;
+		$this->icon_path = $a_icon_path;
+	}
+
+	/**
+	 * Set alert properties
+	 * @param array $a_props
+	 * @return void
+	 */
+	public function setAlertProperties(array $a_props)
+	{
+		$this->title_alerts = $a_props;
+	}
+
+	/**
+	 * Clear header
+	 */
+	public function clearHeader()
+	{
+		$this->setTitle("");
+		$this->setTitleIcon("");
+		$this->setDescription("");
+		$this->setAlertProperties(array());
+	}
+
+	/**
+	* Fill header
+	*/
+	private function fillHeader()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
+		$icon = false;
+		if ($this->icon_path != "")
+		{
+			$icon = true;
+			$this->setCurrentBlock("header_image");
+			if ($this->icon_desc != "")
+			{
+				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
+				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
+			}
+			
+			$this->setVariable("IMG_HEADER", $this->icon_path);
+			$this->parseCurrentBlock();
+			$header = true;
+		}
+
+		if ($this->title != "")
+		{
+			$title = ilUtil::stripScriptHTML($this->title);
+			$this->setVariable("HEADER", $title);
+			if ($this->title_url != "")
+			{
+				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
+			}
+			
+			$header = true;
+		}
+		
+		if ($header)
+		{
+			$this->setCurrentBlock("header_image");
+			$this->parseCurrentBlock();
+		}
+		
+		if ($this->title_desc != "")
+		{
+			$this->setCurrentBlock("header_desc");
+			$this->setVariable("H_DESCRIPTION", $this->title_desc);
+			$this->parseCurrentBlock();
+		}
+		
+		$header = $this->getHeaderActionMenu();
+		if ($header)
+		{
+			$this->setCurrentBlock("head_action_inner");
+			$this->setVariable("HEAD_ACTION", $header);
+			$this->parseCurrentBlock();
+			$this->touchBlock("head_action");			
+		}
+
+		if(count((array) $this->title_alerts))
+		{
+			foreach($this->title_alerts as $alert)
+			{
+				$this->setCurrentBlock('header_alert');
+				if(!($alert['propertyNameVisible'] === false))
+				{
+					$this->setVariable('H_PROP', $alert['property'].':');
+				}
+				$this->setVariable('H_VALUE', $alert['value']);
+				$this->parseCurrentBlock();
+			}
+		}
+		
+		// add file upload drop zone in header
+		if ($this->enable_fileupload != null)
+		{
+			$ref_id = $this->enable_fileupload;
+			$upload_id = "dropzone_" . $ref_id;
+			
+			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
+			$upload = new ilFileUploadGUI($upload_id, $ref_id, true);
+			
+			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
+			
+			$this->setCurrentBlock("header_fileupload");
+			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
+			$this->parseCurrentBlock();
+		}
+	}
+
+	/**
+	 * Get header action menu
+	 *
+	 * @return int ref id
+	 */
+	private function getHeaderActionMenu()
+	{
+		return $this->header_action;
+	}
+
+
+	// LOCATOR
+
+	/**
+	* Insert locator.
+	*/
+	public function setLocator()
+	{
+		global $DIC;
+
+		$ilMainMenu = $DIC["ilMainMenu"];
+		$ilLocator = $DIC["ilLocator"];
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+
+		// blog/portfolio
+		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
+			$ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY)
+		{						
+			$this->setVariable("LOCATOR", "");
+			return;
+		}
+
+		$html = "";
+		if (is_object($ilPluginAdmin))
+		{
+			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+			$uip = new ilUIHookProcessor("Services/Locator", "main_locator",
+				array("locator_gui" => $ilLocator));
+			if (!$uip->replaced())
+			{
+				$html = $ilLocator->getHTML();
+			}
+			$html = $uip->getHTML($html);
+		}
+		else
+		{
+			$html = $ilLocator->getHTML();
+		}
+
+		$this->setVariable("LOCATOR", $html);
+	}
+
+
+	// TABS
+
+	/**
+	* sets tabs in standard template
+	*/
+	public function setTabs($a_tabs_html)
+	{
+		if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start"))
+		{
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+			$this->setVariable("TABS", $a_tabs_html);
+		}
+	}
+
+	/**
+	* sets subtabs in standard template
+	*/
+	public function setSubTabs($a_tabs_html)
+	{
+		$this->setVariable("SUB_TABS", $a_tabs_html);
+	}
+
+
+	// COLUMN LAYOUT IN STANDARD TEMPLATE
+	
+	/**
+	* Fill main content
+	*/
+	private function fillMainContent()
+	{
+		if (trim($this->main_content) != "")
+		{
+			$this->setVariable("ADM_CONTENT", $this->main_content);
+		}
+	}
+
+	/**
+	* sets content of right column
+	*/
+	public function setRightContent($a_html)
+	{
+		$this->right_content = $a_html;
+	}
+
+	/**
+	* Fill right content
+	*/
+	private function fillRightContent()
+	{
+		if (trim($this->right_content) != "")
+		{
+			$this->setCurrentBlock("right_column");
+			$this->setVariable("RIGHT_CONTENT", $this->right_content);
+			$this->parseCurrentBlock();
+		}
+	}
+	
+	private function setCenterColumnClass()
+	{
+		if (!$this->blockExists("center_col_width"))
+		{
+			return;
+		}
+		$center_column_class = "";
+		if (trim($this->right_content) != "" && trim($this->left_content) != "") {
+			$center_column_class = "two_side_col";
+		}
+		else if (trim($this->right_content) != "" || trim($this->left_content) != "") {
+			$center_column_class = "one_side_col";
+		}
+
+		switch ($center_column_class)
+		{
+			case "one_side_col": $center_column_class = "col-sm-9"; break;
+			case "two_side_col": $center_column_class = "col-sm-6"; break;
+			default: $center_column_class = "col-sm-12"; break;
+		}
+		if (trim($this->left_content) != "")
+		{
+			$center_column_class.= " col-sm-push-3";
+		}
+
+		$this->setCurrentBlock("center_col_width");
+		$this->setVariable("CENTER_COL", $center_column_class);
+		$this->parseCurrentBlock();
+	}
+
+	/**
+	* sets content of left column
+	*/
+	public function setLeftContent($a_html)
+	{
+		$this->left_content = $a_html;
+	}
+
+	/**
+	* Fill left content
+	*/
+	private function fillLeftContent()
+	{
+		if (trim($this->left_content) != "")
+		{
+			$this->setCurrentBlock("left_column");
+			$this->setVariable("LEFT_CONTENT", $this->left_content);
+			$left_col_class = (trim($this->right_content) == "")
+				? "col-sm-3 col-sm-pull-9"
+				: "col-sm-3 col-sm-pull-6";
+			$this->setVariable("LEFT_COL_CLASS", $left_col_class);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	/**
+	 * Sets content of left navigation column
+	 */
+	public function setLeftNavContent($a_content)
+	{
+		$this->left_nav_content = $a_content;
+	}
+
+	/**
+	 * Fill left navigation frame
+	 */
+	public function fillLeftNav()
+	{
+		if (trim($this->left_nav_content) != "")
+		{
+			$this->setCurrentBlock("left_nav");
+			$this->setVariable("LEFT_NAV_CONTENT", $this->left_nav_content);
+			$this->parseCurrentBlock();
+			$this->touchBlock("left_nav_space");
+		}
+	}
+
+
+	// SPECIAL REQUIREMENTS
+	//
+	// Stuff that is only used by a little other classes.
+
+	/**
+	 * Add current user language to meta tags
+	 *
+	 * @access public
+	 */
+	public function fillContentLanguage()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+
+		$contentLanguage = 'en';
+		$rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
+		/* rtl-review: add "de" for testing with ltr lang shown in rtl
+		 * and set unicode-bidi to bidi-override for mirror effect */
+		$textdir = 'ltr';
+	 	if(is_object($ilUser))
+	 	{
+	 		if($ilUser->getLanguage())
+	 		{
+		 		$contentLanguage = $ilUser->getLanguage();
+	 		}
+	 		else if(is_object($lng))
+	 		{
+		 		$contentLanguage = $lng->getDefaultLanguage();
+	 		}
+	 	}
+ 		$this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
+		if (in_array($contentLanguage, $rtl)) { 
+			$textdir = 'rtl'; 
+		}
+		$this->setVariable('LANGUAGE_DIRECTION', $textdir);
+		return true;	 	
+	}
+
+	public function fillWindowTitle()
+	{
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+		
+		if ($this->header_page_title != "")
+		{
+			$title = ilUtil::stripScriptHTML($this->header_page_title);	
+			$this->setVariable("PAGETITLE", "- ".$title);
+		}
+		
+		if ($ilSetting->get('short_inst_name') != "")
+		{
+			$this->setVariable("WINDOW_TITLE",
+				$ilSetting->get('short_inst_name'));
+		}
+		else
+		{
+			$this->setVariable("WINDOW_TITLE",
+				"ILIAS");
+		}
+	}
+
+	public function fillTabs()
+	{
+		if ($this->blockExists("tabs_outer_start"))
+		{
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+
+			if ($this->thtml != "")
+			{
+				$this->setVariable("TABS",$this->thtml);
+			}
+			$this->setVariable("SUB_TABS", $this->sthtml);
+		}
+	}
+
+	public function fillJavaScriptFiles($a_force = false)
+	{
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		if (is_object($ilSetting))		// maybe this one can be removed
+		{
+			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+			
+			if(DEVMODE)
+			{
+				$vers .= '-'.time();
+			}
+		}
+		if ($this->blockExists("js_file"))
+		{
+			// three batches
+			for ($i=0; $i<=3; $i++)
+			{
+				reset($this->js_files);
+				foreach($this->js_files as $file)
+				{
+					if ($this->js_files_batch[$file] == $i)
+					{
+						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
+						{
+							$this->fillJavascriptFile($file, $vers);							
+						}
+						else if(substr($file, 0, 2) == './') // #13962
+						{
+							$url_parts = parse_url($file);
+							if(is_file($url_parts['path']))
+							{
+								$this->fillJavascriptFile($file, $vers);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Fill in the css file tags
+	 * 
+	 * @param boolean $a_force
+	 */
+	public function fillCssFiles($a_force = false)
+	{
+		if (!$this->blockExists("css_file"))
+		{
+			return;
+		}
+		foreach($this->css_files as $css)
+		{
+			$filename = $css["file"];
+			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
+			if (is_file($filename) || $a_force)
+			{
+				$this->setCurrentBlock("css_file");
+				$this->setVariable("CSS_FILE", $css["file"]);
+				$this->setVariable("CSS_MEDIA", $css["media"]);
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
+	/**
+	 * Fill in the inline css
+	 *
+	 * @param boolean $a_force
+	 */
+	private function fillInlineCss()
+	{
+		if (!$this->blockExists("css_inline"))
+		{
+			return;
+		}
+		foreach($this->inline_css as $css)
+		{
+			$this->setCurrentBlock("css_file");
+			$this->setVariable("CSS_INLINE", $css["css"]);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	public function setStyleSheetLocation($a_stylesheet)
+	{
+		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
+	}
+
+	/**
+	* check if block exists in actual template
+	* @access	private
+	* @param string blockname
+	* @return	boolean
+	*/
+	public function blockExists($a_blockname)
+	{
+		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
+		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
+	}
+
+	public function setBodyClass($a_class = "")
+	{
+		$this->body_class = $a_class;
+	}
+	
+	public function fillBodyClass()
+	{
+		if ($this->body_class != "" && $this->blockExists("body_class"))
+		{
+			$this->setCurrentBlock("body_class");
+			$this->setVariable("BODY_CLASS", $this->body_class);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	public function setPageFormAction($a_action)
+	{
+		$this->page_form_action = $a_action;
+	}
+
+	/**
+	 * Set header action menu
+	 *
+	 * @param string $a_gui $a_header
+	 */
+	public function setHeaderActionMenu($a_header)
+	{
+		$this->header_action = $a_header;
+	}
+
+	/**
+	 * Sets the title of the page (for browser window).
+	 */
+	public function setHeaderPageTitle($a_title)
+	{
+		$this->header_page_title = $a_title;
+	}
+
+	/**
+	 * Set target parameter for login (public sector).
+	 * This is used by the main menu
+	 */
+	public function setLoginTargetPar($a_val)
+	{
+		$this->login_target_par = $a_val;
+	}
+
+	// TEMPLATING AND GLOBAL RENDERING
 	//
 	// used in a lot of places
 
@@ -623,6 +1199,7 @@ class ilTemplate extends HTML_Template_ITX
 		return $html;
 	}
 
+	
 	/**
 	 * @param string $part
 	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs
@@ -766,387 +1343,7 @@ class ilTemplate extends HTML_Template_ITX
 				break;
 		}
 	}
-	
-	
-	/**
-	 * Add current user language to meta tags
-	 *
-	 * @access public
-	 * 
-	 */
-	public function fillContentLanguage()
-	{
-		global $DIC;
 
-		$lng = $DIC->language();
-		$ilUser = $DIC->user();
-
-	 	$contentLanguage = 'en';
-		$rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
-		/* rtl-review: add "de" for testing with ltr lang shown in rtl
-		 * and set unicode-bidi to bidi-override for mirror effect */
-		$textdir = 'ltr';
-	 	if(is_object($ilUser))
-	 	{
-	 		if($ilUser->getLanguage())
-	 		{
-		 		$contentLanguage = $ilUser->getLanguage();
-	 		}
-	 		else if(is_object($lng))
-	 		{
-		 		$contentLanguage = $lng->getDefaultLanguage();
-	 		}
-	 	}
- 		$this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
-		if (in_array($contentLanguage, $rtl)) { 
-			$textdir = 'rtl'; 
-		}
-		$this->setVariable('LANGUAGE_DIRECTION', $textdir);
-		return true;	 	
-	}
-
-	public function fillWindowTitle()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC->settings();
-		
-		if ($this->header_page_title != "")
-		{
-			$a_title = ilUtil::stripScriptHTML($this->header_page_title);	
-			$this->setVariable("PAGETITLE", "- ".$a_title);
-		}
-		
-		if ($ilSetting->get('short_inst_name') != "")
-		{
-			$this->setVariable("WINDOW_TITLE",
-				$ilSetting->get('short_inst_name'));
-		}
-		else
-		{
-			$this->setVariable("WINDOW_TITLE",
-				"ILIAS");
-		}
-	}
-	
-	/**
-	 * Get tabs HTML
-	 *
-	 * @param
-	 * @return
-	 */
-	private function getTabsHTML()
-	{
-		global $DIC;
-
-		$ilTabs = $DIC["ilTabs"];
-		
-		if ($this->blockExists("tabs_outer_start"))
-		{
-			$this->sthtml = $ilTabs->getSubTabHTML();
-			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
-		}
-	}
-	
-	
-	public function fillTabs()
-	{
-		if ($this->blockExists("tabs_outer_start"))
-		{
-			$this->touchBlock("tabs_outer_start");
-			$this->touchBlock("tabs_outer_end");
-			$this->touchBlock("tabs_inner_start");
-			$this->touchBlock("tabs_inner_end");
-
-			if ($this->thtml != "")
-			{
-				$this->setVariable("TABS",$this->thtml);
-			}
-			$this->setVariable("SUB_TABS", $this->sthtml);
-		}
-	}
-	
-	private function fillToolbar()
-	{
-		global $DIC;
-
-		$ilToolbar = $DIC["ilToolbar"];;
-
-		$thtml = $ilToolbar->getHTML();
-		if ($thtml != "")
-		{
-			$this->setCurrentBlock("toolbar_buttons");
-			$this->setVariable("BUTTONS", $thtml);
-			$this->parseCurrentBlock();
-		}
-	}
-
-	private function fillPageFormAction()
-	{
-		if ($this->page_form_action != "")
-		{
-			$this->setCurrentBlock("page_form_start");
-			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
-			$this->parseCurrentBlock();
-			$this->touchBlock("page_form_end");
-		}
-	}
-	
-	public function fillJavaScriptFiles($a_force = false)
-	{
-		global $DIC;
-
-		$ilSetting = $DIC->settings();
-
-		if (is_object($ilSetting))		// maybe this one can be removed
-		{
-			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
-			
-			if(DEVMODE)
-			{
-				$vers .= '-'.time();
-			}
-		}
-		if ($this->blockExists("js_file"))
-		{
-			// three batches
-			for ($i=0; $i<=3; $i++)
-			{
-				reset($this->js_files);
-				foreach($this->js_files as $file)
-				{
-					if ($this->js_files_batch[$file] == $i)
-					{
-						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
-						{
-							$this->fillJavascriptFile($file, $vers);							
-						}
-						else if(substr($file, 0, 2) == './') // #13962
-						{
-							$url_parts = parse_url($file);
-							if(is_file($url_parts['path']))
-							{
-								$this->fillJavascriptFile($file, $vers);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Fill in the css file tags
-	 * 
-	 * @param boolean $a_force
-	 */
-	public function fillCssFiles($a_force = false)
-	{
-		if (!$this->blockExists("css_file"))
-		{
-			return;
-		}
-		foreach($this->css_files as $css)
-		{
-			$filename = $css["file"];
-			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
-			if (is_file($filename) || $a_force)
-			{
-				$this->setCurrentBlock("css_file");
-				$this->setVariable("CSS_FILE", $css["file"]);
-				$this->setVariable("CSS_MEDIA", $css["media"]);
-				$this->parseCurrentBlock();
-			}
-		}
-	}
-
-	/**
-	 * Fill in the inline css
-	 *
-	 * @param boolean $a_force
-	 */
-	private function fillInlineCss()
-	{
-		if (!$this->blockExists("css_inline"))
-		{
-			return;
-		}
-		foreach($this->inline_css as $css)
-		{
-			$this->setCurrentBlock("css_file");
-			$this->setVariable("CSS_INLINE", $css["css"]);
-			$this->parseCurrentBlock();
-		}
-	}
-
-	/**
-	* Fill Content Style
-	*/
-	private function fillNewContentStyle()
-	{
-		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
-			'<link rel="stylesheet" type="text/css" href="'.
-			ilUtil::getNewContentStyleSheetLocation()
-			.'" />');
-	}
-	
-	private function getMainMenu()
-	{
-		global $DIC;
-
-		$ilMainMenu = $DIC["ilMainMenu"];
-
-		if($this->variableExists('MAINMENU'))
-		{
-			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-			$this->main_menu = $ilMainMenu->getHTML();
-			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-		}
-	}
-	
-	private function fillMainMenu()
-	{
-		global $DIC;
-		$tpl = $DIC["tpl"];
-		if($this->variableExists('MAINMENU'))
-		{
-			$tpl->setVariable("MAINMENU", $this->main_menu);
-			$tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-		}
-	}
-
-	/**
-	 * Init help
-	 */
-	private function initHelp()
-	{
-		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initHelp($this);
-	}
-	
-
-	/**
-	* TODO: this is nice, but shouldn't be done here
-	* (-> maybe at the end of ilias.php!?, alex)
-	*/
-	private function handleReferer()
-	{
-		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
-			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
-			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "chat.php")))
-		{
-			$_SESSION["post_vars"] = $_POST;
-
-			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
-			// this is a workaround to display formular again in case of error and if the referer points to another page
-			$url_parts = @parse_url($_SERVER["REQUEST_URI"]);
-			if(!$url_parts)
-			{
-				$protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://';
-				$host = $_SERVER['HTTP_HOST'];
-				$path = $_SERVER['REQUEST_URI'];
-				$url_parts = @parse_url($protocol.$host.$path);
-			}
-
-			if (isset($url_parts["query"]) && preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
-			{
-				foreach ($_POST as $key => $val)
-				{
-					if (is_array($val))
-					{
-						$val = key($val);
-					}
-
-					$str .= "&".$key."=".$val;
-				}
-
-				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
-				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-				
-			}
-			else if (isset($url_parts["query"]) && preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
-			{
-				foreach ($_POST as $key => $val)
-				{
-					if (is_array($val))
-					{
-						$val = key($val);
-					}
-
-					$str .= "&".$key."=".$val;
-				}
-
-				$_SESSION["referer"] = preg_replace("/cmd=post/",substr($str,1),$_SERVER["REQUEST_URI"]);
-				if (isset($_GET['ref_id']))
-				{
-					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-				}
-				else
-				{
-					$_SESSION['referer_ref_id'] = 0;
-				}
-							}
-			else
-			{
-				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-				if (isset($_GET['ref_id']))
-				{
-					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-				}
-				else
-				{
-					$_SESSION['referer_ref_id'] = 0;
-				}
-			}
-
-			unset($_SESSION["error_post_vars"]);
-		}
-	}
-
-	/**
-	* check if block exists in actual template
-	* @access	private
-	* @param string blockname
-	* @return	boolean
-	*/
-	public function blockExists($a_blockname)
-	{
-		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)		
-		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
-	}
-	
-	private function variableExists($a_variablename)
-	{
-		return (isset($this->blockvariables["content"][$a_variablename]) ? true : false);
-	}
-
-	/**
-	* all template vars defined in $vars will be replaced automatically
-	* without setting and parsing them with setVariable & parseCurrentBlock
-	* @access	private
-	* @return	integer
-	*/
-	private function fillVars()
-	{
-		$count = 0;
-		reset($this->vars);
-
-		while(list($key, $val) = each($this->vars))
-		{
-			if (is_array($this->blockvariables[$this->activeBlock]))
-			{
-				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
-				{
-					$count++;
-
-					$this->setVariable($key, $val);
-				}
-			}
-		}
-		
-		return $count;
-	}
-	
 	/**
 	* Überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
 	* @access	public
@@ -1246,7 +1443,7 @@ class ilTemplate extends HTML_Template_ITX
 
 		$id = $this->getTemplateIdentifier($tplname, $in_module);
 		$template = $this->getFile($tplfile);
-		
+
 		// include the template input hook
 		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -1254,8 +1451,8 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			
-			$resp = $gui_class->getHTML("", "template_add", 
+
+			$resp = $gui_class->getHTML("", "template_add",
 					array("tpl_id" => $id, "tpl_obj" => $this, "html" => $template));
 
 			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
@@ -1263,11 +1460,213 @@ class ilTemplate extends HTML_Template_ITX
 				$template = $gui_class->modifyHTML($template, $resp);
 			}
 		}
-		
+
 		return $this->addBlock($var, $block, $template);
 	}
 
+	/**
+	 * Get tabs HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	private function getTabsHTML()
+	{
+		global $DIC;
+
+		$ilTabs = $DIC["ilTabs"];
+
+		if ($this->blockExists("tabs_outer_start"))
+		{
+			$this->sthtml = $ilTabs->getSubTabHTML();
+			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+		}
+	}
+
+	private function fillToolbar()
+	{
+		global $DIC;
+
+		$ilToolbar = $DIC["ilToolbar"];;
+
+		$thtml = $ilToolbar->getHTML();
+		if ($thtml != "")
+		{
+			$this->setCurrentBlock("toolbar_buttons");
+			$this->setVariable("BUTTONS", $thtml);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	private function fillPageFormAction()
+	{
+		if ($this->page_form_action != "")
+		{
+			$this->setCurrentBlock("page_form_start");
+			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
+			$this->parseCurrentBlock();
+			$this->touchBlock("page_form_end");
+		}
+	}
+
+
+	/**
+	* Fill Content Style
+	*/
+	private function fillNewContentStyle()
+	{
+		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
+			'<link rel="stylesheet" type="text/css" href="'.
+			ilUtil::getNewContentStyleSheetLocation()
+			.'" />');
+	}
 	
+	private function getMainMenu()
+	{
+		global $DIC;
+
+		$ilMainMenu = $DIC["ilMainMenu"];
+
+		if($this->variableExists('MAINMENU'))
+		{
+			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+			$this->main_menu = $ilMainMenu->getHTML();
+			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
+		}
+	}
+	
+	private function fillMainMenu()
+	{
+		global $DIC;
+		$tpl = $DIC["tpl"];
+		if($this->variableExists('MAINMENU'))
+		{
+			$tpl->setVariable("MAINMENU", $this->main_menu);
+			$tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
+		}
+	}
+
+	/**
+	 * Init help
+	 */
+	private function initHelp()
+	{
+		include_once("./Services/Help/classes/class.ilHelpGUI.php");
+		ilHelpGUI::initHelp($this);
+	}
+	
+
+
+	/**
+	* TODO: this is nice, but shouldn't be done here
+	* (-> maybe at the end of ilias.php!?, alex)
+	*/
+	private function handleReferer()
+	{
+		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
+			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
+			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "chat.php")))
+		{
+			$_SESSION["post_vars"] = $_POST;
+
+			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
+			// this is a workaround to display formular again in case of error and if the referer points to another page
+			$url_parts = @parse_url($_SERVER["REQUEST_URI"]);
+			if(!$url_parts)
+			{
+				$protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://';
+				$host = $_SERVER['HTTP_HOST'];
+				$path = $_SERVER['REQUEST_URI'];
+				$url_parts = @parse_url($protocol.$host.$path);
+			}
+
+			if (isset($url_parts["query"]) && preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
+			{
+				foreach ($_POST as $key => $val)
+				{
+					if (is_array($val))
+					{
+						$val = key($val);
+					}
+
+					$str .= "&".$key."=".$val;
+				}
+
+				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
+				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				
+			}
+			else if (isset($url_parts["query"]) && preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
+			{
+				foreach ($_POST as $key => $val)
+				{
+					if (is_array($val))
+					{
+						$val = key($val);
+					}
+
+					$str .= "&".$key."=".$val;
+				}
+
+				$_SESSION["referer"] = preg_replace("/cmd=post/",substr($str,1),$_SERVER["REQUEST_URI"]);
+				if (isset($_GET['ref_id']))
+				{
+					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				}
+				else
+				{
+					$_SESSION['referer_ref_id'] = 0;
+				}
+							}
+			else
+			{
+				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+				if (isset($_GET['ref_id']))
+				{
+					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				}
+				else
+				{
+					$_SESSION['referer_ref_id'] = 0;
+				}
+			}
+
+			unset($_SESSION["error_post_vars"]);
+		}
+	}
+
+	private function variableExists($a_variablename)
+	{
+		return (isset($this->blockvariables["content"][$a_variablename]) ? true : false);
+	}
+
+	/**
+	* all template vars defined in $vars will be replaced automatically
+	* without setting and parsing them with setVariable & parseCurrentBlock
+	* @access	private
+	* @return	integer
+	*/
+	private function fillVars()
+	{
+		$count = 0;
+		reset($this->vars);
+
+		while(list($key, $val) = each($this->vars))
+		{
+			if (is_array($this->blockvariables[$this->activeBlock]))
+			{
+				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
+				{
+					$count++;
+
+					$this->setVariable($key, $val);
+				}
+			}
+		}
+		
+		return $count;
+	}
+
 	/**
      * Reads a template file from the disk.
      *
@@ -1469,17 +1868,6 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 
-	public function setHeaderPageTitle($a_title)
-	{
-		$a_title = ilUtil::stripScriptHTML($a_title);	
-		$this->header_page_title = $a_title;
-	}
-	
-	public function setStyleSheetLocation($a_stylesheet)
-	{
-		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
-	}
-
 	public function getStandardTemplate()
 	{
 		if ($this->standard_template_loaded)
@@ -1501,192 +1889,6 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->standard_template_loaded = true;
 	}
-	
-	/**
-	* sets title in standard template
-	*/
-	public function setTitle($a_title)
-	{
-		$this->title = ilUtil::stripScriptHTML($a_title);
-		$this->header_page_title = $a_title;
-	}
-	
-	/**
-	* sets title url in standard template
-	*/
-	public function setTitleUrl($a_url)
-	{
-		$this->title_url = $a_url;
-	}
-	
-	/**
-	 * Set alert properties
-	 * @param array $a_props
-	 * @return void
-	 */
-	public function setAlertProperties(array $a_props)
-	{
-		$this->title_alerts = $a_props;
-	}
-
-	/**
-	 * Clear header
-	 */
-	public function clearHeader()
-	{
-		$this->setTitle("");
-		$this->setTitleIcon("");
-		$this->setDescription("");
-		$this->setAlertProperties(array());
-	}
-
-	
-	/**
-	* Fill header
-	*/
-	private function fillHeader()
-	{
-		global $DIC;
-
-		$lng = $DIC->language();
-
-		$icon = false;
-		if ($this->icon_path != "")
-		{
-			$icon = true;
-			$this->setCurrentBlock("header_image");
-			if ($this->icon_desc != "")
-			{
-				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
-				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
-			}
-			
-			$this->setVariable("IMG_HEADER", $this->icon_path);
-			$this->parseCurrentBlock();
-			$header = true;
-		}
-
-		if ($this->title != "")
-		{
-			$this->title = ilUtil::stripScriptHTML($this->title);			
-			$this->setVariable("HEADER", $this->title);
-			if ($this->title_url != "")
-			{
-				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
-			}
-			
-			$header = true;
-		}
-		
-		if ($header)
-		{
-			$this->setCurrentBlock("header_image");
-			$this->parseCurrentBlock();
-		}
-		
-		if ($this->title_desc != "")
-		{
-			$this->setCurrentBlock("header_desc");
-			$this->setVariable("H_DESCRIPTION", $this->title_desc);
-			$this->parseCurrentBlock();
-		}
-		
-		$header = $this->getHeaderActionMenu();
-		if ($header)
-		{
-			$this->setCurrentBlock("head_action_inner");
-			$this->setVariable("HEAD_ACTION", $header);
-			$this->parseCurrentBlock();
-			$this->touchBlock("head_action");			
-		}
-
-		if(count((array) $this->title_alerts))
-		{
-			foreach($this->title_alerts as $alert)
-			{
-				$this->setCurrentBlock('header_alert');
-				if(!($alert['propertyNameVisible'] === false))
-				{
-					$this->setVariable('H_PROP', $alert['property'].':');
-				}
-				$this->setVariable('H_VALUE', $alert['value']);
-				$this->parseCurrentBlock();
-			}
-		}
-		
-		// add file upload drop zone in header
-		if ($this->enable_fileupload != null)
-		{
-			$ref_id = $this->enable_fileupload;
-			$upload_id = "dropzone_" . $ref_id;
-			
-			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
-			$upload = new ilFileUploadGUI($upload_id, $ref_id, true);
-			
-			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-			
-			$this->setCurrentBlock("header_fileupload");
-			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-			$this->parseCurrentBlock();
-		}
-	}
-	
-	/**
-	* set title icon
-	*/
-	public function setTitleIcon($a_icon_path, $a_icon_desc = "")
-	{
-		$this->icon_desc = $a_icon_desc;
-		$this->icon_path = $a_icon_path;
-	}
-
-	public function setBodyClass($a_class = "")
-	{
-		$this->body_class = $a_class;
-	}
-	
-	public function fillBodyClass()
-	{
-		if ($this->body_class != "" && $this->blockExists("body_class"))
-		{
-			$this->setCurrentBlock("body_class");
-			$this->setVariable("BODY_CLASS", $this->body_class);
-			$this->parseCurrentBlock();
-		}
-	}
-	
-	public function setPageFormAction($a_action)
-	{
-		$this->page_form_action = $a_action;
-	}
-	
-	/**
-	* sets title in standard template
-	*/
-	public function setDescription($a_descr)
-	{
-		$this->title_desc = $a_descr;
-	}
-	
-	/**
-	 * Set header action menu
-	 *
-	 * @param string $a_gui $a_header
-	 */
-	public function setHeaderActionMenu($a_header)
-	{
-		$this->header_action = $a_header;
-	}
-	
-	/**
-	 * Get header action menu
-	 *
-	 * @return int ref id
-	 */
-	private function getHeaderActionMenu()
-	{
-		return $this->header_action;
-	}
 
 	/**
 	* sets content for standard template
@@ -1697,187 +1899,6 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$this->main_content = $a_html;
 		}
-	}
-	
-	/**
-	* Fill main content
-	*/
-	private function fillMainContent()
-	{
-		if (trim($this->main_content) != "")
-		{
-			$this->setVariable("ADM_CONTENT", $this->main_content);
-		}
-	}
-
-	/**
-	* sets content of right column
-	*/
-	public function setRightContent($a_html)
-	{
-		$this->right_content = $a_html;
-	}
-	
-	/**
-	* Fill right content
-	*/
-	private function fillRightContent()
-	{
-		if (trim($this->right_content) != "")
-		{
-			$this->setCurrentBlock("right_column");
-			$this->setVariable("RIGHT_CONTENT", $this->right_content);
-			$this->parseCurrentBlock();
-		}
-	}
-	
-	private function setCenterColumnClass()
-	{
-		if (!$this->blockExists("center_col_width"))
-		{
-			return;
-		}
-		$center_column_class = "";
-		if (trim($this->right_content) != "" && trim($this->left_content) != "") {
-			$center_column_class = "two_side_col";
-		}
-		else if (trim($this->right_content) != "" || trim($this->left_content) != "") {
-			$center_column_class = "one_side_col";
-		}
-
-		switch ($center_column_class)
-		{
-			case "one_side_col": $center_column_class = "col-sm-9"; break;
-			case "two_side_col": $center_column_class = "col-sm-6"; break;
-			default: $center_column_class = "col-sm-12"; break;
-		}
-		if (trim($this->left_content) != "")
-		{
-			$center_column_class.= " col-sm-push-3";
-		}
-
-		$this->setCurrentBlock("center_col_width");
-		$this->setVariable("CENTER_COL", $center_column_class);
-		$this->parseCurrentBlock();
-	}
-	
-	/**
-	* sets content of left column
-	*/
-	public function setLeftContent($a_html)
-	{
-		$this->left_content = $a_html;
-	}
-		
-	/**
-	* Fill left content
-	*/
-	private function fillLeftContent()
-	{
-		if (trim($this->left_content) != "")
-		{
-			$this->setCurrentBlock("left_column");
-			$this->setVariable("LEFT_CONTENT", $this->left_content);
-			$left_col_class = (trim($this->right_content) == "")
-				? "col-sm-3 col-sm-pull-9"
-				: "col-sm-3 col-sm-pull-6";
-			$this->setVariable("LEFT_COL_CLASS", $left_col_class);
-			$this->parseCurrentBlock();
-		}
-	}
-
-	/**
-	 * Sets content of left navigation column
-	 */
-	public function setLeftNavContent($a_content)
-	{
-		$this->left_nav_content = $a_content;
-	}
-		
-	/**
-	 * Fill left navigation frame
-	 */
-	public function fillLeftNav()
-	{
-		if (trim($this->left_nav_content) != "")
-		{
-			$this->setCurrentBlock("left_nav");
-			$this->setVariable("LEFT_NAV_CONTENT", $this->left_nav_content);
-			$this->parseCurrentBlock();
-			$this->touchBlock("left_nav_space");
-		}
-	}
-
-	/**
-	* Insert locator.
-	*/
-	public function setLocator()
-	{
-		global $DIC;
-
-		$ilMainMenu = $DIC["ilMainMenu"];
-		$ilLocator = $DIC["ilLocator"];
-
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
-		
-		// blog/portfolio
-		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
-			$ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY)
-		{						
-			$this->setVariable("LOCATOR", "");
-			return;
-		}
-
-		$html = "";
-		if (is_object($ilPluginAdmin))
-		{
-			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-			$uip = new ilUIHookProcessor("Services/Locator", "main_locator",
-				array("locator_gui" => $ilLocator));
-			if (!$uip->replaced())
-			{
-				$html = $ilLocator->getHTML();
-			}
-			$html = $uip->getHTML($html);
-		}
-		else
-		{
-			$html = $ilLocator->getHTML();
-		}
-		
-		$this->setVariable("LOCATOR", $html);
-	}
-	
-	/**
-	* sets tabs in standard template
-	*/
-	public function setTabs($a_tabs_html)
-	{
-		if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start"))
-		{
-			$this->touchBlock("tabs_outer_start");
-			$this->touchBlock("tabs_outer_end");
-			$this->touchBlock("tabs_inner_start");
-			$this->touchBlock("tabs_inner_end");
-			$this->setVariable("TABS", $a_tabs_html);
-		}
-	}
-
-	/**
-	* sets subtabs in standard template
-	*/
-	public function setSubTabs($a_tabs_html)
-	{
-		$this->setVariable("SUB_TABS", $a_tabs_html);
-	}
-	
-	/**
-	 * Set target parameter for login (public sector).
-	 * This is used by the main menu
-	 */
-	public function setLoginTargetPar($a_val)
-	{
-		$this->login_target_par = $a_val;
 	}
 
 	/**
