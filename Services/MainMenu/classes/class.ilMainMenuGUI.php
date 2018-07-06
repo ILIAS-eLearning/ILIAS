@@ -335,7 +335,7 @@ class ilMainMenuGUI {
 				// #13058
 				$target_str = ($this->getLoginTargetPar() != "")
 					? $this->getLoginTargetPar()
-					: ilTemplate::buildLoginTarget();
+					: $this->buildLoginTarget();
 				$this->tpl->setVariable(
 					"LINK_LOGIN",
 					$link_dir . "login.php?target=" . $target_str . "&client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage()
@@ -722,5 +722,43 @@ class ilMainMenuGUI {
 		}
 	}
 
+	protected function buildLoginTarget() {
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
+
+		$target_str = "";
+
+		// repository
+		if ($_GET["ref_id"] != "")
+		{
+			if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
+			{
+				$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".$_GET["ref_id"];
+			}
+		}
+		// personal workspace
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$obj_id = $tree->lookupObjectId((int)$_GET["wsp_id"]);
+			if($obj_id)
+			{
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".(int)$_GET["wsp_id"]."_wsp";
+			}
+		}
+		// portfolio
+		else if ($_GET["prt_id"] != "")
+		{
+			$target_str = "prtf_".(int)$_GET["prt_id"];
+		}
+
+		return $target_str;
+	}
 }
 
