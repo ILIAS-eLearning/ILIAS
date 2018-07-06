@@ -167,8 +167,7 @@ class ilObjSurvey extends ilObject
 	protected $activation_starting_time;
 	protected $activation_ending_time;
 	
-	// 360° 
-	protected $mode_360; // [bool]
+	// 360°
 	protected $mode_360_self_eval; // [bool]
 	protected $mode_360_self_appr; // [bool]
 	protected $mode_360_self_rate; // [bool]
@@ -202,6 +201,19 @@ class ilObjSurvey extends ilObject
 	const NOTIFICATION_APPRAISEES = 3;
 	const NOTIFICATION_RATERS = 4;
 	const NOTIFICATION_APPRAISEES_AND_RATERS = 5;
+
+	protected $mode; //[int]
+	protected $mode_self_eval_results; //[int]
+
+	//MODE TYPES
+	const MODE_STANDARD = 0;
+	const MODE_360 = 1;
+	const MODE_SELF_EVAL = 2;
+
+	//self evaluation only access to results
+	const RESULTS_SELF_EVAL_NONE = 0;
+	const RESULTS_SELF_EVAL_OWN = 1;
+	const RESULTS_SELF_EVAL_ALL = 2;
 	
 
 	/**
@@ -240,6 +252,7 @@ class ilObjSurvey extends ilObject
 		$this->template_id = NULL;
 		$this->pool_usage = true;
 		$this->log = ilLoggerFactory::getLogger("svy");
+		$this->mode = self::MODE_STANDARD;
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -742,7 +755,7 @@ class ilObjSurvey extends ilObject
 	function saveToDb()
 	{
 		$ilDB = $this->db;
-		
+
 		// date handling
 		$rmd_start = $this->getReminderStart();
 		if(is_object($rmd_start))
@@ -781,13 +794,16 @@ class ilObjSurvey extends ilObject
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
 				"pool_usage" => array("integer", $this->getPoolUsage()),
+				// Mode type
+				"mode" => array("integer", $this->getMode()),
 				// 360°
-				"mode_360" => array("integer", $this->get360Mode()),
 				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
 				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// Self Evaluation Only
+				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
 				// reminder/notification
 				"reminder_status" => array("integer", (int)$this->getReminderStatus()),
 				"reminder_start" => array("datetime", $rmd_start),
@@ -827,13 +843,16 @@ class ilObjSurvey extends ilObject
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
 				"pool_usage" => array("integer", $this->getPoolUsage()),
+				//MODE TYPE
+				"mode" => array("integer", $this->getMode()),
 				// 360°
-				"mode_360" => array("integer", $this->get360Mode()),
 				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
 				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// Self Evaluation Only
+				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
 				// reminder/notification
 				"reminder_status" => array("integer", $this->getReminderStatus()),
 				"reminder_start" => array("datetime", $rmd_start),
@@ -1132,8 +1151,8 @@ class ilObjSurvey extends ilObject
 			$this->setMailParticipantData($data['mailparticipantdata']);
 			$this->setTemplate($data['template_id']);
 			$this->setPoolUsage($data['pool_usage']);
+			$this->setMode($data['mode']);
 			// 360°
-			$this->set360Mode($data['mode_360']);
 			$this->set360SelfEvaluation($data['mode_360_self_eval']);
 			$this->set360SelfRaters($data['mode_360_self_rate']);
 			$this->set360SelfAppraisee($data['mode_360_self_appr']);
@@ -3695,7 +3714,7 @@ class ilObjSurvey extends ilObject
 		$custom_properties["confirmation_mail"] = (int)$this->hasMailConfirmation();
 		
 		$custom_properties["anon_user_list"] = (int)$this->hasAnonymousUserList();
-		
+		//TODO REMOVE THIS  360 stuff
 		$custom_properties["mode_360"] = (int)$this->get360Mode();
 		$custom_properties["mode_360_self_eval"] = (int)$this->get360SelfEvaluation();
 		$custom_properties["mode_360_self_rate"] = (int)$this->get360SelfRaters();
@@ -4054,7 +4073,7 @@ class ilObjSurvey extends ilObject
 		// #12661
 		if($this->get360Mode())
 		{
-			$newObj->set360Mode(true);
+			$newObj->setMode(ilObjSurvey::MODE_360);
 			$newObj->set360SelfEvaluation($this->get360SelfEvaluation());
 			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
 			$newObj->set360SelfRaters($this->get360SelfRaters());
@@ -4105,6 +4124,7 @@ class ilObjSurvey extends ilObject
 		$newObj->cloneTextblocks($mapping);
 		
 		// #14929
+		//TOOD use getMode == const
 		if($this->get360Mode() &&
 			$this->get360SkillService())
 		{
@@ -5335,16 +5355,19 @@ class ilObjSurvey extends ilObject
 	
 	//
 	// 360° 
-	// 
-	
-	public function set360Mode($a_value)
+	//
+	//not needed anymore.
+	/*public function set360Mode($a_value)
 	{
 		$this->mode_360 = (bool)$a_value;
-	}
+	}*/
 	
 	public function get360Mode()
 	{
-		return (bool)$this->mode_360;
+		if($this->getMode() == ilObjSurvey::MODE_360){
+			return true;
+		}
+		return false;
 	}
 	
 	public function set360SelfEvaluation($a_value)
@@ -6626,7 +6649,27 @@ class ilObjSurvey extends ilObject
 		}
 		
 		return $a_message;
-	}	
+	}
+
+	public function setMode($a_value)
+	{
+		$this->mode = $a_value;
+	}
+
+	public function getMode()
+	{
+		return $this->mode;
+	}
+
+	public function setSelfEvaluationResults($a_value)
+	{
+		$this->mode_self_eval_results = (int)$a_value;
+	}
+
+	public function getSelfEvalResults()
+	{
+		return (int)$this->mode_self_eval_results;
+	}
 	
 } // END class.ilObjSurvey
 

@@ -448,10 +448,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
 		$ilDB = $DIC->database();
 
-		$result = $ilDB->queryF("SELECT mode_360 FROM svy_svy".
-			" WHERE obj_fi = %s AND mode_360 = %s",
+		$result = $ilDB->queryF("SELECT mode FROM svy_svy".
+			" WHERE obj_fi = %s AND mode = %s",
 			array('integer','integer'),
-			array($a_obj_id, 1)
+			array($a_obj_id, ilObjSurvey::MODE_360)
 		);
 		return (bool)$ilDB->numRows($result);
 	}

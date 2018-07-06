@@ -299,7 +299,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->setCmdClass(get_class($eval_gui));
 		$this->ctrl->redirect($eval_gui, "evaluation");
 	}		
-	
+
 	protected function addDidacticTemplateOptions(array &$a_options)
 	{
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
@@ -316,6 +316,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// JF, 2013-06-10
 		$a_options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
 			$this->lng->txt("survey_360_mode_info"));
+
+		//Self evaluation only
+		$a_options["svyselfeval_1"] = array($this->lng->txt("survey_self_evaluation_mode"),
+			$this->lng->txt("survey_self_evaluation_mode_info"));
 	}
 
 	/**
@@ -332,8 +336,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$a_new_object->applySettingsTemplate($tpl);
 		}
-		
-		$a_new_object->set360Mode((bool)$this->getDidacticTemplateVar("svy360"));
+		else
+		{
+			//set the mode depending on didactic template
+			if($is_360 = $this->getDidacticTemplateVar("svy360"))
+			{
+				$a_new_object->setMode(ilObjSurvey::MODE_360);
+			}
+			elseif ($is_self_eval = $this->getDidacticTemplateVar("svyselfeval"))
+			{
+				$a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
+			}
+		}
+
 		if($a_new_object->get360Mode())
 		{
 			// this should rather be ilObjSurvey::ANONYMIZE_ON - see ilObjSurvey::getUserDataFromActiveId()
@@ -1268,86 +1283,107 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$results->setTitle($this->lng->txt("results"));
 		$form->addItem($results);
 
+		//TODO it seems like lang var "survey_360_results" and "evaluation_access" are equal before refactor this.
+		//possible TODO: access to results are = in standard, 360 and the new self evaluation. Also constants are =
 		// evaluation access
-		if(!$this->object->get360Mode())
-		{			
-			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
-			$evaluation_access->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_all_info"));
-			$evaluation_access->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_participants_info"));
-			$evaluation_access->addOption($option);
-			
-			$evaluation_access->setValue($this->object->getEvaluationAccess());
-			$form->addItem($evaluation_access);
-			
-			
-			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_results_anonymization"), "anonymization_options");	
-			
-			$option = new ilCheckboxOption($this->lng->txt("survey_results_personalized"), "statpers");
-			$option->setInfo($this->lng->txt("survey_results_personalized_info"));			
-			$anonymization_options->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
-			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
-			$anonymization_options->addOption($option);					
-			$anonymization_options->setValue($this->object->hasAnonymizedResults()
-				? "statanon"
-				: "statpers");				
-			$form->addItem($anonymization_options);
-			
-			$surveySetting = new ilSetting("survey");
-			if($surveySetting->get("anonymous_participants", false))
-			{		
-				$min = "";
-				if($surveySetting->get("anonymous_participants_min", 0))
-				{
-					$min = " (".$this->lng->txt("svy_anonymous_participants_min").": ".
-						$surveySetting->get("anonymous_participants_min").")";
-				}						
-				
-				$anon_list = new ilCheckboxInputGUI($this->lng->txt("svy_anonymous_participants_svy"), "anon_list");
-				$anon_list->setInfo($this->lng->txt("svy_anonymous_participants_svy_info").$min);
-				$anon_list->setChecked($this->object->hasAnonymousUserList());
-				$option->addSubItem($anon_list);				
-			}			
-			
-			if ($this->object->_hasDatasets($this->object->getSurveyId()))
-			{
-				$anonymization_options->setDisabled(true);
-				if($anon_list)
-				{
-					$anon_list->setDisabled(true);
-				}
-			}							
-		}
-		// 360°
-		else
-		{			
-			$ts_results = new ilRadioGroupInputGUI($this->lng->txt("survey_360_results"), "ts_res");
-			$ts_results->setValue($this->object->get360Results());
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE);
-			$option->setInfo($this->lng->txt("survey_360_results_none_info"));
-			$ts_results->addOption($option);
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN);
-			$option->setInfo($this->lng->txt("survey_360_results_own_info"));
-			$ts_results->addOption($option);
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL);
-			$option->setInfo($this->lng->txt("survey_360_results_all_info"));
-			$ts_results->addOption($option);
-			$form->addItem($ts_results);		
-		}
+		switch($this->object->getMode())
+		{
+			case ilObjSurvey::MODE_360:
+				$ts_results = new ilRadioGroupInputGUI($this->lng->txt("survey_360_results"), "ts_res");
+				$ts_results->setValue($this->object->get360Results());
 
+				$option = new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE);
+				$option->setInfo($this->lng->txt("survey_360_results_none_info"));
+				$ts_results->addOption($option);
+
+				$option = new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN);
+				$option->setInfo($this->lng->txt("survey_360_results_own_info"));
+				$ts_results->addOption($option);
+
+				$option = new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL);
+				$option->setInfo($this->lng->txt("survey_360_results_all_info"));
+				$ts_results->addOption($option);
+
+				$form->addItem($ts_results);
+				break;
+
+			case ilObjSurvey::MODE_SELF_EVAL:
+				//check the names of these vars
+				$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+
+				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_none"), ilObjSurvey::RESULTS_SELF_EVAL_NONE);
+				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$evaluation_access->addOption($option);
+
+				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_own"), ilObjSurvey::RESULTS_SELF_EVAL_OWN);
+				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$evaluation_access->addOption($option);
+
+				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_all"), ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$evaluation_access->addOption($option);
+
+				$form->addItem($evaluation_access);
+				break;
+
+			default:
+				$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+
+				$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
+				$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
+				$evaluation_access->addOption($option);
+
+				$option = new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, '');
+				$option->setInfo($this->lng->txt("svy_evaluation_access_all_info"));
+				$evaluation_access->addOption($option);
+
+				$option = new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, '');
+				$option->setInfo($this->lng->txt("svy_evaluation_access_participants_info"));
+				$evaluation_access->addOption($option);
+
+				$evaluation_access->setValue($this->object->getEvaluationAccess());
+				$form->addItem($evaluation_access);
+
+				$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_results_anonymization"), "anonymization_options");
+
+				$option = new ilCheckboxOption($this->lng->txt("survey_results_personalized"), "statpers");
+				$option->setInfo($this->lng->txt("survey_results_personalized_info"));
+				$anonymization_options->addOption($option);
+
+				$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
+				$option->setInfo($this->lng->txt("survey_results_anonymized_info"));
+				$anonymization_options->addOption($option);
+				$anonymization_options->setValue($this->object->hasAnonymizedResults()
+					? "statanon"
+					: "statpers");
+				$form->addItem($anonymization_options);
+
+				$surveySetting = new ilSetting("survey");
+				if($surveySetting->get("anonymous_participants", false))
+				{
+					$min = "";
+					if($surveySetting->get("anonymous_participants_min", 0))
+					{
+						$min = " (".$this->lng->txt("svy_anonymous_participants_min").": ".
+							$surveySetting->get("anonymous_participants_min").")";
+					}
+
+					$anon_list = new ilCheckboxInputGUI($this->lng->txt("svy_anonymous_participants_svy"), "anon_list");
+					$anon_list->setInfo($this->lng->txt("svy_anonymous_participants_svy_info").$min);
+					$anon_list->setChecked($this->object->hasAnonymousUserList());
+					$option->addSubItem($anon_list);
+				}
+
+				if ($this->object->_hasDatasets($this->object->getSurveyId()))
+				{
+					$anonymization_options->setDisabled(true);
+					if($anon_list)
+					{
+						$anon_list->setDisabled(true);
+					}
+				}
+				break;
+		}
 			
 		// competence service activation for 360 mode
 		

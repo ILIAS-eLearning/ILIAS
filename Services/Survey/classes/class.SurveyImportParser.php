@@ -718,8 +718,9 @@ class SurveyImportParser extends ilSaxParser
 							case "anon_user_list":
 								$this->survey->setAnonymousUserList($value["entry"]);
 								break;
-							case "mode_360":
-								$this->survey->set360Mode($value["entry"]);
+							case "mode":
+								//TODO check if this is working ok
+								$this->survey->setMode($value["entry"]);
 								break;
 							case "mode_360_self_eval":
 								$this->survey->set360SelfEvaluation($value["entry"]);
