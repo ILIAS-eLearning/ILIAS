@@ -50,7 +50,6 @@ class ilTemplate extends HTML_Template_ITX
 	var $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 	var $inline_css = array();
-	var $admin_panel_commands = array();
 	
 	private $addFooter; // creates an output of the ILIAS footer
 
@@ -2103,9 +2102,21 @@ class ilTemplate extends HTML_Template_ITX
 		}
 		$this->setVariable("LIGHTBOX", $html);
 	}
+
+	// ADMIN PANEL
+	//
+	// Only used in ilContainerGUI
+	//
+	// An "Admin Panel" is that toolbar thingy that could be found on top and bottom
+	// of a repository listing when editing objects in a container gui.
+
+	protected $admin_panel_commands_toolbar = null;
+	protected $admin_panel_arrow = null;
+	protected $admin_panel_bottom = null;
 	
 	/**
 	 * Add admin panel commands as toolbar
+	 *
 	 * @param ilToolbarGUI $toolb
 	 * @param bool $a_top_only
 	 */
@@ -2124,56 +2135,40 @@ class ilTemplate extends HTML_Template_ITX
 	private function fillAdminPanel()
 	{
 		global $DIC;
-
 		$lng = $DIC->language();
 
-		$adm_view_cmp = $adm_cmds = $adm_view = false;
-		
-		$toolb = new ilToolbarGUI();
-		
-		// admin panel commands
-		if ((count($this->admin_panel_commands) > 0))
-		{
-			foreach($this->admin_panel_commands as $cmd)
-			{
-				$toolb->addFormButton($cmd["txt"], $cmd["cmd"]);
-			}
-			$adm_cmds = true;
+		if ($this->admin_panel_commands_toolbar === null) {
+			return;
 		}
-		elseif($this->admin_panel_commands_toolbar instanceof  ilToolbarGUI)
-		{
-			$toolb = $this->admin_panel_commands_toolbar;
-			$adm_cmds = true;
-		}
-		// Add arrow if desired
+
+		$toolb = $this->admin_panel_commands_toolbar;
+		assert($toolbar instanceof \ilToolbarGUI);
+
+		// Add arrow if desired.
 		if($this->admin_panel_arrow)
 		{
 			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
 		}
 
-		if ($adm_cmds)
-		{
-			$this->fillPageFormAction();
-			
-			$this->setCurrentBlock("adm_view_components");
-			$this->setVariable("ADM_PANEL1", $toolb->getHTML());
-			$this->parseCurrentBlock();
-			$adm_view_cmp = true;
-		}
+		$this->fillPageFormAction();
+
+		// Add top admin bar.
+		$this->setCurrentBlock("adm_view_components");
+		$this->setVariable("ADM_PANEL1", $toolb->getHTML());
+		$this->parseCurrentBlock();
 		
-		// creation selector
-		// see: ilObjectAddNewItemGUI
-		// placeholder "SELECT_OBJTYPE_REPOS" still needed!
-		
-		if ($adm_cmds and $this->admin_panel_bottom)
+		// Add bottom admin bar if user wants one.
+		if ($this->admin_panel_bottom)
 		{
 			$this->setCurrentBlock("adm_view_components2");
+
+			// Replace previously set arrow image.
 			if ($this->admin_panel_arrow)
 			{
 				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
 			}
-			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
 
+			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
 			$this->parseCurrentBlock();
 		}
 	}
