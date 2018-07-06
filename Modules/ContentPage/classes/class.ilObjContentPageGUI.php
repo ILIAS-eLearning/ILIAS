@@ -13,6 +13,7 @@
  * @ilCtrl_Calls ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
+ * @ilCtrl_Calls ilObjContentPageGUI: ilObjStyleSheetGUI
  */
 class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectConstants, \ilDesktopItemHandling
 {
@@ -86,6 +87,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 		$this->error      = $this->dic['ilErr'];
 
 		$this->lng->loadLanguageModule('copa');
+		$this->lng->loadLanguageModule('style');
+		$this->lng->loadLanguageModule('content');
 
 		if ($this->object instanceof \ilObjContentPage) {
 			$this->infoScreenEnabled = \ilContainer::_lookupContainerSetting(
@@ -211,6 +214,12 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				);
 			}
 
+			$this->tabs_gui->addSubTab(
+				self::UI_TAB_ID_STYLE,
+				$this->lng->txt('cont_style'),
+				$this->ctrl->getLinkTarget($this, 'editStyleProperties')
+			);
+
 			$this->tabs->setSubTabActive($activeTab);
 		}
 	}
@@ -236,13 +245,48 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
 		$this->addToNavigationHistory();
 
+		if (strtolower($nextClass) !== 'ilobjstylesheetgui') {
+			$this->renderHeaderActions();
+		}
+
 		switch (strtolower($nextClass)) {
+			case 'ilobjstylesheetgui':
+				$this->checkPermission('write');
+
+				$this->setLocator();
+
+				$this->ctrl->setReturn($this, 'editStyleProperties');
+				$style_gui = new \ilObjStyleSheetGUI(
+					'',
+					$this->object->getStyleSheetId(), 
+					false, 
+					false
+				);
+				$style_gui->omitLocator();
+				if ($cmd == 'create' || $_GET['new_type'] == 'sty') {
+					$style_gui->setCreationMode(true);
+				}
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == 'save' || $cmd == 'copyStyle' || $cmd == 'importStyle') {
+					$styleId = $ret;
+					$this->object->setStyleSheetId($styleId);
+					$this->object->update();
+					$this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
+				}
+				break;
+
 			case 'ilcontentpagepagegui':
 				if (!$this->checkPermissionBool('write') || $this->user->isAnonymous()) {
 					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 				}
 
 				$this->prepareOutput();
+
+				$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+				$this->tpl->setCurrentBlock('SyntaxStyle');
+				$this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+				$this->tpl->parseCurrentBlock();
 
 				$forwarder = new \ilContentPagePageCommandForwarder($this->request, $this->ctrl, $this->tabs, $this->lng, $this->object);
 				$forwarder->forward();
@@ -362,6 +406,16 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 					\ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
 					$this->object->getType()
 				);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function renderHeaderActions() {
+		if(!$this->getCreationMode()) {
+			if($this->checkPermissionBool('read')) {
 				$this->addHeaderAction();
 			}
 		}
@@ -508,6 +562,14 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 		$this->ctrl->redirect($this, self::UI_CMD_VIEW);
 	}
 
+	protected function initStyleSheets()
+	{
+		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$this->tpl->setCurrentBlock('SyntaxStyle');
+		$this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	 * @param string $ctrlLink
 	 * @return string
@@ -515,7 +577,12 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 	public function getContent($ctrlLink = '')
 	{
 		if (\ilContentPagePage::_exists($this->object->getType(), $this->object->getId()) && $this->checkPermissionBool('read')) {
+			$this->initStyleSheets();
+
 			$pageGui = new \ilContentPagePageGUI($this->object->getId());
+			$pageGui->setStyleId(
+				\ilObjStyleSheet::getEffectiveContentStyleId($this->object->getStyleSheetId(), $this->object->getType())
+			);
 			$pageGui->setEnabledTabs(false);
 
 			if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
@@ -554,5 +621,120 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 		$this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId(), '', '_top');
 
 		$this->tpl->setContent($this->getContent());
+	}
+
+	/**
+	 * @throws \ilObjectException
+	 */
+	protected function editStyleProperties()
+	{
+		$this->checkPermission('write');
+
+		$this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
+		$this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+
+		$form = $this->buildStylePropertiesForm();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * @return \ilPropertyFormGUI
+	 */
+	protected function buildStylePropertiesForm()
+	{
+		$form = new \ilPropertyFormGUI();
+
+		$fixedStyle = $this->settings->get('fixed_content_style_id');
+		$defaultStyle = $this->settings->get('default_content_style_id');
+		$styleId = $this->object->getStyleSheetId();
+
+		if ($fixedStyle > 0) {
+			$st = new ilNonEditableValueGUI($this->lng->txt("cont_current_style"));
+			$st->setValue(
+				\ilObject::_lookupTitle($fixedStyle) . " (" . $this->lng->txt("global_fixed") . ")"
+			);
+			$form->addItem($st);
+		} else {
+			$st_styles = \ilObjStyleSheet::_getStandardStyles(
+				true, 
+				false,
+				(int)$_GET["ref_id"]
+			);
+
+			if ($defaultStyle > 0) {
+				$st_styles[0] = \ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
+			} else {
+				$st_styles[0] = $this->lng->txt('default');
+			}
+			ksort($st_styles);
+
+			if ($styleId > 0) {
+				if (!\ilObjStyleSheet::_lookupStandard($styleId)) {
+					$st = new \ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
+					$st->setValue(ilObject::_lookupTitle($styleId));
+					$form->addItem($st);
+
+					$form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
+					$form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
+				}
+			}
+
+			if ($styleId <= 0 || \ilObjStyleSheet::_lookupStandard($styleId)) {
+				$style_sel = new \ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($styleId);
+				$form->addItem($style_sel);
+				$form->addCommandButton('saveStyleSettings', $this->lng->txt('save'));
+				$form->addCommandButton('createStyle', $this->lng->txt('sty_create_ind_style'));
+			}
+		}
+
+		$form->setTitle($this->lng->txt("cont_style"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
+	/**
+	 * Create Style
+	 */
+	protected function createStyle()
+	{
+		$this->ctrl->redirectByClass('ilobjstylesheetgui', 'create');
+	}
+
+	/**
+	 * Edit Style
+	 */
+	protected function editStyle()
+	{
+		$this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
+	}
+
+	/**
+	 * Delete Style
+	 */
+	protected function deleteStyle()
+	{
+		$this->ctrl->redirectByClass('ilobjstylesheetgui', 'delete');
+	}
+
+	/**
+	 * Save style settings
+	 */
+	protected function saveStyleSettings()
+	{
+		$this->checkPermission('write');
+
+		if (
+			$this->settings->get('fixed_content_style_id') <= 0 &&
+			(\ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId()) || $this->object->getStyleSheetId() == 0)) 
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST['style_id']));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+		}
+
+		$this->ctrl->redirect($this, 'editStyleProperties');
 	}
 }

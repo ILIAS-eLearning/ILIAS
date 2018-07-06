@@ -7,6 +7,11 @@
 class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstants
 {
 	/**
+	 * @var int
+	 */
+	protected $styleId = 0;
+
+	/**
 	 * @inheritdoc
 	 */
 	protected function initType()
@@ -15,10 +20,43 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getStyleSheetId(): int
+	{
+		return (int)$this->styleId;
+	}
+
+	/**
+	 * @param int $styleId
+	 */
+	public function setStyleSheetId(int $styleId)
+	{
+		$this->styleId = $styleId;
+	}
+
+	/**
+	 * @param int $styleId
+	 */
+	public function writeStyleSheetId(int $styleId)
+	{
+		$this->db->manipulateF(
+			'UPDATE content_object SET stylesheet = %s WHERE id = %s',
+			['integer', 'integer'],
+			[(int) $styleId, $this->getId()]
+		);
+
+		$this->setStyleSheetId($styleId);
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
+		/**
+		 * @var $new_obj self
+		 */
 		parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
 		if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
@@ -31,7 +69,55 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 			$duplicatePageObject->setXMLContent($originalXML);
 			$duplicatePageObject->createFromXML();
 		}
+
+		$styleId = $this->getStyleSheetId();
+		if ($styleId > 0 && !\ilObjStyleSheet::_lookupStandard($styleId)) {
+			$style = \ilObjectFactory::getInstanceByObjId($styleId, false);
+			if ($style) {
+				$new_id = $style->ilClone();
+				$new_obj->setStyleSheetId($new_id);
+				$new_obj->update();
+			}
+		}
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function doRead()
+	{
+		parent::doRead();
+
+		$res = $this->db->queryF(
+			'SELECT * FROM content_page_data WHERE content_page_id = %s',
+			['integer'],
+			[$this->getId()]
+		);
+
+		while($data = $this->db->fetchAssoc($res)) {
+			$this->setStyleSheetId((int)$data['stylesheet']);
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function doCreate()
+	{
+		parent::doCreate();
+
+		$this->db->manipulateF('
+			INSERT INTO content_page_data 
+			( 
+			 	content_page_id,
+				stylesheet
+			)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+			['integer', 'integer'],
+			[$this->getId(), 0]
+		);
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -39,6 +125,15 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 	protected function doUpdate()
 	{
 		parent::doUpdate();
+
+		$this->db->manipulateF('
+			UPDATE content_page_data
+			SET
+				stylesheet = %s
+			WHERE content_page_id = %s',
+			['integer', 'integer'],
+			[$this->getStyleSheetId(), $this->getId()]
+		);
 	}
 
 	/**
