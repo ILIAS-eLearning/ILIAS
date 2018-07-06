@@ -46,6 +46,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 					'title' => 'text',
 					'description' => 'text',
 					'info-tab' => 'integer',
+					'style-id' => 'integer',
 				];
 
 			default:
@@ -90,6 +91,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 								\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 								true
 							),
+							'style-id' => $obj->getStyleSheetId(),
 						];
 					}
 				}
@@ -119,6 +121,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 
 				$newObject->setTitle(\ilUtil::stripSlashes($a_rec['title']));
 				$newObject->setDescription(\ilUtil::stripSlashes($a_rec['description']));
+				$newObject->setStyleSheetId((int)\ilUtil::stripSlashes($a_rec['style-id']));
 
 				if (!$newObject->getId()) {
 					$newObject->create();
@@ -131,6 +134,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
 				);
 
 				$a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
+				$a_mapping->addMapping('Modules/ContentPage', 'style', $newObject->getId(), $newObject->getStyleSheetId());
 				$a_mapping->addMapping(
 					'Services/COPage', 
 					'pg', 

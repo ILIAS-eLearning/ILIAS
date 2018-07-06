@@ -42,5 +42,18 @@ class ilContentPageImporter extends \ilXmlImporter implements \ilContentPageObje
 
 			\ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
 		}
+
+		$styleMapping = $a_mapping->getMappingsOfEntity('Modules/ContentPage', 'style');
+		foreach ($styleMapping as $newCopaId => $oldStyleId) {
+			$newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
+			if ($newCopaId > 0 && $newStyleId > 0) {
+				$copa = \ilObjectFactory::getInstanceByObjId($newCopaId, false);
+				if (!$copa || !($copa instanceof \ilObjContentPage)) {
+					continue;
+				}
+				$copa->writeStyleSheetId($newStyleId);
+				$copa->update();
+			}
+		}
 	}
 }
