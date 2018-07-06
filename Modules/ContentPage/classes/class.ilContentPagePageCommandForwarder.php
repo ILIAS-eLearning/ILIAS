@@ -70,7 +70,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 		$this->tabs->clearTargets();
 		$this->lng->loadLanguageModule('content');
 
-		$this->backUrl = isset($request->getQueryParams()['backurl']) ? $request->getQueryParams()['backurl'] : '';
+		$this->backUrl = $request->getQueryParams()['backurl'] ?? '';
 
 		if (strlen($this->backUrl) > 0) {
 			$this->ctrl->setParameterByClass('ilcontentpagepagegui', 'backurl', rawurlencode($this->backUrl));
@@ -78,13 +78,15 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	}
 
 	/**
-	 * @param string $pageObjectType
-	 * @param int $pageObjectId
 	 * @return \ilContentPagePageGUI
 	 */
-	protected function getPageObjectGUI($pageObjectType, $pageObjectId)
+	protected function getPageObjectGUI()
 	{
-		$pageObjectGUI = new \ilContentPagePageGUI($pageObjectId);
+		$pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId());
+		$pageObjectGUI->setStyleId(
+			\ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->parentObject->getStyleSheetId(), $this->parentObject->getType())
+		);
 
 		$pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
 
@@ -92,15 +94,14 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	}
 
 	/**
-	 * @param string $pageObjectType
-	 * @param int $pageObjectId
+	 * 
 	 */
-	protected function ensurePageObjectExists($pageObjectType, $pageObjectId)
-	{
-		if (!\ilContentPagePage::_exists($pageObjectType, $pageObjectId)) {
+	protected function ensurePageObjectExists()
+	{ 
+		if (!\ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId())) {
 			$pageObject = new \ilContentPagePage();
 			$pageObject->setParentId($this->parentObject->getId());
-			$pageObject->setId($pageObjectId);
+			$pageObject->setId($this->parentObject->getId());
 			$pageObject->createFromXML();
 		}
 	}
@@ -131,14 +132,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	{
 		$this->setBackLinkTab();
 
-		$this->ensurePageObjectExists(
-			$this->parentObject->getType(), $this->parentObject->getId()
-		);
+		$this->ensurePageObjectExists();
 
-		$pageObjectGUI = $this->getPageObjectGUI(
-			$this->parentObject->getType(), $this->parentObject->getId()
-		);
-
+		$pageObjectGUI = $this->getPageObjectGUI();
 		$pageObjectGUI->setEnabledTabs(true);
 
 		return $pageObjectGUI;
@@ -151,14 +147,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	{
 		$this->setBackLinkTab();
 
-		$this->ensurePageObjectExists(
-			$this->parentObject->getType(), $this->parentObject->getId()
-		);
+		$this->ensurePageObjectExists();
 
-		$pageObjectGUI = $this->getPageObjectGUI(
-			$this->parentObject->getType(), $this->parentObject->getId()
-		);
-
+		$pageObjectGUI = $this->getPageObjectGUI();
 		$pageObjectGUI->setEnabledTabs(false);
 
 		return $pageObjectGUI;

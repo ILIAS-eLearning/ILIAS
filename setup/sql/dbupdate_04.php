@@ -22326,6 +22326,49 @@ ilDBUpdateNewObjectType::applyInitialPermissionGuideline('copa', true);
 ?>
 <#5281>
 <?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5282>
+<?php
+if (!$ilDB->tableExists('content_page_data')) {
+	$fields = array(
+		'content_page_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'stylesheet'    => array(
+			'type'    => 'integer',
+			'notnull' => true,
+			'length'  => 4,
+			'default' => 0
+		)
+	);
+
+	$ilDB->createTable('content_page_data', $fields);
+	$ilDB->addPrimaryKey('content_page_data', array('content_page_id'));
+}
+?>
+<#5283>
+<?php
+$res = $ilDB->queryF(
+	'SELECT * FROM object_data WHERE type = %s',
+	['text'],
+	['copa']
+);
+
+while($data = $ilDB->fetchAssoc($res)) {
+	$ilDB->replace(
+		'content_page_data',
+		[
+			'content_page_id' => ['integer', (int)$data['obj_id']]
+		],
+		[]
+	);
+}
+?><#5281>
+<?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
 		'id' => array(
