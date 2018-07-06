@@ -579,6 +579,7 @@ class ilFileUtils
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
+			'7z',						// application/x-7z-compressed
 			'ai', 	// APPLICATION__POSTSCRIPT
 			'aif', 	// AUDIO__AIFF
 			'aifc', // AUDIO__AIFF
@@ -588,6 +589,7 @@ class ilFileUtils
 			'avi',  // AUDIO__BASIC
 			'backup', // scorm wbts
 			'bak', // scorm wbts
+			'bas',						// SPSS script
 			'bpmn', // bpmn
 			'bpmn2', // bpmn2
 			'bmp',	// IMAGE__BMP
@@ -599,8 +601,10 @@ class ilFileUtils
 			'c++', 	// TEXT__PLAIN
 			'cc', 	// TEXT__PLAIN
 			'cct', // scorm wbts
+			'cdf',						// (Wolfram) Computable Document Format
 			'cer', 	// APPLICATION__X_X509_CA_CERT
 			'class', // APPLICATION__X_JAVA_CLASS
+			'cls',						// SPSS script
 			'conf',	 // TEXT__PLAIN
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
@@ -638,6 +642,8 @@ class ilFileUtils
 			'gtar',   // APPLICATION__X_GTAR,
 			'gz',   // APPLICATION__X_GZIP,
 			'gzip',   // APPLICATION__X_GZIP,
+			'h',	// TEXT__X_C
+			'hpp',	// TEXT__X_C
 			'htm',   // TEXT__HTML,
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
@@ -645,6 +651,7 @@ class ilFileUtils
 			'ico',   // IMAGE__X_ICON,
 			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
+			'ipynb',						// iPython file for Jupyter Notebooks
 			'java',   // TEXT__X_JAVA_SOURCE,
 			'jbf', // scorm wbts
 			'jpeg',   // IMAGE__PJPEG,
@@ -692,9 +699,12 @@ class ilFileUtils
 			'mv',   // VIDEO__X_SGI_MOVIE,
 			'mw',
 			'mv4',   // VIDEO__MP4,
+			'nb',						// Wolfram Notebook files
+			'nbp',						// Wolfram Notebook Player files
 			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
+			'obm',						// SPSS script
 			'odt',   // Open document text,
 			'ods',   // Open document spreadsheet,
 			'odp',   // Open document presentation,
@@ -715,6 +725,7 @@ class ilFileUtils
 			'pic',   // IMAGE__PICT,
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
+			'por',    // Portable SPSS file
 			'pov',   // MODEL__X_POV,
 			'project', // scorm wbts
 			'properties', // scorm wbts
@@ -732,14 +743,19 @@ class ilFileUtils
 			'qtc',   // VIDEO__X_QTC,
 			'qti',   // IMAGE__X_QUICKTIME,
 			'qtif',   // IMAGE__X_QUICKTIME,
+			'r',    // R script file
 			'ra',   // AUDIO__X_PN_REALAUDIO,
 			'ram',   // AUDIO__X_PN_REALAUDIO,
+			'rar',    // RAR (application/vnd.rar)
 			'rast',   // IMAGE__CMU_RASTER,
+			'rda',    // R data file
+			'rev',    // RAR (application/vnd.rar)
 			'rexx',   // TEXT__X_SCRIPT_REXX,
 			'ris',	// ris
 			'rf',   // IMAGE__VND_RN_REALFLASH,
 			'rgb',   // IMAGE__X_RGB,
 			'rm',   // APPLICATION__VND_RN_REALMEDIA,
+			'rmd',    // R Markdown file
 			'rmi',   // AUDIO__MID,
 			'rmm',   // AUDIO__X_PN_REALAUDIO,
 			'rmp',   // AUDIO__X_PN_REALAUDIO,
@@ -748,14 +764,17 @@ class ilFileUtils
 			'rtx',   // TEXT__RICHTEXT,
 			'rv',   // VIDEO__VND_RN_REALVIDEO,
 			's',   // TEXT__X_ASM,
-			'sav',   // SPSS
-			'sec',   //
 			's3m',   // AUDIO__S3M,
+			'sav',   // SPSS data file
+			'sbs',    // SPSS script
+			'sec',   //
 			'sdml',   // TEXT__PLAIN,
 			'sgm',   // TEXT__SGML,
 			'sgml',   // TEXT__SGML
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
+			'sps',    // SPSS syntax file
+			'spv',    // SPSS output file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
@@ -771,6 +790,7 @@ class ilFileUtils
 			'txt',   // TEXT__PLAIN,
 			'tmp',
 			'uvproj',
+			'vdf',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
@@ -781,6 +801,7 @@ class ilFileUtils
 			'wmx',   // VIDEO__X_MS_WMX,
 			'wmz',   // VIDEO__X_MS_WMZ,
 			'woff',   // web open font format,
+			'wwd',						// SPSS script
 			'xhtml',   // APPLICATION__XHTML_XML,
 			'xif',   // IMAGE__VND_XIFF,
 			'xls',   // APPLICATION__EXCEL,

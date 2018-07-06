@@ -269,7 +269,7 @@ class ilECSCourseMappingRule
 		// Create category
 		include_once './Modules/Category/classes/class.ilObjCategory.php';
 		$cat = new ilObjCategory();
-		$cat->setOwner(6);
+		$cat->setOwner(SYSTEM_USER_ID);
 		$cat->setTitle($a_title);
 		$cat->create();
 		$cat->createReference();

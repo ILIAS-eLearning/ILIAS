@@ -1800,7 +1800,7 @@ class ilObject
 		}
 		else
 		{
-			include_once("./Services/Component/classes/class.ilObjectPlugin.php");
+			require_once("Services/Repository/classes/class.ilObjectPlugin.php");
 			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 

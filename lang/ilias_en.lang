@@ -713,6 +713,7 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -7203,7 +7204,7 @@ survey#:#maintenance#:#Participants
 survey#:#manage_phrases#:#My Phrases
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material#:#Material
-survey#:#materials_deleted#:#Material(s) deleted
+survey#:#materials_deleted#:#Material(s) have been removed from the question.
 survey#:#materials#:#Materials
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -10288,6 +10289,7 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -13154,6 +13156,8 @@ chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
+chatroom#:#chatroom_client_name#:#Name
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.
 chatroom#:#key#:#Key
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
@@ -14181,3 +14185,4 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
