@@ -1324,16 +1324,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "self_eval_res");
 				$evaluation_access->setValue($this->object->getSelfEvaluationResults());
 
-				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_none"), ilObjSurvey::RESULTS_SELF_EVAL_NONE);
-				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$option = new ilRadioOption($this->lng->txt("svy_self_ev_access_results_none"), ilObjSurvey::RESULTS_SELF_EVAL_NONE);
 				$evaluation_access->addOption($option);
 
-				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_own"), ilObjSurvey::RESULTS_SELF_EVAL_OWN);
-				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$option = new ilRadioOption($this->lng->txt("svy_self_ev_access_results_own"), ilObjSurvey::RESULTS_SELF_EVAL_OWN);
 				$evaluation_access->addOption($option);
 
-				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_all"), ilObjSurvey::RESULTS_SELF_EVAL_ALL);
-				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));
+				$option = new ilRadioOption($this->lng->txt("svy_self_ev_access_results_all"), ilObjSurvey::RESULTS_SELF_EVAL_ALL);
 				$evaluation_access->addOption($option);
 
 				$form->addItem($evaluation_access);

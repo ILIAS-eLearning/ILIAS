@@ -10599,7 +10599,7 @@ survey#:#survey_360_results#:#Access To Results For Appraisees
 survey#:#survey_360_results_none#:#No Access to Results
 survey#:#survey_360_results_own#:#Access to Feedback of Own Raters
 survey#:#survey_360_results_all#:#All Feedbacks
-survey#:#survey_360_appraisees#:#Appraisees
+survey#:#survey_360_appraisees#:#Participants
 survey#:#survey_360_edit_raters#:#Manage Raters
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?
@@ -14218,3 +14218,6 @@ file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
