@@ -67,9 +67,13 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 						
 		if(!$this->raters_mode)
 		{
-			$this->addColumn($this->lng->txt("survey_360_raters_finished"), "finished");
-			$this->addColumn($this->lng->txt("survey_360_appraisee_close_table"), "closed");
-			$this->addColumn($this->lng->txt("actions"));
+			if($a_parent_obj->getObject()->get360Mode()) {
+				$this->addColumn($this->lng->txt("survey_360_raters_finished"), "finished");
+				$this->addColumn($this->lng->txt("survey_360_appraisee_close_table"), "closed");
+				$this->addColumn($this->lng->txt("actions"));
+			} else {
+				$this->addColumn($this->lng->txt("survey_360_appraisee_close_table"), "closed");
+			}
 			
 			$this->setTitle($this->lng->txt("survey_360_appraisees"));
 		}
@@ -92,8 +96,12 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 	
 		if(!$this->raters_mode)
-		{			
-			$this->addMultiCommand('confirmAdminAppraiseesClose', $this->lng->txt('survey_360_appraisee_close_action'));
+		{
+			//only 360 can close svy for raters.
+			if($a_parent_obj->getObject()->get360Mode())
+			{
+				$this->addMultiCommand('confirmAdminAppraiseesClose', $this->lng->txt('survey_360_appraisee_close_action'));
+			}
 			$this->addMultiCommand('confirmDeleteAppraisees', $this->lng->txt('survey_360_remove_appraisees'));			
 			$this->setPrefix('appr_id');
 			$this->setSelectAllCheckbox('appr_id');		
@@ -136,13 +144,19 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setVariable("CLOSED","");
 			}
+			if($this->getParentObject()->getObject()->get360Mode())
+			{
+				$this->tpl->setCurrentBlock("finish_bl");
+				$this->tpl->setVariable("FINISHED", $data['finished']);
+				$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable("FINISHED", $data['finished']);
+				$this->ctrl->setParameter($this->getParentObject(), "appr_id", $data["user_id"]);
+				$this->tpl->setVariable("URL", $lng->txt("survey_360_edit_raters"));
+				$this->tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this->getParentObject(), "editRaters"));
+			}
 
-			$this->ctrl->setParameter($this->getParentObject(), "appr_id", $data["user_id"]);
-			$this->tpl->setVariable("URL", $lng->txt("survey_360_edit_raters"));
-			$this->tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this->getParentObject(), "editRaters"));
 			$this->ctrl->setParameter($this->getParentObject(), "appr_id", "");
+
 		}
 		else
 		{
