@@ -85,8 +85,6 @@ class ilTemplate extends HTML_Template_ITX
 	{
 		global $DIC;
 
-//echo "<br>-".$file."-";
-
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		$this->addFooter = TRUE;
@@ -110,9 +108,7 @@ class ilTemplate extends HTML_Template_ITX
 			return false;
 		}
 
-		//$this->IntegratedTemplateExtension(dirname($fname));
 		parent::__construct();
-		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
@@ -800,7 +796,6 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$this->setCurrentBlock("css_file");
 			$this->setVariable("CSS_INLINE", $css["css"]);
-			//$this->setVariable("CSS_MEDIA", $css["media"]);
 			$this->parseCurrentBlock();
 		}
 	}
@@ -962,7 +957,6 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
 				$template2 = clone($this);
-//echo "-".ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"])."-";
 				$ftpl->setCurrentBlock("xhtml_validation");
 				$ftpl->setVariable("VALIDATION",
 					ilValidatorAdapter::validate($template2->get("DEFAULT",
@@ -1509,10 +1503,6 @@ class ilTemplate extends HTML_Template_ITX
 		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		ilUIFramework::init();
 
-		// always load Basic js
-//		$this->addJavaScript("./Services/JavaScript/js/Basic.js",
-//			true, 1);
-
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -1592,10 +1582,6 @@ class ilTemplate extends HTML_Template_ITX
 				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
 			}
 			
-			if ($icon)
-			{
-				//$this->setVariable("HICONCL", "ilHeaderHasIcon");
-			}
 			$header = true;
 		}
 		
@@ -1687,7 +1673,6 @@ class ilTemplate extends HTML_Template_ITX
 	public function setDescription($a_descr)
 	{
 		$this->title_desc = $a_descr;
-//		$this->setVariable("H_DESCRIPTION", $a_descr);
 	}
 	
 	/**
