@@ -112,7 +112,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 			 	content_page_id,
 				stylesheet
 			)
-			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+			VALUES(%s, %s)',
 			['integer', 'integer'],
 			[$this->getId(), 0]
 		);
