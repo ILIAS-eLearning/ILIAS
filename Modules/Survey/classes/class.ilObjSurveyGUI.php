@@ -736,81 +736,83 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->setMailAddresses($_POST['mailaddresses']);
 				$this->object->setMailParticipantData($_POST['mailparticipantdata']);
 
-				// 360°
-				if($this->object->get360Mode())
-				{
-					$this->object->set360SelfEvaluation((bool)$_POST["self_eval"]);
-					$this->object->set360SelfAppraisee((bool)$_POST["self_appr"]);
-					$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
-					$this->object->set360Results((int)$_POST["ts_res"]);;
-					$this->object->set360SkillService((int)$_POST["skill_service"]);
-				}
-				else
-				{				
-					if(!$template_settings["evaluation_access"]["hide"])
-					{
-						$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-					}
-
-					$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
-					if (!$hasDatasets)
-					{						
-						$hide_codes = $template_settings["acc_codes"]["hide"];
-						$hide_anon = $template_settings["anonymization_options"]["hide"];						
-						if(!$hide_codes || !$hide_anon)
-						{					
-							$current = $this->object->getAnonymize();
-							
-							// get current setting if property is hidden
-							if(!$hide_codes)
-							{
-								$codes = (bool)$_POST["acc_codes"];
-							}
-							else
-							{
-								$codes = ($current == ilObjSurvey::ANONYMIZE_CODE_ALL ||
-									$current == ilObjSurvey::ANONYMIZE_ON);
-							}
-							if(!$hide_anon)
-							{
-								$anon = ((string)$_POST["anonymization_options"] == "statanon");	
-							}
-							else
-							{
-								$anon = ($current == ilObjSurvey::ANONYMIZE_FREEACCESS ||
-									$current == ilObjSurvey::ANONYMIZE_ON);
-							}
-							
-							// parse incoming values
-							if (!$anon)
-							{			
-								if (!$codes)
-								{
-									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
-								}
-								else
-								{
-									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
-								}
-							}
-							else
-							{
-								if ($codes)
-								{
-									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
-								}
-								else
-								{
-									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
-								}
-								
-								$this->object->setAnonymousUserList($_POST["anon_list"]);		
-							}	
-
-							// if settings were changed get rid of existing code
-							unset($_SESSION["anonymous_id"][$this->object->getId()]);
+				switch ($this->object->getMode()){
+					case ilObjSurvey::MODE_360:
+						$this->object->set360SelfEvaluation((bool)$_POST["self_eval"]);
+						$this->object->set360SelfAppraisee((bool)$_POST["self_appr"]);
+						$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
+						$this->object->set360Results((int)$_POST["ts_res"]);;
+						$this->object->set360SkillService((int)$_POST["skill_service"]);
+						break;
+					case ilObjSurvey::MODE_SELF_EVAL:
+						$this->object->setSelfEvaluationResults($_POST["self_eval_res"]);
+						break;
+					default:
+						if(!$template_settings["evaluation_access"]["hide"])
+						{
+							$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 						}
-					}
+
+						$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
+						if (!$hasDatasets)
+						{
+							$hide_codes = $template_settings["acc_codes"]["hide"];
+							$hide_anon = $template_settings["anonymization_options"]["hide"];
+							if(!$hide_codes || !$hide_anon)
+							{
+								$current = $this->object->getAnonymize();
+
+								// get current setting if property is hidden
+								if(!$hide_codes)
+								{
+									$codes = (bool)$_POST["acc_codes"];
+								}
+								else
+								{
+									$codes = ($current == ilObjSurvey::ANONYMIZE_CODE_ALL ||
+										$current == ilObjSurvey::ANONYMIZE_ON);
+								}
+								if(!$hide_anon)
+								{
+									$anon = ((string)$_POST["anonymization_options"] == "statanon");
+								}
+								else
+								{
+									$anon = ($current == ilObjSurvey::ANONYMIZE_FREEACCESS ||
+										$current == ilObjSurvey::ANONYMIZE_ON);
+								}
+
+								// parse incoming values
+								if (!$anon)
+								{
+									if (!$codes)
+									{
+										$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+									}
+									else
+									{
+										$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+									}
+								}
+								else
+								{
+									if ($codes)
+									{
+										$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+									}
+									else
+									{
+										$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+									}
+
+									$this->object->setAnonymousUserList($_POST["anon_list"]);
+								}
+
+								// if settings were changed get rid of existing code
+								unset($_SESSION["anonymous_id"][$this->object->getId()]);
+							}
+						}
+						break;
 				}
 
 				$this->object->saveToDb();
@@ -1309,7 +1311,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 			case ilObjSurvey::MODE_SELF_EVAL:
 				//check the names of these vars
-				$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+				$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "self_eval_res");
+				$evaluation_access->setValue($this->object->getSelfEvaluationResults());
 
 				$option = new ilRadioOption($this->lng->txt("survey_self_eval_results_none"), ilObjSurvey::RESULTS_SELF_EVAL_NONE);
 				$option->setInfo($this->lng->txt("survey_self_eval_results_none_info"));

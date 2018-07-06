@@ -1151,6 +1151,7 @@ class ilObjSurvey extends ilObject
 			$this->setMailParticipantData($data['mailparticipantdata']);
 			$this->setTemplate($data['template_id']);
 			$this->setPoolUsage($data['pool_usage']);
+			// Mode
 			$this->setMode($data['mode']);
 			// 360°
 			$this->set360SelfEvaluation($data['mode_360_self_eval']);
@@ -1158,6 +1159,8 @@ class ilObjSurvey extends ilObject
 			$this->set360SelfAppraisee($data['mode_360_self_appr']);
 			$this->set360Results($data['mode_360_results']);
 			$this->set360SkillService($data['mode_360_skill_service']);
+			// Mode self evaluated
+			$this->setSelfEvaluationResults($data['mode_self_eval_results']);
 			// reminder/notification
 			$this->setReminderStatus($data["reminder_status"]);
 			$this->setReminderStart($data["reminder_start"] ? new ilDate($data["reminder_start"], IL_CAL_DATE) : null);
@@ -6663,12 +6666,12 @@ class ilObjSurvey extends ilObject
 
 	public function setSelfEvaluationResults($a_value)
 	{
-		$this->mode_self_eval_results = (int)$a_value;
+		$this->mode_self_eval_results = $a_value;
 	}
 
-	public function getSelfEvalResults()
+	public function getSelfEvaluationResults()
 	{
-		return (int)$this->mode_self_eval_results;
+		return $this->mode_self_eval_results;
 	}
 	
 } // END class.ilObjSurvey
