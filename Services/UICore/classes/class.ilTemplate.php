@@ -59,7 +59,6 @@ class ilTemplate extends HTML_Template_ITX
 	
 	protected $title_desc = "";	
 	protected $title_url = "";
-	protected $upper_icon = "";
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
@@ -1895,15 +1894,6 @@ class ilTemplate extends HTML_Template_ITX
 	}
 	
 	/**
-	* sets icon to upper level
-	*/
-	public function setUpperIcon($a_link, $a_frame = "")
-	{
-		$this->upper_icon = $a_link;
-		$this->upper_icon_frame = $a_frame;
-	}
-
-	/**
 	 * Set target parameter for login (public sector).
 	 * This is used by the main menu
 	 */
@@ -1946,26 +1936,6 @@ class ilTemplate extends HTML_Template_ITX
 
 		$lng = $DIC->language();
 
-		// upper icon
-		// deprecated
-		if ($this->upper_icon != "")
-		{
-			/*if ($this->upper_icon_frame != "")
-			{
-				$this->setCurrentBlock("target_top");
-				$this->setVariable("TARGET_TOP", $this->upper_icon_frame);
-				$this->parseCurrentBlock();
-			}
-	
-			$this->setCurrentBlock("alt_top");
-			$this->setVariable("ALT_TOP", $lng->txt("up"));
-			$this->parseCurrentBlock();
-	
-			$this->setCurrentBlock("top");
-			$this->setVariable("LINK_TOP", $this->upper_icon);
-			$this->parseCurrentBlock();*/
-		}
-		
 		// tree/flat icon
 		if ($this->tree_flat_link != "")
 		{
