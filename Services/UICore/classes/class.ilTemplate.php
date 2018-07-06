@@ -395,12 +395,119 @@ class ilTemplate extends HTML_Template_ITX
 		$this->setVariable("FOOTER", $ftpl->get());
 	}
 
+
+	// MESSAGES
+	//
+	// setMessage is only used in ilUtil
+	// getMessageHTML has various usage locations
+
 	/**
-	* ???
-	* @access	public
-	* @param	string
-	* @return	string
-	*/
+	 * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
+	 * ilUtil::sendSuccess() and ilUtil::sendFailure()
+	 *
+	 * @param  string  $a_type \ilTemplate::MESSAGE_TYPE_SUCCESS,
+	 *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
+	 *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
+	 *                         \ilTemplate::MESSAGE_TYPE_INFO
+	 * @param   string $a_txt  The message to be sent
+	 * @param bool     $a_keep Keep this message over one redirect
+	 */
+	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
+	{
+		if (!in_array($a_type, self::$message_types) || $a_txt == "")
+		{
+			return;
+		}
+		if ($a_type == self::MESSAGE_TYPE_QUESTION)
+		{
+			$a_type = "mess_question";
+		}
+		if (!$a_keep)
+		{
+			$this->message[$a_type] = $a_txt;
+		}
+		else
+		{
+			$_SESSION[$a_type] = $a_txt;
+		}
+	}
+
+	/**
+	 * Get HTML for a system message
+	 */
+	public function getMessageHTML($a_txt, $a_type = "info")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->parseCurrentBlock();
+
+		return $mtpl->get();
+	}
+
+	/**
+	 * Fill message area.
+	 */
+	private function fillMessage()
+	{
+		global $DIC;
+
+		$ms = array( self::MESSAGE_TYPE_INFO,
+		             self::MESSAGE_TYPE_SUCCESS, self::MESSAGE_TYPE_FAILURE,
+		             self::MESSAGE_TYPE_QUESTION
+		);
+		$out = "";
+
+		foreach ($ms as $m)
+		{
+
+			if ($m == self::MESSAGE_TYPE_QUESTION)
+			{
+				$m = "mess_question";
+			}
+			$txt = $this->getMessageTextForType($m);
+
+			if ($m == "mess_question")
+			{
+				$m = self::MESSAGE_TYPE_QUESTION;
+			}
+
+			if ($txt != "")
+			{
+				$out.= $this->getMessageHTML($txt, $m);
+			}
+		
+			if ($m == self::MESSAGE_TYPE_QUESTION)
+			{
+				$m = "mess_question";
+			}
+
+			$request = $DIC->http()->request();
+			$accept_header = $request->getHeaderLine('Accept');
+			if (isset($_SESSION[$m]) && $_SESSION[$m] && ($accept_header !== 'application/json')) {
+				unset($_SESSION[$m]);
+			}
+		}
+		
+		if ($out != "")
+		{
+			$this->setVariable("MESSAGE", $out);
+		}
+	}
+
+
+	// TEMPLATING
+	//
+	// used in a lot of places
+
+	/**
+	 * @param	string
+	 * @return	string
+	 */
 	public function get($part = "DEFAULT", $add_error_mess = false,
 		$handle_referer = false, $add_ilias_footer = false,
 		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
@@ -516,111 +623,6 @@ class ilTemplate extends HTML_Template_ITX
 		return $html;
 	}
 
-
-	/**
-	 * Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
-	 * and ilUtil::sendFailure()
-	 *
-	 * @param  string  $a_type \ilTemplate::MESSAGE_TYPE_SUCCESS,
-	 *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
-	 *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
-	 *                         \ilTemplate::MESSAGE_TYPE_INFO
-	 * @param   string $a_txt  The message to be sent
-	 * @param bool     $a_keep Keep this message over one redirect
-	 */
-	public function setMessage($a_type, $a_txt, $a_keep = false)
-	{
-		if (!in_array($a_type, self::$message_types) || $a_txt == "")
-		{
-			return;
-		}
-		if ($a_type == self::MESSAGE_TYPE_QUESTION)
-		{
-			$a_type = "mess_question";
-		}
-		if (!$a_keep)
-		{
-			$this->message[$a_type] = $a_txt;
-		}
-		else
-		{
-			$_SESSION[$a_type] = $a_txt;
-		}
-	}
-	
-	private function fillMessage()
-	{
-		global $DIC;
-
-		$ms = array( self::MESSAGE_TYPE_INFO,
-		             self::MESSAGE_TYPE_SUCCESS, self::MESSAGE_TYPE_FAILURE,
-		             self::MESSAGE_TYPE_QUESTION
-		);
-		$out = "";
-		
-		foreach ($ms as $m)
-		{
-
-			if ($m == self::MESSAGE_TYPE_QUESTION)
-			{
-				$m = "mess_question";
-			}
-			$txt = $this->getMessageTextForType($m);
-
-			if ($m == "mess_question")
-			{
-				$m = self::MESSAGE_TYPE_QUESTION;
-			}
-
-			if ($txt != "")
-			{
-				// this is a workaround that allows to send rendered message boxes directly
-				// should be removed if we have a decent place for messages in a new ks layout
-				if (strpos($txt, 'role="alert"') > 0)
-				{
-					$out.= $txt;
-				}
-				else
-				{
-					$out.= $this->getMessageHTML($txt, $m);
-				}
-			}
-		
-			if ($m == self::MESSAGE_TYPE_QUESTION)
-			{
-				$m = "mess_question";
-			}
-
-			$request = $DIC->http()->request();
-			$accept_header = $request->getHeaderLine('Accept');
-			if (isset($_SESSION[$m]) && $_SESSION[$m] && ($accept_header !== 'application/json')) {
-				unset($_SESSION[$m]);
-			}
-		}
-		
-		if ($out != "")
-		{
-			$this->setVariable("MESSAGE", $out);
-		}
-	}
-
-	/**
-	* Get HTML for a system message
-	*/
-	public function getMessageHTML($a_txt, $a_type = "info")
-	{
-		global $DIC;
-
-		$lng = $DIC->language();
-		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
-		$mtpl->setCurrentBlock($a_type."_message");
-		$mtpl->setVariable("TEXT", $a_txt);
-		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
-		$mtpl->parseCurrentBlock();
-		
-		return $mtpl->get();
-	}
-	
 	/**
 	 * @param string $part
 	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs

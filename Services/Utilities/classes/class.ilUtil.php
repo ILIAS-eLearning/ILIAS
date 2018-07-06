@@ -4818,7 +4818,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("info", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("info", $a_info, $a_keep);
 	}
 
 	/**
@@ -4836,7 +4836,7 @@ class ilUtil
 		if(isset($DIC["tpl"]))
 		{
 			$tpl = $DIC["tpl"];
-			$tpl->setMessage("failure", $a_info, $a_keep);
+			$tpl->setOnScreenMessage("failure", $a_info, $a_keep);
 		}
 	}
 
@@ -4851,7 +4851,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("question", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("question", $a_info, $a_keep);
 	}
 
 	/**
@@ -4868,7 +4868,7 @@ class ilUtil
 
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("success", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)
