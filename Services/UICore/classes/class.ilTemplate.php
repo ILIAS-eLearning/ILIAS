@@ -395,18 +395,6 @@ class ilTemplate extends HTML_Template_ITX
 		$this->setVariable("FOOTER", $ftpl->get());
 	}
 
-
-	
-	/**
-	* Use this for final get before sending asynchronous output (ajax)
-	* per echo to output.
-	*/
-	public function getAsynch()
-	{
-		header("Content-type: text/html; charset=UTF-8");
-		return $this->get();
-	}
-	
 	/**
 	* ???
 	* @access	public
