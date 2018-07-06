@@ -182,15 +182,13 @@ class ilWACTokenTest extends MockeryTestCase {
 	{
 		$ilWacPath = new ilWacPath($this->file_four->url());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
-		$ilWACToken->setIp('127.0.0.1');
 		$ilWACToken->generateToken();
-		$this->assertEquals('SALT-127.0.0.1-client_name-123456-20', $ilWACToken->getRawToken());
+		$this->assertEquals('SALT-client_name-123456-20', $ilWACToken->getRawToken());
 		$this->assertEquals('./data/client_name/sec/ilBlog/mm_124/dummy.jpg', $ilWACToken->getId());
 
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals(self::SALT, ilWACToken::getSALT());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
-		$this->assertEquals('cd5a43304b232c785ef4f9796053b8bf5d6d829a', $ilWACToken->getToken());
+		$this->assertEquals('b541e2bae42ee222f9be959b7ad2ab8844cbb05b', $ilWACToken->getToken());
 		$this->assertEquals('e45b98f267dc891c8206c844f7df29ea', $ilWACToken->getHashedId());
 	}
 
