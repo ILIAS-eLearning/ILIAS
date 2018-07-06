@@ -2852,7 +2852,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			unset($a_right_content);
 		}			
 
-		$content = $a_tpl->get("DEFAULT", false, false, false,
+		$content = $a_tpl->getSpecial("DEFAULT", false, false, false,
 			true, true, true);		
 
 		// open file

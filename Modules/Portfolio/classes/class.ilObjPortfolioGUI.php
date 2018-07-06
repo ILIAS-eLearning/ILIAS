@@ -1604,7 +1604,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		else
 		{
 			$tpl->fillJavaScriptFiles();
-			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
+			$ret = $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}
 	}

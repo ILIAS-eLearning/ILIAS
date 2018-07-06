@@ -1083,10 +1083,16 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	 * @param	string
 	 * @return	string
 	 */
-	public function get($part = "DEFAULT", $add_error_mess = false,
-		$handle_referer = false, $add_ilias_footer = false,
-		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
-	{
+	public function getSpecial(
+		$part = "DEFAULT",
+		$add_error_mess = false,
+		$handle_referer = false,
+		$add_ilias_footer = false,
+		$add_standard_elements = false,
+		$a_main_menu = true,
+		$a_tabs = true
+	) {
+
 		global $DIC;
 
 		if ($add_error_mess)
@@ -1198,6 +1204,41 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		return $html;
 	}
 
+	/**
+	 * @param	string
+	 * @return	string
+	 */
+	public function get($part = "DEFAULT") {
+		global $DIC;
+
+		if ($part == "DEFAULT")
+		{
+			$html = parent::get();
+		}
+		else
+		{
+			$html = parent::get($part);
+		}
+
+		// include the template output hook
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+
+			$resp = $gui_class->getHTML("", "template_get",
+					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+		}
+
+		return $html;
+	}
 	
 	/**
 	 * @param string $part

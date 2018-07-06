@@ -267,7 +267,7 @@ class ilPortfolioHTMLExport
 		}
 				
 
-		$content = $this->tpl->get("DEFAULT", false, false, false,
+		$content = $this->tpl->getSpecial("DEFAULT", false, false, false,
 			true, true, true);
 
 		// open file

@@ -1635,7 +1635,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		else
 		{			
-			return $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 		}
 	}
 	

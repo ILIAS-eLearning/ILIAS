@@ -262,7 +262,7 @@ class ilWikiHTMLExport
 
 		$this->tpl->setContent($ep_tpl->get());
 		//$this->tpl->fillMainContent();
-		$content = $this->tpl->get("DEFAULT", false, false, false,
+		$content = $this->tpl->getSpecial("DEFAULT", false, false, false,
 			true, true, true);
 
 //echo htmlentities($content); exit;

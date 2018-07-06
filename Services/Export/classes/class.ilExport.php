@@ -292,7 +292,7 @@ class ilExport
 			$f_tpl->parseCurrentBlock();
 		}
 		$a_tpl->setContent($f_tpl->get());
-		$index_content = $a_tpl->get("DEFAULT", false, false, false, true, false, false);
+		$index_content = $a_tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 
 		$f = fopen ($a_filename, "w");
 		fwrite($f, $index_content);

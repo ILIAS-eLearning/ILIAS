@@ -220,7 +220,7 @@ class ilForumExportGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		ilUtil::deliverData($tpl->get('DEFAULT', false, false, false, true, false, false), 'forum_html_export_' . $_GET['ref_id'] . '.html');
+		ilUtil::deliverData($tpl->getSpecial('DEFAULT', false, false, false, true, false, false), 'forum_html_export_' . $_GET['ref_id'] . '.html');
 	}
 
 	/**

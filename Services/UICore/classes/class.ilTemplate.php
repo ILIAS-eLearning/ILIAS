@@ -1084,85 +1084,8 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param	string
 	 * @return	string
 	 */
-	public function get($part = "DEFAULT", $add_error_mess = false,
-		$handle_referer = false, $add_ilias_footer = false,
-		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
-	{
+	public function get($part = "DEFAULT") {
 		global $DIC;
-
-		if ($add_error_mess)
-		{
-			$this->fillMessage();
-		}
-
-		if ($add_ilias_footer)
-		{
-			$this->fillFooter();
-		}
-
-		// set standard parts (tabs and title icon)
-		if($add_standard_elements)
-		{
-			if ($this->blockExists("content") && $a_tabs)
-			{
-				// determine default screen id
-				$this->getTabsHTML();
-			}
-
-			// to get also the js files for the main menu
-			$this->getMainMenu();
-			$this->initHelp();
-			
-			// these fill blocks in tpl.main.html
-			$this->fillCssFiles();
-			$this->fillInlineCss();
-			$this->fillBodyClass();
-
-			// these fill just plain placeholder variables in tpl.main.html
-			$this->setCurrentBlock("DEFAULT");
-			$this->fillNewContentStyle();
-			$this->fillContentLanguage();
-			$this->fillWindowTitle();
-
-			// these fill blocks in tpl.adm_content.html
-			$this->fillHeader();
-			$this->fillSideIcons();
-			$this->fillScreenReaderFocus();
-			$this->fillLeftContent();
-			$this->fillLeftNav();
-			$this->fillRightContent();
-			$this->fillAdminPanel();
-			$this->fillToolbar();
-			$this->fillPermanentLink();
-			
-			$this->setCenterColumnClass();
-
-			// late loading of javascipr files, since operations above may add files
-			$this->fillJavaScriptFiles();
-			$this->fillOnLoadCode();
-
-			// these fill just plain placeholder variables in tpl.adm_content.html
-			if ($this->blockExists("content"))
-			{
-				$this->setCurrentBlock("content");
-				if ($a_tabs)
-				{
-					$this->fillTabs();
-				}
-				$this->fillMainContent();
-				if ($a_main_menu)
-				{
-					$this->fillMainMenu();
-				}
-				$this->fillLightbox();
-				$this->parseCurrentBlock();
-			}
-		}
-
-		if ($handle_referer)
-		{
-			$this->handleReferer();
-		}
 
 		if ($part == "DEFAULT")
 		{
@@ -1180,8 +1103,8 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			
-			$resp = $gui_class->getHTML("", "template_get", 
+
+			$resp = $gui_class->getHTML("", "template_get",
 					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
 
 			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
@@ -1190,14 +1113,9 @@ class ilTemplate extends HTML_Template_ITX
 			}
 		}
 
-		// fix #9992: save language usages as late as possible
-		if ($this->translation_linked)
-		{
-			ilObjLanguageAccess::_saveUsages();
-		}
-
 		return $html;
 	}
+
 
 	
 	/**
