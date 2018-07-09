@@ -68,13 +68,23 @@ class ilCertificate
 	 * @var bool
 	 */
 	protected static $is_active;
-	
+
+	/**
+	 * @var ilCertificateTemplateRepository|null
+	 */
+	private $templateRepository;
+
 	/**
 	 * ilCertificate constructor
 	 * @param ilCertificateAdapter $adapter The certificate adapter needed to construct the certificate
+	 * @param ilCertificateTemplateRepository|null $templateRepository
+	 * @param ilUserCertificateRepository|null $certificateRepository
 	 */
-	public function __construct(ilCertificateAdapter $adapter)
-	{
+	public function __construct(
+		ilCertificateAdapter $adapter,
+		ilCertificateTemplateRepository $templateRepository = null,
+		ilUserCertificateRepository $certificateRepository = null
+	) {
 		global $DIC;
 
 		$this->lng      = $DIC['lng'];
@@ -86,6 +96,16 @@ class ilCertificate
 		$this->db       = $DIC['ilDB'];
 
 		$this->adapter = $adapter;
+
+		if ($templateRepository === null) {
+			$templateRepository = new ilCertificateTemplateRepository($DIC->database());
+		}
+		$this->templateRepository = $templateRepository;
+
+		if ($certificateRepository === null) {
+			$certificateRepository = new ilUserCertificateRepository($DIC->database());
+		}
+		$this->certificateRepository = $certificateRepository;
 	}
 
 	/**
@@ -485,38 +505,66 @@ class ilCertificate
 	{
 		ilDatePresentation::setUseRelativeDates(false);
 		$insert_tags = $this->getAdapter()->getCertificateVariablesForPresentation($params);
-		
-		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+
 		$cust_data = new ilUserDefinedData($this->getAdapter()->getUserIdForParams($params));
 		$cust_data = $cust_data->getAll();
-		foreach (self::getCustomCertificateFields() as $k => $f)
-		{
+
+		foreach (self::getCustomCertificateFields() as $k => $f)  {
 			$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($cust_data["f_".$k]);
 		}
 
-		$xslfo = file_get_contents($this->getXSLPath());
+//		$xslfo = file_get_contents($this->getXSLPath());
 
-        // render tex as fo graphics
-		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		$objId = $this->getAdapter()->getCertificateID();
+
+		/** @var ilObject $object */
+		$object = ilObjectFactory::getInstanceByObjId($objId);
+
+		/** @var ilObjUser $user */
+		$user = ilObjectFactory::getInstanceByObjId($params['user_id']);
+
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+
+		// render tex as fo graphics
 		$xslfo = ilMathJax::getInstance()
 			->init(ilMathJax::PURPOSE_PDF)
 			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-			->insertLatexImages($xslfo);
+			->insertLatexImages($template->getCertificateContent());
 
-		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-		try
-		{
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF(
-				$this->exchangeCertificateVariables($xslfo, $insert_tags));
-			if ($deliver)
-			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename($params), "application/pdf");
+		try {
+			$fo_string = $this->exchangeCertificateVariables($xslfo, $insert_tags);
+
+			$backgroundImagePath = $this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName();
+
+			$userCertificate = new ilUserCertificate(
+				$template->getId(),
+				$objId,
+				$object->getType(),
+				$user->getId(),
+				$user->getFullname(),
+				time(),
+				$fo_string,
+				$template->getTemplateValues(),
+				null,
+				1,
+				ILIAS_VERSION_NUMERIC,
+				true,
+				$backgroundImagePath
+			);
+
+			$this->certificateRepository->save($userCertificate);
+
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
+
+			if ($deliver) {
+				ilUtil::deliverData(
+					$pdf_base64->scalar,
+					$this->getAdapter()->getCertificateFilename($params),
+					"application/pdf"
+				);
 			}
-			else
-			{
-				return $pdf_base64->scalar;
-			}
+
+			return $pdf_base64->scalar;
 		}
 		catch(Exception $e)
 		{
@@ -581,14 +629,15 @@ class ilCertificate
 		fwrite($fh, $xslfo);
 		fclose($fh);
 	}
-	
+
 	/**
-	* Uploads a background image for the certificate. Creates a new directory for the
-	* certificate if needed. Removes an existing certificate image if necessary
-	*
-	* @param string $image_tempfilename Name of the temporary uploaded image file
-	* @return integer An errorcode if the image upload fails, 0 otherwise
-	*/
+	 * Uploads a background image for the certificate. Creates a new directory for the
+	 * certificate if needed. Removes an existing certificate image if necessary
+	 *
+	 * @param string $image_tempfilename Name of the temporary uploaded image file
+	 * @return integer An errorcode if the image upload fails, 0 otherwise
+	 * @throws ilException
+	 */
 	public function uploadBackgroundImage($image_tempfilename)
 	{
 		if (!empty($image_tempfilename))
@@ -605,7 +654,7 @@ class ilCertificate
 					basename($this->getBackgroundImageTempfilePath()),
 					$this->getBackgroundImageTempfilePath()
 			)) {
-				return FALSE;
+				throw new ilException('Unable to move file');
 			}
 			// convert the uploaded file to JPEG
 			ilUtil::convertImage($this->getBackgroundImageTempfilePath(), $this->getBackgroundImagePath(), "JPEG");
@@ -615,16 +664,17 @@ class ilCertificate
 				// something went wrong converting the file. use the original file and hope, that PDF can work with it
 				if (!ilUtil::moveUploadedFile($this->getBackgroundImageTempfilePath(), $convert_filename, $this->getBackgroundImagePath()))
 				{
-					return FALSE;
+					throw new ilException('Unable to convert the file and the original file');
 				}
 			}
 			unlink($this->getBackgroundImageTempfilePath());
 			if (file_exists($this->getBackgroundImagePath()) && (filesize($this->getBackgroundImagePath()) > 0))
 			{
-				return TRUE;
+				return $this->getBackgroundImagePath();
 			}
 		}
-		return FALSE;
+
+		throw new ilException('The given temporary filename is empty');
 	}
 	
 	/**
@@ -762,10 +812,15 @@ class ilCertificate
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$exportpath = $this->createArchiveDirectory();
 		ilUtil::makeDir($exportpath);
-		$xsl = file_get_contents($this->getXSLPath());
-		$xslexport = str_replace($this->getAdapter()->getCertificatePath(), "", $xsl);
+
+		$adapter = $this->getAdapter();
+		$objId = $adapter->getCertificateID();
+
+		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+		$xslExport = $certificate->getCertificateContent();
+
 		// save export xsl file
-		$this->saveCertificate($xslexport, $exportpath . $this->getXSLName());
+		$this->saveCertificate($xslExport, $exportpath . $this->getXSLName());
 		// save background image
 		if ($this->hasBackgroundImage())
 		{
@@ -779,17 +834,20 @@ class ilCertificate
 				copy(ilObjCertificateSettingsAccess::getBackgroundImagePath(), $exportpath . ilObjCertificateSettingsAccess::getBackgroundImageName());
 			}
 		}
+
 		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate.zip";
+
 		ilUtil::zip($exportpath, $this->getAdapter()->getCertificatePath() . $zipfile);
 		ilUtil::delDir($exportpath);
 		ilUtil::deliverFile($this->getAdapter()->getCertificatePath() . $zipfile, $zipfile, "application/zip");
 	}
-	
+
 	/**
-	* Reads an import ZIP file and creates a certificate of it
-	*
-	* @return boolean TRUE if the import succeeds, FALSE otherwise
-	*/
+	 * Reads an import ZIP file and creates a certificate of it
+	 *
+	 * @return boolean TRUE if the import succeeds, FALSE otherwise
+	 * @throws ilException
+	 */
 	public function importCertificate($zipfile, $filename)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -850,7 +908,23 @@ class ilCertificate
 							
 							return 'url(' . $basePath . '/' . $fileName . ')';
 						}, $xsl);
-						$this->saveCertificate($xsl);
+
+						$objId = $this->adapter->getCertificateID();
+
+						$this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+
+						$template = new ilCertificateTemplate(
+							$objId,
+							$xsl,
+							md5($xsl),
+							json_encode($this->adapter->getCertificateVariablesForPresentation()),
+							'1',
+							ILIAS_VERSION_NUMERIC,
+							time(),
+							true
+						);
+
+						$this->templateRepository->save($template);
 					}
 					else if (strpos($file["entry"], ".zip") !== FALSE)
 					{

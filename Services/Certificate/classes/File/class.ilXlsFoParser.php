@@ -3,6 +3,13 @@
 
 class ilXlsFoParser
 {
+	private $adapter;
+
+	public function __construct($adapter)
+	{
+		$this->adapter = $adapter;
+	}
+
 	/**
 	 * @param $content
 	 * @return array
@@ -103,6 +110,8 @@ class ilXlsFoParser
 			'margin_body_left'   => $marginBody_left,
 			'certificate_text'   => $content
 		);
+
+		$this->adapter->addFormFieldsFromObject($result);
 
 		return $result;
 	}
