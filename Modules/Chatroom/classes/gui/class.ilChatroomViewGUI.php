@@ -145,6 +145,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$initial->profile_image_url     = $ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
 		$initial->no_profile_image_url  = ilUtil::getImagePath('no_photo_xxsmall.jpg');
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
+		$initial->subdirectory          = $settings->getSubDirectory();
 
 		$initial->userinfo = array(
 			'moderator' => ilChatroom::checkUserPermissions('moderate', (int)$_GET['ref_id'], false),
