@@ -10599,7 +10599,7 @@ survey#:#survey_360_results#:#Access To Results For Appraisees
 survey#:#survey_360_results_none#:#No Access to Results
 survey#:#survey_360_results_own#:#Access to Feedback of Own Raters
 survey#:#survey_360_results_all#:#All Feedbacks
-survey#:#survey_360_appraisees#:#Participants
+survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?
