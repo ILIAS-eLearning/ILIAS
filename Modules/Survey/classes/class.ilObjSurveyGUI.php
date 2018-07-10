@@ -339,20 +339,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{
 			//set the mode depending on didactic template
-			if($is_360 = $this->getDidacticTemplateVar("svy360"))
+			if($this->getDidacticTemplateVar("svy360"))
 			{
 				$a_new_object->setMode(ilObjSurvey::MODE_360);
 			}
-			elseif ($is_self_eval = $this->getDidacticTemplateVar("svyselfeval"))
+			elseif ($this->getDidacticTemplateVar("svyselfeval"))
 			{
 				$a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
 			}
 		}
 
-		if($a_new_object->get360Mode())
+		$svy_mode = $a_new_object->getMode();
+		if($svy_mode == ilObjSurvey::MODE_360)
 		{
 			// this should rather be ilObjSurvey::ANONYMIZE_ON - see ilObjSurvey::getUserDataFromActiveId()
 			$a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL); 
+			$a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
+		}
+		elseif($svy_mode == ilObjSurvey::MODE_SELF_EVAL)
+		{
 			$a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
 		}
 		$a_new_object->saveToDB();
@@ -412,7 +417,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this,'properties'));
 		}
-		// TODO -> Check this!!
 		else if ($this->checkPermissionBool("read"))
 		{
 			if($this->object->get360Mode() && 
@@ -448,7 +452,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$skmg_set = new ilSkillManagementSettings();
 					if ($this->object->getSkillService() && $skmg_set->isActivated())
 					{
-						// TODO -> Check this!
 						$this->tabs_gui->addTab("survey_competences",
 							$this->lng->txt("survey_competences"),
 							$this->ctrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment"));
@@ -459,9 +462,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 
 				case ilObjSurvey::MODE_SELF_EVAL:
-					$this->tabs_gui->addTab("survey_360_appraisees",
-						$this->lng->txt("survey_360_appraisees"),
-						$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'listAppraisees'));
+					include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+					$skmg_set = new ilSkillManagementSettings();
+					if ($this->object->getSkillService() && $skmg_set->isActivated())
+					{
+						$this->tabs_gui->addTab("survey_competences",
+							$this->lng->txt("survey_competences"),
+							$this->ctrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment"));
+					}
+					$this->tabs_gui->addTab(
+						"maintenance",
+						$this->lng->txt("maintenance"),
+						$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance'));
 					break;
 
 				default:
