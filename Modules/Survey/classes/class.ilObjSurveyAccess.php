@@ -324,52 +324,73 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 					return false;
 				}
 				break;
-			case 2:				
-				if(!self::_lookup360Mode($a_obj_id))
+			case 2:
+				$svy_mode = self::_lookupMode($a_obj_id);
+				switch($svy_mode)
 				{
-					// evaluation access for participants
-					// check if the user with the given id is a survey participant
-
-					// show the evaluation button for anonymized surveys for all users
-					// access is only granted with the survey access code
-					if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
-
-		global $DIC;
-
-		$ilDB = $DIC->database();
-					$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
-						array('integer'),
-						array($a_obj_id)
-					);
-					if ($result->numRows() == 1)
-					{
-						$row = $ilDB->fetchAssoc($result);
-					
-						if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
+					case ilObjSurvey::MODE_360:
+						include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+						$svy = new ilObjSurvey($a_obj_id, false);
+						$svy->read();
+						switch($svy->get360Results())
 						{
-							return true;
+							case ilObjSurvey::RESULTS_360_NONE:
+								return false;
+
+							case ilObjSurvey::RESULTS_360_OWN:
+								return $svy->isAppraiseeClosed($user_id);
+
+							case ilObjSurvey::RESULTS_360_ALL:
+								return $svy->isAppraisee($user_id);
 						}
-					}
-					return false;
+						break;
+
+					case ilObjSurvey::MODE_SELF_EVAL:
+						include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+						$svy = new ilObjSurvey($a_obj_id, false);
+						$svy->read();
+						switch($svy->getSelfEvaluationResults())
+						{
+							case ilObjSurvey::RESULTS_SELF_EVAL_NONE:
+								return false;
+							default:
+								return true;
+							//case ilObjSurvey::RESULTS_SELF_EVAL_OWN:
+								// TODO working here!
+								//return $svy->isAppraiseeClosed($user_id);
+							//case ilObjSurvey::RESULTS_SELF_EVAL_ALL:
+								// TODO working here!
+								//return $svy->isAppraisee($user_id);
+						}
+						break;
+
+					default:
+						// evaluation access for participants
+						// check if the user with the given id is a survey participant
+
+						// show the evaluation button for anonymized surveys for all users
+						// access is only granted with the survey access code
+						if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
+
+						global $DIC;
+
+						$ilDB = $DIC->database();
+						$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
+							array('integer'),
+							array($a_obj_id)
+						);
+						if ($result->numRows() == 1)
+						{
+							$row = $ilDB->fetchAssoc($result);
+
+							if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
+							{
+								return true;
+							}
+						}
+						return false;
+						break;
 				}
-				// 360°
-				else
-				{									
-					include_once "Modules/Survey/classes/class.ilObjSurvey.php";
-					$svy = new ilObjSurvey($a_obj_id, false);
-					$svy->read();					
-					switch($svy->get360Results())
-					{
-						case ilObjSurvey::RESULTS_360_NONE:
-							return false;
-							
-						case ilObjSurvey::RESULTS_360_OWN:
-							return $svy->isAppraiseeClosed($user_id);
-							
-						case ilObjSurvey::RESULTS_360_ALL:
-							return $svy->isAppraisee($user_id);					
-					}
-				}				
 				break;
 		}
 	}
@@ -440,6 +461,29 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		}
 
 		return $finished;
+	}
+
+	/**
+	 * Get survey mode.
+	 * @param $a_obj_id
+	 * @return int
+	 */
+	static function _lookupMode($a_obj_id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$result = $ilDB->queryF("SELECT mode FROM svy_svy".
+			" WHERE obj_fi = %s",
+			array('integer'),
+			array($a_obj_id)
+		);
+
+		if ($result->numRows() == 1) {
+			$row = $ilDB->fetchAssoc($result);
+		}
+
+		return $row["mode"];
 	}
 	
 	static function _lookup360Mode($a_obj_id)

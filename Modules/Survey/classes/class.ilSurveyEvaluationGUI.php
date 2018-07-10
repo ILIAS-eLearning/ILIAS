@@ -158,7 +158,8 @@ class ilSurveyEvaluationGUI
 			array("evaluationdetails")
 		);
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) ||
+			ilObjSurvey::MODE_SELF_EVAL == $this->object->getMode())
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_user", 
@@ -1485,8 +1486,9 @@ class ilSurveyEvaluationGUI
 	{
 		$ilAccess = $this->access;
 		$ilToolbar = $this->toolbar;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		//Todo refactor this conditional
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
 		{
 			ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
 			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
