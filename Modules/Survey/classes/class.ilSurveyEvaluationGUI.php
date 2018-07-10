@@ -98,7 +98,7 @@ class ilSurveyEvaluationGUI
 	{
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
 			$cmd = $this->ctrl->getCmd("competenceEval");
 		}
@@ -137,7 +137,7 @@ class ilSurveyEvaluationGUI
 
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_competences", 

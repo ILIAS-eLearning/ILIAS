@@ -734,8 +734,8 @@ class SurveyImportParser extends ilSaxParser
 							case "mode_360_results":
 								$this->survey->set360Results($value["entry"]);
 								break;
-							case "mode_360_skill_service":
-								$this->survey->set360SkillService($value["entry"]);
+							case "mode_skill_service":
+								$this->survey->setSkillService($value["entry"]);
 								break;							
 						}
 					}

@@ -446,7 +446,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					// 360 mode + competence service
 					include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 					$skmg_set = new ilSkillManagementSettings();
-					if ($this->object->get360SkillService() && $skmg_set->isActivated())
+					if ($this->object->getSkillService() && $skmg_set->isActivated())
 					{
 						// TODO -> Check this!
 						$this->tabs_gui->addTab("survey_competences",
@@ -752,10 +752,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->object->set360SelfAppraisee((bool)$_POST["self_appr"]);
 						$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
 						$this->object->set360Results((int)$_POST["ts_res"]);;
-						$this->object->set360SkillService((int)$_POST["skill_service"]);
+						$this->object->setSkillService((int)$_POST["skill_service"]);
 						break;
 					case ilObjSurvey::MODE_SELF_EVAL:
 						$this->object->setSelfEvaluationResults($_POST["self_eval_res"]);
+						$this->object->setSkillService((int)$_POST["skill_service"]);
 						break;
 					default:
 						if(!$template_settings["evaluation_access"]["hide"])
@@ -1399,7 +1400,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if($this->object->get360Mode() && $skmg_set->isActivated())
+		$svy_mode = $this->object->getMode();
+		if(($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL) && $skmg_set->isActivated())
 		{
 			$other = new ilFormSectionHeaderGUI();
 			$other->setTitle($this->lng->txt("other"));
@@ -1407,7 +1409,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			$skill_service = new ilCheckboxInputGUI($this->lng->txt("survey_activate_skill_service"), "skill_service");
 			$skill_service->setInfo($this->lng->txt("survey_activate_skill_service_info"));
-			$skill_service->setChecked($this->object->get360SkillService());
+			$skill_service->setChecked($this->object->getSkillService());
 			$form->addItem($skill_service);
 		}
 				
@@ -1735,7 +1737,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$close_button_360 = '<div>'.$button->render().'</div>';
 
 				$txt = "survey_360_appraisee_close_action_info";
-				if($this->object->get360SkillService())
+				if($this->object->getSkillService())
 				{
 					$txt .= "_skill";
 				}								

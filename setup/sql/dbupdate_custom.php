@@ -20,3 +20,10 @@ if(!$ilDB->tableColumnExists('svy_svy', 'mode_self_eval_results'))
 		));
 }
 ?>
+<#3>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
+}
+?>

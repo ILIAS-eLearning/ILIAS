@@ -172,7 +172,7 @@ class ilObjSurvey extends ilObject
 	protected $mode_360_self_appr; // [bool]
 	protected $mode_360_self_rate; // [bool]
 	protected $mode_360_results; // [int]
-	protected $mode_360_skill_service; // [bool]
+	protected $mode_skill_service; // [bool]
 	
 	const RESULTS_360_NONE = 0;
 	const RESULTS_360_OWN = 1;
@@ -801,7 +801,7 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
 				// Self Evaluation Only
 				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
 				// reminder/notification
@@ -850,7 +850,7 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
 				// Self Evaluation Only
 				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
 				// reminder/notification
@@ -1158,9 +1158,10 @@ class ilObjSurvey extends ilObject
 			$this->set360SelfRaters($data['mode_360_self_rate']);
 			$this->set360SelfAppraisee($data['mode_360_self_appr']);
 			$this->set360Results($data['mode_360_results']);
-			$this->set360SkillService($data['mode_360_skill_service']);
 			// Mode self evaluated
 			$this->setSelfEvaluationResults($data['mode_self_eval_results']);
+			// Competences
+			$this->setSkillService($data['mode_skill_service']);
 			// reminder/notification
 			$this->setReminderStatus($data["reminder_status"]);
 			$this->setReminderStart($data["reminder_start"] ? new ilDate($data["reminder_start"], IL_CAL_DATE) : null);
@@ -3723,7 +3724,7 @@ class ilObjSurvey extends ilObject
 		$custom_properties["mode_360_self_rate"] = (int)$this->get360SelfRaters();
 		$custom_properties["mode_360_self_appr"] = (int)$this->get360SelfAppraisee();
 		$custom_properties["mode_360_results"] = $this->get360Results();
-		$custom_properties["mode_360_skill_service"] = (int)$this->get360SkillService();
+		$custom_properties["mode_skill_service"] = (int)$this->getSkillService();
 		
 		
 		// :TODO: skills?
@@ -4081,7 +4082,14 @@ class ilObjSurvey extends ilObject
 			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
 			$newObj->set360SelfRaters($this->get360SelfRaters());
 			$newObj->set360Results($this->get360Results());
-			$newObj->set360SkillService($this->get360SkillService());			
+		}
+
+		//Competences
+		//TODO refactor to a method.
+		$svy_mode = $this->getMode();
+		if($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL)
+		{
+			$newObj->setSkillService($this->getSkillService());
 		}
 				
 		// reminder/notification
@@ -4129,7 +4137,7 @@ class ilObjSurvey extends ilObject
 		// #14929
 		//TOOD use getMode == const
 		if($this->get360Mode() &&
-			$this->get360SkillService())
+			$this->getSkillService())
 		{
 			include_once "./Modules/Survey/classes/class.ilSurveySkill.php";
 			$src_skills = new ilSurveySkill($this);
@@ -5962,9 +5970,9 @@ class ilObjSurvey extends ilObject
 	 *
 	 * @param bool $a_val activate skill service	
 	 */
-	function set360SkillService($a_val)
+	function setSkillService($a_val)
 	{
-		$this->mode_360_skill_service = $a_val;
+		$this->mode_skill_service = $a_val;
 	}
 	
 	/**
@@ -5972,9 +5980,9 @@ class ilObjSurvey extends ilObject
 	 *
 	 * @return bool activate skill service
 	 */
-	function get360SkillService()
+	function getSkillService()
 	{
-		return $this->mode_360_skill_service;
+		return $this->mode_skill_service;
 	}
 	
 	function set360RaterSent($a_appraisee_id, $a_user_id, $a_anonymous_id, $a_tstamp = null)
@@ -6010,7 +6018,7 @@ class ilObjSurvey extends ilObject
 		// write competences
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->get360SkillService() && $skmg_set->isActivated())
+		if ($this->getSkillService() && $skmg_set->isActivated())
 		{
 			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 			$sskill = new ilSurveySkill($this);
