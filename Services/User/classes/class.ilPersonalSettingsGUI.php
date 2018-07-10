@@ -121,8 +121,10 @@ class ilPersonalSettingsGUI
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) && $ilSetting->get('show_mail_settings'))
 		{
+			$this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
+
 			$ilTabs->addTarget(
 				"mail_settings",
 				$this->ctrl->getLinkTargetByClass('ilMailOptionsGUI'), "", array('ilMailOptionsGUI')
