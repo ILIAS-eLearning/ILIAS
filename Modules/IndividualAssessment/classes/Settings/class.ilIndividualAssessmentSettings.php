@@ -99,7 +99,7 @@ class ilIndividualAssessmentSettings {
 	 * @return	ilIndividualAssessment	$this
 	 */
 	public function setContent($content) {
-		assert('is_string($content)');
+		assert(is_string($content));
 		$this->content = $content;
 		return $this;
 	}
@@ -112,7 +112,7 @@ class ilIndividualAssessmentSettings {
 	 * @return	ilIndividualAssessment	$this
 	 */
 	public function setRecordTemplate($record_template) {
-		assert('is_string($record_template)');
+		assert(is_string($record_template));
 		$this->record_template = $record_template;
 		return $this;
 	}
@@ -125,7 +125,7 @@ class ilIndividualAssessmentSettings {
 	 */
 	public function setEventTimePlaceRequired($event_time_place_required)
 	{
-		assert('is_bool($event_time_place_required)');
+		assert(is_bool($event_time_place_required));
 		$this->event_time_place_required = $event_time_place_required;
 		return $this;
 	}
@@ -138,7 +138,7 @@ class ilIndividualAssessmentSettings {
 	 */
 	public function setFileRequired($file_required)
 	{
-		assert('is_bool($file_required)');
+		assert(is_bool($file_required));
 		$this->file_required = $file_required;
 		return $this;
 	}
