@@ -818,6 +818,7 @@ assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
 assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Der Fragenpool liegt im Papierkorb.</b><br />Sollte er permanent vom System entfernt werden kann der Test die Fragen aus diesem Pool nicht erneut synchronisieren.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
@@ -6592,7 +6593,7 @@ mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
 mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
 mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
-mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch das jeweilige Datum des Initiators der E-Mail ersetzt.
+mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten des Absenders der E-Mail ersetzt.
 mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
 mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
@@ -10315,6 +10316,8 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
@@ -13955,7 +13958,7 @@ content#:#cont_ed_cell_left#:#Nach links verschieben
 content#:#cont_ed_cell_right#:#Nach rechts verschieben
 content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
 content#:#cont_ed_grid_col_width#:#Spaltenbreite
-content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhaltent. 12/12 entspricht einer Breite von 100%.
+content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhalten. 12/12 entspricht einer Breite von 100%.
 content#:#cont_ed_grid_col_widths#:#Spaltenbreiten
 user#:#has_role#:#Rolle
 content#:#cont_grid_cell_confirm_deletion#:#Sollen die Spalten wirklich gelöscht werden?
@@ -14238,3 +14241,5 @@ copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+mail#:#show_mail_settings#:#Einstellungen anzeigen
+mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
