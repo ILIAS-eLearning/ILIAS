@@ -207,7 +207,16 @@ class ilSurveyExecutionGUI
 			{
 				ilUtil::sendFailure($this->lng->txt("survey_360_execution_invalid_appraisee"), true);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-			}									
+			}
+		}
+		else //Self evaluation mode
+		{
+			$appr_id = $_REQUEST["appr_id"];
+
+			if(!$appr_id)
+			{
+				$appr_id = $_SESSION["appr_id"][$this->object->getId()];
+			}
 		}
 		$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
 					
