@@ -1253,8 +1253,7 @@ class ilSurveyEvaluationGUI
 					$this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_ALL)
 				{
 					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-					//TODO lang var
-					$appr = new ilSelectInputGUI($this->lng->txt("Participant"), "appr_id");
+					$appr = new ilSelectInputGUI($this->lng->txt("svy_participant"), "appr_id");
 					$appr->setOptions($options);
 					$appr->setValue($this->getAppraiseeId());
 					$ilToolbar->addInputItem($appr, true);
