@@ -287,9 +287,12 @@ class ilDBUpdate {
 	 */
 	private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) {
 		global $DIC;
+
+		// TODO: There is currently a huge mixup of globals, $DIC and dependencies, esprecially in setup and during DB-Updates. This leads to many problems. The following core tries to provide the needed dependencies for the dbupdate-script. The code hopefully will change in the future.
+
 		if (isset($GLOBALS['ilCtrlStructureReader'])) {
 			$ilCtrlStructureReader = $GLOBALS['ilCtrlStructureReader'];
-		} elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
+		} elseif ($DIC->isDependencyAvailable('ilCtrlStructureReader')) {
 			$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
 		} else {
 			require_once 'setup/classes/class.ilCtrlStructureReader.php';
@@ -299,7 +302,7 @@ class ilDBUpdate {
 
 		$GLOBALS['ilCtrlStructureReader'] = $ilCtrlStructureReader;
 
-		if ($DIC->offsetExists('ilMySQLAbstraction')) {
+		if ($DIC->isDependencyAvailable('ilMySQLAbstraction')) {
 			$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
 		} else {
 			$ilMySQLAbstraction = new ilMySQLAbstraction();
