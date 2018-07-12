@@ -10,40 +10,41 @@ use ILIAS\UI;
  */
 interface ControlBuilder {
 	/**
-	 * Build an exit button.
+	 * An exit control allows the user to gracefully leave the object providing
+	 * the kiosk mode.
 	 *
 	 * @throws \LogicException if view wants to introduce a second exit button.
 	 */
-	public function exitButton(string $command) : ControlBuilder;
+	public function exit(string $command) : ControlBuilder;
 
-	/*
-	 * Build a next button.
+	/**
+	 * A next control allows the user to progress to the next item in the object.
 	 *
 	 * @throws \LogicException if view wants to introduce a second next button.
 	 */
-	public function nextButton(string $command, int $parameter) : ControlBuilder;
+	public function next(string $command, int $parameter) : ControlBuilder;
 
 	/**
-	 * Build a previous button.
+	 * A previous control allows the user to go back to the previous item in the object.
 	 *
 	 * @throws \LogicException if view wants to introduce a second previous button.
 	 */
-	public function previousButton(string $command, int $parameter) : ControlBuilder;
+	public function previous(string $command, int $parameter) : ControlBuilder;
 
 	/**
-	 * Build a done button.
+	 * A done control allows the user to mark the object as done.
 	 *
 	 * @throws \LogicException if view wants to introduce a second previous button.
 	 */
-	public function doneButton(string $command, int $parameter) : ControlBuilder;
+	public function done(string $command, int $parameter) : ControlBuilder;
 
 	/**
-	 * Build a generic button.
+	 * A generic control needs to have a label that tells what it does.
 	 */
-	public function button(string $label, string $command, int $parameter) : ControlBuilder;
+	public function generic(string $label, string $command, int $parameter) : ControlBuilder;
 
 	/**
-	 * Build a toggle.
+	 * A toggle can be used to switch some behaviour in the view on or of.
 	 */
 	public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder;
 
@@ -65,7 +66,8 @@ interface ControlBuilder {
 	public function beginLocator(string $command) : LocatorBuilder;
 
 	/**
-	 * Build a nested table of contents.
+	 * A table of content allows the user to get an overview over the generally available
+	 * content in the object.
 	 *
 	 * The command will be enhanced with a parameter defined here on in the locator builder.
 	 *
