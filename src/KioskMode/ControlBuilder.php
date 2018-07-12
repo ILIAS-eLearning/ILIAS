@@ -74,7 +74,8 @@ interface ControlBuilder {
 	 * If a parameter is defined here, the view provides an overview-page.
 	 *
 	 * @throws \LogicException if view wants to introduce a second TOC.
+	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function beginTOC(string $command, int $parameter = null) : TOCBuilder;
+	public function beginTOC(string $command, int $parameter = null, $state = null) : TOCBuilder;
 }
 
