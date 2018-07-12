@@ -803,7 +803,7 @@ class ilObjSurvey extends ilObject
 				"mode_360_results" => array("integer", $this->get360Results()),
 				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
 				// Self Evaluation Only
-				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
+				"mode_self_eval_results" => array("integer", ilObjSurvey::RESULTS_SELF_EVAL_OWN),
 				// reminder/notification
 				"reminder_status" => array("integer", (int)$this->getReminderStatus()),
 				"reminder_start" => array("datetime", $rmd_start),
