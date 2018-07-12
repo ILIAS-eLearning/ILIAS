@@ -706,7 +706,6 @@ class ilObjFile extends ilObject2 {
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
 			$ilFileDelivery->setConvertFileNameToAsci((bool)!$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
-			$ilFileDelivery->setConvertFileNameToAsci(false);
 
 			// also returning the 'real' filename if a history file is delivered
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename')
