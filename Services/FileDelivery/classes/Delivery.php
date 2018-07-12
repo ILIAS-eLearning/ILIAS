@@ -163,7 +163,7 @@ final class Delivery {
 			$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_TYPE, $this->getMimeType());
 			$this->httpService->saveResponse($response);
 		}
-		if (!$this->isConvertFileNameToAsci()) {
+		if ($this->isConvertFileNameToAsci()) {
 			$this->cleanDownloadFileName();
 		}
 		if ($this->hasHashFilename()) {
