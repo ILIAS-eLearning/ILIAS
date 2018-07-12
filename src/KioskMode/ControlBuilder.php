@@ -63,7 +63,7 @@ interface ControlBuilder {
 	 *
 	 * @throws \LogicException if view wants to introduce a second locator.
 	 */
-	public function beginLocator(string $command) : LocatorBuilder;
+	public function locator(string $command) : LocatorBuilder;
 
 	/**
 	 * A table of content allows the user to get an overview over the generally available
@@ -76,6 +76,6 @@ interface ControlBuilder {
 	 * @throws \LogicException if view wants to introduce a second TOC.
 	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function beginTOC(string $command, int $parameter = null, $state = null) : TOCBuilder;
+	public function tableOfContent(string $command, int $parameter = null, $state = null) : TOCBuilder;
 }
 

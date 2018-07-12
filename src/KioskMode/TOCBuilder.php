@@ -19,7 +19,7 @@ interface TOCBuilder {
 	 *
 	 * @return	ControlBuilder|TOCBuilder depending on the nesting level.
 	 */
-	public function endTOC(string $command);
+	public function end(string $command);
 
 	/**
 	 * Build a sub tree in the TOC.
@@ -28,7 +28,7 @@ interface TOCBuilder {
 	 *
 	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function beginTOC($label, int $parameter = null, $state = null) : TOCBuilder;
+	public function node($label, int $parameter = null, $state = null) : TOCBuilder;
 
 	/**
 	 * Build an entry in the TOC.
@@ -37,6 +37,6 @@ interface TOCBuilder {
 	 *
 	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function entry(string $label, int $parameter, $state = null);
+	public function item(string $label, int $parameter, $state = null) : TOCBuilder;
 }
 
