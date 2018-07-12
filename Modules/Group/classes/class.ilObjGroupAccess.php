@@ -320,7 +320,7 @@ class ilObjGroupAccess extends ilObjectAccess
 			if (!$registration_possible)
 			{
 				$registration_possible = false;
-				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg');
 				$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
 			}
 		}
