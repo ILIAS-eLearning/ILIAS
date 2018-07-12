@@ -80,7 +80,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return Renderer
 	 */
 	public function withBlocksToBeTouched($block) {
-		assert('is_string($block)');
+		assert(is_string($block));
 		$clone = clone $this;
 		$clone->touch_blocks[] = $block;
 		return $clone;

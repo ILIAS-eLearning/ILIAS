@@ -43,7 +43,10 @@ class ilUserXMLWriter extends ilXmlWriter
 	*/
 	function __construct()
 	{
-		global $ilias,$ilUser;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
 
 		parent::__construct();
 
@@ -118,7 +121,10 @@ class ilUserXMLWriter extends ilXmlWriter
 
 	function __handleUser ($row)
 	{
-		global $ilDB,$lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		if (!is_array ($this->settings))  {
 			include_once ('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->setSettings(ilObjUserFolder::getExportSettings());
@@ -334,7 +340,9 @@ class ilUserXMLWriter extends ilXmlWriter
 	 * @param int $usr_id
 	 */
 	private function getPictureValue ($usr_id) {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		// personal picture
 		$q = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
 			$ilDB->quote($usr_id, "integer"), $ilDB->quote('profile_image', "text"));

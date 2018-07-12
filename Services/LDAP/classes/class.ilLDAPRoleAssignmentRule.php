@@ -207,10 +207,7 @@ class ilLDAPRoleAssignmentRule
 	 *
 	 * @access public
 	 * @param int role id of global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
-	 * 
+	 *
 	 */
 	public function setRoleId($a_role_id)
 	{

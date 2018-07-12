@@ -72,7 +72,10 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 		$this->initColumns();
 		$this->initRowTemplate();
 		
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setEnableHeader(true);
 		$this->setShowRowsSelector(FALSE);
@@ -87,7 +90,9 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 	 */
 	protected function initColumns()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		
 		if($this->getSettings()->enabledLucene())

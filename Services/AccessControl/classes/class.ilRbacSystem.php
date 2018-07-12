@@ -34,7 +34,11 @@ class ilRbacSystem
 	*/
 	protected function __construct()
 	{
-		global $ilDB,$ilErr,$ilias;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilErr = $DIC['ilErr'];
+		$ilias = $DIC['ilias'];
 
 		$this->ilias =& $ilias;
 
@@ -92,7 +96,10 @@ class ilRbacSystem
 	*/
 	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
-		global $ilUser,$ilBench;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilBench = $DIC['ilBench'];
 		
 		$ilBench->start("RBAC", "system_checkAccess");
 
@@ -105,7 +112,13 @@ class ilRbacSystem
 	
 	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")
 	{
-		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		// Create the user cache key
 		$cacheKey = $a_user_id.':'.$a_operations.':'.$a_ref_id.':'.$a_type;
@@ -153,14 +166,14 @@ class ilRbacSystem
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
-			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['DIC']['ilLog']->logStack();
 			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
 							"ref_id: ".$a_ref_id." operations: ".$a_operations,$this->ilErr->WARNING);
 		}
 
 		if (!is_string($a_operations))
 		{
-			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['DIC']['ilLog']->logStack();
 			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilErr->WARNING);
 		}
 
@@ -246,7 +259,9 @@ class ilRbacSystem
 	 */
 	function preloadRbacPaCache($a_ref_ids, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_array($a_ref_ids))
 		{
@@ -302,7 +317,9 @@ class ilRbacSystem
 	*/
 	function checkPermission($a_ref_id,$a_rol_id,$a_operation)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ops = array();
 
@@ -328,7 +345,10 @@ class ilRbacSystem
 
 	function __filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id)
 	{
-		global $ilObjDataCache,$ilUser;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilUser = $DIC['ilUser'];
 
 		// member view constraints
 		if($this->mem_view['active'] and $a_user_id == $ilUser->getId())
@@ -375,7 +395,10 @@ class ilRbacSystem
 	 */
 	private function fetchAssignedRoles($a_usr_id,$a_ref_id)
 	{
-	 	global $ilUser,$rbacreview;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
+	 	$rbacreview = $DIC['rbacreview'];
 		
 		// Member view constraints
 		if($this->mem_view['active'] and $a_usr_id == $ilUser->getId())
@@ -437,7 +460,9 @@ class ilRbacSystem
 		}
 		else
 		{
-			global $tree;
+			global $DIC;
+
+			$tree = $DIC['tree'];
 			
 			$this->mem_view['active'] = true;
 			$this->mem_view['items'] = $tree->getSubTreeIds($settings->getContainer());

@@ -323,7 +323,7 @@ class ilInitialisation
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			foreach($dirs as $dir)
+			if (count($dirs) > 0)
 			{
 				$uri = dirname($uri);
 			}

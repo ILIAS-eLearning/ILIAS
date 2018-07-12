@@ -511,7 +511,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	 */
 	protected function isNotificationTypeEnabled($a_type)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		return 
 			$this->force_sending_mail ||

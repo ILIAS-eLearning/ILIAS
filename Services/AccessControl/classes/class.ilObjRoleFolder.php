@@ -74,7 +74,9 @@ class ilObjRoleFolder extends ilObject
 		}
 
 		// put here rolefolder specific stuff
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 		
@@ -101,7 +103,10 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function createRole($a_title,$a_desc,$a_import_id = 0)
 	{
-		global $rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
@@ -128,7 +133,11 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function purge()
 	{
-		global $rbacreview, $rbacadmin, $tree;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
 
 		$local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 			

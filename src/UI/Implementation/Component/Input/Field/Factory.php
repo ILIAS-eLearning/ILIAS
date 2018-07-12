@@ -96,6 +96,15 @@ class Factory implements Field\Factory {
 		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function tag(string $label, array $tags, $byline = null): Field\Tag {
+		return new Tag($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $tags);
+	}
+
+
 	/**
 	 * @inheritdoc
 	 */
@@ -103,4 +112,12 @@ class Factory implements Field\Factory {
 		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function select($label, array $options, $byline = null) {
+		return new Select($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $options, $byline);
+	}
 }
+

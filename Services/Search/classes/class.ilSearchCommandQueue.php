@@ -61,7 +61,9 @@ class ilSearchCommandQueue
 	 */
 	public function store(ilSearchCommandQueueElement $element)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id, obj_type FROM search_command_queue ".
 			"WHERE obj_id = ".$ilDB->quote($element->getObjId() ,'integer')." ".
@@ -82,7 +84,9 @@ class ilSearchCommandQueue
 	 */
 	protected function insert(ilSearchCommandQueueElement $element)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) ".
 			"VALUES( ".
@@ -103,7 +107,9 @@ class ilSearchCommandQueue
 	 */
 	protected function update(ilSearchCommandQueueElement $element)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE search_command_queue ".
 			"SET command = ".$ilDB->quote($element->getCommand() ,'text').", ".

@@ -41,7 +41,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('rbac');
 		
@@ -53,7 +55,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$this->prepareOutput();
 
@@ -138,7 +142,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'protected');
-		$pro->setChecked($GLOBALS['rbacreview']->isProtected(
+		$pro->setChecked($GLOBALS['DIC']['rbacreview']->isProtected(
 				$this->rolf_ref_id,
 				$this->object->getId()
 		));
@@ -156,7 +160,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function createObject(ilPropertyFormGUI $form = null)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if (!$rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id))
 		{
@@ -175,7 +181,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	 */
 	public function editObject(ilPropertyFormGUI $form = null)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		{
@@ -186,7 +194,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);	
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 
 	/**
@@ -196,7 +204,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	public function updateObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
@@ -232,7 +244,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $rbacsystem,$rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 
 		if (!$rbacsystem->checkAccess("create_rolt",$this->rolf_ref_id))
 		{
@@ -269,7 +285,13 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition,$ilSetting;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$objDefinition = $DIC['objDefinition'];
+		$ilSetting = $DIC['ilSetting'];
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -542,7 +564,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $rbacadmin, $rbacsystem, $rbacreview,$objDefinition;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
+		$objDefinition = $DIC['objDefinition'];
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -579,7 +606,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		global $rbacadmin, $rbacsystem, $rbacreview;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -616,7 +647,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	
 	function getTabs()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -649,7 +682,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
 		
 		parent::addAdminLocatorItems(true);
 				

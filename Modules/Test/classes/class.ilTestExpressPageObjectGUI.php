@@ -73,6 +73,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
         global $ilCtrl, $ilTabs, $ilUser, $lng;
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -164,7 +165,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		    
 					if( $total != 0 )
 					{
-						$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', "participants");
+						$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
 						$link = "<a href=\"".$link."\">".$lng->txt("test_has_datasets_warning_page_view_link")."</a>";
 						ilUtil::sendInfo($lng->txt("test_has_datasets_warning_page_view")." ".$link);
 					}

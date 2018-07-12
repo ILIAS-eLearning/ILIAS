@@ -50,7 +50,11 @@ class ilCourseFile
 	 */
 	public function __construct($a_file_id = null)
 	{
-		global $ilErr,$ilDB,$lng;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -197,7 +201,9 @@ class ilCourseFile
 
 	function create($a_upload = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getErrorCode() != 0)
 		{
@@ -232,7 +238,9 @@ class ilCourseFile
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// Delete db entry
 		$query = "DELETE FROM crs_file ".
@@ -250,7 +258,9 @@ class ilCourseFile
 		
 	static function _deleteByCourse($a_course_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// delete all course ids and delete assigned files
 		$query = "DELETE FROM crs_file ".
@@ -267,7 +277,9 @@ class ilCourseFile
 	 */
 	public static function _readFilesByCourse($a_course_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM crs_file ".
 			"WHERE course_id = ".$ilDB->quote($a_course_id,'integer')."";
@@ -282,7 +294,9 @@ class ilCourseFile
 
 	function __read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->file_id)
 		{

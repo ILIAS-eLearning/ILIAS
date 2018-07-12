@@ -15,7 +15,9 @@ class ilCronDeleteInactiveUserReminderMail
 
 	private function mailSent($usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF("INSERT INTO " . self::TABLE_NAME . " (usr_id, ts) VALUES (%s, %s)",
 			array(
 				"integer",
@@ -46,7 +48,9 @@ class ilCronDeleteInactiveUserReminderMail
 
 	public static function removeEntriesFromTableIfLastLoginIsNewer()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT usr_id,ts FROM " . self::TABLE_NAME;
 		$res   = $ilDB->queryF($query, array(
 			'integer',
@@ -68,7 +72,9 @@ class ilCronDeleteInactiveUserReminderMail
 
 	public static function checkIfReminderMailShouldBeSend(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT ts FROM " . self::TABLE_NAME . " WHERE usr_id = %s";
 		$res   = $ilDB->queryF($query, array('integer'), array($user->getId()));
 		$row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -82,13 +88,17 @@ class ilCronDeleteInactiveUserReminderMail
 
 	public static function flushDataTable()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulate("DELETE FROM " . self::TABLE_NAME);
 	}
 
 	public static function removeSingleUserFromTable($usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "DELETE FROM " . self::TABLE_NAME . " WHERE usr_id = %s";
 		$ilDB->manipulateF($query, array('integer'), array($usr_id));
 	}

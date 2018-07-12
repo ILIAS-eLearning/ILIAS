@@ -44,7 +44,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	public function assignMembers(array $a_usr_ids,$a_type)
 	{
-		global $rbacsystem, $ilErr;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
 
 		if(!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members'))
 		{
@@ -115,7 +118,12 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	protected function updateParticipantsStatus()
 	{
-		global $ilAccess,$ilErr,$ilUser,$rbacadmin;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilUser = $DIC['ilUser'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$visible_members = (array) $_POST['visible_member_ids'];
 		$passed = (array) $_POST['passed'];
@@ -269,7 +277,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	protected function getPrintMemberData($a_members)
 	{
-		global $ilAccess,$lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule('trac');
 

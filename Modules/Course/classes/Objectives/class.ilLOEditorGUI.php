@@ -44,8 +44,8 @@ class ilLOEditorGUI
 	{
 		$this->parent_obj = $a_parent_obj;
 		$this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-		$this->lng = $GLOBALS['lng'];
-		$this->ctrl = $GLOBALS['ilCtrl'];
+		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
 	}
 	
 	/**
@@ -54,7 +54,9 @@ class ilLOEditorGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -65,8 +67,8 @@ class ilLOEditorGUI
 			case 'ilcourseobjectivesgui':
 
 				$this->ctrl->setReturn($this,'returnFromObjectives');
-				$GLOBALS['ilTabs']->clearTargets();
-				$GLOBALS['ilTabs']->setBackTarget(
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
 						$this->ctrl->getLinkTarget($this,'listObjectives'));
 				
@@ -81,18 +83,18 @@ class ilLOEditorGUI
 				$stgui = new ilContainerStartObjectsGUI($this->getParentObject());
 				$ret = $this->ctrl->forwardCommand($stgui);
 				
-				$GLOBALS['ilTabs']->activateSubTab('start');
-				$GLOBALS['ilTabs']->removeSubTab('manage');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('start');
+				$GLOBALS['DIC']['ilTabs']->removeSubTab('manage');
 				
-				#$GLOBALS['tpl']->setContent($this->ctrl->getHTML($stgui));
+				#$GLOBALS['DIC']['tpl']->setContent($this->ctrl->getHTML($stgui));
 				break;
 			
 			case 'ilconditionhandlergui':
 				
 				$this->ctrl->saveParameterByClass('ilconditionhandlergui','objective_id');
 				
-				$GLOBALS['ilTabs']->clearTargets();
-				$GLOBALS['ilTabs']->setBackTarget(
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
 						$this->ctrl->getLinkTarget($this,'listObjectives'));
 
@@ -115,8 +117,8 @@ class ilLOEditorGUI
 			case 'illopagegui':
 				$this->ctrl->saveParameterByClass('illopagegui','objective_id');
 				
-				$GLOBALS['ilTabs']->clearTargets();
-				$GLOBALS['ilTabs']->setBackTarget(
+				$GLOBALS['DIC']['ilTabs']->clearTargets();
+				$GLOBALS['DIC']['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
 						$this->ctrl->getLinkTarget($this,'listObjectives'));
 				
@@ -143,16 +145,16 @@ class ilLOEditorGUI
 					$this->parent_obj->getStyleSheetId(), $this->parent_obj->getType()));
 
 				// #14895
-				$GLOBALS['tpl']->setCurrentBlock("ContentStyle");
-				$GLOBALS['tpl']->setVariable("LOCATION_CONTENT_STYLESHEET",
+				$GLOBALS['DIC']['tpl']->setCurrentBlock("ContentStyle");
+				$GLOBALS['DIC']['tpl']->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
 						$this->parent_obj->getStyleSheetId(), $this->parent_obj->getType())));
-				$GLOBALS['tpl']->parseCurrentBlock();
+				$GLOBALS['DIC']['tpl']->parseCurrentBlock();
 				
 				$ret = $this->ctrl->forwardCommand($pgui);
 				if($ret)
 				{
-					$GLOBALS['tpl']->setContent($ret);
+					$GLOBALS['DIC']['tpl']->setContent($ret);
 				}
 				break;
 			
@@ -219,8 +221,8 @@ class ilLOEditorGUI
 			$form = $this->initSettingsForm();
 		}
 		
-		$GLOBALS['ilTabs']->activateSubTab('settings');
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('settings');
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_SETTINGS);
 	}
@@ -453,7 +455,7 @@ class ilLOEditorGUI
 	
 	protected function materials()
 	{
-		$GLOBALS['ilTabs']->activateSubTab('materials');
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('materials');
 		
 		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
 		$gui = new ilObjectAddNewItemGUI($this->getParentObject()->getRefId());
@@ -468,9 +470,9 @@ class ilLOEditorGUI
 				$this->getParentObject()->getRefId()
 		);
 		$obj_table->init();
-		$obj_table->setObjects($GLOBALS['tree']->getChildIds($this->getParentObject()->getRefId()));
+		$obj_table->setObjects($GLOBALS['DIC']['tree']->getChildIds($this->getParentObject()->getRefId()));
 		$obj_table->parse();
-		$GLOBALS['tpl']->setContent($obj_table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($obj_table->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_MATERIALS);
 	}
@@ -483,8 +485,8 @@ class ilLOEditorGUI
 		$this->setTestType((int) $_REQUEST['tt']);
 		$this->ctrl->setParameter($this,'tt',$this->getTestType());
 
-		$GLOBALS['ilToolbar']->setFormAction($this->ctrl->getFormAction($this));
-		$GLOBALS['ilToolbar']->addButton(
+		$GLOBALS['DIC']['ilToolbar']->setFormAction($this->ctrl->getFormAction($this));
+		$GLOBALS['DIC']['ilToolbar']->addButton(
 				$this->lng->txt('crs_loc_btn_new_assignment'),
 				$this->ctrl->getLinkTarget($this,'testAssignment')
 		);
@@ -494,11 +496,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itests');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtests');
 				break;
 		}
 		
@@ -513,7 +515,7 @@ class ilLOEditorGUI
 			);
 			$table->init();
 			$table->parseMultipleAssignments();
-			$GLOBALS['tpl']->setContent($table->getHTML());
+			$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 			
 			$this->showStatus(
 					($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
@@ -523,7 +525,7 @@ class ilLOEditorGUI
 		}
 		catch(ilLOInvalidConfigurationException $ex)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
 			$this->testSettings();
 		}
 		
@@ -544,11 +546,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itest');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtest');
 				break;
 		}
 
@@ -569,7 +571,7 @@ class ilLOEditorGUI
 			);
 			$table->init();
 			$table->parse(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType()));
-			$GLOBALS['tpl']->setContent($table->getHTML());
+			$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 			
 			$this->showStatus(
 					($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
@@ -579,7 +581,7 @@ class ilLOEditorGUI
 		}
 		catch(ilLOInvalidConfigurationException $ex)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
 			$this->testSettings();
 		}
 	}
@@ -596,11 +598,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itests');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtests');
 				break;
 		}
 		
@@ -627,7 +629,7 @@ class ilLOEditorGUI
 			$confirm->addItem('tst[]', $assign_id, ilObject::_lookupTitle($obj_id));
 		}
 		
-		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
 		
 		$this->showStatus(
 				($this->getTestType() == ilLOSettings::TYPE_TEST_INITIAL) ?
@@ -648,11 +650,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itest');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtest');
 				break;
 		}
 		
@@ -675,7 +677,7 @@ class ilLOEditorGUI
 			$confirm->addItem('tst[]', $tst_id, ilObject::_lookupTitle($obj_id));
 		}
 		
-		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
 		
 		$this->showStatus(
 				($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
@@ -696,11 +698,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itests');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtests');
 				break;
 		}
 		
@@ -740,11 +742,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itest');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtest');
 				break;
 		}
 		
@@ -791,11 +793,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itests');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtests');
 				break;
 		}
 		if(!$form instanceof ilPropertyFormGUI)
@@ -804,7 +806,7 @@ class ilLOEditorGUI
 			$form_helper = new ilLOTestAssignmentForm($this,$this->getParentObject(), $this->getTestType());
 			$form = $form_helper->initForm(TRUE);
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 		
 		$this->showStatus(
 				($this->getTestType() == self::TEST_TYPE_IT) ?
@@ -823,11 +825,11 @@ class ilLOEditorGUI
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('itest');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtest');
+				$GLOBALS['DIC']['ilTabs']->activateSubTab('qtest');
 				break;
 		}
 		
@@ -837,7 +839,7 @@ class ilLOEditorGUI
 			$form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(),$this->getTestType());
 			$form = $form_helper->initForm(FALSE);
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 		
 		$this->showStatus(
 				($this->getTestType() == self::TEST_TYPE_IT) ?
@@ -1059,13 +1061,15 @@ class ilLOEditorGUI
 	 */
 	protected function listObjectives()
 	{
-		global $ilToolbar;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
 
 		include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
 		$_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
 		
 		
-		$GLOBALS['ilTabs']->activateSubTab('objectives');
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('objectives');
 		
 		$objectives = ilCourseObjective::_getObjectiveIds(
 				$this->getParentObject()->getId(),
@@ -1085,7 +1089,7 @@ class ilLOEditorGUI
 		$table = new ilCourseObjectivesTableGUI($this,$this->getParentObject());
 		$table->setTitle($this->lng->txt('crs_objectives'),'',$this->lng->txt('crs_objectives'));
 		$table->parse($objectives);
-		$GLOBALS['tpl']->setContent($table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
 	}
@@ -1096,14 +1100,14 @@ class ilLOEditorGUI
 	 */
 	protected function showObjectiveCreation(ilPropertyFormGUI $form = NULL)
 	{
-		$GLOBALS['ilTabs']->activateSubTab('objectives');
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('objectives');
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
 			$form = $this->initSimpleObjectiveForm();
 		}
 		
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES_NEW);
 	}
@@ -1146,7 +1150,7 @@ class ilLOEditorGUI
 		}
 		
 		$form->setValuesByPost();
-		$GLOBALS['ilTabs']->activateSubTab('objectives');
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('objectives');
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
 		$this->showObjectiveCreation($form);
 	}
@@ -1159,7 +1163,11 @@ class ilLOEditorGUI
 	 */
 	protected function saveSorting()
 	{
-	 	global $ilAccess,$ilErr,$ilObjDataCache;
+	 	global $DIC;
+
+	 	$ilAccess = $DIC['ilAccess'];
+	 	$ilErr = $DIC['ilErr'];
+	 	$ilObjDataCache = $DIC['ilObjDataCache'];
 	 	
 		asort($_POST['position'],SORT_NUMERIC);
 		
@@ -1179,7 +1187,7 @@ class ilLOEditorGUI
 	 */
 	protected function askDeleteObjectives()
 	{
-		$GLOBALS['ilTabs']->activateSubTab('objectives');
+		$GLOBALS['DIC']['ilTabs']->activateSubTab('objectives');
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
@@ -1200,7 +1208,7 @@ class ilLOEditorGUI
 				$name
 			);
 		}		
-		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
 	}
 	
@@ -1263,7 +1271,9 @@ class ilLOEditorGUI
 	 */
 	protected function deleteObjectives()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		foreach($_POST['objective_ids'] as $objective_id)
 		{
@@ -1290,7 +1300,7 @@ class ilLOEditorGUI
 		$status = new ilLOEditorStatus($this->getParentObject());
 		$status->setSection($a_section);
 		$status->setCmdClass($this);
-		$GLOBALS['tpl']->setRightContent($status->getHTML());
+		$GLOBALS['DIC']['tpl']->setRightContent($status->getHTML());
 	}
 	
 
@@ -1302,20 +1312,20 @@ class ilLOEditorGUI
 	protected function setTabs($a_section = '')
 	{
 		// objective settings
-		$GLOBALS['ilTabs']->addSubTab(
+		$GLOBALS['DIC']['ilTabs']->addSubTab(
 				'settings',
 				$this->lng->txt('settings'),
 				$this->ctrl->getLinkTarget($this,'settings')
 		);
 		// learning objectives
-		$GLOBALS['ilTabs']->addSubTab(
+		$GLOBALS['DIC']['ilTabs']->addSubTab(
 				'objectives',
 				$this->lng->txt('crs_loc_tab_objectives'),
 				$this->ctrl->getLinkTarget($this,'listObjectives')
 		);
 		// materials
 		/*
-		$GLOBALS['ilTabs']->addTab(
+		$GLOBALS['DIC']['ilTabs']->addTab(
 				'materials',
 				$this->lng->txt('crs_loc_tab_materials'),
 				$this->ctrl->getLinkTarget($this,'materials')
@@ -1331,7 +1341,7 @@ class ilLOEditorGUI
 			)
 			{
 				$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_INITIAL);
-				$GLOBALS['ilTabs']->addSubTab(
+				$GLOBALS['DIC']['ilTabs']->addSubTab(
 						'itest',
 						$this->lng->txt('crs_loc_tab_itest'),
 						$this->ctrl->getLinkTarget($this,'testOverview')
@@ -1340,7 +1350,7 @@ class ilLOEditorGUI
 			else
 			{
 				$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_INITIAL);
-				$GLOBALS['ilTabs']->addSubTab(
+				$GLOBALS['DIC']['ilTabs']->addSubTab(
 						'itests',
 						$this->lng->txt('crs_loc_tab_itests'),
 						$this->ctrl->getLinkTarget($this,'testsOverview')
@@ -1354,7 +1364,7 @@ class ilLOEditorGUI
 		if($settings->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_ALL)
 		{
 			$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_QUALIFIED);
-			$GLOBALS['ilTabs']->addSubTab(
+			$GLOBALS['DIC']['ilTabs']->addSubTab(
 					'qtest',
 					$this->lng->txt('crs_loc_tab_qtest'),
 					$this->ctrl->getLinkTarget($this,'testOverview')
@@ -1363,7 +1373,7 @@ class ilLOEditorGUI
 		else
 		{
 			$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_QUALIFIED);
-			$GLOBALS['ilTabs']->addSubTab(
+			$GLOBALS['DIC']['ilTabs']->addSubTab(
 					'qtests',
 					$this->lng->txt('crs_loc_tab_qtests'),
 					$this->ctrl->getLinkTarget($this,'testsOverview')
@@ -1372,7 +1382,7 @@ class ilLOEditorGUI
 		
 		if($settings->worksWithStartObjects())
 		{
-			$GLOBALS['ilTabs']->addSubTab(
+			$GLOBALS['DIC']['ilTabs']->addSubTab(
 					'start',
 					$this->lng->txt('crs_loc_tab_start'),
 					$this->ctrl->getLinkTargetByClass('ilcontainerstartobjectsgui','')

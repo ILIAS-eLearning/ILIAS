@@ -90,18 +90,18 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 			$name_string = $name['login'];
 		}
 
-		$this->setTitle($GLOBALS['lng']->txt('crs_loc_test_results_of').' '.$name_string);
+		$this->setTitle($GLOBALS['DIC']['lng']->txt('crs_loc_test_results_of').' '.$name_string);
 		
-		$this->addColumn($GLOBALS['lng']->txt('crs_objectives'),'title','50%');
+		$this->addColumn($GLOBALS['DIC']['lng']->txt('crs_objectives'),'title','50%');
 		
 		if($this->getSettings()->worksWithInitialTest())
 		{
-			$this->addColumn($GLOBALS['lng']->txt('crs_loc_itest_info'),'it','25%');
-			$this->addColumn($GLOBALS['lng']->txt('crs_loc_qtest_info'),'qt','25%');
+			$this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_itest_info'),'it','25%');
+			$this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_qtest_info'),'qt','25%');
 		}
 		else
 		{
-			$this->addColumn($GLOBALS['lng']->txt('crs_loc_qtest_info'),'qt','25%');
+			$this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_qtest_info'),'qt','25%');
 		}
 		
 		$this->setRowTemplate('tpl.crs_objectives_usr_result_row.html','Modules/Course');

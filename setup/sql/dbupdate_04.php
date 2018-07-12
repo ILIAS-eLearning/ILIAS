@@ -18601,12 +18601,14 @@ while ($rec = $ilDB->fetchAssoc($set))
 
 	// Mantis #17842
 	/** @var $ilCtrl ilCtrl */
-	global $ilCtrl, $ilPluginAdmin;
+	global $ilCtrl, $ilPluginAdmin, $DIC;
 	if (is_null($ilPluginAdmin)) {
 		$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+		$DIC["ilPluginAdmin"] = function($c) { return $GLOBALS['ilPluginAdmin']; };
 	}
 	if (is_null($ilCtrl)) {
 		$GLOBALS['ilCtrl'] = new ilCtrl();
+		$DIC["ilCtrl"] = function($c) { return $GLOBALS['ilCtrl']; };
 	}
 	global $ilCtrl;
 
@@ -22268,5 +22270,14 @@ if(!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring'))
 		'length'  => 1,
 		'default' => 1
 	));
+}
+?>
+<#5277>
+<?php
+$ilSetting = new ilSetting();
+
+if($ilSetting->get('show_mail_settings', false) === false)
+{
+	$ilSetting->set('show_mail_settings', 1);
 }
 ?>
