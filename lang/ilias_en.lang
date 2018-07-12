@@ -14218,6 +14218,8 @@ file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
 survey#:#svy_self_ev_access_results_none#:#No Access to Results
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants

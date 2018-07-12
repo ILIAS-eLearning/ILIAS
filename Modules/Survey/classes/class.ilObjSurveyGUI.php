@@ -318,8 +318,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->lng->txt("survey_360_mode_info"));
 
 		//Self evaluation only
-		$a_options["svyselfeval_1"] = array($this->lng->txt("survey_self_evaluation_mode"),
-			$this->lng->txt("survey_self_evaluation_mode_info"));
+		$a_options["svyselfeval_1"] = array($this->lng->txt("svy_self_ev_mode"),
+			$this->lng->txt("svy_self_ev_info"));
 	}
 
 	/**
