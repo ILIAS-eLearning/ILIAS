@@ -4,7 +4,7 @@
 /**
  * Class ilObjContentPageAccess
  */
-class ilObjContentPageAccess extends \ilObjectAccess implements \ilContentPageObjectConstants
+class ilObjContentPageAccess extends \ilObjectAccess implements \ilContentPageObjectConstants,  \ilConditionHandling
 {
 	/**
 	 * @inheritdoc
@@ -39,5 +39,21 @@ class ilObjContentPageAccess extends \ilObjectAccess implements \ilContentPageOb
 		}
 
 		return parent::_checkGoto($a_target);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function getConditionOperators()
+	{
+		return [];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+	{
+		return false;
 	}
 }
