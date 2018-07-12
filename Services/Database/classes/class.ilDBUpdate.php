@@ -292,7 +292,7 @@ class ilDBUpdate {
 
 		if (isset($GLOBALS['ilCtrlStructureReader'])) {
 			$ilCtrlStructureReader = $GLOBALS['ilCtrlStructureReader'];
-		} elseif ($DIC->isDependencyAvailable('ilCtrlStructureReader')) {
+		} elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
 			$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
 		} else {
 			require_once 'setup/classes/class.ilCtrlStructureReader.php';
@@ -302,7 +302,7 @@ class ilDBUpdate {
 
 		$GLOBALS['ilCtrlStructureReader'] = $ilCtrlStructureReader;
 
-		if ($DIC->isDependencyAvailable('ilMySQLAbstraction')) {
+		if ($DIC->offsetExists('ilMySQLAbstraction')) {
 			$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
 		} else {
 			$ilMySQLAbstraction = new ilMySQLAbstraction();
