@@ -31,6 +31,13 @@ interface ControlBuilder {
 	public function previousButton(string $command, int $parameter) : ControlBuilder;
 
 	/**
+	 * Build a done button.
+	 *
+	 * @throws \LogicException if view wants to introduce a second previous button.
+	 */
+	public function doneButton(string $command, int $parameter) : ControlBuilder;
+
+	/**
 	 * Build a generic button.
 	 */
 	public function button(string $label, string $command, int $parameter) : ControlBuilder;
