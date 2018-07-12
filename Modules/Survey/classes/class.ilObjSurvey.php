@@ -5367,12 +5367,7 @@ class ilObjSurvey extends ilObject
 	//
 	// 360° 
 	//
-	//not needed anymore.
-	/*public function set360Mode($a_value)
-	{
-		$this->mode_360 = (bool)$a_value;
-	}*/
-	
+
 	public function get360Mode()
 	{
 		if($this->getMode() == ilObjSurvey::MODE_360){

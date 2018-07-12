@@ -369,8 +369,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}		
 	
 	/**
-	 * TODO -> remove the Participants and Routing tab for self evaluation mode.
-	 * TODO -> Configure new content tab for Appraisees when the svy is self eval only.
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
@@ -1309,7 +1307,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($results);
 
 		//TODO it seems like lang var "survey_360_results" and "evaluation_access" are equal before refactor this.
-		//possible TODO: access to results are = in standard, 360 and the new self evaluation. Also constants are =
 		// evaluation access
 		switch($this->object->getMode())
 		{

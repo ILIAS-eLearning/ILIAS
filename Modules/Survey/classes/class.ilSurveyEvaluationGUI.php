@@ -1503,7 +1503,6 @@ class ilSurveyEvaluationGUI
 	{
 		$ilAccess = $this->access;
 		$ilToolbar = $this->toolbar;
-		//Todo refactor this conditional
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
 			$this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
 		{

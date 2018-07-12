@@ -355,12 +355,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 								return false;
 							default:
 								return true;
-							//case ilObjSurvey::RESULTS_SELF_EVAL_OWN:
-								// TODO working here!
-								//return $svy->isAppraiseeClosed($user_id);
-							//case ilObjSurvey::RESULTS_SELF_EVAL_ALL:
-								// TODO working here!
-								//return $svy->isAppraisee($user_id);
 						}
 						break;
 
