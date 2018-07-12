@@ -28,13 +28,18 @@ class ilPluginAdmin
 	 * @var	array
 	 */
 	static $plugin_objects = array();
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 
 
 	/**
-	* Constructor
-	*/
-	function __construct()
-	{
+	 * ilPluginAdmin constructor.
+	 */
+	public function __construct() {
+		global $DIC;
+		$this->lng = $DIC->language();
 	}
 
 	/**
@@ -47,9 +52,6 @@ class ilPluginAdmin
 	*/
 	private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		global $lng;
-		$this->lng = $lng;
-
 		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
 			include_once "./Services/Component/classes/class.ilPluginSlot.php";
@@ -94,7 +96,7 @@ class ilPluginAdmin
 			$plugin_data["needs_update"] = false;
 			$plugin_data["activation_possible"] = false;
 
-			if (is_object($this->lng))
+			if ($this->lng instanceof ilLanguage)
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_newer_ilias_version");
 			}
@@ -112,7 +114,7 @@ class ilPluginAdmin
 			$plugin_data["is_active"] = false;
 			$plugin_data["needs_update"] = false;
 			$plugin_data["activation_possible"] = false;
-			if (is_object($this->lng))
+			if ($this->lng instanceof ilLanguage)
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_newer_plugin_version");
 			}
@@ -140,7 +142,7 @@ class ilPluginAdmin
 		if ($last_update_version == "")
 		{
 			$plugin_data["is_active"] = false;
-			if (is_object($this->lng))
+			if ($this->lng instanceof ilLanguage)
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_update");
 			}
@@ -155,7 +157,7 @@ class ilPluginAdmin
 		else if (ilComponent::isVersionGreaterString($last_update_version, $plugin_data["version"]))
 		{
 			$plugin_data["is_active"] = false;
-			if (is_object($this->lng))
+			if ($this->lng instanceof ilLanguage)
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_upgrade");
 			}
@@ -169,7 +171,7 @@ class ilPluginAdmin
 		else if ($last_update_version != $plugin_data["version"])
 		{
 			$plugin_data["is_active"] = false;
-			if (is_object($this->lng))
+			if ($this->lng instanceof ilLanguage)
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_update");
 			}
@@ -196,7 +198,7 @@ class ilPluginAdmin
 		$plugin_data["needs_update"] = false;
 		$plugin_data["activation_possible"] = false;
 
-		if (is_object($this->lng))
+		if ($this->lng instanceof ilLanguage)
 		{
 			$inactive_reason = $this->lng->txt("cmps_must_installed");
 		}
