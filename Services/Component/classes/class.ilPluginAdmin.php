@@ -7,14 +7,23 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 /**
  * Administration class for plugins. Handles basic data from plugin.php files.
  *
+ * This class currently needs refactoring. There are a lot of methods which are related to some specific slots.
+ *
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ingroup ServicesComponent
  */
 class ilPluginAdmin {
 
-	var $got_data = false;
+	/**
+	 * @var array
+	 */
+	protected $data;
+	/**
+	 * @var bool
+	 */
+	protected $got_data = false;
 	/**
 	 * cached lists of active plugins
 	 *
@@ -26,7 +35,7 @@ class ilPluginAdmin {
 	 *
 	 * @var    array
 	 */
-	static $plugin_objects = array();
+	protected static $plugin_objects = array();
 	/**
 	 * @var ilLanguage
 	 */
