@@ -9915,7 +9915,7 @@ pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_noreg#:#No Registration Possible
-common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg_period#:#Registration
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter#:#Online-Status
