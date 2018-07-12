@@ -9805,7 +9805,7 @@ common#:#crs_list_reg_end#:#Anmeldungsende
 common#:#crs_list_reg_noreg#:#Keine Anmeldung möglich
 common#:#crs_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#crs_list_reg_limit_places#:#Freie Plätze
-common#:#crs_list_reg_period#:#Anmeldungszeitraum
+common#:#crs_list_reg_period#:#Anmeldung
 search#:#lucene_offline_filter#:#Online-Status
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 common#:#grp_list_reg_start#:#Anmeldungsbeginn
