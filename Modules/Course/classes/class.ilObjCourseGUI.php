@@ -2281,7 +2281,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('properties');
-				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('crs_custom_user_fields');
 				$this->ctrl->forwardCommand($cdf_gui);
 				break;
 
@@ -2298,10 +2299,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				$this->ctrl->setReturn($this,'edit');
 				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('groupings');
 				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
-				$this->tabs_gui->setTabActive('settings');
-				$this->tabs_gui->setSubTabActive('groupings');
 				break;
 
 			case "ilcolumngui":
@@ -2319,7 +2320,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';				
 				// preconditions for whole course				
 				$this->setSubTabs("properties");
-				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('preconditions');
 				$new_gui = new ilConditionHandlerGUI($this);
 				$this->ctrl->forwardCommand($new_gui);				
 				break;
@@ -2547,8 +2549,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilcontainernewssettingsgui":
+
 				$this->setSubTabs("properties");
-				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('obj_news_settings');
 				include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
 				$this->ctrl->forwardCommand($news_set_gui);
@@ -2564,6 +2568,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 			case 'ilmemberexportsettingsgui':
 				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('properties');
+				$this->tabs_gui->activateSubTab('export_members');
 				include_once './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php';
 				$settings_gui = new ilMemberExportSettingsGUI($this->object->getType(), $this->object->getId());
 				$this->ctrl->forwardCommand($settings_gui);
@@ -2882,7 +2888,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilAccess = $DIC['ilAccess'];
 
 		$this->setSubTabs("properties");
-		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->activateTab('settings');
+		$this->tabs_gui->activateSubTab('crs_map_settings');
 		
 		if (!ilMapUtil::isActivated() ||
 			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
