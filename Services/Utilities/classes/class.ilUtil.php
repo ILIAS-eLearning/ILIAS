@@ -2218,7 +2218,6 @@ class ilUtil
 
 		$delivery->setDownloadFileName($a_filename);
 		$delivery->setConvertFileNameToAsci((bool)!$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
-		$delivery->setConvertFileNameToAsci(false);
 		$delivery->setDeleteFile($removeAfterDelivery);
 		$delivery->deliver();
 	}
