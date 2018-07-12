@@ -158,8 +158,7 @@ class ilSurveyEvaluationGUI
 			array("evaluationdetails")
 		);
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) ||
-			ilObjSurvey::MODE_SELF_EVAL == $this->object->getMode())
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_user", 
