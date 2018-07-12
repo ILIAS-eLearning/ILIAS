@@ -38,7 +38,9 @@ class ilLikeUserSearch extends ilUserSearch
 {
 	function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->getFields();
 		$field = $fields[0].' ';

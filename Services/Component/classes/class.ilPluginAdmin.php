@@ -488,7 +488,7 @@ class ilPluginAdmin
 	 * @return 	boolean
 	 */
 	public static function isPluginActive($id) {
-		assert('is_string($id)');
+		assert(is_string($id));
 		$cached_component = ilCachedComponentData::getInstance();
 		$plugs = $cached_component->getIlPluginById();
 		if(array_key_exists($id, $plugs) &&	$plugs[$id]['active']) {
@@ -505,7 +505,7 @@ class ilPluginAdmin
 	 * @return 	ilPlugin
 	 */
 	public static function getPluginObjectById($id) {
-		assert('is_string($id)');
+		assert(is_string($id));
 		$plugs = self::getAllPlugins();
 		if( ! array_key_exists($id, $plugs)) {
 			throw new \InvalidArgumentException("Plugin does not exist: " .$id, 1);

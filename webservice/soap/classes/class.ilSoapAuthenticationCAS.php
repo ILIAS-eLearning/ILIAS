@@ -157,7 +157,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		$init->initIliasIniFile();
 		$init->initSettings();
 		$ilias = new ILIAS();
-		$GLOBALS['ilias'] =& $ilias;*/
+		$GLOBALS['DIC']['ilias'] =& $ilias;*/
 
 		$this->auth->start();
 
@@ -239,7 +239,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			$this->db = $ilDB;
 		}
 
-		$GLOBALS["ilDB"] = $this->db;
+		$GLOBALS['DIC']["ilDB"] = $this->db;
 		$this->init->initSettings();
 		
 		$this->init->buildHTTPPath();

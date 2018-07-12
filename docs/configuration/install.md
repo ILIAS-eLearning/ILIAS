@@ -120,6 +120,8 @@ Please note that different configurations SHOULD be possible, but it might be ha
 <a name="database-recommendations"></a>
 ## Database Recommendations
 
+> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only. 
+
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine

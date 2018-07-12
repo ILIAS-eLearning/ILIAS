@@ -81,6 +81,12 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.style_template_row.html", "Services/Style/Content");
 		$this->getItems();
 
+		// action commands
+		if ($this->parent_obj->checkWrite())
+		{
+			$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
+		}
+
 		$this->setEnableTitle(true);
 	}
 

@@ -53,7 +53,10 @@ class ilCalendarAppointmentPanelGUI
 	 */
 	protected function __construct(ilDate $seed = null)
 	{
-		global $lng,$ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -97,7 +100,11 @@ class ilCalendarAppointmentPanelGUI
 	 */
 	public function getHTML($a_app)
 	{
-		global $tree,$lng,$ilUser;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		self::$counter++;
 		
@@ -282,7 +289,7 @@ class ilCalendarAppointmentPanelGUI
 						}
 					}
 					#else if(!$entry->isBookedOut($ref_event))
-					elseif($entry->isAppointmentBookableForUser($ref_event,$GLOBALS['ilUser']->getId()))
+					elseif($entry->isAppointmentBookableForUser($ref_event,$GLOBALS['DIC']['ilUser']->getId()))
 					{
 						$this->tpl->setCurrentBlock('panel_book_link');
 						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);

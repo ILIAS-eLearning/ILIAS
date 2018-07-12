@@ -60,7 +60,9 @@ class ilLDAPRoleAssignmentRules
 	 */
 	public static function getAllPossibleRoles($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT(role_id) FROM ldap_role_assignments ".
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -82,7 +84,9 @@ class ilLDAPRoleAssignmentRules
 	 */
 	public static function getAttributeNames($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT(att_name) ".
 			"FROM ldap_role_assignments ".
@@ -117,7 +121,13 @@ class ilLDAPRoleAssignmentRules
 	 */
 	public static function getAssignmentsForUpdate($a_server_id,$a_usr_id,$a_usr_name,$a_usr_data)
 	{
-		global $ilDB,$rbacadmin,$rbacreview,$ilSetting,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilLog = $DIC['ilLog'];
 		
 		$query = "SELECT rule_id,add_on_update,remove_on_update FROM ldap_role_assignments ".
 			"WHERE (add_on_update = 1 OR remove_on_update = 1) ".
@@ -133,13 +143,13 @@ class ilLDAPRoleAssignmentRules
 			$matches = $rule->matches($a_usr_data);
 			if($matches and $row->add_on_update)
 			{
-				$ilLog->write(__METHOD__.': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(), self::ROLE_ACTION_ASSIGN);
 				
 			}
 			if(!$matches and $row->remove_on_update)
 			{
-				$ilLog->write(__METHOD__.': Deassigned from role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Deassigned from role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(), self::ROLE_ACTION_DEASSIGN);
 			}
 		}
@@ -156,7 +166,7 @@ class ilLDAPRoleAssignmentRules
 		}
 		if(count($rbacreview->assignedGlobalRoles($a_usr_id)) == $deassigned_global)
 		{
-			$ilLog->write(__METHOD__.': No global role left. Assigning to default role.');
+			$ilLog->info(': No global role left. Assigning to default role.');
 			$roles[] = self::parseRole(
 				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
@@ -180,7 +190,10 @@ class ilLDAPRoleAssignmentRules
 	 */
 	public static function getAssignmentsForCreation($a_server_id, $a_usr_name,$a_usr_data)
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		$query = "SELECT rule_id FROM ldap_role_assignments ".
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -196,7 +209,7 @@ class ilLDAPRoleAssignmentRules
 			if($rule->matches($a_usr_data))
 			{
 				$num_matches++;
-				$ilLog->write(__METHOD__.': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
+				$ilLog->info(': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
 				$roles[] = self::parseRole($rule->getRoleId(),self::ROLE_ACTION_ASSIGN);
 			}
 		}
@@ -213,7 +226,7 @@ class ilLDAPRoleAssignmentRules
 		}
 		if(!$found_global)
 		{
-			$ilLog->write(__METHOD__.': No matching rule found. Assigning to default role.');
+			$ilLog->info(': No matching rule found. Assigning to default role.');
 			$roles[] = self::parseRole(
 				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
@@ -232,7 +245,9 @@ class ilLDAPRoleAssignmentRules
 	 */
 	public static function callPlugin($a_plugin_id,$a_user_data)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		if(self::$active_plugins == null)
 		{
@@ -272,7 +287,9 @@ class ilLDAPRoleAssignmentRules
 	 */
 	protected static function getAdditionalPluginAttributes($a_server_id)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		if(self::$active_plugins == null)
 		{
@@ -307,7 +324,9 @@ class ilLDAPRoleAssignmentRules
 	 */
 	protected static function parseRole($a_role_id,$a_action)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		return array(
 			'id'		=> $a_role_id,

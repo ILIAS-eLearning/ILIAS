@@ -43,7 +43,10 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -89,7 +92,9 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
 	 */
 	public function parse($entries)
 	{
-	 	global $rbacreview;
+	 	global $DIC;
+
+	 	$rbacreview = $DIC['rbacreview'];
 	 	
 	 	include_once './Services/AccessControl/classes/class.ilObjRole.php';
 	 	foreach($entries as $entry)

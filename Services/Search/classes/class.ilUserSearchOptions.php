@@ -74,7 +74,9 @@ class ilUserSearchOptions
 
 	public static function _getSearchableFieldsInfo($a_admin = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		// begin-patch lok
 		$lng->loadLanguageModule('user');
@@ -221,7 +223,9 @@ class ilUserSearchOptions
 
 	public static function _isEnabled($a_key)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
 
 		// login is always enabled
 		if($a_key == 'login')
@@ -234,7 +238,9 @@ class ilUserSearchOptions
 
 	public static function _saveStatus($a_key,$a_enabled)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
 
 		$ilias->setSetting('search_enabled_'.$a_key,(int) $a_enabled);
 		return true;
@@ -269,7 +275,9 @@ class ilUserSearchOptions
 
 	public static function __prepareValues($a_values)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$new_values = array(0 => $lng->txt('please_choose'));
 		foreach($a_values as $value)

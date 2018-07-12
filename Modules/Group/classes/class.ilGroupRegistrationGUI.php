@@ -53,7 +53,10 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser,$ilTabs;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilTabs = $DIC['ilTabs'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		
@@ -81,7 +84,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function getFormTitle()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
 		{
@@ -180,7 +185,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function fillMaxMembers()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->container->isMembershipLimited())
 		{
@@ -292,7 +299,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function fillRegistrationType()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
 		{
@@ -379,7 +388,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function addCommandButtons()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		parent::addCommandButtons();
 		
@@ -417,7 +428,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function validate()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 	
 		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
@@ -466,7 +479,13 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function add()
 	{
-		global $ilUser,$tree, $rbacreview, $lng, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$rbacreview = $DIC['rbacreview'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		// set aggreement accepted
 		$this->setAccepted(true);		
@@ -571,7 +590,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
      */
     protected function isWaitingListActive()
     {
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		static $active = null;
 		
 		if($active !== null)

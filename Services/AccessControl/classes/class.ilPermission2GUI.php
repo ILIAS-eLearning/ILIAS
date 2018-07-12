@@ -24,7 +24,15 @@ class ilPermission2GUI
 
 	public function __construct($a_gui_obj)
 	{
-		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$objDefinition = $DIC['objDefinition'];
+		$tpl = $DIC['tpl'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 		
 		if (!isset($ilErr))
 		{
@@ -79,7 +87,10 @@ class ilPermission2GUI
 	
 	function changeOwner()
 	{
-		global $rbacsystem,$ilObjDataCache;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
 		{
@@ -118,7 +129,9 @@ class ilPermission2GUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 
 		$perm = ($a_cmd == 'perm') ? true : false;
 		$perm_positions = ($a_cmd == ilPermissionGUI::CMD_PERM_POSITIONS) ? true : false;

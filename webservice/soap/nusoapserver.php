@@ -40,8 +40,6 @@ if (ILIAS_MODULE != "webservice/soap") {
     define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);    
 }
 
-global $HTTP_RAW_POST_DATA;
-$HTTP_RAW_POST_DATA = file_get_contents("php://input");
 include_once './webservice/soap/classes/class.ilNusoapUserAdministrationAdapter.php';
 $server = new ilNusoapUserAdministrationAdapter(true);
 $server->start();

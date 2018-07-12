@@ -72,7 +72,9 @@ class ilMDBase
 					  $a_obj_id = 0,
 					  $a_type = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if ($a_obj_id == 0)
 		{

@@ -68,7 +68,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		switch($a_cmd)
 		{
@@ -112,7 +114,11 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem,$ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		// BEGIN WebDAV get parent properties
 		$props = parent::getProperties();

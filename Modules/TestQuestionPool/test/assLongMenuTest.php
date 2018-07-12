@@ -111,7 +111,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj->setAnswers(array(array(1,2,3,4)));
 		$obj->setPoints(4.5);
 		$obj->setTitle('LongMenu Title');
-		$obj->setQuestion('LongMenu Question');
+		$obj->setLongMenuTextValue('LongMenu Question');
 		$this->assertEquals($obj->isComplete(), true);
 	}
 

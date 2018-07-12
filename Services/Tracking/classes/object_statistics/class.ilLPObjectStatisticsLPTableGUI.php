@@ -29,7 +29,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true, $a_is_chart = false, $a_is_details = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->preselected = $a_preselect;
 		$this->is_chart = (bool)$a_is_chart;
@@ -152,7 +155,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 	*/
 	public function initFilter()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->setDisableFilterHiding(true);
 
@@ -414,7 +419,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$this->is_details)
 		{
@@ -478,7 +485,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
 	function getGraph(array $a_graph_items)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$a_graph_items = array(array_pop($a_graph_items));
 		
@@ -613,7 +622,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 			
 	protected function initLearningProgressDetailsLayer()
 	{		
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();
