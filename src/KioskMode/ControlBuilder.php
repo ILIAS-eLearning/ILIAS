@@ -48,7 +48,15 @@ interface ControlBuilder {
 	public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder;
 
 	/**
-	 * Build a locator.
+	 * A mode control can be used to switch between different modes in the view.
+	 *
+	 * Uses the indizes of the labels in the array as parameter for the command.
+	 */
+	public function mode(string $command, array $labels) : ControlBuilder;
+
+	/**
+	 * A locator allows the user to see the path leading to her current location and
+	 * jump back to previous items on that path.
 	 *
 	 * The command will be enhanced with a parameter defined in the locator builder.
 	 *
