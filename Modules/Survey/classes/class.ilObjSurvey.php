@@ -253,6 +253,7 @@ class ilObjSurvey extends ilObject
 		$this->pool_usage = true;
 		$this->log = ilLoggerFactory::getLogger("svy");
 		$this->mode = self::MODE_STANDARD;
+		$this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -801,6 +802,7 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
+				// competences
 				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
 				// Self Evaluation Only
 				"mode_self_eval_results" => array("integer", ilObjSurvey::RESULTS_SELF_EVAL_OWN),
@@ -850,6 +852,7 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
+				// Competences
 				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
 				// Self Evaluation Only
 				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
@@ -3718,13 +3721,13 @@ class ilObjSurvey extends ilObject
 		$custom_properties["confirmation_mail"] = (int)$this->hasMailConfirmation();
 		
 		$custom_properties["anon_user_list"] = (int)$this->hasAnonymousUserList();
-		//TODO REMOVE THIS  360 stuff
-		$custom_properties["mode_360"] = (int)$this->get360Mode();
+		$custom_properties["mode"] = (int)$this->getMode();
 		$custom_properties["mode_360_self_eval"] = (int)$this->get360SelfEvaluation();
 		$custom_properties["mode_360_self_rate"] = (int)$this->get360SelfRaters();
 		$custom_properties["mode_360_self_appr"] = (int)$this->get360SelfAppraisee();
 		$custom_properties["mode_360_results"] = $this->get360Results();
 		$custom_properties["mode_skill_service"] = (int)$this->getSkillService();
+		$custom_properties["mode_self_eval_results"] = (int)$this->getSelfEvaluationResults();
 		
 		
 		// :TODO: skills?
@@ -4051,7 +4054,10 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 		
 		$this->loadFromDb();
-		
+
+		//survey mode
+		$svy_type = $this->getMode();
+
 		// Copy settings
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($newObj);
@@ -4082,14 +4088,14 @@ class ilObjSurvey extends ilObject
 			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
 			$newObj->set360SelfRaters($this->get360SelfRaters());
 			$newObj->set360Results($this->get360Results());
-		}
-
-		//Competences
-		//TODO refactor to a method.
-		$svy_mode = $this->getMode();
-		if($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL)
-		{
 			$newObj->setSkillService($this->getSkillService());
+		}
+		//svy mode self eval: skills + view results
+		if($svy_type == ilObjSurvey::MODE_SELF_EVAL)
+		{
+			$newObj->setMode(ilObjSurvey::MODE_SELF_EVAL);
+			$newObj->setSkillService($this->getSkillService());
+			$newObj->setSelfEvaluationResults($this->getSelfEvaluationResults());
 		}
 				
 		// reminder/notification
@@ -4135,8 +4141,7 @@ class ilObjSurvey extends ilObject
 		$newObj->cloneTextblocks($mapping);
 		
 		// #14929
-		//TOOD use getMode == const
-		if($this->get360Mode() &&
+		if(($svy_type == ilObjSurvey::MODE_360 || $svy_type == ilObjSurvey::MODE_SELF_EVAL) &&
 			$this->getSkillService())
 		{
 			include_once "./Modules/Survey/classes/class.ilSurveySkill.php";
