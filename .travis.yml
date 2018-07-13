@@ -2,6 +2,5 @@ language: php
 php:
     - 7.0
     - 7.1
-install: cd ./libs/composer && composer update && composer require --dev phpunit/phpunit ^6.5
+install: cd ./libs/composer && composer install
 script: ./tests/run_tests.sh
-after_script: cd ./libs/composer && composer remove --dev phpunit/phpunit ^6.5 && composer update
