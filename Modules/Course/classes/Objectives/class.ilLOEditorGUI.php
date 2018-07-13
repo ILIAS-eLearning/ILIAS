@@ -28,6 +28,12 @@ class ilLOEditorGUI
 	const SETTINGS_TEMPLATE_QT = 'il_astpl_loc_qualified';
 
 
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
+
+
 	private $parent_obj;
 	private $settings = NULL;
 	private $lng = NULL;
@@ -44,8 +50,10 @@ class ilLOEditorGUI
 	{
 		$this->parent_obj = $a_parent_obj;
 		$this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+
 		$this->lng = $GLOBALS['DIC']['lng'];
 		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
+		$this->logger = $GLOBALS['DIC']->logger()->crs();
 	}
 	
 	/**
@@ -968,7 +976,12 @@ class ilLOEditorGUI
 				$this->applySettingsTemplate($tst);
 				$tst->saveToDb();
 			}
-			
+
+			// deassign as objective material
+			if($tst instanceof  ilObjTest)
+			{
+				$this->updateMaterialAssignments($tst);
+			}
 			$this->updateStartObjects();
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
@@ -979,6 +992,26 @@ class ilLOEditorGUI
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$form->setValuesByPost();
 		$this->testAssignment($form);
+	}
+
+	/**
+	 * @param \ilObjTest $test
+	 */
+	protected function updateMaterialAssignments(ilObjTest $test)
+	{
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
+		foreach(ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId()) as $objective_id)
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
+			$materials = new ilCourseObjectiveMaterials($objective_id);
+			foreach($materials->getMaterials() as $key => $material)
+			{
+				if($material['ref_id'] == $test->getRefId())
+				{
+					$materials->delete($material['lm_ass_id']);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1043,7 +1076,12 @@ class ilLOEditorGUI
 				$this->applySettingsTemplate($tst);
 				$tst->saveToDb();
 			}
-			
+
+			// deassign as objective material
+			if($tst instanceof  ilObjTest)
+			{
+				$this->updateMaterialAssignments($tst);
+			}
 			$this->updateStartObjects();
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
