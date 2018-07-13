@@ -270,7 +270,7 @@ session.gc_divisor = 100
 session.gc_maxlifetime = 1440
 session.hash_function = 0
 session.cookie_httponly = On
-; If you installation is served via HTTPS also use:
+; If your installation is served via HTTPS also use:
 session.cookie_secure = On
  
 ; for chat server since ILIAS 4.2
