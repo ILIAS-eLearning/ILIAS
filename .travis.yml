@@ -3,4 +3,4 @@ php:
     - 7.0
     - 7.1
 install: cd ./libs/composer && composer install
-script: ./run_tests.sh
+script: pwd && run_tests.sh
