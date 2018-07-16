@@ -18601,12 +18601,14 @@ while ($rec = $ilDB->fetchAssoc($set))
 
 	// Mantis #17842
 	/** @var $ilCtrl ilCtrl */
-	global $ilCtrl, $ilPluginAdmin;
+	global $ilCtrl, $ilPluginAdmin, $DIC;
 	if (is_null($ilPluginAdmin)) {
 		$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+		$DIC["ilPluginAdmin"] = function($c) { return $GLOBALS['ilPluginAdmin']; };
 	}
 	if (is_null($ilCtrl)) {
 		$GLOBALS['ilCtrl'] = new ilCtrl();
+		$DIC["ilCtrl"] = function($c) { return $GLOBALS['ilCtrl']; };
 	}
 	global $ilCtrl;
 
