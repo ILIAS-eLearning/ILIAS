@@ -4,9 +4,9 @@
 class ilCertificateTypeClassMap
 {
 	private $typeClassMap = array(
-		'crs' => 'ilCourseCertificateAdapter',
-		'tst' => 'ilTestCertificateAdapter',
-		'exc' => 'ilExerciseCertificateAdapter',
+		'crs'   => 'ilCourseCertificateAdapter',
+		'tst'   => 'ilTestCertificateAdapter',
+		'exc'   => 'ilExerciseCertificateAdapter',
 		'scorm' => 'ilScormCertificateAdapter'
 	);
 
