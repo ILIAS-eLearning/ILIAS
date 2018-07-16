@@ -2300,6 +2300,17 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 			
 		}
+
+//		$this->tabs_gui->addTarget('certificates',
+//			$this->ctrl->getLinkTargetByClass('ilusercertificatetablegui', 'show'),
+//			'show',
+//			''
+//		);
+
+		$this->tabs_gui->addTarget("certificates",
+			$this->ctrl->getLinkTarget($this, "certificates"),
+			'certificates',
+			"");
 	}
 	
 
@@ -2679,7 +2690,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$gui = new ilContainerSkillGUI($this);
 				$this->ctrl->forwardCommand($gui);
 				break;
-
 			default:
 /*                if(!$this->creation_mode)
                 {
@@ -2780,6 +2790,37 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		return true;
+	}
+
+	private function certificatesObject()
+	{
+		global $DIC;
+
+		$database = $DIC->database();
+
+		$provider = new ilUserCertificateRepository($database);
+
+		$tbl = new ilUserCertificateTableGUI($this, 'show');
+		$certificates = $provider->fetchActiveCertificates($DIC->user()->getId());
+
+		$data = array();
+
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificates as $certificate) {
+			/** @var ilObject $object */
+			$object = ilObjectFactory::getInstanceByObjId($certificate->getObjId());
+
+			$data[] = array(
+				'id'    => $certificate->getId(),
+				'title' => $object->getTitle(),
+				'date'  => $object->getCreateDate()
+			);
+		}
+
+		$tbl->setData($data);
+
+		$this->tpl->setContent($tbl->getHTML());
+
 	}
 	
 	/**
