@@ -20,7 +20,7 @@ class ilLPStatus
 	private $certificateQueueRepository;
 
 	/**
-	 * @var ilCertificateClassMap
+	 * @var ilCertificateTypeClassMap
 	 */
 	private $certificateClassMap;
 
@@ -49,7 +49,7 @@ class ilLPStatus
 	function __construct(
 		$a_obj_id,
 		ilCertificateQueueRepository $certificateQueueRepository = null,
-		ilCertificateClassMap $certificateClassMap = null
+		ilCertificateTypeClassMap $certificateClassMap = null
 	) {
 		global $DIC;
 
@@ -64,7 +64,7 @@ class ilLPStatus
 		$this->certificateQueueRepository = $certificateQueueRepository;
 
 		if (null === $certificateClassMap) {
-			$certificateClassMap = new ilCertificateClassMap();
+			$certificateClassMap = new ilCertificateTypeClassMap();
 		}
 		$this->certificateClassMap = $certificateClassMap;
 
