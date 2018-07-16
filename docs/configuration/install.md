@@ -267,10 +267,10 @@ upload_max_filesize = 256M
 ; choose a non-zero value for session.gc_probability, otherwise old session data will not be deleted
 session.gc_probability = 1
 session.gc_divisor = 100
-session.gc_maxlifetime = 14400
+session.gc_maxlifetime = 1440
 session.hash_function = 0
 session.cookie_httponly = On
-; If you installation is served via HTTPS also use:
+; If your installation is served via HTTPS also use:
 session.cookie_secure = On
  
 ; for chat server since ILIAS 4.2
