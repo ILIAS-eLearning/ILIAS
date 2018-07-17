@@ -28,6 +28,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
+      1. [Optional Dependencies](#optional-dependencies)
    1. [Installation Wizard](#installation-wizard)
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
@@ -388,22 +389,22 @@ FromLineOverride=YES
 
 On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk phantomjs
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
 ```
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk phantomjs
+apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
+yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
 ```
-
-Please ensure that the phantomjs version you use is at least 2.0.0.
+### Optional Dependencies
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
+
 * php-curl
 * php-xmlrpc
 * php-soap
@@ -411,6 +412,9 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 * php-mbstring
 * ffmpeg
 * mimetex
+* phantomjs
+
+Please ensure that the phantomjs version you use is at least 2.0.0. Please note that phantomjs development has been suspended until further notice. See https://github.com/ariya/phantomjs/issues/15344 for details.
 
 <a name="installation-wizard"></a>
 ## Installation Wizard
