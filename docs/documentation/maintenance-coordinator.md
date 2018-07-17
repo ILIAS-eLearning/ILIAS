@@ -26,14 +26,22 @@ The motivation of the coordinator is mostly driven by the need of a
 reliable component for a certain aspect. Further the coordinator is 
 probably the most attractive contractor for clients aiming to change 
 aspects of the component due to the very indepth know how and the 
-listing as coordinator.
+listing as coordinator. 
+
+The PM and the TB appoint or replace coordinators. The coordinator role belongs to the person, 
+not the company, since the role builds on social capital in the community and a 
+vision of the component it will be near impossible to leave that role at a company. 
 
 <a name="change-management"></a>
 ## Change Management
 Everybody may contribute to any aspect of the component. Such contributions 
-are handed in by pull requests or some other source of data if declared so in the components guidelines. 
-Pull requests on the public interface must be accepted by the JF. The coordinator gives a 
-recommendation to the JF on whether to accept or decline the PR. The decision of the JF may 
+are handed in by pull requests or some other source of data if declared so in the components guidelines.
+Note that the general [contribution guideline](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-3/docs/documentation/contributing.md) also apply for components managed by the coordinator 
+model. The coordinator is called upon to define additional criteria and processes 
+for the component (e.g. UI-components). This is the gain of this model: PRs cannot be rejected arbitrarily. 
+This allows other developers to build an expectation about the chances of their PR. Pull requests 
+on the public interface must be accepted by the JF. The coordinator gives a recommendation to the 
+JF on whether to accept or decline the PR. The decision of the JF may 
 be implicit if no objections to the recommendation of the coordinator is made. If no agreement 
 is achieved in the JF, the Technical Board will decide upon the request.
 
@@ -85,6 +93,10 @@ tests in their own development.
 * The coordinator SHOULD devise some guidelines concerning the processes 
 around the respective component fitting it's exact needs as done so for the 
 UI-Service. Such guidelines MUST be accepted by the JF.
+* The coordinator MUST follow the rules given for the components, especially 
+for contributing code. The coordinator has no special rights in this regard. 
+E.g. if a pull request is needed in certain scenarios, the coordinator 
+would need to create as well.
 
 **Please note:** The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", 
 "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and  "OPTIONAL" 
