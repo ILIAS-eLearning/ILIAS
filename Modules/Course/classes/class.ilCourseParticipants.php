@@ -181,10 +181,14 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
-		global $ilDB, $ilUser, $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		// #11600
 		$origin = -1;
