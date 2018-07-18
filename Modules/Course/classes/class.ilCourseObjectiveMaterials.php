@@ -39,7 +39,9 @@ class ilCourseObjectiveMaterials
 
 	public function __construct($a_objective_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db =& $ilDB;
 	
@@ -59,7 +61,10 @@ class ilCourseObjectiveMaterials
 	 */
 	public function cloneDependencies($a_new_objective,$a_copy_id)
 	{
-		global $ilObjDataCache,$ilLog;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilLog = $DIC['ilLog'];
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -91,8 +96,8 @@ class ilCourseObjectiveMaterials
 			elseif($material['type'] == 'st' or $material['type'] == 'pg')
 			{
 				
-				#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($material,TRUE));
-				#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($mappings,TRUE));
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($material,TRUE));
+				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($mappings,TRUE));
 				
 		#$ilLog->write(__METHOD__.': 6');
 				// Chapter assignment
@@ -140,7 +145,9 @@ class ilCourseObjectiveMaterials
 	 */
 	public static function _getAssignedMaterials($a_objective_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT(ref_id) ref_id FROM crs_objective_lm ".
 			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer');
@@ -166,7 +173,10 @@ class ilCourseObjectiveMaterials
 	 */
 	public static function _getAssignableMaterials($a_container_id)
 	{
-		global $tree,$ilDB;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
 		
 		$container_obj_id = ilObject::_lookupObjId($a_container_id);
 		
@@ -215,7 +225,9 @@ class ilCourseObjectiveMaterials
 	 */
 	public static function _getAllAssignedMaterials($a_container_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT(com.ref_id) ref_id FROM crs_objectives co ".
 			"JOIN crs_objective_lm com ON co.objective_id = com.objective_id ".
@@ -298,7 +310,9 @@ class ilCourseObjectiveMaterials
 	 */
 	public function isAssigned($a_ref_id, $a_get_id = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM crs_objective_lm ".
 			"WHERE ref_id = ".$this->db->quote($a_ref_id ,'integer')." ".
@@ -329,7 +343,9 @@ class ilCourseObjectiveMaterials
 	 */
 	public function isChapterAssigned($a_ref_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM crs_objective_lm ".
 			"WHERE ref_id = ".$this->db->quote($a_ref_id ,'integer')." ".
@@ -341,7 +357,9 @@ class ilCourseObjectiveMaterials
 	}
 	function checkExists()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getLMObjId())
 		{
@@ -364,7 +382,9 @@ class ilCourseObjectiveMaterials
 
 	function add()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$next_id = $ilDB->nextId('crs_objective_lm');
 		$query = "INSERT INTO crs_objective_lm (lm_ass_id,objective_id,ref_id,obj_id,type) ".
@@ -381,7 +401,9 @@ class ilCourseObjectiveMaterials
 	}
 	function delete($lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$lm_id)
 		{
@@ -397,7 +419,9 @@ class ilCourseObjectiveMaterials
 
 	function deleteAll()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM crs_objective_lm ".
 			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
@@ -416,7 +440,9 @@ class ilCourseObjectiveMaterials
 	 */
 	public function writePosition($a_ass_id, $a_position)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE crs_objective_lm ".
 			"SET position = ".$this->db->quote((string) $a_position ,'integer')." ".
@@ -430,7 +456,10 @@ class ilCourseObjectiveMaterials
 	// PRIVATE
 	function __read()
 	{
-		global $tree,$ilDB;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
 		
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
 		$container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));

@@ -42,9 +42,6 @@ class ilCalendarCategory
 	const TYPE_USR = 1;		// user
 	const TYPE_OBJ = 2;		// object
 	const TYPE_GLOBAL = 3;	// global
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 	const TYPE_CH = 4;		// consultation hours
 	const TYPE_BOOK = 5;	// booking manager
 	

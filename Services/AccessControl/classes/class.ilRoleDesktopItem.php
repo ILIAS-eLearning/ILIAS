@@ -25,7 +25,9 @@ class ilRoleDesktopItem
 	*/
 	function __construct($a_role_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->role_id = $a_role_id;
@@ -42,7 +44,9 @@ class ilRoleDesktopItem
 
 	function add($a_item_id,$a_item_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($a_item_type and $a_item_id)
 		{
@@ -63,7 +67,9 @@ class ilRoleDesktopItem
 	}
 	function delete($a_role_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM role_desktop_items ".
 			"WHERE role_item_id = ".$ilDB->quote($a_role_item_id,'integer');
@@ -74,7 +80,9 @@ class ilRoleDesktopItem
 
 	function deleteAll()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM role_desktop_items ".
 			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer');
@@ -85,7 +93,9 @@ class ilRoleDesktopItem
 
 	function isAssigned($a_item_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM role_desktop_items ".
 			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer')." ".
@@ -97,7 +107,9 @@ class ilRoleDesktopItem
 
 	function getItem($a_role_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM role_desktop_items ".
 			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer')." ".
@@ -117,8 +129,12 @@ class ilRoleDesktopItem
 
 	function getAll()
 	{
-		global $tree;
-		global $ilDB;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM role_desktop_items ".
 			"WHERE role_id = ".$this->db->quote($this->getRoleId(),'integer')." ";
@@ -142,7 +158,9 @@ class ilRoleDesktopItem
 	// PRIVATE
 	function __assign($a_item_id,$a_item_type)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 
 		foreach($rbacreview->assignedUsers($this->getRoleId()) as $user_id)
 		{

@@ -56,7 +56,9 @@ class ilAccessControlExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
 		$writer = new ilRoleXmlExport();

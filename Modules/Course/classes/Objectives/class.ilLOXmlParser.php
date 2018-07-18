@@ -67,11 +67,11 @@ class ilLOXmlParser
 		$root = simplexml_load_string(trim($this->xml));
 		if(!$root instanceof SimpleXMLElement)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': XML is: '. $this->xml. (string) $root);
-			$GLOBALS['ilLog']->write(__METHOD__.': Error parsing objective xml: '.$this->parseXmlErrors());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': XML is: '. $this->xml. (string) $root);
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Error parsing objective xml: '.$this->parseXmlErrors());
 			return false;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling element: '. (string) $root->getName());
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling element: '. (string) $root->getName());
 		$this->parseSettings($root);
 		$this->parseObjectives($root);
 	}
@@ -85,8 +85,8 @@ class ilLOXmlParser
 		$root = simplexml_load_string(trim($this->xml));
 		if(!$root instanceof SimpleXMLElement)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': XML is: '. $this->xml. (string) $root);
-			$GLOBALS['ilLog']->write(__METHOD__.': Error parsing objective xml: '.$this->parseXmlErrors());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': XML is: '. $this->xml. (string) $root);
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Error parsing objective xml: '.$this->parseXmlErrors());
 			return false;
 		}
 		
@@ -109,10 +109,10 @@ class ilLOXmlParser
 	{
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$settings = ilLOSettings::getInstanceByObjId($this->getCourse()->getId());
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling element: '. (string) $root->Settings->getName());
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling element: '. (string) $root->Settings->getName());
 		foreach($root->Settings as $set)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Handling element: '. (string) $set->getName());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling element: '. (string) $set->getName());
 			$settings->setInitialTestType((int) (string) $set->attributes()->initialTestType);
 			$settings->setInitialTestAsStart((bool) (string) $set->attributes()->initialTestStart);
 			$settings->setQualifyingTestType((int) (string) $set->attributes()->qualifyingTestType);
@@ -225,7 +225,7 @@ class ilLOXmlParser
 	 */
 	protected function parseTests(SimpleXMLElement $obj, $a_objective_id)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Parsing ' . (string) $obj->getName());
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Parsing ' . (string) $obj->getName());
 		
 		foreach($obj->Test as $tst)
 		{
@@ -236,7 +236,7 @@ class ilLOXmlParser
 			{
 				$tst_ref_id = (string) $tst->attributes()->refId;
 				$mapping_ref_id = $this->getMappingInfoForItem($tst_ref_id);
-				$GLOBALS['ilLog']->write(__METHOD__.': Found test ref id ' . (string) $tst_ref_id);
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Found test ref id ' . (string) $tst_ref_id);
 				if(!$mapping_ref_id)
 				{
 					continue;
@@ -312,7 +312,7 @@ class ilLOXmlParser
 	protected function getMappingInfoForItem($a_ref_id)
 	{
 		$new_ref_id = $this->getMapping()->getMapping('Services/Container', 'refs', $a_ref_id);
-		$GLOBALS['ilLog']->write(__METHOD__.': Found new ref_id: ' .$new_ref_id.' for '. $a_ref_id);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Found new ref_id: ' .$new_ref_id.' for '. $a_ref_id);
 		return (int) $new_ref_id;
 	}
 	
@@ -324,14 +324,14 @@ class ilLOXmlParser
 	protected function getMappingInfoForItemObject($a_obj_id)
 	{
 		$new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $a_obj_id);
-		$GLOBALS['ilLog']->write(__METHOD__.': Found new ref_id: ' .$new_obj_id.' for '. $a_obj_id);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Found new ref_id: ' .$new_obj_id.' for '. $a_obj_id);
 		return (int) $new_obj_id;
 	}
 	
 	protected function getMappingForQuestion($qid)
 	{
 		$new_qid = $this->getMapping()->getMapping('Modules/Test', 'quest', $qid);
-		$GLOBALS['ilLog']->write(__METHOD__.': Found new question_id: ' .$new_qid.' for '. $qid);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Found new question_id: ' .$new_qid.' for '. $qid);
 		return $new_qid;
 	}
 	

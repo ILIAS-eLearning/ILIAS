@@ -88,6 +88,22 @@ class ilTestPassesSelector
 		return $this->passes;
 	}
 
+	public function loadLastFinishedPass()
+	{
+		$query = "
+			SELECT last_finished_pass FROM tst_active WHERE active_id = %s
+		";
+		
+		$res = $this->db->queryF(
+			$query, array('integer'), array($this->getActiveId())
+		);
+		
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			$this->setLastFinishedPass($row['last_finished_pass']);
+		}
+	}
+
 	public function getExistingPasses()
 	{
 		return array_keys($this->getLazyLoadedPasses());

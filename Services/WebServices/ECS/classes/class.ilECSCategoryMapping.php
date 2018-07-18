@@ -44,7 +44,9 @@ class ilECSCategoryMapping
 	 */
 	public static function getActiveRules()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -63,7 +65,9 @@ class ilECSCategoryMapping
 	 */
 	public static function getMatchingCategory($a_server_id, $a_matchable_content)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(is_null(self::$cached_active_rules))
 		{
@@ -92,7 +96,10 @@ class ilECSCategoryMapping
 	 */
 	 public static function handleUpdate($a_obj_id, $a_server_id, $a_matchable_content)
 	 {
-	 	global $tree,$ilLog;
+	 	global $DIC;
+
+	 	$tree = $DIC['tree'];
+	 	$ilLog = $DIC['ilLog'];
 	 
 	 	$cat = self::getMatchingCategory($a_server_id, $a_matchable_content);
 					
@@ -152,7 +159,9 @@ class ilECSCategoryMapping
 	 */
 	public static function lookupHandledCategories()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
 	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -170,7 +179,9 @@ class ilECSCategoryMapping
 	 */
 	public static function getPossibleFields()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$options = array(
 			"community" => $lng->txt("ecs_field_community"),

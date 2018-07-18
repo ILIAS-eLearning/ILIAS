@@ -246,7 +246,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		}
 
 		$settings = array(
-			'name'                  => CLIENT_ID,
+			'name'                  => (string)$form->getInput('client_name'),
 			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
 			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
 			'osd_intervall'         => (int)$form->getInput('osd_intervall'),

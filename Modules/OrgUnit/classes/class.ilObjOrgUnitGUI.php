@@ -618,11 +618,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * @param $tpl
 	 */
-	public function showAdministrationPanel(&$tpl) {
-		parent::showAdministrationPanel($tpl);
+	public function showAdministrationPanel() {
+		parent::showAdministrationPanel();
+		global $DIC;
 		//an ugly encapsulation violation in order to remove the "verknüpfen"/"link" and copy button.
 		/** @var $toolbar ilToolbarGUI */
-		if (!$toolbar = $tpl->admin_panel_commands_toolbar) {
+		if (!$toolbar = $DIC->ui()->mainTemplate()->admin_panel_commands_toolbar) {
 			return;
 		}
 		if (is_array($toolbar->items)) {

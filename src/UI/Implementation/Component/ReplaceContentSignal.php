@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Popover;
+namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Signal;
@@ -8,10 +8,11 @@ use ILIAS\UI\Implementation\Component\Signal;
 /**
  * Class ReplaceContentSignal
  *
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @package ILIAS\UI\Implementation\Component\Popover
+ * Dev note: This class is copied from the popover. TODO-> DRY and centralize it.
+ *
+ * @author  Jesús López <lopez@leifos.com>
  */
-class ReplaceContentSignal extends Signal implements \ILIAS\UI\Component\Popover\ReplaceContentSignal {
+class ReplaceContentSignal extends Signal implements \ILIAS\UI\Component\ReplaceContentSignal {
 
 	use ComponentHelper;
 

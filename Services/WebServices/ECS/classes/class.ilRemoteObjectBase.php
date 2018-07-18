@@ -34,7 +34,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		parent::__construct($a_id,$a_call_by_reference);					
 		$this->db = $ilDB;
@@ -112,7 +114,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public static function _lookupOrganization($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT organization FROM ".static::DB_TABLE_NAME.
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -201,7 +205,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public static function _lookupMID($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT mid FROM ".static::DB_TABLE_NAME.
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -242,7 +248,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function getFullRemoteLink()
 	{
-	 	global $ilUser;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
 	 	
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
@@ -252,7 +260,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
 	 	$user = new ilECSUser($ilUser);
 	 	$ecs_user_data = $user->toGET();
-		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 		
 		// check token mechanism enabled
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
@@ -274,7 +282,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		{
 			$link = $this->getRemoteLink().'?ecs_hash='.$auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': ECS full link: '. $link);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': ECS full link: '. $link);
 		return $link;
 	}
 	
@@ -286,7 +294,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function createAuthResource($a_plain_realm)
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 	 	
 	 	include_once './Services/WebServices/ECS/classes/class.ilECSAuth.php';
 	 	include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
@@ -304,9 +314,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 			// URL is deprecated
 			$auth->setUrl($this->getRemoteLink());
 			$realm = sha1($a_plain_realm);
-			$GLOBALS['ilLog']->write(__METHOD__.': Using realm '.$a_plain_realm);
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using realm '.$a_plain_realm);
 			$auth->setRealm($realm);
-			$GLOBALS['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return $this->auth_hash;
 		}
@@ -322,7 +332,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function doCreate()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = array(
 			"obj_id" => array("integer", $this->getId()),
@@ -351,7 +363,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function doUpdate()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$fields = array(
 			"local_information" => array("text", $this->getLocalInformation()),
@@ -381,7 +395,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function doDelete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		//put here your module specific stuff
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
@@ -455,7 +471,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
 	{						
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write('updateFromECSContent: '.print_r($a_ecs_content, true));
 		
@@ -502,7 +520,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write("importing metadata from json: ".print_r($a_json, true));
 		
@@ -649,7 +669,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function handleUpdate(ilECSSetting $a_server, $a_econtent_id, array $a_mids)
 	{		
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		// get content details		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
@@ -687,7 +709,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 					continue;
 				}				
 				$json = $res->getResult();
-				$GLOBALS['ilLog']->write(__METHOD__.': Received json: '.print_r($json,true));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Received json: '.print_r($json,true));
 				if(!is_object($json))
 				{
 					// try as array (workaround for invalid content)
@@ -721,7 +743,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 			}
 			else
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': my sender '. $details->getMySender().'vs mid'. $mid);
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': my sender '. $details->getMySender().'vs mid'. $mid);
 				
 				$ilLog->write(__METHOD__.': Handling create for non existing object');
 				$this->createFromECSEContent($a_server,$json,$details->getMySender());
@@ -793,7 +815,10 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function handleDelete(ilECSSetting $a_server, $a_econtent_id, $a_mid = 0)
 	{
-		global $tree, $ilLog;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 		
 
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
@@ -829,7 +854,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function getAllResourceIds(ilECSSetting $a_server, $a_sender_only = false)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		try
 		{

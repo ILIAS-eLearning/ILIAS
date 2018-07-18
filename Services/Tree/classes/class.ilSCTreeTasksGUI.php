@@ -221,13 +221,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		$tasks = new ilSCTreeTasks($this->getTask());
 		
 		
-		if($GLOBALS['tree']->getTreeImplementation() instanceof ilMaterializedPathTree)
+		if($GLOBALS['DIC']['tree']->getTreeImplementation() instanceof ilMaterializedPathTree)
 		{
 			ilMaterializedPathTree::createFromParentReleation();
 		}
-		elseif($GLOBALS['tree']->getTreeImplementation() instanceof ilNestedSetTree)
+		elseif($GLOBALS['DIC']['tree']->getTreeImplementation() instanceof ilNestedSetTree)
 		{
-			$GLOBALS['tree']->renumber(ROOT_FOLDER_ID);
+			$GLOBALS['DIC']['tree']->renumber(ROOT_FOLDER_ID);
 		}
 		
 		$this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
@@ -252,7 +252,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		$errors_count = $validator->dumpTree();
 		
 		
-		$GLOBALS['ilLog']->write(print_r($this->getTask(),TRUE));
+		$GLOBALS['DIC']['ilLog']->write(print_r($this->getTask(),TRUE));
 		
 		if($errors_count)
 		{
@@ -283,7 +283,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		if (is_array($scan_log))
 		{
 			$scan_log = '<pre>'.implode("",$scan_log).'</pre>';
-			$GLOBALS['tpl']->setContent($scan_log);
+			$GLOBALS['DIC']['tpl']->setContent($scan_log);
 		}
 	}
 	
@@ -327,12 +327,12 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		$table->init();
 		$table->parse($deepest_duplicate);
 		
-		$GLOBALS['tpl']->setContent($table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 	}
 	
 	protected function deleteDuplicatesFromRepository()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
 		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
 		ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], FALSE);
 
@@ -349,7 +349,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 	
 	protected function deleteDuplicatesFromTrash()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
 		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
 		ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], TRUE);
 		

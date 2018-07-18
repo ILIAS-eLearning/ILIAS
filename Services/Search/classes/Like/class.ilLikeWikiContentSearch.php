@@ -48,7 +48,9 @@ class ilLikeWikiContentSearch extends ilWikiContentSearch
 
 	function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$and = "  WHERE ( ";
 		$counter = 0;

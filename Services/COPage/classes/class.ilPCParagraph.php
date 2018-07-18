@@ -1855,29 +1855,38 @@ if (!$a_wysiwyg)
 						// if term found
 						while (is_int($pos))
 						{
-							// check if the string is not included in another word
-							// note that []
-							$valid_limiters = array("", " ","&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
-							$b = ($pos > 0)
-								? ilStr::subStr($node_val, $pos - 1, 1)
-								: "";
-							$a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
-							if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;")&& in_array($a, $valid_limiters))
+							// check if we are in a tex tag, see #22261
+							$tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
+							$tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
+							if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos)
 							{
-								$mid = '[iln term="'.$t["id"].'"]'.
-									ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])).
-									"[/iln]";
-
-								$node_val = ilStr::subStr($node_val, 0, $pos).
-									$mid.
-									ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]))
-									;
-
-								$pos+= ilStr::strLen($mid);
+								$pos+= ilStr::strLen($t["term"]);
 							}
 							else
 							{
-								$pos+= ilStr::strLen($t["term"]);
+
+								// check if the string is not included in another word
+								// note that []
+								$valid_limiters = array("", " ", "&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
+								$b = ($pos > 0)
+									? ilStr::subStr($node_val, $pos - 1, 1)
+									: "";
+								$a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
+								if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;") && in_array($a, $valid_limiters))
+								{
+									$mid = '[iln term="' . $t["id"] . '"]' .
+										ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])) .
+										"[/iln]";
+
+									$node_val = ilStr::subStr($node_val, 0, $pos) .
+										$mid .
+										ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]));
+
+									$pos += ilStr::strLen($mid);
+								} else
+								{
+									$pos += ilStr::strLen($t["term"]);
+								}
 							}
 							$pos = ilStr::strIPos($node_val, $t["term"], $pos);
 						}

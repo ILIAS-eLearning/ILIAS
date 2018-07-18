@@ -17,7 +17,9 @@ class ilUserDefinedData
 
 	function __construct($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->usr_id = $a_usr_id;
@@ -33,7 +35,9 @@ class ilUserDefinedData
 	 */
 	public static function lookupData($a_user_ids, $a_field_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM udf_text ".
 			"WHERE ".$ilDB->in('usr_id',$a_user_ids,false,'integer').' '.
@@ -75,7 +79,9 @@ class ilUserDefinedData
 	 */
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
@@ -134,7 +140,9 @@ class ilUserDefinedData
 	 */
 	static function deleteEntriesOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate("DELETE FROM udf_text WHERE "
 			." usr_id = ".$ilDB->quote($a_user_id, "integer")
@@ -151,7 +159,9 @@ class ilUserDefinedData
 	 */
 	static function deleteEntriesOfField($a_field_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate("DELETE FROM udf_text WHERE "
 			." field_id = ".$ilDB->quote($a_field_id, "integer")
@@ -169,7 +179,9 @@ class ilUserDefinedData
 	 */
 	static function deleteFieldValue($a_field_id, $a_value)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate("UPDATE udf_text SET value = ".$ilDB->quote("", "text")." WHERE "
 			." field_id = ".$ilDB->quote($a_field_id, "integer")

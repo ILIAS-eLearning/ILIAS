@@ -169,10 +169,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
-	 * @param ilPropertyFormGUI $form
+	 * @param ilPropertyFormGUI|null $form
 	 * @return bool
 	 */
-	public function checkQuestionCustomPart($form)
+	public function checkQuestionCustomPart($form = null)
 	{
 		$hidden_text_files 	= $this->getAnswers();
 		$correct_answers	= $this->getCorrectAnswers();
@@ -202,14 +202,18 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		if(! $this->getIdenticalScoring() && ! $this->checkIfEnoughUniqueAnswersExists($correct_answers))
 		{
-			foreach($form->getItems() as $key => $item)
+			if( $forn !== null)
 			{
-				if($item->getPostVar() == 'identical_scoring')
+				foreach($form->getItems() as $key => $item)
 				{
-					$item->setAlert($this->lng->txt('lome_ident_score_multiple'));
+					if($item->getPostVar() == 'identical_scoring')
+					{
+						$item->setAlert($this->lng->txt('lome_ident_score_multiple'));
+					}
 				}
+				return false;
 			}
-			return false;
+
 		}
 		if(sizeof($correct_answers) != sizeof($points))
 		{
@@ -386,7 +390,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		foreach( $files as $file)
 		{
 			$gap					= str_replace('.txt', '', basename($file));
-			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));
+			$answers[(int) $gap] 	= explode("\n", file_get_contents($file));
 		}
 		$this->setAnswers($answers);
 		return $answers;

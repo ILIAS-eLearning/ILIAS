@@ -713,6 +713,7 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -5742,8 +5743,8 @@ meta#:#md_adv_select_one_file#:#Please choose one file.
 meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
 meta#:#md_advanced#:#Custom Metadata
-meta#:#md_copyright_add#:#Add Copyright Presetting
-meta#:#md_copyright_edit#:#Edit Copyright Presetting
+meta#:#md_copyright_add#:#Add Copyright Default
+meta#:#md_copyright_edit#:#Edit Copyright Default
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
 meta#:#md_copyright_preview#:#Copyright (Preview)
@@ -7207,7 +7208,7 @@ survey#:#maintenance#:#Participants
 survey#:#manage_phrases#:#My Phrases
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material#:#Material
-survey#:#materials_deleted#:#Material(s) deleted
+survey#:#materials_deleted#:#Material(s) have been removed from the question.
 survey#:#materials#:#Materials
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -7752,8 +7753,8 @@ rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
-tbl#:#tbl_export_csv#:#Export .csv
-tbl#:#tbl_export_excel#:#Export .xls
+tbl#:#tbl_export_csv#:#Export CSV
+tbl#:#tbl_export_excel#:#Export Excel
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
@@ -9920,6 +9921,7 @@ common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_noreg#:#No Registration Possible
 common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg#:#Registration
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter#:#Online-Status
@@ -9933,6 +9935,7 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_noreg#:#No Registration Possible
 common#:#grp_list_reg_period#:#Registration Period
+common#:#grp_list_reg#:#Registration
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
@@ -10048,8 +10051,9 @@ rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
+dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -10293,6 +10297,7 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -11372,6 +11377,7 @@ bibl#:#bibl_translation_desc#:#Description
 bibl#:#bibl_msg_translations_saved#:#Translations were saved
 bibl#:#bibl_msg_translations_deleted#:#Translations were deleted
 bibl#:#bibl_filter#:#Filter
+bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -13186,6 +13192,8 @@ chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
+chatroom#:#chatroom_client_name#:#Name
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.
 chatroom#:#key#:#Key
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
@@ -13846,7 +13854,6 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
@@ -14214,3 +14221,6 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+mail#:#show_mail_settings#:#Show Mail Settings
+mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
