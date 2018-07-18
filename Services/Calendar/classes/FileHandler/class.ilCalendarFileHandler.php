@@ -87,7 +87,7 @@ class ilCalendarFileHandler
 				$ilFileDelivery = new ilFileDelivery($last_file);
 				$ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
 				//$ilFileDelivery->setMimeType($this->guessFileType($file));
-				$ilFileDelivery->setConvertFileNameToAsci($ilClientIniFile->readVariable('file_access', 'disable_ascii'));
+				$ilFileDelivery->setConvertFileNameToAsci((bool)!$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
 				//$ilFileDelivery->setDownloadFileName();
 				$ilFileDelivery->deliver();
 				exit;
