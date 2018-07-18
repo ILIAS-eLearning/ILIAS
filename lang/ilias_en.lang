@@ -10051,8 +10051,9 @@ rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
+dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -13853,7 +13854,6 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
