@@ -726,4 +726,29 @@ interface Factory {
 	 */
 	public function eyeopen($action = null);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Attachment glyph indicates that a file is attached or can be attached to an object or entity.
+	 *   composition: >
+	 *      The Attachment Glyph uses the glyphicon-paperclip.
+	 *   effect: >
+	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
+	 *
+	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MAY indicate the overall amount of attachments.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Attachment'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function attachment($action = null);
+
 }

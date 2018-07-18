@@ -48,7 +48,10 @@ class ilPathGUI
 	 */
 	public function __construct()
 	{
-		global $tree,$lng;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
 		
 		$this->tree = $tree;
 		$this->lng = $lng;

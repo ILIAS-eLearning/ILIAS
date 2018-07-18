@@ -38,7 +38,9 @@ class ilLOTestRun
 	 */
 	public static function lookupRunExistsForObjective($a_test_id, $a_objective_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM loc_tst_run '.
 				'WHERE test_id = '.$ilDB->quote($a_test_id,'integer').' '.
@@ -61,7 +63,9 @@ class ilLOTestRun
 	 */
 	public static function deleteRuns($a_container_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM loc_tst_run '.
 				'WHERE container_id = ' . $ilDB->quote($a_container_id,'integer').' '.
@@ -72,7 +76,9 @@ class ilLOTestRun
 	
 	public static function deleteRun($a_container_id, $a_user_id, $a_test_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM loc_tst_run '.
 				'WHERE container_id = ' . $ilDB->quote($a_container_id,'integer').' '.
@@ -83,13 +89,15 @@ class ilLOTestRun
 	
 	public static function lookupObjectives($a_container_id, $a_user_id, $a_test_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT objective_id FROM loc_tst_run '.
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
 				'AND user_id = '.$ilDB->quote($a_user_id,'integer').' '.
 				'AND test_id = '.$ilDB->quote($a_test_id,'integer');
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$query);
 		$res = $ilDB->query($query);
 		$objectives = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -105,7 +113,9 @@ class ilLOTestRun
 	 */
 	public static function getRun($a_container_id, $a_user_id, $a_test_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT objective_id FROM loc_tst_run '.
 				'WHERE container_id = ' . $ilDB->quote($a_container_id,'integer').' '.
@@ -173,14 +183,14 @@ class ilLOTestRun
 	
 	public function setQuestionResult($a_qst_id, $a_points)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$a_qst_id.' '.$a_points);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$a_qst_id.' '.$a_points);
 		
 		
 		if($this->questions[$a_qst_id] < $a_points)
 		{
 			$this->questions[$a_qst_id] = $a_points;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->questions,true));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($this->questions,true));
 	}
 	
 	/**
@@ -213,7 +223,9 @@ class ilLOTestRun
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM loc_tst_run '.
 				'WHERE container_id = ' . $ilDB->quote($this->getContainerId(),'integer').' '.
@@ -225,7 +237,9 @@ class ilLOTestRun
 	
 	public function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'INSERT INTO loc_tst_run '.
 				'(container_id, user_id, test_id, objective_id,max_points,questions) '.
@@ -242,7 +256,9 @@ class ilLOTestRun
 	
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE loc_tst_run SET '.
 				'max_points = '.$ilDB->quote($this->getMaxPoints(),'integer').', '.
@@ -260,7 +276,9 @@ class ilLOTestRun
 	 */
 	public function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM loc_tst_run '.
 				'WHERE container_id = ' . $ilDB->quote($this->getContainerId(),'integer').' '.

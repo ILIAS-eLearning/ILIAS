@@ -70,6 +70,7 @@ class Glyph implements C\Glyph\Glyph {
 		, self::ANGRY
 		, self::EYEOPEN
 		, self::EYECLOSED
+		, self::ATTACHMENT
 		);
 
 

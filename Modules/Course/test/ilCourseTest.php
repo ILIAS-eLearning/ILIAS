@@ -44,7 +44,9 @@ class ilCourseTest extends PHPUnit_Framework_TestCase
 	{
 		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
 		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
 		$agree = new ilMemberAgreement(9999,8888);

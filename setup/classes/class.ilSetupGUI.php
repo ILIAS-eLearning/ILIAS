@@ -2817,8 +2817,6 @@ class ilSetupGUI
 	{
 		global $ilCtrlStructureReader;
 
-		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
-
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
@@ -2833,7 +2831,7 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyUpdate((int) $_POST["update_break"]);
 
 		if ($dbupdate->updateMsg == "no_changes")
@@ -2946,7 +2944,7 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyHotfix();
 
 		if ($dbupdate->updateMsg == "no_changes")
@@ -4212,7 +4210,8 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyCustomUpdates();
 
 		if ($dbupdate->updateMsg == "no_changes")

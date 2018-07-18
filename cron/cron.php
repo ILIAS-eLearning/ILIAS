@@ -2,7 +2,6 @@
 chdir(dirname(__FILE__));
 chdir('..');
 
-
 include_once './Services/Cron/classes/class.ilCronStartUp.php';
 
 if($_SERVER['argc'] < 4)
@@ -11,10 +10,17 @@ if($_SERVER['argc'] < 4)
 	exit(1);
 }
 
-$cron = new ilCronStartUp($_SERVER['argv'][3], $_SERVER['argv'][1], $_SERVER['argv'][2]);
+$client = $_SERVER['argv'][3];
+$login = $_SERVER['argv'][1];
+$password = $_SERVER['argv'][2];
+
+$cron = new ilCronStartUp(
+	$client,
+	$login,
+	$password
+);
 
 try {
-	$cron->initIlias();
 	$cron->authenticate();
 
 	$cronManager = new ilStrictCliCronManager(

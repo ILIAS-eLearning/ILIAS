@@ -22,6 +22,10 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	 * @var array
 	 */
 	protected $filter = [];
+	/**
+	 * @var \ILIAS\UI\Component\Modal\Interruptive[]
+	 */
+	protected $interruptive_modals = [];
 
 
 	/**
@@ -117,18 +121,20 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) {
 		$this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId($ilBiblFieldFilter->getId());
+		$f = $this->dic()->ui()->factory();
+		$r = $this->dic()->ui()->renderer();
 
-		$current_selection_list->addItem(
-			$this->lng()->txt("edit"), "", $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT)
-		);
+		$edit = $f->button()->shy($this->lng()->txt("edit"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
 
-		$current_selection_list->addItem(
-			$this->lng()->txt("delete"), "", $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE)
-		);
-		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+		$delete_modal = $f->modal()->interruptive(
+			'', '', ''
+		)->withAsyncRenderUrl($this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_RENDER_INTERRUPTIVE, '', true));
+
+		$delete = $f->button()->shy($this->lng()->txt("delete"), '')->withOnClick($delete_modal->getShowSignal());
+
+		$this->tpl->setVariable('VAL_ACTIONS', $r->render([$f->dropdown()->standard([$edit, $delete])]));
+
+		$this->interruptive_modals[] = $delete_modal;
 	}
 
 
@@ -137,7 +143,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->determineLimit();
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'id';
-		$sorting_column = 'id';
+
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
 
 		$sorting_direction = $this->getOrderDirection();
@@ -151,5 +157,24 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 		$filter = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObjId(), $info);
 		$this->setData($filter);
+	}
+
+
+	/**
+	 * @return \ILIAS\UI\Component\Modal\Interruptive[]
+	 */
+	protected function getInterruptiveModals(): array {
+		return $this->interruptive_modals;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getHTML() {
+		$table = parent::getHTML();
+		$modals = $this->dic()->ui()->renderer()->render($this->getInterruptiveModals());
+
+		return $table . $modals;
 	}
 }

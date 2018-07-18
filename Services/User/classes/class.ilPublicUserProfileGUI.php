@@ -27,7 +27,10 @@ class ilPublicUserProfileGUI
 	*/
 	function __construct($a_user_id = 0)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if($a_user_id)
 		{
@@ -94,7 +97,9 @@ class ilPublicUserProfileGUI
 	*/
 	function setBackUrl($a_backurl)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		// we only allow relative links 
 		$parts = parse_url($a_backurl);
@@ -119,7 +124,11 @@ class ilPublicUserProfileGUI
 		
 	protected function handleBackUrl($a_is_portfolio = false)
 	{
-		global $ilMainMenu, $ilTabs, $lng;
+		global $DIC;
+
+		$ilMainMenu = $DIC['ilMainMenu'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
 
 		$back = ($this->getBackUrl() != "")
 			? $this->getBackUrl()
@@ -186,7 +195,10 @@ class ilPublicUserProfileGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		if(!self::validateUser($this->getUserId()))
 		{
@@ -251,7 +263,10 @@ class ilPublicUserProfileGUI
 	 */
 	function  getHTML()
 	{
-		global $ilCtrl, $ilSetting;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if($this->embedded)
 		{
@@ -310,7 +325,14 @@ class ilPublicUserProfileGUI
 	 */
 	function getEmbeddable($a_add_goto = false)
 	{
-		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
 		
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
@@ -864,7 +886,9 @@ class ilPublicUserProfileGUI
 	
 	function renderTitle()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		$tpl->resetHeaderBlock();
 		
@@ -897,7 +921,9 @@ class ilPublicUserProfileGUI
 	
 	public static function getAutocompleteResult($a_field_id, $a_term)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
 		if(in_array($a_field_id, $multi_fields) && $a_term)
@@ -957,7 +983,9 @@ class ilPublicUserProfileGUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(isset($_REQUEST['osd_id']))
 		{
@@ -976,7 +1004,9 @@ class ilPublicUserProfileGUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(isset($_REQUEST['osd_id']))
 		{

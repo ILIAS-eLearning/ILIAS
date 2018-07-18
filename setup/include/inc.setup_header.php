@@ -183,6 +183,4 @@ $DIC["ilIliasIniFile"] = function($c) { return $GLOBALS["ilIliasIniFile"]; };
 
 $DIC["ilClientIniFile"] = function($c) { return $GLOBALS["ilClientIniFile"]; };
 
-$DIC['ilPluginAdmin'] = new ilPluginAdmin();
-
 ?>

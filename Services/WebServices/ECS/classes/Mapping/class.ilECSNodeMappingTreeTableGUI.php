@@ -24,7 +24,10 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_server_id,$a_mid,$a_parent_obj, $a_parent_cmd)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -69,7 +72,9 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 	 */
 	public function  fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 
 		// show title if available

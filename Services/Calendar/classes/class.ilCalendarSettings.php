@@ -134,9 +134,6 @@ class ilCalendarSettings
 		}
 		$type = ilObject::_lookupType($a_obj_id);
 		// lookup global setting
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		$gl_activated = false;
 		switch($type)
 		{

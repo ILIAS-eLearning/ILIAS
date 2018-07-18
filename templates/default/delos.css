@@ -7467,6 +7467,11 @@ hr.il-divider-with-label {
   width: 45px;
   height: 45px;
 }
+.icon.disabled {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
 .icon.custom {
   background-image: none;
 }
@@ -8449,6 +8454,41 @@ ul.breadcrumb li:hover {
 .il-standard-form input[type="checkbox"] {
   margin: 0;
 }
+.il-input-tag {
+  height: auto;
+  min-height: 1.42857143;
+}
+.il-input-tag input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 0 6px 4px;
+  line-height: 1.42857143;
+}
+.il-input-tag .tag {
+  font-size: 100%;
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.il-input-tag .tag [data-role="remove"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.il-input-tag .tag [data-role="remove"]:after {
+  content: "x";
+  padding: 0px 2px;
+}
+.il-input-tag .bootstrap-tagsinput {
+  margin-bottom: -3px;
+}
+.il-input-tag .tt-suggestion:hover,
+.il-input-tag .tt-suggestion:focus,
+.il-input-tag .tt-cursor {
+  color: #FFFFFF;
+  text-decoration: none;
+  outline: 0;
+  background-color: #4c6586;
+}
 .il-input-password .revelation-glyph {
   float: right;
   margin-top: -21px;
@@ -8534,6 +8574,21 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
+}
+div.alert div {
+  margin-top: 10px;
+}
+div.alert ul {
+  margin-top: 15px;
+  background-color: #ffffff;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #909090;
+  list-style-type: none;
+}
+div.alert ul > li:before {
+  content: "\00BB \0020";
+  /* margin-left: -10px; */
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -11126,9 +11181,17 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostImage img {
   vertical-align: top;
-  padding: 5px 20px 5px 5px;
+  margin: 5px 20px 5px 5px;
   border: none;
+}
+.ilFrmPostImage img[src*="data:image/"] {
   max-width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ilFrmPostImage img[src*="data:image/"] {
+    margin: 0 !important;
+    padding: 5px 20px 5px 5px;
+  }
 }
 .ilFrmPostClear {
   clear: both;
@@ -11159,7 +11222,7 @@ div.ilFrmPostHeader span.small {
     width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen {
   .ilFrmPostContentContainer img {
     width: 100%;
     height: auto !important;

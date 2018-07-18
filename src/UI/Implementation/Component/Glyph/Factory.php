@@ -196,6 +196,7 @@ class Factory implements G\Factory {
 	public function eyeopen($action = null) {
 		return new Glyph(G\Glyph::EYEOPEN, "eyeopen", $action);
 	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -203,5 +204,11 @@ class Factory implements G\Factory {
 		return new Glyph(G\Glyph::EYECLOSED, "eyeclosed", $action);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function attachment($action = null) {
+		return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
+	}
 
 }

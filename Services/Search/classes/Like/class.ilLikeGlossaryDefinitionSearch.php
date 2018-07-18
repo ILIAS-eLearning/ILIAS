@@ -39,7 +39,9 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 
 	function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$concat  = " term ";
 

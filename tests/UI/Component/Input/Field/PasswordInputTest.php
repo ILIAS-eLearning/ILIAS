@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -53,7 +53,9 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 			."<div class=\"form-group row\">"
 				."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 				."<div class=\"col-sm-9\">"
-					."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					."<div class=\"il-input-password\">"
+						."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					."</div>"
 					."<div class=\"help-block\">$byline</div>"
 				."</div>"
 			."</div>";
@@ -75,7 +77,9 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 			."<div class=\"form-group row\">"
 				." <label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 				." <div class=\"col-sm-9\">"
-					." <input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					." <div class=\"il-input-password\">"
+						." <input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					." </div>"
 					." <div class=\"help-block\">$byline</div>"
 					." <div class=\"help-block alert alert-danger\" role=\"alert\">"
 						." <img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">"
@@ -86,8 +90,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 
 		$html = preg_replace('!\s+!', ' ', $html);
 		$expected = preg_replace('!\s+!', ' ', $expected);
-		$html = explode( ' ', $html); //so you can actually _see_ the difference...
-		$expected = explode( ' ', $expected);
+		$html = explode(' ', $html); //so you can actually _see_ the difference...
+		$expected = explode(' ', $expected);
 		$this->assertEquals($expected, $html);
 	}
 
@@ -103,7 +107,9 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 			."<div class=\"form-group row\">"
 				."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 				."<div class=\"col-sm-9\">"
-					."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					."<div class=\"il-input-password\">"
+						."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+					."</div>"
 				."</div>"
 			."</div>";
 		$this->assertHTMLEquals($expected, $r->render($pwd));
@@ -122,7 +128,9 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 			."<div class=\"form-group row\">"
 				."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 				."<div class=\"col-sm-9\">"
-					."<input type=\"password\" name=\"$name\" value=\"$value\" class=\"form-control form-control-sm\" />"
+					."<div class=\"il-input-password\">"
+						."<input type=\"password\" name=\"$name\" value=\"$value\" class=\"form-control form-control-sm\" />"
+					."</div>"
 				."</div>"
 			."</div>";
 		$this->assertHTMLEquals($expected, $r->render($pwd));
@@ -144,7 +152,9 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 				."<span class=\"asterisk\">*</span>"
 			."</label>"
 			."<div class=\"col-sm-9\">"
-				."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+				."<div class=\"il-input-password\">"
+					."<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
+				."</div>"
 			."</div>"
 		. "</div>";
 		$this->assertHTMLEquals($expected, $html);

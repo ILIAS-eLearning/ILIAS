@@ -598,7 +598,6 @@ class ilCalendarCategoryGUI
 		global $DIC;
 
 		$tpl = $DIC['tpl'];
-		$DIC = $DIC['DIC'];
 
 		$tabs = $DIC->tabs();
 		$tabs->activateTab("share");
