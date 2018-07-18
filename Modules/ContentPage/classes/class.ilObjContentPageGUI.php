@@ -600,6 +600,11 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				$this->user->getId()
 			);
 
+			\ilLPStatusWrapper::_refreshStatus(
+				$this->object->getId(),
+				[$this->user->getId()]
+			);
+
 			return $html;
 		}
 
