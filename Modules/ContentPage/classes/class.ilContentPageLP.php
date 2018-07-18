@@ -21,7 +21,8 @@ class ilContentPageLP extends \ilObjectLP
 	{
 		return [
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_MANUAL
+			ilLPObjSettings::LP_MODE_MANUAL,
+			ilLPObjSettings::LP_MODE_CONTENT_VISITED,
 		];
 	}
 }
