@@ -46,7 +46,7 @@ class Password extends Input implements C\Input\Field\Password {
 	}
 
 	/**
-	 * This is a shortcut to quickly get a Passwordfiled with desired contraints.
+	 * This is a shortcut to quickly get a password-field with desired contraints.
 	 *
 	 * @param int 	$min_length
 	 * @param bool 	$lower
@@ -66,7 +66,7 @@ class Password extends Input implements C\Input\Field\Password {
 		$validation = new \ILIAS\Validation\Factory($data);
 		$pw_validation = $validation->password();
 		$constraints = [
-            $pw_validation->hasMinLength($min_length),
+			$pw_validation->hasMinLength($min_length),
 		];
 
 		if($lower) {
