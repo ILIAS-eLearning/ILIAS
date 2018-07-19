@@ -10,35 +10,28 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 	 */
 	private $placeholder;
 
-	private $language;
-
 	/**
 	 * @param ilLanguage $language
 	 */
-	public function __construct(ilLanguage $language = null)
+	public function __construct()
 	{
-		global $DIC;
-
-		if (null === $language) {
-			$language = $DIC->language();
-		}
-		$this->language = $language;
-
 		$this->placeholder = array(
-			"USER_LOGIN"         => $language->txt("certificate_ph_login"),
-			"USER_FULLNAME"      => $language->txt("certificate_ph_fullname"),
-			"USER_FIRSTNAME"     => $language->txt("certificate_ph_firstname"),
-			"USER_LASTNAME"      => $language->txt("certificate_ph_lastname"),
-			"USER_TITLE"         => $language->txt("certificate_ph_title"),
-			"USER_SALUTATION"    => $language->txt("certificate_ph_salutation"),
-			"USER_BIRTHDAY"      => $language->txt("certificate_ph_birthday"),
-			"USER_INSTITUTION"   => $language->txt("certificate_ph_institution"),
-			"USER_DEPARTMENT"    => $language->txt("certificate_ph_department"),
-			"USER_STREET"        => $language->txt("certificate_ph_street"),
-			"USER_CITY"          => $language->txt("certificate_ph_city"),
-			"USER_ZIPCODE"       => $language->txt("certificate_ph_zipcode"),
-			"USER_COUNTRY"       => $language->txt("certificate_ph_country"),
-			"USER_MATRICULATION" => $language->txt("certificate_ph_matriculation")
+			'USER_LOGIN'         => '',
+			'USER_FULLNAME'      => '',
+			'USER_FIRSTNAME'     => '',
+			'USER_LASTNAME'      => '',
+			'USER_TITLE'         => '',
+			'USER_SALUTATION'    => '',
+			'USER_BIRTHDAY'      => '',
+			'USER_INSTITUTION'   => '',
+			'USER_DEPARTMENT'    => '',
+			'USER_STREET'        => '',
+			'USER_CITY'          => '',
+			'USER_ZIPCODE'       => '',
+			'USER_COUNTRY'       => '',
+			'USER_MATRICULATION' => '',
+			'DATE'               => '',
+			'DATETIME'           => '',
 		);
 	}
 
@@ -58,6 +51,9 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 
 		$placeholder = $this->placeholder;
 
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
 		$placeholder['USER_LOGIN']         = $user->getLogin();
 		$placeholder['USER_FULLNAME']      = $user->getFullname();
 		$placeholder['USER_FIRSTNAME']     = $user->getFirstname();
@@ -72,11 +68,27 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 		$placeholder['USER_ZIPCODE']       = $user->getZipcode();
 		$placeholder['USER_COUNTRY']       = $user->getCountry();
 		$placeholder['USER_MATRICULATION'] = $user->getMatriculation();
+		$placeholder['DATE']               = ilDatePresentation::formatDate(new ilDate(time(), IsL_CAL_UNIX));
+		$placeholder['DATETIME']           = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
+
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
 		return $placeholder;
 	}
 
-	public function getPlaceholderDescription()
+	/**
+	 * This method is different then the 'getPlaceholderValues' method, this
+	 * method is used to create a placeholder value array containing dummy values
+	 * that is used to create a preview certificate.
+	 *
+	 * Due the fact that this is a class to create default values
+	 * the placeholder values will be identical to the description
+	 *
+	 * @param $userId
+	 * @param $objId
+	 * @return mixed
+	 */
+	public function getPlaceholderValuesForPreview($userId, $objId)
 	{
 		return $this->placeholder;
 	}
