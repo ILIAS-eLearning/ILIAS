@@ -3,7 +3,7 @@
 /**
  * Collection of basic placeholder values that can be used
  */
-class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderValues
+class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
 	/**
 	 * @var array
@@ -32,6 +32,8 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 			'USER_MATRICULATION' => '',
 			'DATE'               => '',
 			'DATETIME'           => '',
+			'DATE_COMPLETED'     => '',
+			'DATETIME_COMPLETED' => '',
 		);
 	}
 
@@ -84,11 +86,9 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 	 * Due the fact that this is a class to create default values
 	 * the placeholder values will be identical to the description
 	 *
-	 * @param $userId
-	 * @param $objId
 	 * @return mixed
 	 */
-	public function getPlaceholderValuesForPreview($userId, $objId)
+	public function getPlaceholderValuesForPreview()
 	{
 		return $this->placeholder;
 	}
