@@ -627,7 +627,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 	/**
 	 * @return \ilPropertyFormGUI
 	 */
-	protected function buildStylePropertiesForm()
+	protected function buildStylePropertiesForm(): \ilPropertyFormGUI
 	{
 		$form = new \ilPropertyFormGUI();
 
