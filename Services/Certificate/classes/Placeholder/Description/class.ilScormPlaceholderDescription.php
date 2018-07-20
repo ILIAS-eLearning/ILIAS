@@ -1,7 +1,6 @@
 <?php
 
-
-class ScormPlaceholderDescription implements ilCertificatePlaceholderDescription
+class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
 	/**
 	 * @var ilDefaultPlaceholderDescription
