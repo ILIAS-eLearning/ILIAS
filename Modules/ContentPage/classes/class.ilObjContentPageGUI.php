@@ -523,12 +523,10 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				$DIC->language()->txt('msg_no_perm_read_item'), \ilObject::_lookupTitle(\ilObject::_lookupObjId($refId))
 			), true);
 
-			$_GET['target'] = '';
-			$_GET['ref_id'] = ROOT_FOLDER_ID;
-			$_GET['baseClass'] = 'ilRepositoryGUI';
-
-			include 'ilias.php';
-			exit();
+			$DIC->ctrl()->setTargetScript('ilias.php');
+			$DIC->ctrl()->initBaseClass('ilRepositoryGUI');
+			$DIC->ctrl()->setParameterByClass('ilRepositoryGUI', 'ref_id', ROOT_FOLDER_ID);
+			$DIC->ctrl()->redirectByClass('ilRepositoryGUI');
 		}
 
 		$DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
