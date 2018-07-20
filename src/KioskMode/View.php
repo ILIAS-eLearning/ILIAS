@@ -36,14 +36,12 @@ interface View {
 	public function updatePost(State $state, string $command, array $post) : State;
 
 	/**
-	 * Render a state using the ui-factory.
-	 *
-	 * @param	callable $post_link	Provides a link to post data when given a command.
+	 * Render a state using the ui-factory and URLs from the builder.
 	 */
 	public function render(
 		State $state,
 		UI\Factory $factory,
-		callable $post_link,
+		URLBuilder $post_link,
 		array $post = null
 	) : UI\Component\Component;
 }
