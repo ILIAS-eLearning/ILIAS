@@ -174,9 +174,9 @@ class Renderer extends AbstractComponentRenderer {
 						return false; // stop event propagation
 				});";
 			});
+		} else {
+			$tpl->touchBlock("disabled");
 		}
-
-		//The incomplete rendering of the Toggle Button is work in progress
 
 		$is_on = $component->isOn();
 		if ($is_on) {
@@ -185,6 +185,12 @@ class Renderer extends AbstractComponentRenderer {
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $label);
+		}
+		$aria_label = $component->getAriaLabel();
+		if($aria_label != null){
+			$tpl->setCurrentBlock("with_aria_label");
+			$tpl->setVariable("ARIA_LABEL", $aria_label);
+			$tpl->parseCurrentBlock();
 		}
 		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
