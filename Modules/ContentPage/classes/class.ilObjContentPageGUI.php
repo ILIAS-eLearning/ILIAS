@@ -571,41 +571,23 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 	}
 
 	/**
-	 * @param string $ctrlLink
+	 * @param string $ctrlLink A link which describes the target controller for all page object links/actions
 	 * @return string
+	 * @throws \ilException
 	 */
-	public function getContent($ctrlLink = '')
+	public function getContent(string $ctrlLink = ''): string 
 	{
-		if (\ilContentPagePage::_exists($this->object->getType(), $this->object->getId()) && $this->checkPermissionBool('read')) {
+		if ($this->checkPermissionBool('read')) {
+			$this->object->trackProgress((int)$this->user->getId());
+			
 			$this->initStyleSheets();
 
-			$pageGui = new \ilContentPagePageGUI($this->object->getId());
-			$pageGui->setStyleId(
-				\ilObjStyleSheet::getEffectiveContentStyleId($this->object->getStyleSheetId(), $this->object->getType())
+			$forwarder = new \ilContentPagePageCommandForwarder(
+				$this->request, $this->ctrl, $this->tabs, $this->lng, $this->object
 			);
-			$pageGui->setEnabledTabs(false);
+			$forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
-			if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
-				$pageGui->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
-				$pageGui->setFullscreenLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN);
-				$pageGui->setSourcecodeDownloadScript($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH);
-			}
-
-			$html = $pageGui->getHTML();
-
-			\ilChangeEvent::_recordReadEvent(
-				$this->object->getType(),
-				$this->object->getRefId(),
-				$this->object->getId(),
-				$this->user->getId()
-			);
-
-			\ilLPStatusWrapper::_refreshStatus(
-				$this->object->getId(),
-				[$this->user->getId()]
-			);
-
-			return $html;
+			return $forwarder->forward($ctrlLink);
 		}
 
 		return '';
