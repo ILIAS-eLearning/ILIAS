@@ -152,7 +152,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 	/**
 	 * @return int[]
 	 */
-	public function getPageObjIds()
+	public function getPageObjIds(): array
 	{
 		$pageObjIds = [];
 
@@ -168,5 +168,23 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 		}
 
 		return $pageObjIds;
+	}
+
+	/**
+	 * @param int $usrId
+	 */
+	public function trackProgress(int $usrId)
+	{
+		\ilChangeEvent::_recordReadEvent(
+			$this->getType(),
+			$this->getRefId(),
+			$this->getId(),
+			$usrId
+		);
+
+		\ilLPStatusWrapper::_refreshStatus(
+			$this->getId(),
+			[$usrId]
+		);
 	}
 }

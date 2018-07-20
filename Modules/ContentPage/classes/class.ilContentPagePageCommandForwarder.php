@@ -67,7 +67,6 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 		$this->lng          = $lng;
 		$this->parentObject = $parentObject;
 
-		$this->tabs->clearTargets();
 		$this->lng->loadLanguageModule('content');
 
 		$this->backUrl = $request->getQueryParams()['backurl'] ?? '';
@@ -80,7 +79,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	/**
 	 * @return \ilContentPagePageGUI
 	 */
-	protected function getPageObjectGUI()
+	protected function getPageObjectGUI(): \ilContentPagePageGUI
 	{
 		$pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId());
 		$pageObjectGUI->setStyleId(
@@ -128,8 +127,10 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	/**
 	 * @return \ilContentPagePageGUI
 	 */
-	protected function buildEditingPageObjectGUI()
+	protected function buildEditingPageObjectGUI(): \ilContentPagePageGUI
 	{
+		$this->tabs->clearTargets();
+
 		$this->setBackLinkTab();
 
 		$this->ensurePageObjectExists();
@@ -143,14 +144,18 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	/**
 	 * @return \ilContentPagePageGUI
 	 */
-	protected function buildPresentationPageObjectGUI()
+	protected function buildPresentationPageObjectGUI(): \ilContentPagePageGUI
 	{
-		$this->setBackLinkTab();
-
 		$this->ensurePageObjectExists();
 
 		$pageObjectGUI = $this->getPageObjectGUI();
 		$pageObjectGUI->setEnabledTabs(false);
+
+		$pageObjectGUI->setStyleId(
+			\ilObjStyleSheet::getEffectiveContentStyleId(
+				$this->parentObject->getStyleSheetId(), $this->parentObject->getType()
+			)
+		);
 
 		return $pageObjectGUI;
 	}
@@ -158,29 +163,35 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	/**
 	 * @param string $presentationMode
 	 */
-	public function setPresentationMode($presentationMode)
+	public function setPresentationMode(string $presentationMode)
 	{
 		$this->presentationMode = $presentationMode;
 	}
 
 	/**
+	 * @param string $ctrlLink
 	 * @return string
-	 * @throws \ilException
+	 * @throws ilCtrlException
+	 * @throws ilException
 	 */
-	public function forward()
+	public function forward(string $ctrlLink = ''): string
 	{
 		switch ($this->presentationMode) {
 			case self::PRESENTATION_MODE_EDITING:
 
 				$pageObjectGui = $this->buildEditingPageObjectGUI();
-				return $this->ctrl->forwardCommand($pageObjectGui);
+				return (string)$this->ctrl->forwardCommand($pageObjectGui);
 
 			case self::PRESENTATION_MODE_PRESENTATION:
-
 				$pageObjectGUI = $this->buildPresentationPageObjectGUI();
-				$this->ctrl->setCmd('getHTML');
 
-				return $this->ctrl->forwardCommand($pageObjectGUI);
+				if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
+					$pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
+					$pageObjectGUI->setFullscreenLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN);
+					$pageObjectGUI->setSourcecodeDownloadScript($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH);
+				}
+
+				return $this->ctrl->getHTML($pageObjectGUI);
 
 			default:
 				throw new \ilException('Unknown presentation mode given');
