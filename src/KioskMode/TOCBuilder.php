@@ -9,10 +9,10 @@ use ILIAS\UI;
  * Build a nested table of contents for the view.
  */
 interface TOCBuilder {
-	const STATE_NOT_STARTED = 0;
-	const STATE_IN_PROGRESS = 1;
-	const STATE_COMPLETED = 2;
-	const STATE_FAILED = 3;
+	const LP_NOT_STARTED = 0;
+	const LP_IN_PROGRESS = 1;
+	const LP_COMPLETED = 2;
+	const LP_FAILED = 3;
 
 	/**
 	 * Finish building the TOC.
@@ -26,16 +26,16 @@ interface TOCBuilder {
 	 *
 	 * If a parameter is provided, the node in the TOC can be accessed itself.
 	 *
-	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
+	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
-	public function node($label, int $parameter = null, $state = null) : TOCBuilder;
+	public function node($label, int $parameter = null, $lp = null) : TOCBuilder;
 
 	/**
 	 * Build an entry in the TOC.
 	 *
 	 * The parameter will be appended to the command when updating the state.
 	 *
-	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
+	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
 	public function item(string $label, int $parameter, $state = null) : TOCBuilder;
 }
