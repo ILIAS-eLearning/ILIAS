@@ -292,6 +292,12 @@ interface Factory {
 	 *   interaction:
 	 *     1: >
 	 *         Password Input SHOULD NOT limit the number of characters.
+	 *     2: >
+	 *         When used for authentication, Password Input MUST NOT reveal any
+	 *         settings by placing constraints on it.
+	 *     3: >
+	 *         On the other hand, when setting a password, Password Input
+	 *         SHOULD enforce strong passwords by appropiate contraints.
 	 *
 	 * ---
 	 *
