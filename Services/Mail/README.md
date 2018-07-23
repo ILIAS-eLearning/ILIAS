@@ -21,6 +21,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [ilMailNotification](#ilmailnotification)
 * [ilSystemNotification](#ilsystemnotification)
 * [ilAccountMail](#ilaccountmail)
+* [Manual Mail Templates](#manual-mail-templates)
 
 ## General
 
@@ -509,3 +510,96 @@ explicitly set via:
  ```
 
 Internally `\ilAccountMail` makes use of `\ilMimeMail`.
+
+## Manual Mail Templates
+
+The concept of ['Manual Mail Templates'](https://www.ilias.de/docu/goto_docu_wiki_wpage_2703_1357.html) is best described
+as a feature which enables services/modules to
+provide text templates for a 'User-to-User Email' in a
+specific context.
+
+Often tutors / admins send the mails with the same purpose
+and texts to course members, e.g. to ask them if they
+have problems with the course because they have not
+used the course yet.
+
+A module or service MAY announce its mail template
+contexts to the system by adding them to their
+respective *module.xml* or *service.xml*.
+The template context id has to be globally unique.
+An optional path can be added if the module/service
+directory layout differs from the ILIAS standard.
+
+```xml
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id$" id="crs">
+    ...
+    <mailtemplates>
+        <context id="crs_context_manual" class="ilCourseMailTemplateContext" />
+    </mailtemplates>
+</module>
+```
+
+Every mail template context class defined in a
+*module.xml* or *service.xml* has to extend the
+base class `\ilMailTemplateContext`.
+Please implement all abstract methods to make
+a template context usable.
+
+* getId(): string
+* getTitle(): string
+* getDescription(): string
+* getSpecificPlaceholders(): array
+* resolveSpecificPlaceholder(string $placeholderId, array $contextParameters, \ilObjUser $recipient = null, $htmlMarkup = false): string
+
+A collection of context specific placeholders
+can be returned by a simple array definition.
+The key of each element should be a unique
+placeholder id.
+Each placeholder contains (beside its id) a
+placeholder string and a label which is used
+in the user interfaced.
+
+```php
+return array(
+    'crs_title' => array(
+        'placeholder' => 'CRS_TITLE',
+        'label' => $lng->txt('crs_title')
+    ),
+    'crs_link' => array(
+        'placeholder' => 'CRS_LINK',
+        'label' => $lng->txt('crs_mail_permanent_link')
+    )
+);
+```
+
+Usage Example (given the context was previously registered via (module|service).xml):
+
+```php
+global $DIC;
+
+class ilCourseMailTemplateTutorContext extends \ilMailTemplateContext
+{
+    // [...]
+    const ID = 'crs_context_tutor_manual';
+    // [...]
+}
+
+$DIC->ctrl()->redirectToUrl(
+    \ilMailFormCall::getRedirectTarget(
+        $this, // The referring ILIAS controller aka. GUI when redirecting back to the referrer
+        'participants', // The disired command aka. the method to be called when redirecting back to the referrer
+        array(),
+        array(
+           'type' => 'new',
+        ),
+        array(
+            \ilMailFormCall::CONTEXT_KEY => \ilCourseMailTemplateTutorContext::ID,
+            'ref_id' => $courseRefId,
+            'ts'     => time(),
+            // further parameters which will be later automatically passed to your context class 
+        )
+    )
+);
+
+```
