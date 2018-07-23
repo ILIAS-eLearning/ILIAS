@@ -288,15 +288,56 @@ $mailer->Send($transport);
 ## ilMailNotification
 
 `\ilMailNotification` is a **high level** abstraction that can be extended to 
-create a custom mail class.
+create a custom mail for a specific purpose.
 
-Every Service/Module/Plugin in ILIAS can create a specialized class
-for creating and sending mails.
+Every service/module/plugin in ILIAS MAY create a specialized class
+for creating and sending mails. Therefore it MUST used inheritance
+and derive from `\ilMailNotification`.  
 
 ```php
 class MyMailNotification extends \ilMailNotification
 {
-    public function sendMail()
+    // [...]
+    public function send()
+    {
+        try
+        {
+            $this->setSubject('Welcome to ILIAS');
+            $this->setBody('Hello World!');
+            $this->appendBody(\ilMail::_getInstallationSignature());
+
+            $this->sendMail($this->getRecipients(), array('system'));
+        }
+        catch(\ilMailException $e)
+        {
+            // Error handling
+        }
+    }
+    // [...]
+}
+```
+
+The usage could look like this:
+
+```php
+$myMailNotification = new \MyMailNotification();
+$myMailNotification->setRecipients(
+    [
+        4711, 666
+    ]
+);
+$myMailNotification->send();
+```
+
+If the recipients could only be provided as username
+or email address, your can use the third parameter of
+`sendMail()` and pass a boolean `false` .
+
+```php
+class MyMailNotification extends \ilMailNotification
+{
+    // [...]
+    public function send()
     {
         try
         {
@@ -311,34 +352,78 @@ class MyMailNotification extends \ilMailNotification
             // Error handling
         }
     }
+    // [...]
 }
 ```
 
-The use of the implementation could look like this:
+The usage could look like this:
 
 ```php
 $myMailNotification = new \MyMailNotification();
-$this->serRecipients(
+$myMailNotification->setRecipients(
     [
-        'somone@somewhere.com',
-        'somebody@ilias.org'
+        'root', 'dummy@gmail.com'
     ]
 );
+$myMailNotification->send();
+``` 
+
+If you explicitly need to send an external email you
+can use/extend from `\ilMimeMailNotification`. This class itself
+also derives from `\ilMailNotification`.
+Recipients can be provided as:
+
+* Instances of \ilObjUser
+* The internal user id
+* Email address
+
+```php
+class ilRegistrationMailNotification extends \ilMimeMailNotification
+{
+    // [...]
+    public function send()
+    {
+        try
+        {
+            foreach ($this->getRecipients() as $rcp) {
+                $this->initMail();
+                $this->initLanguage($rcp);
+                $this->setSubject('Welcome to ILIAS');
+                $this->setBody('Hello World!');
+                $this->appendBody(\ilMail::_getInstallationSignature());
+
+                $this->getMail()->appendInstallationSignature(true);
+                $this->sendMail(array($rcp),array('system'));
+            }
+        }
+        catch(\ilMailException $e)
+        {
+            // Error handling
+        }
+    }
+    // [...]
+}
 ```
 
-The sender of the mail will be the ILIAS system
-that will be configured via the setup of ILIAS.
+The usage could look like this:
 
-An implementation of this mail class MAY be used to
-sent external and/or internal mails.
+```php
+$myMailNotification = new \ilRegistrationMailNotification();
+$myMailNotification->setRecipients([
+    6,
+    new ilObjUser(6),
+    'dummy@gmail.com'
+]);
+$myMailNotification->send();
+``` 
 
 ## ilSystemNotification
 
-`\ilSystemNotification` is a common used implementation
+`\ilSystemNotification` is a commonly used implementation
 of the previous explained `\ilMailNotification`.
 
 This class is used to create a mail sent by the ILIAS
-system.
+system with a more or less given structure.
 The implementation is used by several modules/services
 to create their own mails.
 
@@ -354,13 +439,6 @@ $mail->setGotoLangId('exc_team_notification_link');
 $mail->setReasonLangId('my_reason');
 $mail->sendMail(array($targetUser->getId()));
 ```
-
-The class creates a system specific mail like
-other implementations of `\ilMailNotification`.
-
-This class will send a mail to an internal
-user on the ILIAS system.
-
 ## ilAccountMail
 
 An instance of `ilAccountMail` MUST be used to sent
