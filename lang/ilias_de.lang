@@ -9346,11 +9346,11 @@ rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
 rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
 rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für "%s"
-rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"###deprecated
+rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"
 rbac#:#rbac_log_link_object#:#Objekt verknüpfen
 rbac#:#rbac_log_move_object#:#Objekt verschieben
 rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für "%s"
-rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"###deprecated
+rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
 rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
