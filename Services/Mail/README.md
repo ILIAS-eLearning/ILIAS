@@ -11,6 +11,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [General](#general)
 * [ilMail](#ilmail)
 * [ilMimeMail](#ilmimemail)
+  * [Sender](#sender)
+  * [Transport](#transport)
 * [ilMailNotification](#ilmailnotification)
 * [ilSystemNotification](#ilsystemnotification)
 * [ilAccountMail](#ilaccountmail)
@@ -99,50 +101,106 @@ the user.
 
 ## ilMimeMail
 
-The `ilMimeMail` creates and sends an external
-mail in the 
+`\ilMimeMail` is a **low level** class to create and send
+an external email in the 
 [Multipurpose Internet Mail Extensions(MIME)](https://en.wikipedia.org/wiki/MIME)
 format.
 
-```php
-$senderMail = 'me@your.ilias.org';
-$recepientMail = 'someone@ilias.org';
-$mailSubject = 'This is MIME Mail';
-$mailBody = 'Hello World!';
+It SHOULD be used whenever you want to explicitly send
+an email to external email addresses. This class is
+mainly used for external procedures, e.g. if 
+user has not yet access to ILIAS, e.g. in the
+registration process.
 
-$mail = new ilMimeMail();
-$mail->From($senderMail);
-$mail->To($recepientMail);
-$mail->Subject($mailSubject);
-$mail->Body($mailBody);
-$mail->send();
+```php
+global $DIC;
+
+/** @var \ilMailMimeSenderFactory $senderFactory */
+$senderFactory = $DIC["mail.mime.sender.factory"];
+$sender        = $senderFactory->system();
+
+$mailer = new \ilMimeMail();
+$mailer->From($sender);
+
+$mailer->To(explode(',', [
+    'dummy1@gmail.com',
+    'dummy2@web.de',
+]));
+$mailer->Cc(explode(',', [
+    'dummy3@yahoo.com'
+]));
+$mailer->Bcc(explode(',', [
+    'dummy4@aol.com'
+]));
+
+$mailer->Subject($subject);
+$mailer->Body($plainText);
+
+$mailer->Attach(
+    '/srv/www/ilias5/data/defaultclient/ilFile/4/file_400/001/composer.json',
+    'application/json',
+    'inline',
+    'Composer.json'
+);
+$mailer->Attach(
+    '/srv/www/ilias5/data/defaultclient/ilFile/4/file_401/001/composer.json',
+    'application/json',
+    'inline',
+    'AnotherComposer.json'
+);
+
+$mailer->Send();
 ```
 
-The example will create the mail and
-send it to the defined recipient.
+Subject and body MUST be of type plain text and MUST NOT contain any HTML fragments.
+`\ilMimeMail` wraps an HTML structure around the message body (see: [HTML Mails with Skin](https://www.ilias.de/docu/goto_docu_wiki_wpage_3506_1357.html)) 
+passed by the consumer when preparing the email transport.
+It automatically transforms newline characters to HTML linebreak elements.
+The original message body is used as *text/plain* alternative,
+the processed body is used as *text/html* alternative.
 
-A `ilMimeMail` will be used to send external mails.
-The according method to sent a mail need the
-recipient and the sender to be entered as mail addresses
-instead of user IDs like in [ilMail](#ilmail).
+### Sender
 
-The sender and the recipient SHOULD
-both be contactable via the entered email addresses.
+Since ILIAS 5.3.x the `$sender` cannot be passed as a primitive
+data type anymore. A sender must implement `\ilMailMimeSender`.
+ILIAS currently provides two different implementations:
 
-This class is e.g. used for external procedures, because
-the user e.g. has no access to the ILIAS system like in the
-registration process.
+1. ilMailMimeSenderSystem
+2. ilMailMimeSenderUser
+
+Both instances can be retrieved by the globally available `\ilMailMimeSenderFactory`,
+registered in the dependency container (`$DIC["mail.mime.sender.factory"]`).
+
+The first MUST be used whenever an email is sent with the purpose of a *System Email*.
+The second type MUST be used for a *User-to-User Email*.
+
+### Transport
+
+The actual transport is decoupled from `\ilMimeMail`. `\ilMimeMail` uses
+the determined transport strategy given by the
+`\ilMailMimeTransportFactory` instance which is available in
+the dependency injection container (`$DIC["mail.mime.transport.factory"]`).
+
+A transport strategy must follow the definition of
+the `\ilMailMimeTransport` interface. A different transport could be
+globally set via `\ilMimeMail::setDefaultTransport`, or just for
+the next call of `Send()` by passing an instance of `\ilMailMimeTransport` as
+argument:
+
+```php
+$mailer->Send($transport);
+```
 
 ## ilMailNotification
 
-`ilMailNotification` is an abstract class that can be implemented to 
+`\ilMailNotification` is an abstract class that can be implemented to 
 create a custom mail classes.
 
 Every Service/Module/Plugin in ILIAS can create a specialized class
 for creating and sending mails.
 
 ```php
-class MyMailNotification extends ilMailNotification
+class MyMailNotification extends \ilMailNotification
 {
 	public function sendMail()
 	{
@@ -177,8 +235,8 @@ sent external and/or internal mails.
 
 ## ilSystemNotification
 
-`ilSystemNotification` is a common used implementation
-of the previous explained `ilMailNotification`.
+`\ilSystemNotification` is a common used implementation
+of the previous explained `\ilMailNotification`.
 
 This class is used to create a mail sent by the ILIAS
 system.
@@ -186,7 +244,7 @@ The implementation is used by several modules/services
 to create it own mails.
 
 ```php
-$mail = new ilSystemNotification();
+$mail = new \ilSystemNotification();
 $mail->setLangModules(array('user'));
 $mail->setRefId($refId);
 $mail->setChangedByUserId($user->getId());
@@ -199,7 +257,7 @@ $mail->sendMail(array($targetUser->getId()));
 ```
 
 The class create a system specific mail like
-other implementations of `ilMailNotification`.
+other implementations of `\ilMailNotification`.
 
 This class will send a mail to an internal
 user on the ILIAS system.
@@ -207,7 +265,7 @@ user on the ILIAS system.
 ## ilAccountMail
 
 An instance of `ilAccountMail` MUST be used to sent
-external emails whenever an user account was created
+external emails whenever a user account was created
 in ILIAS. It's main purpose is to provide user
 account information in the self registration process.
 
@@ -252,7 +310,7 @@ global $DIC;
 
 $user = $DIC->user();
 
-$accountMail = new ilAccountMail();
+$accountMail = new \ilAccountMail();
 $accountMail->setUser($user);
 
 $accountMail->send();
@@ -273,4 +331,4 @@ explicitly set via:
  $acc_mail->setUserPassword($rawPassword);
  ```
 
-Internally `ilAccountMail` makes use of `ilMimeMail`.
+Internally `\ilAccountMail` makes use of `\ilMimeMail`.
