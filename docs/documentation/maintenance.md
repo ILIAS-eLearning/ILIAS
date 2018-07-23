@@ -534,7 +534,7 @@ The code base is deviced in several components:
 
 * **WebDAV**
 	* 1st Maintainer: [fawinike](http://www.ilias.de/docu/goto_docu_usr_44474.html)
-	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [rheer](http://www.ilias.de/docu/goto_docu_usr_47872.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
