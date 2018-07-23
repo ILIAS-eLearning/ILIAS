@@ -59,7 +59,7 @@ class ilLPStatus
 		$this->db = $ilDB;
 
 		if (null === $certificateQueueRepository) {
-			$certificateQueueRepository = new ilCertificateQueueRepository($DIC->database());
+			$certificateQueueRepository = new ilCertificateQueueRepository($DIC->database(), $DIC->logger()->root());
 		}
 		$this->certificateQueueRepository = $certificateQueueRepository;
 
@@ -248,8 +248,8 @@ class ilLPStatus
 			$object = ilObjectFactory::getInstanceByObjId($a_obj_id);
 			$type = $object->getType();
 
-			if ($this->certificateClassMap->typeExists($type)) {
-				$className = $this->certificateClassMap->getClassNameByType($type);
+			if ($this->certificateClassMap->typeExistsInMap($type)) {
+				$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
 				$entry = new ilCertificateQueueEntry(
 					$a_obj_id,

@@ -4,10 +4,11 @@
 class ilCertificateTypeClassMap
 {
 	private $typeClassMap = array(
-		'crs'   => 'ilCourseCertificateAdapter',
-		'tst'   => 'ilTestCertificateAdapter',
-		'exc'   => 'ilExerciseCertificateAdapter',
-		'scorm' => 'ilScormCertificateAdapter'
+		'crs'   => array('placeholder' => 'CoursePlaceholderValues'),
+		'tst'   => array('placeholder' => 'TestPlaceHolderValues'),
+		'exc'   => array('placeholder' =>'ilExercisePlaceHolderValues'),
+		'scorm' => array('placeholder' =>'ilDefaultPlaceholderValues'),
+		'skill' => array('placeholder' =>'ilDefaultPlaceholderValues')
 	);
 
 	/**
@@ -15,19 +16,19 @@ class ilCertificateTypeClassMap
 	 * @return array
 	 * @throws ilException
 	 */
-	public function getClassNameByType($type)
+	public function getPlaceHolderClassNameByType($type)
 	{
-		if (false === $this->typeExists($type)) {
+		if (false === $this->typeExistsInMap($type)) {
 			throw new ilException('The given type ' . $type . 'is not mapped as a class on the class map');
 		}
-		return $this->typeClassMap[$type];
+		return $this->typeClassMap[$type]['placeholder'];
 	}
 
 	/**
 	 * @param string $type
 	 * @return bool
 	 */
-	public function typeExists($type)
+	public function typeExistsInMap($type)
 	{
 		return array_key_exists($type, $this->typeClassMap);
 	}
