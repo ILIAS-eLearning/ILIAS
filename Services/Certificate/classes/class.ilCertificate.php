@@ -75,13 +75,25 @@ class ilCertificate
 	private $templateRepository;
 
 	/**
+	 * @var ilCertificatePlaceholderDescription
+	 */
+	private $placeholderDescriptionObject;
+
+	/**
+	 * @var integer
+	 */
+	private $objectId;
+	/**
 	 * ilCertificate constructor
 	 * @param ilCertificateAdapter $adapter The certificate adapter needed to construct the certificate
+	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilUserCertificateRepository|null $certificateRepository
 	 */
 	public function __construct(
 		ilCertificateAdapter $adapter,
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		$objectId,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilUserCertificateRepository $certificateRepository = null
 	) {
@@ -96,6 +108,10 @@ class ilCertificate
 		$this->db       = $DIC['ilDB'];
 
 		$this->adapter = $adapter;
+
+		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
+
+		$this->objectId = $objectId;
 
 		if ($templateRepository === null) {
 			$templateRepository = new ilCertificateTemplateRepository($DIC->database());
@@ -512,17 +528,13 @@ class ilCertificate
 			$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($cust_data["f_".$k]);
 		}
 
-//		$xslfo = file_get_contents($this->getXSLPath());
-
-		$objId = $this->getAdapter()->getCertificateID();
-
 		/** @var ilObject $object */
-		$object = ilObjectFactory::getInstanceByObjId($objId);
+		$object = ilObjectFactory::getInstanceByObjId($this->objectId);
 
 		/** @var ilObjUser $user */
 		$user = ilObjectFactory::getInstanceByObjId($params['user_id']);
 
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 		// render tex as fo graphics
 		$xslfo = ilMathJax::getInstance()
@@ -537,7 +549,7 @@ class ilCertificate
 
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),
-				$objId,
+				$this->objectId,
 				$object->getType(),
 				$user->getId(),
 				$user->getFullname(),
@@ -582,8 +594,7 @@ class ilCertificate
 	{
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$objId = $this->adapter->getCertificateID();
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 		$xslfo = $template->getCertificateContent();
 
@@ -703,8 +714,7 @@ class ilCertificate
 	{
 		if(self::isActive())
 		{
-			$obj_id = $this->getAdapter()->getCertificateID();
-			if($obj_id && !self::isObjectActive($obj_id))
+			if($this->objectId && !self::isObjectActive($this->objectId))
 			{
 				return FALSE;
 			}
@@ -736,7 +746,7 @@ class ilCertificate
 				{
 					return FALSE;
 				}
-			
+
 				$certificatepath = $adapter->getCertificatePath();
 				if (file_exists($certificatepath))
 				{
@@ -750,7 +760,7 @@ class ilCertificate
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	* Retrieves predefined page formats
 	*
@@ -909,15 +919,13 @@ class ilCertificate
 							return 'url(' . $basePath . '/' . $fileName . ')';
 						}, $xsl);
 
-						$objId = $this->adapter->getCertificateID();
-
-						$this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+						$this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 						$template = new ilCertificateTemplate(
 							$objId,
 							$xsl,
 							md5($xsl),
-							json_encode($this->adapter->getCertificateVariablesForPresentation()),
+							json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
 							'1',
 							ILIAS_VERSION_NUMERIC,
 							time(),
@@ -1083,8 +1091,7 @@ class ilCertificate
 	 */
 	public function readActive()
 	{
-		$obj_id = $this->adapter->getCertificateID();
-		$set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($obj_id, "integer"));
+		$set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		return $this->db->numRows($set);
 	}
 
@@ -1093,15 +1100,13 @@ class ilCertificate
 	 */
 	public function writeActive($a_value)
 	{
-		$obj_id = $this->adapter->getCertificateID();
-
 		if((bool)$a_value)
 		{
-			$this->db->replace("il_certificate", array("obj_id" => array("integer", $obj_id)), array());
+			$this->db->replace("il_certificate", array("obj_id" => array("integer", $this->objectId)), array());
 		}
 		else
 		{
-			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($obj_id, "integer"));
+			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		}
 	}
 	
