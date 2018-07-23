@@ -341,12 +341,11 @@ class ilCertificateGUI
 	}
 
 	/**
-	 * @param $form
-	 * @param $form_fields
-	 * @param $adapter
+	 * @param ilPropertyFormGUI $form
+	 * @param array $form_fields
 	 * @param $objId
 	 */
-	private function saveCertificate(ilPropertyFormGUI $form, $form_fields, $objId)
+	private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId)
 	{
 		if ($_POST["background_delete"]) {
 			$this->certifcateObject->deleteBackgroundImage();
