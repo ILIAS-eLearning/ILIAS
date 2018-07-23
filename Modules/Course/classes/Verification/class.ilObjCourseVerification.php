@@ -50,9 +50,13 @@ class ilObjCourseVerification extends ilVerificationObject
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
 		
 		// create certificate
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($a_course));
+		$certificate = new ilCertificate(
+			new ilCourseCertificateAdapter($a_course),
+			new CoursePlaceholderDescription(),
+			$a_course->getId(),
+			ilCertificatePathConstants::COURSE_PATH . $a_course->getId() . '/'
+		);
+
 		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
 		
 		// save pdf file

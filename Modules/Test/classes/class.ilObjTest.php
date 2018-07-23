@@ -7361,10 +7361,22 @@ function getAnswerFeedbackPoints()
 		$newObj->saveToDb();
 		
 		// clone certificate
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$cert = new ilCertificate(new ilTestCertificateAdapter($this));
-		$newcert = new ilCertificate(new ilTestCertificateAdapter($newObj));
+		$placeHolderDescriptionObject = new TestPlaceholderDescription();
+
+		$cert = new ilCertificate(
+			new ilTestCertificateAdapter($this),
+			$placeHolderDescriptionObject,
+			$this->getId(),
+			ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
+		);
+
+		$newcert = new ilCertificate(
+			new ilTestCertificateAdapter($newObj),
+			$placeHolderDescriptionObject,
+			$newObj->getId(),
+			ilCertificatePathConstants::TEST_PATH . $newObj->getId() . '/'
+		);
+
 		$cert->cloneCertificate($newcert);
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
@@ -10508,9 +10520,13 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->canShowTestResults($testSession))
 		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-			$cert = new ilCertificate(new ilTestCertificateAdapter($this));
+			$cert = new ilCertificate(
+				new ilTestCertificateAdapter($this),
+				new TestPlaceholderDescription(),
+				$this->getId(),
+				ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
+			);
+
 			if ($cert->isComplete())
 			{
 				$vis = $this->getCertificateVisibility();

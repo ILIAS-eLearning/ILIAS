@@ -331,9 +331,14 @@ class ilObjTestGUI extends ilObjectGUI
 			case "ilcertificategui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				require_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				require_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+
+				$output_gui = new ilCertificateGUI(
+					new ilTestCertificateAdapter($this->object),
+					new TestPlaceholderDescription(),
+					$this->obj_id,
+					ilCertificatePathConstants::TEST_PATH . $this->obj_id . '/'
+				);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -3000,9 +3005,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+		$output_gui = new ilCertificateGUI(
+			new ilTestCertificateAdapter($this->object),
+			new TestPlaceholderDescription(),
+			$this->obj_id
+		);
+
 		$output_gui->certificateEditor();
 	}
 	

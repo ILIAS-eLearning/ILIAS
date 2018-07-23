@@ -262,12 +262,23 @@ class ilObjExercise extends ilObject
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
-		
-		// #18945
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$cert = new ilCertificate(new ilExerciseCertificateAdapter($this));
-		$newcert = new ilCertificate(new ilExerciseCertificateAdapter($new_obj));
+
+		$placeholderDescriptionObject = new ExercisePlaceholderDescription();
+
+		$cert = new ilCertificate(
+			new ilExerciseCertificateAdapter($this),
+			$placeholderDescriptionObject,
+			$this->getId().
+			ilCertificatePathConstants::EXERCISE_PATH . $this->getId() . '/'
+		);
+
+		$newcert = new ilCertificate(
+			new ilExerciseCertificateAdapter($new_obj),
+			$placeholderDescriptionObject,
+			$new_obj->getId(),
+			ilCertificatePathConstants::EXERCISE_PATH . $new_obj->getId() . '/'
+		);
+
 		$cert->cloneCertificate($newcert);
 			
 		return $new_obj;

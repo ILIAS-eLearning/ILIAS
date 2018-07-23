@@ -95,9 +95,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case "ilcertificategui":
 				$this->setSettingsSubTabs();
 				$ilTabs->setSubTabActive('certificate');
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
+
+				$output_gui = new ilCertificateGUI(
+					new ilSCORMCertificateAdapter($this->object),
+					new ilScormPlaceholderDescription(),
+					$this->obj_id,
+					ilCertificatePathConstants::SCORM_PATH . $this->obj_id . '/'
+				);
+
 				$ret = $this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -658,9 +663,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function certificate()
 	{
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
+		$output_gui = new ilCertificateGUI(
+			new ilSCORMCertificateAdapter($this->object),
+			new ilScormPlaceholderDescription(),
+			$this->obj_id,
+			ilCertificatePathConstants::SCORM_PATH .$this->obj_id . '/'
+		);
+
 		$output_gui->certificateEditor();
 	}
 	

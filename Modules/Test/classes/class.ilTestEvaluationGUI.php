@@ -335,12 +335,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				'csv'   => $this->lng->txt('exp_type_spss')
 			);
 			
-			if(!$this->object->getAnonymity())
-			{
-				include_once 'Services/Certificate/classes/class.ilCertificate.php';
-				include_once 'Modules/Test/classes/class.ilTestCertificateAdapter.php';
-				if(ilCertificate::_isComplete(new ilTestCertificateAdapter($this->object)))
-				{
+			if(!$this->object->getAnonymity()) {
+				$certificate = new ilCertificate(
+					new ilTestCertificateAdapter($this->object),
+					new TestPlaceholderDescription(),
+					$this->object->getId(),
+					ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
+				);
+
+				if($certificate->isComplete(new ilTestCertificateAdapter($this->object))) {
 					$options['certificate'] = $this->lng->txt('exp_type_certificate');
 				}
 			}
@@ -852,11 +855,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function exportCertificate()
 	{
 		global $ilUser;
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
+
+		$certificate = new ilCertificate(
+			new ilTestCertificateAdapter($this->object),
+			new TestPlaceholderDescription(),
+			$this->object->getId(),
+			ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
+		);
+
 		$archive_dir = $certificate->createArchiveDirectory();
 		$total_users = array();
 		
@@ -1785,9 +1791,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		$testSession = $this->testSessionFactory->getSession();
 		
-		require_once './Services/Certificate/classes/class.ilCertificate.php';
-		require_once './Modules/Test/classes/class.ilTestCertificateAdapter.php';
-		$certificate = new ilCertificate(new ilTestCertificateAdapter( $this->object ) );
+		$certificate = new ilCertificate(
+			new ilTestCertificateAdapter($this->object),
+			new TestPlaceholderDescription(),
+			$this->object->getId(),
+			ilCertificatePathConstants::TEST_PATH .  $this->object->getId() . '/'
+		);
+
 		$certificate->outCertificate(
 			array(
 				"active_id" => $testSession->getActiveId(), 

@@ -2567,9 +2567,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
 				
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+				$output_gui = new ilCertificateGUI(
+					new ilCourseCertificateAdapter($this->object),
+					new CoursePlaceholderDescription(),
+					$this->object->getId(),
+					ilCertificatePathConstants::COURSE_PATH . $this->object->getId() . '/'
+				);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -2646,7 +2650,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-				
+
 				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberCourseRoles());
 				$mail_search->setObjParticipants(
 					ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
@@ -2798,9 +2802,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$database = $DIC->database();
 
-		$provider = new ilUserCertificateRepository($database);
+		$logger = $DIC->logger()->root();
 
-		$tbl = new ilUserCertificateTableGUI($this, 'show');
+		$provider = new ilUserCertificateRepository($database, $logger);
+
+		$table = new ilUserCertificateTableGUI($this, 'show');
 		$certificates = $provider->fetchActiveCertificates($DIC->user()->getId());
 
 		$data = array();
@@ -2810,16 +2816,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			/** @var ilObject $object */
 			$object = ilObjectFactory::getInstanceByObjId($certificate->getObjId());
 
+			$acquiredTimestamp = $certificate->getAcquiredTimestamp();
 			$data[] = array(
 				'id'    => $certificate->getId(),
 				'title' => $object->getTitle(),
-				'date'  => $object->getCreateDate()
+				'date'  => ilDatePresentation::formatDate(new ilDateTime($acquiredTimestamp, IL_CAL_UNIX))
 			);
 		}
 
-		$tbl->setData($data);
+		$table->setData($data);
 
-		$this->tpl->setContent($tbl->getHTML());
+		$this->tpl->setContent($table->getHTML());
 
 	}
 	
@@ -3419,7 +3426,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$user_id = $ilUser->getId();
 		}
 		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if(!ilCertificate::isActive() ||
 			!ilCertificate::isObjectActive($this->object->getId()) ||
 			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
@@ -3428,9 +3434,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->redirect($this);
 		}
 		
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $user_id), true);				
+		$certificate = new ilCertificate(
+			new ilCourseCertificateAdapter($this->object),
+			new CoursePlaceholderDescription(),
+			$this->object->getId(),
+			ilCertificatePathConstants::COURSE_PATH . $this->object->getId() . '/'
+		);
+
+		$certificate->outCertificate(array("user_id" => $user_id), true);
 	}
 	
 	

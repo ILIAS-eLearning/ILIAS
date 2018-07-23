@@ -63,10 +63,15 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 			{			
 				// #11210 - only available certificates!
 				if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $crs_id))															
-				{						
-					$crs = new ilObjCourse($crs_id, false);	
-					$adapter = new ilCourseCertificateAdapter($crs);
-					if(ilCertificate::_isComplete($adapter))
+				{
+					$certificate = new ilCertificate(
+						new ilCourseCertificateAdapter(ilObjectFactory::getInstanceByObjId($crs_id)),
+						new CoursePlaceholderDescription(),
+						$crs_id,
+						ilCertificatePathConstants::COURSE_PATH . $crs_id . '/'
+					);
+
+					if($certificate->isComplete())
 					{							
 						$data[] = array("id" => $crs_id,
 							"title" => ilObject::_lookupTitle($crs_id),
