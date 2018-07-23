@@ -265,7 +265,19 @@ class ilCertificateGUI
 	*/
 	function certificateSave()
 	{
-		$this->certificateEditor();
+		$form_fields = $this->getFormFieldsFromPOST();
+
+		$form = $this->settingsFormFactory->create(
+			$this->objectId,
+			$this,
+			$this->certifcateObject,
+			$form_fields
+		);
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		$this->saveCertificate($form, $form_fields, $this->objectId);
+
 	}
 
 	/**
@@ -312,34 +324,20 @@ class ilCertificateGUI
 	*/
 	public function certificateEditor()
 	{
-		$adapter = $this->certifcateObject->getAdapter();
-		$objId = $adapter->getCertificateID();
-
-		$command = $this->ctrl->getCmd();
-
-		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 		$content = $certificate->getCertificateContent();
 
-		if(strcmp($command, "certificateSave") == 0) {
-			$form_fields = $this->getFormFieldsFromPOST();
-		}
-		else {
-			$form_fields = $this->xlsFoParser->parse($content);
-			$form_fields["active"] = $this->certifcateObject->readActive();
-		}
+		$form_fields = $this->xlsFoParser->parse($content);
+		$form_fields["active"] = $this->certifcateObject->readActive();
 
 		$form = $this->settingsFormFactory->create(
-			$objId,
+			$this->objectId,
 			$this,
 			$this->certifcateObject,
 			$form_fields
 		);
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-
-		if (strcmp($command, "certificateSave") == 0) {
-			$this->saveCertificate($form, $form_fields, $adapter, $objId);
-		}
 	}
 
 	/**
@@ -348,7 +346,7 @@ class ilCertificateGUI
 	 * @param $adapter
 	 * @param $objId
 	 */
-	private function saveCertificate(ilPropertyFormGUI $form, $form_fields, $adapter, $objId)
+	private function saveCertificate(ilPropertyFormGUI $form, $form_fields, $objId)
 	{
 		if ($_POST["background_delete"]) {
 			$this->certifcateObject->deleteBackgroundImage();
@@ -359,7 +357,7 @@ class ilCertificateGUI
 				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields);
 				$this->certifcateObject->getAdapter()->saveFormFields($form_fields);
 
-				$templateValues = $adapter->getCertificateVariablesDescription();
+				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
 
 				$version = 1;
 
