@@ -72,6 +72,16 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	protected $log;
 
 	/**
+	 * @var ILIAS\UI\Factory
+	 */
+	protected $uiFactory;
+
+	/**
+	 * @var ILIAS\UI\Renderer
+	 */
+	protected $uiRenderer;
+
+	/**
 	 * @param int $a_id
 	 * @param int $a_id_type
 	 * @param int $a_parent_node_id
@@ -90,6 +100,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$this->log        = $DIC['ilLog'];
 		$this->toolbar    = $DIC['ilToolbar'];
 		$this->user       = $DIC['ilUser'];
+
+		$this->uiFactory  = $DIC->ui()->factory();
+		$this->uiRenderer = $DIC->ui()->renderer();
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -304,33 +317,15 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 
 		$this->lng->loadLanguageModule('meta');
 
-		if($this->rbacsystem->checkAccess('write', $this->object->getRefId()))
-		{
-			$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'settings'));
-			$this->toolbar->addFormButton($this->lng->txt('tos_reset_tos_for_all_users'), 'confirmReset');
-		}
-
-		$this->showLastResetDate();
-
 		$table = new ilTermsOfServiceAgreementByLanguageTableGUI($this, 'showAgreementByLanguage');
 		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
 		$table->populate();
 
-		$this->tpl->setContent($table->getHTML());
-	}
 
-	/**
-	 *
-	 */
-	protected function showLastResetDate()
-	{
-		if($this->object->getLastResetDate() && $this->object->getLastResetDate()->get(IL_CAL_UNIX) != 0)
-		{
-			$status = ilDatePresentation::useRelativeDates();
-			ilDatePresentation::setUseRelativeDates(false);
-			$this->toolbar->addText(sprintf($this->lng->txt('tos_last_reset_date'), ilDatePresentation::formatDate($this->object->getLastResetDate())));
-			ilDatePresentation::setUseRelativeDates($status);
-		}
+		$this->tpl->setContent(implode('', [
+			$this->getResetMessageBoxHtml(),
+			$table->getHTML()
+		]));
 	}
 
 	/**
@@ -519,5 +514,38 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$table->resetFilter();
 
 		$this->showAcceptanceHistory();
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getResetMessageBoxHtml(): string
+	{
+		if ($this->object->getLastResetDate() && $this->object->getLastResetDate()->get(IL_CAL_UNIX) != 0) {
+			$status = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			$resetText = sprintf(
+				$this->lng->txt('tos_last_reset_date'),
+				ilDatePresentation::formatDate($this->object->getLastResetDate())
+			);
+			ilDatePresentation::setUseRelativeDates($status);
+		} else {
+			$resetText = $this->lng->txt('tos_never_reset');
+		}
+
+		$buttons = [];
+		if($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
+			$buttons = [
+				$this->uiFactory
+					->button()
+					->standard($this->lng->txt('tos_reset_tos_for_all_users'), $this->ctrl->getLinkTarget($this, 'confirmReset'))
+			];
+		}
+
+		return $this->uiRenderer->render(
+			$this->uiFactory->messageBox()
+				->info($resetText)
+				->withButtons($buttons)
+		);
 	}
 }

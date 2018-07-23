@@ -10349,6 +10349,7 @@ common#:#edited_on#:#Bearbeitet am
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
 tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_agreement_exists#:#Vorhanden
