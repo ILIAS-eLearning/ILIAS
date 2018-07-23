@@ -2085,7 +2085,7 @@ common#:#editor#:#Editor
 common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
-common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
+common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
@@ -7441,7 +7441,7 @@ trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplish
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
 trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_manual_by_tutor#:#Tutors Monitor and Set Status
-trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the learning module. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
+trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the object. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
 trac#:#trac_mode_manual#:#Users Monitor and Set Status Themselves (Complete Module)
 trac#:#trac_mode_objectives_info#:#The learning progress will be automatically determined according to the number of passed learning objectives.
 trac#:#trac_mode_objectives#:#Status is Determined by Learning Objectives
@@ -12682,8 +12682,8 @@ note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_link#:#Link
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
-trac#:#trac_mode_downloaded#:#Downloaded
-trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
+trac#:#trac_mode_content_visited#:#Visited
+trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
 trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
@@ -14221,6 +14221,24 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+common#:#obj_copa#:#Content Page
+common#:#objs_copa#:#Content Pages
+rbac#:#copa_visible#:#Content Page is visible
+rbac#:#copa_read#:#User can read Content Page
+rbac#:#copa_copy#:#Copy Content Page
+rbac#:#copa_write#:#User can edit Content Page
+rbac#:#copa_delete#:#User can move or delete Content Page
+rbac#:#copa_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_copa#:#Create Content Page
+rbac#:#copa_read_learning_progress#:#User can view learning progress of other users
+rbac#:#copa_edit_learning_progress#:#User can edit learning progress settings
+copa#:#copa_new#:#Create Content Page
+copa#:#copa_import#:#Import Content Page
+copa#:#copa_copy#:#Copy Content Page
+copa#:#copa_add#:#Add Content Page
+copa#:#copa_edit#:#Edit Content Page
+copa#:#obj_copa_duplicate#:#Duplicate Content Page
+adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.

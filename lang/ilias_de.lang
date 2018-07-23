@@ -2555,7 +2555,7 @@ common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
-common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
+common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
 common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
 common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
@@ -9137,10 +9137,10 @@ trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht an
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
 trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
-trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Lernmodul.
+trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
 trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
 trac#:#trac_mode_manual_by_tutor_info#:#Tutoren entscheiden, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
-trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Lernmodul erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
+trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Objekt erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_scorm#:#Status wird anhand einer Auswahl von SCORM-Kapiteln bestimmt (je SCO)
@@ -12692,8 +12692,8 @@ note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_link#:#Link
 lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
 lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung
-trac#:#trac_mode_downloaded#:#Heruntergeladen
-trac#:#trac_mode_downloaded_info#:#Der Lernstand wird über das Herunterladen der Datei bestimmt.
+trac#:#trac_mode_content_visited#:#Besuch
+trac#:#trac_mode_content_visited_info#:#Der Lernstand wird über das Ausliefern des Inhalts bestimmt.
 trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
 trac#:#trac_mode_collection_mobs_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt.
 trac#:#trac_lp_determination_info_mob#:#Auswahl der Medienobjekte, anhand derer der Gesamtstatus des Mediacast ermittelt wird.
@@ -14224,6 +14224,24 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
+common#:#obj_copa#:#Inhaltsseite
+common#:#objs_copa#:#Inhaltsseiten
+rbac#:#copa_visible#:#Inhaltsseite ist sichtbar
+rbac#:#copa_read#:#Inhaltsseite lesen
+rbac#:#copa_copy#:#Inhaltsseite kopieren
+rbac#:#copa_write#:#Inhaltsseite bearbeiten
+rbac#:#copa_delete#:#Inhaltsseite löschen
+rbac#:#copa_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#copa_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#copa_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
+copa#:#copa_new#:#Neue Inhaltsseite anlegen
+copa#:#copa_import#:#Inhaltsseite importieren
+copa#:#copa_copy#:#Inhaltsseite kopieren
+copa#:#copa_add#:#Inhaltsseite hinzufügen
+copa#:#copa_edit#:#Inhaltsseite bearbeiten
+copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.

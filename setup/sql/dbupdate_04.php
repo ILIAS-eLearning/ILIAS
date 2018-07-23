@@ -22281,3 +22281,101 @@ if($ilSetting->get('show_mail_settings', false) === false)
 	$ilSetting->set('show_mail_settings', 1);
 }
 ?>
+<#5278>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$type_id  = ilDBUpdateNewObjectType::addNewType('copa', 'Content Page Object');
+
+ilDBUpdateNewObjectType::addRBACOperations($type_id, [
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY
+]);
+
+ilDBUpdateNewObjectType::addRBACCreate('create_copa', 'Create Content Page Object', [
+	'root',
+	'cat',
+	'crs',
+	'fold',
+	'grp'
+]);
+?>
+<#5279>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id  = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
+	$lp_types = array('copa');
+
+	foreach ($lp_types as $lp_type) {
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+
+		if ($lp_type_id) {
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
+}
+?>
+<#5280>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5281>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::applyInitialPermissionGuideline('copa', true);
+?>
+<#5282>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5283>
+<?php
+if (!$ilDB->tableExists('content_page_data')) {
+	$fields = array(
+		'content_page_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'stylesheet'    => array(
+			'type'    => 'integer',
+			'notnull' => true,
+			'length'  => 4,
+			'default' => 0
+		)
+	);
+
+	$ilDB->createTable('content_page_data', $fields);
+	$ilDB->addPrimaryKey('content_page_data', array('content_page_id'));
+}
+?>
+<#5284>
+<?php
+$res = $ilDB->queryF(
+	'SELECT * FROM object_data WHERE type = %s',
+	['text'],
+	['copa']
+);
+
+while($data = $ilDB->fetchAssoc($res)) {
+	$ilDB->replace(
+		'content_page_data',
+		[
+			'content_page_id' => ['integer', (int)$data['obj_id']]
+		],
+		[]
+	);
+}
+?>

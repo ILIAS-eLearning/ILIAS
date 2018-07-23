@@ -83,6 +83,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
  		$this->__showProgressList();
 	}
 
+	/**
+	 * 
+	 */
+	protected function saveProgress()
+	{
+		$info = new ilInfoScreenGUI($this);
+		$info->setContextRefId((int)$this->ref_id);
+		$info->setContextObjId((int)$this->details_obj_id);
+		$info->setContentObjType($this->obj_type);
+		$info->saveProgress(false);
+		$this->ctrl->redirect($this);
+	}
+
 	function details()
 	{
 		global $DIC;
@@ -117,6 +130,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setContextRefId((int)$this->details_id);
+		$info->setContextObjId((int)$this->details_obj_id);
+		$info->setContentObjType($this->obj_type);
+		$info->enableLearningProgress(true);
 		$info->setFormAction($ilCtrl->getFormAction($this));
 		$this->__appendUserInfo($info, $this->tracked_user);		
 		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
