@@ -13,6 +13,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [ilMimeMail](#ilmimemail)
 * [ilMailNotification](#ilmailnotification)
 * [ilSystemNotification](#ilsystemnotification)
+* [ilAccountMail](#ilaccountmail)
 
 ## General
 
@@ -205,14 +206,53 @@ user on the ILIAS system.
 
 ## ilAccountMail
 
-An object of `ilAccountMail` is used to sent user
-specific data to an given mail address.
+An instance of `ilAccountMail` MUST be used to sent
+external emails whenever an user account was created
+in ILIAS. It's main purpose is to provide user
+account information in the self registration process.
 
-This mail is often used in registration processes.
+The contents of this email can be configured in
+**Administration » User Management » New Account Mail**.
+Subject and body can be defined for each installed
+language. Furthermore placeholders can be used, being
+replaced with the user's account data when the email
+is sent:
+
+* \[MAIL_SALUTATION\]: Salutation
+* \[FIRST_NAME\]: First Name
+* \[LAST_NAME\]: Last Name
+* \[EMAIL\]: E-Mail
+* \[LOGIN\]: Login Account
+* \[PASSWORD\]: Password
+* \[IF_PASSWORD\]...\[/IF_PASSWORD\]: This text block is only included, if the new user account has been created including a password.
+* \[IF_NO_PASSWORD\]...\[/IF_NO_PASSWORD\]: This text block is only included, if the new user account has been created without a password.
+* \[ADMIN_MAIL\]: Mail address of Administrator
+* \[ILIAS_URL\]: URL of ILIAS system
+* \[CLIENT_NAME\]: Client Name
+* \[TARGET\]: URL of target item, e.g. a linked course that is passed to ILIAS from outside.
+* \[TARGET_TITLE\]: Title of target item, e.g. course title.
+* \[TARGET_TYPE\]: Type of target item, e.g. ‘Course’ for a course item.
+* \[IF_TARGET\]...\[/IF_TARGET\]: This text is only included, if a target item is provided.
+* \[IF_TIMELIMIT\]...\[/IF_TIMELIMIT\]: This text is only included, if the user has a limited access period.
+* \[TIMELIMIT\]: User access period
+
+The object tries to determine subject and body based
+on the user's language. If this fails, the system
+language is used as a fallback for determination. 
+If this fails again, there is an optional second
+fallback by using the following language variables:
+
+* reg_mail_body_salutation
+* reg_mail_body_text1
+* reg_mail_body_text2
+* reg_mail_body_text3
 
 ```php
+global $DIC;
+
+$user = $DIC->user();
+
 $accountMail = new ilAccountMail();
-$accountMail->useLangVariablesAsFallback(true);
 $accountMail->setUser($user);
 
 $accountMail->send();
@@ -220,10 +260,17 @@ $accountMail->send();
 
 This will create a default mail with the look
 of a registration mail.
-The line:
+
+To enable the language variable fallback the
+following mutator has to be called with a
+boolean true as it's argument:
 ```php
 $accountMail->useLangVariablesAsFallback(true);
 ```
+If a raw password should be included, it must be
+explicitly set via:
+```php
+ $acc_mail->setUserPassword($rawPassword);
+ ```
 
-Defines the subject and the body in the ILIAS
-default form.
+Internally `ilAccountMail` makes use of `ilMimeMail`.
