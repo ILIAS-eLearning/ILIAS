@@ -134,8 +134,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$output_gui = new ilCertificateGUI(
 					new ilExerciseCertificateAdapter($this->object),
 					new ExercisePlaceholderDescription(),
-					$this->obj_id,
-					ilCertificatePathConstants::EXERCISE_PATH . $this->obj_id . '/'
+					$this->object->getId(),
+					ilCertificatePathConstants::EXERCISE_PATH .$this->object->getId() . '/'
 				);
 
 				$this->ctrl->forwardCommand($output_gui);
@@ -810,8 +810,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if($this->object->hasUserCertificate($ilUser->getId()))
 		{
 			$certificate = new ilCertificate(
-				new ilCourseCertificateAdapter($this->object),
-				new ilExerciseCertificateAdapter(),
+				new ilExerciseCertificateAdapter($this->object),
+				new ExercisePlaceholderDescription(),
 				$this->object->getId(),
 				ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
 			);
@@ -870,8 +870,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$output_gui = new ilCertificateGUI(
 			new ilExerciseCertificateAdapter($this->object),
 			new ExercisePlaceholderDescription(),
-			$this->obj_id.
-			ilCertificatePathConstants::EXERCISE_PATH . $this->obj_id . '/'
+			$this->object->getId(),
+			ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
 		);
 
 		$output_gui->certificateEditor();				
@@ -890,7 +890,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$certificate = new ilCertificate(
 			new ilExerciseCertificateAdapter($this->object),
 			new ExercisePlaceholderDescription(),
-			$this->obj_id
+			$this->object->getId(),
+			ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
 		);
 
 		$certificate->outCertificate(array("user_id" => $ilUser->getId()));
