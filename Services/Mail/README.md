@@ -287,8 +287,8 @@ $mailer->Send($transport);
 
 ## ilMailNotification
 
-`\ilMailNotification` is an abstract class that can be implemented to 
-create a custom mail classes.
+`\ilMailNotification` is a **high level** abstraction that can be extended to 
+create a custom mail class.
 
 Every Service/Module/Plugin in ILIAS can create a specialized class
 for creating and sending mails.
@@ -296,29 +296,34 @@ for creating and sending mails.
 ```php
 class MyMailNotification extends \ilMailNotification
 {
-	public function sendMail()
-	{
-		try
-		{
-			$this->setSubject('Welcome to ILIAS');
-			$this->setBody('Hello World!');
-			$this->appendBody(\ilMail::_getInstallationSignature());
+    public function sendMail()
+    {
+        try
+        {
+            $this->setSubject('Welcome to ILIAS');
+            $this->setBody('Hello World!');
+            $this->appendBody(\ilMail::_getInstallationSignature());
 
-			$this->sendMail($this->getRecipients(), array('system'), false);
-		}
-		catch(\ilMailException $e)
-		{
-			// Error handling
-		}
-	}
+            $this->sendMail($this->getRecipients(), array('system'), false);
+        }
+        catch(\ilMailException $e)
+        {
+            // Error handling
+        }
+    }
 }
 ```
 
 The use of the implementation could look like this:
 
 ```php
-$myMailNotification = new MyMailNotification();
-$this->serRecipients(array('somone@somewhere.com', 'somebody@ilias.org'));
+$myMailNotification = new \MyMailNotification();
+$this->serRecipients(
+    [
+        'somone@somewhere.com',
+        'somebody@ilias.org'
+    ]
+);
 ```
 
 The sender of the mail will be the ILIAS system
@@ -335,7 +340,7 @@ of the previous explained `\ilMailNotification`.
 This class is used to create a mail sent by the ILIAS
 system.
 The implementation is used by several modules/services
-to create it own mails.
+to create their own mails.
 
 ```php
 $mail = new \ilSystemNotification();
@@ -350,7 +355,7 @@ $mail->setReasonLangId('my_reason');
 $mail->sendMail(array($targetUser->getId()));
 ```
 
-The class create a system specific mail like
+The class creates a system specific mail like
 other implementations of `\ilMailNotification`.
 
 This class will send a mail to an internal
