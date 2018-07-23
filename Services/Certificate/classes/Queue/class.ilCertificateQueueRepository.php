@@ -9,11 +9,18 @@ class ilCertificateQueueRepository
 	private $database;
 
 	/**
-	 * @param ilDB $database
+	 * @var ilLogger
 	 */
-	public function __construct(\ilDBInterface $database)
+	private $logger;
+
+	/**
+	 * @param ilDBInterface $database
+	 * @param ilLogger $logger
+	 */
+	public function __construct(\ilDBInterface $database, ilLogger $logger)
 	{
 		$this->database = $database;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -21,16 +28,22 @@ class ilCertificateQueueRepository
 	 */
 	public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry)
 	{
+		$this->logger->debug('Add new entry to certificate cron job queue');
+
 		$id = $this->database->nextId('certificate_cron_queue');
 
-		$this->database->insert('certificate_cron_queue', array(
+		$row = array(
 			'id'                => array('integer', $id),
 			'obj_id'            => array('integer', $certificateQueueEntry->getObjId()),
 			'usr_id'            => array('integer', $certificateQueueEntry->getUserId()),
 			'adapter_class'     => array('clob', $certificateQueueEntry->getAdapterClass()),
 			'state'             => array('clob', $certificateQueueEntry->getState()),
 			'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp())
-		));
+		);
+
+		$this->logger->debug(sprintf('Save queue entry with following values: %s', json_encode($row, JSON_PRETTY_PRINT)));
+
+		$this->database->insert('certificate_cron_queue', $row);
 	}
 
 	/**
@@ -39,6 +52,8 @@ class ilCertificateQueueRepository
 	 */
 	public function removeFromQueue($id)
 	{
+		$this->logger->debug(sprintf('Delete entry(%s) queue', $id));
+
 		$sql = 'DELETE FROM certificate_cron_queue WHERE id = ' . $this->database->quote($id, 'integer');
 
 		$query = $this->database->query($sql);
@@ -51,11 +66,15 @@ class ilCertificateQueueRepository
 	 */
 	public function getAllEntriesFromQueue()
 	{
+		$this->logger->debug('Fetch all entries from queue');
+
 		$sql = 'SELECT * FROM certificate_cron_queue';
 		$query = $this->database->query($sql);
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->debug(sprintf('Queue entry found: ', json_encode($row, JSON_PRETTY_PRINT)));
+
 			$result[] = new ilCertificateQueueEntry(
 				$row['obj_id'],
 				$row['usr_id'],
