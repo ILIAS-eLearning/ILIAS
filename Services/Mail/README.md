@@ -1,7 +1,7 @@
 # Mail
 
 ILIAS provides several classes to create and
-sent Mails for different purposes.
+send Mails for different purposes.
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
 “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
@@ -28,32 +28,20 @@ All of the following described classes rely on
 a valid mail server configuration in the global
 ILIAS administration.
 
-The templates of each default mail can be found
-in `Services/Mail/templates/default`.
+The delivery channel for messages MAY be based
+on individual settings by each user. These settings
+can be configured for each user via the ILIAS GUI.
 
-The mailing MAY base on individual settings by
-each user.
-These settings can configured for each user via
-the ILIAS GUI.
-
-The described classes differ in their usage and
-their purposes.
 There are two possible recipient channels:
 * internal - Users on the system will be addressed.
   Internal mails will be delivered to the internal
-  mail box, which is accessible via the ILIAS user
+  inbox, which is accessible via the ILIAS user
   interface.
-  The mail classes that are used for internal purposes,
-  uses user IDs to identify recipient and/or the sender
 * external - The mail will be sent to an external address
   outside of the ILIAS context.
-  These addresses are defined by external input or data fields
-  in ILIAS e.g. the `mail`-field in ILIAS.
-  The `mail` field MUST be configured in
-  the user configuration.
 
-These both channels can be combined, so the user
-will receive mails on both channels.
+Both channels can be combined, so the user
+will receive messages on both channels.
 
 The following chapters will describe and explain which purposes
 each class has and how to use them.
