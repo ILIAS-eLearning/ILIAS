@@ -10,6 +10,11 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [General](#general)
 * [ilMail](#ilmail)
+  * [Recipients](#recipients)
+      * [Examples](#examples)
+      * [Syntax Rules](#syntax-rules)
+      * [Semantics](#semantics)
+  * [Subject and Body](#subject-and-body)
 * [ilMimeMail](#ilmimemail)
   * [Sender](#sender)
   * [Transport](#transport)
@@ -19,12 +24,9 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 ## General
 
-Use different mail abstractions for different 
-purposes.
-
-All of the following described classes MUST have
+All of the following described classes rely on
 a valid mail server configuration in the global
-ILIAS administration for testing purposes.
+ILIAS administration.
 
 The templates of each default mail can be found
 in `Services/Mail/templates/default`.
@@ -58,46 +60,150 @@ each class has and how to use them.
 
 ## ilMail
 
-An instance  of the `ìlMail` is only used for
-internal mailing based on recipients input
-channels(mail box, external mail etc.).
+`\ilMail` is the central class of *Services/Mail* and acts as
+some kind of reduced and **medium level** notification system.
 
-To identify the recipient the instance needs
-the recipients login name and the senders user ID(see also `usr_id`).
+The constructor of class `\ilMail` requires the
+internal ILIAS id of the sender's user account. For *System Emails*
+you MUST use the global constanct **ANONYMOUS_USER_ID**. 
+
+The intended public API for sending messages is the `sendMail()` method.
 
 ```php
-$senderUserId = $user->getId();
+global $DIC;
 
-$recipientLoginName = 'ilyas_bar';
-$cc = '';
-$bc = '';
-$subject = 'ilMail is great';
-$message = 'Look at this awesome mail';
-$attachment = '';
+$senderUserId = $DIC->user()->getId();
 
-$mail = new ilMail($senderUserId);
+$to = 'root';
+$cc = 'mjansen';
+$bc = 'ntheen';
+$subject = 'Make ILIAS great again!';
+$message = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr,\nsed diam nonumy eirmod tempor.";
+$attachments = [];
+
+$mail = new \ilMail($senderUserId);
 $mail->sendMail(
-	$recipientLoginName,
-	$cc,
-	$bc,
-	$subject,
-	$message,
-	$attachment,
-	array("system")
+    $to,
+    $cc,
+    $bc,
+    $subject,
+    $message,
+    $attachments,
+    array("system")
 );
 ```
 
-The example above will create a mail and sent
-the mail to an existing user.
-The sender and the recipient MUST both be existing
-users of the ILIAS system.
+### Recipients
 
-This class is used for internal purposes in which
-the user is involved e.g.
-forum notifications.
-The input channels like internal mailbox or external mail
-will be used automatically based on the configuration in
-the user.
+The TO, CC and BCC recipients must be passed as strings.
+
+Class `\ilMail` respects the configured transport channels for each evaluated
+user account parsed from the recipient strings.
+
+ILIAS is enabled to use standards compliant email addresses. `\ilMail`
+and the underlying address parsers support RFC 822 compliant address
+lists as specified in [RFC0822.txt](http://www.ietf.org/rfc/rfc0822.txt).
+
+#### Examples
+
+The following mailbox addresses work for sending an email to the user with the
+login john.doe and email address jd@mail.com. 
+The user is member of the course "French Course".
+The member role of the course object has the name "il_crs_member_998".
+Furthermore the user was assigned to a mailing list with the internal
+id "4711".
+
+
+* john.doe
+* John Doe <john.doe>
+* john.doe@ilias
+* \#member@\[French Course\]
+* \#il_crs_member_998
+* \#il_role_1000
+* jd@mail.com
+* John Doe <jd@mail.com>
+* \#il_ml_4711
+
+#### Syntax Rules
+
+The following excerpt from chapter 6.1 "Syntax" of RFC 822 is relevant for
+the semantics described below:
+
+    addr-spec = local-part [ "@", domain ]
+
+#### Semantics
+
+User account mailbox address:
+* The local part denotes the login of an ILIAS user account.
+* The domain denotes the current ILIAS client.
+* The local part MUST NOT start with a "#" character.
+* The domain MUST be omitted or MUST have the value "ilias".
+
+Role object mailbox address:
+* The local part denotes the title of an ILIAS role.
+* The domain denotes the title of an ILIAS repository object.
+* The local part MUST start with a "#" character.
+* If the local part starts with "#il_role_" its remaining characters directly specify the object id of the role. For example "#il_role_1234 identifies the role with object id "1234".
+* If the object title identifies an object that is an ILIAS role, then the local-part is ignored.
+* If the object title identifies an object that is not an ILIAS role, then the local-part is used to identify a local role for that object.
+* The local part can be a substring of the role name. For example, "#member" can be used instead of "#il_crs_member_1234".
+
+External email address:
+* The local part MUST NOT start with a "#" character.
+* The domain MUST be specified and it MUST not have the value "ilias".
+
+Mailing list:
+* The local part denotes the mailing list
+* The local part MUST start with a "#" character, followed by the character sequence "il_ml_" and the internal id of the mailing list.
+* The domain MUST be omitted.
+
+### Subject and Body
+
+Beside the recipients the API accepts subject and body of the message,
+both being of type *plain/text*. The consumer MUST ensure that the
+message does not contain any HTML. Line breaks MUST be provided by a
+line feed (LF) character.
+
+### Attachments
+
+The `$attachments` can be passed as an array of file names.
+Each file MUST have been assigned to sending user account in a prior step.
+This can be done as described in the following examples:
+
+```php
+$attachment = new ilFileDataMail($senderUserId);
+
+$attachment->storeAsAttachment(
+    'appointment.ics', $someIcalString
+);
+$attachment->copyAttachmentFile(
+    '/temp/hello.jpg', 'HelloWorld.jpg'
+);
+
+$mail = new \ilMail($senderUserId);
+$mail->sendMail(
+    $to,
+    $cc,
+    $bc,
+    $subject,
+    $message,
+    [
+        'appointment.ics',
+        'HelloWorld.jpg'
+    ],
+    array("system")
+);
+```
+
+### Type
+
+The type string must be one of the following options:
+
+* normal
+* system (displayed in a separate block at the *Personal Desktop*)
+
+Messages marked as *system* will not be delivered to the recipient if he/she
+did not accept the *Terms of Service*, or he/she has an expired user account.
 
 ## ilMimeMail
 
@@ -155,7 +261,7 @@ $mailer->Send();
 Subject and body MUST be of type plain text and MUST NOT contain any HTML fragments.
 `\ilMimeMail` wraps an HTML structure around the message body (see: [HTML Mails with Skin](https://www.ilias.de/docu/goto_docu_wiki_wpage_3506_1357.html)) 
 passed by the consumer when preparing the email transport.
-It automatically transforms newline characters to HTML linebreak elements.
+It automatically transforms newline characters (LF/CR) to HTML linebreak elements.
 The original message body is used as *text/plain* alternative,
 the processed body is used as *text/html* alternative.
 
