@@ -196,4 +196,11 @@ class Factory implements G\Factory {
 	public function attachment($action = null) {
 		return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function apply($action = null) {
+		return new Glyph(G\Glyph::APPLY, "apply", $action);
+	}
 }

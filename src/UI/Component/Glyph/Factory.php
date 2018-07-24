@@ -699,4 +699,38 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function attachment($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+	 *      within a control, i.e. a filter.
+	 *   composition: >
+	 *      The Apply Glyph uses the glyphicon-ok.
+	 *   effect: >
+	 *       Upon clicking the page is reloaded immediately with the updated content the control affects. In case of
+	 *       a filter, it means that the entries in a table change in accordance with the filter values.
+	 *
+	 * featurewiki:
+	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Apply Glyph SHOULD not come without a Reset Glyph and vice versa.
+	 *       2: >
+	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not clickable).
+	 *   style:
+	 *       1: >
+	 *          The deactivated state of the Apply Glyph MUST be visually noticeable for the user, i.e. by greying out
+	 *          the Apply Glyph.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Apply'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function apply($action = null);
 }
