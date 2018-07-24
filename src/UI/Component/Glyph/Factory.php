@@ -704,11 +704,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Reset Glyph is used to indicate the possibilty of resetting changes, which the user has made within a control, back to a previous state.
+	 *      The Reset Glyph is used to indicate the possibilty of resetting changes, which the user has made
+	 *      within a control, back to a previous state.
 	 *   composition: >
 	 *      The Reset Glyph uses the glyphicon-repeat.
 	 *   effect: >
-	 *       Upon clicking the related control is reloaded immediately and goes back to state before the user has started to make changes.
+	 *       Upon clicking the related control is reloaded immediately and goes back to state
+	 *       before the user has started to make changes.
 	 *
 	 * featurewiki:
 	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
@@ -721,8 +723,8 @@ interface Factory {
 	 *          If there are no changes to reset, the Reset Glyph MUST be deactivated (or not clickable).
 	 *   style:
 	 *       1: >
-	 *          The deactivated state of the Reset Glyph MUST be visually noticeable for the user, i.e. by greying out
-	 *          the Reset Glyph.
+	 *          The deactivated state of the Reset Glyph MUST be visually noticeable for the user, i.e. by
+	 *          greying out the Reset Glyph.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be 'Reset'.
