@@ -1,7 +1,7 @@
 # Mail
 
 ILIAS provides several classes to create and
-send Mails for different purposes.
+send Emails/Messages for different purposes.
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
 “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
@@ -9,6 +9,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 **Table of Contents**
 * [General](#general)
+  * [Delivery Channels](#delivery-channels)
+  * [External Emails: HTML Frame](#external-emails:-html-frame)
 * [ilMail](#ilmail)
   * [Recipients](#recipients)
       * [Examples](#examples)
@@ -25,9 +27,18 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 ## General
 
-All of the following described classes rely on
-a valid mail server configuration in the global
-ILIAS administration.
+The following chapters will describe and explain which purposes
+each class has and how to use them.
+
+All of the following described classes and code snippets
+rely on a valid email server configuration and meaningful
+settings in the global ILIAS email administration.
+
+A short introduction of some base features/concepts
+will be given before the respective classes are
+substantiated.
+
+### Delivery Channels
 
 The delivery channel for messages MAY be based
 on individual settings by each user. These settings
@@ -35,17 +46,52 @@ can be configured for each user via the ILIAS GUI.
 
 There are two possible recipient channels:
 * internal - Users on the system will be addressed.
-  Internal mails will be delivered to the internal
+  Internal messages will be delivered to the internal
   inbox, which is accessible via the ILIAS user
   interface.
-* external - The mail will be sent to an external address
+* external - The email will be sent to an external address
   outside of the ILIAS context.
 
 Both channels can be combined, so the user
 will receive messages on both channels.
 
-The following chapters will describe and explain which purposes
-each class has and how to use them.
+### External Emails: HTML Frame
+
+With ILIAS 5.1.x the [HTML Mails with Skin](https://www.ilias.de/docu/goto_docu_wiki_wpage_3506_1357.html)
+were introduced.
+
+Text emails sent to an **external** email address
+can be displayed in a HTML frame. The HTML template
+is part of the skin:
+
+    ./Services/Mail/templates/default/tpl.html_mail_template.html
+
+There are no advanced formatting options, except
+the global format given in the HTML file itself.
+HTML templates can only be used when using a skin
+as a system-style, otherwise emails are sent
+without template (raw text).
+
+Per Skin, one template can be defined and has to be
+stored in the following location:
+
+    ./Customizing/global/skin/<NAME>/Services/Mail/tpl.html_mail_template.html.
+
+The HTML frame template concept consists of the HTML
+markup file itself and some optional attachments.
+Images of type *.jp(e)g MUST be stored in a sub-folder *img*.
+It is possible to attach several image attachments.
+Images are packed into the email as inline images,
+regardless of their use.
+The source of the images is prefixed with a *cid*.
+The *cid* of an image with the file name "foo.jpg"
+will be *img/foo.jpg*.
+
+Other file types (like *.png, *.gif, *.bmp, etc.) will
+be silently ignored. This is not considered to be a bug,
+but a design limitation ([http://www.ilias.de/mantis/view.php?id=18878](http://www.ilias.de/mantis/view.php?id=18878)).
+
+This feature does not apply for ILIAS-internal messages at all.
 
 ## ilMail
 
@@ -53,10 +99,16 @@ each class has and how to use them.
 some kind of reduced and **medium level** notification system.
 
 The constructor of class `\ilMail` requires the
-internal ILIAS id of the sender's user account. For *System Emails*
-you MUST use the global constanct **ANONYMOUS_USER_ID**. 
+internal ILIAS id of the sender's user account.
+For *System Emails* you MUST use the global
+constant **ANONYMOUS_USER_ID**. 
 
-The intended public API for sending messages is the `sendMail()` method.
+The intended public API for sending messages is
+the `sendMail()` method.
+Other methods like `sendMimeMail()` are public
+as well but not intended to be used by consumers.
+
+Simple Example:
 
 ```php
 global $DIC;
@@ -84,7 +136,7 @@ $mail->sendMail(
 
 ### Recipients
 
-The TO, CC and BCC recipients must be passed as strings.
+The TO, CC and BCC recipients MUST be passed as strings.
 
 Class `\ilMail` respects the configured transport channels for each evaluated
 user account parsed from the recipient strings.
@@ -92,6 +144,11 @@ user account parsed from the recipient strings.
 ILIAS is enabled to use standards compliant email addresses. `\ilMail`
 and the underlying address parsers support RFC 822 compliant address
 lists as specified in [RFC0822.txt](http://www.ietf.org/rfc/rfc0822.txt).
+
+The address parser below *./Services/Mail/classes/Address* could
+be considered as a separate service. To get an address parser you
+can simply use an instance of `ilMailRfc822AddressParserFactory`
+and pass a comma separated string of recipients.
 
 #### Examples
 
@@ -156,11 +213,12 @@ line feed (LF) character.
 ### Attachments
 
 The `$attachments` can be passed as an array of file names.
-Each file MUST have been assigned to sending user account in a prior step.
+Each file MUST have been assigned to the sending user account
+in a prior step.
 This can be done as described in the following examples:
 
 ```php
-$attachment = new ilFileDataMail($senderUserId);
+$attachment = new \ilFileDataMail($senderUserId);
 
 $attachment->storeAsAttachment(
     'appointment.ics', $someIcalString
@@ -186,7 +244,7 @@ $mail->sendMail(
 
 ### Type
 
-The type string must be one of the following options:
+The type string MUST be one of the following options:
 
 * normal
 * system (displayed in a separate block at the *Personal Desktop*)
@@ -202,8 +260,9 @@ an external email in the
 format.
 
 It SHOULD be used whenever you want to explicitly send
-an email to external email addresses. This class is
-mainly used for external procedures, e.g. if 
+an email to external email addresses and you don't want to
+use one of the existing wrappers described below.
+This class is mainly used for external procedures, e.g. if 
 user has not yet access to ILIAS, e.g. in the
 registration process.
 
@@ -248,20 +307,21 @@ $mailer->Send();
 ```
 
 Subject and body MUST be of type plain text and MUST NOT contain any HTML fragments.
-`\ilMimeMail` wraps an HTML structure around the message body (see: [HTML Mails with Skin](https://www.ilias.de/docu/goto_docu_wiki_wpage_3506_1357.html)) 
-passed by the consumer when preparing the email transport.
-It automatically transforms newline characters (LF/CR) to HTML linebreak elements.
-The original message body is used as *text/plain* alternative,
-the processed body is used as *text/html* alternative.
+When preparing the email transport `\ilMimeMail` wraps an HTML structure around
+the message body (see: [HTML Mails with Skin](https://www.ilias.de/docu/goto_docu_wiki_wpage_3506_1357.html)) 
+passed by the consumer. It automatically transforms newline characters (LF/CR)
+to HTML linebreak elements.
+The original message body is used as *text/plain* alternative, the processed
+body is used as *text/html* alternative.
 
 ### Sender
 
 Since ILIAS 5.3.x the `$sender` cannot be passed as a primitive
-data type anymore. A sender must implement `\ilMailMimeSender`.
+data type anymore. A sender MUST implement `\ilMailMimeSender`.
 ILIAS currently provides two different implementations:
 
-1. ilMailMimeSenderSystem
-2. ilMailMimeSenderUser
+1. `\ilMailMimeSenderSystem`
+2. `\ilMailMimeSenderUser`
 
 Both instances can be retrieved by the globally available `\ilMailMimeSenderFactory`,
 registered in the dependency container (`$DIC["mail.mime.sender.factory"]`).
@@ -276,7 +336,7 @@ the determined transport strategy given by the
 `\ilMailMimeTransportFactory` instance which is available in
 the dependency injection container (`$DIC["mail.mime.transport.factory"]`).
 
-A transport strategy must follow the definition of
+A transport strategy MUST follow the definition of
 the `\ilMailMimeTransport` interface. A different transport could be
 globally set via `\ilMimeMail::setDefaultTransport`, or just for
 the next call of `Send()` by passing an instance of `\ilMailMimeTransport` as
@@ -289,10 +349,10 @@ $mailer->Send($transport);
 ## ilMailNotification
 
 `\ilMailNotification` is a **high level** abstraction that can be extended to 
-create a custom mail for a specific purpose.
+create a custom email for a specific purpose.
 
 Every service/module/plugin in ILIAS MAY create a specialized class
-for creating and sending mails. Therefore it MUST used inheritance
+for creating and sending emails. Therefore it MUST use inheritance
 and derive from `\ilMailNotification`.  
 
 ```php
@@ -330,8 +390,8 @@ $myMailNotification->setRecipients(
 $myMailNotification->send();
 ```
 
-If the recipients could only be provided as username
-or email address, your can use the third parameter of
+If the recipients could only be provided as usernames
+or email addresses, your can use the third parameter of
 `sendMail()` and pass a boolean `false` .
 
 ```php
@@ -372,6 +432,7 @@ $myMailNotification->send();
 If you explicitly need to send an external email you
 can use/extend from `\ilMimeMailNotification`. This class itself
 also derives from `\ilMailNotification`.
+
 Recipients can be provided as:
 
 * Instances of \ilObjUser
@@ -423,10 +484,10 @@ $myMailNotification->send();
 `\ilSystemNotification` is a commonly used implementation
 of the previous explained `\ilMailNotification`.
 
-This class is used to create a mail sent by the ILIAS
+This class is used to create an email sent by the ILIAS
 system with a more or less given structure.
 The implementation is used by several modules/services
-to create their own mails.
+to create their own emails.
 
 ```php
 $mail = new \ilSystemNotification();
@@ -442,7 +503,7 @@ $mail->sendMail(array($targetUser->getId()));
 ```
 ## ilAccountMail
 
-An instance of `ilAccountMail` MUST be used to sent
+An instance of `\ilAccountMail` MUST be used to sent
 external emails whenever a user account was created
 in ILIAS. It's main purpose is to provide user
 account information in the self registration process.
@@ -462,7 +523,7 @@ is sent:
 * \[PASSWORD\]: Password
 * \[IF_PASSWORD\]...\[/IF_PASSWORD\]: This text block is only included, if the new user account has been created including a password.
 * \[IF_NO_PASSWORD\]...\[/IF_NO_PASSWORD\]: This text block is only included, if the new user account has been created without a password.
-* \[ADMIN_MAIL\]: Mail address of Administrator
+* \[ADMIN_MAIL\]: Email address of Administrator
 * \[ILIAS_URL\]: URL of ILIAS system
 * \[CLIENT_NAME\]: Client Name
 * \[TARGET\]: URL of target item, e.g. a linked course that is passed to ILIAS from outside.
@@ -494,8 +555,8 @@ $accountMail->setUser($user);
 $accountMail->send();
 ```
 
-This will create a default mail with the look
-of a registration mail.
+This will create a default message with the look
+of a registration email.
 
 To enable the language variable fallback the
 following mutator has to be called with a
@@ -503,10 +564,10 @@ boolean true as it's argument:
 ```php
 $accountMail->useLangVariablesAsFallback(true);
 ```
-If a raw password should be included, it must be
+If a raw password should be included, it MUST be
 explicitly set via:
 ```php
- $acc_mail->setUserPassword($rawPassword);
+$accountMail->setUserPassword($rawPassword);
  ```
 
 Internally `\ilAccountMail` makes use of `\ilMimeMail`.
@@ -518,12 +579,12 @@ as a feature which enables services/modules to
 provide text templates for a 'User-to-User Email' in a
 specific context.
 
-Often tutors / admins send the mails with the same purpose
+Often tutors / admins send the emails with the same purpose
 and texts to course members, e.g. to ask them if they
 have problems with the course because they have not
 used the course yet.
 
-A module or service MAY announce its mail template
+A module or service MAY announce its email template
 contexts to the system by adding them to their
 respective *module.xml* or *service.xml*.
 The template context id has to be globally unique.
@@ -540,7 +601,7 @@ directory layout differs from the ILIAS standard.
 </module>
 ```
 
-Every mail template context class defined in a
+Every email template context class defined in a
 *module.xml* or *service.xml* has to extend the
 base class `\ilMailTemplateContext`.
 Please implement all abstract methods to make
