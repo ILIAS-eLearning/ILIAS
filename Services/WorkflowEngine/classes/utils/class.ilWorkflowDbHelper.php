@@ -59,8 +59,8 @@ class ilWorkflowDbHelper
 				array(
 					'workflow_type'		=> array ('text', $wf_data['type'] ),
 					'workflow_content'	=> array ('text', $wf_data['content']),
-					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
+					'workflow_class'	=> array ('text', $workflow->getWorkflowClass()),
+					'workflow_location' => array ('text', $workflow->getWorkflowLocation()),
 					'subject_type'		=> array ('text', $wf_subject['type']),
 					'subject_id'		=> array ('integer', $wf_subject['identifier']),
 					'context_type'		=> array ('text', $wf_context['type']),
@@ -80,8 +80,8 @@ class ilWorkflowDbHelper
 				array(
 					'workflow_id'		=> array ('integer', $wf_id),
 					'workflow_type'		=> array ('text', $wf_data['type'] ),
-					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
+					'workflow_class'	=> array ('text', $workflow->getWorkflowClass()),
+					'workflow_location' => array ('text', $workflow->getWorkflowLocation()),
 					'workflow_content'	=> array ('text', $wf_data['content']),
 					'subject_type'		=> array ('text', $wf_subject['type']),
 					'subject_id'		=> array ('integer', $wf_subject['identifier']),
@@ -401,13 +401,13 @@ class ilWorkflowDbHelper
 
 		$ilDB->insert('wfe_startup_events',
 					  array(
-						  'event_id'		=> array ('integer', $event_id),
-						  'workflow_id'		=> array ('text', $process_id),
-						  'type'				=> array ('text', $event['type'] ),
+						  'event_id'			=> array ('integer', $event_id),
+						  'workflow_id'	=> array ('text', $process_id),
+						  'type'					=> array ('text', $event['type'] ),
 						  'content'			=> array ('text', $event['content']),
-						  'subject_type'		=> array ('text', $event['subject_type']),
+						  'subject_type'	=> array ('text', $event['subject_type']),
 						  'subject_id'		=> array ('integer', $event['subject_id']),
-						  'context_type'		=> array ('text', $event['context_type']),
+						  'context_type'	=> array ('text', $event['context_type']),
 						  'context_id'		=> array ('integer', $event['context_id'])
 					  )
 		);
@@ -432,7 +432,7 @@ class ilWorkflowDbHelper
 				'input_id'	=> array ('integer', $ilDB->nextId('wfe_static_inputs')),
 				'event_id'	=> array ('integer', $start_event),
 				'name'		=> array ('text',    $key),
-				'value'		=> array ('text',    $value)
+				'value'			=> array ('text',    $value)
 			)
 		);
 	}
