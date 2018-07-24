@@ -17,7 +17,6 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
-
 	const FORM_MODE_EDIT = 1;
 	const FORM_MODE_CREATE = 2;
 	
@@ -176,6 +175,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	public function editObject(ilPropertyFormGUI $form = null)
 	{
 		global $rbacsystem;
+
+		$this->tabs_gui->activateTab('settings');
 		
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		{
@@ -276,6 +277,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 			exit();
 		}
+
+		$this->tabs_gui->activateTab('perm');
 
 		$to_filter = $objDefinition->getSubobjectsToFilter();
 		
@@ -613,24 +616,35 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		$this->getTabs();
 	}
-	
-	function getTabs()
-	{
-		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+	/**
+	 * @inheritdoc
+	 */
+	protected function getTabs()
+	{
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+
+		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"),
-				array("edit","update"), get_class($this));
-				
-			$this->tabs_gui->addTarget("default_perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"),
-				array("perm"), get_class($this));
+			$this->tabs_gui->addTab(
+				'settings',
+				$this->lng->txt('settings'),
+				$this->ctrl->getLinkTarget($this,'edit')
+			);
+		}
+		if($rbacsystem->checkAccess('edit_permission',$this->ref_id))
+		{
+			$this->tabs_gui->addTab(
+				'perm',
+				$this->lng->txt('default_perm_settings'),
+				$this->ctrl->getLinkTarget($this,'perm')
+			);
+
 		}
 	}
 
-	
 	/**
 	* cancelObject is called when an operation is canceled, method links back
 	* @access	public
