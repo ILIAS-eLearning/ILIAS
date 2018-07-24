@@ -675,12 +675,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 
 
-	
 	/**
-	* should be overwritten to add object specific items
-	* (repository items are preloaded)
-	*/
-	function addAdminLocatorItems($a_do_not_add_object = false)
+	 * @inheritdoc
+	 */
+	protected function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $DIC;
 
@@ -692,6 +690,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			ilObject::_lookupObjId($_GET["ref_id"])),
 			$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 	}
-	
+
+
 } // END class.ilObjRoleTemplateGUI
 ?>
