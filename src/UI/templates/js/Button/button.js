@@ -34,12 +34,6 @@ il.UI.button = il.UI.button || {};
 		var handleToggleClick = function (event, id, on_url, on_signal, off_url, off_signal) {
 			var b = $("#" + id);
 
-			/*console.log(b.attr("aria-pressed"));
-			console.log(on_url);
-			console.log(off_url);
-			console.log(on_signal);
-			console.log(off_signal);*/
-
 			if (b.attr("aria-pressed") == "true") {
 				if (on_url != '') {
 					window.location = on_url;
