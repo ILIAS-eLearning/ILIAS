@@ -68,8 +68,8 @@ class Glyph implements C\Glyph\Glyph {
 		, self::ASTOUNDED
 		, self::SAD
 		, self::ANGRY
-		, self::EYEOPEN
-		, self::EYECLOSED
+		, self::ATTACHMENT
+		, self::APPLY
 		);
 
 

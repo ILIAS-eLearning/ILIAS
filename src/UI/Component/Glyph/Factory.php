@@ -675,55 +675,62 @@ interface Factory {
 	 */
 	public function angry($action = null);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Attachment glyph indicates that a file is attached or can be attached to an object or entity.
+	 *   composition: >
+	 *      The Attachment Glyph uses the glyphicon-paperclip.
+	 *   effect: >
+	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
+	 *
+	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MAY indicate the overall amount of attachments.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Attachment'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function attachment($action = null);
 
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The EyeClosed Glyph is used to toggle the revelation-mode of password fields.
+	 *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+	 *      within a control, i.e. a filter.
 	 *   composition: >
-	 *       The EyeClosed Glyph uses the glyphicon-eye-close.
+	 *      The Apply Glyph uses the glyphicon-ok.
 	 *   effect: >
-	 *       When clicked, the password-field is masked, thus hiding the input.
+	 *       Upon clicking the page is reloaded immediately with the updated content the control affects. In case of
+	 *       a filter, it means that the entries in a table change in accordance with the filter values.
 	 *
-	 * context: Used with password-fields to toggle mask/revealed mode.
+	 * featurewiki:
+	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
 	 *
 	 * rules:
-	 *   composition:
+	 *   usage:
 	 *       1: >
-	 *          The EyeClosed Glyph MUST only be used with Password-Inputs.
+	 *          The Apply Glyph SHOULD not come without a Reset Glyph and vice versa.
+	 *       2: >
+	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not clickable).
+	 *   style:
+	 *       1: >
+	 *          The deactivated state of the Apply Glyph MUST be visually noticeable for the user, i.e. by greying out
+	 *          the Apply Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'eye closed'.
+	 *          The aria-label MUST be 'Apply'.
 	 * ---
-	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function eyeclosed($action = null);
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *       The EyeOpen Glyph is used to toggle the revelation-mode of password fields.
-	 *   composition: >
-	 *       The EyeOpen Glyph uses the glyphicon-eye-open.
-	 *   effect: >
-	 *       When clicked, the password-field is unmasked, thus revealing the input.
-	 *
-	 * context: Used with password-fields to toggle mask/revealed mode.
-	 *
-	 * rules:
-	 *   composition:
-	 *       1: >
-	 *          The EyeOpen Glyph MUST only be used with Password-Inputs.
-	 *   accessibility:
-	 *       1: >
-	 *          The aria-label MUST be 'eye open'.
-	 * ---
-	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function eyeopen($action = null);
-
+	public function apply($action = null);
 }
