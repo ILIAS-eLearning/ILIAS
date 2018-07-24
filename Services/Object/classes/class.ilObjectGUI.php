@@ -662,19 +662,6 @@ class ilObjectGUI
 		{
 			$this->addLocatorItems();
 		}
-		
-		// not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
-		if ($_GET["admin_mode"] == "" &&
-			strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui")
-		{
-			$this->ctrl->setParameterByClass("ilobjrolegui",
-				"rolf_ref_id", $_GET["rolf_ref_id"]);
-			$this->ctrl->setParameterByClass("ilobjrolegui",
-				"obj_id", $_GET["obj_id"]);
-			$ilLocator->addItem($this->lng->txt("role"),
-				$this->ctrl->getLinkTargetByClass(array("ilpermissiongui",
-					"ilobjrolegui"), "perm"));
-		}
 
 		$tpl->setLocator();
 	}

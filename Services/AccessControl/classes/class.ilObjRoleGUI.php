@@ -1751,8 +1751,34 @@ class ilObjRoleGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		$ilCtrl->redirect($this, 'userassignment');
 	}
-	
-	
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addLocatorItems()
+	{
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
+
+		if($_GET["admin_mode"] == "")
+		{
+			$this->ctrl->setParameterByClass(
+				"ilobjrolegui",
+				"obj_id",
+				(int) $_GET["obj_id"]
+			);
+			$ilLocator->addItem(
+				ilObjRole::_getTranslation($this->object->getTitle()),
+				$this->ctrl->getLinkTargetByClass(
+					array(
+						"ilpermissiongui",
+						"ilobjrolegui"),
+					"perm")
+			);
+		}
+
+	}
+
 } // END class.ilObjRoleGUI
 ?>
