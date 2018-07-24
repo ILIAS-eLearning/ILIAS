@@ -704,13 +704,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
-	 *      within a control, i.e. a filter.
+	 *      The Reset Glyph is used to indicate the possibilty of resetting changes, which the user has made within a control, back to a previous state.
 	 *   composition: >
-	 *      The Apply Glyph uses the glyphicon-ok.
+	 *      The Reset Glyph uses the glyphicon-repeat.
 	 *   effect: >
-	 *       Upon clicking the page is reloaded immediately with the updated content the control affects. In case of
-	 *       a filter, it means that the entries in a table change in accordance with the filter values.
+	 *       Upon clicking the related control is reloaded immediately and goes back to state before the user has started to make changes.
 	 *
 	 * featurewiki:
 	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
@@ -718,19 +716,19 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The Apply Glyph SHOULD not come without a Reset Glyph and vice versa.
+	 *          The Reset Glyph SHOULD not come without an Apply Glyph and vice versa.
 	 *       2: >
-	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not clickable).
+	 *          If there are no changes to reset, the Reset Glyph MUST be deactivated (or not clickable).
 	 *   style:
 	 *       1: >
-	 *          The deactivated state of the Apply Glyph MUST be visually noticeable for the user, i.e. by greying out
-	 *          the Apply Glyph.
+	 *          The deactivated state of the Reset Glyph MUST be visually noticeable for the user, i.e. by greying out
+	 *          the Reset Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Apply'.
+	 *          The aria-label MUST be 'Reset'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function apply($action = null);
+	public function reset($action = null);
 }

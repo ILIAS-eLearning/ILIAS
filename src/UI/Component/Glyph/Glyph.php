@@ -39,7 +39,7 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const SAD = "sad";
 	const ANGRY = "angry";
 	const ATTACHMENT = "attachment";
-	const APPLY = "apply";
+	const RESET = "reset";
 
 
 	/**

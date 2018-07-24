@@ -45,7 +45,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::SAD				=> "glyphicon il-glyphicon-sad"
 		, C\Glyph\Glyph::ANGRY				=> "glyphicon il-glyphicon-angry"
 		, C\Glyph\Glyph::ATTACHMENT			=> "glyphicon glyphicon-paperclip"
-		, C\Glyph\Glyph::APPLY				=> "glyphicon glyphicon-ok"
+		, C\Glyph\Glyph::RESET				=> "glyphicon glyphicon-repeat"
 		);
 
 	static $aria_labels = array(
@@ -74,7 +74,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::SAD				=> "sad"
 		, C\Glyph\Glyph::ANGRY				=> "angry"
 		, C\Glyph\Glyph::ATTACHMENT			=> "attachment"
-		, C\Glyph\Glyph::APPLY				=> "apply"
+		, C\Glyph\Glyph::RESET				=> "reset"
 	);
 
 	/**
@@ -267,7 +267,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::SAD)
 			, array(C\Glyph\Glyph::ANGRY)
 			, array(C\Glyph\Glyph::ATTACHMENT)
-			, array(C\Glyph\Glyph::APPLY)
+			, array(C\Glyph\Glyph::RESET)
 			);
 	}
 
