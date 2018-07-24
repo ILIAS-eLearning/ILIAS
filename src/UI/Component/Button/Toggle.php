@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Component\Button;
 //use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\TriggeredSignal;
+
 
 /**
  * This describes a toggle button.
@@ -20,7 +22,7 @@ interface Toggle extends Button {
 	/**
 	 * Get the action of the Toggle Button when it is off.
 	 *
-	 * @return	string|(Signal[])
+	 * @return	string|TriggeredSignal
 	 */
 	public function getActionOff();
 
