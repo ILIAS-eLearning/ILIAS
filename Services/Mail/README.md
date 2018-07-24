@@ -485,7 +485,7 @@ $myMailNotification->send();
 of the previous explained `\ilMailNotification`.
 
 This class is used to create an email sent by the ILIAS
-system with a more or less given structure.
+system with a more or less given structure and text layout.
 The implementation is used by several modules/services
 to create their own emails.
 
@@ -501,6 +501,7 @@ $mail->setGotoLangId('exc_team_notification_link');
 $mail->setReasonLangId('my_reason');
 $mail->sendMail(array($targetUser->getId()));
 ```
+
 ## ilAccountMail
 
 An instance of `\ilAccountMail` MUST be used to sent
