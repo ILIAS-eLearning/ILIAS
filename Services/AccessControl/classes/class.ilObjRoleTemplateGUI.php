@@ -642,21 +642,38 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 
 
-	
 	/**
-	* should be overwritten to add object specific items
-	* (repository items are preloaded)
-	*/
-	function addAdminLocatorItems($a_do_not_add_object = false)
+	 * @inheritdoc
+	 */
+	protected function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
-		
-		parent::addAdminLocatorItems(true);
-				
-		$ilLocator->addItem(ilObject::_lookupTitle(
-			ilObject::_lookupObjId($_GET["ref_id"])),
-			$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
+
+		if(
+			$_GET["admin_mode"] == "settings"
+			&& $_GET["ref_id"] == ROLE_FOLDER_ID)	// system settings
+		{
+			parent::addAdminLocatorItems(true);
+
+			$ilLocator->addItem(
+				$this->lng->txt("obj_".ilObject::_lookupType(ilObject::_lookupObjId($_GET["ref_id"]))),
+				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", 'view')
+			);
+
+			if ($_GET["obj_id"] > 0)
+			{
+				$ilLocator->addItem(
+					$this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, 'perm'));
+			}
+		}
+		else {
+			parent::addAdminLocatorItems($a_do_not_add_object);
+		}
 	}
-	
+
+
 } // END class.ilObjRoleTemplateGUI
 ?>
