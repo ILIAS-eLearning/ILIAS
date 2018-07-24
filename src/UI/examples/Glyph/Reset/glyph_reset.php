@@ -1,5 +1,5 @@
 <?php
-function reset() {
+function glyph_reset() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
