@@ -5192,6 +5192,7 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
+grp#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
