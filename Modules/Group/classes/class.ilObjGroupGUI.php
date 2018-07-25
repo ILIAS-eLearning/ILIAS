@@ -1510,6 +1510,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'),GRP_REGISTRATION_PASSWORD);
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
+			$pass->setRequired(true);
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
 			$pass->setSize(32);
