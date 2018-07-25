@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * @ingroup CertificatesUser
+ */
 class ilUserCertificateGUI
 {
 	/**
@@ -112,5 +114,10 @@ class ilUserCertificateGUI
 
 		$html = $table->getHTML();
 		$this->template->setContent($html);
+	}
+
+	public function download()
+	{
+
 	}
 }
