@@ -14197,7 +14197,7 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise

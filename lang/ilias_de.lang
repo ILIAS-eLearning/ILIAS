@@ -5180,6 +5180,7 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
+grp#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -14149,7 +14150,7 @@ cont#:#cont_assign_skills#:#Kompetenzen zuweisen
 dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
 dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
 dateplaner#:#cal_download_files#:#Dateien herunterladen
-dateplaner#:#cal_calendar_download#:#Kalender herunterladen
+dateplaner#:#cal_calendar_download#:#Kalender-Dateien
 pdfgen#:#cleanup#:#Bereinigen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 common#:#position_permission_settings#:#Rechte nach Positionen
@@ -14198,7 +14199,7 @@ content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
-dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
+dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
