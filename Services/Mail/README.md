@@ -130,7 +130,7 @@ $mail->sendMail(
     $subject,
     $message,
     $attachments,
-    array("system")
+    array("normal")
 );
 ```
 
