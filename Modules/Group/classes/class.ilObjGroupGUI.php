@@ -1052,7 +1052,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$ilHelp->setScreenIdComponent("grp");
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			if ($this->object->getNewsTimeline())
 			{
@@ -1060,8 +1060,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				{
 					$this->addContentTab();
 				}
-				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
-					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
+				$this->tabs_gui->addTab(
+					"news_timeline",
+					$lng->txt("cont_news_timeline_tab"),
+					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show")
+				);
 				if ($this->object->getNewsTimelineLandingPage())
 				{
 					$this->addContentTab();
