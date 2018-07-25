@@ -1691,6 +1691,7 @@ class ilTemplate extends HTML_Template_ITX
 		// always load jQuery
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQueryUI();
 
 		// always load ui framework
 		include_once("./Services/UICore/classes/class.ilUIFramework.php");
