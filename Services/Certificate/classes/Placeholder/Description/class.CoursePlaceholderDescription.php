@@ -16,7 +16,7 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	/**
 	 * @var array
 	 */
-	private $placeHolders;
+	private $placeholder;
 
 	/**
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -36,8 +36,8 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-		$this->placeHolders['COURSE_TITLE'] =  $this->language->txt("crs_title");
+		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+		$this->placeholder['COURSE_TITLE'] =  $this->language->txt("crs_title");
 	}
 
 
@@ -49,7 +49,7 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	 */
 	public function createPlaceholderHtmlDescription()
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificates');
+		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
 
 		$template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));
 
@@ -73,6 +73,6 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	public function getPlaceholderDescriptions()
 	{
 
-		return $this->placeHolders;
+		return $this->placeholder;
 	}
 }

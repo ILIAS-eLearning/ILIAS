@@ -16,7 +16,7 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
 	/**
 	 * @var array
 	 */
-	private $placeHolders;
+	private $placeholder;
 
 	/**
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -36,11 +36,11 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-		$this->placeHolders['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
-		$this->placeHolders['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
-		$this->placeHolders['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->txt('certificate_exercise_title'));
+		$this->placeholder['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
+		$this->placeholder['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
+		$this->placeholder['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->txt('certificate_exercise_title'));
 	}
 
 
@@ -52,7 +52,7 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
 	 */
 	public function createPlaceholderHtmlDescription()
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificates');
+		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
 
 		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 

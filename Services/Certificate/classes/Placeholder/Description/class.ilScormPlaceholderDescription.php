@@ -15,7 +15,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	/**
 	 * @var array
 	 */
-	private $placeHolders;
+	private $placeholder;
 
 	/**
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -37,9 +37,9 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
 		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-		$this->placeHolders['SCORM_TITLE']      = $language->txt('certificate_ph_scormtitle');
-		$this->placeHolders['SCORM_POINTS']     = $language->txt('certificate_ph_scormpoints');
-		$this->placeHolders['SCORM_POINTS_MAX'] = $language->txt('certificate_ph_scormmaxpoints');
+		$this->placeholder['SCORM_TITLE']      = $language->txt('certificate_ph_scormtitle');
+		$this->placeholder['SCORM_POINTS']     = $language->txt('certificate_ph_scormpoints');
+		$this->placeholder['SCORM_POINTS_MAX'] = $language->txt('certificate_ph_scormmaxpoints');
 	}
 
 	/**
@@ -50,10 +50,10 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 */
 	public function createPlaceholderHtmlDescription()
 	{
-		$template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificates');
+		$template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
 		$template->setCurrentBlock('items');
 
-		foreach($this->placeHolders as $id => $caption) {
+		foreach($this->placeholder as $id => $caption) {
 			$template->setVariable('ID', $id);
 			$template->setVariable('TXT', $caption);
 			$template->parseCurrentBlock();

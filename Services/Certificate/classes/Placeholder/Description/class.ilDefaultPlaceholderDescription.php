@@ -53,7 +53,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 	 */
 	public function createPlaceholderHtmlDescription()
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificates');
+		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
 
 		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
