@@ -10315,7 +10315,6 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
@@ -14114,7 +14113,7 @@ cont#:#cont_assign_skills#:#Kompetenzen zuweisen
 dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
 dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
 dateplaner#:#cal_download_files#:#Dateien herunterladen
-dateplaner#:#cal_calendar_download#:#Kalender herunterladen
+dateplaner#:#cal_calendar_download#:#Kalender-Dateien
 pdfgen#:#cleanup#:#Bereinigen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 common#:#position_permission_settings#:#Rechte nach Positionen
@@ -14163,7 +14162,7 @@ content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
-dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
+dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
