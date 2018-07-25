@@ -116,10 +116,17 @@ class ilCertificateGUI
 	private $settingsFormFactory;
 
 	/**
+	 * @var ilCertificatePlaceholderValues
+	 */
+	private $placeholderValuesObject;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
+	 * @param $certificatePath
 	 * @param ilCertificateSettingsFormFactory|null $settingsFormFactory
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilXlsFoParser|null $xlsFoParser
@@ -128,14 +135,22 @@ class ilCertificateGUI
 	public function __construct(
 		ilCertificateAdapter $adapter,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilCertificatePlaceholderValues $placeholderValuesObject,
 		$objectId,
+		$certificatePath,
 		ilCertificateSettingsFormFactory $settingsFormFactory = null,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilXlsFoParser $xlsFoParser = null
 	) {
 		global $DIC;
 
-		$this->certifcateObject = new ilCertificate($adapter, $placeholderDescriptionObject, $objectId);
+		$this->certifcateObject = new ilCertificate(
+			$adapter,
+			$placeholderDescriptionObject,
+			$placeholderValuesObject,
+			$objectId,
+			$certificatePath
+		);
 
 		$this->lng     = $DIC['lng'];
 		$this->tpl     = $DIC['tpl'];
@@ -150,6 +165,8 @@ class ilCertificateGUI
 
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
+		$this->placeholderValuesObject = $placeholderValuesObject;
+
 		$this->objectId = $objectId;
 
 		if (null === $settingsFormFactory) {
@@ -158,7 +175,8 @@ class ilCertificateGUI
 				$this->tpl,
 				$this->ctrl,
 				$this->access,
-				$this->toolbar
+				$this->toolbar,
+				$placeholderDescriptionObject
 			);
 		}
 		$this->settingsFormFactory = $settingsFormFactory;
@@ -268,7 +286,6 @@ class ilCertificateGUI
 		$form_fields = $this->getFormFieldsFromPOST();
 
 		$form = $this->settingsFormFactory->create(
-			$this->objectId,
 			$this,
 			$this->certifcateObject,
 			$form_fields
@@ -304,7 +321,9 @@ class ilCertificateGUI
 			"pagewidth" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["pagewidth"])),
 			"active" => ilUtil::stripSlashes($_POST["active"])
 		);
+
 		$this->certifcateObject->getAdapter()->addFormFieldsFromPOST($form_fields);
+
 		return $form_fields;
 	}
 	
@@ -331,7 +350,6 @@ class ilCertificateGUI
 		$form_fields["active"] = $this->certifcateObject->readActive();
 
 		$form = $this->settingsFormFactory->create(
-			$this->objectId,
 			$this,
 			$this->certifcateObject,
 			$form_fields
@@ -347,8 +365,12 @@ class ilCertificateGUI
 	 */
 	private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId)
 	{
+		$certificate = $this->templateRepository->fetchPreviousCertificate($objId);
+		$currentVersion = $certificate->getVersion();
+		$nextVersion = $currentVersion + 1;
+
 		if ($_POST["background_delete"]) {
-			$this->certifcateObject->deleteBackgroundImage();
+			$this->certifcateObject->deleteBackgroundImage($currentVersion);
 		}
 
 		if ($form->checkInput()) {
@@ -358,14 +380,13 @@ class ilCertificateGUI
 
 				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
 
-				$version = 1;
-
-				$backgroundImagePath = null;
+				$backgroundImagePath = $certificate->getBackgroundImagePath();
 				if (count($_POST)) {
 					// handle the background upload
-					if (strlen($_FILES["background"]["tmp_name"])) {
+					$temporaryFileName = $_FILES['background']['tmp_name'];
+					if (strlen($temporaryFileName)) {
 						try {
-							$backgroundImagePath = $this->certifcateObject->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
+							$backgroundImagePath = $this->certifcateObject->uploadBackgroundImage($temporaryFileName, $nextVersion);
 						} catch (ilException $exception) {
 							$form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
 						}
@@ -377,7 +398,7 @@ class ilCertificateGUI
 					$xslfo,
 					md5($xslfo),
 					json_encode($templateValues),
-					$version,
+					$nextVersion,
 					ILIAS_VERSION_NUMERIC,
 					time(),
 					true,
