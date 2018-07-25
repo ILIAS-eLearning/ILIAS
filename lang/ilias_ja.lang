@@ -14181,3 +14181,12 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###25 07 2018 new variable
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###25 07 2018 new variable
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###25 07 2018 new variable
+common#:#crs_list_reg#:#Registration###25 07 2018 new variable
+common#:#grp_list_reg#:#Registration###25 07 2018 new variable
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted###25 07 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###25 07 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###25 07 2018 new variable
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###25 07 2018 new variable
