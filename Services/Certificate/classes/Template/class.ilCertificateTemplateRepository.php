@@ -24,9 +24,6 @@ class ilCertificateTemplateRepository
 	{
 		$objId = $certificateTemplate->getObjId();
 
-		$version = $this->fetchLatestVersion($objId);
-		$version += 1;
-
 		$id = $this->database->nextId('certificate_template');
 
 		$this->deactivatePreviousTemplates($objId);
@@ -37,7 +34,7 @@ class ilCertificateTemplateRepository
 			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
 			'certificate_hash'      => array('clob', $certificateTemplate->getCertificateHash()),
 			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
-			'version'               => array('clob', $version),
+			'version'               => array('clob', $certificateTemplate->getVersion()),
 			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
 			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
 			'currently_active'      => array('integer', (integer) $certificateTemplate->isCurrentlyActive()),
@@ -121,22 +118,31 @@ AND currently_active = 1
 		);
 	}
 
-	/**
-	 * @param $objId
-	 * @return int
-	 */
-	private function fetchLatestVersion($objId)
+	public function fetchPreviousCertificate($objId)
 	{
 		$templates = $this->fetchCertificateTemplatesByObjId($objId);
+
+		$resultTemplate = new ilCertificateTemplate(
+			$objId,
+			'',
+			'',
+			'',
+			0,
+			0,
+			0,
+			true,
+			''
+		);
 
 		$version = 0;
 		foreach ($templates as $template) {
 			if ($template->getVersion() > $version) {
 				$version = $template->getVersion();
+				$resultTemplate = $template;
 			}
 		}
 
-		return $version;
+		return $resultTemplate;
 	}
 
 	/**
