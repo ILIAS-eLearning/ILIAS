@@ -144,7 +144,9 @@
 				}
 
 				getModule().content.find('#onscreenchatmenu-content').html(templates);
+
 				il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));
+
 				getModule().rendered = true;
 			}
 
@@ -217,6 +219,11 @@
 
 		afterListUpdate: function() {
 			$('.ilOnScreenChatMenuLoader').remove();
+
+			$('#onscreenchatmenu-content').find('[data-toggle="tooltip"]').tooltip({
+				container: 'body',
+				viewport: { selector: 'body', padding: 10 }
+			});
 		},
 
 		hasConversation: function(conversation) {
