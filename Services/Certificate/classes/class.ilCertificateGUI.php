@@ -331,7 +331,7 @@ class ilCertificateGUI
 	* Get the form values from the certificate xsl-fo
 	*/
 	protected function getFormFieldsFromFO()
-	{		
+	{
 		$form_fields = $this->certifcateObject->getFormFieldsFromFO();
 		$form_fields["active"] = $this->certifcateObject->readActive();
 		$this->certifcateObject->getAdapter()->addFormFieldsFromObject($form_fields);
@@ -375,7 +375,7 @@ class ilCertificateGUI
 
 		if ($form->checkInput()) {
 			try {
-				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields);
+				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields, $nextVersion);
 				$this->certifcateObject->getAdapter()->saveFormFields($form_fields);
 
 				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
