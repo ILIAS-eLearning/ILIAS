@@ -139,8 +139,6 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	public function logout($returnUrl = '')
 	{
 		ilSession::set('used_external_auth', false);
-		ilUtil::setCookie("SAMLSESSID","");
-		ilUtil::setCookie("SimpleSAMLAuthToken","");
 
 		$params = array(
 			'ReturnStateParam' => 'LogoutState',
