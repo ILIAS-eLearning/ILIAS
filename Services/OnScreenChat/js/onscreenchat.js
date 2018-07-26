@@ -656,6 +656,7 @@
 				show: true,
 				body: getModule().config.modalTemplate
 						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+						.replace('#:#chat_osc_search_modal_info#:#', il.Language.txt('chat_osc_search_modal_info'))
 						.replace('#:#chat_osc_user#:#', il.Language.txt('chat_osc_user'))
 						.replace('#:#chat_osc_no_usr_found#:#', il.Language.txt('chat_osc_no_usr_found')),
 				onShown: function (e, modal) {
