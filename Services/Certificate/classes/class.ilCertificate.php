@@ -163,7 +163,7 @@ class ilCertificate
 	* @param  bool $asRelative
 	* @return string The filesystem path of the background image
 	*/
-	public function getBackgroundImagePath($asRelative = false)
+	public function getBackgroundImageDirectory($asRelative = false)
 	{
 		if($asRelative)
 		{
@@ -272,7 +272,7 @@ class ilCertificate
 			$result = $result & unlink($this->getBackgroundImageThumbPath());
 		}
 
-		$filename = $this->getBackgroundImagePath() . 'background_' . $version . '.jpg';
+		$filename = $this->getBackgroundImageDirectory() . 'background_' . $version . '.jpg';
 		if (file_exists($filename)) {
 			$result = $result & unlink($filename);
 		}
@@ -302,7 +302,7 @@ class ilCertificate
 			$backgroundImageFile = basename($backgroundImagePath);
 			$backgroundImageThumbnail = $this->getBackgroundImageThumbPath();
 
-			$newBackgroundImage = $newObject->getBackgroundImagePath() . $backgroundImageFile;
+			$newBackgroundImage = $newObject->getBackgroundImageDirectory() . $backgroundImageFile;
 			$newBackgroundImageThumbnail = $newObject->getBackgroundImageThumbPath();
 
 			if (@file_exists($backgroundImagePath)) {
@@ -462,10 +462,11 @@ class ilCertificate
 	 * Convert the certificate text to XSL-FO using XSL transformation
 	 *
 	 * @param array $form_data The form data
+	 * @param $version - Current Version of the template
 	 * @return string XSL-FO code
 	 * @throws Exception
 	 */
-	public function processXHTML2FO($form_data)
+	public function processXHTML2FO($form_data, $version)
 	{
 		$content = "<html><body>" . $form_data["certificate_text"] . "</body></html>";
 		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
@@ -493,6 +494,7 @@ class ilCertificate
 
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
+
 		if (strcmp($form_data["pageformat"], "custom") == 0)
 		{
 			$pageheight = $form_data["pageheight"];
@@ -505,17 +507,17 @@ class ilCertificate
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
 
-		$backgroundimage = '';
+		$backgroundImage = '';
 		if ($this->hasBackgroundImage()) {
-			$backgroundimage = $this->getBackgroundImagePath(true) . 'background.jpg';
+			$backgroundImage = $this->getBackgroundImageDirectory(true) . 'background_' . $version . '.jpg';
 		} elseif (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
-			$backgroundimage = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+			$backgroundImage = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
 		}
 
 		$params = array(
 			"pageheight"      => $pageheight,
 			"pagewidth"       => $pagewidth,
-			"backgroundimage" => $backgroundimage,
+			"backgroundImage" => $backgroundImage,
 			"marginbody"      => implode(' ', array(
 				$form_data["margin_body_top"],
 				$form_data["margin_body_right"],
@@ -729,7 +731,7 @@ class ilCertificate
 				throw new ilException('Unable to move file');
 			}
 			// convert the uploaded file to JPEG
-			$backgroundImagePath = $this->getBackgroundImagePath() . 'background_' . $version . '.jpg';
+			$backgroundImagePath = $this->getBackgroundImageDirectory() . 'background_' . $version . '.jpg';
 
 			ilUtil::convertImage($backgroundImageTempfilePath, $backgroundImagePath, "JPEG");
 
@@ -761,7 +763,7 @@ class ilCertificate
 	*/
 	public function hasBackgroundImage()
 	{
-		if (file_exists($this->getBackgroundImagePath() . 'background.jpg') && (filesize($this->getBackgroundImagePath() . 'background.jpg') > 0))
+		if (file_exists($this->getBackgroundImageDirectory() . 'background.jpg') && (filesize($this->getBackgroundImageDirectory() . 'background.jpg') > 0))
 		{
 			return true;
 		}
@@ -846,30 +848,29 @@ class ilCertificate
 	*/
 	public function deliverExportFileXML()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$exportpath = $this->createArchiveDirectory();
 		ilUtil::makeDir($exportpath);
 
 		$adapter = $this->getAdapter();
 		$objId = $adapter->getCertificateID();
 
-		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
-		$xslExport = $certificate->getCertificateContent();
+		$templates = $this->templateRepository->fetchCertificateTemplatesByObjId($objId);
 
-		// save export xsl file
-		$this->saveCertificate($xslExport, $exportpath . $this->getXSLName());
-		// save background image
-		if ($this->hasBackgroundImage()) {
-			$backgroundImage = $this->getBackgroundImagePath() . 'background.jpg';
-			copy($backgroundImage, $exportpath . $this->getBackgroundImageName());
+		/** @var ilCertificateTemplate $template */
+		foreach ($templates as $template) {
+			$xslExport = $template->getCertificateContent();
+			$version = $template->getVersion();
+			$this->saveCertificate($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
+			$backgroundImagePath = $template->getBackgroundImagePath();
+
+			if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
+				copy($backgroundImagePath, $exportpath . basename($backgroundImagePath));
+			}
+			$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->objectId . "__certificate.zip";
+			ilUtil::zip($exportpath, $this->certificatePath . $zipfile);
 		}
-		else if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
-				copy(ilObjCertificateSettingsAccess::getBackgroundImagePath() . 'background.jpg', $exportpath . ilObjCertificateSettingsAccess::getBackgroundImageName());
-		}
 
-		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate.zip";
 
-		ilUtil::zip($exportpath, $this->certificatePath . $zipfile);
 		ilUtil::delDir($exportpath);
 		ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
 	}
@@ -932,7 +933,7 @@ class ilCertificate
 						// to add the complete path to every url
 						$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
 
-							$basePath = rtrim(dirname($this->getBackgroundImagePath(true)), '/');
+							$basePath = rtrim(dirname($this->getBackgroundImageDirectory(true)), '/');
 							$fileName = basename($matches[1]);
 
 							return 'url(' . $basePath . '/' . $fileName . ')';
@@ -959,10 +960,10 @@ class ilCertificate
 					else
 					{
 						@copy($copydir . $file["entry"], $this->certificatePath . $file["entry"]);
-						if (strcmp($this->getBackgroundImagePath() . 'background.jpg', $this->certificatePath . $file["entry"]) == 0)
+						if (strcmp($this->getBackgroundImageDirectory() . 'background.jpg', $this->certificatePath . $file["entry"]) == 0)
 						{
 							// upload of the background image, create a preview
-							ilUtil::convertImage($this->getBackgroundImagePath() . 'background.jpg', $this->getBackgroundImageThumbPath(), "JPEG", 100);
+							ilUtil::convertImage($this->getBackgroundImageDirectory() . 'background.jpg', $this->getBackgroundImageThumbPath(), "JPEG", 100);
 						}
 					}
 				}
