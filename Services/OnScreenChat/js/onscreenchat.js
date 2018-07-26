@@ -121,6 +121,7 @@
 		emoticons: {},
 		messageFormatter: {},
 		participantsImages: {},
+		participantsNames: {},
 		chatWindowWidth: 278,
 		numWindows: Infinity,
 
@@ -142,6 +143,16 @@
 			getModule().messageFormatter = new MessageFormatter(getModule().getEmoticons());
 
 			$menu.setMessageFormatter(getModule().getMessageFormatter());
+
+			$.each(getModule().config.initialUserData, function(usrId, item) {
+				getModule().participantsNames[usrId] = item.public_name;
+
+				var img = new Image();
+				img.src = item.profile_image;
+				getModule().participantsImages[usrId] = img;
+			});
+			$menu.syncPublicNames(getModule().participantsNames);
+			$menu.syncProfileImages(getModule().participantsImages);
 
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
@@ -446,34 +457,57 @@
 			getModule().receiveMessage(messageObject);
 		},
 
-		requestUserImages: function(conversation) {
-			var participantsIds = getParticipantsIds(conversation);
+		/**
+		 * 
+		 * @param conversation
+		 * @returns {jQuery.Deferred}
+		 */
+		requestUserProfileData: function(conversation) {
+			var dfd = new $.Deferred(),
+				participantsIds = getParticipantsIds(conversation);
+
 			participantsIds = participantsIds.filter(function(id){
 				return !getModule().participantsImages.hasOwnProperty(id);
 			});
 
-			$.get(
-				getModule().config.userProfileDataURL + '&usr_ids=' + participantsIds.join(','),
-				function (response){
-					$.each(response, function(id, item){
-						var img = new Image();
-						img.src = item.profile_image;
-						getModule().participantsImages[id] = img;
+			if (participantsIds.length === 0) {
+				dfd.resolve();
 
-						$('[data-onscreenchat-avatar='+id+']').attr('src', img.src);
-						$menu.syncProfileImages(getModule().participantsImages);
-					});
-				},
-				'json'
-			);
+				return dfd;
+			}
+
+			$.ajax({
+				url: getModule().config.userProfileDataURL + '&usr_ids=' + participantsIds.join(','),
+				dataType: 'json',
+				method: 'GET'
+			}).done(function(response) {
+				$.each(response, function(id, item){
+					getModule().participantsNames[id] = item.public_name;
+					$menu.syncPublicNames(getModule().participantsNames);
+
+					var img = new Image();
+					img.src = item.profile_image;
+					getModule().participantsImages[id] = img;
+
+					$('[data-onscreenchat-avatar='+id+']').attr('src', img.src);
+					$menu.syncProfileImages(getModule().participantsImages);
+				});
+
+				dfd.resolve();
+			});
+
+			return dfd;
 		},
 
 		onConversationInit: function(conversation){
-			getModule().requestUserImages(conversation);
-			conversation.lastActivity = (new Date).getTime();
-			conversation.open = true;
-			$menu.add(conversation);
-			getModule().storage.save(conversation);
+			$
+				.when(getModule().requestUserProfileData(conversation))
+				.then(function() {
+					conversation.lastActivity = (new Date).getTime();
+					conversation.open = true;
+					$menu.add(conversation);
+					getModule().storage.save(conversation);
+				});
 		},
 
 		onMenuItemRemovalRequest: function(e) {
@@ -585,16 +619,19 @@
 
 		onConversation: function(conversation) {
 			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
-			getModule().requestUserImages(conversation);
 
-			if(chatWindow.length !== 0) {
-				chatWindow.find('[data-onscreenchat-window-participants]').html(
-					getParticipantsNames(conversation).join(', ')
-				);
-			}
+			$
+				.when(getModule().requestUserProfileData(conversation))
+				.then(function() {
+					if(chatWindow.length !== 0) {
+						chatWindow.find('[data-onscreenchat-window-participants]').html(
+							getParticipantsNames(conversation).join(', ')
+						);
+					}
 
-			$menu.add(conversation);
-			getModule().storage.save(conversation);
+					$menu.add(conversation);
+					getModule().storage.save(conversation);
+			});
 		},
 
 		onHistory: function (conversation) {
@@ -930,10 +967,14 @@
 			}
 		};
 	})();
-	
+
 	var findUsernameByIdByConversation = function(conversation, usrId) {
 		for(var index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == usrId) {
+				if (getModule().participantsNames.hasOwnProperty(conversation.participants[index].id)) {
+					return getModule().participantsNames[conversation.participants[index].id];
+				}
+
 				return conversation.participants[index].name;
 			}
 		}
@@ -971,6 +1012,11 @@
 
 		for(var key in conversation.participants) {
 			if(getModule().user.id != conversation.participants[key].id) {
+				if (getModule().participantsNames.hasOwnProperty(conversation.participants[key].id)) {
+					names.push(getModule().participantsNames[conversation.participants[key].id]);
+					continue;
+				}
+
 				names.push(conversation.participants[key].name);
 			}
 		}
