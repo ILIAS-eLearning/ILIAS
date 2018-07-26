@@ -21,21 +21,28 @@ class ilCertificateCron extends ilCronJob
 	private $userRepository;
 
 	/**
+	 * @var \ILIAS\DI\LoggingServices|ilLogger logger
+	 */
+	private $logger;
+
+	/**
 	 * @param ilCertificateQueueRepository $queueRepository
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilUserCertificateRepository $userRepository
+	 * @param ilLogger|null $logger
 	 */
 	public function __construct(
 		ilCertificateQueueRepository $queueRepository = null,
 		ilCertificateTemplateRepository $templateRepository = null,
-		ilUserCertificateRepository $userRepository = null
+		ilUserCertificateRepository $userRepository = null,
+		ilLogger $logger = null
 	) {
 		global $DIC;
 
 		$database = $DIC->database();
 
 		if (null === $queueRepository) {
-			$queueRepository = new ilCertificateQueueRepository($database);
+			$queueRepository = new ilCertificateQueueRepository($database, $DIC->logger()->root());
 		}
 		$this->queueRepository = $queueRepository;
 
@@ -45,39 +52,83 @@ class ilCertificateCron extends ilCronJob
 		$this->templateRepository = $templateRepository;
 
 		if (null === $userRepository) {
-			$userRepository = new ilUserCertificateRepository($database);
+			$userRepository = new ilUserCertificateRepository($database, $DIC->logger()->root());
 		}
 		$this->userRepository = $userRepository;
+
+		if (null === $logger) {
+			$logger = $DIC->logger();
+		}
+		$this->logger = $logger;
 	}
 
 	public function run()
 	{
+		$this->logger->info('Begin with cron job to create user certificates from templates');
+
 		$entries = $this->queueRepository->getAllEntriesFromQueue();
 
 		foreach ($entries as $entry) {
-			/** @var $entry ilCertificateQueueEntry */
-			$class = $entry->getAdapterClass();
-			$adapter = new $class();
-			if (!$adapter instanceof ilCertificatePlaceholderValues) {
-				throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter.');
+			try {
+				$this->logger->debug('Entry found will start of processing the entry');
+
+				/** @var $entry ilCertificateQueueEntry */
+				$class = $entry->getAdapterClass();
+				$this->logger->debug('Adapter class to be executed "' . $class . '"');
+
+				$placeholderValueObject = new $class();
+				if (!$placeholderValueObject instanceof ilCertificatePlaceholderValues) {
+					throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter and MUST have an accessible namespace. The class map MAY be reloader.');
+				}
+
+				$objId = $entry->getObjId();
+				$userId = $entry->getUserId();
+
+				$this->logger->debug(sprintf(
+					'Fetch currently active certificate for user id: "%s" and object id: "%s"',
+					$userId,
+					$objId
+				));
+
+				$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+
+				$object = ilObjectFactory::getInstanceByObjId($objId, false);
+				$type = $object->getType();
+
+				$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
+				if (!$userObject || !($userObject instanceof \ilObjUser)) {
+					throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
+				}
+
+				$this->logger->debug(sprintf(
+					'Object type: "%s"',
+					$type
+				));
+
+				$certificateContent = $template->getCertificateContent();
+
+				$placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);
+
+				$this->logger->debug(sprintf(
+					'Values for placeholders: "%s"',
+					json_encode($placeholderValues)
+				));
+			} catch (ilInvalidCertificateException $exception) {
+				$this->logger->warning($exception->getMessage());
+				$this->logger->warning('The user MAY not be able to achieve the certificate based on the adapters settings');
+				$this->logger->warning('Due the error, the entry will now be remove from the queue.');
+
+				$this->queueRepository->removeFromQueue($entry->getId());
+
+				continue;
+			} catch (ilException $exception) {
+				$this->logger->warning($exception->getMessage());
+				$this->logger->warning('Due the error, the entry will now be remove from the queue.');
+
+				$this->queueRepository->removeFromQueue($entry->getId());
+				continue;
 			}
 
-			$objId = $entry->getObjId();
-			$userId = $entry->getUserId();
-
-			$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
-
-			$object = ilObjectFactory::getInstanceByObjId($objId, false);
-			$type = $object->getType();
-
-			$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
-			if (!$userObject || !($userObject instanceof \ilObjUser)) {
-				throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
-			}
-
-			$certificateContent = $template->getCertificateContent();
-
-			$placeholderValues = $adapter->getPlaceholderValues($userId, $objId);
 			foreach ($placeholderValues as $placeholder => $value) {
 				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent );
 			}
