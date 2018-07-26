@@ -7,6 +7,7 @@
 		conversations: [],
 		messageFormatter: {},
 		participantsImages: {},
+		participantsNames: {},
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChatMenu.config = config;
@@ -79,7 +80,13 @@
 
 					for (var key in participants) {
 						if(participants.hasOwnProperty(key) && participants[key].id != getModule().config.userId) {
-							participantNames.push(participants[key].name);
+							var publicName = getPublicName(participants[key].id);
+							if (publicName !== "") {
+								participantNames.push(publicName);
+							} else {
+								participantNames.push(participants[key].name);
+							}
+
 							participantUserIds.push(participants[key].id);
 						}
 					}
@@ -204,6 +211,10 @@
 			getModule().participantsImages = images;
 		},
 
+		syncPublicNames: function(names) {
+			getModule().participantsNames = names;
+		},
+
 		countUnreadMessages: function() {
 			var conversations = getModule().conversations;
 
@@ -241,6 +252,14 @@
 		if (getModule().participantsImages.hasOwnProperty(userId)) {
 			return getModule().participantsImages[userId].src;
 		}
+		return "";
+	};
+
+	var getPublicName = function(userId) {
+		if (getModule().participantsNames.hasOwnProperty(userId)) {
+			return getModule().participantsNames[userId];
+		}
+
 		return "";
 	};
 
