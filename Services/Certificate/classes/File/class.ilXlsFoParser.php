@@ -5,7 +5,7 @@ class ilXlsFoParser
 {
 	private $adapter;
 
-	public function __construct($adapter)
+	public function __construct(ilCertificateAdapter $adapter)
 	{
 		$this->adapter = $adapter;
 	}
