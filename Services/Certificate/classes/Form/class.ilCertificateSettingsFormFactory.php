@@ -29,33 +29,42 @@ class ilCertificateSettingsFormFactory
 	private $toolbar;
 
 	/**
+	 * @var ilCertificatePlaceholderDescription
+	 */
+	private $placeholderDescriptionObject;
+
+	/**
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
+	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 */
 	public function __construct(
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
-		ilToolbarGUI $toolbar
+		ilToolbarGUI $toolbar,
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	) {
-		$this->language   = $language;
-		$this->template   = $template;
-		$this->controller = $controller;
-		$this->access     = $access;
-		$this->toolbar    = $toolbar;
+		$this->language                     = $language;
+		$this->template                     = $template;
+		$this->controller                   = $controller;
+		$this->access                       = $access;
+		$this->toolbar                      = $toolbar;
+		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
 	}
 
 	/**
-	 * @param $objId
+	 * @param $certificateGUI
+	 * @param $certificateObject
 	 * @param array $form_fields
 	 * @return ilPropertyFormGUI
 	 * @throws ilWACException
 	 */
-	public function create($objId, $certificateGUI, $certificateObject, $form_fields)
+	public function create($certificateGUI, $certificateObject, $form_fields)
 	{
 		$command = $this->controller->getCmd();
 
@@ -74,12 +83,13 @@ class ilCertificateSettingsFormFactory
 		$import = new ilFileInputGUI($this->language->txt("import"), "certificate_import");
 		$import->setRequired(FALSE);
 		$import->setSuffixes(array("zip"));
+
 		// handle the certificate import
 		if (strlen($_FILES["certificate_import"]["name"]))
 		{
 			if ($import->checkInput())
 			{
-				$result = $this->object->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+				$result = $certificateObject->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
 				if ($result == FALSE)
 				{
 					$import->setAlert($this->language->txt("certificate_error_import"));
@@ -189,7 +199,7 @@ class ilCertificateSettingsFormFactory
 		$common_desc = $common_desc_tpl->get();
 		// fraunhpatch start
 
-		$certificate->setInfo($certificateObject->getAdapter()->getCertificateVariablesDescription() . $common_desc);
+		$certificate->setInfo($this->placeholderDescriptionObject->createPlaceholderHtmlDescription() . $common_desc);
 		$certificate->setUseRte(TRUE, '3.4.7');
 
 		$tags = array(
