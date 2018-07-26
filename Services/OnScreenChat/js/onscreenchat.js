@@ -1,9 +1,6 @@
 (function($, $scope, $chat, $menu){
 	'use strict';
 
-	var bootstrapTooltip = $.fn.tooltip.noConflict();
-	$.fn.bootstrapTt = bootstrapTooltip;
-
 	var TYPE_CONSTANT	= 'osc';
 	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
 
@@ -257,7 +254,7 @@
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 
-				conversationWindow.find('[data-toggle="tooltip"]').bootstrapTt({
+				conversationWindow.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
 					viewport: { selector: 'body', padding: 10 }
 				});
