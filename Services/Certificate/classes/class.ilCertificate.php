@@ -651,14 +651,13 @@ class ilCertificate
 
 		$xslfo = $template->getCertificateContent();
 
-        // render tex as fo graphics
+		// render tex as fo graphics
 		$xslfo = ilMathJax::getInstance()
 			->init(ilMathJax::PURPOSE_PDF)
 			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
 			->insertLatexImages($xslfo);
 
-		try
-		{
+		try {
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
 				->ilFO2PDF($this->exchangeCertificateVariables($xslfo));
 
@@ -669,8 +668,7 @@ class ilCertificate
 			);
 
 		}
-		catch(Exception $e)
-		{
+		catch(Exception $e) {
 			$this->log->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
@@ -883,70 +881,65 @@ class ilCertificate
 	 */
 	public function importCertificate($zipfile, $filename)
 	{
-		$importpath = $this->createArchiveDirectory();
-		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importpath . $filename)) {
-			ilUtil::delDir($importpath);
+		$importPath = $this->createArchiveDirectory();
+		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importPath . $filename)) {
+			ilUtil::delDir($importPath);
 			return FALSE;
 		}
 
-		ilUtil::unzip($importpath . $filename, TRUE);
-		$subdir = str_replace(".zip", "", strtolower($filename)) . "/";
-		$copydir = $importpath;
+		ilUtil::unzip($importPath . $filename, TRUE);
+		$subDirectory = str_replace(".zip", "", strtolower($filename)) . "/";
+		$copyDirectory = $importPath;
 
-		if (is_dir($importpath . $subdir)) {
-			$importpath = $importpath .$subdir;
-			$copydir = $importpath . $subdir;
+		if (is_dir($importPath . $subDirectory)) {
+			$importPath = $importPath .$subDirectory;
+			$copyDirectory = $importPath . $subDirectory;
 		}
 
-		$dirinfo = ilUtil::getDir($importpath);
+		$directoryInfo = ilUtil::getDir($importPath);
 
-		$xmlfiles = 0;
-		$otherfiles = 0;
-		foreach ($dirinfo as $file)
-		{
-			if (strcmp($file["type"], "file") == 0)
-			{
-				if (strpos($file["entry"], ".xml") !== FALSE)
-				{
-					$xmlfiles++;
+		$xmlFiles = 0;
+		$otherFiles = 0;
+
+		foreach ($directoryInfo as $file) {
+			if (strcmp($file["type"], "file") == 0) {
+				if (strpos($file["entry"], ".xml") !== false) {
+					$xmlFiles++;
 				}
-				else if (strpos($file["entry"], ".zip") !== FALSE)
-				{
-				}
-				else
-				{
-					$otherfiles++;
+				else if (strpos($file["entry"], ".zip") !== false)
+				{}
+				else {
+					$otherFiles++;
 				}
 			}
 		}
+
 		// if one XML file is in the archive, we try to import it
-		if ($xmlfiles == 1)
-		{
-			foreach ($dirinfo as $file)
-			{
-				if (strcmp($file["type"], "file") == 0)
-				{
-					if (strpos($file["entry"], ".xml") !== FALSE)
-					{
-						$xsl = file_get_contents($copydir . $file["entry"]);
+		if ($xmlFiles == 1) {
+			$version = 1;
+			foreach ($directoryInfo as $file) {
+				if (strcmp($file["type"], "file") == 0) {
+					if (strpos($file["entry"], '.xml') !== false) {
+						$xsl = file_get_contents($copyDirectory . $file["entry"]);
 						// as long as we cannot make RPC calls in a given directory, we have
 						// to add the complete path to every url
 						$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
-
 							$basePath = rtrim(dirname($this->getBackgroundImageDirectory(true)), '/');
 							$fileName = basename($matches[1]);
 
 							return 'url(' . $basePath . '/' . $fileName . ')';
 						}, $xsl);
 
-						$this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+						$currentCertificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+
+						$version = $currentCertificate->getVersion();
 
 						$template = new ilCertificateTemplate(
 							$this->objectId,
 							$xsl,
 							md5($xsl),
 							json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
-							'1',
+							$version + 1,
 							ILIAS_VERSION_NUMERIC,
 							time(),
 							true
@@ -954,28 +947,31 @@ class ilCertificate
 
 						$this->templateRepository->save($template);
 					}
-					else if (strpos($file["entry"], ".zip") !== FALSE)
-					{
-					}
-					else
-					{
-						@copy($copydir . $file["entry"], $this->certificatePath . $file["entry"]);
-						if (strcmp($this->getBackgroundImageDirectory() . 'background.jpg', $this->certificatePath . $file["entry"]) == 0)
-						{
+					else if (strpos($file["entry"], '.zip') !== false)
+					{}
+					else if (strpos($file["entry"], '.jpg') !== false) {
+						@copy($copyDirectory . $file["entry"], $this->certificatePath . $file["entry"]);
+						$backgroundImage = 'background_' . $version . '.jpg';
+
+						if (strcmp($this->getBackgroundImageDirectory() . $backgroundImage, $this->certificatePath . $file["entry"]) == 0) {
 							// upload of the background image, create a preview
-							ilUtil::convertImage($this->getBackgroundImageDirectory() . 'background.jpg', $this->getBackgroundImageThumbPath(), "JPEG", 100);
+							ilUtil::convertImage(
+								$this->getBackgroundImageDirectory() . $backgroundImage,
+								$this->getBackgroundImageThumbPath(),
+								'JPEG',
+								100
+							);
 						}
 					}
 				}
 			}
+		} else {
+			ilUtil::delDir($importPath);
+			return false;
 		}
-		else
-		{
-			ilUtil::delDir($importpath);
-			return FALSE;
-		}
-		ilUtil::delDir($importpath);
-		return TRUE;
+
+		ilUtil::delDir($importPath);
+		return true;
 	}
 	
 	/**
