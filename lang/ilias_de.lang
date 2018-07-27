@@ -12492,6 +12492,7 @@ dcl#:#dcl_selection_type#:#Typ
 dcl#:#dcl_selection_type_single#:#Einfachauswahl
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard-Ansicht
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
 content#:#cont_auto_time#:#Wartezeit Animation
