@@ -483,7 +483,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0) )
+		if( !$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, 0) )
 		{
 			return '';
 		}
@@ -499,7 +499,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
 			$feedback .= $caption .'</td><td>';
 			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $index
+					$this->object->getId(),0, $index
 				) . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';

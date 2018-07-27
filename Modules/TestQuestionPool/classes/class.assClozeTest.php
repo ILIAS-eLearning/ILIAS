@@ -8,6 +8,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScori
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
+require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssClozeTestFeedback.php';
 
 /**
  * Class for cloze tests
@@ -92,6 +93,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	var $fixedTextLength;
 
 	public $cloze_text;
+	
+	protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
 
 	/**
 	 * assClozeTest constructor
@@ -187,6 +190,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$this->setClozeText($data['cloze_text']);
 			$this->setFixedTextLength($data["fixed_textlen"]);
 			$this->setIdenticalScoring(($data['tstamp'] == 0) ? true : $data["identical_scoring"]);
+			$this->setFeedbackMode($data['feedback_mode']);
 			// replacement of old syntax with new syntax
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
@@ -317,30 +321,22 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
-
-		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		
+		$DIC->database()->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
 							array( $this->getId() )
 		);
-
-		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName()
-								. " (question_fi, textgap_rating, identical_scoring, fixed_textlen, cloze_text) VALUES (%s, %s, %s, %s, %s)",
-							array(
-								"integer",
-								"text",
-								"text",
-								"integer",
-								"text"
-							),
-							array(
-								$this->getId(),
-								$this->getTextgapRating(),
-								$this->getIdenticalScoring(),
-								$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
-								ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)
-							)
-		);
+		
+		$DIC->database()->insert($this->getAdditionalTableName(), array(
+			'question_fi' => array('integer', $this->getId()),
+			'textgap_rating' => array('text', $this->getTextgapRating()),
+			'identical_scoring' => array('text', $this->getIdenticalScoring()),
+			'fixed_textlen' => array('integer', $this->getFixedTextLength() ? $this->getFixedTextLength() : NULL),
+			'cloze_text' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)),
+			'feedback_mode' => array('text', $this->getFeedbackMode())
+		));
 	}
 
 	/**
@@ -593,6 +589,22 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	function setEndTag($end_tag = "[/gap]") 
 	{
 		$this->end_tag = $end_tag;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFeedbackMode()
+	{
+		return $this->feedbackMode;
+	}
+	
+	/**
+	 * @param string $feedbackMode
+	 */
+	public function setFeedbackMode($feedbackMode)
+	{
+		$this->feedbackMode = $feedbackMode;
 	}
 
 	/**
@@ -2021,5 +2033,21 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		
 		return $this->calculateReachedPointsForSolution($userSolution);
+	}
+	
+	public function fetchAnswerValueForGap($userSolution, $gapIndex)
+	{	
+		$answerValue = '';
+		
+		foreach($userSolution as $valueRow)
+		{
+			if ($valueRow['value1'] == $gapIndex)
+			{
+				$answerValue = $valueRow['value2'];
+				break;
+			}
+		}
+		
+		return $answerValue;
 	}
 }

@@ -522,6 +522,22 @@ assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
 assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hinereinander
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
+assessment#:#ass_cloze_fb_mode#:#Modus der Rückmeldung
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Rückmeldungen je Lücke
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#Für jede Lücke kann eine Rückmeldung hinterlegt werden.
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Antwortspezifische Rückmeldungen
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#Für jede Lücke können unterschiedliche Rückmeldung je Antwort hinterlegt werden.
+assessment#:#ass_cloze_gap_fb_gap_label#:#Lücke %s: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Lücke %s - Keine Eingabe
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Lücke %s - Falsche Eingabe
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Lücke %s - Angegebene Antwort: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Lücke %s - Keine Auswahl
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Lücke %s - Auswahloption: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Lücke %s - Keine Eingabe
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Lücke %s - Genauer Wert
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Lücke %s - Wertebereich
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Lücke %s - Wert zu niedrig
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Lücke %s - Wert zu hoch
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
