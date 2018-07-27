@@ -204,6 +204,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
+
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we through an error in case for no name or render without name?

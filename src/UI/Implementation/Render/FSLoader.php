@@ -30,12 +30,19 @@ class FSLoader implements Loader {
 	 */
 	private $glyph_renderer_factory;
 
+	/**
+	 * @var	RendererFactory
+	 */
+	private $field_renderer_factory;
+
 	public function __construct(
 		RendererFactory $default_renderer_factory,
-		RendererFactory $glyph_renderer_factory
+		RendererFactory $glyph_renderer_factory,
+		RendererFactory $field_renderer_factory
 	) {
 		$this->default_renderer_factory = $default_renderer_factory;
 		$this->glyph_renderer_factory = $glyph_renderer_factory;
+		$this->field_renderer_factory = $field_renderer_factory;
     }
 
 	/**
@@ -53,6 +60,9 @@ class FSLoader implements Loader {
 	public function getRendererFactoryFor(Component $component) {
 		if($component instanceof \ILIAS\UI\Implementation\Component\Glyph\Glyph) {
 			return $this->glyph_renderer_factory;
+		}
+		if($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
+			return $this->field_renderer_factory;
 		}
 		return $this->default_renderer_factory;
 	}
