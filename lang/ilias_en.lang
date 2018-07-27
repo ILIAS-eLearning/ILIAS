@@ -420,6 +420,22 @@ assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
 assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
 assessment#:#out_of_range#:#Out of range
+assessment#:#ass_cloze_fb_mode#:#Feedback Mode
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Feedback per Gap
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#For every gap a single feedback can be configured.
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Answer specific Feedback
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#For every gap separate feedbacks can be configured for different answers.
+assessment#:#ass_cloze_gap_fb_gap_label#:#Gap %s: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Gap %s - Wrong Answer
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Gap %s - Given Answer: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Gap %s - No Selection
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Gap %s - Select Option: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Gap %s - Value Hit
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Gap %s - Range Hit
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Gap %s - Value too Low
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Gap %s - Value too High
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation

@@ -583,7 +583,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if ($show_feedback)
 		{
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $solution_id
+					$this->object->getId(),0, $solution_id
 			);
 			
 			if (strlen($fb))
@@ -755,7 +755,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				if(!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id)
 				{
 					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
+							$this->object->getId(),0, $answer_id
 					);
 					if (strlen($feedback))
 					{
@@ -922,7 +922,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->getAnswers())) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -932,7 +932,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach($this->object->getAnswers() as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $idx
+				$this->object->getId(),0, $idx
 			);
 
 			$output .= "<tr><td>{$answer->getAnswerText()}</td><td>{$feedback}</td></tr>";

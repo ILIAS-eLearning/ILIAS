@@ -456,7 +456,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$answers = explode(' ', $this->object->getOrderText());
 		}
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($answers)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -466,7 +466,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		foreach($answers as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $idx
+				$this->object->getId(),0, $idx
 			);
 
 			$output .= "<tr><td>{$answer}</td><td>{$feedback}</td></tr>";
