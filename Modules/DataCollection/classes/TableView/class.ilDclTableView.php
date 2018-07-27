@@ -430,8 +430,7 @@ class ilDclTableView extends ActiveRecord {
 			$view->setRoles(array_merge($roles, $rbacreview->getLocalRoles($_GET['ref_id'])));
 		}
 		$view->setTableId($table_id);
-		//TODO: Ceck if this is an appropriate fix for mantis 0023307:
-//		$view->setTitle('Standardview');
+		// bugfix mantis 0023307
 		$lng = $DIC['lng'];
 		$view->setTitle($lng->txt('dcl_title_standardview'));
 		$view->setTableviewOrder(10);
