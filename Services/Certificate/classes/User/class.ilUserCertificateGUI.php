@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @ingroup CertificatesUser
+ * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilUserCertificateTableGUI
+ *
+ * @ingroup ServicesCertificate
  */
 class ilUserCertificateGUI
 {
@@ -114,10 +116,5 @@ class ilUserCertificateGUI
 
 		$html = $table->getHTML();
 		$this->template->setContent($html);
-	}
-
-	public function download()
-	{
-
 	}
 }

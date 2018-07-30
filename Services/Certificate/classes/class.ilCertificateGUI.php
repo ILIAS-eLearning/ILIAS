@@ -111,7 +111,7 @@ class ilCertificateGUI
 	private $objectId;
 
 	/**
-	 * @var ilCertificateSettingsFormFactory|null
+	 * @var ilCertificateSettingsFormRepository|null
 	 */
 	private $settingsFormFactory;
 
@@ -127,7 +127,7 @@ class ilCertificateGUI
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
 	 * @param $certificatePath
-	 * @param ilCertificateSettingsFormFactory|null $settingsFormFactory
+	 * @param ilCertificateFormRepository $settingsFormFactory
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilXlsFoParser|null $xlsFoParser
 	 * @access public
@@ -138,7 +138,7 @@ class ilCertificateGUI
 		ilCertificatePlaceholderValues $placeholderValuesObject,
 		$objectId,
 		$certificatePath,
-		ilCertificateSettingsFormFactory $settingsFormFactory = null,
+		ilCertificateFormRepository $settingsFormFactory = null,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilXlsFoParser $xlsFoParser = null
 	) {
@@ -158,7 +158,7 @@ class ilCertificateGUI
 		$this->ilias   = $DIC['ilias'];
 		$this->tree    = $DIC['tree'];
 		$this->tree    = $DIC['tree'];
-		$this->access = $DIC['ilAccess'];
+		$this->access  = $DIC['ilAccess'];
 		$this->toolbar = $DIC['ilToolbar'];
 
 		$this->ref_id = (int)$_GET['ref_id'];
@@ -170,7 +170,7 @@ class ilCertificateGUI
 		$this->objectId = $objectId;
 
 		if (null === $settingsFormFactory) {
-			$settingsFormFactory = new ilCertificateSettingsFormFactory(
+			$settingsFormFactory = new ilCertificateSettingsFormRepository(
 				$this->lng,
 				$this->tpl,
 				$this->ctrl,
@@ -283,18 +283,22 @@ class ilCertificateGUI
 	*/
 	function certificateSave()
 	{
-		$form_fields = $this->getFormFieldsFromPOST();
+		global $DIC;
 
-		$form = $this->settingsFormFactory->create(
+		$form = $this->settingsFormFactory->createForm(
 			$this,
-			$this->certifcateObject,
-			$form_fields
+			$this->certifcateObject
 		);
 
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$form->setValuesByPost();
 
-		$this->saveCertificate($form, $form_fields, $this->objectId);
+		$request = $DIC->http()->request();
 
+		$formFields = $request->getParsedBody();
+
+		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+
+		$this->saveCertificate($form, $formFields, $this->objectId);
 	}
 
 	/**
@@ -303,39 +307,6 @@ class ilCertificateGUI
 	public function certificateUpload()
 	{
 		$this->certificateEditor();
-	}
-	
-	/**
-	* Get the form values from an HTTP POST
-	*/
-	protected function getFormFieldsFromPOST()
-	{
-		$form_fields = array(
-			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
-			"margin_body_top" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["top"])),
-			"margin_body_right" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["right"])),
-			"margin_body_bottom" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["bottom"])),
-			"margin_body_left" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["left"])),
-			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
-			"pageheight" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["pageheight"])),
-			"pagewidth" => $this->certifcateObject->formatNumberString(ilUtil::stripSlashes($_POST["pagewidth"])),
-			"active" => ilUtil::stripSlashes($_POST["active"])
-		);
-
-		$this->certifcateObject->getAdapter()->addFormFieldsFromPOST($form_fields);
-
-		return $form_fields;
-	}
-	
-	/**
-	* Get the form values from the certificate xsl-fo
-	*/
-	protected function getFormFieldsFromFO()
-	{
-		$form_fields = $this->certifcateObject->getFormFieldsFromFO();
-		$form_fields["active"] = $this->certifcateObject->readActive();
-		$this->certifcateObject->getAdapter()->addFormFieldsFromObject($form_fields);
-		return $form_fields;
 	}
 
 	/**
@@ -349,11 +320,12 @@ class ilCertificateGUI
 		$form_fields = $this->xlsFoParser->parse($content);
 		$form_fields["active"] = $this->certifcateObject->readActive();
 
-		$form = $this->settingsFormFactory->create(
+		$form = $this->settingsFormFactory->createForm(
 			$this,
-			$this->certifcateObject,
-			$form_fields
+			$this->certifcateObject
 		);
+
+		$form->setValuesByArray($form_fields);
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
@@ -375,8 +347,7 @@ class ilCertificateGUI
 
 		if ($form->checkInput()) {
 			try {
-				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields, $nextVersion);
-				$this->certifcateObject->getAdapter()->saveFormFields($form_fields);
+				$this->settingsFormFactory->save($form_fields);
 
 				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
 
@@ -392,6 +363,8 @@ class ilCertificateGUI
 						}
 					}
 				}
+
+				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields, $backgroundImagePath);
 
 				$certificateTemplate = new ilCertificateTemplate(
 					$objId,

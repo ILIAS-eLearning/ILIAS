@@ -130,8 +130,10 @@ class ilCertificateCron extends ilCronJob
 			}
 
 			foreach ($placeholderValues as $placeholder => $value) {
-				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent );
+				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
 			}
+
+			$certificateContent = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $certificateContent);
 
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),
@@ -145,7 +147,8 @@ class ilCertificateCron extends ilCronJob
 				null,
 				$template->getVersion(),
 				ILIAS_VERSION_NUMERIC,
-				true
+				true,
+				$template->getBackgroundImagePath()
 			);
 
 			$this->userRepository->save($userCertificate);
