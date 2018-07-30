@@ -385,7 +385,14 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					$this->group_data['min_members'] = (int)$this->cdata;								
 				}
-				break;	
+				break;
+
+			case 'showMembers':
+				if((int) $this->cdata)
+				{
+					$this->group_data['show_members'] = (int) $this->cdata;
+				}
+				break;
 			
 			case 'mailMembersType':
 				$this->group_data['mail_members_type'] = (int) $this->cdata;
@@ -530,7 +537,8 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		
 		$this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
-		$this->group_obj->setMinMembers($this->group_data['min_members']);		
+		$this->group_obj->setMinMembers($this->group_data['min_members']);
+		$this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
 		
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		
@@ -683,4 +691,3 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $a_group_id);
 	}
 }
-?>
