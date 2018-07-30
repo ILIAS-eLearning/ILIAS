@@ -220,6 +220,7 @@ class ilGroupXMLParser extends ilSaxParser
 			case 'WaitingListAutoFill':
 			case 'CancellationEnd':
 			case 'minMembers':
+			case 'showMembers':
 			case 'mailMembersType':
 				break;		
 		}
@@ -315,6 +316,13 @@ class ilGroupXMLParser extends ilSaxParser
 				if((int)$this->cdata)
 				{
 					$this->group_data['min_members'] = (int)$this->cdata;								
+				}
+				break;	
+			
+			case 'showMembers':
+				if((int)$this->cdata)
+				{
+					$this->group_data['show_members'] = (int)$this->cdata;
 				}
 				break;	
 			
@@ -463,7 +471,8 @@ class ilGroupXMLParser extends ilSaxParser
 		
 		$this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
-		$this->group_obj->setMinMembers($this->group_data['min_members']);		
+		$this->group_obj->setMinMembers($this->group_data['min_members']);
+		$this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
 		
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		
