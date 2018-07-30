@@ -253,7 +253,11 @@ class ilCertificate
 	public function getBackgroundImageThumbPathWeb()
 	{
 		// TODO: this is generic now -> provide better solution
-		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $this->getBackgroundImageThumbPath());
+		return str_replace(
+			ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+			ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+			$this->getBackgroundImageThumbPath()
+		);
 	}
 	
 	/**
@@ -263,7 +267,7 @@ class ilCertificate
 	*/
 	public function deleteBackgroundImage($version)
 	{
-		$result = TRUE;
+		$result = true;
 		if (file_exists($this->getBackgroundImageThumbPath())) {
 			$result = $result & unlink($this->getBackgroundImageThumbPath());
 		}
@@ -362,6 +366,7 @@ class ilCertificate
 				$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($f["name"]);
 			}
 		}
+
 		foreach ($insert_tags as $var => $value)
 		{
 			$certificate_text = str_replace($var, $value, $certificate_text);
@@ -391,7 +396,7 @@ class ilCertificate
 		$cust_data = $cust_data->getAll();
 
 		foreach (self::getCustomCertificateFields() as $key => $field)  {
-			$insert_tags[$field["ph"]] = ilUtil::prepareFormOutput($cust_data["f_".$key]);
+			$insert_tags[$field['ph']] = ilUtil::prepareFormOutput($cust_data['f_' . $key]);
 		}
 
 		/** @var ilObject $object */
@@ -429,13 +434,14 @@ class ilCertificate
 
 			$this->certificateRepository->save($userCertificate);
 
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
+				->ilFO2PDF($fo_string);
 
 			if ($deliver) {
 				ilUtil::deliverData(
 					$pdf_base64->scalar,
 					$this->getAdapter()->getCertificateFilename($params),
-					"application/pdf"
+					'application/pdf'
 				);
 			}
 
@@ -475,7 +481,7 @@ class ilCertificate
 			ilUtil::deliverData(
 				$pdf_base64->scalar,
 				$this->getAdapter()->getCertificateFilename(),
-				"application/pdf"
+				'application/pdf'
 			);
 
 		}
@@ -493,19 +499,19 @@ class ilCertificate
 	*
 	* @param string $xslfo XSL-FO code
 	*/
-	public function saveCertificate($xslfo, $filename = "")
+	public function createCertificateFile($xslfo, $filename = '')
 	{
-		if (!file_exists($this->certificatePath))
-		{
+		if (!file_exists($this->certificatePath)) {
 			ilUtil::makeDirParents($this->certificatePath);
 		}
-		if (strlen($filename) == 0)
-		{
+
+		if (strlen($filename) == 0) {
 			$filename = $this->getXSLPath();
 		}
-		$fh = fopen($filename, "w");
-		fwrite($fh, $xslfo);
-		fclose($fh);
+
+		$fileHandle = fopen($filename, "w");
+		fwrite($fileHandle, $xslfo);
+		fclose($fileHandle);
 	}
 
 	/**
@@ -519,14 +525,12 @@ class ilCertificate
 	 */
 	public function uploadBackgroundImage($image_tempfilename, $version)
 	{
-		if (!empty($image_tempfilename))
-		{
+		if (!empty($image_tempfilename)) {
 			$convert_filename = $this->getBackgroundImageName();
 
 			$imagepath = $this->certificatePath;
 
-			if (!file_exists($imagepath))
-			{
+			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
 			// upload the file
@@ -572,8 +576,9 @@ class ilCertificate
 	*/
 	public function hasBackgroundImage()
 	{
-		if (file_exists($this->getBackgroundImageDirectory() . 'background.jpg') && (filesize($this->getBackgroundImageDirectory() . 'background.jpg') > 0))
-		{
+		if (file_exists($this->getBackgroundImageDirectory() . 'background.jpg')
+			&& (filesize($this->getBackgroundImageDirectory() . 'background.jpg') > 0)
+		) {
 			return true;
 		}
 		return false;
@@ -596,6 +601,7 @@ class ilCertificate
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -616,7 +622,7 @@ class ilCertificate
 		foreach ($templates as $template) {
 			$xslExport = $template->getCertificateContent();
 			$version = $template->getVersion();
-			$this->saveCertificate($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
+			$this->createCertificateFile($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
 			$backgroundImagePath = $template->getBackgroundImagePath();
 
 			if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
@@ -795,10 +801,10 @@ class ilCertificate
 		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
 		ilUtil::zip($dir, $this->certificatePath . $zipfile);
 		ilUtil::delDir($dir);
-		if ($deliver)
-		{
+		if ($deliver) {
 			ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
 		}
+
 		return $this->certificatePath . $zipfile;
 	}
 	
@@ -819,6 +825,7 @@ class ilCertificate
 			
 			self::$is_active = (bool)$certificate_active;
 		}
+
 		return self::$is_active;
 	}
 
@@ -851,9 +858,8 @@ class ilCertificate
 			$all[$id] = false;
 		}
 
-		$set = $ilDB->query("SELECT obj_id FROM il_certificate WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer"));
-		while($row = $ilDB->fetchAssoc($set))
-		{
+		$set = $ilDB->query("SELECT obj_id FROM il_certificate WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer"));
+		while($row = $ilDB->fetchAssoc($set)) {
 			$all[$row["obj_id"]] = true;
 		}
 
@@ -874,12 +880,9 @@ class ilCertificate
 	 */
 	public function writeActive($a_value)
 	{
-		if((bool)$a_value)
-		{
+		if((bool)$a_value) {
 			$this->db->replace("il_certificate", array("obj_id" => array("integer", $this->objectId)), array());
-		}
-		else
-		{
+		} else {
 			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		}
 	}
@@ -891,48 +894,15 @@ class ilCertificate
 	{
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$fds = $user_field_definitions->getDefinitions();
+
 		$fields = array();
-		foreach ($fds as $f)
-		{
-			if ($f["certificate"])
-			{
+		foreach ($fds as $f) {
+			if ($f["certificate"]) {
 				$fields[$f["field_id"]] = array("name" => $f["field_name"],
-					"ph" => "[#".str_replace(" ", "_", strtoupper($f["field_name"]))."]");
+					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
 			}
 		}
 		
 		return $fields;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getExchangeContent()
-	{
-		if(!file_exists($this->getXSLPath()))
-		{
-			return '';
-		}
-
-		$output           = '';
-		$xsl_file_content = file_get_contents($this->getXSLPath());
-		$xsl              = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
-
-		if((strlen($xsl_file_content)) && (strlen($xsl)))
-		{
-			$args   = array('/_xml' => $xsl_file_content, '/_xsl' => $xsl);
-			$xh     = xslt_create();
-			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
-			xslt_error($xh);
-			xslt_free($xh);
-		}
-
-		$output = preg_replace("/<\?xml[^>]+?>/", "", $output);
-		// dirty hack: the php xslt processing seems not to recognize the following
-		// replacements, so we do it in the code as well
-		$output = str_replace("&#xA0;", "<br />", $output);
-		$output = str_replace("&#160;", "<br />", $output);
-
-		return $output;
 	}
 }
