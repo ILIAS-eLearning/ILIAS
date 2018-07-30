@@ -11,8 +11,6 @@
  */
 class ilPlayerUtil
 {
-	private static $mejs_ver = "2_14_2";
-	
 	/**
 	 * Get local path of jQuery file
 	 */

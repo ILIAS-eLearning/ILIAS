@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2018-03-18
+* @version	5.4.x 2018-07-28
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -43,10 +43,10 @@ lti#:#lti_admin#:#LTI-rendszergazda
 lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_member#:#LTI-címke
 auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
-lti#:#lti_object_release_settings_form#:#LTI-megosztás módosítása
-lti#:#lti_provider#:#LTI-megosztás
+lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
+lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objektummegosztás
+lti#:#lti_released_objects#:#Megosztott objektumok
 lti#:#lti_consumer#:#Megosztva vele:
 orgu#:#orgu_global_set_form#:#Globális szervezeti egység beállításai
 orgu#:#orgu_global_set_positions#:#Felhasználói adatok megjelenítése a szervezeti egységben lévő pozíciók szerint
@@ -713,6 +713,7 @@ assessment#:#tst_source_question_pool#:#Kérdésgyűjtemény
 assessment#:#tst_filter_taxonomy#:#Taxonómia
 assessment#:#tst_filter_tax_node#:#Taxonómia csomópont
 assessment#:#tst_non_avail_pools_table#:#Nem elérhető kérdésgyűjtemények
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#Ez a kérdésgyűjtemény jelenleg a lomtárban van. Ha a rendszerből végleg eltávolítják, a teszt nem tud majd utána kérdéseket szinkronizálni belőle.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Ez a kérdésgyűjtemény többé nem érhető el, ezért kérdései szinkronizációja nem lehetséges. Új kérdésgyűjteményt származtathat a teszt kérdéseiből.
 assessment#:#tst_derive_new_pool#:#Új kérdésgyűjtemény származtatása
 assessment#:#tst_derive_new_pools#:#Új kérdésgyűjtemények származtatása
@@ -773,9 +774,10 @@ assessment#:#ordertext_info#:#Adja meg a vízszintesen sorba rakandó szöveget.
 assessment#:#ordertext#:#Sorrendbe rakó szöveg
 assessment#:#output_mode#:#Kimeneti mód
 assessment#:#output#:#Kimenet (output)
-assessment#:#participants_invitation_description#:#Ez a teszt csak a 'Résztvevők' fülön kézzel hozzáadott felhasználók számára érhető el.
+assessment#:#participants_invitation_description#:#Ez a teszt csak a 'Műszerfal' fülön kézzel hozzáadott felhasználók számára érhető el.
 assessment#:#participants_invitation#:#Kézzel kiválasztott résztvevők
 assessment#:#participants#:#Résztvevők
+assessment#:#dashboard_tab#:#Műszerfal
 assessment#:#pass_finished#:#%s tesztkitöltés
 assessment#:#pass#:#Sorszám
 assessment#:#tst_attempt#:#Próbálkozás###XXX
@@ -943,7 +945,7 @@ assessment#:#term#:#Fogalom
 assessment#:#terms#:#Fogalmak
 assessment#:#text_correct#:#Helyes szöveg
 assessment#:#text_gap#:#Szöveghely
-assessment#:#text_maximum_chars_allowed#:#Ne adjon meg több, mint %s karaktert! Az efölötti karaktereket nem tároljuk.
+assessment#:#text_maximum_chars_allowed#:#Ne adjon meg több, mint %s karaktert! Az efölötti karaktereket tároljuk, de a túllépést lehet, hogy figyelembe veszik a pontozáskor.
 assessment#:#text_rating#:#Szövegillesztési módszer
 assessment#:#text_wrong#:#Hibás szöveg
 assessment#:#textsize_errortext_info#:#Adja meg a hibás szöveg méretét százalékban, ha 100%-tól eltérőt szeretne.
@@ -965,7 +967,7 @@ assessment#:#tst_already_submitted#:#A tesztet már befejezte és válaszait elk
 assessment#:#tst_anonymity#:#Adatvédelem
 assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérdések
 assessment#:#tst_answered_questions#:#Megválaszolt kérdések
-assessment#:#tst_best_solution_is#:#A legjobb megoldás
+assessment#:#tst_best_solution_is#:#A legjobb megoldás:
 assessment#:#tst_browse_for_qpl_questions#:#Hozzáadás kérdésgyűjteményből
 assessment#:#tst_browse_for_tst_questions#:#Hozzáadás másik tesztből
 assessment#:#tst_change_points_for_question#:#Válaszért járó pontszám
@@ -1008,7 +1010,7 @@ assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finished#:#Befejezve
 assessment#:#unfinished_passes#:#Befejezetlen kitöltések
-assessment#:#finish_pass_for_user_confirmation#:#Biztos, hogy befejezi ezt a tesztkitöltést?
+assessment#:#finish_pass_for_user_confirmation#:#Biztos, hogy befejezi '%s' tesztkitöltését?
 assessment#:#finish_pass_for_all_users#:#Biztos, hogy az összes felhasználó kitöltését befejezettre állítja?
 assessment#:#finish_all_user_passes#:#Összes tesztkitöltés befejezettre állítása
 assessment#:#finish_unfinished_passes#:#Összes befejezetlen tesztkitöltés befejezettre állítása
@@ -1036,7 +1038,7 @@ assessment#:#tst_introduction#:#Bevezető üzenet
 assessment#:#tst_introduction_desc#:#Bevezető üzenet megjelenítése a teszt információs oldalán. Ez a szöveg már elérhető a teszt megkezdése előtt.
 assessment#:#tst_invited_nobody#:#Nincs állandó tesztrésztvevőnek hozzáadott felhasználó, csoport vagy szerep.
 assessment#:#tst_invited_selected_users#:#A kiválasztott felhasználókat állandó tesztrésztvevőkként sikeresen felvette.
-assessment#:#tst_list_of_answers_show#:#Válaszok listájának megjelenítése
+assessment#:#tst_list_of_answers_show#:#A pontozott válaszok áttekintése
 assessment#:#tst_list_of_answers#:#Válaszok listája
 assessment#:#tst_list_of_questions_end#:#Azelőtt jelenjen meg, mielőtt a résztvevő befejezi a tesztet
 assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik
@@ -1060,6 +1062,8 @@ assessment#:#tst_nr_of_passes#:#Tesztkitöltések száma
 assessment#:#tst_nr_of_tries_of_user#:#Eddigi kitöltések
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
 assessment#:#tst_participating_users#:#Felhasználók
+assessment#:#tst_tbl_invited_users#:#Manuálisan kiválasztott résztvevők
+assessment#:#tst_tbl_results_grades#:#Eredmények és érdemjegyek
 assessment#:#tst_pass_best_pass#:#Legnagyobb elért pontszám számít
 assessment#:#tst_pass_best_pass_desc#:#Amennyiben többször töltheti ki egy résztvevő a tesztet, a legjobb eredményét vesszük figyelembe.
 assessment#:#tst_pass_details#:#Részletes eredmények
@@ -1083,7 +1087,7 @@ assessment#:#tst_postpone_on_desc#:#A megtekintett, de meg nem válaszolt kérd�
 assessment#:#tst_postpone_off#:#Meg nem válaszolt kérdések helyükön maradnak
 assessment#:#tst_postpone_off_desc#:#A megtekintett, de meg nem válaszolt kérdések helyzete nem változik, azok nem jelennek meg újra a teszt végén.
 assessment#:#tst_print#:#Teszt és értékelés nyomtatási nézete
-assessment#:#tst_processing_time_desc#:#A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát.
+assessment#:#tst_processing_time_desc#:#A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a 'Műszerfal' fül alatt.
 assessment#:#tst_processing_time#:#Elhasználható idő korlátja
 assessment#:#tst_qst_order#:#Sorrend
 assessment#:#tst_question_mark#:#Kérdés megjelölése
@@ -1121,25 +1125,25 @@ assessment#:#tst_result_user_name_pass#:#%s. tesztkitöltés eredménye, %s
 assessment#:#tst_result_user_name#:#%s eredményei:
 assessment#:#tst_result_pass#:#Tesztkitöltés végeredményei
 assessment#:#tst_results_access_always#:#Azonnal
-assessment#:#tst_results_access_always_desc#:#A résztvevők elérhetik eredményeiket az 'Információ' fülön a tesztkitöltésük ideje alatt. Továbbá a tesztkitöltők az eredményeikkel közvetlenül a teszt befejezése után megjelennek.
+assessment#:#tst_results_access_always_desc#:#A résztvevők elérhetik eredményeiket az 'Eredmények' fül alatt a tesztkitöltésük ideje alatt, továbbá a teszt befejezése után átirányítjuk őket az 'Eredmények' fülre.
 assessment#:#tst_results_access_date#:#Időpont
-assessment#:#tst_results_access_date_desc#:#A résztvevők a megadott időpont után érhetik el eredményeiket az 'Információ' fülön.
+assessment#:#tst_results_access_date_desc#:#A résztvevők a megadott időpont után érhetik el eredményeiket az 'Eredmények' fül alatt.
 assessment#:#tst_results_access_finished#:#Tesztkitöltés befejezése után
-assessment#:#tst_results_access_finished_desc#:#A teszt kitöltése után közvetlenül megjelenik az végeredmény. A tesztkitöltés után a résztvevők bármikor elérhetik eredményeiket az 'Információ' fülön.
+assessment#:#tst_results_access_finished_desc#:#A teszt kitöltése után közvetlenül megjelenik az végeredmény. A tesztkitöltés után a résztvevők bármikor elérhetik eredményeiket az 'Eredmények' fül alatt.
 assessment#:#tst_results_access_enabled#:#Hozzáférés a teszteredményekhez
-assessment#:#tst_results_access_enabled_desc#:#A résztvevők számára elérhetővé válik az 'Eredmények megjelenítése' gomb az 'Információ' fül alatt. Ebben és a következő részekben határozható meg, hogy a jelentés milyen információkat foglaljon magába.
+assessment#:#tst_results_access_enabled_desc#:#A résztvevők számára elérhetővé válik az 'Eredmények' fül. Ebben és a következő részekben határozhatja meg, hogy a jelentés mikortól legyen elérhető és milyen információkat tartalmazzon.
 assessment#:#tst_results_access_setting#:#Időpont
 assessment#:#tst_results_details_options#:#A teszteredményekben megjelenítendő további részletek
 assessment#:#tst_results_grading_opt_show_status#:#Sikeres/Sikertelen állapot megjelenítése
-assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen állapotról az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.<br />
+assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen állapotról az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Eredmények' fül alatt.<br />
 assessment#:#tst_results_grading_opt_show_mark#:#Érdemjegy megjelenítése
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Érdemjegyről az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Érdemjegyről az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Eredmények' fül alatt.
 assessment#:#tst_results_aggregated#:#Összesített teszteredmény
 assessment#:#tst_results_back_introduction#:#Vissza a bevezető üzenethez
 assessment#:#tst_results_back_overview#:#Vissza az eredmények áttekintéséhez
 assessment#:#tst_results_overview#:#Kitöltött teszt eredményeinek áttekintése
 assessment#:#tst_show_solution_details_desc#:#A 'Részletes teszteredmények táblázata' kiegészítéseként, minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
-assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás az 'Információ' fülön érhető el.
+assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás az 'Eredmények' fül 'Pontozott válaszok áttekintése' alfül alatt érhető el.
 assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.###XXX
 assessment#:#tst_show_solution_answers_only_desc#:#Ha be van kapcsolva, a 'Tartalom módosítása' fülön a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót. 
 assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik nyomtatott verzióban. Ennek használatához ne felejtse bekapcsolni a 'Részletes teszteredmények táblázata' a funkciót.
@@ -1170,7 +1174,9 @@ assessment#:#tst_show_cancel_description#:#A résztvevő egy gomb megnyomásáva
 assessment#:#tst_show_cancel#:#Teszt felfüggesztése
 assessment#:#tst_show_pass_details#:#Adott időpontban a 'Részletes teszteredmények táblázata' jelenjen meg az összes tesztkitöltéshez
 assessment#:#tst_show_pass_details_desc#:#A fent beállított időponttól az eredmények összesítését hozzáfűzzük: A 'Részletes teszteredmények táblázata' a kérdés címét és a résztvevő adott kitöltésben elért pontszámát mutatja.<br>A legutolsó lehetséges kitöltés ('Általános' menü 'Tesztkitöltések számának korlátja' beállítás) vagy a teszt zárása ('Általános' menü 'Záró időpont' beállítás) után másik táblázat jelenik meg.<br>'Részletes teszteredmények táblázata' tartalmával kapcsolatos további beállítások a 'Teszteredmények további tartamai' részben adható meg.
-assessment#:#tst_show_results#:#Teszteredmények megjelenítése
+assessment#:#tst_show_results#:#Teszteredmények
+assessment#:#participants_results_subtab#:#Összes résztvevő
+assessment#:#results_tab#:#Eredmények
 assessment#:#tst_show_side_list#:#Kérdéslista megjelenítése
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Néhány kérdéshez tartoznak korábban befagyasztott válaszok, így nem módosíthatja azokat. Újra megválaszolja a kérdéseket most, amivel fel is oldja a rögzített válaszokat?
 assessment#:#tst_dyn_unfreeze_answers#:#Válaszadás még egyszer
@@ -1245,10 +1251,9 @@ assessment#:#you_received_a_of_b_points#:#Ön %s pontot kapott a lehetséges %s 
 assessment#:#all_participants#:#Összes résztvevő
 assessment#:#with_solutions_participants#:#Választ adó résztvevők
 assessment#:#without_solutions_participants#:#Egy választ sem adó résztvevők
-assessment#:#tst_show_toplist#:#Rangsor megjelenítése
+assessment#:#tst_show_toplist#:#Rangsor
 assessment#:#toplist_by_score#:#Toplista pontozás alapján
 assessment#:#toplist_by_time#:#Toplista kidolgozási idő alapján
-assessment#:#toplist_top_n_results#:#Első %s eredmény
 assessment#:#toplist_col_rank#:#Helyezés
 assessment#:#toplist_col_participant#:#Résztvevő
 assessment#:#toplist_col_achieved#:#Dátum
@@ -1256,9 +1261,8 @@ assessment#:#toplist_col_score#:#Pont
 assessment#:#toplist_col_percentage#:#Százalék
 assessment#:#toplist_col_hints#:#Útmutatások
 assessment#:#toplist_col_wtime#:#Kidolgozási idő
-assessment#:#toplist_your_result#:#Az Ön helyezése
 assessment#:#tst_highscore_enabled#:#Rangsor
-assessment#:#tst_highscore_description#:#Az 'Információ' fülön a résztvevők megjelennek a 'Rangsor megjelenítése' gombbal. A gombra kattintva a résztvevők tesztben nyújtott teljesítményei láthatóak. Eléréséhez a 'Hozzáférés a teszteredményekhez' funkciót engedélyezni kell.
+assessment#:#tst_highscore_description#:#A résztvevők Az 'Eredmények' fül 'Rangsor megjelenítése' alfül alatt jelennek meg. Rákattintva a résztvevők tesztben nyújtott teljesítményei láthatóak. Eléréséhez a 'Hozzáférés a teszteredményekhez' funkciót engedélyezni kell.
 assessment#:#tst_highscore_anon#:#Nevek nélkül
 assessment#:#tst_highscore_anon_description#:#A rangsor résztvevőket azok nevei nélkül sorolja fel. Névtelen tesztkitöltés esetén is ez történik.
 assessment#:#tst_highscore_achieved_ts#:#Időpont
@@ -1352,7 +1356,7 @@ assessment#:#tst_max_comp_points#:#Max. kompetencia-pontszámok
 assessment#:#tst_level#:#Kompetenciaszint
 assessment#:#tst_threshold#:#Küszöbértékek (itt: %)
 assessment#:#tst_save_thresholds#:#Küszöbértékek mentése
-assessment#:#tst_show_comp_results#:#Kompetencia eredmények megjelenítése
+assessment#:#tst_show_comp_results#:#Kompetenciaeredmények
 assessment#:#tst_analysis#:#Analízis
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
@@ -1527,7 +1531,8 @@ cmps#:#cmps_needs_newer_plugin_version#:#Ehhez az ILIAS-verzióhoz újabb bőví
 cmps#:#cmps_needs_update#:#Frissítés szükséges.
 cmps#:#cmps_needs_upgrade#:#A jelenleg telepített bővítmény verziója régebbi, mint egy korábban telepítetté. Frissítse a bővítményt!
 cmps#:#cmps_no_db_update_file_available#:#Nem érhető el az adatbázis-frissítő szkript.
-cmps#:#cmps_no_language_file_available#:#Nem érhető el nyelvi fájl.
+cmps#:#cmps_no_language_file_available#:#Nem érhető el a nyelvi fájl.
+cmps#:#cmps_must_installed#:#A komponenst telepíteni kell.
 cmps#:#cmps_plugin_activated#:#A bővítményt bekapcsolta.
 cmps#:#cmps_plugin_db_prefixes#:#Adatbázistábla előtag
 cmps#:#cmps_plugin_deactivated#:#A bővítményt kikapcsolta.
@@ -2080,7 +2085,7 @@ common#:#editor#:#Szerkesztő
 common#:#email_not_valid#:#A megadott e-mail cím hibás.
 common#:#email#:#E-mail cím
 common#:#enable_calendar#:#Naptár engedélyezése
-common#:#enable_custom_icons_info#:#Ikonok definiálásának engedélyezése egyszerű kategóriákhoz, kurzusokhoz és csoportokhoz. A kategóriák, kurzusok és csoportok tulajdonságcsoportja felületet fog nyújtani a képek feltöltéséhez.
+common#:#enable_custom_icons_info#:#Ikonok definiálásának engedélyezése egyszerű tárolóobjektumokhoz és tartalomoldal objektumhoz. Ezen objektumok tulajdonságok része lehetőséget fog nyújtani képek feltöltéséhez.
 common#:#enable_custom_icons#:#Ikonbeállítások engedélyezése
 common#:#enable_disk_quota_reminder_mail#:#Tárhelykorlát-emlékeztető e-mailek küldése
 common#:#enable_download_folder_info#:#Mappa letöltésének engedélyezése (almappáival és fájljaival együtt) ZIP-fájlként.
@@ -2899,7 +2904,7 @@ common#:#obj_cert_desc#:#Beállítások az igazolásokhoz
 common#:#obj_cert#:#Igazolás
 common#:#obj_wfe#:#Munkafolyamat-motor
 common#:#obj_chap#:#Fejezet
-common#:#obj_cmps_desc#:#Általános beállítások a Taneszköztárolóban levő bővítményekhez
+common#:#obj_cmps_desc#:#Bővítmények általános beállításai
 common#:#obj_cmps#:#Bővítmények
 common#:#obj_crs_duplicate#:#Kurzus másolása
 common#:#obj_crs#:#Kurzus
@@ -3540,6 +3545,8 @@ rbac#:#tst_read#:#A felhasználó tesztet tölthet ki
 common#:#tst_run#:#Indítás
 common#:#tst_statistical_evaluation#:#Statisztikák
 common#:#tst_statistics#:#Statisztika
+common#:#tst_results#:#Teszteredmények
+rbac#:#tst_tst_results#:#A felhasználó hozzáférhet a teszteredményekhez
 common#:#tst_user_not_invited#:#Nem vehet részt ebben a tesztben.
 rbac#:#tst_visible#:#A teszt látható
 common#:#tst_warning_test_not_complete#:#A teszt még nincs kész.
@@ -3734,7 +3741,7 @@ rbac#:#wiki_write#:#A felhasználó szerkeszthet wikibeállításokat
 common#:#wiki#:#Wiki
 common#:#with#:#ezzel:
 common#:#wizard_search_list#:#Keresése az alábbi találatokat eredményezte. Válasszon egyet közülük.
-common#:#wizard_title_info#:#Adja meg a duplikálandó objektum címét.
+common#:#wizard_title_info#:#Keresse meg a duplikálandó objektumot. Adja meg az objektum teljes címét vagy csak a cím egy részét, majd kattintson a 'Folytatás' gombra a találatok megjelenítéséhez.
 common#:#write#:#Írás
 common#:#wrong_ip_detected#:#Az Ön IP-címe: %s<br/>Erről az IP-címről nem érheti el az ILIAS-t.<br/>Vegye fel a kapcsolatot egy rendszergazdával.
 common#:#year#:#Év
@@ -5736,8 +5743,8 @@ meta#:#md_adv_select_one_file#:#Válasszon ki egy fájlt!
 meta#:#md_adv_show#:#Megjelenítés
 meta#:#md_adv_substitution_table#:#Találatok a Taneszköztárolóban/Munkaasztalon
 meta#:#md_advanced#:#Egyéni metaadatok
-meta#:#md_copyright_add#:#Szerzői jog hozzáadása
-meta#:#md_copyright_edit#:#Szerzői jog módosítása
+meta#:#md_copyright_add#:#Alapértelmezett szerzői jog hozzáadása
+meta#:#md_copyright_edit#:#Alapértelmezett szerzői jog módosítása
 meta#:#md_copyright_enable_info#:#Válassza ezt az opciót előre meghatározott szerzői jogok ajánlására.
 meta#:#md_copyright_enabled#:#Szerzői jog kiválasztásának engedélyezése
 meta#:#md_copyright_preview#:#Szerzői jog (előnézet)
@@ -6484,15 +6491,11 @@ pwassist#:#password_assistance#:#Jelszósegédlet
 pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához.\n\nHa rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
 pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.\n\nHa ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg a felhasználónevet és az új jelszót!
-pwassist#:#pwassist_invalid_auth_mode#:#jelszó küldése nem lehetséges, mert a felhasználót nem közvetlenül az ILIAS hitelesíti.
-pwassist#:#pwassist_invalid_email#:#Hibás e-mail címét adott meg!<br />Ilyen e-mail cím nem található az adatbázisban.
-pwassist#:#pwassist_invalid_username_or_email#:#Javítsa a megadott adatokat!<br />Ilyen felhasználónév, illetve e-mail cím nem található az adatbázisban.
 pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!\nA megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
 pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához:\n\t%1$s\n\nEzt az üzenetet automatikusan generálta az alábbi ILIAS-szerver\n\t%2$s\n\nÖn (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.\n\nGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:\n\n- Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna:\nTörölje ezt a levelet.\n\n- Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől:\nVegye fel a kapcsolatot: %5$s.\n\n- Ha kért jelszósegédletet, járjon el az alábbiak szerint:\n\n1. Nyissa meg böngészőjét.\n\n2. Adja meg a következő címet böngészőjében:\n\t%6$s\n\nFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.\n\n3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.\n\nVegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
 pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s\n\nEllenőrizze postaládáját!
+pwassist#:#pwassist_mail_sent_generic#:#Üzenetet küldtünk az ILIAS-ban megadott e-mail címére.\nEllenőrizze postaládáját!
 pwassist#:#pwassist_mail_subject#:#ILIAS-jelszósegédlet
-pwassist#:#pwassist_no_email_found#:#Nem használhatja a jelszósegédletet, mert ehhez a felhasználónévhez nem tartozik e-mail cím.
-pwassist#:#pwassist_not_permitted#:#Adjon meg másik felhasználónevet!\nEhhez a felhasználónévhez nincs engedélyezve jelszósegédlet használata.
 pwassist#:#pwassist_password_assigned#:#'%1$s' felhasználó jelszavát sikeresen cseréltük.
 pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\nJelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
 pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak:\n%s\n\nEzt az üzenetet automatikusan küldte a következő ILIAS-szerver:\n\t%s\n\n%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .\n\nHa véletlenül kérte ezt a levelet, törölje.\n\nHa biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s\n\nHa Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:\n%s
@@ -7205,7 +7208,7 @@ survey#:#maintenance#:#Válaszadók
 survey#:#manage_phrases#:#Választípusaim
 survey#:#material_added_successfully#:#Sikeresen beállított egy linket a segédanyagra.
 survey#:#material#:#Segédanyag
-survey#:#materials_deleted#:#Segédanyago(ka)t sikeresen törölte
+survey#:#materials_deleted#:#Segédanyago(ka)t sikeresen eltávolította a kérdésből.
 survey#:#materials#:#Segédanyagok
 survey#:#matrix_appearance#:#Megjelenés
 survey#:#matrix_bipolar_adjectives_description#:#Használhat kétpólusú melléknévpárokat (például: nagyon rossz-nagyon jó), hogy értelmet adjon az oszlopválaszoknak, illetve részletesebben leírja azokat.
@@ -7438,7 +7441,7 @@ trac#:#trac_mode_exercise_returned_info#:#Vezetők/Tutorok döntik el, hogy a fe
 trac#:#trac_mode_exercise_returned#:#Vezetők/Tutorok vizsgálják és döntenek a teljesítettségéről
 trac#:#trac_mode_manual_by_tutor_info#:#Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e az objektum elvárásait, manuálisan állítják a felhasználók összesített állapotát (például 'Befejezett'-re vagy 'Nem teljesített'-re).
 trac#:#trac_mode_manual_by_tutor#:#Vezetők/Tutorok vizsgálják és döntenek a teljesítettségről
-trac#:#trac_mode_manual_info#:#A felhasználók maguk döntik el, mikor sajátították el a tananyagot. Amikor ezt megtették, állítsák be állapotukat 'Befejezett'-re az 'Információ' fülön.
+trac#:#trac_mode_manual_info#:#A felhasználók maguk döntik el, mikor sajátították el az objektumot. Amikor ezt megtették, állítsák be állapotukat 'Befejezett'-re az 'Információ' fülön.
 trac#:#trac_mode_manual#:#Felhasználók saját maguk vizsgálják és döntenek a teljesítettségéről
 trac#:#trac_mode_objectives_info#:#A tanulási haladást automatikusan értékeljük ki a teljesített tanulási objektumok száma alapján.
 trac#:#trac_mode_objectives#:#Tanulási célok határozzák meg az állapotot
@@ -7751,7 +7754,7 @@ search#:#search_item_filter_form#:#Keresés típus szerint
 search#:#search_item_filter_form_info#:#A keresés a kiválasztott fájltípusokra korlátozható.
 administration#:#group_export#:#Látható a csoportokban
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
-tbl#:#tbl_export_excel#:#Exportálás Excel (.xls) fájlba
+tbl#:#tbl_export_excel#:#Exportálás Excel (.xlsx) fájlba
 crs#:#crs_custom_user_fields#:#Kurzushoz tartozó felhasználói adatok
 grp#:#grp_custom_user_fields#:#Csoporthoz tartozó felhasználói adatok
 assessment#:#info_answer_type_change#:#A kérdés képet tartalmaz. Nem változtathatja a válasz típusát többsorosra.
@@ -7790,7 +7793,9 @@ rbac#:#log#:#Log
 rbac#:#rbac_log#:#Log
 rbac#:#rbac_changes#:#Változtatások
 rbac#:#rbac_log_operation_add#:#Felvett műveletek ehhez: '%s'
+rbac#:#rbac_log_operation_rmv#:#Eltávolított műveletek innen: '%s'
 rbac#:#rbac_log_inheritance_add#:#Megállított öröklődés ennél: '%s'
+rbac#:#rbac_log_inheritance_rmv#:#Engedélyezett öröklődés ennél: '%s'
 rbac#:#rbac_log_source_object#:#Forrásobjektum
 rbac#:#rbac_log_edit_permissions#:#Jogosultságok módosítása
 rbac#:#rbac_log_move_object#:#Objektum eltávolítása
@@ -9371,6 +9376,7 @@ blog#:#blog_posting#:#Bloghozzászólás
 blog#:#blog_change_notification_subject#:#'%s' blog frissült
 blog#:#blog_change_notification_body_new#:#az alábbi bloghozzászólás jött létre
 blog#:#blog_change_notification_body_update#:#az alábbi bloghozzászólás frissült
+blog#:#blog_change_notification_body_comment#:#az alábbi bloghozzászóláshoz megjegyzést fűztek
 blog#:#blog_change_notification_link#:#URL
 blog#:#blog_notification_toggle_on#:#Értesítés bekapcsolása
 blog#:#blog_notification_toggle_off#:#Értesítés kikapcsolása
@@ -9594,6 +9600,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#A vágólaprendez�
 assessment#:#tst_question_hints_save_order_success_msg#:#A segítségek sorrendjét sikeresen mentette.
 assessment#:#tst_question_hints_paste_before_success_msg#:#%s segítséget sikeresen beszúrta %s segítség elé.
 assessment#:#tst_question_hints_paste_after_success_msg#:#%s segítséget sikeresen beszúrta %s segítség mögé.
+assessment#:#tst_median_mark_panel#:#A medián értéke
 assessment#:#tst_processing_time_duration#:#Maximális feldolgozási idő
 assessment#:#tst_processing_time_duration_desc#:#Meghatározza a teszt futtatásának maximális időhosszát
 assessment#:#button_request_question_hint#:#Segítség kérése
@@ -9612,7 +9619,8 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Oldal módosítása
 assessment#:#tst_question_hints_form_cmd_save_points#:#Pontok mentése
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Pontok mentés és oldal módosítása
 assessment#:#tst_question_hints_back_to_hint_list#:#Kérdéssegítségek listája
-assessment#:#conf_delete_pass#:#Biztos, hogy törli a jelszót?
+assessment#:#conf_delete_pass_ctm#:#Biztos, hogy törli a már létező válaszait?
+assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
 help#:#help_tooltips#:#Buboréksúgó
 help#:#help_tooltip_id#:#Buboréksúgó-ID
 help#:#help_tt_text#:#Szöveg
@@ -9915,6 +9923,7 @@ common#:#crs_list_reg_start#:#Regisztráció kezdete
 common#:#crs_list_reg_end#:#Regisztráció vége
 common#:#crs_list_reg_noreg#:#Nem lehetséges regisztráció
 common#:#crs_list_reg_period#:#Regisztrációs időszak
+common#:#crs_list_reg#:#Regisztráció								  
 common#:#crs_list_reg_limit_full#:#Nincs szabad hely
 common#:#crs_list_reg_limit_places#:#Szabad helyek száma
 search#:#lucene_offline_filter#:#Online állapot
@@ -9928,6 +9937,7 @@ common#:#grp_list_reg_start#:#Regisztráció kezdete
 common#:#grp_list_reg_end#:#Regisztráció vége
 common#:#grp_list_reg_noreg#:#Regisztráció nem lehetséges
 common#:#grp_list_reg_period#:#Regisztrációs időszak
+common#:#grp_list_reg#:#Regisztráció
 common#:#grp_list_reg_limit_full#:#Nincs szabad hely
 common#:#grp_list_reg_limit_places#:#Szabad helyek száma
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Az oszlopbeállítások összege nem 100%.
@@ -10045,6 +10055,7 @@ dcl#:#dcl_change_notification_subject#:#'%s' adatgyűjtés megváltozott
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés jött létre
 dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott
+dcl#:#dcl_change_notification_dcl_delete_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzést törölték
 dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért küldtük, mert bekapcsolta az értesítést erre az adatgyűjtésre.
 dcl#:#dcl_table#:#Tábla
 dcl#:#dcl_changed_by#:#Módosította
@@ -10288,6 +10299,7 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Kurzuskategória
 ecs#:#ecs_cmap_multiple_atts#:#Többszörös attribútumok
 ecs#:#ecs_cmap_att_organisation#:#Szervezet
 ecs#:#ecs_cmap_att_orgunit#:#Szervezeti egység
+ecs#:#ecs_member_auth_type#:#Hitelesítési mód (résztvevők)
 ecs#:#ecs_cmap_att_term#:#Időszak
 ecs#:#ecs_cmap_att_title#:#Cím
 ecs#:#ecs_cmap_att_lecturer#:#Előadó
@@ -10469,14 +10481,16 @@ dcl#:#dcl_save_confirmation_desc#:#Felhasználóknak jóvá kell hagyniuk minden
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
 dcl#:#dcl_save_record#:#Bejegyzés mentése
-dcl#:#dlc_xls_async_export#:#Excel (.xlsx) aszinkron exportálás
-dcl#:#dcl_export_started#:#Aszinkron exportálás elkezdődött
+dcl#:#dlc_xls_async_export#:#Aszinkron Excel (.xlsx) exportálás
+dcl#:#dcl_export_started#:#Az aszinkron exportálás elkezdődött
 dcl#:#dcl_export_finished#:#Export befejeződött
 dcl#:#dcl_supported_filetypes#:#Engedélyezett fájlkiterjesztések
 dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjesztéseket vesszővel elválasztva adja meg. Például: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
 dcl#:#dcl_no_export_content_available#:#Nincs exportálható bejegyzés.
 dcl#:#dcl_no_export_fields_available#:#Nincs exportálhatóként megjelölt mező. Jelöljön meg legalább egy mezőt exportálhatóként a <a href="%s">táblázat beállításaiban</a>.
+dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#A következő szerepeknek van olvasási hozzáférése az adatgyűjtéshez, de nincs a tábla alapértelmezett nézetéhez:
 rbac#:#dcl_edit_content#:#Bejegyzések módosítása
 common#:#obj_bibl#:#Bibliográfia
 common#:#objs_bibl#:#Bibliográfiák
@@ -10501,6 +10515,22 @@ bibl#:#bibl_settings_new#:#Könyvtár hozzáadása
 bibl#:#bibl_settings_edit#:#Könyvtár módosítása
 bibl#:#news_title_created#:#Új bibliográfiai lista jött létre
 bibl#:#news_title_updated#:#Bibliográfiai lista frissült
+bibl#:#add_filter#:#Szűrő hozzáadása
+bibl#:#filter_type#:#Szűrő típusa
+bibl#:#field#:#Mező
+bibl#:#custom#:#Egyéni
+bibl#:#fields#:#Mezők
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Sorrend
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Fordítás
+bibl#:#identifier#:#Azonosító
+bibl#:#filter_type_1#:#Szövegbemenet
+bibl#:#filter_type_2#:#Választóbemenet
+bibl#:#filter_type_3#:#Többszörös szövegbemenet
+bibl#:#filter_field_info#:#Válasszon egy mezőt, melyhez szűrőt kíván adni.
+bibl#:#filter_type_info#:#Válasszon egy szűrőtípust a mezőhöz.
 rbac#:#bibl_visible#:#Bibliográfia látható
 rbac#:#bibl_read#:#A felhasználónak olvasási hozzáférése van a bibliográfia tartalmához
 rbac#:#bibl_copy#:#A felhasználó másolhatja a bibliográfiát
@@ -10747,6 +10777,7 @@ assessment#:#tst_change_workingtime#:#Extra-idő adása a résztvevőknek
 assessment#:#tst_imap_qst_mode#:#Mód
 assessment#:#tst_imap_qst_mode_sc#:#Egyválaszos kérdés (rádiógombos)
 assessment#:#tst_imap_qst_mode_mc#:#Többválaszos kérdés (jelölőnégyzetes)
+assessment#:#fixedparticipants_subtab#:#Manuálisan kiválasztott résztvevők
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes résztvevő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez.
 assessment#:#redirect_after_finishing_rule#:#Átirányítás
@@ -11339,6 +11370,16 @@ bibl#:#ris_default_u2#:#Felhasználó által meghatározott
 bibl#:#ris_default_y1#:#Év
 bibl#:#ris_default_ty#:#Típus
 bibl#:#ris_default_ep#:#Záró oldal száma
+bibl#:#filter_form_title#:#j szűrő hozzáadása
+bibl#:#changes_saved#:#A módosításokat sikeresen mentette.
+bibl#:#filter_deleted#:#A szűrőt sikeresen törölte.
+bibl#:#bibl_translation_lang#:#Nyelv
+bibl#:#bibl_translation_trans#:#Fordítás
+bibl#:#bibl_translation_desc#:#Leírás
+bibl#:#bibl_msg_translations_saved#:#A fordításokat sikeresen mentette
+bibl#:#bibl_msg_translations_deleted#:#A fordításokat sikeresen törölte
+bibl#:#bibl_filter#:#Szűrő
+bibl#:#msg_confirm_delete_filter#:#Biztos, hogy törli az alábbi szűrőt?
 mail#:#mail_filter#:#Szűrő
 mail#:#mail_filter_sender#:#Feladó
 mail#:#mail_filter_recipients#:#Címzett
@@ -12643,8 +12684,8 @@ note#:#note_comment_notification_salutation#:#Tisztelt %s,
 note#:#note_comment_notification_link#:#Link
 lng#:#lng_enable_language_detection#:#Nyelvfelismerés engedélyezése
 lng#:#lng_disable_language_detection#:#Nyelvfelismerés tiltása
-trac#:#trac_mode_downloaded#:#Letöltve
-trac#:#trac_mode_downloaded_info#:#A tanulási haladás állapotát a fájl letöltési állapota határozza meg.
+trac#:#trac_mode_downloaded#:#Megtekintve
+trac#:#trac_mode_downloaded_info#:#A tanulási haladás állapota 'Befejezett' lesz, amikor az objektumot a felhasználó megtekinti.
 trac#:#trac_mode_collection_mobs#:#Médiaobjektumok gyűjteménye
 trac#:#trac_mode_collection_mobs_info#:#A tanulási haladás állapotát a kiválasztott médiaobjektumok megtekintési állapota határozza meg.
 trac#:#trac_lp_determination_info_mob#:#Válassza ki azokat az elemeket, melyek a médiasugárzás végső tanulási haladás állapotát határozzák meg.
@@ -13153,6 +13194,8 @@ chatroom#:#chatroom_auth#:#Hitelesítés
 chatroom#:#chatroom_auth_key#:#Hitelesítés-kulcs
 chatroom#:#chatroom_auth_secret#:#Hitelesítés-titok
 chatroom#:#chatroom_auth_btn_txt#:#Kulcsok generálása
+chatroom#:#chatroom_client_name#:#Név
+chatroom#:#chatroom_client_name_info#:#Kérem, adjon meg egy nevet ehhez az ILIAS-klienshez. A megadott névnek ezen az ILIAS telepítésen egyedinek kell lennie. Kezdeti értéke az ILIAS-kliens azonosítója. Módosítás után a chatszervert újra kell indítani.
 chatroom#:#key#:#Kulcs
 chatroom#:#dhparam#:#Diffie-Hellman paraméter
 chatroom#:#ilias_chatserver_connection#:#ILIAS kapcsolata a szerverhez
@@ -13203,7 +13246,7 @@ copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, gy�
 pd#:#pd_sys_msg_own_block#:#Rendszerüzenetek megjelenítése saját blokkban
 pd#:#pd_sys_msg_mail_block#:#Rendszerüzenetek megjelenítése a 'Levelek' blokkban
 pd#:#pd_sys_msg_no_block#:#Rendszerüzenet ne jelenjenek meg a Munkaasztalon
-logging#:#log_error_message#:#%s hiba keletkezett.
+logging#:#log_error_message#:#Sajnáljuk, hiba következett be. '%s' kóddal azonosítható naplófájlt hoztunk létre.
 logging#:#log_error_message_send_mail#:#Kérjük, küldjön levelet <a href="mailto:%s?subject=kód: %s">%s</a> részére
 logging#:#log_error_folder#:#Útvonal
 logging#:#log_error_mail#:#Címzett
@@ -13323,7 +13366,7 @@ assessment#:#save_on_navigation#:#Mentés navigáláskor
 assessment#:#save_on_navigation_confirmation#:#Módosításait automatikusan mentjük navigáláskor.
 assessment#:#save_on_navigation_locked_confirmation#:#Módosított válaszait automatikusan mentjük és zároljuk navigáláskor.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Mielőtt visszajelzést kap válaszára.
-assessment#:#save_on_navigation_prevent_confirmation#:#Többször ne jelenjen meg ez az üzenet.
+assessment#:#save_on_navigation_prevent_confirmation#:#Jelenlegi munkamenet alatt többször ne jelenjen meg ez az üzenet.
 assessment#:#tst_answer_status_editing#:# (módosítás)
 assessment#:#tst_answer_status_answered#:#Megválaszolt
 assessment#:#tst_answer_status_not_answered#:#Meg nem válaszolt
@@ -13770,7 +13813,7 @@ common#:#pdfg_edit_permission#:#A felhasználó módosíthatja a jogosultsági b
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Oldalbeállítások
 pdfgen#:#page_size#:#Oldalméret
-pdfgen#:#margin#:#Margó
+pdfgen#:#margin#:#Margó 345
 pdfgen#:#header_type#:#Fejléc
 pdfgen#:#text#:#Szöveg
 pdfgen#:#footer_type#:#Lábléc
@@ -13786,7 +13829,8 @@ pdfgen#:#selected_renderer#:#Kiválasztott renderelő
 pdfgen#:#configure#:#Renderelő beállításai
 pdfgen#:#config_saved#:#Sikeres mentés
 pdfgen#:#config_not_saved#:#Sikertelen mentés
-prtf#:#pdf_export#:#PDF Export
+pdfgen#:#javascript_delay_info#:#PDF fájl tartalmának megjelenítéséhez adjon késleltetést, amennyiben az oldal tartalmát JavaScript állítja elő. Általában 200ms elegendő kell, hogy legyen.
+prtf#:#pdf_export#:#PDF export
 pdfgen#:#print_media_type#:#Nyomtató használata képernyő helyett
 pdfgen#:#javascript_delay#:#JavaScript várakozás
 pdfgen#:#margin_left#:#Bal margó
@@ -13811,8 +13855,7 @@ mep#:#mobs_black_list_file_types#:#Tiltott fájltípusok
 mep#:#mobs_black_list_file_types_info#:#Itt adhatja meg az engedélyezett fájltípusokat korlátozó fájltípusokat, vesszővel elválasztva. Általában erre akkor van szükség, amikor az engedélyezett fájltípusok listája üres, azaz az összes fájltípus engedélyezett.
 form#:#form_msg_file_type_is_not_allowed#:#Ez a fájltípus nem engedélyezett.
 common#:#file_no_valid_file_type#:#Ez a fájltípus nem engedélyezett.
-common#:#file_some_invalid_file_types_removed#:#Néhány fájltípus nem engedélyezett, az ilyen fájlokat eltávolítottuk.
-ecs#:#ecs_member_auth_type#:#Kurzustagok hitelesítési módja
+common#:#file_some_invalid_file_types_removed#:#Néhány fájltípus nem engedélyezett és ezért eltávolítottuk.
 background_tasks#:#background_tasks#:#Háttérfolyamatok
 background_tasks#:#background_tasks_running#:#Háttérfolyamatok
 background_tasks#:#scheduled#:#Időzített
@@ -14161,3 +14204,43 @@ common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
+content#:#cont_lpe_login_form#:#Bejelentkezési űrlap
+content#:#cont_lpe_cas_login_form#:#CAS bejelentkezési űrlap
+content#:#cont_lpe_shib_login_form#:#Shibboleth bejelentkezési űrlap
+content#:#cont_lpe_openid_login_form#:#OpenId bejelentkezési űrlap
+content#:#cont_lpe_registration_link#:#Új regisztráció linkje
+content#:#cont_lpe_language_selection#:#Nyelvválasztás
+content#:#cont_lpe_user_agreement_link#:#Szolgáltatási feltételek linkje
+common#:#obj_fold_duplicate#:#Mappa másolása
+common#:#fold_wizard_page#:#Mappa másolása (2/2 lépés)
+common#:#fold_copy_threads_info#:#Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat.
+file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
+file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
+file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
+file#:#file_suffix_custom_black_info#:#Ezeket a kiterjesztéseket eltávolítjuk az engedélyezettek közül.
+file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések 
+file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
+file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
+file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
+assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+common#:#obj_copa#:#Content Page
+common#:#objs_copa#:#Content Pages
+rbac#:#copa_visible#:#Content Page is visible
+rbac#:#copa_read#:#User can read Content Page
+rbac#:#copa_copy#:#Copy Content Page
+rbac#:#copa_write#:#User can edit Content Page
+rbac#:#copa_delete#:#User can move or delete Content Page
+rbac#:#copa_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_copa#:#Create Content Page
+rbac#:#copa_read_learning_progress#:#User can view learning progress of other users
+rbac#:#copa_edit_learning_progress#:#User can edit learning progress settings
+copa#:#copa_new#:#Create Content Page
+copa#:#copa_import#:#Import Content Page
+copa#:#copa_copy#:#Copy Content Page
+copa#:#copa_add#:#Add Content Page
+copa#:#copa_edit#:#Edit Content Page
+copa#:#obj_copa_duplicate#:#Duplicate Content Page
+adve#:#adve_grp_copa#:#Content Pages
+wiki#:#wiki_change_notification_body_new#:#az alábbi wikioldal jött létre
+mail#:#show_mail_settings#:#Show Mail Settings
+mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
