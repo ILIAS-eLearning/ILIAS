@@ -9346,11 +9346,11 @@ rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
 rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
 rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für "%s"
-rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"###deprecated
+rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"
 rbac#:#rbac_log_link_object#:#Objekt verknüpfen
 rbac#:#rbac_log_move_object#:#Objekt verschieben
 rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für "%s"
-rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"###deprecated
+rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
 rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
@@ -11962,7 +11962,7 @@ dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
-dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht###deprecated
+dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
 dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungsfunktion für die oben genannte Datensatzsammlung aktiviert haben.
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
@@ -12425,6 +12425,8 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson

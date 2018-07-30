@@ -335,9 +335,30 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		global $lng, $rbacsystem;
 		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
-
+		
+		// show only selected subobjects for lp mode 
 		$preselected_obj_ids = $filter = NULL;
-		if($this->is_root)
+
+		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
+		if(
+			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL ||
+			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION || 
+			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR
+		)
+		{
+			$collection = $olp->getCollectionInstance();
+			$preselected_obj_ids[$a_object_id][] = $a_ref_id;
+			foreach($collection->getItems() as $item => $item_info)
+			{
+				$tmp_lp = ilObjectLP::getInstance(ilObject::_lookupObjId($item_info));
+				if($tmp_lp->isActive())
+				{
+					$preselected_obj_ids[ilObject::_lookupObjId($item_info)][] = $item_info;
+				}
+			}
+			$filter = $this->getCurrentFilter();
+		}
+		elseif($this->is_root)
 		{
 			// using search to get all relevant objects
 			// #8498/#8499: restrict to objects with at least "read_learning_progress" access
@@ -348,6 +369,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// using summary filters
 			$filter = $this->getCurrentFilter();
 		}
+
+		
 		
 		$data = ilTrQuery::getObjectsSummaryForObject(
 				$a_object_id,

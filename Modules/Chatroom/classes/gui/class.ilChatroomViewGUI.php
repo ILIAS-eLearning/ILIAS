@@ -149,6 +149,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$initial->private_rooms         = array_values($known_private_room);
 		$initial->redirect_url          = $ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
+		$initial->subdirectory          = $settings->getSubDirectory();
 
 		$initial->userinfo = array(
 			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
