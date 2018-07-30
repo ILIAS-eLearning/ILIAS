@@ -237,7 +237,12 @@ class ilCertificate
 	{
 		// TODO: this is generic now -> provide better solution
 		$webdir = $this->certificatePath . $this->getBackgroundImageName();
-		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+
+		return str_replace(
+			ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+			ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+			$webdir
+		);
 	}
 	
 	/**
@@ -878,43 +883,12 @@ class ilCertificate
 			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		}
 	}
-	
-	/**
-	* Creates a redirect to a certificate download
-	*
-	* @param integer $ref_id Ref ID of the ILIAS object
-	*/
-	public static function _goto($ref_id)
-	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
-
-		include_once "./Services/Object/classes/class.ilObject.php";
-		$type = ilObject::_lookupType($ref_id, true);
-		switch ($type)
-		{
-			case 'sahs':
-				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$ref_id.
-					"&cmd=downloadCertificate";
-				ilUtil::redirect($cmd_link);
-				break;
-			case 'tst':
-			default:
-				$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
-				break;
-		}
-	}
-	
 	/**
 	 * Get custom certificate fields
 	 */
 	static function getCustomCertificateFields()
 	{
-		include_once("./Services/User/classes/class.ilUserDefinedFields.php");
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$fds = $user_field_definitions->getDefinitions();
 		$fields = array();

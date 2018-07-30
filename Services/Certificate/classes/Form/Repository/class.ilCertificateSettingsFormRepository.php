@@ -55,7 +55,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilCertificateGUI $certificateGUI = null,
-		ilPageFormats $pageFormats = null
+		ilPageFormats $pageFormats = null,
+		ilFormFieldParser $formFieldParser = null
 	) {
 		$this->language                     = $language;
 		$this->template                     = $template;
@@ -68,6 +69,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 			$pageFormats = new ilPageFormats($language);
 		}
 		$this->pageFormats = $pageFormats;
+
+		if (null === $formFieldParser) {
+			$formFieldParser = new ilFormFieldParser();
+		}
+		$this->formFieldParser = $formFieldParser;
 	}
 
 	/**
@@ -261,4 +267,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
 	public function save(array $formFields)
 	{}
+
+	public function fetchFormFieldData($content)
+	{
+		return $this->formFieldParser->fetchDefaultFormFields($content);
+	}
 }

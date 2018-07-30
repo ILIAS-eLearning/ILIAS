@@ -81,4 +81,12 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	{
 		$this->testObject->saveCertificateVisibility($formFields['certificate_visibility']);
 	}
+
+	public function fetchFormFieldData($content)
+	{
+		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+		$formFields['certificate_visibility'] = $this->testObject->getCertificateVisibility();
+
+		return $formFields;
+	}
 }

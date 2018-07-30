@@ -15,4 +15,6 @@ interface ilCertificateFormRepository
 	 * @return mixed
 	 */
 	public function save(array $formFields);
+
+	public function fetchFormFieldData($content);
 }

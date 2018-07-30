@@ -50,6 +50,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	/**
 	 * @param ilCertificateGUI $certificateGUI
 	 * @param ilCertificate $certificateObject
+	 * @return ilPropertyFormGUI
 	 * @throws ilException
 	 * @throws ilWACException
 	 */
@@ -62,7 +63,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		$short_name->setValue(ilStr::subStr($this->object->getTitle(), 0, 30));
 		$short_name->setSize(30);
 
-		$infoText = $this->lng->txt('certificate_short_name_description');
+		$infoText = $this->language->txt('certificate_short_name_description');
 		$short_name->setInfo($infoText);
 
 		$form->addItem($short_name);
@@ -79,5 +80,16 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
 		$scormSetting->set('certificate_' . $this->object->getId(), $formFields['certificate_enabled_scorm']);
 		$scormSetting->set('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
+	}
+
+	public function fetchFormFieldData($content)
+	{
+		$scormSetting = new ilSetting('scorm');
+
+		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+		$formFields['certificate_enabled_scorm'] = $scormSetting->get('certificate_' . $this->object->getId(), $formFields['certificate_enabled_scorm']);
+		$formFields['short_name'] = $scormSetting->get('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
+
+		return $formFields;
 	}
 }
