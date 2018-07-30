@@ -675,7 +675,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 		$row = $this->db->fetchAssoc($res);
 		
 		$this->db->update( $this->questionOBJ->getAdditionalTableName(),
-			array( 'feedback_mode' => array('integer', $row['feedback_mode']) ),
+			array( 'feedback_mode' => array('text', $row['feedback_mode']) ),
 			array( 'question_fi' => array('integer', $targetQuestionId) )
 		);
 	}
