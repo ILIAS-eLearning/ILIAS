@@ -384,11 +384,12 @@ class ilCertificate
 	 * @return void|string
 	 * @throws ilException
 	 */
-	public function outCertificate($params, $deliver = TRUE)
+	public function outCertificate($params, $deliver = true)
 	{
 		/** @var ilObjUser $user */
 		$user = ilObjectFactory::getInstanceByObjId($params['user_id']);
 
+		$oldDateteTimeValue = \ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 		$insert_tags = $this->placeholderValuesObject->getPlaceholderValues($user->getId(), $this->objectId);
 
@@ -453,8 +454,7 @@ class ilCertificate
 			return false;
 		}
 
-		ilDatePresentation::setUseRelativeDates(true);
-
+		ilDatePresentation::setUseRelativeDates($oldDateteTimeValue);
 	}
 
 	/**
@@ -804,7 +804,6 @@ class ilCertificate
 		if ($deliver) {
 			ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
 		}
-
 		return $this->certificatePath . $zipfile;
 	}
 	
