@@ -150,15 +150,6 @@ class ilCertificate
 	}
 
 	/**
-	 * @param string $a_number
-	 * @return float
-	 */
-	public function formatNumberString($a_number)
-	{
-		return str_replace(',', '.', $a_number);
-	}
-	
-	/**
 	* Returns the filesystem path of the background image
 	* @param  bool $asRelative
 	* @return string The filesystem path of the background image
@@ -347,81 +338,6 @@ class ilCertificate
 		}
 
 		$this->writeActive(false);
-	}
-
-	/**
-	 * Convert the certificate text to XSL-FO using XSL transformation
-	 *
-	 * @param array $form_data The form data
-	 * @param $version - Current Version of the template
-	 * @return string XSL-FO code
-	 * @throws Exception
-	 */
-	public function processXHTML2FO($form_data, $backgroundImage)
-	{
-		$content = "<html><body>" . $form_data["certificate_text"] . "</body></html>";
-		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
-		$content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
-		$content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
-		$content = str_replace("&nbsp;", "&#160;", $content);
-		$content = preg_replace("//", "", $content);
-
-		$check = new ilXMLChecker();
-		$check->setXMLContent($content);
-		$check->startParsing();
-
-		if ($check->hasError()) {
-			throw new Exception($this->lng->txt("certificate_not_well_formed"));
-		}
-
-		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
-
-		// additional font support
-		$xsl = str_replace(
-				'font-family="Helvetica, unifont"',
-				'font-family="'.$this->settings->get('rpc_pdf_font','Helvetica, unifont').'"',
-				$xsl
-		);
-
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-
-		if (strcmp($form_data["pageformat"], "custom") == 0)
-		{
-			$pageheight = $form_data["pageheight"];
-			$pagewidth = $form_data["pagewidth"];
-		}
-		else
-		{
-			$pageformats = $this->getPageFormats();
-			$pageheight = $pageformats[$form_data["pageformat"]]["height"];
-			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
-		}
-
-		if ($this->hasBackgroundImage()) {
-			$backgroundImage = $this->getBackgroundImageDirectory(true, $backgroundImage);
-		} elseif (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
-			$backgroundImage = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-		}
-
-		$params = array(
-			"pageheight"      => $pageheight,
-			"pagewidth"       => $pagewidth,
-			"backgroundimage" => $backgroundImage,
-			"marginbody"      => implode(' ', array(
-				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['top'])),
-				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['right'])),
-				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['bottom'])),
-				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['left']))
-			))
-		);
-
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
-
-		xslt_error($xh);
-		xslt_free($xh);
-
-		return $output;
 	}
 
 	/**
@@ -676,59 +592,6 @@ class ilCertificate
 			}
 		}
 		return false;
-	}
-
-	/**
-	* Retrieves predefined page formats
-	*
-	* @return array Associative array containing available page formats
-	*/
-	public function getPageFormats()
-	{
-		return array(
-			"a4" => array(
-				"name" => $this->lng->txt("certificate_a4"), // (297 mm x 210 mm)
-				"value" => "a4",
-				"width" => "210mm",
-				"height" => "297mm"
-			),
-			"a4landscape" => array(
-				"name" => $this->lng->txt("certificate_a4_landscape"), // (210 mm x 297 mm)",
-				"value" => "a4landscape",
-				"width" => "297mm",
-				"height" => "210mm"
-			),
-			"a5" => array(
-				"name" => $this->lng->txt("certificate_a5"), // (210 mm x 148.5 mm)
-				"value" => "a5",
-				"width" => "148mm",
-				"height" => "210mm"
-			),
-			"a5landscape" => array(
-				"name" => $this->lng->txt("certificate_a5_landscape"), // (148.5 mm x 210 mm)
-				"value" => "a5landscape",
-				"width" => "210mm",
-				"height" => "148mm"
-			),
-			"letter" => array(
-				"name" => $this->lng->txt("certificate_letter"), // (11 inch x 8.5 inch)
-				"value" => "letter",
-				"width" => "8.5in",
-				"height" => "11in"
-			),
-			"letterlandscape" => array(
-				"name" => $this->lng->txt("certificate_letter_landscape"), // (8.5 inch x 11 inch)
-				"value" => "letterlandscape",
-				"width" => "11in",
-				"height" => "8.5in"
-			),
-			"custom" => array(
-				"name" => $this->lng->txt("certificate_custom"),
-				"value" => "custom",
-				"width" => "",
-				"height" => ""
-			)
-		);
 	}
 
 	/**

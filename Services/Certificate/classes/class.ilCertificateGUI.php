@@ -98,7 +98,7 @@ class ilCertificateGUI
 	/**
 	 * @var ilXlsFoParser
 	 */
-	private $xlsFoParser;
+	private $formFieldParser;
 
 	/**
 	 * @var ilCertificatePlaceholderDescription
@@ -121,6 +121,11 @@ class ilCertificateGUI
 	private $placeholderValuesObject;
 
 	/**
+	 * @var ilXlsFoParser|null
+	 */
+	private $xlsFoParser;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
@@ -129,7 +134,9 @@ class ilCertificateGUI
 	 * @param $certificatePath
 	 * @param ilCertificateFormRepository $settingsFormFactory
 	 * @param ilCertificateTemplateRepository|null $templateRepository
+	 * @param ilPageFormats|null $pageFormats
 	 * @param ilXlsFoParser|null $xlsFoParser
+	 * @param ilFormFieldParser $formFieldParser
 	 * @access public
 	 */
 	public function __construct(
@@ -140,7 +147,9 @@ class ilCertificateGUI
 		$certificatePath,
 		ilCertificateFormRepository $settingsFormFactory = null,
 		ilCertificateTemplateRepository $templateRepository = null,
-		ilXlsFoParser $xlsFoParser = null
+		ilPageFormats $pageFormats = null,
+		ilXlsFoParser $xlsFoParser = null,
+		ilFormFieldParser $formFieldParser = null
 	) {
 		global $DIC;
 
@@ -186,8 +195,17 @@ class ilCertificateGUI
 		}
 		$this->templateRepository = $templateRepository;
 
+		if (null === $formFieldParser) {
+			$formFieldParser = new ilFormFieldParser();
+		}
+		$this->formFieldParser = $formFieldParser;
+
+		if (null === $pageFormats) {
+			$pageFormats = new ilPageFormats($DIC->language());
+		}
+
 		if (null === $xlsFoParser) {
-			$xlsFoParser = new ilXlsFoParser($adapter);
+			$xlsFoParser = new ilXlsFoParser($DIC->settings(), $pageFormats);
 		}
 		$this->xlsFoParser = $xlsFoParser;
 
@@ -317,7 +335,7 @@ class ilCertificateGUI
 		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 		$content = $certificate->getCertificateContent();
 
-		$form_fields = $this->xlsFoParser->parse($content);
+		$form_fields = $this->formFieldParser->fetchDefaultFormFields($content);
 		$form_fields["active"] = $this->certifcateObject->readActive();
 
 		$form = $this->settingsFormFactory->createForm(
@@ -364,7 +382,7 @@ class ilCertificateGUI
 					}
 				}
 
-				$xslfo = $this->certifcateObject->processXHTML2FO($form_fields, $backgroundImagePath);
+				$xslfo = $this->xlsFoParser->parse($form_fields, $backgroundImagePath);
 
 				$certificateTemplate = new ilCertificateTemplate(
 					$objId,
