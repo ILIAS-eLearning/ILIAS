@@ -1112,15 +1112,15 @@ class ilObjectListGUI
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
 			{
-				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-				$davServer = ilDAVServer::getInstance();
+				require_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
+				$dav_util = ilWebDAVUtil::getInstance();
 
 				// XXX: The following is a very dirty, ugly trick.
 				//        To mount URI needs to be put into two attributes:
 				//        href and folder. This hack returns both attributes
 				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-				return $davServer->getMountURI($this->ref_id).
-							'" folder="'.$davServer->getFolderURI($this->ref_id);
+				return $dav_util->getMountURI($this->ref_id).
+							'" folder="'.$dav_util->getFolderURI($this->ref_id);
 			}
 			// END WebDAV Get mount webfolder link.
 
@@ -1214,23 +1214,20 @@ class ilObjectListGUI
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if (ilDAVActivationChecker::_isActive())
 			{
-				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-
 				// Show lock info
-				require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
-				$davLocks = new ilDAVLocks();
+				require_once('Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php');
+				$webdav_lock_backend = new ilWebDAVLockBackend();
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
-					if (count($locks) > 0)
+                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id))
 					{
-						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+						$lock_user = new ilObjUser($lock->getIliasOwner());
 
 						$props[] = array(
 							"alert" => false, 
 							"property" => $lng->txt("in_use_by"),
-							"value" => $lockUser->getLogin(),
-							"link" => 	"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI',
+							"value" => $lock_user->getLogin(),
+							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&baseClass=ilPersonalDesktopGUI',
 						);
 					}
 				}
