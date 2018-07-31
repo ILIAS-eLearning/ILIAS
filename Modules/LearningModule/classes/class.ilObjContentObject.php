@@ -1607,6 +1607,10 @@ class ilObjContentObject extends ilObject
 				}
 			}
 		}
+
+		// missing check: no lm_tree entry but lm_data entry and no page_object entry (for lang "-")
+		// these pages are visible in the all pages list (as free pages), clicking them leads to error
+
 	}
 
 
