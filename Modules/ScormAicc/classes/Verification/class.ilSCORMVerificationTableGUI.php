@@ -80,6 +80,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 						$certificate = new ilCertificate(
 							new ilSCORMCertificateAdapter($lm),
 							new ilScormPlaceholderDescription(),
+							new ilScormPlaceholderValues(),
 							$lm->getId(),
 							ilCertificatePathConstants::SCORM_PATH
 						);

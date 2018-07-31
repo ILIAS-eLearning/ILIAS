@@ -108,6 +108,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 				$output_gui = new ilCertificateGUI(
 					new ilSkillCertificateAdapter($this->node_object, $skillLevelId),
 					new ilDefaultPlaceholderDescription(),
+					new ilDefaultPlaceholderValues(),
+					$this->node_object->getId(),
 					ilCertificatePathConstants::SKILL_PATH . $this->node_object->getId() . '/' . $skillLevelId
 				);
 

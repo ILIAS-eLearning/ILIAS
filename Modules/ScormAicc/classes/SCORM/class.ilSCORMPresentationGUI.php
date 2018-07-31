@@ -853,6 +853,7 @@ class ilSCORMPresentationGUI
 			$certificate = new ilCertificate(
 				new ilSCORMCertificateAdapter($this->slm),
 				new ilScormPlaceholderDescription(),
+				new ilScormPlaceholderValues(),
 				$this->slm->getId(),
 				ilCertificatePathConstants::SCORM_PATH . $this->slm->getId() . '/'
 			);

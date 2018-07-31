@@ -264,10 +264,12 @@ class ilObjExercise extends ilObject
 		unset($obj_settings);
 
 		$placeholderDescriptionObject = new ExercisePlaceholderDescription();
+		$placholderValuesObject = new ilExercisePlaceHolderValues();
 
 		$cert = new ilCertificate(
 			new ilExerciseCertificateAdapter($this),
 			$placeholderDescriptionObject,
+			$placholderValuesObject,
 			$this->getId().
 			ilCertificatePathConstants::EXERCISE_PATH . $this->getId() . '/'
 		);
@@ -275,11 +277,12 @@ class ilObjExercise extends ilObject
 		$newcert = new ilCertificate(
 			new ilExerciseCertificateAdapter($new_obj),
 			$placeholderDescriptionObject,
+			$placholderValuesObject,
 			$new_obj->getId(),
 			ilCertificatePathConstants::EXERCISE_PATH . $new_obj->getId() . '/'
 		);
 
-		$cert->cloneCertificate($newcert);
+		$cert->cloneCertificate($newcert, $new_obj->getId());
 			
 		return $new_obj;
 	}

@@ -332,12 +332,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 
-				$output_gui = new ilCertificateGUI(
-					new ilTestCertificateAdapter($this->object),
-					new TestPlaceholderDescription(),
-					$this->obj_id,
-					ilCertificatePathConstants::TEST_PATH . $this->obj_id . '/'
-				);
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 
 				$this->ctrl->forwardCommand($output_gui);
 				break;
@@ -3005,11 +3001,8 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
-		$output_gui = new ilCertificateGUI(
-			new ilTestCertificateAdapter($this->object),
-			new TestPlaceholderDescription(),
-			$this->obj_id
-		);
+		$guiFactory = new ilCertificateGUIFactory();
+		$output_gui = $guiFactory->create($this->object);
 
 		$output_gui->certificateEditor();
 	}

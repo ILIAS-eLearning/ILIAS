@@ -7362,10 +7362,12 @@ function getAnswerFeedbackPoints()
 		
 		// clone certificate
 		$placeHolderDescriptionObject = new TestPlaceholderDescription();
+		$placeHolderValuesObject      = new TestPlaceHolderValues();
 
 		$cert = new ilCertificate(
 			new ilTestCertificateAdapter($this),
 			$placeHolderDescriptionObject,
+			$placeHolderValuesObject,
 			$this->getId(),
 			ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
 		);
@@ -7373,13 +7375,13 @@ function getAnswerFeedbackPoints()
 		$newcert = new ilCertificate(
 			new ilTestCertificateAdapter($newObj),
 			$placeHolderDescriptionObject,
+			$placeHolderValuesObject,
 			$newObj->getId(),
 			ilCertificatePathConstants::TEST_PATH . $newObj->getId() . '/'
 		);
 
-		$cert->cloneCertificate($newcert);
+		$cert->cloneCertificate($newcert, $newObj->getId());
 
-		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
@@ -10523,6 +10525,7 @@ function getAnswerFeedbackPoints()
 			$cert = new ilCertificate(
 				new ilTestCertificateAdapter($this),
 				new TestPlaceholderDescription(),
+				new TestPlaceHolderValues(),
 				$this->getId(),
 				ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
 			);

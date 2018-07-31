@@ -994,33 +994,38 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		// clone certificate (#11085)
 		$placeholderDescriptionObject = new CoursePlaceholderDescription();
+		$placeholderValuesObject      = new CoursePlaceholderValues();
 
+		$previousAdapter = new ilCourseCertificateAdapter($this);
 		$cert = new ilCertificate(
-			new ilCourseCertificateAdapter($this),
+			$previousAdapter,
 			$placeholderDescriptionObject,
+			$placeholderValuesObject,
 			$this->getId(),
 			ilCertificatePathConstants::COURSE_PATH . $this->getId() . '/'
 		);
 
+		$newAdapter = new ilCourseCertificateAdapter($new_obj);
 		$newcert = new ilCertificate(
-			new ilCourseCertificateAdapter($new_obj),
+			$newAdapter,
 			$placeholderDescriptionObject,
+			$placeholderValuesObject,
 			$new_obj->getId(),
 			ilCertificatePathConstants::COURSE_PATH . $new_obj->getId() . '/'
 		);
 
-		$cert->cloneCertificate($newcert);
-				
+		$cert->cloneCertificate($newcert, $new_obj->getId());
+
 		return $new_obj;
 	}
-	
+
 	/**
 	 * Clone object dependencies (start objects, preconditions)
 	 *
 	 * @access public
 	 * @param int target ref id of new course
 	 * @param int copy id
-	 * 
+	 *
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{		

@@ -63,7 +63,8 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 					new ilExerciseCertificateAdapter($exc),
 					new ilExercisePlaceHolderValues(),
 					$exc->getId(),
-					ilCertificatePathConstants::EXERCISE_PATH . $exc->getId() . '/'
+					ilCertificatePathConstants::EXERCISE_PATH . $exc->getId() . '/',
+					new ilCertificateSettingsCourseFormRepository(new ilCertificateSettingsFormRepository())
 				);
 
 				if($certificate->isComplete()) {
