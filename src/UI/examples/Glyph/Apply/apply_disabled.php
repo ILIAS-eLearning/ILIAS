@@ -1,7 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thomas
- * Date: 31.07.18
- * Time: 16:10
- */
+function apply_disabled() {
+	global $DIC;
+	$f = $DIC->ui()->factory();
+	$renderer = $DIC->ui()->renderer();
+
+	return $renderer->render($f->glyph()->apply("#")->withUnavailableAction());
+}
