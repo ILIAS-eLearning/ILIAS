@@ -8,6 +8,11 @@
 		}
 	}
 
+	&.disabled {
+		opacity: 0.2;
+		filter: alpha(opacity=20); /* For IE8 and earlier */
+	}
+
 	&:hover, &:focus{
 		color: @il-glyph-hover-color;
 		text-decoration: none;
