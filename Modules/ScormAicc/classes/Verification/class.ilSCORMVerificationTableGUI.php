@@ -75,15 +75,11 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 						else
 						{
 							$lm = new ilObjSCORM2004LearningModule($obj_id, false);
-						}						
+						}
 
-						$certificate = new ilCertificate(
-							new ilSCORMCertificateAdapter($lm),
-							new ilScormPlaceholderDescription(),
-							new ilScormPlaceholderValues(),
-							$lm->getId(),
-							ilCertificatePathConstants::SCORM_PATH
-						);
+						$factory = new ilCertificateFactory();
+
+						$certificate = $factory->create($lm);
 
 						if($certificate->isComplete())
 						{	

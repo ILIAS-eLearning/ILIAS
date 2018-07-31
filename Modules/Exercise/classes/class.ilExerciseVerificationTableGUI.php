@@ -59,13 +59,9 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 			$exc = new ilObjExercise($exercise_id, false);				
 			if($exc->hasUserCertificate($ilUser->getId()))
 			{
-				$certificate = new ilCertificate(
-					new ilExerciseCertificateAdapter($exc),
-					new ilExercisePlaceHolderValues(),
-					$exc->getId(),
-					ilCertificatePathConstants::EXERCISE_PATH . $exc->getId() . '/',
-					new ilCertificateSettingsCourseFormRepository(new ilCertificateSettingsFormRepository())
-				);
+				$factory = new ilCertificateFactory();
+
+				$certificate = $factory->create($exc);
 
 				if($certificate->isComplete()) {
 					$data[] = array(

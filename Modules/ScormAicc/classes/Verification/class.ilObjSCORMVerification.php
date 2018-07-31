@@ -59,16 +59,11 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$params = array(
 			"user_data" => ilObjUser::_lookupFields($a_user_id),
 			"last_access" => $last_access
-		);				
-
-		$certificate = new ilCertificate(
-			new ilSCORMCertificateAdapter($a_lm),
-			new ilScormPlaceholderDescription(),
-			new ilScormPlaceholderValues(),
-			$a_lm->getId(),
-			ilCertificatePathConstants::SCORM_PATH
 		);
 
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($a_lm);
 		$certificate = $certificate->outCertificate($params, false);
 		
 		// save pdf file
