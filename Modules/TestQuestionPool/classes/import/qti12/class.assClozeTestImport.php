@@ -299,6 +299,7 @@ class assClozeTestImport extends assQuestionImport
 		$textgap_rating = $item->getMetadataEntry("textgaprating");
 		$this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
 		$this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
+		$this->object->setFeedbackMode($item->getMetadataEntry("feedback_mode"));
 		$combination = json_decode(base64_decode($item->getMetadataEntry("combinations")));
 		if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
 		$this->object->setTextgapRating($textgap_rating);
