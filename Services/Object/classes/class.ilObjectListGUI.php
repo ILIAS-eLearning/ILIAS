@@ -3341,7 +3341,8 @@ class ilObjectListGUI
 			if($this->isExpanded())
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
+				// "view" added, see #19922
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'view',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.svg'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
@@ -3349,7 +3350,8 @@ class ilObjectListGUI
 			else
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
+				// "view" added, see #19922
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'view',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.svg'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
