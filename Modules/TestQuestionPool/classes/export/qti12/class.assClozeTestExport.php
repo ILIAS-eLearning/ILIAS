@@ -664,7 +664,7 @@ class assClozeTestExport extends assQuestionExport
 			));
 			
 			$xmlWriter->xmlStartTag("flow_mat");
-			$this->object->addQTIMaterial($a_xml_writer, $feedback);
+			$this->object->addQTIMaterial($xmlWriter, $feedback);
 			$xmlWriter->xmlEndTag("flow_mat");
 			
 			$xmlWriter->xmlEndTag("itemfeedback");
