@@ -1469,25 +1469,27 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->gaps)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
 
+		$userSolution = $this->object->getTestOutputSolutions($active_id, $pass);
+				
 		global $lng;
 
 		$feedback = '<table class="test_specific_feedback"><tbody>';
 
-		foreach ($this->object->gaps as $index => $answer)
+		foreach ($this->object->gaps as $gapIndex => $gap)
 		{
-			$caption = $lng->txt('gap').' '.($index+1) .': ';
-
+			$answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
+			$answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
+			$fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
+			
+			$caption = $lng->txt('gap').' '.($gapIndex+1) .': ';
 			$feedback .= '<tr><td>';
-
 			$feedback .= $caption .'</td><td>';
-			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $index
-			) . '</td> </tr>';
+			$feedback .= $fb . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';
 

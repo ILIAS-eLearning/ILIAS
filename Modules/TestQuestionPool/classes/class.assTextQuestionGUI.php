@@ -561,7 +561,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				if ($this->object->isKeywordMatching($user_answer, $ans->getAnswertext() ))
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $idx
+							$this->object->getId(),0, $idx
 					);
 					$feedback .= '<tr><td><b><i>' . $ans->getAnswertext() . '</i></b></td><td>';
 					$feedback .= $fb . '</td> </tr>';

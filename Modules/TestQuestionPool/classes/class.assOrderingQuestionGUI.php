@@ -705,7 +705,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderingElementList()) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -715,7 +715,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach( $this->object->getOrderingElementList() as $element)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $element->getPosition()
+				$this->object->getId(),0, $element->getPosition()
 			);
 			
 			if( $this->object->isImageOrderingType() )

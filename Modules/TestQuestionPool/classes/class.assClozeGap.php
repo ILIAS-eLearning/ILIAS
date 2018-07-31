@@ -17,7 +17,10 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assClozeGap 
 {
-
+	const TYPE_TEXT = 0;
+	const TYPE_SELECT = 1;
+	const TYPE_NUMERIC = 2;
+	
 	/**
 	 * Type of gap
 	 *
@@ -89,7 +92,7 @@ class assClozeGap
 	 * Gets the items of a cloze gap
 	 *
 	 * @param ilArrayElementShuffler $shuffler
-	 * @return array The list of items
+	 * @return assAnswerCloze[] The list of items
 	 */
 	public function getItems(ilArrayElementShuffler $shuffler)
 	{
