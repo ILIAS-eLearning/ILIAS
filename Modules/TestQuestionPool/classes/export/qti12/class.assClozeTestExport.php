@@ -677,6 +677,6 @@ class assClozeTestExport extends assQuestionExport
 	 */
 	public function buildQtiExportIdent(ilAssSpecificFeedbackIdentifier $fbIdentifier)
 	{
-		return "{$fbIdentifier->getQuestionIndex()}:{$fbIdentifier->getAnswerIndex()}";
+		return "{$fbIdentifier->getQuestionIndex()}_{$fbIdentifier->getAnswerIndex()}";
 	}
 }

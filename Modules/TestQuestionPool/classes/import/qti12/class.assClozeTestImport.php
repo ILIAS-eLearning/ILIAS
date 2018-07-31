@@ -444,7 +444,7 @@ class assClozeTestImport extends assQuestionImport
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
 		$fbIdentifier = new ilAssSpecificFeedbackIdentifier();
 		
-		$ident = explode(':', $ident);
+		$ident = explode('_', $ident);
 		
 		if( count($ident) > 1 )
 		{
