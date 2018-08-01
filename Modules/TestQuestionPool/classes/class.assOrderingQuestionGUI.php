@@ -513,7 +513,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$fb = $this->getSpecificFeedbackOutput(array());
 			$feedback .=  strlen($fb) ? $fb : '';
 			
 			if (strlen($feedback))
@@ -701,7 +701,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderingElementList()) )
 		{

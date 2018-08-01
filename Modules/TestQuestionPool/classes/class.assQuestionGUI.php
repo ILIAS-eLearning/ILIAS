@@ -1371,12 +1371,11 @@ abstract class assQuestionGUI
 	 * This method should be overwritten by the actual question.
 	 * 
 	 * @todo Mark this method abstract!
-	 * @param integer $active_id Active ID of the user
-	 * @param integer $pass Active pass
+	 * @param array $userSolution ($userSolution[<value1>] = <value2>)
 	 * @return string HTML Code with the answer specific feedback
 	 * @access public
 	 */
-	abstract function getSpecificFeedbackOutput($active_id, $pass);
+	abstract function getSpecificFeedbackOutput($userSolution);
 	
 	public function outQuestionType()
 	{
