@@ -459,7 +459,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		$selection = $this->object->getBestSelection(false);
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_keys($selection)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -502,7 +502,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				if ( preg_match('/'.preg_quote($ans->text_wrong, '/').'/', $element) )
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $idx
+							$this->object->getId(), 0, $idx
 					);
 					
 					$feedback .= '<td>'. $fb . '</td>';

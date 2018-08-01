@@ -39,7 +39,7 @@
 include_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjFileAccessSettings extends ilObject
-{
+{   
 	/**
 	 * Boolean property. Set this to true, to enable WebDAV access to files.
 	 */
@@ -128,8 +128,7 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		return $this->webdavActionsVisible;
 	}
-
-
+	
 	/**
 	* Sets the customWebfolderInstructions property.
 	* 
@@ -153,8 +152,7 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		if (strlen($this->customWebfolderInstructions) == 0) 
 		{
-			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-			$this->customWebfolderInstructions = ilDAVServer::_getDefaultWebfolderInstructions();
+			$this->customWebfolderInstructions = self::_getDefaultWebfolderInstructions();
 		}
 		return $this->customWebfolderInstructions;
 	}
@@ -166,7 +164,7 @@ class ilObjFileAccessSettings extends ilObject
 	*/
 	public function getDefaultWebfolderInstructions()
 	{
-		return ilDAVServer::_getDefaultWebfolderInstructions();
+		return self::_getDefaultWebfolderInstructions();
 	}
 	/**
 	* Gets the customWebfolderInstructionsEnabled property.
@@ -302,10 +300,51 @@ class ilObjFileAccessSettings extends ilObject
 		$settings = new ilSetting('file_access');
 		$this->inlineFileExtensions = $settings->get('inline_file_extensions','');
 		$this->customWebfolderInstructionsEnabled = $settings->get('custom_webfolder_instructions_enabled', '0') == '1';
+		//$this->webdavSpecialCharsHandling = $settings->get('');
 		$this->customWebfolderInstructions = $settings->get('custom_webfolder_instructions', '');
 	}
 
-
+	/**
+	 * TODO: Check if needed and refactor
+	 * 
+	 * Gets instructions for the usage of webfolders.
+	 *
+	 * The instructions consist of HTML text with placeholders.
+	 * See _getWebfolderInstructionsFor for a description of the supported
+	 * placeholders.
+	 *
+	 * @return String HTML text with placeholders.
+	 */
+	public static function _getDefaultWebfolderInstructions()
+	{
+	    global $lng;
+	    return $lng->txt('webfolder_instructions_text');
+	}
+	
+	/**
+	 * TODO: Check if needed and refactor
+	 * 
+	 * Gets the maximum permitted upload filesize from php.ini in bytes.
+	 *
+	 * @return int Upload Max Filesize in bytes.
+	 */
+	private function getUploadMaxFilesize() {
+	    $val = ini_get('upload_max_filesize');
+	    
+	    $val = trim($val);
+	    $last = strtolower($val[strlen($val)-1]);
+	    switch($last) {
+	        // The 'G' modifier is available since PHP 5.1.0
+	        case 'g':
+	            $val *= 1024;
+	        case 'm':
+	            $val *= 1024;
+	        case 'k':
+	            $val *= 1024;
+	    }
+	    
+	    return $val;
+	}
 
 } // END class.ilObjFileAccessSettings
 // END WebDAV

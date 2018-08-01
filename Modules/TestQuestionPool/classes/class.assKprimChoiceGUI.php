@@ -792,7 +792,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		{
 			if($user_solution[$answer_id])
 			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 				if(strlen($fb))
 				{
 					$template->setCurrentBlock("feedback");
@@ -804,7 +804,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL)
 		{
-			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 			if(strlen($fb))
 			{
 				$template->setCurrentBlock("feedback");
@@ -819,7 +819,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 			if($answer->getCorrectness())
 			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 				if(strlen($fb))
 				{
 					$template->setCurrentBlock("feedback");
