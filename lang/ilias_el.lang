@@ -16240,3 +16240,5 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new varia
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.###01 08 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###01 08 2018 new variable
