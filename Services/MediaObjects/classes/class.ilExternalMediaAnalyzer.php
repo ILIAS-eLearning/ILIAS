@@ -62,7 +62,7 @@ class ilExternalMediaAnalyzer
 		}
 		else if (strpos($a_location, "youtu.be") > 0)
 		{
-			//$par["v"] = substr($a_location, strrpos($a_location, "/") + 1);
+			$par["v"] = substr($a_location, strrpos($a_location, "/") + 1);
 		}
 
 		return $par;
