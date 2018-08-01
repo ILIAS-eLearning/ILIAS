@@ -333,7 +333,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	 * @param integer $pass
 	 * @return string
 	 */
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		return ''; // question type supports inline answer specific feedback
 	}
