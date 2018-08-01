@@ -656,26 +656,24 @@ class ilInfoScreenGUI
 		{
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-				$davLocks = new ilDAVLocks();
+				require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php';
+				$webdav_lock_backend = new ilWebDAVLockBackend();
 
 				// Show lock info
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
-					if (count($locks) > 0)
+                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId()))
 					{
-						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+						$lock_user = new ilObjUser($lock->getIliasOwner());
 						$this->addProperty($this->lng->txt("in_use_by"),
-							$lockUser->getPublicName()
+							$lock_user->getPublicName()
 							,
-							"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
 						);
 					}
 				}
 			}
 		}
-
 	}
 	// END ChangeEvent: Display standard object info
 	/**

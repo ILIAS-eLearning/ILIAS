@@ -1461,45 +1461,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return $this->multi_download_enabled;
 	}
 	
-	// BEGIN WebDAV: Lock/Unlock objects
-	function lockObject()
-	{
-		$tree = $this->tree;
-		$ilUser = $this->user;
-		$rbacsystem = $this->rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write",$_GET['item_ref_id']))
-		{
-				$this->ilErr->raiseError($this->lng->txt('err_no_permission'),$this->ilErr->MESSAGE);
-		}
-
-
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
-		{
-			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-			if (ilDAVServer::_isActionsVisible())
-			{
-				require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
-				$locks = new ilDAVLocks();
-
-				$result = $locks->lockRef($_GET['item_ref_id'],
-						$ilUser->getId(), $ilUser->getLogin(), 
-						'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
-						time() + /*30*24*60**/60, 0, 'exclusive'
-						);
-
-				ilUtil::sendInfo(
-							$this->lng->txt(
-									($result === true) ? 'object_locked' : $result
-									),
-							true);
-			}
-		}
-		$this->renderObject();
-	}
-	// END WebDAV: Lock/Unlock objects
-
 	/**
 	* cut object(s) out from a container and write the information to clipboard
 	*
@@ -3276,15 +3237,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->initFormPasswordInstruction();
 		}
 		
-		include_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-		$davServer = ilDAVServer::getInstance();
+		include_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
+		$dav_util = ilWebDAVUtil::getInstance();
 		$ilToolbar->addButton(
 			$this->lng->txt('mount_webfolder'),
-			$davServer->getMountURI($this->object->getRefId()),
+		    $dav_util->getMountURI($this->object->getRefId()),
 			'_blank',
 			'',
-			$davServer->getFolderURI($this->object->getRefId())
+		    $dav_util->getFolderURI($this->object->getRefId())
 		);
+
 
 		$tpl->setContent($this->form->getHTML());
 	}
