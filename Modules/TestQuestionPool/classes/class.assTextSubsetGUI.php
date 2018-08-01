@@ -398,7 +398,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$this->addBackTab($ilTabs);
 	}
 	
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);

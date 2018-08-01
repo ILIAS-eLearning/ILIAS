@@ -2039,11 +2039,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	{	
 		$answerValue = '';
 		
-		foreach($userSolution as $valueRow)
+		foreach($userSolution as $value1 => $value2)
 		{
-			if ($valueRow['value1'] == $gapIndex)
+			if ($value1 == $gapIndex)
 			{
-				$answerValue = $valueRow['value2'];
+				$answerValue = $value2;
 				break;
 			}
 		}
