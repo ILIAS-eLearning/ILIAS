@@ -12,4 +12,5 @@
 	<web_access_checker>
 		<secure_path path="container_data" checking-class="ilContainerAccess" />
 	</web_access_checker>
+	<logging />
 </service>
