@@ -337,18 +337,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $button;
 	}
 
-	protected function populateSpecificFeedbackBlock(assQuestionGUI $question_gui)
+	protected function populateSpecificFeedbackBlock($question_gui)
 	{
-		$solutionValues = $question_gui->object->getSolutionValues(
-			$this->testSession->getActiveId(), NULL
-		);
-		
-		$feedback = $question_gui->getSpecificFeedbackOutput(
-			$question_gui->object->fetchIndexedValuesFromValuePairs($solutionValues)
-		);
-		
 		$this->tpl->setCurrentBlock( "specific_feedback" );
-		$this->tpl->setVariable( "SPECIFIC_FEEDBACK", $feedback);
+		$this->tpl->setVariable( "SPECIFIC_FEEDBACK",
+								 $question_gui->getSpecificFeedbackOutput(
+									 $this->testSession->getActiveId(),
+									 NULL
+								 )
+		);
 		$this->tpl->parseCurrentBlock();
 	}
 

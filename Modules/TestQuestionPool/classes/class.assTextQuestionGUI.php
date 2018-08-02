@@ -249,10 +249,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput(
-				array($user_solution => '')
-			);
-			
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -552,12 +549,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$firstValue1 = key($userSolution);
-		
 			$feedback = '<table><tbody>';
-			$user_answer = '  '. $firstValue1;
+			$user_answers = $this->object->getSolutionValues($active_id);
+			$user_answer = '  '. $user_answers[0]['value1'];
 		
 			foreach ($this->object->getAnswers() as $idx => $ans)
 			{

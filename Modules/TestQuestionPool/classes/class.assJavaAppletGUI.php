@@ -744,7 +744,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$this->addBackTab($ilTabs);
 	}
 	
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);

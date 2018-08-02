@@ -920,7 +920,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->getAnswers())) )
 		{
