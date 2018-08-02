@@ -399,7 +399,7 @@ class ilErrorHandling extends PEAR
 
 	/**
 	 * Get the handler to be used in DEVMODE.
-	 * @return Whoops\Handler
+	 * @return Whoops\Handler\HandlerInterface
 	 */
 	protected function devmodeHandler() {
 		global $ilLog;
@@ -413,30 +413,34 @@ class ilErrorHandling extends PEAR
 				// fallthrough
 			default:
 				if ((!defined('ERROR_HANDLER') || ERROR_HANDLER != 'PRETTY_PAGE') && $ilLog) {
-					$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
-						."Falling back to PrettyPageHandler.");
-				}
-			$prettyPageHandler = new PrettyPageHandler();
-			if (defined('ERROR_EDITOR_URL')) {
-				$pathTranslations = [];
-
-				if (defined('ERROR_EDITOR_PATH_TRANSLATIONS')) {
-					$mappings = explode('|', ERROR_EDITOR_PATH_TRANSLATIONS);
-					foreach ($mappings as $mapping) {
-						$parts = explode(',', $mapping);
-						$pathTranslations[$parts[0]] = $parts[1];
-					}
+					$ilLog->write(
+						"Unknown or undefined error handler '".ERROR_HANDLER."'. " .
+						"Falling back to PrettyPageHandler."
+					);
 				}
 
-				$prettyPageHandler->setEditor(function ($file, $line) use ($pathTranslations) {
-					foreach ($pathTranslations as $from => $to) {
-						$file = preg_replace('@' . $from . '@' , $to, $file);
+				$prettyPageHandler = new PrettyPageHandler();
+				if (defined('ERROR_EDITOR_URL')) {
+					$pathTranslations = [];
+
+					if (defined('ERROR_EDITOR_PATH_TRANSLATIONS')) {
+						$mappings = explode('|', ERROR_EDITOR_PATH_TRANSLATIONS);
+						foreach ($mappings as $mapping) {
+							$parts = explode(',', $mapping);
+							$pathTranslations[$parts[0]] = $parts[1];
+						}
 					}
 
-					return str_ireplace(['[FILE]', '[LINE]'], [$file, $line], ERROR_EDITOR_URL);
-				});
-			}
-			return $prettyPageHandler;
+					$prettyPageHandler->setEditor(function ($file, $line) use ($pathTranslations) {
+						foreach ($pathTranslations as $from => $to) {
+							$file = preg_replace('@' . $from . '@' , $to, $file);
+						}
+
+						return str_ireplace(['[FILE]', '[LINE]'], [$file, $line], ERROR_EDITOR_URL);
+					});
+				}
+
+				return $prettyPageHandler;
 		}
 	}
 	
