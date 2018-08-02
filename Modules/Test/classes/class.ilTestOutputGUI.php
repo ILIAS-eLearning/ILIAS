@@ -392,10 +392,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 // fau: testNav - add feedback modal
-		if (!empty($_SESSION['forced_feedback_navigation_url']))
+		if ($this->isForcedFeedbackNavUrlRegistered())
 		{
-			$this->populateInstantResponseModal($questionGui, $_SESSION['forced_feedback_navigation_url']);
-			unset($_SESSION['forced_feedback_navigation_url']);
+			$this->populateInstantResponseModal($questionGui, $this->getRegisteredForcedFeedbackNavUrl());
+			$this->unregisterForcedFeedbackNavUrl();
 		}
 // fau.
 
@@ -714,7 +714,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if ($this->getNavigationUrlParameter())
 		{
 			$this->saveNavigationPreventConfirmation();
-			$_SESSION['forced_feedback_navigation_url'] = $this->getNavigationUrlParameter();
+			$this->registerForcedFeedbackNavUrl($this->getNavigationUrlParameter());
 		}
 // fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);

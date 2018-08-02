@@ -2937,4 +2937,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		return $fixedSeed;
 	}
+	
+	protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
+	{
+		$_SESSION[$this->testSession->getActiveId()]['forced_feedback_navigation_url'] = $forcedFeedbackNavUrl;
+	}
+	
+	protected function getRegisteredForcedFeedbackNavUrl()
+	{
+		return $_SESSION[$this->testSession->getActiveId()]['forced_feedback_navigation_url'];
+	}
+	
+	protected function isForcedFeedbackNavUrlRegistered()
+	{
+		return !empty($_SESSION[$this->testSession->getActiveId()]['forced_feedback_navigation_url']);
+	}
+	
+	protected function unregisterForcedFeedbackNavUrl()
+	{
+		unset($_SESSION[$this->testSession->getActiveId()]['forced_feedback_navigation_url']);
+	}
 }
