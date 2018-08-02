@@ -662,7 +662,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $choiceKeys;
 	}
 	
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		// No return value, this question type supports inline specific feedback.
 		$output = "";
