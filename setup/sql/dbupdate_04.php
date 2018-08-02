@@ -22441,3 +22441,44 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
 	));
 }
 ?>
+<#5286>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'follow_qst_answer_fixation') )
+{
+	$ilDB->addTableColumn('tst_tests', 'follow_qst_answer_fixation', array(
+		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0		
+	));
+	
+	$ilDB->manipulateF(
+		'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
+	);
+}
+
+if( !$ilDB->tableExists('tst_seq_qst_presented') )
+{
+	$ilDB->createTable('tst_seq_qst_presented', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	
+	$ilDB->addPrimaryKey('tst_seq_qst_presented', array(
+		'active_fi','pass', 'question_fi'
+	));
+}
+?>
