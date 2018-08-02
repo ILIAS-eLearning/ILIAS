@@ -227,7 +227,6 @@ if(file_exists($old_path))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
 <#16>
 <?php
 
@@ -263,4 +262,8 @@ $ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
 global $ilDB;
 $q = "DELETE FROM il_orgu_ua WHERE user_id NOT IN (SELECT usr_id FROM usr_data)";
 $ilDB->manipulate($q);
+?>
+<#19>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
