@@ -159,6 +159,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$this->pg_obj);
 				$ret = $this->ctrl->forwardCommand($image_map_edit);
 				$tpl->setContent($ret);
+				$this->checkFixSize();
 				break;
 			
 			default:
@@ -289,6 +290,33 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$form->addCommandButton("createNewObjectReference", $lng->txt("save"));
 				$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 				$this->tpl->setContent($form->getHTML());				
+		}
+	}
+
+
+	/**
+	 * Check fix size
+	 */
+	protected function checkFixSize()
+	{
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+
+		$ok = false;
+		if (($std_alias_item->getWidth() != "" && $std_alias_item->getHeight() != ""))
+		{
+			$ok = true;
+		}
+		if ($std_alias_item->getWidth() == "" && $std_alias_item->getHeight() == ""
+			&& $std_item->getWidth() != "" && $std_item->getHeight() != "")
+		{
+			$ok = true;
+		}
+
+		if (!$ok)
+		{
+			ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
 		}
 	}
 
@@ -573,8 +601,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		// standard size
 		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
 		$orig_size = $std_item->getOriginalSize();
-		$op1 = new ilRadioOption($lng->txt("cont_default").
-			" (".$orig_size["width"]." x ".$orig_size["height"].")", "y");
+		$add_str = ($orig_size["width"] != "" && $orig_size["height"] != "")
+			? " (".$orig_size["width"]." x ".$orig_size["height"].")"
+			: "";
+		$op1 = new ilRadioOption($lng->txt("cont_default").$add_str, "y");
 		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 		$radio_size->addOption($op1);
 		
@@ -692,8 +722,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			// full size
 			$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
 			$fw_size = $std_item->getOriginalSize();
-			$op1 = new ilRadioOption($lng->txt("cont_default").
-				" (".$fw_size["width"]." x ".$fw_size["height"].")", "y");
+			$add_str = ($fw_size["width"] != "" && $fw_size["height"] != "")
+				? " (".$fw_size["width"]." x ".$fw_size["height"].")"
+				: "";
+			$op1 = new ilRadioOption($lng->txt("cont_default").$add_str, "y");
 			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 			$radio_size->addOption($op1);
 			
@@ -1107,6 +1139,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editAlias");
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else

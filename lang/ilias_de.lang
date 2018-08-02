@@ -4412,7 +4412,7 @@ content#:#cont_current_style#:#Style
 content#:#cont_current_usages#:#Aktuelle Nutzung
 content#:#cont_current_version#:#Aktuelle Version
 content#:#cont_custom#:#Angepasst
-content#:#cont_custom_size#:#Angepasste Größe
+content#:#cont_custom_size#:#Feste Größe
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_html#:#HTML-Rendering deaktivieren
@@ -4853,7 +4853,8 @@ content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Medienobje
 content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_resize_img#:#Bildgröße anpassen
 content#:#cont_resource#:#Ressource
-content#:#cont_resource_size#:#Originalgröße der Ressource
+content#:#cont_resource_size#:#Originalgröße der Ressource / Keine Größenangabe
+content#:#cont_resource_size_info#:#Wird die Größenangabe weggelassen, kann die Größe durch den Content-Style beeinflusst werden. Ohne jegliche Regelung der Größe werden nur Bilddateien in ihrer Normalgröße angezeigt.
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_revision#:#Änderung
@@ -14192,3 +14193,4 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+mob#:#mob_no_fixed_size_map_editing#:#Bitte dfinieren Sie eine feste Größe für ihr Bild bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS Regeln skaliert wird.
