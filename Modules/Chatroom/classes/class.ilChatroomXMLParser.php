@@ -192,7 +192,7 @@ class ilChatroomXMLParser extends ilSaxParser
 				break;
 
 			case 'OnlineStatus':
-				$this->room->setSetting('online_status', (int)$this->cdata);
+				$this->room->setSetting('online_status', 0);
 				break;
 
 			case 'AllowAnonymousAccess':
