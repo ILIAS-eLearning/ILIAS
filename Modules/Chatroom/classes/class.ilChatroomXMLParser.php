@@ -192,7 +192,7 @@ class ilChatroomXMLParser extends ilSaxParser
 				break;
 
 			case 'OnlineStatus':
-				$this->room->setSetting('online_status', 0);
+				$this->room->setSetting('online_status', (int)$this->cdata);
 				break;
 
 			case 'AllowAnonymousAccess':
@@ -318,6 +318,8 @@ class ilChatroomXMLParser extends ilSaxParser
 
 			case 'Chatroom':
 				$this->chat->update();
+				// Set imported chats to offline
+				$this->room->setSetting('online_status', 0);
 				$this->room->save();
 				break;
 		}
