@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @ilCtrl_Calls ilUserCertificateTableGUI: ilUserCertificateGUI
+
+ * @ingroup ServicesCertificate
+ */
 class ilUserCertificateTableGUI extends ilTable2GUI
 {
 	/**
@@ -8,7 +13,6 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 	private $controller;
 
 	/**
-	 * ilCertificateUserTableGUI constructor.
 	 * @param $parentObject
 	 * @param string $parentCommand
 	 * @param string $templateContext
@@ -20,6 +24,8 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$templateContext = '',
 		ilCtrl $controller = null
 	) {
+		$this->setId('user_certificates_table');
+
 		parent::__construct($parentObject, $parentCommand, $templateContext);
 
 		if ($controller === null) {
@@ -28,8 +34,6 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		}
 		$this->controller = $controller;
 
-		$this->setId('user_certificates_table');
-
 		$this->setTitle($this->lng->txt('user_certificates'));
 		$this->setRowTemplate('tpl.user_certificate_row.html', 'Services/Certificate');
 
@@ -37,19 +41,38 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('title'), '', '');
 		$this->addColumn($this->lng->txt('date'), '', '');
 		$this->addColumn($this->lng->txt('action'), '', '');
+
+//		$this->addMultiCommand('saveAttachments', $this->lng->txt('adopt'));
+//		$this->addMultiCommand('deleteAttachments', $this->lng->txt('delete'));
 	}
 
 	protected function fillRow($dataSet)
 	{
+		$this->enable('select_all');
+		$this->setSelectAllCheckbox('conditions');
+
+		$this->tpl->setCurrentBlock('row');
+
 		$this->tpl->setVariable('ID',  $dataSet['id']);
 		$this->tpl->setVariable('TITLE', $dataSet['title']);
 		$this->tpl->setVariable('DATE', $dataSet['date']);
 
-		$link = $this->controller->getLinkTargetByClass('ilusercertificategui', 'download');
-		$this->ctrl->setParameterByClass('ilusercertificategui', 'user_certificate_id', $dataSet['id']);
+		$guiClass = get_class($this); //'ilUserCertificateGUI';
+		$this->controller->setParameterByClass($guiClass, 'certificate_id', $dataSet['id']);
+
+		$link = $this->controller->getLinkTargetByClass($guiClass, 'download');
+
+		$this->controller->clearParametersByClass($guiClass);
+
 		$this->tpl->setVariable('LINK', $link);
 
 		$text = $this->lng->txt('download');
 		$this->tpl->setVariable('LINK_TEXT', $text);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	public function download()
+	{
+		echo "hello";
 	}
 }
