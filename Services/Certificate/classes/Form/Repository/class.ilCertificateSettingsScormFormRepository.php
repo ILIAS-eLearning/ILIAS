@@ -30,10 +30,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateGUI $certificateGUI = null
-	)
-	{
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	) {
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
@@ -42,8 +40,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 			$controller,
 			$access,
 			$toolbar,
-			$placeholderDescriptionObject,
-			$certificateGUI
+			$placeholderDescriptionObject
 		);
 	}
 
@@ -82,6 +79,10 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		$scormSetting->set('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
 	}
 
+	/**
+	 * @param $content
+	 * @return array|mixed
+	 */
 	public function fetchFormFieldData($content)
 	{
 		$scormSetting = new ilSetting('scorm');
