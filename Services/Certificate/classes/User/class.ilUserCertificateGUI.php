@@ -60,7 +60,7 @@ class ilUserCertificateGUI
 		$this->language = $language;
 
 		if ($userCertificateRepository === null) {
-			$userCertificateRepository = new ilUserCertificateRepository($DIC->database());
+			$userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->root());
 		}
 		$this->userCertificateRepository = $userCertificateRepository;
 

@@ -108,7 +108,17 @@ AND currently_active = 1
 			);
 		}
 
-		throw new ilException('Not certificate template found for obj_id:' . $objId);
+		return new ilCertificateTemplate(
+			$objId,
+			'',
+			'',
+			'',
+			0,
+			0,
+			0,
+			true,
+			''
+		);
 	}
 
 	/**
