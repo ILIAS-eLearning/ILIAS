@@ -54,13 +54,9 @@ class ilObjTestVerification extends ilVerificationObject
 		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
 
 		// create certificate
-		$certificate = new ilCertificate(
-			new ilTestCertificateAdapter($a_test),
-			new TestPlaceholderDescription(),
-			new TestPlaceHolderValues(),
-			$a_test->getId(),
-			ilCertificatePathConstants::TEST_PATH . $a_test->getId() . '/'
-		);
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($a_test);
 
 		$certificate = $certificate->outCertificate(array("active_id" => $active_id, "pass" => $pass), false);
 		

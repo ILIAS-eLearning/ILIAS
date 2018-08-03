@@ -3426,14 +3426,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
-		
-		$certificate = new ilCertificate(
-			new ilCourseCertificateAdapter($this->object),
-			new CoursePlaceholderDescription(),
-			new CoursePlaceholderValues(),
-			$this->object->getId(),
-			ilCertificatePathConstants::COURSE_PATH . $this->object->getId() . '/'
-		);
+
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($this->object);
 
 		$certificate->outCertificate(array("user_id" => $user_id), true);
 	}

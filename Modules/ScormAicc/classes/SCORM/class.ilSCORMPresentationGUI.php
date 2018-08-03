@@ -850,13 +850,9 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			$certificate = new ilCertificate(
-				new ilSCORMCertificateAdapter($this->slm),
-				new ilScormPlaceholderDescription(),
-				new ilScormPlaceholderValues(),
-				$this->slm->getId(),
-				ilCertificatePathConstants::SCORM_PATH . $this->slm->getId() . '/'
-			);
+			$factory = new ilCertificateFactory();
+
+			$certificate = $factory->create($this->slm);
 
 			$params = array(
 				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),

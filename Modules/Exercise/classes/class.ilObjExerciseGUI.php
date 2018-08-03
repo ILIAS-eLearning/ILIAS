@@ -805,13 +805,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// show certificate?
 		if($this->object->hasUserCertificate($ilUser->getId()))
 		{
-			$certificate = new ilCertificate(
-				new ilExerciseCertificateAdapter($this->object),
-				new ExercisePlaceholderDescription(),
-				new ilExercisePlaceHolderValues(),
-				$this->object->getId(),
-				ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
-			);
+			$factory = new ilCertificateFactory();
+
+			$certificate = $factory->create($this->object);
 
 			if($certificate->isComplete()) {
 				$ilToolbar->addButton($this->lng->txt("certificate"),
@@ -879,14 +875,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt("msg_failed"));
 			$this->showOverviewObject();			
 		}
-		
-		$certificate = new ilCertificate(
-			new ilExerciseCertificateAdapter($this->object),
-			new ExercisePlaceholderDescription(),
-			new ilExercisePlaceHolderValues(),
-			$this->object->getId(),
-			ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
-		);
+
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($this->object);
 
 		$certificate->outCertificate(array("user_id" => $ilUser->getId()));
 	}

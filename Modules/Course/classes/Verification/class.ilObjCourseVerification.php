@@ -50,13 +50,9 @@ class ilObjCourseVerification extends ilVerificationObject
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
 		
 		// create certificate
-		$certificate = new ilCertificate(
-			new ilCourseCertificateAdapter($a_course),
-			new CoursePlaceholderDescription(),
-			new CoursePlaceholderValues(),
-			$a_course->getId(),
-			ilCertificatePathConstants::COURSE_PATH . $a_course->getId() . '/'
-		);
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($a_course);
 
 		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
 		

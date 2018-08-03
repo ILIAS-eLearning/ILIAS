@@ -336,13 +336,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 			
 			if(!$this->object->getAnonymity()) {
-				$certificate = new ilCertificate(
-					new ilTestCertificateAdapter($this->object),
-					new TestPlaceholderDescription(),
-					new TestPlaceHolderValues(),
-					$this->object->getId(),
-					ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
-				);
+				$factory = new ilCertificateFactory();
+
+				$certificate = $factory->create($this->object);
 
 				if($certificate->isComplete(new ilTestCertificateAdapter($this->object))) {
 					$options['certificate'] = $this->lng->txt('exp_type_certificate');
@@ -857,13 +853,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$certificate = new ilCertificate(
-			new ilTestCertificateAdapter($this->object),
-			new TestPlaceholderDescription(),
-			new TestPlaceHolderValues(),
-			$this->object->getId(),
-			ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
-		);
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($this->object);
 
 		$archive_dir = $certificate->createArchiveDirectory();
 		$total_users = array();
@@ -1792,14 +1784,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function outCertificate()
 	{
 		$testSession = $this->testSessionFactory->getSession();
-		
-		$certificate = new ilCertificate(
-			new ilTestCertificateAdapter($this->object),
-			new TestPlaceholderDescription(),
-			new TestPlaceHolderValues(),
-			$this->object->getId(),
-			ilCertificatePathConstants::TEST_PATH .  $this->object->getId() . '/'
-		);
+
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($this->object);
 
 		$certificate->outCertificate(
 			array(

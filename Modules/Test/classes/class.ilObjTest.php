@@ -7361,26 +7361,17 @@ function getAnswerFeedbackPoints()
 		$newObj->saveToDb();
 		
 		// clone certificate
-		$placeHolderDescriptionObject = new TestPlaceholderDescription();
-		$placeHolderValuesObject      = new TestPlaceHolderValues();
+		$factory = new ilCertificateFactory();
+		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
-		$cert = new ilCertificate(
-			new ilTestCertificateAdapter($this),
-			$placeHolderDescriptionObject,
-			$placeHolderValuesObject,
-			$this->getId(),
-			ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
+		$cloneAction = new ilCertificateCloneAction(
+			$ilLog,
+			$ilDB,
+			$factory,
+			$templateRepository
 		);
 
-		$newcert = new ilCertificate(
-			new ilTestCertificateAdapter($newObj),
-			$placeHolderDescriptionObject,
-			$placeHolderValuesObject,
-			$newObj->getId(),
-			ilCertificatePathConstants::TEST_PATH . $newObj->getId() . '/'
-		);
-
-		$cert->cloneCertificate($newcert, $newObj->getId());
+		$cloneAction->cloneCertificate($this, $newObj);
 
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
@@ -10522,13 +10513,9 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->canShowTestResults($testSession))
 		{
-			$cert = new ilCertificate(
-				new ilTestCertificateAdapter($this),
-				new TestPlaceholderDescription(),
-				new TestPlaceHolderValues(),
-				$this->getId(),
-				ilCertificatePathConstants::TEST_PATH . $this->getId() . '/'
-			);
+			$factory = new ilCertificateFactory();
+
+			$cert = $factory->create($this);
 
 			if ($cert->isComplete())
 			{

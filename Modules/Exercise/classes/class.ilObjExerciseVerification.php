@@ -56,13 +56,9 @@ class ilObjExerciseVerification extends ilVerificationObject
 		
 		// create certificate
 
-		$certificate = new ilCertificate(
-			new ilExerciseCertificateAdapter($a_exercise),
-			new ExercisePlaceholderDescription(),
-			new ilExercisePlaceHolderValues(),
-			$a_exercise->getId(),
-			ilCertificatePathConstants::EXERCISE_PATH . $a_exercise->getId() . '/'
-		);
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($a_exercise);
 
 		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
 		
