@@ -7,6 +7,7 @@ include_once "Services/Badge/classes/class.ilBadgeHandler.php";
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
+ * @ilCtrl_Calls ilBadgeProfileGUI: ilUserCertificateTableGUI
  *
  * @package ServicesBadge
  */
@@ -64,17 +65,77 @@ class ilBadgeProfileGUI
 		
 		$tpl->setTitle($lng->txt("obj_bdga"));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
-								
-		switch($ilCtrl->getNextClass())
-		{			
-			default:			
+
+		$nextClass = $ilCtrl->getNextClass();
+		switch($nextClass)
+		{
+			default:
 				$this->setTabs();
 				$cmd = $ilCtrl->getCmd("listBadges");							
 				$this->$cmd();
 				break;
 		}
 	}
-	
+
+	public function listCertificates()
+	{
+		global $DIC;
+
+		$database = $DIC->database();
+
+		$logger = $DIC->logger()->root();
+
+		$provider = new ilUserCertificateRepository($database, $logger);
+
+		$table = new ilUserCertificateTableGUI($this, 'show');
+		$certificates = $provider->fetchActiveCertificates($DIC->user()->getId());
+
+		$this->getSubTabs('certificate');
+		$data = array();
+
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificates as $certificate) {
+			/** @var ilObject $object */
+			$object = ilObjectFactory::getInstanceByObjId($certificate->getObjId());
+
+			$acquiredTimestamp = $certificate->getAcquiredTimestamp();
+
+			$ilDateTime = new ilDateTime($acquiredTimestamp, IL_CAL_UNIX);
+
+			$data[] = array(
+				'id'     => $certificate->getId(),
+				'title'  => $object->getTitle(),
+				'date'   => ilDatePresentation::formatDate($ilDateTime),
+				'action' => $DIC->ctrl()->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
+			);
+		}
+
+		$table->setData($data);
+
+		$this->tpl->setContent(	$table->getHTML());
+	}
+
+	public function download()
+	{
+		global $DIC;
+
+		$database = $DIC->database();
+
+		$logger = $DIC->logger()->root();
+
+		$pdfGenerator = new ilPdfGenerator(new ilUserCertificateRepository($database, $logger), $logger);
+
+		$pdfScalar = $pdfGenerator->generate($_GET['certificate_id']);
+
+		ilUtil::deliverData(
+			$pdfScalar,
+			'Certificate.pdf',
+			"application/pdf"
+		);
+
+		$this->listCertificates();
+	}
+
 	protected function setTabs()
 	{
 		$ilTabs = $this->tabs;
@@ -89,7 +150,7 @@ class ilBadgeProfileGUI
 
 			$ilTabs->addTab("backpack_badges",
 				$lng->txt("badge_backpack_list"),
-				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));			
+				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));
 		}
 	}
 	
@@ -125,7 +186,12 @@ class ilBadgeProfileGUI
 				$ilCtrl->getLinkTarget($this, "manageBadges"));
 			$ilTabs->activateTab($a_active);
 		}
-		
+
+		$ilTabs->addTab('certificate',
+			$lng->txt('certificate'),
+			$ilCtrl->getLinkTarget($this, "listCertificates")
+		);
+		$ilTabs->activateTab($a_active);
 	}
 	
 	protected function listBadges()
