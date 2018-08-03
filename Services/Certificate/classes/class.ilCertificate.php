@@ -103,7 +103,7 @@ class ilCertificate
 		$this->templateRepository = $templateRepository;
 
 		if ($certificateRepository === null) {
-			$certificateRepository = new ilUserCertificateRepository($DIC->database());
+			$certificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->root());
 		}
 		$this->certificateRepository = $certificateRepository;
 	}
@@ -254,8 +254,7 @@ class ilCertificate
 		$xsl = $this->getXSLPath();
 		$bgimage = $this->getBackgroundImagePath();
 		$bgimagethumb = $this->getBackgroundImageThumbPath();
-		$certificatepath = $this->getAdapter()->getCertificatePath();
-		
+
 		$new_xsl = $newObject->getXSLPath();
 		$new_bgimage = $newObject->getBackgroundImagePath();
 		$new_bgimagethumb = $newObject->getBackgroundImageThumbPath();
@@ -583,16 +582,17 @@ class ilCertificate
 	{
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$xslfo = file_get_contents($this->getXSLPath());
+		$objId = $this->adapter->getCertificateID();
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
+
+		$xslfo = $template->getCertificateContent();
 
         // render tex as fo graphics
-		require_once('Services/MathJax/classes/class.ilMathJax.php');
 		$xslfo = ilMathJax::getInstance()
 			->init(ilMathJax::PURPOSE_PDF)
 			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
 			->insertLatexImages($xslfo);
 
-		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF(
@@ -1205,11 +1205,9 @@ class ilCertificate
 		$content = $this->exchangeCertificateVariables($xslfo, $insert_tags);
 		$content = str_replace('[BR]', "<fo:block/>", $content);
 
-		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($content);
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(array()), "application/pdf");
 		}
 		catch(Exception $e)
