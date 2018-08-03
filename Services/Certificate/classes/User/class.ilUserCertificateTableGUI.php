@@ -1,6 +1,5 @@
 <?php
 
-
 class ilUserCertificateTableGUI extends ilTable2GUI
 {
 	/**
@@ -46,9 +45,9 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TITLE', $dataSet['title']);
 		$this->tpl->setVariable('DATE', $dataSet['date']);
 
-//		$link = $this->ctrl->getLinkTargetByClass('ilusercertificategui', 'download');
-//		$this->ctrl->setParameterByClass('ilusercertificategui', 'user_certificate_id', $dataSet['id']);
-//		$this->tpl->setVariable('LINK', $link);
+		$link = $this->controller->getLinkTargetByClass('ilusercertificategui', 'download');
+		$this->ctrl->setParameterByClass('ilusercertificategui', 'user_certificate_id', $dataSet['id']);
+		$this->tpl->setVariable('LINK', $link);
 
 		$text = $this->lng->txt('download');
 		$this->tpl->setVariable('LINK_TEXT', $text);
