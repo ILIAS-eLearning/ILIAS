@@ -59,6 +59,7 @@ class ilObjExerciseVerification extends ilVerificationObject
 		$certificate = new ilCertificate(
 			new ilExerciseCertificateAdapter($a_exercise),
 			new ExercisePlaceholderDescription(),
+			new ilExercisePlaceHolderValues(),
 			$a_exercise->getId(),
 			ilCertificatePathConstants::EXERCISE_PATH . $a_exercise->getId() . '/'
 		);

@@ -131,12 +131,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tabs_gui->activateTab("settings");
 				$this->tabs_gui->activateSubTab("certificate");
 
-				$output_gui = new ilCertificateGUI(
-					new ilExerciseCertificateAdapter($this->object),
-					new ExercisePlaceholderDescription(),
-					$this->object->getId(),
-					ilCertificatePathConstants::EXERCISE_PATH .$this->object->getId() . '/'
-				);
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 
 				$this->ctrl->forwardCommand($output_gui);
 				break;
@@ -812,6 +808,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$certificate = new ilCertificate(
 				new ilExerciseCertificateAdapter($this->object),
 				new ExercisePlaceholderDescription(),
+				new ilExercisePlaceHolderValues(),
 				$this->object->getId(),
 				ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
 			);
@@ -866,15 +863,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->setSettingsSubTabs();
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab("certificate");
-		
-		$output_gui = new ilCertificateGUI(
-			new ilExerciseCertificateAdapter($this->object),
-			new ExercisePlaceholderDescription(),
-			$this->object->getId(),
-			ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
-		);
 
-		$output_gui->certificateEditor();				
+		$guiFactory = new ilCertificateGUIFactory();
+		$output_gui = $guiFactory->create($this->object);
+
+		$output_gui->certificateEditor();
 	}
 	
 	function outCertificateObject()
@@ -890,6 +883,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$certificate = new ilCertificate(
 			new ilExerciseCertificateAdapter($this->object),
 			new ExercisePlaceholderDescription(),
+			new ilExercisePlaceHolderValues(),
 			$this->object->getId(),
 			ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
 		);

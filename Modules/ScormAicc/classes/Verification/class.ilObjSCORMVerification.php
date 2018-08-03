@@ -64,6 +64,7 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$certificate = new ilCertificate(
 			new ilSCORMCertificateAdapter($a_lm),
 			new ilScormPlaceholderDescription(),
+			new ilScormPlaceholderValues(),
 			$a_lm->getId(),
 			ilCertificatePathConstants::SCORM_PATH
 		);

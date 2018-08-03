@@ -67,6 +67,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 					$certificate = new ilCertificate(
 						new ilCourseCertificateAdapter(ilObjectFactory::getInstanceByObjId($crs_id)),
 						new CoursePlaceholderDescription(),
+						new CoursePlaceholderValues(),
 						$crs_id,
 						ilCertificatePathConstants::COURSE_PATH . $crs_id . '/'
 					);

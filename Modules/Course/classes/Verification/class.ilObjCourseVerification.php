@@ -53,6 +53,7 @@ class ilObjCourseVerification extends ilVerificationObject
 		$certificate = new ilCertificate(
 			new ilCourseCertificateAdapter($a_course),
 			new CoursePlaceholderDescription(),
+			new CoursePlaceholderValues(),
 			$a_course->getId(),
 			ilCertificatePathConstants::COURSE_PATH . $a_course->getId() . '/'
 		);

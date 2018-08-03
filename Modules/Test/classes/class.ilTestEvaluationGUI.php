@@ -339,6 +339,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$certificate = new ilCertificate(
 					new ilTestCertificateAdapter($this->object),
 					new TestPlaceholderDescription(),
+					new TestPlaceHolderValues(),
 					$this->object->getId(),
 					ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
 				);
@@ -859,6 +860,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$certificate = new ilCertificate(
 			new ilTestCertificateAdapter($this->object),
 			new TestPlaceholderDescription(),
+			new TestPlaceHolderValues(),
 			$this->object->getId(),
 			ilCertificatePathConstants::TEST_PATH . $this->object->getId() . '/'
 		);
@@ -1794,6 +1796,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$certificate = new ilCertificate(
 			new ilTestCertificateAdapter($this->object),
 			new TestPlaceholderDescription(),
+			new TestPlaceHolderValues(),
 			$this->object->getId(),
 			ilCertificatePathConstants::TEST_PATH .  $this->object->getId() . '/'
 		);
