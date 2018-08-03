@@ -1,8 +1,10 @@
 <?php
 
 
-class ilCertificateCron
+class ilCertificateCron extends ilCronJob
 {
+	const DEFAULT_SCHEDULE_HOURS = 1;
+
 	/**
 	 * @var ilCertificateQueueRepository
 	 */
@@ -82,5 +84,55 @@ class ilCertificateCron
 
 			$this->userRepository->save($userCertificate);
 		}
+	}
+
+	/**
+	 * Get id
+	 *
+	 * @return string
+	 */
+	public function getId()
+	{
+		return 'certificate';
+	}
+
+	/**
+	 * Is to be activated on "installation"
+	 *
+	 * @return boolean
+	 */
+	public function hasAutoActivation()
+	{
+		return false;
+	}
+
+	/**
+	 * Can the schedule be configured?
+	 *
+	 * @return boolean
+	 */
+	public function hasFlexibleSchedule()
+	{
+		return true;
+	}
+
+	/**
+	 * Get schedule type
+	 *
+	 * @return int
+	 */
+	public function getDefaultScheduleType()
+	{
+		return self::SCHEDULE_TYPE_IN_HOURS;
+	}
+
+	/**
+	 * Get schedule value
+	 *
+	 * @return int|array
+	 */
+	function getDefaultScheduleValue()
+	{
+		return self::DEFAULT_SCHEDULE_HOURS;
 	}
 }

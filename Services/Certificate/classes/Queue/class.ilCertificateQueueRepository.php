@@ -29,7 +29,7 @@ class ilCertificateQueueRepository
 			'usr_id'            => array('integer', $certificateQueueEntry->getUserId()),
 			'adapter_class'     => array('clob', $certificateQueueEntry->getAdapterClass()),
 			'state'             => array('clob', $certificateQueueEntry->getState()),
-			'started_timestamp' => array('integer', timestamp())
+			'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp())
 		));
 	}
 

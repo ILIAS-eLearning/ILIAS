@@ -8,4 +8,7 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<crons>
+		<cron id="certificate" class="ilCertificateCron" />
+	</crons>
 </service>
