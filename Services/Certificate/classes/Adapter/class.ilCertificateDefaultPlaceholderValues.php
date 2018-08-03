@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * Collection of basic placeholder values that can be used
+ */
 class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
 	/**
@@ -8,11 +10,20 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 	 */
 	private $placeholder;
 
+	private $language;
+
 	/**
 	 * @param ilLanguage $language
 	 */
-	public function __construct(ilLanguage $language)
+	public function __construct(ilLanguage $language = null)
 	{
+		global $DIC;
+
+		if (null === $language) {
+			$language = $DIC->language();
+		}
+		$this->language = $language;
+
 		$this->placeholder = array(
 			"USER_LOGIN"         => $language->txt("certificate_ph_login"),
 			"USER_FULLNAME"      => $language->txt("certificate_ph_fullname"),
@@ -31,6 +42,12 @@ class ilCertificateDefaultPlaceholderValues implements ilCertificatePlaceholderV
 		);
 	}
 
+	/**
+	 * @param $userId
+	 * @param $objId
+	 * @return array - Array with a mapping of [placholder_key] => actual value
+	 * @throws ilException
+	 */
 	public function getPlaceholderValues($userId, $objId)
 	{
 		/** @var ilObjUser $user */
