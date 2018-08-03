@@ -16,7 +16,7 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
 	/**
 	 * @var array
 	 */
-	private $placeHolders;
+	private $placeholder;
 
 	/**
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -36,15 +36,15 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-		$this->placeHolder['RESULT_PASSED']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_passed'));
-		$this->placeHolder['RESULT_POINTS']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_points'));
-		$this->placeHolder['RESULT_PERCENT']    = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_percent'));
-		$this->placeHolder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
-		$this->placeHolder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
-		$this->placeHolder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
-		$this->placeHolder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_title'));
+		$this->placeholder['RESULT_PASSED']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_passed'));
+		$this->placeholder['RESULT_POINTS']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_points'));
+		$this->placeholder['RESULT_PERCENT']    = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_percent'));
+		$this->placeholder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
+		$this->placeholder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+		$this->placeholder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
+		$this->placeholder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_title'));
 	}
 
 
@@ -56,7 +56,7 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
 	 */
 	public function createPlaceholderHtmlDescription()
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificates');
+		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
 
 		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
