@@ -3406,8 +3406,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
+		$logger   = $DIC->logger()->root();
+		$database = $DIC->database();
 	
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
@@ -3429,9 +3431,12 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$factory = new ilCertificateFactory();
 
-		$certificate = $factory->create($this->object);
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$certificate->outCertificate(array("user_id" => $user_id), true);
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+		$pdfAction->downloadPdf($user_id, $this->object->getid());
 	}
 	
 	
