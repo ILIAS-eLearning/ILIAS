@@ -61,7 +61,7 @@ class TestPlaceHolderValues implements ilCertificatePlaceholderValues
 
 		$percentage = 0;
 		if ($result_array['test']['total_max_points']) {
-			$percentage = ($result_array['test']['total_reached_points']/$result_array['test']['total_max_points'])*100;
+			$percentage = ($result_array['test']['total_reached_points'] / $result_array['test']['total_max_points']) * 100;
 		}
 
 		$mark_obj = $testObject->mark_schema->getMatchingMark($percentage);
