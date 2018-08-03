@@ -36,7 +36,8 @@ class ilCertificateCron extends ilCronJob
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilUserCertificateRepository $userRepository = null,
 		ilLogger $logger = null
-	) {
+	)
+	{
 		global $DIC;
 
 		$database = $DIC->database();
@@ -133,7 +134,7 @@ class ilCertificateCron extends ilCronJob
 				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
 			}
 
-			$certificateContent = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $certificateContent);
+			$certificateContent = str_replace('[BACKGROUND_IMAGE]', $template->getBackgroundImagePath(), $certificateContent);
 
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),
@@ -202,8 +203,16 @@ class ilCertificateCron extends ilCronJob
 	 *
 	 * @return int|array
 	 */
-	function getDefaultScheduleValue()
+	public function getDefaultScheduleValue()
 	{
 		return self::DEFAULT_SCHEDULE_HOURS;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasScheduleValue()
+	{
+		return true;
 	}
 }

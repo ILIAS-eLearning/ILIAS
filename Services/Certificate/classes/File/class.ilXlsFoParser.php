@@ -64,12 +64,10 @@ class ilXlsFoParser
 			$pagewidth = $pageformats[$formData['pageformat']]['width'];
 		}
 
-		$backgroundImageName = $this->createConcreteBackgroundImagePath($backgroundImageName);
-
 		$params = array(
 			'pageheight'      => $pageheight,
 			'pagewidth'       => $pagewidth,
-			'backgroundimage' => $backgroundImageName,
+			'backgroundimage' => '[BACKGROUND_IMAGE]',
 			'marginbody'      => implode(' ', array(
 				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['top'])),
 				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['right'])),

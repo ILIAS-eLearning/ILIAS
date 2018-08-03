@@ -285,71 +285,6 @@ class ilCertificate
 	}
 
 	/**
-	 * Clone the certificate for another test object
-	 *
-	 * @param $newObject \ilCertificate The new certificate object
-	 * @param $newObjId
-	 * @throws ilDatabaseException
-	 */
-	public function cloneCertificate(\ilCertificate $newObject, $newObjId)
-	{
-		$templates = $this->templateRepository->fetchCertificateTemplatesByObjId($this->objectId);
-		$currentlyActive = null;
-
-		/** @var ilCertificateTemplate $template */
-		foreach ($templates as $template) {
-			$backgroundImagePath = $template->getBackgroundImagePath();
-			$backgroundImageFile = basename($backgroundImagePath);
-			$backgroundImageThumbnail = $this->getBackgroundImageThumbPath();
-
-			$newBackgroundImage = $newObject->getBackgroundImageDirectory() . $backgroundImageFile;
-			$newBackgroundImageThumbnail = $newObject->getBackgroundImageThumbPath();
-
-			if (@file_exists($backgroundImagePath)) {
-				@copy($backgroundImagePath, $newBackgroundImage);
-			}
-
-			if (@file_exists($backgroundImageThumbnail)) {
-				@copy($backgroundImageThumbnail, $newBackgroundImageThumbnail);
-			}
-
-			$newTemplate = new ilCertificateTemplate(
-				$newObjId,
-				$template->getCertificateContent(),
-				$template->getCertificateHash(),
-				$template->getTemplateValues(),
-				$template->getVersion(),
-				ILIAS_VERSION_NUMERIC,
-				time(),
-				$template->isCurrentlyActive(),
-				$newBackgroundImage
-			);
-
-			$this->templateRepository->save($newTemplate);
-		}
-
-		// #10271
-		if($this->readActive()) {
-			$newObject->writeActive(true);
-		}
-	}
-
-	/**
-	* Deletes the certificate and all it's data
-	*
-	* @access public
-	*/
-	public function deleteCertificate()
-	{
-		if (@file_exists($this->certificatePath)) {
-			ilUtil::delDir($this->certificatePath);
-			$this->certificatePath->deleteCertificate();
-		}
-
-		$this->writeActive(false);
-	}
-
-	/**
 	* Exchanges the variables in the certificate text with given values
 	*
 	* @param string $certificate_text The XSL-FO certificate text
@@ -375,86 +310,6 @@ class ilCertificate
 		$certificate_text = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $certificate_text);
 
 		return $certificate_text;
-	}
-
-	/**
-	 * Creates a PDF certificate
-	 * @param array $params An array of parameters which is needed to create the certificate
-	 * @param bool $deliver
-	 * @return void|string
-	 * @throws ilException
-	 */
-	public function outCertificate($params, $deliver = true)
-	{
-		/** @var ilObjUser $user */
-		$user = ilObjectFactory::getInstanceByObjId($params['user_id']);
-
-		$oldDateteTimeValue = \ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
-		$insert_tags = $this->placeholderValuesObject->getPlaceholderValues($user->getId(), $this->objectId);
-
-		$cust_data = new ilUserDefinedData($this->getAdapter()->getUserIdForParams($params));
-		$cust_data = $cust_data->getAll();
-
-		foreach (self::getCustomCertificateFields() as $key => $field)  {
-			$insert_tags[$field['ph']] = ilUtil::prepareFormOutput($cust_data['f_' . $key]);
-		}
-
-		/** @var ilObject $object */
-		$object = ilObjectFactory::getInstanceByObjId($this->objectId);
-
-
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
-
-		// render tex as fo graphics
-		$xslfo = ilMathJax::getInstance()
-			->init(ilMathJax::PURPOSE_PDF)
-			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-			->insertLatexImages($template->getCertificateContent());
-
-		try {
-			$fo_string = $this->exchangeCertificateVariables($xslfo, $insert_tags);
-
-			$backgroundImagePath = $this->certificatePath . $this->getBackgroundImageName();
-
-			$userCertificate = new ilUserCertificate(
-				$template->getId(),
-				$this->objectId,
-				$object->getType(),
-				$user->getId(),
-				$user->getFullname(),
-				time(),
-				$fo_string,
-				$template->getTemplateValues(),
-				null,
-				1,
-				ILIAS_VERSION_NUMERIC,
-				true,
-				$backgroundImagePath
-			);
-
-			$this->certificateRepository->save($userCertificate);
-
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
-				->ilFO2PDF($fo_string);
-
-			if ($deliver) {
-				ilUtil::deliverData(
-					$pdf_base64->scalar,
-					$this->getAdapter()->getCertificateFilename($params),
-					'application/pdf'
-				);
-			}
-
-			return $pdf_base64->scalar;
-		}
-		catch(Exception $e)
-		{
-			$this->log->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
-
-		ilDatePresentation::setUseRelativeDates($oldDateteTimeValue);
 	}
 
 	/**
@@ -570,14 +425,17 @@ class ilCertificate
 	}
 
 	/**
-	* Checks for the background image of the certificate
-	*
-	* @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
-	*/
+	 * Checks for the background image of the certificate
+	 *
+	 * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
+	 * @throws ilException
+	 */
 	public function hasBackgroundImage()
 	{
-		if (file_exists($this->getBackgroundImageDirectory() . 'background.jpg')
-			&& (filesize($this->getBackgroundImageDirectory() . 'background.jpg') > 0)
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+
+		if (file_exists($template->getBackgroundImagePath())
+			&& (filesize($template->getBackgroundImagePath()) > 0)
 		) {
 			return true;
 		}
