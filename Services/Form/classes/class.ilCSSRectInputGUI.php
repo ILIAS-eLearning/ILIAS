@@ -58,6 +58,14 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 		$this->useUnits = TRUE;
 	}
 
+	public function setValue($valueArray)
+	{
+		$this->top    = $valueArray['top'];
+		$this->left   = $valueArray['left'];
+		$this->right  = $valueArray['right'];
+		$this->bottom = $valueArray['bottom'];
+	}
+
 	/**
 	* Set use units.
 	*
@@ -175,7 +183,16 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);
+		$postVar = $this->getPostVar();
+
+		$values = array(
+			'top'    => $a_values[$postVar . '_top'],
+			'bottom' => $a_values[$postVar . '_bottom'],
+			'right'  => $a_values[$postVar . '_right'],
+			'left'   => $a_values[$postVar . '_left'],
+		);
+
+		$this->setValue($values);
 	}
 
 	/**
