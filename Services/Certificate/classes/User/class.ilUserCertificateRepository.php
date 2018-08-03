@@ -48,6 +48,7 @@ class ilUserCertificateRepository
 			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
 			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
 		);
+
 		$this->database->insert('user_certificates', $columns);
 	}
 
@@ -142,7 +143,7 @@ AND obj_id = ' . $objId;
 	private function deactivatePreviousCertificates($objId, $userId)
 	{
 		$sql = '
-UPDATE certificate_template
+UPDATE user_certificates
 SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND  user_id = ' . $this->database->quote($userId, 'integer');

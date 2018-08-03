@@ -91,6 +91,16 @@ class ilCertificateGUI
 	protected $toolbar;
 
 	/**
+	 * @var ilCertificateTemplateRepository
+	 */
+	private $templateRepository;
+
+	/**
+	 * @var ilXlsFoParser
+	 */
+	private $xlsFoParser;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @access public
@@ -271,13 +281,11 @@ class ilCertificateGUI
 		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
 		$content = $certificate->getCertificateContent();
 
-		if(strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
-		{
+		if(strcmp($this->ctrl->getCmd(), "certificateSave") == 0) {
 			$form_fields = $this->getFormFieldsFromPOST();
-		}
-		else
-		{
-			$form_fields = $this->getFormFieldsFromFO();
+		} else {
+			$form_fields = $this->xlsFoParser->parse($content);
+			$form_fields["active"] = $this->object->readActive();
 		}
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -352,21 +360,7 @@ class ilCertificateGUI
 		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
 		$bgimage->setRequired(FALSE);
 		$bgimage->setUseCache(false);
-		if (count($_POST)) 
-		{
-			// handle the background upload
-			if (strlen($_FILES["background"]["tmp_name"]))
-			{
-				if ($bgimage->checkInput())
-				{
-					$result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
-					if ($result == FALSE)
-					{
-						$bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
-					}
-				}
-			}
-		}
+
 		if (!$this->object->hasBackgroundImage())
 		{
 			include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
@@ -427,7 +421,7 @@ class ilCertificateGUI
 		"span",
 		"strong",
 		"u",
-		"ul"	
+		"ul"
 		);
 		$certificate->setRteTags($tags);
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $certificate->checkInput();
@@ -474,17 +468,35 @@ class ilCertificateGUI
 			{
 				$this->object->deleteBackgroundImage();
 			}
+
 			if ($form->checkInput())
 			{
 				try
 				{
-					/** @var ilCertificateAdapter $adapter */
 					$xslfo = $this->object->processXHTML2FO($form_fields);
-					$adapter->saveFormFields($form_fields);
+					$this->object->getAdapter()->saveFormFields($form_fields);
 
-					$templateValues =$adapter->getCertificateVariablesForPresentation();
+					$templateValues = $adapter->getCertificateVariablesForPresentation();
 
 					$version = 1;
+
+					$backgroundImagePath = null;
+					if (count($_POST))
+					{
+						// handle the background upload
+						if (strlen($_FILES["background"]["tmp_name"]))
+						{
+							if ($bgimage->checkInput())
+							{
+								try {
+									$backgroundImagePath = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
+								}
+								catch (ilException $exception) {
+									$bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+								}
+							}
+						}
+					}
 
 					$certificateTemplate = new ilCertificateTemplate(
 						$objId,
@@ -493,15 +505,16 @@ class ilCertificateGUI
 						json_encode($templateValues),
 						$version,
 						ILIAS_VERSION_NUMERIC,
-						microtime(),
-						true
+						time(),
+						true,
+						$backgroundImagePath,
+						$form_fields['active']
 					);
 
 					$this->templateRepository->save($certificateTemplate);
 
-					$this->object->saveCertificate($xslfo);
+					$this->object->writeActive($form_fields['active']);
 
-					$this->object->writeActive($form_fields["active"]);					
 					ilUtil::sendSuccess($this->lng->txt("saved_successfully"), TRUE);
 					$this->ctrl->redirect($this, "certificateEditor");
 				}
