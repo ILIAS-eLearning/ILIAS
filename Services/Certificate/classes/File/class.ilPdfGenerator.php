@@ -17,7 +17,9 @@ class ilPdfGenerator
 	{
 		$certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
 
-		$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($certificate->getCertificateContent());
+		$certificateContent = $certificate->getCertificateContent();
+		$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
+			->ilFO2PDF($certificateContent);
 
 		ilUtil::deliverData(
 			$pdf_base64->scalar,
