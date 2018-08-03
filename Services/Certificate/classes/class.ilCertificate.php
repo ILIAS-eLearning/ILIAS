@@ -359,7 +359,7 @@ class ilCertificate
 	 */
 	public function processXHTML2FO($form_data, $backgroundImage)
 	{
-		$content = "<html><body>" . ilUtil::stripSlashes($form_data["certificate_text"]) . "</body></html>";
+		$content = "<html><body>" . $form_data["certificate_text"] . "</body></html>";
 		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
 		$content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
 		$content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
