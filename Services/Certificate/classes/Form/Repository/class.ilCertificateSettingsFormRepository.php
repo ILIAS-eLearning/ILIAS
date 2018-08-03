@@ -34,6 +34,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $placeholderDescriptionObject;
 
 	/**
+	 * @var
+	 */
+	private $pageFormats;
+
+	/**
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
@@ -49,7 +54,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateGUI $certificateGUI = null
+		ilCertificateGUI $certificateGUI = null,
+		ilPageFormats $pageFormats = null
 	) {
 		$this->language                     = $language;
 		$this->template                     = $template;
@@ -57,6 +63,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$this->access                       = $access;
 		$this->toolbar                      = $toolbar;
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
+
+		if (null === $pageFormats) {
+			$pageFormats = new ilPageFormats($language);
+		}
+		$this->pageFormats = $pageFormats;
 	}
 
 	/**
@@ -109,7 +120,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$form->addItem($formSection);
 
 		$pageformat  = new ilRadioGroupInputGUI($this->language->txt("certificate_page_format"), "pageformat");
-		$pageformats = $certificateObject->getPageFormats();
+		$pageformats = $this->pageFormats->fetchPageFormats();
 
 		foreach($pageformats as $format) {
 			$option = new ilRadioOption($format["name"], $format["value"]);

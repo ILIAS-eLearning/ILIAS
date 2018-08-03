@@ -3,116 +3,109 @@
 
 class ilXlsFoParser
 {
-	private $adapter;
+	/**
+	 * @var ilSetting
+	 */
+	private $settings;
 
-	public function __construct(ilCertificateAdapter $adapter)
+	/**
+	 * @var ilPageFormats
+	 */
+	private $pageFormats;
+
+	public function __construct(ilSetting $settings, ilPageFormats $pageFormats)
 	{
-		$this->adapter = $adapter;
+		$this->settings = $settings;
+		$this->pageFormats = $pageFormats;
 	}
 
 	/**
-	 * @param $content
-	 * @return array
+	 * @param array $formData
+	 * @param string $backgroundImageName
+	 * @return string
+	 * @throws Exception
 	 */
-	public function parse($content)
+	public function parse($formData, $backgroundImageName)
 	{
-		$pagewidth = "21cm";
-		if (preg_match("/page-width\=\"([^\"]+)\"/", $content, $matches)) {
-			$pagewidth = $matches[1];
-		}
-		$pageheight = "29.7cm";
-		if (preg_match("/page-height\=\"([^\"]+)\"/", $content, $matches)) {
-			$pageheight = $matches[1];
+		$content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
+		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
+		$content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
+		$content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
+		$content = str_replace("&nbsp;", "&#160;", $content);
+		$content = preg_replace("//", "", $content);
+
+		$check = new ilXMLChecker();
+		$check->setXMLContent($content);
+		$check->startParsing();
+
+		if ($check->hasError()) {
+			throw new Exception($this->lng->txt("certificate_not_well_formed"));
 		}
 
-		$pagesize = 'custom';
-		if (((strcmp($pageheight, "29.7cm") == 0) || (strcmp($pageheight, "297mm") == 0))
-			&& ((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))) {
-			$pagesize = "a4";
-		}
-		else if (((strcmp($pagewidth, "29.7cm") == 0) || (strcmp($pagewidth, "297mm") == 0))
-			&& ((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0)))
-		{
-			$pagesize = "a4landscape";
-		}
-		else if (((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0))
-			&& ((strcmp($pagewidth, "14.8cm") == 0) || (strcmp($pagewidth, "148mm") == 0)))
-		{
-			$pagesize = "a5";
-		}
-		else if (((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))
-			&& ((strcmp($pageheight, "14.8cm") == 0) || (strcmp($pageheight, "148mm") == 0)))
-		{
-			$pagesize = "a5landscape";
-		}
-		else if (((strcmp($pageheight, "11in") == 0))
-			&& ((strcmp($pagewidth, "8.5in") == 0)))
-		{
-			$pagesize = "letter";
-		}
-		else if (((strcmp($pagewidth, "11in") == 0))
-			&& ((strcmp($pageheight, "8.5in") == 0)))
-		{
-			$pagesize = "letterlandscape";
-		}
+		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
 
-		$marginBody_top = "0cm";
-		$marginBody_right = "2cm";
-		$marginBody_bottom = "0cm";
-		$marginBody_left = "2cm";
-		if(preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $content, $matches))
-		{
-			// Backwards compatibility
-			$marginbody = $matches[1];
-			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
-			{
-				$marginBody_top = $matches[1][0];
-				$marginBody_right = $matches[1][1];
-				$marginBody_bottom = $matches[1][2];
-				$marginBody_left = $matches[1][3];
-			}
-		}
-		else if(preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $content, $matches))
-		{
-			$marginbody = $matches[1];
-			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
-			{
-				$marginBody_top = $matches[1][0];
-				$marginBody_right = $matches[1][1];
-				$marginBody_bottom = $matches[1][2];
-				$marginBody_left = $matches[1][3];
-			}
-		}
-
-		$xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
-		if ((strlen($content)) && (strlen($xsl)))
-		{
-			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-			$xh = xslt_create();
-			$content = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
-			xslt_error($xh);
-			xslt_free($xh);
-		}
-
-		$content = preg_replace("/<\?xml[^>]+?>/", "", $content);
-		// dirty hack: the php xslt processing seems not to recognize the following
-		// replacements, so we do it in the code as well
-		$content = str_replace("&#xA0;", "<br />", $content);
-		$content = str_replace("&#160;", "<br />", $content);
-
-		$result = array(
-			'pageformat'         => $pagesize,
-			'pagewidth'          => $pagewidth,
-			'pageheight'         => $pageheight,
-			'margin_body_top'    => $marginBody_top,
-			'margin_body_right'  => $marginBody_right,
-			'margin_body_bottom' => $marginBody_bottom,
-			'margin_body_left'   => $marginBody_left,
-			'certificate_text'   => $content
+		// additional font support
+		$xsl = str_replace(
+			'font-family="Helvetica, unifont"',
+			'font-family="'. $this->settings->get('rpc_pdf_font','Helvetica, unifont') . '"',
+			$xsl
 		);
 
-		$this->adapter->addFormFieldsFromObject($result);
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
 
-		return $result;
+		if (strcmp($formData['pageformat'], 'custom') == 0) {
+			$pageheight = $formData['pageheight'];
+			$pagewidth = $formData['pagewidth'];
+		}
+		else {
+			$pageformats = $this->pageFormats->fetchPageFormats();
+			$pageheight = $pageformats[$formData['pageformat']]['height'];
+			$pagewidth = $pageformats[$formData['pageformat']]['width'];
+		}
+
+		$backgroundImageName = $this->createConcreteBackgroundImagePath($backgroundImageName);
+
+		$params = array(
+			'pageheight'      => $pageheight,
+			'pagewidth'       => $pagewidth,
+			'backgroundimage' => $backgroundImageName,
+			'marginbody'      => implode(' ', array(
+				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['top'])),
+				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['right'])),
+				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['bottom'])),
+				$this->formatNumberString(ilUtil::stripSlashes($formData['margin_body']['left']))
+			))
+		);
+
+		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
+
+		xslt_error($xh);
+		xslt_free($xh);
+
+		return $output;
 	}
+
+	/**
+	 * @param string $backgroundImagePath
+	 * @return mixed
+	 */
+	private function createConcreteBackgroundImagePath($backgroundImagePath = '')
+	{
+		return str_replace(
+			array(CLIENT_WEB_DIR, '//'),
+			array('[CLIENT_WEB_DIR]', '/'),
+			$backgroundImagePath
+		);
+	}
+
+	/**
+	 * @param string $a_number
+	 * @return float
+	 */
+	private function formatNumberString($a_number)
+	{
+		return str_replace(',', '.', $a_number);
+	}
+
 }
