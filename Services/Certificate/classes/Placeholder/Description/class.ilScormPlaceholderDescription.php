@@ -1,7 +1,6 @@
 <?php
 
-
-class ScormPlaceholderDescription implements ilCertificatePlaceholderDescription
+class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
 	/**
 	 * @var ilDefaultPlaceholderDescription
@@ -79,7 +78,6 @@ class ScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock('SCO_HEADER');
 			$template->setVariable('PH_TITLE_SCO',$this->language->txt('certificate_ph_title_sco'));
-			//$template->setVariable('PH_PH',$lng->txt('certificate_ph_ph'));
 			$template->setVariable('PH_SCO_TITLE',$this->language->txt('certificate_ph_sco_title'));
 			$template->setVariable('PH_SCO_POINTS_RAW',$this->language->txt('certificate_ph_sco_points_raw'));
 			$template->setVariable('PH_SCO_POINTS_MAX',$this->language->txt('certificate_ph_sco_points_max'));

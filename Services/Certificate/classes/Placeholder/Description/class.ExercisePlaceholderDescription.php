@@ -37,9 +37,10 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
 		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-		$vars['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
-		$vars['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
-		$vars['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->getTitle());
+
+		$this->placeHolders['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
+		$this->placeHolders['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
+		$this->placeHolders['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->txt('certificate_exercise_title'));
 	}
 
 
@@ -74,7 +75,6 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
 	 */
 	public function getPlaceholderDescriptions()
 	{
-
 		return $this->placeHolders;
 	}
 }

@@ -38,13 +38,13 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
 
 		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-		$this->placeHolder['RESULT_PASSED']     = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_result_passed'));
-		$this->placeHolder['RESULT_POINTS']     = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_result_points'));
-		$this->placeHolder['RESULT_PERCENT']    = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_result_percent'));
-		$this->placeHolder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_max_points'));
-		$this->placeHolder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_result_mark_short'));
-		$this->placeHolder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->lng->txt('certificate_var_result_mark_long'));
-		$this->placeHolder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->object->getTitle());
+		$this->placeHolder['RESULT_PASSED']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_passed'));
+		$this->placeHolder['RESULT_POINTS']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_points'));
+		$this->placeHolder['RESULT_PERCENT']    = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_percent'));
+		$this->placeHolder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
+		$this->placeHolder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+		$this->placeHolder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
+		$this->placeHolder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_title'));
 	}
 
 
