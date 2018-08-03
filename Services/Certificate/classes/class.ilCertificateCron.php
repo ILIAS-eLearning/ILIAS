@@ -98,6 +98,8 @@ class ilCertificateCron extends ilCronJob
 			);
 
 			$this->userRepository->save($userCertificate);
+
+			$this->queueRepository->removeFromQueue($entry->getId());
 		}
 	}
 

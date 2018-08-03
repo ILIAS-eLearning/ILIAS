@@ -40,7 +40,10 @@ class ilCertificateQueueRepository
 	public function removeFromQueue($id)
 	{
 		$sql = 'DELETE FROM certificate_cron_queue WHERE id = ' . $this->database->quote($id, 'integer');
-		$this->database->execute($sql);
+
+		$query = $this->database->query($sql);
+
+		$this->database->execute($query);
 	}
 
 	/**
