@@ -22279,3 +22279,186 @@ if($ilSetting->get('show_mail_settings', false) === false)
 	$ilSetting->set('show_mail_settings', 1);
 }
 ?>
+
+<#5278>
+<?php
+if(!$ilDB->tableExists('certificate_template')) {
+	$ilDB->createTable('certificate_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'certificate_hash' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'background_image_path' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'created_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addPrimaryKey('certificate_template', array('id'));
+	$ilDB->createSequence('certificate_template');
+	$ilDB->addUniqueConstraint('certificate_template', array('id', 'obj_id'));
+}
+
+if(!$ilDB->tableExists('user_certificates')) {
+	$ilDB->createTable('user_certificates', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pattern_certificate_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'acquired_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'valid_until' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addPrimaryKey('user_certificates', array('id'));
+	$ilDB->createSequence('user_certificates');
+	$ilDB->addUniqueConstraint('user_certificates', array('id', 'pattern_certificate_id'));
+}
+
+if(!$ilDB->tableExists('certificate_cron_queue')) {
+	$ilDB->createTable('certificate_cron_queue', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'adapter_class' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true,
+		),
+		'state' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true
+		),
+		'started_timestamp' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+		),
+	));
+
+	$ilDB->addPrimaryKey('certificate_cron_queue', array('id'));
+	$ilDB->createSequence('certificate_cron_queue');
+	$ilDB->addUniqueConstraint('certificate_cron_queue', array('id', 'obj_id', 'usr_id'));
+}
+?>
