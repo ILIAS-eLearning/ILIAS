@@ -1,7 +1,7 @@
 <?php
 
 
-class ilCertificateSettingsFormFactory
+class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
 	/**
 	 * @var ilLanguage
@@ -40,6 +40,7 @@ class ilCertificateSettingsFormFactory
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilCertificateGUI $certificateGUI
 	 */
 	public function __construct(
 		ilLanguage $language,
@@ -47,7 +48,8 @@ class ilCertificateSettingsFormFactory
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilCertificateGUI $certificateGUI = null
 	) {
 		$this->language                     = $language;
 		$this->template                     = $template;
@@ -63,8 +65,9 @@ class ilCertificateSettingsFormFactory
 	 * @param array $form_fields
 	 * @return ilPropertyFormGUI
 	 * @throws ilWACException
+	 * @throws ilException
 	 */
-	public function create($certificateGUI, $certificateObject, $form_fields)
+	public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
 	{
 		$command = $this->controller->getCmd();
 
@@ -77,7 +80,6 @@ class ilCertificateSettingsFormFactory
 		$form->setId("certificate");
 
 		$active = new ilCheckboxInputGUI($this->language->txt("active"), "active");
-		$active->setChecked($form_fields["active"]);
 		$form->addItem($active);
 
 		$import = new ilFileInputGUI($this->language->txt("import"), "certificate_import");
@@ -108,14 +110,12 @@ class ilCertificateSettingsFormFactory
 
 		$pageformat  = new ilRadioGroupInputGUI($this->language->txt("certificate_page_format"), "pageformat");
 		$pageformats = $certificateObject->getPageFormats();
-		$pageformat->setValue($form_fields["pageformat"]);
 
 		foreach($pageformats as $format) {
 			$option = new ilRadioOption($format["name"], $format["value"]);
 
 			if(strcmp($format["value"], "custom") == 0) {
 				$pageheight = new ilTextInputGUI($this->language->txt("certificate_pageheight"), "pageheight");
-				$pageheight->setValue($form_fields["pageheight"]);
 				$pageheight->setSize(6);
 				$pageheight->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
 				$pageheight->setInfo($this->language->txt("certificate_unit_description"));
@@ -123,7 +123,6 @@ class ilCertificateSettingsFormFactory
 				$option->addSubitem($pageheight);
 
 				$pagewidth = new ilTextInputGUI($this->language->txt("certificate_pagewidth"), "pagewidth");
-				$pagewidth->setValue($form_fields["pagewidth"]);
 				$pagewidth->setSize(6);
 				$pagewidth->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
 				$pagewidth->setInfo($this->language->txt("certificate_unit_description"));
@@ -163,10 +162,6 @@ class ilCertificateSettingsFormFactory
 		$rect = new ilCSSRectInputGUI($this->language->txt("certificate_margin_body"), "margin_body");
 		$rect->setRequired(TRUE);
 		$rect->setUseUnits(TRUE);
-		$rect->setTop($form_fields["margin_body_top"]);
-		$rect->setBottom($form_fields["margin_body_bottom"]);
-		$rect->setLeft($form_fields["margin_body_left"]);
-		$rect->setRight($form_fields["margin_body_right"]);
 		$rect->setInfo($this->language->txt("certificate_unit_description"));
 
 		if (strcmp($command, "certificateSave") == 0) {
@@ -177,7 +172,6 @@ class ilCertificateSettingsFormFactory
 
 		$certificate = new ilTextAreaInputGUI($this->language->txt("certificate_text"), "certificate_text");
 		$certificate->removePlugin('ilimgupload');
-		$certificate->setValue($form_fields["certificate_text"]);
 		$certificate->setRequired(TRUE);
 		$certificate->setRows(20);
 		$certificate->setCols(80);
@@ -229,8 +223,6 @@ class ilCertificateSettingsFormFactory
 			$form->addItem($formSection);
 		}
 
-		$certificateObject->getAdapter()->addAdditionalFormElements($form, $form_fields);
-
 		if($this->access->checkAccess("writewrite", "", $_GET["ref_id"])) {
 			if ($certificateObject->isComplete() || $certificateObject->hasBackgroundImage()) {
 				$this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
@@ -255,4 +247,7 @@ class ilCertificateSettingsFormFactory
 
 		return $form;
 	}
+
+	public function save(array $formFields)
+	{}
 }

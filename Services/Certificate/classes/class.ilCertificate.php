@@ -163,14 +163,14 @@ class ilCertificate
 	* @param  bool $asRelative
 	* @return string The filesystem path of the background image
 	*/
-	public function getBackgroundImageDirectory($asRelative = false)
+	public function getBackgroundImageDirectory($asRelative = false, $backgroundImagePath = '')
 	{
 		if($asRelative)
 		{
 			return str_replace(
 				array(CLIENT_WEB_DIR, '//'),
 				array('[CLIENT_WEB_DIR]', '/'),
-				$this->certificatePath
+				$backgroundImagePath
 			);
 		}
 
@@ -350,115 +350,6 @@ class ilCertificate
 	}
 
 	/**
-	* Convert the XSL-FO to the certificate text and the form settings using XSL transformation
-	*/
-	public function getFormFieldsFromFO()
-	{
-		if (@file_exists($this->getXSLPath()))
-		{
-			$xslfo = file_get_contents($this->getXSLPath());
-		}
-		// retrieve form information (using a dirty way with regular expressions)
-		$pagewidth = "21cm";
-		if (preg_match("/page-width\=\"([^\"]+)\"/", $xslfo, $matches))
-		{
-			$pagewidth = $matches[1];
-		}
-		$pageheight = "29.7cm";
-		if (preg_match("/page-height\=\"([^\"]+)\"/", $xslfo, $matches))
-		{
-			$pageheight = $matches[1];
-		}
-		$certificatesettings = new ilSetting("certificate");
-		$pagesize = $certificatesettings->get("pageformat");;
-		if (((strcmp($pageheight, "29.7cm") == 0) || (strcmp($pageheight, "297mm") == 0)) && ((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0)))
-		{
-			$pagesize = "a4";
-		}
-		else if (((strcmp($pagewidth, "29.7cm") == 0) || (strcmp($pagewidth, "297mm") == 0)) && ((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0)))
-		{
-			$pagesize = "a4landscape";
-		}
-		else if (((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0)) && ((strcmp($pagewidth, "14.8cm") == 0) || (strcmp($pagewidth, "148mm") == 0)))
-		{
-			$pagesize = "a5";
-		}
-		else if (((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0)) && ((strcmp($pageheight, "14.8cm") == 0) || (strcmp($pageheight, "148mm") == 0)))
-		{
-			$pagesize = "a5landscape";
-		}
-		else if (((strcmp($pageheight, "11in") == 0)) && ((strcmp($pagewidth, "8.5in") == 0)))
-		{
-			$pagesize = "letter";
-		}
-		else if (((strcmp($pagewidth, "11in") == 0)) && ((strcmp($pageheight, "8.5in") == 0)))
-		{
-			$pagesize = "letterlandscape";
-		}
-		else
-		{
-			$pagesize = "custom";
-		}
-		if (!strlen($xslfo)) $pagesize = $certificatesettings->get("pageformat");;
-
-		$marginbody_top = "0cm";
-		$marginbody_right = "2cm";
-		$marginbody_bottom = "0cm";
-		$marginbody_left = "2cm";
-		if(preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
-		{
-			// Backwards compatibility
-			$marginbody = $matches[1];
-			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
-			{
-				$marginbody_top = $matches[1][0];
-				$marginbody_right = $matches[1][1];
-				$marginbody_bottom = $matches[1][2];
-				$marginbody_left = $matches[1][3];
-			}
-		}
-		else if(preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
-		{
-			$marginbody = $matches[1];
-			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
-			{
-				$marginbody_top = $matches[1][0];
-				$marginbody_right = $matches[1][1];
-				$marginbody_bottom = $matches[1][2];
-				$marginbody_left = $matches[1][3];
-			}
-		}
-
-		$xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
-		if ((strlen($xslfo)) && (strlen($xsl)))
-		{
-			$args = array( '/_xml' => $xslfo, '/_xsl' => $xsl );
-			$xh = xslt_create();
-			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
-			xslt_error($xh);
-			xslt_free($xh);
-		}
-
-		$output = preg_replace("/<\?xml[^>]+?>/", "", $output);
-		// dirty hack: the php xslt processing seems not to recognize the following
-		// replacements, so we do it in the code as well
-		$output = str_replace("&#xA0;", "<br />", $output);
-		$output = str_replace("&#160;", "<br />", $output);
-		$form_fields = array(
-			"pageformat" => $pagesize,
-			"pagewidth" => $pagewidth,
-			"pageheight" => $pageheight,
-			"margin_body_top" => $marginbody_top,
-			"margin_body_right" => $marginbody_right,
-			"margin_body_bottom" => $marginbody_bottom,
-			"margin_body_left" => $marginbody_left,
-			"certificate_text" => $output
-		);
-		$this->getAdapter()->addFormFieldsFromObject($form_fields);
-		return $form_fields;
-	}
-
-	/**
 	 * Convert the certificate text to XSL-FO using XSL transformation
 	 *
 	 * @param array $form_data The form data
@@ -466,9 +357,9 @@ class ilCertificate
 	 * @return string XSL-FO code
 	 * @throws Exception
 	 */
-	public function processXHTML2FO($form_data, $version)
+	public function processXHTML2FO($form_data, $backgroundImage)
 	{
-		$content = "<html><body>" . $form_data["certificate_text"] . "</body></html>";
+		$content = "<html><body>" . ilUtil::stripSlashes($form_data["certificate_text"]) . "</body></html>";
 		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
 		$content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
 		$content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
@@ -507,9 +398,8 @@ class ilCertificate
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
 
-		$backgroundImage = '';
 		if ($this->hasBackgroundImage()) {
-			$backgroundImage = $this->getBackgroundImageDirectory(true) . 'background_' . $version . '.jpg';
+			$backgroundImage = $this->getBackgroundImageDirectory(true, $backgroundImage);
 		} elseif (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
 			$backgroundImage = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
 		}
@@ -517,12 +407,12 @@ class ilCertificate
 		$params = array(
 			"pageheight"      => $pageheight,
 			"pagewidth"       => $pagewidth,
-			"backgroundImage" => $backgroundImage,
+			"backgroundimage" => $backgroundImage,
 			"marginbody"      => implode(' ', array(
-				$form_data["margin_body_top"],
-				$form_data["margin_body_right"],
-				$form_data["margin_body_bottom"],
-				$form_data["margin_body_left"]
+				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['top'])),
+				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['right'])),
+				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['bottom'])),
+				$this->formatNumberString(ilUtil::stripSlashes($form_data['margin_body']['left']))
 			))
 		);
 
@@ -1207,36 +1097,5 @@ class ilCertificate
 		$output = str_replace("&#160;", "<br />", $output);
 
 		return $output;
-	}
-
-	/**
-	 * @param string $content
-	 * @param array $insert_tags
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function outCertificateWithGivenContentAndVariables($content, array $insert_tags)
-	{
-		ilDatePresentation::setUseRelativeDates(false);
-
-		$form_fields = $this->getFormFieldsFromFO();
-		$form_fields['certificate_text'] = $content;
-		$xslfo = $this->processXHTML2FO($form_fields);
-
-		$content = $this->exchangeCertificateVariables($xslfo, $insert_tags);
-		$content = str_replace('[BR]', "<fo:block/>", $content);
-
-		try
-		{
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($content);
-			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(array()), "application/pdf");
-		}
-		catch(Exception $e)
-		{
-			$this->log->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
-
-		ilDatePresentation::setUseRelativeDates(true);
 	}
 }

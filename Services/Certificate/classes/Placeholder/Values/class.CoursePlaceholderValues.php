@@ -38,7 +38,6 @@ class CoursePlaceholderValues implements ilCertificatePlaceholderValues
 	 *
 	 * @param $userId
 	 * @param $objId
-	 * @throws ilInvalidCertificateException
 	 * @return mixed - [PLACEHOLDER] => 'actual value'
 	 * @throws ilException
 	 */
