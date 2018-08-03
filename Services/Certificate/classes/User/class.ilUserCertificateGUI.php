@@ -82,7 +82,13 @@ class ilUserCertificateGUI
 		switch ($cmd) {
 			case 'download':
 				$pdfGenerator = new ilPdfGenerator();
-				$pdfGenerator->generate($_GET['user_certificate_id']);
+				$pdfScalar = $pdfGenerator->generate($_GET['user_certificate_id']);
+
+				ilUtil::deliverData(
+					$pdfScalar,
+					'Certificate.pdf',
+					"application/pdf"
+				);
 			default:
 				$this->show();
 				break;
