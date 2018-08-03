@@ -55,9 +55,14 @@ class ilObjExerciseVerification extends ilVerificationObject
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
 		
 		// create certificate
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($a_exercise));
+
+		$certificate = new ilCertificate(
+			new ilExerciseCertificateAdapter($a_exercise),
+			new ExercisePlaceholderDescription(),
+			$a_exercise->getId(),
+			ilCertificatePathConstants::EXERCISE_PATH . $a_exercise->getId() . '/'
+		);
+
 		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
 		
 		// save pdf file

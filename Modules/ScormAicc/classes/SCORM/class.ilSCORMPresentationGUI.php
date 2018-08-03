@@ -850,13 +850,18 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-			$certificate = new ilCertificate(new ilSCORMCertificateAdapter($this->slm));
+			$certificate = new ilCertificate(
+				new ilSCORMCertificateAdapter($this->slm),
+				new ilScormPlaceholderDescription(),
+				$this->slm->getId(),
+				ilCertificatePathConstants::SCORM_PATH . $this->slm->getId() . '/'
+			);
+
 			$params = array(
 				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
 				"last_access" => $last_access
 			);
+
 			$certificate->outCertificate($params, true);
 			exit;
 		}

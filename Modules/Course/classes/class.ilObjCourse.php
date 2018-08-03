@@ -993,10 +993,22 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		unset($obj_settings);
 		
 		// clone certificate (#11085)
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$cert = new ilCertificate(new ilCourseCertificateAdapter($this));
-		$newcert = new ilCertificate(new ilCourseCertificateAdapter($new_obj));
+		$placeholderDescriptionObject = new CoursePlaceholderDescription();
+
+		$cert = new ilCertificate(
+			new ilCourseCertificateAdapter($this),
+			$placeholderDescriptionObject,
+			$this->getId(),
+			ilCertificatePathConstants::COURSE_PATH . $this->getId() . '/'
+		);
+
+		$newcert = new ilCertificate(
+			new ilCourseCertificateAdapter($new_obj),
+			$placeholderDescriptionObject,
+			$new_obj->getId(),
+			ilCertificatePathConstants::COURSE_PATH . $new_obj->getId() . '/'
+		);
+
 		$cert->cloneCertificate($newcert);
 				
 		return $new_obj;

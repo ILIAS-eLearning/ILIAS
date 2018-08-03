@@ -76,8 +76,15 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 						{
 							$lm = new ilObjSCORM2004LearningModule($obj_id, false);
 						}						
-						$adapter = new ilSCORMCertificateAdapter($lm);
-						if(ilCertificate::_isComplete($adapter))
+
+						$certificate = new ilCertificate(
+							new ilSCORMCertificateAdapter($lm),
+							new ilScormPlaceholderDescription(),
+							$lm->getId(),
+							ilCertificatePathConstants::SCORM_PATH
+						);
+
+						if($certificate->isComplete())
 						{	
 							$lpdata = $completed = false;	
 							if($lp_active)

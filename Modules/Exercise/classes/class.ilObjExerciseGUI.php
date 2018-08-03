@@ -130,9 +130,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->setSettingsSubTabs();
 				$this->tabs_gui->activateTab("settings");
 				$this->tabs_gui->activateSubTab("certificate");
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
+
+				$output_gui = new ilCertificateGUI(
+					new ilExerciseCertificateAdapter($this->object),
+					new ExercisePlaceholderDescription(),
+					$this->obj_id,
+					ilCertificatePathConstants::EXERCISE_PATH . $this->obj_id . '/'
+				);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -803,16 +808,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// show certificate?
 		if($this->object->hasUserCertificate($ilUser->getId()))
-		{					
-			include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			$adapter = new ilExerciseCertificateAdapter($this->object);
-			if(ilCertificate::_isComplete($adapter))
-			{
+		{
+			$certificate = new ilCertificate(
+				new ilCourseCertificateAdapter($this->object),
+				new ilExerciseCertificateAdapter(),
+				$this->object->getId(),
+				ilCertificatePathConstants::EXERCISE_PATH . $this->object->getId() . '/'
+			);
+
+			if($certificate->isComplete()) {
 				$ilToolbar->addButton($this->lng->txt("certificate"),
-					$this->ctrl->getLinkTarget($this, "outCertificate"));
+				$this->ctrl->getLinkTarget($this, "outCertificate"));
 			}
-		}	
+		}
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignmentGUI.php");
 		$ass_gui = new ilExAssignmentGUI($this->object);
@@ -859,9 +867,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab("certificate");
 		
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
+		$output_gui = new ilCertificateGUI(
+			new ilExerciseCertificateAdapter($this->object),
+			new ExercisePlaceholderDescription(),
+			$this->obj_id.
+			ilCertificatePathConstants::EXERCISE_PATH . $this->obj_id . '/'
+		);
+
 		$output_gui->certificateEditor();				
 	}
 	
@@ -875,12 +887,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->showOverviewObject();			
 		}
 		
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $ilUser->getId()));					
-	}		
-	
+		$certificate = new ilCertificate(
+			new ilExerciseCertificateAdapter($this->object),
+			new ExercisePlaceholderDescription(),
+			$this->obj_id
+		);
+
+		$certificate->outCertificate(array("user_id" => $ilUser->getId()));
+	}
 }
 
 ?>
