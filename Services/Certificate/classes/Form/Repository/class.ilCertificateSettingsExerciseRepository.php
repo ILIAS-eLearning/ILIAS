@@ -75,4 +75,12 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 	{
 		$this->object->saveCertificateVisibility($formFields['certificate_visibility']);
 	}
+
+	public function fetchFormFieldData($content)
+	{
+		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+		$formFields['certificate_visibility'] = $this->object->getCertificateVisibility();
+
+		return $formFields;
+	}
 }

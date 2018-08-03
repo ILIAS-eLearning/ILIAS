@@ -57,4 +57,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 */
 	public function save(array $formFields)
 	{}
+
+	public function fetchFormFieldData($content)
+	{
+		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+		return $formFields;
+	}
 }

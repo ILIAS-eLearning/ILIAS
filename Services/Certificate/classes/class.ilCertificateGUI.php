@@ -335,13 +335,13 @@ class ilCertificateGUI
 		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 		$content = $certificate->getCertificateContent();
 
-		$form_fields = $this->formFieldParser->fetchDefaultFormFields($content);
-		$form_fields["active"] = $this->certifcateObject->readActive();
-
 		$form = $this->settingsFormFactory->createForm(
 			$this,
 			$this->certifcateObject
 		);
+
+		$form_fields = $this->settingsFormFactory->fetchFormFieldData($content);
+		$form_fields['active'] = $this->certifcateObject->readActive();
 
 		$form->setValuesByArray($form_fields);
 
