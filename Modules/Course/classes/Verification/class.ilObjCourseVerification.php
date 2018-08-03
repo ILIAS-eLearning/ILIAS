@@ -37,6 +37,8 @@ class ilObjCourseVerification extends ilVerificationObject
 		global $DIC;
 
 		$lng = $DIC['lng'];
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("crs");
 		
@@ -48,14 +50,14 @@ class ilObjCourseVerification extends ilVerificationObject
 		$lp_marks = new ilLPMarks($a_course->getId(), $a_user_id);
 		$newObj->setProperty("issued_on", 
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
-		
-		// create certificate
-		$factory = new ilCertificateFactory();
 
-		$certificate = $factory->create($a_course);
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
-		
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+		$certificate = $pdfAction->createPDF($a_user_id, $a_course->getid());
+
 		// save pdf file
 		if($certificate)
 		{

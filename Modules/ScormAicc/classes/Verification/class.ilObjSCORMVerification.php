@@ -34,8 +34,12 @@ class ilObjSCORMVerification extends ilVerificationObject
 	 */
 	public static function createFromSCORMLM(ilObjSAHSLearningModule $a_lm, $a_user_id)
 	{
-		global $lng;
-		
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger();
+		$lng = $DIC->language();
+
 		$lng->loadLanguageModule("sahs");
 		
 		$newObj = new self();
@@ -61,11 +65,13 @@ class ilObjSCORMVerification extends ilVerificationObject
 			"last_access" => $last_access
 		);
 
-		$factory = new ilCertificateFactory();
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$certificate = $factory->create($a_lm);
-		$certificate = $certificate->outCertificate($params, false);
-		
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+		$certificate = $pdfAction->createPDF($a_user_id, $a_lm->getid());
+
 		// save pdf file
 		if($certificate)
 		{

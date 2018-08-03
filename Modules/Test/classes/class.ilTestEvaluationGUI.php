@@ -851,7 +851,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	public function exportCertificate()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 
 		$factory = new ilCertificateFactory();
 
@@ -863,21 +866,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->object->setAccessFilteredParticipantList(
 			$this->object->buildStatisticsAccessFilteredParticipantList()
 		);
-		
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
 		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
 			foreach ($total_users as $active_id => $name)
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-				$pdf = $certificate->outCertificate(
-					array(
-						"active_id" => $active_id,
-						"userfilter" => $userfilter,
-						"passedonly" => $passedonly
-					),
-					FALSE
-				);
+
+				$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+				$pdf = $pdfAction->createPDF($user_id, $this->object->getid());
 				if (strlen($pdf))
 				{
 					$certificate->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
@@ -1783,18 +1785,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	public function outCertificate()
 	{
-		$testSession = $this->testSessionFactory->getSession();
+		global $DIC;
 
-		$factory = new ilCertificateFactory();
+		$user = $DIC->user();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 
-		$certificate = $factory->create($this->object);
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$certificate->outCertificate(
-			array(
-				"active_id" => $testSession->getActiveId(), 
-				"pass" 		=> ilObjTest::_getResultPass( $testSession->getActiveId() ) 
-			)
-		);
+		$pdfAction->downloadPdf($user->getId(), $this->object->getid());
 	}
 	
 	public function confirmDeletePass()

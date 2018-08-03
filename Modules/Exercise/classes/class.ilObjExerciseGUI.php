@@ -868,6 +868,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function outCertificateObject()
 	{
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
 		$ilUser = $this->user;
 	
 		if($this->object->hasUserCertificate($ilUser->getId()))
@@ -876,11 +881,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->showOverviewObject();			
 		}
 
-		$factory = new ilCertificateFactory();
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$certificate = $factory->create($this->object);
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$certificate->outCertificate(array("user_id" => $ilUser->getId()));
+		$pdfAction->downloadPdf($ilUser->getId(), $this->object->getid());
 	}
 }
 

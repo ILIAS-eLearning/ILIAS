@@ -821,7 +821,13 @@ class ilSCORMPresentationGUI
 	*/
 	public function downloadCertificate()
 	{
-		global $ilUser, $tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC->ctrl();
+		$database = $DIC->database();
+		$logger = $DIC->logger();
 
 		$allowed = false;
 		$last_access = 0;
@@ -850,16 +856,12 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			$factory = new ilCertificateFactory();
+			$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-			$certificate = $factory->create($this->slm);
+			$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-			$params = array(
-				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
-				"last_access" => $last_access
-			);
-
-			$certificate->outCertificate($params, true);
+			$pdfAction->downloadPdf($ilUser->getId(), $this->object->getid());
 			exit;
 		}
 		// redirect to parent category if certificate is not accessible

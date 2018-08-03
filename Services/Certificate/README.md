@@ -184,6 +184,10 @@ User certificates should be stored in the data container object `ilUserCertifica
 This container can be given the `ilUserCertificateRepository::save()` method that will
 store the certificate in the defined database.
 
+User certificate entries will mainly be created during the cron job based
+on the [certificate queue entries](#cron-queue-classes).
+Each entry displays an achievement of a certificate.
+
 Example:
 
 ```php
@@ -244,7 +248,71 @@ $repository->save($certifcate);
 
 ### Template Certificate Classes
 
+Certificate templates should be stored in the data container object `ilCertificateTemplate`.
+This container can be given the `ilCertificateTemplateRepository::save()` method that will
+store the template in the defined database.
+
+These classes are used in the certificate settings GUI during creating the certificate
+template.
+
+Example:
+
+```php
+
+$objId                = 200;
+$certificateContent   = '<xls-fo>...</xls-fo>'
+$certificateHash      = md5($certificateHash);
+$templateValues       = json_encode(array('ID' => 'DESCRIPTION'));
+$version              = '2';
+$iliasVerion          = 'v5.4.0';
+$createdTimestamp     = time();
+$currentlyActive      = true;
+$backgroundImagePath  = '/data/somone/certifcates/course/200/background_2.jpg';
+
+$template = new ilCertificateTemplate(
+	$obj_id,
+	$certificateContent,
+	$certificateHash,
+	$templateValues,
+	$version,
+	$iliasVersion,
+	$createdTimestamp,
+	$currentlyActive,
+	$backgroundImagePath
+);
+
+$repository = new ilCertificateTemplateRepository($database);
+$repository->save($template);
+```
+
 ### Cron Queue Classes
+
+Queue entry data should be stored in the data container object `ilCertificateQueueEntry`.
+This container can be given the `ilCertificateQueueRepository::save()` method that will
+store the template in the defined database.
+
+An entry will be created on an successful LP status change.
+Queue entries will later be processed by a  cron job to create [user certificate](#user-certificates-classes).
+
+Example:
+
+```php
+
+$objId = 200;
+$userId = 5000;
+$adapterClass = 'CoursePlaceholderValues'
+$state = ilCronConstants::IN_PROGRESS;
+
+$template = new ilCertificateQueueEntry(
+	$objId,
+	$userId,
+	$adapterClass,
+	$state
+);
+
+$repository = new ilCertificateQueueRepository($database);
+$repository->save($template);
+```
 
 ### Actions
 

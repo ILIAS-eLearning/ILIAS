@@ -39,7 +39,11 @@ class ilObjTestVerification extends ilVerificationObject
 	 */
 	public static function createFromTest(ilObjTest $a_test, $a_user_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("wsp");
 		
@@ -54,11 +58,11 @@ class ilObjTestVerification extends ilVerificationObject
 		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
 
 		// create certificate
-		$factory = new ilCertificateFactory();
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$certificate = $factory->create($a_test);
-
-		$certificate = $certificate->outCertificate(array("active_id" => $active_id, "pass" => $pass), false);
+		$certificate = $pdfAction->createPDF($a_user_id, $a_test->getid());
 		
 		// save pdf file
 		if($certificate)
