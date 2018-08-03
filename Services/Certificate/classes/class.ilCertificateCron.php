@@ -16,22 +16,37 @@ class ilCertificateCron extends ilCronJob
 	private $templateRepository;
 
 	/**
-	 * @var ilUserCertificateTemplateRepository
+	 * @var ilUserCertificateRepository
 	 */
 	private $userRepository;
 
 	/**
 	 * @param ilCertificateQueueRepository $queueRepository
 	 * @param ilCertificateTemplateRepository $templateRepository
-	 * @param ilUserCertificateTemplateRepository $userRepository
+	 * @param ilUserCertificateRepository $userRepository
 	 */
 	public function __construct(
-		ilCertificateQueueRepository $queueRepository,
-		ilCertificateTemplateRepository $templateRepository,
-		ilUserCertificateTemplateRepository $userRepository
+		ilCertificateQueueRepository $queueRepository = null,
+		ilCertificateTemplateRepository $templateRepository = null,
+		ilUserCertificateRepository $userRepository = null
 	) {
+		global $DIC;
+
+		$database = $DIC->database();
+
+		if (null === $queueRepository) {
+			$queueRepository = new ilCertificateQueueRepository($database);
+		}
 		$this->queueRepository = $queueRepository;
+
+		if (null === $templateRepository) {
+			$templateRepository = new ilCertificateTemplateRepository($database);
+		}
 		$this->templateRepository = $templateRepository;
+
+		if (null === $userRepository) {
+			$userRepository = new ilUserCertificateRepository($database);
+		}
 		$this->userRepository = $userRepository;
 	}
 
@@ -43,7 +58,7 @@ class ilCertificateCron extends ilCronJob
 			/** @var $entry ilCertificateQueueEntry */
 			$class = $entry->getAdapterClass();
 			$adapter = new $class();
-			if (!$adapter instanceof ilCertificateCronAdapter) {
+			if (!$adapter instanceof ilCertificatePlaceholderValues) {
 				throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter.');
 			}
 
@@ -67,7 +82,7 @@ class ilCertificateCron extends ilCronJob
 				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent );
 			}
 
-			$userCertificate = new ilUserCertificateTemplate(
+			$userCertificate = new ilUserCertificate(
 				$template->getId(),
 				$objId,
 				$type,
