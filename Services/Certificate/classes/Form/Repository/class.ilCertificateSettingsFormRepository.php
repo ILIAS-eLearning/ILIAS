@@ -34,9 +34,14 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $placeholderDescriptionObject;
 
 	/**
-	 * @var
+	 * @var ilPageFormats
 	 */
 	private $pageFormats;
+
+	/**
+	 * @var ilFormFieldParser
+	 */
+	private $formFieldParser;
 
 	/**
 	 * @param ilLanguage $language
@@ -45,7 +50,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateGUI $certificateGUI
+	 * @param ilPageFormats|null $pageFormats
+	 * @param ilFormFieldParser|null $formFieldParser
+	 * @param ilCertificateDeleteAction|null $deleteAction
 	 */
 	public function __construct(
 		ilLanguage $language,
@@ -54,7 +61,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateGUI $certificateGUI = null,
 		ilPageFormats $pageFormats = null,
 		ilFormFieldParser $formFieldParser = null
 	) {
@@ -74,15 +80,15 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 			$formFieldParser = new ilFormFieldParser();
 		}
 		$this->formFieldParser = $formFieldParser;
+
 	}
 
 	/**
-	 * @param $certificateGUI
-	 * @param $certificateObject
-	 * @param array $form_fields
+	 * @param ilCertificateGUI $certificateGUI
+	 * @param ilCertificate $certificateObject
 	 * @return ilPropertyFormGUI
-	 * @throws ilWACException
 	 * @throws ilException
+	 * @throws ilWACException
 	 */
 	public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
 	{
@@ -175,7 +181,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
 		$form->addItem($bgimage);
 
-
 		$rect = new ilCSSRectInputGUI($this->language->txt("certificate_margin_body"), "margin_body");
 		$rect->setRequired(TRUE);
 		$rect->setUseUnits(TRUE);
@@ -265,9 +270,17 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		return $form;
 	}
 
+	/**
+	 * @param array $formFields
+	 * @return mixed|void
+	 */
 	public function save(array $formFields)
 	{}
 
+	/**
+	 * @param $content
+	 * @return array|mixed
+	 */
 	public function fetchFormFieldData($content)
 	{
 		return $this->formFieldParser->fetchDefaultFormFields($content);

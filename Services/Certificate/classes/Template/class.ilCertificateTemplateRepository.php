@@ -53,7 +53,8 @@ class ilCertificateTemplateRepository
 		$sql = '
 SELECT * FROM
 certificate_template
-WHERE obj_id = ' . $this->database->quote($objId, 'integer');
+WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+ORDER BY version ASC';
 
 		$query = $this->database->query($sql);
 
@@ -143,6 +144,43 @@ AND currently_active = 1
 		}
 
 		return $resultTemplate;
+	}
+
+	public function deleteTemplate($templateId, $objectId)
+	{
+		$sql = '
+DELETE FROM certificate_template
+WHERE id = ' . $this->database->quote($templateId, 'integer') . '
+AND obj_id = ' . $this->database->quote($objectId, 'integer');
+
+		$query = $this->database->query($sql);
+
+		$this->database->execute($query);
+	}
+
+	public function activatePreviousCertificate($objId)
+	{
+		$certificates = $this->fetchCertificateTemplatesByObjId($objId);
+
+		/** @var ilCertificateTemplate $previousCertificate */
+		$previousCertificate = null;
+		foreach ($certificates as $certificate) {
+			if (null === $previousCertificate) {
+				$previousCertificate = $certificate;
+			} else if ((int) $certificate->getVersion() > (int) $previousCertificate->getVersion()) {
+				$previousCertificate = $certificate;
+			}
+		}
+
+		$sql = 'UPDATE certificate_template
+SET currently_active = 1
+WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
+
+		$query = $this->database->query($sql);
+
+		$this->database->execute($query);
+
+		return $previousCertificate;
 	}
 
 	/**

@@ -26,7 +26,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateGUI|null $certificateGUI
+	 * @param ilCertificateDeleteAction $deleteAction
 	 */
 	public function __construct(
 		ilObjTest $testObject,
@@ -35,8 +35,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateGUI $certificateGUI = null
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	) {
 		$this->testObject = $testObject;
 		$this->language = $language;
@@ -47,8 +46,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 			$controller,
 			$access,
 			$toolbar,
-			$placeholderDescriptionObject,
-			$certificateGUI
+			$placeholderDescriptionObject
 		);
 	}
 
@@ -82,6 +80,10 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 		$this->testObject->saveCertificateVisibility($formFields['certificate_visibility']);
 	}
 
+	/**
+	 * @param $content
+	 * @return array|mixed
+	 */
 	public function fetchFormFieldData($content)
 	{
 		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);

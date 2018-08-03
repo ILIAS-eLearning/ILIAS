@@ -126,12 +126,18 @@ class ilCertificateGUI
 	private $xlsFoParser;
 
 	/**
+	 * @var ilCertificateDeleteAction
+	 */
+	private $deleteAction;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
 	 * @param $certificatePath
+	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateFormRepository $settingsFormFactory
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilPageFormats|null $pageFormats
@@ -146,12 +152,14 @@ class ilCertificateGUI
 		$objectId,
 		$certificatePath,
 		ilCertificateFormRepository $settingsFormFactory = null,
+		ilCertificateDeleteAction $deleteAction = null,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilPageFormats $pageFormats = null,
 		ilXlsFoParser $xlsFoParser = null,
 		ilFormFieldParser $formFieldParser = null
 	) {
 		global $DIC;
+
 
 		$this->certifcateObject = new ilCertificate(
 			$adapter,
@@ -194,6 +202,11 @@ class ilCertificateGUI
 			$templateRepository = new ilCertificateTemplateRepository($DIC->database());
 		}
 		$this->templateRepository = $templateRepository;
+
+		if (null === $deleteAction) {
+			$deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+		}
+		$this->deleteAction = $deleteAction;
 
 		if (null === $formFieldParser) {
 			$formFieldParser = new ilFormFieldParser();
@@ -277,7 +290,6 @@ class ilCertificateGUI
 	public function certificateDelete()
 	{		
 		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
 		$cgui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
@@ -292,7 +304,10 @@ class ilCertificateGUI
 	*/
 	public function certificateDeleteConfirm()
 	{
-		$this->certifcateObject->deleteCertificate();
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$templateId = $template->getId();
+
+		$this->deleteAction->delete($templateId, $this->objectId);
 		$this->ctrl->redirect($this, "certificateEditor");
 	}
 	
