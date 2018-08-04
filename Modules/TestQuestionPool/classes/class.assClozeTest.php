@@ -94,6 +94,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
 	public $cloze_text;
 	
+	/**
+	 * @var ilAssClozeTestFeedback
+	 */
+	public $feedbackOBJ;
+	
 	protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
 
 	/**
