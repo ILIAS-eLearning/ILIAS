@@ -1215,7 +1215,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 // fau.
 		}
-		else
+		elseif( $this->object->isPostponingEnabled() )
 		{
 			$questionNavigationGUI->setSkipQuestionLinkTarget(
 				$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
