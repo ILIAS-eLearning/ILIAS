@@ -22446,9 +22446,9 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
 if( !$ilDB->tableColumnExists('tst_tests', 'follow_qst_answer_fixation') )
 {
 	$ilDB->addTableColumn('tst_tests', 'follow_qst_answer_fixation', array(
-		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0
+		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0		
 	));
-
+	
 	$ilDB->manipulateF(
 		'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
 	);
@@ -22476,13 +22476,25 @@ if( !$ilDB->tableExists('tst_seq_qst_presented') )
 			'default' => 0
 		)
 	));
-
+	
 	$ilDB->addPrimaryKey('tst_seq_qst_presented', array(
 		'active_fi','pass', 'question_fi'
 	));
 }
 ?>
 <#5287>
+<?php
+if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
+{
+	$ilDB->manipulateF("
+		UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
+			SELECT question_fi FROM qpl_qst_cloze WHERE feedback_mode = %s
+		)
+		", array('integer', 'text'), array(-10, 'gapQuestion')
+	);
+}
+?>
+<#5288>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
