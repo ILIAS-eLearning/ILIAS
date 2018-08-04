@@ -261,7 +261,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 					
 				case assClozeGap::TYPE_NUMERIC:
 					
-					$this->completeFbPropsForNumericGap($fbModeOpt, $gapIndex);
+					$this->completeFbPropsForNumericGap($fbModeOpt, $gapIndex, $gap);
 					break;
 			}
 		}
@@ -344,7 +344,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 	 * @param assClozeGap $gap
 	 * @param integer $gapIndex
 	 */
-	protected function completeFbPropsForNumericGap(ilRadioOption $fbModeOpt, $gapIndex)
+	protected function completeFbPropsForNumericGap(ilRadioOption $fbModeOpt, $gapIndex, assClozeGap $gap)
 	{
 		$propertyLabel = $this->questionOBJ->prepareTextareaOutput(
 			$this->buildNumericGapValueHitFeedbackLabel($gapIndex), true
@@ -356,15 +356,18 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 			$propertyLabel, $propertyPostVar, $this->questionOBJ->isAdditionalContentEditingModePageObject()
 		));
 		
-		$propertyLabel = $this->questionOBJ->prepareTextareaOutput(
-			$this->buildNumericGapRangeHitFeedbackLabel($gapIndex), true
-		);
-		
-		$propertyPostVar = "feedback_answer_{$gapIndex}_".self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
-		
-		$fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
-			$propertyLabel, $propertyPostVar, $this->questionOBJ->isAdditionalContentEditingModePageObject()
-		));
+		if( $gap->numericRangeExists() )
+		{
+			$propertyLabel = $this->questionOBJ->prepareTextareaOutput(
+				$this->buildNumericGapRangeHitFeedbackLabel($gapIndex), true
+			);
+			
+			$propertyPostVar = "feedback_answer_{$gapIndex}_".self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
+			
+			$fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
+				$propertyLabel, $propertyPostVar, $this->questionOBJ->isAdditionalContentEditingModePageObject()
+			));
+		}
 		
 		$propertyLabel = $this->questionOBJ->prepareTextareaOutput(
 			$this->buildNumericGapTooLowFeedbackLabel($gapIndex), true
@@ -455,7 +458,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 				
 				case assClozeGap::TYPE_NUMERIC:
 					
-					$this->initFbPropsForNumericGap($form, $gapIndex);
+					$this->initFbPropsForNumericGap($form, $gapIndex, $gap);
 					break;
 			}
 		}
@@ -493,15 +496,18 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 		$form->getItemByPostVar($postVar)->setValue($value);
 	}
 	
-	protected function initFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex)
+	protected function initFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex, assClozeGap $gap)
 	{
 		$value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX);
 		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX);
 		$form->getItemByPostVar($postVar)->setValue($value);
 
-		$value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
-		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
-		$form->getItemByPostVar($postVar)->setValue($value);
+		if( $gap->numericRangeExists() )
+		{
+			$value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
+			$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
+			$form->getItemByPostVar($postVar)->setValue($value);
+		}
 
 		$value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_NUMERIC_GAP_TOO_LOW_INDEX);
 		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_TOO_LOW_INDEX);
@@ -576,7 +582,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 				
 				case assClozeGap::TYPE_NUMERIC:
 					
-					$this->saveFbPropsForNumericGap($form, $gapIndex);
+					$this->saveFbPropsForNumericGap($form, $gapIndex, $gap);
 					break;
 			}
 		}
@@ -624,7 +630,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 		);
 	}
 	
-	protected function saveFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex)
+	protected function saveFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex, assClozeGap $gap)
 	{
 		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX);
 		$value = $form->getItemByPostVar($postVar)->getValue();
@@ -632,11 +638,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 			$this->questionOBJ->getId(), $gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX, $value
 		);
 		
-		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
-		$value = $form->getItemByPostVar($postVar)->getValue();
-		$this->saveSpecificAnswerFeedbackContent(
-			$this->questionOBJ->getId(), $gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX, $value
-		);
+		if( $gap->numericRangeExists() )
+		{
+			$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
+			$value = $form->getItemByPostVar($postVar)->getValue();
+			$this->saveSpecificAnswerFeedbackContent(
+				$this->questionOBJ->getId(), $gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX, $value
+			);
+		}
 		
 		$postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_TOO_LOW_INDEX);
 		$value = $form->getItemByPostVar($postVar)->getValue();
@@ -895,17 +904,32 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 					return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
 				}
 				
-				if( $answerValue >= $item->getLowerBound() && $answerValue <= $item->getUpperBound() )
+				require_once 'Services/Math/classes/class.EvalMath.php';
+				$math = new EvalMath();
+				
+				$item = $gap->getItem(0);
+				$lowerBound = $math->evaluate($item->getLowerBound());
+				$upperBound = $math->evaluate($item->getUpperBound());
+				$preciseValue = $math->evaluate($item->getAnswertext());
+				
+				$solutionValue = $math->evaluate($answerValue);
+				
+				if( $solutionValue == $preciseValue )
+				{
+					return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
+				}
+				
+				if( $solutionValue >= $lowerBound && $solutionValue <= $upperBound )
 				{
 					return self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
 				}
 				
-				if( $answerValue < $item->getLowerBound() )
+				if( $solutionValue < $lowerBound )
 				{
 					return self::FB_NUMERIC_GAP_TOO_LOW_INDEX;
 				}
 				
-				if( $answerValue > $item->getUpperBound() )
+				if( $solutionValue > $upperBound )
 				{
 					return self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
 				}
