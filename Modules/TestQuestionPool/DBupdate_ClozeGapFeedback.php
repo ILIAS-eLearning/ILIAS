@@ -77,3 +77,21 @@ catch(ilException $e)
 {
 	
 }
+
+$ilDB = $DIC->database();
+try
+{
+	if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
+	{
+		$ilDB->manipulateF("
+			UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
+				SELECT question_fi FROM qpl_qst_cloze WHERE feedback_mode = %s
+			)
+		", array('integer', 'text'), array(-10, 'gapQuestion')
+		);
+	}
+}
+catch(ilException $e)
+{
+	echo $e;
+}
