@@ -1235,9 +1235,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	protected function getBestSolutionText($gap, $gap_index, $gap_combinations)
 	{
 		$combination = null;
-		if(is_array($gap_combinations) && array_key_exists($gap_index, $gap_combinations))
+		foreach((array)$gap_combinations as $combiGapSolRow)
 		{
-			$combination = $gap_combinations[$gap_index];
+			if($combiGapSolRow['gap_fi'] != $gap_index)
+			{
+				continue;
+			}
+			
+			$combination = $combiGapSolRow;
 		}
 		$best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
 			$this->object->getShuffler(), $combination
