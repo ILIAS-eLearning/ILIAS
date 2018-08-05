@@ -1239,12 +1239,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$combination = null;
 		foreach((array)$gap_combinations as $combiGapSolRow)
 		{
-			if($combiGapSolRow['gap_fi'] != $gap_index)
+			if($combiGapSolRow['gap_fi'] == $gap_index)
 			{
-				continue;
-			}
-			
-			$combination = $combiGapSolRow;
+				$combination = $combiGapSolRow;
+				break;
+			}			
 		}
 		$best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
 			$this->object->getShuffler(), $combination
