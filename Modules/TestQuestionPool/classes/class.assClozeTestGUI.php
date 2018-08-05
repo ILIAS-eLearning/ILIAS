@@ -1239,7 +1239,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$combination = null;
 		foreach((array)$gap_combinations as $combiGapSolRow)
 		{
-			if($combiGapSolRow['gap_fi'] == $gap_index)
+			if($combiGapSolRow['gap_fi'] == $gap_index && $combiGapSolRow['best_solution'])
 			{
 				$combination = $combiGapSolRow;
 				break;
