@@ -10440,7 +10440,10 @@ cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
 cron#:#cron_result_status_no_action#:#Ok, keine Bearbeitung
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Abbruch
-cron#:#cron_result_status_reset#:#Reset
+cron#:#cron_result_status_reset#:#Zurücksetzen
+cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von einem Administrator reaktiviert
+cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
 cron#:#cron_action_reset#:#Zurücksetzen
@@ -10471,8 +10474,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
-cron#:#cro_job_rc_job_manual_reset#:#MANUELL ZURÜCKGESETZT
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#WAHRSCHEINLICH ABGESTÜRZT
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
