@@ -680,9 +680,10 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The EyeClosed Glyph is used to toggle the revelation-mode of password fields.
+	 *       The Eye Closed Glyph is used to toggle the revelation-mode of password fields.
+	 *       Whith the Eye Closed Glyph shown, the field is currently unmasked.
 	 *   composition: >
-	 *       The EyeClosed Glyph uses the glyphicon-eye-close.
+	 *       The Eye Closed Glyph uses the glyphicon-eye-close.
 	 *   effect: >
 	 *       When clicked, the password-field is masked, thus hiding the input.
 	 *
@@ -691,10 +692,10 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          The EyeClosed Glyph MUST only be used with Password-Inputs.
+	 *          The Eye Closed Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'eye closed'.
+	 *          The aria-label MUST be "eye closed - click to hide the input's contents".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
@@ -705,9 +706,10 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The EyeOpen Glyph is used to toggle the revelation-mode of password fields.
+	 *       The Eye Open Glyph is used to toggle the revelation-mode of password fields.
+	 *       With the Eye Open Glyph shown, the field is currently masked.
 	 *   composition: >
-	 *       The EyeOpen Glyph uses the glyphicon-eye-open.
+	 *       The Eye Open Glyph uses the glyphicon-eye-open.
 	 *   effect: >
 	 *       When clicked, the password-field is unmasked, thus revealing the input.
 	 *
@@ -716,10 +718,10 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          The EyeOpen Glyph MUST only be used with Password-Inputs.
+	 *          The Eye Open Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'eye open'.
+	 *          The aria-label MUST be "eye open - click to reveal the input's contents".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
