@@ -17,7 +17,7 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
 	/**
 	 * @var ilAssSpecificFeedbackIdentifier[]
 	 */
-	protected $map;
+	protected $map = array();
 	
 	/**
 	 * @param ilAssSpecificFeedbackIdentifier $identifier

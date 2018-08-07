@@ -22482,3 +22482,15 @@ if( !$ilDB->tableExists('tst_seq_qst_presented') )
 	));
 }
 ?>
+<#5287>
+<?php
+if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
+{
+	$ilDB->manipulateF("
+		UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
+			SELECT question_fi FROM qpl_qst_cloze WHERE feedback_mode = %s
+		)
+		", array('integer', 'text'), array(-10, 'gapQuestion')
+	);
+}
+?>

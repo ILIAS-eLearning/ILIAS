@@ -268,11 +268,13 @@ class ilTestService
 		}
 
 		$data = array();
+		$firstQuestion = true;
 
 		foreach($result_array as $key => $value)
 		{
 			$disableLink = (
-				$this->object->isFollowupQuestionAnswerFixationEnabled() && !$value['presented']
+				$this->object->isFollowupQuestionAnswerFixationEnabled()
+				&& !$value['presented'] && !$firstQuestion 
 			);
 			
 			$description = "";
@@ -314,6 +316,8 @@ class ilTestService
 				'obligatory' => $value['obligatory'],
 				'isAnswered' => $value['isAnswered']
 			);
+			
+			$firstQuestion = false;
 // fau.
 		}
 
