@@ -17,11 +17,6 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceHi
 class ilObjTermsOfServiceGUI extends ilObject2GUI
 {
 	/**
-	 * @var ilPropertyFormGUI
-	 */
-	protected $form;
-
-	/**
 	 * @var ilLanguage
 	 */
 	public $lng;
@@ -107,6 +102,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
 		$this->lng->loadLanguageModule('tos');
+		$this->lng->loadLanguageModule('meta');
 
 		$this->factory = new ilTermsOfServiceTableDataProviderFactory();
 		$this->factory->setLanguageAdapter($this->lng);
@@ -135,13 +131,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
-				$perm_gui = new ilPermissionGUI($this);
+				$perm_gui = new \ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
-				if($cmd == '' || $cmd == 'view')
-				{
+				if ($cmd == '' || $cmd == 'view' || !method_exists($this, $cmd)) {
 					$cmd = 'settings';
 				}
 				$this->$cmd();
@@ -154,14 +149,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	public function getAdminTabs()
 	{
-		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
+		if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
 		}
 
-		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
+		if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+			$this->tabs_gui->addTarget('tos_agreement_documents_tab_label', $this->ctrl->getLinkTarget($this, 'showDocuments'), array('reset', 'confirmReset', 'showDocuments'), '', '');
 		}
 
 		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()) &&
@@ -171,29 +164,25 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			$this->tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
 		}
 
-		if($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
-		{
+		if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
 		}
 	}
 
 	/**
-	 *
+	 * @return ilTermsOfServiceSettingsFormGUI
 	 */
-	protected function initSettingsForm()
+	protected function getSettingsForm()
 	{
-		if(null == $this->form)
-		{
-			$this->form = new ilPropertyFormGUI();
-			$this->form->setTitle($this->lng->txt('tos_tos_settings'));
-			$this->form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
+		$form = new ilTermsOfServiceSettingsFormGUI(
+			$this->object,
+			$this->lng,
+			'saveSettings',
+			$this->rbacsystem->checkAccess('write', $this->object->getRefId())
+		);
+		$form->setFormAction($this->ctrl->getLinkTarget($this, 'saveSettings'));
 
-			$status = new ilCheckboxInputGUI($this->lng->txt('tos_status_enable'), 'tos_status');
-			$status->setInfo($this->lng->txt('tos_status_desc'));
-			$this->form->addItem($status);
-
-			$this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
-		}
+		return $form;
 	}
 
 	/**
@@ -201,72 +190,51 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function saveSettings()
 	{
-		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
-		{
+		if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
-		$list     = $provider->getList(array(), array());
-
-		$has_documents = false;
-		foreach($list['items'] as $item)
-		{
-			if($item['agreement_document'])
-			{
-				$has_documents = true;
-				break;
-			}
+		$form = $this->getSettingsForm();
+		if ($form->saveObject()) {
+			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'settings');
+		} else if ($form->hasTranslatedError()) {
+			\ilUtil::sendFailure($form->getTranslatedError());
 		}
 
-		$this->initSettingsForm();
-		if($this->form->checkInput())
-		{
-			if($has_documents || !(int)$this->form->getInput('tos_status'))
-			{
-				$this->object->saveStatus((int)$this->form->getInput('tos_status'));
-				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-			}
-		}
-		
-		if(
-			!$has_documents &&
-			(int)$this->form->getInput('tos_status') &&
-			!$this->object->getStatus()
-		)
-		{
-			$_POST['tos_status'] = 0;
-			ilUtil::sendFailure($this->lng->txt('tos_no_documents_exist_cant_save'));
-		}
-
-		$this->settings(false);
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
-	 * @param bool $init_from_database
+	 *
 	 */
-	protected function settings($init_from_database = true)
+	protected function showMissingDocuments()
 	{
-		if(!$this->rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
+		if (!$this->object->getStatus()) {
+			return;
+		}
+
+		// TODO: Count total documents
+		$hasDocuments = true;
+
+		if (!$hasDocuments) {
+			\ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected function settings()
+	{
+		if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->showMissingDocuments();
 
-		$this->initSettingsForm();
-		if($init_from_database)
-		{
-			$this->form->setValuesByArray(array(
-				'tos_status' => $this->object->getStatus()
-			));
-		}
-		else
-		{
-			$this->form->setValuesByPost();
-		}
-
-		$this->tpl->setContent($this->form->getHTML());
+		$form = $this->getSettingsForm();
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -274,15 +242,14 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function confirmReset()
 	{
-		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
-		{
+		if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$confirmation = new ilConfirmationGUI();
+		$confirmation = new \ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmReset'));
 		$confirmation->setConfirm($this->lng->txt('confirm'), 'reset');
-		$confirmation->setCancel($this->lng->txt('cancel'), 'showAgreementByLanguage');
+		$confirmation->setCancel($this->lng->txt('cancel'), 'showDocuments');
 		$confirmation->setHeaderText($this->lng->txt('tos_sure_reset_tos'));
 
 		$this->tpl->setContent($confirmation->getHTML());
@@ -293,92 +260,36 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function reset()
 	{
-		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
-		{
+		if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->object->resetAll();
+
 		$this->log->write(__METHOD__ . ': Terms of service reset by ' . $this->user->getId() . ' [' . $this->user->getLogin() . ']');
-		ilUtil::sendSuccess($this->lng->txt('tos_reset_successfull'));
+		\ilUtil::sendSuccess($this->lng->txt('tos_reset_successful'));
 
-		$this->showAgreementByLanguage();
-	}
-
-	/**
-	 *
-	 */
-	protected function showAgreementByLanguage()
-	{
-		if(!$this->rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
-			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-		}
-
-		$this->lng->loadLanguageModule('meta');
-
-		$table = new ilTermsOfServiceAgreementByLanguageTableGUI($this, 'showAgreementByLanguage');
-		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
-		$table->populate();
-
-
-		$this->tpl->setContent(implode('', [
-			$this->getResetMessageBoxHtml(),
-			$table->getHTML()
-		]));
+		$this->showDocuments();
 	}
 
 	/**
 	 * 
 	 */
-	protected function showMissingDocuments()
+	protected function showDocuments()
 	{
-		if(!$this->object->getStatus())
-		{
-			return;
+		if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
-		$list     = $provider->getList(array(), array());
-		
-		$has_documents = false;
-		foreach($list['items'] as $item)
-		{
-			if($item['agreement_document'])
-			{
-				$has_documents = true;
-				break;
-			}
-		}
+		$addDocumentBtn = \ilLinkButton::getInstance();
+		$addDocumentBtn->setUrl($this->ctrl->getLinkTarget($this, 'showAddDocumentForm'));
+		$addDocumentBtn->setCaption('tos_add_document_btn_label');
+		$this->toolbar->addStickyItem($addDocumentBtn);
 
-		if(!$has_documents)
-		{
-			ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
-		}
-	}
-
-	/**
-	 *
-	 */
-	protected function applyAgreementByLanguageFilter()
-	{
-		$table = new ilTermsOfServiceAgreementByLanguageTableGUI($this, 'showAgreementByLanguage');
-		$table->resetOffset();
-		$table->writeFilterToSession();
-
-		$this->showAgreementByLanguage();
-	}
-
-	/**
-	 *
-	 */
-	protected function resetAgreementByLanguageFilter()
-	{
-		$table = new ilTermsOfServiceAgreementByLanguageTableGUI($this, 'showAgreementByLanguage');
-		$table->resetOffset();
-		$table->resetFilter();
-
-		$this->showAgreementByLanguage();
+		$this->tpl->setVariable('MESSAGE', $this->getResetMessageBoxHtml());
+		$this->tpl->setContent(implode('', [
+			// TODO: Add table HTML 
+		]));
 	}
 
 	/**

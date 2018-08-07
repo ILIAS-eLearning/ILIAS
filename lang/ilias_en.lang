@@ -10326,7 +10326,8 @@ common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_tos#:#Terms of Service
 tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
 tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
-tos#:#tos_agreement_by_lng#:#Terms of Service
+tos#:#tos_agreement_documents_tab_label#:#Terms of Service
+tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
@@ -10336,7 +10337,7 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web services, the chat server, or the cron job.
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
 tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
@@ -10348,7 +10349,7 @@ tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
 tos#:#tos_acceptance_datetime#:#Date
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room

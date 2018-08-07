@@ -10350,7 +10350,8 @@ common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
 tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
-tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
+tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
+tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_agreement_exists#:#Vorhanden
 tos#:#tos_agreement_missing#:#Nicht vorhanden
@@ -10360,8 +10361,8 @@ tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chat-Server, oder Cron-Jobs genutzt werden.
-tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
+tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
 user#:#tos_show_signed_text#:#Zeige Details
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#tos_accepted_content#:#Akzeptierter Text
@@ -10372,7 +10373,7 @@ tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
 tos#:#tos_acceptance_datetime#:#Datum
 tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
-tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor. Daher können Sie die den Service nicht aktivieren.
+tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
