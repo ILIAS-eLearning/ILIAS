@@ -315,7 +315,9 @@ class ilMainMenuGUI
 			}
 			$mmle_html = $uip->getHTML($mmle_html);
 
-			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html);
+			$renderer = new ilMMEntryRendererGUI();
+
+			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html."<br><br></br>".$renderer->getHTML());
 		}
 
 		if($this->getMode() != self::MODE_TOPBAR_MEMBERVIEW)
@@ -420,7 +422,7 @@ class ilMainMenuGUI
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
-		
+
 		$this->tpl->parseCurrentBlock();
 
 	}
