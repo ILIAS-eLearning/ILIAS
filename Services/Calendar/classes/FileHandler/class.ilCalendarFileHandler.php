@@ -85,11 +85,13 @@ class ilCalendarFileHandler
 			if (is_file($last_file))
 			{
 				require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+				global $DIC;
+				$ilClientIniFile = $DIC['ilClientIniFile'];
 
 				$ilFileDelivery = new ilFileDelivery($last_file);
 				$ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
 				//$ilFileDelivery->setMimeType($this->guessFileType($file));
-				$ilFileDelivery->setConvertFileNameToAsci(true);
+				$ilFileDelivery->setConvertFileNameToAsci((bool)!$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
 				//$ilFileDelivery->setDownloadFileName();
 				$ilFileDelivery->deliver();
 				exit;
