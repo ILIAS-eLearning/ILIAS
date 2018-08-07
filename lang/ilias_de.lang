@@ -4412,7 +4412,7 @@ content#:#cont_current_style#:#Style
 content#:#cont_current_usages#:#Aktuelle Nutzung
 content#:#cont_current_version#:#Aktuelle Version
 content#:#cont_custom#:#Angepasst
-content#:#cont_custom_size#:#Angepasste Größe
+content#:#cont_custom_size#:#Feste Größe
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_html#:#HTML-Rendering deaktivieren
@@ -4853,7 +4853,8 @@ content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Medienobje
 content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_resize_img#:#Bildgröße anpassen
 content#:#cont_resource#:#Ressource
-content#:#cont_resource_size#:#Originalgröße der Ressource
+content#:#cont_resource_size#:#Originalgröße der Ressource / Keine Größenangabe
+content#:#cont_resource_size_info#:#Wird die Größenangabe weggelassen, kann die Größe durch den Content-Style beeinflusst werden. Ohne jegliche Regelung der Größe werden nur Bilddateien in ihrer Normalgröße angezeigt.
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_revision#:#Änderung
@@ -5171,6 +5172,7 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
+grp#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -7698,9 +7700,11 @@ rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
 rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
 rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für "%s"
+rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"
 rbac#:#rbac_log_link_object#:#Objekt verknüpfen
 rbac#:#rbac_log_move_object#:#Objekt verschieben
 rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für "%s"
+rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
 rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
@@ -10313,7 +10317,6 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
@@ -10402,7 +10405,10 @@ cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
 cron#:#cron_result_status_no_action#:#Ok, keine Bearbeitung
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Abbruch
-cron#:#cron_result_status_reset#:#Reset
+cron#:#cron_result_status_reset#:#Zurücksetzen
+cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von einem Administrator reaktiviert
+cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
 cron#:#cron_action_reset#:#Zurücksetzen
@@ -10433,8 +10439,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
-cron#:#cro_job_rc_job_manual_reset#:#MANUELL ZURÜCKGESETZT
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#WAHRSCHEINLICH ABGESTÜRZT
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -13699,7 +13703,8 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
-chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
+chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
@@ -14112,7 +14117,7 @@ cont#:#cont_assign_skills#:#Kompetenzen zuweisen
 dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
 dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
 dateplaner#:#cal_download_files#:#Dateien herunterladen
-dateplaner#:#cal_calendar_download#:#Kalender herunterladen
+dateplaner#:#cal_calendar_download#:#Kalender-Dateien
 pdfgen#:#cleanup#:#Bereinigen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 common#:#position_permission_settings#:#Rechte nach Positionen
@@ -14161,7 +14166,7 @@ content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
-dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
+dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
@@ -14189,3 +14194,4 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+mob#:#mob_no_fixed_size_map_editing#:#Bitte dfinieren Sie eine feste Größe für ihr Bild bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS Regeln skaliert wird.

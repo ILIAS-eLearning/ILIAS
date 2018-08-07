@@ -120,7 +120,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_TITLE', $set['title']);
 		if($this->getSettings()->worksWithInitialTest())
 		{
-			if($set['tries_it'] or $set['res_it'])
+			if($set['has_result_it'])
 			{
 				$this->tpl->setCurrentBlock('it_has_result');
 				$this->tpl->setVariable('IT_LINK',$set['link_it']);
@@ -134,10 +134,10 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 			
 		}
 		
-		if($set['tries_qt'] or $set['res_qt'])
+		if($set['has_result_qt'])
 		{
 			$this->tpl->setCurrentBlock('qt_has_result');
-				$this->tpl->setVariable('QT_LINK',$set['link_qt']);
+			$this->tpl->setVariable('QT_LINK',$set['link_qt']);
 			$this->tpl->setVariable('QT_VAL',$set['res_qt'].'%');
 			$this->tpl->parseCurrentBlock();
 		}
@@ -177,6 +177,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 				$objective['tries_it'] = $results_it['tries'];
 				$objective['res_it'] = $results_it['result_perc'];
 				$objective['link_it'] = $this->createTestResultLink(ilLOSettings::TYPE_TEST_INITIAL, $objective_id);
+				$objective['has_result_it'] = (bool) $results_it['has_result'];
 			}
 			$results_qt = ilLOUserResults::lookupResult(
 					$this->getParentContainer()->getId(),
@@ -187,7 +188,8 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 			$objective['tries_qt'] = $results_qt['tries'];
 			$objective['res_qt'] = $results_qt['result_perc'];
 			$objective['link_qt'] = $this->createTestResultLink(ilLOSettings::TYPE_TEST_QUALIFIED, $objective_id);
-			
+			$objective['has_result_qt'] = (bool) $results_qt['has_result'];
+
 			$tbl_data[] = $objective;
 		}
 		

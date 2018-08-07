@@ -192,22 +192,21 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		{
 			$result_info[] = ($a_item["job_result_dur"]/1000)." sec";
 		}
-		if($a_item["job_result_message"])
-		{
-			$result_info[] = $a_item["job_result_message"];
-		}
-		if(DEVMODE && $a_item["job_result_code"]) // #11866
-		{
-			$resultCode = $a_item["job_result_code"];
-			if(in_array($resultCode, ilCronJobResult::getCoreCodes()))
-			{
-				$result_info[] = $lng->txt('cro_job_rc_' . $resultCode);
-			}
-			else
-			{
-				$result_info[] = $resultCode;
+
+		// #23391 / #11866
+		$resultCode = $a_item['job_result_code'];
+		if (in_array($resultCode, ilCronJobResult::getCoreCodes())) {
+			$result_info[] = $lng->txt('cro_job_rc_' . $resultCode);
+		} else {
+			if ($a_item['job_result_message']) {
+				$result_info[] = $a_item['job_result_message'];
 			}
 		}
+
+		if (defined('DEVMODE') && DEVMODE) {
+			$result_info[] = $resultCode;
+		}
+
 		if(!$a_item["job_result_type"])
 		{
 			$result_info[] = $lng->txt("cron_changed_by_crontab");

@@ -3379,8 +3379,12 @@ class ilObjContentObject extends ilObject
 			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
-			$new_obj->update();
 		}
+		else	// or just set the same standard style
+		{
+			$new_obj->setStyleSheetId($style_id);
+		}
+		$new_obj->update();
 		
 		// copy content
 		$copied_nodes = $this->copyAllPagesAndChapters($new_obj, $a_copy_id);

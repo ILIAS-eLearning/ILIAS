@@ -513,6 +513,7 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
+assessment#:#conf_delete_pass_ctm#:#前回の回答を削除してもよろしいですか。
 assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
@@ -2056,6 +2057,7 @@ blog#:#blog_authors#:#著者
 blog#:#blog_back_to_blog_owner#:#ブログを編集
 blog#:#blog_banner#:#ブログバナー
 blog#:#blog_change_notification_body_approve#:#次のブログは承認が必要です。
+blog#:#blog_change_notification_body_comment#:#次のブログ投稿へコメントがありました。
 blog#:#blog_change_notification_body_new#:#次のブログ投稿が作成されました
 blog#:#blog_change_notification_body_update#:#次のブログ投稿が更新されました
 blog#:#blog_change_notification_link#:#URL
@@ -2655,6 +2657,7 @@ cmps#:#cmps_languages#:#言語
 cmps#:#cmps_main_dir#:#メインディレクトリ
 cmps#:#cmps_missing#:#不明
 cmps#:#cmps_module#:#モジュール
+cmps#:#cmps_must_installed#:#コンポーネントをインストールする必要があります。
 cmps#:#cmps_name#:#名前
 cmps#:#cmps_needs_newer_ilias_version#:#このプラグインバージョンは新しいILIASバージョンでのみ動作します。 ILIASをバージョンアップしてください。
 cmps#:#cmps_needs_newer_plugin_version#:#このILIASのバージョンには新しいプラグインバージョンが必要です。プラグインを更新してください。
@@ -2669,7 +2672,7 @@ cmps#:#cmps_plugin_deactivated#:#プラグインは解除されました。
 cmps#:#cmps_plugin_file#:#プラグインファイル
 cmps#:#cmps_plugin_lang_prefixes#:#プラグイン言語プレフィックス
 cmps#:#cmps_plugin_slot#:#プラグインスロット
-cmps#:#cmps_plugin_uninstalled#:#全ての言語とエントリーに関係するデータベースは削除されてプラグインは解除設定になりました。プラグインのディレクトリと完全にプラグインをアンインストールするための'Customizing'ディレクトリソースコードを削除できます。
+cmps#:#cmps_plugin_uninstalled#:#全ての言語とデータベース関連エントリーは削除されてプラグインは設定解除されました。完全にプラグインをアンインストールするために'Customizing'ディレクトリ内のプラグインのディレクトリとソースコードを削除できます。
 cmps#:#cmps_plugins#:#プラグイン
 cmps#:#cmps_refresh#:#リフレッシュ
 cmps#:#cmps_rep_object#:#オブジェクトタイプのリポジトリ
@@ -2755,7 +2758,7 @@ common#:#activation#:#期間調整
 common#:#active#:#アクティブ
 common#:#add#:#追加
 common#:#add_condition#:#新しい関連付けを作成
-common#:#add_entry#:#追加・編集エントり
+common#:#add_entry#:#追加・エントリー編集
 common#:#add_member#:#メンバーを追加
 common#:#add_new_user_defined_field#:#新規カスタムフィールドを追加
 common#:#add_note#:#メモを追加
@@ -4699,8 +4702,8 @@ common#:#set_skin_does_not_exist#:#選択のスキンはもうありません。
 common#:#set_style_does_not_exist#:#選択のスキンはもうありません。パーソナル設定内のスタイル変更または管理者へ連絡してください。現在の選択:
 common#:#setSystemLanguage#:#システム言語設定
 common#:#settings#:#設定
-common#:#settings_for_all_members#:#全コース/グループメンバーのグローバル設定
-common#:#settings_per_users#:#コース/グループメンバーごとの設定
+common#:#settings_for_all_members#:#メンバーへ自動的に通知
+common#:#settings_per_users#:#メンバーへ自動的に通知します。各メンバー個々に解除可能です。
 common#:#settings_saved#:#設定を保存
 common#:#setUserLanguage#:#ユーザ言語設定
 common#:#shib#:#Shibboleth
@@ -7229,14 +7232,14 @@ dcl#:#dcl_any#:#どれか
 dcl#:#dcl_asc#:#昇順 (ASC)
 dcl#:#dcl_boolean#:#ブール代数
 dcl#:#dcl_boolean_desc#:# "True"または"False"用のチェックボックス
-dcl#:#dcl_cant_delete_last_table#:#このデータ収集のテーブルだけのためにこのテーブルを完全に削除することはできません。それはコンテンツで代わりに構造が削除されます。
+dcl#:#dcl_cant_delete_last_table#:#このデータ収集のテーブルだけのためにこのテーブルを完全に削除することはできません。そのコンテンツと構造が代わりに削除されます。
 dcl#:#dcl_change_notification_dcl_new_record#:#次のレコードが作成されました
 dcl#:#dcl_change_notification_dcl_update_record#:#次のレコードが更新されました
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#データ収集"%s"は変更されました
 dcl#:#dcl_change_why_you_receive_this_email#:#このデータ収集通知を有効にしているのでメッセージを受領します。
 dcl#:#dcl_changed_by#:#変更者
-dcl#:#dcl_checked#:#チェックしました。
+dcl#:#dcl_checked#:#チェック済
 dcl#:#dcl_comments#:#コメント
 dcl#:#dcl_comments_desc#:#エントリーのコメント数を表示します。
 dcl#:#dcl_confirm_delete_field#:#本当にこのフィールドを削除しますか?
@@ -7244,14 +7247,14 @@ dcl#:#dcl_confirm_delete_fields#:#本当にこのフィールドを削除しま�
 dcl#:#dcl_confirm_delete_record#:#このレコードを削除しますか?
 dcl#:#dcl_confirm_delete_records#:#このレコードを本当に削除しますか?
 dcl#:#dcl_confirm_delete_table#:#内容や階層の含まれるこのテーブルを本当に削除しますか?
-dcl#:#dcl_confirm_delete_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
+dcl#:#dcl_confirm_delete_view_text#:#このテーブルのエントリーのビュー定義が非可逆的に削除されても、レコードとフィールド自体は変わりません。
 dcl#:#dcl_confirm_delete_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_confirm_storing_records#:#有効にして入力を確認して下さい。
 dcl#:#dcl_confirm_storing_records_no_permission#:#以降は記録を変更する権利がありません。
 dcl#:#dcl_copy#:#データ収集を作成
 dcl#:#dcl_create_date#:#作成日
 dcl#:#dcl_create_field#:#フィールドを作成
-dcl#:#dcl_create_fields#:#リストフィールドタブ内に1個フィールドを作成する必要があります。
+dcl#:#dcl_create_fields#:#”表”タブの表をクリックして”新規フィールド追加”ボタンを使い新しいフィールドを作成
 dcl#:#dcl_creation_date#:#作成日
 dcl#:#dcl_creation_date_description#:#エントリが作成された日付
 dcl#:#dcl_datatype#:#データタイプ
@@ -7285,7 +7288,7 @@ dcl#:#dcl_empty_view_success#:#ビュー定義は正しく削除されました�
 dcl#:#dcl_err_formula_field_not_found#:#タイトル'%s'のフィールドが見つかりませんでした
 dcl#:#dcl_error_parsing_expression#:#構文解析式エラー
 dcl#:#dcl_export_enabled#:#全ユーザへエクスポート機能を許可する
-dcl#:#dcl_export_enabled_desc#:#全てのユーザはこの表のデータをエクスポートできます。フィールドがエクスポートされる表全体を明示する必要があります。
+dcl#:#dcl_export_enabled_desc#:#全てのユーザはこの表のデータをエクスポートできます。どのフィールドをエクスポートさせるのか表全体に明示する必要があります。
 dcl#:#dcl_export_finished#:#エクスポートを終了しました
 dcl#:#dcl_export_started#:#非同期のエクスポートを開始しました
 dcl#:#dcl_field_datatype#:#フィールドデータタイプ
@@ -7313,17 +7316,17 @@ dcl#:#dcl_ilias_reference_desc#:#ILIASオブジェクト選択用の検索フィ
 dcl#:#dcl_ilias_reference_link#:#テーブルビュー内のリンクとして表示
 dcl#:#dcl_import#:#データ収集をインポート
 dcl#:#dcl_import_enabled#:#全てのユーザへインポート機能を許可
-dcl#:#dcl_import_enabled_desc#:#書き込みアクセスを要求している限りは全てのユーザはテーブルへデータをインポートできます。
+dcl#:#dcl_import_enabled_desc#:#書き込みアクセス権が必須になっていると全てのユーザはテーブルへデータをインポートできます。
 dcl#:#dcl_import_records .xls#:#Excelインポート
 dcl#:#dcl_import_terminated#:#インポートが完了しました。エントリが追加されました。
-dcl#:#dcl_in_export#:#エクスポート中
+dcl#:#dcl_in_export#:#エクスポートする
 dcl#:#dcl_invalid_regex_config#:#このフィールド用に構成される通常表現は有効です。障害を解決するには設定を確認してください。
 dcl#:#dcl_last_edit_by#:#最終変更者
 dcl#:#dcl_last_edited_by#:#最終編集者
 dcl#:#dcl_last_edited_by_description#:#このエントリを最後に編集したユーザ
 dcl#:#dcl_last_update#:#最終編集
 dcl#:#dcl_last_update_description#:#エントリの日付が最終編集です
-dcl#:#dcl_learning_progress#:#ビューワーへリンクされたモジュールの学習進捗を表示
+dcl#:#dcl_learning_progress#:#ビューワーのリンクされたモジュールの進捗を表示
 dcl#:#dcl_legend_placeholders#:#プレースフォルダ
 dcl#:#dcl_length#:#長さ
 dcl#:#dcl_length_info#:#(200文字以上用には追加のテキストエリアオプションを使用)
@@ -7333,7 +7336,7 @@ dcl#:#dcl_limited#:#追加・編集・削除限定期間
 dcl#:#dcl_limited_desc#:#ユーザは指定する期間内に限りエントリーを編集できます。
 dcl#:#dcl_link_detail_page#:#詳細ページへのリンクエントリー
 dcl#:#dcl_list_fields#:#フィールドを一覧表示
-dcl#:#dcl_locked#:#ロック中
+dcl#:#dcl_locked#:#ロックする
 dcl#:#dcl_locked_tooltip#:#ユーザ編集用のこのフィールドを無効にします。'編集設定'のアクセス権役割は含みません。
 dcl#:#dcl_manage#:#管理
 dcl#:#dcl_max_digits#:#最大桁数
@@ -7343,7 +7346,7 @@ dcl#:#dcl_mob#:#メディアオブジェクト
 dcl#:#dcl_mob_desc#:#イメージ、オーディオ、ビデオファイルアップロード用のフィールド。データ収集の際に直接表示されます。表示するデータタイプ: %s
 dcl#:#dcl_msg_field_modified#:#フィールドを更新しました
 dcl#:#dcl_msg_fields_deleted#:#フィールドを削除しました
-dcl#:#dcl_msg_info_alternatives#:#レコードを表示する権利がないかこのビュー用に定義された詳細ビューがありません。とにかくレコードを表示するには下記のリストからビューを選択してください。
+dcl#:#dcl_msg_info_alternatives#:#レコードを表示する権利がないかこのビュー用に定義された詳細ビューがありません。レコードを表示するには下記のリストからビューを選択してください。
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#複数選択からシングル選択への切替えは既存のエントリーのデータ損失へつながる可能性があります。本当に続けますか?
 dcl#:#dcl_msg_no_perm_edit#:#このレコードの編集アクセス権がありません
 dcl#:#dcl_msg_no_perm_view#:#このレコードを表示するアクセス権がありません
@@ -7367,21 +7370,22 @@ dcl#:#dcl_no_export_content_available#:#エクスポート可能なデータが�
 dcl#:#dcl_no_export_data_available#:#エクスポート用のデータまたはフィールドがありません
 dcl#:#dcl_no_export_fields_available#:#エクスポート用の有効なフィールドがありません。<a href="%s">表設定</a>内にエクスポート可能なフィールドを一つはマークします。
 dcl#:#dcl_no_fields_yet#:#このテーブルに定義されるフィールドがないのでまだ何もエントリを作成できません。
+dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダードビューへも読込みアクセス権がありません。
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
 dcl#:#dcl_no_warnings#:#警告無しにインポートを完了しました。
-dcl#:#dcl_not_checked#:#未チェックです。
+dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
 dcl#:#dcl_notification_activate_dcl#:#データ収集用の通知を有効にする
 dcl#:#dcl_notification_activated#:#通知が有効化されました
 dcl#:#dcl_notification_deactivate_dcl#:#データ収集用の通知を解除する
 dcl#:#dcl_notification_deactivated#:#通知が解除されました
-dcl#:#dcl_notification_info#:#ユーザ用の個別通知機能を使用可能にします。
+dcl#:#dcl_notification_info#:#ユーザ個々に通知を確定
 dcl#:#dcl_notimage_exception#:#ファイルは画像である必要があります。
 dcl#:#dcl_noturl_exception#:#リンク(http://で始まる)を入力する必要があります。
 dcl#:#dcl_number#:#整数
 dcl#:#dcl_number_desc#:#整数値(最大9桁)用のフィールドです。小数や分数ではありません。
-dcl#:#dcl_online_info#:#データ収集のみオンラインの場合にはユーザはデータ収集をを使用できます。
+dcl#:#dcl_online_info#:#データ収集がオンラインの場合に限りユーザはデータ収集を使用できます。
 dcl#:#dcl_order#:#順
 dcl#:#dcl_own_entries#:#自己エントリーのみ
 dcl#:#dcl_owner#:#オーナ
@@ -7400,6 +7404,7 @@ dcl#:#dcl_public_comments#:#レコードのパブリックコメントを利用�
 dcl#:#dcl_public_comments_desc#:#ユーザは表のエントリーにコメントできます。
 dcl#:#dcl_rating#:#星評価
 dcl#:#dcl_rating_desc#:#ユーザは5つ星までのエントリを評価できます。
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#次のrbac役割にはデータ収集の読込みアクセス権はありますが表のどのスタンダードビューへも読込みアクセス権はありません。
 dcl#:#dcl_record#:#エントリー
 dcl#:#dcl_record_deleted#:#エントリーを削除しました
 dcl#:#dcl_record_from_total#:#%d 中 %d
@@ -7417,7 +7422,7 @@ dcl#:#dcl_save_confirmation#:#確認を保存
 dcl#:#dcl_save_confirmation_desc#:#ユーザは新しいデータ収集エントリを確認しなければなりません。
 dcl#:#dcl_save_order#:#順番を保存
 dcl#:#dcl_save_record#:#エントリを保存
-dcl#:#dcl_select#:#プレゼンテーション用に選択
+dcl#:#dcl_select#:#プレゼンテーションを選択
 dcl#:#dcl_selection_options#:#オプション
 dcl#:#dcl_selection_type#:#タイプ
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
@@ -7468,14 +7473,14 @@ dcl#:#dcl_update_record#:#レコードを更新
 dcl#:#dcl_url#:#URL
 dcl#:#dcl_view_own_records_perm#:#自己エントリーのみ表示
 dcl#:#dcl_view_viewdefinition#:#ビュー定義
-dcl#:#dcl_visible#:#テーブル内を表示
+dcl#:#dcl_visible#:#全ユーザを表示
 dcl#:#dcl_visible_desc#:#ユーザはこの表へアクセスできます。
 dcl#:#dcl_width#:#幅
 dcl#:#dcl_wrong_input_type#:#入力したテキストはこのフィールドの定義(タイプ間違い)と一致しません。
 dcl#:#dcl_wrong_length#:#入力したテキストは長すぎます
 dcl#:#dcl_wrong_regex#:#入力したテキストはこのフィールドの定義(正規表現)と一致しません。
 dcl#:#dlc_xls_async_export#:#非同期XLSXエクスポート
-dcl#:#fieldtitle_allow_chars#:#利用可能な文字: %s
+dcl#:#fieldtitle_allow_chars#:#使用できない文字: %s
 didactic#:#activate_exclusive_template#:#グレイアウトの既定値
 didactic#:#activate_exclusive_template_info#:#標準テンプレートはこのテンプレートを有効にしていると利用できません。
 didactic#:#activate_local_didactic_template#:#アプリケーションの範囲
@@ -11687,7 +11692,7 @@ sahs#:#sahs_chapter#:#章
 sahs#:#sahs_choose_page_template#:#ページテンプレートを選択
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#ページ、SCO、資産、章のどれか一つを選択してください。
 sahs#:#sahs_choose_special_page#:#スペシャルページを選択
-sahs#:#sahs_copy#:#SCORM学習うモジュールをコピー
+sahs#:#sahs_copy#:#SCORM学習モジュールをコピー
 sahs#:#sahs_desc_objectives#:#説明/目標
 sahs#:#sahs_glo_info#:#用語集へのリンクはサポートされていない事に注意願います。
 sahs#:#sahs_hide_objectives_page#:#説明/目標ページを非表示
@@ -14176,8 +14181,12 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-cmps#:#cmps_must_installed#:#The component must be installed.###20 06 2018 new variable
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.###20 06 2018 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###20 06 2018 new variable
-dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###20 06 2018 new variable
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###20 06 2018 new variable
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###25 07 2018 new variable
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###25 07 2018 new variable
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###25 07 2018 new variable
+common#:#crs_list_reg#:#Registration###25 07 2018 new variable
+common#:#grp_list_reg#:#Registration###25 07 2018 new variable
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted###25 07 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###25 07 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###25 07 2018 new variable
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###25 07 2018 new variable

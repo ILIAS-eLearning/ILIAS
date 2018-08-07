@@ -571,7 +571,7 @@ class ilObjCourseGrouping
 							if(!$assigned_message)
 							{
 								self::$assignedObjects[] = $condition['target_obj_id'];
-								$assigned_message = $lng->txt('crs_grp_already_assigned');
+								$assigned_message = $lng->txt('grp_grp_already_assigned');
 							}
 						}
 						

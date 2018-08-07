@@ -318,6 +318,44 @@ class ilContainer extends ilObject
 	}
 
 	/**
+	 * Is news timeline effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Is news timeline landing page effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineLandingPageEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				if ($this->getNewsTimelineLandingPage())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	/**
 	 * Set news block activated
 	 *
 	 * @param bool $a_val news block activated	

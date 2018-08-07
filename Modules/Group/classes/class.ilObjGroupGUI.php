@@ -64,7 +64,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		// if news timeline is landing page, redirect if necessary
-		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage()
+		if ($next_class == "" && $cmd == "" && $this->object->isNewsTimelineLandingPageEffective()
 			&& $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ctrl->redirectbyclass("ilnewstimelinegui");
@@ -1052,17 +1052,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$ilHelp->setScreenIdComponent("grp");
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
-				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
-					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				$this->tabs_gui->addTab(
+					"news_timeline",
+					$lng->txt("cont_news_timeline_tab"),
+					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show")
+				);
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
@@ -1507,6 +1510,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'),GRP_REGISTRATION_PASSWORD);
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
+			$pass->setRequired(true);
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
 			$pass->setSize(32);

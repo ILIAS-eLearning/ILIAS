@@ -51,7 +51,8 @@ class ilLOUserResults
 			'result_perc' => 0,
 			'limit_perc' => 0,
 			'tries' => 0,
-			'is_final' => 0
+			'is_final' => 0,
+			'has_result' => false
 		);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -60,6 +61,7 @@ class ilLOUserResults
 			$ur['limit_perc'] = $row->limit_perc;
 			$ur['tries'] = $row->tries;
 			$ur['is_final'] = $row->is_final;
+			$ur['has_result'] = true;
 		}		
 		return $ur;
 	}
