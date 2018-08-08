@@ -150,6 +150,16 @@ class ilUserTableGUI extends ilTable2GUI
 	}
 
 	/**
+	 * Get all user defined fields
+	 *
+	 * @return array
+	 */
+	protected function getUserDefinedFields()
+	{
+		return $this->udf_fields;
+	}
+
+	/**
 	 * Field key
 	 * @param string $a_key field key
 	 * @return bool
@@ -255,7 +265,7 @@ class ilUserTableGUI extends ilTable2GUI
 		// custom user fields
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
-			foreach ($this->udf_fields as $k => $field)
+			foreach ($this->getUserDefinedFields() as $k => $field)
 			{
 				$cols[$k] = $field;
 			}
@@ -618,7 +628,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->filter["authentication"] = $si->getValue();
 		
 		// udf fields
-		foreach ($this->udf_fields as $id => $f)
+		foreach ($this->getUserDefinedFields() as $id => $f)
 		{
 			$this->addFilterItemByUdfType($id, $f["type"], true, $f["txt"], $f["options"]);
 		}
