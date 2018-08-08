@@ -210,45 +210,68 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 		if (in_array($column, ['creation_ts', 'modification_ts'])) {
 			return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
 		} else if ('sorting' === $column) {
-			$sortingField = new \ilTextInputGUI('', 'sorting[' . $row['id'] . ']');
-			$sortingField->setValue(($this->i++) * $this->factor);
-			$sortingField->setMaxLength(5);
-			$sortingField->setSize(4);
-
-			return $sortingField->render('toolbar');
+			return $this->formatSorting($row);
 		} else if ('title' === $column) {
-			$modal = $this->uiFactory
-				->modal()
-				->lightbox([
-					new class($row) implements \ILIAS\UI\Component\Modal\LightboxPage
-					{
-						protected $row = [];
-						public function __construct(array $row)
-						{
-							$this->row = $row;
-						}
-						public function getTitle()
-						{
-							return $this->row['title'];
-						}
-						public function getDescription()
-						{
-							return '';
-						}
-						public function getComponent()
-						{
-							return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['text']);
-						}
-					}
-				]);
-
-			$titleLink = $this->uiFactory
-				->button()
-				->shy($row[$column], '#')
-				->withOnClick($modal->getShowSignal());
-			return $this->uiRenderer->render([$titleLink, $modal]);
+			return $this->formatTitle($column, $row);
 		}
 
 		return parent::formatCellValue($column, $row);
+	}
+
+	/**
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatTitle(string $column, array $row): string
+	{
+		$modal = $this->uiFactory
+			->modal()
+			->lightbox([
+				new class($row) implements \ILIAS\UI\Component\Modal\LightboxPage
+				{
+					protected $row = [];
+
+					public function __construct(array $row)
+					{
+						$this->row = $row;
+					}
+
+					public function getTitle()
+					{
+						return $this->row['title'];
+					}
+
+					public function getDescription()
+					{
+						return '';
+					}
+
+					public function getComponent()
+					{
+						return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['text']);
+					}
+				}
+			]);
+
+		$titleLink = $this->uiFactory
+			->button()
+			->shy($row[$column], '#')
+			->withOnClick($modal->getShowSignal());
+		return $this->uiRenderer->render([$titleLink, $modal]);
+	}
+
+	/**
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatSorting(array $row): string
+	{
+		$sortingField = new \ilTextInputGUI('', 'sorting[' . $row['id'] . ']');
+		$sortingField->setValue(($this->i++) * $this->factor);
+		$sortingField->setMaxLength(5);
+		$sortingField->setSize(4);
+
+		return $sortingField->render('toolbar');
 	}
 }
