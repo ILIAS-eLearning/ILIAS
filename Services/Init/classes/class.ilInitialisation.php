@@ -1382,7 +1382,7 @@ class ilInitialisation
 			if(
 				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
 			)
 			{
 				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);
