@@ -15968,3 +15968,5 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on an
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
 chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable
