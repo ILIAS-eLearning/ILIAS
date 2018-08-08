@@ -10350,6 +10350,7 @@ tos#:#tos_form_document_new_info#:#Please select a file from your local filesyst
 tos#:#tos_tbl_docs_title#:#Documents
 tos#:#tos_tbl_docs_head_sorting#:#Sorting
 tos#:#tos_tbl_docs_head_title#:#Title
+tos#:#tos_tbl_docs_head_created#:#Creation Date
 tos#:#tos_tbl_docs_head_last_change#:#Last Change
 tos#:#tos_tbl_docs_head_criteria#:#Criteria
 tos#:#tos_tbl_docs_action_edit_criteria#:#Edit Criteria

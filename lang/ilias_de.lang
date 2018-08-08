@@ -10383,6 +10383,7 @@ tos#:#tos_form_document_new_info#:#Bitte wählen Sie eine entsprechende Datei vo
 tos#:#tos_tbl_docs_title#:#Dokumente
 tos#:#tos_tbl_docs_head_sorting#:#Sortierung
 tos#:#tos_tbl_docs_head_title#:#Titel
+tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
 tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
 tos#:#tos_tbl_docs_head_criteria#:#Kriterien
 tos#:#tos_tbl_docs_action_edit_criteria#:#Kriterien bearbeiten

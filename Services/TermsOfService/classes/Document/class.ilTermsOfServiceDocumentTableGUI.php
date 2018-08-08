@@ -103,6 +103,14 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 		];
 
 		$columns[++$i] = [
+			'field' => 'creation_ts',
+			'txt' => $this->lng->txt('tos_tbl_docs_head_created'),
+			'default' => true,
+			'optional' => true,
+			'sortable' => false
+		];
+
+		$columns[++$i] = [
 			'field' => 'modification_ts',
 			'txt' => $this->lng->txt('tos_tbl_docs_head_last_change'),
 			'default' => true,
@@ -141,12 +149,12 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 		foreach ($data['items'] as $key => $document) {
 			/** ilTermsOfServiceDocument $document */
 
-			// TODO: Get all relevant data
 			$data['items'][$key] = [
 				'id' => $document->getId(),
 				'title' => $document->getTitle(),
+				'creation_ts' => $document->getCreationTs(),
 				'modification_ts' => $document->getModificationTs(),
-				'content' => '12345'
+				'text' => $document->getText()
 			];
 		}
 	}
@@ -199,7 +207,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	 */
 	protected function formatCellValue(string $column, array $row): string 
 	{
-		if ('modification_ts' === $column) {
+		if (in_array($column, ['creation_ts', 'modification_ts'])) {
 			return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
 		} else if ('sorting' === $column) {
 			$sortingField = new \ilTextInputGUI('', 'sorting[' . $row['id'] . ']');
@@ -229,7 +237,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 						}
 						public function getComponent()
 						{
-							return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['content']);
+							return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['text']);
 						}
 					}
 				]);
