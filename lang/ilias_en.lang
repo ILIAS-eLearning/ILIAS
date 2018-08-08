@@ -10338,7 +10338,7 @@ tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
 tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
-tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
 tos#:#tos_form_new_doc_head#:#Create Document
 tos#:#tos_form_edit_doc_head#:#Edit Document
 tos#:#tos_form_document_title#:#Title
