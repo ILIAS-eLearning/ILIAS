@@ -724,6 +724,50 @@ class ilStartUpGUI
 		$this->showLoginPage();
 		return false;
 	}
+
+	/**
+	 * Try CAS auth
+	 */
+	protected function doCasAuthentication()
+	{
+		global $DIC;
+
+		$this->getLogger()->debug('Trying cas authentication');
+
+		include_once './Services/CAS/classes/class.ilAuthFrontendCredentialsCAS.php';
+		$credentials = new ilAuthFrontendCredentialsCAS();
+
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_CAS);
+
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+		switch($status->getStatus()) {
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				$this->getLogger()->debug('Authentication successful.');
+				ilInitialisation::redirectToStartingPage();
+				break;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+			default:
+				ilUtil::sendFailure($DIC->language()->txt($status->getReason()));
+				$this->showLoginPage();
+				return false;
+		}
+	}
 	
 	/**
 	 * Handle lti requests
