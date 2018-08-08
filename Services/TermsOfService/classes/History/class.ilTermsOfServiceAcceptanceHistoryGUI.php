@@ -157,25 +157,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	}
 
 	/**
-	 *
-	 */
-	protected function getAcceptedContentAsynch()
-	{
-		$response = new \ilTermsOfServiceJsonResponse();
-
-		if (!isset($_GET['tosv_id'])) {
-			$response->setStatus(\ilTermsOfServiceJsonResponse::STATUS_FAILURE);
-			echo $response;
-		}
-
-		$entity = \ilTermsOfServiceHelper::getById(ilUtil::stripSlashes($_GET['tosv_id']));
-		$response->setBody($entity->getText());
-
-		echo $response;
-		exit();
-	}
-
-	/**
 	 * Show auto complete results
 	 */
 	protected function addUserAutoComplete()
@@ -185,11 +166,13 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		$auto->enableFieldSearchableCheck(false);
 		$auto->setMoreLinkAvailable(true);
 
-		if ($_REQUEST['fetchall']) {
+		$isFetchAllRequest = $this->request->getQueryParams()['fetchall'] ?? false;
+		if ((bool)$isFetchAllRequest) {
 			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
 		}
 
-		echo $auto->getList($_REQUEST['term']);
+		$query = \ilUtil::stripSlashes($this->request->getQueryParams()['term'] ?? '');
+		echo $auto->getList($query);
 		exit();
 	}
 }
