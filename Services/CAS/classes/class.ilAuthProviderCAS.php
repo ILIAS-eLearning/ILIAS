@@ -49,7 +49,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 		$this->getLogger()->debug('Starting cas authentication attempt... ');
 
 		try {
-			phpCAS::setDebug('/tmp/phpcas.log');
+			phpCAS::setDebug(false);
 			phpCAS::setVerbose(true);
 			phpCAS::client(
 				CAS_VERSION_2_0,
