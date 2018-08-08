@@ -10389,6 +10389,7 @@ tos#:#tos_deleted_documents_s#:#Das Dokument wurde gelöscht.
 tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
 tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
 tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
+tos#:#tos_saved_sorting#:#Die Sortierung wurde gespeichert.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben

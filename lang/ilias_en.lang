@@ -10354,6 +10354,7 @@ tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
 tos#:#tos_deleted_documents_p#:#The documents have been deleted.
+tos#:#tos_saved_sorting#:#The sorting has been saved.
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content
