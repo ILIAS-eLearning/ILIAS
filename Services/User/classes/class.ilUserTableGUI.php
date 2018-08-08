@@ -317,14 +317,10 @@ class ilUserTableGUI extends ilTable2GUI
 
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
-		$additional_fields = $this->getSelectedColumns();
-		unset($additional_fields["firstname"]);
-		unset($additional_fields["lastname"]);
-		unset($additional_fields["email"]);
-		unset($additional_fields["second_email"]);
-		unset($additional_fields["last_login"]);
-		unset($additional_fields["access_until"]);
-		unset($additional_fields['org_units']);
+		$additional_fields = [];
+		foreach ($this->getUserDefinedFields() as $key => $value) {
+			$additional_fields[$key] = $key;
+		}
 
 		$udf_filter = array();
 		foreach ($this->filter as $k => $v)
