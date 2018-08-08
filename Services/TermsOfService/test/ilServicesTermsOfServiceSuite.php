@@ -32,9 +32,6 @@ class ilServicesTermsOfServiceSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceTableDataProviderFactoryTest.php';
 		$suite->addTestSuite('ilTermsOfServiceTableDataProviderFactoryTest');
 
-		require_once 'Services/TermsOfService/test/provider/ilTermsOfServiceAgreementsByLanguageTableDataProviderTest.php';
-		$suite->addTestSuite('ilTermsOfServiceAgreementsByLanguageTableDataProviderTest');
-
 		require_once 'Services/TermsOfService/test/provider/ilTermsOfServiceAcceptanceHistoryProviderTest.php';
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceHistoryProviderTest');
 

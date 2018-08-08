@@ -36,7 +36,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
 		$this->assertInstanceOf('ilTermsOfServiceTableDataProviderFactory', $factory);
 		$factory->setDatabaseAdapter($this->getMockBuilder('ilDBInterface')->getMock());
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages', 'getLangKey', 'getDefaultLanguage'))->disableOriginalConstructor()->getMock());
 		return $factory;
 	}
 
@@ -55,34 +54,11 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
 	 * @depends           testInstanceCanBeCreated
 	 */
-	public function testFactoryShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
-	{
-		$lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
-		$factory->setLanguageAdapter($lng);
-		$this->assertEquals($lng, $factory->getLanguageAdapter());
-	}
-
-	/**
-	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @depends           testInstanceCanBeCreated
-	 */
 	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
 		$db = $this->getMockBuilder('ilDBInterface')->getMock();
 		$factory->setDatabaseAdapter($db);
 		$this->assertEquals($db, $factory->getDatabaseAdapter());
-	}
-
-	/**
-	 * @depends           testInstanceCanBeCreated
-	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException ilTermsOfServiceMissingLanguageAdapterException
-	 */
-	public function testExceptionIsRaisedWhenAgreementByLanguageProviderIsRequestedWithoutCompleteFactoryConfiguration(ilTermsOfServiceTableDataProviderFactory $factory)
-	{
-		$this->assertException(ilTermsOfServiceMissingLanguageAdapterException::class);
-		$factory->setLanguageAdapter(null);
-		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 	}
 
 	/**
@@ -95,16 +71,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
 		$this->assertException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 		$factory->setDatabaseAdapter(null);
 		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
-	}
-
-	/**
-	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @depends           testInstanceCanBeCreated
-	 */
-	public function testFactoryShouldReturnAgreementByLanguageProviderWhenRequested(ilTermsOfServiceTableDataProviderFactory $factory)
-	{
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
-		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
 	}
 
 	/**

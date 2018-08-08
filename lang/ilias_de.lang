@@ -10372,6 +10372,21 @@ tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
 tos#:#tos_acceptance_datetime#:#Datum
+tos#:#tos_form_new_doc_head#:#Dokument erstellen
+tos#:#tos_form_document_title#:#Titel
+tos#:#tos_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+tos#:#tos_form_document#:#Dokument
+tos#:#tos_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem.
+tos#:#tos_tbl_docs_title#:#Dokumente
+tos#:#tos_tbl_docs_head_sorting#:#Sortierung
+tos#:#tos_tbl_docs_head_title#:#Titel
+tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
+tos#:#tos_tbl_docs_head_criteria#:#Kriterien
+tos#:#tos_tbl_docs_action_edit_criteria#:#Kriterien bearbeiten
+tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+tos#:#tos_deleted_documents_s#:#Das Dokument wurde gelöscht.
+tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
 tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
 tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren

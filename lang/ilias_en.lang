@@ -10339,6 +10339,21 @@ tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of se
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
 tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
 tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
+tos#:#tos_form_new_doc_head#:#Create Document
+tos#:#tos_form_document_title#:#Title
+tos#:#tos_form_document_title_info#:#Please enter a title for the document.
+tos#:#tos_form_document#:#Document
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem.
+tos#:#tos_tbl_docs_title#:#Documents
+tos#:#tos_tbl_docs_head_sorting#:#Sorting
+tos#:#tos_tbl_docs_head_title#:#Title
+tos#:#tos_tbl_docs_head_last_change#:#Last Change
+tos#:#tos_tbl_docs_head_criteria#:#Criteria
+tos#:#tos_tbl_docs_action_edit_criteria#:#Edit Criteria
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
+tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+tos#:#tos_deleted_documents_s#:#The document has been deleted.
+tos#:#tos_deleted_documents_p#:#The documents have been deleted.
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content

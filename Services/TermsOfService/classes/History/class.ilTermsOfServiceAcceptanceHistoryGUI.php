@@ -1,0 +1,195 @@
+<?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use Psr\Http\Message\ServerRequestInterface;
+
+/**
+ * Class ilTermsOfServiceAcceptanceHistoryGUI
+ * @author Michael Jansen <mjansen@databay.de>
+ */
+class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControllerEnabled
+{
+	/** @var \ilTermsOfServiceTableDataProviderFactory */
+	protected $factory;
+
+	/** @var \ilObjTermsOfService */
+	protected $tos;
+
+	/** @var \ilTemplate */
+	protected $tpl;
+
+	/** @var \ilCtrl */
+	protected $ctrl;
+
+	/** @var \ilLanguage */
+	protected $lng;
+
+	/** @var \ilRbacSystem */
+	protected $rbacsystem;
+
+	/** @var \ilErrorHandling */
+	protected $error;
+
+	/** @var ILIAS\UI\Factory */
+	protected $uiFactory;
+	
+	/** @var ILIAS\UI\Renderer */
+	protected $uiRenderer;
+
+	/** @var ServerRequestInterface */
+	protected $request;
+
+	/**
+	 * ilTermsOfServiceDocumentGUI constructor.
+	 * @param \ilObjTermsOfService $tos
+	 * @param \ilTemplate $tpl
+	 * @param \ilCtrl $ctrl
+	 * @param \ilLanguage $lng
+	 * @param \ilRbacSystem $rbacsystem
+	 * @param \ilErrorHandling $error
+	 * @param ServerRequestInterface $request
+	 * @param \ILIAS\UI\Factory $uiFactory
+	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
+	 */
+	public function __construct(
+		\ilObjTermsOfService $tos,
+		\ilTemplate $tpl,
+		\ilCtrl $ctrl,
+		\ilLanguage $lng,
+		\ilRbacSystem $rbacsystem,
+		\ilErrorHandling $error,
+		ServerRequestInterface $request,
+		ILIAS\UI\Factory $uiFactory,
+		ILIAS\UI\Renderer $uiRenderer,
+		ilTermsOfServiceTableDataProviderFactory $factory
+	) {
+		$this->tos = $tos;
+		$this->tpl = $tpl;
+		$this->ctrl = $ctrl;
+		$this->lng = $lng;
+		$this->rbacsystem = $rbacsystem;
+		$this->error = $error;
+		$this->request = $request;
+		$this->uiFactory = $uiFactory;
+		$this->uiRenderer = $uiRenderer;
+		$this->factory = $factory;
+	}
+
+	/**
+	 *
+	 */
+	public function executeCommand()
+	{
+		$nextClass = $this->ctrl->getNextClass($this);
+		$cmd       = $this->ctrl->getCmd();
+
+		if (
+			!$this->rbacsystem->checkAccess('read', '', $this->tos->getRefId()) ||
+			!$this->rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+		) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		switch (strtolower($nextClass)) {
+			default:
+				if ($cmd == '' || !method_exists($this, $cmd)) {
+					$cmd = 'showAcceptanceHistory';
+				}
+				$this->$cmd();
+				break;
+		}
+	}
+
+	/**
+	 * @return ilTermsOfServiceAcceptanceHistoryTableGUI
+	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
+	 * @throws ilTermsOfServiceMissingLanguageAdapterException
+	 */
+	protected function getAcceptanceHistoryTable(): \ilTermsOfServiceAcceptanceHistoryTableGUI
+	{
+		$table = new \ilTermsOfServiceAcceptanceHistoryTableGUI(
+			$this,
+			'showAcceptanceHistory',
+			$this->uiFactory,
+			$this->uiRenderer
+		);
+		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
+
+		return $table;
+	}
+
+	/**
+	 * 
+	 */
+	protected function showAcceptanceHistory()
+	{
+		$table = $this->getAcceptanceHistoryTable();
+
+		$table->populate();
+
+		$this->tpl->setContent($table->getHTML());
+	}
+
+
+	/**
+	 *
+	 */
+	protected function applyAcceptanceHistoryFilter()
+	{
+		$table = $this->getAcceptanceHistoryTable();
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->showAcceptanceHistory();
+	}
+
+	/**
+	 *
+	 */
+	protected function resetAcceptanceHistoryFilter()
+	{
+		$table = $this->getAcceptanceHistoryTable();
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->showAcceptanceHistory();
+	}
+
+	/**
+	 *
+	 */
+	protected function getAcceptedContentAsynch()
+	{
+		$response = new \ilTermsOfServiceJsonResponse();
+
+		if (!isset($_GET['tosv_id'])) {
+			$response->setStatus(\ilTermsOfServiceJsonResponse::STATUS_FAILURE);
+			echo $response;
+		}
+
+		$entity = \ilTermsOfServiceHelper::getById(ilUtil::stripSlashes($_GET['tosv_id']));
+		$response->setBody($entity->getText());
+
+		echo $response;
+		exit();
+	}
+
+	/**
+	 * Show auto complete results
+	 */
+	protected function addUserAutoComplete()
+	{
+		$auto = new \ilUserAutoComplete();
+		$auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
+		$auto->enableFieldSearchableCheck(false);
+		$auto->setMoreLinkAvailable(true);
+
+		if ($_REQUEST['fetchall']) {
+			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+		}
+
+		echo $auto->getList($_REQUEST['term']);
+		exit();
+	}
+}
