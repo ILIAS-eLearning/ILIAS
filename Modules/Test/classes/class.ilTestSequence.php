@@ -452,9 +452,22 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 			$this->getNextSequence( $this->getSequenceForQuestion($questionId) )
 		);
 		
-		return (
-			$this->newlyPresentedQuestion == $nextQstId || in_array($nextQstId, $this->alreadyPresentedQuestions)
-		);
+		if( !$nextQstId )
+		{
+			return false;
+		}
+		
+		if( $this->newlyPresentedQuestion == $nextQstId )
+		{
+			return true;
+		}
+		
+		if( in_array($nextQstId, $this->alreadyPresentedQuestions) )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function setQuestionChecked($questionId)
