@@ -96,20 +96,24 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
-		// TODO: Count total documents
-		$hasDocuments = true;
-		if ($hasDocuments || !(int)$this->getInput('tos_status')) {
+		if (!(int)$this->getInput('tos_status')) {
 			$this->tos->saveStatus((int)$this->getInput('tos_status'));
-
 			return true;
 		}
 
-		if (!$hasDocuments && (int)$this->getInput('tos_status') && !$this->tos->getStatus()) {
+		$hasDocuments = \ilTermsOfServiceDocument::where([])->count() > 0;
+		if ($hasDocuments) {
+			$this->tos->saveStatus((int)$this->getInput('tos_status'));
+			return true;
+		}
+
+		if (!$this->tos->getStatus()) {
 			$this->translatedError = $this->lng->txt('tos_no_documents_exist_cant_save');
-			$this->setValuesByPost();
+			$this->getItemByPostVar('tos_status')->setChecked(false);
 			return false;
 		}
 
+		$this->tos->saveStatus((int)$this->getInput('tos_status'));
 		return true;
 	}
 

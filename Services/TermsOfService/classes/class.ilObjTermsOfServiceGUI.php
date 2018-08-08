@@ -70,6 +70,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 					$this->dic->http()->request(),
 					$this->dic->ui()->factory(),
 					$this->dic->ui()->renderer(),
+					$this->dic->filesystem(),
 					$this->dic->upload()
 				);
 				$this->ctrl->forwardCommand($documentGui);
@@ -193,10 +194,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			return;
 		}
 
-		// TODO: Count total documents
-		$hasDocuments = true;
-
-		if (!$hasDocuments) {
+		if (0 === \ilTermsOfServiceDocument::where([])->count()) {
 			\ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
 		}
 	}

@@ -1,30 +1,33 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * Class ilTermsOfServiceAcceptanceHistoryTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGUI
 {
-	/** @var ILIAS\UI\Factory */
+	/** @var Factory */
 	protected $uiFactory;
 
-	/** @var ILIAS\UI\Renderer */
+	/** @var Renderer */
 	protected $uiRenderer;
 
 	/**
 	 * ilTermsOfServiceAcceptanceHistoryTableGUI constructor.
 	 * @param \ilTermsOfServiceControllerEnabled $controller
 	 * @param string $command
-	 * @param \ILIAS\UI\Factory $uiFactory
-	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 * @param Factory $uiFactory
+	 * @param Renderer $uiRenderer
 	 */
 	public function __construct(
 		\ilTermsOfServiceControllerEnabled $controller,
 		string $command,
-		ILIAS\UI\Factory $uiFactory,
-		ILIAS\UI\Renderer $uiRenderer
+		Factory $uiFactory,
+		Renderer $uiRenderer
 	) {
 		$this->uiFactory = $uiFactory;
 		$this->uiRenderer = $uiRenderer;

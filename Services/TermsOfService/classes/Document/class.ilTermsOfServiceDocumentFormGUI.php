@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileSystem\Filesystem;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Location;
+
 /**
  * Class ilTermsOfServiceDocumentFormGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -13,8 +19,11 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	/** @var \ilObjUser */
 	protected $user;
 
-	/** @var \\ILIAS\FileUpload\FileUpload */
+	/** @var FileUpload */
 	protected $fileUpload;
+	
+	/** @var Filesystem */
+	protected $tmpFileSystem;
 
 	/** @var string */
 	protected $formAction;
@@ -35,7 +44,8 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 * ilTermsOfServiceDocumentFormGUI constructor.
 	 * @param \ilTermsOfServiceDocument $document
 	 * @param \ilObjUser $user
-	 * @param \ILIAS\FileUpload\FileUpload $fileUpload
+	 * @param Filesystem $tmpFileSystem
+	 * @param FileUpload $fileUpload
 	 * @param ilLanguage $lng
 	 * @param string $formAction
 	 * @param string $saveCommand
@@ -45,7 +55,8 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	public function __construct(
 		\ilTermsOfServiceDocument $document,
 		\ilObjUser $user,
-		\ILIAS\FileUpload\FileUpload $fileUpload,
+		Filesystem $tmpFileSystem,
+		FileUpload $fileUpload,
 		string $formAction = '',
 		string $saveCommand = 'saveDocument',
 		string $cancelCommand = 'showDocuments',
@@ -53,6 +64,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	) {
 		$this->document = $document;
 		$this->user = $user;
+		$this->tmpFileSystem = $tmpFileSystem;
 		$this->fileUpload = $fileUpload;
 		$this->formAction = $formAction;
 		$this->saveCommand = $saveCommand;
@@ -69,19 +81,31 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function initForm()
 	{
-		$this->setTitle($this->lng->txt('tos_form_new_doc_head'));
+		if ($this->document->getId()) {
+			$this->setTitle($this->lng->txt('tos_form_new_doc_head'));
+		} else {
+			$this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
+		}
+
 		$this->setFormAction($this->formAction);
 
 		$title = new \ilTextInputGUI($this->lng->txt('tos_form_document_title'), 'title');
 		$title->setInfo($this->lng->txt('tos_form_document_title_info'));
 		$title->setRequired(true);
 		$title->setDisabled(!$this->isEditable);
-		$title->setValue($this->document->getText());
+		$title->setValue($this->document->getTitle());
 		$title->setMaxLength(255);
 		$this->addItem($title);
 
-		$document = new \ilFileInputGUI($this->lng->txt('tos_form_document'), 'document');
-		$document->setInfo($this->lng->txt('tos_form_document_info'));
+		$documentLabel = $this->lng->txt('tos_form_document');
+		$documentByline = $this->lng->txt('tos_form_document_info');
+		if ($this->document->getId() > 0) {
+			$documentLabel = $this->lng->txt('tos_form_document_new');
+			$documentByline = $this->lng->txt('tos_form_document_new_info');
+		}
+
+		$document = new \ilFileInputGUI($documentLabel, 'document');
+		$document->setInfo($documentByline);
 		if (!$this->document->getId()) {
 			$document->setRequired(true);
 		}
@@ -136,8 +160,38 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
-		if (!$this->fileUpload->hasUploads()) {
-			return false;
+		if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
+			try {
+				$this->fileUpload->process();
+
+				/** @var UploadResult $uploadResult */
+				$uploadResult = array_values($this->fileUpload->getResults())[0];
+				if (!$uploadResult) {
+					$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
+					throw new \ilException($this->lng->txt('form_input_not_valid'));
+				}
+
+				if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+					$this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
+					throw new \ilException($this->lng->txt('form_input_not_valid'));
+				}
+
+				$this->fileUpload->moveOneFileTo(
+					$uploadResult, '/agreements', Location::TEMPORARY, '', true
+				);
+
+				$pathToFile = '/agreements/' . $uploadResult->getName();
+				if (!$this->tmpFileSystem->has($pathToFile)) {
+					$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
+					throw new \ilException($this->lng->txt('form_input_not_valid'));
+				}
+
+				$this->document->setText($this->tmpFileSystem->read($pathToFile));
+				$this->tmpFileSystem->delete($pathToFile);
+			} catch (Exception $e) {
+				$this->translatedError = $e->getMessage();
+				return false;
+			}
 		}
 
 		$this->document->setTitle($this->getInput('title'));
@@ -146,6 +200,13 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 			$this->document->setLastModifiedUsrId($this->user->getId());
 		} else {
 			$this->document->setOwnerUsrId($this->user->getId());
+
+			$documentWithMaxSorting = \ilTermsOfServiceDocument::orderBy('sorting', 'DESC')->limit(0, 1)->first();
+			if ($documentWithMaxSorting instanceof \ilTermsOfServiceDocument) {
+				$this->document->setSorting((int)$documentWithMaxSorting->getSorting() + 1);
+			} else {
+				$this->document->setSorting(1);
+			}
 		}
 
 		return true;

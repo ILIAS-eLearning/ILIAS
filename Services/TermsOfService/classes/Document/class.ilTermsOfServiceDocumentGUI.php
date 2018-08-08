@@ -1,7 +1,10 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -34,10 +37,10 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/** @var \ilLogger */
 	protected $log;
 
-	/** @var ILIAS\UI\Factory */
+	/** @var Factory */
 	protected $uiFactory;
 
-	/** @var ILIAS\UI\Renderer */
+	/** @varRenderer */
 	protected $uiRenderer;
 
 	/** @var ServerRequestInterface */
@@ -48,6 +51,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 
 	/** @var FileUpload */
 	protected $fileUpload;
+	
+	/** @var Filesystems */
+	protected $fileSystems;
 
 	/**
 	 * ilTermsOfServiceDocumentGUI constructor.
@@ -61,8 +67,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	 * @param \ilLogger $log
 	 * @param \ilToolbarGUI $toolbar
 	 * @param ServerRequestInterface $request
-	 * @param \ILIAS\UI\Factory $uiFactory
-	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 * @param Factory $uiFactory
+	 * @param Renderer $uiRenderer
+	 * @param Filesystems $fileSystems,
 	 * @param FileUpload $fileUpload
 	 */
 	public function __construct(
@@ -76,8 +83,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		\ilLogger $log,
 		\ilToolbarGUI $toolbar,
 		ServerRequestInterface $request,
-		ILIAS\UI\Factory $uiFactory,
-		ILIAS\UI\Renderer $uiRenderer,
+		Factory $uiFactory,
+		Renderer $uiRenderer,
+		Filesystems $fileSystems,
 		FileUpload $fileUpload
 	)
 	{
@@ -93,6 +101,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$this->request  = $request;
 		$this->uiFactory  = $uiFactory;
 		$this->uiRenderer = $uiRenderer;
+		$this->fileSystems = $fileSystems;
 		$this->fileUpload = $fileUpload;
 	}
 
@@ -235,6 +244,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = new \ilTermsOfServiceDocumentFormGUI(
 			$document,
 			$this->user,
+			$this->fileSystems->temp(),
 			$this->fileUpload,
 			$formAction,
 			$saveCommand,
@@ -287,16 +297,17 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$documentId = $this->request->getQueryParams()['tos_id'] ?? 0;
-		if (!is_numeric($documentId) || $documentId < 1) {
+		$documents = $this->getDocumentsByServerRequest();
+		if (1 !== count($documents)) {
 			$this->showDocuments();
 			return;
 		}
 
-		$form = $this->getDocumentForm(new ilTermsOfServiceDocument());
-		$this->tpl->setContent($form->getHTML());
+		$document = new \ilTermsOfServiceDocument(0);
+		$document = $document->buildFromArray(current($documents));
 
-		// TODO
+		$form = $this->getDocumentForm($document);
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -308,11 +319,24 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$documentId = $this->request->getQueryParams()['tos_id'] ?? 0;
-		if (!is_numeric($documentId) || $documentId < 1) {
+		$documents = $this->getDocumentsByServerRequest();
+		if (1 !== count($documents)) {
 			$this->showDocuments();
 			return;
 		}
+
+		$document = new \ilTermsOfServiceDocument(0);
+		$document = $document->buildFromArray(current($documents));
+
+		$form = $this->getDocumentForm($document);
+		if ($form->saveObject()) {
+			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'settings');
+		} else if ($form->hasTranslatedError()) {
+			\ilUtil::sendFailure($form->getTranslatedError());
+		}
+
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**

@@ -58,6 +58,13 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	 * @db_length           255
 	 */
 	protected $title = '';
+
+	/**
+	 * @var string
+	 * @db_has_field        true
+	 * @db_fieldtype        clob
+	 */
+	protected $text = '';
 	
 	/**
 	 * @var string
@@ -81,7 +88,6 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	public function create()
 	{
 		$this->setCreationTs(time());
-		$this->setModificationTs(time());
 
 		parent::create();
 	}

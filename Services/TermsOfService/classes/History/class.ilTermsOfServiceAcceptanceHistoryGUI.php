@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -30,10 +32,10 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	/** @var \ilErrorHandling */
 	protected $error;
 
-	/** @var ILIAS\UI\Factory */
+	/** @var Factory */
 	protected $uiFactory;
 	
-	/** @var ILIAS\UI\Renderer */
+	/** @var Renderer */
 	protected $uiRenderer;
 
 	/** @var ServerRequestInterface */
@@ -48,8 +50,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	 * @param \ilRbacSystem $rbacsystem
 	 * @param \ilErrorHandling $error
 	 * @param ServerRequestInterface $request
-	 * @param \ILIAS\UI\Factory $uiFactory
-	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 * @param Factory $uiFactory
+	 * @param Renderer $uiRenderer
 	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
 	 */
 	public function __construct(
@@ -60,8 +62,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		\ilRbacSystem $rbacsystem,
 		\ilErrorHandling $error,
 		ServerRequestInterface $request,
-		ILIAS\UI\Factory $uiFactory,
-		ILIAS\UI\Renderer $uiRenderer,
+		Factory $uiFactory,
+		Renderer $uiRenderer,
 		ilTermsOfServiceTableDataProviderFactory $factory
 	) {
 		$this->tos = $tos;
