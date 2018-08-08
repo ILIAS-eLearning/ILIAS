@@ -17,7 +17,7 @@ class ilMMEntryRendererGUI {
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 		/**
 		 * @var $slate \ILIAS\UX\MainMenu\Slate\SlateInterfaceInterface
-		 * @var $entry \ILIAS\UX\MainMenu\EntryInterface
+		 * @var $entry \ILIAS\UX\MainMenu\ChildEntryInterface
 		 */
 		$slates = [];
 		foreach ($provider->getStaticSlates() as $slate) {
@@ -26,11 +26,13 @@ class ilMMEntryRendererGUI {
 		}
 
 		foreach ($provider->getStaticEntries() as $entry) {
-			if($entry->hasParent())
-			if ($entry->hasSuggestedParent()) {
-				$parent_id = $entry->getSuggestedParent()->serialize();
-				$slates[$parent_id]->appendChild($entry);
-			}
+			// if ($entry->hasParent()) {
+			// 	$parent_id = $entry->getParent()->serialize();
+			// 	$slates[$parent_id]->appendChild($entry);
+			// } elseif ($entry->hasSuggestedParent()) {
+			// 	$parent_id = $entry->getSuggestedParent()->serialize();
+			// 	$slates[$parent_id]->appendChild($entry);
+			// }
 		}
 
 		foreach ($slates as $slate) {
