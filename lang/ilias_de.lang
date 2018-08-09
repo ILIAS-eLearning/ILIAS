@@ -359,6 +359,8 @@ assessment#:#add_questionpool#:#Fragenpool hinzufügen###deprecated
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#add_solution#:#Hinweis auf Inhalte zur Wiederholung hinzufügen###deprecated
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
+assessment#:#tst_answer_aggr_answer_header#:#Antwort
+assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
