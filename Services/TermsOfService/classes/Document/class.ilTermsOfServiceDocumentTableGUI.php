@@ -154,52 +154,10 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				'title' => $document->getTitle(),
 				'creation_ts' => $document->getCreationTs(),
 				'modification_ts' => $document->getModificationTs(),
-				'text' => $document->getText()
+				'text' => $document->getText(),
+				'criteria' => ''
 			];
 		}
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function prepareRow(array &$row)
-	{
-		$row['chb'] = \ilUtil::formCheckbox(
-			false,
-			'tos_id[]',
-			$row['id']
-		);
-
-		$row['criteria'] = '';
-
-		if ($this->isEditable) {
-			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
-
-			$actions = new \ilAdvancedSelectionListGUI();
-			$actions->setId('tos_doc_' . $row['id']);
-			$actions->setListTitle($this->lng->txt('actions'));
-			$actions->addItem(
-				$this->lng->txt('edit'),
-				'',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'showEditDocumentForm')
-			);
-			$actions->addItem(
-				$this->lng->txt('tos_tbl_docs_action_edit_criteria'),
-				'',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'showCriteria')
-			);
-			$actions->addItem(
-				$this->lng->txt('delete'),
-				'',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments')
-			);
-			$row['actions'] = $actions->getHtml();
-
-			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
-		}
-
-		parent::prepareRow($row);
 	}
 
 	/**
@@ -213,9 +171,48 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			return $this->formatSorting($row);
 		} else if ('title' === $column) {
 			return $this->formatTitle($column, $row);
+		} else if ('actions' === $column) {
+			return $this->formatActionsDropDown($column, $row);
+		} else if ('chb' === $column) {
+			return \ilUtil::formCheckbox(false, 'tos_id[]', $row['id']);
 		}
 
 		return parent::formatCellValue($column, $row);
+	}
+
+	/**
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatActionsDropDown(string $column, array $row): string
+	{
+		if (!$this->isEditable) {
+			return '';
+		}
+
+		$this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
+
+		$editBtn = $this->uiFactory
+			->button()
+			->shy($this->lng->txt('edit'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showEditDocumentForm'));
+
+		$editCriteriaBtn = $this->uiFactory
+			->button()
+			->shy($this->lng->txt('tos_tbl_docs_action_edit_criteria'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showCriteria'));
+
+		$deleteBtn = $this->uiFactory
+			->button()
+			->shy($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments'));
+
+		$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
+
+		$dropdown = $this->uiFactory
+			->dropdown()
+			->standard([$editBtn, $editCriteriaBtn, $deleteBtn])
+			->withLabel($this->lng->txt('actions'));
+
+		return $this->uiRenderer->render($dropdown);
 	}
 
 	/**
