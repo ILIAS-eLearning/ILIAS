@@ -33,19 +33,30 @@ class ilOnScreenChatUserDataProvider
 	 */
 	public function getInitialUserProfileData()
 	{
+		$conversationIds = [];
+
 		$res = $this->db->queryF(
-			'
-				SELECT DISTINCT(participants) FROM osc_conversation WHERE id IN (
-					SELECT conversation_id FROM osc_activity WHERE user_id = %s 
-					UNION
-					SELECT conversation_id FROM osc_messages WHERE user_id = %s 
-				)
-			',
-			['integer', 'integer'],
-			[$this->user->getId(), $this->user->getId()]
+			'SELECT DISTINCT(conversation_id) FROM osc_activity WHERE user_id = %s',
+			['integer'],
+			[$this->user->getId()]
 		);
+		while ($row = $this->db->fetchAssoc($res)) {
+			$conversationIds[$row['conversation_id']] = $row['conversation_id'];
+		}
+
+		$res = $this->db->queryF(
+			'SELECT DISTINCT(conversation_id) FROM osc_messages WHERE user_id = %s',
+			['integer'],
+			[$this->user->getId()]
+		);
+		while ($row = $this->db->fetchAssoc($res)) {
+			$conversationIds[$row['conversation_id']] = $row['conversation_id'];
+		}
 
 		$usrIds = [];
+
+		$in = $this->db->in('id', $conversationIds, false, 'text');
+		$res = $this->db->query('SELECT DISTINCT(participants) FROM osc_conversation WHERE ' . $in);
 		while ($row = $this->db->fetchAssoc($res)) {
 			$participants = json_decode($row['participants'], true);
 
