@@ -5,6 +5,9 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 {
 	/** @var \ilTermsOfServiceDocument */
 	protected $document;
+	
+	/** @var \ilTermsOfServiceDocumentCriterionAssignment */
+	protected $assignment;
 
 	/** @var string */
 	protected $formAction;
@@ -21,17 +24,20 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	/**
 	 * ilTermsOfServiceCriterionFormGUI constructor.
 	 * @param \ilTermsOfServiceDocument $document
+	 * @param \ilTermsOfServiceDocumentCriterionAssignment $assignment
 	 * @param string $formAction
 	 * @param string $saveCommand
 	 * @param string $cancelCommand
 	 */
 	public function __construct(
 		\ilTermsOfServiceDocument $document,
+		\ilTermsOfServiceDocumentCriterionAssignment $assignment,
 		string $formAction = '',
 		string $saveCommand = 'saveDocument',
 		string $cancelCommand = 'showDocuments'
 	) {
 		$this->document = $document;
+		$this->assignment = $assignment;
 		$this->formAction = $formAction;
 		$this->saveCommand = $saveCommand;
 		$this->cancelCommand = $cancelCommand;
@@ -47,11 +53,10 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function initForm()
 	{
-		// TODO
-		if (false) {
+		if ($this->assignment->getId() > 0) {
 			$this->setTitle($this->lng->txt('tos_form_edit_criterion_head'));
 		} else {
-			$this->setTitle($this->lng->txt('tos_form_new_criterion_head'));
+			$this->setTitle($this->lng->txt('tos_form_attach_criterion_head'));
 		}
 
 		$this->setFormAction($this->formAction);
@@ -62,8 +67,9 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 
 		$criteria = new \ilRadioGroupInputGUI($this->lng->txt('tos_form_criterion'), 'criterion');
 		$criteria->setInfo($this->lng->txt('tos_form_criterion_info'));
-		$criteria->setRequired(true);
-		$criteria->setValue(''); // TODO: Set current criterion id
+		// TODO: Make required if criteria definitions concept is implemented
+		//$criteria->setRequired(true);
+		$criteria->setValue($this->assignment->getCriterionId());
 		// TODO: Render possible criteria
 		foreach ([] as $criterion) {
 			$criterion_option = new \ilRadioOption(
@@ -105,6 +111,11 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
+		if (!$this->assignment->getId()) {
+			$this->document->attachCriterion($this->assignment);
+		}
+		$this->document->save();
+
 		return true;
 	}
 
@@ -115,6 +126,21 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	{
 		if (!$this->checkInput()) {
 			return false;
+		}
+
+		// TODO: Fill with form values
+		if (rand(0, 1)) {
+			$this->assignment->setCriterionId('Crit Type Language');
+			$this->assignment->setCriterionValue('German');
+		} else {
+			$this->assignment->setCriterionId('Crit Type Global Role');
+			$this->assignment->setCriterionValue('User');
+		}
+
+		if ($this->assignment->getId() > 0) {
+			$this->assignment->setLastModifiedUsrId($this->user->getId());
+		} else {
+			$this->assignment->setOwnerUsrId($this->user->getId());
 		}
 
 		return true;

@@ -223,8 +223,8 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	}
 
 	/**
-	 * @param ilTermsOfServiceDocument $document
-	 * @return ilTermsOfServiceDocumentFormGUI
+	 * @param \ilTermsOfServiceDocument $document
+	 * @return \ilTermsOfServiceDocumentFormGUI
 	 */
 	protected function getDocumentForm(ilTermsOfServiceDocument $document): \ilTermsOfServiceDocumentFormGUI
 	{
@@ -296,14 +296,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$documents = $this->getDocumentsByServerRequest();
-		if (1 !== count($documents)) {
-			$this->showDocuments();
-			return;
-		}
-
-		$document = new \ilTermsOfServiceDocument(0);
-		$document = $document->buildFromArray(current($documents));
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
 
 		$form = $this->getDocumentForm($document);
 		$this->tpl->setContent($form->getHTML());
@@ -318,14 +311,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$documents = $this->getDocumentsByServerRequest();
-		if (1 !== count($documents)) {
-			$this->showDocuments();
-			return;
-		}
-
-		$document = new \ilTermsOfServiceDocument(0);
-		$document = $document->buildFromArray(current($documents));
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
 
 		$form = $this->getDocumentForm($document);
 		if ($form->saveObject()) {
@@ -359,6 +345,23 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			['id' => 'IN'])->getArray();
 
 		return $documents;
+	}
+
+	/**
+	 * @param array $documents
+	 * @return \ilTermsOfServiceDocument
+	 * @throws \UnexpectedValueException
+	 */
+	protected function getFirstDocumentFromList(array $documents): \ilTermsOfServiceDocument
+	{
+		if (1 !== count($documents)) {
+			throw new \UnexpectedValueException('Expected exactly one document in list');
+		}
+
+		$document = new \ilTermsOfServiceDocument(0);
+		$document = $document->buildFromArray(current($documents));
+		
+		return $document;
 	}
 
 	/**
@@ -457,18 +460,32 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	}
 
 	/**
-	 * @param ilTermsOfServiceDocument $document
-	 * @return ilTermsOfServiceCriterionFormGUI
+	 * @param \ilTermsOfServiceDocument $document
+	 * @param \ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
+	 * @return \ilTermsOfServiceCriterionFormGUI
 	 */
-	protected function getCriterionForm(ilTermsOfServiceDocument $document): \ilTermsOfServiceCriterionFormGUI
+	protected function getCriterionForm(
+		\ilTermsOfServiceDocument $document,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
+	): \ilTermsOfServiceCriterionFormGUI
 	{
 		$this->ctrl->setParameter($this, 'tos_id', $document->getId());
 
-		$formAction = $this->ctrl->getFormAction($this, 'saveAddCriterionForm');
-		$saveCommand = 'saveAddCriterionForm';
+		if ($criterionAssignment->getId() > 0) {
+			$this->ctrl->setParameter($this, 'crit_id', $criterionAssignment->getId());
+		}
+
+		$formAction = $this->ctrl->getFormAction($this, 'saveAttachCriterionForm');
+		$saveCommand = 'saveAttachCriterionForm';
+
+		if ($criterionAssignment->getId() > 0) {
+			$formAction = $this->ctrl->getFormAction($this, 'saveChangeCriterionForm');
+			$saveCommand = 'saveChangeCriterionForm';
+		}
 
 		$form = new \ilTermsOfServiceCriterionFormGUI(
 			$document,
+			$criterionAssignment,
 			$formAction,
 			$saveCommand,
 			'showDocuments'
@@ -480,15 +497,17 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/**
 	 *
 	 */
-	protected function saveAddCriterionForm()
+	protected function saveAttachCriterionForm()
 	{
 		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$form = $this->getCriterionForm(new ilTermsOfServiceDocument());
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$form = $this->getCriterionForm($document, new \ilTermsOfServiceDocumentCriterionAssignment());
 		if ($form->saveObject()) {
-			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			\ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_attached'), true);
 			$this->ctrl->redirect($this, 'showDocuments');
 		} else if ($form->hasTranslatedError()) {
 			\ilUtil::sendFailure($form->getTranslatedError());
@@ -500,22 +519,109 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/**
 	 *
 	 */
-	protected function showAddCriterionForm()
+	protected function showAttachCriterionForm()
 	{
 		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$documents = $this->getDocumentsByServerRequest();
-		if (1 !== count($documents)) {
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$form = $this->getCriterionForm($document, new \ilTermsOfServiceDocumentCriterionAssignment());
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	protected function showChangeCriterionForm()
+	{
+		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$criterionId = $this->httpState->request()->getQueryParams()['crit_id'] ?? 0;
+		if (!is_numeric($criterionId) || $criterionId < 1) {
 			$this->showDocuments();
 			return;
 		}
 
-		$document = new \ilTermsOfServiceDocument(0);
-		$document = $document->buildFromArray(current($documents));
+		$criterionAssignment = array_values(array_filter(
+			$document->getCriteria(),
+			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
+				return $criterionAssignment->getId() == $criterionId;
+			}
+		))[0];
 
-		$form = $this->getCriterionForm($document);
+		$form = $this->getCriterionForm($document, $criterionAssignment);
 		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	protected function saveChangeCriterionForm()
+	{
+		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$criterionId = $this->httpState->request()->getQueryParams()['crit_id'] ?? 0;
+		if (!is_numeric($criterionId) || $criterionId < 1) {
+			$this->showDocuments();
+			return;
+		}
+
+		$criterionAssignment = array_values(array_filter(
+			$document->getCriteria(),
+			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
+				return $criterionAssignment->getId() == $criterionId;
+			}
+		))[0];
+
+		$form = $this->getCriterionForm($document, $criterionAssignment);
+		if ($form->saveObject()) {
+			\ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_changed'), true);
+			$this->ctrl->redirect($this, 'showDocuments');
+		} else if ($form->hasTranslatedError()) {
+			\ilUtil::sendFailure($form->getTranslatedError());
+		}
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	public function detachCriterionAssignment()
+	{
+		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$criterionId = $this->httpState->request()->getQueryParams()['crit_id'] ?? 0;
+		if (!is_numeric($criterionId) || $criterionId < 1) {
+			$this->showDocuments();
+			return;
+		}
+
+		$criterionAssignment = array_values(array_filter(
+			$document->getCriteria(),
+			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
+				return $criterionAssignment->getId() == $criterionId;
+			}
+		))[0];
+
+		// TODO: Evtl. remove this from the document an save the document instead, this could delete detached criteria
+		$criterionAssignment->delete();
+
+		\ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_detached'), true);
+		$this->ctrl->redirect($this, 'showDocuments');
 	}
 }

@@ -10354,8 +10354,14 @@ tos#:#tos_tbl_docs_head_created#:#Creation Date
 tos#:#tos_tbl_docs_head_last_change#:#Last Change
 tos#:#tos_tbl_docs_head_criteria#:#Criteria
 tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
-tos#:#tos_form_new_criterion_head#:#Add Criterion
-tos#:#tos_form_edit_criterion_head#:#Edit Criterion
+tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
+tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
+tos#:#tos_doc_crit_detached#:#The criterion has been detached.
+tos#:#tos_doc_crit_attached#:#The criterion has been attached.
+tos#:#tos_doc_crit_changed#:#The criterion has been changed.
+tos#:#tos_form_attach_criterion_head#:#Attach Criterion
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Dokument
 tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.

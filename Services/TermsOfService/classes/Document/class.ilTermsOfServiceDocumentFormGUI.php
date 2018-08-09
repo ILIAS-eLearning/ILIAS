@@ -80,7 +80,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function initForm()
 	{
-		if ($this->document->getId()) {
+		if ($this->document->getId() > 0) {
 			$this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
 		} else {
 			$this->setTitle($this->lng->txt('tos_form_new_doc_head'));

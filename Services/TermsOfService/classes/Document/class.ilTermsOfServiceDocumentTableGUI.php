@@ -147,7 +147,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	protected function preProcessData(array &$data)
 	{
 		foreach ($data['items'] as $key => $document) {
-			/** ilTermsOfServiceDocument $document */
+			/** @var ilTermsOfServiceDocument $document */
 
 			$data['items'][$key] = [
 				'id' => $document->getId(),
@@ -155,7 +155,8 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				'creation_ts' => $document->getCreationTs(),
 				'modification_ts' => $document->getModificationTs(),
 				'text' => $document->getText(),
-				'criteria' => ''
+				'criteria' => '',
+				'criteriaAssignments' => $document->getCriteria()
 			];
 		}
 	}
@@ -175,6 +176,8 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			return $this->formatActionsDropDown($column, $row);
 		} else if ('chb' === $column) {
 			return \ilUtil::formCheckbox(false, 'tos_id[]', $row['id']);
+		} else if ('criteria' === $column) {
+			return $this->formatCriterionAssignments($column, $row);
 		}
 
 		return parent::formatCellValue($column, $row);
@@ -207,21 +210,86 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				$this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments')
 			);
 
-		$addCriterionBtn = $this->uiFactory
+		$attachCriterionBtn = $this->uiFactory
 			->button()
 			->shy(
 				$this->lng->txt('tos_tbl_docs_action_add_criterion'),
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'showAddCriterionForm')
+				$this->ctrl->getLinkTarget($this->getParentObject(), 'showAttachCriterionForm')
 			);
 
 		$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
 
 		$dropDown = $this->uiFactory
 			->dropdown()
-			->standard([$editBtn, $deleteBtn, $addCriterionBtn])
+			->standard([$editBtn, $deleteBtn, $attachCriterionBtn])
 			->withLabel($this->lng->txt('actions'));
 
 		return $this->uiRenderer->render([$dropDown]);
+	}
+
+	/**
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatCriterionAssignments(string $column, array $row): string
+	{
+		$items = [];
+
+		if (0 === count($row['criteriaAssignments'])) {
+			return $this->lng->txt('tos_tbl_docs_cell_not_criterion');
+		}
+
+		foreach ($row['criteriaAssignments'] as $criterion) {
+			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
+
+			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
+			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());
+
+			$editBtn = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('edit'),
+					$this->ctrl->getLinkTarget($this->getParentObject(), 'showChangeCriterionForm')
+				);
+
+			$deleteModal = $this->uiFactory
+				->modal()
+				->interruptive(
+					$this->lng->txt('tos_doc_detach_crit_confirm_title'),
+					$this->lng->txt('tos_doc_sure_detach_crit'),
+					$this->ctrl->getFormAction($this->getParentObject(), 'detachCriterionAssignment')
+				);
+
+			$deleteBtn = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('delete'),
+					'#'
+				)->withOnClick($deleteModal->getShowSignal());
+
+			$dropDown = $this->uiFactory
+				->dropdown()
+				->standard([$editBtn, $deleteBtn]);
+
+			// TODO: Fetch Key/Value from criterion definition (to be implemented)
+			$items[$criterion->getCriterionId() . ' (Id:  ' . $criterion->getId() . ')'] = 
+				$this->uiFactory->legacy(implode('', [
+					$criterion->getCriterionValue() .
+					$this->uiRenderer->render([$dropDown, $deleteModal])
+				]));
+
+			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
+			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', null);
+		}
+
+		$criteriaList = $this->uiFactory
+			->listing()
+			->descriptive($items);
+
+		return $this->uiRenderer->render([
+			$criteriaList
+		]);
 	}
 
 	/**

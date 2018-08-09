@@ -6199,6 +6199,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTermsOfServiceCriterionFormGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceCriterionFormGUI.php',
         'ilTermsOfServiceDataGatewayFactory' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php',
         'ilTermsOfServiceDocument' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocument.php',
+        'ilTermsOfServiceDocumentCriterionAssignment' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceDocumentCriterionAssignment.php',
         'ilTermsOfServiceDocumentFormGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentFormGUI.php',
         'ilTermsOfServiceDocumentGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
         'ilTermsOfServiceDocumentLightboxPage' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentLightboxPage.php',

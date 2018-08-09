@@ -6007,6 +6007,7 @@ return array(
     'ilTermsOfServiceCriterionFormGUI' => $baseDir . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceCriterionFormGUI.php',
     'ilTermsOfServiceDataGatewayFactory' => $baseDir . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php',
     'ilTermsOfServiceDocument' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocument.php',
+    'ilTermsOfServiceDocumentCriterionAssignment' => $baseDir . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceDocumentCriterionAssignment.php',
     'ilTermsOfServiceDocumentFormGUI' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentFormGUI.php',
     'ilTermsOfServiceDocumentGUI' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
     'ilTermsOfServiceDocumentLightboxPage' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentLightboxPage.php',
