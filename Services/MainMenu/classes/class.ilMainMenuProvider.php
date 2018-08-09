@@ -102,10 +102,9 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 		// overview
 		$entries[] = $m->link($g->internal('mm_pd_sel_items'))->withTitle($lng->txt("overview"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems"
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// my groups and courses, if both is available
-
 		$entries[] = $m->link($g->internal('mm_pd_crs_grp'))->withTitle($lng->txt("my_courses_groups"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships"
 		)->withVisibilityCallable(
@@ -114,7 +113,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 
 				return $pdItemsViewSettings->allViewsEnabled();
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// bookmarks
 		$entries[] = $m->link($g->internal('mm_pd_bookm'))->withTitle($lng->txt("bookmarks"))->withAction(
@@ -123,7 +122,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () use ($ilSetting) {
 				return !$ilSetting->get("disable_bookmarks");
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// private notes
 		$lng->loadLanguageModule("notes");
@@ -142,7 +141,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () use ($ilSetting) {
 				return (!$ilSetting->get("disable_notes") || !$ilSetting->get("disable_comments"));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// news
 		$entries[] = $m->link($g->internal('mm_pd_news'))->withTitle($lng->txt("news"))->withAction(
@@ -151,7 +150,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () use ($ilSetting) {
 				return ($ilSetting->get("block_activated_news"));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// overview is always active
 		$entries[] = $m->divider($g->internal('sep_1'));
@@ -163,7 +162,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () use ($ilSetting) {
 				return ($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true);
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// Workspace
 		$entries[] = $m->link($g->internal('mm_pd_wsp'))->withTitle($lng->txt("personal_workspace"))->withAction(
@@ -172,36 +171,40 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () use ($ilSetting) {
 				return (!$ilSetting->get("disable_personal_workspace"));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// portfolio
 		$entries[] = $m->link($g->internal('mm_pd_port'))->withTitle($lng->txt("portfolio"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio"
-		)->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
 			function () use ($ilSetting) {
 				return ($ilSetting->get('user_portfolios'));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withActiveCallable(
+			function () {
+
+			}
+		);
 
 		// skills
 		$entries[] = $m->link($g->internal('mm_pd_skill'))->withTitle($lng->txt("skills"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills"
-		)->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
 			function () {
 				$skmg_set = new ilSetting("skmg");
 
 				return ($skmg_set->get("enable_skmg"));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		);
 
 		// Badges
 		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("obj_bdga"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges"
-		)->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
 			function () {
 				return (ilBadgeHandler::getInstance()->isActive());
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		);
 
 		// Learning Progress
 		$entries[] = $m->link($g->internal('mm_pd_lp'))->withTitle($lng->txt("learning_progress"))->withAction(
@@ -212,7 +215,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 					&& (ilObjUserTracking::_hasLearningProgressOtherUsers()
 						|| ilObjUserTracking::_hasLearningProgressLearner()));
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// dynamic separator missing
 
@@ -225,7 +228,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 
 				return ($settings->isEnabled());
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// mail
 		$entries[] = $m->link($g->internal('mm_pd_mail'))->withTitle($lng->txt("mail"))->withAction(
@@ -243,7 +246,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 
 				return false;
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// contacts
 		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("mail_addressbook"))->withAction(
@@ -252,13 +255,12 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () {
 				return (ilBuddySystem::getInstance()->isEnabled());
 			}
-		)->withSuggestedParent($this->slate_ids[self::INTERNAL_DESKTOP]);
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		//
 		// REPOSITORY
 		//
 		//
-
 		$nd = $dic->repositoryTree()->getNodeData(ROOT_FOLDER_ID);
 		$title = $nd["title"];
 		if ($title == "ILIAS") {
@@ -270,7 +272,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 		$entries[] = $this->mainmenu->link($this->identification->internal('rep_main_page'))
 			->withTitle($title)
 			->withAction($action)
-			->withSuggestedParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
+			->withParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
 
 		// LastVisited
 		$items = $this->dic['ilNavigationHistory']->getItems();
@@ -297,7 +299,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 				$entries[] = $this->mainmenu->link($this->identification->internal('rep_main_page'))
 					->withTitle($icon . " " . $ititle)
 					->withAction($item["link"])
-					->withSuggestedParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
+					->withParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
 			}
 			$first = false;
 		}

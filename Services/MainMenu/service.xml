@@ -1,8 +1,8 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="mob">
 	<baseclasses />
-	<ux>
-		<mainmenu>ilMainMenuProvider</mainmenu>
-	</ux>
+	<uxproviders>
+		<mainmenu class_name="ilMainMenuProvider"/>
+	</uxproviders>
 	<logging />
 </service>

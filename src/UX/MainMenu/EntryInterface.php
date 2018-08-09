@@ -18,7 +18,7 @@ interface EntryInterface {
 	/**
 	 * @param callable $is_visible
 	 *
-	 * @return EntryInterface
+	 * @return EntryInterface|ChildEntryInterface
 	 */
 	public function withVisibilityCallable(callable $is_visible): EntryInterface;
 
@@ -32,7 +32,7 @@ interface EntryInterface {
 	/**
 	 * @param callable $is_active
 	 *
-	 * @return EntryInterface
+	 * @return EntryInterface|ChildEntryInterface
 	 */
 	public function withActiveCallable(callable $is_active): EntryInterface;
 
