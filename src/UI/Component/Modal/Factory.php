@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Modal;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Modal\LightboxImagePage;
+use ILIAS\UI\Implementation\Component\Modal\LightboxTextPage;
 
 /**
  * Interface Factory
@@ -189,4 +190,27 @@ interface Factory {
 	 * @return LightboxImagePage
 	 */
 	public function lightboxImagePage(Image $image, $title, $description = '');
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Lightbox text page represents an document like content/text inside a Lightbox modal.
+	 *   composition: >
+	 *     The page consists of the text and a title
+	 *   effect: >
+	 *     The text is displayed in the content section of the Lightbox modal and the title is used
+	 *     as modal title.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Lighbox text page MUST have a text content and a short title.
+	 * ---
+	 *
+	 * @param string $text
+	 * @param string $title
+	 *
+	 * @return LightboxTextPage
+	 */
+	public function lightboxTextPage(string $text, string $title);
 }
