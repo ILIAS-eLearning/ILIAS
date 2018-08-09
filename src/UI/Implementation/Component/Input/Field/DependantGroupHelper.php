@@ -7,7 +7,7 @@ use ILIAS\UI\Component as C;
 /**
  * This is a trait for inputs providing dependant groups, such as checkboxes, e.g.
  */
-trait DependantGroupProvider {
+trait DependantGroupHelper {
 
 	/**
 	 * @var C\Input\Field\DependantGroup|null
@@ -19,7 +19,7 @@ trait DependantGroupProvider {
 	/**
 	 * @inheritdoc
 	 */
-	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group) {
+	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group) :C\Input\Field\Input {
 		$clone = clone $this;
 		/**
 		 * @var $clone           Checkbox

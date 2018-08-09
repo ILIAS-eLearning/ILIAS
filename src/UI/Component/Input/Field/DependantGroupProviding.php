@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * These are the commonalities for inputs tirggering a dependant group.
  */
-interface DependantGroupProviding {
+interface DependantGroupProviding extends Input {
 
 	/**
 	 * Creates an input like this but with a dependant group attached which appears if the
@@ -17,13 +17,13 @@ interface DependantGroupProviding {
 	 *
 	 * @return Input
 	 */
-	public function withDependantGroup(DependantGroup $dependant_group);
+	public function withDependantGroup(DependantGroup $dependant_group) :Input;
 
 
 	/**
 	 * Returns the attached DependantGroup or null if none is attached.
 	 *
-	 * @return $dependantGroup|null
+	 * @return DependantGroup|null
 	 */
 	public function getDependantGroup();
 }

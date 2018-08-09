@@ -21,14 +21,14 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 
 	use JavaScriptBindable;
 	use Triggerer;
-	use DependantGroupProvider;
+	use DependantGroupHelper;
 
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		throw new \LogicException("NYI: What could 'required' mean here?");
+		return null;
 	}
 
 	/**
