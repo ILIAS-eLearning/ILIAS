@@ -344,5 +344,37 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Input\Field\Select
 	 */
 	public function select($label, array $options, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A radio-input is used to depict a choice of options excluding each other.
+	 *   composition: >
+	 *     The radio is considered as one field with a label and a number of
+	 *     options. Each option in turn bears a label in form of a positive statement.
+	 *   effect: >
+	 *     If used in a form, each option of a radio may open a dependant section (formerly known
+	 *     as sub form).
+	 *   rivals:
+	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
+	 *     Select: >
+	 *       Use selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, i.e. service behavior,
+	 *       or needs further cconfiguration, stick to radios.
+	 *
+	 * rules:
+	 *   wording:
+	 *     1: The options' labels MUST always state something positive.
+	 *
+	 * ---
+	 *
+	 * @param    string 	$label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	public function radio($label, $byline = null);
 }
 
