@@ -176,50 +176,6 @@ class ilContainer extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/container_data/obj_".$a_id;
 	}
-	
-	/**
-	 * Get path for big icon.
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getBigIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for small icon
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getSmallIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for tiny icon
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getTinyIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for custom icon
-	 *
-	 * @return	string	icon path
-	 */
-	function getCustomIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
 
 	/**
 	* Set Found hidden files (set by getSubItems).
@@ -316,6 +272,44 @@ class ilContainer extends ilObject
 	{
 		return $this->news_timeline_landing_page;
 	}
+
+	/**
+	 * Is news timeline effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Is news timeline landing page effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineLandingPageEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				if ($this->getNewsTimelineLandingPage())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 
 	/**
 	 * Set news block activated
@@ -492,68 +486,7 @@ class ilContainer extends ilObject
 			$a_xml->xmlEndTag("ContainerSettings");
 		}		
 	}
-	
-	/**
-	* lookup icon path
-	*
-	* @param	int		$a_id		container object id
-	* @param	string	$a_size		"big" | "small"
-	*/
-	static function _lookupIconPath($a_id, $a_size = "big")
-	{
-		if (ilContainer::_lookupContainerSetting($a_id, "icon_custom"))
-		{
-			$cont_dir = ilContainer::_getContainerDirectory($a_id);
 
-			$file_name = $cont_dir."/icon_custom.svg";
-			if (is_file($file_name))
-			{
-				return $file_name;
-			}
-		}
-		
-		return "";
-	}
-
-	/**
-	* save container icons
-	*/
-	function saveIcons($a_custom_icon)
-	{
-		$this->createContainerDirectory();
-		$cont_dir = $this->getContainerDirectory();
-
-		if ($a_custom_icon != "")
-		{
-			if (is_file($cont_dir."/icon_custom.svg"))
-			{
-				unlink($cont_dir . "/icon_custom.svg");
-			}
-			$file_name = $cont_dir."/icon_custom.svg";
-			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
-
-			if ($file_name != "" && is_file($file_name))
-			{
-				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
-			}
-			else
-			{
-				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
-			}
-		}
-	}
-
-	/**
-	* remove small icon
-	*/ 
-	function removeCustomIcon()
-	{
-		$cont_dir = $this->getContainerDirectory();
-		$small_file_name = $cont_dir."/icon_custom.svg";
-		@unlink($small_file_name);
-		ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
-	}
-	
 	/**
 	 * Clone container settings
 	 *
@@ -604,22 +537,6 @@ class ilContainer extends ilObject
 		foreach(self::_getContainerSettings($this->getId()) as $keyword => $value)
 		{						
 			self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
-			
-			// copy custom icons
-			if($keyword == "icon_custom" && 
-				$value)
-			{
-				// see saveIcons()
-				$new_obj->createContainerDirectory();
-				$tgt_dir = $new_obj->getContainerDirectory();
-				$src_dir = $this->getContainerDirectory();				
-				$file = "icon_custom.svg";
-				$src_file = $src_dir."/".$file;
-				if(file_exists($src_file))
-				{
-					copy($src_file, $tgt_dir."/".$file);
-				}
-			}
 		}
 		
 		return $new_obj;

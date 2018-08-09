@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.4.x 2018-03-18 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.4.x 2018-07-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -31,6 +31,7 @@ back#:#Vissza
 basic_settings#:#Alapbeállítások
 cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat.
 cannot_create_datadir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. Az adatkönyvtár nem hozható létre.
+cannot_create_logdir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. A naplókönyvtár nem hozható létre.
 change_basic_settings#:#Alapbeállítások módosítása
 change_password#:#Jelszócsere
 change_sort_direction#:#Rendezési irány módosítása
@@ -330,7 +331,7 @@ no_path_datadir#:#Nincs megadva adatkönyvtár.
 no_path_fop#:#Nincs megadva FOP elérési útvonal.
 no_path_given#:#Nincs megadva elérési útvonal.
 no_path_java#:#Nincs megadva java elérési útvonal.
-no_path_log#:#Nincs megadva log elérési útvonal.
+no_path_log#:#Nincs megadva naplózás elérési útvonal.
 no_path_mkisofs#:#Nincs megadva mkisofs elérési útvonal.
 no_path_unzip#:#Nincs megadva Unzip elérési útvonal.
 no_path_zip#:#Nincs megadva Zip elérési útvonal.
@@ -348,13 +349,9 @@ overview#:#Áttekintés
 pass_does_not_match#:#A megadott jelszavak nem egyeznek.
 passwd_not_match#:#Bejegyzései az új jelszóra nem egyeznek. Adja meg újra új jelszavát.
 password_changed#:#Jelszó megváltoztatva.
-password_empty#:#Nincs megadott jelszó.
-password_enter_old#:#Előbb meg kell adnia régi jelszavát.
+password_old_wrong#:#A megadott régi jelszó hibás.
 password_info#:#A konfiguráció adatainak illetéktelen hozzáférése elkerülése, illetve a beállítások később elérése érdekében adjon meg egy jelszót.
 password_new_master#:#Új mesterjelszó beállítása
-password_not_match#:#Az új jelszó nem egyezik.
-password_old_wrong#:#A megadott régi jelszó hibás.
-password_retype#:#Jelszó újragépelése
 password_same#:#A régi és új jelszó ugyanaz.
 password_set#:#Jelszó elmentve.
 password#:#Jelszó
@@ -611,8 +608,8 @@ cache_flush#:#Összes gyorsítótár ürítése
 cache_activate_tpl_blocks#:#Sablon (blokkok)
 cache_activate_tpl_variables#:#Sablon (változók)
 cache_activate_all#:#Összes
-error_log_path#:#Hibafájlok útvonala
-error_log_path_comment#:#Csak útvonalat adjon meg, hiba esetén a fájlokat automatikusan oda mentjük.
+error_log_path#:#Hibanaplófájlok útvonala
+error_log_path_comment#:#Csak útvonalat adjon meg, hiba esetén a naplófájlokat automatikusan oda mentjük.
 enable_system_styles_management#:#Rendszerstílusok kezelése
 enable_system_styles_management_info#:#Rendszerstílusok (Skin-ek) kezelése (létrehozása, módosítása, törlése) a Rendszerbeállítások » Stílus és elrendezés almenüje alatt.
 lessc_path#:#Lessc útvonala

@@ -14,33 +14,36 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilContainerImporter extends ilXmlImporter
 {
-	
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $cont_log;
 
 	public function init()
 	{
+		$this->cont_log = ilLoggerFactory::getLogger('cont');
 	}
 	
 	/**
 	 * Import XML
 	 *
-	 * @param
-	 * @return
+	 * @inheritdoc
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once './Services/Container/classes/class.ilContainerXmlParser.php';
 
-		/**
-		 * @var ilLogger
-		 */
-		$log = ilLoggerFactory::getLogger('exp');
-		$log->debug('Import xml: '. $a_xml);
-		$log->debug('Using id: ' . $a_id);
+		$this->cont_log->debug('Import xml: '. $a_xml);
+		$this->cont_log->debug('Using id: ' . $a_id);
 		
 		$parser = new ilContainerXmlParser($a_mapping,trim($a_xml));
 		$parser->parse($a_id);		
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
 	function finalProcessing($a_mapping)
 	{				
 		// pages
@@ -53,7 +56,15 @@ class ilContainerImporter extends ilXmlImporter
 			$old_obj_id = $parts[1];
 			$new_pg_id = array_pop(explode(':', $new_pg_id));
 			$new_obj_id = $a_mapping->getMapping('Services/Container', 'objs', $old_obj_id);
-			ilPageObject::_writeParentId($pg_type, $new_pg_id, $new_obj_id);
+			// see bug #22718, this missed a check for the pg type
+			if (in_array($pg_type, array("crs", "grp", "fold", "cont")))
+			{
+				if ($new_obj_id > 0)
+				{
+					ilPageObject::_writeParentId($pg_type, $new_pg_id, $new_obj_id);
+					$this->cont_log->debug('write parent id, type: '.$pg_type.", page id: ".$new_pg_id.", parent id: ".$new_obj_id);
+				}
+			}
 		}
 		
 		// style

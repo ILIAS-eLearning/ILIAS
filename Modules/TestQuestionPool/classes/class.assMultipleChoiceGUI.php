@@ -337,7 +337,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 						if (strcmp($mc_solution, $answer_id) == 0)
 						{
 							$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-									$this->object->getId(), $answer_id
+									$this->object->getId(),0, $answer_id
 							);
 							if (strlen($fb))
 							{
@@ -352,7 +352,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 				if ($this->object->getSpecificFeedbackSetting() == 1)
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
+							$this->object->getId(),0, $answer_id
 					);
 					if (strlen($fb))
 					{
@@ -369,7 +369,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if ($answer->getPoints() > 0)
 					{
 						$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-								$this->object->getId(), $answer_id
+								$this->object->getId(),0, $answer_id
 						);
 						if (strlen($fb))
 						{
@@ -820,7 +820,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $choiceKeys;
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		// No return value, this question type supports inline specific feedback.
 		$output = "";
@@ -1082,7 +1082,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if(strcmp($mc_solution, $answer_id) == 0)
 				{
-					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 					if(strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
@@ -1095,7 +1095,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 		if($this->object->getSpecificFeedbackSetting() == 1)
 		{
-			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 			if(strlen($fb))
 			{
 				$template->setCurrentBlock("feedback");
@@ -1110,7 +1110,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 			if($answer->getPoints() > 0)
 			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 				if(strlen($fb))
 				{
 					$template->setCurrentBlock("feedback");

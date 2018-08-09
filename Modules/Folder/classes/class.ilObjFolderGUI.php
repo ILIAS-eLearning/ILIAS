@@ -13,7 +13,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub
+* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectCustomIconConfigurationGUI
 *
 * @extends ilObjectGUI
 */
@@ -111,6 +111,22 @@ class ilObjFolderGUI extends ilContainerGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->prepareOutput();
+
+				$this->setSubTabs('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('icons');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case 'ilcoursecontentgui':
@@ -562,92 +578,17 @@ class ilObjFolderGUI extends ilContainerGUI
 		$ilTabs->addSubTab("settings",
 			$lng->txt("fold_settings"),
 			$this->ctrl->getLinkTarget($this,'edit'));
-		
-		// custom icon
-		if ($this->ilias->getSetting("custom_icons"))
-		{
-			$ilTabs->addSubTab("icons",
-				$lng->txt("icon_settings"),
-				$this->ctrl->getLinkTarget($this,'editIcons'));
+
+		if ($this->ilias->getSetting('custom_icons')) {
+			$ilTabs->addSubTab(
+				'icons',
+				$lng->txt('icon_settings'),
+				$this->ctrl->getLinkTargetByClass('ilobjectcustomiconconfigurationgui')
+			);
 		}
-		
+
 		$ilTabs->activateSubTab($a_tab);
 		$ilTabs->activateTab("settings");
 	}
-
-	
-	////
-	//// Icons
-	////
-	
-	/**
-	 * Edit folder icons
-	 */
-	function editIconsObject($a_form = null)
-	{
-		$tpl = $this->tpl;
-
-		$this->checkPermission('write');
-	
-		$this->tabs_gui->setTabActive('settings');
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-
-	function initIconsForm()
-	{
-		$this->setSubTabs("icons");
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-	
-	/**
-	* update container icons
-	*/
-	function updateIconsObject()
-	{
-		$ilSetting = $this->settings;
-
-		$this->checkPermission('write');
-		
-		$form = $this->initIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-			if ($_FILES["cont_icon"]['tmp_name'] || $_POST["cont_icon_delete"])
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			}
-			$this->ctrl->redirect($this,"editIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editIconsObject($form);	
-	}
-
-	
-
 } // END class.ilObjFolderGUI
 ?>

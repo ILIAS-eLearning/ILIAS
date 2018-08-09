@@ -399,7 +399,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 *
 	 * @return mixed|string
 	 */
-	public function getSpecificFeedbackOutput($active_id, $pass)
+	public function getSpecificFeedbackOutput($userSolution)
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);

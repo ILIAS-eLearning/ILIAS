@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
  *
  * @extends ilContainerGUI
  */
@@ -1189,6 +1189,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
 			
 				$pass = new ilTextInputGUI($this->lng->txt("password"),'subscription_password');
+				$pass->setRequired(true);
 				$pass->setInfo($this->lng->txt('crs_reg_password_info'));
 				$pass->setSubmitFormOnEnter(true);
 				$pass->setSize(32);
@@ -1517,43 +1518,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		// values are done in initEditForm()
 	}
 
-	/**
-	* edit container icons
-	*/
-	function editCourseIconsObject($a_form = null)
-	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-
-		$this->checkPermission('write');
-	
-		$this->setSubTabs("properties");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->activateSubTab('icon_settings');
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initCourseIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-
-	function initCourseIconsForm()
-	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateCourseIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-
 	function sendFileObject()
 	{
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
@@ -1561,39 +1525,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
 		return true;
 	}
-	
-	/**
-	* update container icons
-	*/
-	function updateCourseIconsObject()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-
-		$this->checkPermission('write');
-		
-		$form = $this->initCourseIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this,"editCourseIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editCourseIconsObject($form);	
-	}
-
 
 	/**
 	* set sub tabs
@@ -1639,12 +1570,12 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				// custom icon
-				if ($this->ilias->getSetting("custom_icons"))
-				{
-					$this->tabs_gui->addSubTabTarget("icon_settings",
-													 $this->ctrl->getLinkTarget($this,'editCourseIcons'),
-													 "editCourseIcons", get_class($this));
+				if ($this->ilias->getSetting('custom_icons')) {
+					$this->tabs_gui->addSubTabTarget(
+						'icon_settings',
+						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
+						'editCourseIcons', get_class($this)
+					);
 				}
 				
 				// map settings
@@ -1712,39 +1643,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::showPossibleSubObjects();
 	}
 
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	function removeSmallIconObject()
-	{
-		$this->object->removeSmallIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
-
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	function removeBigIconObject()
-	{
-		$this->object->removeBigIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
-
-
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	function removeTinyIconObject()
-	{
-		$this->object->removeTinyIcon();
-		$this->ctrl->redirect($this,'editCourseIcons');		
-	}
 
 	/**
 	* save object
@@ -2106,15 +2004,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			// default activation
 			$this->tabs_gui->activateTab('view_content');
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
 				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
 					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
@@ -2686,6 +2584,20 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('icon_settings');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 /*                if(!$this->creation_mode)
                 {
@@ -2765,7 +2677,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
 				// if news timeline is landing page, redirect if necessary
-				if ($cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
+				if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->ctrl->redirectbyclass("ilnewstimelinegui");
 				}
