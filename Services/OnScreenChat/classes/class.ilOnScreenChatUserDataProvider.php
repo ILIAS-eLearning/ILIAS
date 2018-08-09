@@ -53,6 +53,10 @@ class ilOnScreenChatUserDataProvider
 			$conversationIds[$row['conversation_id']] = $row['conversation_id'];
 		}
 
+		if (0 === count($conversationIds)) {
+			return [];
+		}
+
 		$usrIds = [];
 
 		$in = $this->db->in('id', $conversationIds, false, 'text');
