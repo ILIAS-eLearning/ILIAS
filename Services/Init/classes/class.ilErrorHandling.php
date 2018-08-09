@@ -420,28 +420,65 @@ class ilErrorHandling extends PEAR
 				}
 
 				$prettyPageHandler = new PrettyPageHandler();
-				if (defined('ERROR_EDITOR_URL')) {
-					$pathTranslations = [];
 
-					if (defined('ERROR_EDITOR_PATH_TRANSLATIONS')) {
-						$mappings = explode('|', ERROR_EDITOR_PATH_TRANSLATIONS);
-						foreach ($mappings as $mapping) {
-							$parts = explode(',', $mapping);
-							$pathTranslations[$parts[0]] = $parts[1];
-						}
-					}
-
-					$prettyPageHandler->setEditor(function ($file, $line) use ($pathTranslations) {
-						foreach ($pathTranslations as $from => $to) {
-							$file = preg_replace('@' . $from . '@' , $to, $file);
-						}
-
-						return str_ireplace(['[FILE]', '[LINE]'], [$file, $line], ERROR_EDITOR_URL);
-					});
-				}
+				$this->addEditorSupport($prettyPageHandler);
 
 				return $prettyPageHandler;
 		}
+	}
+
+	/**
+	 * @param PrettyPageHandler $handler
+	 */
+	protected function addEditorSupport(PrettyPageHandler $handler)
+	{
+		$editorUrl = defined('ERROR_EDITOR_URL') ? ERROR_EDITOR_URL : '';
+		if (!is_string($editorUrl) || 0 === strlen($editorUrl)) {
+			return;
+		}
+
+		$pathTranslationConfig = defined('ERROR_EDITOR_PATH_TRANSLATIONS') ? ERROR_EDITOR_PATH_TRANSLATIONS : '';
+
+		$pathTranslations = $this->parseEditorPathTranslation($pathTranslationConfig);
+
+		$handler->setEditor(function ($file, $line) use ($editorUrl, $pathTranslations) {
+			$this->applyEditorPathTranslations($file, $pathTranslations);
+
+			return str_ireplace(
+				['[FILE]', '[LINE]'],
+				[$file, $line],
+				$editorUrl
+			);
+		});
+	}
+
+	/**
+	 * @param string $file
+	 * @param array $pathTranslations
+	 */
+	protected function applyEditorPathTranslations(string &$file, array $pathTranslations)
+	{
+		foreach ($pathTranslations as $from => $to) {
+			$file = preg_replace('@' . $from . '@' , $to, $file);
+		}
+	}
+
+
+	/**
+	 * @param string $pathTranslationConfig
+	 * @return array
+	 */
+	protected function parseEditorPathTranslation(string $pathTranslationConfig)
+	{
+		$pathTranslations = [];
+
+		$mappings = explode('|', $pathTranslationConfig);
+		foreach ($mappings as $mapping) {
+			$parts = explode(',', $mapping);
+			$pathTranslations[trim($parts[0])] = trim($parts[1]);
+		}
+
+		return $pathTranslations;
 	}
 	
 	/**
@@ -507,5 +544,5 @@ class ilErrorHandling extends PEAR
 		
 		return false;
 	}
-	
+
 } // END class.ilErrorHandling
