@@ -114,29 +114,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		} else if ('src' === $column) {
 			$modal = $this->uiFactory
 				->modal()
-				->lightbox([
-					new class($row) implements \ILIAS\UI\Component\Modal\LightboxPage
-					{
-						protected $row = [];
-						public function __construct(array $row)
-						{
-							$this->row = $row;
-						}
-						public function getTitle()
-						{
-							// TODO: Or $this->lng->txt('tos_agreement_document')
-							return $this->row['src'];
-						}
-						public function getDescription()
-						{
-							return '';
-						}
-						public function getComponent()
-						{
-							return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['text']);
-						}
-					}
-				]);
+				->lightbox([new ilTermsOfServiceDocumentLightboxPage($row['src'], $row['text'])]);
 
 			$titleLink = $this->uiFactory
 				->button()

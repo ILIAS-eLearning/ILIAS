@@ -199,7 +199,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 		$editCriteriaBtn = $this->uiFactory
 			->button()
-			->shy($this->lng->txt('tos_tbl_docs_action_edit_criteria'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showCriteria'));
+			->shy($this->lng->txt('tos_tbl_docs_action_edit_criteria'), '#');
 
 		$deleteBtn = $this->uiFactory
 			->button()
@@ -207,12 +207,12 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 		$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
 
-		$dropdown = $this->uiFactory
+		$dropDown = $this->uiFactory
 			->dropdown()
 			->standard([$editBtn, $editCriteriaBtn, $deleteBtn])
 			->withLabel($this->lng->txt('actions'));
 
-		return $this->uiRenderer->render($dropdown);
+		return $this->uiRenderer->render($dropDown);
 	}
 
 	/**
@@ -224,32 +224,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	{
 		$modal = $this->uiFactory
 			->modal()
-			->lightbox([
-				new class($row) implements \ILIAS\UI\Component\Modal\LightboxPage
-				{
-					protected $row = [];
-
-					public function __construct(array $row)
-					{
-						$this->row = $row;
-					}
-
-					public function getTitle()
-					{
-						return $this->row['title'];
-					}
-
-					public function getDescription()
-					{
-						return '';
-					}
-
-					public function getComponent()
-					{
-						return new \ILIAS\UI\Implementation\Component\Legacy\Legacy($this->row['text']);
-					}
-				}
-			]);
+			->lightbox([new ilTermsOfServiceDocumentLightboxPage($row['title'], $row['text'])]);
 
 		$titleLink = $this->uiFactory
 			->button()
