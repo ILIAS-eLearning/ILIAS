@@ -189,7 +189,9 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable('CLASS_ACTIVE', ($i == 0) ? ' active' : '');
 			$tpl->setVariable('TITLE2', htmlentities($page->getTitle(), ENT_QUOTES, 'UTF-8'));
 			$tpl->setVariable('CONTENT', $default_renderer->render($page->getComponent()));
-			$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			if (strlen($page->getDescription()) > 0) {
+				$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			}
 			$tpl->parseCurrentBlock();
 		}
 		if (count($pages) > 1) {
