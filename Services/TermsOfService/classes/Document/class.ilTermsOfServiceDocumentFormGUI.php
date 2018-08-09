@@ -46,7 +46,6 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 * @param \ilObjUser $user
 	 * @param Filesystem $tmpFileSystem
 	 * @param FileUpload $fileUpload
-	 * @param ilLanguage $lng
 	 * @param string $formAction
 	 * @param string $saveCommand
 	 * @param string $cancelCommand
