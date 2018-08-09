@@ -401,6 +401,8 @@ assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
+assessment#:#tst_answer_aggr_answer_header#:#Antwort
+assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
