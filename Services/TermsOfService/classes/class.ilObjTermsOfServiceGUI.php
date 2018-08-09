@@ -67,7 +67,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 					$this->dic['ilErr'],
 					$this->dic->logger()->root(),
 					$this->dic->toolbar(),
-					$this->dic->http()->request(),
+					$this->dic->http(),
 					$this->dic->ui()->factory(),
 					$this->dic->ui()->renderer(),
 					$this->dic->filesystem(),
@@ -154,7 +154,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	{
 		$form = new \ilTermsOfServiceSettingsFormGUI(
 			$this->object,
-			$this->lng,
 			$this->ctrl->getFormAction($this, 'saveSettings'),
 			'saveSettings',
 			$this->rbacsystem->checkAccess('write', $this->object->getRefId())

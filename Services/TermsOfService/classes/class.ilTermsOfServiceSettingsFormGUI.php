@@ -9,9 +9,6 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 	/** @var \ilObjTermsOfService */
 	protected $tos;
 
-	/** @var \ilLanguage */
-	protected $lng;
-
 	/** @var string  */
 	protected $formAction = '';
 
@@ -27,20 +24,17 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 	/**
 	 * ilTermsOfServiceSettingsForm constructor.
 	 * @param \ilObjTermsOfService $tos
-	 * @param \ilLanguage $lng
 	 * @param string $formAction
 	 * @param string $saveCommand
 	 * @param bool $isEditable
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
-		\ilLanguage $lng,
 		string $formAction = '',
 		string $saveCommand = 'saveSettings',
 		bool $isEditable = false
 	) {
 		$this->tos = $tos;
-		$this->lng = $lng;
 		$this->formAction = $formAction;
 		$this->saveCommand = $saveCommand;
 		$this->isEditable = $isEditable;
