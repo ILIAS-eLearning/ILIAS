@@ -1166,7 +1166,7 @@ class ilUtil
 		{
 			try
 			{
-				$parser    = $mailAddressParserFactory->getParser($a_email);
+				$parser    = $mailAddressParserFactory->getParser((string)$a_email);
 				$addresses = $parser->parse();
 				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}
