@@ -579,7 +579,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			if( $this->isParticipantsAnswerFixed($this->getCurrentQuestionId()) )
+			$questionId  = $this->testSequence->getQuestionForSequence(
+				$this->getCurrentSequenceElement()
+			);
+
+			$formQuestionId = $_POST["formquestionid"];
+			if (intval($formQuestionId) != intval($questionId))
+			{
+				// the question id derived from $_GET["sequence"] must always match
+				// the one  encoded in the question answers in $_POST["formquestionid"],
+				// otherwise we'd save one set of answers into the wrong question. happens
+				// on some browsers during autosave ($_GET data - and thus the question
+				// sequence id - is from the question when the autosave was installed,
+				// whereas $_POST data is from a new question the user just switched to).
+				$result = '-IGNORE-';
+			}
+			else if( $this->isParticipantsAnswerFixed($this->getCurrentQuestionId()) )
 			{
 				$result = '-IGNORE-';
 			}
@@ -1204,6 +1219,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("FORMACTION", $formAction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$questionGui->getFormEncodingType().'"');
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		$this->tpl->setVariable("FORM_QUESTION_ID", $questionGui->getQuestionId());
 	}
 
 	protected function showQuestionEditable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse)

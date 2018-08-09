@@ -394,6 +394,11 @@ abstract class assQuestionGUI
 		return $this->questionActionCmd;
 	}
 
+	public function getQuestionId()
+	{
+		return $this->object->getId();
+	}
+
 	/**
 	 * Evaluates a posted edit form and writes the form data in the question object
 	 * @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -2233,6 +2238,7 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		$this->tpl->setVariable("FORM_QUESTION_ID", $this->getQuestionId());
 	}
 	
 	// hey: prevPassSolutions - $pass will be passed always from now on
