@@ -195,24 +195,33 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 		$editBtn = $this->uiFactory
 			->button()
-			->shy($this->lng->txt('edit'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showEditDocumentForm'));
-
-		$editCriteriaBtn = $this->uiFactory
-			->button()
-			->shy($this->lng->txt('tos_tbl_docs_action_edit_criteria'), '#');
+			->shy(
+				$this->lng->txt('edit'),
+				$this->ctrl->getLinkTarget($this->getParentObject(), 'showEditDocumentForm')
+			);
 
 		$deleteBtn = $this->uiFactory
 			->button()
-			->shy($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments'));
+			->shy(
+				$this->lng->txt('delete'),
+				$this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments')
+			);
+
+		$addCriterionBtn = $this->uiFactory
+			->button()
+			->shy(
+				$this->lng->txt('tos_tbl_docs_action_add_criterion'),
+				$this->ctrl->getLinkTarget($this->getParentObject(), 'showAddCriterionForm')
+			);
 
 		$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
 
 		$dropDown = $this->uiFactory
 			->dropdown()
-			->standard([$editBtn, $editCriteriaBtn, $deleteBtn])
+			->standard([$editBtn, $deleteBtn, $addCriterionBtn])
 			->withLabel($this->lng->txt('actions'));
 
-		return $this->uiRenderer->render($dropDown);
+		return $this->uiRenderer->render([$dropDown]);
 	}
 
 	/**

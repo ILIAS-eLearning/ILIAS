@@ -3,9 +3,9 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilTermsOfServiceDocumentGUI
@@ -43,8 +43,8 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/** @varRenderer */
 	protected $uiRenderer;
 
-	/** @var ServerRequestInterface */
-	protected $request;
+	/** @var ILIAS\HTTP\GlobalHttpState */
+	protected $httpState;
 
 	/** @var \ilToolbarGUI */
 	protected $toolbar;
@@ -66,7 +66,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	 * @param \ilErrorHandling $error
 	 * @param \ilLogger $log
 	 * @param \ilToolbarGUI $toolbar
-	 * @param ServerRequestInterface $request
+	 * @param GlobalHttpState $httpState
 	 * @param Factory $uiFactory
 	 * @param Renderer $uiRenderer
 	 * @param Filesystems $fileSystems,
@@ -82,7 +82,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		\ilErrorHandling $error,
 		\ilLogger $log,
 		\ilToolbarGUI $toolbar,
-		ServerRequestInterface $request,
+		GlobalHttpState $httpState,
 		Factory $uiFactory,
 		Renderer $uiRenderer,
 		Filesystems $fileSystems,
@@ -98,7 +98,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$this->user = $user;
 		$this->log = $log;
 		$this->toolbar = $toolbar;
-		$this->request  = $request;
+		$this->httpState  = $httpState;
 		$this->uiFactory  = $uiFactory;
 		$this->uiRenderer = $uiRenderer;
 		$this->fileSystems = $fileSystems;
@@ -236,7 +236,6 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$saveCommand = 'saveAddDocumentForm';
 
 		if ($document->getId() > 0) {
-			$this->ctrl->setParameter($this, 'tos_id', $document->getId());
 			$formAction = $this->ctrl->getFormAction($this, 'saveEditDocumentForm');
 			$saveCommand = 'saveEditDocumentForm';
 		}
@@ -267,7 +266,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = $this->getDocumentForm(new ilTermsOfServiceDocument());
 		if ($form->saveObject()) {
 			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-			$this->ctrl->redirect($this, 'settings');
+			$this->ctrl->redirect($this, 'showDocuments');
 		} else if ($form->hasTranslatedError()) {
 			\ilUtil::sendFailure($form->getTranslatedError());
 		}
@@ -331,7 +330,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = $this->getDocumentForm($document);
 		if ($form->saveObject()) {
 			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-			$this->ctrl->redirect($this, 'settings');
+			$this->ctrl->redirect($this, 'showDocuments');
 		} else if ($form->hasTranslatedError()) {
 			\ilUtil::sendFailure($form->getTranslatedError());
 		}
@@ -346,9 +345,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	{
 		$documents = [];
 
-		$documentIds = $this->request->getParsedBody()['tos_id'] ?? [];
+		$documentIds = $this->httpState->request()->getParsedBody()['tos_id'] ?? [];
 		if (!is_array($documentIds) || 0 === count($documentIds)) {
-			$documentIds = $this->request->getQueryParams()['tos_id'] ? [$this->request->getQueryParams()['tos_id']] : [];
+			$documentIds = $this->httpState->request()->getQueryParams()['tos_id'] ? [$this->httpState->request()->getQueryParams()['tos_id']] : [];
 		}
 
 		if (0 === count($documentIds)) {
@@ -384,7 +383,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			}, $documents);
 		}
 
-		$isDeletionRequest = (bool)($this->request->getQueryParams()['delete'] ?? false);
+		$isDeletionRequest = (bool)($this->httpState->request()->getQueryParams()['delete'] ?? false);
 
 		if ($isDeletionRequest) {
 			foreach ($documents as $document) {
@@ -430,7 +429,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$sorting = $this->request->getParsedBody()['sorting'] ?? [];
+		$sorting = $this->httpState->request()->getParsedBody()['sorting'] ?? [];
 		if (!is_array($sorting) || 0 === count($sorting)) {
 			$this->showDocuments();
 			return;
@@ -458,14 +457,65 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	}
 
 	/**
+	 * @param ilTermsOfServiceDocument $document
+	 * @return ilTermsOfServiceCriterionFormGUI
+	 */
+	protected function getCriterionForm(ilTermsOfServiceDocument $document): \ilTermsOfServiceCriterionFormGUI
+	{
+		$this->ctrl->setParameter($this, 'tos_id', $document->getId());
+
+		$formAction = $this->ctrl->getFormAction($this, 'saveAddCriterionForm');
+		$saveCommand = 'saveAddCriterionForm';
+
+		$form = new \ilTermsOfServiceCriterionFormGUI(
+			$document,
+			$formAction,
+			$saveCommand,
+			'showDocuments'
+		);
+
+		return $form;
+	}
+
+	/**
 	 *
 	 */
-	protected function showCriteria()
+	protected function saveAddCriterionForm()
 	{
 		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		// TODO
+		$form = $this->getCriterionForm(new ilTermsOfServiceDocument());
+		if ($form->saveObject()) {
+			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'showDocuments');
+		} else if ($form->hasTranslatedError()) {
+			\ilUtil::sendFailure($form->getTranslatedError());
+		}
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 *
+	 */
+	protected function showAddCriterionForm()
+	{
+		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		$documents = $this->getDocumentsByServerRequest();
+		if (1 !== count($documents)) {
+			$this->showDocuments();
+			return;
+		}
+
+		$document = new \ilTermsOfServiceDocument(0);
+		$document = $document->buildFromArray(current($documents));
+
+		$form = $this->getCriterionForm($document);
+		$this->tpl->setContent($form->getHTML());
 	}
 }
