@@ -329,6 +329,18 @@ abstract class assQuestion
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
+	
+	protected static $forcePassResultsUpdateEnabled = false;
+	
+	public static function setForcePassResultUpdateEnabled($forcePassResultsUpdateEnabled)
+	{
+		self::$forcePassResultsUpdateEnabled = $forcePassResultsUpdateEnabled;
+	}
+	
+	public static function isForcePassResultUpdateEnabled()
+	{
+		return self::$forcePassResultsUpdateEnabled;
+	}
 
 	public static function isAllowedImageMimeType($mimeType)
 	{
@@ -3758,7 +3770,7 @@ abstract class assQuestion
 				);
 			}
 
-			if($old_points != $points || !$rowsnum)
+			if(self::isForcePassResultUpdateEnabled() || $old_points != $points || !$rowsnum)
 			{
 				assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
 				// finally update objective result
