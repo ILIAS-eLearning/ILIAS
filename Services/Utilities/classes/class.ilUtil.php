@@ -1157,6 +1157,10 @@ class ilUtil
 
 		$ilErr = $DIC["ilErr"];
 
+		if (null === $a_email || !is_string($a_email)) {
+			return false;
+		}
+
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
