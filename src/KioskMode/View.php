@@ -31,17 +31,24 @@ interface View {
 	/**
 	 * Update the state and the object based on the provided command and post-data.
 	 *
-	 * Commands are defined via the post_link-closure provided to render.
+	 * Commands are defined via the url-builder provided to render.
+	 *
+	 * The POSTed data will be passed via $post.
 	 */
 	public function updatePost(State $state, string $command, array $post) : State;
 
 	/**
 	 * Render a state using the ui-factory and URLs from the builder.
+	 *
+	 * Links inside the content that should lead to kiosk-mode-view again (forms)
+	 * must be created via the URLBuilder.
+	 *
+	 * If data was POSTed to the kiosk-mode-view, it will be passed via $post.
 	 */
 	public function render(
 		State $state,
 		UI\Factory $factory,
-		URLBuilder $post_link,
+		URLBuilder $url_builder,
 		array $post = null
 	) : UI\Component\Component;
 }
