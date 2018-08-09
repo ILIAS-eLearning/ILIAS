@@ -22,10 +22,11 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 * 
 	 * @access public
 	 * @param integer $questionId
+	 * @param integer $questionIndex
 	 * @param integer $answerIndex
 	 * @return string $specificAnswerFeedbackTestPresentationHTML
 	 */
-	public function getSpecificAnswerFeedbackTestPresentation($questionId, $answerIndex)
+	public function getSpecificAnswerFeedbackTestPresentation($questionId, $questionIndex, $answerIndex)
 	{
 		return null;
 	}
@@ -68,10 +69,11 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 *
 	 * @access public
 	 * @param integer $questionId
+	 * @param integer $questionIndex
 	 * @param boolean $answerIndex
 	 * @return string $feedbackContent
 	 */
-	public function getSpecificAnswerFeedbackContent($questionId, $answerIndex)
+	public function getSpecificAnswerFeedbackContent($questionId, $questionIndex, $answerIndex)
 	{
 		return '';
 	}
@@ -94,11 +96,12 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 *
 	 * @access public
 	 * @param integer $questionId
+	 * @param integer $questionIndex
 	 * @param integer $answerIndex
 	 * @param string $feedbackContent
 	 * @return integer $feedbackId
 	 */
-	public function saveSpecificAnswerFeedbackContent($questionId, $answerIndex, $feedbackContent)
+	public function saveSpecificAnswerFeedbackContent($questionId, $questionIndex, $answerIndex, $feedbackContent)
 	{
 		return null;
 	}
@@ -144,10 +147,11 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 * 
 	 * @access public 
 	 * @param integer $questionId
+	 * @param integer $questionIndex
 	 * @param integer $answerIndex
 	 * @return string $specificAnswerFeedbackExportPresentation
 	 */
-	public function getSpecificAnswerFeedbackExportPresentation($questionId, $answerIndex)
+	public function getSpecificAnswerFeedbackExportPresentation($questionId, $questionIndex, $answerIndex)
 	{
 		return null;
 	}
@@ -158,10 +162,11 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 * 
 	 * @access public
 	 * @param integer $questionId
+	 * @param integer $questionIndex
 	 * @param integer $answerIndex
 	 * @param string $feedbackContent
 	 */
-	public function importSpecificAnswerFeedback($questionId, $answerIndex, $feedbackContent)
+	public function importSpecificAnswerFeedback($questionId, $questionIndex, $answerIndex, $feedbackContent)
 	{
 	}
 }

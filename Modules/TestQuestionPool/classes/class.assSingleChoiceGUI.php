@@ -562,7 +562,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				if($feedbackOutputRequired)
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-						$this->object->getId(), $answer_id
+						$this->object->getId(),0, $answer_id
 					);
 					if (strlen($fb))
 					{
@@ -676,7 +676,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $choiceKeys;
 	}
 	
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		// No return value, this question type supports inline specific feedback.
 		$output = "";
@@ -923,7 +923,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 		if($feedbackOutputRequired)
 		{
-			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 			if(strlen($fb))
 			{
 				$template->setCurrentBlock("feedback");

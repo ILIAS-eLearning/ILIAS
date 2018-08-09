@@ -1876,6 +1876,9 @@ class SurveyQuestion
 	*/
 	function QTIMaterialToString($a_material)
 	{
+		$svy_log = ilLoggerFactory::getLogger("svy");
+		$svy_log->debug("material count: ".$a_material->getMaterialCount());
+
 		$result = "";
 		for ($i = 0; $i < $a_material->getMaterialCount(); $i++)
 		{
