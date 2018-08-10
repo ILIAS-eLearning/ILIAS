@@ -11491,10 +11491,10 @@ common#:#il_blog_contributor#:#博客贡献者
 rbac#:#blog_contribute#:#用户可以贡献
 blog#:#blog_contribute_other_roles#:#以下角色给予一个活跃的"贡献"权限：%s 。
 dcl#:#dcl_no_content_warning#:#注意，数据收集是在线的，但还没有内容！
-dcl#:#dcl_empty_view#:#删除这个视图
-dcl#:#dcl_confirm_delete_view_title#:#您确定要删除这个视图？
-dcl#:#dcl_confirm_delete_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
-dcl#:#dcl_empty_view_success#:#视图定义成功被删除。
+dcl#:#dcl_empty_detailed_view#:#删除这个视图
+dcl#:#dcl_confirm_delete_detailed_view_title#:#您确定要删除这个视图？
+dcl#:#dcl_confirm_delete_detailed_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
+dcl#:#dcl_empty_detailed_view_success#:#视图定义成功被删除。
 rating#:#rating_number_votes#:#%s 评级
 administration#:#system_check_no_owner#:#无主的对象
 blog#:#blog_import#:#导入博客
@@ -15968,3 +15968,5 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on an
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
 chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable

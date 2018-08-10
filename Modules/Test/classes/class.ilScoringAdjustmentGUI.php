@@ -301,6 +301,7 @@ class ilScoringAdjustmentGUI
 			}
 		}
 
+		$this->tpl->addCss('Modules/Test/templates/default/ta.css');
 		$answers_view = $question->getAggregatedAnswersView($relevant_answers);
 
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
