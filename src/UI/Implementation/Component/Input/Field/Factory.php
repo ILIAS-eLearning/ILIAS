@@ -109,7 +109,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function password($label, $byline = null) {
-		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $this->signal_generator);
 	}
 
 

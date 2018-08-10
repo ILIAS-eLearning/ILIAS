@@ -1,8 +1,19 @@
-<table>
-    <!-- BEGIN aggregaterow -->
-    <tr>
-        <td>{OPTION}</td>
-        <td>{COUNT}</td>
-    </tr>
-    <!-- END aggregaterow -->
+<table class="il_tst_answer_aggregation">
+    <!-- BEGIN header -->
+    <thead>
+        <tr>
+            <!-- BEGIN headercell -->
+            <th>{HEADER}</th>
+            <!-- END headercell -->
+        </tr>
+    </thead>
+    <!-- END header -->
+    <tbody>
+        <!-- BEGIN aggregaterow -->
+        <tr>
+            <td class="answer_option">{OPTION}</td>
+            <td class="answer_frequency">{COUNT}</td>
+        </tr>
+        <!-- END aggregaterow -->
+    </tbody>
 </table>
