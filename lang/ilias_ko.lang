@@ -8761,8 +8761,8 @@ dcl#:#dcl_confirm_delete_fields#:#정말이 필드를 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_record#:#이 레코드를 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_records#:#이 레코드를 정말 삭제 하시겠습니까?
 dcl#:#dcl_confirm_delete_table#:#내용이나 계층이 포함 된 테이블을 정말 삭제 하시겠습니까?
-dcl#:#dcl_confirm_delete_view_text#:#이 테이블의 기록보기 정의는 비가 역적으로 제거 되어도 레코드와 필드 자체는 변경되지 않습니다.
-dcl#:#dcl_confirm_delete_view_title#:#이보기를 정말 삭제 하시겠습니까?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#이 테이블의 기록보기 정의는 비가 역적으로 제거 되어도 레코드와 필드 자체는 변경되지 않습니다.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#이보기를 정말 삭제 하시겠습니까?
 dcl#:#dcl_confirm_storing_records#:#사용하여 입력을 확인하십시오.
 dcl#:#dcl_confirm_storing_records_no_permission#:#이후 기록을 수정할 수있는 권한이 없습니다.
 dcl#:#dcl_copy#:#데이터 수집을 작성
@@ -8811,8 +8811,8 @@ dcl#:#dcl_edit_type_non_info#:#새 레코드 작성은 권한 설정 편집이 �
 dcl#:#dcl_edit_type_unlim#:#무제한
 dcl#:#dcl_edit_type_unlim_info#:#추가 · 편집 권한을 가진 사용자는 항목의 추가 · 편집 할 수 있습니다
 dcl#:#dcl_editable_in_table_gui#:#테이블 뷰에 투표하십시오.
-dcl#:#dcl_empty_view#:#이보기 삭제
-dcl#:#dcl_empty_view_success#:#뷰 정의가 제대로 제거되었습니다.
+dcl#:#dcl_empty_detailed_view#:#이보기 삭제
+dcl#:#dcl_empty_detailed_view_success#:#뷰 정의가 제대로 제거되었습니다.
 dcl#:#dcl_err_formula_field_not_found#:#제목 '% s'필드를 찾을 수 없습니다
 dcl#:#dcl_error_parsing_expression#:#구문 분석 오류 일
 dcl#:#dcl_export#:#내보내기
@@ -15932,6 +15932,7 @@ dcl#:#dcl_no_export_content_available#:#No data available for export.###22 11 20
 dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###22 11 2017 new variable
 iass#:#iass_copy#:#Copy Individual Assessment###22 11 2017 new variable
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism###22 11 2017 new variable
+<<<<<<< HEAD
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###10 01 2018 new variable
 style#:#skin_version#:#Skin Version###10 01 2018 new variable
 style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###10 01 2018 new variable
@@ -15971,3 +15972,42 @@ chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
 ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable
+=======
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###10 01 2018 new variable
+style#:#skin_version#:#Skin Version###10 01 2018 new variable
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###10 01 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###10 01 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###10 01 2018 new variable
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###10 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###26 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###26 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###26 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###26 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###26 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###26 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###26 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###26 01 2018 new variable
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###26 01 2018 new variable
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
+wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
+dateplaner#:#crs_start#:#Course starts###25 04 2018 new variable
+dateplaner#:#crs_end#:#Course ends###25 04 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.###28 06 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###28 06 2018 new variable
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###28 06 2018 new variable
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+>>>>>>> b7932e0de8a0a9828f4dd096b088424314fecd85

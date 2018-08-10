@@ -12271,14 +12271,14 @@ rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
-dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_empty_detailed_view#:#Delete this detailed view
 dcl#:#dcl_activate_view#:#Activate this view
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
-dcl#:#dcl_confirm_delete_view_text#:#The View Definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
-dcl#:#dcl_empty_view_success#:#The View Definition has been deleted successfully.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this detailed view?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The detailed view definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
+dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects

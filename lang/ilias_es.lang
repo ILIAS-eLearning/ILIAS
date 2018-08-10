@@ -6729,8 +6729,8 @@ dcl#:#dcl_checked#:#Comprobado.
 dcl#:#dcl_confirm_delete_field#:#¿Realmente desea borrar este campo?
 dcl#:#dcl_confirm_delete_record#:#¿Eliminar este registro?
 dcl#:#dcl_confirm_delete_table#:#¿Está seguro de que quiere eliminar esta tabla con su contenido y estructura?
-dcl#:#dcl_confirm_delete_view_text#:#La definición de vista de estos registros de la tabla se borrará definitivamente, pero los registros y campos no serán modificados
-dcl#:#dcl_confirm_delete_view_title#:#Estás seguro que quieres borrar la vista?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#La definición de vista de estos registros de la tabla se borrará definitivamente, pero los registros y campos no serán modificados
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Estás seguro que quieres borrar la vista?
 dcl#:#dcl_copy#:#Copiar colección de datos
 dcl#:#dcl_create_field#:#Crear campo
 dcl#:#dcl_create_fields#:#Por favor, crea al menos un campo en la pestaña "Lista de Campos"
@@ -6757,8 +6757,8 @@ dcl#:#dcl_edit_type_non_info#:#Crear nuevos registros requiere permiso para edit
 dcl#:#dcl_edit_type_non#:#No editable###deprecated 
 dcl#:#dcl_edit_type_unlim#:#Ilimitado###deprecated 
 dcl#:#dcl_edit_type_unlim_info#:#Usuarios con permisos para añadir/editar pueden añadir/editar entradas###deprecated 
-dcl#:#dcl_empty_view#:#Borrar esta vista
-dcl#:#dcl_empty_view_success#:#La definición de vista se ha borrado correctamente
+dcl#:#dcl_empty_detailed_view#:#Borrar esta vista
+dcl#:#dcl_empty_detailed_view_success#:#La definición de vista se ha borrado correctamente
 dcl#:#dcl_export_enabled#:#Permitir la función de exportar para todos los usuarios
 dcl#:#dcl_export#:#Exportar###deprecated 
 dcl#:#dcl_export_table_excel#:#Exportar .xls###deprecated 
