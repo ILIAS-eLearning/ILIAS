@@ -22521,7 +22521,10 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
-<#5291>
+<#5291> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?><#5291>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
