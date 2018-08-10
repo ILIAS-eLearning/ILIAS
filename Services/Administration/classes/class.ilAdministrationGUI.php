@@ -219,7 +219,6 @@ class ilAdministrationGUI
 					
 					$class_path = $this->ctrl->lookupClassPath($next_class);
 					// get gui class instance
-					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
 						|| $next_class == "ilobjroletemplategui"))
