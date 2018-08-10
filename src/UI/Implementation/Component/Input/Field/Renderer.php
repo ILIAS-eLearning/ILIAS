@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -70,6 +71,9 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($input instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -291,6 +295,10 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Select):
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
 			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(
@@ -353,6 +361,26 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl;
 	}
 
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		global $DIC;
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked');
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
 
 	/**
 	 * Render revelation-glyphs for password and register signals/functions
@@ -403,7 +431,8 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\Input\Field\Text::class,
+		return [
+			Component\Input\Field\Text::class,
 		        Component\Input\Field\Numeric::class,
 		        Component\Input\Field\Group::class,
 		        Component\Input\Field\Section::class,
@@ -411,6 +440,8 @@ class Renderer extends AbstractComponentRenderer {
 		        Component\Input\Field\Tag::class,
 		        Component\Input\Field\DependantGroup::class,
 		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class];
+		        Component\Input\Field\Select::class,
+		        Component\Input\Field\MultiSelect::class
+		];
 	}
 }

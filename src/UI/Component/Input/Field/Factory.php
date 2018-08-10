@@ -255,7 +255,6 @@ interface Factory {
 	 *     4: >
 	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
 	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
-	 *      (Not yet part of the KitchenSink).
 	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
@@ -348,5 +347,41 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Input\Field\Select
 	 */
 	public function select($label, array $options, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A multi-select is used to allow users to pick several options from a list.
+	 *   composition: >
+	 *     The multi-select field will render labeled checkboxes according to given options.
+	 *   effect: >
+	 *
+	 *   rivals:
+	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
+	 *     Tag field: Use a tag input when the user is able to extend the list of given options.
+	 *     Select field: Use a select input when the user's choice is limited to one option.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A multi-select input SHOULD be used when a user has to choose from a finite list of options
+	 *      which cannot be extended by the user's input and where more than one choice can be made.
+	 *     2: >
+	 *      A multi-select input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     3: >
+	 *      A multi-select input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one option can be selected. A Select MUST be used in this case
+	 *
+	 * ---
+	 * @param string 	$label
+	 * @param array<string,string> 	$options 	with the select options as value=>label.
+	 * @param string 	$byline
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
+	 */
+	public function multiselect($label, array $options, $byline = null);
 }
 

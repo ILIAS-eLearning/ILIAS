@@ -8506,6 +8506,10 @@ ul.breadcrumb li:hover {
 .revealed.il-input-password .revelation-mask {
   display: block;
 }
+.il-input-multiselect {
+  list-style: none;
+  padding-left: 0px;
+}
 .il-table-presentation-viewcontrols {
   height: 40px;
 }
