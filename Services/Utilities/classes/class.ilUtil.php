@@ -4908,7 +4908,7 @@ class ilUtil
 
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
-				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+				$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);
