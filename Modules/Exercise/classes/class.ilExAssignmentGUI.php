@@ -367,6 +367,11 @@ class ilExAssignmentGUI
 			}
 		}
 
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
+
 		include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
 		ilExPeerReviewGUI::getOverviewContent($a_info, $submission);
 
@@ -382,10 +387,6 @@ class ilExAssignmentGUI
 
 		$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
 
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($a_info, $a_ass);
-		}
 	}
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)

@@ -43,8 +43,11 @@ if(IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"],
 	$uri = ilSoapFunctions::buildHTTPPath() . '/webservice/soap/server.php';
 	if (isset($_GET['client_id'])) {
 		$uri .= '?client_id=' . $_GET['client_id'];
+		$wsdl = $uri . '&wsdl';
+	} else {
+		$wsdl = $uri . '?wsdl';
 	}
-	$soapServer = new SoapServer(null, array('uri' => $uri));
+	$soapServer = new SoapServer($wsdl, array('uri' => $uri));
 	$soapServer->setObject(new ilSoapFunctions());
 	$soapServer->handle();
 }

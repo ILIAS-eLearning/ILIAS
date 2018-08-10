@@ -5161,6 +5161,7 @@ return array(
     'ilOnScreenChatAppEventListener' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
     'ilOnScreenChatGUI' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
     'ilOnScreenChatMenuGUI' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
+    'ilOnScreenChatUserDataProvider' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserDataProvider.php',
     'ilOnScreenChatUserUserAutoComplete' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',
     'ilOnlineTracking' => $baseDir . '/../../Services/Tracking/classes/class.ilOnlineTracking.php',
     'ilOpenLayersMapGUI' => $baseDir . '/../../Services/Maps/classes/class.ilOpenLayersMapGUI.php',

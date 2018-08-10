@@ -1215,7 +1215,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 // fau.
 		}
-		else
+		elseif( $this->object->isPostponingEnabled() )
 		{
 			$questionNavigationGUI->setSkipQuestionLinkTarget(
 				$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -2828,5 +2828,43 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		return $fixedSeed;
+	}
+	
+	protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
+	{
+		if( !isset($_SESSION['forced_feedback_navigation_url']) )
+		{
+			$_SESSION['forced_feedback_navigation_url'] = array();
+		}
+		
+		$_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
+	}
+	
+	protected function getRegisteredForcedFeedbackNavUrl()
+	{
+		if( !isset($_SESSION['forced_feedback_navigation_url']) )
+		{
+			return null;
+		}
+		
+		if( !isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]) )
+		{
+			return null;
+		}
+		
+		return $_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()];
+	}
+	
+	protected function isForcedFeedbackNavUrlRegistered()
+	{
+		return !empty($this->getRegisteredForcedFeedbackNavUrl());
+	}
+	
+	protected function unregisterForcedFeedbackNavUrl()
+	{
+		if( isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]) )
+		{
+			unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
+		}
 	}
 }

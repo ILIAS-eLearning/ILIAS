@@ -272,6 +272,7 @@ class ilECSCmsTreeSynchronizer
 			// Create category
 			include_once './Modules/Category/classes/class.ilObjCategory.php';
 			$cat = new ilObjCategory();
+			$cat->setOwner(SYSTEM_USER_ID);
 			$cat->setTitle($data->getTitle());
 			$cat->create(); // true for upload
 			$cat->createReference();

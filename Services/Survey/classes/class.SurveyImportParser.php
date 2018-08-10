@@ -380,7 +380,7 @@ class SurveyImportParser extends ilSaxParser
 						{
 							// import an mediaobject which was inserted using tiny mce
 							if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
-							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));													
+							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));
 						}
 					}
 				break;

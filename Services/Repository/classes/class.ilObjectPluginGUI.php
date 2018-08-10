@@ -469,7 +469,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * Add items to info screen
      * @param ilInfoScreenGUI $info
      */
-	function addInfoItems(ilInfoScreenGUI $info)
+	function addInfoItems($info)
 	{
 	}
 

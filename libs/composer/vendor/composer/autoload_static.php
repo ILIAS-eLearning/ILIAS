@@ -5353,6 +5353,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilOnScreenChatAppEventListener' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
         'ilOnScreenChatGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
         'ilOnScreenChatMenuGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
+        'ilOnScreenChatUserDataProvider' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserDataProvider.php',
         'ilOnScreenChatUserUserAutoComplete' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',
         'ilOnlineTracking' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilOnlineTracking.php',
         'ilOpenLayersMapGUI' => __DIR__ . '/../..' . '/../../Services/Maps/classes/class.ilOpenLayersMapGUI.php',

@@ -1570,8 +1570,8 @@ class ilObjMediaObject extends ilObject
 		$lng = $DIC->language();
 		
 		// determine width and height of known image types
-		$width = 640;
-		$height = 360;
+		//$width = 640;
+		//$height = 360;
 		$info = "";
 		
 		if ($a_format == "audio/mpeg")

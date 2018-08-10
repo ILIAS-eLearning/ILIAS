@@ -23,6 +23,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	private $tpl_type = '';
 	
 	private $show_admin_permissions = false;
+	private $show_change_existing_objects = true;
 	
 	private static $template_permissions = NULL;
 	
@@ -66,7 +67,23 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		$this->initTemplatePermissions();
 		
 	}
-	
+
+	/**
+	 * @param bool $a_status
+	 */
+	public function setShowChangeExistingObjects($a_status)
+	{
+		$this->show_change_existing_objects = $a_status;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getShowChangeExistingObjects()
+	{
+		return $this->show_change_existing_objects;
+	}
+
 	/**
 	 * 
 	 * @return 
@@ -166,7 +183,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('ce_desc_td');
 			$this->tpl->setVariable('CE_DESC_TYPE',$this->getTemplateType());
 			$this->tpl->setVariable('CE_LONG',$this->lng->txt('change_existing_object_type_desc'));
-			
+
 			if($objDefinition->isSystemObject($this->getTemplateType()))
 			{
 				$this->tpl->setVariable("TXT_CE",
@@ -181,7 +198,6 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 					? ilObjectPlugin::lookupTxtById($this->getTemplateType(),
 						"objs_".$this->getTemplateType())
 					: $this->lng->txt('objs_'.$this->getTemplateType());
-				
 				$this->tpl->setVariable('TXT_CE',
 					$this->lng->txt('change_existing_prefix').' '.
 					$pl_txt.' '.
@@ -293,7 +309,10 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$rows[] = $perm;
 		}
 
-		if(!$this->show_admin_permissions)
+		if(
+			!$this->show_admin_permissions &&
+			$this->getShowChangeExistingObjects()
+		)
 		{
 			$rows[] = array('show_ce' => 1);
 		}

@@ -313,6 +313,8 @@ assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
+assessment#:#tst_answer_aggr_answer_header#:#Answer
+assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
@@ -713,6 +715,7 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -3833,7 +3836,7 @@ content#:#cont_current_chapter#:#Current Chapter
 content#:#cont_current_page#:#Current Page
 content#:#cont_current_style#:#Current Style
 content#:#cont_current_version#:#Current Version
-content#:#cont_custom_size#:#Custom Size
+content#:#cont_custom_size#:#Fixed Size
 content#:#cont_custom#:#Custom
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
@@ -4166,7 +4169,8 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows you to
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_resize_img#:#Resize Image File
-content#:#cont_resource_size#:#Original Resource Size
+content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
+content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
 content#:#cont_resource#:#Resource
 content#:#cont_resources#:#Resources
@@ -7788,7 +7792,9 @@ rbac#:#log#:#Log
 rbac#:#rbac_log#:#Log
 rbac#:#rbac_changes#:#Changes
 rbac#:#rbac_log_operation_add#:#Added Operation for "%s"
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"
 rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"
 rbac#:#rbac_log_source_object#:#Source object
 rbac#:#rbac_log_edit_permissions#:#Edit Permissions
 rbac#:#rbac_log_move_object#:#Move Object
@@ -9915,6 +9921,7 @@ common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_noreg#:#No Registration Possible
 common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg#:#Registration
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter#:#Online-Status
@@ -9928,6 +9935,7 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_noreg#:#No Registration Possible
 common#:#grp_list_reg_period#:#Registration Period
+common#:#grp_list_reg#:#Registration
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
@@ -10043,8 +10051,9 @@ rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
+dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -10288,6 +10297,7 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -10375,6 +10385,9 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Crashed
 cron#:#cron_result_status_reset#:#Reset
+cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
+cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated because it has been inactive for 3 hours
 cron#:#cron_action_activate#:#Activate
 cron#:#cron_action_deactivate#:#Deactivate
 cron#:#cron_action_reset#:#Reset
@@ -10405,8 +10418,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -13716,6 +13727,7 @@ chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of th
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
+chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13816,7 +13828,6 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
@@ -14158,7 +14169,7 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -14184,3 +14195,4 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.

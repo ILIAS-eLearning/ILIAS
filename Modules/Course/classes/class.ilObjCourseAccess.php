@@ -463,7 +463,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		else
 		{
 			$registration_possible = false;
-			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
+			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg');
 			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 		}
 		

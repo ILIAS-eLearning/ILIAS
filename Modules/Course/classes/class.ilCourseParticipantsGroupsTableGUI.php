@@ -30,7 +30,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->ref_id = $ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 
-		$this->setId("tblcrsprtgrp");
+		$this->setId('tblcrsprtgrp_'.$ref_id);
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		// $this->setTitle($lng->txt("tr_summary"));

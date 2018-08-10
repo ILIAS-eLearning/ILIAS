@@ -292,7 +292,7 @@ class assClozeTestExport extends assQuestionExport
 					}
 					break;
 				case CLOZE_TEXT:
-					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
+					foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"
@@ -321,7 +321,7 @@ class assClozeTestExport extends assQuestionExport
 					}
 					break;
 				case CLOZE_NUMERIC:
-					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
+					foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"

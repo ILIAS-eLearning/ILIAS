@@ -806,17 +806,26 @@ class ilObjSession extends ilObject
 			if(in_array($user_id, $parts->getParticipants()))
 			{
 				$this->session_logger->notice('User on waiting list already session member: ' . $user_id);
+				continue;
 			}
 			
 			if($this->enabledRegistration())
 			{
 				$this->session_logger->debug('Registration enabled: register user');
 				$parts->register($user_id);
+				$parts->sendNotification(
+					ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+					$user_id
+				);
 			}
 			else
 			{
 				$this->session_logger->debug('Registration disabled: set user status to participated.');
 				$parts->getEventParticipants()->updateParticipation($user_id, true);
+				$parts->sendNotification(
+					ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+					$user_id
+				);
 			}
 			
 			$session_waiting_list->removeFromList($user_id);

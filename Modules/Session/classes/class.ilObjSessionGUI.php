@@ -1824,7 +1824,31 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		}
 	}
-	
+
+
+	/**
+	 * Redirect to parent content page
+	 */
+	protected function redirectToParentContentPageObject()
+	{
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ctrl = $DIC->ctrl();
+
+		$parent_id = $tree->getParentId($this->object->getRefId());
+
+		// #11650
+		$parent_type = ilObject::_lookupType($parent_id, true);
+		$parent_class = ($parent_type == "grp")
+			? "ilObjGroupGUI"
+			: "ilObjCourseGUI";
+
+		$ctrl->setParameterByClass($parent_class, "ref_id", $parent_id);
+		$ctrl->redirectByClass($parent_class, "view");
+	}
+
+
 	/**
 	 * Build tabs
 	 *
@@ -1842,11 +1866,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// #11650
 		$parent_type = ilObject::_lookupType($parent_id, true);		
 
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
 		$this->tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
-			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-		
+			$ilCtrl->getLinkTarget($this, "redirectToParentContentPage"));
+
 		$this->tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 

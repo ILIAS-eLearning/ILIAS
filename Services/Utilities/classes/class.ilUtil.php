@@ -2213,71 +2213,29 @@ class ilUtil
 	public static function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
 		$a_exit_after = true)
 	{
+		global $DIC;
 		// should we fail silently?
 		if(!file_exists($a_file))
 		{
 			return false;
-		}	
+		}
+		$delivery = new ilFileDelivery($a_file);
 
 		if ($isInline) {
-			$disposition = "inline"; // "inline" to view file in browser
+			$delivery->setDisposition(ilFileDelivery::DISP_INLINE);
 		} else {
-			$disposition =  "attachment"; // "attachment" to download to hard disk
-			//$a_mime = "application/octet-stream"; // override mime type to ensure that no browser tries to show the file anyway.
+			$delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
 		}
-	// END WebDAV: Show file in browser or provide it as attachment
 
 		if(strlen($a_mime))
 		{
-			$mime = $a_mime;
-		}
-		else
-		{
-			$mime = "application/octet-stream"; // or whatever the mime type is
-		}
-	// BEGIN WebDAV: Removed broken HTTPS code.
-	// END WebDAV: Removed broken HTTPS code.
-		if ($disposition == "attachment")
-		{
-			header("Cache-control: private");
-		}
-		else
-		{
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Pragma: no-cache");
+			$delivery->setMimeType($a_mime);
 		}
 
-		$ascii_filename = ilUtil::getASCIIFilename($a_filename);
-
-		header("Content-Type: $mime");
-		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
-		header("Content-Description: ".$ascii_filename);
-		
-		// #7271: if notice gets thrown download will fail in IE
-		$filesize = @filesize($a_file);
-		if ($filesize)
-		{
-			header("Content-Length: ".(string)$filesize);
-		}
-
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		#if($_SERVER['HTTPS'])
-		if(ilHTTPS::getInstance()->isDetected())
-		{
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-		}
-
-		header("Connection: close");
-		ilUtil::readFile( $a_file );
-		if ($removeAfterDelivery)
-		{
-			unlink ($a_file);
-		}
-		if ($a_exit_after)
-		{
-			exit;
-		}
+		$delivery->setDownloadFileName($a_filename);
+		$delivery->setConvertFileNameToAsci((bool)!$DIC['ilClientIniFile']->readVariable('file_access', 'disable_ascii'));
+		$delivery->setDeleteFile($removeAfterDelivery);
+		$delivery->deliver();
 	}
 
 
@@ -4950,7 +4908,7 @@ class ilUtil
 
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
-				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+				$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);

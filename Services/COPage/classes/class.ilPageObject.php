@@ -785,7 +785,6 @@ abstract class ilPageObject
 		global $DIC;
 
 		$db = $DIC->database();
-
 		$db->manipulateF("UPDATE page_object SET parent_id = %s WHERE page_id = %s".
 			" AND parent_type = %s", array("integer", "integer", "text"),
 			array($a_par_id, $a_pg_id, $a_parent_type));

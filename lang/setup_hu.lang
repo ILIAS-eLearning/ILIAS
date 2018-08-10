@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.3.x 2018-04-30 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.3.x 2018-07-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -349,13 +349,9 @@ overview#:#Áttekintés
 pass_does_not_match#:#A megadott jelszavak nem egyeznek.
 passwd_not_match#:#Bejegyzései az új jelszóra nem egyeznek. Adja meg újra új jelszavát.
 password_changed#:#Jelszó megváltoztatva.
-password_empty#:#Nincs megadott jelszó.
-password_enter_old#:#Előbb meg kell adnia régi jelszavát.
+password_old_wrong#:#A megadott régi jelszó hibás.
 password_info#:#A konfiguráció adatainak illetéktelen hozzáférése elkerülése, illetve a beállítások később elérése érdekében adjon meg egy jelszót.
 password_new_master#:#Új mesterjelszó beállítása
-password_not_match#:#Az új jelszó nem egyezik.
-password_old_wrong#:#A megadott régi jelszó hibás.
-password_retype#:#Jelszó újragépelése
 password_same#:#A régi és új jelszó ugyanaz.
 password_set#:#Jelszó elmentve.
 password#:#Jelszó

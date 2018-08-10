@@ -871,7 +871,15 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
+		
+		$tpl->setCurrentBlock('headercell');
+		$tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_answer_header'));
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock('headercell');
+		$tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_frequency_header'));
+		$tpl->parseCurrentBlock();
+		
 		foreach ($aggregate as $line_data)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );
