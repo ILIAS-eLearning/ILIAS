@@ -41,7 +41,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord
 	 * @con_fieldtype   integer
 	 * @con_length      4
 	 */
-	protected $tos_id = 0;
+	protected $doc_id = 0;
 
 	/**
 	 * @var string

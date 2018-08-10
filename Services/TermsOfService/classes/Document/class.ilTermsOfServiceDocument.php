@@ -132,7 +132,7 @@ class ilTermsOfServiceDocument extends ActiveRecord
 
 		/** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
 		foreach ($this->criteria as $criterionAssignment) {
-			$criterionAssignment->setTosId($this->getId());
+			$criterionAssignment->setDocId($this->getId());
 			$criterionAssignment->store();
 		}
 
@@ -179,7 +179,7 @@ class ilTermsOfServiceDocument extends ActiveRecord
 
 			$this->criteria = [];
 
-			$criteria = \ilTermsOfServiceDocumentCriterionAssignment::where(array('tos_id' => $this->getId()))->get();
+			$criteria = \ilTermsOfServiceDocumentCriterionAssignment::where(array('doc_id' => $this->getId()))->get();
 			/** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
 			foreach ($criteria as $criterionAssignment) {
 				$this->criteria[$criterionAssignment->getId()] = $criterionAssignment;
