@@ -13135,7 +13135,7 @@ $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilhistorytablegui'), 'filename' => array('text', 'Services/History/classes/class.ilHistoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfileaccesssettingsgui'), 'filename' => array('text', 'Modules/File/classes/class.ilObjFileAccessSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '40')));
+'class' => array('text', 'ilobjfileaccesssettingsgui'), 'filename' => array('text', 'Services/WebDAV/classes/class.ilObjFileAccessSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '40')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilmstlistusersgui'), 'filename' => array('text', 'Services/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '41')));
