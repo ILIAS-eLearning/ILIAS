@@ -12,16 +12,17 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 	 */
 	protected function getSelectPart(array $params, array $filter): string
 	{
-		$fields = array(
+		$fields = [
 			'tos_acceptance_track.tosv_id',
+			'tos_acceptance_track.criteria',
+			'tos_acceptance_track.ts',
 			'ud.usr_id',
 			'ud.login',
 			'ud.firstname',
 			'ud.lastname',
-			'tos_acceptance_track.ts',
-			'tos_versions.src',
-			'tos_versions.text'
-		);
+			'(CASE WHEN tos_documents.title IS NOT NULL THEN tos_documents.title ELSE tos_versions.title END) title',
+			'tos_versions.text',
+		];
 
 		return implode(', ', $fields);
 	}
@@ -31,10 +32,11 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 	 */
 	protected function getFromPart(array $params, array $filter): string
 	{
-		$joins = array(
+		$joins = [
 			'INNER JOIN tos_acceptance_track ON tos_acceptance_track.usr_id = ud.usr_id',
 			'INNER JOIN tos_versions ON tos_versions.id = tos_acceptance_track.tosv_id',
-		);
+			'LEFT JOIN tos_documents ON tos_documents.id = tos_versions.doc_id',
+		];
 
 		return 'usr_data ud ' . implode(' ', $joins);
 	}
@@ -44,22 +46,22 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 	 */
 	protected function getWherePart(array $params, array $filter): string
 	{
-		$where = array();
+		$where = [];
 
 		if (isset($filter['query']) && strlen($filter['query'])) {
-			$where[] = '(' . implode(' OR ', array(
-					$this->db->like('ud.login', 'text', '%' . $filter['query'] . '%'),
-					$this->db->like('ud.firstname', 'text', '%' . $filter['query'] . '%'),
-					$this->db->like('ud.lastname', 'text', '%' . $filter['query'] . '%'),
-					$this->db->like('ud.email', 'text', '%' . $filter['query'] . '%')
-				)) . ')';
+			$where[] = '(' . implode(' OR ', [
+				$this->db->like('ud.login', 'text', '%' . $filter['query'] . '%'),
+				$this->db->like('ud.firstname', 'text', '%' . $filter['query'] . '%'),
+				$this->db->like('ud.lastname', 'text', '%' . $filter['query'] . '%'),
+				$this->db->like('ud.email', 'text', '%' . $filter['query'] . '%')
+			]) . ')';
 		}
 
 		if (isset($filter['period']) && is_array($filter['period'])) {
-			$where[] = '(' . implode(' AND ', array(
+			$where[] = '(' . implode(' AND ', [
 					'tos_acceptance_track.ts >= ' . $this->db->quote($filter['period']['start'], 'integer'),
 					'tos_acceptance_track.ts <= ' . $this->db->quote($filter['period']['end'], 'integer')
-				)) . ')';
+			]) . ')';
 		}
 
 		return implode(' AND ', $where);
@@ -91,7 +93,12 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}
 
-			if (!in_array($params['order_field'], array('login', 'firstname', 'lastname', 'src', 'ts'))) {
+			if (in_array($params['order_field'], ['lng', 'src'])) {
+				// Maybe necessary because of of migrated (from < 5.4.x) ILIAS installations
+				$params['order_field'] = 'ts';
+			} 
+
+			if (!in_array($params['order_field'], ['login', 'firstname', 'lastname', 'title', 'ts'])) {
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}
 
@@ -102,7 +109,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 			if (!isset($params['order_direction'])) {
 				$params['order_direction'] = 'ASC';
 			} else {
-				if (!in_array(strtolower($params['order_direction']), array('asc', 'desc'))) {
+				if (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
 					throw new InvalidArgumentException('Please provide a valid order direction.');
 				}
 			}

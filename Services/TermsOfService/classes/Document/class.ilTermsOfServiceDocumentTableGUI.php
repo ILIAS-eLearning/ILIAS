@@ -307,6 +307,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			->button()
 			->shy($row[$column], '#')
 			->withOnClick($modal->getShowSignal());
+
 		return $this->uiRenderer->render([$titleLink, $modal]);
 	}
 

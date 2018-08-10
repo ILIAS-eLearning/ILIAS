@@ -10371,7 +10371,6 @@ tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
-tos#:#tos_acceptance_datetime#:#Datum
 tos#:#tos_form_new_doc_head#:#Dokument erstellen
 tos#:#tos_form_edit_doc_head#:#Dokument bearbeiten
 tos#:#tos_form_document_title#:#Titel
@@ -10405,6 +10404,12 @@ tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
 tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
 tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
 tos#:#tos_saved_sorting#:#Die Sortierung wurde gespeichert.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Datum
+tos#:#tos_tbl_hist_head_login#:#Benutzername
+tos#:#tos_tbl_hist_head_firstname#:#Vorname
+tos#:#tos_tbl_hist_head_lastname#:#Nachname
+tos#:#tos_tbl_hist_head_document#:#Dokument
+tos#:#tos_tbl_hist_head_criteria#:#Kriterien
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben

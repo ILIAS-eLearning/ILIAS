@@ -68,38 +68,45 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		return [
 			++$i => [
 				'field' => 'ts',
-				'txt' => $this->lng->txt('tos_acceptance_datetime'),
+				'txt' => $this->lng->txt('tos_tbl_hist_head_acceptance_date'),
 				'default' => true,
 				'optional' => false,
 				'sortable' => true
 			],
 			++$i => [
 				'field' => 'login',
-				'txt' => $this->lng->txt('login'),
+				'txt' => $this->lng->txt('tos_tbl_hist_head_login'),
 				'default' => true,
 				'optional' => false,
 				'sortable' => true
 			],
 			++$i => [
 				'field' => 'firstname',
-				'txt' => $this->lng->txt('firstname'),
+				'txt' => $this->lng->txt('tos_tbl_hist_head_firstname'),
 				'default' => false,
 				'optional' => true,
 				'sortable' => true
 			],
 			++$i => [
 				'field' => 'lastname',
-				'txt' => $this->lng->txt('lastname'),
+				'txt' => $this->lng->txt('tos_tbl_hist_head_lastname'),
 				'default' => false,
 				'optional' => true,
 				'sortable' => true
 			],
 			++$i => [
-				'field' => 'src',
-				'txt' => $this->lng->txt('tos_agreement_document'),
+				'field' => 'title',
+				'txt' => $this->lng->txt('tos_tbl_hist_head_document'),
 				'default' => true,
 				'optional' => false,
 				'sortable' => true
+			],
+			++$i => [
+				'field' => 'criteria',
+				'txt' => $this->lng->txt('tos_tbl_hist_head_criteria'),
+				'default' => false,
+				'optional' => true,
+				'sortable' => false
 			],
 		];
 	}
@@ -111,19 +118,30 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 	{
 		if ('ts' === $column) {
 			return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
-		} else if ('src' === $column) {
-			$modal = $this->uiFactory
-				->modal()
-				->lightbox([new ilTermsOfServiceDocumentLightboxPage($row['src'], $row['text'])]);
-
-			$titleLink = $this->uiFactory
-				->button()
-				->shy($row[$column], '#')
-				->withOnClick($modal->getShowSignal());
-			return $this->uiRenderer->render([$titleLink, $modal]);
+		} else if ('title' === $column) {
+			return $this->formatTitle($column, $row);
 		}
 
 		return parent::formatCellValue($column, $row);
+	}
+
+	/**
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatTitle(string $column, array $row): string
+	{
+		$modal = $this->uiFactory
+			->modal()
+			->lightbox([new ilTermsOfServiceDocumentLightboxPage($row['title'], $row['text'])]);
+
+		$titleLink = $this->uiFactory
+			->button()
+			->shy($row[$column], '#')
+			->withOnClick($modal->getShowSignal());
+
+		return $this->uiRenderer->render([$titleLink, $modal]);
 	}
 
 	/**

@@ -10370,6 +10370,12 @@ tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
 tos#:#tos_deleted_documents_p#:#The documents have been deleted.
 tos#:#tos_saved_sorting#:#The sorting has been saved.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Date
+tos#:#tos_tbl_hist_head_login#:#Login
+tos#:#tos_tbl_hist_head_firstname#:#Firstname
+tos#:#tos_tbl_hist_head_lastname#:#Lastname
+tos#:#tos_tbl_hist_head_document#:#Document
+tos#:#tos_tbl_hist_head_criteria#:#Criteria
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content
@@ -10378,7 +10384,6 @@ tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
-tos#:#tos_acceptance_datetime#:#Date
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
