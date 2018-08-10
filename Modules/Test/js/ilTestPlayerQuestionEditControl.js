@@ -73,6 +73,16 @@ il.TestPlayerQuestionEditControl = new function() {
     var autoSavedData = '';
 
     /**
+     * @var boolean autoSaveCommit      is an autosave commit currently in progress?
+     */
+    var autoSaveInCommit = false;
+
+    /**
+     * @var function onAutoSaveDone     called after an autosave commit has finished
+     */
+    var onAutoSaveDone = null;
+
+    /**
      * @var int     formDetector        timer id of the form changes detector
      */
     var formDetector = 0;
@@ -242,10 +252,16 @@ il.TestPlayerQuestionEditControl = new function() {
     /**
      * Stop the autosave function
      */
-    function stopAutoSave() {
+    function stopAutoSave(then) {
         if (autoSaver) {
             clearInterval(autoSaver);
             autoSaver = 0;
+        }
+
+        if (autoSaveInCommit) {
+            onAutoSaveDone = then;
+        } else {
+            then();
         }
     }
 
@@ -511,7 +527,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // prevent status change by added form element
         stopDetection();
-        stopAutoSave();
+        stopAutoSave(function() {
 
         // determine the command to be shown
         var command;
@@ -539,6 +555,7 @@ il.TestPlayerQuestionEditControl = new function() {
         // submit the solution
         // the answering status will be appended by handleFormSubmit()
         $(FORM_SELECTOR).submit();
+        });
     }
 
     /**
@@ -578,7 +595,7 @@ il.TestPlayerQuestionEditControl = new function() {
         // Do a last detection and prevent status change by added element
         detectFormChange();
         stopDetection();
-        stopAutoSave();
+        stopAutoSave(function() {
 
         // add the save command to the forl
         $('<input>').attr({
@@ -589,6 +606,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // submit the solution
         $(FORM_SELECTOR).submit();
+        });
 
         // prevent the default handler
         return false;
@@ -614,10 +632,28 @@ il.TestPlayerQuestionEditControl = new function() {
     }
 
     /**
+     * Called after an autosave commit has finished. Triggers delayed functions.
+     */
+
+    function autoSaveDone() {
+        var callback = onAutoSaveDone;
+        onAutoSaveDone = null;
+
+        if (callback) {
+            callback();
+        }
+    }
+
+    /**
      * Automatically save the form data if they are changed since the last save
      * Add the changed status to the autosave
      */
     function autoSave() {
+
+        if (autoSaveInCommit) {
+            autoSaveFailure();
+            return;
+        }
 
         // add the changed status for autosaving
         var url;
@@ -637,6 +673,8 @@ il.TestPlayerQuestionEditControl = new function() {
         var newData = $(FORM_SELECTOR).serialize();
         if (autoSavedData != newData) {
 
+            autoSaveInCommit = true;
+
             $.ajax({
                     type: 'POST',
                     url: url,
@@ -644,8 +682,16 @@ il.TestPlayerQuestionEditControl = new function() {
                     dataType: 'text',
                     timeout: config.autosaveInterval
                 })
-            .done(autoSaveSuccess)
-            .fail(autoSaveFailure);
+            .done(function(responseText) {
+                autoSaveInCommit = false;
+                autoSaveSuccess(responseText);
+                autoSaveDone();
+            })
+            .fail(function(responseText) {
+                autoSaveInCommit = false;
+                autoSaveFailure(responseText);
+                autoSaveDone();
+            });
 
             autoSavedData = newData;
         }
