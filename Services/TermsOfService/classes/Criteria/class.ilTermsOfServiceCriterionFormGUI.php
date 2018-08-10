@@ -130,11 +130,11 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 
 		// TODO: Fill with form values
 		if (rand(0, 1)) {
-			$this->assignment->setCriterionId('Crit Type Language');
-			$this->assignment->setCriterionValue('German');
+			$this->assignment->setCriterionId('language');
+			$this->assignment->setCriterionValue('de');
 		} else {
-			$this->assignment->setCriterionId('Crit Type Global Role');
-			$this->assignment->setCriterionValue('User');
+			$this->assignment->setCriterionId('global_role');
+			$this->assignment->setCriterionValue('4');
 		}
 
 		if ($this->assignment->getId() > 0) {
