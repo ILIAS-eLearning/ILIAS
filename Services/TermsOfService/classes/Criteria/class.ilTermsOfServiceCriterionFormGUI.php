@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilTermsOfServiceCriterionFormGUI
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 {
 	/** @var \ilTermsOfServiceDocument */
@@ -108,6 +112,20 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	{
 		if (!$this->fillObject()) {
 			$this->setValuesByPost();
+			return false;
+		}
+
+		$uniqueAssignmentConstraint = new ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->document, new \ILIAS\Data\Factory()
+		);
+
+		if (!$uniqueAssignmentConstraint->accepts($this->assignment)) {
+			$this->getItemByPostVar('criterion')->setAlert($this->lng->txt('tos_criterion_assignment_must_be_unique_insert'));
+			if ($this->assignment->getId() > 0) {
+				$this->getItemByPostVar('criterion')->setAlert($this->lng->txt('tos_criterion_assignment_must_be_unique_update'));
+			}
+
+			$this->translatedError = $this->lng->txt('form_input_not_valid');
 			return false;
 		}
 
