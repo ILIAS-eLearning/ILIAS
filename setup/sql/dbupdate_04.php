@@ -22494,3 +22494,30 @@ if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
 	);
 }
 ?>
+<#5288>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx1', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('user_id'), 'i1');
+	$setting->set('iloscmsgidx1', 1);
+}
+?>
+<#5289>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx2', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('conversation_id'), 'i2');
+	$setting->set('iloscmsgidx2', 1);
+}
+?>
+<#5290>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx3', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('conversation_id', 'user_id', 'timestamp'), 'i3');
+	$setting->set('iloscmsgidx3', 1);
+}
+?>
