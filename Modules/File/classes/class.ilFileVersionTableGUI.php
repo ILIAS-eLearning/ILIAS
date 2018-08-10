@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
+include_once("Services/Utilities/classes/class.ilFileUtils.php");
 
 /** @defgroup ModulesFile Modules/File
  */
@@ -101,7 +102,9 @@ class ilFileVersionTableGUI extends ilTable2GUI
 		$username = trim($name["title"] . " " . $name["firstname"] . " " . $name["lastname"]);
 		
 		// get file size
-		$filepath = $this->parent_obj->object->getDirectory($version) . "/" . $filename;
+		// bugfix mantis 0022054
+		$directory = $this->parent_obj->object->getDirectory($version);
+		$filepath = ilFileUtils::getValidFilename(rtrim($directory, "/") . "/" . $filename);
 		$filesize = filesize($filepath);
 		
 		// get action text
