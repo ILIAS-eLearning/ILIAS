@@ -6111,8 +6111,8 @@ dcl#:#dcl_confirm_delete_fields#:#Wil je deze velden echt verwijderen?
 dcl#:#dcl_confirm_delete_record#:#Verwijder dit record?
 dcl#:#dcl_confirm_delete_records#:#Weet je zeker dat je de volgende records wilt verwijderen?
 dcl#:#dcl_confirm_delete_table#:#Wil je echt deze tabel met alle inhoud en structuur verwijderen?
-dcl#:#dcl_confirm_delete_view_text#:#Het beeld waarop deze tabel wordt vertoond zal worden verwijderd. Dit kan niet ongedaan worden gemaakt. De onderliggende records en velden worden niet verwijderd.
-dcl#:#dcl_confirm_delete_view_title#:#Wil je dit beeld echt verwijderen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Het beeld waarop deze tabel wordt vertoond zal worden verwijderd. Dit kan niet ongedaan worden gemaakt. De onderliggende records en velden worden niet verwijderd.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Wil je dit beeld echt verwijderen?
 dcl#:#dcl_copy#:#Kopieer gegevensverzameling
 dcl#:#dcl_create_field#:#Aanmaken veld
 dcl#:#dcl_create_fields#:#Maak tenminste één veld aan in tabblad "Velden".
@@ -6135,8 +6135,8 @@ dcl#:#dcl_edit_field#:#Veld wijzigen
 dcl#:#dcl_edit_perm#:#Recht om record te wijzigen?
 dcl#:#dcl_edit_record#:#Record wijzigen
 dcl#:#dcl_edit_table#:#Wijzigen tabelinstallingen
-dcl#:#dcl_empty_view#:#Verwijderen voorbeeld
-dcl#:#dcl_empty_view_success#:#De beelddefinitie is verwijderd
+dcl#:#dcl_empty_detailed_view#:#Verwijderen voorbeeld
+dcl#:#dcl_empty_detailed_view_success#:#De beelddefinitie is verwijderd
 dcl#:#dcl_error_parsing_expression#:#Fout bij ontleden uitdrukking
 dcl#:#dcl_export_enabled#:#Toestaan van export functie voor alle gebruikers
 dcl#:#dcl_field_datatype#:#Datatype

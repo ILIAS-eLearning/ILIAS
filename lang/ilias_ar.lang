@@ -5061,8 +5061,8 @@ dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_confirm_delete_record#:#Delete this record?
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_copy#:#Copy Data Collection
 dcl#:#dcl_create_field#:#Create Field
 dcl#:#dcl_datatype#:#Datatype
@@ -5075,8 +5075,8 @@ dcl#:#dcl_edit_perm#:#Permission Edit Entry
 dcl#:#dcl_edit_record#:#Edit Record
 dcl#:#dcl_edit_table#:#Edit Table Settings
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
-dcl#:#dcl_empty_view#:#Delete this View
-dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
+dcl#:#dcl_empty_detailed_view#:#Delete this View
+dcl#:#dcl_empty_detailed_view_success#:#The Viewdefinition has successfuly been deleted.
 dcl#:#dcl_field_datatype#:#Field Datatype
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required

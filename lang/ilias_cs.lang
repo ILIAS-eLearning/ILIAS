@@ -5747,8 +5747,8 @@ dcl#:#dcl_checked#:#Zkontrolován.
 dcl#:#dcl_confirm_delete_field#:#Skutečně chcete smazat toto pole?
 dcl#:#dcl_confirm_delete_record#:#Smazat tento záznam?
 dcl#:#dcl_confirm_delete_table#:#Skutečně chcete smazat tuto tabulku, její obsah a strukturu?
-dcl#:#dcl_confirm_delete_view_text#:#Definice zobrazení záznamů v této tabulce bude nevratně smazána, záznamy a pole samotné nebudou změněny.
-dcl#:#dcl_confirm_delete_view_title#:#Skutečně chcete smazat toto zobrazení?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Definice zobrazení záznamů v této tabulce bude nevratně smazána, záznamy a pole samotné nebudou změněny.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Skutečně chcete smazat toto zobrazení?
 dcl#:#dcl_copy#:#Kopírovat soubor údajů
 dcl#:#dcl_create_field#:#Vytvořit pole
 dcl#:#dcl_create_fields#:#Vytvořte prosím nejméně jedno pole v tabulce "Pole seznamu".
@@ -5762,8 +5762,8 @@ dcl#:#dcl_edit_perm#:#Uživatel může upravit položky
 dcl#:#dcl_edit_record#:#Upravit záznam
 dcl#:#dcl_edit_table#:#Upravit nastavení tabulky
 dcl#:#dcl_editable_in_table_gui#:#Zvolte prosím zobrazení tabulky.
-dcl#:#dcl_empty_view#:#Smazat toto zobrazení
-dcl#:#dcl_empty_view_success#:#Tato definice zobrazení byla úspěšně smazána.
+dcl#:#dcl_empty_detailed_view#:#Smazat toto zobrazení
+dcl#:#dcl_empty_detailed_view_success#:#Tato definice zobrazení byla úspěšně smazána.
 dcl#:#dcl_export_enabled#:#Povolit funkci exportovat pro všechny uživatele
 dcl#:#dcl_field_datatype#:#Pole typ údajů
 dcl#:#dcl_field_description#:#Popis

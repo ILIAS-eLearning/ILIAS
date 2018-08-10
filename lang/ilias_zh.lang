@@ -9263,10 +9263,10 @@ common#:#il_blog_contributor#:#博客贡献者
 rbac#:#blog_contribute#:#用户可以贡献
 blog#:#blog_contribute_other_roles#:#以下角色给予一个活跃的"贡献"权限：%s 。
 dcl#:#dcl_no_content_warning#:#注意，数据收集是在线的，但还没有内容！
-dcl#:#dcl_empty_view#:#删除这个视图
-dcl#:#dcl_confirm_delete_view_title#:#您确定要删除这个视图？
-dcl#:#dcl_confirm_delete_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
-dcl#:#dcl_empty_view_success#:#视图定义成功被删除。
+dcl#:#dcl_empty_detailed_view#:#删除这个视图
+dcl#:#dcl_confirm_delete_detailed_view_title#:#您确定要删除这个视图？
+dcl#:#dcl_confirm_delete_detailed_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
+dcl#:#dcl_empty_detailed_view_success#:#视图定义成功被删除。
 rating#:#rating_number_votes#:#%s 评级
 administration#:#system_check_no_owner#:#无主的对象
 blog#:#blog_import#:#导入博客
