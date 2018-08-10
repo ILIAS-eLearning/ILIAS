@@ -795,6 +795,7 @@ class ilFileUtils
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
 			'vrml',   // APPLICATION__X_VRML,
+            'vsdx',   // viseo
 			'wav',		// wav
 			'webm',   // VIDEO__WEBM,
 			'wmv',   // VIDEO__X_MS_WMV,
