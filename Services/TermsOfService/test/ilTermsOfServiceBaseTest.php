@@ -1,20 +1,19 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceBaseTest
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceBaseTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceBaseTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @param string $exception_class
+	 * @param string $exceptionClass
 	 */
-	protected function assertException($exception_class)
+	protected function assertException(string $exceptionClass)
 	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
+		if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+			$this->setExpectedException($exceptionClass);
 		}
 	}
 }

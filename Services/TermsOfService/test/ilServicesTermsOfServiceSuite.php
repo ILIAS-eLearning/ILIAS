@@ -1,20 +1,13 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'libs/composer/vendor/autoload.php';
-require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
-require_once 'Services/Database/interfaces/interface.ilDBStatement.php';
-require_once 'Services/Database/classes/class.ilDBConstants.php';
-require_once 'Services/Language/classes/class.ilLanguage.php';
-require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingDatabaseAdapterException.php';
-require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingLanguageAdapterException.php';
-require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceNoSignableDocumentFoundException.php';
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilServicesTermsOfServiceSuite
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesTermsOfServiceSuite extends PHPUnit_Framework_TestSuite
+class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 {
 	/**
 	 * @return self
@@ -22,6 +15,8 @@ class ilServicesTermsOfServiceSuite extends PHPUnit_Framework_TestSuite
 	public static function suite()
 	{
 		$suite = new self();
+
+		require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceEntityFactoryTest.php';
 		$suite->addTestSuite('ilTermsOfServiceEntityFactoryTest');
@@ -40,9 +35,6 @@ class ilServicesTermsOfServiceSuite extends PHPUnit_Framework_TestSuite
 
 		require_once 'Services/TermsOfService/test/gateways/ilTermsOfServiceAcceptanceDatabaseGatewayTest.php';
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceDatabaseGatewayTest');
-
-		require_once 'Services/TermsOfService/test/documents/ilTermsOfServiceFileSystemDocumentTest.php';
-		$suite->addTestSuite('ilTermsOfServiceFileSystemDocumentTest');
 
 		return $suite;
 	}

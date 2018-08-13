@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
-require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceAcceptanceEntityTest
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
+class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool
@@ -16,10 +13,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	protected $backupGlobals = false;
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
 	public function setUp()
 	{
+		parent::setUp();
 	}
 
 	/**
@@ -27,7 +25,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testInstanceCanBeCreated()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $entity);
 	}
 
@@ -36,7 +34,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testIdIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getId());
 	}
 
@@ -45,7 +43,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testUserIdIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getUserId());
 	}
 
@@ -54,35 +52,26 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testTextIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getText());
 	}
 
 	/**
 	 *
 	 */
-	public function testSourceIsInitiallyEmpty()
+	public function testTitleIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getSource());
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$this->assertEmpty($entity->getTitle());
 	}
 
 	/**
 	 *
 	 */
-	public function testSourceTypeIsInitiallyEmpty()
+	public function testDocumentIdIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getSourceType());
-	}
-
-	/**
-	 *
-	 */
-	public function testLanguageOfAcceptanceIsInitiallyEmpty()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getIso2LanguageCode());
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$this->assertEmpty($entity->getDocumentId());
 	}
 
 	/**
@@ -90,7 +79,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testTimestampOfSigningIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getTimestamp());
 	}
 
@@ -99,8 +88,17 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testHashIsInitiallyEmpty()
 	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getHash());
+	}
+
+	/**
+	 *
+	 */
+	public function testCriteriaAreInitiallyEmpty()
+	{
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$this->assertEmpty($entity->getCriteria());
 	}
 
 	/**
@@ -110,7 +108,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	{
 		$expected = 4711;
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->setId($expected);
 		$this->assertEquals($expected, $entity->getId());
 	}
@@ -122,7 +120,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	{
 		$expected = 1337;
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->setUserId($expected);
 		$this->assertEquals($expected, $entity->getUserId());
 	}
@@ -134,7 +132,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	{
 		$expected = 'Lorem Ipsum';
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->setText($expected);
 		$this->assertEquals($expected, $entity->getText());
 	}
@@ -142,13 +140,13 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function testEntityShouldReturnSourceWhenSourceIsSet()
+	public function testEntityShouldReturnDocumentIdWhenDocumentIdIsSet()
 	{
-		$expected = '/path/to/file';
+		$expected = 4711;
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setSource($expected);
-		$this->assertEquals($expected, $entity->getSource());
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$entity->setDocumentId($expected);
+		$this->assertEquals($expected, $entity->getDocumentId());
 	}
 
 	/**
@@ -156,23 +154,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testEntityShouldReturnSourceTypeWhenSourceTypeIsSet()
 	{
-		$expected = 1;
+		$expected = 'Document PHP Unit';
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setSourceType($expected);
-		$this->assertEquals($expected, $entity->getSourceType());
-	}
-
-	/**
-	 *
-	 */
-	public function testEntityShouldReturnLanguageWhenLanguageIsSet()
-	{
-		$expected = 'de';
-
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setIso2LanguageCode($expected);
-		$this->assertEquals($expected, $entity->getIso2LanguageCode());
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$entity->setTitle($expected);
+		$this->assertEquals($expected, $entity->getTitle());
 	}
 
 	/**
@@ -182,7 +168,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	{
 		$expected = time();
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->setTimestamp($expected);
 		$this->assertEquals($expected, $entity->getTimestamp());
 	}
@@ -194,8 +180,20 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 	{
 		$expected = 'hash';
 
-		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->setHash($expected);
 		$this->assertEquals($expected, $entity->getHash());
+	}
+
+	/**
+	 *
+	 */
+	public function testEntityShouldReturnCriteriaWhenCriteriaAreSet()
+	{
+		$expected = 'criteria';
+
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$entity->setCriteria($expected);
+		$this->assertEquals($expected, $entity->getCriteria());
 	}
 }
