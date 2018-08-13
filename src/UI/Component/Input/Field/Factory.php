@@ -349,7 +349,6 @@ interface Factory {
 	 */
 	public function select($label, array $options, $byline = null);
 
-
 	/**
 	 * ---
 	 * description:
@@ -393,7 +392,7 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Textarea
 	 */
 	public function textarea($label, $byline = null);
-  
+
 	/**
 	 * ---
 	 * description:
@@ -481,4 +480,36 @@ interface Factory {
  	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
  	 */
  	public function multiSelect($label, array $options, $byline = null);
+
+ 	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A date-input is used to enter dates.
+	 *   composition: >
+	 *     Date-input will render a text-field with the placeholder-attribute
+	 *     indicating the specified format.
+	 *     Next to the text-field, a calendar-glyph will trigger a popover containing
+	 *     a graphical selector/date-picker.
+	 *   effect: >
+	 *     When clicking the glyph, a popover is shown with the days of the month.
+	 *     Within the popover, the user may navigate to prior and following months.
+	 *   rivals:
+	 *     Text field: Text-fields MUST NOT be used to input date-strings.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: XX
+	 *
+	 *   interaction:
+	 *     1: XX
+	 *     2: XX
+	 *
+	 * ---
+	 * @param $label   string defines the label.
+	 * @param $byline  string
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\Date
+	 */
+	public function date($label, $byline = null);
 }

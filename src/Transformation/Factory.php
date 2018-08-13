@@ -53,5 +53,14 @@ class Factory {
 		return new Transformations\Data($type);
 	}
 
+	/**
+	 * Transform to php DateTime.
+	 *
+	 * @return  Transformation
+	 */
+	public function toDate() {
+		return new Transformations\Date();
+	}
+
 
 }
