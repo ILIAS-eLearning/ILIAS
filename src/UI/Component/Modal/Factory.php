@@ -137,10 +137,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The Lightbox modal displays media data such as images or videos.
+	 *     The Lightbox modal displays media data such as images or videos. It may also display text
+	 *     that has a purely descriptive nature and does not offer interaction.
 	 *   composition: >
-	 *     A Lightbox modal consists of one or multiple lightbox pages representing the media together
-	 *     with a title and description.
+	 *     A Lightbox modal consists of one or multiple lightbox pages representing the text or media together
+	 *     with a title.
 	 *   effect: >
 	 *     Lightbox modals are activated by clicking the full view glyphicon,
 	 *     the title of the object or it's thumbnail.
@@ -153,7 +154,7 @@ interface Factory {
 	 *     2: >
 	 *       Lightbox modals SHOULD contain a descriptional text below the presented items.
 	 *     3: >
-	 *       Multiple media items inside a Lightbox modal MUST be presented in carousel
+	 *       Multiple items inside a Lightbox modal MUST be presented in carousel
 	 *       like manner allowing to flickr through items.
 	 *
 	 * ---
@@ -195,16 +196,18 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A Lightbox text page represents an document like content/text inside a Lightbox modal.
+	 *     A Lightbox text page represents a document like content/text inside a Lightbox modal.
 	 *   composition: >
-	 *     The page consists of the text and a title
+	 *     The page consists of text and a title
 	 *   effect: >
 	 *     The text is displayed in the content section of the Lightbox modal and the title is used
 	 *     as modal title.
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *       A Lighbox text page MUST have a text content and a short title.
+	 *       A Lighbox text page MUST have text content and a short title.
+	 *     2: >
+	 *       A Lighbox text page MUST NOT have a description.
 	 * ---
 	 *
 	 * @param string $text
