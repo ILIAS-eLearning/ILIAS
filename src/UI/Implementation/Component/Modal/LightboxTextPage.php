@@ -41,15 +41,6 @@ class LightboxTextPage implements LightboxPage
 		return $this->title;
 	}
 
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getDescription() {
-		return '';
-	}
-
-
 	/**
 	 * @inheritdoc
 	 */
