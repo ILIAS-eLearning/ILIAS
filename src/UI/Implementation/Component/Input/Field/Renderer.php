@@ -90,6 +90,8 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderRadioField($input, $default_renderer);
 		} else if ($input instanceof MultiSelect) {
 			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+		} else if ($input instanceof Date) {
+			$input_tpl = $this->getTemplate("tpl.date.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -345,6 +347,9 @@ class Renderer extends AbstractComponentRenderer {
 					}
 				}
 				break;
+			case ($input instanceof Date):
+				return $this->renderDateInput($tpl, $input);
+				break;
 		}
 
 		return $tpl->get();
@@ -408,7 +413,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 
-	/*
+	/**
 	 * Render revelation-glyphs for password and register signals/functions
 	 * @param Template $tpl
 	 * @param Password $input
@@ -547,6 +552,24 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
 		}
+=======
+	public function renderDateInput(Template $tpl, Date $input) :string {
+		global $DIC;
+		$f = $this->getUIFactory();
+		$renderer = $DIC->ui()->renderer();
+
+		$cal_glyph = $f->glyph()->calendar("#");
+		$tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
+
+		$tpl->setVariable("NAME", $input->getName());
+		$tpl->setVariable("PLACEHOLDER", $input->getFormat());
+
+		if ($input->getValue() !== null) {
+			$tpl->setCurrentBlock("value");
+			$tpl->setVariable("VALUE", $input->getValue());
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
 
@@ -567,6 +590,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Radio::class,
 			Component\Input\Field\Textarea::class,
 			Component\Input\Field\MultiSelect::class
+			Component\Input\Field\Date::class
 		];
 	}
 }

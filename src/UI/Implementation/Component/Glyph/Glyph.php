@@ -78,6 +78,7 @@ class Glyph implements C\Glyph\Glyph {
 		, self::ATTACHMENT
 		, self::RESET
 		, self::APPLY
+		, self::CALENDAR
 		);
 
 

@@ -799,11 +799,11 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function reset($action = null);
-  
+
 	/**
 	 * ---
 	 * description:
-	 *   purpose: >  
+	 *   purpose: >
      *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
 	 *      within a control, i.e. a filter.
 	 *   composition: >
@@ -833,5 +833,27 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function apply($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Calendar glyph is used to symbolize date-related actions or alerts.
+	 *   composition: >
+	 *      The Calendar Glyph uses the glyphicon-calendar.
+	 *   effect: >
+	 *       Clicking the calendar glyph will usually open a date-picker.
+	 *
+	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Calendar'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function calendar($action = null);
 
 }
