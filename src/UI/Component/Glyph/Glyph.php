@@ -90,4 +90,12 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	 * @return mixed
 	 */
 	public function withHighlight();
+
+	/**
+	 * Get a Glyph like this with an action.
+	 *
+	 * @param string $action
+	 * @return mixed
+	 */
+	public function withAction($action);
 }
