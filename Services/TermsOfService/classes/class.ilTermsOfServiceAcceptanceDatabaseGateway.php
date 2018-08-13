@@ -1,108 +1,104 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceAcceptanceDataGateway.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceAcceptanceDatabaseGateway
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAcceptanceDataGateway
+class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcceptanceDataGateway
 {
 	/**
-	 * @var ilDBInterface
+	 * @var \ilDBInterface
 	 */
 	protected $db;
 
 	/**
 	 * ilTermsOfServiceAcceptanceDatabaseGateway constructor.
-	 * @param ilDBInterface $db
+	 * @param \ilDBInterface $db
 	 */
-	public function __construct(ilDBInterface $db)
+	public function __construct(\ilDBInterface $db)
 	{
 		$this->db = $db;
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
+	 * @param \ilTermsOfServiceAcceptanceEntity $entity
 	 */
-	public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity)
+	public function trackAcceptance(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
-		$query = 'SELECT id FROM tos_versions WHERE hash = %s AND lng = %s';
-		$res   = $this->db->queryF(
+		$query = 'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s';
+		$res = $this->db->queryF(
 			$query,
-			array('text', 'text'),
-			array($entity->getHash(), $entity->getIso2LanguageCode())
+			array('text', 'integer'),
+			array($entity->getHash(), $entity->getDocumentId())
 		);
 
-		if($this->db->numRows($res))
-		{
-			$row     = $this->db->fetchAssoc($res);
-			$tosv_id = $row['id'];
-		}
-		else
-		{
-			$tosv_id = $this->db->nextId('tos_versions');
+		if ($this->db->numRows($res)) {
+			$row = $this->db->fetchAssoc($res);
+			$versionId = $row['id'];
+		} else {
+			$versionId = $this->db->nextId('tos_versions');
 			$this->db->insert(
 				'tos_versions',
-				array(
-					'id'       => array('integer', $tosv_id),
-					'lng'      => array('text', $entity->getIso2LanguageCode()),
-					'src'      => array('text', $entity->getSource()),
-					'src_type' => array('integer', $entity->getSourceType()),
-					'text'     => array('clob', $entity->getText()),
-					'hash'     => array('text', $entity->getHash()),
-					'ts'       => array('integer', $entity->getTimestamp())
-				)
+				[
+					'id' => ['integer', $versionId],
+					'text' => ['clob', $entity->getText()],
+					'hash' => ['text', $entity->getHash()],
+					'doc_id' => ['integer', $entity->getDocumentId()],
+					'title' => ['text', $entity->getTitle()],
+					'ts' => ['integer', $entity->getTimestamp()]
+				]
 			);
 		}
 
 		$this->db->insert(
 			'tos_acceptance_track',
-			array(
-				'tosv_id' => array('integer', $tosv_id),
-				'usr_id'  => array('integer', $entity->getUserId()),
-				'ts'      => array('integer', $entity->getTimestamp())
-			)
+			[
+				'tosv_id' => ['integer', $versionId],
+				'usr_id' => ['integer', $entity->getUserId()],
+				'criteria' => ['clob', $entity->getCriteria()],
+				'ts' => ['integer', $entity->getTimestamp()]
+			]
 		);
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
-	 * @return ilTermsOfServiceAcceptanceEntity
+	 * @param \ilTermsOfServiceAcceptanceEntity $entity
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity)
+	public function loadCurrentAcceptanceOfUser(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
 		$this->db->setLimit(1, 0);
+
 		$res = $this->db->queryF('
-			SELECT tos_versions.*, tos_acceptance_track.ts accepted_ts
+			SELECT tos_versions.*, tos_acceptance_track.ts accepted_ts, tos_acceptance_track.criteria
 			FROM tos_acceptance_track
 			INNER JOIN tos_versions ON id = tosv_id
 			WHERE usr_id = %s
 			ORDER BY tos_acceptance_track.ts DESC
 			',
-			array('integer'),
-			array($entity->getUserId())
+			['integer'],
+			[$entity->getUserId()]
 		);
 		$row = $this->db->fetchAssoc($res);
 
 		$entity->setId($row['id']);
 		$entity->setUserId($row['usr_id']);
-		$entity->setIso2LanguageCode($row['lng']);
-		$entity->setSource($row['src']);
-		$entity->setSourceType($row['src_type']);
 		$entity->setText($row['text']);
 		$entity->setTimestamp($row['accepted_ts']);
 		$entity->setHash($row['hash']);
+		$entity->setDocumentId($row['doc_id']);
+		$entity->setTitle($row['title']);
+		$entity->setCriteria($row['criteria']);
 
 		return $entity;
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
-	 * @return ilTermsOfServiceAcceptanceEntity
+	 * @param \ilTermsOfServiceAcceptanceEntity $entity
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function loadById(ilTermsOfServiceAcceptanceEntity $entity)
+	public function loadById(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
 		$res = $this->db->queryF('
 			SELECT *
@@ -115,21 +111,22 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 		$row = $this->db->fetchAssoc($res);
 
 		$entity->setId($row['id']);
-		$entity->setIso2LanguageCode($row['lng']);
-		$entity->setSource($row['src']);
-		$entity->setSourceType($row['src_type']);
 		$entity->setText($row['text']);
 		$entity->setTimestamp($row['ts']);
 		$entity->setHash($row['hash']);
+		$entity->setDocumentId($row['doc_id']);
+		$entity->setTitle($row['title']);
 
 		return $entity;
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
+	 * @param \ilTermsOfServiceAcceptanceEntity $entity
 	 */
-	public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity)
+	public function deleteAcceptanceHistoryByUser(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
-		$this->db->manipulate('DELETE FROM tos_acceptance_track WHERE usr_id = ' . $this->db->quote($entity->getUserId(), 'integer'));
+		$this->db->manipulate(
+			'DELETE FROM tos_acceptance_track WHERE usr_id = ' . $this->db->quote($entity->getUserId(), 'integer')
+		);
 	}
 }

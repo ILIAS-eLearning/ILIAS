@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -8,7 +8,7 @@
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceAcceptanceHistoryGUI
  * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
  */
-class ilObjTermsOfServiceGUI extends ilObject2GUI
+class ilObjTermsOfServiceGUI extends \ilObject2GUI
 {
 	/** @var ILIAS\DI\Container */
 	protected $dic;

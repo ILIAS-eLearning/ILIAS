@@ -91,13 +91,13 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 		}
 
 		if (!(int)$this->getInput('tos_status')) {
-			$this->tos->saveStatus((int)$this->getInput('tos_status'));
+			$this->tos->saveStatus((bool)$this->getInput('tos_status'));
 			return true;
 		}
 
 		$hasDocuments = \ilTermsOfServiceDocument::where([])->count() > 0;
 		if ($hasDocuments) {
-			$this->tos->saveStatus((int)$this->getInput('tos_status'));
+			$this->tos->saveStatus((bool)$this->getInput('tos_status'));
 			return true;
 		}
 
@@ -107,7 +107,7 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
-		$this->tos->saveStatus((int)$this->getInput('tos_status'));
+		$this->tos->saveStatus((bool)$this->getInput('tos_status'));
 		return true;
 	}
 

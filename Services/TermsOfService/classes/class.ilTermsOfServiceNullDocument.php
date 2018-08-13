@@ -24,43 +24,4 @@ class ilTermsOfServiceNullDocument implements ilTermsOfServiceSignableDocument
 	{
 		return '';
 	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getSource()
-	{
-		return '';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getSourceType()
-	{
-		return '';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getIso2LanguageCode()
-	{
-		return '';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function determine()
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function exists()
-	{
-		return false;
-	}
 }

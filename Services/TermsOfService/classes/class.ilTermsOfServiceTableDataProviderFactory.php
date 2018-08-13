@@ -17,31 +17,29 @@ class ilTermsOfServiceTableDataProviderFactory
 
 	/**
 	 * @param string $context
-	 * @return ilTermsOfServiceAcceptanceHistoryProvider
-	 * @throws ilTermsOfServiceMissingLanguageAdapterException
-	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
-	 * @throws InvalidArgumentException
+	 * @return \ilTermsOfServiceAcceptanceHistoryProvider
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
+	 * @throws \InvalidArgumentException
 	 */
 	public function getByContext(string $context): \ilTermsOfServiceTableDataProvider
 	{
 		switch ($context) {
 			case self::CONTEXT_ACCEPTANCE_HISTORY:
 				$this->validateConfiguration(array('db'));
-				return new ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
+				return new \ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
 
 			default:
-				throw new InvalidArgumentException('Provider not supported');
+				throw new \InvalidArgumentException('Provider not supported');
 		}
 	}
 
 	/**
-	 * @param array $mandatoryMemverVariables
-	 * @throws ilTermsOfServiceMissingLanguageAdapterException
-	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
+	 * @param array $mandatoryMemberVariables
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	protected function validateConfiguration(array $mandatoryMemverVariables)
+	protected function validateConfiguration(array $mandatoryMemberVariables)
 	{
-		foreach ($mandatoryMemverVariables as $member) {
+		foreach ($mandatoryMemberVariables as $member) {
 			if (null == $this->{$member}) {
 				$exception = $this->getExceptionByMember($member);
 				throw $exception;
@@ -51,19 +49,19 @@ class ilTermsOfServiceTableDataProviderFactory
 
 	/**
 	 * @param string $member
-	 * @return ilTermsOfServiceMissingDatabaseAdapterException|ilTermsOfServiceMissingLanguageAdapterException
-	 * @throws InvalidArgumentException
+	 * @return \ilTermsOfServiceMissingDatabaseAdapterException
+	 * @throws \InvalidArgumentException
 	 */
 	protected function getExceptionByMember($member)
 	{
 		switch ($member) {
 			case 'db':
-				return new ilTermsOfServiceMissingDatabaseAdapterException(
+				return new \ilTermsOfServiceMissingDatabaseAdapterException(
 					'Incomplete factory configuration. Please inject a database adapter.'
 				);
 
 			default:
-				throw new InvalidArgumentException("Exception for member {$member} not supported");
+				throw new \InvalidArgumentException("Exception for member {$member} not supported");
 		}
 	}
 

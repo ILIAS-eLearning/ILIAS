@@ -8,47 +8,12 @@
 interface ilTermsOfServiceSignableDocument
 {
 	/**
-	 * @var int
-	 */
-	const SRC_TYPE_FILE_SYSTEM_PATH = 0;
-
-	/**
-	 * @var int
-	 */
-	const SRC_TYPE_OBJECT = 1;
-
-	/**
 	 * @return bool
 	 */
 	public function hasContent();
 
 	/**
-	 * @return bool
-	 */
-	public function exists();
-
-	/**
 	 * @return string
 	 */
 	public function getContent();
-
-	/**
-	 * @return mixed
-	 */
-	public function getSource();
-
-	/**
-	 * @return int
-	 */
-	public function getSourceType();
-
-	/**
-	 * @return string
-	 */
-	public function getIso2LanguageCode();
-
-	/**
-	 * Called from client to initiate the content determination
-	 */
-	public function determine();
 }

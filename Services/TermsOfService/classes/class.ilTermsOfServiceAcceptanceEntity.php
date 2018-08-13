@@ -1,56 +1,56 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceAcceptanceEntity
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceAcceptanceEntity
 {
 	/**
 	 * @var int
 	 */
-	protected $id;
+	protected $id = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $user_id;
+	protected $user_id = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $text;
-
-	/**
-	 * @var string
-	 */
-	protected $iso2_language_code;
+	protected $text = '';
 
 	/**
 	 * @var int
 	 */
-	protected $timestamp;
+	protected $timestamp = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $source;
+	protected $hash = '';
+
+	/**
+	 * @var string
+	 */
+	protected $title = '';
 
 	/**
 	 * @var int
 	 */
-	protected $source_type;
+	protected $document_id = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $hash;
+	protected $criteria = '';
 
 	/**
 	 * @param string $hash
 	 */
-	public function setHash($hash)
+	public function setHash(string $hash)
 	{
 		$this->hash = $hash;
 	}
@@ -58,36 +58,15 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @return string
 	 */
-	public function getHash()
+	public function getHash(): string
 	{
 		return $this->hash;
 	}
 
 	/**
-	 * @var ilTermsOfServiceAcceptanceDataGateway
-	 */
-	protected $data_gateway;
-
-	/**
-	 * @param string $language
-	 */
-	public function setIso2LanguageCode($language)
-	{
-		$this->iso2_language_code = $language;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getIso2LanguageCode()
-	{
-		return $this->iso2_language_code;
-	}
-
-	/**
 	 * @param string $text
 	 */
-	public function setText($text)
+	public function setText(string $text)
 	{
 		$this->text = $text;
 	}
@@ -95,7 +74,7 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @return string
 	 */
-	public function getText()
+	public function getText(): string
 	{
 		return $this->text;
 	}
@@ -103,7 +82,7 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @param int $timestamp
 	 */
-	public function setTimestamp($timestamp)
+	public function setTimestamp(int $timestamp)
 	{
 		$this->timestamp = $timestamp;
 	}
@@ -111,7 +90,7 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @return int
 	 */
-	public function getTimestamp()
+	public function getTimestamp(): int
 	{
 		return $this->timestamp;
 	}
@@ -119,7 +98,7 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @param int $user_id
 	 */
-	public function setUserId($user_id)
+	public function setUserId(int $user_id)
 	{
 		$this->user_id = $user_id;
 	}
@@ -127,47 +106,15 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @return int
 	 */
-	public function getUserId()
+	public function getUserId(): int
 	{
 		return $this->user_id;
 	}
 
 	/**
-	 * @param string $source
-	 */
-	public function setSource($source)
-	{
-		$this->source = $source;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSource()
-	{
-		return $this->source;
-	}
-
-	/**
-	 * @param int $source_type
-	 */
-	public function setSourceType($source_type)
-	{
-		$this->source_type = $source_type;
-	}
-
-	/**
 	 * @return int
 	 */
-	public function getSourceType()
-	{
-		return $this->source_type;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->id;
 	}
@@ -175,8 +122,56 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @param $id
 	 */
-	public function setId($id)
+	public function setId(int $id)
 	{
 		$this->id = $id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle(string $title)
+	{
+		$this->title = $title;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDocumentId(): int
+	{
+		return $this->document_id;
+	}
+
+	/**
+	 * @param int $document_id
+	 */
+	public function setDocumentId(int $document_id)
+	{
+		$this->document_id = $document_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCriteria(): string
+	{
+		return $this->criteria;
+	}
+
+	/**
+	 * @param string $criteria
+	 */
+	public function setCriteria(string $criteria)
+	{
+		$this->criteria = $criteria;
 	}
 }
