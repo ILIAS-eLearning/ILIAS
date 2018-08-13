@@ -42,7 +42,7 @@ function base() {
 		$result = "No result yet.";
 	}
 
-	//Step 4: Render the select with the enclosing form.
+	//Step 4: Render the form.
 	return
 		"<pre>".print_r($result, true)."</pre><br/>".
 		$renderer->render($form);
