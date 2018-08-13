@@ -491,19 +491,18 @@ interface Factory {
 	 *     indicating the specified format.
 	 *     Next to the text-field, a calendar-glyph will trigger a popover containing
 	 *     a graphical selector/date-picker.
+	 *     Depending on the given format, next to the date-picker a time-picker will be shown.
+	 *     If desired, the date-input can be rendered with the time-glyph instead of the calendar-glyph.
 	 *   effect: >
 	 *     When clicking the glyph, a popover is shown with the days of the month.
 	 *     Within the popover, the user may navigate to prior and following months.
+	 *     When format contains time-values, the picker is rendered with a time-selection.
 	 *   rivals:
 	 *     Text field: Text-fields MUST NOT be used to input date-strings.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: XX
-	 *
-	 *   interaction:
-	 *     1: XX
-	 *     2: XX
+	 *     1: When used as a time-only input, the glyph MUST be time-glyph.
 	 *
 	 * ---
 	 * @param $label   string defines the label.
