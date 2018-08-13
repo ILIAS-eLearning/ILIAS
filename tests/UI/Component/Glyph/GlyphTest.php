@@ -319,9 +319,9 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$css_classes = self::$canonical_css_classes[$type];
 		$aria_label = self::$aria_labels[$type];
-
+		
 		$expected = "<a class=\"glyph disabled\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" ".
-					"aria-disabled=\"true\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+			"aria-disabled=\"true\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
