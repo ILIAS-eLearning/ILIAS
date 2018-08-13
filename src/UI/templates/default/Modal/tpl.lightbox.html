@@ -18,7 +18,7 @@
 
 					<div class="carousel-inner" role="listbox">
 						<!-- BEGIN pages -->
-						<div class="item{CLASS_ACTIVE}" data-title="{TITLE2}">
+						<div class="item{CLASS_ACTIVE}<!-- BEGIN page_type_text --> text-only<!-- END page_type_text -->" data-title="{TITLE2}">
 							{CONTENT}<!-- BEGIN page_description -->
 							<div class="carousel-caption">
 								{DESCRIPTION}
@@ -47,6 +47,24 @@
 	$(function() {
 		$('#{ID}').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
+		});
+		$('#{ID}').on('show.bs.modal', function (e) {
+			var elm = $(this).find('.carousel-inner .item.active').first();
+
+			if (elm.hasClass('text-only')) {
+				elm.closest('.carousel').addClass('text-only');
+			} else {
+				elm.closest('.carousel').removeClass('text-only');
+			}
+		});
+		$('#{ID_CAROUSEL4}').on('slide.bs.carousel', function(e) {
+			var elm = $(e.relatedTarget);
+
+			if (elm.hasClass('text-only')) {
+				elm.closest('.carousel').addClass('text-only');
+			} else {
+				elm.closest('.carousel').removeClass('text-only');
+			}
 		});
 		$('#{ID_CAROUSEL4}').on('slid.bs.carousel', function() {
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');

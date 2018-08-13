@@ -20,14 +20,6 @@ interface LightboxPage {
 
 
 	/**
-	 * Get the description of this page, displayed along with the media item
-	 *
-	 * @return string
-	 */
-	public function getDescription();
-
-
-	/**
 	 * Get the component representing the media item to be displayed in the modals
 	 * content section, e.g. an image.
 	 *
