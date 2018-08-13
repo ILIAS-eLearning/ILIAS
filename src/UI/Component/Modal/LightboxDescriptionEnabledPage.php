@@ -2,9 +2,9 @@
 namespace ILIAS\UI\Component\Modal;
 
 /**
- * Interface LightboxPage
+ * Interface LightboxDescriptionEnabledPage
  *
- * A lightbox descriptive page represents a page displaying a media element, such as image or video.
+ * A lightbox descriptive page behaves like a LightBox with an additional description.
  */
 interface LightboxDescriptionEnabledPage extends LightboxPage {
 	/**
