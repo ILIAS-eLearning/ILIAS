@@ -44,6 +44,7 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const RESET = "reset";
 	const APPLY = "apply";
 	const CALENDAR = "calendar";
+	const TIME = "time";
 
 	/**
 	 * Get the type of the glyph.

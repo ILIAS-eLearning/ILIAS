@@ -844,7 +844,7 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking the calendar glyph will usually open a date-picker.
 	 *
-	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 * context: Use in conjunction with Date-Inputs.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -855,5 +855,27 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function calendar($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Time glyph is used to symbolize time-related actions or alerts.
+	 *   composition: >
+	 *      The Time Glyph uses the glyphicon-time.
+	 *   effect: >
+	 *       Clicking the time glyph will usually open a time-picker.
+	 *
+	 * context: Use in conjunction with Date-Inputs.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Time'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function time($action = null);
 
 }

@@ -79,6 +79,7 @@ class Glyph implements C\Glyph\Glyph {
 		, self::RESET
 		, self::APPLY
 		, self::CALENDAR
+		, self::TIME
 		);
 
 
