@@ -103,7 +103,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		// :TODO: temporary legend of available placeholders
 		if ($this->getOutputMode() == IL_PAGE_EDIT) {
 			$delete_button = ilLinkButton::getInstance();
-			$delete_button->setCaption('dcl_empty_view');
+			$delete_button->setCaption('dcl_empty_detailed_view');
 			$delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
 			$ilToolbar->addButtonInstance($delete_button);
 
@@ -157,9 +157,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
-		$conf->setHeaderText($lng->txt('dcl_confirm_delete_view_title'));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-		$conf->addItem('tableview', (int)$this->tableview_id, $lng->txt('dcl_confirm_delete_view_text'));
+		$conf->addItem('tableview', (int)$this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
 		$conf->setConfirm($lng->txt('delete'), 'deleteView');
 		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -190,9 +190,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 			$pageObject->delete();
 		}
 
-		ilUtil::sendSuccess($lng->txt("dcl_empty_view_success"), true);
+		ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
 
-		$ilCtrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		// Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
+		$ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
 	}
 
 	/**
