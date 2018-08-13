@@ -559,14 +559,42 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
 		}
-=======
+
 	public function renderDateInput(Template $tpl, Date $input) :string {
 		global $DIC;
 		$f = $this->getUIFactory();
-		$renderer = $DIC->ui()->renderer();
+		//render glyph in button-context (w/o a-tag)
+		$renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
+		if($input->getTimeGlyph() === true) {
+			$cal_glyph = $f->glyph()->time("#");
+		} else {
+			$cal_glyph = $f->glyph()->calendar("#");
+		}
 
-		$cal_glyph = $f->glyph()->calendar("#");
 		$tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
+
+		//see http://eonasdan.github.io/bootstrap-datetimepicker
+		$config = [
+			'showClear' => true,
+			'sideBySide' => true,
+			'format' => $input->getFormat(),
+		];
+		$min_date = $input->getMinDate();
+		if(! is_null($min_date)) {
+			$config['minDate'] = date_format($min_date, $format);
+		}
+		$max_date = $input->getMaxDate();
+		if(! is_null($max_date)) {
+			$config['maxDate'] = date_format($max_date, $format);
+		}
+
+		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+		\ilCalendarUtil::initDateTimePicker();
+		$input = $input->withAdditionalOnLoadCode(function($id) use ($config) {
+			return '$("#'.$id.'").datetimepicker('.json_encode($config).')';
+		});
+		$id = $this->bindJavaScript($input);
+		$tpl->setVariable("ID", $id);
 
 		$tpl->setVariable("NAME", $input->getName());
 		$tpl->setVariable("PLACEHOLDER", $input->getFormat());
