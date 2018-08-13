@@ -12480,6 +12480,7 @@ dcl#:#dcl_selection_type#:#Type
 dcl#:#dcl_selection_type_single#:#Single Selection
 dcl#:#dcl_selection_type_multi#:#Multiple Selection
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard Views
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
