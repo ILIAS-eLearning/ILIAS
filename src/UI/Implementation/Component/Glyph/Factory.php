@@ -271,5 +271,11 @@ class Factory implements G\Factory {
 	public function help(string $action = null): G\Glyph
 	{
 		return new Glyph(G\Glyph::HELP, "help", $action);
+
+	/**
+	* @inheritdoc
+	*/
+	public function calendar($action = null) {
+		return new Glyph(G\Glyph::CALENDAR, "calendar", $action);
 	}
 }

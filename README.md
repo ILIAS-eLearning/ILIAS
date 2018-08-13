@@ -1,6 +1,3 @@
-[![Build Status](https://api.travis-ci.com/ILIAS-eLearning/ILIAS.svg?branch=trunk)](https://travis-ci.com/ILIAS-eLearning/ILIAS)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
-
 # ILIAS
 
 ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published under the General Public Licence and free of charge.

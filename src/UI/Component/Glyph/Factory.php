@@ -889,4 +889,26 @@ interface Factory {
 	 */
 	public function help(string $action = null): Glyph;
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Calendar glyph is used to symbolize date-related actions or alerts.
+	 *   composition: >
+	 *      The Calendar Glyph uses the glyphicon-calendar.
+	 *   effect: >
+	 *       Clicking the calendar glyph will usually open a date-picker.
+	 *
+	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Calendar'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function calendar($action = null);
+
 }

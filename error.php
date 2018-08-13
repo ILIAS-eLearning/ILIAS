@@ -23,7 +23,7 @@ try
 
 	ilSession::clear("referer");
 	ilSession::clear("message");
-	$tpl->printToStdout();
+	$tpl->show();
 }
 catch(Exception $e)
 {

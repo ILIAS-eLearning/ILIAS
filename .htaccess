@@ -9,9 +9,6 @@
 	RewriteRule ^goto_(.*)_([a-z]+_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2&lang=%1 [L]
 	RewriteRule ^goto_(.*)_([a-z]+_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2 [L]
 	RewriteRule ^data/.*/.*/.*$ ./Services/WebAccessChecker/wac.php [L]
-	RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
-	RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
-	RewriteRule .* "-" [R=401,L]
 
 	RedirectMatch 404 /\.git
 </IfModule>
