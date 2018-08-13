@@ -405,8 +405,12 @@ class ilAssQuestionPreviewGUI
 
 	private function populateSpecificQuestionFeedback(ilTemplate $tpl)
 	{
+		$fb = $this->questionGUI->getSpecificFeedbackOutput(
+			(array)$this->previewSession->getParticipantsSolution()
+		);
+		
 		$tpl->setCurrentBlock('instant_feedback_specific');
-		$tpl->setVariable('ANSWER_FEEDBACK', $this->questionGUI->getSpecificFeedbackOutput(0, -1));
+		$tpl->setVariable('ANSWER_FEEDBACK', $fb);
 		$tpl->parseCurrentBlock();
 	}
 	

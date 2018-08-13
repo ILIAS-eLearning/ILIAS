@@ -1157,6 +1157,10 @@ class ilUtil
 
 		$ilErr = $DIC["ilErr"];
 
+		if (null === $a_email || !is_string($a_email)) {
+			return false;
+		}
+
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
@@ -1166,7 +1170,7 @@ class ilUtil
 		{
 			try
 			{
-				$parser    = $mailAddressParserFactory->getParser($a_email);
+				$parser    = $mailAddressParserFactory->getParser((string)$a_email);
 				$addresses = $parser->parse();
 				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}

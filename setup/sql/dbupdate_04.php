@@ -22379,3 +22379,145 @@ while($data = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
+<#5285>
+<?php
+if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
+{
+	// add new table column for indexing different question gaps in assClozeTest
+	$ilDB->addTableColumn('qpl_fb_specific', 'question', array(
+		'type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => null
+	));
+	
+	// give all other qtypes having a single subquestion the question index 0
+	$ilDB->manipulateF(
+		"UPDATE qpl_fb_specific SET question = %s WHERE question_fi NOT IN(
+			SELECT question_id FROM qpl_questions
+			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
+		  	WHERE type_tag = %s
+		)", array('integer', 'text'), array(0, 'assClozeTest')
+	);
+	
+	// for all assClozeTest entries - migrate the gap feedback indexes from answer field to questin field
+	$ilDB->manipulateF(
+		"UPDATE qpl_fb_specific SET question = answer WHERE question_fi IN(
+			SELECT question_id FROM qpl_questions
+			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
+		  	WHERE type_tag = %s
+		)", array('text'), array('assClozeTest')
+	);
+	
+	// for all assClozeTest entries - initialize the answer field with 0 for the formaly stored gap feedback
+	$ilDB->manipulateF(
+		"UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
+			SELECT question_id FROM qpl_questions
+			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
+		  	WHERE type_tag = %s
+		)", array('integer', 'text'), array(0, 'assClozeTest')
+	);
+	
+	// finaly set the question index field to notnull = true (not nullable) as it is now initialized
+	$ilDB->modifyTableColumn('qpl_fb_specific', 'question', array(
+		'notnull' => true, 'default' => 0
+	));
+	
+	// add unique constraint on qid and the two specific feedback indentification index fields
+	$ilDB->addUniqueConstraint('qpl_fb_specific', array(
+		'question_fi', 'question', 'answer'
+	));
+}
+
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
+{
+	$ilDB->addTableColumn('qpl_qst_cloze', 'feedback_mode', array(
+		'type' => 'text', 'length' => 16, 'notnull' => false, 'default' => null
+	));
+	
+	$ilDB->manipulateF("UPDATE qpl_qst_cloze SET feedback_mode = %s",
+		array('text'), array('gapQuestion')
+	);
+	
+	$ilDB->modifyTableColumn('qpl_qst_cloze', 'feedback_mode', array(
+		'notnull' => true, 'default' => 'gapQuestion'
+	));
+}
+?>
+<#5286>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'follow_qst_answer_fixation') )
+{
+	$ilDB->addTableColumn('tst_tests', 'follow_qst_answer_fixation', array(
+		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0		
+	));
+	
+	$ilDB->manipulateF(
+		'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
+	);
+}
+
+if( !$ilDB->tableExists('tst_seq_qst_presented') )
+{
+	$ilDB->createTable('tst_seq_qst_presented', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	
+	$ilDB->addPrimaryKey('tst_seq_qst_presented', array(
+		'active_fi','pass', 'question_fi'
+	));
+}
+?>
+<#5287>
+<?php
+if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
+{
+	$ilDB->manipulateF("
+		UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
+			SELECT question_fi FROM qpl_qst_cloze WHERE feedback_mode = %s
+		)
+		", array('integer', 'text'), array(-10, 'gapQuestion')
+	);
+}
+?>
+<#5288>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx1', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('user_id'), 'i1');
+	$setting->set('iloscmsgidx1', 1);
+}
+?>
+<#5289>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx2', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('conversation_id'), 'i2');
+	$setting->set('iloscmsgidx2', 1);
+}
+?>
+<#5290>
+<?php
+$setting = new ilSetting();
+$ilrqtix = $setting->get('iloscmsgidx3', 0);
+if (!$ilrqtix) {
+	$ilDB->addIndex('osc_messages', array('conversation_id', 'user_id', 'timestamp'), 'i3');
+	$setting->set('iloscmsgidx3', 1);
+}
+?>

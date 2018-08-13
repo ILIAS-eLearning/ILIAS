@@ -583,7 +583,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if ($show_feedback)
 		{
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $solution_id
+					$this->object->getId(),0, $solution_id
 			);
 			
 			if (strlen($fb))
@@ -755,7 +755,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				if(!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id)
 				{
 					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
+							$this->object->getId(),0, $answer_id
 					);
 					if (strlen($feedback))
 					{
@@ -920,9 +920,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->getAnswers())) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -932,7 +932,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach($this->object->getAnswers() as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $idx
+				$this->object->getId(),0, $idx
 			);
 
 			$output .= "<tr><td>{$answer->getAnswerText()}</td><td>{$feedback}</td></tr>";
@@ -970,6 +970,46 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		return array();
 	}
+	
+	protected function renderAggregateView($answeringFequencies)
+	{
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+		
+		$tpl->setCurrentBlock('headercell');
+		$tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_answer_header'));
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock('headercell');
+		$tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_frequency_header'));
+		$tpl->parseCurrentBlock();
+		
+		foreach($answeringFequencies as $answerIndex => $answeringFrequency)
+		{
+			$tpl->setCurrentBlock('aggregaterow');
+			$tpl->setVariable('OPTION', $this->object->getAnswer($answerIndex)->getAnswerText());
+			$tpl->setVariable('COUNT', $answeringFrequency);
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
+	}
+	
+	protected function aggregateAnswers($givenSolutionRows, $existingAnswerOptions)
+	{
+		$answeringFequencies = array();
+		
+		foreach($existingAnswerOptions as $answerIndex => $answerOption)
+		{
+			$answeringFequencies[$answerIndex] = 0;
+		}
+		
+		foreach($givenSolutionRows as $solutionRow)
+		{
+			$answeringFequencies[$solutionRow['value1']]++;
+		}
+		
+		return $answeringFequencies;
+	}
 
 	/**
 	 * Returns an html string containing a question specific representation of the answers so far
@@ -981,7 +1021,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return ''; //print_r($relevant_answers,true);
+		return $this->renderAggregateView(
+			$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() )
+		);
 	}
 	
 	protected function getPreviousSolutionConfirmationCheckboxHtml()

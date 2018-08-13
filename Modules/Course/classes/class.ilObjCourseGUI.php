@@ -1189,6 +1189,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
 			
 				$pass = new ilTextInputGUI($this->lng->txt("password"),'subscription_password');
+				$pass->setRequired(true);
 				$pass->setInfo($this->lng->txt('crs_reg_password_info'));
 				$pass->setSubmitFormOnEnter(true);
 				$pass->setSize(32);
@@ -2003,15 +2004,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			// default activation
 			$this->tabs_gui->activateTab('view_content');
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
 				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
 					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
@@ -2676,7 +2677,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
 				// if news timeline is landing page, redirect if necessary
-				if ($cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
+				if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->ctrl->redirectbyclass("ilnewstimelinegui");
 				}
