@@ -17,7 +17,10 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assClozeGap 
 {
-
+	const TYPE_TEXT = 0;
+	const TYPE_SELECT = 1;
+	const TYPE_NUMERIC = 2;
+	
 	/**
 	 * Type of gap
 	 *
@@ -89,7 +92,7 @@ class assClozeGap
 	 * Gets the items of a cloze gap
 	 *
 	 * @param ilArrayElementShuffler $shuffler
-	 * @return array The list of items
+	 * @return assAnswerCloze[] The list of items
 	 */
 	public function getItems(ilArrayElementShuffler $shuffler)
 	{
@@ -252,16 +255,17 @@ class assClozeGap
 			}
 		}
 	}
-
-/**
-* Gets the item with a given index
-* 
-* Gets the item with a given index
-*
-* @param integer $a_index Item index
-* @access public
-* @see $items
-*/
+	
+	/**
+	 * Gets the item with a given index
+	 *
+	 * Gets the item with a given index
+	 *
+	 * @param integer $a_index Item index
+	 * @access public
+	 * @see $items
+	 * @return assAnswerCloze|null
+	 */
 	function getItem($a_index) 
 	{
 		if (array_key_exists($a_index, $this->items))
@@ -430,5 +434,28 @@ class assClozeGap
 	public function getGapSize()
 	{
 		return $this->gap_size;
+	}
+	
+	public function numericRangeExists()
+	{
+		if($this->getType() != CLOZE_NUMERIC)
+		{
+			return false;
+		}
+		
+		require_once 'Services/Math/classes/class.EvalMath.php';
+		$math = new EvalMath();
+		
+		$item = $this->getItem(0);
+		$lowerBound = $math->evaluate($item->getLowerBound());
+		$upperBound = $math->evaluate($item->getUpperBound());
+		$preciseValue = $math->evaluate($item->getAnswertext());
+		
+		if( $lowerBound < $preciseValue || $upperBound > $preciseValue)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

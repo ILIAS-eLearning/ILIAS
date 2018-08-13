@@ -17,7 +17,9 @@ class ilConsultationHourGroups
 	 */
 	public static function getGroupsOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT grp_id FROM cal_ch_group '.
 				'WHERE usr_id = '.$ilDB->quote($a_user_id,'integer');
@@ -39,7 +41,9 @@ class ilConsultationHourGroups
 	 */
 	public static function getCountGroupsOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT COUNT(grp_id) num FROM cal_ch_group '.
 				'WHERE usr_id = '.$ilDB->quote($a_user_id,'integer').' '.
@@ -55,7 +59,9 @@ class ilConsultationHourGroups
 	 */
 	public static function lookupAssignedAppointments()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		//@todo
 	}
@@ -65,7 +71,9 @@ class ilConsultationHourGroups
 	 */
 	public static function lookupTitle($a_group_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT title from cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($a_group_id,'integer');
@@ -85,7 +93,9 @@ class ilConsultationHourGroups
 	 */
 	public static function lookupMaxBookings($a_group_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT multiple_assignments from cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($a_group_id,'integer');
@@ -104,7 +114,9 @@ class ilConsultationHourGroups
 	 */
 	public static function getGroupSelectOptions($a_user_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$groups = self::getGroupsOfUser($a_user_id);
 		if(!count($groups))

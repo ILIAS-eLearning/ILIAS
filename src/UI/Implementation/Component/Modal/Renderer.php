@@ -50,10 +50,16 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Modal\Modal $modal) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$options = json_encode(array(
+
+		$replace = "";
+		if ($modal instanceof Component\Modal\RoundTrip) {
+			$replace = $modal->getReplaceSignal();
+		}
+
+		$options = array(
 			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
-			'keyboard' => $modal->getCloseWithKeyboard(),
-		));
+			'keyboard' => $modal->getCloseWithKeyboard()
+		);
 		// ATTENTION, ATTENTION:
 		// with(Additional)OnLoadCode opens a wormhole into the future, where some unspecified
 		// entity magically created an id for the component that can be used to refer to it
@@ -70,10 +76,16 @@ class Renderer extends AbstractComponentRenderer {
 		//   created
 		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
 		//   tempering with the id _here_.
-		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options) {
-			return
-				"$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });".
+		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options, $replace) {
+			$options["url"] = "#{$id}";
+			$options = json_encode($options);
+			$code =
+				"$(document).on('{$show}', function(event, signalData) { il.UI.modal.showModal('{$id}', {$options}, signalData); return false; });".
 				"$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });";
+			if ($replace != "") {
+				$code.= "$(document).on('{$replace}', function(event, signalData) { il.UI.modal.replaceFromSignal('{$id}', signalData);});";
+			}
+			return $code;
 		});
 	}
 

@@ -22,6 +22,10 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	 * @var array
 	 */
 	protected $filter = [];
+	/**
+	 * @var \ILIAS\UI\Component\Modal\Interruptive[]
+	 */
+	protected $interruptive_modals = [];
 
 
 	/**
@@ -34,12 +38,13 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->facade = $facade;
 		$this->parent_obj = $a_parent_obj;
 
+		$f = $this->dic()->ui()->factory();
+		$this->modal = $f->modal()->roundtrip('---', $f->legacy(''))->withAsyncRenderUrl($this->ctrl()->getLinkTarget($this->parent_obj, ilBiblFieldFilterGUI::CMD_EDIT));
+
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
 		$this->setFormName(self::TBL_ID);
 		$this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
-
-		$this->initButtons();
 
 		parent::__construct($a_parent_obj);
 		$this->parent_obj = $a_parent_obj;
@@ -54,17 +59,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->initColumns();
 		$this->addFilterItems();
 		$this->parseData();
-	}
-
-
-	protected function initButtons() {
-		if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
-			$new_filter_link = $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_ADD);
-			$ilLinkButton = ilLinkButton::getInstance();
-			$ilLinkButton->setCaption($this->lng()->txt("add_filter"), false);
-			$ilLinkButton->setUrl($new_filter_link);
-			$this->toolbar()->addButtonInstance($ilLinkButton);
-		}
 	}
 
 
@@ -108,10 +102,14 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$filter = $this->facade->filterFactory()->findById((int)$a_set['id']);
 		$field = $this->facade->fieldFactory()->findById($filter->getFieldId());
 
-		$this->tpl->setVariable('VAL_FIELD', $this->facade->translationFactory()
-		                                                  ->translate($field));
-		$this->tpl->setVariable('VAL_FILTER_TYPE', $this->lng()->txt("filter_type_"
-		                                                             . $filter->getFilterType()));
+		$this->tpl->setVariable(
+			'VAL_FIELD', $this->facade->translationFactory()->translate($field)
+		);
+		$this->tpl->setVariable(
+			'VAL_FILTER_TYPE', $this->lng()->txt(
+			"filter_type_" . $filter->getFilterType()
+		)
+		);
 
 		$this->addActionMenu($filter);
 	}
@@ -123,14 +121,20 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) {
 		$this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId($ilBiblFieldFilter->getId());
-		$current_selection_list->addItem($this->lng()->txt("edit"), "", $this->ctrl()
-		                                                                     ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
-		$current_selection_list->addItem($this->lng()->txt("delete"), "", $this->ctrl()
-		                                                                       ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE));
-		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+		$f = $this->dic()->ui()->factory();
+		$r = $this->dic()->ui()->renderer();
+
+		$edit = $f->button()->shy($this->lng()->txt("edit"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
+
+		$delete_modal = $f->modal()->interruptive(
+			'', '', ''
+		)->withAsyncRenderUrl($this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_RENDER_INTERRUPTIVE, '', true));
+
+		$delete = $f->button()->shy($this->lng()->txt("delete"), '')->withOnClick($delete_modal->getShowSignal());
+
+		$this->tpl->setVariable('VAL_ACTIONS', $r->render([$f->dropdown()->standard([$edit, $delete])]));
+
+		$this->interruptive_modals[] = $delete_modal;
 	}
 
 
@@ -139,7 +143,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->determineLimit();
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'id';
-		$sorting_column = 'id';
+
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
 
 		$sorting_direction = $this->getOrderDirection();
@@ -153,5 +157,24 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 		$filter = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObjId(), $info);
 		$this->setData($filter);
+	}
+
+
+	/**
+	 * @return \ILIAS\UI\Component\Modal\Interruptive[]
+	 */
+	protected function getInterruptiveModals(): array {
+		return $this->interruptive_modals;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getHTML() {
+		$table = parent::getHTML();
+		$modals = $this->dic()->ui()->renderer()->render($this->getInterruptiveModals());
+
+		return $table . $modals;
 	}
 }

@@ -134,7 +134,9 @@ class ilAuthUtils
 	
 	static function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
 		{
@@ -184,7 +186,10 @@ class ilAuthUtils
 	
 	static function _getAuthMode($a_auth_mode,$a_db_handler = '')
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$db =& $ilDB;
 		
@@ -257,7 +262,9 @@ class ilAuthUtils
 	
 	public static function _getAuthModeName($a_auth_key)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
 
 		// begin-patch ldap_multiple
 		switch ((int) $a_auth_key)
@@ -318,7 +325,10 @@ class ilAuthUtils
 	
 	static function _getActiveAuthModes()
 	{
-		global $ilias,$ilSetting;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$modes = array(
 						'default'	=> $ilSetting->get("auth_mode"),
@@ -432,7 +442,9 @@ class ilAuthUtils
 	*/
 	public static function _generateLogin($a_login)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// Check if username already exists
 		$found = false;
@@ -470,7 +482,9 @@ class ilAuthUtils
 		if (count(ilLDAPServer::_getActiveServerList()))
 			return true;
 
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		if ($ilSetting->get('apache_active')) {
 			return true;
@@ -495,7 +509,9 @@ class ilAuthUtils
 	
 	public static function _getMultipleAuthModeOptions($lng)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// in the moment only ldap is activated as additional authentication method
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
@@ -520,7 +536,9 @@ class ilAuthUtils
 
 		if ($ilSetting->get('apache_active'))
 		{
-			global $lng;
+			global $DIC;
+
+			$lng = $DIC['lng'];
 			$apache_settings = new ilSetting('apache_auth');
 			$options[AUTH_APACHE]['txt'] = $apache_settings->get('name', $lng->txt('apache_auth'));
 			$options[AUTH_APACHE]['hide_in_ui'] = true;
@@ -578,7 +596,9 @@ class ilAuthUtils
 	 */
 	public static function _isExternalAccountEnabled()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		if($ilSetting->get("cas_active"))
 		{
@@ -680,7 +700,9 @@ class ilAuthUtils
 	public static function isPasswordModificationHidden()
 	{
 		/** @var $ilSetting \ilSetting */
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		if ($ilSetting->get('usr_settings_hide_password') || $ilSetting->get('usr_settings_disable_password')) {
 			return true;
@@ -696,7 +718,9 @@ class ilAuthUtils
 	 */
 	public static function isPasswordModificationEnabled($a_authmode)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		if (self::isPasswordModificationHidden()) {
 			return false;
@@ -776,7 +800,7 @@ class ilAuthUtils
 	 */
 	public static function getAuthPlugins()
 	{
-		$pls = $GLOBALS['ilPluginAdmin']->getActivePluginsForSlot(
+		$pls = $GLOBALS['DIC']['ilPluginAdmin']->getActivePluginsForSlot(
 				IL_COMP_SERVICE,
 				'Authentication',
 				'authhk'
@@ -784,7 +808,7 @@ class ilAuthUtils
 		$pl_objs = array();
 		foreach($pls as $pl)
 		{
-			$pl_objs[] = $GLOBALS['ilPluginAdmin']->getPluginObject(
+			$pl_objs[] = $GLOBALS['DIC']['ilPluginAdmin']->getPluginObject(
 					IL_COMP_SERVICE,
 					'Authentication',
 					'authhk',
@@ -801,7 +825,9 @@ class ilAuthUtils
 	 */
 	public static function getAuthModeTranslation($a_auth_key)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		switch((int) $a_auth_key)
 		{

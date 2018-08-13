@@ -316,10 +316,10 @@ class arConnectorDB extends arConnector {
 		$q .= ' FROM ' . $arl->getAR()->getConnectorContainerName();
 		// JOINS
 		$q .= $arl->getArJoinCollection()->{$method}();
-		// HAVING
-		$q .= $arl->getArHavingCollection()->{$method}();
 		// WHERE
 		$q .= $arl->getArWhereCollection()->{$method}();
+		// HAVING
+		$q .= $arl->getArHavingCollection()->{$method}();
 		// ORDER
 		$q .= $arl->getArOrderCollection()->{$method}();
 		// LIMIT

@@ -40,7 +40,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	// Private
 	function __createKeywordWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$concat = ' keyword ';
 		$where = " WHERE (";
@@ -60,7 +62,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 
 	function __createContributeWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$concat = ' entity ';
 		$where = " WHERE (";
@@ -79,7 +83,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	}		
 	function __createTitleWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		/*
 		$concat = ' CONCAT(title,coverage) '; // broken if coverage is null
@@ -110,7 +116,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 
 	public function __createDescriptionWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$concat = ' description ';
 		$where = " WHERE (";

@@ -38,7 +38,9 @@ class ilLikeObjectSearch extends ilObjectSearch
 {
 	function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		/*
 		$concat  = " CONCAT(";

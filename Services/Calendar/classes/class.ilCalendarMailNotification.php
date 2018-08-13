@@ -99,7 +99,10 @@ class ilCalendarMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $rbacreview,$lng;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$lng = $DIC['lng'];
 		
 		switch($this->getType())
 		{
@@ -389,7 +392,9 @@ class ilCalendarMailNotification extends ilMailNotification
 
 	protected function addAttachment()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
 		$export = new ilCalendarExport();

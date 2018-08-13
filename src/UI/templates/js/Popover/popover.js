@@ -54,33 +54,16 @@ il.UI = il.UI || {};
          * @param signalData Object containing all data from the replace signal
          */
         var replaceContentFromSignal = function (showSignal, signalData) {
-            console.log(signalData);
             // Find the ID of the triggerer where this popover belongs to
             var triggererId = (showSignal in initializedPopovers) ? initializedPopovers[showSignal] : 0;
             if (!triggererId) return;
-            // Find the content of the popover
-            var $triggerer = $('#' + triggererId);
-            var url = signalData.options.url;
-            replaceContent($triggerer, url);
+
+			var url = signalData.options.url;
+			var $triggerer = $('#' + triggererId);
+			var id = $triggerer.attr('data-target');
+
+			il.UI.core.replaceContent(id, url, "content");
         };
-
-
-        /**
-         * Replace the content of the popover of the $triggerer JQuery object with the data returned by the
-         * given url.
-         *
-         * @param $triggerer JQuery object where the popover belongs to
-         * @param url The URL where the ajax GET request is sent to load the new content
-         */
-        var replaceContent = function($triggerer, url) {
-            var $content = $('#' + $triggerer.attr('data-target')).find('.il-popover-content');
-            if (!$content.length) return;
-            $content.html('<i class="icon-refresh"></i><p>&nbsp;</p>');
-            $content.load(url, function() {
-                console.log('loaded');
-            });
-        };
-
 
         /**
          * Show a popover next to the given triggerer element with the provided options
@@ -105,8 +88,7 @@ il.UI = il.UI || {};
         return {
             showFromSignal: showFromSignal,
             replaceContentFromSignal: replaceContentFromSignal,
-            show: show,
-            replaceContent: replaceContent
+            show: show
         };
 
     })($);

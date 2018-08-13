@@ -58,7 +58,9 @@ class ilLikeUserOrgUnitSearch extends ilAbstractSearch
 	 */
 	public function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$where = 'WHERE ';
 		$counter = 0;

@@ -54,7 +54,7 @@ class ilAuthContainerECS extends Auth_Container
 
 		$this->initECSServices();
 		
-		$this->log = $GLOBALS['ilLog'];
+		$this->log = $GLOBALS['DIC']['ilLog'];
 	}
 	
 	/**
@@ -118,13 +118,15 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	public function fetchData($a_username,$a_pass)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		$ilLog->write(__METHOD__.': Starting ECS authentication.');
 
 		if(!$this->getServerSettings()->activeServerExists())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': no active ecs server found. Aborting');
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': no active ecs server found. Aborting');
 			return false;
 		}
 
@@ -138,7 +140,7 @@ class ilAuthContainerECS extends Auth_Container
 				return true;
 			}
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': Could not validate ecs hash for any server');
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Could not validate ecs hash for any server');
 		return false;
 
 	}
@@ -154,7 +156,9 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	public function validateHash()
 	{
-	 	global $ilLog;
+	 	global $DIC;
+
+	 	$ilLog = $DIC['ilLog'];
 		
 		// fetch hash
 		if(isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash']))
@@ -168,7 +172,7 @@ class ilAuthContainerECS extends Auth_Container
 			//$hash = urldecode($_GET['ecs_hash_url']);
 		}
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs hash '. $hash);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using ecs hash '. $hash);
 
 		// Check if hash is valid ...
 	 	try
@@ -178,7 +182,7 @@ class ilAuthContainerECS extends Auth_Container
 	 		$res = $connector->getAuth($hash);
 			$auths = $res->getResult();
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': Auths: '.print_r($auths,TRUE));
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Auths: '.print_r($auths,TRUE));
 			
 			if($auths->pid)
 			{
@@ -223,8 +227,8 @@ class ilAuthContainerECS extends Auth_Container
 	 		$connector = new ilECSConnector($this->getCurrentServer());
 	 		$details = $connector->getAuth($hash,TRUE);
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($details,TRUE));
-			$GLOBALS['ilLog']->write(__METHOD__.': Token created for mid '. $details->getFirstSender());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($details,TRUE));
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Token created for mid '. $details->getFirstSender());
 			
 			$this->setMID($details->getFirstSender());
 		}
@@ -269,7 +273,7 @@ class ilAuthContainerECS extends Auth_Container
 		$remote->setRemoteUserId($user->getImportId());
 		$remote->setUserId(ilObjUser::_lookupId($username));
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Current username '.$username);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Current username '.$username);
 		
 		if(!$remote->exists())
 		{
@@ -301,9 +305,15 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	protected function createUser(ilECSUser $user)
 	{
-		global $ilClientIniFile, $ilSetting, $rbacadmin, $ilLog;
+		global $DIC;
+
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$ilSetting = $DIC['ilSetting'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilLog = $DIC['ilLog'];
 
 		$userObj = new ilObjUser();
+		$userObj->setOwner(SYSTEM_USER_ID);
 
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
@@ -368,7 +378,11 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	protected function updateUser(ilECSUser $user,$a_local_user_id)
 	{
-		global $ilClientIniFile,$ilLog,$rbacadmin;
+		global $DIC;
+
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$ilLog = $DIC['ilLog'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$user_obj = new ilObjUser($a_local_user_id);
 		$user_obj->setFirstname($user->getFirstname());
@@ -444,8 +458,8 @@ class ilAuthContainerECS extends Auth_Container
 		include_once('./Services/Language/classes/class.ilLanguageFactory.php');
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		$lang = ilLanguageFactory::_getLanguage();
-		$GLOBALS['lng'] = $lang;
-		$GLOBALS['ilUser'] = $user_obj;
+		$GLOBALS['DIC']['lng'] = $lang;
+		$GLOBALS['DIC']['ilUser'] = $user_obj;
 		$lang->loadLanguageModule('ecs');
 
 		include_once('./Services/Mail/classes/class.ilMail.php');

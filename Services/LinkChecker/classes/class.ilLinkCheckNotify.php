@@ -37,7 +37,9 @@ class ilLinkCheckNotify
 
 	function addNotifier()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->deleteNotifier();
 
@@ -53,7 +55,9 @@ class ilLinkCheckNotify
 
 	function deleteNotifier()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM link_check_report ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer')." ".
@@ -66,7 +70,9 @@ class ilLinkCheckNotify
 	/* Static */
 	static function _getNotifyStatus($a_usr_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM link_check_report ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -78,7 +84,9 @@ class ilLinkCheckNotify
 
 	static function _deleteUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM link_check_report ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
@@ -88,7 +96,9 @@ class ilLinkCheckNotify
 
 	static function _deleteObject($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM link_check_report ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
@@ -99,7 +109,9 @@ class ilLinkCheckNotify
 
 	static function _getNotifiers($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM link_check_report ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
@@ -115,7 +127,9 @@ class ilLinkCheckNotify
 
 	static function _getAllNotifiers(&$db)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM link_check_report ";
 

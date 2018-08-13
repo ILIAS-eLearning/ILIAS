@@ -193,4 +193,12 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Table\Factory(new SignalGenerator());
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function messageBox()
+	{
+		return new Component\MessageBox\Factory();
+	}
+
 }

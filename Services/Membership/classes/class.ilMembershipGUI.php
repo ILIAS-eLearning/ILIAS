@@ -254,9 +254,21 @@ class ilMembershipGUI
 				
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-				
+
+
+				switch($this->getParentObject()->getType())
+				{
+					case 'grp':
+						$objroles = new ilMailMemberGroupRoles();
+						break;
+
+					default:
+						$objroles = new ilMailMemberCourseRoles();
+						break;
+				}
+
 				// @todo: fix mail course roles object
-				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), new ilMailMemberCourseRoles());
+				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), $objroles);
 				$mail_search->setObjParticipants(
 					ilParticipants::getInstanceByObjId($this->getParentObject()->getId())
 				);

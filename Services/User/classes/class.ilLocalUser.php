@@ -23,7 +23,9 @@ class ilLocalUser
 	*/
 	function __construct($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->parent_id = $a_parent_id;
@@ -57,7 +59,10 @@ class ilLocalUser
 
 	public static function _getFolderIds()
 	{
-		global $ilDB,$rbacsystem;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$query = "SELECT DISTINCT(time_limit_owner) as parent_id FROM usr_data ";
 
@@ -87,7 +92,9 @@ class ilLocalUser
 
 	static function _getAllUserIds($a_filter = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		switch($a_filter)
 		{
 			case 0:

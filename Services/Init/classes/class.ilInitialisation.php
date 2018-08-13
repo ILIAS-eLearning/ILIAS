@@ -323,7 +323,7 @@ class ilInitialisation
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			foreach($dirs as $dir)
+			if (count($dirs) > 0)
 			{
 				$uri = dirname($uri);
 			}
@@ -618,6 +618,17 @@ class ilInitialisation
 		$c["mail.mime.sender.factory"] = function ($c) {
 			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
 			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
+	{
+		$c["object.customicons.factory"] = function ($c) {
+			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
+			return new ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
 		};
 	}
 
@@ -1181,6 +1192,7 @@ class ilInitialisation
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
+		self::initCustomObjectIcons($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1628,7 +1640,7 @@ class ilInitialisation
 			if(
 				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
 			)
 			{
 				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);

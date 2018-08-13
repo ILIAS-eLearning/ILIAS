@@ -10,4 +10,4 @@
 	<crons>
 		<cron id="rep_disk_quota" class="ilDAVCronDiskQuota" />
 	</crons>
-</service>
+	<logging></logging></service>

@@ -27,7 +27,9 @@ class ilDidacticTemplateCopier
 	 */
 	public static function appendCopyInfo($a_orig_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT title FROM didactic_tpl_settings '.
 				'WHERE title = '.$ilDB->quote($a_orig_title,'text');
@@ -43,9 +45,9 @@ class ilDidacticTemplateCopier
 		}
 		if($num == 1)
 		{
-			return $a_orig_title.' '.$GLOBALS['lng']->txt('copy_of_suffix');
+			return $a_orig_title.' '.$GLOBALS['DIC']['lng']->txt('copy_of_suffix');
 		}
-		return $a_orig_title. ' '.sprintf($GLOBALS['lng']->txt('copy_n_of_suffix'),$num);
+		return $a_orig_title. ' '.sprintf($GLOBALS['DIC']['lng']->txt('copy_n_of_suffix'),$num);
 	}
 	
 

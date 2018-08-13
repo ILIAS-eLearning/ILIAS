@@ -75,6 +75,7 @@ class ilLPStatusManual extends ilLPStatus
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'lm':
+			case 'copa':
 			case 'htlm':
 				include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))

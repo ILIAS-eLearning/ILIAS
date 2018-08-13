@@ -19,7 +19,9 @@ class ilConsultationHourUtils
 	 */
 	public static function bookAppointment($a_usr_id, $a_app_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		// Create new default consultation hour calendar
 		include_once './Services/Language/classes/class.ilLanguageFactory.php';
@@ -104,7 +106,9 @@ class ilConsultationHourUtils
 	 */
 	public static function lookupManagedUsers($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT user_id FROM cal_ch_settings '.
 				'WHERE admin_id = '.$ilDB->quote($a_usr_id,'integer');

@@ -120,7 +120,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		include_once('./Services/User/classes/class.ilObjUser.php');
 		include_once('./Services/Administration/classes/class.ilSetting.php');
 
-		$GLOBALS['ilSetting'] = new ilSetting();
+		$GLOBALS['DIC']['ilSetting'] = new ilSetting();
 
 		if(!$login = ilObjUser::_checkExternalAuthAccount($a_auth_mode,$this->getUsername()))
 		{
@@ -197,7 +197,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		$ilDB = $this->db;
 		$ilDB->connect();
 
-		$GLOBALS["ilDB"] = $ilDB;
+		$GLOBALS['DIC']["ilDB"] = $ilDB;
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		return ($set->get("soap_user_administration") == 1);

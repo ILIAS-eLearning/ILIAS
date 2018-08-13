@@ -13,7 +13,7 @@ class ilSCTreeTasks
 	
 	public function __construct(ilSCTask $task)
 	{
-		$this->db = $GLOBALS['ilDB'];
+		$this->db = $GLOBALS['DIC']['ilDB'];
 		$this->task = $task;
 	}
 	
@@ -25,7 +25,9 @@ class ilSCTreeTasks
 	 */
 	public static function findDeepestDuplicate()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child FROM tree first  '.
 				'WHERE EXISTS ( '.
@@ -33,7 +35,7 @@ class ilSCTreeTasks
 				'GROUP BY child HAVING COUNT(child)  >  1 ) '.
 				'ORDER BY depth DESC';
 		
-		$GLOBALS['ilLog']->write($query);
+		$GLOBALS['DIC']['ilLog']->write($query);
 		
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -45,13 +47,15 @@ class ilSCTreeTasks
 	
 	public static function repairPK()
 	{
-		#$GLOBALS['ilDB']->dropPrimaryKey('tree');
-		$GLOBALS['ilDB']->addPrimaryKey('tree', array('child'));
+		#$GLOBALS['DIC']['ilDB']->dropPrimaryKey('tree');
+		$GLOBALS['DIC']['ilDB']->addPrimaryKey('tree', array('child'));
 	}
 	
 	public static function getNodeInfo($a_tree_id, $a_child)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM tree WHERE child = '.$ilDB->quote($a_child,'integer').' AND tree = '. $ilDB->quote($a_tree_id,'integer');
 		$res = $ilDB->query($query);
@@ -87,7 +91,9 @@ class ilSCTreeTasks
 	
 	public static function getChilds($a_tree_id, $a_childs)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM tree WHERE tree = '.$ilDB->quote($a_tree_id,'integer').' '.'AND child = '.$ilDB->quote($a_childs,'integer');
 		$res = $ilDB->query($query);
@@ -107,7 +113,9 @@ class ilSCTreeTasks
 	 */
 	public static function findDuplicates($a_duplicate_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM tree first  '.
 				'WHERE EXISTS ( '.
@@ -117,7 +125,7 @@ class ilSCTreeTasks
 				'ORDER BY depth DESC';
 		$res = $ilDB->query($query);
 		
-		$GLOBALS['ilLog']->write($query);
+		$GLOBALS['DIC']['ilLog']->write($query);
 		
 		$nodes = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -135,7 +143,9 @@ class ilSCTreeTasks
 	
 	public static function hasDuplicate($a_child)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		return count(self::findDuplicates($a_child));
 	}
@@ -159,7 +169,9 @@ class ilSCTreeTasks
 	
 	protected static function deleteDuplicate($tree_id, $dup_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child FROM tree '.
 				'WHERE parent = '.$ilDB->quote($dup_id,'integer').' '.
@@ -224,8 +236,10 @@ class ilSCTreeTasks
 	
 	public function checkStructure()
 	{
-		return $GLOBALS['tree']->validateParentRelations();
-		global $ilDB;
+		return $GLOBALS['DIC']['tree']->validateParentRelations();
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'select child from tree child where not exists '.
 				'( '.
@@ -274,7 +288,7 @@ class ilSCTreeTasks
 				'HAVING count(child) > 1';
 		$res = $this->getDB()->query($query);
 		
-		$GLOBALS['ilLog']->write($query);
+		$GLOBALS['DIC']['ilLog']->write($query);
 		
 		$failures = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -286,7 +300,9 @@ class ilSCTreeTasks
 	
 	public function findMissingTreeEntries()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$failures = $this->readMissingTreeEntries();
 		
@@ -310,7 +326,9 @@ class ilSCTreeTasks
 	 */
 	public function findMissing()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$failures = $this->readMissing();
 		
@@ -349,7 +367,9 @@ class ilSCTreeTasks
 	 */
 	protected function repairMissingObject($a_parent_ref, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// check if object entry exist
 		$query = 'SELECT obj_id FROM object_reference '.
@@ -365,7 +385,7 @@ class ilSCTreeTasks
 			$done = FALSE;
 			while($orow = $ores->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Moving to recovery folder: '.$orow->type.': '.$orow->title);
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Moving to recovery folder: '.$orow->type.': '.$orow->title);
 				$done = TRUE;
 				
 				include_once './Services/Object/classes/class.ilObjectFactory.php';
@@ -380,7 +400,7 @@ class ilSCTreeTasks
 				{
 					$ref_obj->putInTree($a_parent_ref);
 					$ref_obj->setPermissions($a_parent_ref);
-					$GLOBALS['ilLog']->write(__METHOD__.': Moving finished');
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Moving finished');
 					break;
 				}
 			}
@@ -389,7 +409,7 @@ class ilSCTreeTasks
 				// delete reference value
 				$query = 'DELETE FROM object_reference WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer');
 				$ilDB->manipulate($query);
-				$GLOBALS['ilLog']->write(__METHOD__.': Delete reference for "object" without tree and object_data entry: ref_id= '.$a_ref_id );
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Delete reference for "object" without tree and object_data entry: ref_id= '.$a_ref_id );
 			}
 		}
 		
@@ -403,7 +423,9 @@ class ilSCTreeTasks
 	 */
 	protected function readMissing()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT ref_id FROM object_reference '.
 				'LEFT JOIN tree ON ref_id = child '.
@@ -424,10 +446,12 @@ class ilSCTreeTasks
 	 */
 	public function repairMissingTreeEntries()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$missing = $this->readMissingTreeEntries();
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($missing,TRUE));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($missing,TRUE));
 		
 		foreach($missing as $ref_id)
 		{
@@ -437,7 +461,7 @@ class ilSCTreeTasks
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': '.$row->tree.': '.$ref_id);
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$row->tree.': '.$ref_id);
 				
 				$this->deleteMissingTreeEntry($row->tree,$ref_id);
 			}
@@ -449,7 +473,9 @@ class ilSCTreeTasks
 	 */
 	protected function deleteMissingTreeEntry($a_tree_id,$a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child FROM tree '.
 				'WHERE parent = '.$ilDB->quote($a_ref_id,'integer').' '.
@@ -493,7 +519,9 @@ class ilSCTreeTasks
 	 */
 	protected function readMissingTreeEntries()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT child FROM tree '.
 				'LEFT JOIN object_reference ON child = ref_id '.
