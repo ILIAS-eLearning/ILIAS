@@ -121,6 +121,18 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_with_unavailable_action($factory_method) {
+		$f = $this->getGlyphFactory();
+		$g = $f->$factory_method();
+		$g2 = $f->$factory_method()->withUnavailableAction();
+
+		$this->assertTrue($g->isActive());
+		$this->assertFalse($g2->isActive());
+	}
+
+	/**
 	 * @dataProvider counter_type_provider
 	 */
 	public function test_with_highlight($counter_type) {
@@ -292,6 +304,24 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$aria_label = self::$aria_labels[$type];
 
 		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$this->assertEquals($expected, $html);
+	}
+
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_render_with_unavailable_action($type) {
+		$f = $this->getGlyphFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $f->$type("http://www.ilias.de")->withUnavailableAction();
+
+		$html = $this->normalizeHTML($r->render($c));
+
+		$css_classes = self::$canonical_css_classes[$type];
+		$aria_label = self::$aria_labels[$type];
+		
+		$expected = "<a class=\"glyph disabled\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" ".
+			"aria-disabled=\"true\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
