@@ -70,7 +70,6 @@ class Date extends Input implements C\Input\Field\Date, JSBindabale {
 	 */
 	public function getFormat() : string {
 		return $this->format;
-
 	}
 
 	/**
@@ -133,6 +132,6 @@ class Date extends Input implements C\Input\Field\Date, JSBindabale {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return null;
+		return $this->validation_factory->hasMinLength(1);
 	}
 }

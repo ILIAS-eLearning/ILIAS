@@ -5,14 +5,14 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes the date-field.
+ * This describes the duration input.
  */
-interface Date extends Input {
+interface Duration extends Group { //extend group? or extend date?
 
 	/**
 	 * Get an input like this using the given format.
 	 */
-	public function withFormat(string $format) : Date;
+	public function withFormat(string $format) : Duration;
 
 	/**
 	 * Return the input's date-format
@@ -22,7 +22,7 @@ interface Date extends Input {
 	/**
 	 * Limit accepted values to dates past given $date.
 	 */
-	public function withMinDate(\DateTime $date) : Date;
+	public function withMinDate(\DateTime $date) : Duration;
 
 	/**
 	 * Return the lowest date the input accepts.
@@ -33,7 +33,7 @@ interface Date extends Input {
 	/**
 	 * Limit accepted values to dates before given $date.
 	 */
-	public function withMaxDate(\DateTime $date) : Date;
+	public function withMaxDate(\DateTime $date) : Duration;
 
 	/**
 	 * Return the maximum date the input accepts.
@@ -45,7 +45,7 @@ interface Date extends Input {
 	 * Render input with time-glyph (calendar-glyph otherwise).
 	 * @return  Date
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : Date;
+	public function withTimeGlyph(bool $use_time_glyph) : Duration;
 
 
 }
