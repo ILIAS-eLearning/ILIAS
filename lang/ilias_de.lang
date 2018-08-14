@@ -11093,12 +11093,6 @@ orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
 orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
-orgu#:#org_op_access_results#:#Zugriff auf Ergebnisse
-rbac#:#org_op_access_results#:#Zugriff auf Ergebnisse untergeordneter Benutzer
-orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
-rbac#:#org_op_manage_participants#:#Untergeordnete Teilnehmer verwalten
-orgu#:#org_op_score_participants#:#Teilnehmer bewerten
-rbac#:#org_op_score_participants#:#Untergeordnete Teilnehmer bewerten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
@@ -14287,5 +14281,4 @@ adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
-mob#:#mob_no_fixed_size_map_editing#:#Bitte dfinieren Sie eine feste Größe für ihr Bild bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS Regeln skaliert wird.
-common#:#presentation_table_more#:#mehr
+mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
