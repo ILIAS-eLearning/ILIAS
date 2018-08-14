@@ -54,17 +54,33 @@ class Duration extends Group implements C\Input\Field\Duration {
 		];
 
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $inputs, $label, $byline);
+		$this->addTransformation($transformation_factory);
+		$this->addValidation($validation_factory);
+		$this->validation_factory = $validation_factory;
+	}
 
+
+	protected function addTransformation(TransformationFactory $transformation_factory) {
 		$duration = $transformation_factory->custom(function($v) {
 			list($from, $until) = $v;
-			return ['start'=>$from, 'end'=>$until, 'interval'=>$from->diff($until)];
+			if($from && $until) {
+				return ['start'=>$from, 'end'=>$until, 'interval'=>$from->diff($until)];
+			}
+			return '';
 		});
-
-		$from_before_until = $validation_factory->custom(function($v) {
-			return $v['start'] < $v['end'];
-		}, "'from' must be before 'until'");
-
 		$this->setAdditionalTransformation($duration);
+	}
+
+	protected function addValidation(ValidationFactory $validation_factory) {
+		$from_before_until = $validation_factory->custom(
+			function($v) {
+				if($v === '') {
+					return true;
+				}
+				return $v['start'] < $v['end'];
+			},
+			"start must be earlier than end"
+		);
 		$this->setAdditionalConstraint($from_before_until);
 	}
 
@@ -185,7 +201,6 @@ class Duration extends Group implements C\Input\Field\Duration {
 		return $this->use_time_glyph;
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -197,6 +212,7 @@ class Duration extends Group implements C\Input\Field\Duration {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return true;
+		return null;
 	}
+
 }
