@@ -2683,16 +2683,16 @@ class ilObjUserGUI extends ilObjectGUI
 			/** @var $entity ilTermsOfServiceAcceptanceEntity */
 			$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
 			if ($entity->getId()) {
-				// TODO: Fetch title of document
+
 				$modal = $this->uiFactory
 					->modal()
 					->lightbox([new ilTermsOfServiceDocumentLightboxPage(
-						$this->lng->txt('tos_agreement_document'), $entity->getText())
+						$entity->getTitle(), $entity->getText())
 					]);
 
 				$titleLink = $this->uiFactory
 					->button()
-					->shy($this->lng->txt('tos_agreement_document'), '#')
+					->shy($entity->getTitle(), '#')
 					->withOnClick($modal->getShowSignal());
 
 				$agreementDocument = new ilNonEditableValueGUI(
