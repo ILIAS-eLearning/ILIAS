@@ -22379,3 +22379,13 @@ while($data = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
+<#5285>
+<?php
+if(!$ilDB->tableColumnExists('file_data', 'max_version'))
+{
+	$ilDB->addTableColumn('file_data', 'max_version', array(
+		'type'    => 'integer',
+		'length'  => 4
+	));
+}
+?>
