@@ -115,14 +115,19 @@ class Renderer extends AbstractComponentRenderer {
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
 
-		} else {
-			if ($group instanceof Component\Input\Field\Section) {
-				/**
-				 * @var $group Section
-				 */
-				return $this->renderSection($group, $default_renderer);
-			}
+		} elseif ($group instanceof Component\Input\Field\Section) {
+			/**
+			 * @var $group Section
+			 */
+			return $this->renderSection($group, $default_renderer);
+
+		} elseif ($group instanceof Component\Input\Field\Duration) {
+			/**
+			 * @var $group Duration
+			 */
+			return $this->renderDurationInput($group, $default_renderer);
 		}
+
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
 			$inputs .= $default_renderer->render($input);
@@ -459,6 +464,7 @@ class Renderer extends AbstractComponentRenderer {
 		return $id;
 	}
 
+
 	protected function renderTextareaField(Template $tpl, Textarea $input)
 	{
 		if($input->isLimited())
@@ -560,7 +566,8 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-	public function renderDateInput(Template $tpl, Date $input) :string {
+	protected function renderDateInput(Template $tpl, Date $input) :string {
+
 		global $DIC;
 		$f = $this->getUIFactory();
 		//render glyph in button-context (w/o a-tag)
@@ -607,6 +614,46 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $tpl->get();
 	}
+
+
+	protected function renderDurationInput(Duration $input, RendererInterface $default_renderer) :string {
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl_duration = $this->getTemplate("tpl.duration.html", true, true);
+
+		if ($input->getName()) {
+			$tpl->setVariable("NAME", $input->getName());
+		} else {
+			$tpl->setVariable("NAME", "");
+		}
+
+		$tpl->setVariable("LABEL", $input->getLabel());
+
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+
+		$input_html = '';
+		foreach ($input->getInputs() as $inpt) {
+			$input_html .= $default_renderer->render($inpt);
+		}
+		$tpl_duration->setVariable('DURATION', $input_html);
+		$tpl->setVariable("INPUT", $tpl_duration->get());
+		return $tpl->get();
+	}
+
 
 	/**
 	 * @inheritdoc

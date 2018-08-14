@@ -151,4 +151,10 @@ class Factory implements Field\Factory {
 		return new Date($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function duration($label, $byline = null) {
+		return new Duration($this->data_factory, $this->validation_factory, $this->transformation_factory, $this, $label, $byline);
+	}
 }

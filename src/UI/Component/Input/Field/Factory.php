@@ -505,10 +505,31 @@ interface Factory {
 	 *     1: When used as a time-only input, the glyph MUST be time-glyph.
 	 *
 	 * ---
-	 * @param $label   string defines the label.
-	 * @param $byline  string
+	 * @param string 	$label   defines the label.
+	 * @param string 	$byline
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Date
 	 */
 	public function date($label, $byline = null);
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A date-input is used to enter dates.
+	 *   composition: >
+	 *     A duration is composed as a group of two Date-inputs.
+	 *   effect: >
+	 *     Dependant on the format, the inputs will accept dates, times or datetimes.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: XXX
+	 *
+	 * ---
+	 * @param string 	$label   defines the label.
+	 * @param string 	$byline
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\Duration
+	 */
+	public function duration($label,$byline = null);
 }

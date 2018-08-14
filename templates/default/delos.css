@@ -8673,6 +8673,7 @@ ul.breadcrumb li:hover {
 .revealed.il-input-password .revelation-mask {
   display: block;
 }
+<<<<<<< 1d11a193202c5a84253470f5ebcbfeb25f06257c
 .il-input-radio .form-control.il-input-radiooption {
   height: unset;
   border: unset;
@@ -8681,6 +8682,11 @@ ul.breadcrumb li:hover {
 .il-input-multiselect {
   list-style: none;
   padding-left: 0px;
+=======
+.il-input-duration .form-group.row {
+  width: 50%;
+  float: left;
+>>>>>>> use a duration-input for time-spans instead of a manual group of date fields
 }
 .il-standard-form textarea {
   height: 76px;
