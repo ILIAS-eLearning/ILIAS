@@ -59,6 +59,7 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 			case 'iltermsofservicedocumentgui':
 				$documentGui = new \ilTermsOfServiceDocumentGUI(
 					$this->object,
+					$this->dic['tos.criteria.type.factory'],
 					$this->dic->ui()->mainTemplate(),
 					$this->dic->user(),
 					$this->dic->ctrl(),
@@ -82,6 +83,7 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 
 				$documentGui = new \ilTermsOfServiceAcceptanceHistoryGUI(
 					$this->object,
+					$this->dic['tos.criteria.type.factory'],
 					$this->dic->ui()->mainTemplate(),
 					$this->dic->ctrl(),
 					$this->dic->language(),

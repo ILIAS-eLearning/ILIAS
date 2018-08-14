@@ -2,9 +2,9 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilTermsOfServiceMissingDatabaseAdapterException
+ * Class ilTermsOfServiceCriterionTypeNotFoundException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceMissingDatabaseAdapterException extends \ilTermsOfServiceException
+class ilTermsOfServiceCriterionTypeNotFoundException extends \ilTermsOfServiceException
 {
 }

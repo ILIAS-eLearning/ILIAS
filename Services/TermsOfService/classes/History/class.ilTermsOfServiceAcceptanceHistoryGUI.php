@@ -41,9 +41,13 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	/** @var ServerRequestInterface */
 	protected $request;
 
+	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	protected $criterionTypeFactory;
+
 	/**
 	 * ilTermsOfServiceDocumentGUI constructor.
 	 * @param \ilObjTermsOfService $tos
+	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param \ilTemplate $tpl
 	 * @param \ilCtrl $ctrl
 	 * @param \ilLanguage $lng
@@ -56,6 +60,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
+		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		\ilTemplate $tpl,
 		\ilCtrl $ctrl,
 		\ilLanguage $lng,
@@ -67,6 +72,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		ilTermsOfServiceTableDataProviderFactory $factory
 	) {
 		$this->tos = $tos;
+		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->tpl = $tpl;
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
@@ -106,13 +112,13 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	/**
 	 * @return ilTermsOfServiceAcceptanceHistoryTableGUI
 	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
-	 * @throws ilTermsOfServiceMissingLanguageAdapterException
 	 */
 	protected function getAcceptanceHistoryTable(): \ilTermsOfServiceAcceptanceHistoryTableGUI
 	{
 		$table = new \ilTermsOfServiceAcceptanceHistoryTableGUI(
 			$this,
 			'showAcceptanceHistory',
+			$this->criterionTypeFactory,
 			$this->uiFactory,
 			$this->uiRenderer
 		);

@@ -7,14 +7,10 @@
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCriterionType
 {
-	/**
-	 * @var \ilRbacReview
-	 */
+	/** @var \ilRbacReview */
 	protected $rbacReview;
 
-	/**
-	 * @var \ilObjectDataCache
-	 */
+	/** @var \ilObjectDataCache */
 	protected $objectCache;
 
 	/**

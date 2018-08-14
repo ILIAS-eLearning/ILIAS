@@ -644,6 +644,16 @@ class ilInitialisation
 	}
 
 	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initTermsOfService(\ILIAS\DI\Container $c)
+	{
+		$c['tos.criteria.type.factory'] = function ($c) {
+			return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
+		};
+	}
+
+	/**
 	 * initialise $ilSettings object and define constants
 	 * 
 	 * Used in Soap
@@ -1193,6 +1203,7 @@ class ilInitialisation
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
+		self::initTermsOfService($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	

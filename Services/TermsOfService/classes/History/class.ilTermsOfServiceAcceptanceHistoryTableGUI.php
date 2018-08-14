@@ -16,25 +16,28 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 	/** @var Renderer */
 	protected $uiRenderer;
 
-	/** @var ilTermsOfServiceCriterionType[] */
-	protected $criteriaByTypeIdent = [];
-
 	/** @var int */
 	protected $numRenderedCriteria = 0;
+
+	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	protected $criterionTypeFactory;
 
 	/**
 	 * ilTermsOfServiceAcceptanceHistoryTableGUI constructor.
 	 * @param \ilTermsOfServiceControllerEnabled $controller
 	 * @param string $command
+	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param Factory $uiFactory
 	 * @param Renderer $uiRenderer
 	 */
 	public function __construct(
 		\ilTermsOfServiceControllerEnabled $controller,
 		string $command,
+		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		Factory $uiFactory,
 		Renderer $uiRenderer
 	) {
+		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->uiFactory = $uiFactory;
 		$this->uiRenderer = $uiRenderer;
 
@@ -62,17 +65,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		$this->initFilter();
 		$this->setFilterCommand('applyAcceptanceHistoryFilter');
 		$this->setResetCommand('resetAcceptanceHistoryFilter');
-
-		// TODO: Read from factory (dependencies should be moved to the factory constructor)
-		$criteria = [
-			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion(
-				$GLOBALS['DIC']['rbacreview'],
-				$GLOBALS['DIC']['ilObjDataCache']
-			),
-		];
-		$this->criteriaByTypeIdent[$criteria[0]->getTypeIdent()] = $criteria[0];
-		$this->criteriaByTypeIdent[$criteria[1]->getTypeIdent()] = $criteria[1];
 	}
 
 	/**
@@ -170,7 +162,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 
 		foreach ($criteria as $criterion) {
 			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
-			$criterionType = $this->criteriaByTypeIdent[$criterion['id']];
+			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion['id'], true);
 			$typeGui = $criterionType->getGUI($this->lng);
 
 			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = $typeGui->getValuePresentation(

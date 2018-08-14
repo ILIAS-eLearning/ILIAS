@@ -55,6 +55,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/** @var Filesystems */
 	protected $fileSystems;
 
+	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	protected $criterionTypeFactory;
+
 	/**
 	 * ilTermsOfServiceDocumentGUI constructor.
 	 * @param \ilObjTermsOfService $tos
@@ -74,6 +77,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
+		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		\ilTemplate $tpl,
 		\ilObjUser $user,
 		\ilCtrl $ctrl,
@@ -90,6 +94,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	)
 	{
 		$this->tos = $tos;
+		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->tpl = $tpl;
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
@@ -178,6 +183,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$documentTableGui = new \ilTermsOfServiceDocumentTableGUI(
 			$this,
 			'showDocuments',
+			$this->criterionTypeFactory,
 			$this->uiFactory,
 			$this->uiRenderer,
 			$this->rbacsystem->checkAccess('write', $this->tos->getRefId())
@@ -486,6 +492,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = new \ilTermsOfServiceCriterionFormGUI(
 			$document,
 			$criterionAssignment,
+			$this->criterionTypeFactory,
 			$formAction,
 			$saveCommand,
 			'showDocuments'

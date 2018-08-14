@@ -10,14 +10,10 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasLanguageCriterionGUI implements \ilTermsOfServiceCriterionTypeGUI
 {
-	/**
-	 * @var \ilTermsOfServiceUserHasLanguageCriterion
-	 */
+	/** @var \ilTermsOfServiceUserHasLanguageCriterion */
 	protected $type;
 
-	/**
-	 * @var \ilLanguage
-	 */
+	/** @var \ilLanguage */
 	protected $lng;
 
 	/**

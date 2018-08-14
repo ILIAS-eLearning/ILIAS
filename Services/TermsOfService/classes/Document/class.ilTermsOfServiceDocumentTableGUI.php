@@ -25,13 +25,14 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	/** @var int */
 	protected $numRenderedCriteria = 0;
 
-	/** @var ilTermsOfServiceCriterionType[] */
-	protected $criteriaByTypeIdent = [];
+	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	protected $criterionTypeFactory;
 
 	/**
 	 * ilTermsOfServiceDocumentTableGUI constructor.
 	 * @param \ilTermsOfServiceControllerEnabled $a_parent_obj
 	 * @param string $command
+	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param \ILIAS\UI\Factory $uiFactory
 	 * @param \ILIAS\UI\Renderer $uiRenderer
 	 * @param bool $isEditable
@@ -39,10 +40,12 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	public function __construct(
 		\ilTermsOfServiceControllerEnabled $a_parent_obj,
 		string $command,
+		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		ILIAS\UI\Factory $uiFactory,
 		ILIAS\UI\Renderer $uiRenderer,
 		bool $isEditable = false
 	) {
+		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->uiFactory = $uiFactory;
 		$this->uiRenderer = $uiRenderer;
 		$this->isEditable = $isEditable;
@@ -68,17 +71,6 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			$this->addMultiCommand('deleteDocuments', $this->lng->txt('delete'));
 			$this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
 		}
-
-		// TODO: Read from factory (dependencies should be moved to the factory constructor)
-		$criteria = [
-			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion(
-				$GLOBALS['DIC']['rbacreview'],
-				$GLOBALS['DIC']['ilObjDataCache']
-			),
-		];
-		$this->criteriaByTypeIdent[$criteria[0]->getTypeIdent()] = $criteria[0];
-		$this->criteriaByTypeIdent[$criteria[1]->getTypeIdent()] = $criteria[1];
 	}
 
 	/**
@@ -298,7 +290,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				->dropdown()
 				->standard([$editBtn, $deleteBtn]);
 
-			$criterionType = $this->criteriaByTypeIdent[$criterion->getCriterionId()];
+			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion->getCriterionId(), true);
 			$typeGui = $criterionType->getGUI($this->lng);
 
 			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = 

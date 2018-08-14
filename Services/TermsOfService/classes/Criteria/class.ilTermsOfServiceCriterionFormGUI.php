@@ -25,10 +25,14 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	/** @var string */
 	protected $translatedError = '';
 
+	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	protected $criterionTypeFactory;
+
 	/**
 	 * ilTermsOfServiceCriterionFormGUI constructor.
 	 * @param \ilTermsOfServiceDocument $document
 	 * @param \ilTermsOfServiceDocumentCriterionAssignment $assignment
+	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param string $formAction
 	 * @param string $saveCommand
 	 * @param string $cancelCommand
@@ -36,12 +40,14 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	public function __construct(
 		\ilTermsOfServiceDocument $document,
 		\ilTermsOfServiceDocumentCriterionAssignment $assignment,
+		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		string $formAction = '',
 		string $saveCommand = 'saveDocument',
 		string $cancelCommand = 'showDocuments'
 	) {
 		$this->document = $document;
 		$this->assignment = $assignment;
+		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->formAction = $formAction;
 		$this->saveCommand = $saveCommand;
 		$this->cancelCommand = $cancelCommand;
@@ -74,17 +80,8 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$criteriaSelection->setRequired(true);
 		$criteriaSelection->setValue($this->assignment->getCriterionId());
 
-		// TODO: Read from factory (dependencies should be moved to the factory constructor)
-		$criteria = [
-			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion(
-				$GLOBALS['DIC']['rbacreview'],
-				$GLOBALS['DIC']['ilObjDataCache']
-			),
-		];
-
 		$first = true;
-		foreach ($criteria as $criterion) {
+		foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
 			/** @var $criterion \ilTermsOfServiceCriterionType */
 			if (!$this->assignment->getId() && $first) {
 				$criteriaSelection->setValue($criterion->getTypeIdent());
@@ -166,31 +163,23 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
-		// TODO: Read criterion to use from factory by "criterion" field (dependencies should be moved to the factory constructor)
-		$criteria = [
-			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion(
-				$GLOBALS['DIC']['rbacreview'],
-				$GLOBALS['DIC']['ilObjDataCache']
-			),
-		];
+		try {
+			$criterionType = $this->criterionTypeFactory->findByTypeIdent($this->getInput('criterion'));
+			$criterionGui = $criterionType->getGUI($this->lng);
 
-		// TODO: If the factory returns THE criterion, we do not need the loop
-		foreach ($criteria as $criterion) {
-			/** @var $criterion \ilTermsOfServiceCriterionType */
-			if ($this->getInput('criterion') == $criterion->getTypeIdent()) {
-				$criterionGui = $criterion->getGUI($this->lng);
+			$this->assignment->setCriterionId($criterionType->getTypeIdent());
+			// TODO: Hide json_encode, this is an impl. detail which should be somehow centralized
+			$this->assignment->setCriterionValue(json_encode($criterionGui->getConfigByForm($this)));
 
-				$this->assignment->setCriterionId($criterion->getTypeIdent());
-				// TODO: Hide json_encode, this is an impl. detail which should be somehow centralized
-				$this->assignment->setCriterionValue(json_encode($criterionGui->getConfigByForm($this)));
+			if ($this->assignment->getId() > 0) {
+				$this->assignment->setLastModifiedUsrId($this->user->getId());
+			} else {
+				$this->assignment->setOwnerUsrId($this->user->getId());
 			}
-		}
-
-		if ($this->assignment->getId() > 0) {
-			$this->assignment->setLastModifiedUsrId($this->user->getId());
-		} else {
-			$this->assignment->setOwnerUsrId($this->user->getId());
+		} catch (\Exception $e) {
+			$this->getItemByPostVar('criterion')->setAlert($e->getMessage());
+			$this->translatedError = $this->lng->txt('form_input_not_valid');
+			return false;
 		}
 
 		return true;
