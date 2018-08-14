@@ -651,6 +651,18 @@ class ilInitialisation
 		$c['tos.criteria.type.factory'] = function ($c) {
 			return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
 		};
+		
+		$c['tos.document.criteria.evaluator'] = function ($c) {
+			return new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+				$c['tos.criteria.type.factory'], $c->user()
+			);
+		};
+
+		$c['tos.document.evaluator'] = function ($c) {
+			return new ilTermsOfServiceSequentialDocumentEvaluation(
+				$c['tos.document.criteria.evaluator'], $c->user()
+			);
+		};
 	}
 
 	/**

@@ -1,19 +1,29 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Interface ilTermsOfServiceSignableDocument
+ * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceSignableDocument
 {
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function hasContent();
+	public function getText(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getContent();
+	public function getTitle(): string;
+
+	/**
+	 * @return int
+	 */
+	public function getId(): int;
+
+	/**
+	 * @return \ilTermsOfServiceDocumentCriterionAssignment[]
+	 */
+	public function getCriteria(): array;
 }

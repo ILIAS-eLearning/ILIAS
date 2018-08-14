@@ -5,7 +5,7 @@
  * Class ilTermsOfServiceDocument
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocument extends ActiveRecord
+class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfServiceSignableDocument
 {
 	const TABLE_NAME = 'tos_documents';
 
@@ -100,6 +100,30 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	/**
 	 * @inheritdoc
 	 */
+	public function getText(): string
+	{
+		return $this->text;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function create()
 	{
 		$this->setCreationTs(time());
@@ -175,7 +199,7 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	}
 
 	/**
-	 * @return \ilTermsOfServiceDocumentCriterionAssignment[]
+	 * @inheritdoc
 	 */
 	public function getCriteria(): array
 	{
