@@ -125,7 +125,7 @@ class Date extends Input implements C\Input\Field\Date, JSBindabale {
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return true;
+		return is_string($value);
 	}
 
 	/**

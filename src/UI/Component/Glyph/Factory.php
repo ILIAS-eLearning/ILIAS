@@ -893,13 +893,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Calendar glyph is used to symbolize date-related actions or alerts.
+	 *      The Calendar Glyph is used to symbolize date-related actions or alerts.
 	 *   composition: >
 	 *      The Calendar Glyph uses the glyphicon-calendar.
 	 *   effect: >
 	 *       Clicking the calendar glyph will usually open a date-picker.
 	 *
-	 * context: Use in conjunction with Date-Inputs.
+	 * context: Use in conjunction with Date Inputs.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -915,13 +915,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Time glyph is used to symbolize time-related actions or alerts.
+	 *      The Time Glyph is used to symbolize time-related actions or alerts.
 	 *   composition: >
 	 *      The Time Glyph uses the glyphicon-time.
 	 *   effect: >
 	 *       Clicking the time glyph will usually open a time-picker.
 	 *
-	 * context: Use in conjunction with Date-Inputs.
+	 * context: Use in conjunction with Date Inputs.
 	 *
 	 * rules:
 	 *   accessibility:

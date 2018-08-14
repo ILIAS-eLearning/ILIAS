@@ -353,6 +353,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+<<<<<<< ddb9726ef0bb67852822fdc9d141e9023894f544
 	 *     A textarea is intended for entering multi-line texts.
 	 *   composition: >
 	 *      Textarea fields will render an textarea HTML tag.
@@ -485,24 +486,27 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A date-input is used to enter dates.
+	 *     A Date Input is used to enter dates.
 	 *   composition: >
-	 *     Date-input will render a text-field with the placeholder-attribute
+	 *     Date Input will render a text field with the placeholder-attribute
 	 *     indicating the specified format.
-	 *     Next to the text-field, a calendar-glyph will trigger a popover containing
+	 *     Next to the text field, a Calendar Glyph will trigger a popover containing
 	 *     a graphical selector/date-picker.
 	 *     Depending on the given format, next to the date-picker a time-picker will be shown.
-	 *     If desired, the date-input can be rendered with the time-glyph instead of the calendar-glyph.
+	 *     If desired, the Date Input can be rendered with the Time Glyph instead of the Calendar Glyph.
 	 *   effect: >
 	 *     When clicking the glyph, a popover is shown with the days of the month.
 	 *     Within the popover, the user may navigate to prior and following months.
 	 *     When format contains time-values, the picker is rendered with a time-selection.
 	 *   rivals:
-	 *     Text field: Text-fields MUST NOT be used to input date-strings.
+	 *     Text field: Text Felds MUST NOT be used to input date-strings.
+	 *
+	 * context:
+	 *   Date Input is used in forms.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: When used as a time-only input, the glyph MUST be time-glyph.
+	 *     1: When used as a time-only input, the glyph MUST be Time Glyph.
 	 *
 	 * ---
 	 * @param string 	$label   defines the label.
@@ -511,19 +515,23 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Input\Field\Date
 	 */
 	public function date($label, $byline = null);
+
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A date-input is used to enter dates.
+	 *     A Duration Input is used to enter a time span instead of a single point in time.
 	 *   composition: >
-	 *     A duration is composed as a group of two Date-inputs.
+	 *     A Duration Input is composed as a group of two Date Inputs.
 	 *   effect: >
 	 *     Dependant on the format, the inputs will accept dates, times or datetimes.
 	 *
+	 * context:
+	 *   Duration Input is used in forms.
+	 *
 	 * rules:
 	 *   usage:
-	 *     1: XXX
+	 *     1: When used as with time-only inputs, the glyph MUST be Time Glyph.
 	 *
 	 * ---
 	 * @param string 	$label   defines the label.
