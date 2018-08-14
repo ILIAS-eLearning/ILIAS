@@ -127,9 +127,10 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-		foreach ($component->getActions() as $button) {
+		$action = $component->getAction();
+		if(!is_null($action)) {
 			$tpl->setCurrentBlock("button");
-			$tpl->setVariable("BUTTON", $default_renderer->render($button));
+			$tpl->setVariable("BUTTON", $default_renderer->render($action));
 			$tpl->parseCurrentBlock();
 		}
 
