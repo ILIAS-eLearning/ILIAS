@@ -21,19 +21,23 @@ class ilStartUpGUI
 	protected $lng;
 	protected $logger;
 
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
+
 	/**
 	* constructor
 	*/
 	public function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('auth');
 		$this->logger = ilLoggerFactory::getLogger('init');
+		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
 
-		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
+		$this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}
 
 	/**
@@ -1197,24 +1201,15 @@ class ilStartUpGUI
 	}
 
 	/**
-	 * Show terms of service link 
-	 * @global ilLanguage $lng
-	 * @param string $page_editor_html 
+	 * Show terms of service link
+	 * @param string $page_editor_html
+	 * @return string
 	 */
-	protected function showTermsOfServiceLink($page_editor_html)
+	protected function showTermsOfServiceLink(string $page_editor_html): string
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
 			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
-			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
+			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $this->lng->txt('usr_agreement'));
 			$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
 
 			return $this->substituteLoginPageElements(
@@ -1750,53 +1745,46 @@ class ilStartUpGUI
 	protected function showTermsOfService()
 	{
 		/**
-		 * @var $lng       ilLanguage
 		 * @var $tpl       ilTemplate
 		 * @var $ilUser    ilObjUser
-		 * @var $ilSetting ilSetting
 		 */
-		global $lng, $tpl, $ilUser, $ilSetting;
+		global $tpl, $ilUser;
 
 		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
-		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
+		$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if($document->exists())
-		{
-			if('getAcceptance' == $this->ctrl->getCmd())
-			{
-				if(isset($_POST['status']) && 'accepted' == $_POST['status'])
-				{
-					require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-					ilTermsOfServiceHelper::trackAcceptance($ilUser, $document);
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$document = $this->termsOfServiceEvaluation->getDocument();
+			if ('getAcceptance' == $this->ctrl->getCmd()) {
+				if (isset($_POST['status']) && 'accepted' == $_POST['status']) {
+					ilTermsOfServiceHelper::trackAcceptance(
+						$ilUser, $document
+					);
 
-					if(ilSession::get('orig_request_target'))
-					{
+					if (ilSession::get('orig_request_target')) {
 						$target = ilSession::get('orig_request_target');
 						ilSession::set('orig_request_target', '');
 						ilUtil::redirect($target);
-					}
-					else
-					{
+					} else {
 						ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
 					}
 				}
 
 				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
 				$tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
-				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $lng->txt('accept_usr_agreement'));
-				$tpl->setVariable('TXT_SUBMIT', $lng->txt('submit'));
+				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+				$tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getText());
 		}
 		else
 		{
 			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($this->lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));
 		}
 
 		$tpl->show();

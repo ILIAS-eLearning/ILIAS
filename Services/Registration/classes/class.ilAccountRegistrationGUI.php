@@ -27,6 +27,9 @@ class ilAccountRegistrationGUI
 	protected $code_enabled; // [bool]
 	protected $code_was_used; // [bool]
 
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
+
 	public function __construct()
 	{
 		global $DIC;
@@ -46,7 +49,9 @@ class ilAccountRegistrationGUI
 		$this->registration_settings = new ilRegistrationSettings();
 		
 		$this->code_enabled = ($this->registration_settings->registrationCodeRequired() ||
-			$this->registration_settings->getAllowCodes());	
+			$this->registration_settings->getAllowCodes());
+
+		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
 	}
 
 	public function executeCommand()
@@ -246,16 +251,15 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
+			$document = $this->termsOfServiceEvaluation->getDocument();
+
 			$field = new ilFormSectionHeaderGUI();
 			$field->setTitle($lng->txt('usr_agreement'));
 			$this->form->addItem($field);
 
 			$field = new ilCustomInputGUI();
-			$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
+			$field->setHTML('<div id="agreement">' . $document->getText() . '</div>');
 			$this->form->addItem($field);
 
 			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
@@ -377,15 +381,11 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-			if($agr_obj)
-			{
+			if ($agr_obj) {
 				$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
-			}
-			else
-			{
+			} else {
 				ilUtil::sendFailure($lng->txt('force_accept_usr_agreement'));
 			}
 			$form_valid = false;
@@ -670,8 +670,12 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			\ilTermsOfServiceHelper::trackAcceptance(
+				$this->userObj, $this->termsOfServiceEvaluation->getDocument()
+			);
+		}
 
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));

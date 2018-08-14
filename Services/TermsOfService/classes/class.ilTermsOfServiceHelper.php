@@ -74,24 +74,25 @@ class ilTermsOfServiceHelper
 	 */
 	public static function trackAcceptance(\ilObjUser $user, \ilTermsOfServiceSignableDocument $document)
 	{
-		if (self::isEnabled() && $document->exists()) {
-			$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
-			$entity->setUserId($user->getId());
-			$entity->setTimestamp(time());
-			$entity->setText($document->getContent());
-			$entity->setHash(md5($document->getContent()));
-			// TODO: Set values from document
-			$entity->setDocumentId(4811);
-			$entity->setTitle($document->getSource());
-			$entity->setCriteria($document->getSourceType());
+		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-			$data_gateway->trackAcceptance($entity);
+		$entity->setUserId($user->getId());
+		$entity->setTimestamp(time());
+		$entity->setText($document->getText());
+		$entity->setHash(md5($document->getText()));
+		$entity->setDocumentId($document->getId());
+		$entity->setTitle($document->getTitle());
 
-			$user->writeAccepted();
+		// TODO: Hide json_encode this is an impl. detail which should be somehow centralized
+		/*$entity->setCriteria(json_encode(['criteria' => array_map(function() {
+		},$document->getCriteria())]));*/
 
-			$user->hasToAcceptTermsOfServiceInSession(false);
-		}
+		$data_gateway->trackAcceptance($entity);
+
+		$user->writeAccepted();
+
+		$user->hasToAcceptTermsOfServiceInSession(false);
 	}
 
 	/**

@@ -90,7 +90,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 
 			$criterionGui = $criterion->getGUI($this->lng);
 			if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
-				// TODO: Hide json_Decode, this is an impl. detail which should be somehow centralized
+				// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
 				$criterionGui->appendOption(
 					$criteriaSelection, 
 					json_decode($this->assignment->getCriterionValue(), true)
