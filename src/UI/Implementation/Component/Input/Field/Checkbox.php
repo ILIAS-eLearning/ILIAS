@@ -17,7 +17,7 @@ use ILIAS\UI\Implementation\Component\Input\PostData;
  * This implements the checkbox input, note that this uses GroupHelper to manage potentially
  * attached dependant groups.
  */
-class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable, C\Input\Field\DependantGroupProviding {
+class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 
 	use JavaScriptBindable;
 	use Triggerer;
