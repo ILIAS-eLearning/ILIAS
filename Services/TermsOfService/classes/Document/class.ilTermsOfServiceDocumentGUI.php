@@ -618,8 +618,8 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			}
 		))[0];
 
-		// TODO: Evtl. remove this from the document an save the document instead, this could delete detached criteria
-		$criterionAssignment->delete();
+		$document->detachCriterion($criterionAssignment);
+		$document->update();
 
 		\ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_detached'), true);
 		$this->ctrl->redirect($this, 'showDocuments');

@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Factory;
+
 /**
  * Class ilTermsOfServiceUserHasLanguageCriterionGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -36,7 +39,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements \ilTermsOfServiceCr
 	 */
 	public function appendOption(\ilRadioGroupInputGUI $group, array $config)
 	{
-		$option = new \ilRadioOption($this->lng->txt('tos_crit_type_usr_language'), $this->type->getTypeIdent());
+		$option = new \ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
 		$option->setInfo($this->lng->txt('tos_crit_type_usr_language_info'));
 
 		$languageSelection = new \ilSelectInputGUI(
@@ -68,5 +71,27 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements \ilTermsOfServiceCr
 		return [
 			'lng' => (string)$form->getInput($this->type->getTypeIdent() . '_lng')
 		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getIdentPresentation(): string
+	{
+		return $this->lng->txt('tos_crit_type_usr_language');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getValuePresentation(array $config, Factory $uiFactory): Component
+	{
+		$lng = $config['lng'] ?? '';
+
+		if (0 === strlen($lng) || !is_string($lng)) {
+			return $uiFactory->legacy('');
+		}
+
+		return $uiFactory->legacy($this->lng->txt('meta_l_' . (string)$lng));
 	}
 }

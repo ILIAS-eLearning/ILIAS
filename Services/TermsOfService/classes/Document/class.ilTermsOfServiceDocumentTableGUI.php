@@ -21,6 +21,12 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 	/** @var int */
 	protected $i = 1;
+	
+	/** @var int */
+	protected $numRenderedCriteria = 0;
+
+	/** @var ilTermsOfServiceCriterionType[] */
+	protected $criteriaByTypeIdent = [];
 
 	/**
 	 * ilTermsOfServiceDocumentTableGUI constructor.
@@ -62,6 +68,17 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			$this->addMultiCommand('deleteDocuments', $this->lng->txt('delete'));
 			$this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
 		}
+
+		// TODO: Read from factory (dependencies should be moved to the factory constructor)
+		$criteria = [
+			new ilTermsOfServiceUserHasLanguageCriterion(),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion(
+				$GLOBALS['DIC']['rbacreview'],
+				$GLOBALS['DIC']['ilObjDataCache']
+			),
+		];
+		$this->criteriaByTypeIdent[$criteria[0]->getTypeIdent()] = $criteria[0];
+		$this->criteriaByTypeIdent[$criteria[1]->getTypeIdent()] = $criteria[1];
 	}
 
 	/**
@@ -228,6 +245,14 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	protected function getUniqueCriterionListingAttribute(): string
+	{
+		return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
+	}
+
+	/**
 	 * @param string $column
 	 * @param array $row
 	 * @return string
@@ -242,6 +267,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 		foreach ($row['criteriaAssignments'] as $criterion) {
 			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
+			++$i;
 
 			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
 			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());
@@ -272,10 +298,18 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				->dropdown()
 				->standard([$editBtn, $deleteBtn]);
 
-			// TODO: Fetch Key/Value from criterion definition (to be implemented)
-			$items[$criterion->getCriterionId() . ' (Id:  ' . $criterion->getId() . ')'] = 
+			$criterionType = $this->criteriaByTypeIdent[$criterion->getCriterionId()];
+			$typeGui = $criterionType->getGUI($this->lng);
+
+			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = 
 				$this->uiFactory->legacy(implode('', [
-					$criterion->getCriterionValue() .
+					$this->uiRenderer->render(
+						// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
+						$typeGui->getValuePresentation(
+							json_decode($criterion->getCriterionValue(), true),
+							$this->uiFactory
+						)
+					),
 					$this->uiRenderer->render([$dropDown, $deleteModal])
 				]));
 

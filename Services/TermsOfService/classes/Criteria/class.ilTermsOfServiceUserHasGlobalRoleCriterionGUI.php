@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Factory;
+
 /**
  * Class ilTermsOfServiceUserHasGlobalRoleCriterionGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -23,6 +26,11 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	protected $lng;
 
 	/**
+	 * @var \ilObjectDataCache
+	 */
+	protected $objectCache;
+
+	/**
 	 * ilTermsOfServiceUserHasGlobalRoleCriterionGUI constructor.
 	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $type
 	 * @param \ilLanguage $lng
@@ -31,11 +39,13 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	public function __construct(
 		\ilTermsOfServiceUserHasGlobalRoleCriterion $type,
 		\ilLanguage $lng,
-		\ilRbacReview $rbacReview
+		\ilRbacReview $rbacReview,
+		\ilObjectDataCache $objectCache
 	) {
 		$this->type = $type;
 		$this->lng = $lng;
 		$this->rbacReview = $rbacReview;
+		$this->objectCache = $objectCache;
 
 		$this->lng->loadLanguageModule('rbac');
 	}
@@ -45,7 +55,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	 */
 	public function appendOption(\ilRadioGroupInputGUI $group, array $config)
 	{
-		$option = new \ilRadioOption($this->lng->txt('tos_crit_type_usr_global_role'), $this->type->getTypeIdent());
+		$option = new \ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
 		$option->setInfo($this->lng->txt('tos_crit_type_usr_global_role_info'));
 
 		$roleSelection = new \ilSelectInputGUI(
@@ -76,5 +86,27 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 		return [
 			'role_id' => (int)$form->getInput($this->type->getTypeIdent() . '_role_id')
 		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getIdentPresentation(): string
+	{
+		return $this->lng->txt('tos_crit_type_usr_global_role');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getValuePresentation(array $config, Factory $uiFactory): Component
+	{
+		$roleId = $config['role_id'] ?? 0;
+
+		if (!is_numeric($roleId) || $roleId < 1) {
+			return $uiFactory->legacy('');
+		}
+
+		return $uiFactory->legacy($this->objectCache->lookupTitle($roleId));
 	}
 }

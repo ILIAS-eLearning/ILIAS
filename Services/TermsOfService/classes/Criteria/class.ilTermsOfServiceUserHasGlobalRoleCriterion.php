@@ -13,12 +13,19 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	protected $rbacReview;
 
 	/**
+	 * @var \ilObjectDataCache
+	 */
+	protected $objectCache;
+
+	/**
 	 * ilTermsOfServiceUserHasGlobalRoleCriterion constructor.
 	 * @param ilRbacReview $rbacReview
+	 * @param ilObjectDataCache $objectCache
 	 */
-	public function __construct(\ilRbacReview $rbacReview)
+	public function __construct(\ilRbacReview $rbacReview, \ilObjectDataCache $objectCache)
 	{
 		$this->rbacReview = $rbacReview;
+		$this->objectCache = $objectCache;
 	}
 
 	/**
@@ -52,6 +59,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	 */
 	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
-		return new \ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview);
+		return new \ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);
 	}
 }

@@ -80,6 +80,11 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	protected $criteria = [];
 
 	/**
+	 * @var \ilTermsOfServiceDocumentCriterionAssignment[]
+	 */
+	protected $initialCriteria = [];
+
+	/**
 	 * @var bool
 	 */
 	private $criteriaFetched = false;
@@ -100,6 +105,9 @@ class ilTermsOfServiceDocument extends ActiveRecord
 		$this->setCreationTs(time());
 
 		parent::create();
+
+		// Not saved on creation, not supported by workflow
+		$this->initialCriteria = $this->criteria;
 	}
 
 	/**
@@ -130,11 +138,24 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	{
 		$this->setModificationTs(time());
 
-		/** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
 		foreach ($this->criteria as $criterionAssignment) {
+			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
 			$criterionAssignment->setDocId($this->getId());
 			$criterionAssignment->store();
 		}
+
+		foreach ($this->initialCriteria as $key => $criterionAssignment) {
+			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
+			$found = array_filter($this->criteria, function(\ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use ($criterionAssignment) {
+				return $criterionToMatch->getId() == $criterionAssignment->getId();
+			});
+
+			if (0 === count($found)) {
+				$criterionAssignment->delete();
+			}
+		}
+
+		$this->initialCriteria = $this->criteria;
 
 		parent::update();
 	}
@@ -145,8 +166,8 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	 */
 	public function delete()
 	{
-		/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
 		foreach ($this->criteria as $criterionAssignment) {
+			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
 			$criterionAssignment->delete();
 		}
 
@@ -170,6 +191,16 @@ class ilTermsOfServiceDocument extends ActiveRecord
 	}
 
 	/**
+	 * @param \ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
+	 */
+	public function detachCriterion(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment)
+	{
+		if (isset($this->criteria[$criterionAssignment->getId()])) {
+			unset($this->criteria[$criterionAssignment->getId()]);
+		}
+	}
+
+	/**
 	 * Reads all criterion assignments from database
 	 */
 	public function fetchAllCriterionAssignments()
@@ -177,13 +208,16 @@ class ilTermsOfServiceDocument extends ActiveRecord
 		if (!$this->criteriaFetched) {
 			$this->criteriaFetched = true;
 
+			$this->initialCriteria = [];
 			$this->criteria = [];
 
 			$criteria = \ilTermsOfServiceDocumentCriterionAssignment::where(array('doc_id' => $this->getId()))->get();
-			/** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
 			foreach ($criteria as $criterionAssignment) {
+				/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
 				$this->criteria[$criterionAssignment->getId()] = $criterionAssignment;
 			}
+
+			$this->initialCriteria = $this->criteria;
 		}
 	}
 }

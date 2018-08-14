@@ -16,6 +16,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 	/** @var Renderer */
 	protected $uiRenderer;
 
+	/** @var ilTermsOfServiceCriterionType[] */
+	protected $criteriaByTypeIdent = [];
+
+	/** @var int */
+	protected $numRenderedCriteria = 0;
+
 	/**
 	 * ilTermsOfServiceAcceptanceHistoryTableGUI constructor.
 	 * @param \ilTermsOfServiceControllerEnabled $controller
@@ -56,6 +62,17 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		$this->initFilter();
 		$this->setFilterCommand('applyAcceptanceHistoryFilter');
 		$this->setResetCommand('resetAcceptanceHistoryFilter');
+
+		// TODO: Read from factory (dependencies should be moved to the factory constructor)
+		$criteria = [
+			new ilTermsOfServiceUserHasLanguageCriterion(),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion(
+				$GLOBALS['DIC']['rbacreview'],
+				$GLOBALS['DIC']['ilObjDataCache']
+			),
+		];
+		$this->criteriaByTypeIdent[$criteria[0]->getTypeIdent()] = $criteria[0];
+		$this->criteriaByTypeIdent[$criteria[1]->getTypeIdent()] = $criteria[1];
 	}
 
 	/**
@@ -120,9 +137,55 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 			return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
 		} else if ('title' === $column) {
 			return $this->formatTitle($column, $row);
+		} else if ('criteria' === $column) {
+			return $this->formatCriterionAssignments($column, $row);
 		}
 
 		return parent::formatCellValue($column, $row);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getUniqueCriterionListingAttribute(): string
+	{
+		return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
+	}
+
+	/**
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatCriterionAssignments(string $column, array $row): string
+	{
+		$items = [];
+
+		// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
+		$criteria = json_decode($row['criteria'], true)['criteria'];
+
+		if (0 === count($criteria)) {
+			return $this->lng->txt('tos_tbl_hist_cell_not_criterion');
+		}
+
+		foreach ($criteria as $criterion) {
+			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
+			$criterionType = $this->criteriaByTypeIdent[$criterion['id']];
+			$typeGui = $criterionType->getGUI($this->lng);
+
+			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = $typeGui->getValuePresentation(
+				$criterion['value'],
+				$this->uiFactory
+			);
+		}
+
+		$criteriaList = $this->uiFactory
+			->listing()
+			->descriptive($items);
+
+		return $this->uiRenderer->render([
+			$criteriaList
+		]);
 	}
 
 	/**

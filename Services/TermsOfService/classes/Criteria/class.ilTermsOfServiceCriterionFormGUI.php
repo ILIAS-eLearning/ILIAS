@@ -77,14 +77,23 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		// TODO: Read from factory (dependencies should be moved to the factory constructor)
 		$criteria = [
 			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion($GLOBALS['DIC']['rbacreview']),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion(
+				$GLOBALS['DIC']['rbacreview'],
+				$GLOBALS['DIC']['ilObjDataCache']
+			),
 		];
 
+		$first = true;
 		foreach ($criteria as $criterion) {
 			/** @var $criterion \ilTermsOfServiceCriterionType */
+			if (!$this->assignment->getId() && $first) {
+				$criteriaSelection->setValue($criterion->getTypeIdent());
+			}
+			$first = false;
+
 			$criterionGui = $criterion->getGUI($this->lng);
 			if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
-				// TODO: Pass correct type here
+				// TODO: Hide json_Decode, this is an impl. detail which should be somehow centralized
 				$criterionGui->appendOption(
 					$criteriaSelection, 
 					json_decode($this->assignment->getCriterionValue(), true)
@@ -136,6 +145,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			}
 
 			$this->translatedError = $this->lng->txt('form_input_not_valid');
+			$this->setValuesByPost();
 			return false;
 		}
 
@@ -159,15 +169,20 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		// TODO: Read criterion to use from factory by "criterion" field (dependencies should be moved to the factory constructor)
 		$criteria = [
 			new ilTermsOfServiceUserHasLanguageCriterion(),
-			new ilTermsOfServiceUserHasGlobalRoleCriterion($GLOBALS['DIC']['rbacreview']),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion(
+				$GLOBALS['DIC']['rbacreview'],
+				$GLOBALS['DIC']['ilObjDataCache']
+			),
 		];
 
+		// TODO: If the factory returns THE criterion, we do not need the loop
 		foreach ($criteria as $criterion) {
 			/** @var $criterion \ilTermsOfServiceCriterionType */
 			if ($this->getInput('criterion') == $criterion->getTypeIdent()) {
 				$criterionGui = $criterion->getGUI($this->lng);
 
 				$this->assignment->setCriterionId($criterion->getTypeIdent());
+				// TODO: Hide json_encode, this is an impl. detail which should be somehow centralized
 				$this->assignment->setCriterionValue(json_encode($criterionGui->getConfigByForm($this)));
 			}
 		}

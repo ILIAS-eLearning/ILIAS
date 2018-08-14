@@ -10386,6 +10386,7 @@ tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
 tos#:#tos_tbl_docs_head_criteria#:#Kriterien
 tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
 tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
+tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
 tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
 tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
 tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
@@ -10411,6 +10412,10 @@ tos#:#tos_tbl_hist_head_document#:#Dokument
 tos#:#tos_tbl_hist_head_criteria#:#Kriterien
 tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Kriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.  
 tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Kriteriums nicht wie gewünscht ändern.  Es existiert bereits eine identische Zuweisung.
+tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
+tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
+tos#:#tos_crit_type_usr_language#:#Profilesprache
+tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
