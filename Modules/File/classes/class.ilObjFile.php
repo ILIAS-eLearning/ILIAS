@@ -147,6 +147,16 @@ class ilObjFile extends ilObject2 {
 
 		$DIC->database()->insert('file_data', $this->getArrayForDatabase());
 
+		//add metadata to database
+		$metadata = [
+			'meta_lifecycle_id' => [ 'integer', $DIC->database()->nextId('il_meta_lifecycle') ],
+			'rbac_id'    => [ 'integer', $this->getId() ],
+			'obj_id'    => [ 'integer', $this->getId() ],
+			'obj_type'  => [ 'text', "file" ],
+			'meta_version'    => [ 'integer', (int)$this->getVersion() ],
+		];
+		$DIC->database()->insert('il_meta_lifecycle', $metadata);
+
 		// no meta data handling for file list files
 		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->createMetaData();
@@ -481,6 +491,15 @@ class ilObjFile extends ilObject2 {
 		$a_columns = $this->getArrayForDatabase();
 		$DIC->database()->update('file_data', $a_columns, [
 			'file_id' => [
+				'integer',
+				$this->getId(),
+			],
+		]);
+
+		// update metadata with the current file version
+		$meta_version_column = ['meta_version'    => [ 'integer', (int)$this->getVersion() ]];
+		$DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
+			'obj_id' => [
 				'integer',
 				$this->getId(),
 			],
