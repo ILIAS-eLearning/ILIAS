@@ -35,7 +35,7 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
 
-		return $this->renderNoneGroupInput($component);
+		return $this->renderNoneGroupInput($component, $default_renderer);
 	}
 
 
@@ -57,13 +57,24 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderNoneGroupInput(Component\Input\Field\Input $input) {
+	protected function renderNoneGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer) {
 		$input_tpl = null;
+		$id = null;
+		$dependant_group_html = null;
+
+		if($input instanceof Component\Input\Field\DependantGroupProviding) {
+			if ($input->getDependantGroup()) {
+				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
+				$id = $this->bindJavaScript($input);
+			}
+		}
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Checkbox) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Password) {
@@ -74,7 +85,8 @@ class Renderer extends AbstractComponentRenderer {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
-		return $this->renderInputFieldWithContext($input_tpl, $input);
+		$html = $this->renderInputFieldWithContext($input_tpl, $input, $id, $dependant_group_html);
+		return $html;
 	}
 
 
@@ -90,26 +102,14 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var $group DependantGroup
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
-		} elseif ($group instanceof Component\Input\Field\Checkbox) {
-			/**
-			 * @var $group Checkbox
-			 */
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group_html = "";
-			$id = "";
-			if ($group->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
-				$id = $this->bindJavaScript($group);
+
+		} else {
+			if ($group instanceof Component\Input\Field\Section) {
+				/**
+				 * @var $group Section
+				 */
+				return $this->renderSection($group, $default_renderer);
 			}
-
-			$html = $this->renderInputFieldWithContext($input_tpl, $group, $id, $dependant_group_html);
-
-			return $html;
-		} elseif ($group instanceof Component\Input\Field\Section) {
-			/**
-			 * @var $group Section
-			 */
-			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
@@ -214,7 +214,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
-		 * TODO: should we through an error in case for no name or render without name?
+		 * TODO: should we throw an error in case for no name or render without name?
 		 *
 		 * if(!$input->getName()){
 		 * throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
