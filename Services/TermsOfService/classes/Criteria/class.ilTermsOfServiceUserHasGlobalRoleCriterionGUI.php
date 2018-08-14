@@ -1,0 +1,80 @@
+<?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * Class ilTermsOfServiceUserHasGlobalRoleCriterionGUI
+ * @author Michael Jansen <mjansen@databay.de>
+ */
+class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfServiceCriterionTypeGUI
+{
+	/**
+	 * @var \ilTermsOfServiceUserHasGlobalRoleCriterion
+	 */
+	protected $type;
+
+	/**
+	 * @var \ilRbacReview
+	 */
+	protected $rbacReview;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * ilTermsOfServiceUserHasGlobalRoleCriterionGUI constructor.
+	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $type
+	 * @param \ilLanguage $lng
+	 * @param \ilRbacReview $rbacReview
+	 */
+	public function __construct(
+		\ilTermsOfServiceUserHasGlobalRoleCriterion $type,
+		\ilLanguage $lng,
+		\ilRbacReview $rbacReview
+	) {
+		$this->type = $type;
+		$this->lng = $lng;
+		$this->rbacReview = $rbacReview;
+
+		$this->lng->loadLanguageModule('rbac');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOption(\ilRadioGroupInputGUI $group, array $config)
+	{
+		$option = new \ilRadioOption($this->lng->txt('tos_crit_type_usr_global_role'), $this->type->getTypeIdent());
+		$option->setInfo($this->lng->txt('tos_crit_type_usr_global_role_info'));
+
+		$roleSelection = new \ilSelectInputGUI(
+			$this->lng->txt('perm_global_role'), $this->type->getTypeIdent() . '_role_id'
+		);
+		$roleSelection->setRequired(true);
+
+		$options = [];
+		foreach ($this->rbacReview->getGlobalRoles() as $roleId) {
+			$options[$roleId] = \ilObject::_lookupTitle($roleId);
+		}
+
+		asort($options);
+
+		$roleSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
+		$roleSelection->setValue((int)($config['role_id'] ?? 0));
+
+		$option->addSubItem($roleSelection);
+
+		$group->addOption($option);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getConfigByForm(\ilPropertyFormGUI $form): array
+	{
+		return [
+			'role_id' => (int)$form->getInput($this->type->getTypeIdent() . '_role_id')
+		];
+	}
+}

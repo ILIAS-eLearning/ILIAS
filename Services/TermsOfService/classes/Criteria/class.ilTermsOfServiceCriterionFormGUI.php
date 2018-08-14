@@ -69,21 +69,31 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$document->setValue($this->document->getTitle());
 		$this->addItem($document);
 
-		$criteria = new \ilRadioGroupInputGUI($this->lng->txt('tos_form_criterion'), 'criterion');
-		$criteria->setInfo($this->lng->txt('tos_form_criterion_info'));
-		// TODO: Make required if criteria definitions concept is implemented
-		//$criteria->setRequired(true);
-		$criteria->setValue($this->assignment->getCriterionId());
-		// TODO: Render possible criteria
-		foreach ([] as $criterion) {
-			$criterion_option = new \ilRadioOption(
-				'Label',
-				'POST_VAR'
-			);
-			$criterion::addCriterionSubItems($criterion_option);
-			$criteria->addOption($criterion_option);
+		$criteriaSelection = new \ilRadioGroupInputGUI($this->lng->txt('tos_form_criterion'), 'criterion');
+		$criteriaSelection->setInfo($this->lng->txt('tos_form_criterion_info'));
+		$criteriaSelection->setRequired(true);
+		$criteriaSelection->setValue($this->assignment->getCriterionId());
+
+		// TODO: Read from factory (dependencies should be moved to the factory constructor)
+		$criteria = [
+			new ilTermsOfServiceUserHasLanguageCriterion(),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion($GLOBALS['DIC']['rbacreview']),
+		];
+
+		foreach ($criteria as $criterion) {
+			/** @var $criterion \ilTermsOfServiceCriterionType */
+			$criterionGui = $criterion->getGUI($this->lng);
+			if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
+				// TODO: Pass correct type here
+				$criterionGui->appendOption(
+					$criteriaSelection, 
+					json_decode($this->assignment->getCriterionValue(), true)
+				);
+			} else {
+				$criterionGui->appendOption($criteriaSelection, []);
+			}
 		}
-		$this->addItem($criteria);
+		$this->addItem($criteriaSelection);
 
 		$this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
 		$this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
@@ -146,13 +156,20 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			return false;
 		}
 
-		// TODO: Fill with form values
-		if (rand(0, 1)) {
-			$this->assignment->setCriterionId('language');
-			$this->assignment->setCriterionValue('de');
-		} else {
-			$this->assignment->setCriterionId('global_role');
-			$this->assignment->setCriterionValue('4');
+		// TODO: Read criterion to use from factory by "criterion" field (dependencies should be moved to the factory constructor)
+		$criteria = [
+			new ilTermsOfServiceUserHasLanguageCriterion(),
+			new ilTermsOfServiceUserHasGlobalRoleCriterion($GLOBALS['DIC']['rbacreview']),
+		];
+
+		foreach ($criteria as $criterion) {
+			/** @var $criterion \ilTermsOfServiceCriterionType */
+			if ($this->getInput('criterion') == $criterion->getTypeIdent()) {
+				$criterionGui = $criterion->getGUI($this->lng);
+
+				$this->assignment->setCriterionId($criterion->getTypeIdent());
+				$this->assignment->setCriterionValue(json_encode($criterionGui->getConfigByForm($this)));
+			}
 		}
 
 		if ($this->assignment->getId() > 0) {

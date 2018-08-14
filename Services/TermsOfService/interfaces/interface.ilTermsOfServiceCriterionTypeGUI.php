@@ -9,18 +9,13 @@ interface ilTermsOfServiceCriterionTypeGUI
 {
 	/**
 	 * @param ilRadioGroupInputGUI $option
+	 * @param array $config
 	 */
-	public function appendOption(\ilRadioGroupInputGUI $option);
+	public function appendOption(\ilRadioGroupInputGUI $option, array $config);
 
 	/**
 	 * @param ilPropertyFormGUI $form
 	 * @return array
 	 */
 	public function getConfigByForm(\ilPropertyFormGUI $form): array;
-
-	/**
-	 * @param array $formData The key/value pair array of the \ilPropertyFormGUI legacy forms
-	 * @param array $config
-	 */
-	public function setFormValues(array &$formData, array $config);
 }
