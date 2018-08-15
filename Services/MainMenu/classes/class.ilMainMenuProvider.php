@@ -5,10 +5,10 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
+class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 
 	/**
-	 * @var \ILIAS\UX\MainMenu\FactoryInterface
+	 * @var \ILIAS\UX\MainMenu\EntryFactory
 	 */
 	protected $mainmenu;
 	/**
@@ -24,10 +24,6 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 	 */
 	protected $plugin_admin;
 	/**
-	 * @var ILIAS\UX\Services;
-	 */
-	protected $ux;
-	/**
 	 * @var array
 	 */
 	private $slate_ids = [];
@@ -42,9 +38,16 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 	const INTERNAL_ADMINISTRATION = 'adm';
 
 
-	public function __construct(\ILIAS\UX\Services $ux, \ILIAS\DI\Container $DIC) {
+	public function __construct(\ILIAS\DI\Container $DIC) {
 		$this->dic = $DIC;
-		$this->ux = $ux;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function inject(\ILIAS\UX\Services $services) {
+		parent::inject($services);
 		$this->mainmenu = $this->ux->mainmenu();
 		$this->identification = $this->ux->identification()->core($this);
 		$this->slate_ids = [
@@ -80,7 +83,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 		// Administration
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_ADMINISTRATION])->withTitle(
 			$this->dic->language()->txt("administration")
-		);
+		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
 
 		return $slates;
 	}
@@ -111,7 +114,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () {
 				$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 
-				return $pdItemsViewSettings->allViewsEnabled();
+				return (bool)$pdItemsViewSettings->allViewsEnabled();
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -120,7 +123,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks"
 		)->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return !$ilSetting->get("disable_bookmarks");
+				return (bool)!$ilSetting->get("disable_bookmarks");
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -139,7 +142,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=" . $c
 		)->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return (!$ilSetting->get("disable_notes") || !$ilSetting->get("disable_comments"));
+				return (bool)(!$ilSetting->get("disable_notes") || !$ilSetting->get("disable_comments"));
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -160,7 +163,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff"
 		)->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return ($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true);
+				return (bool)($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true);
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -169,7 +172,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace"
 		)->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return (!$ilSetting->get("disable_personal_workspace"));
+				return (bool)(!$ilSetting->get("disable_personal_workspace"));
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -178,11 +181,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return ($ilSetting->get('user_portfolios'));
-			}
-		)->withActiveCallable(
-			function () {
-
+				return (bool)($ilSetting->get('user_portfolios'));
 			}
 		);
 
@@ -193,7 +192,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () {
 				$skmg_set = new ilSetting("skmg");
 
-				return ($skmg_set->get("enable_skmg"));
+				return (bool)($skmg_set->get("enable_skmg"));
 			}
 		);
 
@@ -202,7 +201,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
 			function () {
-				return (ilBadgeHandler::getInstance()->isActive());
+				return (bool)(ilBadgeHandler::getInstance()->isActive());
 			}
 		);
 
@@ -211,7 +210,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP"
 		)->withVisibilityCallable(
 			function () {
-				return (ilObjUserTracking::_enabledLearningProgress()
+				return (bool)(ilObjUserTracking::_enabledLearningProgress()
 					&& (ilObjUserTracking::_hasLearningProgressOtherUsers()
 						|| ilObjUserTracking::_hasLearningProgressLearner()));
 			}
@@ -226,7 +225,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			function () {
 				$settings = ilCalendarSettings::_getInstance();
 
-				return ($settings->isEnabled());
+				return (bool)($settings->isEnabled());
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
@@ -253,7 +252,7 @@ class ilMainMenuProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts"
 		)->withVisibilityCallable(
 			function () {
-				return (ilBuddySystem::getInstance()->isEnabled());
+				return (bool)(ilBuddySystem::getInstance()->isEnabled());
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
