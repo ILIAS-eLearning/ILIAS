@@ -7,14 +7,6 @@
 class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCriterionBaseTest
 {
 	/**
-	 *
-	 */
-	public function testTrue()
-	{
-		$this->assertTrue(true);
-	}
-
-	/**
 	 * @return ilTermsOfServiceUserHasLanguageCriterion
 	 */
 	protected function getInstance(): \ilTermsOfServiceUserHasLanguageCriterion
