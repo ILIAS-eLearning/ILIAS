@@ -69,7 +69,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		$dic = $this->dic;
 
 		// Personal Desktop Slate
-		$slates[] = $m->slate($this->slate_ids[self::INTERNAL_DESKTOP])->withTitle($lng->txt("personal_desktop"))->withActiveCallable(
+		$slates[] = $m->slate($this->slate_ids[self::INTERNAL_DESKTOP])->withTitle($lng->txt("personal_desktop"))->withVisibilityCallable(
 			function () use ($dic) {
 				return ($dic->user()->getId() != ANONYMOUS_USER_ID);
 			}
@@ -78,12 +78,16 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// Repository
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_REPOSITORY])->withTitle(
 			$this->dic->language()->txt("repository")
-		)->withActiveCallable(function () use ($dic) { return ($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID)); });
+		)->withVisibilityCallable(function () use ($dic) { return ($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID)); });
 
 		// Administration
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_ADMINISTRATION])->withTitle(
 			$this->dic->language()->txt("administration")
-		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
+		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")->withVisibilityCallable(
+			function () {
+
+			}
+		);
 
 		return $slates;
 	}
@@ -111,8 +115,8 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		$entries[] = $m->link($g->internal('mm_pd_crs_grp'))->withTitle($lng->txt("my_courses_groups"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships"
 		)->withVisibilityCallable(
-			function () {
-				$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+			function () use ($dic) {
+				$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
 				return (bool)$pdItemsViewSettings->allViewsEnabled();
 			}
@@ -121,7 +125,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// bookmarks
 		$entries[] = $m->link($g->internal('mm_pd_bookm'))->withTitle($lng->txt("bookmarks"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () use ($ilSetting) {
 				return (bool)!$ilSetting->get("disable_bookmarks");
 			}
@@ -140,7 +144,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		}
 		$entries[] = $m->link($g->internal('mm_pd_notes'))->withTitle($t)->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=" . $c
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () use ($ilSetting) {
 				return (bool)(!$ilSetting->get("disable_notes") || !$ilSetting->get("disable_comments"));
 			}
@@ -149,7 +153,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// news
 		$entries[] = $m->link($g->internal('mm_pd_news'))->withTitle($lng->txt("news"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () use ($ilSetting) {
 				return ($ilSetting->get("block_activated_news"));
 			}
@@ -161,16 +165,20 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// MyStaff
 		$entries[] = $m->link($g->internal('mm_pd_mst'))->withTitle($lng->txt("my_staff"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff"
+		)->withAvailableCallable(
+			function () use ($ilSetting) {
+				return (bool)($ilSetting->get("enable_my_staff"));
+			}
 		)->withVisibilityCallable(
 			function () use ($ilSetting) {
-				return (bool)($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true);
+				return (bool)ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// Workspace
 		$entries[] = $m->link($g->internal('mm_pd_wsp'))->withTitle($lng->txt("personal_workspace"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () use ($ilSetting) {
 				return (bool)(!$ilSetting->get("disable_personal_workspace"));
 			}
@@ -179,7 +187,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// portfolio
 		$entries[] = $m->link($g->internal('mm_pd_port'))->withTitle($lng->txt("portfolio"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio"
-		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withActiveCallable(
 			function () use ($ilSetting) {
 				return (bool)($ilSetting->get('user_portfolios'));
 			}
@@ -188,7 +196,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// skills
 		$entries[] = $m->link($g->internal('mm_pd_skill'))->withTitle($lng->txt("skills"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills"
-		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withAvailableCallable(
 			function () {
 				$skmg_set = new ilSetting("skmg");
 
@@ -199,7 +207,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// Badges
 		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("obj_bdga"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges"
-		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withVisibilityCallable(
+		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withAvailableCallable(
 			function () {
 				return (bool)(ilBadgeHandler::getInstance()->isActive());
 			}
@@ -208,7 +216,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// Learning Progress
 		$entries[] = $m->link($g->internal('mm_pd_lp'))->withTitle($lng->txt("learning_progress"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () {
 				return (bool)(ilObjUserTracking::_enabledLearningProgress()
 					&& (ilObjUserTracking::_hasLearningProgressOtherUsers()
@@ -221,7 +229,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// calendar
 		$entries[] = $m->link($g->internal('mm_pd_cal'))->withTitle($lng->txt("calendar"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () {
 				$settings = ilCalendarSettings::_getInstance();
 
@@ -250,7 +258,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// contacts
 		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("mail_addressbook"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts"
-		)->withVisibilityCallable(
+		)->withAvailableCallable(
 			function () {
 				return (bool)(ilBuddySystem::getInstance()->isEnabled());
 			}

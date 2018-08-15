@@ -103,9 +103,9 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAvailable(bool $available): EntryInterface {
+	public function withAvailableCallable(callable $is_available): EntryInterface {
 		$clone = clone($this);
-		$clone->available = $available;
+		$clone->available = $is_available;
 
 		return $clone;
 	}

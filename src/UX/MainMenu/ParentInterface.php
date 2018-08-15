@@ -22,6 +22,8 @@ interface ParentInterface extends EntryInterface {
 
 
 	/**
+	 * Attention
+	 *
 	 * @param EntryInterface $child
 	 *
 	 * @return EntryInterface

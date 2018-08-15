@@ -16,6 +16,9 @@ interface EntryInterface {
 
 
 	/**
+	 * Pass a callable which can decide whether your element is visible for
+	 * the current user
+	 *
 	 * @param callable $is_visible
 	 *
 	 * @return EntryInterface|ChildEntryInterface
@@ -30,6 +33,10 @@ interface EntryInterface {
 
 
 	/**
+	 * Pass a callable which can decide whether your element is in a active
+	 * state (e.g. the Repository-Slate is active whenever a user is in the
+	 * repository)
+	 *
 	 * @param callable $is_active
 	 *
 	 * @return EntryInterface|ChildEntryInterface
@@ -44,11 +51,15 @@ interface EntryInterface {
 
 
 	/**
-	 * @param bool $available
+	 * Pass a callable which can decide wheter your element is available in
+	 * general, e.g. return false for the Badges entry when the Badges-Service
+	 * is disabled.
 	 *
-	 * @return EntryInterface
+	 * @param callable $is_avaiable
+	 *
+	 * @return EntryInterface|ChildEntryInterface
 	 */
-	public function withAvailable(bool $available): EntryInterface;
+	public function withAvailableCallable(callable $is_avaiable): EntryInterface;
 
 
 	/**
