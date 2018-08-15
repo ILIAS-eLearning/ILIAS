@@ -35,7 +35,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	/**
 	 * @inheritdoc
 	 */
-	public function evaluate(\ilObjUser $user, array $config): bool
+	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
 	{
 		$roleId = $config['role_id'] ?? 0;
 

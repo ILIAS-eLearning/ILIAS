@@ -90,13 +90,12 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 
 			$criterionGui = $criterion->getGUI($this->lng);
 			if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
-				// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
 				$criterionGui->appendOption(
-					$criteriaSelection, 
-					json_decode($this->assignment->getCriterionValue(), true)
+					$criteriaSelection,
+					$this->assignment->getCriterionValue()
 				);
 			} else {
-				$criterionGui->appendOption($criteriaSelection, []);
+				$criterionGui->appendOption($criteriaSelection, new \ilTermsOfServiceCriterionConfig());
 			}
 		}
 		$this->addItem($criteriaSelection);
@@ -168,8 +167,8 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			$criterionGui = $criterionType->getGUI($this->lng);
 
 			$this->assignment->setCriterionId($criterionType->getTypeIdent());
-			// TODO: Hide json_encode, this is an impl. detail which should be somehow centralized
-			$this->assignment->setCriterionValue(json_encode($criterionGui->getConfigByForm($this)));
+
+			$this->assignment->setCriterionValue($criterionGui->getConfigByForm($this));
 
 			if ($this->assignment->getId() > 0) {
 				$this->assignment->setLastModifiedUsrId($this->user->getId());

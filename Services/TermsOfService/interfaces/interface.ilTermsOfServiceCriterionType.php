@@ -14,10 +14,10 @@ interface ilTermsOfServiceCriterionType
 
 	/**
 	 * @param \ilObjUser $user
-	 * @param array $config
+	 * @param \ilTermsOfServiceCriterionConfig $config
 	 * @return bool
 	 */
-	public function evaluate(\ilObjUser $user, array $config): bool;
+	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool;
 
 	/**
 	 * @param \ilLanguage $lng

@@ -296,9 +296,8 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = 
 				$this->uiFactory->legacy(implode('', [
 					$this->uiRenderer->render(
-						// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
 						$typeGui->getValuePresentation(
-							json_decode($criterion->getCriterionValue(), true),
+							$criterion->getCriterionValue(),
 							$this->uiFactory
 						)
 					),

@@ -12,15 +12,15 @@ interface ilTermsOfServiceCriterionTypeGUI
 {
 	/**
 	 * @param ilRadioGroupInputGUI $option
-	 * @param array $config
+	 * @param \ilTermsOfServiceCriterionConfig $config
 	 */
-	public function appendOption(\ilRadioGroupInputGUI $option, array $config);
+	public function appendOption(\ilRadioGroupInputGUI $option, \ilTermsOfServiceCriterionConfig $config);
 
 	/**
 	 * @param ilPropertyFormGUI $form
-	 * @return array
+	 * @return \ilTermsOfServiceCriterionConfig
 	 */
-	public function getConfigByForm(\ilPropertyFormGUI $form): array;
+	public function getConfigByForm(\ilPropertyFormGUI $form): \ilTermsOfServiceCriterionConfig;
 
 	/**
 	 * @return string
@@ -28,9 +28,9 @@ interface ilTermsOfServiceCriterionTypeGUI
 	public function getIdentPresentation(): string;
 
 	/**
-	 * @param array $config
+	 * @param \ilTermsOfServiceCriterionConfig $config
 	 * @param Factory $uiFactory
 	 * @return Component
 	 */
-	public function getValuePresentation(array $config, Factory $uiFactory): Component;
+	public function getValuePresentation(\ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component;
 }

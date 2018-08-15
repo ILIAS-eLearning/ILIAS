@@ -648,19 +648,16 @@ class ilInitialisation
 	 */
 	protected static function initTermsOfService(\ILIAS\DI\Container $c)
 	{
-		$c['tos.criteria.type.factory'] = function ($c) {
+		$c['tos.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
 			return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
 		};
-		
-		$c['tos.document.criteria.evaluator'] = function ($c) {
-			return new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
-				$c['tos.criteria.type.factory'], $c->user()
-			);
-		};
 
-		$c['tos.document.evaluator'] = function ($c) {
+		$c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) {
 			return new ilTermsOfServiceSequentialDocumentEvaluation(
-				$c['tos.document.criteria.evaluator'], $c->user()
+				new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+					$c['tos.criteria.type.factory'], $c->user()
+				),
+				$c->user()
 			);
 		};
 	}

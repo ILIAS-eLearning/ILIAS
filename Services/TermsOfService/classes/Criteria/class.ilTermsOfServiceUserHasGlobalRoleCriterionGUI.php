@@ -53,7 +53,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOption(\ilRadioGroupInputGUI $group, array $config)
+	public function appendOption(\ilRadioGroupInputGUI $group, \ilTermsOfServiceCriterionConfig $config)
 	{
 		$option = new \ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
 		$option->setInfo($this->lng->txt('tos_crit_type_usr_global_role_info'));
@@ -81,11 +81,13 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfigByForm(\ilPropertyFormGUI $form): array
+	public function getConfigByForm(\ilPropertyFormGUI $form): \ilTermsOfServiceCriterionConfig
 	{
-		return [
+		$config = new \ilTermsOfServiceCriterionConfig([
 			'role_id' => (int)$form->getInput($this->type->getTypeIdent() . '_role_id')
-		];
+		]);
+
+		return $config;
 	}
 
 	/**
@@ -99,7 +101,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getValuePresentation(array $config, Factory $uiFactory): Component
+	public function getValuePresentation(\ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
 	{
 		$roleId = $config['role_id'] ?? 0;
 

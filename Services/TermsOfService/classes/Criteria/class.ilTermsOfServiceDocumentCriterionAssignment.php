@@ -103,4 +103,20 @@ class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord
 
 		parent::update();
 	}
+
+	/**
+	 * @param \ilTermsOfServiceCriterionConfig $config
+	 */
+	public function setCriterionValue(\ilTermsOfServiceCriterionConfig $config)
+	{
+		$this->criterion_value = $config->toJson();
+	}
+
+	/**
+	 * @return \ilTermsOfServiceCriterionConfig
+	 */
+	public function getCriterionValue(): \ilTermsOfServiceCriterionConfig
+	{
+		return new \ilTermsOfServiceCriterionConfig($this->criterion_value);
+	}
 }

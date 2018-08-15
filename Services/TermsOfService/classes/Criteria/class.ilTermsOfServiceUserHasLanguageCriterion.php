@@ -18,7 +18,7 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 	/**
 	 * @inheritdoc
 	 */
-	public function evaluate(\ilObjUser $user, array $config): bool
+	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
 	{
 		$lng = $config['lng'] ?? '';
 

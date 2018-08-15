@@ -36,10 +36,7 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements \ilTermsOf
 
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterionAssignment->getCriterionId(), true);
 
-			// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
-			$result = $criterionType->evaluate(
-				$this->user, json_decode($criterionAssignment->getCriterionValue(), true)
-			);
+			$result = $criterionType->evaluate($this->user, $criterionAssignment->getCriterionValue());
 
 			if (!$result) {
 				return false;

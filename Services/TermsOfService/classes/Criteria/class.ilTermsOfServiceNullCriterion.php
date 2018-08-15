@@ -21,7 +21,7 @@ class ilTermsOfServiceNullCriterion implements \ilTermsOfServiceCriterionType
 	/**
 	 * @inheritdoc
 	 */
-	public function evaluate(\ilObjUser $user, array $config): bool
+	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
 	{
 		return true;
 	}
@@ -47,16 +47,16 @@ class ilTermsOfServiceNullCriterion implements \ilTermsOfServiceCriterionType
 			/**
 			 * @inheritdoc
 			 */
-			public function appendOption(\ilRadioGroupInputGUI $option, array $config)
+			public function appendOption(\ilRadioGroupInputGUI $option, \ilTermsOfServiceCriterionConfig $config)
 			{
 			}
 
 			/**
 			 * @inheritdoc
 			 */
-			public function getConfigByForm(\ilPropertyFormGUI $form): array
+			public function getConfigByForm(\ilPropertyFormGUI $form): \ilTermsOfServiceCriterionConfig
 			{
-				return [];
+				return new \ilTermsOfServiceCriterionConfig();
 			}
 
 			/**
@@ -70,7 +70,7 @@ class ilTermsOfServiceNullCriterion implements \ilTermsOfServiceCriterionType
 			/**
 			 * @inheritdoc
 			 */
-			public function getValuePresentation(array $config, Factory $uiFactory): Component
+			public function getValuePresentation(\ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
 			{
 				return $uiFactory->legacy('-');
 			}
