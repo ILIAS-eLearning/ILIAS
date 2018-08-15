@@ -350,23 +350,36 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A radio-input is used to depict a choice of options excluding each other.
+	 *     A Radio Input is used to depict a choice of options excluding each other.
 	 *   composition: >
-	 *     The radio is considered as one field with a label and a number of
+	 *     The Radio is considered as one field with a label and a number of
 	 *     options. Each option in turn bears a label in form of a positive statement.
 	 *   effect: >
-	 *     If used in a form, each option of a radio may open a dependant section (formerly known
-	 *     as sub form).
+	 *     If used in a form, each option of a Radio may open a Dependant Section (formerly known
+	 *     as Sub Form).
 	 *   rivals:
-	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
 	 *     Select: >
-	 *       Use selects to choose items from a longer list as the configuration of
-	 *       an aspect; when the choice has severe effects on, i.e. service behavior,
-	 *       or needs further cconfiguration, stick to radios.
+	 *       Use Selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, e.g. service behavior,
+	 *       or needs further configuration, stick to radios.
 	 *
 	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Radio Input SHOULD contain 3 to 5 options.
+	 *       If there are more, the Select Input might be the better option.
+	 *     2: >
+	 *       Radios MAY also be used to select between two options
+	 *       where one is not automatically the inverse of the other
 	 *   wording:
-	 *     1: The options' labels MUST always state something positive.
+	 *     1: Each option MUST be labeled.
+	 *     2: The options' labels MUST state something positive.
+	 *     3: >
+	 *        An option's label SHOULD not simply repeat the label of the Radio.
+	 *        A meaningful labeling SHOULD be chosen instead.
+	 *   ordering:
+	 *     1: The presumably most relevant option SHOULD be the first option.
 	 *
 	 * ---
 	 *

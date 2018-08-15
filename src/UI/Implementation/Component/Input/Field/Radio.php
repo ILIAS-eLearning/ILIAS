@@ -32,7 +32,7 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return true;
+		return ($value === '' || array_key_exists($value, $this->getOptions()));
 	}
 
 	/**
@@ -59,15 +59,9 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	}
 
 	/**
-	 * Add an option-entry to the radio-input.
-	 *
-	 * @param 	string 	$value
-	 * @param 	string 	$label
-	 * @param 	array 	$dependant_fields 	a list of UI input-fields
-	 *
-	 * @return 	Radio
+	 * @inheritdoc
 	 */
-	public function withOption(string $value, string $label, $dependant_fields=null) {
+	public function withOption(string $value, string $label, $dependant_fields=null) : C\Input\Field\Radio{
 		$clone = clone $this;
 		$clone->options[$value] = $label;
 		if(! is_null($dependant_fields)) {
@@ -77,21 +71,14 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	}
 
 	/**
-	 * Get all options as value=>label.
-	 *
-	 * @return array <string,string>
+	 * @inheritdoc
 	 */
-	public function getOptions() {
+	public function getOptions() : array {
 		return $this->options;
 	}
 
 	/**
-	 * Get dependant fields for a single option.
-	 * Returns null, if none present.
-	 *
-	 * @param sring 	$value
-	 *
-	 * @return array|null
+	 * @inheritdoc
 	 */
 	public function getDependantFieldsFor(string $value) {
 		if(!array_key_exists($value, $this->dependant_fields)) {

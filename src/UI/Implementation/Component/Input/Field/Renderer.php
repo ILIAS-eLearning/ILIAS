@@ -369,14 +369,16 @@ class Renderer extends AbstractComponentRenderer {
 
 		foreach ($input->getOptions() as $value=>$label) {
 			$group_id = $id .'_' .$value .'_group';
+			$opt_id = $id .'_' .$value .'_opt';
 
 			$input_tpl->setCurrentBlock('optionblock');
 			$input_tpl->setVariable("NAME", $input->getName());
+			$input_tpl->setVariable("OPTIONID", $opt_id);
 			$input_tpl->setVariable("VALUE", $value);
 			$input_tpl->setVariable("LABEL", $label);
 
 			if ($input->getValue() !== null && $input->getValue()===$value) {
-				$input_tpl->setVariable("CHECKED", 'checked');
+				$input_tpl->setVariable("CHECKED", 'checked="checked"');
 			}
 
 			//dependant fields
