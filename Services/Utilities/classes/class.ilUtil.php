@@ -1157,6 +1157,10 @@ class ilUtil
 
 		$ilErr = $DIC["ilErr"];
 
+		if (null === $a_email || !is_string($a_email)) {
+			return false;
+		}
+
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
@@ -4892,7 +4896,7 @@ class ilUtil
 
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
-				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+				$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);

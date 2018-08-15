@@ -9279,10 +9279,10 @@ common#:#il_blog_contributor#:#Blog bidragsyder
 rbac#:#blog_contribute#:#Brugeren kan bidrage
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###28 09 2012 new variable
-dcl#:#dcl_empty_view#:#Slet denne visning
-dcl#:#dcl_confirm_delete_view_title#:#Vil du slette denne visning?
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
-dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
+dcl#:#dcl_empty_detailed_view#:#Slet denne visning
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Vil du slette denne visning?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
+dcl#:#dcl_empty_detailed_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
 rating#:#rating_number_votes#:#%s vurderinger
 administration#:#system_check_no_owner#:#Ejerløse objekter
 blog#:#blog_import#:#Importer blog

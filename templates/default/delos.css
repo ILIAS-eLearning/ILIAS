@@ -8489,6 +8489,23 @@ ul.breadcrumb li:hover {
   outline: 0;
   background-color: #4c6586;
 }
+.il-input-password .revelation-glyph {
+  float: right;
+  margin-top: -21px;
+  margin-right: 5px;
+}
+.il-input-password .revelation-reveal {
+  display: block;
+}
+.il-input-password .revelation-mask {
+  display: none;
+}
+.revealed.il-input-password .revelation-reveal {
+  display: none;
+}
+.revealed.il-input-password .revelation-mask {
+  display: block;
+}
 .il-table-presentation-viewcontrols {
   height: 40px;
 }
