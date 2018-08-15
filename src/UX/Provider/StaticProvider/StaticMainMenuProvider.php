@@ -8,7 +8,7 @@ use ILIAS\UX\Provider\StaticProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface MainMenu extends StaticProvider {
+interface StaticMainMenuProvider extends StaticProvider {
 
 	/**
 	 * @return \ILIAS\UX\MainMenu\Slate\SlateInterfaceInterface[]

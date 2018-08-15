@@ -1,6 +1,5 @@
 <?php namespace ILIAS\UX\Provider\DynamicProvider;
 
-use ILIAS\UX\MainMenu\EntryInterface;
 use ILIAS\UX\Provider\StaticProvider;
 
 /**
@@ -8,7 +7,7 @@ use ILIAS\UX\Provider\StaticProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface MainMenu extends StaticProvider {
+interface DynamicMainMenuProvider extends StaticProvider {
 
 	/**
 	 * @return \ILIAS\UX\MainMenu\Slate\SlateInterfaceInterface[]
