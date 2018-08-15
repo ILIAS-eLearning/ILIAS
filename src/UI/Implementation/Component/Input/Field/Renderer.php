@@ -333,7 +333,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
-		global $DIC;
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -362,7 +361,6 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
-		global $DIC;
 		$value = $input->getValue();
 		$name = $input->getName();
 
