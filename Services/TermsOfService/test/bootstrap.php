@@ -8,3 +8,4 @@ require_once 'Services/TermsOfService/test/provider/ilTermsOfServiceAcceptanceHi
 require_once 'Services/TermsOfService/test/entities/ilTermsOfServiceAcceptanceEntityTest.php';
 require_once 'Services/TermsOfService/test/gateways/ilTermsOfServiceAcceptanceDatabaseGatewayTest.php';
 require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceDocumentEvaluationTest.php';
+require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceDocumentCriteriaEvaluationTest.php';

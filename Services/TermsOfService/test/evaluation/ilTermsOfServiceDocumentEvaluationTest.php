@@ -23,7 +23,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @return PHPUnit_Framework_MockObject_MockObject|\ilObjUser
 	 */
-	protected function getUserMock()
+	protected function getUserMock(): \ilObjUser
 	{
 		$user = $this
 			->getMockBuilder(\ilObjUser::class)
@@ -47,7 +47,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceDocumentCriteriaEvaluation
 	 */
-	protected function getEvaluatorMock()
+	protected function getEvaluatorMock(): \ilTermsOfServiceDocumentCriteriaEvaluation
 	{
 		$evaluator = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriteriaEvaluation::class)
