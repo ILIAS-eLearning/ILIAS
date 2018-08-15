@@ -10,25 +10,47 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerable;
 /**
  * This implements the password input.
  */
-class Password extends Input implements C\Input\Field\Password {
+class Password extends Input implements C\Input\Field\Password, Triggerable {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
+
+	/**
+	 * @var bool
+	 */
+	private $revelation;
+
+	/**
+	 * @var Signal
+	 */
+	protected $signal_reveal;
+
+	/**
+	 * @var Signal
+	 */
+	protected $signal_mask;
+
 
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
 		$label,
-		$byline
+		$byline,
+		$signal_generator
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
+		$this->signal_generator = $signal_generator;
 		$trafo = $transformation_factory->toData('password');
 		$this->setAdditionalTransformation($trafo);
+		$this->initSignals();
 	}
 
 	/**
@@ -82,5 +104,64 @@ class Password extends Input implements C\Input\Field\Password {
 			$constraints[] = $pw_validation->hasSpecialChars();
 		}
 		return $this->withAdditionalConstraint($validation->parallel($constraints));
+	}
+
+	/**
+	 * Get a Password like this with the revelation-option enabled (or disabled).
+	 *
+	 * @param bool 	$revelation
+	 * @return Password
+	 */
+	public function withRevelation($revelation) {
+		$this->checkBoolArg('revelation', $revelation);
+		$clone = clone $this;
+		$clone->revelation = $revelation;
+		return $clone;
+	}
+
+	/**
+	 * Get the status of the revelation-option.
+	 *
+	 * @return bool
+	 */
+	public function getRevelation() {
+		return $this->revelation;
+	}
+
+	/**
+	 * Set the signals for this component.
+	 */
+	protected function initSignals() {
+		$this->signal_reveal = $this->signal_generator->create();
+		$this->signal_mask = $this->signal_generator->create();
+	}
+
+	/**
+	 * Reset all Signals.
+	 *
+	 * @return Password
+	 */
+	public function withResetSignals() {
+		$clone = clone $this;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * Get the signal for unmasking the input.
+	 *
+	 * @return Signal
+	 */
+	public function getRevealSignal() {
+		return $this->signal_reveal;
+	}
+
+	/**
+	 * Get the signal for masking the input.
+	 *
+	 * @return Signal
+	 */
+	public function getMaskSignal() {
+		return $this->signal_mask;
 	}
 }

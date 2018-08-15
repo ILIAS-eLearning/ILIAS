@@ -35,6 +35,11 @@ class ilSurveyImporter extends ilXmlImporter
 	protected static $survey;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $svy_log;
+
+	/**
 	 * Init
 	 *
 	 * @param
@@ -46,6 +51,8 @@ class ilSurveyImporter extends ilXmlImporter
 		$this->ds = new ilSurveyDataSet();
 		$this->ds->setDSPrefix("ds");
 		$this->ds->setImport($this);
+
+		$this->svy_log = ilLoggerFactory::getLogger("svy");
 	}
 
 
@@ -109,7 +116,9 @@ class ilSurveyImporter extends ilXmlImporter
 			$import->setSurveyObject($newObj);
 			$import->startParsing();
 
+			$this->svy_log->debug("is array import_mob_xml: -".is_array($_SESSION["import_mob_xhtml"])."-");
 
+			// this is "written" by Services/Survey/classes/class.ilSurveyImportParser
 			if (is_array($_SESSION["import_mob_xhtml"]))
 			{
 				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -117,12 +126,16 @@ class ilSurveyImporter extends ilXmlImporter
 				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 				foreach ($_SESSION["import_mob_xhtml"] as $mob)
 				{
+					$this->svy_log->debug("import mob xhtml, type: ".$mob["type"].", id: ".$mob["mob"]);
+
 					if (!$mob["type"])
 					{
 						$mob["type"] = "svy:html";
 					}
 
 					$importfile = dirname($xml_file) . "/" . $mob["uri"];
+					$this->svy_log->debug("import file: ".$importfile);
+
 					if (file_exists($importfile))
 					{
 						$media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
@@ -131,8 +144,11 @@ class ilSurveyImporter extends ilXmlImporter
 						if ($mob["type"] == "svy:html")
 						{
 							ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
+							$this->svy_log->debug("old introduction: ".$newObj->getIntroduction());
 							$newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
 							$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
+
+							$this->svy_log->debug("new introduction: ".$newObj->getIntroduction());
 						}
 						else if($import->questions[$mob["id"]])
 						{
@@ -140,11 +156,16 @@ class ilSurveyImporter extends ilXmlImporter
 							ilObjMediaObject::_saveUsage($media_object->getId(), $mob["type"], $new_qid);
 							$new_question = SurveyQuestion::_instanciateQuestion($new_qid);
 							$qtext = $new_question->getQuestiontext();
+
+							$this->svy_log->debug("old question text: ".$qtext);
+
 							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 0);
 							$qtext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $qtext);
 							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 1);
 							$new_question->setQuestiontext($qtext);
 							$new_question->saveToDb();
+
+							$this->svy_log->debug("new question text: ".$qtext);
 
 							// also fix existing original in pool
 							if($new_question->getOriginalId())
@@ -157,8 +178,7 @@ class ilSurveyImporter extends ilXmlImporter
 					}
 					else
 					{
-						$ilLog = $this->log;
-						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
+						$this->svy_log->error("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
 					}
 				}
 				$newObj->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($newObj->getIntroduction(), 1));

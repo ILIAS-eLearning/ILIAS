@@ -25,7 +25,8 @@
 		"simplesamlphp/simplesamlphp": "^1.15.4",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
-		"james-heinrich/getid3": "^1.9"
+		"james-heinrich/getid3": "^1.9",
+        "sabre/dav": "~3.2.2"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
@@ -272,6 +273,16 @@
 			"approved-by": "Only added to ensure PHP 5 compatibility",
 			"approved-date": "2018-01-17"
 		},
+        "sabre/dav": {
+            "source" : "https://github.com/sabre-io/dav.git",
+            "used_version" : "v3.2.2",
+            "wrapped_by" : "Services/WebDAV",
+            "added_by" : "Raphael Heer <raphael.heer@hslu.ch>",
+            "last_update" : "2018-03-12",
+            "last_update_by" : "Raphael Heer <raphael.heer@hslu.ch>",
+            "approved-by": "Jour Fixe",
+            "approved-date": "2018-03-12"
+        },
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"

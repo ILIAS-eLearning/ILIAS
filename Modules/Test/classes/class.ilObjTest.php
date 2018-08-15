@@ -560,7 +560,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var bool
 	 */
 	protected $showGradingMarkEnabled;
-
+	
+	/**
+	 * @var bool
+	 */
+	protected $followupQuestionAnswerFixationEnabled;
+	
 	/**
 	 * @var bool
 	 */
@@ -696,6 +701,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->showGradingStatusEnabled = true;
 		$this->showGradingMarkEnabled = true;
 		
+		$this->followupQuestionAnswerFixationEnabled = false;
 		$this->instantFeedbackAnswerFixationEnabled = false;
 		
 		$this->testFinalBroken = false;
@@ -1327,6 +1333,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
 				'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
 				'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
+				'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
 				'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 				'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
 				'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
@@ -1449,6 +1456,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
 						'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
 						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
+						'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
 						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
 						'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
@@ -1971,6 +1979,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setResultFilterTaxIds(strlen($data->result_tax_filters) ? unserialize($data->result_tax_filters) : array());
 			$this->setShowGradingStatusEnabled((bool)$data->show_grading_status);
 			$this->setShowGradingMarkEnabled((bool)$data->show_grading_mark);
+			$this->setFollowupQuestionAnswerFixationEnabled((bool)$data->follow_qst_answer_fixation);
 			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
 			$this->setForceInstantFeedbackEnabled((bool)$data->force_inst_fb);
 			$this->setTestFinalBroken((bool)$data->broken);
@@ -5988,6 +5997,9 @@ function getAnswerFeedbackPoints()
 				case "instant_verification":
 					$this->setInstantFeedbackSolution($metadata["entry"]);
 					break;
+				case "follow_qst_answer_fixation":
+					$this->setFollowupQuestionAnswerFixationEnabled((bool)$metadata["entry"]);
+					break;
 				case "instant_feedback_answer_fixation":
 					$this->setInstantFeedbackAnswerFixationEnabled((bool)$metadata["entry"]);
 					break;
@@ -6427,6 +6439,12 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "answer_feedback_points");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedbackPoints()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// followup question previous answer freezing
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "follow_qst_answer_fixation");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isFollowupQuestionAnswerFixationEnabled());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// instant response answer freezing
@@ -7351,6 +7369,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
 		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
 		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
+		$newObj->setFollowupQuestionAnswerFixationEnabled($this->isFollowupQuestionAnswerFixationEnabled());
 		$newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
 		$newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
 		$newObj->setAutosave($this->getAutosave());
@@ -9974,6 +9993,7 @@ function getAnswerFeedbackPoints()
 			'show_grading_status'        => (int)$this->isShowGradingStatusEnabled(),
 			'show_grading_mark'          => (int)$this->isShowGradingMarkEnabled(),
 
+			'follow_qst_answer_fixation' => $this->isFollowupQuestionAnswerFixationEnabled(),
 			'inst_fb_answer_fixation' => $this->isInstantFeedbackAnswerFixationEnabled(),
 			'force_inst_fb'           => $this->isForceInstantFeedbackEnabled(),
 			'redirection_mode'        => $this->getRedirectionMode(),
@@ -10137,6 +10157,7 @@ function getAnswerFeedbackPoints()
 		$this->setShowGradingStatusEnabled((bool)$testsettings['show_grading_status']);
 		$this->setShowGradingMarkEnabled((bool)$testsettings['show_grading_mark']);
 
+		$this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
 		$this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
 		$this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
 		$this->setRedirectionMode($testsettings['redirection_mode']);
@@ -10994,8 +11015,28 @@ function getAnswerFeedbackPoints()
                 );
             }
         }
+        
+        public function isAnyInstantFeedbackOptionEnabled()
+		{
+			return (
+				$this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
+				$this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
+			);
+		}
+        
+        public function getInstantFeedbackOptionsAsArray()
+		{
+			$values = array();
+			
+			if( $this->getSpecificAnswerFeedback() ) $values[] = 'instant_feedback_specific';
+			if( $this->getGenericAnswerFeedback() ) $values[] = 'instant_feedback_generic';
+			if( $this->getAnswerFeedbackPoints() ) $values[] = 'instant_feedback_points';
+			if( $this->getInstantFeedbackSolution() ) $values[] = 'instant_feedback_solution';
+			
+			return $values;
+		}
 
-        public function setScoringFeedbackOptionsByArray($options)
+        public function setInstantFeedbackOptionsByArray($options)
 		{
 			if (is_array($options))
 			{
@@ -12284,6 +12325,16 @@ function getAnswerFeedbackPoints()
 	public function isShowGradingMarkEnabled()
 	{
 		return $this->showGradingMarkEnabled;
+	}
+	
+	public function setFollowupQuestionAnswerFixationEnabled($followupQuestionAnswerFixationEnabled)
+	{
+		$this->followupQuestionAnswerFixationEnabled = $followupQuestionAnswerFixationEnabled;
+	}
+	
+	public function isFollowupQuestionAnswerFixationEnabled()
+	{
+		return $this->followupQuestionAnswerFixationEnabled;
 	}
 
 	public function setInstantFeedbackAnswerFixationEnabled($instantFeedbackAnswerFixationEnabled)
