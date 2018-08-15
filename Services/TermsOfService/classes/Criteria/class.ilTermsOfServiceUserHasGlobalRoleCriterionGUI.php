@@ -66,7 +66,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 
 		$options = [];
 		foreach ($this->rbacReview->getGlobalRoles() as $roleId) {
-			$options[$roleId] = \ilObject::_lookupTitle($roleId);
+			$options[$roleId] = $this->objectCache->lookupTitle($roleId);
 		}
 
 		asort($options);

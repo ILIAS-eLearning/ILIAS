@@ -51,7 +51,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends \ilTermsOfServiceBaseTe
 		$rbacReview
 			->expects($this->any())
 			->method('getGlobalRoles')
-			->willReturn([]);
+			->willReturn([2, 4]);
 
 		return $rbacReview;
 	}
