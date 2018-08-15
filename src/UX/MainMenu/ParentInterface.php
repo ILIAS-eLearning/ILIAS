@@ -18,15 +18,15 @@ interface ParentInterface extends EntryInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function withChildren(array $children): EntryInterface;
+	public function withChildren(array $children): ParentInterface;
 
 
 	/**
 	 * Attention
 	 *
-	 * @param EntryInterface $child
+	 * @param ChildEntryInterface $child
 	 *
 	 * @return EntryInterface
 	 */
-	public function appendChild(EntryInterface $child): EntryInterface;
+	public function appendChild(ChildEntryInterface $child): ParentInterface;
 }

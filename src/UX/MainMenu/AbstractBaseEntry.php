@@ -12,7 +12,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @var
 	 */
-	protected $available = true;
+	protected $available_callable = true;
 	/**
 	 * @var callable
 	 */
@@ -60,13 +60,15 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	 * @inheritDoc
 	 */
 	public function isVisible(): bool {
-		if (!$this->isActive()) {
+		if (!$this->isAvailable()) {
 			return false;
 		}
 		if (is_callable($this->visiblility_callable)) {
 			$callable = $this->visiblility_callable;
 
-			return $callable();
+			$value = $callable();
+
+			return $value;
 		}
 
 		return true;
@@ -96,7 +98,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 			return $value;
 		}
 
-		return true;
+		return false;
 	}
 
 
@@ -105,7 +107,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	 */
 	public function withAvailableCallable(callable $is_available): EntryInterface {
 		$clone = clone($this);
-		$clone->available = $is_available;
+		$clone->available_callable = $is_available;
 
 		return $clone;
 	}
@@ -115,6 +117,14 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	 * @inheritDoc
 	 */
 	public function isAvailable(): bool {
-		return $this->available;
+		if (is_callable($this->available_callable)) {
+			$callable = $this->available_callable;
+
+			$value = $callable();
+
+			return $value;
+		}
+
+		return true;
 	}
 }

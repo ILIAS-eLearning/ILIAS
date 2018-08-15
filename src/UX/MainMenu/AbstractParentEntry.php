@@ -24,7 +24,7 @@ abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentIn
 	/**
 	 * @inheritDoc
 	 */
-	public function withChildren(array $children): EntryInterface {
+	public function withChildren(array $children): ParentInterface {
 		$clone = clone($this);
 		$clone->children = $children;
 
@@ -35,7 +35,7 @@ abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentIn
 	/**
 	 * @inheritDoc
 	 */
-	public function appendChild(EntryInterface $child): EntryInterface {
+	public function appendChild(ChildEntryInterface $child): ParentInterface {
 		$this->children[] = $child;
 
 		return $this;
