@@ -35,6 +35,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $type
 	 * @param \ilLanguage $lng
 	 * @param \ilRbacReview $rbacReview
+	 * @param \ilObjectDataCache $objectCache
 	 */
 	public function __construct(
 		\ilTermsOfServiceUserHasGlobalRoleCriterion $type,
@@ -105,7 +106,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements \ilTermsOfService
 	{
 		$roleId = $config['role_id'] ?? 0;
 
-		if (!is_numeric($roleId) || $roleId < 1) {
+		if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
 			return $uiFactory->legacy('');
 		}
 

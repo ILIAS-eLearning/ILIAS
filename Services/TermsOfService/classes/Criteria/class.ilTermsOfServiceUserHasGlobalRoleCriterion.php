@@ -39,15 +39,17 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	{
 		$roleId = $config['role_id'] ?? 0;
 
-		if (!is_numeric($roleId) || $roleId < 1) {
+		if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
 			return false;
 		}
 
-		if ($this->rbacReview->isGlobalRole($roleId)) {
+		if (!$this->rbacReview->isGlobalRole($roleId)) {
 			return false;
 		}
 
-		return $this->rbacReview->isAssigned($user->getId(), $roleId);
+		$result = $this->rbacReview->isAssigned($user->getId(), $roleId);
+
+		return $result;
 	}
 
 	/**

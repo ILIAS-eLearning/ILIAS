@@ -26,7 +26,9 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 			return false;
 		}
 
-		return strtolower($lng) === strtolower($user->getLanguage());
+		$result = strtolower($lng) === strtolower($user->getLanguage());
+
+		return $result;
 	}
 
 	/**

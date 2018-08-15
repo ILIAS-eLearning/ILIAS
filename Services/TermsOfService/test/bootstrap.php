@@ -14,3 +14,4 @@ require_once 'Services/TermsOfService/test/gateways/ilTermsOfServiceAcceptanceDa
 require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceDocumentEvaluationTest.php';
 require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceDocumentCriteriaEvaluationTest.php';
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasLanguageCriterionTest.php';
+require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasGlobalRoleCriterionTest.php';

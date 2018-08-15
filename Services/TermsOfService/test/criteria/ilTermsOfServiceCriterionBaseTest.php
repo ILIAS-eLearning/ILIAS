@@ -31,7 +31,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends \ilTermsOfServiceBaseTe
 		$lng = $this
 			->getMockBuilder(\ilLanguage::class)
 			->disableOriginalConstructor()
-			->setMethods(['txt', 'getInstalledLanguages'])
+			->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
 			->getMock();
 
 		return $lng;
@@ -42,12 +42,18 @@ abstract class ilTermsOfServiceCriterionBaseTest extends \ilTermsOfServiceBaseTe
 	 */
 	protected function getRbacReviewMock(): \ilRbacReview
 	{
-		$lng = $this
+		$rbacReview = $this
 			->getMockBuilder(\ilRbacReview::class)
 			->disableOriginalConstructor()
+			->setMethods(['isGlobalRole', 'isAssigned', 'getGlobalRoles'])
 			->getMock();
 
-		return $lng;
+		$rbacReview
+			->expects($this->any())
+			->method('getGlobalRoles')
+			->willReturn([]);
+
+		return $rbacReview;
 	}
 
 	/**

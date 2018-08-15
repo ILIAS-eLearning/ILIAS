@@ -7,7 +7,7 @@
 class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCriterionBaseTest
 {
 	/**
-	 * @return ilTermsOfServiceUserHasLanguageCriterion
+	 * @return \ilTermsOfServiceUserHasLanguageCriterion
 	 */
 	protected function getInstance(): \ilTermsOfServiceUserHasLanguageCriterion
 	{
@@ -74,8 +74,8 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 			->expects($this->once())
 			->method('getInput')
 			->with($httpCriterionConfigBodyParameter)
-			->will($this->returnCallback(function() use ($expectedAfterFormSubmitValue) {
-				return $expectedAfterFormSubmitValue; 
+			->will($this->returnCallback(function () use ($expectedAfterFormSubmitValue) {
+				return $expectedAfterFormSubmitValue;
 			}));
 
 		$value = $gui->getConfigByForm($form);
@@ -118,7 +118,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 	/**
 	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
-	 * @param ilTermsOfServiceCriterionConfig $config
+	 * @param \ilTermsOfServiceCriterionConfig $config
 	 * @dataProvider failingConfigProvider
 	 */
 	public function testEvaluationFailsIfUserLanguageDoesNotMatchDefinedLanguage(
@@ -137,7 +137,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 	/**
 	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
-	 * @param ilTermsOfServiceCriterionConfig $config
+	 * @param \ilTermsOfServiceCriterionConfig $config
 	 * @dataProvider succeedingConfigProvider
 	 */
 	public function testEvaluationSucceedsIfUserLanguageDoesMatchDefinedLanguage(
