@@ -5493,8 +5493,8 @@ crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
 crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
-crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
-crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
+crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen (ab morgen)
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen (bis einschließlich gestern)
 crs#:#sess_print_attendance_list#:#Liste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
@@ -10188,12 +10188,12 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_view#:#Seitenvorlage löschen
+dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
-dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
@@ -12492,6 +12492,7 @@ dcl#:#dcl_selection_type#:#Typ
 dcl#:#dcl_selection_type_single#:#Einfachauswahl
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard-Ansicht
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
 content#:#cont_auto_time#:#Wartezeit Animation
@@ -14280,4 +14281,5 @@ adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
-mob#:#mob_no_fixed_size_map_editing#:#Bitte dfinieren Sie eine feste Größe für ihr Bild bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS Regeln skaliert wird.
+mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
+common#:#presentation_table_more#:#mehr
