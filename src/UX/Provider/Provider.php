@@ -10,6 +10,9 @@ use ILIAS\UX\Services;
 interface Provider {
 
 	/**
+	 * You will get an Instance of the UX-Services to use i you provider.
+	 * Do not create own Instances
+	 *
 	 * @param Services $services
 	 */
 	public function inject(Services $services);
