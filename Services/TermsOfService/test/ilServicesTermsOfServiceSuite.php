@@ -24,6 +24,7 @@ class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceDatabaseGatewayTest');
 		$suite->addTestSuite('ilTermsOfServiceDocumentEvaluationTest');
 		$suite->addTestSuite('ilTermsOfServiceDocumentCriteriaEvaluationTest');
+		$suite->addTestSuite('ilTermsOfServiceUserHasLanguageCriterionTest');
 
 		return $suite;
 	}

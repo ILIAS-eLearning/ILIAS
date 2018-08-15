@@ -22,7 +22,7 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 	{
 		$lng = $config['lng'] ?? '';
 
-		if (0 === strlen($lng) || !is_string($lng)) {
+		if (!is_string($lng) || 0 === strlen($lng)) {
 			return false;
 		}
 
@@ -34,6 +34,6 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 	 */
 	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
-		return new ilTermsOfServiceUserHasLanguageCriterionGUI($this, $lng);
+		return new \ilTermsOfServiceUserHasLanguageCriterionGUI($this, $lng);
 	}
 }

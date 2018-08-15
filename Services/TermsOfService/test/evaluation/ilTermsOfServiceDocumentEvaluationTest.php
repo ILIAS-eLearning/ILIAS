@@ -5,58 +5,8 @@
  * Class ilTermsOfServiceAcceptanceEntityTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceBaseTest
+class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluationBaseTest
 {
-	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @inheritdoc
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilObjUser
-	 */
-	protected function getUserMock(): \ilObjUser
-	{
-		$user = $this
-			->getMockBuilder(\ilObjUser::class)
-			->disableOriginalConstructor()
-			->setMethods(['getLanguage', 'getId', 'getLogin'])
-			->getMock();
-
-		$user
-			->expects($this->any())
-			->method('getId')
-			->willReturn(-1);
-
-		$user
-			->expects($this->any())
-			->method('getLogin')
-			->willReturn('phpunit');
-
-		return $user;
-	}
-
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceDocumentCriteriaEvaluation
-	 */
-	protected function getEvaluatorMock(): \ilTermsOfServiceDocumentCriteriaEvaluation
-	{
-		$evaluator = $this
-			->getMockBuilder(\ilTermsOfServiceDocumentCriteriaEvaluation::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		return $evaluator;
-	}
-
 	/**
 	 * 
 	 */
