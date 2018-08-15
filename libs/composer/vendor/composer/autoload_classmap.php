@@ -4690,7 +4690,7 @@ return array(
     'ilMailingListsGUI' => $baseDir . '/../../Services/Contact/classes/class.ilMailingListsGUI.php',
     'ilMailingListsMembersTableGUI' => $baseDir . '/../../Services/Contact/classes/class.ilMailingListsMembersTableGUI.php',
     'ilMailingListsTableGUI' => $baseDir . '/../../Services/Contact/classes/class.ilMailingListsTableGUI.php',
-    'ilMainMenuGUI' => $baseDir . '/../../Services/StaticMainMenuProvider/classes/class.ilMainMenuGUI.php',
+    'ilMainMenuGUI' => $baseDir . '/../../Services/MainMenu/classes/class.ilMainMenuGUI.php',
     'ilMainMenuSearchGUI' => $baseDir . '/../../Services/Search/classes/class.ilMainMenuSearchGUI.php',
     'ilManifestFileNotFoundImportException' => $baseDir . '/../../Services/Export/exceptions/class.ilManifestFileNotFoundImportException.php',
     'ilManifestParser' => $baseDir . '/../../Services/Export/classes/class.ilManifestParser.php',
