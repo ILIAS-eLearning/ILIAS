@@ -276,9 +276,13 @@ interface Factory {
 	 *     A password-field is intended for entering passwords.
 	 *   composition: >
 	 *      Text password will render an input-tag with type="password".
+	 *      Optionally, an eye-closed/open glyph is rendered above the input
+	 *      to toggle revelation/masking.
 	 *   effect: >
 	 *      Text password is restricted to one line of text and will
 	 *      mask the entered characters.
+	 *      When configured with the revelation-option, the clear-text
+	 *      password will be shown (respectively hidden) upon clicking the glyph.
 	 *   rivals:
 	 *      text field: >
 	 *          Use a text field for discloseable information (i.e.

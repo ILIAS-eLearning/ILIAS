@@ -8490,6 +8490,23 @@ ul.breadcrumb li:hover {
   outline: 0;
   background-color: #4c6586;
 }
+.il-input-password .revelation-glyph {
+  float: right;
+  margin-top: -21px;
+  margin-right: 5px;
+}
+.il-input-password .revelation-reveal {
+  display: block;
+}
+.il-input-password .revelation-mask {
+  display: none;
+}
+.revealed.il-input-password .revelation-reveal {
+  display: none;
+}
+.revealed.il-input-password .revelation-mask {
+  display: block;
+}
 .il-input-radio .form-control.il-input-radiooption {
   height: unset;
   border: unset;
@@ -8563,6 +8580,104 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
+}
+.il-workflow-header {
+  margin-bottom: 8px;
+  height: 40px;
+}
+.il-workflow-container {
+  list-style: none;
+  padding: 0;
+}
+.il-workflow-container .il-workflow-step:before {
+  background-color: #ffffff;
+  border: 1px solid #4c6586;
+  border-radius: 50%;
+  color: #ffffff;
+  content: "";
+  font-family: Glyphicons Halflings;
+  font-size: 12px;
+  height: 20px;
+  line-height: 1.6em;
+  margin-left: 5px;
+  padding-left: 1px;
+  position: absolute;
+  text-align: center;
+  width: 20px;
+}
+.il-workflow-container .il-workflow-step:last-child .text {
+  border-left: none;
+}
+.il-workflow-container .not-available:before,
+.il-workflow-container .no-longer-available:before {
+  content: "\e033";
+  color: #dddddd;
+  background-color: #f5f5f5;
+  border: none;
+}
+.il-workflow-container .not-available.in-progress:before,
+.il-workflow-container .no-longer-available.in-progress:before {
+  background-color: #a1b3ca;
+  color: #ffffff;
+}
+.il-workflow-container .not-available.in-progress .text span,
+.il-workflow-container .no-longer-available.in-progress .text span {
+  color: #434343;
+  opacity: .5;
+}
+.il-workflow-container .not-available .text,
+.il-workflow-container .no-longer-available .text {
+  color: #dddddd;
+}
+.il-workflow-container .no-longer-available:before {
+  content: "\e023";
+  font-size: 1em;
+  line-height: 1.5em;
+}
+.il-workflow-container .completed-successfully:before,
+.il-workflow-container .completed-unsuccessfully:before {
+  background-color: #dddddd;
+  color: #ffffff;
+}
+.il-workflow-container .completed-successfully:before {
+  content: "\e013";
+}
+.il-workflow-container .completed-unsuccessfully:before {
+  content: "\e014";
+}
+.il-workflow-container .available.completed-successfully:before,
+.il-workflow-container .available.completed-unsuccessfully:before,
+.il-workflow-container .in-progress:before {
+  background-color: #4c6586;
+}
+.il-workflow-container .active:before {
+  margin: 5px 0 0 0;
+  width: 30px;
+  height: 30px;
+}
+.il-workflow-container .active .text {
+  padding-left: 40px;
+}
+.il-workflow-container .active .text .il-workflow-step-label,
+.il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
+  color: #4c6586;
+  font-size: 18px;
+  font-weight: 600;
+}
+.il-workflow-container .text {
+  border-left: 1px dashed #434343;
+  font-size: 14px;
+  margin-left: 15px;
+  padding: 0 0 30px 20px;
+}
+.il-workflow-container .text .il-workflow-step-label {
+  display: block;
+}
+.il-workflow-container .available .il-workflow-step-label,
+.il-workflow-container .available .il-workflow-step-label .btn.btn-link {
+  color: #333333;
+  font-size: 14px;
+  font-weight: 600;
 }
 div.alert div {
   margin-top: 10px;

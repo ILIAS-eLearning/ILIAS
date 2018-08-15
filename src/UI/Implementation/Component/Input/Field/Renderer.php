@@ -60,11 +60,22 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderNoneGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer) {
 		$input_tpl = null;
+		$id = null;
+		$dependant_group_html = null;
+
+		if($input instanceof Component\Input\Field\DependantGroupProviding) {
+			if ($input->getDependantGroup()) {
+				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
+				$id = $this->bindJavaScript($input);
+			}
+		}
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Checkbox) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Password) {
@@ -78,7 +89,8 @@ class Renderer extends AbstractComponentRenderer {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
-		return $this->renderInputFieldWithContext($input_tpl, $input);
+		$html = $this->renderInputFieldWithContext($input_tpl, $input, $id, $dependant_group_html);
+		return $html;
 	}
 
 
@@ -94,26 +106,14 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var $group DependantGroup
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
-		} elseif ($group instanceof Component\Input\Field\Checkbox) {
-			/**
-			 * @var $group Checkbox
-			 */
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group_html = "";
-			$id = "";
-			if ($group->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
-				$id = $this->bindJavaScript($group);
+
+		} else {
+			if ($group instanceof Component\Input\Field\Section) {
+				/**
+				 * @var $group Section
+				 */
+				return $this->renderSection($group, $default_renderer);
 			}
-
-			$html = $this->renderInputFieldWithContext($input_tpl, $group, $id, $dependant_group_html);
-
-			return $html;
-		} elseif ($group instanceof Component\Input\Field\Section) {
-			/**
-			 * @var $group Section
-			 */
-			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
@@ -254,6 +254,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
 		}
 
+
 		return $tpl->get();
 	}
 
@@ -266,6 +267,13 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
+
+		if($input instanceof Component\Input\Field\Password) {
+			$id = $this->additionalRenderPassword($tpl, $input);
+		}
+
+		$tpl->setVariable("NAME", $input->getName());
+
 		switch (true) {
 			case ($input instanceof Text):
 			case ($input instanceof Checkbox):
@@ -346,8 +354,52 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("VALUE_STR", $option_value);
 			$tpl->parseCurrentBlock();
 		}
-
 		return $tpl;
+	}
+
+
+	/*
+	 * Render revelation-glyphs for password and register signals/functions
+	 * @param Template $tpl
+	 * @param Password $input
+	 *
+	 * @return string | false
+	 */
+	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
+		$id = false;
+		if($input->getRevelation()) {
+			global $DIC;
+			$f = $this->getUIFactory();
+			$renderer = $DIC->ui()->renderer();
+
+			$input = $input->withResetSignals();
+			$sig_reveal = $input->getRevealSignal();
+			$sig_mask = $input->getMaskSignal();
+
+			$input = $input->withAdditionalOnLoadCode(function($id) use ($sig_reveal, $sig_mask) {
+				return
+					"$(document).on('{$sig_reveal}', function() {
+						$('#{$id}').addClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='text';
+					});".
+					"$(document).on('{$sig_mask}', function() {
+						$('#{$id}').removeClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='password';
+					});"
+					;
+				});
+			$id = $this->bindJavaScript($input);
+
+			$glyph_reveal = $f->glyph()->eyeopen("#")
+				->withOnClick($sig_reveal);
+			$glyph_mask = $f->glyph()->eyeclosed("#")
+				->withOnClick($sig_mask);
+			$tpl->setCurrentBlock('revelation');
+			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
+			$tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
+			$tpl->parseCurrentBlock();
+		}
+		return $id;
 	}
 
 
@@ -427,14 +479,14 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [
 			Component\Input\Field\Text::class,
-		        Component\Input\Field\Numeric::class,
-		        Component\Input\Field\Group::class,
-		        Component\Input\Field\Section::class,
-		        Component\Input\Field\Checkbox::class,
-		        Component\Input\Field\Tag::class,
-		        Component\Input\Field\DependantGroup::class,
-		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
+			Component\Input\Field\Section::class,
+			Component\Input\Field\Checkbox::class,
+			Component\Input\Field\Tag::class,
+			Component\Input\Field\DependantGroup::class,
+			Component\Input\Field\Password::class,
+			Component\Input\Field\Select::class,
 			Component\Input\Field\Radio::class
 		];
 	}
