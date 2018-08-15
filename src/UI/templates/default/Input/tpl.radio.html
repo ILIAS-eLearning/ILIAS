@@ -1,7 +1,9 @@
-<div id="{ID}">
+<div id="{ID}" class="il-input-radio">
 <!-- BEGIN optionblock -->
-<input type="radio" class="form-control form-control-sm" id="{OPTIONID}" name="{NAME}" value="{VALUE}" {CHECKED}/>
-<label class="radiooption" for="{OPTIONID}">{LABEL}</label>
-{DEPENDANT_FIELDS}
+<div class="form-control form-control-sm il-input-radiooption">
+	<input type="radio" id="{OPTIONID}" name="{NAME}" value="{VALUE}" {CHECKED}/>
+	<label for="{OPTIONID}">{LABEL}</label>
+	{DEPENDANT_FIELDS}
+</div>
 <!-- END optionblock -->
 </div>
