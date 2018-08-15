@@ -39,10 +39,68 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	}
 
 	/**
+	 * @param \ilTermsOfServiceCriterionTypeGUI $gui
+	 * @param string                            $httpCriterionSelectionBodyParameter
+	 * @param string                            $expectedInitialValue
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilPropertyFormGUI
+	 */
+	protected function buildForm(
+		\ilTermsOfServiceCriterionTypeGUI $gui,
+		string $httpCriterionSelectionBodyParameter,
+		string $expectedInitialValue
+	): \ilPropertyFormGUI {
+		$form = $this->getFormMock();
+
+		$radioGroup = $this->getRadioGroupMock();
+
+		$radioGroup
+			->expects($this->any())
+			->method('getPostVar')
+			->willReturn($httpCriterionSelectionBodyParameter);
+
+		$form->addItem($radioGroup);
+
+		$gui->appendOption($radioGroup, new \ilTermsOfServiceCriterionConfig(['role_id' => $expectedInitialValue]));
+
+		return $form;
+	}
+
+	/**
 	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
 	 * @depends testInstanceCanBeCreated
+	 * @return \ilTermsOfServiceUserHasGlobalRoleCriterion
 	 */
-	public function testGraphicalUserInterface(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
+	public function testFormUserInterfaceElementsAreProperlyBuilt(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
+	{
+		$expectedInitialValue = 2;
+		$httpCriterionSelectionBodyParameter = 'criterion';
+		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
+
+		$lng = $this->getLanguageMock();
+
+		$lng
+			->expects($this->any())
+			->method('txt')
+			->willReturn('dummy');
+
+		$gui = $criterion->getGUI($lng);
+
+		$this->assertInstanceOf(\ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
+
+		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter, $expectedInitialValue);
+
+		$roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
+		$this->assertInstanceOf(\ilSelectInputGUI::class, $roleSelection);
+		$this->assertEquals($roleSelection->getValue(), $expectedInitialValue);
+
+		return $criterion;
+	}
+
+	/**
+	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
+	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+	 */
+	public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
 	{
 		$expectedInitialValue = 2;
 		$expectedAfterFormSubmitValue = 4;
@@ -58,24 +116,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 
 		$gui = $criterion->getGUI($lng);
 
-		$this->assertInstanceOf(\ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
-
-		$form = $this->getFormMock();
-
-		$radioGroup = $this->getRadioGroupMock();
-
-		$radioGroup
-			->expects($this->any())
-			->method('getPostVar')
-			->willReturn($httpCriterionSelectionBodyParameter);
-
-		$form->addItem($radioGroup);
-
-		$gui->appendOption($radioGroup, new \ilTermsOfServiceCriterionConfig(['role_id' => $expectedInitialValue]));
-
-		$roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
-		$this->assertInstanceOf(\ilSelectInputGUI::class, $roleSelection);
-		$this->assertEquals($roleSelection->getValue(), $expectedInitialValue);
+		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter, $expectedInitialValue);
 
 		$form
 			->expects($this->once())

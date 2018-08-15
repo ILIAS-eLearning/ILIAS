@@ -7,6 +7,31 @@
 class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCriterionBaseTest
 {
 	/**
+	 * @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->lng = $this->getLanguageMock();
+
+		$this->lng
+			->expects($this->any())
+			->method('txt')
+			->willReturn('dummy');
+
+		$this->lng
+			->expects($this->any())
+			->method('getInstalledLanguages')
+			->willReturn(['de', 'en']);
+	}
+
+	/**
 	 * @return \ilTermsOfServiceUserHasLanguageCriterion
 	 */
 	protected function getInstance(): \ilTermsOfServiceUserHasLanguageCriterion
@@ -27,32 +52,16 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 	}
 
 	/**
-	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
-	 * @depends testInstanceCanBeCreated
+	 * @param \ilTermsOfServiceCriterionTypeGUI $gui
+	 * @param string                            $httpCriterionSelectionBodyParameter
+	 * @param string                            $expectedInitialValue
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilPropertyFormGUI
 	 */
-	public function testGraphicalUserInterface(\ilTermsOfServiceUserHasLanguageCriterion $criterion)
-	{
-		$expectedInitialValue = 'en';
-		$expectedAfterFormSubmitValue = 'de';
-		$httpCriterionSelectionBodyParameter = 'criterion';
-		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
-
-		$lng = $this->getLanguageMock();
-
-		$lng
-			->expects($this->any())
-			->method('txt')
-			->willReturn('dummy');
-
-		$lng
-			->expects($this->any())
-			->method('getInstalledLanguages')
-			->willReturn(['de', 'en']);
-
-		$gui = $criterion->getGUI($lng);
-
-		$this->assertInstanceOf(\ilTermsOfServiceUserHasLanguageCriterionGUI::class, $gui);
-
+	protected function buildForm(
+		\ilTermsOfServiceCriterionTypeGUI $gui,
+		string $httpCriterionSelectionBodyParameter,
+		string $expectedInitialValue
+	): \ilPropertyFormGUI {
 		$form = $this->getFormMock();
 
 		$radioGroup = $this->getRadioGroupMock();
@@ -66,9 +75,47 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 		$gui->appendOption($radioGroup, new \ilTermsOfServiceCriterionConfig(['lng' => $expectedInitialValue]));
 
+		return $form;
+	}
+
+	/**
+	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
+	 * @depends testInstanceCanBeCreated
+	 * @return ilTermsOfServiceUserHasLanguageCriterion
+	 */
+	public function testFormUserInterfaceElementsAreProperlyBuilt(\ilTermsOfServiceUserHasLanguageCriterion $criterion)
+	{
+		$expectedInitialValue = 'en';
+		$httpCriterionSelectionBodyParameter = 'criterion';
+		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
+
+		$gui = $criterion->getGUI($this->lng);
+
+		$this->assertInstanceOf(\ilTermsOfServiceUserHasLanguageCriterionGUI::class, $gui);
+
+		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter, $expectedInitialValue);
+
 		$languageSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
 		$this->assertInstanceOf(\ilSelectInputGUI::class, $languageSelection);
 		$this->assertEquals($languageSelection->getValue(), $expectedInitialValue);
+
+		return $criterion;
+	}
+
+	/**
+	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
+	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
+	 */
+	public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(\ilTermsOfServiceUserHasLanguageCriterion $criterion)
+	{
+		$expectedInitialValue = 'en';
+		$expectedAfterFormSubmitValue = 'de';
+		$httpCriterionSelectionBodyParameter = 'criterion';
+		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
+
+		$gui = $criterion->getGUI($this->lng);
+
+		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter, $expectedInitialValue);
 
 		$form
 			->expects($this->once())
