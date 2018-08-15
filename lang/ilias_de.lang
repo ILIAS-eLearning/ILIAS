@@ -6929,8 +6929,8 @@ crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift###deprecated
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
 crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
-crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
-crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
+crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen (ab morgen)
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen (bis einschließlich gestern)
 crs#:#sess_print_attendance_list#:#Liste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
