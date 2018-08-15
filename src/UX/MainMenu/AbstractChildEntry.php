@@ -12,10 +12,6 @@ abstract class AbstractChildEntry extends AbstractBaseEntry implements ChildEntr
 	/**
 	 * @var IdentificationInterface
 	 */
-	protected $suggested_parent;
-	/**
-	 * @var IdentificationInterface
-	 */
 	protected $parent;
 
 
@@ -24,25 +20,9 @@ abstract class AbstractChildEntry extends AbstractBaseEntry implements ChildEntr
 	 */
 	public function withParent(IdentificationInterface $identification): EntryInterface {
 		$clone = clone($this);
-		$clone->suggested_parent = $identification;
+		$clone->parent = $identification;
 
 		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function hasParent(): bool {
-		return ($this->suggested_parent instanceof IdentificationInterface);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getParent(): IdentificationInterface {
-		return $this->suggested_parent;
 	}
 
 

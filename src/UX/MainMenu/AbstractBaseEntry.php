@@ -91,7 +91,9 @@ abstract class AbstractBaseEntry implements EntryInterface {
 		if (is_callable($this->active_callable)) {
 			$callable = $this->active_callable;
 
-			return $callable();
+			$value = $callable();
+
+			return $value;
 		}
 
 		return true;
