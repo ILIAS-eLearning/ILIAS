@@ -259,7 +259,6 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 		foreach ($row['criteriaAssignments'] as $criterion) {
 			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
-			++$i;
 
 			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
 			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());
