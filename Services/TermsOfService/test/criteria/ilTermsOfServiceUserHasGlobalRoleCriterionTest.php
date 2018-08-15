@@ -183,7 +183,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	/**
 	 *
 	 */
-	public function testEvaluationFailsIfUserIsNotAssignedToConfiguredRole()
+	public function testEvaluationFailsIfUserIsNotAssignedToConfiguredGlobalRole()
 	{
 		$user = $this->getUserMock();
 		$criterion = $this->getInstance();
@@ -204,7 +204,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	/**
 	 *
 	 */
-	public function testEvaluationSucceedsIfUserLanguageDoesMatchDefinedLanguage()
+	public function testEvaluationSucceedsIfUserIsAssignedToDefinedGlobalRole()
 	{
 		$user = $this->getUserMock();
 		$criterion = $this->getInstance();
