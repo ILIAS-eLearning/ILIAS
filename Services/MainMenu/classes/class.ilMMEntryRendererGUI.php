@@ -26,12 +26,16 @@ class ilMMEntryRendererGUI {
 			$slates[$id] = $slate;
 		}
 
+		$time = microtime(true);
+
 		foreach ($provider->getStaticEntries() as $entry) {
 			if ($entry->hasParent()) {
 				$parent_id = $entry->getParent()->serialize();
 				$slates[$parent_id]->appendChild($entry);
 			}
 		}
+
+		$time = microtime(true) - $time;
 
 		foreach ($slates as $slate) {
 			if (!$slate->isVisible()) {
@@ -40,44 +44,32 @@ class ilMMEntryRendererGUI {
 			$tpl->setCurrentBlock('mmentry');
 			$tpl->setVariable("TITLE", $slate->getTitle());
 
-			if ($slate instanceof \ILIAS\UX\MainMenu\AsyncContentEntry && $slate->getAsyncContentURL() !== "") {
-				$selection = new ilAdvancedSelectionListGUI();
-				$selection->setId("dd_adm");
-				$selection->setAsynch(true);
-				$selection->setAsynchUrl($slate->getAsyncContentURL());
-
-
-				$gl = new ilGroupedListGUI();
-				$gl->setAsDropDown(true);
-
-				$tpl->setVariable("CONTENT", $selection->getHTML());
-
-			} else {
-				$gl = new ilGroupedListGUI();
-				$gl->setAsDropDown(true);
-				/**
-				 * @var $child \ILIAS\UX\MainMenu\Entry\LinkInterface
-				 */
-				foreach ($slate->getChildren() as $child) {
-					if (!$child->isVisible()) {
-						continue;
-					}
-					$i = $child->getProviderIdentification()->getInternalIdentifier();
-					switch (true) {
-						case ($child instanceof \ILIAS\UX\MainMenu\Entry\DividerInterface):
-							$gl->addSeparator();
-							break;
-						case ($child instanceof \ILIAS\UX\MainMenu\Entry\LinkInterface):
-							$this->addEntry($gl, $child, $i);
-							break;
-					}
+			$gl = new ilGroupedListGUI();
+			$gl->setAsDropDown(true);
+			/**
+			 * @var $child \ILIAS\UX\MainMenu\Entry\LinkInterface
+			 */
+			foreach ($slate->getChildren() as $child) {
+				if (!$child->isVisible()) {
+					continue;
 				}
-				$tpl->setVariable("CONTENT", $gl->getHTML());
+				$i = $child->getProviderIdentification()->getInternalIdentifier();
+				switch (true) {
+					case ($child instanceof \ILIAS\UX\MainMenu\Entry\DividerInterface):
+						$gl->addSeparator();
+						break;
+					case ($child instanceof \ILIAS\UX\MainMenu\Entry\LinkInterface):
+						$this->addEntry($gl, $child, $i);
+						break;
+				}
 			}
+
+			$tpl->setVariable("CONTENT", $gl->getHTML());
+
 			$tpl->parseCurrentBlock();
 		}
 
-		return $tpl->get();
+		return $time . $tpl->get();
 	}
 
 

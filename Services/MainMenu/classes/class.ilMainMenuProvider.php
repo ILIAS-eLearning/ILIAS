@@ -71,23 +71,24 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// Personal Desktop Slate
 		$slates[] = $m->slate($this->slate_ids[self::INTERNAL_DESKTOP])->withTitle($lng->txt("personal_desktop"))->withVisibilityCallable(
 			function () use ($dic) {
-				return ($dic->user()->getId() != ANONYMOUS_USER_ID);
+				return (bool)($dic->user()->getId() != ANONYMOUS_USER_ID);
 			}
 		);
 
 		// Repository
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_REPOSITORY])->withTitle(
 			$this->dic->language()->txt("repository")
-		)->withVisibilityCallable(function () use ($dic) { return ($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID)); });
+		)->withVisibilityCallable(function () use ($dic) { return (bool)($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID)); });
 
 		// Administration
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_ADMINISTRATION])->withTitle(
 			$this->dic->language()->txt("administration")
-		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")->withVisibilityCallable(
-			function () {
-
-			}
-		);
+		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
+			->withVisibilityCallable(
+				function () use ($dic) {
+					return (bool)($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
+				}
+			);
 
 		return $slates;
 	}
@@ -240,18 +241,15 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// mail
 		$entries[] = $m->link($g->internal('mm_pd_mail'))->withTitle($lng->txt("mail"))->withAction(
 			"ilias.php?baseClass=ilMailGUI"
+		)->withAvailableCallable(
+			function () use ($dic) {
+				return ($dic->user()->getId() != ANONYMOUS_USER_ID);
+			}
 		)->withVisibilityCallable(
 			function () use ($dic) {
-				if ($dic->user()->getId() != ANONYMOUS_USER_ID) {
-					if ($dic->rbac()->system()->checkAccess(
-						'internal_mail', ilMailGlobalServices::getMailObjectRefId()
-					)
-					) {
-						return true;
-					}
-				}
-
-				return false;
+				return $dic->rbac()->system()->checkAccess(
+					'internal_mail', ilMailGlobalServices::getMailObjectRefId()
+				);
 			}
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 

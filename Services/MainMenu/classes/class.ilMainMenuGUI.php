@@ -302,6 +302,7 @@ class ilMainMenuGUI
 
 		if($this->getMode() == self::MODE_FULL)
 		{
+			$rendering_time_old = microtime(true);
 			$mmle_html = "";
 
 			// user interface plugin slot + default rendering
@@ -314,10 +315,14 @@ class ilMainMenuGUI
 				$mmle_html = $this->renderMainMenuListEntries($mmle_tpl);
 			}
 			$mmle_html = $uip->getHTML($mmle_html);
+			$rendering_time_old = microtime(true)-$rendering_time_old;
 
+			$rendering_time_new = microtime(true);
 			$renderer = new ilMMEntryRendererGUI();
+			$new_renderer = $renderer->getHTML();
+			$rendering_time_new = microtime(true) - $rendering_time_new;
 
-			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html."<br><br></br>".$renderer->getHTML());
+			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html . $rendering_time_old . "<br><br><br>" . $new_renderer . $rendering_time_new);
 		}
 
 		if($this->getMode() != self::MODE_TOPBAR_MEMBERVIEW)
