@@ -35,6 +35,6 @@ class Main {
 	 * @return Slate[]
 	 */
 	public function getStackedSlates(): array {
-
+		return array(); // TODO implement
 	}
 }
