@@ -23,7 +23,7 @@ interface ilTermsOfServiceSignableDocument
 	public function getId(): int;
 
 	/**
-	 * @return \ilTermsOfServiceDocumentCriterionAssignment[]
+	 * @return \ilTermsOfServiceEvaluableCriterion[]
 	 */
 	public function getCriteria(): array;
 }

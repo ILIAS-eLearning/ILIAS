@@ -5,7 +5,7 @@
  * Class ilTermsOfServiceDocumentCriterionAssignment
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord
+class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord implements \ilTermsOfServiceEvaluableCriterion
 {
 	const TABLE_NAME = 'tos_criterion_to_doc';
 
@@ -118,5 +118,13 @@ class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord
 	public function getCriterionValue(): \ilTermsOfServiceCriterionConfig
 	{
 		return new \ilTermsOfServiceCriterionConfig($this->criterion_value);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCriterionId(): string
+	{
+		return $this->criterion_id;
 	}
 }

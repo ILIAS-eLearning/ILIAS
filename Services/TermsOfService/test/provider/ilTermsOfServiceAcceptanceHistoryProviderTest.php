@@ -31,9 +31,9 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends \ilTermsOfServiceBas
 
 		$provider = $factory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
 
-		$this->assertInstanceOf(ilTermsOfServiceAcceptanceHistoryProvider::class, $provider);
-		$this->assertInstanceOf(ilTermsOfServiceTableDatabaseDataProvider::class, $provider);
-		$this->assertInstanceOf(ilTermsOfServiceTableDataProvider::class, $provider);
+		$this->assertInstanceOf(\ilTermsOfServiceAcceptanceHistoryProvider::class, $provider);
+		$this->assertInstanceOf(\ilTermsOfServiceTableDatabaseDataProvider::class, $provider);
+		$this->assertInstanceOf(\ilTermsOfServiceTableDataProvider::class, $provider);
 
 		return $provider;
 	}

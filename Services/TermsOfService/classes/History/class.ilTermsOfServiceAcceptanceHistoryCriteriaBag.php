@@ -14,7 +14,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends \ArrayObject implemen
 	public function __construct($data = [])
 	{
 		if (is_array($data)) {
-			parent::__construct(array_values(array_map(function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) {
+			parent::__construct(array_values(array_map(function(\ilTermsOfServiceEvaluableCriterion $criterionAssignment) {
 				return [
 					'id' => $criterionAssignment->getCriterionId(),
 					'value' => $criterionAssignment->getCriterionValue()

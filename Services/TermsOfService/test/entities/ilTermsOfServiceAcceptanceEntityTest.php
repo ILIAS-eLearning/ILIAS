@@ -26,7 +26,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 	public function testInstanceCanBeCreated()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $entity);
+		$this->assertInstanceOf(\ilTermsOfServiceAcceptanceEntity::class, $entity);
 	}
 
 	/**

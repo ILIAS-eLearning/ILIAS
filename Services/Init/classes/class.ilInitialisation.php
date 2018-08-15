@@ -657,7 +657,8 @@ class ilInitialisation
 				new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
 					$c['tos.criteria.type.factory'], $c->user()
 				),
-				$c->user()
+				$c->user(),
+				\ilTermsOfServiceDocument::orderBy('sorting')->get()
 			);
 		};
 	}

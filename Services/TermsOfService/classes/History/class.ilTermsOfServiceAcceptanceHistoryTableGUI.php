@@ -160,7 +160,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		}
 
 		foreach ($criteria as $criterion) {
-			/** @var $criterion \ilTermsOfServiceDocumentCriterionAssignment */
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion['id'], true);
 			$typeGui = $criterionType->getGUI($this->lng);
 

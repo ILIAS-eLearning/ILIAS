@@ -18,17 +18,23 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements \ilTermsOfServiceD
 	 */
 	protected $matchingDocuments = null;
 
+	/** @var \ilTermsOfServiceSignableDocument[] */
+	protected $possibleDocuments = [];
+
 	/**
 	 * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
 	 * @param \ilTermsOfServiceDocumentCriteriaEvaluation $evaluation
 	 * @param \ilObjUser $user
+	 * @param ilTermsOfServiceSignableDocument[] $possibleDocuments
 	 */
 	public function __construct(
 		\ilTermsOfServiceDocumentCriteriaEvaluation $evaluation,
-		\ilObjUser $user
+		\ilObjUser $user,
+		array $possibleDocuments
 	) {
 		$this->evaluation = $evaluation;
 		$this->user = $user;
+		$this->possibleDocuments = $possibleDocuments;
 	}
 
 	/**
@@ -37,10 +43,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements \ilTermsOfServiceD
 	protected function getMatchingDocuments(): array
 	{
 		if (null === $this->matchingDocuments) {
-			$documents = \ilTermsOfServiceDocument::orderBy('sorting')->get();
-
 			$this->matchingDocuments = [];
-			foreach ($documents as $document) {
+			foreach ($this->possibleDocuments as $document) {
 				if ($this->evaluation->evaluate($document)) {
 					$this->matchingDocuments[] = $document;
 				}

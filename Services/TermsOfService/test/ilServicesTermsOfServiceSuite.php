@@ -17,16 +17,12 @@ class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 		$suite = new self();
 
 		$suite->addTestSuite('ilTermsOfServiceEntityFactoryTest');
-
 		$suite->addTestSuite('ilTermsOfServiceDataGatewayFactoryTest');
-
 		$suite->addTestSuite('ilTermsOfServiceTableDataProviderFactoryTest');
-
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceHistoryProviderTest');
-
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceEntityTest');
-
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceDatabaseGatewayTest');
+		$suite->addTestSuite('ilTermsOfServiceDocumentEvaluationTest');
 
 		return $suite;
 	}
