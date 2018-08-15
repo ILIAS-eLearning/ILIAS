@@ -1,27 +1,27 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceDataGatewayFactory
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceDataGatewayFactory
 {
 	/**
-	 * @var ilDBInterface
+	 * @var \ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * @param ilDBInterface $db
+	 * @param \ilDBInterface $db
 	 */
-	public function setDatabaseAdapter(ilDBInterface $db)
+	public function setDatabaseAdapter(\ilDBInterface $db)
 	{
 		$this->db = $db;
 	}
 
 	/**
-	 * @return ilDBInterface
+	 * @return \ilDBInterface
 	 */
 	public function getDatabaseAdapter()
 	{
@@ -30,26 +30,22 @@ class ilTermsOfServiceDataGatewayFactory
 
 	/**
 	 * @param string $name
-	 * @return ilTermsOfServiceAcceptanceDatabaseGateway
-	 * @throws InvalidArgumentException
-	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
+	 * @return \ilTermsOfServiceAcceptanceDatabaseGateway
+	 * @throws \InvalidArgumentException
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function getByName($name)
 	{
-		if(null == $this->db)
-		{
-			require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingDatabaseAdapterException.php';
-			throw new ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');
+		if (null == $this->db) {
+			throw new \ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');
 		}
 
-		switch(strtolower($name))
-		{
+		switch (strtolower($name)) {
 			case 'iltermsofserviceacceptancedatabasegateway':
-				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceDatabaseGateway.php';
-				return new ilTermsOfServiceAcceptanceDatabaseGateway($this->db);
+				return new \ilTermsOfServiceAcceptanceDatabaseGateway($this->db);
 
 			default:
-				throw new InvalidArgumentException('Data gateway not supported');
+				throw new \InvalidArgumentException('Data gateway not supported');
 		}
 	}
 }

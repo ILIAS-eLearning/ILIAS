@@ -1,24 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceAppEventListener
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceAppEventListener implements ilAppEventListener
+class ilTermsOfServiceAppEventListener implements \ilAppEventListener
 {
 	/**
-	 * @param string $a_component
-	 * @param string $a_event
-	 * @param array  $a_parameter
+	 * @inheritdoc
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		if('deleteUser' == $a_event && 'Services/User' == $a_component)
-		{
+		if ('deleteUser' == $a_event && 'Services/User' == $a_component) {
 			ilTermsOfServiceHelper::deleteAcceptanceHistoryByUser($a_parameter['usr_id']);
 		}
 	}

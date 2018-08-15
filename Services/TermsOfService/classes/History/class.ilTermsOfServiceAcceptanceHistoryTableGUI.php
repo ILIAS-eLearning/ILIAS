@@ -153,8 +153,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 	{
 		$items = [];
 
-		// TODO: Hide json_decode, this is an impl. detail which should be somehow centralized
-		$criteria = json_decode($row['criteria'], true)['criteria'];
+		$criteria = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($row['criteria']);
 
 		if (0 === count($criteria)) {
 			return $this->lng->txt('tos_tbl_hist_cell_not_criterion');
@@ -165,8 +164,11 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion['id'], true);
 			$typeGui = $criterionType->getGUI($this->lng);
 
-			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = $typeGui->getValuePresentation(
-				$criterion['value'],
+			$items[
+				$typeGui->getIdentPresentation() .
+				$this->getUniqueCriterionListingAttribute()
+			] = $typeGui->getValuePresentation(
+				new \ilTermsOfServiceCriterionConfig($criterion['value']),
 				$this->uiFactory
 			);
 		}

@@ -84,9 +84,8 @@ class ilTermsOfServiceHelper
 		$entity->setDocumentId($document->getId());
 		$entity->setTitle($document->getTitle());
 
-		// TODO: Hide json_encode this is an impl. detail which should be somehow centralized
-		/*$entity->setCriteria(json_encode(['criteria' => array_map(function() {
-		},$document->getCriteria())]));*/
+		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->getCriteria());
+		$entity->setCriteria($criteriaBag->toJson());
 
 		$data_gateway->trackAcceptance($entity);
 

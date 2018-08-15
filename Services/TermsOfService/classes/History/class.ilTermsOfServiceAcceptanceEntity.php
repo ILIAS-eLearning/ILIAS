@@ -162,7 +162,7 @@ class ilTermsOfServiceAcceptanceEntity
 	/**
 	 * @return string
 	 */
-	public function getCriteria(): string
+	public function getCriteria(): string 
 	{
 		return $this->criteria;
 	}
