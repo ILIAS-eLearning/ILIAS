@@ -30,8 +30,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 			->expects($this->any())
 			->method('txt')
 			->willReturn('dummy');
-
-		$this->rbacReview = $this->getRbacReviewMock();
 	}
 
 	/**
@@ -39,6 +37,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	 */
 	protected function getInstance(): \ilTermsOfServiceUserHasGlobalRoleCriterion
 	{
+		$this->rbacReview = $this->getRbacReviewMock();
+
 		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion(
 			$this->rbacReview, $this->getObjectDataCacheMock()
 		);
