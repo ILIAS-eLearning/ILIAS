@@ -25,7 +25,7 @@ class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 		$suite->addTestSuite('ilTermsOfServiceDocumentEvaluationTest');
 		$suite->addTestSuite('ilTermsOfServiceDocumentCriteriaEvaluationTest');
 		$suite->addTestSuite('ilTermsOfServiceUserHasLanguageCriterionTest');
-		$suite->addTestSuite('ilTermsOfServiceUserHasGlobalRoleCriterionTest');
+		$suite->addTestSuite('ilTermsOfServiceNullCriterionTest');
 
 		return $suite;
 	}

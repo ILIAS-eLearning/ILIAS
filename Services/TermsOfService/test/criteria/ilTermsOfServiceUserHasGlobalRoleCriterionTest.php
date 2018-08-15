@@ -13,12 +13,32 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	protected $rbacReview;
 
 	/**
+	 * @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->lng = $this->getLanguageMock();
+
+		$this->lng
+			->expects($this->any())
+			->method('txt')
+			->willReturn('dummy');
+
+		$this->rbacReview = $this->getRbacReviewMock();
+	}
+
+	/**
 	 * @return \ilTermsOfServiceUserHasGlobalRoleCriterion
 	 */
 	protected function getInstance(): \ilTermsOfServiceUserHasGlobalRoleCriterion
 	{
-		$this->rbacReview = $this->getRbacReviewMock();
-
 		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion(
 			$this->rbacReview, $this->getObjectDataCacheMock()
 		);
@@ -76,14 +96,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
-		$lng = $this->getLanguageMock();
-
-		$lng
-			->expects($this->any())
-			->method('txt')
-			->willReturn('dummy');
-
-		$gui = $criterion->getGUI($lng);
+		$gui = $criterion->getGUI($this->lng);
 
 		$this->assertInstanceOf(\ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
 
@@ -107,14 +120,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
-		$lng = $this->getLanguageMock();
-
-		$lng
-			->expects($this->any())
-			->method('txt')
-			->willReturn('dummy');
-
-		$gui = $criterion->getGUI($lng);
+		$gui = $criterion->getGUI($this->lng);
 
 		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter, $expectedInitialValue);
 
