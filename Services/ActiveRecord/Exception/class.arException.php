@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Exceptions/classes/class.ilException.php');
+require_once(dirname(__FILE__).'/../../../Services/Exceptions/classes/class.ilException.php');
 /**
  * Class arException
  *
