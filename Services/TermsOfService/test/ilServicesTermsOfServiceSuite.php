@@ -19,6 +19,7 @@ class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 		$suite->addTestSuite('ilTermsOfServiceEntityFactoryTest');
 		$suite->addTestSuite('ilTermsOfServiceDataGatewayFactoryTest');
 		$suite->addTestSuite('ilTermsOfServiceTableDataProviderFactoryTest');
+		$suite->addTestSuite('ilTermsOfServiceCriterionTypeFactoryTest');
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceHistoryProviderTest');
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceEntityTest');
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceDatabaseGatewayTest');

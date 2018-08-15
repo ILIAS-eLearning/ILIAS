@@ -8,6 +8,7 @@ require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceEvaluation
 require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceEntityFactoryTest.php';
 require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceDataGatewayFactoryTest.php';
 require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceTableDataProviderFactoryTest.php';
+require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceCriterionTypeFactoryTest.php';
 require_once 'Services/TermsOfService/test/provider/ilTermsOfServiceAcceptanceHistoryProviderTest.php';
 require_once 'Services/TermsOfService/test/entities/ilTermsOfServiceAcceptanceEntityTest.php';
 require_once 'Services/TermsOfService/test/gateways/ilTermsOfServiceAcceptanceDatabaseGatewayTest.php';

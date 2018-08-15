@@ -13,7 +13,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAssignedAtAll()
 	{
 		$user = $this->getUserMock();
-		$critTypeFactory = $this->getCriterionTypeFactoryMock();
+		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
 		$doc = $this
 			->getMockBuilder(\ilTermsOfServiceSignableDocument::class)
@@ -24,7 +24,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 			->method('getCriteria')
 			->willReturn([]);
 
-		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($critTypeFactory, $user);
+		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user);
 
 		$this->assertTrue($evaluator->evaluate($doc));
 	}
