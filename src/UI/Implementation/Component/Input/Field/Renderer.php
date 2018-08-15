@@ -373,7 +373,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("LABEL", $opt_label);
 
 			if($value && in_array($opt_value, $value)) {
-				$tpl->setVariable("CHECKED", 'checked');
+				$tpl->setVariable("CHECKED", 'checked="checked"');
 			}
 
 			$tpl->parseCurrentBlock();

@@ -12,7 +12,7 @@ use ILIAS\Validation\Factory as ValidationFactory;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect{
+class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 
 	/**
 	 * @var array <string,string> {$value => $label}

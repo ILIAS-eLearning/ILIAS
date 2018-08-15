@@ -353,27 +353,35 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A multi-select is used to allow users to pick several options from a list.
+	 *     A Multi Select is used to allow users to pick several options from a list.
 	 *   composition: >
-	 *     The multi-select field will render labeled checkboxes according to given options.
+	 *     The Multi Select field will render labeled checkboxes according to given options.
 	 *   effect: >
 	 *
 	 *   rivals:
-	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
-	 *     Tag field: Use a tag input when the user is able to extend the list of given options.
-	 *     Select field: Use a select input when the user's choice is limited to one option.
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
+	 *     Select Field: >
+	 *       Use a Select Input when the user's choice is limited to one option
+	 *       or the options are mutually exclusive.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *      A multi-select input SHOULD be used when a user has to choose from a finite list of options
+	 *      A Multi Select input SHOULD be used when a user has to choose from a finite list of options
 	 *      which cannot be extended by the user's input and where more than one choice can be made.
 	 *     2: >
-	 *      A multi-select input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
 	 *     3: >
-	 *      A multi-select input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
 	 *      options where only one option can be selected. A Select MUST be used in this case
+	 *
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: >
+	 *       If the option governs a change of (service-)behavior, the option's
+	 *       label MUST be in form of a positive statement.
 	 *
 	 * ---
 	 * @param string 	$label
@@ -382,6 +390,6 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
 	 */
-	public function multiselect($label, array $options, $byline = null);
+	public function multiSelect($label, array $options, $byline = null);
 }
 

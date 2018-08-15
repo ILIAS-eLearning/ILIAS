@@ -28,6 +28,9 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		),
 		"select"		=> array(
 			"context" => false,
+		),
+		"multiSelect"		=> array(
+			"context" => false,
 		)
 	);
 	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';

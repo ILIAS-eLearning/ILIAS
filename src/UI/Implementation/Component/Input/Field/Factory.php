@@ -123,7 +123,7 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function multiselect($label, array $options, $byline = null) {
+	public function multiSelect($label, array $options, $byline = null) {
 		return new MultiSelect($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $options, $byline);
 	}
 }
