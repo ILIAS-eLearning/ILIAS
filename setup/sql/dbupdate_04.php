@@ -22727,85 +22727,95 @@ foreach ([
 	'client-independent' => $globalAgreementPath,
 	'client-related' => $clientAgreementPath,
 	] as $type => $path) {
-	if (file_exists($path) && is_dir($path)) {
-		try {
-			foreach (new \RegexIterator(new \DirectoryIterator($path), '/agreement_[a-zA-Z]{2,2}\.(html)$/i') as $file) {
+	if (!file_exists($path) || !is_dir($path)) {
+		$GLOBALS['ilLog']->info(sprintf(
+			"DB Step %s: Path '%s' not found or not a directory", $dbStep, $path
+		));
+	}
+
+	if (!is_readable($path)) {
+		$GLOBALS['ilLog']->error(sprintf(
+			"DB Step %s: Path '%s' is not readable", $dbStep, $path
+		));
+	}
+
+	try {
+		foreach (new \RegexIterator(new \DirectoryIterator($path), '/agreement_[a-zA-Z]{2,2}\.(html)$/i') as $file) {
+			$GLOBALS['ilLog']->info(sprintf(
+				"DB Step %s: Started migration of %s user agreement file '%s'",
+				$dbStep, $type, $file->getPathname()
+			));
+
+			$matches = null;
+			if (!preg_match('/agreement_([a-zA-Z]{2,2})\.html/', $file->getBasename(), $matches)) {
 				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Started migration of %s user agreement file '%s'",
+					"DB Step %s: Ignored migration of %s user agreement file '%s' because the basename is not valid",
 					$dbStep, $type, $file->getPathname()
 				));
-
-				$matches = null;
-				if (!preg_match('/agreement_([a-zA-Z]{2,2})\.html/', $file->getBasename(), $matches)) {
-					$GLOBALS['ilLog']->info(sprintf(
-						"DB Step %s: Ignored migration of %s user agreement file '%s' because the basename is not valid",
-						$dbStep, $type, $file->getPathname()
-					));
-					continue;
-				}
-
-				$i++;
-
-				$docTitle = $docTitlePrefix . ' ' . $i;
-				$languageValue = $matches[1];
-				$text = file_get_contents($file->getPathname());
-				$sorting = $i;
-
-				$docId = $ilDB->nextId('tos_documents');
-				$ilDB->insert(
-					'tos_documents',
-					[
-						'id' => ['integer', $docId],
-						'sorting' => ['integer', $sorting],
-						'title' => ['text', $docTitle],
-						'owner_usr_id' => ['integer', -1],
-						'creation_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0],
-						'text' => ['clob', $text],
-					]
-				);
-				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Created new document with id %s and title '%s' for file '%s'",
-					$dbStep, $docId, $docTitle, $file->getPathname()
-				));
-
-				$assignmentId = $ilDB->nextId('tos_criterion_to_doc');
-				$ilDB->insert(
-					'tos_criterion_to_doc',
-					[
-						'id' => ['integer', $assignmentId],
-						'doc_id' => ['integer', $docId],
-						'criterion_id' => ['text', 'usr_language'],
-						'criterion_value' => ['text', json_encode(['lng' => $languageValue])],
-						'owner_usr_id' => ['integer', -1],
-						'assigned_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0]
-					]
-				);
-				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Created new language criterion assignment with id %s and value '%s' to document with id %s for file '%s'",
-					$dbStep, $assignmentId, $languageValue, $docId, $file->getPathname()
-				));
-
-				// Determine all accepted version with lng = $criterion and hash = hash and src = file
-				$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/client/%%', false);
-				if ($type === 'client-independent') {
-					$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/global/%%', false);
-				}
-
-				$ilDB->manipulateF(
-					'UPDATE tos_versions SET doc_id = %s, title = %s WHERE lng = %s AND hash = %s' . $docTypeIn,
-					['integer', 'text', 'text', 'text'],
-					[$docId, $docTitle, $languageValue, md5($text)]
-				);
-				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Migrated %s user agreement file '%s'",
-					$dbStep, $type, $file->getPathname()
-				));
+				continue;
 			}
-		} catch (\Exception $e) {
-			$GLOBALS['ilLog']->err(sprintf(
-				"DB Step %s: %s", $dbStep, $e->getMessage()
+
+			$i++;
+
+			$docTitle = $docTitlePrefix . ' ' . $i;
+			$languageValue = $matches[1];
+			$text = file_get_contents($file->getPathname());
+			$sorting = $i;
+
+			$docId = $ilDB->nextId('tos_documents');
+			$ilDB->insert(
+				'tos_documents',
+				[
+					'id' => ['integer', $docId],
+					'sorting' => ['integer', $sorting],
+					'title' => ['text', $docTitle],
+					'owner_usr_id' => ['integer', -1],
+					'creation_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0],
+					'text' => ['clob', $text],
+				]
+			);
+			$GLOBALS['ilLog']->info(sprintf(
+				"DB Step %s: Created new document with id %s and title '%s' for file '%s'",
+				$dbStep, $docId, $docTitle, $file->getPathname()
+			));
+
+			$assignmentId = $ilDB->nextId('tos_criterion_to_doc');
+			$ilDB->insert(
+				'tos_criterion_to_doc',
+				[
+					'id' => ['integer', $assignmentId],
+					'doc_id' => ['integer', $docId],
+					'criterion_id' => ['text', 'usr_language'],
+					'criterion_value' => ['text', json_encode(['lng' => $languageValue])],
+					'owner_usr_id' => ['integer', -1],
+					'assigned_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0]
+				]
+			);
+			$GLOBALS['ilLog']->info(sprintf(
+				"DB Step %s: Created new language criterion assignment with id %s and value '%s' to document with id %s for file '%s'",
+				$dbStep, $assignmentId, $languageValue, $docId, $file->getPathname()
+			));
+
+			// Determine all accepted version with lng = $criterion and hash = hash and src = file
+			$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/client/%%', false);
+			if ($type === 'client-independent') {
+				$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/global/%%', false);
+			}
+
+			$ilDB->manipulateF(
+				'UPDATE tos_versions SET doc_id = %s, title = %s WHERE lng = %s AND hash = %s' . $docTypeIn,
+				['integer', 'text', 'text', 'text'],
+				[$docId, $docTitle, $languageValue, md5($text)]
+			);
+			$GLOBALS['ilLog']->info(sprintf(
+				"DB Step %s: Migrated %s user agreement file '%s'",
+				$dbStep, $type, $file->getPathname()
 			));
 		}
+	} catch (\Exception $e) {
+		$GLOBALS['ilLog']->error(sprintf(
+			"DB Step %s: %s", $dbStep, $e->getMessage()
+		));
 	}
 }
 
