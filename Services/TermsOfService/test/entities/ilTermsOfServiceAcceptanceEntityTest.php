@@ -8,19 +8,6 @@
 class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 {
 	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @inheritdoc
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 *
 	 */
 	public function testInstanceCanBeCreated()

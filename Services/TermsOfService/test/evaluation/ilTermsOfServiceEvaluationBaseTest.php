@@ -8,19 +8,6 @@
 abstract class ilTermsOfServiceEvaluationBaseTest extends \ilTermsOfServiceBaseTest
 {
 	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @inheritdoc
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 * @return PHPUnit_Framework_MockObject_MockObject|\ilObjUser
 	 */
 	protected function getUserMock(): \ilObjUser

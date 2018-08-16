@@ -8,19 +8,6 @@
 class ilTermsOfServiceTableDataProviderFactoryTest extends \ilTermsOfServiceBaseTest
 {
 	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @inheritdoc
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 * @return \ilTermsOfServiceTableDataProviderFactory
 	 */
 	public function testInstanceCanBeCreated()
