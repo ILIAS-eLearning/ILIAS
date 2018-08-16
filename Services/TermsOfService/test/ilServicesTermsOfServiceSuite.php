@@ -30,6 +30,7 @@ class ilServicesTermsOfServiceSuite extends \PHPUnit_Framework_TestSuite
 		$suite->addTestSuite('ilTermsOfServiceNullCriterionTest');
 		$suite->addTestSuite('ilTermsOfServiceCriterionConfigTest');
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceHistoryCriteriaBagTest');
+		$suite->addTestSuite('ilTermsOfServiceDocumentCriterionAssignmentConstraintTest');
 
 		return $suite;
 	}

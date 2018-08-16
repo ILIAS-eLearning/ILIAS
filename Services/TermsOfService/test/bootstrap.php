@@ -18,4 +18,5 @@ require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasLangu
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasGlobalRoleCriterionTest.php';
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceNullCriterionTest.php';
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceCriterionConfigTest.php';
+require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceDocumentCriterionAssignmentConstraintTest.php';
 require_once 'Services/TermsOfService/test/history/ilTermsOfServiceAcceptanceHistoryCriteriaBagTest.php';
