@@ -783,6 +783,7 @@ class ilAccess implements ilAccessHandler {
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
+		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
 		$full_class = new $full_class();
