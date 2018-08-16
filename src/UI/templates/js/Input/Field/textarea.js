@@ -17,6 +17,16 @@ il.UI = il.UI || {};
          * @param max_limit
          */
         var changeCounter = function(textarea_id, feedback_id_prefix, min_limit, max_limit) {
+            //edit the default byline with character limits.
+            var byline =  $('#'+feedback_id_prefix+textarea_id).next().first().html();
+            if(min_limit > 0) {
+                byline = byline+'<br>'+il.Language.txt("ui_chars_min")+' '+min_limit;
+            }
+            if(max_limit > 0) {
+                byline = byline+' '+il.Language.txt("ui_chars_max")+' '+max_limit;
+            }
+            $('#'+feedback_id_prefix+textarea_id).next().html(byline);
+           //update feedback counter
             $('#'+textarea_id).keyup("input", function(){
                 if(max_limit > 0) {
                     var currentLength = this.value.length;

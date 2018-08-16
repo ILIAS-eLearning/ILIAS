@@ -18,16 +18,15 @@ class TextArea extends Input implements C\Input\Field\TextArea {
 	protected $min_limit;
 
 	/**
-	 * TODO -> lang var
 	 * set maximum number of characters
 	 * @param $max_limit
 	 * @return TextArea
 	 */
 	public function withMaxLimit($max_limit)
 	{
-		$this->max_limit = $max_limit;
-		$this->setAdditionalConstraint($this->validation_factory->hasMaxLength($max_limit));
-		$clone = $this->withByline($this->getByline()." Maximum: ".$max_limit);
+		$clone = clone $this;
+		$clone->max_limit = $max_limit;
+		$clone->setAdditionalConstraint($this->validation_factory->hasMaxLength($max_limit));
 		return $clone;
 	}
 
@@ -41,16 +40,15 @@ class TextArea extends Input implements C\Input\Field\TextArea {
 	}
 
 	/**
-	 * TODO -> lang var
 	 * set minimum number of characters
 	 * @param $min_limit
 	 * @return TextArea
 	 */
 	public function withMinLimit($min_limit)
 	{
-		$this->min_limit = $min_limit;
-		$this->setAdditionalConstraint($this->validation_factory->hasMinLength($min_limit));
-		$clone = $this->withByline($this->getByline()."<br>Minimum: ".$min_limit);
+		$clone = clone $this;
+		$clone->min_limit = $min_limit;
+		$clone->setAdditionalConstraint($this->validation_factory->hasMinLength($min_limit));
 		return $clone;
 	}
 
