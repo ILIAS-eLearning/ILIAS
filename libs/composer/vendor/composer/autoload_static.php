@@ -6632,6 +6632,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTermsOfServiceTableDataProviderFactory' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php',
         'ilTermsOfServiceTableDatabaseDataProvider' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableDatabaseDataProvider.php',
         'ilTermsOfServiceTableGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php',
+        'ilTermsOfServiceUnexpectedCriteriaBagContentException' => __DIR__ . '/../..' . '/../../Services/TermsOfService/exceptions/class.ilTermsOfServiceUnexpectedCriteriaBagContentException.php',
         'ilTermsOfServiceUserHasGlobalRoleCriterion' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasGlobalRoleCriterion.php',
         'ilTermsOfServiceUserHasGlobalRoleCriterionGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasGlobalRoleCriterionGUI.php',
         'ilTermsOfServiceUserHasLanguageCriterion' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasLanguageCriterion.php',
