@@ -279,10 +279,12 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function renderTextareaField(Template $tpl, TextArea $input)
 	{
-		$this->toJS("ui_chars_remaining");
-
 		if($input->isLimited())
 		{
+			$this->toJS("ui_chars_remaining");
+			$this->toJS("ui_chars_min");
+			$this->toJS("ui_chars_max");
+
 			$counter_id_prefix = "textarea_feedback_";
 			$min = $input->getMinLimit();
 			$max = $input->getMaxLimit();
