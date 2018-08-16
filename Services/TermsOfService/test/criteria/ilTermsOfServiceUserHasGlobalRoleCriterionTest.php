@@ -136,7 +136,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 
 		$this->assertInstanceOf(\ilTermsOfServiceCriterionConfig::class, $value);
 		$this->assertEquals($expectedAfterFormSubmitValue, $value['role_id']);
-		$this->assertEquals(new \ilTermsOfServiceCriterionConfig(['role_id' => $expectedAfterFormSubmitValue]), $value);
+		$this->assertEquals($this->getCriterionConfig(['role_id' => $expectedAfterFormSubmitValue]), $value);
 	}
 
 	/**
@@ -147,8 +147,10 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	{
 		$gui = $criterion->getGUI($this->lng);
 
-		$this->assertInternalType('string', $gui->getIdentPresentation());
-		$this->assertNotEmpty($gui->getIdentPresentation());
+		$actual = $gui->getIdentPresentation();
+
+		$this->assertInternalType('string', $actual);
+		$this->assertNotEmpty($actual);
 	}
 
 	/**
@@ -159,12 +161,12 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$criterion = $this->getInstance();
 
 		return [
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['role_id' => []])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['role_id' => new stdClass()])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['role_id' => 1.424])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['role_id' => 'phpunit'])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['another_config_key' => true])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig()],
+			[$criterion, $this->getCriterionConfig(['role_id' => []])],
+			[$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
+			[$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
+			[$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
+			[$criterion, $this->getCriterionConfig(['another_config_key' => true])],
+			[$criterion, $this->getCriterionConfig()],
 		];
 	}
 
@@ -195,7 +197,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 			->method('isGlobalRole')
 			->willReturn(false);
 
-		$this->assertFalse($criterion->evaluate($user, new \ilTermsOfServiceCriterionConfig(['role_id' => 5])));
+		$this->assertFalse($criterion->evaluate($user, $this->getCriterionConfig(['role_id' => 5])));
 	}
 
 	/**
@@ -216,7 +218,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 			->method('isAssigned')
 			->willReturn(false);
 
-		$this->assertFalse($criterion->evaluate($user, new \ilTermsOfServiceCriterionConfig(['role_id' => 5])));
+		$this->assertFalse($criterion->evaluate($user, $this->getCriterionConfig(['role_id' => 5])));
 	}
 
 	/**
@@ -237,6 +239,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 			->method('isAssigned')
 			->willReturn(true);
 
-		$this->assertTrue($criterion->evaluate($user, new \ilTermsOfServiceCriterionConfig(['role_id' => 2])));
+		$this->assertTrue($criterion->evaluate($user, $this->getCriterionConfig(['role_id' => 2])));
 	}
 }

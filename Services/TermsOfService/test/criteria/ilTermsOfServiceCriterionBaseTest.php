@@ -18,23 +18,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends \ilTermsOfServiceBaseTe
 	public function setUp()
 	{
 		parent::setUp();
-
-		$this->setGlobalVariable('lng', $this->getLanguageMock());
-		$this->setGlobalVariable('ilCtrl', $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock());
-	}
-
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilLanguage
-	 */
-	protected function getLanguageMock(): \ilLanguage
-	{
-		$lng = $this
-			->getMockBuilder(\ilLanguage::class)
-			->disableOriginalConstructor()
-			->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
-			->getMock();
-
-		return $lng;
 	}
 
 	/**

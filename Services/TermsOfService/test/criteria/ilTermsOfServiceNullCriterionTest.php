@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+
 /**
  * Class ilTermsOfServiceNullCriterionTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -70,7 +73,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 			->expects($this->never())
 			->method('addOption');
 
-		$gui->appendOption($radioGroup, new \ilTermsOfServiceCriterionConfig([]));
+		$gui->appendOption($radioGroup, $this->getCriterionConfig());
 
 		return $form;
 	}
@@ -106,19 +109,40 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 		$value = $gui->getConfigByForm($form);
 
 		$this->assertInstanceOf(\ilTermsOfServiceCriterionConfig::class, $value);
-		$this->assertEquals(new \ilTermsOfServiceCriterionConfig([]), $value);
+		$this->assertEquals($this->getCriterionConfig(), $value);
 	}
 
 	/**
 	 * @depends testNoFormUserInterfaceElementsAreBuilt
 	 * @param \ilTermsOfServiceNullCriterion $criterion
 	 */
-	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceNullCriterion $criterion)
+	public function testTypeIdentPresentatioEqualsANonEmptyString(\ilTermsOfServiceNullCriterion $criterion)
 	{
 		$gui = $criterion->getGUI($this->lng);
 
-		$this->assertInternalType('string', $gui->getIdentPresentation());
-		$this->assertNotEmpty($gui->getIdentPresentation());
+		$actual = $gui->getIdentPresentation();
+
+		$this->assertInternalType('string', $actual);
+		$this->assertNotEmpty($actual);
+	}
+
+	/**
+	 * @depends testNoFormUserInterfaceElementsAreBuilt
+	 * @param \ilTermsOfServiceNullCriterion $criterion
+	 */
+	public function testValuePresentationMatchesExpectation(\ilTermsOfServiceNullCriterion $criterion)
+	{
+		$gui = $criterion->getGUI($this->lng);
+
+		/** @var Legacy $actual */
+		$actual = $gui->getValuePresentation(
+			$this->getCriterionConfig(),
+			$this->dic->ui()->factory()
+		);
+
+		$this->assertInstanceOf(Component::class, $actual);
+		$this->assertInstanceOf(Legacy::class, $actual);
+		$this->assertEquals('-', $actual->getContent());
 	}
 
 	/**
@@ -129,6 +153,6 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 		$user = $this->getUserMock();
 		$criterion = $this->getInstance();
 
-		$this->assertTrue($criterion->evaluate($user, new \ilTermsOfServiceCriterionConfig([])));
+		$this->assertTrue($criterion->evaluate($user, $this->getCriterionConfig()));
 	}
 }

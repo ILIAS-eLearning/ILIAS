@@ -73,7 +73,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 		$form->addItem($radioGroup);
 
-		$gui->appendOption($radioGroup, new \ilTermsOfServiceCriterionConfig(['lng' => $expectedInitialValue]));
+		$gui->appendOption($radioGroup, $this->getCriterionConfig(['lng' => $expectedInitialValue]));
 
 		return $form;
 	}
@@ -129,7 +129,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 		$this->assertInstanceOf(\ilTermsOfServiceCriterionConfig::class, $value);
 		$this->assertEquals($expectedAfterFormSubmitValue, $value['lng']);
-		$this->assertEquals(new \ilTermsOfServiceCriterionConfig(['lng' => $expectedAfterFormSubmitValue]), $value);
+		$this->assertEquals($this->getCriterionConfig(['lng' => $expectedAfterFormSubmitValue]), $value);
 	}
 
 	/**
@@ -140,8 +140,10 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 	{
 		$gui = $criterion->getGUI($this->lng);
 
-		$this->assertInternalType('string', $gui->getIdentPresentation());
-		$this->assertNotEmpty($gui->getIdentPresentation());
+		$actual = $gui->getIdentPresentation();
+
+		$this->assertInternalType('string', $actual);
+		$this->assertNotEmpty($actual);
 	}
 
 	/**
@@ -152,13 +154,13 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$criterion = $this->getInstance();
 
 		return [
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => 'en'])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => []])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => new stdClass()])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => 1.0])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => 1])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['another_config_key' => true])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig()],
+			[$criterion, $this->getCriterionConfig(['lng' => 'en'])],
+			[$criterion, $this->getCriterionConfig(['lng' => []])],
+			[$criterion, $this->getCriterionConfig(['lng' => new stdClass()])],
+			[$criterion, $this->getCriterionConfig(['lng' => 1.0])],
+			[$criterion, $this->getCriterionConfig(['lng' => 1])],
+			[$criterion, $this->getCriterionConfig(['another_config_key' => true])],
+			[$criterion, $this->getCriterionConfig()],
 		];
 	}
 
@@ -170,8 +172,8 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$criterion = $this->getInstance();
 
 		return [
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => 'de'])],
-			[$criterion, new \ilTermsOfServiceCriterionConfig(['lng' => 'DE'])],
+			[$criterion, $this->getCriterionConfig(['lng' => 'de'])],
+			[$criterion, $this->getCriterionConfig(['lng' => 'DE'])],
 		];
 	}
 
