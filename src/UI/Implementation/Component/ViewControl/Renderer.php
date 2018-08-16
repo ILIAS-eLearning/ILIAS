@@ -310,7 +310,7 @@ class Renderer extends AbstractComponentRenderer
 				$back = $back->withOnClick($component->getInternalSignal());
 			}
 
-			if($next < $max_pages) {
+			if($next <= $max_pages) {
 				$forward = $forward->withOnClick($component->getInternalSignal());
 			}
 		} else {
@@ -333,7 +333,7 @@ class Renderer extends AbstractComponentRenderer
 				$back = $back->withAction($url_prev);
 			}
 
-			if($next < $max_pages) {
+			if($next <= $max_pages) {
 				$forward = $forward->withAction($url_next);
 			}
 		}
