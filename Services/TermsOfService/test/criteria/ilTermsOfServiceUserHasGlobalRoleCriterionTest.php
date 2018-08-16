@@ -140,6 +140,18 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	}
 
 	/**
+	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
+	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+	 */
+	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
+	{
+		$gui = $criterion->getGUI($this->lng);
+
+		$this->assertInternalType('string', $gui->getIdentPresentation());
+		$this->assertNotEmpty($gui->getIdentPresentation());
+	}
+
+	/**
 	 * @return array
 	 */
 	public function failingConfigProvider(): array

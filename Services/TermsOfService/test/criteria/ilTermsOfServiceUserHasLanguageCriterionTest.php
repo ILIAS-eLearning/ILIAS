@@ -133,6 +133,18 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 	}
 
 	/**
+	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
+	 * @param \ilTermsOfServiceUserHasLanguageCriterion $criterion
+	 */
+	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceUserHasLanguageCriterion $criterion)
+	{
+		$gui = $criterion->getGUI($this->lng);
+
+		$this->assertInternalType('string', $gui->getIdentPresentation());
+		$this->assertNotEmpty($gui->getIdentPresentation());
+	}
+
+	/**
 	 * @return array
 	 */
 	public function failingConfigProvider(): array

@@ -110,6 +110,18 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	}
 
 	/**
+	 * @depends testNoFormUserInterfaceElementsAreBuilt
+	 * @param \ilTermsOfServiceNullCriterion $criterion
+	 */
+	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceNullCriterion $criterion)
+	{
+		$gui = $criterion->getGUI($this->lng);
+
+		$this->assertInternalType('string', $gui->getIdentPresentation());
+		$this->assertNotEmpty($gui->getIdentPresentation());
+	}
+
+	/**
 	 *
 	 */
 	public function testEvaluationAlwaysSucceeds()
