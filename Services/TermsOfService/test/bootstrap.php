@@ -17,3 +17,4 @@ require_once 'Services/TermsOfService/test/evaluation/ilTermsOfServiceDocumentCr
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasLanguageCriterionTest.php';
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceUserHasGlobalRoleCriterionTest.php';
 require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceNullCriterionTest.php';
+require_once 'Services/TermsOfService/test/criteria/ilTermsOfServiceCriterionConfigTest.php';
