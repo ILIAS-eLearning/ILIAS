@@ -8,9 +8,8 @@ content.
 
 ## Custom Styles
 
-System Styles may be customized by creating custom System Styles. Those styles
-allow to override the default System Style of ILIAS. Custom styles have to be
-placed in the `./Customizing/global/skin` directory to be active. n have
+System Styles may be customized by creating custom System Styles. Custom styles have
+to be placed in the `./Customizing/global/skin` directory to be active. One may have
 multiple substyles which may be active for different branches of the repository.
 
 ### Tools
@@ -28,6 +27,8 @@ or
 ```
 apt-get install node-less
 ```
+If you want to create system styles throught frontend, make sure, that your webserver
+has the permission to read and execute your newly installed less compiler.
 
 ### How-To 1 (Through Frontend)
 
