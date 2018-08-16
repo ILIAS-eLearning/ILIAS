@@ -10,9 +10,7 @@ use ILIAS\UI\Implementation\Component\Legacy\Legacy;
  */
 class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTest
 {
-	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage
-	 */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage */
 	protected $lng;
 
 	/**
@@ -127,11 +125,11 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	}
 
 	/**
-	 * @depends testNoFormUserInterfaceElementsAreBuilt
-	 * @param \ilTermsOfServiceNullCriterion $criterion
+	 * 
 	 */
-	public function testValuePresentationMatchesExpectation(\ilTermsOfServiceNullCriterion $criterion)
+	public function testValuePresentationMatchesExpectation()
 	{
+		$criterion = $this->getInstance();
 		$gui = $criterion->getGUI($this->lng);
 
 		/** @var Legacy $actual */

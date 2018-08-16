@@ -44,12 +44,12 @@ abstract class ilTermsOfServiceCriterionBaseTest extends \ilTermsOfServiceBaseTe
 	 */
 	protected function getObjectDataCacheMock(): \ilObjectDataCache
 	{
-		$lng = $this
+		$objectDataCache = $this
 			->getMockBuilder(\ilObjectDataCache::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		return $lng;
+		return $objectDataCache;
 	}
 
 	/**
