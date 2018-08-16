@@ -162,6 +162,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		return [
 			[$this->expectedInitialValue, $this->englishLanguageTranslation],
 			[$this->expectedAfterFormSubmitValue, $this->germanLanguageTranslation],
+			['invalid_lng', ''],
 		];
 	}
 
@@ -175,7 +176,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$language = $this->getLanguageMock();
 
 		$language
-			->expects($this->once())
+			->expects($this->any())
 			->method('txt')
 			->with('meta_l_' . $lng, '')
 			->willReturn($translation);

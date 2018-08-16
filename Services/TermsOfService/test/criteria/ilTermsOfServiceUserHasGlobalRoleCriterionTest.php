@@ -169,6 +169,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		return [
 			[$this->expectedInitialValue, $this->adminRoleTitle],
 			[$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
+			[-1, ''],
 		];
 	}
 
@@ -183,11 +184,10 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$objectDataCache = $this->getObjectDataCacheMock();
 
 		$objectDataCache
-			->expects($this->once())
+			->expects($this->any())
 			->method('lookupTitle')
 			->with($roleId)
 			->willReturn($roleTitle);
-
 
 		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectDataCache);
 		$gui = $criterion->getGUI($this->lng);

@@ -86,7 +86,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements \ilTermsOfServiceCr
 	{
 		$lng = $config['lng'] ?? '';
 
-		if (!is_string($lng) || 0 === strlen($lng)) {
+		if (!is_string($lng) || 2 !== strlen($lng)) {
 			return $uiFactory->legacy('');
 		}
 
