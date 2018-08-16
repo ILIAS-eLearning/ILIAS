@@ -407,11 +407,7 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function renderTextareaField(Template $tpl, TextArea $input)
 	{
-		global $DIC;
-
-		$lng = $DIC->language();
-		$lng->loadLanguageModule("form");
-		$lng->toJS("form_chars_remaining");
+		$this->toJS("ui_chars_remaining");
 
 		if($input->isLimited())
 		{

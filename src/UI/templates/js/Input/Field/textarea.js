@@ -21,7 +21,7 @@ il.UI = il.UI || {};
                 if(max_limit > 0) {
                     var currentLength = this.value.length;
                     var text_remaining = max_limit - currentLength;
-                    $('#'+feedback_id_prefix+textarea_id).html(il.Language.txt("form_chars_remaining") +" "+ text_remaining);
+                    $('#'+feedback_id_prefix+textarea_id).html(il.Language.txt("ui_chars_remaining") +" "+ text_remaining);
                     return true;
                 }
             })
