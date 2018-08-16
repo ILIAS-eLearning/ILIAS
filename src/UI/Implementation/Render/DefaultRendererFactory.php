@@ -41,6 +41,7 @@ class DefaultRendererFactory implements RendererFactory {
 	 */
 	public function getRendererInContext(Component $component, array $contexts) {
 		$name = $this->getRendererNameFor($component);
+		$this->lng->loadLanguageModule("ui");
 		return new $name($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 	}
 
