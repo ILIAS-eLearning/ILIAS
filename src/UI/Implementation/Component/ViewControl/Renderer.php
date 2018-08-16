@@ -306,11 +306,15 @@ class Renderer extends AbstractComponentRenderer
 		$forward = $f->glyph()->next();
 
 		if($component->getTriggeredSignals()) {
-			if($prev != 0) {
+			if($prev >= 0
+				&& $component->getCurrentPage() > 0
+			) {
 				$back = $back->withOnClick($component->getInternalSignal());
 			}
 
-			if($next <= $max_pages) {
+			if($next <= $component->getNumberOfPages() - 1
+				&& $component->getCurrentPage() < $component->getNumberOfPages() - 1
+			) {
 				$forward = $forward->withOnClick($component->getInternalSignal());
 			}
 		} else {
@@ -329,11 +333,15 @@ class Renderer extends AbstractComponentRenderer
 				$url_next = $base .http_build_query($params);
 			}
 
-			if($prev > 0) {
+			if($prev >= 0
+				&& $component->getCurrentPage() > 0
+			) {
 				$back = $back->withAction($url_prev);
 			}
 
-			if($next <= $max_pages) {
+			if($next <= $component->getNumberOfPages() - 1
+				&& $component->getCurrentPage() < $component->getNumberOfPages() - 1
+			) {
 				$forward = $forward->withAction($url_next);
 			}
 		}
