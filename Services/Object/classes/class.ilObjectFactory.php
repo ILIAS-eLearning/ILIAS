@@ -207,6 +207,7 @@ class ilObjectFactory
 		$location = $objDefinition->getLocation($object_rec["type"]);
 
 		// create instance
+		include_once($location."/class.".$class_name.".php");
 		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);
