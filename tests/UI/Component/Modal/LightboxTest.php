@@ -3,6 +3,7 @@
 require_once(__DIR__ . '/ModalBase.php');
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Tests on implementation for the lightbox modal
@@ -24,8 +25,8 @@ class LightboxTest extends ModalBase {
 	}
 
 	public function test_simple_rendering() {
-		$image = $this->getUIFactory()->image()->responsive('src/fake/image.jpg', 'description');
-		$lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxImagePage($image, 'title'));
+		$image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
+		$lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxImagePage($image, 'title'));
 		$expected = $this->normalizeHTML($this->getExpectedHTML());
 		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
 		$this->assertEquals($expected, $actual);

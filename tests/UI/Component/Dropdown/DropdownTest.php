@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -13,34 +14,31 @@ use \ILIAS\UI\Component as C;
  */
 class DropdownTest extends ILIAS_UI_TestBase {
 
-	/**
-	 * @return \ILIAS\UI\Implementation\Factory
-	 */
-	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+	protected function getFactory() {
+		return new I\Component\Dropdown\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Dropdown\\Standard", $f->dropdown()->standard(array()));
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Dropdown\\Standard", $f->standard(array()));
 	}
 
 	public function test_with_label() {
 		$f = $this->getFactory();
 
-		$c = $f->dropdown()->standard(array())->withLabel("label");
+		$c = $f->standard(array())->withLabel("label");
 
 		$this->assertEquals($c->getLabel(), "label");
 	}
 
 	public function test_with_items() {
 		$f = $this->getFactory();
-		$c = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com"),
-			$f->divider()->horizontal(),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$c = $f->standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com"),
+			new I\Component\Divider\Horizontal(),	
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 		$items = $c->getItems();
 
@@ -53,7 +51,7 @@ class DropdownTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->dropdown()->standard(array());
+		$c = $f->standard(array());
 
 		$html = $r->render($c);
 		$expected = "";
@@ -65,10 +63,10 @@ class DropdownTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->divider()->horizontal(),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$c = $f->standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Divider\Horizontal(),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 
 		$html = $r->render($c);
@@ -93,10 +91,10 @@ EOT;
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->divider()->horizontal(),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$c = $f->standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Divider\Horizontal(),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		))->withLabel("label");
 
 		$html = $r->render($c);

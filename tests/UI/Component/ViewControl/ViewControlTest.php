@@ -4,6 +4,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 use \ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ViewControlTest extends ILIAS_UI_TestBase {
@@ -19,17 +20,17 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 
 	public function getViewControlFactory()
 	{
-		return new \ILIAS\UI\Implementation\Component\ViewControl\Factory(new SignalGenerator());
+		return new I\Component\ViewControl\Factory(new SignalGenerator());
 	}
 
 	public function test_implements_factory_interface()
 	{
 		$view_control_f = $this->getViewControlFactory();
-		$button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
+		$button_f = new I\Component\Button\Factory();
 
-		$back = $button_f->standard("", "http://www.ilias.de");
-		$next = $button_f->standard("", "http://www.github.com");
-		$button = $button_f->standard("Today", "");
+		$back = new I\Component\Button\Standard("", "http://www.ilias.de");
+		$next = new I\Component\Button\Standard("", "http://www.github.com");
+		$button = new I\Component\Button\Standard("Today", "");
 
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $back);
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $next);
@@ -145,7 +146,27 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 
 	public function getUIFactory()
 	{
-		return new \ILIAS\UI\Implementation\Factory();
+		return new \ILIAS\UI\Implementation\Factory(
+			new I\Component\Counter\Factory(),
+			$this->createMock(C\Glyph\Factory::class),
+			new I\Component\Button\Factory,
+			$this->createMock(C\Listing\Factory::class),
+			$this->createMock(C\Image\Factory::class),
+			$this->createMock(C\Panel\Factory::class),
+			$this->createMock(C\Modal\Factory::class),
+			$this->createMock(C\Dropzone\Factory::class),
+			$this->createMock(C\Popover\Factory::class),
+			$this->createMock(C\Divider\Factory::class),
+			$this->createMock(C\Link\Factory::class),
+			$this->createMock(C\Dropdown\Factory::class),
+			$this->createMock(C\Item\Factory::class),
+			$this->createMock(C\Icon\Factory::class),
+			$this->createMock(C\ViewControl\Factory::class),
+			$this->createMock(C\Chart\Factory::class),
+			$this->createMock(C\Input\Factory::class),
+			$this->createMock(C\Table\Factory::class),
+			$this->createMock(C\MessageBox\Factory::class)
+		);
 	}
 
 	protected function getSectionExpectedHTML()
