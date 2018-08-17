@@ -22521,3 +22521,7 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
+<#5291> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
