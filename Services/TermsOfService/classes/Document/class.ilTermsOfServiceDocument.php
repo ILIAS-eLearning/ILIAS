@@ -124,24 +124,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function create()
-	{
-		$this->setCreationTs(time());
-
-		parent::create();
-
-		foreach ($this->criteria as $criterionAssignment) {
-			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
-			$criterionAssignment->setDocId($this->getId());
-			$criterionAssignment->store();
-		}
-
-		$this->initialPersistedCriteria = $this->criteria;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function read()
 	{
 		parent::read();
@@ -161,6 +143,23 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 		return $document;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function create()
+	{
+		$this->setCreationTs(time());
+
+		parent::create();
+
+		foreach ($this->criteria as $criterionAssignment) {
+			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
+			$criterionAssignment->setDocId($this->getId());
+			$criterionAssignment->store();
+		}
+
+		$this->initialPersistedCriteria = $this->criteria;
+	}
 
 	/**
 	 * @inheritdoc
