@@ -17,7 +17,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	protected $document;
 
 	/** @var \ilObjUser */
-	protected $user;
+	protected $actor;
 
 	/** @var FileUpload */
 	protected $fileUpload;
@@ -43,7 +43,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	/**
 	 * ilTermsOfServiceDocumentFormGUI constructor.
 	 * @param \ilTermsOfServiceDocument $document
-	 * @param \ilObjUser $user
+	 * @param \ilObjUser $actor
 	 * @param Filesystem $tmpFileSystem
 	 * @param FileUpload $fileUpload
 	 * @param string $formAction
@@ -53,7 +53,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 */
 	public function __construct(
 		\ilTermsOfServiceDocument $document,
-		\ilObjUser $user,
+		\ilObjUser $actor,
 		Filesystem $tmpFileSystem,
 		FileUpload $fileUpload,
 		string $formAction = '',
@@ -62,7 +62,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 		bool $isEditable = false
 	) {
 		$this->document = $document;
-		$this->user = $user;
+		$this->actor = $actor;
 		$this->tmpFileSystem = $tmpFileSystem;
 		$this->fileUpload = $fileUpload;
 		$this->formAction = $formAction;
@@ -73,6 +73,14 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 		parent::__construct();
 
 		$this->initForm();
+	}
+
+	/**
+	 * @param bool $check_input_called
+	 */
+	public function setCheckInputCalled(bool $check_input_called)
+	{
+		$this->check_input_called = $check_input_called;
 	}
 
 	/**
@@ -197,9 +205,9 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 		$this->document->setTitle($this->getInput('title'));
 
 		if ($this->document->getId() > 0) {
-			$this->document->setLastModifiedUsrId($this->user->getId());
+			$this->document->setLastModifiedUsrId($this->actor->getId());
 		} else {
-			$this->document->setOwnerUsrId($this->user->getId());
+			$this->document->setOwnerUsrId($this->actor->getId());
 
 			$documentWithMaxSorting = \ilTermsOfServiceDocument::orderBy('sorting', 'DESC')->limit(0, 1)->first();
 			if ($documentWithMaxSorting instanceof \ilTermsOfServiceDocument) {
