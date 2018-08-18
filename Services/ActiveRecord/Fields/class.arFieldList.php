@@ -181,7 +181,7 @@ class arFieldList {
 		$field = NULL;
 		static $field_map;
 		$field_key = $this->ar->getConnectorContainerName() . '.' . $field_name;
-		if (array_key_exists($field_key, $field_map)) {
+		if (is_array($field_map) && array_key_exists($field_key, $field_map)) {
 			return $field_map[$field_key];
 		}
 		foreach ($this->getFields() as $field) {
