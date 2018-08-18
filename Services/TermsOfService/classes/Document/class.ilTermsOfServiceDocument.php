@@ -130,7 +130,12 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 
 		parent::create();
 
-		// Not saved on creation, not supported by workflow
+		foreach ($this->criteria as $criterionAssignment) {
+			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
+			$criterionAssignment->setDocId($this->getId());
+			$criterionAssignment->store();
+		}
+
 		$this->initialCriteria = $this->criteria;
 	}
 
@@ -190,10 +195,12 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	 */
 	public function delete()
 	{
-		foreach ($this->criteria as $criterionAssignment) {
+		foreach ($this->initialCriteria as $criterionAssignment) {
 			/** @var $criterionAssignment \ilTermsOfServiceDocumentCriterionAssignment */
 			$criterionAssignment->delete();
 		}
+
+		$this->initialCriteria = $this->criteria = [];
 
 		parent::delete();
 	}

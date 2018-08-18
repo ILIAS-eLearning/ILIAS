@@ -15,7 +15,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$criterionAssignment1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+			->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
 			->getMock();
 
 		$criterionAssignment1
@@ -36,7 +36,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$criterionAssignment2 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+			->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
 			->getMock();
 
 		$criterionAssignment2
@@ -57,7 +57,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$criterionAssignment3 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+			->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
 			->getMock();
 
 		$criterionAssignment3
@@ -90,8 +90,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-	)
-	{
+	) {
 		$document = new \ilTermsOfServiceDocument();
 		$document->attachCriterion($criterionAssignment1);
 		$document->attachCriterion($criterionAssignment2);
@@ -110,8 +109,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-	)
-	{
+	) {
 		$document = new \ilTermsOfServiceDocument();
 		$document->attachCriterion($criterionAssignment1);
 		$document->attachCriterion($criterionAssignment2);
@@ -120,5 +118,80 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$document->detachCriterion($criterionAssignment2);
 
 		$this->assertCount(2, $document->getCriteria());
+	}
+
+	/**
+	 * @dataProvider criteriaAssignmentProvider
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
+	 */
+	public function testCriteriaCanBeAttachedAndDetachedPersistently(
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
+	) {
+		$documentConnector = $this->getMockBuilder(\arConnector::class)->getMock();
+
+		$document = new \ilTermsOfServiceDocument();
+
+		$documentConnector
+			->expects($this->exactly(2))
+			->method('affectedRows')
+			->willReturnOnConsecutiveCalls(0, 1);
+
+		$documentConnector
+			->expects($this->once())
+			->method('nextId')
+			->willReturn(1);
+
+		$documentConnector
+			->expects($this->once())
+			->method('create');
+
+		\arConnectorMap::register($document, $documentConnector);
+
+		$document->attachCriterion($criterionAssignment1);
+		$document->attachCriterion($criterionAssignment2);
+		$document->attachCriterion($criterionAssignment3);
+
+		$criterionAssignment1
+			->expects($this->exactly(2))
+			->method('store');
+
+		$criterionAssignment1
+			->expects($this->once())
+			->method('delete');
+
+		$criterionAssignment2
+			->expects($this->once())
+			->method('store');
+
+		$criterionAssignment2
+			->expects($this->once())
+			->method('delete');
+
+		$criterionAssignment3
+			->expects($this->exactly(2))
+			->method('store');
+
+		$criterionAssignment3
+			->expects($this->once())
+			->method('delete');
+
+		$document->store();
+
+		$document->detachCriterion($criterionAssignment2);
+
+		$document->store();
+
+		$this->assertCount(2, $document->getCriteria());
+
+		$document->detachCriterion($criterionAssignment1);
+		$document->detachCriterion($criterionAssignment2);
+
+		$document->delete();
+
+		$this->assertCount(0, $document->getCriteria());
 	}
 }
