@@ -61,7 +61,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends \ArrayObject implemen
 				));
 			}
 
-			if (!array_key_exists('id', $value) || !array_key_exists('value', $value)) {
+			if (count($value) !== 2 || !array_key_exists('id', $value) || !array_key_exists('value', $value)) {
 				throw new \ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
 					"Unexpected element found, given %s, expected array with keys 'id' and 'value'",
 					var_export($value, 1)

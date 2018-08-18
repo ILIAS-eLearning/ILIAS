@@ -30,22 +30,10 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 				$criteria = $this->document->getCriteria();
 
 				return 0 === count(array_filter($criteria, function(\ilTermsOfServiceDocumentCriterionAssignment $assignment) use ($value) {
-					$criterionIdCurrent = $assignment->getCriterionId(); 
-					$criterionIdNew = $value->getCriterionId();
-
-					$valueCurrent = $assignment->getCriterionValue();
-					$valueNew = $value->getCriterionValue();
-
 					$idCurrent = $assignment->getId();
 					$idNew = $value->getId();
 
-					$equalCriteria = (
-						$idCurrent != $idNew &&
-						$criterionIdCurrent == $criterionIdNew &&
-						$valueCurrent == $valueNew 
-					);
-
-					return $equalCriteria;
+					return $idCurrent != $idNew && $assignment->equals($value);
 				}));
 			},
 			function ($value) {

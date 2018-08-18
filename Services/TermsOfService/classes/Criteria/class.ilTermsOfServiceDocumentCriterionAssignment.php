@@ -5,7 +5,7 @@
  * Class ilTermsOfServiceDocumentCriterionAssignment
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord implements \ilTermsOfServiceEvaluableCriterion
+class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord implements \ilTermsOfServiceEvaluableCriterion, \ilTermsOfServiceEquatable
 {
 	const TABLE_NAME = 'tos_criterion_to_doc';
 
@@ -126,5 +126,28 @@ class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord implemen
 	public function getCriterionId(): string
 	{
 		return $this->criterion_id;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function equals($other): bool
+	{
+		if (!($other instanceof static)) {
+			return false;
+		}
+
+		$criterionIdCurrent = $this->getCriterionId();
+		$criterionIdNew = $other->getCriterionId();
+
+		$valueCurrent = $this->getCriterionValue();
+		$valueNew = $other->getCriterionValue();
+
+		$equals = (
+			$criterionIdCurrent == $criterionIdNew &&
+			$valueCurrent == $valueNew
+		);
+
+		return $equals;
 	}
 }
