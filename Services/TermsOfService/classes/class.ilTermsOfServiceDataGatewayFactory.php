@@ -7,9 +7,7 @@
  */
 class ilTermsOfServiceDataGatewayFactory
 {
-	/**
-	 * @var \ilDBInterface
-	 */
+	/** @var \ilDBInterface */
 	protected $db;
 
 	/**
