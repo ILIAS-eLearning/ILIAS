@@ -38,4 +38,41 @@ class ilTermsOfServiceAppEventListenerTest extends \ilTermsOfServiceBaseTest
 			->withParameters(['usr_id' => 6])
 			->handle();
 	}
+
+	/**
+	 *
+	 */
+	public function testStaticEventListeningWorksAsExpected()
+	{
+		$database = $this
+			->getMockBuilder(\ilDBInterface::class)
+			->getMock();
+
+		$this->setGlobalVariable('ilDB', $database);
+
+		$helper = $this->getMockBuilder(\ilTermsOfServiceHelper::class)->disableOriginalConstructor()->getMock();
+
+		$helper
+			->expects($this->once())
+			->method('deleteAcceptanceHistoryByUser')
+			->with($this->isType('integer'));
+
+
+		\ilTestableTermsOfServiceAppEventListener::$mockHelper = $helper;
+		\ilTestableTermsOfServiceAppEventListener::handleEvent('Services/User', 'deleteUser', ['usr_id' => 6]);
+	}
+}
+
+class ilTestableTermsOfServiceAppEventListener extends \ilTermsOfServiceAppEventListener
+{
+	/** @var \ilTermsOfServiceHelper */
+	public static $mockHelper;
+
+	/**
+	 * ilTestableTermsOfServiceAppEventListener constructor.
+	 */
+	public function __construct(\ilTermsOfServiceHelper $helper)
+	{
+		parent::__construct(self::$mockHelper);
+	}
 }
