@@ -7,24 +7,34 @@
  */
 class ilTermsOfServiceHelper
 {
-	/**
-	 * @var \ilDBInterface
-	 */
+	/** @var \ilDBInterface */
 	protected $database;
+
+	/** @var \ilTermsOfServiceDataGatewayFactory */
+	protected $dataGatewayFactory;
 
 	/**
 	 * ilTermsOfServiceHelper constructor.
-	 * @param \ilDBInterface|null $database
+	 * @param \ilDBInterface|null                     $database
+	 * @param \ilTermsOfServiceDataGatewayFactory|null $dataGatewayFactory
 	 */
-	public function __construct(\ilDBInterface $database = null)
+	public function __construct(
+		\ilDBInterface $database = null,
+		\ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null
+	)
 	{
 		global $DIC;
 
 		if (null === $database) {
 			$database = $DIC->database();
 		}
-
 		$this->database = $database;
+
+		if (null === $dataGatewayFactory) {
+			$dataGatewayFactory = new \ilTermsOfServiceDataGatewayFactory();
+			$dataGatewayFactory->setDatabaseAdapter($this->database);
+		}
+		$this->dataGatewayFactory = $dataGatewayFactory;
 	}
 
 	/**
@@ -130,9 +140,6 @@ class ilTermsOfServiceHelper
 	 */
 	private function getDataGatewayFactory(): \ilTermsOfServiceDataGatewayFactory
 	{
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->database);
-
-		return $factory;
+		return $this->dataGatewayFactory;
 	}
 }
