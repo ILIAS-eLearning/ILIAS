@@ -22,7 +22,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 	}
 
 	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
+	 * @inheritdoc
 	 */
 	public function trackAcceptance(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
@@ -122,7 +122,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 	}
 
 	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
+	 * @inheritdoc
 	 */
 	public function deleteAcceptanceHistoryByUser(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
