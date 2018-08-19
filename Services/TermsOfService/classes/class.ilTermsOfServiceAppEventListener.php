@@ -93,7 +93,7 @@ class ilTermsOfServiceAppEventListener implements \ilAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		$listener = new self(new \ilTermsOfServiceHelper());
+		$listener = new static(new \ilTermsOfServiceHelper());
 		$listener
 			->withComponent($a_component)
 			->withEvent($a_event)

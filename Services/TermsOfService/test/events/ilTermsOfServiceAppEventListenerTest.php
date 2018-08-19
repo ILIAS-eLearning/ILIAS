@@ -63,6 +63,10 @@ class ilTermsOfServiceAppEventListenerTest extends \ilTermsOfServiceBaseTest
 	}
 }
 
+/**
+ * Class ilTestableTermsOfServiceAppEventListener
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilTestableTermsOfServiceAppEventListener extends \ilTermsOfServiceAppEventListener
 {
 	/** @var \ilTermsOfServiceHelper */
@@ -70,6 +74,7 @@ class ilTestableTermsOfServiceAppEventListener extends \ilTermsOfServiceAppEvent
 
 	/**
 	 * ilTestableTermsOfServiceAppEventListener constructor.
+	 * @param ilTermsOfServiceHelper $helper
 	 */
 	public function __construct(\ilTermsOfServiceHelper $helper)
 	{
