@@ -93,7 +93,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 		$criterionAssignment = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getCriterionId'])
+			->setMethods(['getId', 'getCriterionId', 'getCriterionValue'])
 			->getMock();
 
 		$criterionAssignment
@@ -105,6 +105,11 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 			->expects($this->any())
 			->method('getCriterionId')
 			->willReturn('dummy2');
+
+		$criterionAssignment
+			->expects($this->any())
+			->method('getCriterionValue')
+			->willReturn(new \ilTermsOfServiceCriterionConfig([]));
 
 		$criterionTypeFactory = $this
 			->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)
