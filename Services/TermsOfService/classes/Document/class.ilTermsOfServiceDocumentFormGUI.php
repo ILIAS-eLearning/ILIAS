@@ -76,11 +76,11 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	}
 
 	/**
-	 * @param bool $check_input_called
+	 * @param bool $status
 	 */
-	public function setCheckInputCalled(bool $check_input_called)
+	public function setCheckInputCalled(bool $status)
 	{
-		$this->check_input_called = $check_input_called;
+		$this->check_input_called = $status;
 	}
 
 	/**

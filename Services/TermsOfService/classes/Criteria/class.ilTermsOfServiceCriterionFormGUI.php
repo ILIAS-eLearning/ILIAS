@@ -16,6 +16,9 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	/** @var string */
 	protected $formAction;
 
+	/** @var \ilObjUser */
+	protected $actor;
+
 	/** @var string */
 	protected $saveCommand;
 
@@ -33,6 +36,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 	 * @param \ilTermsOfServiceDocument $document
 	 * @param \ilTermsOfServiceDocumentCriterionAssignment $assignment
 	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
+	 * @param \ilObjUser $actor
 	 * @param string $formAction
 	 * @param string $saveCommand
 	 * @param string $cancelCommand
@@ -41,6 +45,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		\ilTermsOfServiceDocument $document,
 		\ilTermsOfServiceDocumentCriterionAssignment $assignment,
 		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+		\ilObjUser $actor,
 		string $formAction = '',
 		string $saveCommand = 'saveDocument',
 		string $cancelCommand = 'showDocuments'
@@ -48,6 +53,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$this->document = $document;
 		$this->assignment = $assignment;
 		$this->criterionTypeFactory = $criterionTypeFactory;
+		$this->actor = $actor;
 		$this->formAction = $formAction;
 		$this->saveCommand = $saveCommand;
 		$this->cancelCommand = $cancelCommand;
@@ -57,6 +63,13 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$this->initForm();
 	}
 
+	/**
+	 * @param bool $status
+	 */
+	public function setCheckInputCalled(bool $status)
+	{
+		$this->check_input_called = $status;
+	}
 
 	/**
 	 *
@@ -165,15 +178,16 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		try {
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($this->getInput('criterion'));
 			$criterionGui = $criterionType->getGUI($this->lng);
+$id = $criterionType->getTypeIdent();
+$val = $criterionGui->getConfigByForm($this);
 
 			$this->assignment->setCriterionId($criterionType->getTypeIdent());
-
 			$this->assignment->setCriterionValue($criterionGui->getConfigByForm($this));
 
 			if ($this->assignment->getId() > 0) {
-				$this->assignment->setLastModifiedUsrId($this->user->getId());
+				$this->assignment->setLastModifiedUsrId($this->actor->getId());
 			} else {
-				$this->assignment->setOwnerUsrId($this->user->getId());
+				$this->assignment->setOwnerUsrId($this->actor->getId());
 			}
 		} catch (\Exception $e) {
 			$this->getItemByPostVar('criterion')->setAlert($e->getMessage());

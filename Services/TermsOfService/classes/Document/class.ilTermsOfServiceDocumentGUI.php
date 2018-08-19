@@ -493,6 +493,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$document,
 			$criterionAssignment,
 			$this->criterionTypeFactory,
+			$this->user,
 			$formAction,
 			$saveCommand,
 			'showDocuments'
