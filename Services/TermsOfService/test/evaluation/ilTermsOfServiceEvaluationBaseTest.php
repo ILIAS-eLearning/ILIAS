@@ -49,11 +49,11 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends \ilTermsOfServiceBaseT
 	 */
 	protected function getCriterionTypeFactoryMock(): \ilTermsOfServiceCriterionTypeFactoryInterface
 	{
-		$critTypeFactory = $this
+		$criterionTypeFactory = $this
 			->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)
 			->getMock();
 
-		return $critTypeFactory;
+		return $criterionTypeFactory;
 	}
 
 	/**

@@ -15,7 +15,7 @@ use ILIAS\FileUpload\Location;
 class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 {
 	/**
-	 * @return }ilTermsOfServiceDocumentFormGUI
+	 *
 	 */
 	public function testDocumentFormIsProperlyBuiltForNewDocuments()
 	{
@@ -61,8 +61,6 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 		$this->assertCount(1, $form->getCommandButtons(),'Failed asserting only cancel button is given if form is not editable');
 		$this->assertArrayHasKey(0, $form->getCommandButtons(),'Failed asserting only cancel button is given if form is not editable');
 		$this->assertEquals('cancel', $form->getCommandButtons()[0]['cmd'],'Failed asserting only cancel button is given if form is not editable');
-
-		return $form;
 	}
 
 	/**
@@ -373,7 +371,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function testUploadIssuesAreHandled()
+	public function testUploadIssuesAreHandledWhenDocumentFormIsSaved()
 	{
 		$lng = $this->getLanguageMock();
 
