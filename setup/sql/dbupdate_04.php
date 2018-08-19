@@ -22525,7 +22525,7 @@ if (!$ilrqtix) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5292>
+<#5292> 
 <?php
 try
 {
@@ -22536,31 +22536,35 @@ try
 		'Read Test Participants Learning Progress',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_ACCESS_RESULTS,
 		'Access Test Participants Results',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
 		'Manage Test Participants',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
 		'Score Test Participants',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 }
 catch(ilException $e)
 {
 }
 ?>
 <#5293>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5294>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
