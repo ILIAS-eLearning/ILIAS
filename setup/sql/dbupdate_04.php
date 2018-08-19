@@ -22711,6 +22711,9 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 }
 
 // Determine system language
+$ilIliasIniFile = new \ilIniFile(ILIAS_ABSOLUTE_PATH . '/ilias.ini.php');
+$ilIliasIniFile->read();
+
 $language = $ilIliasIniFile->readVariable('language', 'default');
 $ilSetting = new \ilSetting();
 if ($ilSetting->get('language') != '') {
