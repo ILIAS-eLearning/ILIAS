@@ -65,6 +65,14 @@ class ilTermsOfServiceSettingsFormGUI extends \ilPropertyFormGUI
 	}
 
 	/**
+	 * @param bool $status
+	 */
+	public function setCheckInputCalled(bool $status)
+	{
+		$this->check_input_called = $status;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function hasTranslatedError(): bool 
