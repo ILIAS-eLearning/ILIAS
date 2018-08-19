@@ -22560,3 +22560,7 @@ catch(ilException $e)
 {
 }
 ?>
+<#5293> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
