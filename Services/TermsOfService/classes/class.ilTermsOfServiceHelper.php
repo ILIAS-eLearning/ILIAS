@@ -8,6 +8,26 @@
 class ilTermsOfServiceHelper
 {
 	/**
+	 * @var \ilDBInterface
+	 */
+	protected $database;
+
+	/**
+	 * ilTermsOfServiceHelper constructor.
+	 * @param \ilDBInterface|null $database
+	 */
+	public function __construct(\ilDBInterface $database = null)
+	{
+		global $DIC;
+
+		if (null === $database) {
+			$database = $DIC->database();
+		}
+
+		$this->database = $database;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public static function isEnabled(): bool 
@@ -31,12 +51,13 @@ class ilTermsOfServiceHelper
 	 * @param int $userId
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function deleteAcceptanceHistoryByUser(int $userId)
+	public function deleteAcceptanceHistoryByUser(int $userId)
 	{
-		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
 		$entity->setUserId($userId);
-		$data_gateway->deleteAcceptanceHistoryByUser($entity);
+		$databaseGateway->deleteAcceptanceHistoryByUser($entity);
 	}
 
 	/**
@@ -44,13 +65,14 @@ class ilTermsOfServiceHelper
 	 * @return \ilTermsOfServiceAcceptanceEntity
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function getCurrentAcceptanceForUser(\ilObjUser $user): \ilTermsOfServiceAcceptanceEntity
+	public function getCurrentAcceptanceForUser(\ilObjUser $user): \ilTermsOfServiceAcceptanceEntity
 	{
-		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
 		$entity->setUserId($user->getId());
 
-		return $data_gateway->loadCurrentAcceptanceOfUser($entity);
+		return $databaseGateway->loadCurrentAcceptanceOfUser($entity);
 	}
 
 	/**
@@ -58,13 +80,14 @@ class ilTermsOfServiceHelper
 	 * @return \ilTermsOfServiceAcceptanceEntity
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function getById(int $id): \ilTermsOfServiceAcceptanceEntity
+	public function getById(int $id): \ilTermsOfServiceAcceptanceEntity
 	{
-		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
 		$entity->setId($id);
 
-		return $data_gateway->loadById($entity);
+		return $databaseGateway->loadById($entity);
 	}
 
 	/**
@@ -72,10 +95,10 @@ class ilTermsOfServiceHelper
 	 * @param \ilTermsOfServiceSignableDocument $document
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function trackAcceptance(\ilObjUser $user, \ilTermsOfServiceSignableDocument $document)
+	public function trackAcceptance(\ilObjUser $user, \ilTermsOfServiceSignableDocument $document)
 	{
-		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
 		$entity->setUserId($user->getId());
 		$entity->setTimestamp(time());
@@ -87,7 +110,7 @@ class ilTermsOfServiceHelper
 		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->getCriteria());
 		$entity->setCriteria($criteriaBag->toJson());
 
-		$data_gateway->trackAcceptance($entity);
+		$databaseGateway->trackAcceptance($entity);
 
 		$user->writeAccepted();
 
@@ -97,7 +120,7 @@ class ilTermsOfServiceHelper
 	/**
 	 * @return \ilTermsOfServiceEntityFactory
 	 */
-	private static function getEntityFactory(): \ilTermsOfServiceEntityFactory
+	private function getEntityFactory(): \ilTermsOfServiceEntityFactory
 	{
 		return new \ilTermsOfServiceEntityFactory();
 	}
@@ -105,12 +128,10 @@ class ilTermsOfServiceHelper
 	/**
 	 * @return \ilTermsOfServiceDataGatewayFactory
 	 */
-	private static function getDataGatewayFactory(): \ilTermsOfServiceDataGatewayFactory
+	private function getDataGatewayFactory(): \ilTermsOfServiceDataGatewayFactory
 	{
-		global $DIC;
-
 		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($DIC->database());
+		$factory->setDatabaseAdapter($this->database);
 
 		return $factory;
 	}

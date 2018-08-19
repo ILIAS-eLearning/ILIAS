@@ -2674,14 +2674,13 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function showAcceptedTermsOfService()
 	{
-		/**
-		 * @var $agreeDate ilNonEditableValueGUI
-		 */
+		/** @var $agreeDate ilNonEditableValueGUI */
 		$agreeDate = $this->form_gui->getItemByPostVar('agree_date');
 		if ($agreeDate && $agreeDate->getValue()) {
 			$this->lng->loadLanguageModule('tos');
-			/** @var $entity ilTermsOfServiceAcceptanceEntity */
-			$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
+			$helper = new \ilTermsOfServiceHelper();
+
+			$entity = $helper->getCurrentAcceptanceForUser($this->object);
 			if ($entity->getId()) {
 
 				$modal = $this->uiFactory

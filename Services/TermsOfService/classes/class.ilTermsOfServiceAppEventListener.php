@@ -13,7 +13,9 @@ class ilTermsOfServiceAppEventListener implements \ilAppEventListener
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		if ('deleteUser' == $a_event && 'Services/User' == $a_component) {
-			ilTermsOfServiceHelper::deleteAcceptanceHistoryByUser($a_parameter['usr_id']);
+			$helper = new \ilTermsOfServiceHelper();
+
+			$helper->deleteAcceptanceHistoryByUser($a_parameter['usr_id']);
 		}
 	}
 }

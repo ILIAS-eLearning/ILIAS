@@ -115,7 +115,9 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
-		
+
+		$ilUser->setLanguage($lng->getLangKey());
+
 		// needed for multi-text-fields (interests)
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
@@ -670,15 +672,16 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
-		if ($handleDocument) {
-			\ilTermsOfServiceHelper::trackAcceptance(
-				$this->userObj, $this->termsOfServiceEvaluation->getDocument()
-			);
-		}
-
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$helper = new \ilTermsOfServiceHelper();
+
+			$helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->getDocument());
+		}
+
 		$hits_per_page = $ilSetting->get("hits_per_page");
 		if ($hits_per_page < 10)
 		{
