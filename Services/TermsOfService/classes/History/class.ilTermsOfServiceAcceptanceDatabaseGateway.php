@@ -7,9 +7,7 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcceptanceDataGateway
 {
-	/**
-	 * @var \ilDBInterface
-	 */
+	/** @var \ilDBInterface */
 	protected $db;
 
 	/**

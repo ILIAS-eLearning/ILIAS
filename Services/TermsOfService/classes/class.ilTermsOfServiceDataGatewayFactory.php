@@ -21,7 +21,7 @@ class ilTermsOfServiceDataGatewayFactory
 	}
 
 	/**
-	 * @return \ilDBInterface
+	 * @return \ilDBInterface|null
 	 */
 	public function getDatabaseAdapter()
 	{
@@ -34,7 +34,7 @@ class ilTermsOfServiceDataGatewayFactory
 	 * @throws \InvalidArgumentException
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public function getByName($name)
+	public function getByName(string $name): \ilTermsOfServiceAcceptanceDataGateway
 	{
 		if (null == $this->db) {
 			throw new \ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');

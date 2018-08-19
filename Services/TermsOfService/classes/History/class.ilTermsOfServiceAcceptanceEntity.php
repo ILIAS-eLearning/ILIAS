@@ -7,44 +7,28 @@
  */
 class ilTermsOfServiceAcceptanceEntity
 {
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $id = 0;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $user_id = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $text = '';
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $timestamp = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $hash = '';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $title = '';
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $document_id = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $criteria = '';
 
 	/**
