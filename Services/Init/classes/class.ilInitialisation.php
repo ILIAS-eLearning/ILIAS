@@ -1496,7 +1496,7 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
 		};
 		$c["ui.factory.messagebox"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\MessageBox\Factory()
+			return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
 		};
 		$c["ui.factory.progressmeter"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
