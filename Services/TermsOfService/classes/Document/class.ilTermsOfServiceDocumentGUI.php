@@ -13,6 +13,9 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 {
+	/** @var \ilTermsOfServiceTableDataProviderFactory */
+	protected $tableDataProviderFactory;
+
 	/** @var \ilObjTermsOfService */
 	protected $tos;
 
@@ -74,6 +77,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	 * @param Renderer $uiRenderer
 	 * @param Filesystems $fileSystems,
 	 * @param FileUpload $fileUpload
+	 * @param \ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
@@ -90,24 +94,26 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		Factory $uiFactory,
 		Renderer $uiRenderer,
 		Filesystems $fileSystems,
-		FileUpload $fileUpload
+		FileUpload $fileUpload,
+		ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
 	)
 	{
-		$this->tos = $tos;
-		$this->criterionTypeFactory = $criterionTypeFactory;
-		$this->tpl = $tpl;
-		$this->ctrl = $ctrl;
-		$this->lng = $lng;
-		$this->rbacsystem = $rbacsystem;
-		$this->error = $error;
-		$this->user = $user;
-		$this->log = $log;
-		$this->toolbar = $toolbar;
-		$this->httpState  = $httpState;
-		$this->uiFactory  = $uiFactory;
-		$this->uiRenderer = $uiRenderer;
-		$this->fileSystems = $fileSystems;
-		$this->fileUpload = $fileUpload;
+		$this->tos                      = $tos;
+		$this->criterionTypeFactory     = $criterionTypeFactory;
+		$this->tpl                      = $tpl;
+		$this->ctrl                     = $ctrl;
+		$this->lng                      = $lng;
+		$this->rbacsystem               = $rbacsystem;
+		$this->error                    = $error;
+		$this->user                     = $user;
+		$this->log                      = $log;
+		$this->toolbar                  = $toolbar;
+		$this->httpState                = $httpState;
+		$this->uiFactory                = $uiFactory;
+		$this->uiRenderer               = $uiRenderer;
+		$this->fileSystems              = $fileSystems;
+		$this->fileUpload               = $fileUpload;
+		$this->tableDataProviderFactory = $tableDataProviderFactory;
 	}
 
 	/**
@@ -188,7 +194,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 			$this->uiRenderer,
 			$this->rbacsystem->checkAccess('write', $this->tos->getRefId())
 		);
-		$documentTableGui->setProvider(new ilTermsOfServiceDocumentTableDataProvider());
+		$documentTableGui->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_DOCUMENTS));
 		$documentTableGui->populate();
 
 		$this->tpl->setVariable('MESSAGE', $this->getResetMessageBoxHtml());

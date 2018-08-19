@@ -55,6 +55,9 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 		$nextClass = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
+		$tableDataProviderFactory = new \ilTermsOfServiceTableDataProviderFactory();
+		$tableDataProviderFactory->setDatabaseAdapter($this->dic->database());
+
 		switch (strtolower($nextClass)) {
 			case 'iltermsofservicedocumentgui':
 				$documentGui = new \ilTermsOfServiceDocumentGUI(
@@ -72,15 +75,13 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 					$this->dic->ui()->factory(),
 					$this->dic->ui()->renderer(),
 					$this->dic->filesystem(),
-					$this->dic->upload()
+					$this->dic->upload(),
+					$tableDataProviderFactory
 				);
 				$this->ctrl->forwardCommand($documentGui);
 				break;
 
 			case 'iltermsofserviceacceptancehistorygui':
-				$factory = new \ilTermsOfServiceTableDataProviderFactory();
-				$factory->setDatabaseAdapter($this->dic->database());
-
 				$documentGui = new \ilTermsOfServiceAcceptanceHistoryGUI(
 					$this->object,
 					$this->dic['tos.criteria.type.factory'],
@@ -92,7 +93,7 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 					$this->dic->http()->request(),
 					$this->dic->ui()->factory(),
 					$this->dic->ui()->renderer(),
-					$factory
+					$tableDataProviderFactory
 				);
 				$this->ctrl->forwardCommand($documentGui);
 				break;

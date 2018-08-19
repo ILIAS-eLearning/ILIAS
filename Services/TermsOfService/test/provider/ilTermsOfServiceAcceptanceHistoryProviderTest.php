@@ -8,7 +8,6 @@
 class ilTermsOfServiceAcceptanceHistoryProviderTest extends \ilTermsOfServiceBaseTest
 {
 	/**
-	 * @return \ilTermsOfServiceAcceptanceHistoryProvider
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function testHistoryProviderCanBeCreatedByFactory()
@@ -21,8 +20,6 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends \ilTermsOfServiceBas
 		$this->assertInstanceOf(\ilTermsOfServiceAcceptanceHistoryProvider::class, $provider);
 		$this->assertInstanceOf(\ilTermsOfServiceTableDatabaseDataProvider::class, $provider);
 		$this->assertInstanceOf(\ilTermsOfServiceTableDataProvider::class, $provider);
-
-		return $provider;
 	}
 
 	/**

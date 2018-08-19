@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControllerEnabled
 {
 	/** @var \ilTermsOfServiceTableDataProviderFactory */
-	protected $factory;
+	protected $tableDataProviderFactory;
 
 	/** @var \ilObjTermsOfService */
 	protected $tos;
@@ -56,7 +56,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	 * @param ServerRequestInterface $request
 	 * @param Factory $uiFactory
 	 * @param Renderer $uiRenderer
-	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
+	 * @param \ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
@@ -69,19 +69,19 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		ServerRequestInterface $request,
 		Factory $uiFactory,
 		Renderer $uiRenderer,
-		ilTermsOfServiceTableDataProviderFactory $factory
+		ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
 	) {
-		$this->tos = $tos;
-		$this->criterionTypeFactory = $criterionTypeFactory;
-		$this->tpl = $tpl;
-		$this->ctrl = $ctrl;
-		$this->lng = $lng;
-		$this->rbacsystem = $rbacsystem;
-		$this->error = $error;
-		$this->request = $request;
-		$this->uiFactory = $uiFactory;
-		$this->uiRenderer = $uiRenderer;
-		$this->factory = $factory;
+		$this->tos                      = $tos;
+		$this->criterionTypeFactory     = $criterionTypeFactory;
+		$this->tpl                      = $tpl;
+		$this->ctrl                     = $ctrl;
+		$this->lng                      = $lng;
+		$this->rbacsystem               = $rbacsystem;
+		$this->error                    = $error;
+		$this->request                  = $request;
+		$this->uiFactory                = $uiFactory;
+		$this->uiRenderer               = $uiRenderer;
+		$this->tableDataProviderFactory = $tableDataProviderFactory;
 	}
 
 	/**
@@ -122,7 +122,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 			$this->uiFactory,
 			$this->uiRenderer
 		);
-		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
+		$table->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 
 		return $table;
 	}

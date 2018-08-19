@@ -10,10 +10,8 @@ class ilTermsOfServiceTableDataProviderFactory
 	/** @var \ilDBInterface|null */
 	protected $db;
 
-	/**
-	 * @var string
-	 */
 	const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
+	const CONTEXT_DOCUMENTS = 'documents';
 
 	/**
 	 * @param string $context
@@ -27,6 +25,9 @@ class ilTermsOfServiceTableDataProviderFactory
 			case self::CONTEXT_ACCEPTANCE_HISTORY:
 				$this->validateConfiguration(array('db'));
 				return new \ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
+
+			case self::CONTEXT_DOCUMENTS:
+				return new \ilTermsOfServiceDocumentTableDataProvider();
 
 			default:
 				throw new \InvalidArgumentException('Provider not supported');
