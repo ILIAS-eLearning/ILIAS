@@ -46,11 +46,11 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$this->assertTrue($form->getItemByPostVar('document')->getRequired(), 'Failed asserting document upload is required for new documents');
 
-		$this->assertCount(2, $form->getCommandButtons(),'Failed asserting save and cancel button are given if form is editable');
-		$this->assertArrayHasKey(0, $form->getCommandButtons(),'Failed asserting save and cancel button are given if form is editable');
-		$this->assertArrayHasKey(1, $form->getCommandButtons(),'Failed asserting save and cancel button are given if form is editable');
-		$this->assertEquals('save', $form->getCommandButtons()[0]['cmd'],'Failed asserting save are cancel button and given if form is editable');
-		$this->assertEquals('cancel', $form->getCommandButtons()[1]['cmd'],'Failed asserting save and cancel button are given if form is editable');
+		$this->assertCount(2, $form->getCommandButtons(),'Failed asserting save and cancel buttons are given if form is editable');
+		$this->assertArrayHasKey(0, $form->getCommandButtons(),'Failed asserting save and cancel buttons are given if form is editable');
+		$this->assertArrayHasKey(1, $form->getCommandButtons(),'Failed asserting save and cancel buttons are given if form is editable');
+		$this->assertEquals('save', $form->getCommandButtons()[0]['cmd'],'Failed asserting save and cancel buttons are given if form is editable');
+		$this->assertEquals('cancel', $form->getCommandButtons()[1]['cmd'],'Failed asserting save and cancel buttons are given if form is editable');
 
 		$form = new \ilTermsOfServiceDocumentFormGUI(
 			$document, $user, $fs, $fu,
