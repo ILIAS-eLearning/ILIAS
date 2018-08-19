@@ -14,8 +14,7 @@ class ilTermsOfServiceHelperTest extends \ilTermsOfServiceBaseTest
 	{
 		$dataGatewayFactory = $this->getMockBuilder(\ilTermsOfServiceDataGatewayFactory::class)->getMock();
 		$dataGateway = $this
-			->getMockBuilder(\ilTermsOfServiceAcceptanceEntity::class)
-			->setMethods(['trackAcceptance'])
+			->getMockBuilder(\ilTermsOfServiceAcceptanceDataGateway::class)
 			->getMock();
 
 		$dataGateway
@@ -85,5 +84,49 @@ class ilTermsOfServiceHelperTest extends \ilTermsOfServiceBaseTest
 			->willReturn([]);
 
 		$helper->trackAcceptance($user, $document);
+	}
+
+	/**
+	 *
+	 */
+	public function testAcceptanceHistoryCanBeDeleted()
+	{
+		$dataGatewayFactory = $this->getMockBuilder(\ilTermsOfServiceDataGatewayFactory::class)->getMock();
+		$dataGateway = $this
+			->getMockBuilder(\ilTermsOfServiceAcceptanceDataGateway::class)
+			->getMock();
+
+		$dataGateway
+			->expects($this->once())
+			->method('deleteAcceptanceHistoryByUser')
+			->with($this->isInstanceOf(\ilTermsOfServiceAcceptanceEntity::class));
+
+		$dataGatewayFactory
+			->expects($this->any())
+			->method('getByName')
+			->willReturn($dataGateway);
+
+		$helper = new \ilTermsOfServiceHelper(
+			$this->getMockBuilder(\ilDBInterface::class)->getMock(),
+			$dataGatewayFactory
+		);
+
+		$user = $this
+			->getMockBuilder(\ilObjUser::class)
+			->disableOriginalConstructor()
+			->setMethods(['getId', 'getLogin'])
+			->getMock();
+
+		$user
+			->expects($this->any())
+			->method('getId')
+			->willReturn(-1);
+
+		$user
+			->expects($this->any())
+			->method('getLogin')
+			->willReturn('phpunit');
+
+		$helper->deleteAcceptanceHistoryByUser($user->getId());
 	}
 }
