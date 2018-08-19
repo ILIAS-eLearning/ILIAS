@@ -63,10 +63,9 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 	}
 
 	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 * @return \ilTermsOfServiceAcceptanceEntity
+	 * @inheritdoc
 	 */
-	public function loadCurrentAcceptanceOfUser(\ilTermsOfServiceAcceptanceEntity $entity)
+	public function loadCurrentAcceptanceOfUser(\ilTermsOfServiceAcceptanceEntity $entity): \ilTermsOfServiceAcceptanceEntity
 	{
 		$this->db->setLimit(1, 0);
 
@@ -98,10 +97,9 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 	}
 
 	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 * @return \ilTermsOfServiceAcceptanceEntity
+	 * @inheritdoc
 	 */
-	public function loadById(\ilTermsOfServiceAcceptanceEntity $entity)
+	public function loadById(\ilTermsOfServiceAcceptanceEntity $entity): \ilTermsOfServiceAcceptanceEntity
 	{
 		$res = $this->db->queryF('
 			SELECT *

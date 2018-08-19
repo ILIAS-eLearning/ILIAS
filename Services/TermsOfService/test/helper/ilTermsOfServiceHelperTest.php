@@ -129,4 +129,101 @@ class ilTermsOfServiceHelperTest extends \ilTermsOfServiceBaseTest
 
 		$helper->deleteAcceptanceHistoryByUser($user->getId());
 	}
+
+	/**
+	 *
+	 */
+	public function testLatestAcceptanceHistoryEntityCanBeLoadedForUser()
+	{
+		$dataGatewayFactory = $this->getMockBuilder(\ilTermsOfServiceDataGatewayFactory::class)->getMock();
+		$dataGateway = $this
+			->getMockBuilder(\ilTermsOfServiceAcceptanceDataGateway::class)
+			->getMock();
+
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$entity->setId(4711);
+
+		$dataGateway
+			->expects($this->atLeast(1))
+			->method('loadCurrentAcceptanceOfUser')
+			->with($this->isInstanceOf(\ilTermsOfServiceAcceptanceEntity::class))
+			->willReturn($entity);
+
+		$dataGatewayFactory
+			->expects($this->any())
+			->method('getByName')
+			->willReturn($dataGateway);
+
+		$helper = new \ilTermsOfServiceHelper(
+			$this->getMockBuilder(\ilDBInterface::class)->getMock(),
+			$dataGatewayFactory
+		);
+
+		$user = $this
+			->getMockBuilder(\ilObjUser::class)
+			->disableOriginalConstructor()
+			->setMethods(['getId', 'getLogin'])
+			->getMock();
+
+		$user
+			->expects($this->any())
+			->method('getId')
+			->willReturn(-1);
+
+		$user
+			->expects($this->any())
+			->method('getLogin')
+			->willReturn('phpunit');
+
+		$this->assertInstanceOf(\ilTermsOfServiceAcceptanceEntity::class, $helper->getCurrentAcceptanceForUser($user));
+		$this->assertEquals($entity, $helper->getCurrentAcceptanceForUser($user));
+	}
+
+	/**
+	 *
+	 */
+	public function testAcceptanceHistoryEntityCanBeLoadedById()
+	{
+		$dataGatewayFactory = $this->getMockBuilder(\ilTermsOfServiceDataGatewayFactory::class)->getMock();
+		$dataGateway = $this
+			->getMockBuilder(\ilTermsOfServiceAcceptanceDataGateway::class)
+			->getMock();
+
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+		$entity->setId(4711);
+
+		$dataGateway
+			->expects($this->atLeast(1))
+			->method('loadById')
+			->willReturn($entity);
+
+		$dataGatewayFactory
+			->expects($this->any())
+			->method('getByName')
+			->willReturn($dataGateway);
+
+		$helper = new \ilTermsOfServiceHelper(
+			$this->getMockBuilder(\ilDBInterface::class)->getMock(),
+			$dataGatewayFactory
+		);
+
+		$user = $this
+			->getMockBuilder(\ilObjUser::class)
+			->disableOriginalConstructor()
+			->setMethods(['getId', 'getLogin'])
+			->getMock();
+
+		$user
+			->expects($this->any())
+			->method('getId')
+			->willReturn(-1);
+
+		$user
+			->expects($this->any())
+			->method('getLogin')
+			->willReturn('phpunit');
+
+		$this->assertInstanceOf(\ilTermsOfServiceAcceptanceEntity::class, $helper->getById($entity->getId()));
+		$this->assertEquals($entity, $helper->getById($entity->getId()));
+	}
 }
