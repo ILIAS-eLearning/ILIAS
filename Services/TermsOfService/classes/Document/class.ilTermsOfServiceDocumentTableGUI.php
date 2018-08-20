@@ -92,15 +92,16 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				'is_checkbox' => true,
 				'width' => '1%'
 			];
-			$columns[++$i] = [
-				'field' => 'sorting',
-				'txt' => $this->lng->txt('tos_tbl_docs_head_sorting'),
-				'default' => true,
-				'optional' => false,
-				'sortable' => false,
-				'width' => '5%'
-			];
 		}
+
+		$columns[++$i] = [
+			'field' => 'sorting',
+			'txt' => $this->lng->txt('tos_tbl_docs_head_sorting'),
+			'default' => true,
+			'optional' => false,
+			'sortable' => false,
+			'width' => '5%'
+		];
 
 		$columns[++$i] = [
 			'field' => 'title',
@@ -341,8 +342,13 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	 */
 	protected function formatSorting(array $row): string
 	{
+		$value = ($this->i++) * $this->factor;
+		if (!$this->isEditable) {
+			return $value;
+		}
+
 		$sortingField = new \ilTextInputGUI('', 'sorting[' . $row['id'] . ']');
-		$sortingField->setValue(($this->i++) * $this->factor);
+		$sortingField->setValue($value);
 		$sortingField->setMaxLength(5);
 		$sortingField->setSize(4);
 
