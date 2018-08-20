@@ -188,4 +188,19 @@ class ilBiblFieldFilterGUI {
 
 		return $ilBiblSettingsFilterFormGUI;
 	}
+
+	protected function applyFilter() {
+		$table = new ilBiblFieldFilterTableGUI($this, $this->facade);
+		$table->writeFilterToSession();
+		$table->resetOffset();
+		$this->ctrl()->redirect($this, self::CMD_STANDARD);
+	}
+
+
+	protected function resetFilter() {
+		$table = new ilBiblFieldFilterTableGUI($this, $this->facade);
+		$table->resetFilter();
+		$table->resetOffset();
+		$this->ctrl()->redirect($this, self::CMD_STANDARD);
+	}
 }

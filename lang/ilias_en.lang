@@ -4717,8 +4717,8 @@ crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_num_next#:#Number of Future Sessions
-crs#:#sess_num_prev#:#Number of Past Sessions
+crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
+crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -11114,6 +11114,12 @@ orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#org_op_access_results#:#Access Results
+rbac#:#org_op_access_results#:#Access Results of Subordinated Users
+orgu#:#org_op_manage_participants#:#Manage Participants
+rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
+orgu#:#org_op_score_participants#:#Score Participants
+rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
@@ -14278,3 +14284,4 @@ wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
+common#:#presentation_table_more#:#more
