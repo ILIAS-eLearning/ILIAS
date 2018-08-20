@@ -300,7 +300,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 							$this->uiFactory
 						)
 					),
-					$this->uiRenderer->render([$dropDown, $deleteModal])
+					($this->isEditable ? $this->uiRenderer->render([$dropDown, $deleteModal]) : '')
 				]));
 
 			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
