@@ -26,14 +26,14 @@ class LightboxTest extends ModalBase {
 
 	public function test_simple_image_page_rendering() {
 		$image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
-		$lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxImagePage($image, 'title'));
+		$lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxImagePage($image, 'title'));
 		$expected = $this->normalizeHTML($this->getExpectedImagePageHTML());
 		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_simple_text_page_rendering() {
-		$lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxTextPage('HelloWorld', 'title'));
+		$lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxTextPage('HelloWorld', 'title'));
 		$expected = $this->normalizeHTML($this->getExpectedTextPageHTML());
 		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
 		$this->assertEquals($expected, $actual);
@@ -43,8 +43,8 @@ class LightboxTest extends ModalBase {
 		$image1 = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
 
 		$pages = [
-			$this->getUIFactory()->modal()->lightboxTextPage('HelloWorld', 'title'),
-			$this->getUIFactory()->modal()->lightboxImagePage($image1, 'title'),
+			$this->getModalFactory()->lightboxTextPage('HelloWorld', 'title'),
+			$this->getModalFactory()->lightboxImagePage($image1, 'title'),
 		];
 
 		$lightbox = $this->getModalFactory()->lightbox($pages);
@@ -293,10 +293,6 @@ class LightboxMockPage implements C\Modal\LightboxPage {
 
 	public function getTitle() {
 		return 'title';
-	}
-
-	public function getDescription() {
-		return 'description';
 	}
 
 	public function getComponent() {
