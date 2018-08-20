@@ -2685,7 +2685,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$modal = $this->uiFactory
 					->modal()
-					->lightbox([new ilTermsOfServiceDocumentLightboxPage(
+					->lightbox([$this->uiFactory->modal()->lightboxTextPage(
 						$entity->getTitle(), $entity->getText())
 					]);
 

@@ -190,7 +190,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 	{
 		$modal = $this->uiFactory
 			->modal()
-			->lightbox([new ilTermsOfServiceDocumentLightboxPage($row['title'], $row['text'])]);
+			->lightbox([$this->uiFactory->modal()->lightboxTextPage($row['title'], $row['text'])]);
 
 		$titleLink = $this->uiFactory
 			->button()
