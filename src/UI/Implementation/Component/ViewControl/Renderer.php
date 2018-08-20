@@ -113,9 +113,7 @@ class Renderer extends AbstractComponentRenderer
 
 
 	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
-		$f = new \ILIAS\UI\Implementation\Factory(
-			new \ILIAS\UI\Implementation\Component\SignalGenerator()
-		);
+		$f = $this->getUIFactory();
 
 		$tpl = $this->getTemplate("tpl.sortation.html", true, true);
 
@@ -204,9 +202,7 @@ class Renderer extends AbstractComponentRenderer
 
 		}else {
 			//if threshold is reached, render as dropdown
-			$f = new \ILIAS\UI\Implementation\Factory(
-				new \ILIAS\UI\Implementation\Component\SignalGenerator()
-			);
+			$f = $this->getUIFactory();
 			$dd = $f->dropdown()->standard($chunk_options)->withLabel(
 				(string)($component->getCurrentPage() + 1)
 			);
@@ -259,9 +255,8 @@ class Renderer extends AbstractComponentRenderer
 	 * @return \ILIAS\UI\Component\Button\Shy
 	 */
 	protected function getPaginationShyButton($val, Component\ViewControl\Pagination $component, $label='') {
-		$f = new \ILIAS\UI\Implementation\Factory(
-			new \ILIAS\UI\Implementation\Component\SignalGenerator()
-		);
+		$f = $this->getUIFactory();
+
 		if($label === '') {
 			$label = (string)($val+1);
 		}
@@ -297,9 +292,7 @@ class Renderer extends AbstractComponentRenderer
 		$prev = max(0, $component->getCurrentPage() - 1);
 		$next = $component->getCurrentPage() + 1;
 
-		$f = new \ILIAS\UI\Implementation\Factory(
-			new \ILIAS\UI\Implementation\Component\SignalGenerator()
-		);
+		$f = $this->getUIFactory();
 
 		if($component->getTriggeredSignals()) {
 			$back = $f->glyph()->back('')->withOnClick($component->getInternalSignal());

@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\Component as IC;
 
 /**
  * Test on Message Box implementation.
@@ -36,6 +37,30 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	, C\MessageBox\MessageBox::INFO				=> "alert-info"
 	, C\MessageBox\MessageBox::CONFIRMATION		=> "alert-warning"
 	);
+
+	public function getUIFactory() {
+		return new \ILIAS\UI\Implementation\Factory(
+			$this->createMock(C\Counter\Factory::class),
+			$this->createMock(C\Glyph\Factory::class),
+			$this->createMock(C\Button\Factory::class),
+            new IC\Listing\Factory(),
+			$this->createMock(C\Image\Factory::class),
+			$this->createMock(C\Panel\Factory::class),
+			$this->createMock(C\Modal\Factory::class),
+			$this->createMock(C\Dropzone\Factory::class),
+			$this->createMock(C\Popover\Factory::class),
+			$this->createMock(C\Divider\Factory::class),
+			$this->createMock(C\Link\Factory::class),
+			$this->createMock(C\Dropdown\Factory::class),
+			$this->createMock(C\Item\Factory::class),
+			$this->createMock(C\Icon\Factory::class),
+			$this->createMock(C\ViewControl\Factory::class),
+			$this->createMock(C\Chart\Factory::class),
+			$this->createMock(C\Input\Factory::class),
+			$this->createMock(C\Table\Factory::class),
+			$this->createMock(C\MessageBox\Factory::class)
+		);
+	}
 
 
 	/**

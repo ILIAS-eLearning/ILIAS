@@ -22521,7 +22521,50 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
-<#5291>
+<#5291> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5292> 
+<?php
+try
+{
+	require_once 'Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationQueries.php';
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+		'Read Test Participants Learning Progress',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_ACCESS_RESULTS,
+		'Access Test Participants Results',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
+		'Manage Test Participants',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+		'Score Test Participants',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+}
+catch(ilException $e)
+{
+}
+?>
+<#5293> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5294>
 <?php
 if (!$ilDB->tableExists('tos_documents')) {
 	$fields = [
@@ -22574,7 +22617,7 @@ if (!$ilDB->tableExists('tos_documents')) {
 	$ilDB->createSequence('tos_documents');
 }
 ?>
-<#5292>
+<#5295>
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	$ilDB->addTableColumn('tos_documents', 'text', [
@@ -22584,7 +22627,7 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	]);
 }
 ?>
-<#5293>
+<#5296>
 <?php
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$fields = [
@@ -22642,7 +22685,7 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$ilDB->createSequence('tos_criterion_to_doc');
 }
 ?>
-<#5294>
+<#5297>
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 	$ilDB->addTableColumn('tos_versions', 'doc_id',[
@@ -22669,19 +22712,19 @@ if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
 	]);
 }
 ?>
-<#5295>
+<#5298>
 <?php
 if ($ilDB->indexExistsByFields('tos_versions',['hash', 'lng'])) {
 	$ilDB->dropIndexByFields('tos_versions', ['hash', 'lng']);
 }
 ?>
-<#5296>
+<#5299>
 <?php
 if (!$ilDB->indexExistsByFields('tos_versions', ['hash', 'doc_id'])) {
 	$ilDB->addIndex('tos_versions', ['hash', 'doc_id'], 'i1');
 }
 ?>
-<#5297>
+<#5300>
 <?php
 $dbStep = $nr;
 $globalAgreementPath = './Customizing/global/agreement';
@@ -22727,9 +22770,9 @@ if ('de' === strtolower($language)) {
 
 $i = 0;
 foreach ([
-	'client-independent' => $globalAgreementPath,
-	'client-related' => $clientAgreementPath,
-	] as $type => $path) {
+			 'client-independent' => $globalAgreementPath,
+			 'client-related' => $clientAgreementPath,
+		 ] as $type => $path) {
 	if (!file_exists($path) || !is_dir($path)) {
 		$GLOBALS['ilLog']->info(sprintf(
 			"DB Step %s: Path '%s' not found or not a directory", $dbStep, $path
@@ -22843,7 +22886,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
-<#5298>
+<#5301>
 <?php
 // Migrate accepted criteria for missing documents (file did not exists during migration)
 $ilDB->manipulateF("
@@ -22873,7 +22916,7 @@ $ilDB->manipulateF("
 	['usr_language', '[{"id":"usr_language","value":', '}]']
 );
 ?>
-<#5299>
+<#5302>
 <?php
 if ($ilDB->tableColumnExists('tos_versions', 'lng')) {
 	$ilDB->dropTableColumn('tos_versions', 'lng');
@@ -22886,4 +22929,8 @@ if ($ilDB->tableColumnExists('tos_versions', 'src_type')) {
 if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 	$ilDB->dropTableColumn('tos_versions', 'src');
 }
+?>
+<#5303>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
