@@ -10417,7 +10417,7 @@ tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
 tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached. 
 tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
