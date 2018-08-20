@@ -326,7 +326,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	{
 		$modal = $this->uiFactory
 			->modal()
-			->lightbox([$this->uiFactory->modal()->lightboxTextPage($row['title'], $row['text'])]);
+			->lightbox([$this->uiFactory->modal()->lightboxTextPage($row['text'], $row['title'])]);
 
 		$titleLink = $this->uiFactory
 			->button()

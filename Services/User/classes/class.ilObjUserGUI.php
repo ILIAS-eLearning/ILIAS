@@ -2685,8 +2685,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$modal = $this->uiFactory
 					->modal()
-					->lightbox([$this->uiFactory->modal()->lightboxTextPage(
-						$entity->getTitle(), $entity->getText())
+					->lightbox([
+						$this->uiFactory->modal()->lightboxTextPage($entity->getText(), $entity->getTitle())
 					]);
 
 				$titleLink = $this->uiFactory
