@@ -201,4 +201,37 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 		$gateway = new \ilTermsOfServiceAcceptanceDatabaseGateway($database);
 		$gateway->deleteAcceptanceHistoryByUser($entity);
 	}
+
+	/**
+	 *
+	 */
+	public function testAcceptanceHistoryRecordCanBeLoadedById()
+	{
+		$entity = new \ilTermsOfServiceAcceptanceEntity();
+
+		$expected = [
+			'id' => 4711,
+			'title' => 'Document PHP Unit',
+			'doc_id' => 4711,
+			'criteria' => '',
+			'text' => 'PHP Unit',
+			'hash' => md5('PHP Unit'),
+		];
+
+		$database = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+		$database
+			->expects($this->once())
+			->method('fetchAssoc')
+			->will($this->onConsecutiveCalls($expected));
+
+		$gateway = new \ilTermsOfServiceAcceptanceDatabaseGateway($database);
+		$gateway->loadById($entity);
+
+		$this->assertEquals($expected['id'], $entity->getId());
+		$this->assertEquals($expected['doc_id'], $entity->getDocumentId());
+		$this->assertEquals($expected['title'], $entity->getTitle());
+		$this->assertEquals($expected['criteria'], $entity->getCriteria());
+		$this->assertEquals($expected['text'], $entity->getText());
+		$this->assertEquals($expected['hash'], $entity->getHash());
+	}
 }

@@ -111,7 +111,6 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 
 		$entity->setId($row['id']);
 		$entity->setText($row['text']);
-		$entity->setTimestamp($row['ts']);
 		$entity->setHash($row['hash']);
 		$entity->setDocumentId($row['doc_id']);
 		$entity->setTitle($row['title']);
