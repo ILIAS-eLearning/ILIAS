@@ -24,9 +24,8 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 	 */
 	public function trackAcceptance(\ilTermsOfServiceAcceptanceEntity $entity)
 	{
-		$query = 'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s';
 		$res = $this->db->queryF(
-			$query,
+			'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s',
 			array('text', 'integer'),
 			array($entity->getHash(), $entity->getDocumentId())
 		);
