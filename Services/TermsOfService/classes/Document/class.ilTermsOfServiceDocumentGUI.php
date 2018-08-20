@@ -197,7 +197,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$documentTableGui->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_DOCUMENTS));
 		$documentTableGui->populate();
 
+		$this->tpl->setCurrentBlock('mess');
 		$this->tpl->setVariable('MESSAGE', $this->getResetMessageBoxHtml());
+		$this->tpl->parseCurrentBlock('mess');
 		$this->tpl->setContent($documentTableGui->getHTML());
 	}
 
