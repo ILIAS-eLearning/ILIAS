@@ -347,10 +347,10 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			return $value;
 		}
 
-		$sortingField = new \ilTextInputGUI('', 'sorting[' . $row['id'] . ']');
+		$sortingField = new \ilNumberInputGUI('', 'sorting[' . $row['id'] . ']');
 		$sortingField->setValue($value);
-		$sortingField->setMaxLength(5);
-		$sortingField->setSize(4);
+		$sortingField->setMaxLength(4);
+		$sortingField->setSize(2);
 
 		return $sortingField->render('toolbar');
 	}
