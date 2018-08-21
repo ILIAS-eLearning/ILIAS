@@ -13,52 +13,52 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 {
-	/** @var \ilTermsOfServiceTableDataProviderFactory */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceTableDataProviderFactory */
 	protected $tableDataProviderFactory;
 
-	/** @var \ilObjTermsOfService */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilObjTermsOfService */
 	protected $tos;
 
-	/** @var \ilTemplate */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTemplate */
 	protected $tpl;
 
-	/** @var \ilCtrl */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilCtrl */
 	protected $ctrl;
 
-	/** @var \ilLanguage */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage */
 	protected $lng;
 
-	/** @var \ilRbacSystem */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilRbacSystem */
 	protected $rbacsystem;
 
-	/** @var \ilErrorHandling */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilErrorHandling */
 	protected $error;
 
-	/** @var \ilObjUser */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilObjUser */
 	protected $user;
 
-	/** @var \ilLogger */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilLogger */
 	protected $log;
 
-	/** @var Factory */
+	/** @var PHPUnit_Framework_MockObject_MockObject|Factory */
 	protected $uiFactory;
 
-	/** @varRenderer */
+	/** @var PHPUnit_Framework_MockObject_MockObject|Renderer */
 	protected $uiRenderer;
 
-	/** @var ILIAS\HTTP\GlobalHttpState */
+	/** @var PHPUnit_Framework_MockObject_MockObject|ILIAS\HTTP\GlobalHttpState */
 	protected $httpState;
 
-	/** @var \ilToolbarGUI */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilToolbarGUI */
 	protected $toolbar;
 
-	/** @var FileUpload */
+	/** @var PHPUnit_Framework_MockObject_MockObject|FileUpload */
 	protected $fileUpload;
 
-	/** @var Filesystems */
+	/** @var PHPUnit_Framework_MockObject_MockObject|Filesystems */
 	protected $fileSystems;
 
-	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
 
 	/**
@@ -70,7 +70,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 		$this->tos                      = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 		$this->criterionTypeFactory     = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-		$this->tpl                      = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+		$this->tpl                      = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
 		$this->ctrl                     = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
 		$this->lng                      = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$this->rbacsystem               = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
@@ -89,8 +89,47 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function testWritePermissionIsCheckedOnWriteOperations()
+	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing()
 	{
+		$this->tos
+			->expects($this->any())
+			->method('getRefId')
+			->willReturn(4711);
+
+		$this->ctrl
+			->expects($this->any())
+			->method('getCmd')
+			->willReturnOnConsecutiveCalls(
+				'default_____read',
+				'confirmReset', 'reset',
+				'saveAddDocumentForm', 'showAddDocumentForm',
+				'saveEditDocumentForm', 'showEditDocumentForm',
+				'deleteDocuments', 'saveDocumentSorting',
+				'showAttachCriterionForm', 'saveAttachCriterionForm',
+				'showChangeCriterionForm', 'saveChangeCriterionForm',
+				'detachCriterionAssignment'
+			);
+
+		$this->rbacsystem
+			->expects($this->exactly(27))
+			->method('checkAccess')
+			->willReturnOnConsecutiveCalls(
+				false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false,
+				true, false
+			);
+
 		$gui = new \ilTermsOfServiceDocumentGUI(
 			$this->tos, $this->criterionTypeFactory, $this->tpl,
 			$this->user, $this->ctrl, $this->lng,
@@ -99,5 +138,22 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
 			$this->tableDataProviderFactory
 		);
+
+		$this->error
+			->expects($this->any())
+			->method('raiseError')
+			->willThrowException(new \ilException('no_permission'));
+
+		for ($i = 0; $i < 14; $i++) {
+			try {
+				$gui->executeCommand();
+			} catch (\ilException $e) {
+				$this->assertEquals(
+					'no_permission',
+					'no_permission',
+					'Failed asserting exception is raised when permissions are missing'
+				);
+			}
+		}
 	}
 }
