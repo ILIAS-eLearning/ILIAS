@@ -20,6 +20,7 @@ class ilObjFile extends ilObject2 {
 
 	const MODE_FILELIST = "filelist";
 	const MODE_OBJECT = "object";
+	CONST DB_FILE_TABLE_NAME = "ilias.file_data";
 	/**
 	 * @var bool
 	 */
@@ -1234,7 +1235,16 @@ class ilObjFile extends ilObject2 {
 		                                                    . $ilUser->getId());
 
 		// get id of newest entry
-		$new_version = $this->getSpecificVersion($ilDB->getLastInsertId());
+		$entries = ilHistory::_getEntriesForObject($this->getId());
+		$newest_entry_id = 0;
+		foreach($entries as $entry)
+		{
+			if($entry["action"] == "rollback")
+			{
+				$newest_entry_id = $entry["hist_entry_id"];
+			}
+		}
+		$new_version = $this->getSpecificVersion($newest_entry_id);
 
 		// change user back to the original uploader
 		ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);
