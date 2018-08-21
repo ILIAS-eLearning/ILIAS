@@ -1,17 +1,15 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Filesystem\Filesystems;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class ilTermsOfServiceDocumentGUITest
+ * Class ilTermsOfServiceAcceptanceHistoryGUITest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
+class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
 {
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceTableDataProviderFactory */
 	protected $tableDataProviderFactory;
@@ -34,29 +32,14 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilErrorHandling */
 	protected $error;
 
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilObjUser */
-	protected $user;
-
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilLogger */
-	protected $log;
-
 	/** @var PHPUnit_Framework_MockObject_MockObject|Factory */
 	protected $uiFactory;
 
 	/** @var PHPUnit_Framework_MockObject_MockObject|Renderer */
 	protected $uiRenderer;
 
-	/** @var PHPUnit_Framework_MockObject_MockObject|ILIAS\HTTP\GlobalHttpState */
-	protected $httpState;
-
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilToolbarGUI */
-	protected $toolbar;
-
-	/** @var PHPUnit_Framework_MockObject_MockObject|FileUpload */
-	protected $fileUpload;
-
-	/** @var PHPUnit_Framework_MockObject_MockObject|Filesystems */
-	protected $fileSystems;
+	/** @var PHPUnit_Framework_MockObject_MockObject|ServerRequestInterface */
+	protected $request;
 
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
@@ -75,47 +58,16 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$this->lng                      = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$this->rbacsystem               = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
 		$this->error                    = $this->getMockBuilder(\ilErrorHandling::class)->disableOriginalConstructor()->getMock();
-		$this->user                     = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
-		$this->log                      = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
-		$this->toolbar                  = $this->getMockBuilder(\ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
-		$this->httpState                = $this->getMockBuilder(GlobalHttpState::class)->disableOriginalConstructor()->getMock();
+		$this->request                  = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
 		$this->uiFactory                = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
 		$this->uiRenderer               = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
-		$this->fileSystems              = $this->getMockBuilder(Filesystems::class)->disableOriginalConstructor()->getMock();
-		$this->fileUpload               = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock();
 		$this->tableDataProviderFactory = $this->getMockBuilder(\ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
 	}
 
 	/**
-	 * @return string[]
-	 */
-	public function commandProvider(): array
-	{
-		return [
-			['default_____read', [false]],
-			['confirmReset', [true, false]],
-			['reset', [true, false]],
-			['saveAddDocumentForm', [true, false]],
-			['showAddDocumentForm', [true, false]],
-			['saveEditDocumentForm', [true, false]],
-			['showEditDocumentForm', [true, false]],
-			['deleteDocuments', [true, false]],
-			['saveDocumentSorting', [true, false]],
-			['showAttachCriterionForm', [true, false]],
-			['saveAttachCriterionForm', [true, false]],
-			['showChangeCriterionForm', [true, false]],
-			['saveChangeCriterionForm', [true, false]],
-			['detachCriterionAssignment', [true, false]]
-		];
-	}
-
-	/**
-	 * @dataProvider commandProvider
 	 * @expectedException \ilException
-	 * @param string $command
-	 * @param bool[] $accessResults
 	 */
-	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults)
+	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing()
 	{
 		$this->tos
 			->expects($this->any())
@@ -123,34 +75,28 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			->willReturn(4711);
 
 		$this->ctrl
-			->expects($this->once())
+			->expects($this->any())
 			->method('getCmd')
-			->willReturn($command);
+			->willReturnOnConsecutiveCalls(
+				'showAcceptanceHistory'
+			);
 
-		$accessResultCounter = 0;
 		$this->rbacsystem
-			->expects($this->exactly(count($accessResults)))
+			->expects($this->any())
 			->method('checkAccess')
-			->willReturnCallback(function() use ($accessResults, &$accessResultCounter) {
-				$result = $accessResults[$accessResultCounter];
-
-				$accessResultCounter++;
-
-				return $result;
-			});
+			->willReturn(false);
 
 		$this->error
 			->expects($this->any())
 			->method('raiseError')
 			->willThrowException(new \ilException('no_permission'));
 
-		$gui = new \ilTermsOfServiceDocumentGUI(
+		$gui = new \ilTermsOfServiceAcceptanceHistoryGUI(
 			$this->tos, $this->criterionTypeFactory, $this->tpl,
-			$this->user, $this->ctrl, $this->lng,
-			$this->rbacsystem, $this->error, $this->log,
-			$this->toolbar, $this->httpState, $this->uiFactory,
-			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
-			$this->tableDataProviderFactory
+			$this->ctrl, $this->lng,
+			$this->rbacsystem, $this->error,
+			$this->request, $this->uiFactory,
+			$this->uiRenderer, $this->tableDataProviderFactory
 		);
 
 		$this->assertException(\ilException::class);
