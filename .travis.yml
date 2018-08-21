@@ -1,0 +1,6 @@
+language: php 
+php:
+    - 7.0
+    - 7.1
+install: cd ./libs/composer && composer install && cd ../..
+script: ./run_tests.sh
