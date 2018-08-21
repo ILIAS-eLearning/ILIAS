@@ -157,4 +157,126 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 		$gui->executeCommand();
 	}
+
+	public function testLastResetDateIsDisplayedInMessageWhenAgreementsHaveBeenResetAtLeastOnce()
+	{
+		$this->setGlobalVariable('lng', clone $this->lng);
+		$this->setGlobalVariable('ilUser', clone $this->user);
+
+		$this->tos
+			->expects($this->any())
+			->method('getRefId')
+			->willReturn(4711);
+
+		$lastResetDate = $this->getMockBuilder(\ilDate::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$date = new \DateTime();
+
+		$lastResetDate->setDate($date->getTimestamp(), IL_CAL_UNIX);
+		$lastResetDate
+			->expects($this->any())
+			->method('get')
+			->willReturn([
+				'seconds' => (int)$date->format('s'),
+				'minutes' => (int)$date->format('i'),
+				'hours'   => (int)$date->format('G'),
+				'mday'    => (int)$date->format('j'),
+				'wday'    => (int)$date->format('w'),
+				'mon'     => (int)$date->format('n'),
+				'year'    => (int)$date->format('Y'),
+				'yday'    => (int)$date->format('z'),
+				'weekday' => $date->format('l'),
+				'month'   => $date->format('F'),
+				'isoday'  => (int)$date->format('N')
+			]);
+		$lastResetDate
+			->expects($this->any())
+			->method('isNull')
+			->willReturn(true); // Required because of \ilDatePresentation static calls
+
+		$this->tos
+			->expects($this->any())
+			->method('getLastResetDate')
+			->willReturn($lastResetDate);
+
+		$this->ctrl
+			->expects($this->once())
+			->method('getCmd')
+			->willReturn('getResetMessageBoxHtml');
+
+		$this->ctrl
+			->expects($this->once())
+			->method('getLinkTarget')
+			->with($this->isInstanceOf( \ilTermsOfServiceDocumentGUI::class), 'confirmReset')
+			->willReturn('confirmReset');
+
+		$this->rbacsystem
+			->expects($this->any())
+			->method('checkAccess')
+			->willReturn(true);
+
+		$buttonFactory = $this->getMockBuilder(\ILIAS\UI\Component\Button\Factory::class)->getMock();
+		$button = $this->getMockBuilder(\ILIAS\UI\Component\Button\Standard::class)->getMock();
+
+		$buttonFactory
+			->expects($this->once())
+			->method('standard')
+			->with($this->isType('string'), $this->equalTo('confirmReset'))
+			->willReturn($button);
+
+		$this->uiFactory
+			->expects($this->once())
+			->method('button')
+			->willReturn($buttonFactory);
+
+		$messageBoxFactory = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\Factory::class)->getMock();
+		$info = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\MessageBox::class)->getMock();
+
+		$messageBoxFactory
+			->expects($this->once())
+			->method('info')
+			->with($this->stringContains('Some date:'))
+			->willReturn($info);
+
+		$info
+			->expects($this->once())
+			->method('withButtons')
+			->with($this->countOf(1));
+
+		$this->uiFactory
+			->expects($this->once())
+			->method('messageBox')
+			->willReturn($messageBoxFactory);
+
+		$this->error
+			->expects($this->never())
+			->method('raiseError')
+			->willThrowException(new \ilException('no_permission'));
+
+		$this->uiRenderer
+			->expects($this->any())
+			->method('render')
+			->willReturn('');
+
+		$this->lng
+			->expects($this->exactly(2))
+			->method('txt')
+			->willReturnOnConsecutiveCalls(
+				'Some date: %s',
+				'Some button text'
+			);
+
+		$gui = new \ilTermsOfServiceDocumentGUI(
+			$this->tos, $this->criterionTypeFactory, $this->tpl,
+			$this->user, $this->ctrl, $this->lng,
+			$this->rbacsystem, $this->error, $this->log,
+			$this->toolbar, $this->httpState, $this->uiFactory,
+			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
+			$this->tableDataProviderFactory
+		);
+
+		$gui->executeCommand();
+	}
 }
