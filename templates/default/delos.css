@@ -7267,6 +7267,31 @@ hr.il-divider-with-label {
 .dropdown h6 {
   margin: 3px 0;
 }
+.dropdown-menu {
+  background-color: white;
+  font-weight: normal;
+  border: 0 none;
+  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+}
+.dropdown-menu li > .btn {
+  display: block;
+  width: 100%;
+  clear: both;
+  padding: 3px 10px;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.42857143;
+  background-color: transparent;
+  color: #5d5d5d;
+  white-space: nowrap;
+}
+.dropdown-menu li > .btn:hover,
+.dropdown-menu li > .btn:focus {
+  text-decoration: none;
+  color: #262626;
+  background-color: #ecf0f4;
+}
 .il-item {
   background-color: white;
   position: relative;
