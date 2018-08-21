@@ -20,7 +20,6 @@ class ilObjFile extends ilObject2 {
 
 	const MODE_FILELIST = "filelist";
 	const MODE_OBJECT = "object";
-	CONST DB_FILE_TABLE_NAME = "ilias.file_data";
 	/**
 	 * @var bool
 	 */
