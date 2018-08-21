@@ -68,21 +68,21 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		parent::setUp();
 
-		$this->tos                      = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
-		$this->criterionTypeFactory     = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-		$this->tpl                      = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
-		$this->ctrl                     = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
-		$this->lng                      = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
-		$this->rbacsystem               = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
-		$this->error                    = $this->getMockBuilder(\ilErrorHandling::class)->disableOriginalConstructor()->getMock();
-		$this->user                     = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
-		$this->log                      = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
-		$this->toolbar                  = $this->getMockBuilder(\ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
-		$this->httpState                = $this->getMockBuilder(GlobalHttpState::class)->disableOriginalConstructor()->getMock();
-		$this->uiFactory                = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-		$this->uiRenderer               = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
-		$this->fileSystems              = $this->getMockBuilder(Filesystems::class)->disableOriginalConstructor()->getMock();
-		$this->fileUpload               = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock();
+		$this->tos = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
+		$this->criterionTypeFactory = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
+		$this->tpl = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
+		$this->ctrl = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
+		$this->lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
+		$this->rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$this->error = $this->getMockBuilder(\ilErrorHandling::class)->disableOriginalConstructor()->getMock();
+		$this->user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
+		$this->log = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$this->toolbar = $this->getMockBuilder(\ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
+		$this->httpState = $this->getMockBuilder(GlobalHttpState::class)->disableOriginalConstructor()->getMock();
+		$this->uiFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+		$this->uiRenderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
+		$this->fileSystems = $this->getMockBuilder(Filesystems::class)->disableOriginalConstructor()->getMock();
+		$this->fileUpload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock();
 		$this->tableDataProviderFactory = $this->getMockBuilder(\ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
 	}
 
@@ -131,7 +131,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$this->rbacsystem
 			->expects($this->exactly(count($accessResults)))
 			->method('checkAccess')
-			->willReturnCallback(function() use ($accessResults, &$accessResultCounter) {
+			->willReturnCallback(function () use ($accessResults, &$accessResultCounter) {
 				$result = $accessResults[$accessResultCounter];
 
 				$accessResultCounter++;
@@ -185,15 +185,15 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			->willReturn([
 				'seconds' => (int)$date->format('s'),
 				'minutes' => (int)$date->format('i'),
-				'hours'   => (int)$date->format('G'),
-				'mday'    => (int)$date->format('j'),
-				'wday'    => (int)$date->format('w'),
-				'mon'     => (int)$date->format('n'),
-				'year'    => (int)$date->format('Y'),
-				'yday'    => (int)$date->format('z'),
+				'hours' => (int)$date->format('G'),
+				'mday' => (int)$date->format('j'),
+				'wday' => (int)$date->format('w'),
+				'mon' => (int)$date->format('n'),
+				'year' => (int)$date->format('Y'),
+				'yday' => (int)$date->format('z'),
 				'weekday' => $date->format('l'),
-				'month'   => $date->format('F'),
-				'isoday'  => (int)$date->format('N')
+				'month' => $date->format('F'),
+				'isoday' => (int)$date->format('N')
 			]);
 
 		$lastResetDate
@@ -214,7 +214,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$this->ctrl
 			->expects($this->once())
 			->method('getLinkTarget')
-			->with($this->isInstanceOf( \ilTermsOfServiceDocumentGUI::class), 'confirmReset')
+			->with($this->isInstanceOf(\ilTermsOfServiceDocumentGUI::class), 'confirmReset')
 			->willReturn('confirmReset');
 
 		$this->rbacsystem
@@ -257,11 +257,10 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 		$this->error
 			->expects($this->never())
-			->method('raiseError')
-			->willThrowException(new \ilException('no_permission'));
+			->method('raiseError');
 
 		$this->uiRenderer
-			->expects($this->any())
+			->expects($this->atLeast(1))
 			->method('render')
 			->willReturn('');
 
@@ -324,7 +323,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$this->ctrl
 			->expects($this->once())
 			->method('getLinkTarget')
-			->with($this->isInstanceOf( \ilTermsOfServiceDocumentGUI::class), 'confirmReset')
+			->with($this->isInstanceOf(\ilTermsOfServiceDocumentGUI::class), 'confirmReset')
 			->willReturn('confirmReset');
 
 		$this->rbacsystem
@@ -367,11 +366,10 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 		$this->error
 			->expects($this->never())
-			->method('raiseError')
-			->willThrowException(new \ilException('no_permission'));
+			->method('raiseError');
 
 		$this->uiRenderer
-			->expects($this->any())
+			->expects($this->atLeast(1))
 			->method('render')
 			->willReturn('');
 
