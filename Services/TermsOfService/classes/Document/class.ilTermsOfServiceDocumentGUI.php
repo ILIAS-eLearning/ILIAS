@@ -43,7 +43,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/** @var Factory */
 	protected $uiFactory;
 
-	/** @varRenderer */
+	/** @var Renderer */
 	protected $uiRenderer;
 
 	/** @var ILIAS\HTTP\GlobalHttpState */
