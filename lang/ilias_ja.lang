@@ -14181,13 +14181,6 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-<<<<<<< HEAD
-cmps#:#cmps_must_installed#:#The component must be installed.###20 06 2018 new variable
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.###20 06 2018 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###20 06 2018 new variable
-dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###20 06 2018 new variable
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###20 06 2018 new variable
-=======
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###25 07 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###25 07 2018 new variable
 rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###25 07 2018 new variable
@@ -14197,4 +14190,3 @@ dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has 
 chatroom#:#chatroom_client_name#:#Name###25 07 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###25 07 2018 new variable
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###25 07 2018 new variable
->>>>>>> release_5-3
