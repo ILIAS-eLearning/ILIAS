@@ -238,14 +238,6 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	}
 
 	/**
-	 * @return string
-	 */
-	protected function getUniqueCriterionListingAttribute(): string
-	{
-		return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
-	}
-
-	/**
 	 * @param string $column
 	 * @param array $row
 	 * @return string
@@ -293,16 +285,18 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion->getCriterionId(), true);
 			$typeGui = $criterionType->getGUI($this->lng);
 
-			$items[$typeGui->getIdentPresentation() . $this->getUniqueCriterionListingAttribute()] = 
-				$this->uiFactory->legacy(implode('', [
+			$items[implode(' ', [
+				$typeGui->getIdentPresentation(),
+				($this->isEditable ? $this->uiRenderer->render([$dropDown, $deleteModal]) : '')
+			])] = 
+				$this->uiFactory->legacy(
 					$this->uiRenderer->render(
 						$typeGui->getValuePresentation(
 							$criterion->getCriterionValue(),
 							$this->uiFactory
 						)
-					),
-					($this->isEditable ? $this->uiRenderer->render([$dropDown, $deleteModal]) : '')
-				]));
+					)
+				);
 
 			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
 			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', null);

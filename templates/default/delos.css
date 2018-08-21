@@ -15547,6 +15547,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
+#tos_documents td.std .dropdown {
+  display: inline-block;
+}
 /* Services/UIComponent/Modal */
 .modal-body .jstree li {
   overflow: hidden;
