@@ -158,7 +158,10 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$gui->executeCommand();
 	}
 
-	public function testLastResetDateIsDisplayedInMessageWhenAgreementsHaveBeenResetAtLeastOnce()
+	/**
+	 *
+	 */
+	public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce()
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
@@ -175,6 +178,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$date = new \DateTime();
 
 		$lastResetDate->setDate($date->getTimestamp(), IL_CAL_UNIX);
+
 		$lastResetDate
 			->expects($this->any())
 			->method('get')
@@ -191,6 +195,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 				'month'   => $date->format('F'),
 				'isoday'  => (int)$date->format('N')
 			]);
+
 		$lastResetDate
 			->expects($this->any())
 			->method('isNull')
@@ -265,6 +270,116 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			->method('txt')
 			->willReturnOnConsecutiveCalls(
 				'Some date: %s',
+				'Some button text'
+			);
+
+		$gui = new \ilTermsOfServiceDocumentGUI(
+			$this->tos, $this->criterionTypeFactory, $this->tpl,
+			$this->user, $this->ctrl, $this->lng,
+			$this->rbacsystem, $this->error, $this->log,
+			$this->toolbar, $this->httpState, $this->uiFactory,
+			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
+			$this->tableDataProviderFactory
+		);
+
+		$gui->executeCommand();
+	}
+
+	/**
+	 *
+	 */
+	public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce()
+	{
+		$this->setGlobalVariable('lng', clone $this->lng);
+		$this->setGlobalVariable('ilUser', clone $this->user);
+
+		$this->tos
+			->expects($this->any())
+			->method('getRefId')
+			->willReturn(4711);
+
+		$lastResetDate = $this->getMockBuilder(\ilDate::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lastResetDate
+			->expects($this->any())
+			->method('get')
+			->willReturn(0);
+		$lastResetDate
+			->expects($this->any())
+			->method('isNull')
+			->willReturn(true);
+
+		$this->tos
+			->expects($this->any())
+			->method('getLastResetDate')
+			->willReturn($lastResetDate);
+
+		$this->ctrl
+			->expects($this->once())
+			->method('getCmd')
+			->willReturn('getResetMessageBoxHtml');
+
+		$this->ctrl
+			->expects($this->once())
+			->method('getLinkTarget')
+			->with($this->isInstanceOf( \ilTermsOfServiceDocumentGUI::class), 'confirmReset')
+			->willReturn('confirmReset');
+
+		$this->rbacsystem
+			->expects($this->any())
+			->method('checkAccess')
+			->willReturn(true);
+
+		$buttonFactory = $this->getMockBuilder(\ILIAS\UI\Component\Button\Factory::class)->getMock();
+		$button = $this->getMockBuilder(\ILIAS\UI\Component\Button\Standard::class)->getMock();
+
+		$buttonFactory
+			->expects($this->once())
+			->method('standard')
+			->with($this->isType('string'), $this->equalTo('confirmReset'))
+			->willReturn($button);
+
+		$this->uiFactory
+			->expects($this->once())
+			->method('button')
+			->willReturn($buttonFactory);
+
+		$messageBoxFactory = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\Factory::class)->getMock();
+		$info = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\MessageBox::class)->getMock();
+
+		$messageBoxFactory
+			->expects($this->once())
+			->method('info')
+			->with($this->stringContains('Agreements never reset'))
+			->willReturn($info);
+
+		$info
+			->expects($this->once())
+			->method('withButtons')
+			->with($this->countOf(1));
+
+		$this->uiFactory
+			->expects($this->once())
+			->method('messageBox')
+			->willReturn($messageBoxFactory);
+
+		$this->error
+			->expects($this->never())
+			->method('raiseError')
+			->willThrowException(new \ilException('no_permission'));
+
+		$this->uiRenderer
+			->expects($this->any())
+			->method('render')
+			->willReturn('');
+
+		$this->lng
+			->expects($this->exactly(2))
+			->method('txt')
+			->willReturnOnConsecutiveCalls(
+				'Agreements never reset',
 				'Some button text'
 			);
 
