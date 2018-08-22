@@ -1109,8 +1109,8 @@ class ilForum
 			$query = "SELECT
 					  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
-					  COUNT(DISTINCT(pos_pk)) num_posts, 
-					  COUNT(DISTINCT(pos_pk)) - COUNT(DISTINCT(postread.post_id)) num_unread_posts, ";
+					  SUM(tree1.parent_pos != 0) num_posts, 
+					  SUM(tree1.parent_pos != 0) - COUNT(DISTINCT(postread.post_id)) num_unread_posts, ";
 
 			// new posts query  
 			if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
@@ -1142,7 +1142,8 @@ class ilForum
 					  
 					  LEFT JOIN frm_posts
 						ON pos_thr_fk = thr_pk $active_query
-					  
+					  LEFT JOIN frm_posts_tree tree1
+					    ON tree1.pos_fk = frm_posts.pos_pk 
 					  LEFT JOIN frm_user_read postread
 						ON postread.post_id = pos_pk
 						AND postread.usr_id = %s";
@@ -1206,7 +1207,10 @@ class ilForum
 					  FROM frm_threads
 					  
 					  LEFT JOIN frm_posts
-						ON pos_thr_fk = thr_pk $active_query";
+						ON pos_thr_fk = thr_pk $active_query
+					  LEFT JOIN frm_posts_tree tree1
+					    ON tree1.pos_fk = frm_posts.pos_pk 	
+					";
 
 			$query .= " WHERE thr_top_fk = %s
 						{$excluded_ids_condition}
@@ -1268,7 +1272,7 @@ class ilForum
 							ON d.top_pk = f.pos_top_fk
 						LEFT JOIN usr_pref p
 							ON p.usr_id = u.usr_id AND p.keyword = %s
-					WHERE 1 = 1";
+					WHERE 1 = 1 AND t.parent_pos != 0";
 	
 		array_push($data_types, 'text');
 		array_push($data, 'public_profile');
@@ -1399,7 +1403,10 @@ class ilForum
 	{
 		$res = $this->db->queryf('
 			SELECT * FROM frm_data
-			INNER JOIN frm_posts ON pos_top_fk = top_pk 
+			INNER JOIN frm_posts ON pos_top_fk = top_pk
+			INNER JOIN frm_posts_tree tree1
+				ON tree1.pos_fk = frm_posts.pos_pk
+				AND tree1.parent_pos != 0  
 			WHERE top_frm_fk = %s
 			AND pos_author_id = %s',
 			array('integer', 'integer'),
@@ -1413,6 +1420,9 @@ class ilForum
 		$res = $this->db->queryf('
 			SELECT * FROM frm_data
 			INNER JOIN frm_posts ON pos_top_fk = top_pk
+			INNER JOIN frm_posts_tree tree1
+				ON tree1.pos_fk = frm_posts.pos_pk
+				AND tree1.parent_pos != 0
 			WHERE top_frm_fk = %s
 			AND (pos_status = %s
 				OR (pos_status = %s 
