@@ -254,7 +254,7 @@ class ilAccountRegistrationGUI
 		}
 
 		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
-			$document = $this->termsOfServiceEvaluation->getDocument();
+			$document = $this->termsOfServiceEvaluation->document();
 
 			$field = new ilFormSectionHeaderGUI();
 			$field->setTitle($lng->txt('usr_agreement'));
@@ -679,7 +679,7 @@ class ilAccountRegistrationGUI
 		if ($handleDocument) {
 			$helper = new \ilTermsOfServiceHelper();
 
-			$helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->getDocument());
+			$helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->document());
 		}
 
 		$hits_per_page = $ilSetting->get("hits_per_page");

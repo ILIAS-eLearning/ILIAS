@@ -40,7 +40,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 
 		$this->assertException(\ilTermsOfServiceNoSignableDocumentFoundException::class);
 
-		$evaluation->getDocument();
+		$evaluation->document();
 	}
 
 	/**
@@ -68,7 +68,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		);
 
 		$this->assertTrue($evaluation->hasDocument());
-		$this->assertEquals($doc, $evaluation->getDocument());
+		$this->assertEquals($doc, $evaluation->document());
 	}
 
 	/**
@@ -112,7 +112,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		);
 
 		$this->assertTrue($evaluation->hasDocument());
-		$this->assertEquals($doc2, $evaluation->getDocument());
+		$this->assertEquals($doc2, $evaluation->document());
 	}
 
 	/**
@@ -156,6 +156,6 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		);
 
 		$this->assertTrue($evaluation->hasDocument());
-		$this->assertEquals($doc2, $evaluation->getDocument());
+		$this->assertEquals($doc2, $evaluation->document());
 	}
 }

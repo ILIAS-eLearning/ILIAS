@@ -11,7 +11,7 @@ interface ilTermsOfServiceDocumentEvaluation
 	 * @return \ilTermsOfServiceSignableDocument
 	 * @throws \ilTermsOfServiceNoSignableDocumentFoundException
 	 */
-	public function getDocument(): \ilTermsOfServiceSignableDocument;
+	public function document(): \ilTermsOfServiceSignableDocument;
 
 	/**
 	 * @return bool

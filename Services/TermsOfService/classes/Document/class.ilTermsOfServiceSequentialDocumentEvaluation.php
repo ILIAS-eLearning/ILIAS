@@ -57,7 +57,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements \ilTermsOfServiceD
 	/**
 	 * @inheritdoc
 	 */
-	public function getDocument(): \ilTermsOfServiceSignableDocument
+	public function document(): \ilTermsOfServiceSignableDocument
 	{
 		$matchingDocuments = $this->getMatchingDocuments();
 		if (count($matchingDocuments) > 0) {
