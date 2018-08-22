@@ -946,6 +946,9 @@ class ilObjForum extends ilObject
 			$query = "
 				(SELECT COUNT(frm_posts.pos_pk) cnt
 				FROM frm_posts
+				INNER JOIN frm_posts_tree tree1
+					ON tree1.pos_fk = frm_posts.pos_pk
+					AND tree1.parent_pos != 0
 				INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
 				WHERE frm_threads.thr_top_fk = %s $act_clause)
 				
@@ -954,6 +957,9 @@ class ilObjForum extends ilObject
 				(SELECT COUNT(DISTINCT(frm_user_read.post_id)) cnt
 				FROM frm_user_read
 				INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
+				INNER JOIN frm_posts_tree tree1
+					ON tree1.pos_fk = frm_posts.pos_pk
+					AND tree1.parent_pos != 0
 				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
 				WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s $act_clause)
 			";
@@ -972,6 +978,9 @@ class ilObjForum extends ilObject
 				
 				(SELECT COUNT(frm_posts.pos_pk) cnt
 				FROM frm_posts
+				INNER JOIN frm_posts_tree tree1
+					ON tree1.pos_fk = frm_posts.pos_pk
+					AND tree1.parent_pos != 0
 				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
 				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
 				WHERE frm_posts.pos_top_fk = %s
@@ -1009,6 +1018,9 @@ class ilObjForum extends ilObject
 			$query = "
 				SELECT COUNT(frm_posts.pos_pk) cnt
 				FROM frm_posts
+				INNER JOIN frm_posts_tree tree1
+					ON tree1.pos_fk = frm_posts.pos_pk
+					AND tree1.parent_pos != 0
 				INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
 				WHERE frm_threads.thr_top_fk = %s $act_clause
 			";
@@ -1067,6 +1079,9 @@ class ilObjForum extends ilObject
 		$query = "
 			SELECT *
 			FROM frm_posts 
+			INNER JOIN frm_posts_tree tree1
+					ON tree1.pos_fk = frm_posts.pos_pk
+					AND tree1.parent_pos != 0
 			WHERE pos_top_fk = %s $act_clause
 			ORDER BY pos_date DESC
 		";
@@ -1106,13 +1121,15 @@ class ilObjForum extends ilObject
 
 		$in       = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
 		$inner_in = $ilDB->in("t3.pos_thr_fk", $thread_ids, false, 'integer');
-//@todo fix this query 'group by ... ' 
+ 
 		$query = "
 			SELECT t1.pos_display_user_id, t1.update_user
 			FROM frm_posts t1
+			INNER JOIN frm_posts_tree tree1 ON tree1.pos_fk = t1.pos_pk AND tree1.parent_pos != 0 
 			INNER JOIN (
 				SELECT t3.pos_thr_fk, MAX(t3.pos_date) pos_date
 				FROM frm_posts t3
+				INNER JOIN frm_posts_tree tree2 ON tree2.pos_fk = t3.pos_pk AND tree2.parent_pos != 0 
 				WHERE $inner_in $act_inner_clause
 				GROUP BY t3.pos_thr_fk
 			) t2 ON t2.pos_thr_fk = t1.pos_thr_fk AND t2.pos_date = t1.pos_date
