@@ -13,9 +13,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements \ilTermsOfServiceD
 	/** @var \ilObjUser */
 	protected $user;
 
-	/**
-	 * @var \ilTermsOfServiceDocument[]|null
-	 */
+	/** @var \ilTermsOfServiceDocument[]|null */
 	protected $matchingDocuments = null;
 
 	/** @var \ilTermsOfServiceSignableDocument[] */
