@@ -2530,6 +2530,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$bottom_toolbar                    = clone $this->toolbar;
 		$bottom_toolbar_split_button_items = array();
 		
+
 		$this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
 		{
@@ -2670,6 +2671,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			);
 		}
 
+		$posNum = 0;
+
 		// get forum- and thread-data
 		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
@@ -2692,7 +2695,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 			// mark all as read
 			if($this->user->getId() != ANONYMOUS_USER_ID &&
-				$forumObj->getCountUnread($this->user->getId(), (int) $this->objCurrentTopic->getId())
+				$forumObj->getCountUnread($this->user->getId(), (int) $this->objCurrentTopic->getId(), true)
 			)
 			{
 				$this->ctrl->setParameter($this, 'mark_read', '1');
@@ -2763,7 +2766,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 							$this->ctrl->redirect($this, 'createThread');
 						}
 					}
-					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'));
+					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
+					$this->ctrl->redirect($this, 'showThreads');
 				}
 			}
 
@@ -2870,13 +2874,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 				}
 			}
 
-			// generate post-dates
 			foreach($subtree_nodes as $node)
 			{
-				/**
-				 * @var $node ilForumPost 
-				 */
-				
+				/** @var $node ilForumPost */
 				$this->ctrl->clearParameters($this);
 				
 				if($this->objCurrentPost->getId() && $this->objCurrentPost->getId() == $node->getId())
@@ -3162,7 +3162,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$to_top_button->setCaption('top_of_page');
 		$to_top_button->setUrl('#frm_page_top');
 		$bottom_toolbar->addButtonInstance($to_top_button);
-		$this->tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
+		if ($posNum > 0) {
+			$this->tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
+		}
 
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
