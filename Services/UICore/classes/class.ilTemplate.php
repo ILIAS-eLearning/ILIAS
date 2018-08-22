@@ -136,7 +136,7 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 	// overwrite their init function
-    public function init()
+    protected function init()
     {
         $this->free();
         $this->buildFunctionlist();
