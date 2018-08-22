@@ -294,34 +294,36 @@ class ilForumTopic
 	* @return	integer		number of posts
 	* @access	public
 	*/
-	public function countPosts()
+	public function countPosts($ignoreRoot = false)
 	{
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
-			WHERE pos_thr_fk = %s',
+			INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
+			WHERE pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 			array('integer'), array($this->id));
 		
 		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
-	
+
 	/**
-	* Fetches and returns the number of active posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of active posts
-	* @access	public
-	*/
-	public function countActivePosts()
+	 * Fetches and returns the number of active posts for the given user id.
+	 *
+	 * @param bool $ignoreRoot
+	 * @return    integer        number of active posts
+	 * @access    public
+	 */
+	public function countActivePosts($ignoreRoot = false)
 	{
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
+			INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
 			WHERE (pos_status = %s
 				 OR (pos_status = %s AND pos_display_user_id = %s))
-			AND pos_thr_fk = %s',
+			AND pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $this->user->getId(), $this->id));
 			
 		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);

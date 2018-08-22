@@ -2802,7 +2802,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						}
 					}
 					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
-					$this->ctrl->redirect($this, 'showThreads');
+					$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
+					$this->ctrl->redirect($this, 'viewThread');
 				}
 			}
 
