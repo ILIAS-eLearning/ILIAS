@@ -161,7 +161,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 
 		foreach ($criteria as $criterion) {
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion['id'], true);
-			$typeGui = $criterionType->getGUI($this->lng);
+			$typeGui = $criterionType->ui($this->lng);
 
 			$items[
 				$typeGui->getIdentPresentation() .

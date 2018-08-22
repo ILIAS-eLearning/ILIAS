@@ -55,7 +55,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	/**
 	 * @inheritdoc
 	 */
-	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
+	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
 		return new \ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);
 	}

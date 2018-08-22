@@ -99,7 +99,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$this->assertInstanceOf(\ilTermsOfServiceUserHasLanguageCriterionGUI::class, $gui);
 
@@ -121,7 +121,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
 
@@ -146,7 +146,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 	 */
 	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceUserHasLanguageCriterion $criterion)
 	{
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$actual = $gui->getIdentPresentation();
 
@@ -183,7 +183,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 
 		$criterion = new \ilTermsOfServiceUserHasLanguageCriterion();
-		$gui = $criterion->getGUI($language);
+		$gui = $criterion->ui($language);
 
 		/** @var Legacy $actual */
 		$actual = $gui->getValuePresentation(

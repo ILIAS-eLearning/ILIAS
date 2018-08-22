@@ -29,7 +29,7 @@ class ilTermsOfServiceNullCriterion implements \ilTermsOfServiceCriterionType
 	/**
 	 * @inheritdoc
 	 */
-	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
+	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
 		return new class($lng) implements \ilTermsOfServiceCriterionTypeGUI {
 			/** @var \ilLanguage */

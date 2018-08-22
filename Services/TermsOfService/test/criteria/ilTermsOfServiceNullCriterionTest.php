@@ -83,7 +83,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	 */
 	public function testNoFormUserInterfaceElementsAreBuilt(\ilTermsOfServiceNullCriterion $criterion)
 	{
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$this->buildForm($gui);
 
@@ -96,7 +96,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	 */
 	public function testCriterionAlwaysCreateEmptyConfigValue(\ilTermsOfServiceNullCriterion $criterion)
 	{
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$form = $this->buildForm($gui);
 
@@ -116,7 +116,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	 */
 	public function testTypeIdentPresentatioEqualsANonEmptyString(\ilTermsOfServiceNullCriterion $criterion)
 	{
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$actual = $gui->getIdentPresentation();
 
@@ -130,7 +130,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	public function testValuePresentationMatchesExpectation()
 	{
 		$criterion = $this->getInstance();
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		/** @var Legacy $actual */
 		$actual = $gui->getValuePresentation(

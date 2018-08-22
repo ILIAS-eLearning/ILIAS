@@ -101,7 +101,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 			}
 			$first = false;
 
-			$criterionGui = $criterion->getGUI($this->lng);
+			$criterionGui = $criterion->ui($this->lng);
 			if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
 				$criterionGui->appendOption(
 					$criteriaSelection,
@@ -177,7 +177,7 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 
 		try {
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($this->getInput('criterion'));
-			$criterionGui = $criterionType->getGUI($this->lng);
+			$criterionGui = $criterionType->ui($this->lng);
 $id = $criterionType->getTypeIdent();
 $val = $criterionGui->getConfigByForm($this);
 

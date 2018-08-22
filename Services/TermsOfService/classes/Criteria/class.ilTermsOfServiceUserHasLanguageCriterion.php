@@ -34,7 +34,7 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 	/**
 	 * @inheritdoc
 	 */
-	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
+	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
 		return new \ilTermsOfServiceUserHasLanguageCriterionGUI($this, $lng);
 	}

@@ -48,7 +48,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType1
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionType2 = $this
@@ -62,7 +62,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType2
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionTypeFactory
@@ -131,7 +131,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType1
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionType2 = $this
@@ -145,7 +145,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType2
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionTypeFactory
@@ -217,7 +217,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType1
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionType2 = $this
@@ -231,7 +231,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType2
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionTypeFactory
@@ -344,7 +344,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType1
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($this->getMockBuilder(\ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
 		$criterionType2 = $this
@@ -365,7 +365,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$criterionType2
 			->expects($this->any())
-			->method('getGUI')
+			->method('ui')
 			->willReturn($criterionTypeGui2);
 
 		$criterionTypeFactory

@@ -283,7 +283,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				->standard([$editBtn, $deleteBtn]);
 
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion->getCriterionId(), true);
-			$typeGui = $criterionType->getGUI($this->lng);
+			$typeGui = $criterionType->ui($this->lng);
 
 			$items[implode(' ', [
 				$typeGui->getIdentPresentation(),

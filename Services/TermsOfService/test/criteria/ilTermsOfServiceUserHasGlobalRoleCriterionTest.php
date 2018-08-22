@@ -105,7 +105,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$this->assertInstanceOf(\ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
 
@@ -128,7 +128,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 		$httpCriterionSelectionBodyParameter = 'criterion';
 		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
 
@@ -153,7 +153,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	 */
 	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
 	{
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		$actual = $gui->getIdentPresentation();
 
@@ -190,7 +190,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 			->willReturn($roleTitle);
 
 		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectDataCache);
-		$gui = $criterion->getGUI($this->lng);
+		$gui = $criterion->ui($this->lng);
 
 		/** @var Legacy $actual */
 		$actual = $gui->getValuePresentation(

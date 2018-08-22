@@ -23,5 +23,5 @@ interface ilTermsOfServiceCriterionType
 	 * @param \ilLanguage $lng
 	 * @return \ilTermsOfServiceCriterionTypeGUI
 	 */
-	public function getGUI(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI;
+	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI;
 }
