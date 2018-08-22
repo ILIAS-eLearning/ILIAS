@@ -726,7 +726,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function media($a_mode = "media")
 	{
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -1377,7 +1377,7 @@ class ilGlossaryPresentationGUI
 				break;
 		}
 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		
 /*

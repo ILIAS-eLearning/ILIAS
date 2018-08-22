@@ -165,7 +165,7 @@ class ilFramesetGUI
 			$side = "LEFT";
 		}
 
-		$tpl = new ilTemplate("tpl.frameset.html", true, false);
+		$tpl = new ilGlobalTemplate("tpl.frameset.html", true, false);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		$tpl->setVariable("PAGETITLE", "- ".ilUtil::stripScriptHTML($this->frameset_title));

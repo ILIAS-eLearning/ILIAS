@@ -458,7 +458,7 @@ class ilLMPresentationGUI
 			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
-			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
+			$this->tpl = new ilGlobalTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
 			$this->renderPageTitle();
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			if (!$doshow)
@@ -515,7 +515,7 @@ class ilLMPresentationGUI
 				: false;
 			if ($in_module)
 			{
-				$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+				$this->tpl = new ilGlobalTemplate($attributes["template"], true, true, $in_module);
 				$this->tpl->setBodyClass("");
 			}
 			else
@@ -777,7 +777,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
@@ -1388,7 +1388,7 @@ class ilLMPresentationGUI
 	function ilCitation()
 	{
 		$page_id = $this->getCurrentPageId();
-		$this->tpl = new ilTemplate("tpl.page.html",true,true,true);
+		$this->tpl = new ilGlobalTemplate("tpl.page.html",true,true,true);
 		$this->ilLocator();
 		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 

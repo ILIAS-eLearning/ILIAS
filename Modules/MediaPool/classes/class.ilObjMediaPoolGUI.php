@@ -751,7 +751,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$item = new ilMediaPoolItem((int) $_GET["mepitem_id"]);
 		$mob_id = $item->getForeignId();
 
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -806,7 +806,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	{
 		$tpl = $this->tpl;
 		
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");

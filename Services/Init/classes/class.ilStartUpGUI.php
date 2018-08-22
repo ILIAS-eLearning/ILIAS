@@ -19,7 +19,7 @@ class ilStartUpGUI
 	protected $lng;
 	protected $logger;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	protected $mainTemplate;
 
 	/** @var \ilObjUser */
@@ -32,12 +32,12 @@ class ilStartUpGUI
 	 * ilStartUpGUI constructor.
 	 * @param \ilObjUser|null $user
 	 * @param \ilTermsOfServiceDocumentEvaluation|null
-	 * @param \ilTemplate|null $mainTemplate
+	 * @param \ilGlobalTemplate|null $mainTemplate
 	 */
 	public function __construct(
 		\ilObjUser $user = null,
 		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-		\ilTemplate $mainTemplate = null
+		\ilGlobalTemplate $mainTemplate = null
 	)
 	{
 		global $DIC;
@@ -1333,7 +1333,7 @@ class ilStartUpGUI
 	public function showAccountMigration($a_message = '')
 	{
 		/**
-		 * @var $tpl ilTemplate
+		 * @var $tpl ilGlobalTemplate
 		 * @var $lng ilLanguage
 		 */
 		global $tpl, $lng;
@@ -1696,7 +1696,6 @@ class ilStartUpGUI
 		}
 
 		// fix #21612
-	//	$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->hideFooter(); // no client yet
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));

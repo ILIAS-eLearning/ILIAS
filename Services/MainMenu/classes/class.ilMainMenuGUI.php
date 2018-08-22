@@ -62,7 +62,7 @@ class ilMainMenuGUI {
 	var $start_template;
 	var $mail; // [bool]
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $main_tpl;
 	protected $mode; // [int]
@@ -79,7 +79,7 @@ class ilMainMenuGUI {
 	 * @param    boolean $a_use_start_template        true means: target scripts should
 	 *                                                be called through start template
 	 */
-	public function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null) {
+	public function __construct($a_target = "_top", $a_use_start_template = false, ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl != null) {
@@ -611,7 +611,7 @@ class ilMainMenuGUI {
 	 * @param \ilTemplate $mainTpl
 	 * @param \ilLanguage $lng
 	 */
-	private function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng) {
+	private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplate $mainTpl, \ilLanguage $lng) {
 		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
 			$this->tpl->touchBlock('osd_container');
 

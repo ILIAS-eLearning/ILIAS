@@ -355,7 +355,7 @@ class ilLTIViewGUI
 		$lng->loadLanguageModule("lti");
 		$this->log("exitLti");
 		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
-			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
+			$tplExit = new ilGlobalTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
 			$tplExit->setVariable('TXT_LTI_EXITED',$lng->txt('lti_exited'));
 			$tplExit->setVariable('LTI_EXITED_INFO',$lng->txt('lti_exited_info'));
 			$html = $tplExit->get();

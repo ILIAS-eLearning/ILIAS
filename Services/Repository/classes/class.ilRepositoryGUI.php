@@ -430,7 +430,7 @@ class ilRepositoryGUI
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");

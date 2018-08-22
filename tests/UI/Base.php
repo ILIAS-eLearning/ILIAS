@@ -66,7 +66,7 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
-	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
+	public function toJS($a_key, ilGlobalTemplate $a_tpl = NULL) {
 	}
 	public $lang_module = 'common';
 	public function loadLanguageModule($lang_module) {}

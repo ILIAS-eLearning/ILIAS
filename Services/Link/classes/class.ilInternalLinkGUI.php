@@ -345,13 +345,13 @@ class ilInternalLinkGUI
 		}
 		if ($ilCtrl->isAsynch())
 		{
-			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+			$tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
 			$tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget($this,
 				"", false, true, false));
 		}
 		else
 		{
-			$tpl = new ilTemplate("tpl.link_help.html", true, true, "Services/Link");
+			$tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "Services/Link");
 			$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		}
 

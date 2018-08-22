@@ -106,7 +106,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 		// should be able to grep templates 
 		if($export)
 		{
-			$roomTpl = new ilTemplate('tpl.history_export.html', true, true, 'Modules/Chatroom');
+			$roomTpl = new iGlobalTemplate('tpl.history_export.html', true, true, 'Modules/Chatroom');
 		}
 		else
 		{

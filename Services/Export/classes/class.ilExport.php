@@ -275,7 +275,7 @@ class ilExport
 		{
 			$a_type = ilObject::_lookupType($a_obj_id);
 		}
-		$a_tpl = new ilTemplate("tpl.main.html", true, true);
+		$a_tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$a_tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$a_tpl->getStandardTemplate();

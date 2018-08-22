@@ -571,7 +571,7 @@ class ilAttendanceList
 	 */
 	public function getFullscreenHTML()
 	{		
-		$tpl = new ilTemplate('tpl.main.html',true,true);
+		$tpl = new ilGlobalTemplate('tpl.main.html',true,true);
 		$tpl->setBodyClass("ilBodyPrint");
 		
 		// load style sheet depending on user's settings

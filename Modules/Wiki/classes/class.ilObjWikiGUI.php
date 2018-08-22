@@ -1583,7 +1583,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "");
 		}		
 								
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());				
 		$this->setContentStyleSheet($tpl);
 

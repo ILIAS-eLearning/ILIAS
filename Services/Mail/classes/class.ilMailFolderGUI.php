@@ -17,7 +17,7 @@ class ilMailFolderGUI
 	/** @var bool */
 	private $errorDelete = false;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	private $tpl;
 
 	/** @var \ilCtrl */
@@ -902,7 +902,7 @@ class ilMailFolderGUI
 	 */
 	public function printMail()
 	{
-		$tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
+		$tplprint = new ilGlobalTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 		$tplprint->setVariable('JSPATH', $this->tpl->tplPath);
 
 		$mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()['mail_id'] ?? 0));

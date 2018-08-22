@@ -123,11 +123,11 @@ class ilSCORMPresentationGUI
 			// should be able to grep templates
 			if($debug)
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
 			}
 			else
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
 			}
 							
 			$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
@@ -137,11 +137,11 @@ class ilSCORMPresentationGUI
 			
 			if($debug)
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
 			}
 			else
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
 			}
 
 			$this->ctrl->setParameter($this, "autolaunch", $items[0]);
@@ -355,7 +355,7 @@ class ilSCORMPresentationGUI
 
 		$ilBench->start("SCORMExplorer", "initExplorer");
 		
-		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
 		
 		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMExplorer.php");
 		$exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
@@ -421,7 +421,7 @@ class ilSCORMPresentationGUI
 	function contentSelect() {
 		global $DIC;
 		$lng = $DIC['lng'];
-		$this->tpl = new ilTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt("seq_toc"));
 		$this->tpl->show();
@@ -477,7 +477,7 @@ class ilSCORMPresentationGUI
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
-		$this->tpl = new ilTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
 		
 		// for scorm modules with only one presentable item: launch item
 		if ($_GET["autolaunch"] != "")
@@ -554,7 +554,7 @@ class ilSCORMPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		//$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 		$href = $resource->getHref();
-		$this->tpl = new ilTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 
 		// set item data
@@ -727,7 +727,7 @@ class ilSCORMPresentationGUI
 	{
 		global $DIC;
 		$lng = $DIC['lng'];
-		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		// block not in template
@@ -767,7 +767,7 @@ class ilSCORMPresentationGUI
 
 	function unloadSahs ()
 	{
-		$this->tpl = new ilTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->show();
@@ -798,7 +798,7 @@ class ilSCORMPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		$href = $resource->getHref();
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl = new ilTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 		$this->tpl->show();
 	}

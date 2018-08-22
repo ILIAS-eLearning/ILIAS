@@ -1634,11 +1634,11 @@ class ilInitialisation
 		if ($lti->isActive()) 
 		{
 			include_once "./Services/LTI/classes/class.ilTemplate.php";
-			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
 		}
 		else 
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		}
 		
 		self::initGlobal("tpl", $tpl);

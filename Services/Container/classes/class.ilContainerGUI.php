@@ -1011,7 +1011,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$tree = $this->tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+		$tpl = new ilGlobalTemplate("tpl.container_link_help.html", true, true,
 			"Services/Container");
 		
 		$type_ordering = array(

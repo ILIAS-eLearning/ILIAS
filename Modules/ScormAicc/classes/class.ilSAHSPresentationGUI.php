@@ -188,7 +188,7 @@ class ilSAHSPresentationGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
 		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
 		$this->tpl->show("DEFAULT", false);
 		exit;
@@ -205,7 +205,7 @@ class ilSAHSPresentationGUI
 
 		$ilBench->start("SAHSExplorer", "initExplorer");
 		
-		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
 		
 		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMExplorer.php");
 		$exp = new ilSCORMExplorer("ilias.php?baseClass=ilSAHSPresentationGUI&cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
@@ -272,7 +272,7 @@ class ilSAHSPresentationGUI
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
-		$this->tpl = new ilTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
 		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
@@ -311,7 +311,7 @@ class ilSAHSPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		//$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 		$href = $resource->getHref();
-		$this->tpl = new ilTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 
 		// set item data
@@ -476,7 +476,7 @@ class ilSAHSPresentationGUI
 	{
 		global $DIC;
 		$lng = $DIC['lng'];
-		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		$this->tpl->setCurrentBlock("switch_icon");
@@ -497,7 +497,7 @@ class ilSAHSPresentationGUI
 
 	function unloadSahs ()
 	{
-		$this->tpl = new ilTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->show();
@@ -528,7 +528,7 @@ class ilSAHSPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		$href = $resource->getHref();
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl = new ilTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 		$this->tpl->show();
 	}

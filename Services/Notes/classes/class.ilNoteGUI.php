@@ -1587,7 +1587,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function exportNotesHTML()
 	{
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$this->export_html = true;
 		$this->multi_selection = false;
@@ -1665,7 +1665,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 

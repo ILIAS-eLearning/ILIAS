@@ -62,7 +62,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 					? "?".$this->sc_object->getParameters()
 					: "";
 
-				$this->tpl = new ilTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
 				$this->tpl->setVariable("ITEM_LOCATION",$slm_obj->getDataDirectory()."/".$resource->getHref().$param_str);
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);

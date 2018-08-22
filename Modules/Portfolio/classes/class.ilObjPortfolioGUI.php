@@ -1447,7 +1447,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$tpl->setBodyClass("ilPrtfPdfBody");
 
