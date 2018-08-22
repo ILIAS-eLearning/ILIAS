@@ -27,14 +27,14 @@ class ilSystemStyleSettings
 	 */
 	static function _lookupActivatedStyle($a_skin, $a_style)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$q = "SELECT count(*) cnt FROM settings_deactivated_s".
-			" WHERE skin = ".$ilDB->quote($a_skin, "text").
-			" AND style = ".$ilDB->quote($a_style, "text")." ";
+			" WHERE skin = ".$DIC->database()->quote($a_skin, "text").
+			" AND style = ".$DIC->database()->quote($a_style, "text")." ";
 
-		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $ilDB->fetchAssoc($cnt_set);
+		$cnt_set = $DIC->database()->query($q);
+		$cnt_rec = $DIC->database()->fetchAssoc($cnt_set);
 
 		if ($cnt_rec["cnt"] > 0)
 		{
