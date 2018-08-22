@@ -12,11 +12,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 */
 class ilGlobalTemplate extends HTML_Template_ITX
 {
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-
 	const MESSAGE_TYPE_FAILURE = 'failure';
 	const MESSAGE_TYPE_INFO = "info";
 	const MESSAGE_TYPE_SUCCESS = "success";
@@ -58,6 +53,7 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
+	protected $main_content = "";
 	
 	protected $lightbox = array();
 	protected $standard_template_loaded = false;
