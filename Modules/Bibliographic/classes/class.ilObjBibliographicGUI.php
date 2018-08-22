@@ -165,7 +165,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_CONTENT);
 				switch ($cmd) {
-					case self::CMD_EDIT_OBJECT || self::CMD_UPDATE_OBJECT:
+					case self::CMD_EDIT_OBJECT:
+					case self::CMD_UPDATE_OBJECT:
 						$this->initSubTabs();
 						$this->tabs_gui->activateSubTab(self::SUBTAB_SETTINGS);
 						$this->{$cmd}();
