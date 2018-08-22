@@ -1,24 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilForumSettingsGUI.php';
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Modules/Forum/classes/class.ilForumPost.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
-require_once 'Modules/Forum/classes/class.ilForumTopic.php';
-require_once 'Services/RTE/classes/class.ilRTE.php';
-require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
-require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
-require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-require_once './Modules/Forum/classes/class.ilFileDataForumDrafts.php';
-require_once './Modules/Forum/classes/class.ilForumUtil.php';
-require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
-require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-
 /**
  * Class ilObjForumGUI
  *
@@ -35,76 +17,49 @@ require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
-	
+	/** @var string  */
 	public $modal_history = '';
-	/**
-	 * @var ilForumProperties
-	 */
+
+	/** @var ilForumProperties */
 	public $objProperties;
 
-	/**
-	 * @var ilForumTopic
-	 */
+	/** @var ilForumTopic */
 	private $objCurrentTopic;
 
-	/**
-	 * @var ilForumPost
-	 */
+	/** @var ilForumPost */
 	private $objCurrentPost;
 	
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $display_confirm_post_activation = 0;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $is_moderator = false;
 
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $create_form_gui;
 
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $create_topic_form_gui;
 	
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $replyEditForm;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $hideToolbar = false;
 	
-	/**
-	 * @var null|string
-	 */
+	/** @var null|string */
 	private $forum_overview_setting = null;
 	
-	/**
-	 * @var ilObjForum
-	 */
+	/** @var ilObjForum */
 	public $object;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $forumObjects;
 	
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $confirmation_gui_html = '';
 	
-	/**
-	 * @var ilForumSettingsGUI
-	 */
+	/** @var ilForumSettingsGUI */
 	private $forum_settings_gui;
 	
 	public $access;
@@ -2604,8 +2559,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$bottom_toolbar                    = clone $this->toolbar;
 		$bottom_toolbar_split_button_items = array();
-		
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+
 		$this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
 		{
@@ -2714,9 +2668,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 
-		require_once './Modules/Forum/classes/class.ilObjForum.php';
-		require_once './Modules/Forum/classes/class.ilFileDataForum.php';		
-		
 		$this->lng->loadLanguageModule('forum');
 
 		// add entry to navigation history
@@ -2753,6 +2704,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			);
 		}
 
+		$posNum = 0;
+
 		// get forum- and thread-data
 		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
@@ -2777,7 +2730,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			// mark all as read
 			if($this->user->getId() != ANONYMOUS_USER_ID &&
-				$forumObj->getCountUnread($this->user->getId(), (int) $this->objCurrentTopic->getId())
+				$forumObj->getCountUnread($this->user->getId(), (int) $this->objCurrentTopic->getId(), true)
 			)
 			{
 				$this->ctrl->setParameter($this, 'mark_read', '1');
@@ -2848,7 +2801,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							$this->ctrl->redirect($this, 'createThread');
 						}
 					}
-					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'));
+					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
+					$this->ctrl->redirect($this, 'showThreads');
 				}
 			}
 
@@ -2955,13 +2909,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 
-			// generate post-dates
 			foreach($subtree_nodes as $node)
 			{
-				/**
-				 * @var $node ilForumPost 
-				 */
-				
+				/** @var $node ilForumPost */
 				$this->ctrl->clearParameters($this);
 				
 				if($this->objCurrentPost->getId() && $this->objCurrentPost->getId() == $node->getId())
@@ -3249,7 +3199,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$to_top_button->setCaption('top_of_page');
 		$to_top_button->setUrl('#frm_page_top');
 		$bottom_toolbar->addButtonInstance($to_top_button);
-		$this->tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
+		if ($posNum > 0) {
+			$this->tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
+		}
 
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		

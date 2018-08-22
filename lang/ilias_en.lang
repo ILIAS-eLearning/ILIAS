@@ -5185,7 +5185,7 @@ forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
 forum#:#forums_new_thread#:#New Thread
-forum#:#forums_no_posts_available#:#This thread has no posts yet or the moderator deactivated the first post.
+forum#:#forums_no_posts_available#:#This thread has no posts.
 forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s

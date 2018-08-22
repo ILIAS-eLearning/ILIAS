@@ -565,13 +565,26 @@ class ilForum
 			SET top_num_threads = top_num_threads + 1
 			WHERE top_pk = %s',
 			array('integer'), array($thread->getForumId()));
-		
+
+		$rootNodeId = $this->generatePost(
+			$thread->getForumId(),
+			$thread->getId(),
+			$thread->getThrAuthorId(),
+			$thread->getDisplayUserId(),
+			'', 0, 0,
+			$thread->getSubject(),
+			$thread->getUserAlias(),
+			$thread->getCreateDate(),
+			1,
+			0
+		);
+
 		return $this->generatePost(
 			$thread->getForumId(),
 			$thread->getId(),
 			$thread->getThrAuthorId(),
 			$thread->getDisplayUserId(),
-			$message, 0, $notify,
+			$message, $rootNodeId, $notify,
 			$thread->getSubject(),
 			$thread->getUserAlias(),
 			$thread->getCreateDate(),

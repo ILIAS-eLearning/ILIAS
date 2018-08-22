@@ -162,7 +162,7 @@ class ilObjForum extends ilObject
 	}
 
 	// METHODS FOR UN-READ STATUS
-	public function getCountUnread($a_usr_id, $a_thread_id = 0)
+	public function getCountUnread($a_usr_id, $a_thread_id = 0, $ignoreRoot = false)
 	{
 		$a_frm_id = $this->getId();
 
@@ -182,8 +182,10 @@ class ilObjForum extends ilObject
 
 			// Get number of posts
 			$res = $this->db->queryf('
-				SELECT COUNT(pos_pk) num_posts FROM frm_posts 
-				WHERE pos_top_fk = %s',
+				SELECT COUNT(pos_pk) num_posts
+				FROM frm_posts 
+				LEFT JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
+				WHERE pos_top_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 				array('integer'), array($topic_id));
 
 			while($row = $this->db->fetchObject($res))
@@ -210,7 +212,8 @@ class ilObjForum extends ilObject
 		{
 			$res = $this->db->queryf('
 				SELECT COUNT(pos_pk) num_posts FROM frm_posts
-				WHERE pos_thr_fk = %s',
+				LEFT JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
+				WHERE pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 				array('integer'), array($a_thread_id));
 
 			$row       = $this->db->fetchObject($res);

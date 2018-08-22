@@ -6138,7 +6138,7 @@ forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen 
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge oder der Startbeitrag wurde vom Moderator deaktiviert.
+forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge.
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.

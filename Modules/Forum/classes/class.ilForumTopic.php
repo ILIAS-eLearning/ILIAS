@@ -470,7 +470,7 @@ class ilForumTopic
 				AND			fur.post_id = pos_pk
 				AND			fur.usr_id = %s
 				 
-			WHERE 			lft BETWEEN %s AND %s 
+			WHERE 			lft > %s AND lft < %s 
 				AND 		thr_fk = %s';
 		
 		array_push($data_types, 'integer', 'integer', 'integer', 'integer');
