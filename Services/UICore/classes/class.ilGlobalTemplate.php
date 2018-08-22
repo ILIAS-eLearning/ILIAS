@@ -394,7 +394,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	// MESSAGES
 	//
 	// setMessage is only used in ilUtil
-	// getMessageHTML has various usage locations
 
 	/**
 	 * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
@@ -425,23 +424,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		{
 			$_SESSION[$a_type] = $a_txt;
 		}
-	}
-
-	/**
-	 * Get HTML for a system message
-	 */
-	public function getMessageHTML($a_txt, $a_type = "info")
-	{
-		global $DIC;
-
-		$lng = $DIC->language();
-		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
-		$mtpl->setCurrentBlock($a_type."_message");
-		$mtpl->setVariable("TEXT", $a_txt);
-		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
-		$mtpl->parseCurrentBlock();
-
-		return $mtpl->get();
 	}
 
 	/**
