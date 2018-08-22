@@ -473,7 +473,7 @@ class ilGlobalTemplate extends HTML_Template_ITX
 
 			if ($txt != "")
 			{
-				$out.= $this->getMessageHTML($txt, $m);
+				$out.= ilUtil::getSystemMessageHTML($txt, $m);
 			}
 
 			if ($m == self::MESSAGE_TYPE_QUESTION)

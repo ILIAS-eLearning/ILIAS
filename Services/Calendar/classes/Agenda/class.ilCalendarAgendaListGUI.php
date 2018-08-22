@@ -301,8 +301,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		if (count($groups) == 0)
 		{
-			$tpl = $this->ui->mainTemplate();
-			$html.= $tpl->getMessageHTML($this->lng->txt("cal_no_events_info"));
+			$html.= ilUtil::getSystemMessageHTML($this->lng->txt("cal_no_events_info"));
 		}
 
 		return $html;

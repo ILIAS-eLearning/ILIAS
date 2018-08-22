@@ -343,7 +343,7 @@ class ilTaggingGUI
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{

@@ -407,6 +407,8 @@ class ilTemplate extends HTML_Template_ITX
 	 *                         \ilTemplate::MESSAGE_TYPE_INFO
 	 * @param   string $a_txt  The message to be sent
 	 * @param bool     $a_keep Keep this message over one redirect
+     *
+     * // REMOVE
 	 */
 	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
 	{
@@ -430,6 +432,8 @@ class ilTemplate extends HTML_Template_ITX
 
 	/**
 	 * Get HTML for a system message
+     *
+     * // REMOVE
 	 */
 	public function getMessageHTML($a_txt, $a_type = "info")
 	{
@@ -447,6 +451,8 @@ class ilTemplate extends HTML_Template_ITX
 
 	/**
 	 * Fill message area.
+     *
+     * // REMOVE
 	 */
 	private function fillMessage()
 	{

@@ -422,7 +422,7 @@ if ($this->private_enabled && $this->public_enabled
 				if ($this->ajax && !$comments_col)
 				{
 					$ntpl->setVariable("COMMENTS_MESS",
-						$ntpl->getMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
+						ilUtil::getSystemMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
 				}
 			}
 			$ntpl->parseCurrentBlock();
@@ -935,7 +935,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{

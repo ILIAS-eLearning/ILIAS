@@ -132,7 +132,7 @@ class ilGroupAddToGroupActionGUI
 		$toolbar->addComponent($button2);
 
 		$this->sendResponse(
-			$tpl->getMessageHTML($lng->txt("grp_create_or_use_existing"), "question").
+			ilUtil::getSystemMessageHTML($lng->txt("grp_create_or_use_existing"), "question").
 			$toolbar->getHTML()
 		);
 	}
@@ -214,7 +214,7 @@ class ilGroupAddToGroupActionGUI
 				});
 
 			echo
-				$tpl->getMessageHTML($lng->txt("grp_user_already_in_group")."<br>".
+				ilUtil::getSystemMessageHTML($lng->txt("grp_user_already_in_group")."<br>".
 					$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation((int) $_GET["user_id"])."<br>".
 					$lng->txt("obj_grp").": ".ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])) , "failure").
 				$this->ui->renderer()->renderAsync($button);
@@ -231,7 +231,7 @@ class ilGroupAddToGroupActionGUI
 			});
 
 		echo
-			$tpl->getMessageHTML($lng->txt("grp_sure_add_user_to_group")."<br>".
+			ilUtil::getSystemMessageHTML($lng->txt("grp_sure_add_user_to_group")."<br>".
 				$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation((int) $_GET["user_id"])."<br>".
 				$lng->txt("obj_grp").": ".ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])) , "question").
 			$this->ui->renderer()->renderAsync($button);
@@ -266,7 +266,7 @@ class ilGroupAddToGroupActionGUI
 			$user_id
 		);
 
-		echo $tpl->getMessageHTML($lng->txt("grp_user_been_added"), "success");
+		echo ilUtil::getSystemMessageHTML($lng->txt("grp_user_been_added"), "success");
 		echo "<script>setTimeout(function (){ il.Group.UserActions.closeModal();}, 1000);</script>";
 		exit;
 	}
@@ -291,7 +291,7 @@ class ilGroupAddToGroupActionGUI
 
 		if (!$exp->handleCommand())
 		{
-			$this->sendResponse($tpl->getMessageHTML($lng->txt("grp_no_perm_to_add_create_first"), "info").
+			$this->sendResponse(ilUtil::getSystemMessageHTML($lng->txt("grp_no_perm_to_add_create_first"), "info").
 				$exp->getHTML());
 		}
 
@@ -316,7 +316,7 @@ class ilGroupAddToGroupActionGUI
 		$this->ctrl->saveParameter($this, "grp_act_par_ref_id");
 		$form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true, false));
 
-		echo $tpl->getMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_par_ref_id"])) ,$lng->txt("grp_create_new_grp_in")), "info").
+		echo ilUtil::getSystemMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_par_ref_id"])) ,$lng->txt("grp_create_new_grp_in")), "info").
 			$form->getHTML();
 		exit;
 	}
@@ -368,7 +368,7 @@ class ilGroupAddToGroupActionGUI
 			});
 
 		echo
-			$tpl->getMessageHTML($lng->txt("grp_sure_create_group_add_user")."<br>".
+			ilUtil::getSystemMessageHTML($lng->txt("grp_sure_create_group_add_user")."<br>".
 				$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation($_GET["user_id"])."<br>".
 				$lng->txt("obj_grp").": ".$_POST["title"]
 				, "question").
@@ -430,7 +430,7 @@ class ilGroupAddToGroupActionGUI
 
 		include_once("./Services/Link/classes/class.ilLink.php");
 		$url = ilLink::_getLink($newObj->getRefId());
-		echo $tpl->getMessageHTML($lng->txt("grp_created_and_user_been_added"), "success");
+		echo ilUtil::getSystemMessageHTML($lng->txt("grp_created_and_user_been_added"), "success");
 		echo "<script>setTimeout(function (){ window.location.replace('$url');}, 1000);</script>";
 		exit;
 	}

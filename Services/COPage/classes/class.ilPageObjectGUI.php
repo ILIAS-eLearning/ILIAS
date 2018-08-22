@@ -2967,7 +2967,7 @@ return;
 			}
 			else
 			{
-				echo $this->tpl->getMessageHTML($info);
+				echo ilUtil::getSystemMessageHTML($info);
 				exit;
 			}
 		}

@@ -4806,6 +4806,26 @@ class ilUtil
 	}
 
 	/**
+	 * Get HTML for a system message
+     *
+     * ATTENTION: This method is deprecated. Use MessageBox from the
+     * UI-framework instead.
+	 */
+	public static function getSystemMessageHTML($a_txt, $a_type = "info")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->parseCurrentBlock();
+
+		return $mtpl->get();
+	}
+
+	/**
 	* Send Info Message to Screen.
 	*
 	* @param	string	message

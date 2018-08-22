@@ -85,7 +85,7 @@ class ilTestPasswordProtectionGUI
 			return '';
 		}
 		
-		return $this->tpl->getMessageHTML(
+		return ilUtil::getSystemMessageHTML(
 			$this->lng->txt('tst_password_entered_wrong_password'), 'failure'
 		);
 	}

@@ -187,7 +187,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
 
-			$msgHTML = $tpl->getMessageHTML(
+			$msgHTML = ilUtil::getSystemMessageHTML(
 				sprintf($this->lng->txt("test_using_template"), $title, $link), "info"
 			);
 

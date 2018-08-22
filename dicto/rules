@@ -37,6 +37,7 @@ IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
 IsDependencyAvailableMethod = Methods with name:"isDependencyAvailable"
 GetMessageHTML = Functions with name: "getMessageHTML"
 SetOnScreenMessage = Functions with name: "setOnScreenMessage"
+GetSystemMessageHTML = Functions with name: "getSystemMessageHTML"
 
 
 /**
@@ -155,6 +156,12 @@ WholeIliasCodebase cannot depend on: IsDependencyAvailableMethod
 WholeIliasCodebase cannot depend on: GetMessageHTML
 
 /**
- * ilTemplate::setOnScreenMessage is only supposed to be used by ilUtil.
+ * ilGlobalTemplate::setOnScreenMessage is only supposed to be used by ilUtil.
  */
 WholeIliasCodebaseExceptIlUtil cannot depend on: SetOnScreenMessage
+
+/**
+ * The method creates HTML to display a system message. It is to be replaced by
+ * the MessageBox-component in the UI-framework.
+ */
+WholeIliasCodebase cannot depend on: GetSystemMessageHTML
