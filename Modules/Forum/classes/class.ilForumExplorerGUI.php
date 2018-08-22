@@ -86,9 +86,24 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		$this->thread    = $thread;
 		$this->root_node = $thread->getFirstPostNode();
 		$this->root_node->setIsRead($this->root_node->isRead($this->root_node->getPosAuthorId()));
+		$this->setNodeOpen($this->root_node->getId());
 
 		$this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isNodeClickable($a_node)
+	{
+		$result = parent::isNodeClickable($a_node);
+		if (!$result) {
+			return false;
+		}
+
+		return $this->root_node->getId() != $a_node['pos_pk'];
+	}
+
 
 	/**
 	 * {@inheritdoc}
@@ -166,6 +181,10 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		$tpl->setVariable('TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($a_node)));
 		$tpl->parseCurrentBlock();
 
+		if ($this->root_node->getId() == $a_node['pos_pk']) {
+			return $tpl->get();
+		}
+
 		$authorinfo = new ilForumAuthorInformation(
 			$a_node['pos_author_id'],
 			$a_node['pos_display_user_id'],
@@ -189,6 +208,10 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	protected function getNodeTitleClasses(array $node_config)
 	{
 		$node_title_classes = array('ilForumTreeTitle');
+
+		if ($this->root_node->getId() == $node_config['pos_pk']) {
+			return $node_title_classes;
+		}
 
 		if(isset($node_config['post_read']) && !$node_config['post_read'])
 		{
@@ -242,6 +265,10 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function getNodeIcon($a_node)
 	{
+		if ($this->root_node->getId() == $a_node['pos_pk']) {
+			return ilObject::_getIcon(0, 'tiny', 'frm');
+		}
+
 		return ilObject::_getIcon(0, 'tiny', 'frm');
 	}
 
