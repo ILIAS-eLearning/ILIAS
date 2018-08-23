@@ -762,7 +762,7 @@ able to use your registered context in your component
 and build hyperlinks to the mail system, transporting
 your context information.
 
-### Context Usage Example]
+### Context Usage Example
 
 Given your created a context named `crs_context_tutor_manual` ...
 
