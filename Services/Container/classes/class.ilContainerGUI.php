@@ -779,12 +779,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$children_of_type_file = $this->getAllNestedFiles($_GET['ref_id']);
 				// Check if there are any files and therefore downloadable objects.
 				// In case that there are no downloadable objects the download button mustn't be displayed (see mantis 0021272)
-				if(count($children_of_type_file) != 0)
+				if(count($children_of_type_file) > 0)
 				{
 					// #11843
 					$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 					$toolbar = new ilToolbarGUI();
 					$this->ctrl->setParameter($this, "type", "");
 					$this->ctrl->setParameter($this, "item_ref_id", "");
@@ -819,9 +818,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// get sibling files
 		$sibling_files = $this->tree->getChildsByType($ref_id, "file");
 		// add sibling files to file array
-		foreach ($sibling_files as $sibling_course)
+		foreach ($sibling_files as $sibling_file)
 		{
-			array_push($files, $sibling_course);
+			array_push($files, $sibling_file);
 		}
 		// get child files (nested inside directories)
 		$categories = $this->getAllNestedCategories($ref_id);
@@ -830,9 +829,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$category_ref_id = $category["ref_id"];
 			$nested_files = $this->tree->getChildsByType($category_ref_id, "file");
 			// add nested files to file array
-			foreach ($nested_files as $nested_course)
+			foreach ($nested_files as $nested_file)
 			{
-				array_push($files, $nested_course);
+				array_push($files, $nested_file);
 			}
 		}
 		return $files;
