@@ -110,6 +110,10 @@ This feature does not apply for ILIAS-internal messages at all.
 
 `\ilMail` is the central class of *Services/Mail* and acts as
 some kind of reduced and **medium level** notification system.
+It does neither care about low-level transport of messages
+(e.g. like sending external emails via SMTP), nor does it
+act like a centralized notification system dealing with
+any kind/type of notification in ILIAS.
 
 The constructor of class `\ilMail` requires the
 internal ILIAS id of the sender's user account.
