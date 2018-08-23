@@ -72,6 +72,18 @@ class ilObjFile extends ilObject2 {
 	 * @var int
 	 */
 	protected $max_version = 1;
+	/**
+	 * @var string
+	 */
+	protected $action = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_version = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_user_id = null;
 
 
 	/**
@@ -579,6 +591,30 @@ class ilObjFile extends ilObject2 {
 
 	function getFileSize() {
 		return $this->filesize;
+	}
+
+	function setAction($a_action) {
+		$this->action = $a_action;
+	}
+
+	function getAction() {
+		return $this->action;
+	}
+
+	function setRollbackVersion($a_rollback_version) {
+		$this->rollback_version = $a_rollback_version;
+	}
+
+	function getRollbackVersion() {
+		return $this->rollback_version;
+	}
+
+	function setRollbackUserId($a_rollback_user_id) {
+		$this->rollback_user_id = $a_rollback_user_id;
+	}
+
+	function getRollbackUserId() {
+		return $this->rollback_user_id;
 	}
 
 
