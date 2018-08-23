@@ -41,6 +41,11 @@ class Glyph implements C\Glyph\Glyph {
 	 */
 	private $highlighted = false;
 
+	/**
+	 * @var bool
+	 */
+	private $active = true;
+
 	private static $types = array
 		(self::SETTINGS
 		, self::COLLAPSE
@@ -71,6 +76,8 @@ class Glyph implements C\Glyph\Glyph {
 		, self::EYEOPEN
 		, self::EYECLOSED
 		, self::ATTACHMENT
+		, self::RESET
+		, self::APPLY
 		);
 
 
@@ -141,6 +148,22 @@ class Glyph implements C\Glyph\Glyph {
 	public function withHighlight() {
 		$clone = clone $this;
 		$clone->highlighted = true;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isActive() {
+		return $this->active;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withUnavailableAction() {
+		$clone = clone $this;
+		$clone->active = false;
 		return $clone;
 	}
 
