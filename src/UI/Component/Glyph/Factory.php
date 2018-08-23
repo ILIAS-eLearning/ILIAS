@@ -675,6 +675,59 @@ interface Factory {
 	 */
 	public function angry($action = null);
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Eye Closed Glyph is used to toggle the revelation-mode of password fields.
+	 *       Whith the Eye Closed Glyph shown, the field is currently unmasked.
+	 *   composition: >
+	 *       The Eye Closed Glyph uses the glyphicon-eye-close.
+	 *   effect: >
+	 *       When clicked, the password-field is masked, thus hiding the input.
+	 *
+	 * context: Used with password-fields to toggle mask/revealed mode.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          The Eye Closed Glyph MUST only be used with Password-Inputs.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be "eye closed - click to hide the input's contents".
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function eyeclosed($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Eye Open Glyph is used to toggle the revelation-mode of password fields.
+	 *       With the Eye Open Glyph shown, the field is currently masked.
+	 *   composition: >
+	 *       The Eye Open Glyph uses the glyphicon-eye-open.
+	 *   effect: >
+	 *       When clicked, the password-field is unmasked, thus revealing the input.
+	 *
+	 * context: Used with password-fields to toggle mask/revealed mode.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          The Eye Open Glyph MUST only be used with Password-Inputs.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be "eye open - click to reveal the input's contents".
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function eyeopen($action = null);
+
 	/**
 	 * ---
 	 * description:
@@ -733,4 +786,39 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function reset($action = null);
+  
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >  
+   *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+	 *      within a control, i.e. a filter.
+	 *   composition: >
+	 *      The Apply Glyph uses the glyphicon-ok.
+	 *   effect: >
+	 *       Upon clicking the page is reloaded immediately with the updated content the control affects. In case of
+	 *       a filter, it means that the entries in a table change in accordance with the filter values.
+	 *
+	 * featurewiki:
+	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Apply Glyph SHOULD not come without a Reset Glyph and vice versa.
+	 *       2: >
+	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not clickable).
+	 *   style:
+	 *       1: >
+	 *          The deactivated state of the Apply Glyph MUST be visually noticeable for the user, i.e. by greying out
+	 *          the Apply Glyph.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Apply'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function apply($action = null);
+
 }

@@ -5,20 +5,23 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Tests for Presentation Table.
  */
 class PresentationTest extends ILIAS_UI_TestBase {
 	private function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+		return new I\Component\Table\Factory(
+			new I\Component\SignalGenerator()
+		);
 	}
 
 	public function testTableConstruction() {
 		$f = $this->getFactory();
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f->table());
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
-		$pt = $f->table()->presentation('title', array(),	function(){});
+		$pt = $f->presentation('title', array(), function(){});
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Presentation", $pt);
 
 		$this->assertEquals("title", $pt->getTitle());
@@ -35,7 +38,7 @@ class PresentationTest extends ILIAS_UI_TestBase {
 	public function testBareTableRendering() {
 		$r = $this->getDefaultRenderer();
 		$f = $this->getFactory();
-		$pt = $f->table()->presentation('title', array(),	function(){});
+		$pt = $f->presentation('title', array(),	function(){});
 		$expected = ''.
 			'<div class="il-table-presentation">'.
 			'	<h3 class="ilHeader">title</h3>'.
@@ -47,7 +50,7 @@ class PresentationTest extends ILIAS_UI_TestBase {
 
 	public function testRowConstruction() {
 		$f = $this->getFactory();
-		$pt = $f->table()->presentation('title', array(),	function(){});
+		$pt = $f->presentation('title', array(),	function(){});
 		$row = new \ILIAS\UI\Implementation\Component\Table\PresentationRow($pt->getSignalGenerator());
 
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\PresentationRow", $row);

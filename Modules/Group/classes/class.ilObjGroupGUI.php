@@ -20,7 +20,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
 * 
 *
 *
@@ -73,7 +73,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		// if news timeline is landing page, redirect if necessary
-		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage()
+		if ($next_class == "" && $cmd == "" && $this->object->isNewsTimelineLandingPageEffective()
 			&& $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ctrl->redirectbyclass("ilnewstimelinegui");
@@ -81,6 +81,20 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->setSubTabs('settings');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('grp_icon_settings');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
@@ -691,78 +705,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			return true;
 		}
 	}
-	
-	/**
-	* edit container icons
-	*/
-	public function editGroupIconsObject($a_form = null)
-	{
-		global $DIC;
 
-		$tpl = $DIC['tpl'];
-
-		$this->checkPermission('write');
-		
-		$this->setSubTabs("settings");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('grp_icon_settings');
-
-		if(!$a_form)
-		{
-			$a_form = $this->initGroupIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-	
-	function initGroupIconsForm()
-	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateGroupIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-	
-	/**
-	 * update group icons
-	 *
-	 * @access public
-	 * @return
-	 */
-	public function updateGroupIconsObject()
-	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-
-		$this->checkPermission('write');
-		
-		$form = $this->initGroupIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this,"editGroupIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editGroupIconsObject($form);	
-	}
-	
 	/**
 	* Edit Map Settings
 	*/
@@ -1103,17 +1046,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$ilHelp->setScreenIdComponent("grp");
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
-				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
-					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				$this->tabs_gui->addTab(
+					"news_timeline",
+					$lng->txt("cont_news_timeline_tab"),
+					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show")
+				);
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
@@ -1571,6 +1517,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'),GRP_REGISTRATION_PASSWORD);
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
+			$pass->setRequired(true);
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
 			$pass->setSize(32);
@@ -1850,12 +1797,12 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 
-				// custom icon
-				if ($this->ilias->getSetting("custom_icons"))
-				{
-					$this->tabs_gui->addSubTabTarget("grp_icon_settings",
-													 $this->ctrl->getLinkTarget($this,'editGroupIcons'),
-													 "editGroupIcons", get_class($this));
+				if ($this->ilias->getSetting('custom_icons')) {
+					$this->tabs_gui->addSubTabTarget(
+						'grp_icon_settings',
+						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
+						'editGroupIcons', get_class($this)
+					);
 				}
 				
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
