@@ -6587,12 +6587,14 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
 mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_usr_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen. Die E-Mail-Adresse jenes Benutzerkontos, das eine manuell erstellte Nachricht versendet, wird automatisch in den 'Reply-To'-Header übernommen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
 mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die entsprechenden Daten des Absenders ersetzt.
 mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
 mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_sys_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technischer Absender

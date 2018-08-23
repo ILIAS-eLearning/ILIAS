@@ -467,6 +467,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$user_from_address = new ilEMailInputGUI($this->lng->txt('mail_system_usr_from_addr'),
 			'mail_system_usr_from_addr');
+		$user_from_address->setInfo($this->lng->txt('mail_system_usr_from_addr_info'));
 		$user_from_address->setRequired(true);
 		$user_from_address->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($user_from_address);
@@ -489,6 +490,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$system_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_sys_from_addr'),
 			'mail_system_sys_from_addr');
+		$system_from_addr->setInfo($this->lng->txt('mail_system_sys_from_addr_info'));
 		$system_from_addr->setRequired(true);
 		$system_from_addr->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($system_from_addr);
