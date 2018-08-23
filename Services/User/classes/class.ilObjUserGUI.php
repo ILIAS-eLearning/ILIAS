@@ -2498,6 +2498,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
 		}
+		else if('agreement' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
+		}
 
 		if (substr($a_target, 0, 1) == "n")
 		{

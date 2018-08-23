@@ -1835,6 +1835,9 @@ class ilStartUpGUI
 				$tpl->setVariable('TXT_SUBMIT', $lng->txt('submit'));
 			}
 
+			if ($this->user->isAnonymous() || !$this->user->getId()) {
+				$tpl->setPermanentLink('usr', null, 'agreement');
+			}
 			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
 		}
 		else
