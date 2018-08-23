@@ -115,6 +115,7 @@ class Standard extends Icon implements C\Icon\Standard {
 		,self::BDGA
 		,self::WFE
 		,self::IASS
+		,self::COPA
 	);
 
 	public function __construct($name, $aria_label, $size, $is_disabled) {

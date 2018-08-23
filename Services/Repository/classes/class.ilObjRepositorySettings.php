@@ -265,7 +265,7 @@ class ilObjRepositorySettings extends ilObject
 			"organisation" => array("fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg"),
 			"communication" => array("frm", "chtr"), 
 			"breaker1" => null,
-			"content" => array("file", "webr", "feed", "wiki", "blog", "lm", "htlm", "sahs", "glo", "dcl", "bibl", "mcst", "mep"), 
+			"content" => array("file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", "glo", "dcl", "bibl", "mcst", "mep"), 
 			"breaker2" => null,			
 			"assessment" => array("exc", "tst", "qpl", "iass"),
 			"feedback" => array("poll", "svy", "spl"),

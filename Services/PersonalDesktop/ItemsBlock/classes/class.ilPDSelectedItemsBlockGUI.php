@@ -551,18 +551,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$icon = ilUtil::getImagePath("icon_lm.svg");
 				$title = $this->lng->txt("learning_resource");
 			}
-			
-			// custom icon
-			if ($ilSetting->get("custom_icons") &&
-			in_array($a_image_type, array("cat","grp","crs")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
-				{
-					$icon = $path;
+
+			if ($ilSetting->get('custom_icons')) {
+				global $DIC;
+				/** @var \ilObjectCustomIconFactory  $customIconFactory */
+				$customIconFactory = $DIC['object.customicons.factory'];
+				$customIcon        = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+
+				if ($customIcon->exists()) {
+					$icon = $customIcon->getFullPath();
 				}
 			}
-			
+
 			$a_tpl->setCurrentBlock("block_row_image");
 			$a_tpl->setVariable("ROW_IMG", $icon);
 			$a_tpl->setVariable("ROW_ALT", $title);
