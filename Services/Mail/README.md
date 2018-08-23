@@ -68,11 +68,24 @@ is part of the skin:
 
 There are no advanced formatting options, except
 the global format given in the HTML file itself.
-HTML templates can only be used when using a skin
-as a system-style, otherwise emails are sent
-without template (raw text).
+HTML templates as a frame can only be used when a
+skin was set/configured as *default system-style* in
+`Administration » Layout and Styles » System Styles`.
+The configuration is stored and read from
+your `client.ini.php` file located in your internal
+data directory ('./data/<CLIENT_ID/').
 
-Per Skin, one template can be defined and has to be
+Example:
+```
+[layout]
+skin = "default"
+style = "delos"
+```
+
+Emails are sent without HTML frame and as raw plain/text
+when no template can be determined.
+
+Per Skin, one HTML template can be defined and has to be
 stored in the following location:
 
     ./Customizing/global/skin/<NAME>/Services/Mail/tpl.html_mail_template.html.
