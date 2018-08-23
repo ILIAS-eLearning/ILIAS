@@ -1846,6 +1846,7 @@ class ilStartUpGUI
 				$this->mainTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
+			$this->mainTemplate->setPermanentLink('usr', null, 'agreement');
 			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
 		} else {
 			$this->mainTemplate->setVariable(
