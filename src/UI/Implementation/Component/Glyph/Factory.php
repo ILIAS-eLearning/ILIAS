@@ -193,6 +193,20 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
+	public function eyeopen($action = null) {
+		return new Glyph(G\Glyph::EYEOPEN, "eyeopen", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function eyeclosed($action = null) {
+		return new Glyph(G\Glyph::EYECLOSED, "eyeclosed", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function attachment($action = null) {
 		return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
 	}
@@ -202,5 +216,12 @@ class Factory implements G\Factory {
 	 */
 	public function reset($action = null) {
 		return new Glyph(G\Glyph::RESET, "reset", $action);
+	}
+    
+    /**
+	 * @inheritdoc
+	 */  
+	public function apply($action = null) {
+		return new Glyph(G\Glyph::APPLY, "apply", $action);
 	}
 }
