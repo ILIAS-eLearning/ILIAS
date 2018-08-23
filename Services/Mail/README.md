@@ -149,8 +149,8 @@ global $DIC;
 $senderUserId = $DIC->user()->getId();
 
 $to = 'root';
-$cc = 'mjansen';
-$bc = 'ntheen';
+$cc = 'john.doe';
+$bc = 'max.mustermann';
 $subject = 'Make ILIAS great again!';
 $message = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr,\nsed diam nonumy eirmod tempor.";
 $attachments = [];
@@ -163,7 +163,7 @@ $mail->sendMail(
     $subject,
     $message,
     $attachments,
-    array("normal")
+    [array("normal")](#recipients)
 );
 ```
 
@@ -175,7 +175,7 @@ Multiple recipients for TO, CC and BCC MUST be
 concatenated with a `,` character.
 
 ```php
-$to = 'mjansen@databay.de, root, #il_role_1000';
+$to = 'john.doe@ilias.de, root, #il_role_1000';
 ```
 
 The following recipient address types are supported:
@@ -232,6 +232,7 @@ User account mailbox address:
 * The domain denotes the current ILIAS client.
 * The local part MUST NOT start with a "#" character.
 * The domain MUST be omitted or MUST have the value "ilias".
+* Examples: john.doe / john.doe@iliasjohn.doe
 
 Role object mailbox address:
 * The local part denotes the title of an ILIAS role.
@@ -241,15 +242,38 @@ Role object mailbox address:
 * If the object title identifies an object that is an ILIAS role, then the local-part is ignored.
 * If the object title identifies an object that is not an ILIAS role, then the local-part is used to identify a local role for that object.
 * The local part can be a substring of the role name. For example, "#member" can be used instead of "#il_crs_member_1234".
+* Examples: \#il_role_1000 / \#il_crs_member_998 / \#member@\[French Course\]
+* Such addresses can be created via `\ilMailRoleAddressType::getRoleMailboxAddress($roleObjId);`
 
 External email address:
 * The local part MUST NOT start with a "#" character.
 * The domain MUST be specified and it MUST not have the value "ilias".
+* Examples: \#il_ml_4711
 
 Mailing list:
-* The local part denotes the mailing list
+* The local part denotes the mailing list.
 * The local part MUST start with a "#" character, followed by the character sequence "il_ml_" and the internal id of the mailing list.
 * The domain MUST be omitted.
+* Examples: John Doe <jd@mail.com> / john.doe@ilias
+
+After recipient strings being parsed by a `RFC822`
+address parser, the corresponding user id resolvers
+are determined in `\ilMailAddressTypeFactory::getByPrefix`.
+
+1. If the first character of the parsed RFC822 compliant
+address does **not** equal `#` **and** the first two characters
+do **not** equal `"\#`, the address is supposed to be an external
+email address or an ILIAS username.
+2. If the first seven characters of the parsed RFC822 compliant
+address equal `#il_ml_`, the address is supposed to be a
+mailing list and the assigned user accounts are used as
+recipients, if you as the sender are the owner of this list.
+3. If the the parsed RFC822 compliant address is a
+valid group name, the address is supposed to be a
+Group and the respective members will be used as recipients.
+4. In all other cases the parsed RFC822 compliant address
+is supposed to be a role representation and the resolver
+fetches the assigned users as recipients for the email.
 
 ### Subject and Body
 
