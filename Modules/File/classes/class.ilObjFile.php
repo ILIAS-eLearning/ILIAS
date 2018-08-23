@@ -405,15 +405,8 @@ class ilObjFile extends ilObject2 {
 	 * @param array $a_hist_entry_ids The ids of the entries to delete or null to delete all entries
 	 */
 	public function deleteVersions($a_hist_entry_ids = null) {
-//		global $DIC;
-//		$ilDB = $DIC['ilDB'];
 
 		if ($a_hist_entry_ids == null || count($a_hist_entry_ids) < 1) {
-			// feature "correct version handling in file object":
-			// the following commenting-out ensures continuous version numeration after replacing all old versions with a new one
-//			$ilDB->manipulate("UPDATE file_data SET version = 1 WHERE file_id = "
-//			                  . $ilDB->quote($this->getId(), 'integer'));
-//			$this->setVersion(0);
 			$this->clearDataDirectory();
 
 			ilHistory::_removeEntriesForObject($this->getId());
@@ -455,8 +448,6 @@ class ilObjFile extends ilObject2 {
 			if ($actualVersionDeleted) {
 				// get newest version (already sorted by getVersions)
 				$version = reset($versions);
-				// feature "correct version handling in file object":
-				// the next line ensures continuous version numeration even after deleting the most recent version(-s)
 				$version['max_version'] = $this->getMaxVersion();
 				$this->updateWithVersion($version);
 			} else {
@@ -1324,8 +1315,6 @@ class ilObjFile extends ilObject2 {
 		}
 		$new_version = $this->getSpecificVersion($newest_entry_id);
 
-		// feature "correct version handling in file object":
-		// the next two lines ensure continuous version numeration even after declaring old versions as current version several times
 		$new_version['version'] = $new_version_nr;
 		$new_version['max_version'] = $new_version_nr;
 
@@ -1393,9 +1382,6 @@ class ilObjFile extends ilObject2 {
 	 *               "info_params".
 	 */
 	function parseInfoParams($entry) {
-		//TODO: check if this fixes the problem of max_version staying appended to the filename (and doesn't cause problems with rollback)
-//		$data = preg_split("/(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
-//		                                                            | PREG_SPLIT_NO_EMPTY);
 		$data = preg_split("/(.*),(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
 			| PREG_SPLIT_NO_EMPTY);
 
