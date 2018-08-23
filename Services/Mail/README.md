@@ -10,7 +10,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [General](#general)
   * [Delivery Channels](#delivery-channels)
-  * [External Emails: HTML Frame](#external-emails:-html-frame)
+  * [External Emails: HTML Frame](#external-emails-html-frame)
 * [ilMail](#ilmail)
   * [Recipients](#recipients)
       * [Supported Recipient String Examples](#supported-recipient-string-examples)
