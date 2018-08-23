@@ -92,7 +92,7 @@ stored in the following location:
 
 The HTML frame template concept consists of the HTML
 markup file itself and some optional attachments.
-Images of type *.jp(e)g MUST be stored in a sub-folder *img*.
+Images of type \*.jp(e)g MUST be stored in a sub-folder *img*.
 It is possible to attach several image attachments.
 Images are packed into the email as inline images,
 regardless of their use.
@@ -100,7 +100,7 @@ The source of the images is prefixed with a *cid*.
 The *cid* of an image with the file name "foo.jpg"
 will be *img/foo.jpg*.
 
-Other file types (like *.png, *.gif, *.bmp, etc.) will
+Other file types (like \*.png, \*.gif, \*.bmp, etc.) will
 be silently ignored. This is not considered to be a bug,
 but a design limitation ([http://www.ilias.de/mantis/view.php?id=18878](http://www.ilias.de/mantis/view.php?id=18878)).
 
