@@ -764,7 +764,7 @@ your context information.
 
 ### Context Usage Example
 
-Given your created a context named `crs_context_tutor_manual` ...
+Given you created a context named `crs_context_tutor_manual` ...
 
 ```php
 global $DIC;
