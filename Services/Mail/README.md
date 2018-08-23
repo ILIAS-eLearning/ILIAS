@@ -13,7 +13,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   * [External Emails: HTML Frame](#external-emails:-html-frame)
 * [ilMail](#ilmail)
   * [Recipients](#recipients)
-      * [Examples](#examples)
+      * [Supported Recipient String Examples](#supported-recipient-string-examples)
       * [Syntax Rules](#syntax-rules)
       * [Semantics](#semantics)
   * [Subject and Body](#subject-and-body)
@@ -24,6 +24,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [ilSystemNotification](#ilsystemnotification)
 * [ilAccountMail](#ilaccountmail)
 * [Manual Mail Templates](#manual-mail-templates)
+  * [Context Registration](#context-registration)
+  * [Context Usage Example](#context-usage-example)
 
 ## General
 
@@ -118,7 +120,20 @@ any kind/type of notification in ILIAS.
 The constructor of class `\ilMail` requires the
 internal ILIAS id of the sender's user account.
 For *System Emails* you MUST use the global
-constant **ANONYMOUS_USER_ID**. 
+constant **ANONYMOUS_USER_ID**.
+In the context of the mail service the
+term *System Emails* describes every email
+communication that is initiated and completed
+without manual editing.
+A *System Email* is not one that can be directly
+sent to one or more users by an interaction in the
+user interface.
+
+Examples:
+
+* User joined course
+* User created forum posting 
+* ...
 
 The intended public API for sending messages is
 the `sendMail()` method.
@@ -167,7 +182,16 @@ be considered as a separate service. To get an address parser you
 can simply use an instance of `ilMailRfc822AddressParserFactory`
 and pass a comma separated string of recipients.
 
-#### Examples
+#### Supported Recipient String Examples
+
+The following recipient address types are supported:
+
+* Email addresses
+* Usernames
+* String representations of mailing lists
+* Group repository object titles (as long as they are globally unique)
+* String representations of local roles in courses and groups
+* String representations of roles in general
 
 The following mailbox addresses work for sending an email to the user with the
 login john.doe and email address jd@mail.com. 
@@ -175,7 +199,6 @@ The user is member of the course "French Course".
 The member role of the course object has the name "il_crs_member_998".
 Furthermore the user was assigned to a mailing list with the internal
 id "4711".
-
 
 * john.doe
 * John Doe <john.doe>
@@ -257,7 +280,14 @@ $mail->sendMail(
     ],
     array("system")
 );
+
+// or $attachment->unlinkFiles(['/temp/hello.jpg']);
+$attachment->unlinkFile('/temp/hello.jpg');
 ```
+
+As outlined above attachments have to be removed
+manually by the consumer after the transport of an
+email has been delegated to the mail system.
 
 ### Type
 
@@ -365,8 +395,9 @@ $mailer->Send($transport);
 
 ## ilMailNotification
 
-`\ilMailNotification` is a **high level** abstraction that can be extended to 
-create a custom email for a specific purpose.
+`\ilMailNotification` is a **higher level** abstraction
+wrapping `\ilMail`. It can be extended to create a custom
+email for a specific purpose of your component or plugin.
 
 Every service/module/plugin in ILIAS MAY create a specialized class
 for creating and sending emails. Therefore it MUST use inheritance
@@ -407,9 +438,16 @@ $myMailNotification->setRecipients(
 $myMailNotification->send();
 ```
 
-If the recipients could only be provided as usernames
-or email addresses, your can use the third parameter of
-`sendMail()` and pass a boolean `false` .
+If the recipients could only be/are already
+provided as usernames or email addresses,
+you can use the third parameter of `sendMail()`
+and pass a boolean `false`.
+If you pass `true` as third argument or don't pass
+a third argument at all, the elements of the first
+parameter array are considered to be the internal
+user ids of the recipients and the corresponding
+usernames will be determined automatically when
+`sendMail()` is called.
 
 ```php
 class MyMailNotification extends \ilMailNotification
@@ -602,12 +640,16 @@ and texts to course members, e.g. to ask them if they
 have problems with the course because they have not
 used the course yet.
 
+### Context Registration
+
 A module or service MAY announce its email template
 contexts to the system by adding them to their
 respective *module.xml* or *service.xml*.
 The template context id has to be globally unique.
 An optional path can be added if the module/service
-directory layout differs from the ILIAS standard.
+directory layout differs from the ILIAS standard,
+where most files are located in a `./classes`
+directory.
 
 ```xml
 <?xml version = "1.0" encoding = "UTF-8"?>
@@ -619,10 +661,10 @@ directory layout differs from the ILIAS standard.
 </module>
 ```
 
-Every email template context class defined in a
-*module.xml* or *service.xml* has to extend the
-base class `\ilMailTemplateContext`.
-Please implement all abstract methods to make
+If registered once, every email template context
+class defined in a *module.xml* or *service.xml*
+has to extend the base class `\ilMailTemplateContext`.
+All abstract methods MUST be implemented to make
 a template context usable.
 
 * getId(): string
@@ -652,7 +694,16 @@ return array(
 );
 ```
 
-Usage Example (given the context was previously registered via (module|service).xml):
+Supposing the context registration succeeded and you
+properly derived a context PHP class providing all
+necessary data and placeholders, you are now
+able to use your registered context in your component
+and build hyperlinks to the mail system, transporting
+your context information.
+
+### Context Usage Example]
+
+Given your created a context named `crs_context_tutor_manual` ...
 
 ```php
 global $DIC;
@@ -663,22 +714,37 @@ class ilCourseMailTemplateTutorContext extends \ilMailTemplateContext
     const ID = 'crs_context_tutor_manual';
     // [...]
 }
+```
 
+... you can provide a hyperlink to the mail system (or
+more precisely to `\ilMailFormGUI`) as follows:
+
+```php
 $DIC->ctrl()->redirectToUrl(
     \ilMailFormCall::getRedirectTarget(
         $this, // The referring ILIAS controller aka. GUI when redirecting back to the referrer
-        'participants', // The disired command aka. the method to be called when redirecting back to the referrer
-        array(),
+        'participants', // The desired command aka. the method to be called when redirecting back to the referrer
+        array(), // Key/Value array for parameters important for the ilCtrl/GUI context when when redirecting back to the referrer, e.g. a ref_id
         array(
-           'type' => 'new',
+           'type' => 'new', // Could also be 'reply' with an additional 'mail_id' paremter provided here
         ),
         array(
-            \ilMailFormCall::CONTEXT_KEY => \ilCourseMailTemplateTutorContext::ID,
+            \ilMailFormCall::CONTEXT_KEY => \ilCourseMailTemplateTutorContext::ID, // don't forget this!
             'ref_id' => $courseRefId,
             'ts'     => time(),
             // further parameters which will be later automatically passed to your context class 
         )
     )
 );
-
 ```
+
+Parameters required by your mail context class
+MUST be provided as a key/value pair array in the
+fifth parameter of `\ilMailFormCall::getRedirectTarget`.
+These parameters will be passed back to
+your context class when the mail system uses
+`\ilMailTemplateContext::resolveSpecificPlaceholder(...)`
+as callback when an email is actually sent and included
+placeholders should be replaced.
+You also MUST add a key `\ilMailFormCall::CONTEXT_KEY`
+with your context id as value to this array.
