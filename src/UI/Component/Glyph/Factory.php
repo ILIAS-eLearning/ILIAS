@@ -791,7 +791,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >  
-   *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+     *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
 	 *      within a control, i.e. a filter.
 	 *   composition: >
 	 *      The Apply Glyph uses the glyphicon-ok.
