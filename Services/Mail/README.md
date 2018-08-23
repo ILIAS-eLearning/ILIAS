@@ -253,10 +253,13 @@ Mailing list:
 
 ### Subject and Body
 
-Beside the recipients the API accepts subject and body of the message,
-both being of type *plain/text*. The consumer MUST ensure that the
-message does not contain any HTML. Line breaks MUST be provided by a
-line feed (LF) character.
+Beside the recipients the API accepts subject
+and body of the message, both being of type *plain/text*.
+The consumer MUST ensure that the message does
+not contain any HTML.
+Line breaks MUST be provided by a line feed (LF) character.
+Violations against this rule may raise exceptions in
+future ILIAS releases.
 
 Currently the mail system tries to magically detect
 whether or not the message body passed by consumers
