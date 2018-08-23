@@ -111,7 +111,8 @@ This feature does not apply for ILIAS-internal messages at all.
 ## ilMail
 
 `\ilMail` is the central class of *Services/Mail* and acts as
-some kind of reduced and **medium level** notification system.
+some kind of reduced and **medium level** notification system
+dealing only with internal and external emails.
 It does neither care about low-level transport of messages
 (e.g. like sending external emails via SMTP), nor does it
 act like a centralized notification system dealing with
@@ -168,7 +169,23 @@ $mail->sendMail(
 
 ### Recipients
 
-The TO, CC and BCC recipients MUST be passed as strings.
+The `$to`, `$cc` and `$bcc` recipient arguments
+MUST be passed as string primitives.
+Multiple recipients for TO, CC and BCC MUST be
+concatenated with a `,` character.
+
+```php
+$to = 'mjansen@databay.de, root, #il_role_1000';
+```
+
+The following recipient address types are supported:
+
+* Email addresses
+* Usernames
+* String representations of mailing lists
+* Group repository object titles (as long as they are globally unique)
+* String representations of local roles in courses and groups
+* String representations of roles in general
 
 Class `\ilMail` respects the configured transport channels for each evaluated
 user account parsed from the recipient strings.
@@ -183,15 +200,6 @@ can simply use an instance of `ilMailRfc822AddressParserFactory`
 and pass a comma separated string of recipients.
 
 #### Supported Recipient String Examples
-
-The following recipient address types are supported:
-
-* Email addresses
-* Usernames
-* String representations of mailing lists
-* Group repository object titles (as long as they are globally unique)
-* String representations of local roles in courses and groups
-* String representations of roles in general
 
 The following mailbox addresses work for sending an email to the user with the
 login john.doe and email address jd@mail.com. 
@@ -263,6 +271,7 @@ $attachment = new \ilFileDataMail($senderUserId);
 $attachment->storeAsAttachment(
     'appointment.ics', $someIcalString
 );
+
 $attachment->copyAttachmentFile(
     '/temp/hello.jpg', 'HelloWorld.jpg'
 );
