@@ -258,6 +258,31 @@ both being of type *plain/text*. The consumer MUST ensure that the
 message does not contain any HTML. Line breaks MUST be provided by a
 line feed (LF) character.
 
+Currently the mail system tries to magically detect
+whether or not the message body passed by consumers
+contains any HTML when sending **external**
+[emails with an HTML frame and a plain/text alternative](#external-emails:-html-frame).
+This is done in `\ilMimeMail::buildBodyParts`.
+If no HTML is included at all, or only a few inline
+elements (\<b\>, \<u\>, \<i\>, \<a\>) are given, a
+[`nl2br()`](http://php.net/manual/en/function.nl2br.php)
+is applied on the body and used for the HTML version
+of the email. The originally passed body is used as
+plain/text alternative.
+If HTML is detected in the body string passed by the
+consumer, the original body is used for the HTML email.
+For the plain/text alternative, `<br>` elements are replaced
+with a `\n` (LF) character and
+[`strip_tags'](http://php.net/manual/en/function.strip-tags.php)
+is applied afterwards on the originally passed message body.
+
+This behaviour is not specified at all and also tries
+to handle/fix misusage by consumers.
+The rule is: You MUST NOT pass any HTML.
+
+For **internal** messages HTML is completely escaped
+on the UI endpoint via `\ilUtil::htmlencodePlainString`.
+
 ### Attachments
 
 The `$attachments` can be passed as an array of file names.
