@@ -7687,7 +7687,7 @@ mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
