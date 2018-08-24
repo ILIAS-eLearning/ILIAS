@@ -184,36 +184,24 @@ class ilCASSettingsGUI
 		{
 			$ldap = new ilRadioOption(
 				$this->lng->txt('auth_radius_ldap'),
-				ilCASSettings::SYNC_LDAP,
+				self::SYNC_LDAP,
 				''
 			);
 			$ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
 			$sync->addOption($ldap);
 
-			$ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'ldap_sid');
-			$options[0] = $this->lng->txt('select_one');
-			foreach($server_ids as $ldap_sid)
-			{
-				$ldap_server = new ilLDAPServer($ldap_sid);
-				$options[$ldap_sid] = $ldap_server->getName();
-			}
-			$ldap_server_select->setOptions($options);
-			$ldap_server_select->setRequired(true);
-			$ds = ilLDAPServer::getDataSource(AUTH_CAS);
-			$ldap_server_select->setValue($ds);
-
-			$ldap->addSubItem($ldap_server_select);
+			// TODO Handle more than one LDAP configuration
 		}
 
 		if(ilLDAPServer::isDataSourceActive(AUTH_CAS))
 		{
-			$sync->setValue(ilCASSettings::SYNC_LDAP);
+			$sync->setValue(self::SYNC_LDAP);
 		}
 		else
 		{
 			$sync->setValue(
 				$this->getSettings()->isUserCreationEnabled() ?
-					ilCASSettings::SYNC_CAS :
+					ilCASSettings::SYNC_CAS : 
 					ilCASSettings::SYNC_DISABLED
 			);
 		}
@@ -274,22 +262,17 @@ class ilCASSettingsGUI
 			switch((int) $form->getInput('sync'))
 			{
 				case ilCASSettings::SYNC_DISABLED:
-					ilLDAPServer::disableDataSourceForAuthMode(AUTH_CAS);
+					ilLDAPServer::toggleDataSource(AUTH_CAS,false);
 					break;
 
 				case ilCASSettings::SYNC_CAS:
-					ilLDAPServer::disableDataSourceForAuthMode(AUTH_CAS);
+					ilLDAPServer::toggleDataSource(AUTH_CAS,false);
 					break;
 
-				case ilCASSettings::SYNC_LDAP:
-					if(!(int) $_REQUEST['ldap_sid'])
-					{
-						ilUtil::sendFailure($this->lng->txt('err_check_input'));
-						$this->settings();
-						return false;
-					}
 
-					ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], AUTH_CAS,true);
+				case ilCASSettings::SYNC_LDAP:
+					// TODO: handle multiple ldap configurations
+					ilLDAPServer::toggleDataSource(AUTH_CAS,true);
 					break;
 			}
 

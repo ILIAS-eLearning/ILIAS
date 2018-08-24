@@ -60,10 +60,7 @@ class ilPrivacySettings
 	 */
 	private function __construct()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilDB = $DIC['ilDB'];
+		global $ilSetting,$ilDB;
 
 		$this->db = $ilDB;
 		$this->settings = $ilSetting;
@@ -109,11 +106,7 @@ class ilPrivacySettings
 	 */
 	public function checkExportAccess($a_ref_id,$a_user_id = 0)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilUser,$ilAccess,$rbacsystem;
 		
 		$user_id = $a_user_id ? $a_user_id : $ilUser->getId();
 		
@@ -335,9 +328,7 @@ class ilPrivacySettings
 	 */
 	private function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	    $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
 				"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID,'integer')." ".

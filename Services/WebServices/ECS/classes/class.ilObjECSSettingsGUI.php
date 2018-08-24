@@ -21,9 +21,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->type = 'cals';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -41,10 +39,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -92,10 +87,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem, $ilAccess;
  		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("settings",

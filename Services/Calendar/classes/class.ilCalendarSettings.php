@@ -94,9 +94,7 @@ class ilCalendarSettings
 	 */
 	private function __construct()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 
 		$this->db = $ilDB;	 	
 	 	

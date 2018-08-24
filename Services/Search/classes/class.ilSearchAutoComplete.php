@@ -65,9 +65,7 @@ class ilSearchAutoComplete
 	*/
 	static function getList($a_str)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
 		if(ilSearchSettings::getInstance()->enabledLucene())
@@ -149,9 +147,7 @@ class ilSearchAutoComplete
 	*/
 	static function checkObjectPermission($a_obj_id)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		$refs = ilObject::_getAllReferences($a_obj_id);
 		foreach ($refs as $ref)

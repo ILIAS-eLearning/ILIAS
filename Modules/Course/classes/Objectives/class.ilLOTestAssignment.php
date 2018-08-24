@@ -98,9 +98,7 @@ class ilLOTestAssignment
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->setAssignmentId($ilDB->nextId('loc_tst_assignments'));
 		$query = 'INSERT INTO loc_tst_assignments (assignment_id, container_id, assignment_type, objective_id, tst_ref_id) '.
@@ -111,7 +109,7 @@ class ilLOTestAssignment
 				$ilDB->quote($this->getObjectiveId(),'integer').', '.
 				$ilDB->quote($this->getTestRefId(),'integer').' '.
 				') ';
-		$GLOBALS['DIC']['ilLog']->write($query);
+		$GLOBALS['ilLog']->write($query);
 		$ilDB->manipulate($query);
 
 	}
@@ -122,9 +120,7 @@ class ilLOTestAssignment
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'UPDATE loc_tst_assignments '.
 				'SET container_id = '.$ilDB->quote($this->getContainerId(),'integer').', '.
@@ -142,9 +138,7 @@ class ilLOTestAssignment
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM loc_tst_assignments '.
 				'WHERE assignment_id = '.$ilDB->quote($this->getAssignmentId(),'integer').' ';
@@ -159,9 +153,7 @@ class ilLOTestAssignment
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getAssignmentId())
 		{

@@ -44,11 +44,7 @@ class ilRegistrationSettingsGUI
 
 	function __construct()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl,$tpl,$lng;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -86,10 +82,7 @@ class ilRegistrationSettingsGUI
 	*/
 	function setSubTabs($activeTab = 'registration_settings')
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $ilTabs, $lng;
 
 		$ilTabs->addSubTab("registration_settings",
 			$lng->txt("registration_tab_settings"),
@@ -231,13 +224,7 @@ class ilRegistrationSettingsGUI
 	
 	function view()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar, $ilTabs;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
@@ -259,10 +246,7 @@ class ilRegistrationSettingsGUI
 
 	function save()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -321,11 +305,7 @@ class ilRegistrationSettingsGUI
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -361,11 +341,7 @@ class ilRegistrationSettingsGUI
 
 	function updateRoles()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -396,11 +372,7 @@ class ilRegistrationSettingsGUI
 
 	function editEmailAssignments()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -443,12 +415,7 @@ class ilRegistrationSettingsGUI
 	
 	function editRoleAccessLimitations()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $lng,$ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -498,11 +465,7 @@ class ilRegistrationSettingsGUI
 
 	function addAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -520,11 +483,7 @@ class ilRegistrationSettingsGUI
 
 	function deleteAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -553,11 +512,7 @@ class ilRegistrationSettingsGUI
 
 	function saveAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -603,11 +558,7 @@ class ilRegistrationSettingsGUI
 	
 	function saveRoleAccessLimitations()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess,$ilErr,$rbacreview;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -709,9 +660,7 @@ class ilRegistrationSettingsGUI
 	
 	function __prepareAccessLimitationRoleList()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->__initRoleAccessLimitations();
 		
@@ -813,9 +762,7 @@ class ilRegistrationSettingsGUI
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$assignments = $this->assignments_obj->getAssignments();
 		$selected = ($assignment_id > 0) ?
@@ -852,9 +799,7 @@ class ilRegistrationSettingsGUI
 	
 	function __buildAccessLimitationSelection($a_role_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$options = array(
 						'null'		=> $lng->txt('please_choose'),
@@ -885,12 +830,7 @@ class ilRegistrationSettingsGUI
 	
 	function listCodes()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
@@ -909,11 +849,7 @@ class ilRegistrationSettingsGUI
 	
 	function initAddCodesForm()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$lng = $DIC['lng'];
+		global $rbacreview, $ilObjDataCache, $lng;
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
@@ -1020,10 +956,7 @@ class ilRegistrationSettingsGUI
 	
 	function addCodes()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess, $ilErr;
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -1043,11 +976,7 @@ class ilRegistrationSettingsGUI
 	
 	function createCodes()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilAccess, $ilErr, $rbacreview;
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -1161,10 +1090,7 @@ class ilRegistrationSettingsGUI
 
 	function deleteConfirmation()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilias = $DIC['ilias'];
+		global $ilErr, $ilias;
 
 		if(!isset($_POST["id"]))
 		{
@@ -1212,10 +1138,7 @@ class ilRegistrationSettingsGUI
 	
 	function exportCodes()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess, $ilErr;
 
 		if(!$ilAccess->checkAccess('read', '', $this->ref_id))
 		{

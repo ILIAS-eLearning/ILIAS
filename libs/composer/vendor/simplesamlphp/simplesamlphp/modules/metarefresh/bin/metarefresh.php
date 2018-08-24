@@ -13,7 +13,9 @@ $baseDir = dirname(dirname(dirname(dirname(__FILE__))));
 // Add library autoloader.
 require_once($baseDir . '/lib/_autoload.php');
 
-if(!SimpleSAML\Module::isModuleEnabled('metarefresh')) {
+SimpleSAML_Session::useTransientSession(); /* No need to try to create a session here. */
+
+if(!SimpleSAML_Module::isModuleEnabled('metarefresh')) {
 	echo("You need to enable the metarefresh module before this script can be used.\n");
 	echo("You can enable it by running the following command:\n");
 	echo('  echo >"' . $baseDir . '/modules/metarefresh/enable' . "\"\n");

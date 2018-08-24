@@ -81,7 +81,7 @@ abstract class ilMembershipRegistrationSettingsGUI
 		if(in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD,$this->getOptions()))
 		{
 			$opt_pass = new ilRadioOption($this->txt('reg_pass'),  ilMembershipRegistrationSettings::TYPE_PASSWORD);
-			$pass = new ilTextInputGUI($GLOBALS['DIC']['lng']->txt("password"),'password');
+			$pass = new ilTextInputGUI($GLOBALS['lng']->txt("password"),'password');
 			$pass->setInfo($this->txt('reg_password_info'));
 			#$pass->setValue($this->object->getPassword());
 			$pass->setSize(10);
@@ -164,7 +164,7 @@ abstract class ilMembershipRegistrationSettingsGUI
 	protected function txt($a_lang_key)
 	{
 		$prefix = $this->getCurrentObject()->getType();
-		return $GLOBALS['DIC']['lng']->txt($prefix.'_'.$a_lang_key);
+		return $GLOBALS['lng']->txt($prefix.'_'.$a_lang_key);
 	}
 }
 ?>

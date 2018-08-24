@@ -23,12 +23,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng, $ilAccess, $lng;
 
 		$this->setId("rbaclog");
 		$this->ref_id = $a_ref_id;
@@ -76,9 +71,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
 	protected function getItems($a_ref_id, array $a_current_filter = NULL)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$this->determineOffsetAndOrder();
 

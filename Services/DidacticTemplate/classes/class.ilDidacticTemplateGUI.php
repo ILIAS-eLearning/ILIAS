@@ -20,9 +20,7 @@ class ilDidacticTemplateGUI
 	 */
 	public function __construct($a_parent_obj)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->parent_object = $a_parent_obj;
 		$this->lng = $lng;
@@ -40,9 +38,7 @@ class ilDidacticTemplateGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -130,11 +126,7 @@ class ilDidacticTemplateGUI
 	 */
 	protected function confirmTemplateSwitch()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl, $ilTabs, $tpl;
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 
@@ -194,9 +186,7 @@ class ilDidacticTemplateGUI
 	 */
 	protected function cancel()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$ilCtrl->returnToParent($this);
 	}
@@ -206,9 +196,7 @@ class ilDidacticTemplateGUI
 	 */
 	protected function switchTemplate()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$new_tpl_id = (int) $_REQUEST['tplid'];
 

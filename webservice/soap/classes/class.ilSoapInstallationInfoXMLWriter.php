@@ -210,7 +210,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	private function __buildInstallationInfo() 
 	{
 		$this->xmlStartTag("Settings");
-		$this->xmlElement("Setting", array("key" => "default_client"), $GLOBALS['DIC']['ilIliasIniFile']->readVariable("clients","default"));
+		$this->xmlElement("Setting", array("key" => "default_client"), $GLOBALS['ilIliasIniFile']->readVariable("clients","default"));
 		#$this->xmlElement("Setting", array("key" => "post_max_size"), ilSoapAdministration::return_bytes(ini_get("post_max_size")));
 		#$this->xmlElement("Setting", array("key" => "upload_max_filesize"), ilSoapAdministration::return_bytes(ini_get("upload_max_filesize")));
 		$this->xmlEndTag("Settings");			

@@ -20,11 +20,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null, $a_parent_ref_id = null, $lp_context = null)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->tracked_user = $a_user;
 		$this->obj_ids = $obj_ids;
@@ -219,9 +215,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		if(!$this->details)
 		{

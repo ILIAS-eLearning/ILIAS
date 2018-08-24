@@ -1,13 +1,9 @@
 <?php
 
-namespace SAML2\Configuration;
-
-use SAML2\Exception\InvalidArgumentException;
-
 /**
  * Configuration of a private key.
  */
-class PrivateKey extends ArrayAdapter
+class SAML2_Configuration_PrivateKey extends SAML2_Configuration_ArrayAdapter
 {
     const NAME_NEW     = 'new';
     const NAME_DEFAULT = 'default';
@@ -27,18 +23,18 @@ class PrivateKey extends ArrayAdapter
      */
     private $name;
 
-    public function __construct($filePath, $name, $passphrase = null)
+    public function __construct($filePath, $name, $passphrase = NULL)
     {
         if (!is_string($filePath)) {
-            throw InvalidArgumentException::invalidType('string', $filePath);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $filePath);
         }
 
         if (!is_string($name)) {
-            throw InvalidArgumentException::invalidType('string', $name);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $name);
         }
 
         if ($passphrase && !is_string($passphrase)) {
-            throw InvalidArgumentException::invalidType('string', $passphrase);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $passphrase);
         }
 
         $this->filePath = $filePath;

@@ -134,9 +134,9 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 	 */
 	public function importRecord($entity, $types, array $rec, ilImportMapping $mapping, $schema_version)
 	{
-		assert(is_string($entity));
-		assert(is_object($types) || is_null($types));
-		assert(is_string($schema_version));
+		assert('is_string($entity)');
+		assert('is_object($types) || is_null($types)');
+		assert('is_string($schema_version)');
 
 		switch ($entity)
 		{

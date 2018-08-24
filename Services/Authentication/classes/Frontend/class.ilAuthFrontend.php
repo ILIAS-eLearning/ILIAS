@@ -268,7 +268,7 @@ class ilAuthFrontend
 		{
 			$this->getLogger()->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 
-			if($GLOBALS['DIC']['ilSetting']->get('user_reactivate_code'))
+			if($GLOBALS['ilSetting']->get('user_reactivate_code'))
 			{
 				$this->getLogger()->debug('Accout reactivation codes are active');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
@@ -373,9 +373,7 @@ class ilAuthFrontend
 		);
 
 		// finally raise event 
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $ilAppEventHandler;
 		$ilAppEventHandler->raise(
 			'Services/Authentication', 
 			'afterLogin',
@@ -465,9 +463,9 @@ class ilAuthFrontend
 	 */
 	protected function checkSimultaneousLogins(ilObjUser $user)
 	{
-		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins'));
+		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins'));
 		if(
-			$GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins') &&
+			$GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins') &&
 			ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
 		)
 		{

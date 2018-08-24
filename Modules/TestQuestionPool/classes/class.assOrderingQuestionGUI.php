@@ -513,7 +513,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput(array());
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 			
 			if (strlen($feedback))
@@ -703,9 +703,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderingElementList()) )
 		{
 			return '';
 		}
@@ -715,7 +715,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach( $this->object->getOrderingElementList() as $element)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(),0, $element->getPosition()
+				$this->object->getId(), $element->getPosition()
 			);
 			
 			if( $this->object->isImageOrderingType() )

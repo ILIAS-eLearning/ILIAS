@@ -9,16 +9,10 @@ use ILIAS\Data;
  */
 class Factory {
 	/**
-	 * @var Data\Factory
+	 * @var ILIAS\Data\Factory
 	 */
 	protected $data_factory;
 
-
-	/**
-	 * Factory constructor.
-	 *
-	 * @param Data\Factory $data_factory
-	 */
 	public function __construct(Data\Factory $data_factory) {
 		$this->data_factory = $data_factory;
 	}
@@ -62,7 +56,6 @@ class Factory {
 
 	// SOME RESTRICTOINS
 
-
 	/**
 	 * Get a constraint for an integer.
 	 *
@@ -70,28 +63,6 @@ class Factory {
 	 */
 	public function isInt() {
 		return new Constraints\IsInt($this->data_factory);
-	}
-
-
-	/**
-	 * Get a constraint for a string.
-	 *
-	 * @return  Constraint
-	 */
-	public function isString() {
-		return new Constraints\IsString($this->data_factory);
-	}
-
-
-	/**
-	 * Get a constraint for a array with constraint to all elements.
-	 *
-	 * @param Constraint $on_element
-	 *
-	 * @return Constraints\IsArrayOf
-	 */
-	public function isArrayOf(Constraint $on_element) {
-		return new Constraints\IsArrayOf($this->data_factory, $on_element);
 	}
 
 	/**
@@ -124,15 +95,6 @@ class Factory {
 	}
 
 	/**
-	 * Get the constraint that some value is null
-	 *
-	 * @return  Constraint
-	 */
-	public function isNull() {
-		return new Constraints\IsNull($this->data_factory);
-	}
-
-	/**
 	 * Get the constraint that some string has a minimum length.
 	 *
 	 * @param	int	$min_length
@@ -140,6 +102,16 @@ class Factory {
 	 */
 	public function hasMinLength($min_length) {
 		return new Constraints\HasMinLength($min_length, $this->data_factory);
+	}
+
+	/**
+	 * Get the constraint that limits the maximum length of the string.
+	 *
+	 * @param	int	$max_length
+	 * @return	Constraint
+	 */
+	public function hasMaxLength($max_length) {
+		return new Constraints\HasMaxLength($max_length, $this->data_factory);
 	}
 
 	/**
@@ -154,14 +126,5 @@ class Factory {
 	 */
 	public function custom(callable $is_ok, $error) {
 		return new Constraints\Custom($is_ok, $error, $this->data_factory);
-	}
-
-	/**
-	 * Get the factory for password constraints.
-	 *
-	 * @return   ILIAS\Validation\Constraints\Password\Factory;
-	 */
-	public function password() {
-		return new Constraints\Password\Factory($this->data_factory);
 	}
 }

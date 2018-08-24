@@ -55,12 +55,7 @@ class ilCalendarUserSettingsGUI
 	 */
 	public function __construct()
 	{
-	 	global $DIC;
-
-	 	$ilUser = $DIC['ilUser'];
-	 	$tpl = $DIC['tpl'];
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $ilUser,$tpl,$lng,$ilCtrl;
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -84,10 +79,7 @@ class ilCalendarUserSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilUser, $ilSetting;
 
 
 		$next_class = $this->ctrl->getNextClass();

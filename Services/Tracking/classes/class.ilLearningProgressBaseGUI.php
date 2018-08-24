@@ -55,13 +55,7 @@ class ilLearningProgressBaseGUI
 
 	function __construct($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilTabs = $DIC['ilTabs'];
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -131,10 +125,7 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacsystem,$ilObjDataCache;
 
 
 		
@@ -283,9 +274,7 @@ class ilLearningProgressBaseGUI
 	*/
 	function __insertPath(&$a_tpl,$a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$path_arr = $tree->getPathFull($a_ref_id);
 		$counter = 0;
@@ -315,9 +304,7 @@ class ilLearningProgressBaseGUI
 	// we need this public in table classes
 	public static function _showImageByStatus(&$tpl,$a_status,$tpl_prefix = "")
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$tpl->setVariable($tpl_prefix."STATUS_IMG",
 			ilLearningProgressBaseGUI::_getImagePathForStatus($a_status));
@@ -370,9 +357,7 @@ class ilLearningProgressBaseGUI
 	 */
 	static function _getStatusText($a_status, $a_lng = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if(!$a_lng)
 		{
@@ -416,9 +401,7 @@ class ilLearningProgressBaseGUI
 	*/
 	function __showObjectDetails(&$info,$item_id = 0,$add_section = true)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		$details_id = $item_id ? $item_id : $this->details_id;
 		
@@ -453,9 +436,7 @@ class ilLearningProgressBaseGUI
 
 	function __appendUserInfo(&$info, $a_user)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		// #13525 - irrelevant personal data is not to be presented
 		return;
@@ -480,9 +461,7 @@ class ilLearningProgressBaseGUI
 
 	function __appendLPDetails(&$info,$item_id,$user_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		$type = $ilObjDataCache->lookupType($item_id);
 		
@@ -527,7 +506,6 @@ class ilLearningProgressBaseGUI
 			case 'sahs':
 			case 'grp':
 			case 'iass':
-			case 'copa':
 			case 'sess':
 				// display status as image
 				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
@@ -608,9 +586,7 @@ class ilLearningProgressBaseGUI
 	*/
 	function __sort($a_ids,$a_table,$a_field,$a_id_name)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!$a_ids)
 		{
@@ -646,9 +622,7 @@ class ilLearningProgressBaseGUI
 
 	function __readItemStatusInfo($a_items)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		include_once 'Services/Object/classes/class.ilObjectLP.php';
 		
@@ -680,9 +654,7 @@ class ilLearningProgressBaseGUI
 
 	function __getLegendHTML()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
 		$tpl->setVariable("IMG_NOT_ATTEMPTED",
@@ -712,10 +684,7 @@ class ilLearningProgressBaseGUI
 	
 	protected function initEditUserForm($a_user_id, $a_obj_id, $a_cancel = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		include_once 'Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($a_obj_id);		
@@ -772,9 +741,7 @@ class ilLearningProgressBaseGUI
 
 	function __showEditUser($a_user_id, $a_ref_id, $a_cancel, $a_sub_id = false)
 	{				
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		if(!$a_sub_id)
         {
@@ -831,10 +798,7 @@ class ilLearningProgressBaseGUI
 	
 	static function isObjectOffline($a_obj_id, $a_type = null)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $objDefinition, $ilObjDataCache;
 
 		if(!$a_type)
 		{

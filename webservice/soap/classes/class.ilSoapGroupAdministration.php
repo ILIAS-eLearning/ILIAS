@@ -57,9 +57,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('create',$target_id,'grp'))
 		{
@@ -101,9 +99,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('write',$ref_id,'grp'))
 		{
@@ -209,9 +205,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
 		{
@@ -280,9 +274,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
 		{
@@ -327,9 +319,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid group id given. Please choose an existing id of an ILIAS group',
 									   'Client');
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
 		{
@@ -387,11 +377,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$tree = $DIC['tree'];
+		global $rbacreview, $ilObjDataCache, $tree;
 		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
 		$parser = new ilXMLResultSetParser($parameters);

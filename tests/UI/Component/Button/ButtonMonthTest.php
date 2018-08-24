@@ -6,7 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+
 
 /**
  * Test month button
@@ -17,18 +17,18 @@ class ButtonMonthTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {
-		return $this->button_factory = new I\Component\Button\Factory();
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Button\\Month", $f->month("02-2017"));
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Button\\Month", $f->button()->month("02-2017"));
 	}
 
 	public function test_get_default() {
 		$f = $this->getFactory();
-		$c =  $f->month("02-2017");
+		$c =  $f->button()->month("02-2017");
 
 		$this->assertEquals($c->getDefault(), "02-2017");
 	}
@@ -37,7 +37,7 @@ class ButtonMonthTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->month("02-2017");
+		$c = $f->button()->month("02-2017");
 
 		$html = $r->render($c);
 

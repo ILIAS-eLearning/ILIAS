@@ -57,9 +57,7 @@ class ilAdvancedMDSubstitution
 	 */
 	private function __construct($a_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->db = $ilDB;
 		$this->type = $a_type;
@@ -231,9 +229,7 @@ class ilAdvancedMDSubstitution
 	 */
 	private function parseValue($a_field_id,$a_values_records)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if($this->type == 'crs' or $this->type == 'rcrs')
 		{
@@ -367,9 +363,7 @@ class ilAdvancedMDSubstitution
 	 */
 	public function update()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$counter = 0;
 	 	$substitutions = array();
@@ -403,9 +397,7 @@ class ilAdvancedMDSubstitution
 	 */
 	private function read()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 		 
 	 	// Check active status
 	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record amr ".

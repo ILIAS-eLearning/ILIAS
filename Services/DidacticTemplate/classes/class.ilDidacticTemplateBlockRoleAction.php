@@ -80,9 +80,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::save();
 
@@ -109,9 +107,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::delete();
 
@@ -152,10 +148,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	protected function blockRole($a_role_id, $source)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin, $rbacreview;
 		
 		// Set assign to 'y' only if it is a local role
 		$assign = $rbacreview->isAssignable($a_role_id, $source->getRefId()) ? 'y' : 'n';
@@ -198,10 +191,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	protected function deleteLocalPolicy($a_role_id, $source)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacreview, $rbacadmin;
 
 		// Create role folder if it does not exist
 		//$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
@@ -289,9 +279,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!parent::read())
 		{

@@ -53,9 +53,7 @@ class ilGroupLP extends ilObjectLP
 	
 	protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 			
 		// will only find objects with roles for user!
 		// see ilParticipants::_getMembershipByType()

@@ -1,12 +1,10 @@
 <?php
 
-namespace SAML2\Exception;
-
 /**
- * Interface \SAML2\Exception\ExceptionInterface
+ * Interface SAML2_Exception_ExceptionInterface
  *
  * Marker interface to identify SAML2 Exceptions
  */
-interface Throwable
+interface SAML2_Exception_Throwable
 {
 }

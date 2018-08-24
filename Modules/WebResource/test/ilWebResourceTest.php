@@ -49,9 +49,7 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLinkCheck()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 		

@@ -18,9 +18,7 @@ class ilLDAPRoleGroupMappingSetting
 	 */
 	public function __construct($a_mapping_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		$this->db = $ilDB;
 		$this->mapping_id = $a_mapping_id;
 	}
@@ -228,9 +226,7 @@ class ilLDAPRoleGroupMappingSetting
 	 */
 	function getRoleName()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		return $ilObjDataCache->lookupTitle($this->role);
 	}
 	
@@ -241,9 +237,7 @@ class ilLDAPRoleGroupMappingSetting
 	 */
 	function setRoleByName($a_value)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		$this->role = $rbacreview->roleExists(ilUtil::stripSlashes($a_value));
 	}
 	

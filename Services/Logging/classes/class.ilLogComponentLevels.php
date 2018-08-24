@@ -45,9 +45,7 @@ class ilLogComponentLevels
 	 */
 	public static function updateFromXML($a_component_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$a_component_id)
 		{
@@ -79,9 +77,7 @@ class ilLogComponentLevels
 	
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM log_components ';
 		$res = $ilDB->query($query);

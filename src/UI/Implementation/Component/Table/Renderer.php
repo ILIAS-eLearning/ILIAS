@@ -90,7 +90,7 @@ class Renderer extends AbstractComponentRenderer {
 			->withOnClick($sig_show);
 		$collapser = $f->glyph()->collapse("#")
 			->withOnClick($sig_hide);
-		$shy_expander = $f->button()->shy($this->txt("presentation_table_more"),"#")
+		$shy_expander = $f->button()->shy("more","#")
 			->withOnClick($sig_show);
 
 		$tpl->setVariable("ID",$id);
@@ -127,10 +127,9 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-		$action = $component->getAction();
-		if(!is_null($action)) {
+		foreach ($component->getActions() as $button) {
 			$tpl->setCurrentBlock("button");
-			$tpl->setVariable("BUTTON", $default_renderer->render($action));
+			$tpl->setVariable("BUTTON", $default_renderer->render($button));
 			$tpl->parseCurrentBlock();
 		}
 

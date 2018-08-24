@@ -22,12 +22,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, ilUDFPermissionHelper $a_permissions)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->permissions = $a_permissions;
 		$this->perm_map = ilCustomUserFieldsGUI::getAccessPermissions();
@@ -66,11 +61,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilSetting, $ilCtrl;
 		
 		$field = $a_set["field_id"];
 		

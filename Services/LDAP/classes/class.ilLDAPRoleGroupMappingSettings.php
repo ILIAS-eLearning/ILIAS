@@ -47,10 +47,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	private function __construct($a_server_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
+		global $ilDB,$lng;
 		
 		$this->db = $ilDB;
 		$this->lng = $lng;
@@ -76,9 +73,7 @@ class ilLDAPRoleGroupMappingSettings
 	
 	public static function _deleteByRole($a_role_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM ldap_rg_mapping ".
 			"WHERE role = ".$ilDB->quote($a_role_id,'integer');
@@ -89,9 +84,7 @@ class ilLDAPRoleGroupMappingSettings
 	
 	public static function _deleteByServerId($a_server_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM ldap_rg_mapping ".
 			"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
@@ -102,10 +95,7 @@ class ilLDAPRoleGroupMappingSettings
 	
 	public static function _getAllActiveMappings()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilDB,$rbacreview;
 		
 		$query = "SELECT rgm.* FROM ldap_rg_mapping rgm JOIN ldap_server_settings lss ".
 			"ON rgm.server_id = lss.server_id ".
@@ -149,9 +139,7 @@ class ilLDAPRoleGroupMappingSettings
 	
 	public function loadFromPost($a_mappings)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		if(!$a_mappings)
 		{
@@ -187,10 +175,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	public function validate()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilErr,$rbacreview;
 		
 		$ilErr->setMessage('');
 		$found_missing = false;
@@ -223,9 +208,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 	 	foreach($this->mappings as $mapping_id => $data)
 	 	{
@@ -275,9 +258,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	public function delete($a_mapping_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ldap_rg_mapping ".
 	 		"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer')." ".
@@ -310,11 +291,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	private function read()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$rbacreview = $DIC['rbacreview'];
-		$tree = $DIC['tree'];
+		global $ilObjDataCache,$rbacreview,$tree;
 		
 		$this->mappings = array();
 	 	$query = "SELECT * FROM ldap_rg_mapping LEFT JOIN object_data ".

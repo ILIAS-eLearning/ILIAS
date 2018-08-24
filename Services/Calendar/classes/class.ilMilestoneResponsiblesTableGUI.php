@@ -38,10 +38,7 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 	public function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_grp_id, $a_app_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -105,10 +102,7 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		if (is_array($this->resp_users) && in_array($a_set["user_id"], $this->resp_users))
 		{

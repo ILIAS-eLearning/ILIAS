@@ -17,9 +17,7 @@ class ilConsultationHourCron extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('dateplaner');
 		return $lng->txt("cal_ch_cron_reminder");
@@ -27,9 +25,7 @@ class ilConsultationHourCron extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('dateplaner');
 		return $lng->txt("cal_ch_cron_reminder_info");
@@ -62,10 +58,7 @@ class ilConsultationHourCron extends ilCronJob
 	
 	public function run()
 	{				
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilDB = $DIC['ilDB'];
+		global $ilSetting, $ilDB;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;						
 		
@@ -113,10 +106,7 @@ class ilConsultationHourCron extends ilCronJob
 	
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $ilSetting;
 		
 		$lng->loadLanguageModule('dateplaner');
 
@@ -131,9 +121,7 @@ class ilConsultationHourCron extends ilCronJob
 	
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$ilSetting->set('ch_reminder_days', $a_form->getInput('ch_reminder_days'));
 		

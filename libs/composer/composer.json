@@ -22,11 +22,10 @@
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"simplesamlphp/simplesamlphp": "^1.15.4",
+		"simplesamlphp/simplesamlphp": "1.14.14",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
-		"james-heinrich/getid3": "^1.9",
-        "sabre/dav": "~3.2.2"
+		"james-heinrich/getid3": "^1.9"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
@@ -119,9 +118,8 @@
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2017-09-28",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
-			"approved-by": "Jour Fixe (prior to 5.0)",
-			"approved-date": "YYYY-MM-DD",
-			"info": "Remove all demo files before commit! At least in current versions, they include security issues."
+			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
 		},
 		"geshi/geshi" : {
 			"source" : "https://github.com/GeSHi/geshi-1.0",
@@ -235,10 +233,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.15.4",
+			"used_version": "v1.14",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
-			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2018-04-27",
+			"wrapped_by": null,
+			"last_update": "2017-07-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -273,16 +271,6 @@
 			"approved-by": "Only added to ensure PHP 5 compatibility",
 			"approved-date": "2018-01-17"
 		},
-        "sabre/dav": {
-            "source" : "https://github.com/sabre-io/dav.git",
-            "used_version" : "v3.2.2",
-            "wrapped_by" : "Services/WebDAV",
-            "added_by" : "Raphael Heer <raphael.heer@hslu.ch>",
-            "last_update" : "2018-03-12",
-            "last_update_by" : "Raphael Heer <raphael.heer@hslu.ch>",
-            "approved-by": "Jour Fixe",
-            "approved-date": "2018-03-12"
-        },
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"

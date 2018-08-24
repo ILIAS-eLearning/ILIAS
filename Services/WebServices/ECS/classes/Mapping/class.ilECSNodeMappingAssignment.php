@@ -135,9 +135,7 @@ class ilECSNodeMappingAssignment
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->delete();
 		$this->create();
@@ -146,9 +144,7 @@ class ilECSNodeMappingAssignment
 
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'INSERT INTO ecs_node_mapping_a (server_id,mid,cs_root,cs_id,ref_id,obj_id,title_update,position_update,tree_update) '.
 			'VALUES( '.
@@ -174,9 +170,7 @@ class ilECSNodeMappingAssignment
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer'). ' '.
@@ -194,9 +188,7 @@ class ilECSNodeMappingAssignment
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT * FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(), 'integer').' '.
@@ -205,7 +197,7 @@ class ilECSNodeMappingAssignment
 			'AND cs_id = '.$ilDB->quote($this->getCSId(), 'integer').' ';
 		$res = $ilDB->query($query);
 		
-		#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$query);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -220,9 +212,7 @@ class ilECSNodeMappingAssignment
 	
 	public static function deleteByServerId($a_server_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM ecs_node_mapping_a'.
 			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');

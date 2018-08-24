@@ -15,13 +15,7 @@ class ilUserLPTableGUI extends ilTable2GUI
 {
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->ref_id = $a_ref_id;
 		$this->setId("admusrlp");
@@ -103,9 +97,7 @@ class ilUserLPTableGUI extends ilTable2GUI
 	
 	protected function fillRow($user)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		if ($this->lp_active)
 		{
@@ -153,15 +145,11 @@ class ilUserLPTableGUI extends ilTable2GUI
 	 */
 	protected static function secondsToShortString($seconds)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$seconds = $seconds ? $seconds : 0;
 
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$days = floor($seconds / 86400);
 		$rest = $seconds % 86400;

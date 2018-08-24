@@ -13,9 +13,7 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 class ilLoggerCronCleanErrorFiles extends ilCronJob {
 
 	public function __construct() {
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule("logging");

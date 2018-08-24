@@ -7,6 +7,7 @@
  */
 class sspmod_statistics_StatDataset
 {
+
     protected $statconfig;
     protected $ruleconfig;
     protected $timeresconfig;
@@ -54,15 +55,18 @@ class sspmod_statistics_StatDataset
         $this->loadData();
     }
 
+
     public function getFileSlot()
     {
         return $this->fileslot;
     }
 
+
     public function getTimeRes()
     {
         return $this->timeres;
     }
+
 
     public function setDelimiter($delimiter = '_')
     {
@@ -72,6 +76,7 @@ class sspmod_statistics_StatDataset
         $this->delimiter = $delimiter;
     }
 
+
     public function getDelimiter()
     {
         if ($this->delimiter === '_') {
@@ -79,6 +84,7 @@ class sspmod_statistics_StatDataset
         }
         return $this->delimiter;
     }
+
 
     public function calculateMax()
     {
@@ -91,6 +97,7 @@ class sspmod_statistics_StatDataset
         }
         $this->max = sspmod_statistics_Graph_GoogleCharts::roof($maxvalue);
     }
+
 
     public function getDebugData()
     {
@@ -107,6 +114,7 @@ class sspmod_statistics_StatDataset
         }
         return $debugdata;
     }
+
 
     public function aggregateSummary()
     {
@@ -125,6 +133,7 @@ class sspmod_statistics_StatDataset
         $this->summary = array_reverse($this->summary, true);
     }
 
+
     public function getTopDelimiters()
     {
         // create a list of delimiter keys that has the highest total summary in this period
@@ -142,6 +151,7 @@ class sspmod_statistics_StatDataset
         return $topdelimiters;
     }
 
+
     public function availDelimiters()
     {
         $availDelimiters = array();
@@ -150,6 +160,7 @@ class sspmod_statistics_StatDataset
         }
         return array_keys($availDelimiters);
     }
+
 
     public function getPieData()
     {
@@ -165,20 +176,24 @@ class sspmod_statistics_StatDataset
         return $piedata;
     }
 
+
     public function getMax()
     {
         return $this->max;
     }
+
 
     public function getSummary()
     {
         return $this->summary;
     }
 
+
     public function getResults()
     {
         return $this->results;
     }
+
 
     public function getAxis()
     {
@@ -208,6 +223,7 @@ class sspmod_statistics_StatDataset
         return array('axis' => $axis, 'axispos' => $axispos);
     }
 
+
     /*
      * Walk through dataset to get percent values from max into dataset[].
      */
@@ -231,17 +247,18 @@ class sspmod_statistics_StatDataset
         return $dataset;
     }
 
+
     public function getDelimiterPresentation()
     {
         $config = SimpleSAML_Configuration::getInstance();
-        $t = new SimpleSAML_XHTML_Template($config, 'statistics:statistics.tpl.php');
+        $t = new SimpleSAML_XHTML_Template($config, 'statistics:statistics-tpl.php');
 
         $availdelimiters = $this->availDelimiters();
 
         // create a delimiter presentation filter for this rule...
         if ($this->ruleconfig->hasValue('fieldPresentation')) {
             $fieldpresConfig = $this->ruleconfig->getConfigItem('fieldPresentation');
-            $classname = SimpleSAML\Module::resolveClass(
+            $classname = SimpleSAML_Module::resolveClass(
                 $fieldpresConfig->getValue('class'),
                 'Statistics_FieldPresentation'
             );
@@ -255,6 +272,7 @@ class sspmod_statistics_StatDataset
 
         return array();
     }
+
 
     public function getDelimiterPresentationPie()
     {
@@ -272,6 +290,7 @@ class sspmod_statistics_StatDataset
         $pieaxis[] = 'Others';
         return $pieaxis;
     }
+
 
     public function loadData()
     {

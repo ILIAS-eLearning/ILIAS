@@ -30,9 +30,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	protected function setTabs()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		$this->tabs_gui->addSubTab('trac_object_stat_access', 
 				$this->lng->txt('trac_object_stat_access'),
@@ -99,9 +97,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function access($a_load_data = true)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_access');
 		
@@ -121,10 +117,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function showAccessGraph()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $lng, $tpl;
 		
 		if(!$_POST["item_id"])
 		{
@@ -165,9 +158,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function types($a_load_data = true)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_types');
 		
@@ -187,10 +178,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function showTypesGraph()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $lng, $tpl;
 
 		if(!$_POST["item_id"])
 		{
@@ -231,9 +219,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function daily($a_load_data = true)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_daily');
 		
@@ -253,10 +239,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function showDailyGraph()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $lng, $tpl;
 
 		if(!$_POST["item_id"])
 		{
@@ -274,13 +257,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function admin()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $ilAccess;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_admin');
 		
@@ -300,10 +277,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function adminSync()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
 		ilChangeEvent::_syncObjectStats(time(), 1);
@@ -314,12 +288,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function confirmDeleteData()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $tpl, $ilTabs, $ilCtrl;
 
 		if(!$_POST["item_id"])
 		{
@@ -353,9 +322,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function deleteData()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if(!$_POST["item_id"])
 		{
@@ -394,9 +361,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function learningProgress($a_load_data = true)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_lp');
 		
@@ -416,10 +381,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function showLearningProgressGraph()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $lng, $tpl;
 		
 		if(!$_POST["item_id"])
 		{
@@ -449,11 +411,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	
 	protected function showAggregationInfo($a_show_link = true)
 	{		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilAccess, $lng, $ilCtrl;
 		
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";		
 		$info = ilTrQuery::getObjectStatisticsLogInfo();
@@ -471,9 +429,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	
 	protected function showCronJobInfo()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		include_once "Services/Cron/classes/class.ilCronManager.php";
 		if(!ilCronManager::isJobActive("lp_object_statistics"))

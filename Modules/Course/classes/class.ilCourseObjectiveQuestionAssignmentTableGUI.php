@@ -57,10 +57,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_course_obj,$a_objective_id,$a_mode)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->objective_id = $a_objective_id;
 	 	$this->course_obj = $a_course_obj;
@@ -200,9 +197,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	 */
 	public function parse($a_assignable)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		// begin-patch lok
 		$a_assignable = $this->getTestNode();
@@ -257,7 +252,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			$tst_ref_id = $this->getSettings()->getInitialTest();
 			if($tst_ref_id)
 			{
-				return array($GLOBALS['DIC']['tree']->getNodeData($tst_ref_id));
+				return array($GLOBALS['tree']->getNodeData($tst_ref_id));
 			}
 		}
 		if($this->mode == ilCourseObjectiveQuestion::TYPE_FINAL_TEST)
@@ -265,7 +260,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			$tst_ref_id = $this->getSettings()->getQualifiedTest();
 			if($tst_ref_id)
 			{
-				return array($GLOBALS['DIC']['tree']->getNodeData($tst_ref_id));
+				return array($GLOBALS['tree']->getNodeData($tst_ref_id));
 			}
 		}
 		return array();

@@ -1,9 +1,5 @@
 <?php
 
-namespace SAML2;
-
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
 /**
  * Helper class for processing signed elements.
  *
@@ -11,14 +7,14 @@ use RobRichards\XMLSecLibs\XMLSecurityKey;
  *
  * @package SimpleSAMLphp
  */
-class SignedElementHelper implements SignedElement
+class SAML2_SignedElementHelper implements SAML2_SignedElement
 {
     /**
      * The private key we should use to sign the message.
      *
-     * The private key can be null, in which case the message is sent unsigned.
+     * The private key can be NULL, in which case the message is sent unsigned.
      *
-     * @var XMLSecurityKey|null
+     * @var XMLSecurityKey|NULL
      */
     private $signatureKey;
 
@@ -39,29 +35,30 @@ class SignedElementHelper implements SignedElement
     /**
      * Initialize the helper class.
      *
-     * @param \DOMElement|null $xml The XML element which may be signed.
+     * @param DOMElement|NULL $xml The XML element which may be signed.
      */
-    protected function __construct(\DOMElement $xml = null)
+    protected function __construct(DOMElement $xml = NULL)
     {
         $this->certificates = array();
         $this->validators = array();
 
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         /* Validate the signature element of the message. */
         try {
-            $sig = Utils::validateElement($xml);
+            $sig = SAML2_Utils::validateElement($xml);
 
-            if ($sig !== false) {
+            if ($sig !== FALSE) {
                 $this->certificates = $sig['Certificates'];
                 $this->validators[] = array(
-                    'Function' => array('\SAML2\Utils', 'validateSignature'),
+                    'Function' => array('SAML2_Utils', 'validateSignature'),
                     'Data' => $sig,
                 );
             }
-        } catch (\Exception $e) {
+
+        } catch (Exception $e) {
             /* Ignore signature validation errors. */
         }
     }
@@ -76,7 +73,7 @@ class SignedElementHelper implements SignedElement
      */
     public function addValidator($function, $data)
     {
-        assert(is_callable($function));
+        assert('is_callable($function)');
 
         $this->validators[] = array(
             'Function' => $function,
@@ -87,18 +84,18 @@ class SignedElementHelper implements SignedElement
     /**
      * Validate this element against a public key.
      *
-     * true is returned on success, false is returned if we don't have any
+     * TRUE is returned on success, FALSE is returned if we don't have any
      * signature we can validate. An exception is thrown if the signature
      * validation fails.
      *
      * @param  XMLSecurityKey $key The key we should check against.
-     * @return boolean        true on success, false when we don't have a signature.
-     * @throws \Exception
+     * @return boolean        TRUE on success, FALSE when we don't have a signature.
+     * @throws Exception
      */
     public function validate(XMLSecurityKey $key)
     {
         if (count($this->validators) === 0) {
-            return false;
+            return FALSE;
         }
 
         $exceptions = array();
@@ -111,8 +108,8 @@ class SignedElementHelper implements SignedElement
                 call_user_func($function, $data, $key);
                 /* We were able to validate the message with this validator. */
 
-                return true;
-            } catch (\Exception $e) {
+                return TRUE;
+            } catch (Exception $e) {
                 $exceptions[] = $e;
             }
         }
@@ -124,7 +121,7 @@ class SignedElementHelper implements SignedElement
     /**
      * Retrieve the private key we should use to sign the message.
      *
-     * @return XMLSecurityKey|null The key, or NULL if no key is specified.
+     * @return XMLSecurityKey|NULL The key, or NULL if no key is specified.
      */
     public function getSignatureKey()
     {
@@ -134,11 +131,11 @@ class SignedElementHelper implements SignedElement
     /**
      * Set the private key we should use to sign the message.
      *
-     * If the key is null, the message will be sent unsigned.
+     * If the key is NULL, the message will be sent unsigned.
      *
-     * @param XMLSecurityKey|null $signatureKey
+     * @param XMLSecurityKey|NULL $signatureKey
      */
-    public function setSignatureKey(XMLSecurityKey $signatureKey = null)
+    public function setSignatureKey(XMLsecurityKey $signatureKey = NULL)
     {
         $this->signatureKey = $signatureKey;
     }
@@ -175,7 +172,7 @@ class SignedElementHelper implements SignedElement
         $ret = array();
         foreach ($this->certificates as $cert) {
 
-            /* Construct a PEM formatted certificate */
+            /* We have found a matching fingerprint. */
             $pemCert = "-----BEGIN CERTIFICATE-----\n" .
                 chunk_split($cert, 64) .
                 "-----END CERTIFICATE-----\n";
@@ -189,7 +186,7 @@ class SignedElementHelper implements SignedElement
                 if ($this->validate($key)) {
                     $ret[] = $cert;
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 /* This certificate does not sign this element. */
             }
         }
@@ -200,20 +197,21 @@ class SignedElementHelper implements SignedElement
     /**
      * Sign the given XML element.
      *
-     * @param \DOMElement      $root         The element we should sign.
-     * @param \DOMElement|null $insertBefore The element we should insert the signature node before.
-     * @return \DOMElement|null
+     * @param DOMElement      $root         The element we should sign.
+     * @param DOMElement|NULL $insertBefore The element we should insert the signature node before.
+     * @return DOMElement|NULL
      */
-    protected function signElement(\DOMElement $root, \DOMElement $insertBefore = null)
+    protected function signElement(DOMElement $root, DOMElement $insertBefore = NULL)
     {
-        if ($this->signatureKey === null) {
+        if ($this->signatureKey === NULL) {
             /* We cannot sign this element. */
 
-            return null;
+            return NULL;
         }
 
-        Utils::insertSignature($this->signatureKey, $this->certificates, $root, $insertBefore);
+        SAML2_Utils::insertSignature($this->signatureKey, $this->certificates, $root, $insertBefore);
 
         return $root;
     }
+
 }

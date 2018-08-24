@@ -67,7 +67,7 @@ class ilECSCourseMemberConnector extends ilECSConnector
 			{
 				include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
 				$details = new ilECSEContentDetails();
-				$GLOBALS['DIC']['ilLog']->write(print_r($res,true));
+				$GLOBALS['ilLog']->write(print_r($res,true));
 				$details->loadFromJson($ecs_result->getResult());
 				return $details;
 			}

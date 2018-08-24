@@ -129,10 +129,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 */
 	public function insertTitle()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilUser, $ilCtrl;
 
 		if(
 			ilCourseObjectiveResultCache::getStatus($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id) != IL_OBJECTIVE_STATUS_NONE and 
@@ -178,10 +175,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 */
 	public function insertProgressInfo()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilUser,$lng;
 		
 		$lng->loadLanguageModule('trac');
 

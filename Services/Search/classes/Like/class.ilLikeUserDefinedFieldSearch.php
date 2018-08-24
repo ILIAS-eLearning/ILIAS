@@ -34,9 +34,7 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 
 	function __createWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$fields = $this->getFields();
 		$field = $fields[0];

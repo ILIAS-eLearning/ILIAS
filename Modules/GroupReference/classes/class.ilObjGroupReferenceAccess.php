@@ -31,9 +31,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		switch($a_permission)
 		{
@@ -74,9 +72,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
 	 */
 	static function _getCommands($a_ref_id = 0)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		if($ilAccess->checkAccess('write','',$a_ref_id))
 		{

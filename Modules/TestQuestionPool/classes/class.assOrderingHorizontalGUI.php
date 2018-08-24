@@ -238,7 +238,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput(array());
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -447,7 +447,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		if(strpos($this->object->getOrderText(),'::'))
 		{
@@ -456,7 +456,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$answers = explode(' ', $this->object->getOrderText());
 		}
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($answers)) )
 		{
 			return '';
 		}
@@ -466,7 +466,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		foreach($answers as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(),0, $idx
+				$this->object->getId(), $idx
 			);
 
 			$output .= "<tr><td>{$answer}</td><td>{$feedback}</td></tr>";

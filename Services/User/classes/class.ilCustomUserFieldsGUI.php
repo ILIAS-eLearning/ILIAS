@@ -23,10 +23,7 @@ class ilCustomUserFieldsGUI
 	
 	function __construct()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("user");		
 		$lng->loadLanguageModule("administration");		
@@ -50,9 +47,7 @@ class ilCustomUserFieldsGUI
 	
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -75,12 +70,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function listUserDefinedFields()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $tpl, $ilToolbar, $ilCtrl;
 				
 		if($this->getPermissions()->hasPermission(ilUDFPermissionHelper::CONTEXT_UDF, 
 			(int)$_GET["ref_id"], ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD))
@@ -105,9 +95,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function addField($a_form = null)
 	{
-		global $DIC;		
-
-		$tpl = $DIC['tpl'];
+		global $tpl;		
 		
 		if(!$a_form)
 		{
@@ -124,9 +112,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function getAccessOptions()
 	{	
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$opts = array();
 		$opts["visible"] = $lng->txt("user_visible_in_profile");
@@ -167,10 +153,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function initForm($a_mode = "create")
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 				
 		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
 	 	if (ilMemberAgreement::_hasAgreements())
@@ -324,9 +307,7 @@ class ilCustomUserFieldsGUI
 	 */
 	protected function validateForm($form, $user_field_definitions, array &$access, array $a_field_permissions = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if($form->checkInput())
 		{
@@ -392,10 +373,7 @@ class ilCustomUserFieldsGUI
 		
 	function create()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$user_field_definitions->setFieldType($_POST["field_type"]);
@@ -439,9 +417,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function edit($a_form = null)
 	{
-		global $DIC;		
-
-		$tpl = $DIC['tpl'];
+		global $tpl;		
 		
 		if(!$a_form)
 		{
@@ -453,10 +429,7 @@ class ilCustomUserFieldsGUI
 	
 	function update()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$user_field_definitions->setFieldType($this->field_definition["field_type"]);
@@ -566,11 +539,7 @@ class ilCustomUserFieldsGUI
 		
 	function askDeleteField()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl, $lng, $tpl;
 		
 		if(!$_POST["fields"])
 		{
@@ -599,10 +568,7 @@ class ilCustomUserFieldsGUI
 		
 	function deleteField()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		
@@ -639,10 +605,7 @@ class ilCustomUserFieldsGUI
 	 */
 	function updateFields($action = "")
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$a_fields = $user_field_definitions->getDefinitions();

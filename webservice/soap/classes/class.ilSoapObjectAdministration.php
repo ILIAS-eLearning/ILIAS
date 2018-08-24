@@ -50,9 +50,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
 		$ilLog->write("SOAP getObjIdByImportId(): import_id = ".$import_id.' obj_id = '.$obj_id);
@@ -75,9 +73,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
 
@@ -424,7 +420,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$xml_writer->setObjects($objs);
 		if($xml_writer->start())
 		{
-			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$xml_writer->xmlDumpMem(true));
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_writer->xmlDumpMem(true));
 			return $xml_writer->getXML();
 		}
 
@@ -443,9 +439,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$all = false;
 
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -502,7 +496,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         if ($xml_writer->start())
         {
-			#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$xml_writer->getXML());
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_writer->getXML());
             return $xml_writer->getXML();
         }
 
@@ -519,9 +513,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$nodedata = $tree->getNodeData($ref_id);
 		$nodearray = $tree->getSubTree($nodedata);
@@ -529,9 +521,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$filter = (array) $types;
 
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		foreach($nodearray as $node)
 		{
 			if(!$objDefinition->isAdministrationObject($node['type']) && !$objDefinition->isSystemObject($node['type']))
@@ -582,13 +572,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$objDefinition = $DIC['objDefinition'];
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacsystem, $objDefinition,$ilUser, $lng, $ilObjDataCache;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
 		{
@@ -757,11 +741,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
+		global $objDefinition, $rbacsystem, $tree;
 
 		if(!$source_obj =& ilObjectFactory::getInstanceByRefId($a_source_id,false))
 		{
@@ -873,11 +853,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No reference id given.',
 									   'Client');
 		}
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $tree, $rbacsystem, $rbacadmin;
 
 		if(!$del_obj =& ilObjectFactory::getInstanceByRefId($reference_id,false))
 		{
@@ -930,11 +906,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No import id given. Aborting!',
 									   'Client');
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjIdByImportId($import_id))
@@ -1001,12 +973,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacreview, $rbacsystem, $lng,$ilAccess;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 		$xml_parser = new ilObjectXMLParser($a_xml, true);
@@ -1109,8 +1076,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
 
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $object_data['type']);
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $a_xml);
+				#$GLOBALS['ilLog']->write(__METHOD__.': type is '. $object_data['type']);
+				#$GLOBALS['ilLog']->write(__METHOD__.': type is '. $a_xml);
 
 
 				switch ($object_data['type']) 
@@ -1143,15 +1110,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$tree = $DIC['tree'];
+		global $rbacreview, $rbacadmin, $objDefinition, $rbacsystem, $lng, $ilUser, $tree;
 		
 		// does source object exist
 		if(!$source_object_type = ilObjectFactory::getTypeByRefId($ref_id, false))
@@ -1222,13 +1181,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview, $objDefinition, $rbacsystem, $lng, $ilUser;
 
 		include_once './webservice/soap/classes/class.ilCopyWizardSettingsXMLParser.php';
 		$xml_parser = new ilCopyWizardSettingsXMLParser($copy_settings_xml);
@@ -1314,13 +1267,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $ilAccess, $objDefinition, $rbacsystem, $lng, $ilUser;
 		
 		if(!$rbacsystem->checkAccess('read', $ref_id))
 		{
@@ -1331,10 +1278,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError("Object is in Trash", 'Client');			
 		}
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
+		global $tree, $lng;
 		$items = $tree->getPathFull($ref_id);
 				
 		include_once 'webservice/soap/classes/class.ilXMLResultSet.php';
@@ -1369,10 +1313,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	private function canAddType ($type, $target_type, $target_id) 
 	{
 		// checking for target subtypes. Can we add source to target
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $objDefinition, $rbacsystem;
 		
 		$allowed_types = array('root','cat','grp','crs','fold');
 		if(!in_array($target_type, $allowed_types))
@@ -1405,9 +1346,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	
 	private function validateReferences($a_action,$a_object_data,$a_target_id = 0)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
 		{
@@ -1470,10 +1409,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	
 	private function updateReferences($a_object_data)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $tree,$ilLog;
 		
 		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
 		{
@@ -1524,10 +1460,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	
 	private function addReferences($source,$a_object_data)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $tree,$ilLog;
 		
 		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
 		{

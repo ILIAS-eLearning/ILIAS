@@ -30,13 +30,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false, $a_type = self::TYPE_STANDARD)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 
 		$this->admin_mode = (bool)$a_admin_mode;
 		$this->type = $a_type;
@@ -159,10 +153,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	 */
 	public function  getSelectableColumns()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview, $ilUser;
 
 		if(!self::$all_selectable_cols)
 		{			
@@ -204,10 +195,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
+		global $ilCtrl, $ilUser;
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 		

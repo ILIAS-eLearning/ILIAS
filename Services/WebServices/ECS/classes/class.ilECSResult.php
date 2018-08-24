@@ -62,9 +62,7 @@ class ilECSResult
 	 */
 	public function __construct($a_res,$with_headers = false,$a_type = self::RESULT_TYPE_JSON)
 	{
-	 	global $DIC;
-
-	 	$ilLog = $DIC['ilLog'];
+	 	global $ilLog;
 	 	
 	 	$this->log = $ilLog;
 	 	

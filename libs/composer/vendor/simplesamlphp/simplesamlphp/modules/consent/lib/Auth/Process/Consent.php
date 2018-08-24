@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Consent Authentication Processing filter
  *
@@ -11,9 +9,8 @@
  */
 class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilter
 {
-
     /**
-     * Button to receive focus
+     * Button to recive focus
      *
      * @var string|null
      */
@@ -61,16 +58,13 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
      */
     private $_showNoConsentAboutService = true;
 
-
     /**
-     * Initialize consent filter.
+     * Initialize consent filter
      *
-     * Validates and parses the configuration.
+     * Validates and parses the configuration
      *
-     * @param array $config Configuration information.
-     * @param mixed $reserved For future use.
-     *
-     * @throws SimpleSAML_Error_Exception if the configuration is not valid.
+     * @param array $config   Configuration information
+     * @param mixed $reserved For future use
      */
     public function __construct($config, $reserved)
     {
@@ -80,8 +74,8 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         if (array_key_exists('includeValues', $config)) {
             if (!is_bool($config['includeValues'])) {
                 throw new SimpleSAML_Error_Exception(
-                    'Consent: includeValues must be boolean. '.
-                    var_export($config['includeValues'], true).' given.'
+                    'Consent: includeValues must be boolean. ' .
+                    var_export($config['includeValues'], true) . ' given.'
                 );
             }
             $this->_includeValues = $config['includeValues'];
@@ -90,8 +84,8 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         if (array_key_exists('checked', $config)) {
             if (!is_bool($config['checked'])) {
                 throw new SimpleSAML_Error_Exception(
-                    'Consent: checked must be boolean. '.
-                    var_export($config['checked'], true).' given.'
+                    'Consent: checked must be boolean. ' .
+                    var_export($config['checked'], true) . ' given.'
                 );
             }
             $this->_checked = $config['checked'];
@@ -100,8 +94,8 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         if (array_key_exists('focus', $config)) {
             if (!in_array($config['focus'], array('yes', 'no'), true)) {
                 throw new SimpleSAML_Error_Exception(
-                    'Consent: focus must be a string with values `yes` or `no`. '.
-                    var_export($config['focus'], true).' given.'
+                    'Consent: focus must be a string with values `yes` or `no`. ' .
+                    var_export($config['focus'], true) . ' given.'
                 );
             }
             $this->_focus = $config['focus'];
@@ -110,8 +104,8 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         if (array_key_exists('hiddenAttributes', $config)) {
             if (!is_array($config['hiddenAttributes'])) {
                 throw new SimpleSAML_Error_Exception(
-                    'Consent: hiddenAttributes must be an array. '.
-                    var_export($config['hiddenAttributes'], true).' given.'
+                    'Consent: hiddenAttributes must be an array. ' .
+                    var_export($config['hiddenAttributes'], true) . ' given.'
                 );
             }
             $this->_hiddenAttributes = $config['hiddenAttributes'];
@@ -120,23 +114,23 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         if (array_key_exists('noconsentattributes', $config)) {
             if (!is_array($config['noconsentattributes'])) {
                 throw new SimpleSAML_Error_Exception(
-                    'Consent: noconsentattributes must be an array. '.
-                    var_export($config['noconsentattributes'], true).' given.'
+                    'Consent: noconsentattributes must be an array. ' .
+                    var_export($config['noconsentattributes'], true) . ' given.'
                 );
             }
             $this->_noconsentattributes = $config['noconsentattributes'];
         }
-
+        
         if (array_key_exists('store', $config)) {
             try {
                 $this->_store = sspmod_consent_Store::parseStoreConfig($config['store']);
-            } catch (Exception $e) {
-                SimpleSAML\Logger::error(
-                    'Consent: Could not create consent storage: '.
+            } catch(Exception $e) {
+                SimpleSAML_Logger::error(
+                    'Consent: Could not create consent storage: ' .
                     $e->getMessage()
                 );
             }
-        }
+        } 
 
         if (array_key_exists('showNoConsentAboutService', $config)) {
             if (!is_bool($config['showNoConsentAboutService'])) {
@@ -144,77 +138,35 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
             }
             $this->_showNoConsentAboutService = $config['showNoConsentAboutService'];
         }
-    }
 
+    }
 
     /**
      * Helper function to check whether consent is disabled.
      *
-     * @param mixed  $option The consent.disable option. Either an array of array, an array or a boolean.
-     * @param string $entityId The entityID of the SP/IdP.
-     *
-     * @return boolean True if disabled, false if not.
+     * @param mixed $option  The consent.disable option. Either an array or a boolean.
+     * @param string $entityIdD  The entityID of the SP/IdP.
+     * @return boolean  TRUE if disabled, FALSE if not.
      */
-    private static function checkDisable($option, $entityId)
-    {
+    private static function checkDisable($option, $entityId) {
         if (is_array($option)) {
-            // Check if consent.disable array has one element that is an array
-            if (count($option) === count($option, COUNT_RECURSIVE)) {
-                // Array is not multidimensional.  Simple in_array search suffices
-                return in_array($entityId, $option, true);
-            }
-
-            // Array contains at least one element that is an array, verify both possibilities
-            if (in_array($entityId, $option, true)) {
-                return true;
-            }
-
-            // Search in multidimensional arrays
-            foreach ($option as $optionToTest) {
-                if (!is_array($optionToTest)) {
-                    continue; // bad option
-                }
-
-                if (!array_key_exists('type', $optionToTest)) {
-                    continue; // option has no type
-                }
-
-                // Option has a type - switch processing depending on type value :
-                if ($optionToTest['type'] === 'regex') {
-                    // regex-based consent disabling
-
-                    if (!array_key_exists('pattern', $optionToTest)) {
-                        continue; // no pattern defined
-                    }
-
-                    if (preg_match($optionToTest['pattern'], $entityId) === 1) {
-                        return true;
-                    }
-                } else {
-                    // option type is not supported
-                    continue;
-                }
-            } // end foreach
-
-            // Base case : no match
-            return false;
+            return in_array($entityId, $option, TRUE);
         } else {
-            return (boolean) $option;
+            return (boolean)$option;
         }
     }
-
 
     /**
      * Process a authentication response
      *
-     * This function saves the state, and redirects the user to the page where the user can authorize the release of
-     * the attributes. If storage is used and the consent has already been given the user is passed on.
+     * This function saves the state, and redirects the user to the page where
+     * the user can authorize the release of the attributes.
+     * If storage is used and the consent has already been given the user is 
+     * passed on.
      *
      * @param array &$state The state of the response.
      *
      * @return void
-     *
-     * @throws SimpleSAML_Error_NoPassive if the request was passive and consent is needed.
      */
     public function process(&$state)
     {
@@ -222,7 +174,7 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         assert('array_key_exists("UserID", $state)');
         assert('array_key_exists("Destination", $state)');
         assert('array_key_exists("entityid", $state["Destination"])');
-        assert('array_key_exists("metadata-set", $state["Destination"])');
+        assert('array_key_exists("metadata-set", $state["Destination"])');		
         assert('array_key_exists("entityid", $state["Source"])');
         assert('array_key_exists("metadata-set", $state["Source"])');
 
@@ -239,140 +191,138 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
          */
         if (isset($state['saml:sp:IdP'])) {
             $idpEntityId = $state['saml:sp:IdP'];
-            $idpmeta = $metadata->getMetaData($idpEntityId, 'saml20-idp-remote');
+            $idpmeta         = $metadata->getMetaData($idpEntityId, 'saml20-idp-remote');
             $state['Source'] = $idpmeta;
         }
 
         $statsData = array('spEntityID' => $spEntityId);
 
         // Do not use consent if disabled
-        if (isset($state['Source']['consent.disable']) &&
-            self::checkDisable($state['Source']['consent.disable'], $spEntityId)
-        ) {
-            SimpleSAML\Logger::debug('Consent: Consent disabled for entity '.$spEntityId.' with IdP '.$idpEntityId);
+        if (isset($state['Source']['consent.disable']) && self::checkDisable($state['Source']['consent.disable'], $spEntityId)) {
+            SimpleSAML_Logger::debug('Consent: Consent disabled for entity ' . $spEntityId . ' with IdP ' . $idpEntityId);
             SimpleSAML_Stats::log('consent:disabled', $statsData);
             return;
         }
-        if (isset($state['Destination']['consent.disable']) &&
-            self::checkDisable($state['Destination']['consent.disable'], $idpEntityId)
-        ) {
-            SimpleSAML\Logger::debug('Consent: Consent disabled for entity '.$spEntityId.' with IdP '.$idpEntityId);
+        if (isset($state['Destination']['consent.disable']) && self::checkDisable($state['Destination']['consent.disable'], $idpEntityId)) {
+            SimpleSAML_Logger::debug('Consent: Consent disabled for entity ' . $spEntityId . ' with IdP ' . $idpEntityId);
             SimpleSAML_Stats::log('consent:disabled', $statsData);
             return;
         }
 
         if ($this->_store !== null) {
-            $source = $state['Source']['metadata-set'].'|'.$idpEntityId;
-            $destination = $state['Destination']['metadata-set'].'|'.$spEntityId;
-            $attributes = $state['Attributes'];
+
+            $source      = $state['Source']['metadata-set'] . '|' . $idpEntityId;
+            $destination = $state['Destination']['metadata-set'] . '|' . $spEntityId;
+            $attributes  = $state['Attributes'];
 
             // Remove attributes that do not require consent
-            foreach ($attributes as $attrkey => $attrval) {
-                if (in_array($attrkey, $this->_noconsentattributes, true)) {
+            foreach ($attributes AS $attrkey => $attrval) {
+                if (in_array($attrkey, $this->_noconsentattributes)) {
                     unset($attributes[$attrkey]);
                 }
             }
 
-            SimpleSAML\Logger::debug('Consent: userid: '.$state['UserID']);
-            SimpleSAML\Logger::debug('Consent: source: '.$source);
-            SimpleSAML\Logger::debug('Consent: destination: '.$destination);
+            SimpleSAML_Logger::debug('Consent: userid: ' . $state['UserID']);
+            SimpleSAML_Logger::debug('Consent: source: ' . $source);
+            SimpleSAML_Logger::debug('Consent: destination: ' . $destination);
 
-            $userId = self::getHashedUserID($state['UserID'], $source);
-            $targetedId = self::getTargetedID($state['UserID'], $source, $destination);
+            $userId       = self::getHashedUserID($state['UserID'], $source);
+            $targetedId   = self::getTargetedID($state['UserID'], $source, $destination);
             $attributeSet = self::getAttributeHash($attributes, $this->_includeValues);
 
-            SimpleSAML\Logger::debug(
-                'Consent: hasConsent() ['.$userId.'|'.$targetedId.'|'.
-                $attributeSet.']'
+            SimpleSAML_Logger::debug(
+                'Consent: hasConsent() [' . $userId . '|' . $targetedId . '|' .
+                $attributeSet . ']'
             );
 
             try {
                 if ($this->_store->hasConsent($userId, $targetedId, $attributeSet)) {
                     // Consent already given
-                    SimpleSAML\Logger::stats('consent found');
+                    SimpleSAML_Logger::stats('Consent: Consent found');
                     SimpleSAML_Stats::log('consent:found', $statsData);
                     return;
                 }
 
-                SimpleSAML\Logger::stats('consent notfound');
+                SimpleSAML_Logger::stats('Consent: Consent notfound');
                 SimpleSAML_Stats::log('consent:notfound', $statsData);
 
-                $state['consent:store'] = $this->_store;
-                $state['consent:store.userId'] = $userId;
-                $state['consent:store.destination'] = $targetedId;
+                $state['consent:store']              = $this->_store;
+                $state['consent:store.userId']       = $userId;
+                $state['consent:store.destination']  = $targetedId;
                 $state['consent:store.attributeSet'] = $attributeSet;
             } catch (Exception $e) {
-                SimpleSAML\Logger::error('Consent: Error reading from storage: '.$e->getMessage());
-                SimpleSAML\Logger::stats('Ccnsent failed');
+                SimpleSAML_Logger::error('Consent: Error reading from storage: ' . $e->getMessage());
+                SimpleSAML_Logger::stats('Consent: Failed');
                 SimpleSAML_Stats::log('consent:failed', $statsData);
             }
         } else {
-            SimpleSAML\Logger::stats('consent nostorage');
+            SimpleSAML_Logger::stats('Consent: No storage');
             SimpleSAML_Stats::log('consent:nostorage', $statsData);
         }
 
-        $state['consent:focus'] = $this->_focus;
-        $state['consent:checked'] = $this->_checked;
-        $state['consent:hiddenAttributes'] = $this->_hiddenAttributes;
+        $state['consent:focus']               = $this->_focus;
+        $state['consent:checked']             = $this->_checked;
+        $state['consent:hiddenAttributes']    = $this->_hiddenAttributes;
         $state['consent:noconsentattributes'] = $this->_noconsentattributes;
         $state['consent:showNoConsentAboutService'] = $this->_showNoConsentAboutService;
 
-        // user interaction necessary. Throw exception on isPassive request
+        // User interaction nessesary. Throw exception on isPassive request	
         if (isset($state['isPassive']) && $state['isPassive'] === true) {
             SimpleSAML_Stats::log('consent:nopassive', $statsData);
-            throw new SimpleSAML_Error_NoPassive('Unable to give consent on passive request.');
+            throw new SimpleSAML_Error_NoPassive(
+                'Unable to give consent on passive request.'
+            );
         }
 
         // Save state and redirect
-        $id = SimpleSAML_Auth_State::saveState($state, 'consent:request');
-        $url = SimpleSAML\Module::getModuleURL('consent/getconsent.php');
+        $id  = SimpleSAML_Auth_State::saveState($state, 'consent:request');
+        $url = SimpleSAML_Module::getModuleURL('consent/getconsent.php');
         \SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('StateId' => $id));
     }
 
-
     /**
-     * Generate a unique identifier of the user.
+     * Generate a unique identifier of the user
+     * 
+     * @param string $userid The user id
+     * @param string $source The source id
      *
-     * @param string $userid The user id.
-     * @param string $source The source id.
-     *
-     * @return string SHA1 of the user id, source id and salt.
+     * @return string SHA1 of the user id, source id and salt 
      */
     public static function getHashedUserID($userid, $source)
     {
-        return hash('sha1', $userid.'|'.SimpleSAML\Utils\Config::getSecretSalt().'|'.$source);
+        return hash('sha1', $userid . '|' . SimpleSAML\Utils\Config::getSecretSalt() . '|' . $source);
     }
 
-
     /**
-     * Generate a unique targeted identifier.
+     * Generate a unique targeted identifier
      *
-     * @param string $userid The user id.
-     * @param string $source The source id.
-     * @param string $destination The destination id.
+     * @param string $userid      The user id
+     * @param string $source      The source id
+     * @param string $destination The destination id
      *
-     * @return string SHA1 of the user id, source id, destination id and salt.
+     * @return string SHA1 of the user id, source id, destination id and salt 
      */
     public static function getTargetedID($userid, $source, $destination)
     {
-        return hash('sha1', $userid.'|'.SimpleSAML\Utils\Config::getSecretSalt().'|'.$source.'|'.$destination);
+        return hash('sha1', $userid . '|' . SimpleSAML\Utils\Config::getSecretSalt() . '|' . $source . '|' . $destination);
     }
 
-
     /**
-     * Generate unique identifier for attributes.
+     * Generate unique identitier for attributes
      *
-     * Create a hash value for the attributes that changes when attributes are added or removed. If the attribute
-     * values are included in the hash, the hash will change if the values change.
+     * Create a hash value for the attributes that changes when attributes are
+     * added or removed. If the attribute values are included in the hash, the 
+     * hash will change if the values change.
      *
-     * @param string $attributes The attributes.
-     * @param bool   $includeValues Whether or not to include the attribute value in the generation of the hash.
+     * @param string $attributes    The attributes
+     * @param bool   $includeValues Whether or not to include the attribute
+     *                              value in the generation of the hash.
      *
-     * @return string SHA1 of the user id, source id, destination id and salt.
+     * @return string SHA1 of the user id, source id, destination id and salt 
      */
     public static function getAttributeHash($attributes, $includeValues = false)
     {
-        $hashBase = null;
+        $hashBase = null;	
         if ($includeValues) {
             ksort($attributes);
             $hashBase = serialize($attributes);

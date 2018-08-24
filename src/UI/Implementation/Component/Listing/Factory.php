@@ -30,11 +30,4 @@ class Factory implements \ILIAS\UI\Component\Listing\Factory {
 	public function descriptive(array $items){
 		return new Descriptive($items);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function workflow(){
-		return new Workflow\Factory();
-	}
 }

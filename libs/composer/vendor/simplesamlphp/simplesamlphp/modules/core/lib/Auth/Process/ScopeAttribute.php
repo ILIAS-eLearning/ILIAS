@@ -30,13 +30,6 @@ class sspmod_core_Auth_Process_ScopeAttribute extends SimpleSAML_Auth_Processing
 	 */
 	private $targetAttribute;
 
-	/**
-	 * Only modify targetAttribute if it doesn't already exist.
-	 *
-	 * @var bool
-	 */
-	private $onlyIfEmpty = false;
-
 
 	/**
 	 * Initialize this filter, parse configuration
@@ -53,7 +46,6 @@ class sspmod_core_Auth_Process_ScopeAttribute extends SimpleSAML_Auth_Processing
 		$this->scopeAttribute = $config->getString('scopeAttribute');
 		$this->sourceAttribute = $config->getString('sourceAttribute');
 		$this->targetAttribute = $config->getString('targetAttribute');
-		$this->onlyIfEmpty = $config->getBoolean('onlyIfEmpty', false);
 	}
 
 
@@ -78,10 +70,6 @@ class sspmod_core_Auth_Process_ScopeAttribute extends SimpleSAML_Auth_Processing
 
 		if (!isset($attributes[$this->targetAttribute])) {
 			$attributes[$this->targetAttribute] = array();
-		}
-
-		if ($this->onlyIfEmpty and count($attributes[$this->targetAttribute]) > 0) {
-			return;
 		}
 
 		foreach ($attributes[$this->scopeAttribute] as $scope) {

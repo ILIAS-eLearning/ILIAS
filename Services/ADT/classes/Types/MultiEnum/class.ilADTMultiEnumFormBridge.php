@@ -24,9 +24,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
 	
 	public function addToForm()
 	{		
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 				
 		$def = $this->getADT()->getCopyOfDefinition();
 		

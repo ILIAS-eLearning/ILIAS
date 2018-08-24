@@ -36,9 +36,7 @@ class ilSCGroup
 	 */
 	public static function lookupComponent($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT component FROM sysc_groups '.
 				'WHERE id = '.$ilDB->quote($a_id,'integer');
@@ -108,9 +106,7 @@ class ilSCGroup
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getId())
 		{
@@ -134,9 +130,7 @@ class ilSCGroup
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->id = $ilDB->nextId('sysc_groups');
 		

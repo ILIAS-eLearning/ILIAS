@@ -13,12 +13,12 @@ if (!array_key_exists('StateId', $_REQUEST)) {
 $id = $_REQUEST['StateId'];
 $state = SimpleSAML_Auth_State::loadState($id, 'consent:request');
 
-$resumeFrom = SimpleSAML\Module::getModuleURL(
+$resumeFrom = SimpleSAML_Module::getModuleURL(
     'consent/getconsent.php',
     array('StateId' => $id)
 );
 
-$logoutLink = SimpleSAML\Module::getModuleURL(
+$logoutLink = SimpleSAML_Module::getModuleURL(
     'consent/logout.php',
     array('StateId' => $id)
 );

@@ -55,9 +55,7 @@ class ilObjRoleTemplate extends ilObject
 	function delete()
 	{		
 		// put here role template specific stuff
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 
 		// delete rbac permissions
 		$rbacadmin->deleteTemplate($this->getId(),$_GET["ref_id"]);
@@ -78,9 +76,7 @@ class ilObjRoleTemplate extends ilObject
 	
 	function getFilterOfInternalTemplate()
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		$filter = array();
 

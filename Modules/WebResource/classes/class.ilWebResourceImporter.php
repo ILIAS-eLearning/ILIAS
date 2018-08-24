@@ -52,11 +52,11 @@ class ilWebResourceImporter extends ilXmlImporter
 		}
 		catch(ilSaxParserException $e)
 		{
-			$GLOBALS['DIC']->logger()->webr()->error(': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 		catch(ilWebLinkXMLParserException $e)
 		{
-			$GLOBALS['DIC']->logger()->error(': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 	}
 }

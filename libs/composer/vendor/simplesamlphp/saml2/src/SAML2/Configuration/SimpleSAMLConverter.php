@@ -1,19 +1,15 @@
 <?php
 
-namespace SAML2\Configuration;
-
-use SimpleSAML_Configuration;
-
 /**
  * Backwards compatibility helper for SimpleSAMLphp
  */
-class SimpleSAMLConverter
+class SAML2_Configuration_SimpleSAMLConverter
 {
     /**
-     * @param \SimpleSAML_Configuration $configuration
-     * @param string                    $certificatePrefix
+     * @param SimpleSAML_Configuration $configuration
+     * @param string                   $certificatePrefix
      *
-     * @return \SAML2\Configuration\IdentityProvider
+     * @return SAML2_Configuration_IdentityProvider
      */
     public static function convertToIdentityProvider(
         SimpleSAML_Configuration $configuration,
@@ -23,14 +19,14 @@ class SimpleSAMLConverter
         static::enrichForDecryptionProvider($configuration, $pluckedConfiguration);
         static::enrichForIdentityProvider($configuration, $pluckedConfiguration);
 
-        return new IdentityProvider($pluckedConfiguration);
+        return new SAML2_Configuration_IdentityProvider($pluckedConfiguration);
     }
 
     /**
-     * @param \SimpleSAML_Configuration $configuration
-     * @param string                    $certificatePrefix
+     * @param SimpleSAML_Configuration $configuration
+     * @param string                   $certificatePrefix
      *
-     * @return \SAML2\Configuration\ServiceProvider
+     * @return SAML2_Configuration_ServiceProvider
      */
     public static function convertToServiceProvider(
         SimpleSAML_Configuration $configuration,
@@ -40,12 +36,12 @@ class SimpleSAMLConverter
         static::enrichForServiceProvider($configuration, $pluckedConfiguration);
         static::enrichForDecryptionProvider($configuration, $pluckedConfiguration);
 
-        return new ServiceProvider($pluckedConfiguration);
+        return new SAML2_Configuration_ServiceProvider($pluckedConfiguration);
     }
 
     /**
-     * @param \SimpleSAML_Configuration $configuration
-     * @param string                    $prefix
+     * @param SimpleSAML_Configuration $configuration
+     * @param string                   $prefix
      *
      * @return array
      */
@@ -77,7 +73,7 @@ class SimpleSAMLConverter
             $extracted['certificateFingerprint'] = $configuration->getArrayizeString('certFingerprint');
         }
 
-        $extracted['assertionEncryptionEnabled'] = $configuration->getBoolean('assertion.encryption', false);
+        $extracted['assertionEncryptionEnabled'] = $configuration->getBoolean('assertion.encryption', FALSE);
 
         if ($configuration->has('sharedKey')) {
             $extracted['sharedKey'] = $configuration->getString('sharedKey');
@@ -88,7 +84,7 @@ class SimpleSAMLConverter
 
     private static function enrichForIdentityProvider(SimpleSAML_Configuration $configuration, &$baseConfiguration)
     {
-        $baseConfiguration['base64EncodedAttributes'] = $configuration->getBoolean('base64attributes', false);
+        $baseConfiguration['base64EncodedAttributes'] = $configuration->getBoolean('base64attributes', FALSE);
         $baseConfiguration['entityId'] = $configuration->getString('entityid');
     }
 
@@ -102,22 +98,22 @@ class SimpleSAMLConverter
         array &$baseConfiguration
     ) {
         if ($configuration->has('sharedKey')) {
-            $baseConfiguration['sharedKey'] = $configuration->getString('sharedKey', null);
+            $baseConfiguration['sharedKey'] = $configuration->getString('sharedKey', NULL);
         }
 
         if ($configuration->has('new_privatekey')) {
-            $baseConfiguration['privateKeys'][] = new PrivateKey(
+            $baseConfiguration['privateKeys'][] = new SAML2_Configuration_PrivateKey(
                 $configuration->getString('new_privatekey'),
-                PrivateKey::NAME_NEW,
-                $configuration->getString('new_privatekey_pass', null)
+                SAML2_Configuration_PrivateKey::NAME_NEW,
+                $configuration->getString('new_privatekey_pass', NULL)
             );
         }
 
-        if ($configuration->getBoolean('assertion.encryption', false)) {
-            $baseConfiguration['privateKeys'][] = new PrivateKey(
+        if ($configuration->getBoolean('assertion.encryption', FALSE)) {
+            $baseConfiguration['privateKeys'][] = new SAML2_Configuration_PrivateKey(
                 $configuration->getString('privatekey'),
-                PrivateKey::NAME_DEFAULT,
-                $configuration->getString('privatekey_pass', null)
+                SAML2_Configuration_PrivateKey::NAME_DEFAULT,
+                $configuration->getString('privatekey_pass', NULL)
             );
 
             if ($configuration->has('encryption.blacklisted-algorithms')) {

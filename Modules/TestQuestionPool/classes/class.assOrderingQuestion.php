@@ -710,12 +710,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		
 		$solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
-		
-		if( !count($solutionValuePairs) )
-		{
-			return 0;
-		}
-		
 		$indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
 		$solutionOrderingElementList = $this->getSolutionOrderingElementList($indexedSolutionValues);
 		

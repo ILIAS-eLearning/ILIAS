@@ -40,9 +40,7 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBasicSessionBehaviour()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once("./Services/Authentication/classes/class.ilSession.php");
 		$result = "";
@@ -84,9 +82,7 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPasswordAssisstanceSession()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once("./include/inc.pwassist_session_handler.php");
 		

@@ -1,52 +1,44 @@
 <?php
 
-namespace SAML2\XML\saml;
-
-use RobRichards\XMLSecLibs\XMLSecurityDSig;
-use SAML2\Constants;
-use SAML2\Utils;
-use SAML2\XML\Chunk;
-use SAML2\XML\ds\KeyInfo;
-
 /**
  * Class representing SAML 2 SubjectConfirmationData element.
  *
  * @package SimpleSAMLphp
  */
-class SubjectConfirmationData
+class SAML2_XML_saml_SubjectConfirmationData
 {
     /**
      * The time before this element is valid, as an unix timestamp.
      *
-     * @var int|null
+     * @var int|NULL
      */
     public $NotBefore;
 
     /**
      * The time after which this element is invalid, as an unix timestamp.
      *
-     * @var int|null
+     * @var int|NULL
      */
     public $NotOnOrAfter;
 
     /**
      * The Recipient this Subject is valid for. Either an entity or a location.
      *
-     * @var string|null
+     * @var string|NULL
      */
     public $Recipient;
 
     /**
      * The ID of the AuthnRequest this is a response to.
      *
-     * @var string|null
+     * @var string|NULL
      */
     public $InResponseTo;
 
     /**
      * The IP(v6) address of the user.
      *
-     * @var string|null
+     * @var string|NULL
      */
     public $Address;
 
@@ -54,28 +46,28 @@ class SubjectConfirmationData
      * The various key information elements.
      *
      * Array with various elements describing this key.
-     * Unknown elements will be represented by \SAML2\XML\Chunk.
+     * Unknown elements will be represented by SAML2_XML_Chunk.
      *
-     * @var (\SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk)[]
+     * @var (SAML2_XML_ds_KeyInfo|SAML2_XML_Chunk)[]
      */
     public $info = array();
 
     /**
      * Initialize (and parse) a SubjectConfirmationData element.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
+     * @param DOMElement|NULL $xml The XML element we should load.
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         if ($xml->hasAttribute('NotBefore')) {
-            $this->NotBefore = Utils::xsDateTimeToTimestamp($xml->getAttribute('NotBefore'));
+            $this->NotBefore = SAML2_Utils::xsDateTimeToTimestamp($xml->getAttribute('NotBefore'));
         }
         if ($xml->hasAttribute('NotOnOrAfter')) {
-            $this->NotOnOrAfter = Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter'));
+            $this->NotOnOrAfter = SAML2_Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter'));
         }
         if ($xml->hasAttribute('Recipient')) {
             $this->Recipient = $xml->getAttribute('Recipient');
@@ -86,20 +78,20 @@ class SubjectConfirmationData
         if ($xml->hasAttribute('Address')) {
             $this->Address = $xml->getAttribute('Address');
         }
-        for ($n = $xml->firstChild; $n !== null; $n = $n->nextSibling) {
-            if (!($n instanceof \DOMElement)) {
+        for ($n = $xml->firstChild; $n !== NULL; $n = $n->nextSibling) {
+            if (!($n instanceof DOMElement)) {
                 continue;
             }
             if ($n->namespaceURI !== XMLSecurityDSig::XMLDSIGNS) {
-                $this->info[] = new Chunk($n);
+                $this->info[] = new SAML2_XML_Chunk($n);
                 continue;
             }
             switch ($n->localName) {
                 case 'KeyInfo':
-                    $this->info[] = new KeyInfo($n);
+                    $this->info[] = new SAML2_XML_ds_KeyInfo($n);
                     break;
                 default:
-                    $this->info[] = new Chunk($n);
+                    $this->info[] = new SAML2_XML_Chunk($n);
                     break;
             }
         }
@@ -108,18 +100,18 @@ class SubjectConfirmationData
     /**
      * Convert this element to XML.
      *
-     * @param  \DOMElement $parent The parent element we should append this element to.
-     * @return \DOMElement This element, as XML.
+     * @param  DOMElement $parent The parent element we should append this element to.
+     * @return DOMElement This element, as XML.
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent)
     {
-        assert(is_null($this->NotBefore) || is_int($this->NotBefore));
-        assert(is_null($this->NotOnOrAfter) || is_int($this->NotOnOrAfter));
-        assert(is_null($this->Recipient) || is_string($this->Recipient));
-        assert(is_null($this->InResponseTo) || is_string($this->InResponseTo));
-        assert(is_null($this->Address) || is_string($this->Address));
+        assert('is_null($this->NotBefore) || is_int($this->NotBefore)');
+        assert('is_null($this->NotOnOrAfter) || is_int($this->NotOnOrAfter)');
+        assert('is_null($this->Recipient) || is_string($this->Recipient)');
+        assert('is_null($this->InResponseTo) || is_string($this->InResponseTo)');
+        assert('is_null($this->Address) || is_string($this->Address)');
 
-        $e = $parent->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:SubjectConfirmationData');
+        $e = $parent->ownerDocument->createElementNS(SAML2_Const::NS_SAML, 'saml:SubjectConfirmationData');
         $parent->appendChild($e);
 
         if (isset($this->NotBefore)) {
@@ -137,11 +129,12 @@ class SubjectConfirmationData
         if (isset($this->Address)) {
             $e->setAttribute('Address', $this->Address);
         }
-        /** @var \SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk $n */
+        /** @var SAML2_XML_ds_KeyInfo|SAML2_XML_Chunk $n */
         foreach ($this->info as $n) {
             $n->toXML($e);
         }
 
         return $e;
     }
+
 }

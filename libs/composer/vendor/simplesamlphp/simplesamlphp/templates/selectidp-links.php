@@ -8,15 +8,12 @@ $this->data['autofocus'] = 'preferredidp';
 $this->includeAtTemplateBase('includes/header.php');
 foreach ($this->data['idplist'] as $idpentry) {
     if (isset($idpentry['name'])) {
-        $this->getTranslator()->includeInlineTranslation('idpname_'.$idpentry['entityid'], $idpentry['name']);
+        $this->includeInlineTranslation('idpname_'.$idpentry['entityid'], $idpentry['name']);
     } elseif (isset($idpentry['OrganizationDisplayName'])) {
-        $this->getTranslator()->includeInlineTranslation(
-            'idpname_'.$idpentry['entityid'],
-            $idpentry['OrganizationDisplayName']
-        );
+        $this->includeInlineTranslation('idpname_'.$idpentry['entityid'], $idpentry['OrganizationDisplayName']);
     }
     if (isset($idpentry['description'])) {
-        $this->getTranslator()->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
+        $this->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
     }
 }
 ?>

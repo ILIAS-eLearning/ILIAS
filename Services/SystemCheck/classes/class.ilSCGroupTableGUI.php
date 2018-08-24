@@ -29,10 +29,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 
 		$lng->loadLanguageModule('sysc');
 		$this->addColumn($this->lng->txt('title'),'title','60%');
@@ -55,10 +52,10 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('VAL_TITLE',$row['title']);
 
-		$GLOBALS['DIC']['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
+		$GLOBALS['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
 		$this->tpl->setVariable(
 				'VAL_LINK',
-				$GLOBALS['DIC']['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
+				$GLOBALS['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
 		);
 		
 		$this->tpl->setVariable('VAL_DESC',$row['description']);
@@ -86,11 +83,11 @@ class ilSCGroupTableGUI extends ilTable2GUI
 		$list->setId('sysc_'.$row['id']);
 		$list->setListTitle($this->lng->txt('actions'));
 		
-		$GLOBALS['DIC']['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
+		$GLOBALS['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
 		$list->addItem(
 				$this->lng->txt('show'),
 				'',
-				$GLOBALS['DIC']['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
+				$GLOBALS['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
 		);
 		$this->tpl->setVariable('ACTIONS',$list->getHTML());
 	}

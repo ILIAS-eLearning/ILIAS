@@ -104,9 +104,7 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	public static function getMemberRoles($a_ref_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 
@@ -130,10 +128,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	public function addSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
+		global $ilAppEventHandler, $ilLog;
 		
 		parent::addSubscriber($a_usr_id);
 
@@ -180,11 +175,7 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $ilDB, $ilUser, $ilAppEventHandler;
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
@@ -260,9 +251,7 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	function getPassedInfo($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT origin, origin_ts".
 			" FROM obj_members".
@@ -281,10 +270,7 @@ class ilCourseParticipants extends ilParticipants
 	function sendNotification($a_type, $a_usr_id, $a_force_sending_mail = false)
 	{
 		
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilUser = $DIC['ilUser'];
+		global $ilObjDataCache,$ilUser;
 	
 		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 		$mail = new ilCourseMembershipMailNotification();
@@ -381,10 +367,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	function sendUnsubscribeNotificationToAdmins($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilDB,$ilObjDataCache;
 		
 		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 		$mail = new ilCourseMembershipMailNotification();
@@ -399,10 +382,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	public function sendSubscriptionRequestToAdmins($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilDB,$ilObjDataCache;
 		
 		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 		$mail = new ilCourseMembershipMailNotification();
@@ -417,10 +397,7 @@ class ilCourseParticipants extends ilParticipants
 
 	public function sendNotificationToAdmins($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilDB,$ilObjDataCache;
 		
 		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 		$mail = new ilCourseMembershipMailNotification();
@@ -435,9 +412,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	function __buildStatusBody(&$user_obj)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$body = $this->lng->txt('crs_status_changed_body')."\n";
 		$body .= $this->lng->txt('login').': '.$user_obj->getLogin()."\n";
@@ -481,9 +456,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	public static function getDateTimeOfPassed($a_obj_id, $a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT origin_ts FROM obj_members".
 			" WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer").
@@ -499,9 +472,7 @@ class ilCourseParticipants extends ilParticipants
 	
 	public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		

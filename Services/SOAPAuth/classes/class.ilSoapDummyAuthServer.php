@@ -94,8 +94,9 @@ class ilSoapDummyAuthServer
 
 	function start()
 	{
-		$postdata = file_get_contents("php://input");
-		$this->server->service($postdata);
+		global $HTTP_RAW_POST_DATA;
+
+		$this->server->service($HTTP_RAW_POST_DATA);
 		exit();
 	}
 

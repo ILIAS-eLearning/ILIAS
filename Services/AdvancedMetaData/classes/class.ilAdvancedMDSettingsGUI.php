@@ -38,12 +38,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function __construct($a_ref_id = null, $a_obj_type = null, $a_sub_type = null)
 	{
-	 	global $DIC;
-
-	 	$tpl = $DIC['tpl'];
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
-	 	$ilTabs = $DIC['ilTabs'];
+	 	global $tpl,$lng,$ilCtrl,$ilTabs;
 	 	
 	 	$this->ctrl = $ilCtrl;
 	 	$this->lng = $lng;
@@ -123,10 +118,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function showRecords()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilToolbar, $ilAccess;
 		
 		$perm = $this->getPermissions()->hasPermissions(
 			ilAdvancedMDPermissionHelper::CONTEXT_MD,
@@ -204,9 +196,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateSubstitutions()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{	
@@ -748,9 +738,7 @@ class ilAdvancedMDSettingsGUI
 	
 	public function editFields()
 	{		
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 		$this->ctrl->saveParameter($this,'record_id');
 	 	$this->initRecordObject();
@@ -1294,7 +1282,7 @@ class ilAdvancedMDSettingsGUI
 			$subitems->setValue($this->record->getScopeRefIds());
 			$exp = $subitems->getExplorerGUI();
 			
-			$definition = $GLOBALS['DIC']['objDefinition'];
+			$definition = $GLOBALS['objDefinition'];
 			$white_list = [];
 			foreach($definition->getAllRepositoryTypes() as $type)
 			{
@@ -1439,9 +1427,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	protected function initFormSubstitutions()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		

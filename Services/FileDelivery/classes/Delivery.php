@@ -143,6 +143,7 @@ final class Delivery {
 		$response = $this->httpService->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
 		$this->httpService->saveResponse($response);
 
+		$this->cleanDownloadFileName();
 		$this->clearBuffer();
 		$this->checkCache();
 		$this->setGeneralHeaders();

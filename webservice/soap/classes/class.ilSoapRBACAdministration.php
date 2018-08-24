@@ -46,11 +46,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacreview, $rbacsystem,$ilAccess;
 
 		if(!$tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_role->getType() != 'role')
 		{
@@ -93,11 +89,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacadmin,$rbacreview,$ilAccess;
 
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id) and $tmp_user->getType() != 'usr')
 		{
@@ -133,11 +125,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilAccess = $DIC['ilAccess'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin,$ilAccess,$rbacreview;
 
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false) and $tmp_user->getType() != 'usr')
 		{
@@ -174,9 +162,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		if(is_array($ops = $rbacreview->getOperations()))
 		{
@@ -198,10 +184,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -238,10 +221,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -288,10 +268,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacreview,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -336,9 +313,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
 		{
@@ -377,12 +352,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacreview, $objDefinition, $rbacsystem,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -422,7 +392,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			$role->setImportId($object_data['import_id']);
 			$role->create();
 			
-			$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
 			$new_roles[] = $role->getId();
 		}
 
@@ -439,13 +409,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacreview, $objDefinition, $rbacsystem, $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -492,7 +456,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			$role->setImportId($object_data['import_id']);
 			$role->create();
 			
-			$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
 			
 			// Copy permssions
 			$rbacadmin->copyRoleTemplatePermissions($template_id,ROLE_FOLDER_ID,$target_id,$role->getId());
@@ -523,11 +487,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem,$rbacreview,$ilAccess;
 
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -601,12 +561,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
 		if (strcasecmp($role_type,"") != 0 &&
 		strcasecmp($role_type,"local") != 0 &&
@@ -737,12 +692,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
 
 		if (strcasecmp($role_type,"") != 0 &&

@@ -32,7 +32,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 	 */
 	static function _checkGoto($a_target)
 	{
-		$settings = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']->settings() : $GLOBALS['DIC']['ilSetting'];
+		$settings = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']->settings() : $GLOBALS['ilSetting'];
 
 		if('usr_registration' == $a_target)
 		{
@@ -74,10 +74,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 	 * @return bool
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath) {
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilUser, $ilSetting;
 
 		preg_match("/usr_(\\d*).*/ui", $ilWACPath->getFileName(), $matches);
 		$usr_id = $matches[1];

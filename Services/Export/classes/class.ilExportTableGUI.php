@@ -21,12 +21,7 @@ class ilExportTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->obj = $a_exp_obj;
 		
@@ -133,9 +128,7 @@ class ilExportTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 						
 		foreach($this->getCustomColumns() as $c)
 		{

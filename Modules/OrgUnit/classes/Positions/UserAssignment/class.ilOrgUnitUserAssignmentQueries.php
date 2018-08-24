@@ -125,7 +125,7 @@ class ilOrgUnitUserAssignmentQueries {
 	 */
 	public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, $position_id) {
 		return ilOrgUnitUserAssignment::where([
-			'orgu_id'    => $orgu_ids,
+			'orgu_ids'    => $orgu_ids,
 			'position_id' => $position_id,
 		])->getArray(null, 'user_id');
 	}
@@ -197,16 +197,5 @@ class ilOrgUnitUserAssignmentQueries {
 		return ilOrgUnitUserAssignment::where([
 			'position_id' => $position_id,
 		])->get();
-	}
-
-	/**
-	 * @param int $user_id
-	 *
-	 * @return void
-	 */
-	public function deleteAllAssignmentsOfUser($user_id) {
-		global $DIC;
-		$q = "DELETE FROM il_orgu_ua WHERE user_id = " . $DIC->database()->quote($user_id, "integer");
-		$DIC->database()->manipulate($q);
 	}
 }

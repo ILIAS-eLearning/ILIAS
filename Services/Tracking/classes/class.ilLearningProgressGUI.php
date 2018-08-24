@@ -21,10 +21,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilHelp = $DIC['ilHelp'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilBench, $ilHelp, $ilAccess;
+		
+		$ilBench->start('LearningProgress','0000_Start');
 		
 		$this->ctrl->setReturn($this, "");
 
@@ -123,6 +122,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		$this->__buildFooter();
 
 
+		$ilBench->stop('LearningProgress','0000_Start');
+
 		return true;
 	}
 
@@ -140,10 +141,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 	function __getNextClass()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilUser = $DIC['ilUser'];
+		global $ilAccess, $ilUser;
 		
 		// #9857
 		if(!ilObjUserTracking::_enabledLearningProgress())
@@ -267,9 +265,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	 */
 	protected function editManual()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
 		{	
@@ -284,10 +280,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function initCollectionManualForm()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -372,10 +365,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function updateManual()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
@@ -401,12 +391,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function showtlt()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $ilCtrl, $tpl, $ilUser;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();

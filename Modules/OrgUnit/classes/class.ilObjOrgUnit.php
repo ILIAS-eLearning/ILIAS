@@ -249,7 +249,7 @@ class ilObjOrgUnit extends ilContainer {
 			ilOrgUnitUserAssignment::findOrCreateAssignment(
 				$user_id,
 				$position_id,
-				$this->getRefId());
+				$this->getId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
 				'object'  => $this,
@@ -275,7 +275,7 @@ class ilObjOrgUnit extends ilContainer {
 			ilOrgUnitUserAssignment::findOrCreateAssignment(
 				$user_id,
 				$position_id,
-				$this->getRefId());
+				$this->getId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
 				'object'  => $this,
@@ -296,7 +296,7 @@ class ilObjOrgUnit extends ilContainer {
 		ilOrgUnitUserAssignment::findOrCreateAssignment(
 			$user_id,
 			$position_id,
-			$this->getRefId())->delete();
+			$this->getId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
 			'object'  => $this,
@@ -316,7 +316,7 @@ class ilObjOrgUnit extends ilContainer {
 		ilOrgUnitUserAssignment::findOrCreateAssignment(
 			$user_id,
 			$position_id,
-			$this->getRefId())->delete();
+			$this->getId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
 			'object'  => $this,

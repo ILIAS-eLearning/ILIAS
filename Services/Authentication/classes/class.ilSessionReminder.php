@@ -65,9 +65,7 @@ class ilSessionReminder
 		/**
 		 * @var $ilUser ilObjUser
 		 */
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$reminder = new self();
 		$reminder->setUser($ilUser);
@@ -139,9 +137,7 @@ class ilSessionReminder
 		/**
 		 * @var $ilSetting ilSetting
 		 */
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		return
 			$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&

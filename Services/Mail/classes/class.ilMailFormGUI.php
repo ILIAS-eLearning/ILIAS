@@ -267,7 +267,7 @@ class ilMailFormGUI
 		if(ilMailFormCall::isRefererStored())
 			ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
 		else
-			$this->ctrl->redirectByClass(['ilmailgui', 'ilmailfoldergui']);
+			$this->ctrl->redirectByClass("ilmailfoldergui");
 
 		$this->showForm();
 	}

@@ -40,9 +40,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	/*
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass();
 
@@ -97,9 +95,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	*/
 	function returnToUpperContext()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}

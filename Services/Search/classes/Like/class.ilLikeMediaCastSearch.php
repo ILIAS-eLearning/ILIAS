@@ -38,9 +38,7 @@ class ilLikeMediaCastSearch extends ilMediaCastSearch
 
 	function __createWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		/*
 		$concat  = " CONCAT(";

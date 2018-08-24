@@ -51,8 +51,8 @@ class ilObjCategoryAccess extends ilObjectAccess
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
-			if(ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired())
+			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
+			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
 			{
 				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
 			}

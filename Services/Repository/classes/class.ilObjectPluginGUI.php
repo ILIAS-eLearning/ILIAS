@@ -462,11 +462,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		
-		$ilTabs->activateTab("info_short");
+		$ilTabs->setTabActive("info_short");
 		
 		$this->checkPermission("visible");
 
@@ -480,13 +483,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		$this->addInfoItems($info);
 
 		// forward the command
-		$ilCtrl->forwardCommand($info);
+		$ret = $ilCtrl->forwardCommand($info);
+		//$tpl->setContent($ret);
 	}
 
-    /**
-     * Add items to info screen
-     * @param ilInfoScreenGUI $info
-     */
+	/**
+	* Add items to info screen
+	*/
 	function addInfoItems($info)
 	{
 	}

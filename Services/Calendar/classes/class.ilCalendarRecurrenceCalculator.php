@@ -300,9 +300,7 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function incrementByFrequency($start)
 	{
-		global $DIC;
-
-		$logger = $DIC->logger()->cal();
+		global $ilLog;
 
 		switch($this->recurrence->getFrequenceType())
 		{
@@ -323,7 +321,7 @@ class ilCalendarRecurrenceCalculator
 				break;
 			
 			default:
-				$logger->warning('No frequence defined.');
+				$ilLog->write(__METHOD__.'No frequence defined.');
 				break;
 		}
 		return $start;

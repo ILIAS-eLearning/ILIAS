@@ -18,10 +18,7 @@ class ilMembershipMailGUI
 	
 	public function __construct(ilObjectGUI $object)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		$this->object = $object;
 		$this->ctrl = $ilCtrl;
@@ -81,7 +78,7 @@ class ilMembershipMailGUI
 		
 		if (!count($_POST['participants']))
 		{
-			ilUtil::sendFailure($GLOBALS['DIC']['lng']->txt("no_checkbox"),TRUE);
+			ilUtil::sendFailure($GLOBALS['lng']->txt("no_checkbox"),TRUE);
 			$this->ctrl->returnToParent($this);
 			return false;
 		}
@@ -105,7 +102,7 @@ class ilMembershipMailGUI
 	 */
 	protected function createMailSignature()
 	{
-		$GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->object->getType());
+		$GLOBALS['lng']->loadLanguageModule($this->getCurrentObject()->object->getType());
 		
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt($this->getCurrentObject()->object->getType().'_mail_permanent_link');

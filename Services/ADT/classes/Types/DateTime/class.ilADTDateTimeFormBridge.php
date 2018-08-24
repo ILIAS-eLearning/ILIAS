@@ -19,9 +19,7 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
 	
 	public function addToForm()
 	{			
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 			
 		$adt_date = $this->getADT()->getDate();
 

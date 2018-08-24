@@ -6,7 +6,6 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -18,27 +17,7 @@ class CardTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
-			$this->createMock(C\Button\Factory::class),
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			$this->createMock(C\Dropdown\Factory::class),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class)
-		);
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
@@ -81,7 +60,7 @@ class CardTest extends ILIAS_UI_TestBase {
 	public function test_get_image() {
 		$f = $this->getFactory();
 
-		$image = new I\Component\Image\Image("standard", "src", "alt");
+		$image = $f->image()->standard("src","str");
 		$c = $f->card("Card Title",$image);
 
 		$this->assertEquals($c->getImage(), $image);
@@ -90,10 +69,10 @@ class CardTest extends ILIAS_UI_TestBase {
 	public function test_with_image() {
 		$f = $this->getFactory();
 
-		$image = new I\Component\Image\Image("standard", "src", "alt");
+		$image = $f->image()->standard("src","str");
 		$c = $f->card("Card Title",$image);
 
-		$image_new = new I\Component\Image\Image("standard", "src/new", "alt");
+		$image_new = $f->image()->standard("src/new","str");
 
 		$c = $c->withImage($image_new);
 
@@ -135,11 +114,11 @@ class CardTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$image = new I\Component\Image\Image("standard", "src", "alt");
+		$image = $f->image()->standard("src","alt");
 
 		$c = $f->card("Card Title",$image);
 
-		$content = new I\Component\Legacy\Legacy("Random Content");
+		$content = $f->legacy("Random Content");
 
 		$c = $c->withSections(array($content));
 
@@ -162,7 +141,7 @@ class CardTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$image = new I\Component\Image\Image("standard", "src", "alt");
+		$image = $f->image()->standard("src","alt");
 
 		$c = $f->card("Card Title",$image)->withHighlight(true);
 

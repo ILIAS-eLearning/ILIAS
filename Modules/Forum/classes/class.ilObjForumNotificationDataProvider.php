@@ -535,13 +535,4 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		}
 		return $rcps;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getDeletedBy()
-	{
-		global $DIC;
-		return $DIC->user()->getLogin();
-	}
 }

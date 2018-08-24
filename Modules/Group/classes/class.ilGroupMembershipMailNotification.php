@@ -75,7 +75,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	{
 		if(!$this->isNotificationTypeEnabled($this->getType()))
 		{
-			$GLOBALS['DIC']->logger()->grp()->info('Membership mail disabled globally.');
+			$GLOBALS['ilLog']->write(__METHOD__.': Membership mail disabled globally.');
 			return false;
 		}
 		// parent::send();
@@ -429,9 +429,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	 */
 	protected function isNotificationTypeEnabled($a_type)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		return 
 			$this->force_sending_mail ||

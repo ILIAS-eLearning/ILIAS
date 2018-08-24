@@ -113,9 +113,7 @@ abstract class ilAuthContainerDecorator
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$ilLog->write(__METHOD__.': logged in as '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
@@ -131,9 +129,7 @@ abstract class ilAuthContainerDecorator
 	 */
 	public function failedLoginObserver($a_username,$a_auth)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$ilLog->write(__METHOD__.': login failed for user '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
@@ -150,9 +146,7 @@ abstract class ilAuthContainerDecorator
 	 */
 	public function checkAuthObserver($a_username,$a_auth)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		//$ilLog->write(__METHOD__.': checkAuth called');
 	
@@ -167,9 +161,7 @@ abstract class ilAuthContainerDecorator
 	 */
 	public function logoutObserver($a_username,$a_auth)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$ilLog->write(__METHOD__.': User logged out: '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].

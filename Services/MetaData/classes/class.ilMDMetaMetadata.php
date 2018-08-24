@@ -133,9 +133,7 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$fields = $this->__getFields();
 		$fields['meta_meta_data_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_meta_data'));
@@ -150,9 +148,7 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMetaId())
 		{
@@ -168,9 +164,7 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMetaId())
 		{
@@ -208,9 +202,7 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -287,9 +279,7 @@ class ilMDMetaMetadata extends ilMDBase
 	// STATIC
 	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT meta_meta_data_id FROM il_meta_meta_data ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

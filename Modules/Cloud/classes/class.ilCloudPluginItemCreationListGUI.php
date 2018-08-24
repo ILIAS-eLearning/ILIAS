@@ -58,7 +58,7 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 			$img = ilUtil::img($icon_path);
 			$a_ttip = $lng->txt('cld_info_add_file_to_current_directory');
 			$this->gl->addEntry($img . ' '
-			                    . $lng->txt('cld_add_file'), '#', '_top', 'javascript:il.CloudFileList.uploadFile();', '', 'il_cld_add_file', $a_ttip, 'bottom center', 'top center', false);
+			                    . $lng->txt('cld_add_file'), 'javascript:il.CloudFileList.uploadFile();', '_top', '', '', 'il_cld_add_file', $a_ttip, 'bottom center', 'top center', false);
 		}
 
 		if ($show_create_folders) {
@@ -66,7 +66,7 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 			$img1 = ilUtil::img($icon_path);
 			$a_ttip1 = $lng->txt('cld_info_add_folder_to_current_directory');
 			$this->gl->addEntry($img1 . ' '
-			                    . $lng->txt('cld_add_folder'), '#', '_top', 'javascript:il.CloudFileList.createFolder();', '', 'il_cld_add_file', $a_ttip1, 'bottom center', 'top center', false);
+			                    . $lng->txt('cld_add_folder'), 'javascript:il.CloudFileList.createFolder();', '_top', '', '', 'il_cld_add_file', $a_ttip1, 'bottom center', 'top center', false);
 		}
 
 		$this->addItemsAfter();

@@ -137,9 +137,7 @@ class ilECSUser
 	 */
 	public function loadFromObject()
 	{
-	 	global $DIC;
-
-	 	$ilSetting = $DIC['ilSetting'];
+	 	global $ilSetting;
 	 	
 	 	$this->login = $this->source->getLogin();
 	 	$this->firstname = $this->source->getFirstname();

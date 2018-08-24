@@ -40,9 +40,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		if($a_set['active'])
 		{
 			$this->tpl->setVariable('IMAGE_OK',  ilUtil::getImagePath('icon_ok.svg'));

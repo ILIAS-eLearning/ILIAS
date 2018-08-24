@@ -53,9 +53,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getSubTreeIds($a_node_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$node = $this->getTree()->getNodeTreeData($a_node_id);
 		$query = 'SELECT child FROM '.$this->getTree()->getTreeTable().' '.
@@ -126,9 +124,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$type_str = '';
 		if(is_array($a_types))
@@ -179,9 +175,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getPathIds($a_endnode, $a_startnode = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->setLimit(1);
 		$query = 'SELECT path FROM ' . $this->getTree()->getTreeTable() .' '.
@@ -216,9 +210,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function insertNode($a_node_id, $a_parent_id, $a_pos)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$insert_node_callable = function(ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos)
 		{
@@ -289,9 +281,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function deleteTree($a_node_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		$delete_tree_callable = function(ilDBInterface $ilDB) use($a_node_id)
 		{
 			$query = 'SELECT * FROM '.$this->getTree()->getTreeTable().' '.
@@ -333,9 +323,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function moveToTrash($a_node_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$move_to_trash_callable = function(ilDBInterface $ilDB) use($a_node_id)
 		{
@@ -382,9 +370,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_position)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$move_tree_callable = function(ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position)
 		{
@@ -490,9 +476,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	
 	public static function createFromParentReleation()
 	{
-		 global $DIC;
-
-		 $ilDB = $DIC['ilDB'];
+		 global $ilDB;
 
 		$r = $ilDB->queryF('SELECT DISTINCT * FROM tree WHERE parent = %s', array('integer'), array(0));
 
@@ -513,9 +497,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	private static function createMaterializedPath($parent, $parentPath)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		$q = ' UPDATE tree
 			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $ilDB->cast("child","text") . ' , \'\'))
 			WHERE parent = %s';
@@ -537,9 +519,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getSubtreeInfo($a_endnode_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// This is an optimization without the temporary tables become too big for our system.
 		// The idea is to use a subquery to join and filter the trees, and only the result
@@ -603,9 +583,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function validateParentRelations()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
 				'( '.

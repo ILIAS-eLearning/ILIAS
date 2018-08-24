@@ -113,15 +113,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("NO_OBJECTS", "-");
 		}
 
-		$role = ilObjectFactory::getInstanceByObjId($a_set['role'], false);
-		if($role instanceof ilObjRole)
-		{
-			$this->tpl->setVariable('TXT_ROLE', $role->getTitle());
-		}
-		else
-		{
-			$this->tpl->setVariable('TXT_ROLE', '');
-		}
+		$obj_role = new ilObjRole($a_set["role"]);
+		$this->tpl->setVariable("TXT_ROLE", $obj_role->getTitle());
 
 		if($a_set["active"])
 		{

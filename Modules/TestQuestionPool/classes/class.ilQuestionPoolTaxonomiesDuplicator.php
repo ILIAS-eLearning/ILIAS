@@ -87,8 +87,10 @@ class ilQuestionPoolTaxonomiesDuplicator
 		return $this->questionIdMapping;
 	}
 
-	public function duplicate($poolTaxonomyIds)
+	public function duplicate()
 	{
+		$poolTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
+
 		foreach($poolTaxonomyIds as $poolTaxId)
 		{
 			$this->duplicateTaxonomyFromPoolToTest($poolTaxId);
@@ -142,10 +144,5 @@ class ilQuestionPoolTaxonomiesDuplicator
 	public function getDuplicatedTaxonomiesKeysMap()
 	{
 		return $this->duplicatedTaxonomiesKeysMap;
-	}
-	
-	public function getAllTaxonomiesForSourceObject()
-	{
-		return ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
 	}
 }

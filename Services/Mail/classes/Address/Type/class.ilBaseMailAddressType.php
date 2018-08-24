@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/interfaces/interface.ilMailAddressType.php';
+
 /**
  * Class ilBaseMailAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilBaseMailAddressType implements \ilMailAddressType
+abstract class ilBaseMailAddressType implements ilMailAddressType
 {
 	/**
 	 * @var \ilMailAddress
@@ -43,7 +45,7 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected function init()
 	{
@@ -53,20 +55,19 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	 * @param $a_sender_id integer
 	 * @return boolean
 	 */
-	abstract protected function isValid(int $a_sender_id): bool;
+	abstract protected function isValid($a_sender_id);
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function validate(int $a_sender_id): bool
+	public function validate($a_sender_id)
 	{
 		$this->resetErrors();
-
 		return $this->isValid($a_sender_id);
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private function resetErrors()
 	{
@@ -76,7 +77,7 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	/**
 	 * @return array
 	 */
-	public function getErrors(): array
+	public function getErrors()
 	{
 		return $this->errors;
 	}

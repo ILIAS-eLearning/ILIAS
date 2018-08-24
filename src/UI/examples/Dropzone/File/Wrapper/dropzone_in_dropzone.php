@@ -3,10 +3,21 @@ function dropzone_in_dropzone() {
 
 	global $DIC;
 
-	// This example shows how the wrapper-dropzone will be "unusable" when another Dropzone is in it.
-	// Dropping a file on the outer wrapper dropzone won't open a modal.
-	// The innermost dropzone will be the working one. This example does not proceed the file, it's
-	// only purpose is tho show stacking dropzones.
+//	// Handle a file upload ajax request
+//	if (isset($_GET['example']) && $_GET['example'] == 2) {
+//		$upload = $DIC->upload();
+//		try {
+//			$upload->process();
+//			// $upload->moveFilesTo('/myPath/');  // Since we are in an example here, we do not move the files. But this would be the way wou move files using the FileUpload-Service
+//
+//			// The File-Dropzones will expect a valid json-Status (success true or false).
+//			echo json_encode(['success' => true, 'message' => 'Successfully uploaded file']);
+//		} catch (Exception $e) {
+//			// See above
+//			echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+//		}
+//		exit();
+//	}
 
 	$uiFactory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();

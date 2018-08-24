@@ -25,9 +25,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 	public function __construct($a_target,$a_server_id, $a_mid, $a_tree_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		parent::__construct($a_target);
 
@@ -130,9 +128,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -252,10 +248,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilias = $DIC['ilias'];
+		global $lng, $ilias;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");

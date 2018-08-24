@@ -15,7 +15,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	protected $config;
 
 	/**
-	 * @var SimpleSAML\Auth\Simple
+	 * @var SimpleSAML_Auth_Simple
 	 */
 	protected $authSource;
 
@@ -23,7 +23,6 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	 * ilSimpleSAMLphpWrapper constructor.
 	 * @param string $authSourceName
 	 * @param string $configurationPath
-	 * @throws Exception
 	 */
 	public function __construct($authSourceName, $configurationPath)
 	{
@@ -43,7 +42,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 			throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession');
 		}
 
-		$this->authSource = new SimpleSAML\Auth\Simple($authSourceName);
+		$this->authSource = new SimpleSAML_Auth_Simple($authSourceName);
 	}
 
 	/**
@@ -53,6 +52,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	{
 		global $DIC;
 
+		require_once 'Services/Saml/classes/class.ilSimpleSAMLphpConfigTemplateHandler.php';
 		$templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
 		$templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
 			'DB_PATH'             => rtrim($configurationPath, '/') . '/ssphp.sq3',
@@ -140,6 +140,8 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	public function logout($returnUrl = '')
 	{
 		ilSession::set('used_external_auth', false);
+		ilUtil::setCookie("SAMLSESSID","");
+		ilUtil::setCookie("SimpleSAMLAuthToken","");
 
 		$params = array(
 			'ReturnStateParam' => 'LogoutState',
@@ -159,6 +161,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	 */
 	public function getIdpDiscovery()
 	{
+		require_once 'Services/Saml/classes/class.ilSimpleSAMLphplIdpDiscovery.php';
 		return new ilSimpleSAMLphplIdpDiscovery();
 	}
 }

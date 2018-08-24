@@ -1,75 +1,68 @@
 <?php
 
-namespace SAML2\Certificate;
-
-use SAML2\Certificate\Exception\InvalidCertificateStructureException;
-use SAML2\Certificate\Exception\NoKeysFoundException;
-use SAML2\Configuration\CertificateProvider;
-use SAML2\Exception\InvalidArgumentException;
-use SAML2\Utilities\Certificate;
-use SAML2\Utilities\File;
-
 /**
  * KeyLoader
  */
-class KeyLoader
+class SAML2_Certificate_KeyLoader
 {
     /**
-     * @var \SAML2\Certificate\KeyCollection
+     * @var SAML2_Certificate_KeyCollection
      */
     private $loadedKeys;
 
     public function __construct()
     {
-        $this->loadedKeys = new KeyCollection();
+        $this->loadedKeys = new SAML2_Certificate_KeyCollection();
     }
 
     /**
      * Extracts the public keys given by the configuration. Mainly exists for BC purposes.
      * Prioritisation order is keys > certData > certificate
      *
-     * @param \SAML2\Configuration\CertificateProvider $config
+     * @param SAML2_Configuration_CertificateProvider $config
      * @param null                                    $usage
      * @param bool                                    $required
+     * @param string                                  $prefix
      *
-     * @return \SAML2\Certificate\KeyCollection
+     * @return SAML2_Certificate_KeyCollection
      */
     public static function extractPublicKeys(
-        CertificateProvider $config,
-        $usage = null,
-        $required = false
+        SAML2_Configuration_CertificateProvider $config,
+        $usage = NULL,
+        $required = FALSE,
+        $prefix = ''
     ) {
         $keyLoader = new self();
 
-        return $keyLoader->loadKeysFromConfiguration($config, $usage, $required);
+        return $keyLoader->loadKeysFromConfiguration($config, $usage, $required, $prefix, $keyLoader);
     }
 
     /**
-     * @param \SAML2\Configuration\CertificateProvider $config
-     * @param null|string                             $usage
+     * @param SAML2_Configuration_CertificateProvider $config
+     * @param NULL|string                             $usage
      * @param bool                                    $required
      *
-     * @return \SAML2\Certificate\KeyCollection
+     * @return SAML2_Certificate_KeyCollection
      */
     public function loadKeysFromConfiguration(
-        CertificateProvider $config,
-        $usage = null,
-        $required = false
+        SAML2_Configuration_CertificateProvider $config,
+        $usage = NULL,
+        $required = FALSE
     ) {
         $keys = $config->getKeys();
         $certificateData = $config->getCertificateData();
         $certificateFile = $config->getCertificateFile();
 
-        if ($keys !== null) {
+        if ($keys) {
             $this->loadKeys($keys, $usage);
-        } elseif ($certificateData !== null) {
+        } elseif ($certificateData) {
             $this->loadCertificateData($certificateData);
-        } elseif ($certificateFile !== null) {
+        } elseif ($certificateFile) {
             $this->loadCertificateFile($certificateFile);
         }
 
         if ($required && !$this->hasKeys()) {
-            throw new NoKeysFoundException(
+            throw new SAML2_Certificate_Exception_NoKeysFoundException(
                 'No keys found in configured metadata, please ensure that either the "keys", "certData" or '
                 . '"certificate" entries is available.'
             );
@@ -88,10 +81,10 @@ class KeyLoader
     public function loadKeys(array $configuredKeys, $usage)
     {
         foreach ($configuredKeys as $keyData) {
-            if (isset($keyData['X509Certificate'])) {
-                $key = new X509($keyData);
+            if (isset($key['X509Certificate'])) {
+                $key = new SAML2_Certificate_X509($keyData);
             } else {
-                $key = new Key($keyData);
+                $key = new SAML2_Certificate_Key($keyData);
             }
 
             if ($usage && !$key->canBeUsedFor($usage)) {
@@ -110,10 +103,10 @@ class KeyLoader
     public function loadCertificateData($certificateData)
     {
         if (!is_string($certificateData)) {
-            throw InvalidArgumentException::invalidType('string', $certificateData);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $certificateData);
         }
 
-        $this->loadedKeys->add(X509::createFromCertificateData($certificateData));
+        $this->loadedKeys->add(SAML2_Certificate_X509::createFromCertificateData($certificateData));
     }
 
     /**
@@ -123,22 +116,22 @@ class KeyLoader
      */
     public function loadCertificateFile($certificateFile)
     {
-        $certificate = File::getFileContents($certificateFile);
+        $certificate = SAML2_Utilities_File::getFileContents($certificateFile);
 
-        if (!Certificate::hasValidStructure($certificate)) {
-            throw new InvalidCertificateStructureException(sprintf(
+        if (!SAML2_Utilities_Certificate::hasValidStructure($certificate)) {
+            throw new SAML2_Certificate_Exception_InvalidCertificateStructureException(sprintf(
                 'Could not find PEM encoded certificate in "%s"',
                 $certificateFile
             ));
         }
 
         // capture the certificate contents without the delimiters
-        preg_match(Certificate::CERTIFICATE_PATTERN, $certificate, $matches);
-        $this->loadedKeys->add(X509::createFromCertificateData($matches[1]));
+        preg_match(SAML2_Utilities_Certificate::CERTIFICATE_PATTERN, $certificate, $matches);
+        $this->loadedKeys->add(SAML2_Certificate_X509::createFromCertificateData($matches[1]));
     }
 
     /**
-     * @return \SAML2\Certificate\KeyCollection
+     * @return SAML2_Certificate_KeyCollection
      */
     public function getKeys()
     {

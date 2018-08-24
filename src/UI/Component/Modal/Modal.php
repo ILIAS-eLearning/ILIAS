@@ -64,4 +64,5 @@ interface Modal extends Component, JavaScriptBindable, Triggerable, Onloadable {
 	 * @return Signal
 	 */
 	public function getCloseSignal();
+
 }

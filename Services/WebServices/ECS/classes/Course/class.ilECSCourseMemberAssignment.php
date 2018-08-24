@@ -39,9 +39,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public static function lookupMissingAssignmentsOfUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT id FROM ecs_course_assignments '.
 				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'text');
@@ -62,9 +60,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public static function deleteByObjId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM ecs_course_assignments '.
 				'WHERE obj_id = '.$ilDB->quote($a_obj_id, 'integer');
@@ -80,9 +76,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public static function deleteByServerId($a_server_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM ecs_course_assignments '.
 				'WHERE sid = '.$ilDB->quote($a_server_id, 'integer');
@@ -99,9 +93,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public static function lookupUserIds($a_cms_id, $a_cms_sub_id, $a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$cms_sub_id_query = '';
 		
@@ -138,9 +130,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public static function lookupAssignment($a_cms_id,$a_cms_sub_id,$a_obj_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$cms_sub_id_query = '';
 		if(is_null($a_cms_sub_id))
@@ -255,9 +245,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->id = $ilDB->nextId('ecs_course_assignments');
 		
@@ -296,9 +284,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'UPDATE ecs_course_assignments '.
 				'SET '.
@@ -319,9 +305,7 @@ class ilECSCourseMemberAssignment
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM ecs_course_assignments '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
@@ -337,9 +321,7 @@ class ilECSCourseMemberAssignment
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getId())
 		{

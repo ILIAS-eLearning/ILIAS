@@ -66,9 +66,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 		
 	protected function readContextIds($a_context_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		switch($a_context_type)
 		{
@@ -187,9 +185,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 	
 	protected function getActivePlugins()
 	{
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		
 		$res = array();
 		
@@ -204,9 +200,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 	
 	protected function checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
 	{		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		if(!$this->checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id))
 		{

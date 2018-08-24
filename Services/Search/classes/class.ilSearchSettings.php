@@ -50,9 +50,7 @@ class ilSearchSettings
 
 	function __construct()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		$this->ilias = $ilias;
 		$this->__read();
@@ -169,9 +167,7 @@ class ilSearchSettings
 	*/
 	static function _getSearchSettingRefId()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		static $seas_ref_id = 0;
 
@@ -193,9 +189,7 @@ class ilSearchSettings
 
 	function enabledIndex()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($ilDB->getDBType() == 'oracle')
 		{
@@ -447,9 +441,7 @@ class ilSearchSettings
 	
 	function update()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
 		$this->ilias->setSetting('search_index',(int) $this->enabledIndex());
@@ -482,9 +474,7 @@ class ilSearchSettings
 	// PRIVATE
 	function __read()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',10));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));

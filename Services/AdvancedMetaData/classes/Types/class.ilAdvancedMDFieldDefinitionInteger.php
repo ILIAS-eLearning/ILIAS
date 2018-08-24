@@ -147,9 +147,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 	
 	public function getFieldDefinitionForTableGUI()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 	
 		$res = array();
 		
@@ -177,9 +175,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 	 */
 	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$min = new ilNumberInputGUI($lng->txt("md_adv_number_min"), "min");		
 		$min->setValue($this->getMin());

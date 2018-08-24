@@ -102,9 +102,7 @@ class ilLOUtils
 	 */
 	public static function lookupMaxAttempts($a_container_id, $a_objective_id, $a_test_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 		/**
@@ -159,10 +157,10 @@ class ilLOUtils
 		include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 		include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-				$GLOBALS['DIC']['ilDB'],
+				$GLOBALS['ilDB'],
 				$tst,
 				new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-						$GLOBALS['DIC']['ilDB'],
+						$GLOBALS['ilDB'],
 						$tst
 				)
 		);
@@ -170,7 +168,7 @@ class ilLOUtils
 		$list->loadDefinitions();
 
 		include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
-		$translator = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
+		$translator = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['ilDB']);
 		$translator->loadLabels($list);
 		
 		$title = '';
@@ -223,7 +221,7 @@ class ilLOUtils
 		if(
 			!ilObjTest::isParticipantsLastPassActive(
 				$a_test_ref_id,
-				$GLOBALS['DIC']['ilUser']->getId())
+				$GLOBALS['ilUser']->getId())
 		)
 		{
 			return false;
@@ -233,7 +231,7 @@ class ilLOUtils
 		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
 		$last_objectives = ilLOTestRun::lookupObjectives(
 				$a_container_id, 
-				$GLOBALS['DIC']['ilUser']->getId(),
+				$GLOBALS['ilUser']->getId(),
 				ilObject::_lookupObjId($a_test_ref_id)
 		);
 		
@@ -246,11 +244,7 @@ class ilLOUtils
 	
 	public static function getTestResultLinkForUser($a_test_ref_id, $a_user_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilCtrl, $ilUser, $ilAccess;
 		
 		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{

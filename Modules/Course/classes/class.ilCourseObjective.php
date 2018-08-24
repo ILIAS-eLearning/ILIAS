@@ -29,9 +29,7 @@ class ilCourseObjective
 	 */
 	public function __construct($course_obj,$a_objective_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db = $ilDB;
 		$this->course_obj = $course_obj;
@@ -61,9 +59,7 @@ class ilCourseObjective
 	 */
 	public static function _lookupContainerIdByObjectiveId($a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT crs_id FROM crs_objectives ".
 			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer');
@@ -91,9 +87,7 @@ class ilCourseObjective
 	
 	public static function lookupMaxPasses($a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT passes from crs_objectives '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
@@ -107,9 +101,7 @@ class ilCourseObjective
 	
 	public static function lookupObjectiveTitle($a_objective_id, $a_add_description = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT title,description from crs_objectives '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
@@ -139,9 +131,7 @@ class ilCourseObjective
 	 */
 	public function ilClone($a_target_id,$a_copy_id)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		ilLoggerFactory::getLogger('crs')->debug('Start cloning learning objectives');
 		
@@ -277,9 +267,7 @@ class ilCourseObjective
 
 	function add()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// begin-patch lok
 		$next_id = $ilDB->nextId('crs_objectives');
@@ -306,9 +294,7 @@ class ilCourseObjective
 
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// begin-patch lok
 		$query = "UPDATE crs_objectives ".
@@ -333,9 +319,7 @@ class ilCourseObjective
 	 */
 	public function writePosition($a_position)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = ".$this->db->quote((string) $a_position ,'integer')." ".
@@ -357,9 +341,7 @@ class ilCourseObjective
 	
 	function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
@@ -386,9 +368,7 @@ class ilCourseObjective
 
 	function moveUp()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getObjectiveId())
 		{
@@ -419,9 +399,7 @@ class ilCourseObjective
 
 	function moveDown()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getObjectiveId())
 		{
@@ -471,9 +449,7 @@ class ilCourseObjective
 
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getObjectiveId())
 		{
@@ -518,9 +494,7 @@ class ilCourseObjective
 
 	function __updateTop()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
@@ -533,9 +507,7 @@ class ilCourseObjective
 
 	function __getLastPosition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT MAX(position) pos FROM crs_objectives ".
 			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
@@ -552,9 +524,7 @@ class ilCourseObjective
 	// begin-patch lok
 	static function _getObjectiveIds($course_id, $a_activated_only = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if($a_activated_only)
 		{
@@ -582,9 +552,7 @@ class ilCourseObjective
 
 	static function _deleteAll($course_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// begin-patch lok
 		$ids = ilCourseObjective::_getObjectiveIds($course_id,false);

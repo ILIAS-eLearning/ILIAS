@@ -43,10 +43,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$tree = $DIC['tree'];
+		global $ilAccess, $tree;
 
 		if (!$ilAccess->checkAccess('read', '', $a_node["child"]))
 		{
@@ -87,9 +84,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	 */
 	function setRefId($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$this->ref_id = $a_ref_id;
 

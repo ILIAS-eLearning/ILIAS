@@ -61,11 +61,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	 */
 	public function __construct($a_title, $a_postvar)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilUser = $DIC['ilUser'];
+		global $lng,$tpl,$ilUser;
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
@@ -87,9 +83,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	 */
 	public function checkInput()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if(!$this->loadRecurrence())
 		{

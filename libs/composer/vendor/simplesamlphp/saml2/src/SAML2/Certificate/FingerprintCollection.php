@@ -1,28 +1,20 @@
 <?php
 
-namespace SAML2\Certificate;
-
-use SAML2\Exception\InvalidArgumentException;
-use SAML2\Utilities\ArrayCollection;
-
 /**
  * Simple collection object for transporting keys
- * @deprecated Please load full certificates instead.
  */
-class FingerprintCollection extends ArrayCollection
+class SAML2_Certificate_FingerprintCollection extends SAML2_Utilities_ArrayCollection
 {
     /**
      * Add a key to the collection
      *
-     * @param \SAML2\Certificate\Fingerprint $fingerprint
-     *
-     * @deprecated
+     * @param SAML2_Certificate_Fingerprint $fingerprint
      */
     public function add($fingerprint)
     {
-        if (!$fingerprint instanceof Fingerprint) {
-            throw InvalidArgumentException::invalidType(
-                'SAML2\Certificate\Fingerprint ',
+        if (!$fingerprint instanceof SAML2_Certificate_Fingerprint) {
+            throw SAML2_Exception_InvalidArgumentException::invalidType(
+                'SAML2_Certificate_Fingerprint ',
                 $fingerprint
             );
         }
@@ -31,21 +23,19 @@ class FingerprintCollection extends ArrayCollection
     }
 
     /**
-     * @param \SAML2\Certificate\Fingerprint $otherFingerprint
+     * @param SAML2_Certificate_Fingerprint $otherFingerprint
      *
      * @return bool
-     *
-     * @deprecated
      */
-    public function contains(Fingerprint $otherFingerprint)
+    public function contains(SAML2_Certificate_Fingerprint $otherFingerprint)
     {
         foreach ($this->elements as $fingerprint) {
-            /** @var \SAML2\Certificate\Fingerprint $fingerprint */
+            /** @var SAML2_Certificate_Fingerprint $fingerprint */
             if ($fingerprint->equals($otherFingerprint)) {
-                return true;
+                return TRUE;
             }
         }
 
-        return false;
+        return FALSE;
     }
 }

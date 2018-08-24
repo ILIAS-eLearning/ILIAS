@@ -52,10 +52,7 @@ class ilLPMarks
 
 	function __construct($a_obj_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache,$ilDB;
 
 		$this->db = $ilDB;
 
@@ -73,9 +70,7 @@ class ilLPMarks
 	 */
 	 public static function deleteObject($a_obj_id)
 	 {
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ut_lp_marks ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer');
@@ -124,9 +119,7 @@ class ilLPMarks
 	
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->has_entry)
 		{
@@ -145,9 +138,7 @@ class ilLPMarks
 	// Static
 	static function _hasCompleted($a_usr_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -163,9 +154,7 @@ class ilLPMarks
 
 	static function _lookupMark($a_usr_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id, 'integer')." ".
@@ -182,9 +171,7 @@ class ilLPMarks
 		
 	static function _lookupComment($a_usr_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -201,9 +188,7 @@ class ilLPMarks
 	// Private
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
 								"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
@@ -224,9 +209,7 @@ class ilLPMarks
 
 	function __add()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "INSERT INTO ut_lp_marks (mark,u_comment, completed,obj_id,usr_id) ".
 			"VALUES( ".
@@ -244,9 +227,7 @@ class ilLPMarks
 	
 	public static function _deleteForUsers($a_obj_id, array $a_user_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulate("DELETE FROM ut_lp_marks".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -255,9 +236,7 @@ class ilLPMarks
 	
 	public static function _getAllUserIds($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		

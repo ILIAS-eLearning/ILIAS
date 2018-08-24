@@ -1,10 +1,6 @@
 <?php
 
-namespace SAML2\Assertion\Validation;
-
-use SAML2\Assertion;
-
-interface AssertionConstraintValidator
+interface SAML2_Assertion_Validation_AssertionConstraintValidator
 {
-    public function validate(Assertion $assertion, Result $result);
+    public function validate(SAML2_Assertion $assertion, SAML2_Assertion_Validation_Result $result);
 }

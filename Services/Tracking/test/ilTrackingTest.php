@@ -49,9 +49,7 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testChangeEvent()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$ret = ilChangeEvent::_deactivate();

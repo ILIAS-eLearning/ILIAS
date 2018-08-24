@@ -35,9 +35,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_row)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->tpl->setVariable('OBJ_SRC', $a_row['icon']);
 		$this->tpl->setVariable('OBJ_ALT', $a_row['icon_alt']);
@@ -108,9 +106,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 	 */
 	protected function initTable()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->lng->loadLanguageModule('rbac');
 

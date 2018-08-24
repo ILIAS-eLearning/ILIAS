@@ -24,7 +24,6 @@
 /ilias.log
 /db_template_writer.php
 #/setup/sql/dbupdate_custom.php
-/install_client.php
 
 # Directories
 /data

@@ -23,8 +23,8 @@ abstract class ilSCComponentTaskGUI
 	{
 		$this->task = $task;
 		
-		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->ctrl = $GLOBALS['ilCtrl'];
+		$this->lng = $GLOBALS['lng'];
 	}
 	
 	/**
@@ -114,7 +114,7 @@ abstract class ilSCComponentTaskGUI
 		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 		$confirm->setHeaderText($a_text);
 		
-		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
 	}
 	
 	/**

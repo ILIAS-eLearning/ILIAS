@@ -41,9 +41,7 @@ class ilRegistrationRoleAccessLimitations
 
 	function __construct()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db = $ilDB;
 		$this->__read();
@@ -52,9 +50,7 @@ class ilRegistrationRoleAccessLimitations
 	// Private
 	function __read()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		$query = "SELECT * FROM reg_access_limit ";
 		$res = $this->db->query($query);
@@ -75,10 +71,7 @@ class ilRegistrationRoleAccessLimitations
 	
 	function save()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
-		$ilDB = $DIC['ilDB'];
+		global $ilias, $ilDB;
 
 		foreach($this->access_limitations as $key => $data)
 		{

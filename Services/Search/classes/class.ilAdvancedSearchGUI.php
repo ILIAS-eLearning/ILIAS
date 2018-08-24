@@ -65,9 +65,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	*/
 	function __construct()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->tabs_gui = $ilTabs;
 		
@@ -91,9 +89,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	*/
 	function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -174,9 +170,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function performSearch()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$this->initSearchType(self::TYPE_LOM);
 		
@@ -353,9 +347,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function performAdvMDSearch()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$this->initSearchType(self::TYPE_ADV_MD);
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
@@ -441,9 +433,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initFormSearch()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -477,9 +467,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function showSearch()
 	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
+		global $ilLocator;
 
 		$this->setSubTabs();
 		$this->tabs_gui->setSubTabActive('search_lom');
@@ -493,10 +481,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function prepareOutput()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilHelp = $DIC['ilHelp'];
+		global $ilTabs, $ilHelp;
 		
 		parent::prepareOutput();
 		
@@ -518,9 +503,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	private function showSavedAdvMDResults()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		// Read old result sets
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -553,9 +536,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	
 	function showSavedResults()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		// Read old result sets
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -1116,9 +1097,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	private function initUserSearchCache()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
@@ -1142,9 +1121,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	public function setSubTabs()
 	{
-	 	global $DIC;
-
-	 	$ilTabs = $DIC['ilTabs'];
+	 	global $ilTabs;
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	if(!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds()))

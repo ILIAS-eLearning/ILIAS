@@ -55,12 +55,7 @@ class ilECSSettingsGUI
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $lng,$tpl,$ilCtrl,$ilTabs;
 		
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -82,9 +77,7 @@ class ilECSSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
@@ -133,11 +126,7 @@ class ilECSSettingsGUI
 	 */
 	public function overview()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilToolbar,$ilTabs, $ilAccess;
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
@@ -232,9 +221,7 @@ class ilECSSettingsGUI
 	 */
 	protected function create()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$this->initSettings(0);
 
@@ -253,9 +240,7 @@ class ilECSSettingsGUI
 	 */
 	protected function edit()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$this->initSettings((int) $_REQUEST['server_id']);
 		$this->ctrl->saveParameter($this,'server_id',(int) $_REQUEST['server_id']);
@@ -287,9 +272,7 @@ class ilECSSettingsGUI
 	 */
 	protected function delete()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$this->initSettings((int) $_REQUEST['server_id']);
 
@@ -597,7 +580,7 @@ class ilECSSettingsGUI
 			ilUtil::sendInfo($this->lng->txt($error));
 			return $this->create();
 		}
-		$GLOBALS['DIC']['ilCtrl']->redirect($this,'overview');
+		$GLOBALS['ilCtrl']->redirect($this,'overview');
 		return true;
 	}
 
@@ -709,13 +692,11 @@ class ilECSSettingsGUI
 	 */
 	public function communities()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		// add toolbar to refresh communities
 		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
-			$GLOBALS['DIC']['ilToolbar']->addButton(
+			$GLOBALS['ilToolbar']->addButton(
 				$this->lng->txt('ecs_refresh_participants'),
 				$this->ctrl->getLinkTarget($this,'refreshParticipants')
 			);
@@ -825,9 +806,7 @@ class ilECSSettingsGUI
 	 */
 	protected function updateCommunities()
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
@@ -902,7 +881,7 @@ class ilECSSettingsGUI
 		{
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		}
-		$GLOBALS['DIC']['ilCtrl']->redirect($this,'communities');
+		$GLOBALS['ilCtrl']->redirect($this,'communities');
 
 		// TODO: Do update of remote courses and ...
 
@@ -917,10 +896,7 @@ class ilECSSettingsGUI
 	 */
 	protected function setMappingTabs($a_active)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilTabs, $ilAccess;
 
 		$ilTabs->clearTargets();
 		$ilTabs->clearSubTabs();
@@ -964,9 +940,7 @@ class ilECSSettingsGUI
 	 */
 	public function importMappings()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
@@ -1030,9 +1004,7 @@ class ilECSSettingsGUI
 	 */
 	protected function exportMappings()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
@@ -1475,9 +1447,7 @@ class ilECSSettingsGUI
 	 */
 	protected function initCategoryMappingForm($a_mode = 'add')
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(is_object($this->form))
 		{
@@ -1586,10 +1556,7 @@ class ilECSSettingsGUI
 	 */
 	protected function imported()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilUser, $ilToolbar;
 
 		$this->tabs_gui->setSubTabActive('ecs_import');
 	
@@ -1651,10 +1618,7 @@ class ilECSSettingsGUI
 	 */
 	protected function exportImported()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilUser = $DIC['ilUser'];
+		global $ilObjDataCache,$ilUser;
 		
 		// :TODO: mind resource type and move to ilRemoteObjectBase...
 		
@@ -1771,10 +1735,7 @@ class ilECSSettingsGUI
 	 */
 	protected function released()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilUser, $ilToolbar;
 		
 		$this->tabs_gui->setSubTabActive('ecs_released');
 			 			
@@ -1835,9 +1796,7 @@ class ilECSSettingsGUI
 	 */
 	protected function exportReleased()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 		$exported = ilECSExport::getExportedIds();
@@ -1959,9 +1918,7 @@ class ilECSSettingsGUI
 	 */
 	protected function setSubTabs()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		$this->tabs_gui->clearSubTabs();
 		
 		$this->tabs_gui->addSubTabTarget("overview",
@@ -2006,10 +1963,7 @@ class ilECSSettingsGUI
 	 */
 	private function prepareRoleSelect()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview,$ilObjDataCache;
 		
 		$global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(),
 			'object_data',
@@ -2040,10 +1994,7 @@ class ilECSSettingsGUI
 	 */
 	protected function initTaskScheduler()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilDB,$ilSetting;
 
 		$setting = new ilSetting('ecs');
 		$setting->set(

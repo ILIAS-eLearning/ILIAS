@@ -13,7 +13,7 @@ class LessThan extends Custom implements Constraint {
 	protected $max;
 
 	public function __construct($max, Data\Factory $data_factory) {
-		assert(is_int($max));
+		assert('is_int($max)');
 		$this->max = $max;
 		parent::__construct( function ($value) {
 				return $value < $this->max;

@@ -14,10 +14,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_obj_course)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng, $ilCtrl;
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;

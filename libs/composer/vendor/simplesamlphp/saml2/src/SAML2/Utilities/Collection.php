@@ -1,15 +1,13 @@
 <?php
 
-namespace SAML2\Utilities;
-
-interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
+interface SAML2_Utilities_Collection extends ArrayAccess, Countable, IteratorAggregate
 {
     /**
      * Add an element to the collection
      *
      * @param $element
      *
-     * @return $this|\SAML2\Utilities\Collection
+     * @return $this|SAML2_Utilities_Collection
      */
     public function add($element);
 
@@ -18,7 +16,7 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      *
-     * @throws \SAML2\Exception\RuntimeException if the element was not the only element
+     * @throws SAML2_Exception_RuntimeException if the element was not the only element
      */
     public function getOnlyElement();
 
@@ -43,14 +41,14 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function map(\Closure $function);
+    public function map(Closure $function);
 
     /**
      * @param callable $filterFunction
      *
-     * @return \SAML2\Utilities\Collection
+     * @return SAML2_Utilities_Collection
      */
-    public function filter(\Closure $filterFunction);
+    public function filter(Closure $filterFunction);
 
     /**
      * Get the element at index

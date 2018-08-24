@@ -60,9 +60,7 @@ class ilObjectSearch extends ilAbstractSearch
 
 	public function performSearch()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$in = $this->__createInStatement();
 		$where = $this->__createWhereCondition();
@@ -120,9 +118,7 @@ class ilObjectSearch extends ilAbstractSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$in = ' AND '.$ilDB->in('type',(array) $this->object_types,false,'text');
 		if($this->getIdFilter())

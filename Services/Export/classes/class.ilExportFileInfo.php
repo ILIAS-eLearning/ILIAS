@@ -44,9 +44,7 @@ class ilExportFileInfo
 	 */
 	public static function lookupLastExport($a_obj_id,$a_type,$a_version = '')
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM export_file_info ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer').' '.
@@ -71,9 +69,7 @@ class ilExportFileInfo
 	 */
 	public static function deleteByObjId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulate("DELETE FROM export_file_info WHERE obj_id = ".$ilDB->quote($a_obj_id));
 		return true;
@@ -186,9 +182,7 @@ class ilExportFileInfo
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "INSERT INTO export_file_info (obj_id, export_type, filename, version, create_date) ".
 			"VALUES ( ".
@@ -207,9 +201,7 @@ class ilExportFileInfo
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulate('DELETE FROM export_file_info '.
 			'WHERE obj_id = '.$ilDB->quote($this->getObjId(),'integer').' '.
@@ -224,9 +216,7 @@ class ilExportFileInfo
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM export_file_info ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer').' '.

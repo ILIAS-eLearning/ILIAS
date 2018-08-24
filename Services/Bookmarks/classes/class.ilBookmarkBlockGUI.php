@@ -262,7 +262,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 						"title" => ilUtil::prepareFormOutput($bm_item["title"]),
 						"desc" => ilUtil::prepareFormOutput($bm_item["desc"]),
 						"link" => ilUtil::prepareFormOutput($bm_item["target"]),
-						"rel" => "noopener",
 						"target" => "_blank");
 					break;
 			}
@@ -283,9 +282,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->tpl->setVariable("BM_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("BM_LINK", $a_set["link"]);
 		$this->tpl->setVariable("BM_TARGET", ilUtil::prepareFormOutput($a_set["target"]));
-		if (isset($a_set['rel'])) {
-			$this->tpl->setVariable("BM_REL", $a_set['rel']);
-		}
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{

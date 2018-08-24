@@ -11,9 +11,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
 	
 	public function addToForm()
 	{		
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$adt = $this->getADT();
 		

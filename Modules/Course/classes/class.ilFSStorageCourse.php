@@ -46,9 +46,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 */
 	public function __construct($a_container_id = 0)
 	{
-		global $DIC;
-
-		$log = $DIC['log'];
+		global $log;
 		
 		$this->log = $log;
 	 	parent::__construct(ilFileSystemStorage::STORAGE_DATA,true,$a_container_id);

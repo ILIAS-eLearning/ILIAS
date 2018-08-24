@@ -1,58 +1,50 @@
 <?php
 
-namespace SAML2\Assertion\Validation;
-
-use SAML2\Assertion;
-use SAML2\Configuration\IdentityProvider;
-use SAML2\Configuration\IdentityProviderAware;
-use SAML2\Configuration\ServiceProvider;
-use SAML2\Configuration\ServiceProviderAware;
-
-class AssertionValidator
+class SAML2_Assertion_Validation_AssertionValidator
 {
     /**
-     * @var \SAML2\Assertion\Validation\AssertionConstraintValidator[]
+     * @var SAML2_Assertion_Validation_AssertionConstraintValidator[]
      */
     protected $constraints;
 
     /**
-     * @var \SAML2\Configuration\IdentityProvider
+     * @var SAML2_Configuration_IdentityProvider
      */
     private $identityProvider;
 
     /**
-     * @var \SAML2\Configuration\ServiceProvider
+     * @var SAML2_Configuration_ServiceProvider
      */
     private $serviceProvider;
 
     /**
-     * @param \SAML2\Configuration\IdentityProvider $identityProvider
-     * @param \SAML2\Configuration\ServiceProvider  $serviceProvider
+     * @param SAML2_Configuration_IdentityProvider $identityProvider
+     * @param SAML2_Configuration_ServiceProvider  $serviceProvider
      */
     public function __construct(
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider
     ) {
         $this->identityProvider = $identityProvider;
         $this->serviceProvider = $serviceProvider;
     }
 
-    public function addConstraintValidator(AssertionConstraintValidator $constraint)
+    public function addConstraintValidator(SAML2_Assertion_Validation_AssertionConstraintValidator $constraint)
     {
-        if ($constraint instanceof IdentityProviderAware) {
+        if ($constraint instanceof SAML2_Configuration_IdentityProviderAware) {
             $constraint->setIdentityProvider($this->identityProvider);
         }
 
-        if ($constraint instanceof ServiceProviderAware) {
+        if ($constraint instanceof SAML2_Configuration_ServiceProviderAware) {
             $constraint->setServiceProvider($this->serviceProvider);
         }
 
         $this->constraints[] = $constraint;
     }
 
-    public function validate(Assertion $assertion)
+    public function validate(SAML2_Assertion $assertion)
     {
-        $result = new Result();
+        $result = new SAML2_Assertion_Validation_Result();
         foreach ($this->constraints as $validator) {
             $validator->validate($assertion, $result);
         }

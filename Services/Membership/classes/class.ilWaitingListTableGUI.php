@@ -53,10 +53,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,ilObject $rep_object, $waiting_list,$show_content = true)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('grp');
@@ -145,6 +142,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$this->wait_user_ids[] = $usr_id;
 			$this->wait[$usr_id] = $this->getWaitingList()->getUser($usr_id);
 		}
+		ilLoggerFactory::getLogger('mem')->dump($this->wait);
+		ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
 	}
 	
 	/**
@@ -174,9 +173,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
@@ -294,6 +291,9 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$this->wait_user_ids
 		);
 		
+		ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
+		ilLoggerFactory::getLogger('mem')->dump($usr_data);
+		
 		foreach((array) $usr_data['set'] as $user)
 		{
 			$usr_ids[] = $user['usr_id'];
@@ -357,7 +357,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 				if($usr_id == $edit_info['update_user'])
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
-					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
+					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
 					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));

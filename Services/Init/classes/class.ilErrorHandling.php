@@ -350,7 +350,7 @@ class ilErrorHandling extends PEAR
 	 * @return bool
 	 */
 	protected function isDevmodeActive() {
-		return defined("DEVMODE") && (int)DEVMODE === 1;
+		return DEVMODE == 1;
 	}
 
 	/**
@@ -385,10 +385,10 @@ class ilErrorHandling extends PEAR
 					$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
 				}
 			} else {
-				$message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "'.$file_name.'"';
+				$message = "Error ".$file_name." occurred.";
 
 				if($logger->mail()) {
-					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'</a>';
+					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'%s</a>';
 				}
 			}
 

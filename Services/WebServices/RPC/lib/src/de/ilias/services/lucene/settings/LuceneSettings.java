@@ -204,19 +204,11 @@ public class LuceneSettings {
 			logger.info("Default Operator is: " + getDefaultOperator());
 		}
 		
+		// begin-patch mime_filter
 		res = sta.executeQuery("SELECT value FROM settings WHERE module = 'common' " +
 			"AND keyword = 'lucene_prefix_wildcard'");
 		while(res.next()) {
-			
-			try {
-				if(res.getString("value").length() > 0) {
-					this.enablePrefixWildcardQuery(Integer.parseInt(res.getString("value")));
-				}
-			}
-			catch(NumberFormatException e) {
-				logger.warn("Read invalid setting: " + e.getMessage());
-				this.enablePrefixWildcardQuery(0);
-			}
+			this.enablePrefixWildcardQuery(Integer.parseInt(res.getString("value")));
 			logger.info("Prefix wildcard queries enabled: " + (this.isPrefixWildcardQueryEnabled() ? "yes" : "no"));
 		}
 		

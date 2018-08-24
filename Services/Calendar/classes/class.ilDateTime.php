@@ -38,9 +38,6 @@ class ilDateTime
 	const HOUR = 'hour';
 	const MINUTE = 'minute';
 
-	/**
-	 * @var \ilLogger
-	 */
 	protected $log;
 	
 	protected $timezone = null;
@@ -62,9 +59,9 @@ class ilDateTime
 	 */
 	public function __construct($a_date = null,$a_format = 0,$a_tz = '')
 	{
-	 	global $DIC;
-
-	 	$this->log = $DIC->logger()->cal();
+	 	global $ilLog;
+	 	
+	 	$this->log = $ilLog;
 	 	
 	 	try
 	 	{
@@ -75,7 +72,7 @@ class ilDateTime
 	 	}
 	 	catch(ilTimeZoneException $exc)
 	 	{
-	 		$this->log->warning($exc->getMessage());
+	 		$this->log->write(__METHOD__.': '.$exc->getMessage());
 	 		throw new ilDateTimeException('Unsupported timezone given. Timezone: '.$a_tz);
 	 	}
 	}
@@ -95,9 +92,9 @@ class ilDateTime
 	
 	public function __wakeup()
 	{
-		global $DIC;
-
-		$this->log = $DIC->logger()->cal();
+		global $ilLog;
+		
+		$this->log = $ilLog;
 	}
 		
 	/**
@@ -126,7 +123,7 @@ class ilDateTime
 	 	}
 	 	catch(ilTimeZoneException $e)
 	 	{
-	 		$this->log->warning('Unsupported timezone given: '.$a_timezone_identifier);
+	 		$this->log->write('Unsupported timezone given: '.$a_timezone_identifier);
 	 		throw new ilDateTimeException('Unsupported timezone given. Timezone: '.$a_timezone_identifier);
 	 	}
 	}
@@ -433,7 +430,7 @@ class ilDateTime
 				} 
 				catch (Exception $ex) 
 				{
-					$this->log->warning('Cannot parse date: '.$a_date);
+					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
 				}						
 				break;
@@ -442,9 +439,9 @@ class ilDateTime
 				$matches = preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts);			
 				if($matches < 1)
 				{
-					$this->log->warning('Cannot parse date: '.$a_date);
-					$this->log->warning(print_r($matches,true));
-					$this->log->logStack(ilLogLevel::WARNING);
+					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					$this->log->write(__METHOD__.': '.print_r($matches,true));
+					$this->log->logStack();
 					throw new ilDateTimeException('Cannot parse date.');
 				}
 				
@@ -463,7 +460,7 @@ class ilDateTime
 				} 
 				catch (Exception $ex) 
 				{
-					$this->log->warning('Cannot parse date : '.$a_date);
+					$this->log->write(__METHOD__.': Cannot parse date : '.$a_date);
 					return false;			
 				}												
 				break;
@@ -477,7 +474,7 @@ class ilDateTime
 			case IL_CAL_TIMESTAMP:
 				if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $a_date,$d_parts) == false)
 				{
-					$this->log->warning('Cannot parse date: '.$a_date);
+					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
 				}				
 				$this->dt_obj = $this->parsePartsToDate($d_parts[1], $d_parts[2], $d_parts[3], 
@@ -525,7 +522,7 @@ class ilDateTime
 			}
 			catch(ilTimeZoneException $exc)
 			{
-				$this->log->warning('Invalid timezone given. Timezone: '.$a_tz);
+				$this->log->write(__METHOD__.': Invalid timezone given. Timezone: '.$a_tz);
 			}
 		}
 		else

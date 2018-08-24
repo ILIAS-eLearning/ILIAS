@@ -40,10 +40,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
+		global $rbacsystem, $ilErr;
 
 		// access to all functions in this class are only allowed if edit_permission is granted
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
@@ -122,10 +119,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	public function perm(ilTable2GUI $table = NULL )
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $objDefinition, $ilToolbar;
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
 		$dtpl = new ilDidacticTemplateGUI($this->gui_obj);
@@ -184,7 +178,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function isInAdministration()
 	{
-		return (bool) $GLOBALS['DIC']['tree']->isGrandChild(SYSTEM_FOLDER_ID,$this->getCurrentObject()->getRefId());
+		return (bool) $GLOBALS['tree']->isGrandChild(SYSTEM_FOLDER_ID,$this->getCurrentObject()->getRefId());
 	}
 	
 	
@@ -222,9 +216,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	public function applyRoleFilter($a_roles, $a_filter_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		// Always delete administrator role from view
 		if(isset($a_roles[SYSTEM_ROLE_ID]))
@@ -266,7 +258,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			// only roles which use a local policy
 			case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_POLICY: 
 				
-				$arr_local_roles = $GLOBALS['DIC']['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId());
+				$arr_local_roles = $GLOBALS['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId());
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
 
 				foreach ($arr_remove_roles as $role_id)
@@ -279,7 +271,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			// only true local role defined at current position
 			case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_OBJECT:
 				
-				$arr_local_roles = $GLOBALS['DIC']['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId(),TRUE);
+				$arr_local_roles = $GLOBALS['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId(),TRUE);
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
 
 				foreach ($arr_remove_roles as $role_id)
@@ -300,11 +292,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function savePermissions()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacreview,$objDefinition,$rbacadmin;
 		
 		include_once './Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php';
 		$table = new ilObjectRolePermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
@@ -517,9 +505,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function unblockRoles($roles)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 		
 		foreach($roles as $role)
 		{
@@ -550,10 +536,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function blockRoles($roles)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin,$rbacreview;
 		
 		foreach($roles as $role)
 		{
@@ -591,9 +574,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	public static function hasContainerCommands($a_type)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		return $objDefinition->isContainer($a_type) and $a_type != 'root' and $a_type != 'adm' and $a_type != 'rolf';
 	}
@@ -604,13 +585,13 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function displayImportRoleForm(ilPropertyFormGUI $form = null)
 	{
-		$GLOBALS['DIC']['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->clearTargets();
 		
 		if(!$form)
 		{
 			$form = $this->initImportForm();
 		}
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 	
 	/**
@@ -618,9 +599,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function doImportRole()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		$form = $this->initImportForm();
 		if($form->checkInput())
@@ -688,10 +667,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function initRoleForm()
     {
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
+		global $rbacreview,$objDefinition;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -773,7 +749,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function displayAddRoleForm()
 	{
-		$GLOBALS['DIC']['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->clearTargets();
 
 		$form = $this->initRoleForm();
 		$this->tpl->setContent($form->getHTML());
@@ -789,13 +765,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function addRole()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr,$ilCtrl;
 
 		$form = $this->initRoleForm();
 		if($form->checkInput())
@@ -808,7 +778,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			$role->setDescription($form->getInput('desc'));
 			$role->create();
 			
-			$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(),$this->getCurrentObject()->getRefId());
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$this->getCurrentObject()->getRefId());
 			
 			// protect
 			$rbacadmin->setProtected(
@@ -876,9 +846,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function getModifiedBlockedSettings()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		$blocked_info['new_blocked'] = array();
 		$blocked_info['new_unblocked'] = array();

@@ -22,12 +22,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd,$a_allow_object_selection = false)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -87,7 +82,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 			
 			if($type == 'role')
 			{
-				if($GLOBALS['DIC']['rbacreview']->isRoleDeleted($object_id))
+				if($GLOBALS['rbacreview']->isRoleDeleted($object_id))
 				{
 					continue;
 				}				
@@ -116,9 +111,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 					break;
 					
 				case 'role':
-					global $DIC;
-
-					$rbacreview = $DIC['rbacreview'];
+					global $rbacreview;
 					include_once './Services/User/classes/class.ilUserFilter.php';
 					$row['member'] = count(ilUserFilter::getInstance()->filter($rbacreview->assignedUsers($object_id)));
 					break;

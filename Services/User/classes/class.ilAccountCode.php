@@ -17,9 +17,7 @@ class ilAccountCode
 	
 	public static function create($valid_until, $stamp)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$id = $ilDB->nextId(self::DB_TABLE);
 		
@@ -59,9 +57,7 @@ class ilAccountCode
 	
 	public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_valid_until, $filter_generated)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// filter
 		$where = self::filterToSQL($filter_code, $filter_valid_until, $filter_generated);
@@ -93,9 +89,7 @@ class ilAccountCode
 	
 	public static function loadCodesByIds(array $ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$set = $ilDB->query("SELECT * FROM ".self::DB_TABLE." WHERE ".$ilDB->in("code_id", $ids, false, "integer"));
 		$result = array();
@@ -108,9 +102,7 @@ class ilAccountCode
 	
 	public static function deleteCodes(array $ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(sizeof($ids))
 		{
@@ -121,9 +113,7 @@ class ilAccountCode
 	
 	public static function getGenerationDates()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT DISTINCT(generated) AS generated FROM ".self::DB_TABLE." ORDER BY generated");
 		$result = array();
@@ -136,9 +126,7 @@ class ilAccountCode
 	
 	protected static function filterToSQL($filter_code, $filter_valid_until, $filter_generated)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$where = array();
 		if($filter_code)
@@ -165,9 +153,7 @@ class ilAccountCode
 	
 	public static function getCodesForExport($filter_code, $filter_valid_until, $filter_generated)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// filter
 		$where = self::filterToSQL($filter_code, $filter_valid_until, $filter_generated);
@@ -184,9 +170,7 @@ class ilAccountCode
 	
 	public static function isUnusedCode($code)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 		return ilRegistrationCode::isUnusedCode($code);
@@ -203,9 +187,7 @@ class ilAccountCode
 	
 	public static function useCode($code)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 		return (bool) ilRegistrationCode::useCode($code);
@@ -215,9 +197,7 @@ class ilAccountCode
 
 	public static function getCodeValidUntil($code)
     {
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 		$code_data = ilRegistrationCode::getCodeData($code);
@@ -247,7 +227,7 @@ class ilAccountCode
 		$grole = ilRegistrationCode::getCodeRole($code);
 		if($grole)
 		{
-			$GLOBALS['DIC']['rbacadmin']->assignUser($grole,$user->getId());
+			$GLOBALS['rbacadmin']->assignUser($grole,$user->getId());
 		}
 		$code_data = ilRegistrationCode::getCodeData($code);
 		if($code_data["role_local"])
@@ -255,10 +235,10 @@ class ilAccountCode
 			$code_local_roles = explode(";", $code_data["role_local"]);
 			foreach((array) $code_local_roles as $role_id)
 			{
-				$GLOBALS['DIC']['rbacadmin']->assignUser($role_id,$user->getId());
+				$GLOBALS['rbacadmin']->assignUser($role_id,$user->getId());
 				
 				// patch to remove for 45 due to mantis 21953
-				$role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($role_id);
+				$role_obj = $GLOBALS['rbacreview']->getObjectOfRole($role_id);
 				switch(ilObject::_lookupType($role_obj))
 				{
 					case 'crs':

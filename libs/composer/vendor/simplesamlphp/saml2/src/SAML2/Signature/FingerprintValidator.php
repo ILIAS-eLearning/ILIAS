@@ -1,19 +1,9 @@
 <?php
 
-namespace SAML2\Signature;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Certificate\FingerprintLoader;
-use SAML2\Certificate\X509;
-use SAML2\Configuration\CertificateProvider;
-use SAML2\SignedElement;
-
 /**
  * Validates the signature based on the fingerprint of the certificate
- *
- * @deprecated Please use full certificates instead.
  */
-class FingerprintValidator extends AbstractChainedValidator
+class SAML2_Signature_FingerprintValidator extends SAML2_Signature_AbstractChainedValidator
 {
     /**
      * @var array
@@ -21,16 +11,13 @@ class FingerprintValidator extends AbstractChainedValidator
     private $certificates;
 
     /**
-     * @var \SAML2\Certificate\FingerprintLoader
+     * @var SAML2_Certificate_FingerprintLoader
      */
     private $fingerprintLoader;
 
-    /**
-     * @deprecated Please use full certificates instead.
-     */
     public function __construct(
-        LoggerInterface $logger,
-        FingerprintLoader $fingerprintLoader
+        \Psr\Log\LoggerInterface $logger,
+        SAML2_Certificate_FingerprintLoader $fingerprintLoader
     ) {
         $this->fingerprintLoader = $fingerprintLoader;
 
@@ -38,14 +25,14 @@ class FingerprintValidator extends AbstractChainedValidator
     }
 
     public function canValidate(
-        SignedElement $signedElement,
-        CertificateProvider $configuration
+        SAML2_SignedElement $signedElement,
+        SAML2_Configuration_CertificateProvider $configuration
     ) {
-        if ($configuration->getCertificateFingerprints() === null) {
+        if ($configuration->getCertificateFingerprints() === NULL) {
             $this->logger->debug(
                 'Configuration does not have "certFingerprint" value, cannot validate signature with fingerprint'
             );
-            return false;
+            return FALSE;
         }
 
         // use internal cache to prevent doing certificate extraction twice.
@@ -54,31 +41,31 @@ class FingerprintValidator extends AbstractChainedValidator
             $this->logger->debug(
                 'Signed element does not have certificates, cannot validate signature with fingerprint'
             );
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     /**
-     * @param \SAML2\SignedElement             $signedElement
-     * @param \SAML2\Configuration\CertificateProvider $configuration
+     * @param SAML2_SignedElement             $signedElement
+     * @param SAML2_Configuration_CertificateProvider $configuration
      *
      * @return bool
      */
     public function hasValidSignature(
-        SignedElement $signedElement,
-        CertificateProvider $configuration
+        SAML2_SignedElement $signedElement,
+        SAML2_Configuration_CertificateProvider $configuration
     ) {
         $this->certificates = array_map(function ($certificate) {
-            return X509::createFromCertificateData($certificate);
+            return SAML2_Certificate_X509::createFromCertificateData($certificate);
         }, $this->certificates);
 
         $fingerprintCollection = $this->fingerprintLoader->loadFromConfiguration($configuration);
 
         $pemCandidates = array();
         foreach ($this->certificates as $certificate) {
-            /** @var \SAML2\Certificate\X509 $certificate */
+            /** @var SAML2_Certificate_X509 $certificate */
             $certificateFingerprint = $certificate->getFingerprint();
             if ($fingerprintCollection->contains($certificateFingerprint)) {
                 $pemCandidates[] = $certificate;
@@ -90,7 +77,7 @@ class FingerprintValidator extends AbstractChainedValidator
                 'Unable to match a certificate of the SignedElement matching a configured fingerprint'
             );
 
-            return false;
+            return FALSE;
         }
 
         return $this->validateElementWithKeys($signedElement, $pemCandidates);

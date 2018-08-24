@@ -1,24 +1,24 @@
 <?php
 
-namespace SAML2\XML\mdui;
-
-use SAML2\Utils;
-use SAML2\XML\Chunk;
-
 /**
  * Class for handling the metadata extensions for login and discovery user interface
  *
  * @link: http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-metadata-ui/v1.0/sstc-saml-metadata-ui-v1.0.pdf
  * @package SimpleSAMLphp
  */
-class UIInfo
+class SAML2_XML_mdui_UIInfo
 {
+    /**
+     * The namespace used for the UIInfo extension.
+     */
+    const NS = 'urn:oasis:names:tc:SAML:metadata:ui';
+
     /**
      * Array with child elements.
      *
-     * The elements can be any of the other \SAML2\XML\mdui\* elements.
+     * The elements can be any of the other SAML2_XML_mdui_* elements.
      *
-     * @var \SAML2\XML\Chunk[]
+     * @var array
      */
     public $children = array();
 
@@ -51,47 +51,47 @@ class UIInfo
     public $PrivacyStatementURL = array();
 
     /**
-     * The Keywords, as an array of Keywords objects
+     * The Keywords, as an array of language => array of strings.
      *
-     * @var \SAML2\XML\mdui\Keywords[]
+     * @var array
      */
     public $Keywords = array();
 
     /**
-     * The Logo, as an array of Logo objects
+     * The Logo, as an array of associative arrays containing url, width, height, and optional lang.
      *
-     * @var \SAML2\XML\mdui\Logo[]
+     * @var array
      */
     public $Logo = array();
 
     /**
      * Create a UIInfo element.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
+     * @param DOMElement|NULL $xml The XML element we should load.
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
-        $this->DisplayName         = Utils::extractLocalizedStrings($xml, Common::NS, 'DisplayName');
-        $this->Description         = Utils::extractLocalizedStrings($xml, Common::NS, 'Description');
-        $this->InformationURL      = Utils::extractLocalizedStrings($xml, Common::NS, 'InformationURL');
-        $this->PrivacyStatementURL = Utils::extractLocalizedStrings($xml, Common::NS, 'PrivacyStatementURL');
+        $this->DisplayName         = SAML2_Utils::extractLocalizedStrings($xml, self::NS, 'DisplayName');
+        $this->Description         = SAML2_Utils::extractLocalizedStrings($xml, self::NS, 'Description');
+        $this->InformationURL      = SAML2_Utils::extractLocalizedStrings($xml, self::NS, 'InformationURL');
+        $this->PrivacyStatementURL = SAML2_Utils::extractLocalizedStrings($xml, self::NS, 'PrivacyStatementURL');
 
-        foreach (Utils::xpQuery($xml, './*') as $node) {
-            if ($node->namespaceURI === Common::NS) {
+        foreach (SAML2_Utils::xpQuery($xml, './*') as $node) {
+            if ($node->namespaceURI === self::NS) {
                 switch ($node->localName) {
                     case 'Keywords':
-                        $this->Keywords[] = new Keywords($node);
+                        $this->Keywords[] = new SAML2_XML_mdui_Keywords($node);
                         break;
                     case 'Logo':
-                        $this->Logo[] = new Logo($node);
+                        $this->Logo[] = new SAML2_XML_mdui_Logo($node);
                         break;
                 }
             } else {
-                $this->children[] = new Chunk($node);
+                $this->children[] = new SAML2_XML_Chunk($node);
             }
         }
     }
@@ -99,19 +99,19 @@ class UIInfo
     /**
      * Convert this UIInfo to XML.
      *
-     * @param \DOMElement $parent The element we should append to.
-     * @return \DOMElement|null
+     * @param DOMElement $parent The element we should append to.
+     * @return DOMElement|NULL
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent)
     {
-        assert(is_array($this->DisplayName));
-        assert(is_array($this->InformationURL));
-        assert(is_array($this->PrivacyStatementURL));
-        assert(is_array($this->Keywords));
-        assert(is_array($this->Logo));
-        assert(is_array($this->children));
+        assert('is_array($this->DisplayName)');
+        assert('is_array($this->InformationURL)');
+        assert('is_array($this->PrivacyStatementURL)');
+        assert('is_array($this->Keywords)');
+        assert('is_array($this->Logo)');
+        assert('is_array($this->children)');
 
-        $e = null;
+        $e = NULL;
         if (!empty($this->DisplayName)
          || !empty($this->Description)
          || !empty($this->InformationURL)
@@ -121,13 +121,13 @@ class UIInfo
          || !empty($this->children)) {
             $doc = $parent->ownerDocument;
 
-            $e = $doc->createElementNS(Common::NS, 'mdui:UIInfo');
+            $e = $doc->createElementNS(self::NS, 'mdui:UIInfo');
             $parent->appendChild($e);
 
-            Utils::addStrings($e, Common::NS, 'mdui:DisplayName', true, $this->DisplayName);
-            Utils::addStrings($e, Common::NS, 'mdui:Description', true, $this->Description);
-            Utils::addStrings($e, Common::NS, 'mdui:InformationURL', true, $this->InformationURL);
-            Utils::addStrings($e, Common::NS, 'mdui:PrivacyStatementURL', true, $this->PrivacyStatementURL);
+            SAML2_Utils::addStrings($e, self::NS, 'mdui:DisplayName', TRUE, $this->DisplayName);
+            SAML2_Utils::addStrings($e, self::NS, 'mdui:Description', TRUE, $this->Description);
+            SAML2_Utils::addStrings($e, self::NS, 'mdui:InformationURL', TRUE, $this->InformationURL);
+            SAML2_Utils::addStrings($e, self::NS, 'mdui:PrivacyStatementURL', TRUE, $this->PrivacyStatementURL);
 
             if (!empty($this->Keywords)) {
                 foreach ($this->Keywords as $child) {
@@ -150,4 +150,5 @@ class UIInfo
 
         return $e;
     }
+
 }

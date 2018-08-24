@@ -13,7 +13,7 @@ class GreaterThan extends Custom implements Constraint {
 	protected $min;
 
 	public function __construct($min, Data\Factory $data_factory) {
-		assert(is_int($min));
+		assert('is_int($min)');
 		$this->min = $min;
 		parent::__construct( function ($value) {
 				return $value > $this->min;

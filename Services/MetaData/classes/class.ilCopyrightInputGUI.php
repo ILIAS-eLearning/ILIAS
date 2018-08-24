@@ -28,9 +28,7 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule("meta");
@@ -117,9 +115,7 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
 	 */	
 	function checkInput()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if($this->usePurifier() && $this->getPurifier())
 		{

@@ -31,9 +31,7 @@ class ilSessionStatisticsGUI
 	
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->setSubTabs();
 		
@@ -49,11 +47,7 @@ class ilSessionStatisticsGUI
 	
 	protected function setSubTabs()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilTabs, $ilCtrl, $lng;
 		
 		$ilTabs->addSubTab("current", $lng->txt("trac_current_system_load"),
 			$ilCtrl->getLinkTarget($this, "current"));
@@ -67,13 +61,7 @@ class ilSessionStatisticsGUI
 	
 	protected function current($a_export = false)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 		
 		$ilTabs->activateSubTab("current");
 		
@@ -188,13 +176,7 @@ class ilSessionStatisticsGUI
 		
 	protected function short($a_export = false)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 		
 		$ilTabs->activateSubTab("short");
 		
@@ -284,13 +266,7 @@ class ilSessionStatisticsGUI
 	
 	protected function long($a_export = false)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 		
 		$ilTabs->activateSubTab("long");
 		
@@ -369,13 +345,7 @@ class ilSessionStatisticsGUI
 	
 	protected function periodic($a_export = false)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 		
 		$ilTabs->activateSubTab("periodic");
 		
@@ -433,12 +403,7 @@ class ilSessionStatisticsGUI
 	
 	protected function renderCurrentBasics()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilSetting, $lng, $ilCtrl, $ilAccess;
 		
 		// basic data - not time related
 		
@@ -510,9 +475,7 @@ class ilSessionStatisticsGUI
 	
 	protected function buildData($a_time_from, $a_time_to, $a_title)
 	{
-		global $DIC;								
-
-		$lng = $DIC['lng'];
+		global $lng;								
 		
 		// basic data - time related
 		
@@ -549,9 +512,7 @@ class ilSessionStatisticsGUI
 	
 	protected function render($a_data, $a_scale, $a_measure = null)
 	{			
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");		
 		
@@ -605,9 +566,7 @@ class ilSessionStatisticsGUI
 	 */
 	protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
@@ -808,10 +767,7 @@ class ilSessionStatisticsGUI
 	
 	protected function adminSync()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		// see ilSession::_writeData()
 		$now = time();
@@ -824,11 +780,7 @@ class ilSessionStatisticsGUI
 	
 	protected function exportCSV(array $a_data, $a_scale)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilClientIniFile = $DIC['ilClientIniFile'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $ilClientIniFile, $ilUser;
 		
 	    ilDatePresentation::setUseRelativeDates(false);
 		include_once './Services/Link/classes/class.ilLink.php';

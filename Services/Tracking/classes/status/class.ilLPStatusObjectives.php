@@ -18,9 +18,7 @@ class ilLPStatusObjectives extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -95,9 +93,7 @@ class ilLPStatusObjectives extends ilLPStatus
 	
 	static function _getStatusInfo($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
 
@@ -150,10 +146,7 @@ class ilLPStatusObjectives extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache, $ilDB;
 	
 		// the status completed depends on:
 		// $status_info['num_objectives'] (ilLPStatusWrapper::_getStatusInfo($a_obj_id);)

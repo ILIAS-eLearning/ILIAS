@@ -115,20 +115,17 @@ class Standard extends Icon implements C\Icon\Standard {
 		,self::BDGA
 		,self::WFE
 		,self::IASS
-		,self::COPA
 	);
 
-	public function __construct($name, $aria_label, $size, $is_disabled) {
+	public function __construct($name, $aria_label, $size) {
 		$this->checkStringArg("name", $name);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement("size", $size,	self::$possible_sizes,
 			implode(self::$possible_sizes, '/')
 		);
-		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = $name;
 		$this->aria_label = $aria_label;
 		$this->size = $size;
-		$this->is_disabled = $is_disabled;
 	}
 
 	/**

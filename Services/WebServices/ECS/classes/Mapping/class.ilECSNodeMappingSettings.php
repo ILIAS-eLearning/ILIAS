@@ -50,8 +50,8 @@ class ilECSNodeMappingSettings
 	 */
 	public static function getInstance()
 	{
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Deprecated call...');
-		$GLOBALS['DIC']['ilLog']->logStack();
+		$GLOBALS['ilLog']->write(__METHOD__.': Deprecated call...');
+		$GLOBALS['ilLog']->logStack();
 		
 		if(self::$instance)
 		{
@@ -238,9 +238,7 @@ class ilECSNodeMappingSettings
 	 */
 	protected function initStorage()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$this->storage = new ilSetting('ecs_node_mapping_'.$this->getServerId().'_'.$this->getMid());
 	}

@@ -201,11 +201,6 @@ class ilChatroomAdmin
 				$settings['client'] = CLIENT_ID;
 			}
 
-			$settings['client_name'] = (string)$settings['name'];
-			if (!$settings['client_name']) {
-				$settings['client_name'] = CLIENT_ID;
-			}
-
 			return $settings;
 		}
 

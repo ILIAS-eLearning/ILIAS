@@ -129,7 +129,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 						$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
 				}
 			}
-			elseif($booking->isAppointmentBookableForUser($ref_event,$GLOBALS['DIC']['ilUser']->getId()))
+			elseif($booking->isAppointmentBookableForUser($ref_event,$GLOBALS['ilUser']->getId()))
 			{
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
 				//$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));

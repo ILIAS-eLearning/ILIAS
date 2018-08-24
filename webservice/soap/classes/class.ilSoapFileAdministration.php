@@ -53,12 +53,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
-        $ilAccess = $DIC['ilAccess'];
+        global $rbacsystem, $tree, $ilLog, $ilAccess;
 
         if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -96,9 +91,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
     		if ($fileXMLParser->start()) 
     		{
-				global $DIC;
-
-				$ilLog = $DIC['ilLog'];
+				global $ilLog;
 				
 				$ilLog->write(__METHOD__.': File type: '.$file->getFileType());
 				
@@ -142,12 +135,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
-        $ilAccess = $DIC['ilAccess'];
+        global $rbacsystem, $tree, $ilLog, $ilAccess;
 
 		if(ilObject::_isInTrash($ref_id))
 		{
@@ -232,12 +220,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem, $tree, $ilLog, $ilAccess;
 
 
 		// get obj_id

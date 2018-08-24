@@ -28,10 +28,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;

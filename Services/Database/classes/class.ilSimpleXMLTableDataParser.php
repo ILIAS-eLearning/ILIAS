@@ -9,10 +9,6 @@ require_once('./Services/Xml/classes/class.ilSaxParser.php');
 class ilSimpleXMLTableDataParser extends ilSaxParser {
 
 	/**
-	 * @var string
-	 */
-	protected $table;
-	/**
 	 * @var null|string
 	 */
 	protected $file = null;
@@ -38,8 +34,7 @@ class ilSimpleXMLTableDataParser extends ilSaxParser {
 
 
 	public function startParsing() {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		$table = $this->xml->xpath('/Table');
 		foreach ($table[0]->attributes() as $k => $v) {
@@ -60,3 +55,5 @@ class ilSimpleXMLTableDataParser extends ilSaxParser {
 		}
 	}
 }
+
+?>

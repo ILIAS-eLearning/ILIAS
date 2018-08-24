@@ -13,15 +13,6 @@ use ILIAS\UI\NotImplementedException;
  */
 class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	/**
-	 * @var Listing\Factory
-	 */
-	protected $listing_factory;
-
-	public function __construct(P\Listing\Factory $listing_factory) {
-		$this->listing_factory = $listing_factory;
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function standard($title,$content) {
@@ -46,6 +37,6 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	 * @inheritdoc
 	 */
 	public function listing() {
-		return $this->listing_factory;
+		return new Listing\Factory();
 	}
 }

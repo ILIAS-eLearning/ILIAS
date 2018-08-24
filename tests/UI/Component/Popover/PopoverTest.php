@@ -1,6 +1,5 @@
 <?php
 use ILIAS\UI\Implementation\Component\Popover\Popover;
-use \ILIAS\UI\Implementation as I;
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -15,22 +14,22 @@ require_once(__DIR__ . "/../../Base.php");
 class PopoverTest extends ILIAS_UI_TestBase {
 
 	public function test_implements_interface() {
-		$factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator);
-		$standard = $factory->standard(new DummyComponent());
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$standard = $factory->popover()->standard(new DummyComponent());
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Popover\\Standard", $standard);
-		$listing = $factory->listing([new DummyComponent()]);
+		$listing = $factory->popover()->listing([new DummyComponent()]);
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Popover\\Listing", $listing);
 	}
 
 	public function test_that_position_is_auto_by_default() {
-		$factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator);
-		$popover = $factory->standard(new DummyComponent());
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover = $factory->popover()->standard(new DummyComponent());
 		$this->assertEquals(Popover::POS_AUTO, $popover->getPosition());
 	}
 
 	public function test_with_position() {
-		$factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator);
-		$popover1 = $factory->standard(new DummyComponent());
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover1 = $factory->popover()->standard(new DummyComponent());
 		$popover2 = $popover1->withVerticalPosition();
 		$popover3 = $popover2->withHorizontalPosition();
 		$this->assertEquals(Popover::POS_AUTO, $popover1->getPosition());
@@ -41,8 +40,8 @@ class PopoverTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_render_standard() {
-		$factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator);
-		$popover = $factory->standard(new I\Component\Legacy\Legacy('myContent'));
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover = $factory->popover()->standard($factory->legacy('myContent'));
 		$expected = $this->normalizeHTML($this->getExpectedStandardHTML('myContent'));
 		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($popover));
 		$this->assertEquals($expected, $actual);
@@ -54,8 +53,8 @@ class PopoverTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_render_async() {
-		$factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator);
-		$popover = $factory->standard(new I\Component\Legacy\Legacy('myContent'))->withAsyncContentUrl('/blub/');
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover = $factory->popover()->standard($factory->legacy('myContent'))->withAsyncContentUrl('/blub/');
 		$this->assertEquals('', $this->getDefaultRenderer()->render($popover));
 	}
 

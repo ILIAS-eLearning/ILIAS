@@ -59,9 +59,7 @@ class ilObjRole extends ilObject
 	 */
 	public static function createDefaultRole($a_title, $a_description, $a_tpl_name, $a_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// SET PERMISSION TEMPLATE OF NEW LOCAL CONTRIBUTOR ROLE
 		$res = $ilDB->query("SELECT obj_id FROM object_data ".
@@ -83,21 +81,21 @@ class ilObjRole extends ilObject
 		$role->setDescription($a_description);
 		$role->create();
 		
-		$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(),$a_ref_id,'y');
+		$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$a_ref_id,'y');
 		
-		$GLOBALS['DIC']['rbacadmin']->copyRoleTemplatePermissions(
+		$GLOBALS['rbacadmin']->copyRoleTemplatePermissions(
 				$tpl_id, 
 				ROLE_FOLDER_ID, 
 				$a_ref_id, 
 				$role->getId()
 		);
 
-		$ops = $GLOBALS['DIC']['rbacreview']->getOperationsOfRole(
+		$ops = $GLOBALS['rbacreview']->getOperationsOfRole(
 				$role->getId(), 
 				ilObject::_lookupType($a_ref_id, TRUE),
 				$a_ref_id
 		);
-		$GLOBALS['DIC']['rbacadmin']->grantPermission(
+		$GLOBALS['rbacadmin']->grantPermission(
 				$role->getId(), 
 				$ops, 
 				$a_ref_id
@@ -112,9 +110,7 @@ class ilObjRole extends ilObject
 	 */
 	public function validate()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		if(substr($this->getTitle(),0,3) == 'il_')
 		{
@@ -144,9 +140,7 @@ class ilObjRole extends ilObject
 	// Same method (static)
 	public static function _getAssignUsersStatus($a_role_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT assign_users FROM role_data WHERE role_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
@@ -163,9 +157,7 @@ class ilObjRole extends ilObject
 	*/
 	function read ()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM role_data WHERE role_id= ".$ilDB->quote($this->id,'integer')." ";
 
@@ -206,9 +198,7 @@ class ilObjRole extends ilObject
 	*/
 	function update ()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE role_data SET ".
 			"allow_register= ".$ilDB->quote($this->allow_register,'integer').", ".
@@ -234,9 +224,7 @@ class ilObjRole extends ilObject
 	*/
 	function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->id = parent::create();
 
@@ -344,9 +332,7 @@ class ilObjRole extends ilObject
 	*/
 	static function _lookupRegisterAllowed()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM role_data ".
 			"JOIN object_data ON object_data.obj_id = role_data.role_id ".
@@ -372,9 +358,7 @@ class ilObjRole extends ilObject
 	*/
 	static function _lookupAllowRegister($a_role_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM role_data ".
 			" WHERE role_id =".$ilDB->quote($a_role_id,'integer');
@@ -422,11 +406,7 @@ class ilObjRole extends ilObject
 	*/
 	function delete()
 	{		
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacadmin, $rbacreview,$ilDB;
 		
 		// Temporary bugfix
 		if($rbacreview->hasMultipleAssignments($this->getId()))
@@ -450,7 +430,7 @@ class ilObjRole extends ilObject
 			if ($this->getParent() == ROLE_FOLDER_ID)
 			{
 				ilLoggerFactory::getLogger('ac')->debug('Handling global role...');
-				// The role is a global role: check if
+				// The role is a global role: check if 
 				// we find users who aren't assigned to any
 				// other global role than this one.
 				$user_ids = $rbacreview->assignedUsers($this->getId());
@@ -519,18 +499,14 @@ class ilObjRole extends ilObject
 	
 	function getCountMembers()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		return count($rbacreview->assignedUsers($this->getId()));
 	}
 
 	static function _getTranslation($a_role_title)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$role_title = self::_removeObjectId($a_role_title);
 
@@ -556,9 +532,7 @@ class ilObjRole extends ilObject
 	
 	static function _updateAuthMode($a_roles)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		foreach ($a_roles as $role_id => $auth_mode)
 		{
@@ -571,9 +545,7 @@ class ilObjRole extends ilObject
 
 	static function _getAuthMode($a_role_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT auth_mode FROM role_data ".
 			 "WHERE role_id= ".$ilDB->quote($a_role_id,'integer')." ";
@@ -592,9 +564,7 @@ class ilObjRole extends ilObject
 	 */
 	public static function _getRolesByAuthMode($a_auth_mode)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	 	$query = "SELECT * FROM role_data ".
 	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode,'text');
@@ -617,9 +587,7 @@ class ilObjRole extends ilObject
 	 */
 	public static function _resetAuthMode($a_auth_mode)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE role_data SET auth_mode = 'default' WHERE auth_mode = ".$ilDB->quote($a_auth_mode,'text');
 		$res = $ilDB->manipulate($query);
@@ -629,12 +597,7 @@ class ilObjRole extends ilObject
 	// private
 	function __getPermissionDefinitions()
 	{
-		global $DIC;		
-
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilDB, $lng, $objDefinition,$rbacreview;		
 
 		$operation_info = $rbacreview->getOperationAssignment();
 		foreach($operation_info as $info)
@@ -679,10 +642,7 @@ class ilObjRole extends ilObject
 	 */
 	public function changeExistingObjects($a_start_node,$a_mode,$a_filter,$a_exclusion_filter = array())
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$rbacreview = $DIC['rbacreview'];
+		global $tree,$rbacreview;
 		
 		// Get node info of subtree
 		$nodes = $tree->getRbacSubtreeInfo($a_start_node);
@@ -722,10 +682,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function deleteLocalPolicies($a_start,$a_policies,$a_filter)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacreview,$rbacadmin;
 		
 		$local_policies = array();
 		foreach($a_policies as $policy)
@@ -755,11 +712,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter,$a_exclusion_filter = array())
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$tree = $DIC['tree'];
+		global $rbacadmin, $rbacreview, $tree;
 		
 		$operation_stack = array();
 		$policy_stack = array();
@@ -783,7 +736,7 @@ class ilObjRole extends ilObject
 				{
 					case ilTree::RELATION_NONE:
 					case ilTree::RELATION_SIBLING:
-						$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling sibling/none relation.');
+						$GLOBALS['ilLog']->write(__METHOD__.': Handling sibling/none relation.');
 						array_pop($operation_stack);
 						array_pop($policy_stack);
 						array_pop($node_stack);
@@ -795,7 +748,7 @@ class ilObjRole extends ilObject
 					case ilTree::RELATION_EQUALS:
 					case ilTree::RELATION_PARENT:
 					default:
-						$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling child/equals/parent '. $relation);
+						$GLOBALS['ilLog']->write(__METHOD__.': Handling child/equals/parent '. $relation);
 						break 2;
 				}
 				
@@ -931,9 +884,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function updateOperationStack(&$a_stack,$a_node, $a_init = false)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		$has_policies = null;
 		$policy_origin = null;
@@ -982,9 +933,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function updatePolicyStack(&$a_stack,$a_node)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$has_policies = null;
 		$policy_origin = null;
@@ -1018,11 +967,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function createPermissionIntersection($policy_stack,$a_current_ops,$a_id,$a_type)
 	{
-			global $DIC;
-
-			$ilDB = $DIC['ilDB'];
-			$rbacreview = $DIC['rbacreview'];
-			$rbacadmin = $DIC['rbacadmin'];
+			global $ilDB, $rbacreview,$rbacadmin;
 			
 			static $course_non_member_id = null;
 			static $group_non_member_id = null;
@@ -1102,7 +1047,7 @@ class ilObjRole extends ilObject
 				#echo "No template id for ".$a_id.' of type'.$a_type.'<br>';
 			}
 			#echo "ROLE ASSIGN: ".$rolf.' AID'.$a_id;
-			if($a_id and !$GLOBALS['DIC']['rbacreview']->isRoleAssignedToObject($this->getId(),$a_id))
+			if($a_id and !$GLOBALS['rbacreview']->isRoleAssignedToObject($this->getId(),$a_id))
 			{
 				$rbacadmin->assignRoleToFolder($this->getId(),$a_id,"n");	
 			}

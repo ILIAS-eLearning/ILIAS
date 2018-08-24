@@ -1,16 +1,12 @@
 <?php
 
-namespace SAML2\XML\shibmd;
-
-use SAML2\Utils;
-
 /**
  * Class which represents the Scope element found in Shibboleth metadata.
  *
  * @link https://wiki.shibboleth.net/confluence/display/SHIB/ShibbolethMetadataProfile
  * @package SimpleSAMLphp
  */
-class Scope
+class SAML2_XML_shibmd_Scope
 {
     /**
      * The namespace used for the Scope extension element.
@@ -27,49 +23,50 @@ class Scope
     /**
      * Whether this is a regexp scope.
      *
-     * @var bool
+     * @var bool|NULL
      */
-    public $regexp = false;
+    public $regexp = NULL;
 
     /**
      * Create a Scope.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
+     * @param DOMElement|NULL $xml The XML element we should load.
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         $this->scope = $xml->textContent;
-        $this->regexp = Utils::parseBoolean($xml, 'regexp', false);
+        $this->regexp = SAML2_Utils::parseBoolean($xml, 'regexp', NULL);
     }
 
     /**
      * Convert this Scope to XML.
      *
-     * @param \DOMElement $parent The element we should append this Scope to.
-     * @return \DOMElement
+     * @param DOMElement $parent The element we should append this Scope to.
+     * @return DOMElement
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent)
     {
-        assert(is_string($this->scope));
-        assert(is_bool($this->regexp) || is_null($this->regexp));
+        assert('is_string($this->scope)');
+        assert('is_bool($this->regexp) || is_null($this->regexp)');
 
         $doc = $parent->ownerDocument;
 
-        $e = $doc->createElementNS(Scope::NS, 'shibmd:Scope');
+        $e = $doc->createElementNS(SAML2_XML_shibmd_Scope::NS, 'shibmd:Scope');
         $parent->appendChild($e);
 
         $e->appendChild($doc->createTextNode($this->scope));
 
-        if ($this->regexp === true) {
+        if ($this->regexp === TRUE) {
             $e->setAttribute('regexp', 'true');
-        } else {
+        } elseif ($this->regexp === FALSE) {
             $e->setAttribute('regexp', 'false');
         }
 
         return $e;
     }
+
 }

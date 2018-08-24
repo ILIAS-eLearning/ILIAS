@@ -170,7 +170,7 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withRecord($record) {
-		assert(is_string($record) || $record === null);
+		assert('is_string($record) || $record === null');
 		$clone = clone $this;
 		$clone->record = $record;
 		return $clone;
@@ -183,7 +183,7 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withInternalNote($internal_note) {
-		assert(is_string($internal_note) || $internal_note === null);
+		assert('is_string($internal_note) || $internal_note === null');
 		$clone = clone $this;
 		$clone->internal_note = $internal_note;
 		return $clone;
@@ -197,7 +197,7 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withPlace($place)
 	{
-		assert(is_string($place) || is_null($place));
+		assert('is_string($place) || is_null($place)');
 		$clone = clone $this;
 		$clone->place = $place;
 		return $clone;
@@ -211,7 +211,7 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withEventTime($event_time)
 	{
-		assert($event_time instanceof ilDateTime || is_null($event_time));
+		assert('$event_time instanceof ilDateTime || is_null($event_time)');
 		$clone = clone $this;
 		$clone->event_time = $event_time;
 		return $clone;
@@ -224,8 +224,8 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withExaminerId($examiner_id) {
-		assert(is_numeric($examiner_id));
-		assert(ilObjUser::_exists($examiner_id));
+		assert('is_numeric($examiner_id)');
+		assert('ilObjUser::_exists($examiner_id)');
 		$clone = clone $this;
 		$clone->examiner_id = $examiner_id;
 		return $clone;
@@ -266,7 +266,7 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withNotify($notify) {
-		assert(is_bool($notify));
+		assert('is_bool($notify)');
 		$clone = clone $this;
 		$clone->notify = (bool)$notify;
 		return $clone;
@@ -400,7 +400,7 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withFileName($file_name)
 	{
-		assert(is_string($file_name));
+		assert('is_string($file_name)');
 		$clone = clone $this;
 		$clone->file_name = $file_name;
 		return $clone;
@@ -425,7 +425,7 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withViewFile($view_file)
 	{
-		assert(is_bool($view_file));
+		assert('is_bool($view_file)');
 		$clone = clone $this;
 		$clone->view_file = $view_file;
 		return $clone;

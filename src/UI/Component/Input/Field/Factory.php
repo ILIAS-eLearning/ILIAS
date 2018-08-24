@@ -196,8 +196,7 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A Select Input or a Radio Group in MUST be
-	 *      used in this case.
+	 *      'Order by Name'). A  Select Input or a Radio Group in MUST be used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
 	 *
@@ -212,141 +211,45 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A Tag Input is used to choose a subset amount of tags (techn.: array of strings) out
-	 *     of a finite list of tags. The Tag Field SHOULD be used, whenever it is not required
-	 *     or not possible to display all available options, e.g. because the amount is too high
-	 *     when the options are "all users" or "all tags.
-	 *     Besides the tags to choose from, the user can provide own tags by typing them
-	 *     into the Input (@see Tag::withOptionsAreExtendable ).
+	 *     A textarea is intended for entering multi-line texts.
 	 *   composition: >
-	 *     The Input is presented as a text-input and prepended by already selected tags
-	 *     presented as texts including a close-button.  (e.g. [ Amsterdam X ] )
-	 *     The input is labeled by the label given.
-	 *     Suggested tags are listed in a dropdown-list beneath the text-input.
-	 *     All mentioned elements are not taken from the UI-Service.
+	 *      Textarea fields will render an textarea HTML tag.
+	 *      If a limit is set, a byline about limitation is automatically set.
 	 *   effect: >
-	 *     As soon as the user types in the text-input, the Tag Input suggests matching tags from
-	 *     the the given list of tags. Suggestions will appear after a defined
-	 *     amount of characters, one by default.
-	 *     Clicking on one of these tags closes the list and transfers the selected tag into
-	 *     the text-input, displayed as a tag with a close-button.
-	 *     By clicking on a close-button of a already selected tag, this tag will disappear
-	 *     from the Input.
-	 *     All mentioned elements are not taken from the UI-Service.
-	 *
-	 * rivals: >
-	 *     + SelectInput: Currently not part of the UI-Service.
-	 *     + Checkbox Group
-	 *
-	 * context:
-	 *   - Tag Input is used in forms.
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: >
-	 *      A Tag Input MUST NOT be used whenever a user has to perform a binary choice where
-	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
-	 *     2: >
-	 *      A Tag Input MUST NOT be used whenever a user has to perform a choice from a list of
-	 *      options where only one Option has to be selected. A Select MUST be used in this case
-	 *      (Not yet part of the KitchenSink).
-	 *     3: >
-	 *      A Tag Input SHOULD be used whenever a User should be able to extend the list of given options.
-	 *     4: >
-	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
-	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
-	 *      (Not yet part of the KitchenSink).
-	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
-	 *
-	 * ---
-	 * @param string   $label
-	 * @param string   $byline
-	 * @param string[] $tags  List of tags to select from, given as a list of texts
-	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
-	 *
-	 * @return    \ILIAS\UI\Component\Input\Field\Tag
-	 */
-	public function tag(string $label, array $tags, $byline = null): Tag;
-
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *     A password-field is intended for entering passwords.
-	 *   composition: >
-	 *      Text password will render an input-tag with type="password".
-	 *      Optionally, an eye-closed/open glyph is rendered above the input
-	 *      to toggle revelation/masking.
-	 *   effect: >
-	 *      Text password is restricted to one line of text and will
-	 *      mask the entered characters.
-	 *      When configured with the revelation-option, the clear-text
-	 *      password will be shown (respectively hidden) upon clicking the glyph.
+	 *      Textarea inputs are NOT restricted to one line of text.
+	 *      A textarea counts the amount of character input by user and displays the number.
 	 *   rivals:
-	 *      text field: >
-	 *          Use a text field for discloseable information (i.e.
-	 *          information that can safely be displayed to an audience)
-	 *
-	 * context: Login-Form and own profile (change Password).
+	 *      text field: Use a text field if users should input only one line of text.
+	 *      numeric field: Use a numeric field if users should input numbers.
+	 *      alphabet field: >
+	 *          Use an alphabet field if the user should input single letters.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Password Input MUST be used for passwords.
+	 *     1: Textarea Input MUST NOT be used for choosing from predetermined options.
+	 *     2: >
+	 *         Textarea input MUST NOT be used for numeric input, a Numeric Field is
+	 *         to be used instead.
+	 *     3: >
+	 *         Textarea Input MUST NOT be used for letter-only input, an Alphabet Field
+	 *         is to be used instead.
+	 *     4: >
+	 *         Textare Input MUST NOT be used for single-line input, a Text Field
+	 *         is to be used instead.
+	 *     5: >
+	 *         If a min. or max. number of characters is set for textarea, a byline MUST
+	 *         be added stating the number of min. and/or max. characters.
 	 *   interaction:
 	 *     1: >
-	 *         Password Input SHOULD NOT limit the number of characters.
-	 *     2: >
-	 *         When used for authentication, Password Input MUST NOT reveal any
-	 *         settings by placing constraints on it.
-	 *     3: >
-	 *         On the other hand, when setting a password, Password Input
-	 *         SHOULD enforce strong passwords by appropiate contraints.
+	 *         Textarea Input MAY limit the number of characters, if a certain length
+	 *         of text-input may not be exceeded (e.g. due to database-limitations).
 	 *
 	 * ---
 	 *
 	 * @param    string      $label
 	 * @param    string|null $byline
 	 *
-	 * @return    \ILIAS\UI\Component\Input\Field\Password
+	 * @return    \ILIAS\UI\Component\Input\Field\TextArea
 	 */
-	public function password($label, $byline = null);
-
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *     A select is used to allow users to pick among a number of options.
-	 *   composition: >
-	 *     Select field will render a select-tag with a number of options.
-	 *     First option contains the string "-" and it is selectable depending on the required property.
-	 *   effect: >
-	 *     Only one option is selectable.
-	 *     If the property required is set as true, the first option will be hidden after clicking on the select input
-	 *     at the first time.
-	 *   rivals:
-	 *     Checkbox field: Use a checkbox field for a binary yes/no choice.
-	 *     Radio buttons: >
-	 *       Use radio buttons when the alternatives matter. When is wanted to user
-	 *       to see what they are not choosing.
-	 *       If it is a long list or the alternatives are not that important, use a select.
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: Select Input MAY be used for choosing from predetermined options.
-	 *
-	 *   interaction:
-	 *     1: Only one option is selectable.
-	 *     2: First Option MAY be selectable when the field is not required.
-	 *
-	 * ---
-	 * @param $label   string defines the label.
-	 * @param $options array<string,string> with the select options as key-value pairs.
-	 * @param $byline  string
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\Select
-	 */
-	public function select($label, array $options, $byline = null);
+	public function textArea($label, $byline = null);
 }
-

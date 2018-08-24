@@ -51,9 +51,7 @@ class ilLOTestAssignments
 	 */
 	public static function lookupContainerForTest($a_test_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT container_id FROM loc_tst_assignments '.
 				'WHERE tst_ref_id = '.$ilDB->quote($a_test_ref_id,'integer');
@@ -95,9 +93,7 @@ class ilLOTestAssignments
 	 */
 	public static function deleteByContainer($a_container_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM loc_tst_assignments '.
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer');
@@ -264,9 +260,7 @@ class ilLOTestAssignments
 	 */
 	protected function readTestAssignments()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT assignment_id FROM loc_tst_assignments '.
 				'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer');
@@ -313,9 +307,7 @@ class ilLOTestAssignments
 	 */
 	public static function lookupObjectivesForTest($a_test_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$objectives = array();
 		

@@ -42,9 +42,7 @@ class ilCalendarRecurrenceExclusions
 	 */
 	public static function getExclusionDates($a_cal_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT excl_id FROM cal_rec_exclusion ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id,'integer');
@@ -64,9 +62,7 @@ class ilCalendarRecurrenceExclusions
 	 */
 	public static function delete($a_cal_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM cal_rec_exclusion ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id,'integer');

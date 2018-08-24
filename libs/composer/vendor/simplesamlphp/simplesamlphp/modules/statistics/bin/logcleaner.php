@@ -1,61 +1,63 @@
 #!/usr/bin/env php
 <?php
 
+
 // This is the base directory of the SimpleSAMLphp installation
 $baseDir = dirname(dirname(dirname(dirname(__FILE__))));
 
 // Add library autoloader.
 require_once($baseDir . '/lib/_autoload.php');
 
-// Initialize the configuration.
+/* Initialize the configuration. */
 $configdir = SimpleSAML\Utils\Config::getConfigDir();
 SimpleSAML_Configuration::setConfigDir($configdir);
 
+
+
 $progName = array_shift($argv);
-$debug = false;
-$dryrun = false;
+$debug = FALSE;
+$dryrun = FALSE;
 $output = '/tmp/simplesamlphp-new.log';
-$infile = null;
+$infile = NULL;
 
-foreach ($argv as $a) {
-    if (strlen($a) === 0) {
-        continue;
-    }
-    if (strpos($a, '=') !== false) {
-        $p = strpos($a, '=');
-        $v = substr($a, $p + 1);
-        $a = substr($a, 0, $p);
-    } else {
-        $v = null;
-    }
+foreach($argv as $a) {
+	if(strlen($a) === 0) continue;
 
-    // Map short options to long options.
-    $shortOptMap = array('-d' => '--debug');
-    if (array_key_exists($a, $shortOptMap)) {
-        $a = $shortOptMap[$a];
-    }
+	if(strpos($a, '=') !== FALSE) {
+		$p = strpos($a, '=');
+		$v = substr($a, $p + 1);
+		$a = substr($a, 0, $p);
+	} else {
+		$v = NULL;
+	}
 
-    switch ($a) {
-        case '--help':
-            printHelp();
-            exit(0);
-        case '--debug':
-            $debug = true;
-            break;
-        case '--dry-run':
-            $dryrun = true;
-            break;
-        case '--infile':
-            $infile = $v;
-            break;
-        case '--outfile':
-            $output = $v;
-            break;
-        default:
-            echo('Unknown option: ' . $a . "\n");
-            echo('Please run `' . $progName . ' --help` for usage information.' . "\n");
-            exit(1);
-    }
+	/* Map short options to long options. */
+	$shortOptMap = array(
+		'-d' => '--debug',
+	);
+	if(array_key_exists($a, $shortOptMap))  $a = $shortOptMap[$a];
+
+	switch($a) {
+		case '--help':
+			printHelp();
+			exit(0);
+		case '--debug':
+			$debug = TRUE;
+			break;
+		case '--dry-run':
+			$dryrun = TRUE;
+			break;
+		case '--infile':
+			$infile = $v;
+			break;
+		case '--outfile':
+			$output = $v;
+			break;
+		default:
+			echo('Unknown option: ' . $a . "\n");
+			echo('Please run `' . $progName . ' --help` for usage information.' . "\n");
+			exit(1);
+		}
 }
 
 $cleaner = new sspmod_statistics_LogCleaner($infile);
@@ -65,18 +67,17 @@ $todelete = $cleaner->clean($debug);
 echo "Cleaning these trackIDs: " . join(', ', $todelete) . "\n";
 
 if (!$dryrun) {
-    $cleaner->store($todelete, $output);
+	$cleaner->store($todelete, $output);
 }
 
 /**
  * This function prints the help output.
  */
-
 function printHelp() {
-    global $progName;
+	global $progName;
 
-    echo <<<END
-Usage: $progName [options]
+	/*   '======================================================================' */
+	echo('Usage: ' . $progName . ' [options]
 
 This program cleans logs. This script is experimental. Do not run it unless you have talked to Andreas about it. 
 The script deletes log lines related to sessions that produce more than 200 lines.
@@ -87,6 +88,6 @@ Options:
 	--infile			File input.
 	--outfile			File to output the results.
 
-END;
+');
 }
 

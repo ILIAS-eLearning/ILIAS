@@ -26,9 +26,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
@@ -56,9 +54,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$course_id = $_REQUEST["crs_id"];
 		if($course_id)
@@ -105,10 +101,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false, $a_url = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilUser, $lng;
 		
 		if(!$a_return)
 		{					
@@ -155,9 +148,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 	
 	function downloadFromPortfolioPage(ilPortfolioPage $a_page)
 	{		
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		include_once "Services/COPage/classes/class.ilPCVerification.php";
 		if(ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId()))

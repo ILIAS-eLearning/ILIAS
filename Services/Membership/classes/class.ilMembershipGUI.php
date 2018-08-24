@@ -52,8 +52,6 @@ class ilMembershipGUI
 	 */
 	public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
 	{
-		global $DIC;
-
 		$this->repository_gui = $repository_gui;
 		$this->repository_object = $repository_obj;
 		
@@ -62,7 +60,7 @@ class ilMembershipGUI
 		$this->lng->loadLanguageModule($this->getParentObject()->getType());
 		$this->tpl = $GLOBALS['DIC']->ui()->mainTemplate();
 		$this->ctrl = $GLOBALS['DIC']->ctrl();
-		$this->logger = $DIC->logger()->mmbr();
+		$this->logger = ilLoggerFactory::getLogger($this->getParentObject()->getType());
 		$this->access = $GLOBALS['DIC']->access();
 	}
 	
@@ -83,7 +81,7 @@ class ilMembershipGUI
 	}
 	
 	/**
-	 * @return \ilLogger
+	 * @return ilLogger
 	 */
 	protected function getLogger()
 	{
@@ -183,13 +181,7 @@ class ilMembershipGUI
 		/**
 		 * @var ilTabsGUI
 		 */
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilUser, $ilErr, $ilAccess, $rbacsystem, $ilTabs;
 		
 		$cmd = $this->ctrl->getCmd('participants');
 		$next_class = $this->ctrl->getNextClass();
@@ -205,7 +197,7 @@ class ilMembershipGUI
 
 				$participants = $this->getMembersObject();
 				if(
-					$participants->isAdmin($GLOBALS['DIC']['ilUser']->getId()) ||
+					$participants->isAdmin($GLOBALS['ilUser']->getId()) ||
 					$ilAccess->checkAccess('manage_members','', $this->getParentObject()->getRefId())
 				)
 				{
@@ -254,21 +246,9 @@ class ilMembershipGUI
 				
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-
-
-				switch($this->getParentObject()->getType())
-				{
-					case 'grp':
-						$objroles = new ilMailMemberGroupRoles();
-						break;
-
-					default:
-						$objroles = new ilMailMemberCourseRoles();
-						break;
-				}
-
+				
 				// @todo: fix mail course roles object
-				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), $objroles);
+				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), new ilMailMemberCourseRoles());
 				$mail_search->setObjParticipants(
 					ilParticipants::getInstanceByObjId($this->getParentObject()->getId())
 				);
@@ -277,7 +257,7 @@ class ilMembershipGUI
 				
 			case 'ilusersgallerygui':
 				
-				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->setSubTabs($GLOBALS['ilTabs']);
 				$tabs = $GLOBALS['DIC']->tabs()->setSubTabActive(
 					$this->getParentObject()->getType().'_members_gallery'
 				);
@@ -295,8 +275,8 @@ class ilMembershipGUI
 					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
 				}
 
-				$this->showMailToMemberToolbarButton($GLOBALS['DIC']['ilToolbar'], 'jump2UsersGallery');
-				$this->showMemberExportToolbarButton($GLOBALS['DIC']['ilToolbar'], 'jump2UsersGallery');
+				$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
+				$this->showMemberExportToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
 
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
@@ -309,21 +289,21 @@ class ilMembershipGUI
 				
 			case 'ilcourseparticipantsgroupsgui':
 
-				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->setSubTabs($GLOBALS['ilTabs']);
 				
 				
 				include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
 				$cmg_gui = new ilCourseParticipantsGroupsGUI($this->getParentObject()->getRefId());
 				if($cmd == "show" || $cmd = "")
 				{
-					$this->showMailToMemberToolbarButton($GLOBALS['DIC']['ilToolbar']);
+					$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar']);
 				}
 				$this->ctrl->forwardCommand($cmg_gui);
 				break;
 				
 			case 'ilsessionoverviewgui':								
 
-				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->setSubTabs($GLOBALS['ilTabs']);
 
 				include_once './Services/Membership/classes/class.ilParticipants.php';
 				$prt = ilParticipants::getInstance($this->getParentObject()->getRefId());
@@ -335,7 +315,7 @@ class ilMembershipGUI
 			
 			case 'ilmemberexportgui':
 
-				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->setSubTabs($GLOBALS['ilTabs']);
 
 				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
 				$export = new ilMemberExportGUI($this->getParentObject()->getRefId());
@@ -343,7 +323,7 @@ class ilMembershipGUI
 				break;
 
 			case 'ilobjectcustomuserfieldsgui':
-				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->setSubTabs($GLOBALS['ilTabs']);
 				$this->activateSubTab($this->getParentObject()->getType()."_member_administration");
 				$this->ctrl->setReturn($this,'participants');
 
@@ -428,6 +408,8 @@ class ilMembershipGUI
 	 */
 	protected function participantsResetFilter()
 	{
+		ilLoggerFactory::getLogger('root')->dump($_POST);
+		
 		$table = $this->initParticipantTableGUI();
 		$table->resetOffset();
 		$table->resetFilter();
@@ -478,12 +460,7 @@ class ilMembershipGUI
 	 */
 	public function updateParticipants()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem, $rbacreview, $ilUser, $ilAccess;
                 
 		if(!count($_POST['participants']))
 		{
@@ -615,10 +592,7 @@ class ilMembershipGUI
 	 */
 	protected function confirmDeleteParticipants()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilUser = $DIC['ilUser'];
+		global $ilAccess, $ilUser;
 		
 		$participants = (array) $_POST['participants'];
 		
@@ -649,7 +623,7 @@ class ilMembershipGUI
 				'edit_permission', 
 				'',
 				$this->getParentObject()->getRefId()) &&
-			!$this->getMembersObject()->isAdmin($GLOBALS['DIC']['ilUser']->getId())
+			!$this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId())
 		)
 		{
 			foreach ($participants as $usr_id)
@@ -685,12 +659,7 @@ class ilMembershipGUI
 	
 	protected function deleteParticipants()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
                 
 		$participants = (array) $_POST['participants'];
 		
@@ -704,7 +673,7 @@ class ilMembershipGUI
 		// members who have the course administrator role
 		if (
 			!$ilAccess->checkAccess('edit_permission', '', $this->getParentObject()->getRefId()) && 
-			!$this->getMembersObject()->isAdmin($GLOBALS['DIC']['ilUser']->getId())
+			!$this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId())
 		)
 		{
 			foreach($participants as $part)
@@ -818,9 +787,7 @@ class ilMembershipGUI
 	 */
 	protected function membersMap()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		$this->activateSubTab($this->getParentObject()->getType()."_members_map");
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		if (!ilMapUtil::isActivated() || !$this->getParentObject()->getEnableMap())
@@ -856,11 +823,9 @@ class ilMembershipGUI
 	 */
 	protected function mailMembersBtn()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
-		$this->showMailToMemberToolbarButton($GLOBALS['DIC']['ilToolbar'], 'mailMembersBtn');
+		$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'mailMembersBtn');
 	}
 	
 	
@@ -871,9 +836,7 @@ class ilMembershipGUI
 	 */
 	protected function showParticipantsToolbar()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 		if($this->canAddOrSearchUsers())
 		{
@@ -949,11 +912,7 @@ class ilMembershipGUI
 	 */
 	protected function showMailToMemberToolbarButton(ilToolbarGUI $toolbar, $a_back_cmd = null, $a_separator = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilUser, $rbacsystem, $ilAccess;
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($ilUser->getId());
 
@@ -998,12 +957,10 @@ class ilMembershipGUI
 	 */
 	public function addMemberTab(ilTabsGUI $tabs, $a_is_participant = false)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		include_once './Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
+		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
 		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
 			'manage_members', 
@@ -1031,7 +988,7 @@ class ilMembershipGUI
 		}
 		elseif(
 			$this->getParentObject()->getMailToMembersType() == 1 &&
-			$GLOBALS['DIC']['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) &&
+			$GLOBALS['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) &&
 			$a_is_participant
 		)
 		{
@@ -1048,9 +1005,7 @@ class ilMembershipGUI
 	 */
 	protected function setSubTabs(ilTabsGUI $tabs)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
 		{
@@ -1072,7 +1027,7 @@ class ilMembershipGUI
 				);
 			}
 			
-			$childs = (array) $GLOBALS['DIC']['tree']->getChildsByType($this->getParentObject()->getRefId(),'sess');
+			$childs = (array) $GLOBALS['tree']->getChildsByType($this->getParentObject()->getRefId(),'sess');
 			if(count($childs))
 			{
 				$tabs->addSubTabTarget(
@@ -1241,9 +1196,7 @@ class ilMembershipGUI
 	 */
 	protected function refuseSubscribers()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if(!$_POST['subscribers'])
 		{
@@ -1253,7 +1206,7 @@ class ilMembershipGUI
 	
 		if(!$this->getMembersObject()->deleteSubscribers($_POST["subscribers"]))
 		{
-			ilUtil::sendFailure($GLOBALS['DIC']['ilErr']->getMessage(),true);
+			ilUtil::sendFailure($GLOBALS['ilErr']->getMessage(),true);
 			$this->ctrl->redirect($this, 'participants');
 		}
 		else
@@ -1295,9 +1248,7 @@ class ilMembershipGUI
 	 */
 	public function assignSubscribers()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		if(!is_array($_POST["subscribers"]))
 		{
@@ -1571,7 +1522,7 @@ class ilMembershipGUI
 			$this->ctrl->redirect($this, 'participants');
 		}
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
 		$clip->add($users);
 		$clip->save();
 		
@@ -1630,16 +1581,14 @@ class ilMembershipGUI
 	 */
 	protected function printMembers()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
 		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
 		
-		if($GLOBALS['DIC']['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
+		if($GLOBALS['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
 		{
 			$ilTabs->setBackTarget(
 				$this->lng->txt('back'),
@@ -1713,8 +1662,6 @@ class ilMembershipGUI
 	 */
 	protected function initAttendanceList($a_for_members = false)
 	{
-		global $DIC;
-
 		/**
 		 * @var ilWaitingList
 		 */
@@ -1722,24 +1669,9 @@ class ilMembershipGUI
 
 		if($this instanceof ilSessionMembershipGUI)
 		{
-			$member_id = $DIC->repositoryTree()->checkForParentType(
-				$this->getParentObject()->getRefId(),
-				'grp'
-			);
-			if(!$member_id)
-			{
-				$member_id = $DIC->repositoryTree()->checkForParentType(
-					$this->getParentObject()->getRefId(),
-					'crs'
-				);
-			}
-			if(!$member_id)
-			{
-				$DIC->logger()->sess()->warning('Cannot find parent course or group for ref_id: ' . $this->getParentObject()->getRefId());
-				$member_id = $this->getParentObject()->getRefId();
-			}
-			$part = ilParticipants::getInstance($member_id);
-
+			$parent_ref = $GLOBALS['DIC']->repositoryTree()->getParentId($this->getParentObject()->getRefId());
+			$part = ilParticipants::getInstance($parent_ref);
+			
 			$list = new ilAttendanceList(
 				$this,
 				$this->getParentObject(),

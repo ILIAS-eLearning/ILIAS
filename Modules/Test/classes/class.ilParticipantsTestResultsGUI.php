@@ -308,7 +308,14 @@ class ilParticipantsTestResultsGUI
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		
-		$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
+		if( $this->getTestObj()->getFixedParticipants() )
+		{
+			$participantData->setUserIdsFilter((array)$_POST["chbUser"]);
+		}
+		else
+		{
+			$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
+		}
 		
 		$participantData->load($this->getTestObj()->getTestId());
 		
@@ -330,23 +337,19 @@ class ilParticipantsTestResultsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( isset($_POST["chbUser"]) && is_array($_POST["chbUser"]) && count($_POST["chbUser"]) )
-		{
-			require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-			$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-			
-			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-			$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-			$participantData->setParticipantAccessFilter($accessFilter);
-			$participantData->setActiveIdsFilter($_POST["chbUser"]);
-			
-			$participantData->load($this->getTestObj()->getTestId());
-			
-			$this->getTestObj()->removeTestResults($participantData);
-			
-			ilUtil::sendSuccess($DIC->language()->txt("tst_selected_user_data_deleted"), true);
-		}
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 		
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->setParticipantAccessFilter($accessFilter);
+		$participantData->setActiveIdsFilter($_POST["chbUser"]);
+		
+		$participantData->load($this->getTestObj()->getTestId());
+		
+		$this->getTestObj()->removeTestResults($participantData);
+		
+		ilUtil::sendSuccess($DIC->language()->txt("tst_selected_user_data_deleted"), true);
 		$DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
 	}
 	

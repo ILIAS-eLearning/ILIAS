@@ -40,8 +40,6 @@ class SimpleSAML_Error_AuthSource extends SimpleSAML_Error_Error {
 			),
 			$cause
 		);
-
-		$this->message = "Error with authentication source '$authsource': $reason";
 	}
 
 

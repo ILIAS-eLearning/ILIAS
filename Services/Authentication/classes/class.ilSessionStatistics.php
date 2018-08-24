@@ -19,9 +19,7 @@ class ilSessionStatistics
 	 */
 	public static function isActive()
 	{		
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		return (bool)$ilSetting->get('session_statistics', 1);
 		
@@ -41,9 +39,7 @@ class ilSessionStatistics
 	 */
 	public static function createRawEntry($a_session_id, $a_session_type, $a_timestamp, $a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$a_user_id || !$a_session_id || !self::isActive())
 		{
@@ -75,9 +71,7 @@ class ilSessionStatistics
 	 */
 	public static function closeRawEntry($a_session_id, $a_context = null, $a_expired_at = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!self::isActive())
 		{
@@ -144,9 +138,7 @@ class ilSessionStatistics
 	 */
 	protected static function getCurrentSlot($a_now)
 	{	
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// get latest slot in db
 		$sql = "SELECT MAX(slot_end) previous_slot_end".
@@ -193,9 +185,7 @@ class ilSessionStatistics
 	 */
 	protected static function getNumberOfActiveRawSessions($a_time)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT COUNT(*) counter FROM usr_session_stats_raw".
 			" WHERE (end_time IS NULL OR end_time >= ".$ilDB->quote($a_time, "integer").")".
@@ -215,9 +205,7 @@ class ilSessionStatistics
 	 */
 	protected static function getRawData($a_begin, $a_end)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT start_time,end_time,end_context FROM usr_session_stats_raw".
 			" WHERE start_time <= ".$ilDB->quote($a_end, "integer").
@@ -241,9 +229,7 @@ class ilSessionStatistics
 	 */
 	protected static function createNewAggregationSlot($a_now)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
 		$ilAtomQuery->addTableLock("usr_session_stats");
@@ -303,10 +289,7 @@ class ilSessionStatistics
 	 */
 	public static function aggregateRawHelper($a_begin, $a_end)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilDB, $ilSetting;
 				
 		// "relevant" closing types
 		$separate_closed = array(ilSession::SESSION_CLOSE_USER,
@@ -442,9 +425,7 @@ class ilSessionStatistics
 	 */
 	protected static function deleteAggregatedRaw($a_now)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 	
 		// we are rather defensive here - 7 days BEFORE current aggregation
 		$cut = $a_now-(60*60*24*7);
@@ -460,9 +441,7 @@ class ilSessionStatistics
 	 */
 	public static function getLastMaxedOut()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT max(slot_end) latest FROM usr_session_stats".
 			" WHERE active_max >= max_sessions".
@@ -484,9 +463,7 @@ class ilSessionStatistics
 	 */
 	public static function getMaxedOutDuration($a_from, $a_to)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT SUM(slot_end-slot_begin) dur FROM usr_session_stats".
 			" WHERE active_max >= max_sessions".
@@ -510,9 +487,7 @@ class ilSessionStatistics
 	 */
 	public static function getNumberOfSessionsByType($a_from, $a_to)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT SUM(opened) opened, SUM(closed_manual) closed_manual,".
 			" SUM(closed_expire) closed_expire, SUM(closed_idle) closed_idle,".
@@ -534,9 +509,7 @@ class ilSessionStatistics
 	 */
 	public static function getActiveSessions($a_from, $a_to)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 	
 		$sql = "SELECT slot_begin, slot_end, active_min, active_max, active_avg,".
 			" max_sessions".
@@ -560,9 +533,7 @@ class ilSessionStatistics
 	 */
 	public static function getLastAggregation()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$sql = "SELECT max(slot_end) latest FROM usr_session_stats";
 		$res = $ilDB->query($sql);
@@ -581,10 +552,7 @@ class ilSessionStatistics
 	 */
 	public static function getLimitForSlot($a_timestamp)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilDB, $ilSetting;
 		
 		$ilDB->setLimit(1);		
 		$sql = "SELECT maxval FROM usr_session_log".
@@ -609,11 +577,7 @@ class ilSessionStatistics
 	 */
 	public static function updateLimitLog($a_new_value)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilSetting, $ilUser;
 		
 		$new_value = (int)$a_new_value;
 		$old_value = (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);

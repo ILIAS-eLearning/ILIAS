@@ -49,28 +49,4 @@ class Factory {
 		}
 		return $this->colorfactory->build($value);
 	}
-	/**
-	 * Object representing an uri valid according to RFC 3986
-	 * with restrictions imposed on valid characters and obliagtory
-	 * parts.
-	 *
-	 * @param  string	$uri_string
-	 * @return URI
-	 */
-	public function uri($uri_string)
-	{
-		return new URI($uri_string);
-	}
-
-	/**
-	 * Get a password.
-	 *
-	 * @param  string
-	 * @return Password
-	 */
-	public function password($pass)
-	{
-		return new Password($pass);
-	}
-
 }

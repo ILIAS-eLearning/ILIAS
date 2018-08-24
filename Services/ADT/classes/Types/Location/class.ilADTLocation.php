@@ -135,9 +135,7 @@ class ilADTLocation extends ilADT
 	
 	public function translateErrorCode($a_code)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		// $lng->txt("msg_wrong_format");
 		

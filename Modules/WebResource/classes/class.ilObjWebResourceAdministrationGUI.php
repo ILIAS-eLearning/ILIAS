@@ -25,10 +25,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	public function executeCommand()
 	{		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess, $ilErr;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -62,9 +59,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	public function getAdminTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
@@ -95,9 +90,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	public function saveSettings()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$this->checkPermission("write");
 		
@@ -116,10 +109,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{	    
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilSetting, $ilAccess;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();

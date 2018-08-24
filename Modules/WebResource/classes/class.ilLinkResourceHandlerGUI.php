@@ -36,13 +36,7 @@ class ilLinkResourceHandlerGUI
 {
 	public function __construct()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilias = $DIC['ilias'];
-		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
 		// initialisation stuff
 		$this->ctrl =&  $ilCtrl;
@@ -53,12 +47,7 @@ class ilLinkResourceHandlerGUI
 	*/
 	function executeCommand()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
-		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

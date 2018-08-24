@@ -92,9 +92,7 @@ class ilDatePresentation
 	 */
 	public static function getLanguage()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return self::$lang ? self::$lang : $lng; 		
 	}
@@ -107,9 +105,7 @@ class ilDatePresentation
 	 */
 	public static function resetToDefaults()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		self::setLanguage($lng);
 		self::setUseRelativeDates(true);
@@ -126,10 +122,7 @@ class ilDatePresentation
 	 */
 	public static function formatDate(ilDateTime $date, $a_skip_day = false, $a_include_wd = false)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $lng,$ilUser;
 		
 		if($date->isNull())
 		{
@@ -207,9 +200,7 @@ class ilDatePresentation
 	 */
 	public static function formatPeriod(ilDateTime $start,ilDateTime $end, $a_skip_starting_day = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$has_time = !is_a($start,'ilDate');
 		
@@ -274,9 +265,7 @@ class ilDatePresentation
 	 */
 	public static function isToday(ilDateTime $date)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if(!is_object(self::$today))
 		{
@@ -295,9 +284,7 @@ class ilDatePresentation
 	 */
 	public static function isYesterday(ilDateTime $date)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if(!is_object(self::$yesterday))
 		{
@@ -318,9 +305,7 @@ class ilDatePresentation
 	 */
 	public static function isTomorrow(ilDateTime $date)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if(!is_object(self::$tomorrow))
 		{
@@ -342,9 +327,7 @@ class ilDatePresentation
 	 */
 	public static function secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if($a_lng)
 		{

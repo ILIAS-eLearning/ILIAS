@@ -77,11 +77,11 @@ class ilCourseImporter extends ilXmlImporter
 		}
 		catch(ilSaxParserException $e)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 		catch(Exception $e)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 	}
 	

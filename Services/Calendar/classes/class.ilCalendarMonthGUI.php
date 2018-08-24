@@ -61,10 +61,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl,$tpl;
 
 		$this->ctrl->saveParameter($this,'seed');
 
@@ -313,9 +310,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;

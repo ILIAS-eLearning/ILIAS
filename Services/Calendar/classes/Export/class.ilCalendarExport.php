@@ -60,7 +60,7 @@ class ilCalendarExport
 		$this->calendars = $a_calendar_ids;
 		$this->writer = new ilICalWriter();
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($GLOBALS['DIC']['ilUser']->getId());
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($GLOBALS['ilUser']->getId());
 	}
 	
 	/**
@@ -132,10 +132,10 @@ class ilCalendarExport
 			return;
 		}
 		
-		$this->writer->addLine('X-WR-TIMEZONE:'.$GLOBALS['DIC']['ilUser']->getTimeZone());
+		$this->writer->addLine('X-WR-TIMEZONE:'.$GLOBALS['ilUser']->getTimeZone());
 		
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-		$tzid_file = ilCalendarUtil::getZoneInfoFile($GLOBALS['DIC']['ilUser']->getTimeZone());
+		$tzid_file = ilCalendarUtil::getZoneInfoFile($GLOBALS['ilUser']->getTimeZone());
 		if(!is_file($tzid_file))
 		{
 			$tzid_file = ilCalendarUtil::getZoneInfoFile('Europe/Berlin');
@@ -193,9 +193,7 @@ class ilCalendarExport
 	 */
 	protected function createVEVENT($app)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if(!$app->getStart() instanceof ilDateTime)
 		{
@@ -303,9 +301,7 @@ class ilCalendarExport
 	
 	protected function createRecurrences($app)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
 		foreach(ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec)

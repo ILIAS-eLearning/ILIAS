@@ -6,7 +6,6 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -18,19 +17,19 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {
-		return new I\Component\Panel\Listing\Factory();
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$std_list = $f->standard("List Title", array(
-			new I\Component\Item\Group("Subtitle 1", array(
-				new I\Component\Item\Standard("title1"),
-				new I\Component\Item\Standard("title2")
+		$std_list = $f->panel()->listing()->standard("List Title", array(
+			$f->item()->group("Subtitle 1", array(
+				$f->item()->standard("title1"),
+				$f->item()->standard("title2")
 			)),
-			new I\Component\Item\Group("Subtitle 2", array(
-				new I\Component\Item\Standard("title3")
+			$f->item()->group("Subtitle 2", array(
+				$f->item()->standard("title3")
 			))
 		));
 
@@ -41,16 +40,16 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 
 		$groups = array(
-			new I\Component\Item\Group("Subtitle 1", array(
-				new I\Component\Item\Standard("title1"),
-				new I\Component\Item\Standard("title2")
+			$f->item()->group("Subtitle 1", array(
+				$f->item()->standard("title1"),
+				$f->item()->standard("title2")
 			)),
-			new I\Component\Item\Group("Subtitle 2", array(
-				new I\Component\Item\Standard("title3")
+			$f->item()->group("Subtitle 2", array(
+				$f->item()->standard("title3")
 			))
 		);
 
-		$c = $f->standard("title", $groups);
+		$c = $f->panel()->listing()->standard("title", $groups);
 
 		$this->assertEquals($c->getTitle(), "title");
 		$this->assertEquals($c->getItemGroups(), $groups);
@@ -59,14 +58,14 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 	public function test_with_actions() {
 		$f = $this->getFactory();
 
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
+		$actions = $f->dropdown()->standard(array(
+			$f->button()->shy("ILIAS", "https://www.ilias.de"),
+			$f->button()->shy("GitHub", "https://www.github.com")
 		));
 
 		$groups = array();
 
-		$c = $f->standard("title", $groups)
+		$c = $f->panel()->listing()->standard("title", $groups)
 			->withActions($actions);
 
 		$this->assertEquals($c->getActions(), $actions);
@@ -77,16 +76,16 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 
 		$groups = array(
-			new I\Component\Item\Group("Subtitle 1", array(
-				new I\Component\Item\Standard("title1"),
-				new I\Component\Item\Standard("title2")
+			$f->item()->group("Subtitle 1", array(
+				$f->item()->standard("title1"),
+				$f->item()->standard("title2")
 			)),
-			new I\Component\Item\Group("Subtitle 2", array(
-				new I\Component\Item\Standard("title3")
+			$f->item()->group("Subtitle 2", array(
+				$f->item()->standard("title3")
 			))
 		);
 
-		$c = $f->standard("title", $groups);
+		$c = $f->panel()->listing()->standard("title", $groups);
 
 		$html = $r->render($c);
 
@@ -121,12 +120,12 @@ EOT;
 
 		$groups = array();
 
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
+		$actions = $f->dropdown()->standard(array(
+			$f->button()->shy("ILIAS", "https://www.ilias.de"),
+			$f->button()->shy("GitHub", "https://www.github.com")
 		));
 
-		$c = $f->standard("title", $groups)
+		$c = $f->panel()->listing()->standard("title", $groups)
 			->withActions($actions);
 
 		$html = $r->render($c);

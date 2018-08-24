@@ -45,9 +45,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 		
 	protected function readContextIds($a_context_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		switch($a_context_type)
 		{
@@ -117,9 +115,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 	
 	protected function getActivePlugins()
 	{
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		
 		$res = array();
 		

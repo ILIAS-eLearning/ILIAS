@@ -79,9 +79,7 @@ class ilDidacticTemplateSettings
 	public function readInactive()
 	{
 
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT dtpl.id FROM didactic_tpl_settings dtpl ';
 
@@ -111,9 +109,7 @@ class ilDidacticTemplateSettings
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT dtpl.id FROM didactic_tpl_settings dtpl ';
 

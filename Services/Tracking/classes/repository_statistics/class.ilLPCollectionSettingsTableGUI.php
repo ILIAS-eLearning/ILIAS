@@ -76,10 +76,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$ilAccess = $DIC['ilAccess'];
+		global $objDefinition, $ilAccess;
 		
 		include_once './Services/Link/classes/class.ilLink.php';
 
@@ -227,9 +224,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 	protected function initTable()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));		
 		switch($this->getMode())

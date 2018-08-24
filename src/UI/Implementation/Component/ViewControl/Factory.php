@@ -42,11 +42,4 @@ class Factory implements VC\Factory {
 	public function sortation(array $options) {
 		return new Sortation($options, $this->signal_generator);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function pagination() {
-		return new Pagination($this->signal_generator);
-	}
 }

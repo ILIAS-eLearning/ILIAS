@@ -109,8 +109,7 @@ class ilCachedComponentData {
 
 
 	protected function readFromDB() {
-		global $DIC;
-		$ilDB = $DIC->database();
+		global $ilDB;
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -516,8 +515,8 @@ class ilCachedComponentData {
 	public function lookupGroupedRepObj($parent) {
 		if (is_array($parent)) {
 			$index = md5(serialize($parent));
-			if (isset($this->cached_results['grpd_repo'][$index])) {
-				return $this->cached_results['grpd_repo'][$index];
+			if (isset($cached_results['grpd_repo'][$index])) {
+				return $cached_results['grpd_repo'][$index];
 			}
 
 			$return = array();

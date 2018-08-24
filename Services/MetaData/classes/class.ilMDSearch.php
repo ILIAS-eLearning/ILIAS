@@ -50,9 +50,7 @@ class ilMDSearch
 	*/
 	function __construct($qp_obj)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->query_parser = $qp_obj;
 		$this->db = $ilDB;

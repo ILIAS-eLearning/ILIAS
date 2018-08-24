@@ -68,9 +68,7 @@ class ilObjUserTracking extends ilObject
 	*/
 	static function _enabledLearningProgress()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		return (bool)$ilSetting->get("enable_tracking", 0);
 	}
@@ -93,9 +91,7 @@ class ilObjUserTracking extends ilObject
 	*/
 	static function _enabledUserRelatedData()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		return (bool)$ilSetting->get('save_user_related_data');
 	}
@@ -105,9 +101,7 @@ class ilObjUserTracking extends ilObject
 	*/
 	static function _enabledObjectStatistics()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		return (bool)$ilSetting->get('object_statistics', 0);
 	}
@@ -157,9 +151,7 @@ class ilObjUserTracking extends ilObject
 	*/
 	static function _enabledSessionStatistics()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		return (bool)$ilSetting->get('session_statistics', 1);
 	}
@@ -176,9 +168,7 @@ class ilObjUserTracking extends ilObject
 	
 	static function _getValidTimeSpan()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		return (int)$ilSetting->get("tracking_time_span", self::DEFAULT_TIME_SPAN);
 	}
@@ -212,14 +202,12 @@ class ilObjUserTracking extends ilObject
 
 	function hasExtendedData($a_code)
 	{
-		return $this->extended_data & $a_code;
+		return $this->extended_data && $a_code;
 	}
 
 	function updateSettings()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$ilSetting->set("enable_tracking", (int)$this->enabledLearningProgress());
 		$ilSetting->set("save_user_related_data", (int)$this->enabledUserRelatedData());
@@ -253,9 +241,7 @@ class ilObjUserTracking extends ilObject
 
 	protected function __readSettings()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$this->enableLearningProgress($ilSetting->get("enable_tracking",0));
 		$this->enableUserRelatedData($ilSetting->get("save_user_related_data",0));
@@ -278,9 +264,7 @@ class ilObjUserTracking extends ilObject
 
 	static function _deleteUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = sprintf('DELETE FROM read_event WHERE usr_id = %s ',
 			$ilDB->quote($a_usr_id,'integer'));
@@ -301,9 +285,7 @@ class ilObjUserTracking extends ilObject
 	
 	static function _hasLearningProgressOtherUsers()
 	{		
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 		
 		$obj_id = array_pop(array_keys(ilObject::_getObjectsByType("trac")));	
 		$ref_id = array_pop(ilObject::_getAllReferences($obj_id));
@@ -323,9 +305,7 @@ class ilObjUserTracking extends ilObject
 	
 	static function _hasLearningProgressLearner()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 					
 		return (bool)$ilSetting->get("lp_learner", 1);
 	}
@@ -342,9 +322,7 @@ class ilObjUserTracking extends ilObject
 	
 	static function _hasLearningProgressListGUI()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 					
 		return (bool)$ilSetting->get("lp_list_gui", 0);
 	}

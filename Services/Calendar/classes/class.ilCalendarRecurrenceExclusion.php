@@ -49,9 +49,7 @@ class ilCalendarRecurrenceExclusion
 	 */
 	public function __construct($a_exclusion_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->db = $ilDB;
 		$this->exclusion_id = $a_exclusion_id;
@@ -137,9 +135,7 @@ class ilCalendarRecurrenceExclusion
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getDate())
 		{
@@ -164,9 +160,7 @@ class ilCalendarRecurrenceExclusion
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);

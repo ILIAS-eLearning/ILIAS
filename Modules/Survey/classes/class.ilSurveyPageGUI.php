@@ -1539,12 +1539,6 @@ class ilSurveyPageGUI
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
 
-				/**
-				 * Alex Killing, 27 July 2018
-				 * I removed a line $tpl->addJavascript("./Services/RTE/tiny_mce_.../tiny_mce_src.js"); at the end
-				 * of this function. Currently I have no idea when this tiny will be presented...
-				 * Maybe a bug will come out of this during 5.4 testing
-				 */
 				include_once "./Services/RTE/classes/class.ilTinyMCE.php";
 				$tiny = new ilTinyMCE();				
 				$ttpl->setVariable("WYSIWYG_BLOCKFORMATS", $tiny->_buildAdvancedBlockformatsFromHTMLTags($tags));
@@ -1588,6 +1582,7 @@ class ilSurveyPageGUI
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initDragDrop();
 			$tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
+			$tpl->addJavascript("./Services/RTE/tiny_mce_3_5_11/tiny_mce_src.js");
 		}
 	}
 

@@ -68,9 +68,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		switch($a_cmd)
 		{
@@ -79,15 +77,15 @@ class ilObjGroupListGUI extends ilObjectListGUI
 				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 				if (ilDAVActivationChecker::_isActive())
 				{
-					require_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-					$dav_util = ilWebDAVUtil::getInstance();
+					require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+					$davServer = ilDAVServer::getInstance();
 					
 					// XXX: The following is a very dirty, ugly trick. 
 					//        To mount URI needs to be put into two attributes:
 					//        href and folder. This hack returns both attributes
 					//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-					$cmd_link = $dav_util->getMountURI($this->ref_id).
-								'" folder="'.$dav_util->getFolderURI($this->ref_id);
+					$cmd_link = $davServer->getMountURI($this->ref_id).
+								'" folder="'.$davServer->getFolderURI($this->ref_id);
 				break;
 				} // fall through if plugin is not active
 			// END Mount Webfolder.
@@ -114,11 +112,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $rbacsystem,$ilUser;
 
 		// BEGIN WebDAV get parent properties
 		$props = parent::getProperties();

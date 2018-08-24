@@ -30,12 +30,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
 		if ($a_user_id == "")
 		{
@@ -158,8 +153,8 @@ class ilObjGroupAccess extends ilObjectAccess
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
-			if(ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired())
+			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
+			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
 			{
 				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
 			}
@@ -180,10 +175,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilUser = $DIC['ilUser'];
+		global $ilAccess,$ilUser;
 
 		$t_arr = explode("_", $a_target);
 		// registration codes
@@ -213,9 +205,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function _registrationEnabled($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM grp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -259,10 +249,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilUser;
 		
 		include_once("./Modules/Group/classes/class.ilGroupWaitingList.php");
 		ilGroupWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
@@ -278,11 +265,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function lookupRegistrationInfo($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilDB, $ilUser, $lng;
 		
 		$query = 'SELECT registration_type, registration_enabled, registration_unlimited,  registration_start, '.
 			'registration_end, registration_mem_limit, registration_max_members FROM grp_settings '.
@@ -337,7 +320,7 @@ class ilObjGroupAccess extends ilObjectAccess
 			if (!$registration_possible)
 			{
 				$registration_possible = false;
-				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg');
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
 				$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
 			}
 		}
@@ -382,10 +365,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 */
 	public static function lookupPeriodInfo($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
+		global $ilDB, $lng;
 		
 		$start = $end = null;
 		

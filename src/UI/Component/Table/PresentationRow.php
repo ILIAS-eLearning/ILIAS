@@ -64,10 +64,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	/**
 	 * Get a row like this with a button or a dropdown for actions in the expanded row.
 	 *
-	 * @param ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown 	$action
+	 * @param ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown 	$actions
 	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
-	public function withAction($action);
+	public function withActions($actions);
 
 	/**
 	 * Get the signal to expand the row.

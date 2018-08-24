@@ -44,9 +44,7 @@ class ilAbstractSearch
 	*/
 	function __construct($qp_obj)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->query_parser = $qp_obj;
 		$this->db = $ilDB;
@@ -145,9 +143,7 @@ class ilAbstractSearch
 	*/
 	function __createLocateString()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->query_parser->getCombination() == 'or')
 		{

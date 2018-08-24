@@ -6,7 +6,6 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -14,16 +13,17 @@ use \ILIAS\UI\Implementation as I;
  */
 class ChartScaleBarTest extends ILIAS_UI_TestBase {
 
-	protected function getFactory() {
-		return new I\Component\Chart\Factory(
-			$this->createMock(C\Chart\ProgressMeter\Factory::class)
-		);
+	/**
+	 * @return \ILIAS\UI\Implementation\Factory
+	 */
+	public function getFactory() {
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->scaleBar(array("1" => false)));
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->chart()->scaleBar(array("1" => false)));
 	}
 
 	public function test_get_items() {
@@ -36,7 +36,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase {
 			"High" => false
 		);
 
-		$c = $f->scaleBar($items);
+		$c = $f->chart()->scaleBar($items);
 
 		$this->assertEquals($c->getItems(), $items);
 	}
@@ -52,7 +52,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase {
 			"High" => false
 		);
 
-		$c = $f->scaleBar($items);
+		$c = $f->chart()->scaleBar($items);
 
 		$html = $r->render($c);
 

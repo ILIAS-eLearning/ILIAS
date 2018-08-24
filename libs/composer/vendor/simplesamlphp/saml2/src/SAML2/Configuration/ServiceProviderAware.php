@@ -1,11 +1,9 @@
 <?php
 
-namespace SAML2\Configuration;
-
 /**
  * Interface for triggering setter injection
  */
-interface ServiceProviderAware
+interface SAML2_Configuration_ServiceProviderAware
 {
-    public function setServiceProvider(ServiceProvider $serviceProvider);
+    public function setServiceProvider(SAML2_Configuration_ServiceProvider $serviceProvider);
 }

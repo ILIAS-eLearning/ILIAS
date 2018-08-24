@@ -49,9 +49,7 @@ class ilStartingPoint
 	 */
 	private function setData($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM usr_starting_point WHERE id = ".$ilDB->quote($a_id, 'integer');
 		$res = $ilDB->query($query);
@@ -184,9 +182,7 @@ class ilStartingPoint
 	 */
 	public static function getStartingPoints()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM usr_starting_point";
 		$res = $ilDB->query($query);
@@ -212,9 +208,7 @@ class ilStartingPoint
 	 */
 	public static function getRolesWithStartingPoint()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM usr_starting_point WHERE rule_options LIKE %s";
 		$res = $ilDB->queryF($query, array('text'), array("%role_id%"));
@@ -242,9 +236,7 @@ class ilStartingPoint
 	 */
 	public static function getGlobalRolesWithoutStartingPoint()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		require_once "./Services/AccessControl/classes/class.ilObjRole.php";
 
@@ -278,9 +270,7 @@ class ilStartingPoint
 	 */
 	function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		//get position
 		$max_position = $this->getMaxPosition();
@@ -308,9 +298,7 @@ class ilStartingPoint
 	 */
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$ilDB->manipulateF('UPDATE usr_starting_point
 			SET starting_point = %s,
@@ -329,9 +317,7 @@ class ilStartingPoint
 	 */
 	function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM usr_starting_point WHERE id = " . $ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
@@ -344,9 +330,7 @@ class ilStartingPoint
 	 */
 	function getMaxPosition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		//get max order number
 		$result = $ilDB->query("SELECT max(position) as max_order FROM usr_starting_point");
@@ -385,9 +369,7 @@ class ilStartingPoint
 	 */
 	function saveOrder($a_items)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		asort($a_items);
 		$nr = 10;

@@ -54,9 +54,7 @@ class ilECSAuth
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$this->log = $ilLog;
 	}

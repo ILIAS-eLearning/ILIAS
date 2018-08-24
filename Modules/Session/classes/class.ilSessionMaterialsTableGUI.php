@@ -17,11 +17,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		global $ilCtrl, $lng, $tree;
 
 		$this->setId("sess_materials_".$a_parent_obj->object->getId());
 
@@ -48,10 +44,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 	 */
 	function getDataFromDb()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$objDefinition = $DIC['objDefinition'];
+		global $tree, $objDefinition;
 
 
 		$nodes = $tree->getSubTree($tree->getNodeData($this->parent_ref_id));

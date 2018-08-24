@@ -256,9 +256,7 @@ class ilUserQuery
 	 */
 	public function query()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 
 		$udf_fields = array();

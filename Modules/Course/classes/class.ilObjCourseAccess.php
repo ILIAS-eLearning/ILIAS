@@ -68,13 +68,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilias = $DIC['ilias'];
+		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
 		
 		if ($a_user_id == "")
 		{
@@ -236,8 +230,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
-			if(ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired())
+			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
+			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
 			{
 				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
 			}
@@ -257,10 +251,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilUser = $DIC['ilUser'];
+		global $ilAccess,$ilUser;
 		
 		$t_arr = explode("_", $a_target);
 		
@@ -296,9 +287,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _lookupViewMode($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
@@ -317,9 +306,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _isOnline($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -387,9 +374,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _registrationEnabled($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -432,11 +417,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function lookupRegistrationInfo($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilDB, $ilUser, $lng;
 		
 		$query = 'SELECT sub_limitation_type, sub_start, sub_end, sub_mem_limit, sub_max_members FROM crs_settings '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id);
@@ -482,7 +463,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		else
 		{
 			$registration_possible = false;
-			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg');
+			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
 			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 		}
 		
@@ -539,10 +520,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilUser, $lng;
 		
 		$lng->loadLanguageModule("crs");
 		
@@ -571,10 +549,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function lookupPeriodInfo($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
+		global $ilDB, $lng;
 		
 		$start = $end = null;
 		

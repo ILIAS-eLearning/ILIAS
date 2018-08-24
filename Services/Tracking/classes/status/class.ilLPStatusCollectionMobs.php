@@ -38,9 +38,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 	
 	public static function _getStatusInfo($a_parent_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		
@@ -127,9 +125,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 	
 	public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{		
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 						

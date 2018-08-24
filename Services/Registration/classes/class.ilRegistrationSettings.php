@@ -76,9 +76,7 @@ class ilRegistrationSettings
 
 	static function _lookupRegistrationType()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$ret = (int)$ilSetting->get('new_registration_type',IL_REG_DISABLED);
 
@@ -243,9 +241,7 @@ class ilRegistrationSettings
 			
 	function save()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		$ilias->setSetting('reg_role_assignment',$this->role_type);
 		$ilias->setSetting('new_registration_type',$this->registration_type);
@@ -261,9 +257,7 @@ class ilRegistrationSettings
 
 	function __read()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		//static method validates value
 		$this->registration_type = self::_lookupRegistrationType();

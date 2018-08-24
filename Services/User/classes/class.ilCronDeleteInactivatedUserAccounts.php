@@ -21,9 +21,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	
 	public function __construct()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		if(is_object($ilSetting))
 		{
@@ -47,18 +45,14 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("delete_inactivated_user_accounts");
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		return sprintf(
 			$lng->txt("delete_inactivated_user_accounts_desc"),
@@ -93,9 +87,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	
 	public function run()
 	{		
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 				
@@ -135,12 +127,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $rbacreview, $ilObjDataCache, $ilSetting;
 
 		include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
 		$sub_mlist = new ilMultiSelectInputGUI(
@@ -188,9 +175,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$setting = implode(',', $_POST['cron_inactivated_user_delete_include_roles']);
 		if( !strlen($setting) ) $setting = null;

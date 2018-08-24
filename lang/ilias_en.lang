@@ -313,8 +313,6 @@ assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
-assessment#:#tst_answer_aggr_answer_header#:#Answer
-assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
@@ -360,12 +358,6 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
-assessment#:#tst_proceed#:#Proceed
-assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
-assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.
-assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question
-assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
@@ -428,22 +420,6 @@ assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
 assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
 assessment#:#out_of_range#:#Out of range
-assessment#:#ass_cloze_fb_mode#:#Feedback Mode
-assessment#:#ass_cloze_fb_mode_gap_qst#:#Feedback per Gap
-assessment#:#ass_cloze_fb_mode_gap_qst_info#:#For every gap a single feedback can be configured.
-assessment#:#ass_cloze_fb_mode_gap_answ#:#Answer specific Feedback
-assessment#:#ass_cloze_fb_mode_gap_answ_info#:#For every gap separate feedbacks can be configured for different answers.
-assessment#:#ass_cloze_gap_fb_gap_label#:#Gap %s: <i>%s</i>
-assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Gap %s - No Input
-assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Gap %s - Wrong Answer
-assessment#:#ass_cloze_gap_fb_txt_match_label#:#Gap %s - Given Answer: <i>%s</i>
-assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Gap %s - No Selection
-assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Gap %s - Select Option: <i>%s</i>
-assessment#:#ass_cloze_gap_fb_num_empty_label#:#Gap %s - No Input
-assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Gap %s - Value Hit
-assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Gap %s - Range Hit
-assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Gap %s - Value too Low
-assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Gap %s - Value too High
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -500,8 +476,9 @@ assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#element_height#:#Minimum Height
 assessment#:#end_tag#:#End Tag
-assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
-assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
@@ -736,7 +713,6 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
-assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -797,7 +773,7 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#ordertext#:#Ordering Text
 assessment#:#output_mode#:#Output Mode
 assessment#:#output#:#Output
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Dashboard’.
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Participants’.
 assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#dashboard_tab#:#Dashboard
@@ -928,20 +904,15 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_answer_fixation_handling#:#Participant Answers
-assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
-assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
-assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
-assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
-assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
-assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
-assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.
+assessment#:#tst_instant_feedback_handling#:#Lock Answers
+assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
+assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
@@ -973,7 +944,7 @@ assessment#:#term#:#Term
 assessment#:#terms#:#Terms
 assessment#:#text_correct#:#Correct Text
 assessment#:#text_gap#:#Text Gap
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Additional characters won't get cut, but the exceeding might be considered during scoring.
+assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 assessment#:#text_rating#:#Text Matching Method
 assessment#:#text_wrong#:#Wrong Text
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
@@ -995,7 +966,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
-assessment#:#tst_best_solution_is#:#The best solution is:
+assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
@@ -1062,8 +1033,6 @@ assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-but
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
-assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
@@ -1117,7 +1086,7 @@ assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip ov
 assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
 assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_qst_order#:#No.
 assessment#:#tst_question_mark#:#Mark this question
@@ -1155,25 +1124,25 @@ assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
 assessment#:#tst_result_pass#:#Results of Test Pass
 assessment#:#tst_results_access_always#:#Immediately
-assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
+assessment#:#tst_results_access_always_desc#:#Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.
 assessment#:#tst_results_access_date#:#Date
-assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
+assessment#:#tst_results_access_date_desc#:#Participants get access to their test results on the ‘Info’-tab after the defined date.
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
-assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the ‘Info’-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
-assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
+assessment#:#tst_results_access_enabled_desc#:#A button ‘Show Test Results’ will be displayed to participants on the ‘Info’-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab. 
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab. <br />
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
-assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab.
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_show_solution_details_desc#:#As an add-on  to the ‘Table of Detailed Test Results’, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
-assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered within the ‘Results’-tab in a subtab 'Review of Scored Answers'.
+assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the ‘Info’-tab.
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
@@ -1292,7 +1261,7 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#Within the 'Results'-tab participants are presented with a subtab 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
+assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
@@ -1562,7 +1531,6 @@ cmps#:#cmps_needs_update#:#Needs update.
 cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.
 cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
 cmps#:#cmps_no_language_file_available#:#No language file available.
-cmps#:#cmps_must_installed#:#The component must be installed.
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
@@ -2115,7 +2083,7 @@ common#:#editor#:#Editor
 common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
-common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
+common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
@@ -2934,7 +2902,7 @@ common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
 common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chap#:#Chapter
-common#:#obj_cmps_desc#:#General settings for Plugins
+common#:#obj_cmps_desc#:#General settings for Repository Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs#:#Course
@@ -3872,7 +3840,7 @@ content#:#cont_current_chapter#:#Current Chapter
 content#:#cont_current_page#:#Current Page
 content#:#cont_current_style#:#Current Style
 content#:#cont_current_version#:#Current Version
-content#:#cont_custom_size#:#Fixed Size
+content#:#cont_custom_size#:#Custom Size
 content#:#cont_custom#:#Custom
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
@@ -4205,8 +4173,7 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows you to
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_resize_img#:#Resize Image File
-content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
-content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
+content#:#cont_resource_size#:#Original Resource Size
 content#:#cont_resource_type#:#type
 content#:#cont_resource#:#Resource
 content#:#cont_resources#:#Resources
@@ -4717,8 +4684,8 @@ crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
-crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
+crs#:#sess_num_next#:#Number of Future Sessions
+crs#:#sess_num_prev#:#Number of Past Sessions
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -5774,8 +5741,8 @@ meta#:#md_adv_select_one_file#:#Please choose one file.
 meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
 meta#:#md_advanced#:#Custom Metadata
-meta#:#md_copyright_add#:#Add Copyright Default
-meta#:#md_copyright_edit#:#Edit Copyright Default
+meta#:#md_copyright_add#:#Add Copyright Presetting
+meta#:#md_copyright_edit#:#Edit Copyright Presetting
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
 meta#:#md_copyright_preview#:#Copyright (Preview)
@@ -6522,11 +6489,15 @@ pwassist#:#password_assistance#:#Password Assistance
 pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
+pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe username and e-mail address you have entered do not match an entry in the database.
 pwassist#:#pwassist_login_not_match#:#Please enter another username.\nThe username you have entered does not match the username for which you had asked for password assistance.
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
+pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
+pwassist#:#pwassist_not_permitted#:#Please enter another username.\nPassword assistance is not permitted for the username you have entered.
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
@@ -7239,7 +7210,7 @@ survey#:#maintenance#:#Participants
 survey#:#manage_phrases#:#My Phrases
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material#:#Material
-survey#:#materials_deleted#:#Material(s) have been removed from the question.
+survey#:#materials_deleted#:#Material(s) deleted
 survey#:#materials#:#Materials
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -7472,7 +7443,7 @@ trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplish
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
 trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_manual_by_tutor#:#Tutors Monitor and Set Status
-trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the object. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
+trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the learning module. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
 trac#:#trac_mode_manual#:#Users Monitor and Set Status Themselves (Complete Module)
 trac#:#trac_mode_objectives_info#:#The learning progress will be automatically determined according to the number of passed learning objectives.
 trac#:#trac_mode_objectives#:#Status is Determined by Learning Objectives
@@ -7686,14 +7657,12 @@ mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
-mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the e-mail initiator.
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
-mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
@@ -7786,8 +7755,8 @@ rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
-tbl#:#tbl_export_csv#:#Export CSV
-tbl#:#tbl_export_excel#:#Export Excel
+tbl#:#tbl_export_csv#:#Export .csv
+tbl#:#tbl_export_excel#:#Export .xls
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
@@ -7826,9 +7795,7 @@ rbac#:#log#:#Log
 rbac#:#rbac_log#:#Log
 rbac#:#rbac_changes#:#Changes
 rbac#:#rbac_log_operation_add#:#Added Operation for "%s"
-rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"
 rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"
-rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"
 rbac#:#rbac_log_source_object#:#Source object
 rbac#:#rbac_log_edit_permissions#:#Edit Permissions
 rbac#:#rbac_log_move_object#:#Move Object
@@ -8640,7 +8607,7 @@ wsp#:#wsp_set_permission_single_user#:#A Single User
 wsp#:#wsp_set_permission_group#:#Members of Group
 wsp#:#wsp_set_permission_course#:#Members of Course
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
-wsp#:#wsp_permission_removed#:#Entry has been removed.
+wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_search_users#:#Search Users
@@ -9409,7 +9376,6 @@ blog#:#blog_posting#:#Blog Posting
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_body_new#:#the following blog posting was created.
 blog#:#blog_change_notification_body_update#:#the following blog posting has been updated.
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.
 blog#:#blog_change_notification_link#:#Link to Blog Posting
 blog#:#blog_notification_toggle_on#:#Activate Notification
 blog#:#blog_notification_toggle_off#:#Deactivate Notification
@@ -9652,8 +9618,7 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
 assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
-assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
+assessment#:#conf_delete_pass#:#Really delete pass?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
@@ -9956,7 +9921,6 @@ common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_noreg#:#No Registration Possible
 common#:#crs_list_reg_period#:#Registration Period
-common#:#crs_list_reg#:#Registration
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter#:#Online-Status
@@ -9970,7 +9934,6 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_noreg#:#No Registration Possible
 common#:#grp_list_reg_period#:#Registration Period
-common#:#grp_list_reg#:#Registration
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
@@ -10086,9 +10049,8 @@ rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
-dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
+dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -10198,14 +10160,14 @@ rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
-dcl#:#dcl_empty_detailed_view#:#Delete this detailed view
+dcl#:#dcl_empty_view#:#Delete this View
 dcl#:#dcl_activate_view#:#Activate this view
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
-dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this detailed view?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#The detailed view definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
-dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.
+dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
+dcl#:#dcl_confirm_delete_view_text#:#The View Definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
+dcl#:#dcl_empty_view_success#:#The View Definition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
@@ -10332,7 +10294,6 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
-ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -10420,9 +10381,6 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Crashed
 cron#:#cron_result_status_reset#:#Reset
-cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated because it has been inactive for 3 hours
 cron#:#cron_action_activate#:#Activate
 cron#:#cron_action_deactivate#:#Deactivate
 cron#:#cron_action_reset#:#Reset
@@ -10453,6 +10411,8 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
+cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -10523,8 +10483,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 dcl#:#dcl_no_export_content_available#:#No data available for export.
 dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
@@ -10549,22 +10507,6 @@ bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibl_settings_edit#:#Edit Library
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
-bibl#:#add_filter#:#Add Filter
-bibl#:#filter_type#:#Filter Type
-bibl#:#field#:#Field
-bibl#:#custom#:#Custom
-bibl#:#fields#:#Fields
-bibl#:#ris#:#Ris
-bibl#:#bibtex#:#Bibtex
-bibl#:#order#:#Order
-bibl#:#standard#:#Standard
-bibl#:#translate#:#Translate
-bibl#:#identifier#:#Identifier
-bibl#:#filter_type_1#:#Textinput
-bibl#:#filter_type_2#:#Selectinput
-bibl#:#filter_type_3#:#Multi-Selectinput
-bibl#:#filter_field_info#:#Please choose a field for which you want to add a filter.
-bibl#:#filter_type_info#:#Please choose a filter type for the field.
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#Copy Bibliography
@@ -11116,12 +11058,6 @@ orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
-orgu#:#org_op_access_results#:#Access Results
-rbac#:#org_op_access_results#:#Access Results of Subordinated Users
-orgu#:#org_op_manage_participants#:#Manage Participants
-rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
-orgu#:#org_op_score_participants#:#Score Participants
-rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
@@ -11410,16 +11346,6 @@ bibl#:#ris_default_u2#:#User Defined
 bibl#:#ris_default_y1#:#Year
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_ep#:#Ending Page Number
-bibl#:#filter_form_title#:#Add new filter
-bibl#:#changes_saved#:#Changes were saved.
-bibl#:#filter_deleted#:#The Filter was deleted.
-bibl#:#bibl_translation_lang#:#Language
-bibl#:#bibl_translation_trans#:#Translation
-bibl#:#bibl_translation_desc#:#Description
-bibl#:#bibl_msg_translations_saved#:#Translations were saved
-bibl#:#bibl_msg_translations_deleted#:#Translations were deleted
-bibl#:#bibl_filter#:#Filter
-bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -12488,7 +12414,6 @@ dcl#:#dcl_selection_type#:#Type
 dcl#:#dcl_selection_type_single#:#Single Selection
 dcl#:#dcl_selection_type_multi#:#Multiple Selection
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
-dcl#:#dcl_title_standardview#:#Standard Views
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -12725,8 +12650,8 @@ note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_link#:#Link
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
-trac#:#trac_mode_content_visited#:#Visited
-trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
+trac#:#trac_mode_downloaded#:#Downloaded
+trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
 trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
@@ -13235,8 +13160,6 @@ chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
-chatroom#:#chatroom_client_name#:#Name
-chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.
 chatroom#:#key#:#Key
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
@@ -13287,7 +13210,7 @@ copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensur
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
-logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
+logging#:#log_error_message#:#Error %s occurred.
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
 logging#:#log_error_mail#:#Mail recipient
@@ -13407,6 +13330,7 @@ assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
@@ -13796,7 +13720,6 @@ chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of th
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
-chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13897,6 +13820,7 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
+ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
@@ -14238,7 +14162,7 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -14287,3 +14211,6 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
+ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:

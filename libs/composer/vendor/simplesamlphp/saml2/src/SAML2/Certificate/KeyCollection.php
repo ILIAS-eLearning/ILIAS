@@ -1,25 +1,20 @@
 <?php
 
-namespace SAML2\Certificate;
-
-use SAML2\Exception\InvalidArgumentException;
-use SAML2\Utilities\ArrayCollection;
-
 /**
  * Simple collection object for transporting keys
  */
-class KeyCollection extends ArrayCollection
+class SAML2_Certificate_KeyCollection extends SAML2_Utilities_ArrayCollection
 {
     /**
      * Add a key to the collection
      *
-     * @param \SAML2\Certificate\Key $key
+     * @param SAML2_Certificate_Key $key
      */
     public function add($key)
     {
-        if (!$key instanceof Key) {
-            throw InvalidArgumentException::invalidType(
-                'SAML2\Certificate\Key',
+        if (!$key instanceof SAML2_Certificate_Key) {
+            throw SAML2_Exception_InvalidArgumentException::invalidType(
+                'SAML2_Certificate_Key',
                 $key
             );
         }

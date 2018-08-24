@@ -48,10 +48,7 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function getTabs()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilHelp = $DIC['ilHelp'];
+		global $ilAccess, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("grpr");
 

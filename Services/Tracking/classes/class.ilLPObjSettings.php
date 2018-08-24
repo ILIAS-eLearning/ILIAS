@@ -42,7 +42,7 @@ class ilLPObjSettings
 	const LP_MODE_QUESTIONS = 17;
 	const LP_MODE_SURVEY_FINISHED = 18;
 	const LP_MODE_VISITED_PAGES = 19;
-	const LP_MODE_CONTENT_VISITED = 20;
+	const LP_MODE_DOWNLOADED = 20;
 	const LP_MODE_COLLECTION_MOBS = 21;
 	const LP_MODE_STUDY_PROGRAMME = 22;
 	const LP_MODE_INDIVIDUAL_ASSESSMENT = 23;
@@ -110,8 +110,8 @@ class ilLPObjSettings
 		,self::LP_MODE_VISITED_PAGES => array('ilLPStatusVisitedPages', 
 			'trac_mode_visited_pages', 'trac_mode_visited_pages_info') 
 		
-		,self::LP_MODE_CONTENT_VISITED => array('ilLPStatusContentVisited', 
-			'trac_mode_content_visited', 'trac_mode_content_visited_info')
+		,self::LP_MODE_DOWNLOADED => array('ilLPStatusDownloaded', 
+			'trac_mode_downloaded', 'trac_mode_downloaded_info')
 		
 		,self::LP_MODE_COLLECTION_MOBS => array('ilLPStatusCollectionMobs', 
 			'trac_mode_collection_mobs', 'trac_mode_collection_mobs_info')
@@ -125,10 +125,7 @@ class ilLPObjSettings
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache, $ilDB;
 
 		$this->db = $ilDB;
 		$this->obj_id = $a_obj_id;
@@ -152,9 +149,7 @@ class ilLPObjSettings
 	 */
 	public function cloneSettings($a_new_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 	 	$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 	 		"VALUES( ".
@@ -216,9 +211,7 @@ class ilLPObjSettings
 
 	function update($a_refresh_lp = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->is_stored)
 		{
@@ -240,10 +233,10 @@ class ilLPObjSettings
 	
 	function insert()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-
+		global $ilDB,$ilLog;
+		
+		$ilLog->logStack();
+		
 		$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 			"VALUES(".
 			$ilDB->quote($this->getObjId() ,'integer').", ".
@@ -268,9 +261,7 @@ class ilLPObjSettings
 
 	static function _delete($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM ut_lp_settings WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -283,9 +274,7 @@ class ilLPObjSettings
 	
 	static function _lookupVisits($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT visits FROM ut_lp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
@@ -300,9 +289,7 @@ class ilLPObjSettings
 	
 	public static function _lookupDBModeForObjects(array $a_obj_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// this does NOT handle default mode!
 		
@@ -321,9 +308,7 @@ class ilLPObjSettings
 
 	public static function _lookupDBMode($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// this does NOT handle default mode!
 
@@ -339,9 +324,7 @@ class ilLPObjSettings
 		
 	public static function _mode2Text($a_mode)
 	{	
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if(array_key_exists($a_mode, self::$map) &&
 			is_array(self::$map[$a_mode]))
@@ -352,9 +335,7 @@ class ilLPObjSettings
 	
 	public static function _mode2InfoText($a_mode)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if(array_key_exists($a_mode, self::$map) &&
 			is_array(self::$map[$a_mode]))
@@ -384,9 +365,7 @@ class ilLPObjSettings
 	
 	public static function _deleteByObjId($a_obj_id)
 	{	 
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// we are only removing settings for now
 		// invalid ut_lp_collections-entries are filtered

@@ -53,9 +53,7 @@ class ilMemberAgreement
 	 */
 	public function __construct($a_usr_id,$a_obj_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$this->db = $ilDB;
 	 	$this->user_id = $a_usr_id;
@@ -80,9 +78,7 @@ class ilMemberAgreement
 	 */
 	public static function _readByObjId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM member_agreement ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
@@ -106,9 +102,7 @@ class ilMemberAgreement
 	 */
 	public static function _hasAgreementsByObjId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM member_agreement ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
@@ -128,9 +122,7 @@ class ilMemberAgreement
 	 */
 	public static function _hasAgreements()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM member_agreement ".
 			"WHERE accepted = 1";
@@ -149,9 +141,7 @@ class ilMemberAgreement
 	 */
 	public static function _hasAccepted($a_usr_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT accepted FROM member_agreement ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -169,9 +159,7 @@ class ilMemberAgreement
 	 */
 	public static function lookupAcceptedAgreements($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT usr_id FROM member_agreement ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer').' '.
@@ -198,9 +186,7 @@ class ilMemberAgreement
 	 */
 	public static function _deleteByUser($a_usr_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM member_agreement ".
 	 		"WHERE usr_id =".$ilDB->quote($a_usr_id ,'integer')." ";
@@ -218,9 +204,7 @@ class ilMemberAgreement
 	 */
 	public static function _deleteByObjId($a_obj_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM member_agreement ".
 	 		"WHERE obj_id =".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -240,9 +224,7 @@ class ilMemberAgreement
 	 */
 	public static function _reset()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "UPDATE member_agreement SET accepted = 0 ";
 	 	$res = $ilDB->manipulate($query);
@@ -259,9 +241,7 @@ class ilMemberAgreement
 	 */
 	public static function _resetContainer($a_container_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "UPDATE member_agreement ".
 	 		"SET accepted = 0 ".
@@ -341,9 +321,7 @@ class ilMemberAgreement
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->delete();
 		
@@ -366,9 +344,7 @@ class ilMemberAgreement
 	 */
 	public function delete()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM member_agreement ".
 	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".

@@ -56,7 +56,7 @@ abstract class ilParticipants
 	
 	/**
 	 *
-	 * @var \ilLogger
+	 * @var ilLogger
 	 */
 	protected $logger = null;
 	
@@ -138,8 +138,8 @@ abstract class ilParticipants
 				return ilSessionParticipants::_getInstanceByObjId($a_obj_id);
 				
 			default:
-				$GLOBALS['DIC']->logger()->mmbr()->logStack(ilLogLevel::WARNING);
-				$GLOBALS['DIC']->logger()->mmbr()->warning(': Invalid obj_id given: '.$a_obj_id);
+				$GLOBALS['ilLog']->logStack();
+				$GLOBALS['ilLog']->write(__METHOD__.': Invalid obj_id given: '.$a_obj_id);
 				throw new InvalidArgumentException('Invalid obj id given');
 		}
 	}
@@ -165,14 +165,14 @@ abstract class ilParticipants
 	{
 		if(!$a_usr_id)
 		{
-			$a_usr_id = $GLOBALS['DIC']['ilUser']->getId();
+			$a_usr_id = $GLOBALS['ilUser']->getId();
 		}
 
 		// if write access granted => return true
 		$refs = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = end($refs);
 
-		if($GLOBALS['DIC']['ilAccess']->checkAccess('write','',$ref_id))
+		if($GLOBALS['ilAccess']->checkAccess('write','',$ref_id))
 		{
 			return true;
 		}
@@ -207,9 +207,7 @@ abstract class ilParticipants
 	 */
 	public static function _getMembershipByType($a_usr_id,$a_type,$a_only_member_role = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if (!is_array($a_type))
 		{
@@ -262,9 +260,7 @@ abstract class ilParticipants
 	 */
 	public static function _isParticipant($a_ref_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
         
@@ -280,9 +276,7 @@ abstract class ilParticipants
 	 */
 	public static function lookupNumberOfParticipants($a_ref_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$lroles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 		return $rbacreview->getNumberOfAssignedUsers($lroles);
@@ -297,10 +291,7 @@ abstract class ilParticipants
 	 */
 	public static function lookupNumberOfMembers($a_ref_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview, $ilObjDataCache;
 
 		$has_policies = $rbacreview->getLocalPolicies($a_ref_id);
 
@@ -341,9 +332,7 @@ abstract class ilParticipants
 	 */
 	public static function _isBlocked($a_obj_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM obj_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -364,9 +353,7 @@ abstract class ilParticipants
 	 */
 	public static function _hasPassed($a_obj_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM obj_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
@@ -387,9 +374,7 @@ abstract class ilParticipants
 	 */
 	public static function _deleteAllEntries($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM obj_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -416,9 +401,7 @@ abstract class ilParticipants
 	 */
 	public static function _deleteUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM obj_members WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
 		$res = $ilDB->manipulate($query);
@@ -432,9 +415,7 @@ abstract class ilParticipants
 	
 	public static function getDefaultMemberRole($a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$type = ilObject::_lookupType($obj_id);
@@ -444,9 +425,7 @@ abstract class ilParticipants
 			return 0;
 		}
 		
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 
 		$roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
@@ -488,9 +467,7 @@ abstract class ilParticipants
 	 */
 	public function getNotificationRecipients()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM obj_members ".
 	 		"WHERE notification = 1 ".
@@ -668,9 +645,7 @@ abstract class ilParticipants
 	 */
 	public function getAssignedRoles($a_usr_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		foreach($this->roles as $role)
 		{
@@ -692,10 +667,7 @@ abstract class ilParticipants
 	 */
 	public function updateRoleAssignments($a_usr_id,$a_roles)
 	{
-	 	global $DIC;
-
-	 	$rbacreview = $DIC['rbacreview'];
-	 	$rbacadmin = $DIC['rbacadmin'];
+	 	global $rbacreview,$rbacadmin;
 	 	
 	 	$roles = $a_roles ? $a_roles : array();
 	 	
@@ -781,10 +753,7 @@ abstract class ilParticipants
 	 */
 	public function delete($a_usr_id)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacadmin,$ilDB;
 		
 		$this->dropDesktopItem($a_usr_id);
 		foreach($this->roles as $role_id)
@@ -800,7 +769,7 @@ abstract class ilParticipants
 		$this->readParticipants();
 		$this->readParticipantsStatus();
 		
-		$GLOBALS['DIC']['ilAppEventHandler']->raise(
+		$GLOBALS['ilAppEventHandler']->raise(
 				$this->getComponent(),
 				"deleteParticipant", 
 				array(
@@ -821,9 +790,7 @@ abstract class ilParticipants
 	 */
 	public function updateBlocked($a_usr_id,$a_blocked)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->participants_status[$a_usr_id]['blocked'] = (int) $a_blocked;
 
@@ -864,9 +831,7 @@ abstract class ilParticipants
 	 */
 	public function updateContact($a_usr_id, $a_contact)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulate(
 				'UPDATE obj_members SET '.
@@ -908,9 +873,7 @@ abstract class ilParticipants
 	 */
 	public function updateNotification($a_usr_id,$a_notification)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
 
@@ -954,10 +917,7 @@ abstract class ilParticipants
 	 */
 	public function add($a_usr_id,$a_role)
 	{
-	 	global $DIC;
-
-	 	$rbacadmin = $DIC['rbacadmin'];
-	 	$ilAppEventHandler = $DIC['ilAppEventHandler'];
+	 	global $rbacadmin,$ilLog,$ilAppEventHandler;
 	 	
 	 	if($this->isAssigned($a_usr_id))
 	 	{
@@ -1000,6 +960,7 @@ abstract class ilParticipants
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
+		$ilLog->write(__METHOD__.': Raise new event: '.$this->getComponent().' addParticipant');
 		$ilAppEventHandler->raise(
 				$this->getComponent(),
 				"addParticipant", 
@@ -1119,13 +1080,9 @@ abstract class ilParticipants
 	 */
 	protected function readParticipants()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacreview,$ilObjDataCache,$ilLog;
 		
-		$GLOBALS['DIC']['rbacreview']->clearCaches();
+		$GLOBALS['rbacreview']->clearCaches();
 		$this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id,false);
 
 		$users = array();
@@ -1208,9 +1165,7 @@ abstract class ilParticipants
 	 */
 	protected function readParticipantsStatus()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM obj_members ".
 	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
@@ -1236,11 +1191,7 @@ abstract class ilParticipants
 	 */
 	public function isGroupingMember($a_usr_id,$a_field = '')
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacreview,$ilObjDataCache,$ilDB;
 
 		// Used for membership limitations -> check membership by given field
 		if($a_field)
@@ -1281,9 +1232,7 @@ abstract class ilParticipants
 
 	public static function lookupSubscribers($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$subscribers = array();
 		$query = "SELECT usr_id FROM il_subscribers ".
@@ -1361,9 +1310,7 @@ abstract class ilParticipants
 	 */
 	public function assignSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		$ilErr->setMessage("");
 		if(!$this->isSubscriber($a_usr_id))
@@ -1438,9 +1385,7 @@ abstract class ilParticipants
 	 */
 	public function addSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "INSERT INTO il_subscribers (usr_id,obj_id,subject,sub_time) ".
 			" VALUES (".
@@ -1462,9 +1407,7 @@ abstract class ilParticipants
 	 */
 	public function updateSubscriptionTime($a_usr_id,$a_subtime)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "UPDATE il_subscribers ".
 			"SET sub_time = ".$ilDB->quote($a_subtime ,'integer')." ".
@@ -1484,9 +1427,7 @@ abstract class ilParticipants
 	 */
 	public function updateSubject($a_usr_id,$a_subject)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE il_subscribers ".
 			"SET subject = ".$ilDB->quote($a_subject ,'text')." ".
@@ -1504,9 +1445,7 @@ abstract class ilParticipants
 	 */
 	public function deleteSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -1524,10 +1463,7 @@ abstract class ilParticipants
 	 */
 	public function deleteSubscribers($a_usr_ids)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
+		global $ilErr,$ilDB;
 		
 		if(!is_array($a_usr_ids) or !count($a_usr_ids))
 		{
@@ -1551,9 +1487,7 @@ abstract class ilParticipants
 	 */
 	public function isSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -1575,9 +1509,7 @@ abstract class ilParticipants
 	 */
 	public static function _isSubscriber($a_obj_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -1598,9 +1530,7 @@ abstract class ilParticipants
 	 */
 	protected function readSubscribers()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->subscribers = array();
 
@@ -1628,9 +1558,7 @@ abstract class ilParticipants
 	 */
 	protected function readSubscriberData($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
@@ -1648,9 +1576,7 @@ abstract class ilParticipants
 
 	public static function lookupSubscribersData($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT * FROM il_subscribers '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -1675,9 +1601,7 @@ abstract class ilParticipants
 	 */
 	public static function _getAllSupportContactsOfUser($a_usr_id,$a_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// todo: join the two queries or alternatively reuse _getMembershipByType
 		// for the first part

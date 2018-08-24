@@ -68,28 +68,28 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 			include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatusConnector.php';
 			$enrolment_con = new ilECSEnrolmentStatusConnector($server);
 			$status = $enrolment_con->getEnrolmentStatus($a_content_id);
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($status,TRUE));
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$status->getPersonIdType());
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$status->getPersonId());
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($status,TRUE));
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$status->getPersonIdType());
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$status->getPersonId());
 			switch($status->getPersonIdType())
 			{
 				case ilECSEnrolmentStatus::ID_UID:
 					$id_arr = ilUtil::parseImportId($status->getPersonId());
-					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Handling status change to '.$status->getStatus().' for user '.$id_arr['id']);
+					$GLOBALS['ilLog']->write(__METHOD__.': Handling status change to '.$status->getStatus().' for user '.$id_arr['id']);
 					$this->doUpdate($id_arr['id'],$status);
 					break;
 					
 					
 					
 				default:
-					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': not implemented yes: person id type: '.$status->getPersonIdType());
+					$GLOBALS['ilLog']->write(__METHOD__.': not implemented yes: person id type: '.$status->getPersonIdType());
 					break;
 			}
 			
 		}
 		catch (ilECSConnectorException $e)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Enrolment status change failed with messsage: '.$e->getMessage());
+			$GLOBALS['ilLog']->write(__METHOD__.': Enrolment status change failed with messsage: '.$e->getMessage());
 		}
 		return TRUE;
 	}
@@ -144,7 +144,7 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 				break;
 				
 			case ilECSEnrolmentStatus::STATUS_ACTIVE:
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Add desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
+				$GLOBALS['ilLog']->write(__METHOD__.': Add desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
 				ilObjUser::_addDesktopItem($a_usr_id, $ref_id, ilObject::_lookupType($obj_id));
 				break;
 			
@@ -152,7 +152,7 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 			case ilECSEnrolmentStatus::STATUS_DENIED:
 			case ilECSEnrolmentStatus::STATUS_REJECTED:
 			case ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED:
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Remove desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
+				$GLOBALS['ilLog']->write(__METHOD__.': Remove desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
 				ilObjUser::_dropDesktopItem($a_usr_id, $ref_id, ilObject::_lookupType($obj_id));
 				break;
 		}

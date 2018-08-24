@@ -49,9 +49,7 @@ class ilLDAPRoleGroupMapping
 	 */
 	private function __construct()
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$this->log = $ilLog;
 		$this->initServers();
@@ -149,9 +147,7 @@ class ilLDAPRoleGroupMapping
 	 */
 	public function deleteRole($a_role_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		// return if there nothing to do
 		if(!$this->active_servers)
@@ -443,10 +439,7 @@ class ilLDAPRoleGroupMapping
 	 */
 	private function checkOtherMembership($a_usr_id,$a_role_id,$a_data)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview,$ilObjDataCache;
 		
 		foreach($this->mappings as $role_id => $tmp_data)
 		{

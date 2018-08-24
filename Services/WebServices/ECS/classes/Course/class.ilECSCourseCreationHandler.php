@@ -169,7 +169,7 @@ class ilECSCourseCreationHandler
 			$this->doSync(
 				$a_content_id, 
 				$course,
-				ilObject::_lookupObjId($GLOBALS['DIC']['tree']->getParentId($ref))
+				ilObject::_lookupObjId($GLOBALS['tree']->getParentId($ref))
 			);
 			return true;
 		}
@@ -252,7 +252,7 @@ class ilECSCourseCreationHandler
 		{
 			include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
 			$crsr = new ilObjCourseReference();
-			$crsr->setOwner(SYTEM_USER_ID);
+			$crsr->setOwner(6);
 			$crsr->setTargetRefId($ref_id);
 			$crsr->setTargetId(ilObject::_lookupObjId($ref_id));
 			$crsr->create();
@@ -275,12 +275,12 @@ class ilECSCourseCreationHandler
 	{
 		if(!is_array($course->allocations))
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': No allocation in course defined.');
+			$GLOBALS['ilLog']->write(__METHOD__.': No allocation in course defined.');
 			return 0;
 		}
 		if(!$course->allocations[0]->parentID)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': No allocation parent in course defined.');
+			$GLOBALS['ilLog']->write(__METHOD__.': No allocation parent in course defined.');
 			return 0;
 		}
 		$parent_id = $course->allocations[0]->parentID;
@@ -312,7 +312,7 @@ class ilECSCourseCreationHandler
 				$cms_id);
 		
 		// node is not imported
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': ecs node with id '. $cms_id. ' is not imported for mid ' . $this->getMid().' tree_id '.$tree_id);
+		$GLOBALS['ilLog']->write(__METHOD__.': ecs node with id '. $cms_id. ' is not imported for mid ' . $this->getMid().' tree_id '.$tree_id);
 		
 		// check for mapping: if mapping is available create category
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
@@ -324,7 +324,7 @@ class ilECSCourseCreationHandler
 		
 		if($ass->isMapped())
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': node is mapped');
+			$GLOBALS['ilLog']->write(__METHOD__.': node is mapped');
 			return $this->syncCategory($tobj_id,$ass->getRefId());
 		}
 		
@@ -359,17 +359,16 @@ class ilECSCourseCreationHandler
 		
 		include_once './Modules/Category/classes/class.ilObjCategory.php';
 		$cat = new ilObjCategory();
-		$cat->setOwner(SYSTEM_USER_ID);
 		$cat->setTitle($data->getTitle());
 		$cat->create(); // true for upload
 		$cat->createReference();
 		$cat->putInTree($parent_ref_id);
 		$cat->setPermissions($parent_ref_id);
-		$cat->deleteTranslation($GLOBALS['DIC']['lng']->getDefaultLanguage());
+		$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
 		$cat->addTranslation(
 				$data->getTitle(),
 				$cat->getLongDescription(),
-				$GLOBALS['DIC']['lng']->getDefaultLanguage(),
+				$GLOBALS['lng']->getDefaultLanguage(),
 				1
 		);
 			
@@ -509,7 +508,7 @@ class ilECSCourseCreationHandler
 		
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
-		$course_obj->setOwner(SYSTEM_USER_ID);
+		$course_obj->setOwner(6);
 		$title = $course->title;
 		if(strlen($group->title))
 		{
@@ -591,7 +590,6 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		$group_obj = new ilObjGroup();
-		$group_obj->setOwner(SYSTEM_USER_ID);
 		$title = strlen($group->title) ? $group->title : $course->title;
 		$group_obj->setTitle($title);
 		$group_obj->setMaxMembers((int) $group->maxParticipants);
@@ -629,7 +627,7 @@ class ilECSCourseCreationHandler
 				if($group_obj instanceof ilObjGroup)
 				{
 					$title = strlen($group->title) ? $group->title : $course->title;
-					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': New title is '. $title);
+					$GLOBALS['ilLog']->write(__METHOD__.': New title is '. $title);
 					$group_obj->setTitle($title);
 					$group_obj->setMaxMembers((int) $group->maxParticipants);
 					$group_obj->update();
@@ -669,13 +667,13 @@ class ilECSCourseCreationHandler
 		$crs_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
 		if(!$crs_obj instanceof ilObject)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Cannot instantiate course instance');
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot instantiate course instance');
 			return true;
 		}
 			
 		// Update title
 		$title = $course->title;
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': new title is : '. $title);
+		$GLOBALS['ilLog']->write(__METHOD__.': new title is : '. $title);
 			
 		$crs_obj->setTitle($title);
 		$crs_obj->update();
@@ -690,9 +688,9 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
-		$course_obj->setOwner(SYSTEM_USER_ID);
+		$course_obj->setOwner(6);
 		$title = $course->title;
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Creating new course instance from ecs : '. $title);
+		$GLOBALS['ilLog']->write(__METHOD__.': Creating new course instance from ecs : '. $title);
 		$course_obj->setTitle($title);
 		$course_obj->create();
 		return $course_obj;
@@ -771,15 +769,15 @@ class ilECSCourseCreationHandler
 	 */
 	protected function handleCourseUrlUpdate()
 	{
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Starting course url update');
+		$GLOBALS['ilLog']->write(__METHOD__.': Starting course url update');
 		if($this->isObjectCreated())
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Sending new course group url');
+			$GLOBALS['ilLog']->write(__METHOD__.': Sending new course group url');
 			$this->getCourseUrl()->send($this->getServer(), $this->getMid());
 		}
 		else
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': No courses groups created. Aborting');
+			$GLOBALS['ilLog']->write(__METHOD__.': No courses groups created. Aborting');
 		}
 	}
 }

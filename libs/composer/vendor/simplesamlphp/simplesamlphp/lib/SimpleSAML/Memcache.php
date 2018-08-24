@@ -28,14 +28,6 @@ class SimpleSAML_Memcache
     private static $serverGroups = null;
 
 
-  /**
-   * The flavor of memcache PHP extension we are using.
-   *
-   * @var string
-   */
-    private static $extension = '';
-
-
     /**
      * Find data stored with a given key.
      *
@@ -45,7 +37,7 @@ class SimpleSAML_Memcache
      */
     public static function get($key)
     {
-        SimpleSAML\Logger::debug("loading key $key from memcache");
+        SimpleSAML_Logger::debug("loading key $key from memcache");
 
         $latestInfo = null;
         $latestTime = 0.0;
@@ -76,19 +68,19 @@ class SimpleSAML_Memcache
              * - 'data': The data.
              */
             if (!is_array($info)) {
-                SimpleSAML\Logger::warning(
+                SimpleSAML_Logger::warning(
                     'Retrieved invalid data from a memcache server. Data was not an array.'
                 );
                 continue;
             }
             if (!array_key_exists('timestamp', $info)) {
-                SimpleSAML\Logger::warning(
+                SimpleSAML_Logger::warning(
                     'Retrieved invalid data from a memcache server. Missing timestamp.'
                 );
                 continue;
             }
             if (!array_key_exists('data', $info)) {
-                SimpleSAML\Logger::warning(
+                SimpleSAML_Logger::warning(
                     'Retrieved invalid data from a memcache server. Missing data.'
                 );
                 continue;
@@ -125,13 +117,13 @@ class SimpleSAML_Memcache
                 throw new SimpleSAML_Error_Exception('All memcache servers are down', 503, $e);
             }
             // we didn't find any data matching the key
-            SimpleSAML\Logger::debug("key $key not found in memcache");
+            SimpleSAML_Logger::debug("key $key not found in memcache");
             return null;
         }
 
         if ($mustUpdate) {
             // we found data matching the key, but some of the servers need updating
-            SimpleSAML\Logger::debug("Memcache servers out of sync for $key, forcing sync");
+            SimpleSAML_Logger::debug("Memcache servers out of sync for $key, forcing sync");
             self::set($key, $latestData);
         }
 
@@ -148,7 +140,7 @@ class SimpleSAML_Memcache
      */
     public static function set($key, $value, $expire = null)
     {
-        SimpleSAML\Logger::debug("saving key $key to memcache");
+        SimpleSAML_Logger::debug("saving key $key to memcache");
         $savedInfo = array(
             'timestamp' => microtime(true),
             'data'      => $value
@@ -162,12 +154,7 @@ class SimpleSAML_Memcache
 
         // store this object to all groups of memcache servers
         foreach (self::getMemcacheServers() as $server) {
-            if (self::$extension === 'memcached') {
-                $server->set($key, $savedInfoSerialized, $expire);
-            }
-            else {
-                $server->set($key, $savedInfoSerialized, 0, $expire);
-            }
+            $server->set($key, $savedInfoSerialized, 0, $expire);
         }
     }
 
@@ -180,7 +167,7 @@ class SimpleSAML_Memcache
     public static function delete($key)
     {
         assert('is_string($key)');
-        SimpleSAML\Logger::debug("deleting key $key from memcache");
+        SimpleSAML_Logger::debug("deleting key $key from memcache");
 
         // store this object to all groups of memcache servers
         foreach (self::getMemcacheServers() as $server) {
@@ -290,11 +277,7 @@ class SimpleSAML_Memcache
         }
 
         // add this server to the Memcache object
-        if (self::$extension === 'memcached') {
-            $memcache->addServer($hostname, $port);
-        } else {
-            $memcache->addServer($hostname, $port, true, $weight, $timeout, $timeout, true);
-        }
+        $memcache->addServer($hostname, $port, true, $weight, $timeout, $timeout, true);
     }
 
 
@@ -310,14 +293,12 @@ class SimpleSAML_Memcache
      */
     private static function loadMemcacheServerGroup(array $group)
     {
-        $class = class_exists('Memcache') ? 'Memcache' : (class_exists('Memcached') ? 'Memcached' : FALSE);
-        if (!$class) {
-            throw new Exception('Missing Memcached implementation. You must install either the Memcache or Memcached extension.');
+        if (!class_exists('Memcache')) {
+            throw new Exception('Missing Memcache class. Is the memcache extension installed?');
         }
-        self::$extension = strtolower($class);
 
         // create the Memcache object
-        $memcache = new $class();
+        $memcache = new Memcache();
 
         // iterate over all the servers in the group and add them to the Memcache object
         foreach ($group as $index => $server) {
@@ -457,7 +438,7 @@ class SimpleSAML_Memcache
         $ret = array();
 
         foreach (self::getMemcacheServers() as $sg) {
-            $stats = method_exists($sg, 'getExtendedStats') ? $sg->getExtendedStats() : $sg->getStats();
+            $stats = $sg->getExtendedStats();
             foreach ($stats as $server => $data) {
                 if ($data === false) {
                     throw new Exception('Failed to get memcache server status.');
@@ -484,7 +465,7 @@ class SimpleSAML_Memcache
         $ret = array();
 
         foreach (self::getMemcacheServers() as $sg) {
-            $stats = method_exists($sg, 'getExtendedStats') ? $sg->getExtendedStats() : $sg->getStats();
+            $stats = $sg->getExtendedStats();
             $ret[] = $stats;
         }
 

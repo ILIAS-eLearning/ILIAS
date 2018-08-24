@@ -1,13 +1,9 @@
 <?php
 
-namespace SAML2\Assertion\Validation;
-
-use SAML2\XML\saml\SubjectConfirmation;
-
-interface SubjectConfirmationConstraintValidator
+interface SAML2_Assertion_Validation_SubjectConfirmationConstraintValidator
 {
     public function validate(
-        SubjectConfirmation $subjectConfirmation,
-        Result $result
+        SAML2_XML_saml_SubjectConfirmation $subjectConfirmation,
+        SAML2_Assertion_Validation_Result $result
     );
 }

@@ -207,7 +207,7 @@ class ilAdministrationGUI
 				{
 					// check db update
 					include_once ("./Services/Database/classes/class.ilDBUpdate.php");
-					$dbupdate = new ilDBUpdate($ilDB);
+					$dbupdate = new ilDBUpdate($ilDB,true);
 					if (!$dbupdate->getDBVersionStatus())
 					{
 						ilUtil::sendFailure($this->lng->txt("db_need_update"));

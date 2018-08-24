@@ -174,9 +174,15 @@ class ilDclRecordListGUI {
 		
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
-		// bugfix mantis 0023295
-		$desc = $this->table_obj->getDescription();
+		if ($desc = $this->table_obj->getDescription()) {
+			$ilSetting = new ilSetting('advanced_editing');
+			if(!empty($ilSetting->get('advanced_editing_javascript_editor'))) {
+				$desc = "<div class='ilDclTableDescription'>".$desc."</div>";
+			} else {
+				$desc = "<div class='ilDclTableDescription'>".nl2br(ilUtil::stripSlashes($desc))."</div>";
+			}
 
+		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
 

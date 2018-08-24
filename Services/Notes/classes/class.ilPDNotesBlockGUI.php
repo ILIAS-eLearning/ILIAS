@@ -234,9 +234,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 				
 			// target objects
-			$note = new ilNote($a_set["id"]);
-			$this->tpl->setVariable("TARGET_OBJECTS",
-				$this->note_gui->renderTargets($note));
+			$this->note_gui->showTargets($this->tpl, $a_set["rep_obj_id"], $a_set["id"],
+				$a_set["obj_type"], $a_set["obj_id"]);
 
 			// edit button
 			$this->tpl->setCurrentBlock("edit_note");

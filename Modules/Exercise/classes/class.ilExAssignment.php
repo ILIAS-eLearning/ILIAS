@@ -1763,7 +1763,7 @@ class ilExAssignment
 		
 		$res = array();
 		
-		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
+		$set = $ilDB->query("SELECT id,fb_file FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
 			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
 			" AND time_stamp IS NOT NULL".
@@ -1772,9 +1772,7 @@ class ilExAssignment
 			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$max = max($row['time_stamp'], $row['deadline2']);
-
-			if(trim($row["fb_file"]) && $max <= time())
+			if(trim($row["fb_file"]))
 			{
 				$res[] = $row["id"];			
 			}

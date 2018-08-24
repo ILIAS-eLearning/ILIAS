@@ -1,16 +1,11 @@
 <?php
 
-namespace SAML2\XML\md;
-
-use SAML2\Constants;
-use SAML2\Utils;
-
 /**
  * Class representing SAML 2 Metadata AttributeConsumingService element.
  *
  * @package SimpleSAMLphp
  */
-class AttributeConsumingService
+class SAML2_XML_md_AttributeConsumingService
 {
     /**
      * The index of this AttributeConsumingService.
@@ -22,9 +17,9 @@ class AttributeConsumingService
     /**
      * Whether this is the default AttributeConsumingService.
      *
-     * @var bool|null
+     * @var bool|NULL
      */
-    public $isDefault = null;
+    public $isDefault = NULL;
 
     /**
      * The ServiceName of this AttributeConsumingService.
@@ -49,70 +44,70 @@ class AttributeConsumingService
      *
      * This is an array of SAML_RequestedAttributeType elements.
      *
-     * @var \SAML2\XML\md\RequestedAttribute[]
+     * @var SAML2_XML_md_RequestedAttribute[]
      */
     public $RequestedAttribute = array();
 
     /**
      * Initialize / parse an AttributeConsumingService.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
-     * @throws \Exception
+     * @param DOMElement|NULL $xml The XML element we should load.
+     * @throws Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         if (!$xml->hasAttribute('index')) {
-            throw new \Exception('Missing index on AttributeConsumingService.');
+            throw new Exception('Missing index on AttributeConsumingService.');
         }
         $this->index = (int) $xml->getAttribute('index');
 
-        $this->isDefault = Utils::parseBoolean($xml, 'isDefault', null);
+        $this->isDefault = SAML2_Utils::parseBoolean($xml, 'isDefault', NULL);
 
-        $this->ServiceName = Utils::extractLocalizedStrings($xml, Constants::NS_MD, 'ServiceName');
+        $this->ServiceName = SAML2_Utils::extractLocalizedStrings($xml, SAML2_Const::NS_MD, 'ServiceName');
         if (empty($this->ServiceName)) {
-            throw new \Exception('Missing ServiceName in AttributeConsumingService.');
+            throw new Exception('Missing ServiceName in AttributeConsumingService.');
         }
 
-        $this->ServiceDescription = Utils::extractLocalizedStrings($xml, Constants::NS_MD, 'ServiceDescription');
+        $this->ServiceDescription = SAML2_Utils::extractLocalizedStrings($xml, SAML2_Const::NS_MD, 'ServiceDescription');
 
-        foreach (Utils::xpQuery($xml, './saml_metadata:RequestedAttribute') as $ra) {
-            $this->RequestedAttribute[] = new RequestedAttribute($ra);
+        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:RequestedAttribute') as $ra) {
+            $this->RequestedAttribute[] = new SAML2_XML_md_RequestedAttribute($ra);
         }
     }
 
     /**
-     * Convert to \DOMElement.
+     * Convert to DOMElement.
      *
-     * @param \DOMElement $parent The element we should append this AttributeConsumingService to.
-     * @return \DOMElement
+     * @param DOMElement $parent The element we should append this AttributeConsumingService to.
+     * @return DOMElement
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent)
     {
-        assert(is_int($this->index));
-        assert(is_null($this->isDefault) || is_bool($this->isDefault));
-        assert(is_array($this->ServiceName));
-        assert(is_array($this->ServiceDescription));
-        assert(is_array($this->RequestedAttribute));
+        assert('is_int($this->index)');
+        assert('is_null($this->isDefault) || is_bool($this->isDefault)');
+        assert('is_array($this->ServiceName)');
+        assert('is_array($this->ServiceDescription)');
+        assert('is_array($this->RequestedAttribute)');
 
         $doc = $parent->ownerDocument;
 
-        $e = $doc->createElementNS(Constants::NS_MD, 'md:AttributeConsumingService');
+        $e = $doc->createElementNS(SAML2_Const::NS_MD, 'md:AttributeConsumingService');
         $parent->appendChild($e);
 
         $e->setAttribute('index', (string) $this->index);
 
-        if ($this->isDefault === true) {
+        if ($this->isDefault === TRUE) {
             $e->setAttribute('isDefault', 'true');
-        } elseif ($this->isDefault === false) {
+        } elseif ($this->isDefault === FALSE) {
             $e->setAttribute('isDefault', 'false');
         }
 
-        Utils::addStrings($e, Constants::NS_MD, 'md:ServiceName', true, $this->ServiceName);
-        Utils::addStrings($e, Constants::NS_MD, 'md:ServiceDescription', true, $this->ServiceDescription);
+        SAML2_Utils::addStrings($e, SAML2_Const::NS_MD, 'md:ServiceName', TRUE, $this->ServiceName);
+        SAML2_Utils::addStrings($e, SAML2_Const::NS_MD, 'md:ServiceDescription', TRUE, $this->ServiceDescription);
 
         foreach ($this->RequestedAttribute as $ra) {
             $ra->toXML($e);
@@ -120,4 +115,5 @@ class AttributeConsumingService
 
         return $e;
     }
+
 }

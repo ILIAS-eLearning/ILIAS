@@ -343,24 +343,15 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			{
 				$this->saveSortingSettings($form);
 
-				if ($ilSetting->get('custom_icons')) {
-					global $DIC;
-					/** @var \ilObjectCustomIconFactory $customIconFactory */
-					$customIconFactory = $DIC['object.customicons.factory'];
-					$customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
-
-					/** @var \ilImageFileInputGUI $item */
-					$fileData = (array)$form->getInput('cont_icon');
-					$item = $form->getItemByPostVar('cont_icon');
-
-					if ($item->getDeletionFlag()) {
-						$customIcon->remove();
+				// save custom icons
+				//save custom icons
+				if ($ilSetting->get("custom_icons"))
+				{
+					if($_POST["cont_icon_delete"])
+					{
+						$this->object->removeCustomIcon();
 					}
-
-					if ($fileData['tmp_name']) {
-						$customIcon->saveFromHttpRequest();
-					}
-					// cognos-blu-patch: end
+					$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
 				}
 
 				// hide icon/title

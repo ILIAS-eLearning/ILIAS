@@ -47,11 +47,7 @@ class ilSessionOverviewGUI
 	 */
 	public function __construct($a_crs_ref_id, ilParticipants $a_members)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $tpl, $ilCtrl, $lng;
 		
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -96,10 +92,7 @@ class ilSessionOverviewGUI
 	 */
 	public function listSessions()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilErr = $DIC['ilErr'];
+		global $ilToolbar,$ilErr;
 
 		if(!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members',$this->course_ref_id))
 		{
@@ -132,10 +125,7 @@ class ilSessionOverviewGUI
 	 */
 	public function exportCSV()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilAccess = $DIC['ilAccess'];
+		global $tree,$ilAccess;
 		
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';

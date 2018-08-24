@@ -24,7 +24,7 @@ if (array_key_exists('pageid', $this->data)) {
 		'page' => $this->data['pageid']
 	);
 		
-	SimpleSAML\Module::callHooks('htmlinject', $hookinfo);
+	SimpleSAML_Module::callHooks('htmlinject', $hookinfo);	
 }
 // - o - o - o - o - o - o - o - o - o - o - o - o -
 
@@ -43,7 +43,7 @@ header('X-Frame-Options: SAMEORIGIN');
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 <script type="text/javascript" src="/<?php echo $this->data['baseurlpath']; ?>resources/script.js"></script>
 <title><?php
 if(array_key_exists('header', $this->data)) {
@@ -125,7 +125,7 @@ if($onLoad !== '') {
 <div id="wrap">
 	
 	<div id="header">
-		<h1><a href="/<?php echo $this->data['baseurlpath']; ?>"><?php
+		<h1><a style="text-decoration: none; color: white" href="/<?php echo $this->data['baseurlpath']; ?>"><?php 
 			echo (isset($this->data['header']) ? $this->data['header'] : 'SimpleSAMLphp');
 		?></a></h1>
 	</div>
@@ -148,6 +148,7 @@ if($onLoad !== '') {
 						'no' => 'Bokmål', // Norwegian Bokmål
 						'nn' => 'Nynorsk', // Norwegian Nynorsk
 						'se' => 'Sámegiella', // Northern Sami
+						'sam' => 'Åarjelh-saemien giele', // Southern Sami
 						'da' => 'Dansk', // Danish
 						'en' => 'English',
 						'de' => 'Deutsch', // German
@@ -174,13 +175,14 @@ if($onLoad !== '') {
 						'zh' => '简体中文', // Chinese (simplified)
 						'zh-tw' => '繁體中文', // Chinese (traditional)
 						'ar' => 'العربية', // Arabic
+						'fa' => 'پارسی', // Persian
+						'ur' => 'اردو', // Urdu
 						'he' => 'עִבְרִית', // Hebrew
 						'id' => 'Bahasa Indonesia', // Indonesian
 						'sr' => 'Srpski', // Serbian
 						'lv' => 'Latviešu', // Latvian
 						'ro' => 'Românește', // Romanian
 						'eu' => 'Euskara', // Basque
-						'af' => 'Afrikaans', // Afrikaans
 			);
 			
 			$textarray = array();
@@ -189,7 +191,7 @@ if($onLoad !== '') {
 				if ($current) {
 					$textarray[] = $langnames[$lang];
 				} else {
-					$textarray[] = '<a href="' . htmlspecialchars(\SimpleSAML\Utils\HTTP::addURLParameters(\SimpleSAML\Utils\HTTP::getSelfURL(), array($this->getTranslator()->getLanguage()->getLanguageParameterName() => $lang))) . '">' .
+					$textarray[] = '<a href="' . htmlspecialchars(\SimpleSAML\Utils\HTTP::addURLParameters(\SimpleSAML\Utils\HTTP::getSelfURL(), array($this->languageParameterName => $lang))) . '">' .
 						$langnames[$lang] . '</a>';
 				}
 			}

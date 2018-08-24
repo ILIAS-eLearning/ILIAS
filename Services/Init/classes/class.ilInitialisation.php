@@ -323,7 +323,7 @@ class ilInitialisation
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			if (count($dirs) > 0)
+			foreach($dirs as $dir)
 			{
 				$uri = dirname($uri);
 			}
@@ -592,18 +592,14 @@ class ilInitialisation
 	{
 		global $ilSetting;
 
-		if (!defined('IL_COOKIE_SECURE')) {
-			// If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
-			// \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
+		// TODO: Has to be revised/moved
+		include_once './Services/Http/classes/class.ilHTTPS.php';
+		$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
-			include_once './Services/Http/classes/class.ilHTTPS.php';
-			$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
-			define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
-
-			session_set_cookie_params(
-				IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-			);
-		}
+		session_set_cookie_params(
+			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+		);
 	}
 
 	/**
@@ -618,17 +614,6 @@ class ilInitialisation
 		$c["mail.mime.sender.factory"] = function ($c) {
 			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
 			return new ilMailMimeSenderFactory($c["ilSetting"]);
-		};
-	}
-
-	/**
-	 * @param \ILIAS\DI\Container $c
-	 */
-	protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
-	{
-		$c["object.customicons.factory"] = function ($c) {
-			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
-			return new ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
 		};
 	}
 
@@ -865,29 +850,15 @@ class ilInitialisation
 	/**
 	 * $lng initialisation
 	 */
-	protected static function initLanguage($a_use_user_language = true)
+	protected static function initLanguage()
 	{
-		global $DIC;
-
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
 		global $rbacsystem;
 
 		require_once 'Services/Language/classes/class.ilLanguage.php';
-
-		if($a_use_user_language)
-		{
-			if($DIC->offsetExists('lng'))
-			{
-				$DIC->offsetUnset('lng');
-			}
-			self::initGlobal('lng', ilLanguage::getGlobalInstance());
-		}
-		else
-		{
-			self::initGlobal('lng', ilLanguage::getFallbackInstance());
-		}
+		self::initGlobal('lng', ilLanguage::getGlobalInstance());
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -1053,7 +1024,7 @@ class ilInitialisation
 			self::includePhp5Compliance();
 			
 			// language may depend on user setting
-			self::initLanguage(true);
+			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
 
 			self::initInjector($GLOBALS['DIC']);
@@ -1166,9 +1137,6 @@ class ilInitialisation
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
-
-		// init dafault language
-		self::initLanguage(false);
 		
 		// moved after databases 
 		self::initLog();		
@@ -1192,7 +1160,6 @@ class ilInitialisation
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
-		self::initCustomObjectIcons($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1255,9 +1222,8 @@ class ilInitialisation
 	public static function resumeUserSession()
 	{
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-		if(ilAuthUtils::isAuthenticationForced())
+		if(ilAuthUtils::handleForcedAuthentication())
 		{
-			ilAuthUtils::handleForcedAuthentication();
 		}
 		
 		if(
@@ -1412,108 +1378,8 @@ class ilInitialisation
 	 */
 	protected static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
-			return new ILIAS\UI\Implementation\Factory(
-				$c["ui.factory.counter"],
-				$c["ui.factory.glyph"],
-				$c["ui.factory.button"],
-				$c["ui.factory.listing"],
-				$c["ui.factory.image"],
-				$c["ui.factory.panel"],
-				$c["ui.factory.modal"],
-				$c["ui.factory.dropzone"],
-				$c["ui.factory.popover"],
-				$c["ui.factory.divider"],
-				$c["ui.factory.link"],
-				$c["ui.factory.dropdown"],
-				$c["ui.factory.item"],
-				$c["ui.factory.icon"],
-				$c["ui.factory.viewcontrol"],
-				$c["ui.factory.chart"],
-				$c["ui.factory.input"],
-				$c["ui.factory.table"],
-				$c["ui.factory.messagebox"]
-			);
+			return new ILIAS\UI\Implementation\Factory();
 		};
-		$c["ui.signal_generator"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\SignalGenerator;
-		};
-		$c["ui.factory.counter"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Counter\Factory();
-		};
-		$c["ui.factory.glyph"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Glyph\Factory();
-		};
-		$c["ui.factory.button"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Button\Factory();
-		};
-		$c["ui.factory.listing"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Listing\Factory();
-		};
-		$c["ui.factory.image"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Image\Factory();
-		};
-		$c["ui.factory.panel"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Panel\Factory($c["ui.factory.panel.listing"]);
-		};
-		$c["ui.factory.modal"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Modal\Factory($c["ui.signal_generator"]);
-		};
-		$c["ui.factory.dropzone"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Dropzone\Factory($c["ui.factory.dropzone.file"]);
-		};
-		$c["ui.factory.popover"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Popover\Factory($c["ui.signal_generator"]);
-		};
-		$c["ui.factory.divider"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Divider\Factory();
-		};
-		$c["ui.factory.link"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Link\Factory();
-		};
-		$c["ui.factory.dropdown"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Dropdown\Factory();
-		};
-		$c["ui.factory.item"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Item\Factory();
-		};
-		$c["ui.factory.icon"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Icon\Factory();
-		};
-		$c["ui.factory.viewcontrol"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
-		};
-		$c["ui.factory.chart"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
-		};
-		$c["ui.factory.input"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Factory(
-				$c["ui.signal_generator"],
-				$c["ui.factory.input.field"],
-				$c["ui.factory.input.container"]
-			);
-		};
-		$c["ui.factory.table"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
-		};
-		$c["ui.factory.messagebox"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
-		};
-		$c["ui.factory.progressmeter"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
-		};
-		$c["ui.factory.dropzone.file"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
-		};
-		$c["ui.factory.input.field"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
-		};
-		$c["ui.factory.input.container"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
-		};
-		$c["ui.factory.panel.listing"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
-		};
-
 		$c["ui.renderer"] = function($c) {
 			return new ILIAS\UI\Implementation\DefaultRenderer
 				( $c["ui.component_renderer_loader"]
@@ -1525,12 +1391,6 @@ class ilInitialisation
 					( $c["ui.resource_registry"]
 					, new ILIAS\UI\Implementation\Render\FSLoader
 						( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-							($c["ui.factory"]
-							, $c["ui.template_factory"]
-							, $c["lng"]
-							, $c["ui.javascript_binding"]
-							),
-						  new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]
@@ -1740,7 +1600,7 @@ class ilInitialisation
 			if(
 				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
 			)
 			{
 				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);

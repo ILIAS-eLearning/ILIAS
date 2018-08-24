@@ -43,9 +43,7 @@ class ilCalendarRecurrences
 	 */
 	public static function _getRecurrences($a_cal_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT rule_id FROM cal_recurrence_rules ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";

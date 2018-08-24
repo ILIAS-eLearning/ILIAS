@@ -37,12 +37,7 @@ class ilLDAPSettingsGUI
 	
 	public function __construct($a_auth_ref_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $lng,$ilCtrl,$tpl,$ilTabs;
 		
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
@@ -65,12 +60,7 @@ class ilLDAPSettingsGUI
 	
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilias = $DIC['ilias'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilAccess,$ilias, $ilErr, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -112,9 +102,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function roleAssignments()
 	{
-	 	global $DIC;
-
-	 	$rbacreview = $DIC['rbacreview'];
+	 	global $rbacreview;
 
 	 	$this->setSubTabs();
 		$this->tabs_gui->setTabActive('role_assignments');
@@ -171,9 +159,7 @@ class ilLDAPSettingsGUI
 	 */
 	protected function setValuesByArray()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$role_id = $this->role_mapping_rule->getRoleId();
 		if($rbacreview->isGlobalRole($role_id))
@@ -207,10 +193,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function updateRoleAssignment()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -320,10 +303,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function addRoleAssignment()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -434,10 +414,7 @@ class ilLDAPSettingsGUI
 	 */
 	protected function saveRoleSelection()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -478,9 +455,7 @@ class ilLDAPSettingsGUI
 	 */
 	protected function checkRoleAssignmentInput($a_rule_id = 0)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		$this->loadRoleAssignmentRule($a_rule_id);
 		$this->rule->validate();
@@ -653,11 +628,7 @@ class ilLDAPSettingsGUI
 	
 	public function serverList()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilAccess, $ilErr, $ilToolbar;
 		
 		if(!$ilAccess->checkAccess('read','',$this->ref_id) && $cmd != "serverList")
 		{
@@ -926,9 +897,7 @@ class ilLDAPSettingsGUI
 	 */
 	function save()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		$this->setSubTabs();
 		$this->tabs_gui->setTabActive('settings');
@@ -1081,10 +1050,7 @@ class ilLDAPSettingsGUI
 	 */
 	private function prepareGlobalRoleSelection($a_as_select = true)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview,$ilObjDataCache;
 		
 		$global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(),
 			'object_data',
@@ -1108,10 +1074,7 @@ class ilLDAPSettingsGUI
 	 */
 	private function prepareRoleSelect($a_as_select = true)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview,$ilObjDataCache;
 		
 		include_once('./Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
 
@@ -1336,9 +1299,7 @@ class ilLDAPSettingsGUI
 	 */
 	private function hasActiveRoleAssignmentPlugins()
 	{
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		
 		return count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,'LDAP','ldaphk')) ? true : false;
 	}
@@ -1362,9 +1323,7 @@ class ilLDAPSettingsGUI
 	 */
 	private function userMappingToolbar()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		
 		$select_form = new ilSelectInputGUI("mapping_template");
@@ -1437,9 +1396,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function roleMapping()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		$this->setSubTabs();
 		$this->tabs_gui->setTabActive('role_mapping');
 		$ilToolbar->addButton($this->lng->txt("ldap_new_role_assignment") ,
@@ -1520,9 +1477,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function createRoleMapping()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		$propertie_form = $this->initRoleMappingForm("createRoleMapping");
 		
 		if($propertie_form->checkInput() && $rbacreview->roleExists($propertie_form->getInput("role"))) 
@@ -1810,9 +1765,7 @@ class ilLDAPSettingsGUI
 	 */
 	public function updateRoleMapping()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		$propertie_form = $this->initRoleMappingForm("updateRoleMapping");
 		
 		if($propertie_form->checkInput() && $rbacreview->roleExists($propertie_form->getInput("role"))) 

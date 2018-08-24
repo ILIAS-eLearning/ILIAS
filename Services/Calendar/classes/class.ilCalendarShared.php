@@ -52,9 +52,7 @@ class ilCalendarShared
 	 */
 	public function __construct($a_calendar_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->calendar_id = $a_calendar_id;
 		$this->db = $ilDB;
@@ -71,9 +69,7 @@ class ilCalendarShared
 	 */
 	public static function deleteByCalendar($a_cal_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM cal_shared WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
@@ -90,9 +86,7 @@ class ilCalendarShared
 	 */
 	public static function deleteByUser($a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM cal_shared WHERE obj_id = ".$ilDB->quote($a_user_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
@@ -112,10 +106,7 @@ class ilCalendarShared
 	 */
 	public static function isSharedWithUser($a_usr_id,$a_calendar_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilDB,$rbacreview;
 		
 		$query = 'SELECT * FROM cal_shared '.
 			"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
@@ -156,11 +147,7 @@ class ilCalendarShared
 	 */
 	public static function getSharedCalendarsForUser($a_usr_id  = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilDB,$ilUser,$rbacreview;
 		
 		if(!$a_usr_id)
 		{
@@ -276,6 +263,8 @@ class ilCalendarShared
 	{
 		foreach((array) $this->shared as $info)
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Calendar info:' . print_r($info,true));
+			$GLOBALS['ilLog']->write(__METHOD__.': Current user:' . $a_user_id);
 			if(!$info['writable'])
 			{
 				continue;
@@ -286,18 +275,21 @@ class ilCalendarShared
 				case self::TYPE_USR:
 					if($info['obj_id'] == $a_user_id)
 					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is writable.');
 						return true;
 					}
 					break;
 					
 				case self::TYPE_ROLE:
-					if($GLOBALS['DIC']['rbacreview']->isAssigned($a_user_id,$info['obj_id']))
+					if($GLOBALS['rbacreview']->isAssigned($a_user_id,$info['obj_id']))
 					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is writable.');
 						return true;
 					}
 					break;
 			}
 		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is not writable.');
 		return false;
 	}
 	
@@ -311,9 +303,7 @@ class ilCalendarShared
 	 */
 	public function share($a_obj_id,$a_type, $a_writable = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->isShared($a_obj_id))
 		{
@@ -343,9 +333,7 @@ class ilCalendarShared
 	 */
 	public function stopSharing($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->isShared($a_obj_id))
 		{
@@ -371,9 +359,7 @@ class ilCalendarShared
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->shared = $this->shared_users = $this->shared_roles = array();
 		

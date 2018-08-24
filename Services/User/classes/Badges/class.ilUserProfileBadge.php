@@ -21,9 +21,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function getCaption()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		return $lng->txt("badge_user_profile");
 	}
 	
@@ -45,9 +43,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function evaluate($a_user_id, array $a_params, array $a_config)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$user = new ilObjUser($a_user_id);
 		

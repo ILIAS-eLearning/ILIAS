@@ -133,9 +133,7 @@ abstract class ilADTBasedObject
 	 */
 	protected function initActiveRecordInstance()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->hasPrimary())
 		{
@@ -263,9 +261,7 @@ abstract class ilADTBasedObject
 	 */
 	public function translateDBErrorCodes(array $a_codes)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$res = array();
 	

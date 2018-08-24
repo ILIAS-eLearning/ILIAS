@@ -50,9 +50,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->tabs_gui = $ilTabs;
 		parent::__construct();
@@ -66,10 +64,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilBench, $ilCtrl;
 		
 		$ilBench->start('Lucene','0900_executeCommand');
 		$next_class = $this->ctrl->getNextClass($this);
@@ -177,10 +172,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function showSavedResults()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilBench = $DIC['ilBench'];
+		global $ilUser,$ilBench;
 		
 		if(!strlen($this->search_cache->getQuery()))
 		{
@@ -257,10 +249,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function performSearch()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilBench = $DIC['ilBench'];
+		global $ilUser,$ilBench;
 		
 		unset($_SESSION['vis_references']);
 
@@ -382,9 +371,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		global $DIC;
-
-		$ilHelp = $DIC['ilHelp'];
+		global $ilHelp;
 
 		$ilHelp->setScreenIdComponent("src_luc");
 
@@ -412,9 +399,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initUserSearchCache()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
@@ -472,9 +457,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	*/
 	protected function fillAdminPanel()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
@@ -574,10 +557,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function showSearchForm()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 

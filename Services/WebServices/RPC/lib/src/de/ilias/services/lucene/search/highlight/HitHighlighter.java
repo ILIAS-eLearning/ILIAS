@@ -46,8 +46,6 @@ import de.ilias.services.lucene.search.SearchHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 /**
  * 
@@ -94,7 +92,7 @@ public class HitHighlighter {
 	 * @throws CorruptIndexException 
 	 * 
 	 */
-	public void highlight() throws CorruptIndexException, IOException, InvalidTokenOffsetsException {
+	public void highlight() throws CorruptIndexException, IOException {
 
 		result = new HighlightHits();
 		HighlightObject resObject;
@@ -174,7 +172,7 @@ public class HitHighlighter {
 					continue;
 				}
 				
-				IndexableField[] separatedFields = hitDoc.getFields(fields[j]);
+				Field[] separatedFields = hitDoc.getFields(fields[j]);
 				for(int k = 0; k < separatedFields.length; k++) {
 					allContent.append(separatedFields[k].stringValue());
 					allContent.append(" ");

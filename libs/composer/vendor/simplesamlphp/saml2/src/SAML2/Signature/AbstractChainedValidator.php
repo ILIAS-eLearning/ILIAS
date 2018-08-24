@@ -1,19 +1,13 @@
 <?php
 
-namespace SAML2\Signature;
-
-use Psr\Log\LoggerInterface;
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-use SAML2\SignedElement;
-
-abstract class AbstractChainedValidator implements ChainedValidator
+abstract class SAML2_Signature_AbstractChainedValidator implements SAML2_Signature_ChainedValidator
 {
     /**
      * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(\Psr\Log\LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
@@ -21,16 +15,16 @@ abstract class AbstractChainedValidator implements ChainedValidator
     /**
      * BC compatible version of the signature check
      *
-     * @param \SAML2\SignedElement      $element
-     * @param \SAML2\Certificate\X509[] $pemCandidates
+     * @param SAML2_SignedElement      $element
+     * @param SAML2_Certificate_X509[] $pemCandidates
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return bool
      */
-    protected function validateElementWithKeys(SignedElement $element, $pemCandidates)
+    protected function validateElementWithKeys(SAML2_SignedElement $element, $pemCandidates)
     {
-        $lastException = null;
+        $lastException = NULL;
         foreach ($pemCandidates as $index => $candidateKey) {
             $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, array('type' => 'public'));
             $key->loadKey($candidateKey->getCertificate());
@@ -42,10 +36,10 @@ abstract class AbstractChainedValidator implements ChainedValidator
                 $result = $element->validate($key);
                 if ($result) {
                     $this->logger->debug(sprintf('Validation with key "#%d" succeeded', $index));
-                    return true;
+                    return TRUE;
                 }
                 $this->logger->debug(sprintf('Validation with key "#%d" failed without exception.', $index));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->debug(sprintf(
                     'Validation with key "#%d" failed with exception: %s',
                     $index,
@@ -56,10 +50,10 @@ abstract class AbstractChainedValidator implements ChainedValidator
             }
         }
 
-        if ($lastException !== null) {
+        if ($lastException !== NULL) {
             throw $lastException;
         } else {
-            return false;
+            return FALSE;
         }
     }
 }

@@ -21,21 +21,17 @@ class ilSCCronTrash extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 			
-		$GLOBALS['DIC']['lng']->loadLanguageModule('sysc');
+		$GLOBALS['lng']->loadLanguageModule('sysc');
 		return $lng->txt('sysc_cron_empty_trash');
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 			
-		$GLOBALS['DIC']['lng']->loadLanguageModule('sysc');
+		$GLOBALS['lng']->loadLanguageModule('sysc');
 		return $lng->txt('sysc_cron_empty_trash_desc');
 	}
 	
@@ -90,9 +86,7 @@ class ilSCCronTrash extends ilCronJob
 	 */
     public function addCustomSettingsToForm(ilPropertyFormGUI $form)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('sysc');
 		
@@ -122,13 +116,13 @@ class ilSCCronTrash extends ilCronJob
 		
 		// limit types
 		$types = new ilSelectInputGUI($lng->txt('sysc_trash_limit_type'), 'types');
-		$sub_objects = $GLOBALS['DIC']['tree']->lookupTrashedObjectTypes();
+		$sub_objects = $GLOBALS['tree']->lookupTrashedObjectTypes();
 		
 		$options = array();
 		$options[0] = '';
 		foreach($sub_objects as $obj_type)
 		{
-			if(!$GLOBALS['DIC']['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['DIC']['objDefinition']->isAllowedInRepository($obj_type))
+			if(!$GLOBALS['objDefinition']->isRBACObject($obj_type) or !$GLOBALS['objDefinition']->isAllowedInRepository($obj_type))
 			{
 				continue;
 			}

@@ -174,7 +174,7 @@ class ilSoapMailXmlParser extends ilSaxParser
 		if($a_attribs['obj_id'])
 		{
 			$il_id = explode('_',$a_attribs['obj_id']);
-			$GLOBALS['DIC']['ilLog']->write('il ID:'.print_r($il_id,true));
+			$GLOBALS['ilLog']->write('il ID:'.print_r($il_id,true));
 			if(!$user = ilObjectFactory::getInstanceByObjId($il_id[3],false))
 			{
 				throw new InvalidArgumentException("Invalid user id given: obj_id => ".$a_attribs['obj_id']);

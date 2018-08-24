@@ -286,7 +286,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput(array());
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -455,11 +455,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$selection = $this->object->getBestSelection(false);
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_keys($selection)) )
 		{
 			return '';
 		}
@@ -502,7 +502,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				if ( preg_match('/'.preg_quote($ans->text_wrong, '/').'/', $element) )
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), 0, $idx
+							$this->object->getId(), $idx
 					);
 					
 					$feedback .= '<td>'. $fb . '</td>';

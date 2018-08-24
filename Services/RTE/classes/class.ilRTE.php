@@ -251,7 +251,8 @@ class ilRTE
 				{
 					foreach($matches[2] as $idx => $mob)
 					{
-						if(ilObject::_lookupType($mob) == "mob")
+
+						if(ilObjMediaObject::_exists($mob))
 						{
 							$mob_obj    = new ilObjMediaObject($mob);
 							$replace    = "il_" . $matches[1][$idx] . "_mob_" . $mob;

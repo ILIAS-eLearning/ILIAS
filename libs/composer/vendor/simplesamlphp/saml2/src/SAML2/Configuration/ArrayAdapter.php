@@ -1,11 +1,9 @@
 <?php
 
-namespace SAML2\Configuration;
-
 /**
  * Default implementation for configuration
  */
-class ArrayAdapter implements Queryable
+class SAML2_Configuration_ArrayAdapter implements SAML2_Configuration_Queryable
 {
     /**
      * @var array
@@ -20,7 +18,7 @@ class ArrayAdapter implements Queryable
         $this->configuration = $configuration;
     }
 
-    public function get($key, $defaultValue = null)
+    public function get($key, $defaultValue = NULL)
     {
         if (!$this->has($key)) {
             return $defaultValue;

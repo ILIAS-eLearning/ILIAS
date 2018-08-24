@@ -1,55 +1,47 @@
 <?php
 
-namespace SAML2\Assertion\Validation;
-
-use SAML2\Configuration\IdentityProvider;
-use SAML2\Configuration\IdentityProviderAware;
-use SAML2\Configuration\ServiceProvider;
-use SAML2\Configuration\ServiceProviderAware;
-use SAML2\XML\saml\SubjectConfirmation;
-
-class SubjectConfirmationValidator
+class SAML2_Assertion_Validation_SubjectConfirmationValidator
 {
     /**
-     * @var \SAML2\Assertion\Validation\SubjectConfirmationConstraintValidator[]
+     * @var SAML2_Assertion_Validation_SubjectConfirmationConstraintValidator[]
      */
     protected $constraints;
 
     /**
-     * @var \SAML2\Configuration\IdentityProvider
+     * @var SAML2_Configuration_IdentityProvider
      */
     protected $identityProvider;
 
     /**
-     * @var \SAML2\Configuration\ServiceProvider
+     * @var SAML2_Configuration_ServiceProvider
      */
     protected $serviceProvider;
 
     public function __construct(
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider
     ) {
         $this->identityProvider = $identityProvider;
         $this->serviceProvider = $serviceProvider;
     }
 
     public function addConstraintValidator(
-        SubjectConfirmationConstraintValidator $constraint
+        SAML2_Assertion_Validation_SubjectConfirmationConstraintValidator $constraint
     ) {
-        if ($constraint instanceof IdentityProviderAware) {
+        if ($constraint instanceof SAML2_Configuration_IdentityProviderAware) {
             $constraint->setIdentityProvider($this->identityProvider);
         }
 
-        if ($constraint instanceof ServiceProviderAware) {
+        if ($constraint instanceof SAML2_Configuration_ServiceProviderAware) {
             $constraint->setServiceProvider($this->serviceProvider);
         }
 
         $this->constraints[] = $constraint;
     }
 
-    public function validate(SubjectConfirmation $subjectConfirmation)
+    public function validate(SAML2_XML_saml_SubjectConfirmation $subjectConfirmation)
     {
-        $result = new Result();
+        $result = new SAML2_Assertion_Validation_Result();
         foreach ($this->constraints as $validator) {
             $validator->validate($subjectConfirmation, $result);
         }

@@ -1,15 +1,10 @@
 <?php
 
-namespace SAML2\Certificate;
-
-use SAML2\Certificate\Exception\InvalidKeyUsageException;
-use SAML2\Exception\InvalidArgumentException;
-
 /**
  * Simple DTO wrapper for (X509) keys. Implements ArrayAccess
  * for easier backwards compatibility.
  */
-class Key implements \ArrayAccess
+class SAML2_Certificate_Key implements ArrayAccess
 {
     // Possible key usages
     const USAGE_SIGNING = 'signing';
@@ -40,7 +35,7 @@ class Key implements \ArrayAccess
     public function canBeUsedFor($usage)
     {
         if (!in_array($usage, static::getValidKeyUsages())) {
-            throw new InvalidKeyUsageException($usage);
+            throw new SAML2_Certificate_Exception_InvalidKeyUsageException($usage);
         }
 
         return isset($this->keyData[$usage]) && $this->keyData[$usage];
@@ -88,12 +83,12 @@ class Key implements \ArrayAccess
      * Asserts that the parameter is of type string
      * @param mixed $test
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function assertIsString($test)
     {
         if (!is_string($test)) {
-            throw InvalidArgumentException::invalidType('string', $test);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $test);
         }
     }
 }

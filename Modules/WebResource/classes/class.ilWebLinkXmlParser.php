@@ -116,9 +116,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 	*/
 	public function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 
 		if($this->in_metadata)
 		{
@@ -236,14 +234,17 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				switch($a_attribs['type'])
 				{
 					case 'userName':
+#						$GLOBALS['ilLog']->write("VALUE: ".LINKS_LOGIN);
 						$param->setValue(LINKS_LOGIN);
 						break;
 						
 					case 'userId':
+#						$GLOBALS['ilLog']->write("VALUE: ".LINKS_USER_ID);
 						$param->setValue(LINKS_USER_ID);
 						break;
 					
 					case 'matriculation':
+#						$GLOBALS['ilLog']->write("VALUE: ".LINKS_MATRICULATION);
 						$param->setValue(LINKS_MATRICULATION);
 						break;
 						
@@ -272,6 +273,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 			parent::handlerEndTag($a_xml_parser,$a_name);
 		}
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': Called '.$a_name);
 
 		switch($a_name)
 		{

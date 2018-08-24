@@ -50,11 +50,9 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function __construct($a_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$this->log = $DIC->logger()->cal();
+		global $ilDB,$ilLog;
 		
+		$this->log = $ilLog;
 		$this->db = $ilDB;
 		
 		if($this->entry_id = $a_id)
@@ -80,9 +78,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public static function _delete($a_entry_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		ilCalendarRecurrence::_delete($a_entry_id);
@@ -205,9 +201,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function getPresentationTitle($a_shorten = true)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if($this->getTranslationType() == IL_CAL_TRANSLATION_NONE)
 		{
@@ -249,9 +243,7 @@ class ilCalendarEntry implements ilDatePeriod
 	
 	protected function parseDynamicTitle($a_type)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$title = $style = "";
 		switch($a_type)
@@ -561,9 +553,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function update()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$now = new ilDateTime(time(),IL_CAL_UNIX);
 	 	$utc_timestamp = $now->get(IL_CAL_DATETIME,'',ilTimeZone::UTC);
@@ -599,9 +589,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function save()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$next_id = $ilDB->nextId('cal_entries');
 	 	$now = new ilDateTime(time(),IL_CAL_UNIX);
@@ -641,9 +629,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		ilCalendarRecurrence::_delete($this->getEntryId());
@@ -666,10 +652,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function validate()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$lng = $DIC['lng'];
+		global $ilErr,$lng;
 		
 		$success = true;
 		$ilErr->setMessage('');
@@ -699,9 +682,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	protected function read()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM cal_entries WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
 	 	$res = $this->db->query($query);
@@ -768,9 +749,7 @@ class ilCalendarEntry implements ilDatePeriod
 	*/
 	function writeResponsibleUsers($a_users)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulateF("DELETE FROM cal_entry_responsible WHERE cal_id = %s",
 			array("integer"), array($this->getEntryId()));
@@ -793,9 +772,7 @@ class ilCalendarEntry implements ilDatePeriod
 	*/
 	function readResponsibleUsers()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->queryF("SELECT * FROM cal_entry_responsible WHERE cal_id = %s",
 			array("integer"), array($this->getEntryId()));

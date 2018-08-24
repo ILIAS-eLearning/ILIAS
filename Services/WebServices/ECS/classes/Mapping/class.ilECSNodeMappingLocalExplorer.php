@@ -26,9 +26,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
 	public function __construct($a_target, $a_sid, $a_mid)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		parent::__construct($a_target);
 		
@@ -136,9 +134,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
 	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -258,11 +254,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilias = $DIC['ilias'];
-		$tree = $DIC['tree'];
+		global $lng, $ilias, $tree;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
@@ -334,7 +326,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 		
 		foreach($mappings as $ref_id => $tmp)
 		{
-			$this->mappings[$ref_id] = $GLOBALS['DIC']['tree']->getPathId($ref_id,1);
+			$this->mappings[$ref_id] = $GLOBALS['tree']->getPathId($ref_id,1);
 		}
 		return true;
 	}

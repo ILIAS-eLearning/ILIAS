@@ -1275,23 +1275,17 @@ class ilObjStudyProgramme extends ilContainer {
 	*
 	*/
 	public function updateCustomIcon() {
-		global $DIC;
-
-		/** @var \ilObjectCustomIconFactory  $customIconFactory */
-		$customIconFactory = $DIC['object.customicons.factory'];
-		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
-
 		$subtype = $this->getSubType();
 
 		if($subtype) {
 			if($this->webdir->has($subtype->getIconPath(true))) {
 				$icon = $subtype->getIconPath(true);
-				$customIcon->saveFromSourceFile($icon);
+				$this->saveIcons($icon);
 			} else {
-				$customIcon->remove();
+				$this->removeCustomIcon();
 			}
 		} else {
-			$customIcon->remove();
+			$this->removeCustomIcon();
 		}
 	}
 
@@ -1333,6 +1327,49 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		throw new ilException("Undefined mode for study programme: '$mode'");
+	}
+
+	////////////////////////////////////
+	// REWRITES FROM PARENT
+	////////////////////////////////////
+
+	/**
+	* save container icons
+	*/
+	function saveIcons($a_custom_icon)
+	{
+		$this->createContainerDirectory();
+		$cont_dir = $this->getContainerDirectory();
+		$file_name = "";
+		if ($a_custom_icon != "")
+		{
+			$file_name = $cont_dir."/icon_custom.svg";
+			if($this->webdir->has($file_name))
+			{
+				$this->webdir->delete($file_name);
+			}
+
+			$this->webdir->copy($a_custom_icon, $file_name);
+
+			if ($file_name != "" && $this->webdir->has($file_name))
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
+			}
+			else
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			}
+		}
+	}
+
+	/**
+	* Get the container directory.
+	*
+	* @return	string	container directory
+	*/
+	function getContainerDirectory()
+	{
+		return "container_data/obj_".$this->getId();
 	}
 }
 

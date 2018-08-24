@@ -31,7 +31,7 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	protected function checkWebserviceActivation()
 	{
-		$settings = $GLOBALS['DIC']['ilSetting'];
+		$settings = $GLOBALS['ilSetting'];
 		if(!$settings->get('soap_user_administration',0))
 		{
 			Slim::getInstance()->response()->header('Content-Type','text/html');
@@ -78,24 +78,24 @@ class ilRestFileStorage extends ilFileSystemStorage
 			return false;
 		}
 		
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' original name: '.$this->getPath().'/'.$name);
+		$GLOBALS['ilLog']->write(__METHOD__.' original name: '.$this->getPath().'/'.$name);
 		
 		$real_path = realpath($this->getPath().'/'.$name);
 		if(!$real_path)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.' no realpath found for: '.$this->getPath().'/'.$name);
+			$GLOBALS['ilLog']->write(__METHOD__.' no realpath found for: '.$this->getPath().'/'.$name);
 			$this->responeNotFound();
 			return;
 		}
 		$file_name = basename($real_path);
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' translated name: '.$this->getPath().'/'.$file_name);
+		$GLOBALS['ilLog']->write(__METHOD__.' translated name: '.$this->getPath().'/'.$file_name);
 		if(
 			$file_name &&
 			is_file($this->getPath().'/'.$file_name) && 
 			file_exists($this->getPath().'/'.$file_name)
 		)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.' delivering file: ' . $this->getPath().'/'.$file_name);
+			$GLOBALS['ilLog']->write(__METHOD__.' delivering file: ' . $this->getPath().'/'.$file_name);
 			$return = file_get_contents($this->getPath().'/'.$file_name);
 			// Response header
 			Slim::getInstance()->response()->header('Content-Type', 'application/json');
@@ -112,7 +112,7 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	protected function responeNotFound()
 	{
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' file not found.');
+		$GLOBALS['ilLog']->write(__METHOD__.' file not found.');
 		Slim::getInstance()->response()->header('Content-Type','text/html');
 		Slim::getInstance()->response()->status(404);
 		Slim::getInstance()->response()->body('Not found');
@@ -138,7 +138,7 @@ class ilRestFileStorage extends ilFileSystemStorage
 		$this->writeToFile($body, $path);
 		$return = basename($tmpname);
 
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' Writing to path '.$path);
+		$GLOBALS['ilLog']->write(__METHOD__.' Writing to path '.$path);
 
 		Slim::getInstance()->response()->header('Content-Type', 'application/json');
 		Slim::getInstance()->response()->body($return);
@@ -173,7 +173,7 @@ class ilRestFileStorage extends ilFileSystemStorage
 					@unlink($file->getPathname());
 				}
 				catch(Exception $e) {
-					$GLOBALS['DIC']['ilLog']->write(__METHOD__.' '. $e->getMessage());
+					$GLOBALS['ilLog']->write(__METHOD__.' '. $e->getMessage());
 				}
 			}
 		}

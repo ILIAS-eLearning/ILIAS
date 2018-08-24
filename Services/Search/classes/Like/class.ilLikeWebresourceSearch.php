@@ -49,9 +49,7 @@ class ilLikeWebresourceSearch extends ilWebresourceSearch
 
 	function __createWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$concat = ' title ';
 

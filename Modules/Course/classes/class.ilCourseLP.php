@@ -75,9 +75,7 @@ class ilCourseLP extends ilObjectLP
 	
 	public function getSettingsInfo()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 	
 		// #9004
 		include_once("./Modules/Course/classes/class.ilObjCourse.php");
@@ -97,9 +95,7 @@ class ilCourseLP extends ilObjectLP
 	
 	protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 			
 		// will only find objects with roles for user!
 		// see ilParticipants::_getMembershipByType()

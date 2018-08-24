@@ -37,9 +37,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -47,9 +45,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
+		global $ilBench;
 		
 		$ilBench->start('LearningProgress','9182_LPStatusTestPassed_inProgress');
 		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'in_progress');
@@ -60,9 +56,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
+		global $ilBench;
 
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
 		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'passed');
@@ -139,14 +133,12 @@ class ilLPStatusTestPassed extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 		$res = $ilDB->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $ilDB->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass,
 				CASE WHEN
 					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
@@ -159,7 +151,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 			ON tst_tests.test_id = tst_active.test_fi
 			WHERE tst_active.user_fi = {$ilDB->quote($a_user_id, "integer")}
 			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
-			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass
+			GROUP BY tst_active.active_id, tst_active.tries
 		");
 
 		if ($rec = $ilDB->fetchAssoc($res))
@@ -243,9 +235,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 	 */
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM ".
 					 "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)".

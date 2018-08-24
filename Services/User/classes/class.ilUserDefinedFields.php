@@ -32,9 +32,7 @@ class ilUserDefinedFields
 	 */
 	private function __construct()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db =& $ilDB;
 
@@ -58,9 +56,7 @@ class ilUserDefinedFields
 
 	function fetchFieldIdFromImportId($a_import_id)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		if(!strlen($a_import_id))
 		{
@@ -400,9 +396,7 @@ class ilUserDefinedFields
 
 	function nameExists($a_field_name)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM udf_definition ".
 			"WHERE field_name = ".$this->db->quote($a_field_name,'text')." ";
@@ -413,9 +407,7 @@ class ilUserDefinedFields
 
 	function add()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// Add definition entry
 		$next_id = $ilDB->nextId('udf_definition');
@@ -450,9 +442,7 @@ class ilUserDefinedFields
 	}
 	function delete($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// Delete definitions
 		$query = "DELETE FROM udf_definition ".
@@ -471,9 +461,7 @@ class ilUserDefinedFields
 
 	function update($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$values = array(
 			'field_name'				=> array('text',$this->getFieldName()),
@@ -502,9 +490,7 @@ class ilUserDefinedFields
 	// Private
 	function __read()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		$query = "SELECT * FROM udf_definition ";
 		$res = $this->db->query($query);
@@ -555,9 +541,7 @@ class ilUserDefinedFields
 
 	function deleteValue($a_field_id,$a_value_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$definition = $this->getDefinition($a_field_id);
 

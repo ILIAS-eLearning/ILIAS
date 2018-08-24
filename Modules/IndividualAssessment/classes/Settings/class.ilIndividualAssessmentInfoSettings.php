@@ -53,31 +53,31 @@ class ilIndividualAssessmentInfoSettings {
 
 
 	public function setContact($contact) {
-		assert(is_string($contact) || $contact === null);
+		assert('is_string($contact) || $contact === null');
 		$this->contact = $contact;
 		return $this;
 	}
 
 	public function setResponsibility($responsibility) {
-		assert(is_string($responsibility) || $responsibility === null);
+		assert('is_string($responsibility) || $responsibility === null');
 		$this->responsibility = $responsibility;
 		return $this;
 	}
 
 	public function setPhone($phone) {
-		assert(is_string($phone) || $phone === null);
+		assert('is_string($phone) || $phone === null');
 		$this->phone = $phone;
 		return $this;
 	}
 
 	public function setMails($mails) {
-		assert(is_string($mails) || $mails === null);
+		assert('is_string($mails) || $mails === null');
 		$this->mails = $mails;
 		return $this;
 	}
 
 	public function setConsultationHours($consultation_hours) {
-		assert(is_string($consultation_hours) || $consultation_hours === null);
+		assert('is_string($consultation_hours) || $consultation_hours === null');
 		$this->consultation_hours = $consultation_hours;
 		return $this;
 	}

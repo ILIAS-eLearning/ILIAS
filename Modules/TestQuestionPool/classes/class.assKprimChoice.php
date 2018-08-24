@@ -1011,7 +1011,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 				'order' => (int)$answer->getPosition(),
 				'image' => (string)$answer->getImageFile(),
 				'feedback' => $this->formatSAQuestion(
-					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(),0, $key)
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			);
 		}

@@ -11,7 +11,7 @@
  *
  * @ingroup ServicesContainer
  */
-class ilContainerAccess implements \ilWACCheckingClass
+class ilContainerAccess
 {
 	/**
 	 * @param ilWACPath $ilWACPath
@@ -25,7 +25,7 @@ class ilContainerAccess implements \ilWACCheckingClass
 
 		preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
 		foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
-			if ($access->checkAccess('visible', '', $ref_id) || $access->checkAccess('read', '', $ref_id)) {
+			if ($access->checkAccess('read', '', $ref_id)) {
 				return true;
 			}
 		}

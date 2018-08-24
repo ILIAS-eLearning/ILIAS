@@ -11,11 +11,11 @@ interface ilMailAddressType
 	 * Returns an array of resolved user ids
 	 * @return int[]
 	 */
-	public function resolve(): array;
+	public function resolve();
 
 	/**
 	 * @param $a_sender_id integer
 	 * @return bool
 	 */
-	public function validate(int $a_sender_id): bool;
+	public function validate($a_sender_id);
 }

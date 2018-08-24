@@ -2,15 +2,17 @@
 namespace SimpleSAML;
 
 /**
- * This file implements functions to read and write to a group of database servers.
+ * This file implements functions to read and write to a group of database
+ * servers.
  *
- * This database class supports a single database, or a master/slave configuration with as many defined slaves as a
- * user would like.
+ * This database class supports a single database, or a master/slave
+ * configuration with as many defined slaves as a user would like.
  *
- * The goal of this class is to provide a single mechanism to connect to a database that can be reused by any component
- * within SimpleSAMLphp including modules. When using this class, the global configuration should be passed here, but in
- * the case of a module that has a good reason to use a different database, such as sqlauth, an alternative config file
- * can be provided.
+ * The goal of this class is to provide a single mechanism to connect to a database
+ * that can be reused by any component within SimpleSAMLphp including modules.
+ * When using this class, the global configuration should be passed here, but
+ * in the case of a module that has a good reason to use a different database,
+ * such as sqlauth, an alternative config file can be provided.
  *
  * @author Tyler Antonio, University of Alberta. <tantonio@ualberta.ca>
  * @package SimpleSAMLphp
@@ -30,7 +32,8 @@ class Database
     private $dbMaster;
 
     /**
-     * Array of PDO Objects for configured database slaves
+     * Array of PDO Objects for configured database
+     * slaves
      */
     private $dbSlaves = array();
 
@@ -109,7 +112,8 @@ class Database
 
 
     /**
-     * Generate an Instance ID based on the database configuration.
+     * Generate an Instance ID based on the database
+     * configuration.
      *
      * @param \SimpleSAML_Configuration $config Configuration class
      *
@@ -157,8 +161,9 @@ class Database
 
 
     /**
-     * This function randomly selects a slave database server to query. In the event no slaves are configured, it will
-     * return the master.
+     * This function randomly selects a slave database server
+     * to query. In the event no slaves are configured, it
+     * will return the master.
      *
      * @return \PDO object
      */
@@ -224,13 +229,14 @@ class Database
 
 
     /**
-     * This function queries the database without using a prepared statement.
+     * This function queries the database without using a
+     * prepared statement.
      *
      * @param \PDO   $db PDO object to use
-     * @param string $stmt An SQL statement to execute, previously escaped.
+     * @param string $stmt Prepared SQL statement
      *
      * @throws \Exception If an error happens while trying to execute the query.
-     * @return int The number of rows affected.
+     * @return \PDOStatement object
      */
     private function exec($db, $stmt)
     {
@@ -238,7 +244,9 @@ class Database
         assert('is_string($stmt)');
 
         try {
-            return $db->exec($stmt);
+            $query = $db->exec($stmt);
+
+            return $query;
         } catch (\PDOException $e) {
             $this->lastError = $db->errorInfo();
             throw new \Exception("Database error: ".$e->getMessage());
@@ -252,15 +260,14 @@ class Database
      * @param string $stmt Prepared SQL statement
      * @param array  $params Parameters
      *
-     * @return int The number of rows affected by the query.
+     * @return \PDOStatement object
      */
     public function write($stmt, $params = array())
     {
         $db = $this->dbMaster;
 
         if (is_array($params)) {
-            $obj = $this->query($db, $stmt, $params);
-            return $obj->rowCount();
+            return $this->query($db, $stmt, $params);
         } else {
             return $this->exec($db, $stmt);
         }
@@ -268,7 +275,8 @@ class Database
 
 
     /**
-     * This executes queries on a database server that is determined by this::getSlave().
+     * This executes queries on a database server
+     * that is determined by this::getSlave()
      *
      * @param string $stmt Prepared SQL statement
      * @param array  $params Parameters

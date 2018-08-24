@@ -91,9 +91,7 @@ class ilCalendarAppointmentPresentationGUI
 
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -205,9 +203,7 @@ class ilCalendarAppointmentPresentationGUI
 
 	protected function getActivePlugins()
 	{
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		$res = array();
 

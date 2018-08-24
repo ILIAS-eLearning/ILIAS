@@ -58,10 +58,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	*/
 	public function __construct($a_course_obj, $a_xml_file = '')
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
+		global $lng,$ilLog;
 
 		parent::__construct($a_xml_file);
 
@@ -375,9 +372,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 	private function handleAdmin ($a_attribs, $id_data) 
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 	
 		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
 			// if action not set, or attach
@@ -698,9 +693,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	// PRIVATE
 	function __parseId($a_id)
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		$fields = explode('_',$a_id);
 

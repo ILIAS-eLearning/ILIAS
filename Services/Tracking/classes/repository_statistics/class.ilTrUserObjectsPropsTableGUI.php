@@ -19,13 +19,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->setId("truop");
 		$this->user_id = $a_user_id;
@@ -88,9 +82,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	 */
 	function getSelectableColumns()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		// default fields
 		$cols = array();
@@ -142,9 +134,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function getItems()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$this->determineOffsetAndOrder();
 		
@@ -248,9 +238,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		// for scorm and objectives this filter does not make sense / is not implemented
 		include_once './Services/Object/classes/class.ilObjectLP.php';
@@ -278,11 +266,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($data)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilCtrl, $lng, $rbacsystem;
 
 		if(!$this->isPercentageAvailable($data["obj_id"]))
 		{
