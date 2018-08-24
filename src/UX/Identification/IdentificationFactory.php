@@ -6,6 +6,9 @@
  * There will be at least two IdentificationProvider, one cor core components
  * and one for plugins. This factory allows to acces both.
  *
+ * Currently Identifications are only used for the UX-MainMenu-Elements.
+ * Other like Footer may follow.
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class IdentificationFactory {
