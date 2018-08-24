@@ -109,9 +109,7 @@ class ilMDContribute extends ilMDBase
 
 	function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$fields = $this->__getFields();
 		$fields['meta_contribute_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_contribute'));
@@ -126,9 +124,7 @@ class ilMDContribute extends ilMDBase
 
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMetaId())
 		{
@@ -144,9 +140,7 @@ class ilMDContribute extends ilMDBase
 
 	function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMetaId())
 		{
@@ -178,9 +172,7 @@ class ilMDContribute extends ilMDBase
 
 	function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -237,9 +229,7 @@ class ilMDContribute extends ilMDBase
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT meta_contribute_id FROM il_meta_contribute ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
@@ -268,9 +258,7 @@ class ilMDContribute extends ilMDBase
 	 */
 	public static function _lookupAuthors($a_rbac_id,$a_obj_id,$a_obj_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// Ask for 'author' later to use indexes 
 		$query = "SELECT entity,ent.parent_type,role FROM il_meta_entity ent ".

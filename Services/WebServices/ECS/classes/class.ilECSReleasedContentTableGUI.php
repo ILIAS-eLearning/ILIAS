@@ -45,10 +45,7 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd = '')
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -157,9 +154,7 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 	 */
 	public function parse($a_obj_ids)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		$ilObjDataCache->preloadObjectCache($a_obj_ids);
 		

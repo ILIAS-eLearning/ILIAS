@@ -57,9 +57,7 @@ class ilCopyWizardOptions
 	 */
 	private function __construct($a_copy_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->db = $ilDB;
 		$this->copy_id = $a_copy_id;
@@ -108,9 +106,7 @@ class ilCopyWizardOptions
 	 */
 	public static function _isFinished($a_copy_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM copy_wizard_options ".
 			"WHERE copy_id  = ".$ilDB->quote($a_copy_id ,'integer')." ";
@@ -127,9 +123,7 @@ class ilCopyWizardOptions
 	 */
 	public static function _allocateCopyId()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	 	$query = "SELECT MAX(copy_id) latest FROM copy_wizard_options ";
 	 	$res = $ilDB->query($query);
@@ -151,9 +145,7 @@ class ilCopyWizardOptions
 	 */
 	public function saveOwner($a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$ilDB->insert("copy_wizard_options", array(
 			"copy_id" 	=> array("integer", $this->getCopyId()),
@@ -173,9 +165,7 @@ class ilCopyWizardOptions
 	 */
 	public function saveRoot($a_root)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$ilDB->insert("copy_wizard_options", array(
 			"copy_id" 	=> array("integer", $this->getCopyId()),
@@ -208,9 +198,7 @@ class ilCopyWizardOptions
 	 */
 	public function disableSOAP()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->options[self::DISABLE_SOAP] = 1;
 		
@@ -228,9 +216,7 @@ class ilCopyWizardOptions
 	 */
 	public function disableTreeCopy()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->options[self::DISABLE_TREE_COPY] = 1;
 		
@@ -306,9 +292,7 @@ class ilCopyWizardOptions
 	 */
 	public function initContainer($a_source_id,$a_target_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		$mapping_source = $tree->getParentId($a_source_id);
 	 	$this->addEntry($a_source_id,array('type' => ilCopyWizardOptions::COPY_WIZARD_COPY));
@@ -327,9 +311,7 @@ class ilCopyWizardOptions
 	 */
 	public function storeTree($a_source_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->tmp_tree = array();
 		$this->readTree($a_source_id);
@@ -398,9 +380,7 @@ class ilCopyWizardOptions
 	 */
 	public function dropFirstNodeById($a_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!isset($this->options[$a_id]) or !is_array($this->options[$a_id]))
 		{
@@ -476,9 +456,7 @@ class ilCopyWizardOptions
 	 */
 	public function addEntry($a_source_id,$a_options)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!is_array($a_options))
 		{
@@ -508,9 +486,7 @@ class ilCopyWizardOptions
 	 */
 	public function appendMapping($a_source_id,$a_target_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM copy_wizard_options ".
 			"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer')." ".
@@ -561,9 +537,7 @@ class ilCopyWizardOptions
 	 */
 	public function deleteAll()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM copy_wizard_options ".
 	 		"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer');
@@ -579,9 +553,7 @@ class ilCopyWizardOptions
 	 */
 	public function read()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM copy_wizard_options ".
 	 		"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer');
@@ -605,9 +577,7 @@ class ilCopyWizardOptions
 	 */
 	private function readTree($a_source_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 	 	$this->tmp_tree[] = $tree->getNodeData($a_source_id);
 	 	

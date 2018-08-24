@@ -53,7 +53,7 @@ if ($organizations === NULL || !empty($organization)) {
 	if (!empty($username) && !empty($password)) {
 
 		if ($source->getRememberUsernameEnabled()) {
-			$sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
+			$sessionHandler = SimpleSAML_SessionHandler::getSessionHandler();
 			$params = $sessionHandler->getCookieParams();
 			$params['expire'] = time();
 			$params['expire'] += (isset($_REQUEST['remember_username']) && $_REQUEST['remember_username'] == 'Yes' ? 31536000 : -300);
@@ -81,7 +81,6 @@ $t->data['rememberMeEnabled'] = false;
 $t->data['rememberMeChecked'] = false;
 if (isset($_COOKIE[$source->getAuthId() . '-username'])) $t->data['rememberUsernameChecked'] = TRUE;
 $t->data['errorcode'] = $errorCode;
-$t->data['errorcodes'] = SimpleSAML\Error\ErrorCodes::getAllErrorCodeMessages();
 $t->data['errorparams'] = $errorParams;
 
 if ($organizations !== NULL) {

@@ -1200,9 +1200,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput(
-				$this->object->fetchIndexedValuesFromValuePairs($user_solution)
-			);
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -1237,13 +1235,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	protected function getBestSolutionText($gap, $gap_index, $gap_combinations)
 	{
 		$combination = null;
-		foreach((array)$gap_combinations as $combiGapSolRow)
+		if(is_array($gap_combinations) && array_key_exists($gap_index, $gap_combinations))
 		{
-			if($combiGapSolRow['gap_fi'] == $gap_index && $combiGapSolRow['best_solution'])
-			{
-				$combination = $combiGapSolRow;
-				break;
-			}			
+			$combination = $gap_combinations[$gap_index];
 		}
 		$best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
 			$this->object->getShuffler(), $combination
@@ -1473,27 +1467,27 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->addBackTab($ilTabs);
 	}
 	
-	function getSpecificFeedbackOutput($userSolution)
+	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->gaps)) )
 		{
 			return '';
 		}
-				
+
 		global $lng;
 
 		$feedback = '<table class="test_specific_feedback"><tbody>';
 
-		foreach ($this->object->gaps as $gapIndex => $gap)
+		foreach ($this->object->gaps as $index => $answer)
 		{
-			$answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
-			$answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
-			$fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
-			
-			$caption = $lng->txt('gap').' '.($gapIndex+1) .': ';
+			$caption = $lng->txt('gap').' '.($index+1) .': ';
+
 			$feedback .= '<tr><td>';
+
 			$feedback .= $caption .'</td><td>';
-			$feedback .= $fb . '</td> </tr>';
+			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+					$this->object->getId(), $index
+			) . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';
 
@@ -1659,7 +1653,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
 	{
-		if( $this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf() )
+		if( $this->renderPurposeSupportsFormHtml() )
 		{
 			$gaptemplate->setCurrentBlock('gap_span');
 			$gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);

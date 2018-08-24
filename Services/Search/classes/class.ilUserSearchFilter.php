@@ -56,10 +56,7 @@ class ilUserSearchFilter
 
 	public function __construct($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilias = $DIC['ilias'];
+		global $ilDB,$ilias;
 
 		$this->usr_id = $a_usr_id;
 		$this->db =& $ilDB;

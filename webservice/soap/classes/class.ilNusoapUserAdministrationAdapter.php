@@ -52,6 +52,7 @@ class ilNusoapUserAdministrationAdapter
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
+		#global $debug; $debug = true;
 		$this->server = new soap_server();
 		$this->server->decode_utf8 = false;
 		$this->server->class = "ilSoapFunctions";
@@ -68,8 +69,9 @@ class ilNusoapUserAdministrationAdapter
 
 	function start()
 	{
-		$postdata = file_get_contents("php://input");
-		$this->server->service($postdata);
+		global $HTTP_RAW_POST_DATA;
+
+		$this->server->service($HTTP_RAW_POST_DATA);
 		exit();
 	}
 
@@ -1370,9 +1372,7 @@ class ilNusoapUserAdministrationAdapter
 		ilInitialisation::initILIAS();
 		ilContext::init(ilContext::CONTEXT_SOAP);
 
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 		$soapHook = new ilSoapHook($ilPluginAdmin);
 		foreach ($soapHook->getWsdlTypes() as $type) {
 			$this->server->wsdl->addComplexType(

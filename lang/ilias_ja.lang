@@ -6242,8 +6242,8 @@ dcl#:#dcl_confirm_delete_fields#:#本当にこのフィールドを削除しま�
 dcl#:#dcl_confirm_delete_record#:#このレコードを削除しますか?
 dcl#:#dcl_confirm_delete_records#:#このレコードを本当に削除しますか?
 dcl#:#dcl_confirm_delete_table#:#内容や階層の含まれるこのテーブルを本当に削除しますか?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
-dcl#:#dcl_confirm_delete_detailed_view_title#:#このビューを本当に削除しますか?
+dcl#:#dcl_confirm_delete_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
+dcl#:#dcl_confirm_delete_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_copy#:#データ収集を作成
 dcl#:#dcl_create_field#:#フィールドを作成
 dcl#:#dcl_create_fields#:#リストフィールドタブ内に1個フィールドを作成する必要があります。
@@ -6267,8 +6267,8 @@ dcl#:#dcl_edit_perm#:#アクセス権変更エントリ
 dcl#:#dcl_edit_record#:#レコードを編集
 dcl#:#dcl_edit_table#:#テーブル設定を編集
 dcl#:#dcl_editable_in_table_gui#:#テーブルビューへ投票してください。
-dcl#:#dcl_empty_detailed_view#:#このビューを削除
-dcl#:#dcl_empty_detailed_view_success#:#ビュー定義は正しく削除されました。
+dcl#:#dcl_empty_view#:#このビューを削除
+dcl#:#dcl_empty_view_success#:#ビュー定義は正しく削除されました。
 dcl#:#dcl_err_formula_field_not_found#:#タイトル'%s'のフィールドが見つかりませんでした
 dcl#:#dcl_error_parsing_expression#:#構文解析式エラー
 dcl#:#dcl_export_enabled#:#全ユーザへエクスポート機能を許可する

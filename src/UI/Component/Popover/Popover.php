@@ -5,7 +5,7 @@ namespace ILIAS\UI\Component\Popover;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Triggerable;
-use ILIAS\UI\Implementation\Component\ReplaceContentSignal;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
 
 /**
  * Describes the Popover component

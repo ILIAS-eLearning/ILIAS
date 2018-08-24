@@ -128,7 +128,7 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
+					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
 					$this->sendMailWithoutAttachments('frm_noti_subject_del_thread', (int) $rcp, (string) $customText, 'content_deleted_thread');
 				}
 				break;
@@ -194,7 +194,7 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
+					$customText = sprintf($this->getLanguageText('post_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
 					$this->sendMailWithoutAttachments('frm_noti_subject_del_post', (int) $rcp, (string) $customText, 'content_deleted_post');
 				}
 				break;

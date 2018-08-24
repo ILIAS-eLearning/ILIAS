@@ -45,10 +45,7 @@ class ilCalendarRecurrenceGUI
 	 */
 	public function __construct($a_form,$a_recurrence)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
+		global $tpl,$lng;
 		
 		$this->form = $a_form;
 		$this->recurrence = $a_recurrence;

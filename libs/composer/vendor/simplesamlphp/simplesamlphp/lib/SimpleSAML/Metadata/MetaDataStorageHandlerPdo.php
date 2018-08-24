@@ -84,7 +84,7 @@ class SimpleSAML_Metadata_MetaDataStorageHandlerPdo extends SimpleSAML_Metadata_
 
         $tableName = $this->getTableName($set);
 
-        if (!in_array($set, $this->supportedSets, true)) {
+        if (!in_array($set, $this->supportedSets)) {
             return null;
         }
 
@@ -183,7 +183,7 @@ class SimpleSAML_Metadata_MetaDataStorageHandlerPdo extends SimpleSAML_Metadata_
         assert('is_string($set)');
         assert('is_array($entityData)');
 
-        if (!in_array($set, $this->supportedSets, true)) {
+        if (!in_array($set, $this->supportedSets)) {
             return false;
         }
 
@@ -204,18 +204,18 @@ class SimpleSAML_Metadata_MetaDataStorageHandlerPdo extends SimpleSAML_Metadata_
         );
 
         if ($retrivedEntityIDs !== false && count($retrivedEntityIDs) > 0) {
-            $rows = $this->db->write(
+            $stmt = $this->db->write(
                 "UPDATE $tableName SET entity_data = :entity_data WHERE entity_id = :entity_id",
                 $params
             );
         } else {
-            $rows = $this->db->write(
+            $stmt = $this->db->write(
                 "INSERT INTO $tableName (entity_id, entity_data) VALUES (:entity_id, :entity_data)",
                 $params
             );
         }
 
-        return $rows === 1;
+        return 1 === $stmt->rowCount();
     }
 
 
@@ -237,29 +237,16 @@ class SimpleSAML_Metadata_MetaDataStorageHandlerPdo extends SimpleSAML_Metadata_
 
     /**
      * Initialize the configured database
-     *
-     * @return int|false The number of SQL statements successfully executed, false if some error occurred.
      */
     public function initDatabase()
     {
-        $stmt = 0;
-        $fine = true;
         foreach ($this->supportedSets as $set) {
             $tableName = $this->getTableName($set);
-            $rows = $this->db->write(
+            $this->db->write(
                 "CREATE TABLE IF NOT EXISTS $tableName (entity_id VARCHAR(255) PRIMARY KEY NOT NULL, entity_data ".
                 "TEXT NOT NULL)"
             );
-            if ($rows === 0) {
-                $fine = false;
-            } else {
-                $stmt += $rows;
-            }
         }
-        if (!$fine) {
-            return false;
-        }
-        return $stmt;
     }
 
 }

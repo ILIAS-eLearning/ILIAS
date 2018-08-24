@@ -1,18 +1,11 @@
 <?php
 
-namespace SAML2\Response\Validation\ConstraintValidator;
-
-use SAML2\Constants;
-use SAML2\Response;
-use SAML2\Response\Validation\ConstraintValidator;
-use SAML2\Response\Validation\Result;
-
-class IsSuccessful implements
-    ConstraintValidator
+class SAML2_Response_Validation_ConstraintValidator_IsSuccessful implements
+    SAML2_Response_Validation_ConstraintValidator
 {
     public function validate(
-        Response $response,
-        Result $result
+        SAML2_Response $response,
+        SAML2_Response_Validation_Result $result
     ) {
         if (!$response->isSuccess()) {
             $result->addError($this->buildMessage($response->getStatus()));
@@ -42,8 +35,8 @@ class IsSuccessful implements
      */
     private function truncateStatus($status)
     {
-        $prefixLength = strlen(Constants::STATUS_PREFIX);
-        if (strpos($status, Constants::STATUS_PREFIX) !== 0) {
+        $prefixLength = strlen(SAML2_Const::STATUS_PREFIX);
+        if (strpos($status, SAML2_Const::STATUS_PREFIX) !== 0) {
             return $status;
         }
 

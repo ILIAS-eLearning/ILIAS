@@ -60,9 +60,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	 */
 	public function __construct($course_obj)
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		parent::__construct();
 

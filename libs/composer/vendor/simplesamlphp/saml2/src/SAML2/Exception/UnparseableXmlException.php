@@ -1,8 +1,6 @@
 <?php
 
-namespace SAML2\Exception;
-
-final class UnparseableXmlException extends RuntimeException
+final class SAML2_Exception_UnparseableXmlException extends SAML2_Exception_RuntimeException
 {
     private static $levelMap = array(
         LIBXML_ERR_WARNING => 'WARNING',
@@ -10,7 +8,7 @@ final class UnparseableXmlException extends RuntimeException
         LIBXML_ERR_FATAL   => 'FATAL'
     );
 
-    public function __construct(\LibXMLError $error)
+    public function __construct(LibXMLError $error)
     {
         $message = sprintf(
             'Unable to parse XML - "%s[%d]": "%s" in "%s" at line %d on column %d"',

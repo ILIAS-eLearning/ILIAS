@@ -66,9 +66,7 @@ class ilSCGroups
 	 */
 	public function lookupGroupByComponentId($a_component_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT id FROM sysc_groups '.
 				'WHERE component = '.$ilDB->quote($a_component_id,'text');
@@ -95,9 +93,7 @@ class ilSCGroups
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT id FROM sysc_groups '.
 				'ORDER BY id ';

@@ -45,10 +45,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 
 		define('USER_FOLDER_ID',7);
 
@@ -72,9 +69,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -155,10 +150,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilHelp = $DIC['ilHelp'];
+		global $rbacsystem, $ilHelp;
 
 		$this->tabs_gui->clearTargets();
 		
@@ -279,12 +271,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function initCreate()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $tpl, $rbacsystem, $rbacreview, $ilUser;
 
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -355,12 +342,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $tpl, $rbacsystem, $rbacreview, $ilUser;
 
 		if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
@@ -379,14 +361,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilSetting = $DIC['ilSetting'];
-        $tpl = $DIC['tpl'];
-        $ilUser = $DIC['ilUser'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacsystem = $DIC['rbacsystem'];
+        global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin, $rbacsystem;
 
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
@@ -611,10 +586,7 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function loadValuesFromForm($a_mode = 'create')
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
+		global $ilSetting,$ilUser;
 		
 		switch($a_mode)
 		{
@@ -795,13 +767,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	public function updateObject()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $tpl, $rbacsystem, $ilias, $ilUser, $ilSetting;
 		
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
@@ -932,9 +898,7 @@ class ilObjUserGUI extends ilObjectGUI
 			// this ts is needed by ilSecuritySettings
 			$this->object->setLastPasswordChangeTS( time() );
 			
-			global $DIC;
-
-			$ilSetting = $DIC['ilSetting'];
+			global $ilSetting;
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$this->object->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
@@ -998,10 +962,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getValues()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilUser, $ilSetting;
 
 		$data = array();
 
@@ -1127,14 +1088,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function initForm($a_mode)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$styleDefinition = $DIC['styleDefinition'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilClientIniFile = $DIC['ilClientIniFile'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $ilCtrl, $styleDefinition, $ilSetting, $ilClientIniFile, $ilUser;
 
 		$settings = $ilSetting->getAll();
 
@@ -1885,9 +1839,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		// TODO: Allow mixed field parameter to support checks against an array of field names.
 		
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		static $settings = null;
 		
 		
@@ -1913,10 +1865,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function uploadUserPictureObject()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilUser, $rbacsystem;
 
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and
@@ -2049,11 +1998,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function assignSaveObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
@@ -2120,12 +2065,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
-		$ilTabs = $DIC['ilTabs'];
+		global $rbacreview,$rbacsystem,$ilUser, $ilTabs;
 		
 		$ilTabs->activateTab("role_assignment");
 
@@ -2406,9 +2346,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
+		global $ilLocator;
 
 		$ilLocator->clearItems();
 
@@ -2451,10 +2389,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function __sendProfileMail()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilias = $DIC['ilias'];
+		global $ilUser,$ilias;
 
 		if($_POST['send_mail'] != 'y')
 		{
@@ -2473,7 +2408,7 @@ class ilObjUserGUI extends ilObjectGUI
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
-		$senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
@@ -2521,10 +2456,7 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	public static function _goto($a_target)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilUser, $ilCtrl;
 				
 		// #10888
 		if($a_target == md5("usrdelown"))

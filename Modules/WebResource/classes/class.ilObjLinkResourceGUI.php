@@ -36,12 +36,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilCtrl, $ilTabs, $ilErr, $ilAccess;
 		
 		
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
@@ -152,9 +147,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->initFormLink(self::LINK_MOD_CREATE);
 		if($this->checkLinkInput(self::LINK_MOD_CREATE,0,0))
@@ -202,9 +195,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function settings()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 	
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_settings');
@@ -219,9 +210,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function saveSettings()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_settings');
@@ -307,9 +296,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	public function editLink()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->checkPermission('write');
 		$this->activateTabs('content','id_content_view');
@@ -331,9 +318,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	public function updateLink()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->initFormLink(self::LINK_MOD_EDIT);
 		if($this->checkLinkInput(self::LINK_MOD_EDIT,$this->object->getId(),(int) $_REQUEST['link_id']))
@@ -379,9 +364,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	public function saveAddLink()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->checkPermission('write');
 	
@@ -422,9 +405,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function deleteParameter()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->checkPermission('write');
 		
@@ -446,9 +427,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	
 	protected function deleteParameterForm()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->checkPermission('write');
 		
@@ -474,9 +453,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function updateLinks()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->checkPermission('write');
 		$this->activateTabs('content','');
@@ -689,9 +666,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function initFormLink($a_mode)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 	
 		$ilTabs->activateTab("id_content");
 		
@@ -770,14 +745,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		*/
 		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
 		$tar = new ilLinkInputGUI($this->lng->txt('webr_link_target'),'tar');
-		$tar->setInternalLinkFilterTypes(
-			array(
-				"PageObject",
-				"GlossaryItem",
-				"RepositoryItem",
-				'WikiPage'
-			)
-		);
+		$tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
 		
 		$tar->setRequired(true);
 		$this->form->addItem($tar);		
@@ -884,9 +852,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function switchViewMode()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$_REQUEST['view_mode'] = $_GET['view_mode'] = (int) $_GET['switch_mode'];
 		$this->view();
@@ -909,10 +875,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	public function view()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilErr, $ilTabs;
 		
 		$ilTabs->activateTab("id_content");
 		
@@ -946,7 +909,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 					break;
 			}
 		}
-		$GLOBALS['DIC']['tpl']->setPermanentLink($this->object->getType(),$this->object->getRefId());
+		$GLOBALS['tpl']->setPermanentLink($this->object->getType(),$this->object->getRefId());
 		return true;
 	}
 	
@@ -1103,9 +1066,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function deleteLinks()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->checkPermission('write');
 		
@@ -1126,9 +1087,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function deactivateLink()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$this->checkPermission('write');
 		
@@ -1166,9 +1125,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	*/
 	function infoScreenForward()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		if(!$this->checkPermissionBool('visible'))
 		{
@@ -1196,9 +1153,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	function history()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_history');
@@ -1246,12 +1201,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function linkChecker()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilias, $ilUser, $tpl, $ilTabs;
 		
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_link_check');
@@ -1288,10 +1238,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	
 	function saveLinkCheck()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB,$ilUser;
 
 		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 
@@ -1342,9 +1289,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	function __initLinkChecker()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
 
@@ -1363,11 +1308,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function activateTabs($a_active_tab,$a_active_subtab = '')
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $ilTabs, $lng;
 		
 		switch($a_active_tab)
 		{
@@ -1414,11 +1355,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	*/
 	function setTabs()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
-		$ilHelp = $DIC['ilHelp'];
+		global $ilTabs, $lng, $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("webr");
 		
@@ -1513,9 +1450,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	function addLocatorItems()
 	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
+		global $ilLocator;
 
 		if (is_object($this->object))
 		{
@@ -1527,24 +1462,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		// #15647 - handle internal links
 		include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-		include_once "Services/Form/classes/class.ilLinkInputGUI.php";
-
+		include_once "Services/Form/classes/class.ilLinkInputGUI.php";								
 		if(ilLinkInputGUI::isInternalLink($a_target))			
 		{						
 			include_once("./Services/Link/classes/class.ilLink.php");
 			
 			// #10612
 			$parts = explode("|", $a_target);
-
-			if($parts[0] == 'wpage')
-			{
-				return ilLink::_getStaticLink(
-					0,
-					'wiki',
-					true,
-					'&target=wiki_wpage_'.$parts[1]
-				);
-			}
 			
 			if ($parts[0] == "term")
 			{
@@ -1617,9 +1541,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	
 	protected function redirectToLink($a_ref_id, $a_obj_id, $a_url)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if($a_url)
 		{
@@ -1633,9 +1555,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		
 	public function exportHTML()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$tpl = new ilTemplate("tpl.export_html.html", true, true, "Modules/WebResource");
 		
@@ -1673,11 +1593,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	public static function _goto($a_target, $a_additional = null)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$lng = $DIC['lng'];
+		global $ilAccess, $ilErr, $lng;
 				
 		if($a_additional && substr($a_additional, -3) == "wsp")
 		{

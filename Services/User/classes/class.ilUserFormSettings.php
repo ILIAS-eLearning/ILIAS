@@ -43,10 +43,7 @@ class ilUserFormSettings
 	 */
 	public function __construct($a_id,$a_user_id = null)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
-	 	$ilUser = $DIC['ilUser'];
+	 	global $ilDB, $ilUser;
 	 	
 	 	$this->user_id = (int)$a_user_id;
 	 	$this->id = (string)$a_id;
@@ -213,9 +210,7 @@ class ilUserFormSettings
 	 */
 	public static function deleteAllForUser($a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		$query = "DELETE FROM usr_form_settings".
 			" WHERE user_id = ".$ilDB->quote($a_user_id,'integer');
 		$ilDB->manipulate($query);
@@ -228,8 +223,8 @@ class ilUserFormSettings
 	public static function deleteAllForId($a_id)
 	{
 		$query = "DELETE FROM usr_form_settings".
-			" WHERE id = ".$GLOBALS['DIC']['ilDB']->quote($a_id,'text');
-		$GLOBALS['DIC']['ilDB']->manipulate($query);
+			" WHERE id = ".$GLOBALS['ilDB']->quote($a_id,'text');
+		$GLOBALS['ilDB']->manipulate($query);
 		
 	}
 	
@@ -240,9 +235,9 @@ class ilUserFormSettings
 	public static function deleteAllForPrefix($a_prefix)
 	{
 		$query = "DELETE FROM usr_form_settings ".
-			'WHERE '. $GLOBALS['DIC']['ilDB']->like('id', 'text', $a_prefix.'%');
+			'WHERE '. $GLOBALS['ilDB']->like('id', 'text', $a_prefix.'%');
 		
-		$GLOBALS['DIC']['ilDB']->manipulate($query);
+		$GLOBALS['ilDB']->manipulate($query);
 		
 	}
 	

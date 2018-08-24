@@ -59,9 +59,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 	
 	static function _getStatusInfo($a_obj_id, $a_include_tlt_data = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$status_info = array();
 								

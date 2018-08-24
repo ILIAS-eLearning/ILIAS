@@ -20,10 +20,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		$this->preselected = $a_preselect;
 
@@ -84,9 +81,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	*/
 	public function initFilter()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$this->setDisableFilterHiding(true);
 
@@ -140,9 +135,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 	function getItems()
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";	
 		$res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"], $this->filter["year"]);
@@ -245,9 +238,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 	function getGraph(array $a_graph_items)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objsttp");

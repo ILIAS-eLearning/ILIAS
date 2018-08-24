@@ -18,8 +18,7 @@ class ilPageEditorSettings
 		"scorm" => array("sahs"),
 		"glo" => array("gdf"),
 		"test" => array("qpl"),
-		"rep" => array("root", "cat", "grp", "crs", "fold"),
-		"copa" => array("copa"),
+		"rep" => array("root", "cat", "grp", "crs", "fold")
 		);
 		
 	/**

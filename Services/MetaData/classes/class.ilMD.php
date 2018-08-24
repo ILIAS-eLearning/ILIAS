@@ -367,9 +367,7 @@ class ilMD extends ilMDBase
 
 	function deleteAll()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$tables = array('il_meta_annotation',
 						'il_meta_classification',

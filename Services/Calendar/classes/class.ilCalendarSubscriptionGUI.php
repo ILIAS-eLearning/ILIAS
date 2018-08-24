@@ -36,9 +36,7 @@ class ilCalendarSubscriptionGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		switch($next_class)
@@ -61,7 +59,7 @@ class ilCalendarSubscriptionGUI
 
 		include_once './Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 		$info = new ilInfoScreenGUI($this);
-		$info->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
+		$info->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
 
 		if ($this->cal_id > 0)
 		{

@@ -45,9 +45,7 @@ class ilCourseLMHistory
 	 */
 	public function __construct($crs_id,$user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db =& $ilDB;
 
@@ -66,10 +64,7 @@ class ilCourseLMHistory
 
 	static function _updateLastAccess($a_user_id,$a_lm_ref_id,$a_page_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
+		global $tree,$ilDB;
 
 		if(!$crs_ref_id = $tree->checkForParentType($a_lm_ref_id,'crs'))
 		{
@@ -94,9 +89,7 @@ class ilCourseLMHistory
 
 	function getLastLM()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_lm_history ".
 			"WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer')." ".
@@ -113,9 +106,7 @@ class ilCourseLMHistory
 
 	function getLMHistory()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_lm_history ".
 			"WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer')." ".
@@ -139,9 +130,7 @@ class ilCourseLMHistory
 	 */
 	public static function _deleteUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM crs_lm_history WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer')." ";
 		$res = $ilDB->manipulate($query);

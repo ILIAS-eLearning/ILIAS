@@ -155,7 +155,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
 		
-		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished', '');
+		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
 		
 		$this->addColumn($this->lng->txt("last_access"),'access', '');

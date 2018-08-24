@@ -61,22 +61,7 @@ class ilInfoScreenGUI
 	var $table_class = "il_InfoScreen";
 	var $open_form_tag = true;
 	var $close_form_tag = true;
-
-	/**
-	 * @var int|null
-	 */
-	protected $contextRefId = null;
-
-	/**
-	 * @var int|null
-	 */
-	protected $contextObjId = null;
-
-	/**
-	 * @var string|null
-	 */
-	protected $contentObjType = null;
-
+	
 	/**
 	* a form action parameter. if set a form is generated
 	*/
@@ -656,24 +641,26 @@ class ilInfoScreenGUI
 		{
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php';
-				$webdav_lock_backend = new ilWebDAVLockBackend();
+				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+				$davLocks = new ilDAVLocks();
 
 				// Show lock info
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId()))
+					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
+					if (count($locks) > 0)
 					{
-						$lock_user = new ilObjUser($lock->getIliasOwner());
+						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
 						$this->addProperty($this->lng->txt("in_use_by"),
-							$lock_user->getPublicName()
+							$lockUser->getPublicName()
 							,
-							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+							"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
 						);
 					}
 				}
 			}
 		}
+
 	}
 	// END ChangeEvent: Display standard object info
 	/**
@@ -968,72 +955,12 @@ class ilInfoScreenGUI
 		return $tpl->get();
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getContextRefId(): int
-	{
-		if ($this->contextRefId !== null) {
-			return $this->contextRefId;
-		}
-
-		return $this->gui_object->object->getRefId();
-	}
-
-	/**
-	 * @param int|null $contextRefId
-	 */
-	public function setContextRefId(int $contextRefId)
-	{
-		$this->contextRefId = $contextRefId;
-	}
-
-	/**
-	 * @return int|null
-	 */
-	public function getContextObjId(): int
-	{
-		if ($this->contextObjId !== null) {
-			return $this->contextObjId;
-		}
-
-		return $this->gui_object->object->getId();
-	}
-
-	/**
-	 * @param int|null $contextObjId
-	 */
-	public function setContextObjId(int $contextObjId)
-	{
-		$this->contextObjId = $contextObjId;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getContentObjType(): string
-	{
-		if ($this->contentObjType !== null) {
-			return $this->contentObjType;
-		}
-
-		return $this->gui_object->object->getType();
-	}
-
-	/**
-	 * @param null|string $contentObjType
-	 */
-	public function setContentObjType(string $contentObjType)
-	{
-		$this->contentObjType = $contentObjType;
-	}
-
 	function showLearningProgress($a_tpl)
 	{
 		$ilUser = $this->user;
 		$rbacsystem = $this->rbacsystem;
 
-		if(!$rbacsystem->checkAccess('read', $this->getContextRefId()))
+		if(!$rbacsystem->checkAccess('read',$this->gui_object->object->getRefId()))
 		{
 			return false;
 		}
@@ -1043,13 +970,13 @@ class ilInfoScreenGUI
 		}
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (!ilObjUserTracking::_enabledLearningProgress())
+		if (!ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			return false;
 		}
 			
 		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->getContextObjId());				
+		$olp = ilObjectLP::getInstance($this->gui_object->object->getId());				
 		if($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL)
 		{
 			return false;
@@ -1070,7 +997,7 @@ class ilInfoScreenGUI
 		$i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
 		$i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
 		$i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect((int) ilLPMarks::_hasCompleted($ilUser->getId(),
-			$this->getContextObjId()),
+			   $this->gui_object->object->getId()),
 				'lp_edit',
 				array(0 => $this->lng->txt('trac_not_completed'),
 					  1 => $this->lng->txt('trac_completed')),
@@ -1087,13 +1014,13 @@ class ilInfoScreenGUI
 
 
 		// More infos for lm's
-		if($this->getContentObjType() == 'lm' ||
-			$this->getContentObjType() == 'htlm')
+		if($this->gui_object->object->getType() == 'lm' ||
+		   $this->gui_object->object->getType() == 'htlm')
 		{
 			$a_tpl->setCurrentBlock("pv");
 
 			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-			$progress = ilLearningProgress::_getProgress($ilUser->getId(), $this->getContextObjId());
+			$progress = ilLearningProgress::_getProgress($ilUser->getId(),$this->gui_object->object->getId());
 			if($progress['access_time'])
 			{
 				$a_tpl->setVariable("TXT_PROPERTY_VALUE",
@@ -1122,7 +1049,7 @@ class ilInfoScreenGUI
 			// $a_tpl->touchBlock("row");
 
 
-			if($this->getContentObjType() == 'lm')
+			if($this->gui_object->object->getType() == 'lm')
 			{
 				// tags of all users
 				$a_tpl->setCurrentBlock("pv");
@@ -1140,25 +1067,24 @@ class ilInfoScreenGUI
 		$a_tpl->touchBlock("row");
 	}
 
-	function saveProgress($redirect = true)
+	function saveProgress()
 	{
 		$ilUser = $this->user;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
-		$lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
+		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());
 		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
 		$lp_marks->update();
 
 		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
+		ilLPStatusWrapper::_updateStatus($this->gui_object->object->getId(),$ilUser->getId());
 
 		$this->lng->loadLanguageModule('trac');
 		ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
-
-		if ($redirect) {
-			$this->ctrl->redirect($this, ""); // #14993
-		}
+		$this->ctrl->redirect($this, ""); // #14993
+		
+		// $this->showSummary();
 	}
 
 

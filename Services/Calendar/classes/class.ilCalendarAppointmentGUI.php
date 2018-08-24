@@ -37,10 +37,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function __construct(ilDate $seed,ilDate $initialDate, $a_appointment_id = 0)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl,$lng;
 		
 		$this->lng = $lng;
 		$lng->loadLanguageModule('dateplaner');
@@ -63,12 +60,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilUser, $ilSetting,$tpl, $ilTabs;
 		
 		
 		// Clear tabs and set back target
@@ -120,10 +112,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function initForm($a_mode, $a_as_milestone = false, $a_edit_single_app = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
+		global $ilUser,$tpl;
 		
 		$this->form = new ilPropertyFormGUI();
 		
@@ -371,10 +360,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function add(ilPropertyFormGUI $form  = null)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilHelp = $DIC['ilHelp'];
+		global $tpl, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("cal");
 		$ilHelp->setScreenId("app");
@@ -395,10 +381,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function addMilestone()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilHelp = $DIC['ilHelp'];
+		global $tpl, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("cal");
 		$ilHelp->setScreenId("app");
@@ -425,9 +408,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function save($a_as_milestone = false)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		$this->load('create', $a_as_milestone);
 		
@@ -506,9 +487,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function distributeUserNotifications()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
 		$notification =  new ilCalendarMailNotification();
@@ -599,9 +578,7 @@ class ilCalendarAppointmentGUI
 	*/
 	function showResponsibleUsersList($a_grp_id)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		include_once("./Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php");
 		$table_gui = new ilMilestoneResponsiblesTableGUI($this, "", $a_grp_id,
@@ -614,9 +591,7 @@ class ilCalendarAppointmentGUI
 	*/
 	function saveMilestoneResponsibleUsers()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->app->writeResponsibleUsers($_POST["user_id"]);
 		$ilCtrl->returnToParent($this);
@@ -647,7 +622,7 @@ class ilCalendarAppointmentGUI
 		$confirm->addButton($this->lng->txt('cal_edit_single'),'editSingle');
 	    $confirm->setConfirm($this->lng->txt('cal_edit_recurrences'),'edit');
 
-		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
 	}
 	
 	/**
@@ -656,7 +631,7 @@ class ilCalendarAppointmentGUI
 	protected function editSingle()
 	{
 		$_REQUEST['rexl'] = 1;
-		$GLOBALS['DIC']['ilCtrl']->setParameter($this,'rexcl',1);
+		$GLOBALS['ilCtrl']->setParameter($this,'rexcl',1);
 		$this->edit(true);
 	}
 	
@@ -670,12 +645,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function edit($a_edit_single_app = false, ilPropertyFormGUI $form = null)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilUser = $DIC['ilUser'];
-		$ilErr = $DIC['ilErr'];
-		$ilHelp = $DIC['ilHelp'];
+		global $tpl,$ilUser,$ilErr, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("cal");
 		$ilHelp->setScreenId("app");
@@ -692,11 +662,11 @@ class ilCalendarAppointmentGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');		
 
-		$GLOBALS['DIC']['ilCtrl']->saveParameter($this,array('seed','app_id','dt','idate'));
+		$GLOBALS['ilCtrl']->saveParameter($this,array('seed','app_id','dt','idate'));
 
 		if($_REQUEST['rexl'])
 		{
-			$GLOBALS['DIC']['ilCtrl']->setParameter($this,'rexl',1);
+			$GLOBALS['ilCtrl']->setParameter($this,'rexl',1);
 
 			// Calculate new appointment time
 			$duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
@@ -753,10 +723,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function showInfoScreen()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilUser = $DIC['ilUser'];
+		global $tpl,$ilUser;
 		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -844,9 +811,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function update()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 
 		$single_editing = ($_REQUEST['rexl'] ? true : false);
 		
@@ -881,7 +846,7 @@ class ilCalendarAppointmentGUI
 			//var_dump($_POST); exit;
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
-			$this->logger->debug($this->app->getEntryId());
+			$GLOBALS['ilLog']->write($this->app->getEntryId());
 			$ass->deleteAssignments();
 			$ass->addAssignment($cat_id);
 			
@@ -915,9 +880,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function askDelete()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		
@@ -1000,9 +963,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function initTimeZone()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$this->timezone = $ilUser->getTimeZone();
 	}
@@ -1322,10 +1283,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function createDefaultCalendar()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilUser,$lng;
 
 		$cat = new ilCalendarCategory();
 		$cat->setColor(ilCalendarCategory::DEFAULT_COLOR);
@@ -1346,9 +1304,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function confirmRegister()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$entry = new ilCalendarEntry((int) $_GET['app_id']);
 		$start = ilDatePresentation::formatDate(
@@ -1378,9 +1334,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function register()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
 		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
@@ -1399,9 +1353,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function confirmUnregister()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		
 		$entry = new ilCalendarEntry((int) $_GET['app_id']);
@@ -1432,9 +1384,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function unregister()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
 		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
@@ -1453,10 +1403,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function book()
     {
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
+		global $ilUser, $tpl;
 		
 		$entry = (int)$_GET['app_id'];
 		$user = (int)$_GET['bkid'];
@@ -1505,9 +1452,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function bookconfirmed()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$entry = (int) $_REQUEST['app_id'];
 		$user = (int) $_REQUEST['bkid'];
@@ -1522,7 +1467,7 @@ class ilCalendarAppointmentGUI
 			include_once './Services/Booking/classes/class.ilBookingEntry.php';
 			$booking = new ilBookingEntry($cal_entry->getContextId());
 			
-			if(!$booking->isAppointmentBookableForUser($entry, $GLOBALS['DIC']['ilUser']->getId()))
+			if(!$booking->isAppointmentBookableForUser($entry, $GLOBALS['ilUser']->getId()))
 			{
 				ilUtil::sendFailure($this->lng->txt('cal_booking_failed_info'), true);
 				$this->ctrl->returnToParent($this);
@@ -1544,10 +1489,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function cancelBooking()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
+		global $ilUser, $tpl;
 
 		$entry = (int)$_GET['app_id'];
 	
@@ -1596,9 +1538,7 @@ class ilCalendarAppointmentGUI
 	 */
 	public function cancelConfirmed()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$entry = (int)$_POST['app_id'];
 		$user = (int)$_GET['bkid'];
@@ -1611,12 +1551,14 @@ class ilCalendarAppointmentGUI
 		{			
 			// find cloned calendar entry in user calendar
 			include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+			$GLOBALS['ilLog']->dump($entry->getStart());
 			$apps = ilConsultationHourAppointments::getAppointmentIds(
 					$ilUser->getId(), 
 					$entry->getContextId(), 
 					$entry->getStart(),
 					ilCalendarCategory::TYPE_CH,
 					false);
+			$GLOBALS['ilLog']->dump($apps);
 
 			// Fix for wrong, old entries
 			foreach((array) $apps as $own_app)
@@ -1674,6 +1616,7 @@ class ilCalendarAppointmentGUI
 			$a_fields = array((string) $_GET['autoCompleteField']);
 		}
 
+		$GLOBALS['ilLog']->write(print_r($a_fields,true));
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields($a_fields);

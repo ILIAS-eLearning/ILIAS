@@ -31,12 +31,7 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public function __construct($a_appointment_id = null)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		global $ilErr,$ilDB,$lng,$tree;
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -55,9 +50,7 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public static function _lookupAppointment($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM event_appointment ".
 			"WHERE event_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -86,10 +79,7 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public static function lookupNextSessionByCourse($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
+		global $tree,$ilDB;
 		
 		
 		$sessions = $tree->getChildsByType($a_ref_id,'sess');
@@ -151,10 +141,7 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public static function lookupLastSessionByCourse($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
+		global $tree,$ilDB;
 		
 		$sessions = $tree->getChildsByType($a_ref_id,'sess');
 		$obj_ids = array();
@@ -293,10 +280,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	function _timeToString($start,$end)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
+		global $ilUser,$lng;
 
 		$start = date($this->lng->txt('lang_timeformat_no_sec'),$start);
 		$end = date($this->lng->txt('lang_timeformat_no_sec'),$end);
@@ -306,9 +290,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	public static function _appointmentToString($start,$end,$fulltime)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if($fulltime)
 		{
@@ -350,9 +332,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getSessionId())
 		{
@@ -375,9 +355,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getSessionId())
 		{
@@ -400,9 +378,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	public static function _delete($a_appointment_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
 			"WHERE appointment_id = ".$ilDB->quote($a_appointment_id ,'integer')." ";
@@ -413,9 +389,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	public static function _deleteBySession($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
@@ -426,9 +400,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	public static function _readAppointmentsBySession($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_appointment ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -455,9 +427,7 @@ class ilSessionAppointment implements ilDatePeriod
 	// PRIVATE
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getAppointmentId())
 		{

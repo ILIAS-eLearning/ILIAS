@@ -67,9 +67,7 @@ class ilDidacticTemplateActionFactory
 	 */
 	public static function getActionsByTemplateId($a_tpl_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT id, type_id FROM didactic_tpl_a '.
 			'WHERE tpl_id = '.$ilDB->quote($a_tpl_id,'integer');

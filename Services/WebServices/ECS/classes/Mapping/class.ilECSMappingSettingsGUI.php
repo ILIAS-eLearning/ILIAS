@@ -35,10 +35,7 @@ class ilECSMappingSettingsGUI
 	 */
 	public function __construct($settingsContainer, $server_id, $mid)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng,$ilCtrl;
 		
 		$this->log = $GLOBALS['DIC']->logger()->wsrv();
 
@@ -82,11 +79,9 @@ class ilECSMappingSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
+		global $ilCtrl;
 
-		$ilCtrl = $DIC['ilCtrl'];
-
-		$GLOBALS['DIC']['tpl']->setTitle($this->lng->txt('ecs_campus_connect_title'));
+		$GLOBALS['tpl']->setTitle($this->lng->txt('ecs_campus_connect_title'));
 
 		$this->ctrl->saveParameter($this,'server_id');
 		$this->ctrl->saveParameter($this,'mid');
@@ -107,8 +102,8 @@ class ilECSMappingSettingsGUI
 				break;
 		}
 
-		$GLOBALS['DIC']['tpl']->setTitle($this->getServer()->getTitle());
-		$GLOBALS['DIC']['tpl']->setDescription('');
+		$GLOBALS['tpl']->setTitle($this->getServer()->getTitle());
+		$GLOBALS['tpl']->setDescription('');
 
 		return true;
 	}
@@ -118,7 +113,7 @@ class ilECSMappingSettingsGUI
 	 */
 	public function cancel()
 	{
-		$GLOBALS['DIC']['ilCtrl']->returnToParent($this);
+		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
 	
 	
@@ -159,9 +154,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function cInitOverview($form = null, $current_attribute = null)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$current_node = (array) (($_REQUEST['lnodes']) ? $_REQUEST['lnodes'] : ROOT_FOLDER_ID);
 		$current_node = end($current_node);
@@ -172,7 +165,7 @@ class ilECSMappingSettingsGUI
 		$ilTabs->activateTab('ecs_crs_allocation');
 		$ilTabs->activateSubTab('cInitTree');
 		
-		$GLOBALS['DIC']['tpl']->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_cmap_overview.html','Services/WebServices/ECS');
+		$GLOBALS['tpl']->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_cmap_overview.html','Services/WebServices/ECS');
 		
 		$explorer = $this->cShowLocalExplorer();
 		if(!$form instanceof ilPropertyFormGUI)
@@ -207,9 +200,9 @@ class ilECSMappingSettingsGUI
 			$form = $this->cInitMappingForm($current_node,$current_attribute);
 		}
 		
-		$GLOBALS['DIC']['tpl']->setVariable('TFORM_ACTION',$this->ctrl->getFormAction($this));
-		$GLOBALS['DIC']['tpl']->setVariable('LOCAL_EXPLORER',$explorer->getOutput());
-		$GLOBALS['DIC']['tpl']->setVariable('MAPPING_FORM',$form->getHTML());
+		$GLOBALS['tpl']->setVariable('TFORM_ACTION',$this->ctrl->getFormAction($this));
+		$GLOBALS['tpl']->setVariable('LOCAL_EXPLORER',$explorer->getOutput());
+		$GLOBALS['tpl']->setVariable('MAPPING_FORM',$form->getHTML());
 	}
 	
 	/**
@@ -237,9 +230,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function cShowLocalExplorer()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingLocalExplorer.php';
 		$explorer = new ilECSNodeMappingLocalExplorer(
@@ -481,9 +472,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function cSettings(ilPropertyFormGUI $form = NULL)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->setSubTabs(self::TAB_COURSE);
 		$ilTabs->activateTab('ecs_crs_allocation');
@@ -494,7 +483,7 @@ class ilECSMappingSettingsGUI
 			$form = $this->initFormCSettings();
 		}
 
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 
 		return true;
 	}
@@ -627,9 +616,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dSettings(ilPropertyFormGUI $form = NULL)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
 		$this->setSubTabs(self::TAB_DIRECTORY);
@@ -642,7 +629,7 @@ class ilECSMappingSettingsGUI
 			$form = $this->initFormDSettings();
 		}
 
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 
 		return true;
 	}
@@ -698,7 +685,7 @@ class ilECSMappingSettingsGUI
 			//$att->setName($a_name)
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-			$GLOBALS['DIC']['ilCtrl']->redirect($this,'cSettings');
+			$GLOBALS['ilCtrl']->redirect($this,'cSettings');
 		}
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$form->setValuesByPost();
@@ -711,9 +698,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function cAttributes()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->setSubTabs(self::TAB_COURSE);
 		$ilTabs->setTabActive('ecs_crs_allocation');
@@ -732,7 +717,7 @@ class ilECSMappingSettingsGUI
 						$this->getServer()->getServerId(), 
 						$this->getMid())->getAttributes());
 		
-		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+		$GLOBALS['tpl']->setContent($table->getHTML());
 	}
 	
 	
@@ -742,9 +727,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dUpdateSettings()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$form = $this->initFormDSettings();
 		if($form->checkInput())
@@ -796,13 +779,11 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dTrees()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 		$this->setSubTabs(self::TAB_DIRECTORY);
-		$GLOBALS['DIC']['ilTabs']->activateSubTab('dTrees');
-		$GLOBALS['DIC']['ilTabs']->activateTab('ecs_dir_allocation');
+		$GLOBALS['ilTabs']->activateSubTab('dTrees');
+		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
 		
 		$ilToolbar->addButton(
 				$this->lng->txt('ecs_sync_trees'),
@@ -818,7 +799,7 @@ class ilECSMappingSettingsGUI
 
 
 		$dtreeTable->parse();
-		$GLOBALS['DIC']['tpl']->setContent($dtreeTable->getHTML());
+		$GLOBALS['tpl']->setContent($dtreeTable->getHTML());
 		return true;
 	}
 
@@ -828,8 +809,8 @@ class ilECSMappingSettingsGUI
 	protected function dConfirmDeleteTree()
 	{
 		$this->setSubTabs(self::TAB_DIRECTORY);
-		$GLOBALS['DIC']['ilTabs']->activateSubTab('dTrees');
-		$GLOBALS['DIC']['ilTabs']->activateTab('ecs_dir_allocation');
+		$GLOBALS['ilTabs']->activateSubTab('dTrees');
+		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
@@ -850,7 +831,7 @@ class ilECSMappingSettingsGUI
 		$confirm->setConfirm($this->lng->txt('delete'), 'dDeleteTree');
 		$confirm->setCancel($this->lng->txt('cancel'), 'dTrees');
 
-		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
 	}
 
 	/**
@@ -861,7 +842,7 @@ class ilECSMappingSettingsGUI
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
-		$GLOBALS['DIC']['ilLog']->write('Deleting tree');
+		$GLOBALS['ilLog']->write('Deleting tree');
 
 		$tree = new ilECSCmsTree((int) $_REQUEST['tid']);
 		$tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId((int) $_REQUEST['tid'])));
@@ -903,30 +884,30 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dEditTree(ilPropertyFormGUI $form = null)
 	{
-		$GLOBALS['DIC']['tpl']->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_edit_tree.html','Services/WebServices/ECS');
+		$GLOBALS['tpl']->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_edit_tree.html','Services/WebServices/ECS');
 
 		$this->ctrl->saveParameter($this,'cid');
 
-		$GLOBALS['DIC']['ilTabs']->clearTargets();
-		$GLOBALS['DIC']['ilTabs']->setBack2Target(
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->setBack2Target(
 			$this->lng->txt('ecs_back_settings'),
 			$this->ctrl->getLinkTarget($this,'cancel')
 		);
-		$GLOBALS['DIC']['ilTabs']->setBackTarget(
+		$GLOBALS['ilTabs']->setBackTarget(
 			$this->lng->txt('ecs_cms_dir_tree'),
 			$this->ctrl->getLinkTarget($this,'dTrees')
 		);
 		
-		$GLOBALS['DIC']['tpl']->setVariable('LEGEND',$GLOBALS['DIC']['lng']->txt('ecs_status_legend'));
-		$GLOBALS['DIC']['tpl']->setVariable('PENDING_UNMAPPED',$GLOBALS['DIC']['lng']->txt('ecs_status_pending_unmapped'));
-		$GLOBALS['DIC']['tpl']->setVariable('PENDING_UNMAPPED_DISCON',$GLOBALS['DIC']['lng']->txt('ecs_status_pending_unmapped_discon'));
-		$GLOBALS['DIC']['tpl']->setVariable('PENDING_UNMAPPED_NONDISCON',$GLOBALS['DIC']['lng']->txt('ecs_status_pending_unmapped_nondiscon'));
-		$GLOBALS['DIC']['tpl']->setVariable('MAPPED',$GLOBALS['DIC']['lng']->txt('ecs_status_mapped'));
-		$GLOBALS['DIC']['tpl']->setVariable('DELETED',$GLOBALS['DIC']['lng']->txt('ecs_status_deleted'));
+		$GLOBALS['tpl']->setVariable('LEGEND',$GLOBALS['lng']->txt('ecs_status_legend'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED',$GLOBALS['lng']->txt('ecs_status_pending_unmapped'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED_DISCON',$GLOBALS['lng']->txt('ecs_status_pending_unmapped_discon'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED_NONDISCON',$GLOBALS['lng']->txt('ecs_status_pending_unmapped_nondiscon'));
+		$GLOBALS['tpl']->setVariable('MAPPED',$GLOBALS['lng']->txt('ecs_status_mapped'));
+		$GLOBALS['tpl']->setVariable('DELETED',$GLOBALS['lng']->txt('ecs_status_deleted'));
 
 		$form = $this->dInitFormTreeSettings($form);
-		$GLOBALS['DIC']['tpl']->setVariable('GENERAL_FORM',$form->getHTML());
-		$GLOBALS['DIC']['tpl']->setVariable('TFORM_ACTION',$this->ctrl->getFormAction($this,'dEditTree'));
+		$GLOBALS['tpl']->setVariable('GENERAL_FORM',$form->getHTML());
+		$GLOBALS['tpl']->setVariable('TFORM_ACTION',$this->ctrl->getFormAction($this,'dEditTree'));
 
 		$explorer = $this->dShowLocalExplorer();
 		$this->dShowCmsExplorer($explorer);
@@ -1098,9 +1079,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dShowLocalExplorer()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingLocalExplorer.php';
 		$explorer = new ilECSNodeMappingLocalExplorer(
@@ -1130,7 +1109,7 @@ class ilECSMappingSettingsGUI
 		$explorer->setExpand((int) $_GET['lexpand']);
 		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this,'dEditTree'));
 		$explorer->setOutput(0);
-		$GLOBALS['DIC']['tpl']->setVariable('LOCAL_EXPLORER',$explorer->getOutput());
+		$GLOBALS['tpl']->setVariable('LOCAL_EXPLORER',$explorer->getOutput());
 
 		return $explorer;
 	}
@@ -1140,9 +1119,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dShowCmsExplorer(ilExplorer $localExplorer)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingCmsExplorer.php';
@@ -1203,7 +1180,7 @@ class ilECSMappingSettingsGUI
 		}
 		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this,'dEditTree'));
 		$explorer->setOutput(0);
-		$GLOBALS['DIC']['tpl']->setVariable('REMOTE_EXPLORER',$explorer->getOutput());
+		$GLOBALS['tpl']->setVariable('REMOTE_EXPLORER',$explorer->getOutput());
 
 	}
 
@@ -1302,8 +1279,8 @@ class ilECSMappingSettingsGUI
 	protected function dMappingOverview()
 	{
 		$this->setSubTabs(self::TAB_DIRECTORY);
-		$GLOBALS['DIC']['ilTabs']->activateSubTab('dMappingOverview');
-		$GLOBALS['DIC']['ilTabs']->activateTab('ecs_dir_allocation');
+		$GLOBALS['ilTabs']->activateSubTab('dMappingOverview');
+		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
 	}
 	
 	
@@ -1314,9 +1291,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function setTabs()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 		
@@ -1349,9 +1324,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function setSubTabs($a_tab)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		if($a_tab == self::TAB_DIRECTORY)
 		{

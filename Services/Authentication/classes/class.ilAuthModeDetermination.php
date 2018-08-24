@@ -53,10 +53,7 @@ class ilAuthModeDetermination
 	 */
 	private function __construct()
 	{
-	 	global $DIC;
-
-	 	$ilSetting = $DIC['ilSetting'];
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilSetting,$ilDB;
 	 	
 	 	$this->db = $ilDB;
 
@@ -213,9 +210,7 @@ class ilAuthModeDetermination
 	 */
 	private function read()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$this->kind = $this->settings->get('kind',self::TYPE_MANUAL);
 		

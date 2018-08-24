@@ -17,6 +17,7 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
+
 	const FORM_MODE_EDIT = 1;
 	const FORM_MODE_CREATE = 2;
 	
@@ -40,9 +41,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('rbac');
 		
@@ -54,9 +53,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$this->prepareOutput();
 
@@ -141,7 +138,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'protected');
-		$pro->setChecked($GLOBALS['DIC']['rbacreview']->isProtected(
+		$pro->setChecked($GLOBALS['rbacreview']->isProtected(
 				$this->rolf_ref_id,
 				$this->object->getId()
 		));
@@ -159,9 +156,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function createObject(ilPropertyFormGUI $form = null)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id))
 		{
@@ -180,11 +175,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	 */
 	public function editObject(ilPropertyFormGUI $form = null)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-
-		$this->tabs_gui->activateTab('settings');
+		global $rbacsystem;
 		
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		{
@@ -195,7 +186,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);	
 		}
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 
 	/**
@@ -205,11 +196,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	public function updateObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
@@ -245,11 +232,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacsystem,$rbacadmin, $rbacreview;
 
 		if (!$rbacsystem->checkAccess("create_rolt",$this->rolf_ref_id))
 		{
@@ -279,124 +262,277 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->createObject($form);
 	}
 
-
 	/**
-	 * Show role template permissions
-	 */
-	protected function permObject()
+	* display permissions
+	* 
+	* @access	public
+	*/
+	function permObject()
 	{
-		global $DIC;
+		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition,$ilSetting;
 
-		/**
-		 * @var ilRbacSystem
-		 */
-		$rbacsystem = $DIC->rbac()->system();
-
-		/**
-		 * @var ilErrorHandling
-		 */
-		$ilErr = $DIC['ilErr'];
-
-		/**
-		 * @var ilObjectDefinition
-		 */
-		$objDefinition = $DIC['objDefinition'];
-
-		if(!$rbacsystem->checkAccess('edit_permission', $this->ref_id))
+		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->MESSAGE);
-			return true;
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			exit();
 		}
-		$this->tabs_gui->activateTab('perm');
 
-		$this->tpl->addBlockFile(
-			'ADM_CONTENT',
-			'adm_content',
-			'tpl.rbac_template_permissions.html',
-			'Services/AccessControl'
-		);
+		$to_filter = $objDefinition->getSubobjectsToFilter();
+		
+		$tpl_filter = array();
+		$internal_tpl = false;
 
-		$this->tpl->setVariable('PERM_ACTION',$this->ctrl->getFormAction($this));
-
-		include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
-		$acc = new ilAccordionGUI();
-		$acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
-		$acc->setId('template_perm_'.$this->ref_id);
-
-		$subs = $objDefinition->getSubObjectsRecursively('root','true',false);
-
-		$sorted = array();
-		foreach($subs as $subtype => $def)
+		if (($internal_tpl = $this->object->isInternalTemplate()))
 		{
-			if($objDefinition->isPlugin($subtype))
+			$tpl_filter = $this->object->getFilterOfInternalTemplate();
+		}
+		$op_order = array();
+
+		foreach(ilRbacReview::_getOperationList() as $op)
+		{
+			$op_order[$op["ops_id"]] = $op["order"];
+		}
+
+		$operation_info = $rbacreview->getOperationAssignment();
+
+		foreach($operation_info as $info)
+		{
+			if($objDefinition->getDevMode($info['type']))
 			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
+				continue;
 			}
-			elseif($objDefinition->isSystemObject($subtype))
+			// FILTER SUBOJECTS OF adm OBJECT
+			if(in_array($info['type'],$to_filter))
 			{
-				$translation = $this->lng->txt("obj_".$subtype);
+				continue;
+			}
+			if ($internal_tpl and $tpl_filter and !in_array($info['type'],$tpl_filter))
+			{
+				continue;
+			}
+			$rbac_objects[$info['typ_id']] = array("obj_id"	=> $info['typ_id'],
+											    "type"		=> $info['type']);
+			
+			$txt = $objDefinition->isPlugin($info['type'])
+				? ilObjectPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
+				: $this->lng->txt($info['type']."_".$info['operation']);
+			if (substr($info['operation'], 0, 7) == "create_" &&
+				$objDefinition->isPlugin(substr($info['operation'], 7)))
+			{
+				$txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
+			}
+			elseif(substr($info['operation'],0,6) == 'create')
+			{
+				$txt = $this->lng->txt('rbac_'.$info['operation']);
+			}
+
+			$order = $op_order[$info['ops_id']];
+			if(substr($info['operation'],0,6) == 'create')
+			{
+				$order = $objDefinition->getPositionByType($info['type']);
+			}
+
+			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
+									   							"ops_id"	=> $info['ops_id'],
+									  							"title"		=> $info['operation'],
+																"name"		=> $txt,
+																"order"		=> $order);
+		}
+		
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			if ($objDefinition->isPlugin($obj_data["type"]))
+			{
+				$rbac_objects[$key]["name"] = ilObjectPlugin::lookupTxtById($obj_data["type"],
+						"obj_".$obj_data["type"]);
 			}
 			else
 			{
-				$translation = $this->lng->txt('objs_'.$subtype);
+				$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
 			}
 
-			$sorted[$subtype] = $def;
-			$sorted[$subtype]['translation'] = $translation;
+			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
 
-		$sorted = ilUtil::sortArray($sorted, 'translation','asc',true,true);
-		foreach($sorted as $subtype => $def)
+		sort($rbac_objects);
+			
+		foreach ($rbac_objects as $key => $obj_data)
 		{
-			if($objDefinition->isPlugin($subtype))
+			sort($rbac_objects[$key]["ops"]);
+		}
+		
+		// sort by (translated) name of object type
+		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
+
+		// BEGIN CHECK_PERM
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
+			$arr_checked = array_intersect($arr_selected,array_keys($rbac_operations[$obj_data["obj_id"]]));
+
+			foreach ($rbac_operations[$obj_data["obj_id"]] as $operation)
 			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
+				$checked = in_array($operation["ops_id"],$arr_checked);
+				$disabled = false;
+
+				// Es wird eine 2-dim Post Variable �bergeben: perm[rol_id][ops_id]
+				$box = ilUtil::formCheckBox($checked,"template_perm[".$obj_data["type"]."][]",$operation["ops_id"],$disabled);
+				$output["perm"][$obj_data["obj_id"]][$operation["ops_id"]] = $box;
 			}
-			elseif($objDefinition->isSystemObject($subtype))
+		}
+		// END CHECK_PERM
+
+		$output["col_anz"] = count($rbac_objects);
+		$output["txt_save"] = $this->lng->txt("save");
+		$output["check_protected"] = ilUtil::formCheckBox($rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()),"protected",1);
+		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
+
+/************************************/
+/*		adopt permissions form		*/
+/************************************/
+
+		$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
+
+		// send message for system role
+		if ($this->object->getId() == SYSTEM_ROLE_ID)
+		{
+			$output["adopt"] = array();
+			ilUtil::sendFailure($this->lng->txt("msg_sysrole_not_editable"));
+		}
+		else
+		{
+			// BEGIN ADOPT_PERMISSIONS
+			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
+
+			// sort output for correct color changing
+			ksort($parent_role_ids);
+
+			foreach ($parent_role_ids as $key => $par)
 			{
-				$translation = $this->lng->txt("obj_".$subtype);
-			}
-			else
-			{
-				$translation = $this->lng->txt('objs_'.$subtype);
+				if ($par["obj_id"] != SYSTEM_ROLE_ID)
+				{
+					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+					$output["adopt"][$key]["check_adopt"] = $radio;
+					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+					$output["adopt"][$key]["role_name"] = $par["title"];
+				}
 			}
 
-			$tbl = new ilObjectRoleTemplatePermissionTableGUI(
-				$this,
-				'perm',
-				$this->ref_id,
-				$this->obj_id,
-				$subtype,
-				false
-			);
-			$tbl->setShowChangeExistingObjects(false);
-			$tbl->parse();
-
-			$acc->addItem($translation, $tbl->getHTML());
+			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
+			// END ADOPT_PERMISSIONS
 		}
 
-		$this->tpl->setVariable('ACCORDION',$acc->getHTML());
+		$output["formaction"] =
+			$this->ctrl->getFormAction($this);
 
-		// Add options table
-		include_once './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php';
-		$options = new ilObjectRoleTemplateOptionsTableGUI(
-			$this,
-			'perm',
-			$this->ref_id,
-			$this->obj_id,
-			false
-		);
-		$options->setShowOptions(false);
-		$options->addMultiCommand(
-			'permSave',
-			$this->lng->txt('save')
-		);
+		$this->data = $output;
 
-		$options->parse();
-		$this->tpl->setVariable('OPTIONS_TABLE',$options->getHTML());
+
+/************************************/
+/*			generate output			*/
+/************************************/
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html",
+			"Services/AccessControl");
+
+		foreach ($rbac_objects as $obj_data)
+		{
+			// BEGIN object_operations
+			$this->tpl->setCurrentBlock("object_operations");
+
+			$obj_data["ops"] = ilUtil::sortArray($obj_data["ops"], 'order','asc',true,true);
+
+			foreach ($obj_data["ops"] as $operation)
+			{
+				$ops_ids[] = $operation["ops_id"];
+				
+				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW",$css_row);
+				$this->tpl->setVariable("PERMISSION",$operation["name"]);
+				$this->tpl->setVariable("CHECK_PERMISSION",$this->data["perm"][$obj_data["obj_id"]][$operation["ops_id"]]);
+				$this->tpl->parseCurrentBlock();
+			} // END object_operations
+			
+			// BEGIN object_type
+			$this->tpl->setCurrentBlock("object_type");
+			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+			
+// TODO: move this if in a function and query all objects that may be disabled or inactive
+			if ($this->objDefinition->getDevMode($obj_data["type"]))
+			{
+				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+			}
+			
+			// js checkbox toggles
+			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
+			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ops_ids));
+			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));	
+
+
+			$this->tpl->parseCurrentBlock();
+			// END object_type
+		}
+
+		/* 
+		// BEGIN ADOPT PERMISSIONS
+		foreach ($this->data["adopt"] as $key => $value)
+		{			
+			$this->tpl->setCurrentBlock("ADOPT_PERM_ROW");
+			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
+			$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
+			$this->tpl->setVariable("TYPE",$value["type"]);
+			$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("ADOPT_PERM_FORM");
+		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
+		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
+		$this->tpl->setVariable("ADOPT",$this->lng->txt('copy'));
+		$this->tpl->parseCurrentBlock();
+		// END ADOPT PERMISSIONS 		
+		*/
+		
+		$this->tpl->setCurrentBlock("tblfooter_protected");
+		$this->tpl->setVariable("COL_ANZ",3);
+		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_protected"]);
+		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["text_protected"]);
+		$this->tpl->parseCurrentBlock();
+	
+		$this->tpl->setVariable("COL_ANZ_PLUS",4);
+		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".svg"));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
+
+		// compute additional information in title
+		if (substr($this->object->getTitle(),0,3) == "il_")
+		{
+			$desc = $this->lng->txt("predefined_template");//$this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") : ".$parent_node['title'];
+		}
+		
+		$description = "<br/>&nbsp;<span class=\"small\">".$desc."</span>";
+
+		// translation for autogenerated roles
+		if (substr($this->object->getTitle(),0,3) == "il_")
+		{
+			include_once('./Services/AccessControl/classes/class.ilObjRole.php');
+
+			$title = ilObjRole::_getTranslation($this->object->getTitle())." (".$this->object->getTitle().")";
+		}
+		else
+		{
+			$title = $this->object->getTitle();
+		}
+
+		$this->tpl->setVariable("TBL_TITLE",$title.$description);
+			
+		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
+		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
+		$this->tpl->parseCurrentBlock();
 	}
-
-
 
 
 	/**
@@ -404,48 +540,35 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	protected function permSaveObject()
+	function permSaveObject()
 	{
-		global $DIC;
-
-		/**
-		 * @var ilRbacSystem
-		 */
-		$rbacsystem = $DIC->rbac()->system();
-
-		/**
-		 * @var ilRbacAdmin
-		 */
-		$rbacadmin = $DIC->rbac()->admin();
-
-		/**
-		 * @var ilErrorHandling
-		 */
-		$ilErr = $DIC['ilErr'];
-
-		/**
-		 * @var ilObjectDefinition
-		 */
-		$objDefinition = $DIC['objDefinition'];
-
+		global $rbacadmin, $rbacsystem, $rbacreview,$objDefinition;
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->MESSAGE);
-			return true;
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
-		// delete all existing template entries
-		$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
-
-		foreach ($_POST["template_perm"] as $key => $ops_array)
+		else
 		{
-			$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$this->rolf_ref_id);
-		}
+			// Alle Template Eintraege loeschen
+			$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
 
+			foreach ($_POST["template_perm"] as $key => $ops_array)
+			{
+				// Setzen der neuen template permissions
+				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$this->rolf_ref_id);
+			}
+		}
+		
 		// update object data entry (to update last modification date)
 		$this->object->update();
 		
+		// set protected flag
+		// not applicable for role templates
+		#$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+
 		$this->ctrl->redirect($this, "perm");
 	}
 
@@ -456,11 +579,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin, $rbacsystem, $rbacreview;
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -494,34 +613,24 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		$this->getTabs();
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getTabs()
+	
+	function getTabs()
 	{
-		global $DIC;
+		global $rbacsystem;
 
-		$rbacsystem = $DIC->rbac()->system();
-
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$this->tabs_gui->addTab(
-				'settings',
-				$this->lng->txt('settings'),
-				$this->ctrl->getLinkTarget($this,'edit')
-			);
-		}
-		if($rbacsystem->checkAccess('edit_permission',$this->ref_id))
-		{
-			$this->tabs_gui->addTab(
-				'perm',
-				$this->lng->txt('default_perm_settings'),
-				$this->ctrl->getLinkTarget($this,'perm')
-			);
+			$this->tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "edit"),
+				array("edit","update"), get_class($this));
+				
+			$this->tabs_gui->addTarget("default_perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm"), get_class($this));
 		}
 	}
 
+	
 	/**
 	* cancelObject is called when an operation is canceled, method links back
 	* @access	public
@@ -533,14 +642,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 
 
+	
 	/**
-	 * @inheritdoc
-	 */
-	protected function addAdminLocatorItems($a_do_not_add_object = false)
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
+		global $ilLocator;
 		
 		parent::addAdminLocatorItems(true);
 				
@@ -548,7 +657,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			ilObject::_lookupObjId($_GET["ref_id"])),
 			$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 	}
-
-
+	
 } // END class.ilObjRoleTemplateGUI
 ?>

@@ -172,29 +172,17 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
 		}
 		
+		$this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
+		$this->ctrl->setParameter($this->parent_obj, 'pmode', '');
+		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
+		
 		$postponed = (
 			$data['postponed'] ? $this->lng->txt('postponed') : ''
 		);
 		
-		if( $data['disabled'] )
-		{
-			$this->tpl->setCurrentBlock('static_title');
-			$this->tpl->setVariable("STATIC_TITLE", ilUtil::prepareFormOutput($data['title']));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
-			$this->ctrl->setParameter($this->parent_obj, 'pmode', '');
-			$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
-			
-			$this->tpl->setCurrentBlock('linked_title');
-			$this->tpl->setVariable("LINKED_TITLE", ilUtil::prepareFormOutput($data['title']));
-			$this->tpl->setVariable("HREF", $href);
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setVariable("ORDER", $data['order']);
+		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
+		$this->tpl->setVariable("HREF", $href);
 		$this->tpl->setVariable("POSTPONED", $postponed);
 		if ($data["worked_through"])
 		{

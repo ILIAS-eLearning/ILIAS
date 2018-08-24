@@ -55,9 +55,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 	 */
 	public function filter($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		if($this->root == ROOT_FOLDER_ID)
 		{
@@ -76,9 +74,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 	 */
 	protected function init()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		if($this->root == ROOT_FOLDER_ID) {
 			$this->subnodes = array();

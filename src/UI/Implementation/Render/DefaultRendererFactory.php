@@ -12,22 +12,22 @@ class DefaultRendererFactory implements RendererFactory {
 	/**
 	 * @var	RootFactory
 	 */
-	protected $ui_factory;
+	private $ui_factory;
 
 	/**
 	 * @var	TemplateFactory
 	 */
-	protected $tpl_factory;
+	private $tpl_factory;
 
 	/**
 	 * @var	\ilLanguage
 	 */
-	protected $lng;
+	private $lng;
 
 	/**
 	 * @var	JavaScriptBinding
 	 */
-	protected $js_binding;
+	private $js_binding;
 
 	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
 		$this->ui_factory = $ui_factory;

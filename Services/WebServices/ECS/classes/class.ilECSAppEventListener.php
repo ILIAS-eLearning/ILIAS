@@ -43,9 +43,7 @@ class ilECSAppEventListener implements ilAppEventListener
 	*/
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$log = $GLOBALS['DIC']->logger()->wsrv();
 		
@@ -126,7 +124,7 @@ class ilECSAppEventListener implements ilAppEventListener
 				
 			case 'Modules/Course':
 				
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': New event from course: '.$a_event);
+				$GLOBALS['ilLog']->write(__METHOD__.': New event from course: '.$a_event);
 				switch($a_event)
 				{
 
@@ -295,7 +293,7 @@ class ilECSAppEventListener implements ilAppEventListener
 		$end = new ilDateTime(time(),IL_CAL_UNIX);
 		$end->increment(IL_CAL_MONTH,$settings->getDuration());
 		
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': account extension '.(string) $end);
+		$GLOBALS['ilLog']->write(__METHOD__.': account extension '.(string) $end);
 		
 		if($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX))
 		{
@@ -322,7 +320,7 @@ class ilECSAppEventListener implements ilAppEventListener
 		
 		include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
 		$enrol = new ilECSEnrolmentStatus();
-		$enrol->setId('il_'.$GLOBALS['DIC']['ilSetting']->get('inst_id',0).'_'.ilObject::_lookupType($a_obj_id).'_'.$a_obj_id);
+		$enrol->setId('il_'.$GLOBALS['ilSetting']->get('inst_id',0).'_'.ilObject::_lookupType($a_obj_id).'_'.$a_obj_id);
 		$enrol->setPersonId($remote->getRemoteUserId());
 		$enrol->setPersonIdType(ilECSEnrolmentStatus::ID_UID);
 		$enrol->setStatus($a_status);
@@ -334,7 +332,7 @@ class ilECSAppEventListener implements ilAppEventListener
 		}
 		catch(ilECSConnectorException $e)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': update enrolment status faild with message: '. $e->getMessage());
+			$GLOBALS['ilLog']->write(__METHOD__.': update enrolment status faild with message: '. $e->getMessage());
 			return false;
 		}
 	}

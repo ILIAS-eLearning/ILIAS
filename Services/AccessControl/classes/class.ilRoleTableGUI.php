@@ -37,9 +37,7 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_gui,$a_parent_cmd)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 
@@ -116,7 +114,7 @@ class ilRoleTableGUI extends ilTable2GUI
 				$this->addColumn($this->lng->txt('actions'),'','10%');
 				$this->setTitle($this->lng->txt('objs_role'));
 				
-				if($GLOBALS['DIC']['rbacsystem']->checkAccess('delete', $this->getParentObject()->object->getRefId()))
+				if($GLOBALS['rbacsystem']->checkAccess('delete', $this->getParentObject()->object->getRefId()))
 				{
 					$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
 				}
@@ -213,10 +211,7 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$tree = $DIC['tree'];
+		global $rbacreview,$tree;
 
 		if($set['type'] == 'role')
 		{
@@ -300,7 +295,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		if($this->getType() == self::TYPE_VIEW and $set['obj_id'] != SYSTEM_ROLE_ID)
 		{
-			if($GLOBALS['DIC']['rbacsystem']->checkAccess('write',$this->role_folder_id))
+			if($GLOBALS['rbacsystem']->checkAccess('write',$this->role_folder_id))
 			{
 				// Copy role
 				$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
@@ -321,10 +316,7 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function parse($role_folder_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview,$ilUser;
 		
 		$this->role_folder_id = $role_folder_id;
 
@@ -362,8 +354,8 @@ class ilRoleTableGUI extends ilTable2GUI
 			if(
 				$role['parent'] and 
 					(
-						$GLOBALS['DIC']['tree']->isDeleted($role['parent']) or
-						!$GLOBALS['DIC']['tree']->isInTree($role['parent'])
+						$GLOBALS['tree']->isDeleted($role['parent']) or
+						!$GLOBALS['tree']->isInTree($role['parent'])
 					)
 			)
 			{

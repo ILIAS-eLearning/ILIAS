@@ -37,10 +37,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	*/
 	function __construct($a_target,$role_desk_item_obj)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $tree,$ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 
@@ -78,18 +75,14 @@ class ilRoleDesktopItemSelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id = 0)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		return $rbacsystem->checkAccess('write',$a_ref_id) and !$this->role_desk_obj->isAssigned($a_ref_id);
 	}
 
 	function showChilds($a_ref_id)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if($a_ref_id)
 		{
@@ -108,9 +101,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id, $a_option)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

@@ -1,10 +1,6 @@
 <?php
 
-namespace SAML2\Response\Validation;
-
-use SAML2\Response;
-
-interface ConstraintValidator
+interface SAML2_Response_Validation_ConstraintValidator
 {
-    public function validate(Response $response, Result $result);
+    public function validate(SAML2_Response $response, SAML2_Response_Validation_Result $result);
 }

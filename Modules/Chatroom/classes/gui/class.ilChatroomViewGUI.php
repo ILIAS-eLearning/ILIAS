@@ -64,6 +64,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$this->mainTpl->addJavaScript('Modules/Chatroom/js/chat.js');
 		$this->mainTpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
 		$this->mainTpl->addJavaScript('libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
+		$this->mainTpl->addJavaScript('Modules/Chatroom/js/json2.js');
 
 		$this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
@@ -123,7 +124,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$initial->profile_image_url     = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
 		$initial->no_profile_image_url  = ilUtil::getImagePath('no_photo_xxsmall.jpg');
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
-		$initial->subdirectory          = $settings->getSubDirectory();
 
 		$initial->userinfo = array(
 			'moderator' => ilChatroom::checkUserPermissions('moderate', (int)$_GET['ref_id'], false),

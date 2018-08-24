@@ -1,7 +1,5 @@
 <?php
 
-namespace SAML2;
-
 /**
  * Base class for SAML 2 subject query messages.
  *
@@ -13,12 +11,12 @@ namespace SAML2;
  *
  * @package SimpleSAMLphp
  */
-abstract class SubjectQuery extends Request
+abstract class SAML2_SubjectQuery extends SAML2_Request
 {
     /**
      * The NameId of the subject in the query.
      *
-     * @var \SAML2\XML\saml\NameID
+     * @var array
      */
     private $nameId;
 
@@ -27,13 +25,13 @@ abstract class SubjectQuery extends Request
      * Constructor for SAML 2 subject query messages.
      *
      * @param string          $tagName The tag name of the root element.
-     * @param \DOMElement|null $xml     The input message.
+     * @param DOMElement|NULL $xml     The input message.
      */
-    protected function __construct($tagName, \DOMElement $xml = null)
+    protected function __construct($tagName, DOMElement $xml = NULL)
     {
         parent::__construct($tagName, $xml);
 
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
@@ -44,35 +42,38 @@ abstract class SubjectQuery extends Request
     /**
      * Parse subject in query.
      *
-     * @param \DOMElement $xml The SubjectQuery XML element.
-     * @throws \Exception
+     * @param DOMElement $xml The SubjectQuery XML element.
+     * @throws Exception
      */
-    private function parseSubject(\DOMElement $xml)
+    private function parseSubject(DOMElement $xml)
     {
-        $subject = Utils::xpQuery($xml, './saml_assertion:Subject');
+        $subject = SAML2_Utils::xpQuery($xml, './saml_assertion:Subject');
         if (empty($subject)) {
             /* No Subject node. */
-            throw new \Exception('Missing subject in subject query.');
+            throw new Exception('Missing subject in subject query.');
         } elseif (count($subject) > 1) {
-            throw new \Exception('More than one <saml:Subject> in <saml:Assertion>.');
+            throw new Exception('More than one <saml:Subject> in <saml:Assertion>.');
         }
         $subject = $subject[0];
 
-        $nameId = Utils::xpQuery($subject, './saml_assertion:NameID');
+        $nameId = SAML2_Utils::xpQuery($subject, './saml_assertion:NameID');
         if (empty($nameId)) {
-            throw new \Exception('Missing <saml:NameID> in <saml:Subject>.');
+            throw new Exception('Missing <saml:NameID> in <saml:Subject>.');
         } elseif (count($nameId) > 1) {
-            throw new \Exception('More than one <saml:NameID> in <saml:Subject>.');
+            throw new Exception('More than one <saml:NameID> in <saml:Subject>.');
         }
         $nameId = $nameId[0];
-        $this->nameId = new XML\saml\NameID($nameId);
+        $this->nameId = SAML2_Utils::parseNameId($nameId);
     }
 
 
     /**
      * Retrieve the NameId of the subject in the query.
      *
-     * @return \SAML2\XML\saml\NameID|null The name identifier of the assertion.
+     * The returned NameId is in the format used by SAML2_Utils::addNameId().
+     *
+     * @see SAML2_Utils::addNameId()
+     * @return array|NULL The name identifier of the assertion.
      */
     public function getNameId()
     {
@@ -83,15 +84,15 @@ abstract class SubjectQuery extends Request
     /**
      * Set the NameId of the subject in the query.
      *
-     * @param \SAML2\XML\saml\NameID|array|null $nameId The name identifier of the assertion.
+     * The NameId must be in the format accepted by SAML2_Utils::addNameId().
+     *
+     * @see SAML2_Utils::addNameId()
+     * @param array|NULL $nameId The name identifier of the assertion.
      */
     public function setNameId($nameId)
     {
-        assert(is_array($nameId) || is_null($nameId) || $nameId instanceof XML\saml\NameID);
+        assert('is_array($nameId) || is_null($nameId)');
 
-        if (is_array($nameId)) {
-            $nameId = XML\saml\NameID::fromArray($nameId);
-        }
         $this->nameId = $nameId;
     }
 
@@ -99,17 +100,18 @@ abstract class SubjectQuery extends Request
     /**
      * Convert subject query message to an XML element.
      *
-     * @return \DOMElement This subject query.
+     * @return DOMElement This subject query.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 
-        $subject = $root->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:Subject');
+        $subject = $root->ownerDocument->createElementNS(SAML2_Const::NS_SAML, 'saml:Subject');
         $root->appendChild($subject);
 
-        $this->nameId->toXML($subject);
+        SAML2_Utils::addNameId($subject, $this->nameId);
 
         return $root;
     }
+
 }

@@ -41,12 +41,7 @@ class ilConditionHandlerGUI
 	 */
 	public function __construct($gui_obj,$a_ref_id = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$tree = $DIC['tree'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng,$tpl,$tree,$ilCtrl;
 
 		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 
@@ -88,14 +83,14 @@ class ilConditionHandlerGUI
 		switch($a_operator)
 		{
 			case ilConditionHandler::OPERATOR_LP:
-				$GLOBALS['DIC']['lng']->loadLanguageModule('trac');
+				$GLOBALS['lng']->loadLanguageModule('trac');
 				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 				$obj_settings = new ilLPObjSettings($a_obj_id);
 				return ilLPObjSettings::_mode2Text($obj_settings->getMode());
 			
 			default:
-				$GLOBALS['DIC']['lng']->loadLanguageModule('rbac');
-				return $GLOBALS['DIC']['lng']->txt('condition_'.$a_operator);
+				$GLOBALS['lng']->loadLanguageModule('rbac');
+				return $GLOBALS['lng']->txt('condition_'.$a_operator);
 		}
 	}
 	
@@ -119,11 +114,7 @@ class ilConditionHandlerGUI
 
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilErr, $ilAccess, $lng;
 		
 		if(!$ilAccess->checkAccess('write','',$this->getTargetRefId()))
 		{
@@ -254,9 +245,7 @@ class ilConditionHandlerGUI
 	 */
 	protected function listConditions()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 
 		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
 		
@@ -416,7 +405,7 @@ class ilConditionHandlerGUI
 	 */
 	protected function showObligatoryForm($opt = array())
 	{
-		if(!$GLOBALS['DIC']['objDefinition']->isRbacObject($this->getTargetType()))
+		if(!$GLOBALS['objDefinition']->isRbacObject($this->getTargetType()))
 		{
 			return;
 		}
@@ -485,9 +474,7 @@ class ilConditionHandlerGUI
 
 	function edit()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		if(!$_GET['condition_id'])
 		{
@@ -507,9 +494,7 @@ class ilConditionHandlerGUI
 
 	function updateCondition()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		if(!$_GET['condition_id'])
 		{
@@ -565,9 +550,7 @@ class ilConditionHandlerGUI
 	
 	function askDelete()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		if(!count($_POST['conditions']))
 		{
@@ -642,9 +625,7 @@ class ilConditionHandlerGUI
 
 	function add()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		if(!$_GET['source_id'])
 		{

@@ -16,36 +16,27 @@ class Factory implements Component\Input\Factory {
 	 */
 	protected $signal_generator;
 
-	/**
-	 * @var Field\Factory
-	 */
-	protected $field_factory;
-
-	/**
-	 * @var	Container\Factory
-	 */
-	protected $container_factory;
 
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct(SignalGeneratorInterface $signal_generator, Field\Factory $field_factory, Container\Factory $container_factory) {
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
-		$this->field_factory = $field_factory;
-		$this->container_factory = $container_factory;
 	}
+
 
 	/**
 	 * @inheritdoc
 	 */
 	public function field() {
-		return $this->field_factory;
+		return new Field\Factory($this->signal_generator);
 	}
+
 
 	/**
 	 * @inheritdoc
 	 */
 	public function container() {
-		return $this->input_factory;
+		return new Container\Factory();
 	}
 }

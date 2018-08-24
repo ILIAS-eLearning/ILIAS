@@ -1,29 +1,5 @@
 <?php
 
-namespace SAML2\Assertion;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Assertion\Transformer\DecodeBase64Transformer;
-use SAML2\Assertion\Transformer\NameIdDecryptionTransformer;
-use SAML2\Assertion\Transformer\TransformerChain;
-use SAML2\Assertion\Validation\AssertionValidator;
-use SAML2\Assertion\Validation\ConstraintValidator\NotBefore;
-use SAML2\Assertion\Validation\ConstraintValidator\NotOnOrAfter;
-use SAML2\Assertion\Validation\ConstraintValidator\SessionNotOnOrAfter;
-use SAML2\Assertion\Validation\ConstraintValidator\SpIsValidAudience;
-use SAML2\Assertion\Validation\ConstraintValidator\SubjectConfirmationMethod;
-use SAML2\Assertion\Validation\ConstraintValidator\SubjectConfirmationNotBefore;
-use SAML2\Assertion\Validation\ConstraintValidator\SubjectConfirmationNotOnOrAfter;
-use SAML2\Assertion\Validation\ConstraintValidator\SubjectConfirmationRecipientMatches;
-use SAML2\Assertion\Validation\ConstraintValidator\SubjectConfirmationResponseToMatches;
-use SAML2\Assertion\Validation\SubjectConfirmationValidator;
-use SAML2\Certificate\PrivateKeyLoader;
-use SAML2\Configuration\Destination;
-use SAML2\Configuration\IdentityProvider;
-use SAML2\Configuration\ServiceProvider;
-use SAML2\Response;
-use SAML2\Signature\Validator;
-
 /**
  * Simple Builder that allows to build a new Assertion Processor.
  *
@@ -31,18 +7,18 @@ use SAML2\Signature\Validator;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ProcessorBuilder
+class SAML2_Assertion_ProcessorBuilder
 {
     public static function build(
-        LoggerInterface $logger,
-        Validator $signatureValidator,
-        Destination $currentDestination,
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider,
-        Response $response
+        Psr\Log\LoggerInterface $logger,
+        SAML2_Signature_Validator $signatureValidator,
+        SAML2_Configuration_Destination $currentDestination,
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider,
+        SAML2_Response $response
     ) {
-        $keyloader = new PrivateKeyLoader();
-        $decrypter = new Decrypter($logger, $identityProvider, $serviceProvider, $keyloader);
+        $keyloader = new SAML2_Certificate_PrivateKeyLoader();
+        $decrypter = new SAML2_Assertion_Decrypter($logger, $identityProvider, $serviceProvider, $keyloader);
         $assertionValidator = self::createAssertionValidator($identityProvider, $serviceProvider);
         $subjectConfirmationValidator = self::createSubjectConfirmationValidator(
             $identityProvider,
@@ -58,7 +34,7 @@ class ProcessorBuilder
             $serviceProvider
         );
 
-        return new Processor(
+        return new SAML2_Assertion_Processor(
             $decrypter,
             $signatureValidator,
             $assertionValidator,
@@ -70,41 +46,41 @@ class ProcessorBuilder
     }
 
     private static function createAssertionValidator(
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider
     ) {
-        $validator = new AssertionValidator($identityProvider, $serviceProvider);
-        $validator->addConstraintValidator(new NotBefore());
-        $validator->addConstraintValidator(new NotOnOrAfter());
-        $validator->addConstraintValidator(new SessionNotOnOrAfter());
-        $validator->addConstraintValidator(new SpIsValidAudience());
+        $validator = new SAML2_Assertion_Validation_AssertionValidator($identityProvider, $serviceProvider);
+        $validator->addConstraintValidator(new SAML2_Assertion_Validation_ConstraintValidator_NotBefore());
+        $validator->addConstraintValidator(new SAML2_Assertion_Validation_ConstraintValidator_NotOnOrAfter());
+        $validator->addConstraintValidator(new SAML2_Assertion_Validation_ConstraintValidator_SessionNotOnOrAfter());
+        $validator->addConstraintValidator(new SAML2_Assertion_Validation_ConstraintValidator_SpIsValidAudience());
 
         return $validator;
     }
 
     private static function createSubjectConfirmationValidator(
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider,
-        Destination $currentDestination,
-        Response $response
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider,
+        SAML2_Configuration_Destination $currentDestination,
+        SAML2_Response $response
     ) {
-        $validator = new SubjectConfirmationValidator($identityProvider, $serviceProvider);
+        $validator = new SAML2_Assertion_Validation_SubjectConfirmationValidator($identityProvider, $serviceProvider);
         $validator->addConstraintValidator(
-            new SubjectConfirmationMethod()
+            new SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationMethod()
         );
         $validator->addConstraintValidator(
-            new SubjectConfirmationNotBefore()
+            new SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationNotBefore()
         );
         $validator->addConstraintValidator(
-            new SubjectConfirmationNotOnOrAfter()
+            new SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationNotOnOrAfter()
         );
         $validator->addConstraintValidator(
-            new SubjectConfirmationRecipientMatches(
+            new SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationRecipientMatches(
                 $currentDestination
             )
         );
         $validator->addConstraintValidator(
-            new SubjectConfirmationResponseToMatches(
+            new SAML2_Assertion_Validation_ConstraintValidator_SubjectConfirmationResponseToMatches(
                 $response
             )
         );
@@ -113,17 +89,18 @@ class ProcessorBuilder
     }
 
     private static function createAssertionTransformerChain(
-        LoggerInterface $logger,
-        PrivateKeyLoader $keyloader,
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider
+        \Psr\Log\LoggerInterface $logger,
+        SAML2_Certificate_PrivateKeyLoader $keyloader,
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider
     ) {
-        $chain = new TransformerChain($identityProvider, $serviceProvider);
-        $chain->addTransformerStep(new DecodeBase64Transformer());
+        $chain = new SAML2_Assertion_Transformer_TransformerChain($identityProvider, $serviceProvider);
+        $chain->addTransformerStep(new SAML2_Assertion_Transformer_DecodeBase64Transformer());
         $chain->addTransformerStep(
-            new NameIdDecryptionTransformer($logger, $keyloader)
+            new SAML2_Assertion_Transformer_NameIdDecryptionTransformer($logger, $keyloader)
         );
 
         return $chain;
     }
+
 }

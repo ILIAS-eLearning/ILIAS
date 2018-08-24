@@ -46,13 +46,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	*/
 	function __construct()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilias = $DIC['ilias'];
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilMainMenu = $DIC['ilMainMenu'];
+		global $ilCtrl,$ilias,$lng,$tpl,$ilMainMenu;
 
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
@@ -66,10 +60,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
 	function prepareOutput()
 	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
-		$lng = $DIC['lng'];
+		global $ilLocator, $lng;
 		
 		$this->tpl->getStandardTemplate();
 		
@@ -91,10 +82,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	*/
 	public function initStandardSearchForm($a_mode)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -187,10 +175,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 */
 	public function getSearchAreaForm()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -379,9 +364,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 */
 	protected function addPager($result,$a_session_key)
 	{
-	 	global $DIC;
-
-	 	$tpl = $DIC['tpl'];
+	 	global $tpl;
 	 	
 	 	$_SESSION["$a_session_key"] = max($_SESSION["$a_session_key"],$this->search_cache->getResultPageNumber());
 	 	
@@ -446,9 +429,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 	 */
 	protected function buildSearchAreaPath($a_root_node)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$path_arr = $tree->getPathFull($a_root_node,ROOT_FOLDER_ID);
 		$counter = 0;
@@ -538,7 +519,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		
 		#$enabled->addSubItem($group);
 				
-		$form->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this,'performSearch'));
+		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this,'performSearch'));
 		
 		return $form;
 				

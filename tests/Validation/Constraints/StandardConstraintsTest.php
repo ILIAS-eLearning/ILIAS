@@ -33,11 +33,7 @@ class StandardConstraintsTest extends PHPUnit_Framework_TestCase {
 						["", "012345678"]),
 				array($f->hasMinLength(1),
 						["0", "01234567890"],
-						[""]),
-				array($f->isArrayOf($f->isInt()), [[1, 2,3]], [["one", 2]]),
-				array($f->isArrayOf($f->isString()), [["one", "two"]], [["one", 2]]),
-				array($f->isString(), ["one", "two"], [0x102, 2]),
-				array($f->isNull(), [null], [0, ""]),
+						[""])
 		);
 	}
 

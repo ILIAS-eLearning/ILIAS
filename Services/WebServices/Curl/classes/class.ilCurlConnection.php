@@ -109,7 +109,7 @@ class ilCurlConnection
 		if(strlen($this->url))
 		{
 			$this->ch = curl_init($this->url);
-			#$GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->url);
+			#$GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->url);
 		}
 		else
 		{

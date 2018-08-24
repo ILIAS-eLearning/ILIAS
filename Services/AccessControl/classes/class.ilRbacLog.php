@@ -35,9 +35,7 @@ class ilRbacLog
 
 	static public function gatherFaPa($a_ref_id, array $a_role_ids, $a_add_action = false)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$result = array();
 		
@@ -125,9 +123,7 @@ class ilRbacLog
 
 	static public function gatherTemplate($a_role_ref_id, $a_role_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_ref_id);
 	}
@@ -165,10 +161,7 @@ class ilRbacLog
 
 	static public function add($a_action, $a_ref_id, array $a_diff, $a_source_ref_id = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilDB = $DIC['ilDB'];
+		global $ilUser, $ilDB;
 
 		if(self::isValidAction($a_action) && sizeof($a_diff))
 	    {
@@ -201,10 +194,7 @@ class ilRbacLog
 
 	static public function getLogItems($a_ref_id, $a_limit, $a_offset, array $a_filter = NULL)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilDB, $rbacreview;
 
 		if($a_filter)
 		{
@@ -248,9 +238,7 @@ class ilRbacLog
 
 	static function delete($a_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$ilDB->query("DELETE FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer"));
 
@@ -259,9 +247,7 @@ class ilRbacLog
 
 	static function garbageCollection()
     {
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
 		$settings = ilPrivacySettings::_getInstance();

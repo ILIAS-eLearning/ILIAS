@@ -23,18 +23,14 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $ilObjDataCache,$lng;
 		
 		$lng->loadLanguageModule('grp');
 
 		$this->ref_id = $ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 
-		$this->setId('tblcrsprtgrp_'.$ref_id);
+		$this->setId("tblcrsprtgrp");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		// $this->setTitle($lng->txt("tr_summary"));
@@ -89,10 +85,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	function initGroups()
     {
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilAccess = $DIC['ilAccess'];
+		global $tree, $ilAccess;
 		
 		$parent_node = $tree->getNodeData($this->ref_id);
 		$groups = $tree->getSubTree($parent_node, true, "grp");
@@ -152,9 +145,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
 		$this->filter["name"] = $item->getValue();
@@ -236,10 +227,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 

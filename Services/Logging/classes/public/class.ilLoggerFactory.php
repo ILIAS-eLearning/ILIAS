@@ -16,8 +16,13 @@ use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 /**
  * Logging factory 
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * This class supplies an implementation for the locator.
+ * The locator will send its output to ist own frame, enabling more flexibility in
+ * the design of the desktop.
  *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * 
  */
 class ilLoggerFactory
 {
@@ -221,13 +226,10 @@ class ilLoggerFactory
 		{
 			$logger->pushHandler($stream_handler);
 		}
-
-		if(
-			$GLOBALS['DIC']->offsetExists('ilUser') &&
-			$GLOBALS['DIC']['ilUser'] instanceof ilObjUser
-		)
+		
+		if($GLOBALS['ilUser'] instanceof ilObjUser)
 		{
-			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['DIC']->user()->getLogin()))
+			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['ilUser']->getLogin()))
 			{
 				if($this->isConsoleAvailable())
 				{

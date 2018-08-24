@@ -210,19 +210,16 @@ class ilHTTPS
 	 */
 	public function enableSecureCookies()
 	{
-		global $ilClientIniFile;
+		global $ilLog,$ilClientIniFile;
 
-		$secure_disabled = $ilClientIniFile->readVariable('session', 'disable_secure_cookies');
-		if (!$secure_disabled && !$this->enabled && $this->isDetected() && !session_id()) {
-			if (!defined('IL_COOKIE_SECURE')) {
-				define('IL_COOKIE_SECURE', true);
-			}
-
+		$secure_disabled = $ilClientIniFile->readVariable('session','disable_secure_cookies');
+		if(!$secure_disabled and !$this->enabled and $this->isDetected() and !session_id())
+		{
+			#$ilLog->write(__CLASS__.': Enabled secure cookies');
 			session_set_cookie_params(
 				IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, true, IL_COOKIE_HTTPONLY
 			);
 		}
-
 		return true;
 	}
 }

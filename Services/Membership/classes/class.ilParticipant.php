@@ -62,10 +62,7 @@ abstract class ilParticipant
 	 */
 	protected function __construct($a_component_name, $a_obj_id, $a_usr_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
-	 	$lng = $DIC['lng'];
+	 	global $ilDB,$lng;
 	 	
 	 	$this->obj_id = $a_obj_id;
 		$this->usr_id = $a_usr_id;
@@ -88,11 +85,11 @@ abstract class ilParticipant
 	 */
 	public static function updateMemberRoles($a_obj_id, $a_usr_id, $a_role_id, $a_status)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$a_membership_role_type = self::getMembershipRoleType($a_role_id);
+		
+		ilLoggerFactory::getInstance()->getLogger('crs')->debug($a_membership_role_type);
 		
 		switch($a_membership_role_type)
 		{
@@ -109,7 +106,8 @@ abstract class ilParticipant
 			case self::MEMBERSHIP_MEMBER:
 			default:
 				$current_status = self::lookupStatusByMembershipRoleType($a_obj_id, $a_usr_id, $a_membership_role_type);
-
+				ilLoggerFactory::getInstance()->getLogger('crs')->debug($current_status);
+				
 				if($a_status)
 				{
 					$new_status = $current_status + 1;
@@ -170,6 +168,9 @@ abstract class ilParticipant
 			'AND member = '.$ilDB->quote(0,'integer');
 		$ilDB->manipulate($query);
 		
+		ilLoggerFactory::getLogger('mem')->debug($query);
+			
+		
 	}
 
 	/**
@@ -205,9 +206,7 @@ abstract class ilParticipant
 	 */
 	public static function lookupStatusByMembershipRoleType($a_obj_id, $a_usr_id, $a_membership_role_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT * FROM obj_members '.
 				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
@@ -303,10 +302,7 @@ abstract class ilParticipant
 	 */
 	protected function readParticipant()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $rbacreview,$ilObjDataCache,$ilLog;
 
 		$this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id,false);
 
@@ -388,9 +384,7 @@ abstract class ilParticipant
 	 */
 	protected function readParticipantStatus()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 
 	 	$query = "SELECT * FROM obj_members ".
 	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
@@ -417,16 +411,11 @@ abstract class ilParticipant
 	 * @param int role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
 	 *
 	 * global ilRbacReview $rbacreview
-	 *
+	 * 
 	 */
 	public function add($a_usr_id,$a_role)
 	{
-	 	global $DIC;
-
-	 	$rbacadmin = $DIC['rbacadmin'];
-	 	$ilLog = $DIC->logger()->mmbr();
-	 	$ilAppEventHandler = $DIC['ilAppEventHandler'];
-	 	$rbacreview = $DIC['rbacreview'];
+	 	global $rbacadmin,$ilLog,$ilAppEventHandler,$rbacreview;
 	 	
 
 		if($rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id,$this->roles))
@@ -466,7 +455,7 @@ abstract class ilParticipant
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
-		$ilLog->debug(': Raise new event: '.$this->getComponent().' addParticipant');
+		$ilLog->write(__METHOD__.': Raise new event: '.$this->getComponent().' addParticipant');
 		$ilAppEventHandler->raise(
 				$this->getComponent(),
 				"addParticipant", 
@@ -487,11 +476,7 @@ abstract class ilParticipant
 	 */
 	public function delete($a_usr_id)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$ilDB = $DIC['ilDB'];
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $rbacadmin,$ilDB, $ilAppEventHandler;
 		
 		$this->dropDesktopItem($a_usr_id);
 		foreach($this->roles as $role_id)
@@ -521,9 +506,7 @@ abstract class ilParticipant
 	 */
 	public function deleteSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
@@ -576,9 +559,7 @@ abstract class ilParticipant
 	 */
 	public function updateContact($a_usr_id, $a_contact)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$ilDB->manipulate(
 				'UPDATE obj_members SET '.
@@ -601,9 +582,7 @@ abstract class ilParticipant
 	 */
 	public function updateNotification($a_usr_id,$a_notification)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
 
@@ -643,9 +622,7 @@ abstract class ilParticipant
 	 */
 	public function checkLastAdmin($a_usr_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$admin_role_id = 
 			$this->type == 'crs' ? 

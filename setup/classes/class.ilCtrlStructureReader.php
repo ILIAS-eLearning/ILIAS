@@ -16,7 +16,7 @@ class ilCtrlStructureReader
 	var $class_childs;
 	var $executed;
 
-	function __construct($a_ini_file = null)
+	function __construct()
 	{
 		$this->class_script = array();
 		$this->class_childs = array();
@@ -179,15 +179,13 @@ class ilCtrlStructureReader
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
 										}
-
-										throw new \Exception(
-											sprintf(
-												$lng->txt("duplicate_ctrl"),
+										
+										$this->err_object->raiseError(
+											sprintf($lng->txt("duplicate_ctrl"),
 												$parent,
 												$this->class_script[$parent],
-												$a_cdir."/".$file
-											)
-										);
+												$a_cdir."/".$file)
+											, $this->err_object->MESSAGE);
 									}
 
 									$this->class_script[$parent] = $a_cdir."/".$file;

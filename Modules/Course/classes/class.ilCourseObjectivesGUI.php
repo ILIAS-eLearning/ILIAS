@@ -67,15 +67,7 @@ class ilCourseObjectivesGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilErr = $DIC['ilErr'];
-		$ilias = $DIC['ilias'];
-		$tpl = $DIC['tpl'];
-		$tree = $DIC['tree'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
@@ -102,9 +94,7 @@ class ilCourseObjectivesGUI
 	 */
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$ilTabs->setTabActive('crs_objectives');
 		
@@ -140,12 +130,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function listObjectives()
 	{
-	 	global $DIC;
-
-	 	$ilAccess = $DIC['ilAccess'];
-	 	$ilErr = $DIC['ilErr'];
-	 	$ilObjDataCache = $DIC['ilObjDataCache'];
-	 	$ilToolbar = $DIC['ilToolbar'];
+	 	global $ilAccess,$ilErr,$ilObjDataCache,$ilToolbar;
 	 	
 		$_SESSION['objective_mode'] = self::MODE_UNDEFINED;
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -174,11 +159,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function saveSorting()
 	{
-	 	global $DIC;
-
-	 	$ilAccess = $DIC['ilAccess'];
-	 	$ilErr = $DIC['ilErr'];
-	 	$ilObjDataCache = $DIC['ilObjDataCache'];
+	 	global $ilAccess,$ilErr,$ilObjDataCache;
 	 	
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
 		{
@@ -199,9 +180,7 @@ class ilCourseObjectivesGUI
 
 	function askDeleteObjective()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
@@ -291,9 +270,7 @@ class ilCourseObjectivesGUI
 
 	function deleteObjectives()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
@@ -328,11 +305,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function questionOverview()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilAccess,$ilErr,$ilTabs;
 		
 		$ilTabs->setSubTabActive('crs_objective_overview_question_assignment');
 		
@@ -361,10 +334,7 @@ class ilCourseObjectivesGUI
 	{
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -459,10 +429,7 @@ class ilCourseObjectivesGUI
 	*/
 	function setSubTabs($a_active = "")
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilHelp = $DIC['ilHelp'];
+		global $ilTabs, $ilHelp;
 
 		if ($a_active != "")
 		{
@@ -507,9 +474,7 @@ class ilCourseObjectivesGUI
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		$this->setSubTabs("create_obj");
 		
@@ -525,7 +490,7 @@ class ilCourseObjectivesGUI
 		$this->initWizard(1);
 		
 		$this->initFormTitle('create',1);
-		$GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
 		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		#$tpl->setContent($w_tpl->get());
 	}
@@ -538,9 +503,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function edit()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		$_SESSION['objective_mode'] = self::MODE_UPDATE;
 
@@ -562,7 +525,7 @@ class ilCourseObjectivesGUI
 		$this->__initQuestionObject((int) $_REQUEST['objective_id']);		
 		$this->initWizard(1);
 		$this->initFormTitle('create',1);
-		$GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
 		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		#$tpl->setContent($w_tpl->get());
 	}
@@ -575,10 +538,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function save()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -639,11 +599,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function materialAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
+		global $ilAccess,$ilErr,$tpl;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -672,7 +628,7 @@ class ilCourseObjectivesGUI
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$this->initWizard(2);
 		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+		$GLOBALS['tpl']->setContent($table->getHTML());
 		#$tpl->setContent($w_tpl->get());
 	}
 	
@@ -685,11 +641,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function updateMaterialAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilAccess,$ilErr,$ilObjDataCache;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -760,11 +712,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function selfAssessmentAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
+		global $ilAccess,$ilErr,$tpl;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -802,7 +750,7 @@ class ilCourseObjectivesGUI
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$this->initWizard(3);
-		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+		$GLOBALS['tpl']->setContent($table->getHTML());
 		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		#$tpl->setContent($w_tpl->get());
 	}
@@ -816,11 +764,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function updateSelfAssessmentAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilAccess,$ilErr,$ilObjDataCache;
 		
 		$checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
 		
@@ -900,11 +844,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function selfAssessmentLimits()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
+		global $ilAccess,$ilErr,$tpl;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -925,7 +865,7 @@ class ilCourseObjectivesGUI
 		$this->initWizard(4);
 		
 		$this->initFormLimits('selfAssessment');
-		$GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
 		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		#$tpl->setContent($w_tpl->get());
 	}
@@ -939,11 +879,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function updateSelfAssessmentLimits()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilAccess,$ilErr,$ilObjDataCache;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -985,11 +921,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function finalTestAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
+		global $ilAccess,$ilErr,$tpl;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -1027,7 +959,7 @@ class ilCourseObjectivesGUI
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$this->initWizard(5);
-		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+		$GLOBALS['tpl']->setContent($table->getHTML());
 		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		#$tpl->setContent($w_tpl->get());
 	}
@@ -1070,10 +1002,10 @@ class ilCourseObjectivesGUI
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$this->initWizard(5);
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 		#$w_tpl->setVariable('WIZ_CONTENT',$form->getHTML());
 		
-		#$GLOBALS['DIC']['tpl']->setContent($w_tpl->get());
+		#$GLOBALS['tpl']->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -1154,10 +1086,10 @@ class ilCourseObjectivesGUI
 			return array();
 		}
 		$list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-				$GLOBALS['DIC']['ilDB'],
+				$GLOBALS['ilDB'],
 				$tst,
 				new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-						$GLOBALS['DIC']['ilDB'],
+						$GLOBALS['ilDB'],
 						$tst
 				)
 		);
@@ -1165,7 +1097,7 @@ class ilCourseObjectivesGUI
 		$list->loadDefinitions();
 
 		include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
-		$translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
+		$translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['ilDB']);
 		$translater->loadLabels($list);
 		
 		$options[0] = $this->lng->txt('select_one');
@@ -1268,11 +1200,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function updateFinalTestAssignment()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilAccess,$ilErr,$ilObjDataCache;
 		
 		$checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
 		
@@ -1332,10 +1260,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function finalSeparatedTestAssignment(ilPropertyFormGUI $form = null)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess, $ilErr;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -1351,7 +1276,7 @@ class ilCourseObjectivesGUI
 		
 		$this->initWizard(6);
 		$form = $this->initFormTestAssignment();
-		$GLOBALS['DIC']['tpl']->setContent($form->getHtml());
+		$GLOBALS['tpl']->setContent($form->getHtml());
 	}
 	
 	/**
@@ -1363,11 +1288,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function finalTestLimits()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
+		global $ilAccess,$ilErr,$tpl;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -1388,7 +1309,7 @@ class ilCourseObjectivesGUI
 		$this->initWizard(6);
 		
 		$this->initFormLimits('final');
-		$GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
 
 		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		#$tpl->setContent($w_tpl->get());
@@ -1403,11 +1324,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function updateFinalTestLimits()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilAccess,$ilErr,$ilObjDataCache;
 		
 		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -1496,7 +1413,7 @@ class ilCourseObjectivesGUI
 		
 		foreach($tests as $test)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($test,TRUE));
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($test,TRUE));
 			
 			$limit = $test['limit'];
 
@@ -1723,7 +1640,7 @@ class ilCourseObjectivesGUI
 		}
 
 		// checklist gui start
-		$GLOBALS['DIC']["tpl"]->setRightContent($check_list->getHTML());
+		$GLOBALS["tpl"]->setRightContent($check_list->getHTML());
 		// checklist gui end
 		
 	}

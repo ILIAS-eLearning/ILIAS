@@ -64,9 +64,7 @@ class ilECSCategoryMappingRule
 	 */
 	public function __construct($a_mapping_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->mapping_id = $a_mapping_id;
 		
@@ -295,9 +293,7 @@ class ilECSCategoryMappingRule
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMappingType() == self::TYPE_BY_TYPE)
 		{
@@ -365,9 +361,7 @@ class ilECSCategoryMappingRule
 	 */
 	public function conditionToString()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		switch($this->getMappingType())
 		{
@@ -446,9 +440,7 @@ class ilECSCategoryMappingRule
 	 */
 	protected function matchesValue($a_value,$a_type)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		
 		switch($a_type)

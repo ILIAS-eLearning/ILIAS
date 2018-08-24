@@ -33,12 +33,7 @@
 				{QUESTION_OUTPUT}
 				<!-- BEGIN discard_solution_modal -->{DISCARD_SOLUTION_MODAL}<!-- END discard_solution_modal -->
 				<!-- BEGIN nav_while_edit_modal -->{NAV_WHILE_EDIT_MODAL}<!-- END nav_while_edit_modal -->
-				<!-- BEGIN next_locks_changed_modal -->{NEXT_LOCKS_CHANGED_MODAL}<!-- END next_locks_changed_modal -->
-				<!-- BEGIN next_locks_unchanged_modal -->{NEXT_LOCKS_UNCHANGED_MODAL}<!-- END next_locks_unchanged_modal -->
             </div>
-			<!-- BEGIN instant_response_header -->
-			<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"<!-- END inst_resp_id -->><h1 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h1></div>
-			<!-- END instant_response_header -->
 			<!-- BEGIN received_points_information -->
             <p>{RECEIVED_POINTS_INFORMATION}</p>
 			<!-- END received_points_information -->
@@ -50,8 +45,8 @@
             <!-- END specific_feedback -->
             <!-- BEGIN solution_output -->
 			<!-- BEGIN solution_output_details -->
-			<p><strong>{CORRECT_SOLUTION}</strong></p>
-			<div class="ilc_question_Standard">
+			<p><strong>{CORRECT_SOLUTION}</strong>:</p>
+			<div class="ilc_Page" id="ilc_Page">
 			{QUESTION_FEEDBACK}
 			</div>
 			<!-- END solution_output_details -->
@@ -104,8 +99,52 @@
 	{
 		document.forms["taForm"].submit();
 	}
+	function charCounter(e)
+	{
+		if(e.type == 'keydown' || e.type == 'keyup') {
+			content = $("#TEXT").val();
+			content = stripAndDecode(content);
+
+			counter = YAHOO.util.Dom.get("myCounter");
+
+			counterblock = YAHOO.util.Dom.get("charcounter");
+			if (counterblock != null)
+			{
+				counterblock.style.visibility = 'visible';
+				if (maxL > 0) counter.value = maxL - content.length;
+			}
+			
+		}
+	}
 	
+	function initCharCounter()
+	{
+		content = $("#TEXT").val();
+		content = stripAndDecode(content);
+
+		counterblock = YAHOO.util.Dom.get("charcounter");
+		if (counterblock != null)
+		{
+			counterblock.style.visibility = 'visible';
+			counter = YAHOO.util.Dom.get("myCounter");
+			if (maxL > 0) counter.value = maxL - content.length;
+		}
+	}
+
+	function stripAndDecode(string)
+	{
+		return string
+			.replace(/(<([^>]+)>)/ig, "")
+			.replace(/&lt;/ig, "<")
+			.replace(/&gt;/ig, ">")
+			.replace(/\r?\n|\r/g, '')
+			.replace(/&nbsp;/gi, " ")
+			.replace(/&amp;/gi, " ");
+	}
+
 <!-- fau: testNav - moved auto saver to ilTestPlayerQuestionEditControl.js -->
+
+	YAHOO.util.Event.onDOMReady(initCharCounter);
 
 	(function($){ $(document).ready( function()
 	{

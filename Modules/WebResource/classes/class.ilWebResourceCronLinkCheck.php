@@ -20,18 +20,14 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("check_web_resources");
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("check_web_resources_desc");
 	}
@@ -58,11 +54,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 	
 	public function run()
 	{		
-		global $DIC;
-
-		$ilLog = $DIC->logger()->webr();
-		$ilUser = $DIC['ilUser'];
-		$ilDB = $DIC['ilDB'];
+		global $ilLog, $ilUser, $ilDB;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 	
@@ -101,7 +93,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 
 			foreach($link_checker->getLogMessages() as $message)
 			{
-				$ilLog->debug($message);
+				$ilLog->write($message);
 				$counter++;
 			}
 		}
@@ -143,9 +135,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 	
 	public function activationWasToggled($a_currently_active)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 				
 		// propagate cron-job setting to object setting
 		$ilSetting->set("cron_web_resource_check", (bool)$a_currently_active);		

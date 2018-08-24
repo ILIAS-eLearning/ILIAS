@@ -83,14 +83,6 @@ interface Item extends \ILIAS\UI\Component\Component {
 	public function withLeadImage(\ILIAS\UI\Component\Image\Image $image);
 
 	/**
-	 * Set icon as lead
-	 *
-	 * @param \ILIAS\UI\Component\Icon\Icon $icon lead icon
-	 * @return Icon
-	 */
-	public function withLeadIcon(\ILIAS\UI\Component\Icon\Icon $icon);
-
-	/**
 	 * Set image as lead
 	 *
 	 * @param string $text lead text
@@ -105,7 +97,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	public function withNoLead();
 
 	/**
-	 * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Icon\Icon
+	 * @return null|string|\ILIAS\UI\Component\Image\Image
 	 */
 	public function getLead();
 

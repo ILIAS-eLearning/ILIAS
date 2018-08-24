@@ -40,11 +40,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
@@ -115,11 +111,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacsystem, $tree, $ilLog;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -193,11 +185,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacsystem, $tree, $ilLog;
 
 		if(ilObject::_isInTrash($ref_id))
 		{

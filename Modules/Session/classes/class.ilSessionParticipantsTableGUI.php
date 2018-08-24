@@ -225,9 +225,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function getSelectableColumns()
 	{		
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		
 		self::$all_columns['roles'] = array(
@@ -281,7 +279,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			foreach($local_roles as $role_id => $role_name)
 			{
 				// @todo fix performance
-				if($GLOBALS['DIC']['rbacreview']->isAssigned($participant['usr_id'], $role_id))
+				if($GLOBALS['rbacreview']->isAssigned($participant['usr_id'], $role_id))
 				{
 					$tmp_data['role_ids'][] = $role_id;
 					$roles[] = $role_name;

@@ -30,9 +30,7 @@ class ilFMSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd();
@@ -65,7 +63,7 @@ class ilFMSettingsGUI
 	{
 		$form = $this->initSettingsForm();
 
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 
 	/**
@@ -84,8 +82,8 @@ class ilFMSettingsGUI
 			$settings->setMaxFileSize($form->getInput('filesize'));
 			$settings->update();
 
-			ilUtil::sendSuccess($GLOBALS['DIC']['lng']->txt('settings_saved'), true);
-			$GLOBALS['DIC']['ilCtrl']->redirect($this,'settings');
+			ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'), true);
+			$GLOBALS['ilCtrl']->redirect($this,'settings');
 		}
 	}
 
@@ -94,38 +92,36 @@ class ilFMSettingsGUI
 	 */
 	protected function initSettingsForm()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($GLOBALS['DIC']['lng']->txt('settings'));
-		$form->addCommandButton('update', $GLOBALS['DIC']['lng']->txt('save'));
-		$form->addCommandButton('settings', $GLOBALS['DIC']['lng']->txt('cancel'));
+		$form->setTitle($GLOBALS['lng']->txt('settings'));
+		$form->addCommandButton('update', $GLOBALS['lng']->txt('save'));
+		$form->addCommandButton('settings', $GLOBALS['lng']->txt('cancel'));
 
 		// activation
-		$active = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('fm_settings_active'), 'active');
-		$active->setInfo($GLOBALS['DIC']['lng']->txt('fm_settings_active_info'));
+		$active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('fm_settings_active'), 'active');
+		$active->setInfo($GLOBALS['lng']->txt('fm_settings_active_info'));
 		$active->setValue(1);
 		$active->setChecked(ilFMSettings::getInstance()->isEnabled());
 		$form->addItem($active);
 
 		// one frame
-		$local = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('fm_settings_local'), 'local');
-		$local->setInfo($GLOBALS['DIC']['lng']->txt('fm_settings_local_info'));
+		$local = new ilCheckboxInputGUI($GLOBALS['lng']->txt('fm_settings_local'), 'local');
+		$local->setInfo($GLOBALS['lng']->txt('fm_settings_local_info'));
 		$local->setValue(1);
 		$local->setChecked(ilFMSettings::getInstance()->IsLocalFSEnabled());
 		$form->addItem($local);
 		
-		$fs = new ilNumberInputGUI($GLOBALS['DIC']['lng']->txt('fm_settings_filesize'),'filesize');
+		$fs = new ilNumberInputGUI($GLOBALS['lng']->txt('fm_settings_filesize'),'filesize');
 		$fs->setSuffix('MiB');
 		$fs->setSize(3);
 		$fs->setMaxLength(3);
 		$fs->setMinValue(1);
 		$fs->setMaxValue(999);
-		$fs->setInfo($GLOBALS['DIC']['lng']->txt('fm_settings_filesize_info'));
+		$fs->setInfo($GLOBALS['lng']->txt('fm_settings_filesize_info'));
 		$fs->setValue(ilFMSettings::getInstance()->getMaxFileSize());
 		$form->addItem($fs);
 		

@@ -1,13 +1,9 @@
 <?php
 
-namespace SAML2\Assertion\Validation;
-
-use SAML2\Exception\InvalidArgumentException;
-
 /**
  * Simple Result object
  */
-class Result
+class SAML2_Assertion_Validation_Result
 {
     /**
      * @var array
@@ -20,7 +16,7 @@ class Result
     public function addError($message)
     {
         if (!is_string($message)) {
-            throw InvalidArgumentException::invalidType('string', $message);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $message);
         }
 
         $this->errors[] = $message;

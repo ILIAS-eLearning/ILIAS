@@ -25,9 +25,7 @@ class ilConsultationHourAppointments
 	 */
 	public static function getAppointmentIds($a_user_id, $a_context_id = NULL, $a_start = NULL, $a_type = NULL, $a_check_owner = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!$a_type)
 		{
@@ -78,9 +76,7 @@ class ilConsultationHourAppointments
 	 */
 	public static function getAppointmentIdsByGroup($a_user_id, $a_ch_group_id, ilDateTime $start = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// @todo check start time
 		
@@ -134,10 +130,7 @@ class ilConsultationHourAppointments
 	 */
 	public static function getManager($a_as_name = false, $a_full_name = false, $a_user_id = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilUser;
 
 		if(!$a_user_id)
 		{
@@ -172,10 +165,7 @@ class ilConsultationHourAppointments
 	 */
 	public static function setManager($a_user_name)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilUser;
 
 		$user_id = false;
 		if($a_user_name)
@@ -206,10 +196,7 @@ class ilConsultationHourAppointments
 	 */
 	public static function getManagedUsers()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilUser;
 
 		$all = array();
 		$set = $ilDB->query('SELECT user_id FROM cal_ch_settings'.

@@ -37,7 +37,7 @@ class sspmod_core_Auth_Process_ExtendIdPSession extends SimpleSAML_Auth_Processi
 		}
 
 		/* Or if session lifetime is more than zero */
-		$sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
+		$sessionHandler = SimpleSAML_SessionHandler::getSessionHandler();
 		$cookieParams = $sessionHandler->getCookieParams();
 		if ($cookieParams['lifetime'] > 0) {
 			$session->updateSessionCookies();

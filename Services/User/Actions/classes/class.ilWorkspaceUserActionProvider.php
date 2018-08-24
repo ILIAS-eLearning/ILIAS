@@ -23,10 +23,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
 	 */
 	function __construct()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $ilSetting;
 
 		$this->wsp_activated = (!$ilSetting->get("disable_personal_workspace"));
 		$lng->loadLanguageModule("wsp");
@@ -59,10 +56,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
 	 */
 	function collectActionsForTargetUser($a_target_user)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 
 		$coll = ilUserActionCollection::getInstance();
 		include_once("./Services/User/Actions/classes/class.ilUserAction.php");

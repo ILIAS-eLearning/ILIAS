@@ -39,9 +39,7 @@ class ilSoapClient
 	 */
 	public function __construct($a_uri = '')
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$this->log = ilLoggerFactory::getLogger('wsrv');
 
@@ -125,9 +123,7 @@ class ilSoapClient
 	 */
 	public function init()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		if(!strlen(trim($this->getServer())))
 		{

@@ -46,9 +46,7 @@ class ilCourseStart
 	 */
 	public function __construct($a_course_ref_id,$a_course_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db = $ilDB;
 
@@ -88,10 +86,7 @@ class ilCourseStart
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilLog = $DIC['ilLog'];
+		global $ilObjDataCache,$ilLog;
 		
 		$ilLog->write(__METHOD__.': Begin course start objects...');
 		
@@ -120,9 +115,7 @@ class ilCourseStart
 
 	function delete($a_crs_start_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_start ".
 			"WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id ,'integer')." ".
@@ -133,9 +126,7 @@ class ilCourseStart
 
 	function exists($a_item_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_start ".
 			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ".
@@ -147,9 +138,7 @@ class ilCourseStart
 
 	function add($a_item_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($a_item_ref_id)
 		{
@@ -168,9 +157,7 @@ class ilCourseStart
 
 	function __deleteAll()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_start ".
 			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ";
@@ -212,9 +199,7 @@ class ilCourseStart
 
 	function isFullfilled($user_id,$item_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		$lm_continue = new ilCourseLMHistory($this->getRefId(),$user_id);
@@ -262,10 +247,7 @@ class ilCourseStart
 	// PRIVATE
 	function __read()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
+		global $tree,$ilDB;
 
 		$this->start_objs = array();
 

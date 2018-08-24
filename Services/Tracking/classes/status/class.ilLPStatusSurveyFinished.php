@@ -60,9 +60,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
 		
 	protected static function getSurveyId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT survey_id FROM svy_svy".
 			" WHERE obj_fi = ".$ilDB->quote($a_obj_id));
@@ -72,9 +70,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
 	
 	public static function getParticipants($a_obj_id, $a_only_finished = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		

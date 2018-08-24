@@ -49,10 +49,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function authSettingsObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilSetting = $DIC['ilSetting'];
+		global $rbacsystem, $ilSetting;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -230,11 +227,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 */
 	public function loginInfoObject()
 	{
-		global $DIC;	
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $rbacsystem, $lng,$ilSetting;	
 		
 		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
@@ -265,10 +258,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	function setAuthModeObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilSetting = $DIC['ilSetting'];
+		global $rbacsystem,$ilSetting;
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -340,13 +330,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function editSOAPObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $rbacsystem, $rbacreview, $ilSetting, $ilCtrl, $lng;
 		
 		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
@@ -541,11 +525,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function saveSOAPObject()
 	{
-         global $DIC;
-
-         $ilUser = $DIC['ilUser'];
-         $ilSetting = $DIC['ilSetting'];
-         $rbacsystem = $DIC['rbacsystem'];
+         global $ilUser, $ilSetting, $rbacsystem;
 
  		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -587,9 +567,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function editScriptObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 		
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -702,9 +680,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	
 	function updateAuthRolesObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -858,10 +834,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -974,9 +947,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
@@ -1034,13 +1005,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		global $DIC;
+		global $rbacsystem,$ilUser,$ilAccess;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-
-		$GLOBALS['DIC']['lng']->loadLanguageModule('auth');
+		$GLOBALS['lng']->loadLanguageModule('auth');
 		
 		switch ($a_tab)
 		{			
@@ -1066,9 +1033,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	public function apacheAuthSettingsObject($form = false)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		$this->tabs_gui->setTabActive("apache_auth_settings");
 
@@ -1091,9 +1056,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	public function saveApacheSettingsObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		$form = $this->getApacheAuthSettingsForm();
 		$form->setValuesByPost();
 		/*$items = $form->getItems();
@@ -1122,9 +1085,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->ilias->setSetting('apache_active', true);
 			else {
 				$this->ilias->setSetting('apache_active', false);
-				global $DIC;
-
-				$ilSetting = $DIC['ilSetting'];
+				global $ilSetting;
 				if ($ilSetting->get("auth_mode") == AUTH_APACHE) {
 					$ilSetting->set("auth_mode", AUTH_LOCAL);
 				}
@@ -1156,9 +1117,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$chb_local_create_account = new ilCheckboxInputGUI($this->lng->txt('apache_autocreate'), 'apache_local_autocreate');
 		$chb_enabled->addSubitem($chb_local_create_account);
 
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		$roles = $rbacreview->getGlobalRolesArray();
 		$select = new ilSelectInputGUI($this->lng->txt('apache_default_role'), 'apache_default_role');
 		$roleOptions = array();
@@ -1176,7 +1135,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$chb_ldap = new ilCheckboxInputGUI($this->lng->txt('apache_enable_ldap'), 'apache_enable_ldap');
 		$chb_ldap->setInfo($this->lng->txt('apache_ldap_hint_ldap_must_be_configured'));
 		
-		$GLOBALS['DIC']['lng']->loadLanguageModule('auth');
+		$GLOBALS['lng']->loadLanguageModule('auth');
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 		$servers = ilLDAPServer::getServerIds();
 		if(count($servers))

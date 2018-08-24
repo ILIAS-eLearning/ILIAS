@@ -26,8 +26,6 @@ class ilAssQuestionPreviewGUI
 
 	const TAB_ID_QUESTION_PREVIEW = 'preview';
 	
-	const FEEDBACK_FOCUS_ANCHOR = 'focus';
-	
 	/**
 	 * @var ilCtrl
 	 */
@@ -183,19 +181,11 @@ class ilAssQuestionPreviewGUI
 		}
 	}
 	
-	/**
-	 * @return string
-	 */
-	protected function buildPreviewFormAction()
-	{
-		return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
-	}
-	
 	private function showCmd()
 	{
 		$tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
 
-		$tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
+		$tpl->setVariable('PREVIEW_FORMACTION', $this->ctrl->getFormAction($this, self::CMD_SHOW));
 
 		$this->populatePreviewToolbar($tpl);
 		
@@ -203,48 +193,22 @@ class ilAssQuestionPreviewGUI
 		
 		$this->populateQuestionNavigation($tpl);
 
-		$this->handleInstantResponseRendering($tpl);
-		
-		$this->tpl->setContent($tpl->get());
-	}
-	
-	protected function handleInstantResponseRendering(ilTemplate $tpl)
-	{
-		$renderHeader = false;
-		$renderAnchor = false;
+		if( $this->isShowGenericQuestionFeedbackRequired() )
+		{
+			$this->populateGenericQuestionFeedback($tpl);
+		}
+
+		if( $this->isShowSpecificQuestionFeedbackRequired() )
+		{
+			$this->populateSpecificQuestionFeedback($tpl);
+		}
 		
 		if( $this->isShowBestSolutionRequired() )
 		{
 			$this->populateSolutionOutput($tpl);
-			$renderAnchor = true;
 		}
 		
-		if( $this->isShowGenericQuestionFeedbackRequired() )
-		{
-			$this->populateGenericQuestionFeedback($tpl);
-			$renderAnchor = true;
-			$renderHeader = true;
-		}
-		
-		if( $this->isShowSpecificQuestionFeedbackRequired() )
-		{
-			$renderHeader = true;
-			
-			if( $this->questionGUI->hasInlineFeedback() )
-			{
-				$renderAnchor = false;
-			}
-			else
-			{
-				$this->populateSpecificQuestionFeedback($tpl);
-				$renderAnchor = true;
-			}
-		}
-		
-		if( $renderHeader )
-		{
-			$this->populateInstantResponseHeader($tpl, $renderAnchor);
-		}
+		$this->tpl->setContent($tpl->get());
 	}
 	
 	private function resetCmd()
@@ -308,12 +272,6 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler());
 		
 		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
-		$this->questionGUI->magicAfterTestOutput();
-		
-		if( $this->isShowSpecificQuestionFeedbackRequired() && $this->questionGUI->hasInlineFeedback() )
-		{
-			$questionHtml = $this->questionGUI->buildFocusAnchorHtml() . $questionHtml;
-		}
 		
 		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
 
@@ -346,20 +304,16 @@ class ilAssQuestionPreviewGUI
 
 		$this->questionGUI->setPreviewSession($this->previewSession);
 
-		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)));
+		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0)));
 
 		//$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
 		//$pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
 
 		//$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
-		
-		$output = $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false);
-		//$output = $pageGUI->preview();
-		//$output = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $output);
-		
+
 		$tpl->setCurrentBlock('solution_output');
 		$tpl->setVariable('TXT_CORRECT_SOLUTION', $this->lng->txt('tst_best_solution_is'));
-		$tpl->setVariable('SOLUTION_OUTPUT', $output);
+		$tpl->setVariable('SOLUTION_OUTPUT', $pageGUI->preview());
 		$tpl->parseCurrentBlock();
 	}
 
@@ -405,26 +359,8 @@ class ilAssQuestionPreviewGUI
 
 	private function populateSpecificQuestionFeedback(ilTemplate $tpl)
 	{
-		$fb = $this->questionGUI->getSpecificFeedbackOutput(
-			(array)$this->previewSession->getParticipantsSolution()
-		);
-		
 		$tpl->setCurrentBlock('instant_feedback_specific');
-		$tpl->setVariable('ANSWER_FEEDBACK', $fb);
-		$tpl->parseCurrentBlock();
-	}
-	
-	protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor)
-	{
-		if( $withFocusAnchor )
-		{
-			$tpl->setCurrentBlock('inst_resp_id');
-			$tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', self::FEEDBACK_FOCUS_ANCHOR);
-			$tpl->parseCurrentBlock();
-		}
-		
-		$tpl->setCurrentBlock('instant_response_header');
-		$tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
+		$tpl->setVariable('ANSWER_FEEDBACK', $this->questionGUI->getSpecificFeedbackOutput(0, -1));
 		$tpl->parseCurrentBlock();
 	}
 

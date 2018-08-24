@@ -98,9 +98,7 @@ class ilSCTask
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->getId())
 		{
@@ -125,9 +123,7 @@ class ilSCTask
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->id = $ilDB->nextId('sysc_tasks');
 		
@@ -147,9 +143,7 @@ class ilSCTask
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'UPDATE sysc_tasks SET '.
 				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',UTC),'timestamp').', '.

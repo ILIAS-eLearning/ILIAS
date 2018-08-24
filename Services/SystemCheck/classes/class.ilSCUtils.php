@@ -13,9 +13,7 @@ class ilSCUtils
 {
 	public static function taskStatus2Text($a_status)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		switch($a_status)
 		{

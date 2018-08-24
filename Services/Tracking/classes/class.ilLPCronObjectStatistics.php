@@ -21,9 +21,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule("trac");
 		return $lng->txt("trac_object_statistics");
@@ -31,9 +29,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule("trac");
 		return $lng->txt("trac_object_statistics_info");
@@ -92,10 +88,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 	 */
 	protected function gatherCourseLPData()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
+		global $tree, $ilDB;
 		
 		$logger = $GLOBALS['DIC']->logger()->trac();
 		
@@ -174,9 +167,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 	
 	protected function gatherTypesData()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$count = 0;
 		
@@ -213,9 +204,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 	
 	protected function gatherUserData()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$count = 0;
 		

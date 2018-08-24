@@ -15,9 +15,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 {	
 	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$fields = new ilCheckboxGroupInputGUI($lng->txt("profile"), "profile");	
 		$a_form->addItem($fields);

@@ -17,9 +17,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
@@ -42,10 +40,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 
 		if($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK)
 		{

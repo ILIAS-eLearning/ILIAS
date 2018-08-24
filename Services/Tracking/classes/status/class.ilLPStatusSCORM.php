@@ -17,9 +17,7 @@ class ilLPStatusSCORM extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -43,9 +41,7 @@ class ilLPStatusSCORM extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
 
@@ -208,11 +204,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+		global $ilObjDataCache, $ilDB, $ilLog;
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 

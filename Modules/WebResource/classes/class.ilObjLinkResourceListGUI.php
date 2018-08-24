@@ -36,9 +36,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getDescription()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 	
 		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{
@@ -111,10 +109,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $ilUser;
 
 		$props = array();
 

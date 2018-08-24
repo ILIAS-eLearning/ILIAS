@@ -43,9 +43,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		// parent::send();
 		

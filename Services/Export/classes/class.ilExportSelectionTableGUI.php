@@ -25,12 +25,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_class,$a_parent_cmd)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
-		$objDefinition = $DIC['objDefinition'];
+		global $lng,$ilCtrl,$ilUser,$objDefinition;
 		
 		parent::__construct($a_parent_class,$a_parent_cmd);
 		
@@ -162,11 +157,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 	 */
 	public function parseContainer($a_source)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$objDefinition = $DIC['objDefinition'];
-		$ilAccess = $DIC['ilAccess'];
+		global $tree,$objDefinition, $ilAccess;
 		
 		$first = true;
 		foreach($tree->getSubTree($root = $tree->getNodeData($a_source)) as $node)

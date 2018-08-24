@@ -72,9 +72,7 @@ class ilSession
 			// fix for php #70520
 			return '';
 		}
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$q = "SELECT data FROM usr_session WHERE session_id = ".
 			$ilDB->quote($a_session_id, "text");
@@ -93,9 +91,7 @@ class ilSession
 	 */
 	public static function lookupExpireTime($a_session_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT expires FROM usr_session WHERE session_id = '.
 			$ilDB->quote($a_session_id, 'text');
@@ -116,10 +112,7 @@ class ilSession
 	*/
 	static function _writeData($a_session_id, $a_data)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+		global $ilDB, $ilClientIniFile;
 		
 		if (self::isWebAccessWithoutSessionEnabled())
 		{
@@ -201,9 +194,7 @@ class ilSession
 		if (! $a_session_id) {
 			return false;
 		}
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$q = "SELECT 1 FROM usr_session WHERE session_id = " . $ilDB->quote($a_session_id, "text");
 		$set = $ilDB->query($q);
@@ -220,9 +211,7 @@ class ilSession
 	*/
 	static function _destroy($a_session_id, $a_closing_context = null, $a_expired_at = null)
 	{		
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$a_closing_context)
 		{
@@ -262,9 +251,7 @@ class ilSession
 	*/
 	static function _destroyByUserId($a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$q = "DELETE FROM usr_session WHERE user_id = ".
 			$ilDB->quote($a_user_id, "integer");
@@ -278,9 +265,7 @@ class ilSession
 	*/
 	static function _destroyExpiredSessions()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 				
 		$q = "SELECT session_id,expires FROM usr_session WHERE expires < ".
 			$ilDB->quote(time(), "integer");
@@ -306,9 +291,7 @@ class ilSession
 	*/
 	static function _duplicate($a_session_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 	
 		// Create new session id
 		$new_session = $a_session_id;
@@ -344,9 +327,7 @@ class ilSession
 	 */
 	public static function getExpireValue($fixedMode = false)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
 		{
@@ -372,10 +353,7 @@ class ilSession
 	 */
 	public static function getIdleValue($fixedMode = false)
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+		global $ilSetting, $ilClientIniFile;
 		
 		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_FIXED )
 		{
@@ -411,9 +389,7 @@ class ilSession
 	 */
 	static function _getUsersWithIp($a_ip)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT DISTINCT user_id FROM usr_session"
 				. " WHERE remote_addr = " . $ilDB->quote($a_ip, "text")

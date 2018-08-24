@@ -10,14 +10,15 @@
   ],
   "homepage": "https://github.com/robrichards/xmlseclibs",
   "autoload": {
-    "psr-4": {
-      "RobRichards\\XMLSecLibs\\": "src"
-    }
+    "classmap": [
+      "src/"
+    ]
   },
   "require": {
-    "php": ">= 5.4"
+      "php": ">= 5.2"
    },
   "suggest": {
-    "ext-openssl": "OpenSSL extension"
+    "ext/openssl": "OpenSSL extension",
+    "ext/mcrypt": "MCrypt extension"
   }
 }

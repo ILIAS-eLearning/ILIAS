@@ -22,18 +22,14 @@ class ilUserCronCheckAccounts extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("check_user_accounts");
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("check_user_accounts_desc");
 	}
@@ -60,11 +56,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 	
 	public function run()
 	{			
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
-		$lng = $DIC['lng'];
+		global $ilDB, $ilLog, $lng;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		
@@ -84,7 +76,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 		$res = $ilDB->query($query);
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
-		$senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 		$sender        = $senderFactory->system();
 
 		while($row = $ilDB->fetchObject($res))
@@ -137,10 +129,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 	
 	protected function checkNotConfirmedUserAccounts()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+		global $ilDB, $ilLog;
 		
 		require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
 		$oRegSettigs = new ilRegistrationSettings();

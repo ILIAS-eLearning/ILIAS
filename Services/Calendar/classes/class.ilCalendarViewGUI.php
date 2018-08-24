@@ -333,9 +333,7 @@ class ilCalendarViewGUI
 	//get active plugins.
 	public function getActivePlugins($a_slot_id)
 	{
-		global $DIC;
-
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilPluginAdmin;
 
 		$res = array();
 

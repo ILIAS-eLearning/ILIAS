@@ -77,9 +77,7 @@ class ilAccess implements ilAccessHandler {
 
 
 	public function __construct() {
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$this->rbacsystem = $rbacsystem;
 		$this->results = array();
@@ -105,9 +103,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = "",$a_info = "")
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		if ($a_user_id == "")
 		{
@@ -158,9 +154,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	public function getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id = "")
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		if ($a_user_id == "")
 		{
@@ -183,10 +177,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function storeCache()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB, $ilUser;
 
 		$query = "DELETE FROM acc_cache WHERE user_id = ".$ilDB->quote($ilUser->getId(),'integer');
 		$res = $ilDB->manipulate($query);
@@ -202,10 +193,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function readCache($a_secs = 0)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilDB = $DIC['ilDB'];
+		global $ilUser, $ilDB;
 
 		if ($a_secs > 0)
 		{
@@ -250,9 +238,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		return $this->checkAccessOfUser($ilUser->getId(),$a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id, $a_tree_id);
 	}
@@ -262,10 +248,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
-		$lng = $DIC['lng'];
+		global $ilBench, $lng;
 
 		$this->setPreventCachingLastResult(false);	// for external db based caches
 
@@ -422,9 +405,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doCacheCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
+		global $ilBench;
 		//echo "cacheCheck<br/>";
 
 		$ilBench->start("AccessControl", "1000_checkAccess_get_cache_result");
@@ -450,11 +431,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilBench = $DIC['ilBench'];
+		global $tree, $lng, $ilBench;
 		//echo "treeCheck<br/>";
 
         // Get stored result
@@ -513,12 +490,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilBench = $DIC['ilBench'];
-		$ilErr = $DIC['ilErr'];
-		$ilLog = $DIC['ilLog'];
+		global $lng, $ilBench, $ilErr, $ilLog;
 
 		$ilBench->start("AccessControl", "2500_checkAccess_rbac_check");
 
@@ -566,12 +538,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilBench = $DIC['ilBench'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $tree, $lng, $ilBench,$ilObjDataCache;
 //echo "<br>dopathcheck";
 		//echo "pathCheck<br/>";
         $ilBench->start("AccessControl", "3100_checkAccess_check_parents_get_path");
@@ -617,10 +584,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
-		global $DIC;
-
-		$ilBench = $DIC['ilBench'];
-		$ilUser = $DIC['ilUser'];
+		global $ilBench,$ilUser;
 
 		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 
@@ -703,10 +667,7 @@ class ilAccess implements ilAccessHandler {
 	function doConditionCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
 		//echo "conditionCheck<br/>";
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilBench = $DIC['ilBench'];
+		global $lng, $ilBench;
 
 		if(
 			($a_permission == 'visible') and
@@ -762,11 +723,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$ilBench = $DIC['ilBench'];
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $objDefinition, $ilBench, $ilPluginAdmin;
 		//echo "statusCheck<br/>";
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
 
@@ -812,9 +769,7 @@ class ilAccess implements ilAccessHandler {
 	 */
 	function doLicenseCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		// simple checks first
 		if (!in_array($a_type, array('sahs','htlm'))

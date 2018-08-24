@@ -243,7 +243,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		$duplicator->setTargetObjType($this->testOBJ->getType());
 		$duplicator->setQuestionIdMapping($questionIdMapping);
 
-		$duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());
+		$duplicator->duplicate();
 
 		return $duplicator->getDuplicatedTaxonomiesKeysMap();
 	}

@@ -49,7 +49,7 @@ if (!empty($_REQUEST['username']) || !empty($password)) {
 	}
 
 	if ($source->getRememberUsernameEnabled()) {
-		$sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
+		$sessionHandler = SimpleSAML_SessionHandler::getSessionHandler();
 		$params = $sessionHandler->getCookieParams();
 		$params['expire'] = time();
 		$params['expire'] += (isset($_REQUEST['remember_username']) && $_REQUEST['remember_username'] == 'Yes' ? 31536000 : -300);
@@ -93,7 +93,6 @@ if (array_key_exists('forcedUsername', $state)) {
 }
 $t->data['links'] = $source->getLoginLinks();
 $t->data['errorcode'] = $errorCode;
-$t->data['errorcodes'] = SimpleSAML\Error\ErrorCodes::getAllErrorCodeMessages();
 $t->data['errorparams'] = $errorParams;
 
 if (isset($state['SPMetadata'])) {

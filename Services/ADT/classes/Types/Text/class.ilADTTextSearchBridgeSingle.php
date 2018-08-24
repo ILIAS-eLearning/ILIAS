@@ -71,9 +71,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE, $a_value = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$a_value)
 		{

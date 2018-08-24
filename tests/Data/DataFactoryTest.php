@@ -32,10 +32,4 @@ class DataFactoryTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($result->isError());
 		$this->assertFalse($result->isOk());
 	}
-
-	public function testPassword() {
-		$pwd = $this->f->password("secret");
-		$this->assertInstanceOf(Data\Password::class, $pwd);
-	}
-
 }

@@ -1,15 +1,11 @@
 <?php
 
-namespace SAML2\XML\md;
-
-use SAML2\Utils;
-
 /**
  * Class representing SAML 2 IndexedEndpointType.
  *
  * @package SimpleSAMLphp
  */
-class IndexedEndpointType extends EndpointType
+class SAML2_XML_md_IndexedEndpointType extends SAML2_XML_md_EndpointType
 {
     /**
      * The index for this endpoint.
@@ -21,54 +17,55 @@ class IndexedEndpointType extends EndpointType
     /**
      * Whether this endpoint is the default.
      *
-     * @var bool|null
+     * @var bool|NULL
      */
-    public $isDefault = null;
+    public $isDefault = NULL;
 
     /**
      * Initialize an IndexedEndpointType.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
-     * @throws \Exception
+     * @param DOMElement|NULL $xml The XML element we should load.
+     * @throws Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
         parent::__construct($xml);
 
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         if (!$xml->hasAttribute('index')) {
-            throw new \Exception('Missing index on ' . $xml->tagName);
+            throw new Exception('Missing index on ' . $xml->tagName);
         }
         $this->index = (int) $xml->getAttribute('index');
 
-        $this->isDefault = Utils::parseBoolean($xml, 'isDefault', null);
+        $this->isDefault = SAML2_Utils::parseBoolean($xml, 'isDefault', NULL);
     }
 
     /**
      * Add this endpoint to an XML element.
      *
-     * @param \DOMElement $parent The element we should append this endpoint to.
+     * @param DOMElement $parent The element we should append this endpoint to.
      * @param string     $name   The name of the element we should create.
-     * @return \DOMElement
+     * @return DOMElement
      */
-    public function toXML(\DOMElement $parent, $name)
+    public function toXML(DOMElement $parent, $name)
     {
-        assert(is_string($name));
-        assert(is_int($this->index));
-        assert(is_null($this->isDefault) || is_bool($this->isDefault));
+        assert('is_string($name)');
+        assert('is_int($this->index)');
+        assert('is_null($this->isDefault) || is_bool($this->isDefault)');
 
         $e = parent::toXML($parent, $name);
         $e->setAttribute('index', (string) $this->index);
 
-        if ($this->isDefault === true) {
+        if ($this->isDefault === TRUE) {
             $e->setAttribute('isDefault', 'true');
-        } elseif ($this->isDefault === false) {
+        } elseif ($this->isDefault === FALSE) {
             $e->setAttribute('isDefault', 'false');
         }
 
         return $e;
     }
+
 }

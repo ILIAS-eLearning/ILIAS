@@ -9,19 +9,13 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
-
-	protected function getTemplateFilename() {
-		return "tpl.glyph.standard.html";
-	}
-
 	/**
 	 * @inheritdocs
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		$tpl_file = $this->getTemplateFilename();
-		$tpl = $this->getTemplate($tpl_file, true, true);
+		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
 
 		$action = $component->getAction();
 		if ($action !== null) {
@@ -34,33 +28,17 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("highlighted");
 		}
 
-		if (!$component->isActive()) {
-			$tpl->touchBlock("disabled");
-
-			$tpl->setCurrentBlock("with_aria_disabled");
-			$tpl->setVariable("ARIA_DISABLED", "true");
-			$tpl->parseCurrentBlock();
-		}
-
 		$tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
 
 		$id = $this->bindJavaScript($component);
+
+		$tpl->touchBlock($component->getType());
 
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
 		}
-
-		$tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
-		return $tpl->get();
-	}
-
-
-	protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer) {
-		$tpl = $this->getTemplate('tpl.glyph.html', true, true);
-
-		$tpl->touchBlock($component->getType());
 
 		$largest_counter = 0;
 		foreach ($component->getCounters() as $counter) {

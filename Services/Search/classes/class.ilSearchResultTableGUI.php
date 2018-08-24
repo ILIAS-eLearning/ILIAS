@@ -20,17 +20,12 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_presenter)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng, $ilAccess, $lng;
 
 		$this->setId("ilSearchResultsTable");
 
 		$this->presenter = $a_presenter;
-		$this->setId('search_'.$GLOBALS['DIC']['ilUser']->getId());
+		$this->setId('search_'.$GLOBALS['ilUser']->getId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("search_results"));
 		$this->setLimit(999);
@@ -88,9 +83,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	 */
 	public function getSelectableColumns()
 	{		
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 
 		
 		return array('create_date' =>
@@ -107,10 +100,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$objDefinition = $DIC['objDefinition'];
+		global $lng, $objDefinition;
 
 		$obj_id = $a_set["obj_id"];
 		$ref_id = $a_set["ref_id"];
@@ -145,9 +135,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			
 		$this->tpl->setVariable("HREF_IMG", $item_list_gui->default_command["link"]);		
 		
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		if($this->enabledRelevance())
 		{			

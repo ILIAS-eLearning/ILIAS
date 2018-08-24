@@ -58,12 +58,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	public function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $lng,$tpl,$ilCtrl,$ilTabs;
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('ps');
@@ -88,11 +83,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
+		global $ilErr, $ilAccess, $lng;
 
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -141,9 +132,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function listFields()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 		$ilToolbar->addButton(
 			$this->lng->txt('ps_cdf_add_field'),
@@ -242,7 +231,8 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function saveField()
 	{
-		$GLOBALS['DIC']->logger()->mmbr()->dump($_POST)
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_POST,true));
+		
 		$this->initFieldForm(self::MODE_CREATE);
 		if($this->form->checkInput())
 		{
@@ -298,6 +288,8 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function updateField()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_POST,true));
+
 		$this->initFieldForm(self::MODE_UPDATE);
 		
 		if($this->form->checkInput())
@@ -401,16 +393,16 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function editMember(ilPropertyFormGUI $form = null)
 	{
-		$GLOBALS['DIC']['ilCtrl']->saveParameter($this,'member_id');
+		$GLOBALS['ilCtrl']->saveParameter($this,'member_id');
 
-		$GLOBALS['DIC']['ilTabs']->clearTargets();
-		$GLOBALS['DIC']['ilTabs']->clearSubTabs();
-		$GLOBALS['DIC']['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'cancelEditMember'));
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->clearSubTabs();
+		$GLOBALS['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'cancelEditMember'));
 		
 		
 		if($form instanceof ilPropertyFormGUI)
 		{
-			$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+			$GLOBALS['tpl']->setContent($form->getHTML());
 		}
 		else
 		{
@@ -418,7 +410,7 @@ class ilObjectCustomUserFieldsGUI
 			ilMemberAgreementGUI::setCourseDefinedFieldValues($form, $this->getObjId(), (int) $_REQUEST['member_id']);
 		}
 		
-		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 	
 
@@ -427,7 +419,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function cancelEditMember()
 	{
-		$GLOBALS['DIC']['ilCtrl']->returnToParent($this);
+		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
 	
 	/**
@@ -438,7 +430,7 @@ class ilObjectCustomUserFieldsGUI
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
+		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
 		$title = $this->lng->txt(ilObject::_lookupType($this->getObjId()).'_cdf_edit_member');
 		$name = ilObjUser::_lookupName((int) $_REQUEST['member_id']);
 		$title .= (': '.$name['lastname'].', '.$name['firstname']);
@@ -455,11 +447,9 @@ class ilObjectCustomUserFieldsGUI
 	
 	protected function saveMember()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
-		$GLOBALS['DIC']['ilCtrl']->saveParameter($this,'member_id');
+		$GLOBALS['ilCtrl']->saveParameter($this,'member_id');
 		
 		$form = $this->initMemberForm();
 		if($form->checkInput())
@@ -473,7 +463,7 @@ class ilObjectCustomUserFieldsGUI
 			
 			ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
-			$GLOBALS['DIC']['ilCtrl']->returnToParent($this);
+			$GLOBALS['ilCtrl']->returnToParent($this);
 			return TRUE;
 		}
 		

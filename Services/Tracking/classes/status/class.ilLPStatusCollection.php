@@ -38,9 +38,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -105,9 +103,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 */
 	static function _getCompleted($a_obj_id)
 	{		
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($a_obj_id);
@@ -193,9 +189,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 	static function _getFailed($a_obj_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 				
 		$users = array();
 
@@ -274,9 +268,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 	static function _getTypicalLearningTime($a_obj_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		if($ilObjDataCache->lookupType($a_obj_id) == 'sahs')
 		{
@@ -302,9 +294,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		$status['completed'] = true;
 		$status['failed'] = false;
@@ -370,9 +360,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 */
 	public static function determineGroupingStatus($status,$gr_info,$user_id,$is_grouping)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 
 		$items = $gr_info['items'];
 		if($is_grouping)
@@ -424,10 +412,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 */
 	protected static function getMembers($a_obj_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$tree = $DIC['tree'];
+		global $ilObjDataCache, $tree;
 	
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{

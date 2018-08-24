@@ -20,9 +20,7 @@ class ilCourseMeritBadge implements ilBadgeType
 	
 	public function getCaption()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		return $lng->txt("badge_crs_merit");
 	}
 	

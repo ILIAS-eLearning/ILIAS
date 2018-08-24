@@ -44,12 +44,7 @@ class ilEventItems
 
 	function __construct($a_event_id)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		global $ilErr,$ilDB,$lng,$tree;
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -104,9 +99,7 @@ class ilEventItems
 	
 	public static function _delete($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
@@ -116,9 +109,7 @@ class ilEventItems
 	
 	function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->delete();
 		
@@ -136,10 +127,7 @@ class ilEventItems
 	
 	static function _getItemsOfContainer($a_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$tree = $DIC['tree'];
+		global $ilDB,$tree;
 		
 		$session_nodes = $tree->getChildsByType($a_ref_id,'sess');
 		foreach($session_nodes as $node)
@@ -168,9 +156,7 @@ class ilEventItems
 	 */
 	public static function _getItemsOfEvent($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer');
@@ -184,9 +170,7 @@ class ilEventItems
 
 	function _isAssigned($a_item_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_items ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
@@ -205,12 +189,9 @@ class ilEventItems
 	 */
 	public function cloneItems($a_source_id,$a_copy_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilLog = $DIC->logger()->sess();
+		global $ilObjDataCache,$ilLog;
 		
-		$ilLog->debug('Begin cloning session materials ...');
+		$ilLog->write(__METHOD__.': Begin cloning session materials ...');
 		
 	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 	 	$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -221,17 +202,17 @@ class ilEventItems
 		{
 	 		if(isset($mappings[$item_id]) and $mappings[$item_id])
 	 		{
-				$ilLog->debug('Clone session material nr. '.$item_id);
+				$ilLog->write(__METHOD__.': Clone session material nr. '.$item_id);
 				$new_items[] = $mappings[$item_id];
 	 		}
 	 		else
 	 		{
-				$ilLog->debug('No mapping found for session material nr. '.$item_id);
+				$ilLog->write(__METHOD__.': No mapping found for session material nr. '.$item_id);
 	 		}
 		}
 		$this->setItems($new_items);
 		$this->update();
-		$ilLog->debug('Finished cloning session materials ...');
+		$ilLog->write(__METHOD__.': Finished cloning session materials ...');
 		return true;
 	}
 
@@ -239,10 +220,7 @@ class ilEventItems
 	// PRIVATE
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$tree = $DIC['tree'];
+		global $ilDB,$tree;
 		
 		$query = "SELECT * FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId() ,'integer')." ";

@@ -48,11 +48,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
-	 	$ilUser = $DIC['ilUser'];
+	 	global $lng, $ilCtrl, $ilUser;
 
 		$this->setId("calmng");
 
@@ -234,10 +230,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tree = $DIC['tree'];
+		global $ilUser, $tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());

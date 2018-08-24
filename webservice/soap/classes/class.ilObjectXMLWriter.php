@@ -55,10 +55,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	*/
 	function __construct()
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
+		global $ilias,$ilUser;
 
 		parent::__construct();
 
@@ -135,10 +132,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$objDefinition = $DIC['objDefinition'];
+		global $ilAccess,$objDefinition;
 		
 		$this->__buildHeader();
 
@@ -168,10 +162,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	function __appendObject(&$object)
 	{
 
-	  global $DIC;
-
-	  $tree = $DIC['tree'];
-	  $rbacreview = $DIC['rbacreview'];
+	  global $tree, $rbacreview;
 
 	  	$id = $object->getId();
 		if ($object->getType() == "role" && $rbacreview->isRoleDeleted($id))
@@ -256,9 +247,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	 */
 	public function __appendTimeTargets($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		if(!$tree->checkForParentType($a_ref_id,'crs')) {
 			return;	
@@ -344,11 +333,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __appendOperations($a_ref_id,$a_type)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
+		global $ilAccess,$rbacreview,$objDefinition;
 
 		if($this->enabledOperations())
 		{
@@ -412,9 +397,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __getAccessInfo(&$object,$ref_id)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		include_once 'Services/AccessControl/classes/class.ilAccess.php';
 
@@ -432,10 +415,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	
 	public static function appendPathToObject ($writer, $refid){
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
+		global $tree, $lng;
 		$items = $tree->getPathFull($refid);
 		$writer->xmlStartTag("Path");
 		foreach ($items as $item) {

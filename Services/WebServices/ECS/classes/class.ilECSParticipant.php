@@ -169,8 +169,8 @@ class ilECSParticipant
 	 */
 	public function isEnabled()
 	{
-	 	$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecated call');
-		$GLOBALS['DIC']['ilLog']->logStack();
+	 	$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+		$GLOBALS['ilLog']->logStack();
 		return false;
 	}
 
@@ -191,9 +191,7 @@ class ilECSParticipant
 	 */
 	private function read()
 	{
-	 	global $DIC;
-
-	 	$ilLog = $DIC['ilLog'];
+	 	global $ilLog;
 
 	 	$this->mid = $this->json_obj->mid;
 		$this->email = $this->json_obj->email;

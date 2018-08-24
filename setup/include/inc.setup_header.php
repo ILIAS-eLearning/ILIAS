@@ -178,9 +178,4 @@ $DIC["http"] = function ($c) {
 	);
 };
 $DIC['ilCtrl'] = new ilCtrl();
-
-$DIC["ilIliasIniFile"] = function($c) { return $GLOBALS["ilIliasIniFile"]; };
-
-$DIC["ilClientIniFile"] = function($c) { return $GLOBALS["ilClientIniFile"]; };
-
 ?>

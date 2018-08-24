@@ -268,15 +268,9 @@ class ilTestService
 		}
 
 		$data = array();
-		$firstQuestion = true;
 
 		foreach($result_array as $key => $value)
 		{
-			$disableLink = (
-				$this->object->isFollowupQuestionAnswerFixationEnabled()
-				&& !$value['presented'] && !$firstQuestion 
-			);
-			
 			$description = "";
 			if($this->object->getListOfQuestionsDescription())
 			{
@@ -303,21 +297,7 @@ class ilTestService
 			}
 
 // fau: testNav - add number parameter for getQuestionTitle()
-			$data[] = array(
-				'order' => $value["nr"],
-				'title' => $this->object->getQuestionTitle($value["title"], $value["nr"]),
-				'description' => $description,
-				'disabled' => $disableLink,
-				'worked_through' => $value["worked_through"],
-				'postponed' => $value["postponed"],
-				'points' => $points,
-				'marked' => $marked,
-				'sequence' => $value["sequence"],
-				'obligatory' => $value['obligatory'],
-				'isAnswered' => $value['isAnswered']
-			);
-			
-			$firstQuestion = false;
+			$data[] = array('order' => $value["nr"], 'title' => $this->object->getQuestionTitle($value["title"], $value["nr"]), 'description' => $description, 'worked_through' => $value["worked_through"], 'postponed' => $value["postponed"], 'points' => $points, 'marked' => $marked, 'sequence' => $value["sequence"], 'obligatory' => $value['obligatory'], 'isAnswered' => $value['isAnswered']);
 // fau.
 		}
 

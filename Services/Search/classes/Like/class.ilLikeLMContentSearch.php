@@ -39,9 +39,7 @@ class ilLikeLMContentSearch extends ilLMContentSearch
 
 	function __createWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$concat  = " content ";
 

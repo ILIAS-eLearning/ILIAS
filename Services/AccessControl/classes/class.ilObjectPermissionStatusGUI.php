@@ -42,12 +42,7 @@ class ilObjectPermissionStatusGUI
 	*/
 	public function __construct(&$a_obj)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$rbacreview = $DIC['rbacreview'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl,$lng,$rbacreview, $tpl;
 
 		$this->lng =  $lng;
 		$this->ilCtrl = $ilCtrl;
@@ -68,9 +63,7 @@ class ilObjectPermissionStatusGUI
 	*/
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		// determine next class in the call structure
 		$next_class = $this->ilCtrl->getNextClass($this);
@@ -113,9 +106,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function addToolbar()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 
 		$ilToolbar->setFormAction($this->ilCtrl->getFormAction($this, "perminfo"));
 
@@ -237,9 +228,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function getCommands($a_type)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 				
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
@@ -259,9 +248,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function getUser()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		if (!isset($_POST['user_login']))
 		{
@@ -296,9 +283,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function getAccessStatusInfoData()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		$infos = array();
 
 		$result_set[0][] = $this->lng->txt("info_view_of_user");
@@ -382,11 +367,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function getAccessPermissionTableData()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$objDefinition = $DIC['objDefinition'];
+		global $ilAccess,$ilObjDataCache,$objDefinition;
 
 		// get all possible operation of current object
 		$ops_list = ilRbacReview::_getOperationList($this->object->getType());
@@ -464,9 +445,7 @@ class ilObjectPermissionStatusGUI
 	 */
 	function getAvailableRolesTableData()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 

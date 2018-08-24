@@ -48,9 +48,7 @@ class ilMembershipNotifications
 	 */
 	public static function isActive()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 					
 		return ($ilSetting->get("block_activated_news") &&
 			$ilSetting->get("crsgrp_ntf"));		
@@ -61,9 +59,7 @@ class ilMembershipNotifications
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT nmode mode".
 			" FROM member_noti".
@@ -139,9 +135,7 @@ class ilMembershipNotifications
 	 */
 	public function switchMode($a_new_mode)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->ref_id)
 		{
@@ -194,9 +188,7 @@ class ilMembershipNotifications
 	 */
 	protected function getParticipants()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		if($this->participants === null)
 		{		
@@ -230,9 +222,7 @@ class ilMembershipNotifications
 	 */
 	public function getActiveUsers()
 	{		
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$users = $all = array();
 		
@@ -331,9 +321,7 @@ class ilMembershipNotifications
 	 */
 	protected function getUser($a_user_id = null)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		if($a_user_id === null ||
 			$a_user_id == $ilUser->getId())
@@ -361,9 +349,7 @@ class ilMembershipNotifications
 	 */
 	protected function toggleUser($a_status, $a_user_id = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!self::isActive())
 		{
@@ -431,9 +417,7 @@ class ilMembershipNotifications
 	 */
 	public function isCurrentUserActive()
 	{		
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		return in_array($ilUser->getId(), $this->getActiveUsers());
 	}
@@ -445,9 +429,7 @@ class ilMembershipNotifications
 	 */
 	public function canCurrentUserEdit()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$user_id = $ilUser->getId();
 		if($user_id == ANONYMOUS_USER_ID)
@@ -482,10 +464,7 @@ class ilMembershipNotifications
 	 */
 	public static function getActiveUsersforAllObjects()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$tree = $DIC['tree'];
+		global $ilDB, $tree;
 
 		$log = ilLoggerFactory::getLogger("mmbr");
 
@@ -551,9 +530,7 @@ class ilMembershipNotifications
 	 */
 	public static function addToSettingsForm($a_ref_id, ilPropertyFormGUI $a_form = null, ilFormPropertyGUI $a_input = null)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 	
 		if(self::isActive() &&
 			$a_ref_id)

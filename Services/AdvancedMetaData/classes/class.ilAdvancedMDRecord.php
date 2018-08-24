@@ -45,9 +45,7 @@ class ilAdvancedMDRecord
 	 */
 	public function __construct($a_record_id = 0)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$this->record_id = $a_record_id;
 	 	$this->db = $ilDB;
@@ -85,9 +83,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getActiveSearchableRecords()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT DISTINCT(amr.record_id) FROM adv_md_record amr ".
 			"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
@@ -118,9 +114,7 @@ class ilAdvancedMDRecord
 			return $title_cache[$a_record_id];
 		}
 		
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT title FROM adv_md_record ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ";
@@ -140,9 +134,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _lookupRecordIdByImportId($a_ilias_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT record_id FROM adv_md_record ".
 			"WHERE import_id = ".$ilDB->quote($a_ilias_id ,'text')." ";
@@ -162,10 +154,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getAssignableObjectTypes($a_include_text = false)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$lng = $DIC['lng'];
+		global $objDefinition, $lng;
 		
 		$types = array();
 		$amet_types = $objDefinition->getAdvancedMetaDataTypes();
@@ -204,9 +193,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getActivatedObjTypes()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT DISTINCT(obj_type) FROM adv_md_record_objs amo ".
 			"JOIN adv_md_record amr ON amo.record_id = amr.record_id ".
@@ -230,9 +217,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getRecords()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT record_id FROM adv_md_record ";
 		$res = $ilDB->query($query);
@@ -253,9 +238,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getAllRecordsByObjectType()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$records = array();
 		
@@ -279,9 +262,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getActivatedRecordsByObjectType($a_obj_type, $a_sub_type = "", $a_only_optional = false)
 	{
-		global $DIC;		
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;		
 
 		$records = array();
 		
@@ -443,9 +424,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _delete($a_record_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// Delete fields
 		foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id) as $field)
@@ -533,9 +512,7 @@ class ilAdvancedMDRecord
 	 */
 	public function save()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	// Save import id if given
 	 	$next_id = $ilDB->nextId('adv_md_record');
@@ -563,9 +540,7 @@ class ilAdvancedMDRecord
 
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
-	 		global $DIC;
-
-	 		$ilDB = $DIC['ilDB'];
+	 		global $ilDB;
 
 	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) ".
 	 			"VALUES( ".
@@ -592,9 +567,7 @@ class ilAdvancedMDRecord
 	 */
 	public function update()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "UPDATE adv_md_record ".
 	 		"SET active = ".$this->db->quote($this->isActive() ,'integer').", ".
@@ -876,9 +849,7 @@ class ilAdvancedMDRecord
 	 */
 	private function read()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM adv_md_record ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
@@ -945,9 +916,7 @@ class ilAdvancedMDRecord
 	 */
 	static function saveObjRecSelection($a_obj_id, $a_sub_type = "", array $a_records = null, $a_delete_before = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if ($a_sub_type == "")
 		{
@@ -986,9 +955,7 @@ class ilAdvancedMDRecord
 	 */
 	static function getObjRecSelection($a_obj_id, $a_sub_type = "")
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if ($a_sub_type == "")
 		{

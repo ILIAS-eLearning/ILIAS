@@ -174,7 +174,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		}
 		catch(ilECSConnectorException $e) 
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Tree creation failed  with mesage ' . $e->getMessage());
+			$GLOBALS['ilLog']->write(__METHOD__.': Tree creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
 		

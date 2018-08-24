@@ -24,9 +24,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule("meta");
@@ -101,9 +99,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 	 */	
 	function checkInput()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$_POST[$this->getPostVar()][0] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][0]);
 		$_POST[$this->getPostVar()][1] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][1]);

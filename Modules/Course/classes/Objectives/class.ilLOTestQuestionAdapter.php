@@ -429,7 +429,7 @@ class ilLOTestQuestionAdapter
 		{
 			if($run->questionExists($qst->getId()))
 			{
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': reached points are '.$qst->getReachedPoints($session->getActiveId(),$session->getPass()));
+				$GLOBALS['ilLog']->write(__METHOD__.': reached points are '.$qst->getReachedPoints($session->getActiveId(),$session->getPass()));
 				$run->setQuestionResult(
 						$qst->getId(),
 						$qst->getReachedPoints($session->getActiveId(),$session->getPass())
@@ -464,8 +464,8 @@ class ilLOTestQuestionAdapter
 						$old_result['tries'], 
 						$old_result['is_final']
 				);
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($run->getResult(),true));
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.'!!!!!!!!!!!!!!!!!!!!: '.print_r($comp,TRUE));
+				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($run->getResult(),true));
+				$GLOBALS['ilLog']->write(__METHOD__.'!!!!!!!!!!!!!!!!!!!!: '.print_r($comp,TRUE));
 				
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				ilLPStatusWrapper::_updateStatus($this->container_id,$this->user_id);
@@ -534,17 +534,17 @@ class ilLOTestQuestionAdapter
 	{
 		if($this->getAssignments()->isSeparateTest($session->getRefId()))
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': separate run');
+			$GLOBALS['ilLog']->write(__METHOD__.': separate run');
 			return $this->updateSeparateTestQuestions($session, $seq);
 		}
 		if($seq instanceof ilTestSequenceFixedQuestionSet)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': fixed run');
+			$GLOBALS['ilLog']->write(__METHOD__.': fixed run');
 			return $this->updateFixedQuestions($session, $seq);
 		}
 		if($seq instanceof ilTestSequenceRandomQuestionSet)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': random run');
+			$GLOBALS['ilLog']->write(__METHOD__.': random run');
 			return $this->updateRandomQuestions($session, $seq);
 		}
 		
@@ -645,11 +645,7 @@ class ilLOTestQuestionAdapter
 	
 	private static function getQuestionData($testObjId, $questionIds)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		global $ilDB, $lng, $ilPluginAdmin;
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);

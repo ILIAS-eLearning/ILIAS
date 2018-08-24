@@ -118,9 +118,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::save();
 
@@ -149,9 +147,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::delete();
 
@@ -207,10 +203,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  revert()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$tree = $DIC['tree'];
+		global $rbacadmin,$tree;
 		$rbacreview = $GLOBALS['DIC']->rbac()->review();
 
 		$source = $this->initSourceObject();
@@ -352,9 +345,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!parent::read())
 		{
@@ -388,10 +379,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	protected function createLocalPolicy(ilObject $source, $role)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacreview, $rbacadmin;
 		
 		// fetch role information
 		$role_data = array();
@@ -478,11 +466,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 	protected function revertLocalPolicy(ilObject $source, $role)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilDB = $DIC['ilDB'];
+		global $rbacadmin, $rbacreview, $ilDB;
 
 		ilLoggerFactory::getLogger('otpl')->info('Reverting policy for role '. $role['title']);
 		// Local policies can only be reverted for auto generated roles. Otherwise the

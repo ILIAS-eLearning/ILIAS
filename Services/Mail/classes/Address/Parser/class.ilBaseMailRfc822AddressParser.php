@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/interfaces/interface.ilMailRecipientParser.php';
+
 /**
  * Class ilBaseMailRfc822AddressParser
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilBaseMailRfc822AddressParser implements \ilMailRecipientParser
+abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
 	/**
 	 * @var string
@@ -13,9 +15,9 @@ abstract class ilBaseMailRfc822AddressParser implements \ilMailRecipientParser
 	protected $addresses = '';
 
 	/**
-	 * @param string $a_addresses A comma separated list of email addresses
+	 * @param string $a_addresses
 	 */
-	public function __construct(string $a_addresses)
+	public function __construct($a_addresses)
 	{
 		$this->addresses = $a_addresses;
 	}
@@ -23,33 +25,31 @@ abstract class ilBaseMailRfc822AddressParser implements \ilMailRecipientParser
 	/**
 	 * @return string
 	 */
-	public function getAddresses(): string
+	public function getAddresses()
 	{
 		return $this->addresses;
 	}
 
 	/**
-	 * A comma separated list of email addresses
 	 * @param string $addresses
 	 */
-	public function setAddresses(string $addresses)
+	public function setAddresses($addresses)
 	{
 		$this->addresses = $addresses;
 	}
 
 	/**
-	 * @param string $a_addresses A comma separated list of email addresses
-	 * @return \ilMailAddress[]
+	 * @param string $a_addresses
+	 * @return ilMailAddress[]
 	 */
-	protected abstract function parseAddressString(string $a_addresses): array;
+	protected abstract function parseAddressString($a_addresses);
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function parse(): array
+	public function parse()
 	{
 		$addresses = preg_replace('/;/', ',', trim($this->addresses));
-
 		return $this->parseAddressString($addresses);
 	}
 }

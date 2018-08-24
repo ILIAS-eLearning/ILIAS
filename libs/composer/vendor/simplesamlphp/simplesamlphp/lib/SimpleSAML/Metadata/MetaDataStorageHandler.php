@@ -98,11 +98,12 @@ class SimpleSAML_Metadata_MetaDataStorageHandler
         $config = SimpleSAML_Configuration::getInstance();
         assert($config instanceof SimpleSAML_Configuration);
 
-        $baseurl = \SimpleSAML\Utils\HTTP::getSelfURLHost().$config->getBasePath();
+        $baseurl = \SimpleSAML\Utils\HTTP::getSelfURLHost().'/'.
+            $config->getBaseURL();
 
         if ($set == 'saml20-sp-hosted') {
             if ($property === 'SingleLogoutServiceBinding') {
-                return \SAML2\Constants::BINDING_HTTP_REDIRECT;
+                return SAML2_Const::BINDING_HTTP_REDIRECT;
             }
         } elseif ($set == 'saml20-idp-hosted') {
             switch ($property) {
@@ -110,13 +111,13 @@ class SimpleSAML_Metadata_MetaDataStorageHandler
                     return $baseurl.'saml2/idp/SSOService.php';
 
                 case 'SingleSignOnServiceBinding':
-                    return \SAML2\Constants::BINDING_HTTP_REDIRECT;
+                    return SAML2_Const::BINDING_HTTP_REDIRECT;
 
                 case 'SingleLogoutService':
                     return $baseurl.'saml2/idp/SingleLogoutService.php';
 
                 case 'SingleLogoutServiceBinding':
-                    return \SAML2\Constants::BINDING_HTTP_REDIRECT;
+                    return SAML2_Const::BINDING_HTTP_REDIRECT;
             }
         } elseif ($set == 'shib13-idp-hosted') {
             if ($property === 'SingleSignOnService') {
@@ -149,7 +150,7 @@ class SimpleSAML_Metadata_MetaDataStorageHandler
                 if (array_key_exists('expire', $le)) {
                     if ($le['expire'] < time()) {
                         unset($srcList[$key]);
-                        SimpleSAML\Logger::warning(
+                        SimpleSAML_Logger::warning(
                             "Dropping metadata entity ".var_export($key, true).", expired ".
                             SimpleSAML\Utils\Time::generateTimestamp($le['expire'])."."
                         );
@@ -207,6 +208,10 @@ class SimpleSAML_Metadata_MetaDataStorageHandler
 
         // then we look for the hostname
         $currenthost = \SimpleSAML\Utils\HTTP::getSelfHost(); // sp.example.org
+        if (strpos($currenthost, ":") !== false) {
+            $currenthostdecomposed = explode(":", $currenthost);
+            $currenthost = $currenthostdecomposed[0];
+        }
 
         foreach ($this->sources as $source) {
             $index = $source->getEntityIdFromHostPath($currenthost, $set, $type);

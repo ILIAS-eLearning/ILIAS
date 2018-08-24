@@ -1,24 +1,22 @@
 <?php
 
-namespace SAML2;
-
 /**
  * Class which implements the HTTP-POST binding.
  *
  * @package SimpleSAMLphp
  */
-class HTTPPost extends Binding
+class SAML2_HTTPPost extends SAML2_Binding
 {
     /**
      * Send a SAML 2 message using the HTTP-POST binding.
      *
      * Note: This function never returns.
      *
-     * @param \SAML2\Message $message The message we should send.
+     * @param SAML2_Message $message The message we should send.
      */
-    public function send(Message $message)
+    public function send(SAML2_Message $message)
     {
-        if ($this->destination === null) {
+        if ($this->destination === NULL) {
             $destination = $message->getDestination();
         } else {
             $destination = $this->destination;
@@ -28,11 +26,11 @@ class HTTPPost extends Binding
         $msgStr = $message->toSignedXML();
         $msgStr = $msgStr->ownerDocument->saveXML($msgStr);
 
-        Utils::getContainer()->debugMessage($msgStr, 'out');
+        SAML2_Utils::getContainer()->debugMessage($msgStr, 'out');
 
         $msgStr = base64_encode($msgStr);
 
-        if ($message instanceof Request) {
+        if ($message instanceof SAML2_Request) {
             $msgType = 'SAMLRequest';
         } else {
             $msgType = 'SAMLResponse';
@@ -41,11 +39,11 @@ class HTTPPost extends Binding
         $post = array();
         $post[$msgType] = $msgStr;
 
-        if ($relayState !== null) {
+        if ($relayState !== NULL) {
             $post['RelayState'] = $relayState;
         }
 
-        Utils::getContainer()->postRedirect($destination, $post);
+        SAML2_Utils::getContainer()->postRedirect($destination, $post);
     }
 
     /**
@@ -53,8 +51,8 @@ class HTTPPost extends Binding
      *
      * Throws an exception if it is unable receive the message.
      *
-     * @return \SAML2\Message The received message.
-     * @throws \Exception
+     * @return SAML2_Message The received message.
+     * @throws Exception
      */
     public function receive()
     {
@@ -63,17 +61,17 @@ class HTTPPost extends Binding
         } elseif (array_key_exists('SAMLResponse', $_POST)) {
             $msg = $_POST['SAMLResponse'];
         } else {
-            throw new \Exception('Missing SAMLRequest or SAMLResponse parameter.');
+            throw new Exception('Missing SAMLRequest or SAMLResponse parameter.');
         }
 
         $msg = base64_decode($msg);
 
-        Utils::getContainer()->debugMessage($msg, 'in');
+        SAML2_Utils::getContainer()->debugMessage($msg, 'in');
 
-        $document = DOMDocumentFactory::fromString($msg);
+        $document = SAML2_DOMDocumentFactory::fromString($msg);
         $xml = $document->firstChild;
 
-        $msg = Message::fromXML($xml);
+        $msg = SAML2_Message::fromXML($xml);
 
         if (array_key_exists('RelayState', $_POST)) {
             $msg->setRelayState($_POST['RelayState']);
@@ -81,4 +79,5 @@ class HTTPPost extends Binding
 
         return $msg;
     }
+
 }

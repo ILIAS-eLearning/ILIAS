@@ -278,7 +278,7 @@ class assKprimChoiceExport extends assQuestionExport
 			$xml->xmlStartTag('flow_mat');
 			
 			$this->object->addQTIMaterial($xml, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-				$this->object->getId(),0, $answer->getPosition()
+				$this->object->getId(), $answer->getPosition()
 			));
 
 			$xml->xmlEndTag('flow_mat');

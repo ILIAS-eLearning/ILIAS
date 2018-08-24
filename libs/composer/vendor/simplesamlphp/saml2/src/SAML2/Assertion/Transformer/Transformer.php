@@ -1,15 +1,11 @@
 <?php
 
-namespace SAML2\Assertion\Transformer;
-
-use SAML2\Assertion;
-
-interface Transformer
+interface SAML2_Assertion_Transformer_Transformer
 {
     /**
-     * @param \SAML2\Assertion $assertion
+     * @param SAML2_Assertion $assertion
      *
-     * @return \SAML2\Assertion
+     * @return SAML2_Assertion
      */
-    public function transform(Assertion $assertion);
+    public function transform(SAML2_Assertion $assertion);
 }

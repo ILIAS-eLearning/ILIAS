@@ -35,10 +35,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
 	public function executeCommand()
 	{		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess, $ilErr;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -88,9 +85,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
 	public function getAdminTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
@@ -122,9 +117,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
 	public function saveSettings()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		$this->checkPermission("write");
 		
@@ -150,10 +143,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{	    
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilSetting, $ilAccess;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -198,9 +188,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 	
 	public function addToExternalSettingsForm($a_form_id)
 	{				
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
+		global $ilSetting;
 		
 		switch($a_form_id)
 		{			
@@ -236,22 +224,22 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 	{
 		if($a_main_tab == 'settings')
 		{
-			$GLOBALS['DIC']['ilTabs']->addSubTab(
+			$GLOBALS['ilTabs']->addSubTab(
 				self::SUB_TAB_GENERAL_SETTINGS,
-				$GLOBALS['DIC']['lng']->txt('mem_settings_tab_'.self::SUB_TAB_GENERAL_SETTINGS),
-				$GLOBALS['DIC']['ilCtrl']->getLinkTarget($this,'editSettings')
+				$GLOBALS['lng']->txt('mem_settings_tab_'.self::SUB_TAB_GENERAL_SETTINGS),
+				$GLOBALS['ilCtrl']->getLinkTarget($this,'editSettings')
 			);
-			$GLOBALS['DIC']['ilTabs']->addSubTab(
+			$GLOBALS['ilTabs']->addSubTab(
 				self::SUB_TAB_PRINT_VIEW,
-				$GLOBALS['DIC']['lng']->txt('mem_settings_tab_'.self::SUB_TAB_PRINT_VIEW),
-				$GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass('ilMemberExportSettingsGUI', 'printViewSettings')
+				$GLOBALS['lng']->txt('mem_settings_tab_'.self::SUB_TAB_PRINT_VIEW),
+				$GLOBALS['ilCtrl']->getLinkTargetByClass('ilMemberExportSettingsGUI', 'printViewSettings')
 			);
-			$GLOBALS['DIC']['ilTabs']->addSubTab("actions",
-				$GLOBALS['DIC']['lng']->txt("mmbr_gallery_user_actions"),
-				$GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass("iluseractionadmingui"));
+			$GLOBALS['ilTabs']->addSubTab("actions",
+				$GLOBALS['lng']->txt("mmbr_gallery_user_actions"),
+				$GLOBALS['ilCtrl']->getLinkTargetByClass("iluseractionadmingui"));
 
-			$GLOBALS['DIC']['ilTabs']->activateTab($a_main_tab);
-			$GLOBALS['DIC']['ilTabs']->activateSubTab($a_active_tab);
+			$GLOBALS['ilTabs']->activateTab($a_main_tab);
+			$GLOBALS['ilTabs']->activateSubTab($a_active_tab);
 		}
 	}
 	

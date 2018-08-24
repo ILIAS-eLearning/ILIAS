@@ -11,30 +11,29 @@ if ($config->getBoolean('admin.protectmetadata', false)) {
 $sourceId = substr($_SERVER['PATH_INFO'], 1);
 $source = SimpleSAML_Auth_Source::getById($sourceId);
 if ($source === null) {
-    throw new SimpleSAML_Error_AuthSource($sourceId, 'Could not find authentication source.');
+    throw new SimpleSAML_Error_NotFound('Could not find authentication source with id '.$sourceId);
 }
 
 if (!($source instanceof sspmod_saml_Auth_Source_SP)) {
-    throw new SimpleSAML_Error_AuthSource($sourceId,
-        'The authentication source is not a SAML Service Provider.');
+    throw new SimpleSAML_Error_NotFound('Source isn\'t a SAML SP: '.var_export($sourceId, true));
 }
 
 $entityId = $source->getEntityId();
 $spconfig = $source->getMetadata();
-$store = \SimpleSAML\Store::getInstance();
+$store = SimpleSAML_Store::getInstance();
 
 $metaArray20 = array();
 
 $slosvcdefault = array(
-    \SAML2\Constants::BINDING_HTTP_REDIRECT,
-    \SAML2\Constants::BINDING_SOAP,
+    SAML2_Const::BINDING_HTTP_REDIRECT,
+    SAML2_Const::BINDING_SOAP,
 );
 
 $slob = $spconfig->getArray('SingleLogoutServiceBinding', $slosvcdefault);
-$slol = SimpleSAML\Module::getModuleURL('saml/sp/saml2-logout.php/'.$sourceId);
+$slol = SimpleSAML_Module::getModuleURL('saml/sp/saml2-logout.php/'.$sourceId);
 
 foreach ($slob as $binding) {
-    if ($binding == \SAML2\Constants::BINDING_SOAP && !($store instanceof \SimpleSAML\Store\SQL)) {
+    if ($binding == SAML2_Const::BINDING_SOAP && !($store instanceof SimpleSAML_Store_SQL)) {
         // we cannot properly support SOAP logout
         continue;
     }
@@ -59,46 +58,30 @@ $assertionsconsumerservices = $spconfig->getArray('acs.Bindings', $assertionscon
 
 $index = 0;
 $eps = array();
-$supported_protocols = array();
 foreach ($assertionsconsumerservices as $services) {
 
     $acsArray = array('index' => $index);
     switch ($services) {
         case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST':
-            $acsArray['Binding'] = \SAML2\Constants::BINDING_HTTP_POST;
-            $acsArray['Location'] = SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
-            if (!in_array(\SAML2\Constants::NS_SAMLP, $supported_protocols, true)) {
-                $supported_protocols[] = \SAML2\Constants::NS_SAMLP;
-            }
+            $acsArray['Binding'] = SAML2_Const::BINDING_HTTP_POST;
+            $acsArray['Location'] = SimpleSAML_Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
             break;
         case 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post';
-            $acsArray['Location'] = SimpleSAML\Module::getModuleURL('saml/sp/saml1-acs.php/'.$sourceId);
-            if (!in_array('urn:oasis:names:tc:SAML:1.1:protocol', $supported_protocols, true)) {
-                $supported_protocols[] = 'urn:oasis:names:tc:SAML:1.1:protocol';
-            }
+            $acsArray['Location'] = SimpleSAML_Module::getModuleURL('saml/sp/saml1-acs.php/'.$sourceId);
             break;
         case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact';
-            $acsArray['Location'] = SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
-            if (!in_array(\SAML2\Constants::NS_SAMLP, $supported_protocols, true)) {
-                $supported_protocols[] = \SAML2\Constants::NS_SAMLP;
-            }
+            $acsArray['Location'] = SimpleSAML_Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
             break;
         case 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01';
-            $acsArray['Location'] = SimpleSAML\Module::getModuleURL('saml/sp/saml1-acs.php/'.$sourceId.'/artifact');
-            if (!in_array('urn:oasis:names:tc:SAML:1.1:protocol', $supported_protocols, true)) {
-                $supported_protocols[] = 'urn:oasis:names:tc:SAML:1.1:protocol';
-            }
+            $acsArray['Location'] = SimpleSAML_Module::getModuleURL('saml/sp/saml1-acs.php/'.$sourceId.'/artifact');
             break;
         case 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser';
-            $acsArray['Location'] = SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
-            $acsArray['hoksso:ProtocolBinding'] = \SAML2\Constants::BINDING_HTTP_REDIRECT;
-            if (!in_array(\SAML2\Constants::NS_SAMLP, $supported_protocols, true)) {
-                $supported_protocols[] = \SAML2\Constants::NS_SAMLP;
-            }
+            $acsArray['Location'] = SimpleSAML_Module::getModuleURL('saml/sp/saml2-acs.php/'.$sourceId);
+            $acsArray['hoksso:ProtocolBinding'] = SAML2_Const::BINDING_HTTP_REDIRECT;
             break;
     }
     $eps[] = $acsArray;
@@ -230,6 +213,8 @@ if ($spconfig->hasValue('redirect.sign')) {
     $metaArray20['validate.authnrequest'] = $spconfig->getBoolean('sign.authnrequest');
 }
 
+$supported_protocols = array('urn:oasis:names:tc:SAML:1.1:protocol', SAML2_Const::NS_SAMLP);
+
 $metaArray20['metadata-set'] = 'saml20-sp-remote';
 $metaArray20['entityid'] = $entityId;
 
@@ -256,8 +241,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
     $t = new SimpleSAML_XHTML_Template($config, 'metadata.php', 'admin');
 
     $t->data['clipboard.js'] = true;
-    $t->data['header'] = 'saml20-sp'; // TODO: Replace with headerString in 2.0
-    $t->data['headerString'] = $t->noop('metadata_saml20-sp');
+    $t->data['header'] = 'saml20-sp';
     $t->data['metadata'] = htmlspecialchars($xml);
     $t->data['metadataflat'] = '$metadata['.var_export($entityId, true).'] = '.var_export($metaArray20, true).';';
     $t->data['metaurl'] = $source->getMetadataURL();

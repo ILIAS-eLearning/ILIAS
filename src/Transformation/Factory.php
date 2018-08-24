@@ -42,16 +42,4 @@ class Factory {
 	public function custom(callable $f) {
 		return new Transformations\Custom($f);
 	}
-
-	/**
-	 * Transform primitive value to data-type.
-	 *
-	 * @param	string $type
-	 * @return  Transformation
-	 */
-	public function toData($type) {
-		return new Transformations\Data($type);
-	}
-
-
 }

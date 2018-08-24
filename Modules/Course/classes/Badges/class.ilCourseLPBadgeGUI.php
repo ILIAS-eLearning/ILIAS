@@ -17,9 +17,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
 
@@ -50,9 +48,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	protected function getLPTypes($a_parent_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 			
 		$res = array();
 							
@@ -79,10 +75,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		if(is_array($a_config["subitems"]))
 		{	
@@ -180,9 +173,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
 	public function validateForm(ilPropertyFormGUI $a_form)
 	{		
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		$invalid = array();
 		
 		include_once "Services/Object/classes/class.ilObjectLP.php";

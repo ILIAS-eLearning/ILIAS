@@ -52,9 +52,7 @@ class ilObjCalendarSettings extends ilObject
 	*/
 	function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::read();
 

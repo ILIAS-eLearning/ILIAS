@@ -24,12 +24,7 @@ class ilPersonalProfileGUI
 	*/
     function __construct()
     {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        global $ilias, $tpl, $lng, $ilCtrl;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -52,13 +47,7 @@ class ilPersonalProfileGUI
 	*/
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
 		
 		$next_class = $this->ctrl->getNextClass();
 
@@ -135,9 +124,7 @@ class ilPersonalProfileGUI
 	*/
 	function uploadUserPicture()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		if ($this->workWithUserSetting("upload"))
 		{
@@ -208,9 +195,7 @@ class ilPersonalProfileGUI
 	*/
 	function removeUserPicture()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$ilUser->removeUserPicture();
 
@@ -224,11 +209,7 @@ class ilPersonalProfileGUI
 	*/
 	function saveProfile()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilAuth = $DIC['ilAuth'];
+		global $ilUser ,$ilSetting, $ilAuth;
 
 		//init checking var
 		$form_valid = true;
@@ -489,7 +470,7 @@ class ilPersonalProfileGUI
 			
 			// update lucene index
 			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
-			ilLuceneIndexer::updateLuceneIndex(array($GLOBALS['DIC']['ilUser']->getId()));
+			ilLuceneIndexer::updateLuceneIndex(array($GLOBALS['ilUser']->getId()));
 			
 
 			// reload page only if skin or style were changed
@@ -535,9 +516,7 @@ class ilPersonalProfileGUI
 	 */
 	function addLocationToForm(ilPropertyFormGUI $a_form, ilObjUser $a_user)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		// check map activation
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -593,11 +572,7 @@ class ilPersonalProfileGUI
 	// init sub tabs
 	function setTabs()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilUser = $DIC['ilUser'];
-		$ilHelp = $DIC['ilHelp'];
+		global $ilTabs, $ilUser, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("user");
 		
@@ -642,9 +617,7 @@ class ilPersonalProfileGUI
 
 	function __showUserDefinedFields()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 		$user_defined_data = $ilUser->getUserDefinedData();
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
@@ -733,12 +706,8 @@ class ilPersonalProfileGUI
 	*/
 	function showPersonalData($a_no_init = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
-		$ilTabs = $DIC['ilTabs'];
-
+		global $ilUser, $lng, $ilTabs, $DIC;
+		
 		$ilTabs->activateTab("personal_data");
 		$ctrl = $DIC->ctrl();
 
@@ -780,13 +749,7 @@ class ilPersonalProfileGUI
 	*/
 	function initPersonalDataForm()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$styleDefinition = $DIC['styleDefinition'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilSetting, $lng, $ilUser, $styleDefinition, $rbacreview;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -864,13 +827,7 @@ class ilPersonalProfileGUI
 	*/
 	public function savePersonalData()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		$this->initPersonalDataForm();
 		if ($this->form->checkInput())
@@ -1035,12 +992,7 @@ class ilPersonalProfileGUI
 	*/
 	function showPublicProfile($a_no_init = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilUser, $lng, $ilSetting, $ilTabs;
 		
 		$ilTabs->activateTab("public_profile");
 
@@ -1067,10 +1019,7 @@ class ilPersonalProfileGUI
 	 */
 	protected function getProfilePortfolio()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilUser, $ilSetting;
 		
 		if ($ilSetting->get('user_portfolios'))
 		{
@@ -1086,11 +1035,7 @@ class ilPersonalProfileGUI
 	*/
 	public function initPublicProfileForm()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $ilUser, $ilSetting;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1163,9 +1108,7 @@ class ilPersonalProfileGUI
 	 */
 	public function showPublicProfileFields(ilPropertyformGUI $form, array $prefs, $parent = null, $anonymized = false)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$birthday = $ilUser->getBirthday();
 		if($birthday)
@@ -1340,12 +1283,7 @@ class ilPersonalProfileGUI
 	*/
 	public function savePublicProfile()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
+		global $tpl, $lng, $ilCtrl, $ilUser;
 	
 		$this->initPublicProfileForm();
 		if ($this->form->checkInput())
@@ -1404,7 +1342,7 @@ class ilPersonalProfileGUI
 			
 			// update lucene index
 			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
-			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['DIC']['ilUser']->getId()));
+			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['ilUser']->getId()));
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showPublicProfile");
@@ -1424,13 +1362,7 @@ class ilPersonalProfileGUI
 	 */
 	function showExportImport()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilUser = $DIC['ilUser'];
+		global $ilToolbar, $ilCtrl, $tpl, $ilTabs, $ilUser;
 		
 		$ilTabs->activateTab("export");
 		$this->setHeader();
@@ -1462,10 +1394,7 @@ class ilPersonalProfileGUI
 	 */
 	function exportPersonalData()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
+		global $ilCtrl, $ilUser;
 
 		$ilUser->exportPersonalData();
 		$ilUser->sendPersonalDataFile();
@@ -1480,9 +1409,7 @@ class ilPersonalProfileGUI
 	 */
 	function downloadPersonalData()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$ilUser->sendPersonalDataFile();
 	}
@@ -1495,12 +1422,7 @@ class ilPersonalProfileGUI
 	 */
 	function importPersonalDataSelection()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $lng, $ilCtrl, $tpl, $ilTabs;
 	
 		$ilTabs->activateTab("export");
 		$this->setHeader();
@@ -1519,10 +1441,7 @@ class ilPersonalProfileGUI
 	 */
 	function initPersonalDataImportForm()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1570,12 +1489,7 @@ class ilPersonalProfileGUI
 	 */
 	function importPersonalData()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilUser, $ilCtrl, $tpl, $ilTabs;
 		
 		$this->initPersonalDataImportForm();
 		if ($this->form->checkInput())

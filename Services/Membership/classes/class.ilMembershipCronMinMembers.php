@@ -19,18 +19,14 @@ class ilMembershipCronMinMembers extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("mem_cron_min_members");
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return $lng->txt("mem_cron_min_members_info");
 	}
@@ -145,9 +141,7 @@ class ilMembershipCronMinMembers extends ilCronJob
 	
 	protected function sendMessage($a_reci_id, array $a_items)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once "Services/Link/classes/class.ilLink.php";		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";

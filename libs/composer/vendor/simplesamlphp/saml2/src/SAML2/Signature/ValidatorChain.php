@@ -1,18 +1,12 @@
 <?php
 
-namespace SAML2\Signature;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Configuration\CertificateProvider;
-use SAML2\SignedElement;
-
 /**
  * Allows for validation of a signature trying different validators till a validator is found
  * that can validate the signature.
  *
  * If no validation is possible an exception is thrown.
  */
-class ValidatorChain implements ValidatorInterface
+class SAML2_Signature_ValidatorChain implements SAML2_Signature_ValidatorInterface
 {
     /**
      * @var \Psr\Log\LoggerInterface
@@ -20,15 +14,15 @@ class ValidatorChain implements ValidatorInterface
     private $logger;
 
     /**
-     * @var  \SAML2\Signature\ChainedValidator[]
+     * @var  SAML2_Signature_ChainedValidator[]
      */
     private $validators = array();
 
     /**
      * @param \Psr\Log\LoggerInterface           $logger
-     * @param \SAML2\Signature\ChainedValidator[] $validators
+     * @param SAML2_Signature_ChainedValidator[] $validators
      */
-    public function __construct(LoggerInterface $logger, array $validators)
+    public function __construct(\Psr\Log\LoggerInterface $logger, array $validators)
     {
         $this->logger = $logger;
 
@@ -39,22 +33,22 @@ class ValidatorChain implements ValidatorInterface
     }
 
     /**
-     * @param \SAML2\Signature\ChainedValidator $validator
+     * @param SAML2_Signature_ChainedValidator $validator
      */
-    public function appendValidator(ChainedValidator $validator)
+    public function appendValidator(SAML2_Signature_ChainedValidator $validator)
     {
         $this->validators[] = $validator;
     }
 
     /**
-     * @param \SAML2\SignedElement             $signedElement
-     * @param \SAML2\Configuration\CertificateProvider $configuration
+     * @param SAML2_SignedElement             $signedElement
+     * @param SAML2_Configuration_CertificateProvider $configuration
      *
      * @return bool
      */
     public function hasValidSignature(
-        SignedElement $signedElement,
-        CertificateProvider $configuration
+        SAML2_SignedElement $signedElement,
+        SAML2_Configuration_CertificateProvider $configuration
     ) {
         foreach ($this->validators as $validator) {
             if ($validator->canValidate($signedElement, $configuration)) {
@@ -72,7 +66,7 @@ class ValidatorChain implements ValidatorInterface
             ));
         }
 
-        throw new MissingConfigurationException(sprintf(
+        throw new SAML2_Signature_MissingConfigurationException(sprintf(
             'No certificates or fingerprints have been configured%s',
             $configuration->has('entityid') ? ' for "' . $configuration->get('entityid') . '"' : ''
         ));

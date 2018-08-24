@@ -37,8 +37,6 @@ SimpleSAML_Error_Assertion::installHandler();
 // show error page on unhandled exceptions
 function SimpleSAML_exception_handler($exception)
 {
-    SimpleSAML\Module::callHooks('exception_handler', $exception);
-
     if ($exception instanceof SimpleSAML_Error_Error) {
         $exception->show();
     } elseif ($exception instanceof Exception) {
@@ -61,7 +59,7 @@ set_exception_handler('SimpleSAML_exception_handler');
 // log full backtrace on errors and warnings
 function SimpleSAML_error_handler($errno, $errstr, $errfile = null, $errline = 0, $errcontext = null)
 {
-    if (!class_exists('SimpleSAML\Logger')) {
+    if (!class_exists('SimpleSAML_Logger')) {
         /* We are probably logging a deprecation-warning during parsing. Unfortunately, the autoloader is disabled at
          * this point, so we should stop here.
          *
@@ -70,7 +68,7 @@ function SimpleSAML_error_handler($errno, $errstr, $errfile = null, $errline = 0
         return false;
     }
 
-    if (SimpleSAML\Logger::isErrorMasked($errno)) {
+    if ($errno & SimpleSAML_Utilities::$logMask || !($errno & error_reporting())) {
         // masked error
         return false;
     }
@@ -92,12 +90,12 @@ function SimpleSAML_error_handler($errno, $errstr, $errfile = null, $errline = 0
 
 set_error_handler('SimpleSAML_error_handler');
 
-try {
-    SimpleSAML_Configuration::getInstance();
-} catch (Exception $e) {
-    throw new \SimpleSAML\Error\CriticalConfigurationError(
-        $e->getMessage()
-    );
+$configdir = SimpleSAML\Utils\Config::getConfigDir();
+if (!file_exists($configdir.'/config.php')) {
+    header('Content-Type: text/plain');
+    echo("You have not yet created the SimpleSAMLphp configuration files.\n");
+    echo("See: https://simplesamlphp.org/docs/devel/simplesamlphp-install-repo\n");
+    exit(1);
 }
 
 // set the timezone

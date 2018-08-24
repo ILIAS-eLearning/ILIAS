@@ -113,9 +113,4 @@ interface ilForumNotificationMailData
 	 * @return array file names 
 	 */
 	public function getAttachments();
-
-	/**
-	 * @return string
-	 */
-	public function getDeletedBy();
 }

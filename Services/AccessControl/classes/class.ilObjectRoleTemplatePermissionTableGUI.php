@@ -23,7 +23,6 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	private $tpl_type = '';
 	
 	private $show_admin_permissions = false;
-	private $show_change_existing_objects = true;
 	
 	private static $template_permissions = NULL;
 	
@@ -34,11 +33,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id,$a_role_id,$a_type,$a_show_admin_permissions = false)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$rbacreview = $DIC['rbacreview'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl,$rbacreview,$tpl;
 
 		$this->tpl_type = $a_type;
 		$this->show_admin_permissions = $a_show_admin_permissions;
@@ -71,32 +66,14 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		$this->initTemplatePermissions();
 		
 	}
-
-	/**
-	 * @param bool $a_status
-	 */
-	public function setShowChangeExistingObjects($a_status)
-	{
-		$this->show_change_existing_objects = $a_status;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getShowChangeExistingObjects()
-	{
-		return $this->show_change_existing_objects;
-	}
-
+	
 	/**
 	 * 
 	 * @return 
 	 */
 	protected function initTemplatePermissions()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		if(self::$template_permissions !== NULL)
 		{
@@ -178,9 +155,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		if(isset($row['show_ce']))
 		{
@@ -191,7 +166,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('ce_desc_td');
 			$this->tpl->setVariable('CE_DESC_TYPE',$this->getTemplateType());
 			$this->tpl->setVariable('CE_LONG',$this->lng->txt('change_existing_object_type_desc'));
-
+			
 			if($objDefinition->isSystemObject($this->getTemplateType()))
 			{
 				$this->tpl->setVariable("TXT_CE",
@@ -206,6 +181,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 					? ilObjectPlugin::lookupTxtById($this->getTemplateType(),
 						"objs_".$this->getTemplateType())
 					: $this->lng->txt('objs_'.$this->getTemplateType());
+				
 				$this->tpl->setVariable('TXT_CE',
 					$this->lng->txt('change_existing_prefix').' '.
 					$pl_txt.' '.
@@ -275,10 +251,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
+		global $rbacreview, $objDefinition;
 		
 		$operations = $this->getPermissions($this->getTemplateType());
 
@@ -320,10 +293,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$rows[] = $perm;
 		}
 
-		if(
-			!$this->show_admin_permissions &&
-			$this->getShowChangeExistingObjects()
-		)
+		if(!$this->show_admin_permissions)
 		{
 			$rows[] = array('show_ce' => 1);
 		}

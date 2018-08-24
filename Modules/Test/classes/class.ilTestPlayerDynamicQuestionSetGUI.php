@@ -499,13 +499,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			return;
 		}
 		
-		if( $this->testSequence->getQuestionSet()->getSelectionQuestionList()->isInList($this->getQuestionIdParameter()) )
+		if( $this->getQuestionIdParameter() )
 		{
 			$this->testSession->setCurrentQuestionId($this->getQuestionIdParameter());
-		}
-		else
-		{
-			$this->resetQuestionIdParameter();
 		}
 		
 		if( !$this->testSession->getCurrentQuestionId() )
@@ -627,10 +623,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 
 // fau: testNav - add feedback modal
-			if ($this->isForcedFeedbackNavUrlRegistered())
+			if (!empty($_SESSION['forced_feedback_navigation_url']))
 			{
-				$this->populateInstantResponseModal($questionGui, $this->getRegisteredForcedFeedbackNavUrl());
-				$this->unregisterForcedFeedbackNavUrl();
+				$this->populateInstantResponseModal($questionGui, $_SESSION['forced_feedback_navigation_url']);
+				unset($_SESSION['forced_feedback_navigation_url']);
 			}
 // fau.
 		}
@@ -691,7 +687,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if ($this->getNavigationUrlParameter())
 		{
 			$this->saveNavigationPreventConfirmation();
-			$this->registerForcedFeedbackNavUrl($this->getNavigationUrlParameter());
+			$_SESSION['forced_feedback_navigation_url'] = $this->getNavigationUrlParameter();
 		}
 // fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -1026,11 +1022,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'pass', $this->testSession->getPass());
 
 		return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
-	}
-	
-	protected function resetQuestionIdParameter()
-	{
-		$this->resetSequenceElementParameter();
 	}
 	
 	protected function getQuestionIdParameter()

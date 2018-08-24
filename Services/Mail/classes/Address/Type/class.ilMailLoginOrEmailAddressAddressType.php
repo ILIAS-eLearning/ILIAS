@@ -1,32 +1,39 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
+
 /**
  * Class ilMailLoginOrEmailAddressAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
+class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	protected function isValid(int $a_sender_id): bool
+	protected function isValid($a_sender_id)
 	{
-		if ($this->address->getHost() == ilMail::ILIAS_HOST) {
+
+		if($this->address->getHost() == ilMail::ILIAS_HOST)
+		{
 			$usr_id = ilObjUser::getUserIdByLogin($this->address->getMailbox());
-		} else {
+		}
+		else
+		{
 			$usr_id = false;
 		}
 
-		if (!$usr_id && $this->address->getHost() == ilMail::ILIAS_HOST) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+		if(!$usr_id && $this->address->getHost() == ilMail::ILIAS_HOST)
+		{
+			$this->errors[] = array('mail_recipient_not_found', $this->address->getMailbox());
 			return false;
 		}
 
-		if (
-			$usr_id &&
-			!$this->rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', \ilMailGlobalServices::getMailObjectRefId())) {
-			$this->errors[] = ['user_cant_receive_mail', $this->address->getMailbox()];
+		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		if($usr_id && !$this->rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		{
+			$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
 			return false;
 		}
 
@@ -34,32 +41,33 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function resolve(): array
+	public function resolve()
 	{
-		if ($this->address->getHost() == \ilMail::ILIAS_HOST) {
+		if($this->address->getHost() == ilMail::ILIAS_HOST)
+		{
 			$address = $this->address->getMailbox();
-
-		} else {
-			$address = $this->address->getMailbox() . '@' . $this->address->getHost();
+			
+		}
+		else
+		{
+			$address = $this->address->getMailbox() . '@'. $this->address->getHost();
 		}
 
-		$usr_ids = array_filter([
-			\ilObjUser::getUserIdByLogin($address)
-		]);
+		$usr_ids = array_filter(array(ilObjUser::getUserIdByLogin($address)));
 
-		if (count($usr_ids) > 0) {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Found the following user ids for address (login) '%s': %s", $address,
-				implode(', ', array_unique($usr_ids))
+		if(count($usr_ids) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following user ids for address (login) '%s': %s", $address, implode(', ', array_unique($usr_ids))
 			));
-		} else {
-			if (strlen($address) > 0) {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-					"Did not find any user account for address (login) '%s'", $address
-				));
-			}
+		}
+		else if(strlen($address) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any user account for address (login) '%s'", $address
+			));
 		}
 
 		return $usr_ids;

@@ -73,9 +73,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 	 */
 	public static function hasDBField($a_field_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT field_id FROM udf_definition".
 			" WHERE field_id = ".$ilDB->quote($a_field_id, "integer"));
@@ -90,9 +88,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 	 */
 	protected static function getDBField($a_field_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM udf_definition".
 			" WHERE field_id = ".$ilDB->quote($a_field_id, "integer"));
@@ -154,9 +150,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 	 */
 	public static function createDBField($a_type, $a_title, array $a_access = null, array $a_options = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$field_id = $ilDB->nextId("udf_definition");
 		
@@ -199,9 +193,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 	 */
 	public static function updateDBField($a_field_id, $a_title, array $a_access = null, array $a_options = null)
 	{
-		global $DIC;			
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;			
 				
 		if(self::hasDBField($a_field_id))
 		{			
@@ -235,9 +227,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 	 */
 	public static function deleteDBField($a_field_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(self::hasDBField($a_field_id))
 		{

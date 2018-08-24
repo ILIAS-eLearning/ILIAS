@@ -81,10 +81,7 @@ class ilPCSourceCode extends ilPCParagraph
 			$content = str_replace("<br/>", "\n", $content);
 			$rownums = count(explode("\n",$content));
 
-			// see #23028
-			//$plain_content = html_entity_decode($content);
-			$plain_content = $content;
-
+			$plain_content = html_entity_decode($content);
 			$plain_content = preg_replace_callback(
                 "/\&#x([1-9a-f]{2});?/is",
                 function($hit) {
@@ -175,5 +172,11 @@ class ilPCSourceCode extends ilPCParagraph
 		}
 		return $a_text;
 	}
+
+	function hasHighlighter ($hfile_ext)
+	{
+		return file_exists ("Services/COPage/syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
+	}
+
 }
 ?>

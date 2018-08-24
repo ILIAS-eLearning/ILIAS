@@ -43,10 +43,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 
 		$lng->loadLanguageModule('sysc');
 		$this->addColumn($this->lng->txt('title'),'title','60%');
@@ -102,13 +99,13 @@ class ilSCTaskTableGUI extends ilTable2GUI
 		include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
 		$task_handler =  ilSCComponentTaskFactory::getComponentTask($row['id']);
 		
-		$GLOBALS['DIC']['ilCtrl']->setParameterByClass(get_class($task_handler),'task_id',$row['id']);
+		$GLOBALS['ilCtrl']->setParameterByClass(get_class($task_handler),'task_id',$row['id']);
 		foreach((array) $task_handler->getActions() as $actions)
 		{
 			$list->addItem(
 					$actions['txt'],
 					'',
-					$GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass(
+					$GLOBALS['ilCtrl']->getLinkTargetByClass(
 						get_class($task_handler),
 						$actions['command']
 					)

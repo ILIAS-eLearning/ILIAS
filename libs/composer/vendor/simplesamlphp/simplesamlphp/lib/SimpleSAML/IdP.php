@@ -49,7 +49,7 @@ class SimpleSAML_IdP
     /**
      * Our authsource.
      *
-     * @var \SimpleSAML\Auth\Simple
+     * @var SimpleSAML_Auth_Simple
      */
     private $authSource;
 
@@ -103,7 +103,7 @@ class SimpleSAML_IdP
 
         $auth = $this->config->getString('auth');
         if (SimpleSAML_Auth_Source::getById($auth) !== null) {
-            $this->authSource = new \SimpleSAML\Auth\Simple($auth);
+            $this->authSource = new SimpleSAML_Auth_Simple($auth);
         } else {
             throw new SimpleSAML_Error_Exception('No such "'.$auth.'" auth source found.');
         }
@@ -427,7 +427,7 @@ class SimpleSAML_IdP
     /**
      * Find the logout handler of this IdP.
      *
-     * @return \SimpleSAML\IdP\LogoutHandlerInterface The logout handler class.
+     * @return SimpleSAML_IdP_LogoutHandler The logout handler class.
      *
      * @throws SimpleSAML_Error_Exception If we cannot find a logout handler.
      */
@@ -437,10 +437,10 @@ class SimpleSAML_IdP
         $logouttype = $this->getConfig()->getString('logouttype', 'traditional');
         switch ($logouttype) {
             case 'traditional':
-                $handler = 'SimpleSAML\IdP\TraditionalLogoutHandler';
+                $handler = 'SimpleSAML_IdP_LogoutTraditional';
                 break;
             case 'iframe':
-                $handler = 'SimpleSAML\IdP\IFrameLogoutHandler';
+                $handler = 'SimpleSAML_IdP_LogoutIFrame';
                 break;
             default:
                 throw new SimpleSAML_Error_Exception('Unknown logout handler: '.var_export($logouttype, true));
@@ -492,7 +492,7 @@ class SimpleSAML_IdP
 
         // terminate the local session
         $id = SimpleSAML_Auth_State::saveState($state, 'core:Logout:afterbridge');
-        $returnTo = SimpleSAML\Module::getModuleURL('core/idp/resumelogout.php', array('id' => $id));
+        $returnTo = SimpleSAML_Module::getModuleURL('core/idp/resumelogout.php', array('id' => $id));
 
         $this->authSource->logout($returnTo);
 

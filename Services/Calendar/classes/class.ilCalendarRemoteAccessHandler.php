@@ -143,7 +143,7 @@ class ilCalendarRemoteAccessHandler
 		require_once("Services/Init/classes/class.ilInitialisation.php");
 		ilInitialisation::initILIAS();
 		
-		$GLOBALS['DIC']['lng']->loadLanguageModule('dateplaner');
+		$GLOBALS['lng']->loadLanguageModule('dateplaner');
 	}
 	
 	/**

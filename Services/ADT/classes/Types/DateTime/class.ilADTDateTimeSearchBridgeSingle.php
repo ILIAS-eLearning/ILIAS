@@ -26,9 +26,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function addToForm()
 	{							
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$adt_date = $this->getADT()->getDate();		
 		
@@ -83,9 +81,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	public function getSQLCondition($a_element_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->isNull() && $this->isValid())		
 		{

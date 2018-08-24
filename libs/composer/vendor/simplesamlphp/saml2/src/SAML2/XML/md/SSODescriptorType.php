@@ -1,23 +1,18 @@
 <?php
 
-namespace SAML2\XML\md;
-
-use SAML2\Constants;
-use SAML2\Utils;
-
 /**
  * Class representing SAML 2 SSODescriptorType.
  *
  * @package SimpleSAMLphp
  */
-abstract class SSODescriptorType extends RoleDescriptor
+abstract class SAML2_XML_md_SSODescriptorType extends SAML2_XML_md_RoleDescriptor
 {
     /**
      * List of ArtifactResolutionService endpoints.
      *
      * Array with IndexedEndpointType objects.
      *
-     * @var \SAML2\XML\md\IndexedEndpointType[]
+     * @var SAML2_XML_md_IndexedEndpointType[]
      */
     public $ArtifactResolutionService = array();
 
@@ -26,7 +21,7 @@ abstract class SSODescriptorType extends RoleDescriptor
      *
      * Array with EndpointType objects.
      *
-     * @var \SAML2\XML\md\EndpointType[]
+     * @var SAML2_XML_md_EndpointType[]
      */
     public $SingleLogoutService = array();
 
@@ -35,7 +30,7 @@ abstract class SSODescriptorType extends RoleDescriptor
      *
      * Array with EndpointType objects.
      *
-     * @var \SAML2\XML\md\EndpointType[]
+     * @var SAML2_XML_md_EndpointType[]
      */
     public $ManageNameIDService = array();
 
@@ -52,45 +47,45 @@ abstract class SSODescriptorType extends RoleDescriptor
      * Initialize a SSODescriptor.
      *
      * @param string          $elementName The name of this element.
-     * @param \DOMElement|null $xml         The XML element we should load.
+     * @param DOMElement|NULL $xml         The XML element we should load.
      */
-    protected function __construct($elementName, \DOMElement $xml = null)
+    protected function __construct($elementName, DOMElement $xml = NULL)
     {
-        assert(is_string($elementName));
+        assert('is_string($elementName)');
 
         parent::__construct($elementName, $xml);
 
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
-        foreach (Utils::xpQuery($xml, './saml_metadata:ArtifactResolutionService') as $ep) {
-            $this->ArtifactResolutionService[] = new IndexedEndpointType($ep);
+        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:ArtifactResolutionService') as $ep) {
+            $this->ArtifactResolutionService[] = new SAML2_XML_md_IndexedEndpointType($ep);
         }
 
-        foreach (Utils::xpQuery($xml, './saml_metadata:SingleLogoutService') as $ep) {
-            $this->SingleLogoutService[] = new EndpointType($ep);
+        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:SingleLogoutService') as $ep) {
+            $this->SingleLogoutService[] = new SAML2_XML_md_EndpointType($ep);
         }
 
-        foreach (Utils::xpQuery($xml, './saml_metadata:ManageNameIDService') as $ep) {
-            $this->ManageNameIDService[] = new EndpointType($ep);
+        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:ManageNameIDService') as $ep) {
+            $this->ManageNameIDService[] = new SAML2_XML_md_EndpointType($ep);
         }
 
-        $this->NameIDFormat = Utils::extractStrings($xml, Constants::NS_MD, 'NameIDFormat');
+        $this->NameIDFormat = SAML2_Utils::extractStrings($xml, SAML2_Const::NS_MD, 'NameIDFormat');
     }
 
     /**
      * Add this SSODescriptorType to an EntityDescriptor.
      *
-     * @param  \DOMElement $parent The EntityDescriptor we should append this SSODescriptorType to.
-     * @return \DOMElement The generated SSODescriptor DOMElement.
+     * @param  DOMElement $parent The EntityDescriptor we should append this SSODescriptorType to.
+     * @return DOMElement The generated SSODescriptor DOMElement.
      */
-    protected function toXML(\DOMElement $parent)
+    protected function toXML(DOMElement $parent)
     {
-        assert(is_array($this->ArtifactResolutionService));
-        assert(is_array($this->SingleLogoutService));
-        assert(is_array($this->ManageNameIDService));
-        assert(is_array($this->NameIDFormat));
+        assert('is_array($this->ArtifactResolutionService)');
+        assert('is_array($this->SingleLogoutService)');
+        assert('is_array($this->ManageNameIDService)');
+        assert('is_array($this->NameIDFormat)');
 
         $e = parent::toXML($parent);
 
@@ -106,8 +101,9 @@ abstract class SSODescriptorType extends RoleDescriptor
             $ep->toXML($e, 'md:ManageNameIDService');
         }
 
-        Utils::addStrings($e, Constants::NS_MD, 'md:NameIDFormat', false, $this->NameIDFormat);
+        SAML2_Utils::addStrings($e, SAML2_Const::NS_MD, 'md:NameIDFormat', FALSE, $this->NameIDFormat);
 
         return $e;
     }
+
 }

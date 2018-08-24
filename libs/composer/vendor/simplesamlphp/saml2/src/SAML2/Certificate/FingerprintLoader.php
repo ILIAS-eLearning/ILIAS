@@ -1,25 +1,15 @@
 <?php
 
-namespace SAML2\Certificate;
-
-use SAML2\Configuration\CertificateProvider;
-use SAML2\Exception\InvalidArgumentException;
-
-/**
- * @deprecated Please load full certificates instead.
- */
-class FingerprintLoader
+class SAML2_Certificate_FingerprintLoader
 {
     /**
      * Static method mainly for BC, should be replaced with DI.
      *
-     * @param \SAML2\Configuration\CertificateProvider $configuration
+     * @param SAML2_Configuration_CertificateProvider $configuration
      *
-     * @return \SAML2\Certificate\FingerprintCollection
-     *
-     * @deprecated
+     * @return SAML2_Certificate_FingerprintCollection
      */
-    public static function loadFromConfiguration(CertificateProvider $configuration)
+    public static function loadFromConfiguration(SAML2_Configuration_CertificateProvider $configuration)
     {
         $loader = new self();
 
@@ -29,32 +19,30 @@ class FingerprintLoader
     /**
      * Loads the fingerprints from a configurationValue
      *
-     * @param \SAML2\Configuration\CertificateProvider $configuration
+     * @param SAML2_Configuration_CertificateProvider $configuration
      *
-     * @return \SAML2\Certificate\FingerprintCollection
-     *
-     * @deprecated
+     * @return SAML2_Certificate_FingerprintCollection
      */
-    public function loadFingerprints(CertificateProvider $configuration)
+    public function loadFingerprints(SAML2_Configuration_CertificateProvider $configuration)
     {
         $fingerprints = $configuration->getCertificateFingerprints();
         if (!is_array($fingerprints) && !$fingerprints instanceof \Traversable) {
-            throw InvalidArgumentException::invalidType(
+            throw SAML2_Exception_InvalidArgumentException::invalidType(
                 'array or instanceof \Traversable',
                 $fingerprints
             );
         }
 
-        $collection = new FingerprintCollection();
+        $collection = new SAML2_Certificate_FingerprintCollection();
         foreach ($fingerprints as $fingerprint) {
             if (!is_string($fingerprint) && !(is_object($fingerprint) && method_exists($fingerprint, '__toString'))) {
-                throw InvalidArgumentException::invalidType(
+                throw SAML2_Exception_InvalidArgumentException::invalidType(
                     'fingerprint as string or object that can be casted to string',
                     $fingerprint
                 );
             }
 
-            $collection->add(new Fingerprint((string) $fingerprint));
+            $collection->add(new SAML2_Certificate_Fingerprint((string) $fingerprint));
         }
 
         return $collection;

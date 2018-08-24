@@ -33,9 +33,7 @@ class ilCalendarUserNotification
 	 */
 	public static function deleteUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM cal_notification '.
 			'WHERE user_id = '.$ilDB->quote($a_usr_id,'integer');
@@ -51,9 +49,7 @@ class ilCalendarUserNotification
 	 */
 	public static function deleteCalendarEntry($a_cal_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM cal_notification '.
 			'WHERE cal_id = '.$ilDB->quote($a_cal_id,'integer');
@@ -85,10 +81,7 @@ class ilCalendarUserNotification
 
 	public function validate()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$lng = $DIC['lng'];
+		global $ilErr, $lng;
 
 		if(!count($this->getRecipients()))
 		{
@@ -117,9 +110,7 @@ class ilCalendarUserNotification
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->deleteRecipients();
 
@@ -170,9 +161,7 @@ class ilCalendarUserNotification
 	 */
 	public function deleteRecipients()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM cal_notification '.
 			'WHERE cal_id = '.$ilDB->quote($this->getEntryId(),'integer');
@@ -188,9 +177,7 @@ class ilCalendarUserNotification
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if(!$this->getEntryId())
 		{
@@ -215,9 +202,7 @@ class ilCalendarUserNotification
 	// Create table (not merged into into 4.3)
 	public static function createTable()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if($ilDB->tableExists('cal_notification'))
 		{

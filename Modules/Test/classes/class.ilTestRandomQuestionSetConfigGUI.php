@@ -888,10 +888,9 @@ class ilTestRandomQuestionSetConfigGUI
 				$lostPool = $this->sourcePoolDefinitionList->getLostPool($poolId);
 				
 				$deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->pluginAdmin, $this->testOBJ);
-				$deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 				$deriver->setTargetContainerRef($targetRef);
 				$deriver->setOwnerId($GLOBALS['DIC']['ilUser']->getId());
-				$newPoolId = $deriver->derive($lostPool);
+				$newPoolId = $deriver->letTheDifferentlyThinkedShitRunning($lostPool);
 				
 				$this->sourcePoolDefinitionList->updateSourceQuestionPoolId(
 					$lostPool->getId(), $newPoolId

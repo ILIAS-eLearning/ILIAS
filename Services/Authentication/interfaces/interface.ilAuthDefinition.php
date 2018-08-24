@@ -19,18 +19,18 @@ interface ilAuthDefinition
 	
 	
 	/**
-	 * Get authentication id.
+	 * Get an authentication id.
 	 * For plugins the auth must be greater than 1000 and unique
 	 * 
-	 * @see constants like in AUTH_LDAP ilAuthUtils
-	 * @return int[]
+	 * @see constants in ilAuthUtils
+	 * @return array
 	 */
 	public function getAuthIds();
 	
 	
 	/**
 	 * Get the auth id by an auth mode name.
-	 * the auth mode name is stored for each user in table usr_data -> auth_mode
+	 * the auth mode name is stored for each user in table usr_data
 	 * 
 	 * @see ilAuthUtils::_getAuthMode()
 	 * @return int
@@ -39,7 +39,7 @@ interface ilAuthDefinition
 	
 	/**
 	 * Get auth name by auth id
-	 * @param int $a_auth_id
+	 * @param type $a_auth_id
 	 * @return string
 	 */
 	public function getAuthName($a_auth_id);

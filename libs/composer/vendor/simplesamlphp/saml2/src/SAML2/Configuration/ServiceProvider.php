@@ -1,16 +1,12 @@
 <?php
 
-namespace SAML2\Configuration;
-
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
 /**
  * Basic Configuration Wrapper
  */
-class ServiceProvider extends ArrayAdapter implements
-    CertificateProvider,
-    DecryptionProvider,
-    EntityIdProvider
+class SAML2_Configuration_ServiceProvider extends SAML2_Configuration_ArrayAdapter implements
+    SAML2_Configuration_CertificateProvider,
+    SAML2_Configuration_DecryptionProvider,
+    SAML2_Configuration_EntityIdProvider
 {
     public function getKeys()
     {
@@ -27,9 +23,6 @@ class ServiceProvider extends ArrayAdapter implements
         return $this->get('certificateFile');
     }
 
-    /**
-     * @deprecated Please use getCertificateData() or getCertificateFile().
-     */
     public function getCertificateFingerprints()
     {
         return $this->get('certificateFingerprints');
@@ -50,10 +43,10 @@ class ServiceProvider extends ArrayAdapter implements
         return $this->get('sharedKey');
     }
 
-    public function getPrivateKey($name, $required = false)
+    public function getPrivateKey($name, $required = FALSE)
     {
         $privateKeys = $this->get('privateKeys');
-        $key         = array_filter($privateKeys, function (PrivateKey $key) use ($name) {
+        $key         = array_filter($privateKeys, function (SAML2_Configuration_PrivateKey $key) use ($name) {
             return $key->getName() === $name;
         });
 
@@ -68,7 +61,7 @@ class ServiceProvider extends ArrayAdapter implements
         }
 
         if (!$keyCount) {
-            return null;
+            return NULL;
         }
 
         return array_pop($key);

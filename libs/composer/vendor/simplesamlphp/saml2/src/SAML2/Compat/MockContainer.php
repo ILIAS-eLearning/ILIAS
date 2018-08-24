@@ -1,11 +1,9 @@
 <?php
 
-namespace SAML2\Compat;
-
 /**
- * Class \SAML2\Compat\MockContainer
+ * Class SAML2_Compat_MockContainer
  */
-class MockContainer extends AbstractContainer
+class SAML2_Compat_MockContainer extends SAML2_Compat_AbstractContainer
 {
     /**
      * @var string
@@ -39,7 +37,7 @@ class MockContainer extends AbstractContainer
 
     /**
      * Get a PSR-3 compatible logger.
-     * @return \Psr\Log\LoggerInterface
+     * @return Psr\Log\LoggerInterface
      */
     public function getLogger()
     {

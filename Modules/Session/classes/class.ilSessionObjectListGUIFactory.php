@@ -41,11 +41,7 @@ class ilSessionObjectListGUIFactory
 	 */
 	public static function factory($a_type)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
-		$ilLog = $DIC->logger()->sess();
-		$ilCtrl = $DIC['ilCtrl'];
+		global $objDefinition,$ilLog,$ilCtrl;
 		
 		if(isset(self::$item_list_gui[$a_type]))
 		{

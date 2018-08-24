@@ -50,7 +50,7 @@ class ilECSUriList
 	 */
 	public function add($a_uri,$a_link_id)
 	{
-		#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$a_uri.', '.$a_link_id);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_uri.', '.$a_link_id);
 		$this->uris[$a_link_id] = $a_uri;
 	}
 

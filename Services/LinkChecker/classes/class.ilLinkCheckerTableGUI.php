@@ -148,10 +148,7 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
 	 */	
 	public function prepareHTML()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		// #11002
 		$lng->loadLanguageModule("webr");

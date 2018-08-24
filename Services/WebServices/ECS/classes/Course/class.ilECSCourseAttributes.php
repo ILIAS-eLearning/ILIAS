@@ -212,9 +212,7 @@ class ilECSCourseAttributes
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->attributes = array();
 		

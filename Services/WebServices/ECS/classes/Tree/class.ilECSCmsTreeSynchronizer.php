@@ -90,7 +90,7 @@ class ilECSCmsTreeSynchronizer
 		// return if setting is false => no configuration done
 		if(!$this->getDefaultSettings())
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': No directory allocation settings. Aborting');
+			$GLOBALS['ilLog']->write(__METHOD__.': No directory allocation settings. Aborting');
 			return true;
 		}
 			
@@ -114,7 +114,7 @@ class ilECSCmsTreeSynchronizer
 	{
 		if($this->default_settings['tree_update'] == false)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Tree update disabled for tree with id '. $this->getTree()->getTreeId());
+			$GLOBALS['ilLog']->write(__METHOD__.': Tree update disabled for tree with id '. $this->getTree()->getTreeId());
 			return false;
 		}
 		
@@ -140,9 +140,7 @@ class ilECSCmsTreeSynchronizer
 	 */
 	protected function handleTreeUpdate($a_parent_ref_id, $a_tnode_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		// Check if node is already imported at location "parent_ref_id"
 		// If not => move it
@@ -155,11 +153,11 @@ class ilECSCmsTreeSynchronizer
 				$cms_data->getCmsId());
 		if(!$import_obj_id)
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': cms tree node not imported. tnode_id: '. $a_tnode_id);
+			$GLOBALS['ilLog']->write(__METHOD__.': cms tree node not imported. tnode_id: '. $a_tnode_id);
 			return false;
 		}
 		
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' parent ref:'.$a_parent_ref_id.' tnode:'. $a_tnode_id);
+		$GLOBALS['ilLog']->write(__METHOD__.' parent ref:'.$a_parent_ref_id.' tnode:'. $a_tnode_id);
 		$ref_ids = ilObject::_getAllReferences($import_obj_id);
 		$import_ref_id = end($ref_ids);
 		$import_ref_id_parent = $tree->getParentId($import_ref_id);
@@ -167,7 +165,7 @@ class ilECSCmsTreeSynchronizer
 		if($a_parent_ref_id != $import_ref_id_parent)
 		{
 			// move node
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Moving node '.$a_parent_ref_id.' to '.$import_ref_id);
+			$GLOBALS['ilLog']->write(__METHOD__.': Moving node '.$a_parent_ref_id.' to '.$import_ref_id);
 			$tree->moveTree($import_ref_id,$a_parent_ref_id);
 		}
 		
@@ -249,13 +247,13 @@ class ilECSCmsTreeSynchronizer
 			$cat = ilObjectFactory::getInstanceByRefId($ref_id,false);
 			if(($cat instanceof ilObject) and $this->default_settings['title_update'])
 			{
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Updating cms category ');
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Title is '. $data->getTitle());
-				$cat->deleteTranslation($GLOBALS['DIC']['lng']->getDefaultLanguage());
+				$GLOBALS['ilLog']->write(__METHOD__.': Updating cms category ');
+				$GLOBALS['ilLog']->write(__METHOD__.': Title is '. $data->getTitle());
+				$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
 				$cat->addTranslation(
 						$data->getTitle(),
 						$cat->getLongDescription(),
-						$GLOBALS['DIC']['lng']->getDefaultLanguage(),
+						$GLOBALS['lng']->getDefaultLanguage(),
 						1
 					);
 				$cat->setTitle($data->getTitle());
@@ -263,28 +261,27 @@ class ilECSCmsTreeSynchronizer
 			}
 			else
 			{
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Updating cms category -> nothing to do');
+				$GLOBALS['ilLog']->write(__METHOD__.': Updating cms category -> nothing to do');
 			}
 			return $ref_id;
 		}
 		elseif($this->getGlobalSettings()->isEmptyContainerCreationEnabled())
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Creating new cms category');
+			$GLOBALS['ilLog']->write(__METHOD__.': Creating new cms category');
 			
 			// Create category
 			include_once './Modules/Category/classes/class.ilObjCategory.php';
 			$cat = new ilObjCategory();
-			$cat->setOwner(SYSTEM_USER_ID);
 			$cat->setTitle($data->getTitle());
 			$cat->create(); // true for upload
 			$cat->createReference();
 			$cat->putInTree($parent_id);
 			$cat->setPermissions($parent_id);
-			$cat->deleteTranslation($GLOBALS['DIC']['lng']->getDEfaultLanguage());
+			$cat->deleteTranslation($GLOBALS['lng']->getDEfaultLanguage());
 			$cat->addTranslation(
 					$data->getTitle(),
 					$cat->getLongDescription(),
-					$GLOBALS['DIC']['lng']->getDefaultLanguage(),
+					$GLOBALS['lng']->getDefaultLanguage(),
 					1
 				);
 			
@@ -302,7 +299,7 @@ class ilECSCmsTreeSynchronizer
 		}
 		else
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Creation of empty containers is disabled.');
+			$GLOBALS['ilLog']->write(__METHOD__.': Creation of empty containers is disabled.');
 			return 0;
 		}
 	}

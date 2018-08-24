@@ -18,9 +18,7 @@ class ilLPStatusVisits extends ilLPStatus
 
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -28,9 +26,7 @@ class ilLPStatusVisits extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$required_visits = $status_info['visits'];
@@ -49,9 +45,7 @@ class ilLPStatusVisits extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$required_visits = $status_info['visits'];
@@ -86,10 +80,7 @@ class ilLPStatusVisits extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache, $ilDB;
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))

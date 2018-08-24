@@ -267,9 +267,7 @@ class ilUserAutoComplete
 		/**
 		 * @var $ilDB  ilDB
 		 */
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$parsed_query = $this->parseQueryString($a_str);
 
@@ -386,9 +384,7 @@ class ilUserAutoComplete
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$joins = array();
 
@@ -427,10 +423,7 @@ class ilUserAutoComplete
 		 * @var $ilDB      ilDB
 		 * @var $ilSetting ilSetting
 		 */
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilDB, $ilSetting;
 
 		$outer_conditions = array();
 
@@ -554,9 +547,7 @@ class ilUserAutoComplete
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query_strings = array($query['query']);
 		

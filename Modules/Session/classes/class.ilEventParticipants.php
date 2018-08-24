@@ -28,12 +28,7 @@ class ilEventParticipants
 	 */
 	public function __construct($a_event_id)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		global $ilErr,$ilDB,$lng,$tree;
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -85,9 +80,7 @@ class ilEventParticipants
 	}
 	function updateUser()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId() ,'integer')." ".
@@ -150,9 +143,7 @@ class ilEventParticipants
 
 	public static function _updateParticipation($a_usr_id,$a_event_id,$a_status)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -187,9 +178,7 @@ class ilEventParticipants
 
 	public static function _getRegistered($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -204,9 +193,7 @@ class ilEventParticipants
 
 	public static function _getParticipated($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -221,9 +208,7 @@ class ilEventParticipants
 	
 	public static function _hasParticipated($a_usr_id,$a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT participated FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -238,9 +223,7 @@ class ilEventParticipants
 
 	public static function _isRegistered($a_usr_id,$a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -255,9 +238,7 @@ class ilEventParticipants
 
 	public static function _register($a_usr_id,$a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -296,9 +277,7 @@ class ilEventParticipants
 			
 	public static function _unregister($a_usr_id,$a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -344,9 +323,7 @@ class ilEventParticipants
 		return $lp_mark->getMark();
 
 		/*
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -367,9 +344,7 @@ class ilEventParticipants
 		return $lp_mark->getComment();
 
 		/*
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
@@ -395,9 +370,7 @@ class ilEventParticipants
 
 	public static function _deleteByEvent($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
@@ -410,9 +383,7 @@ class ilEventParticipants
 	}
 	public static function _deleteByUser($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM event_participants ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
@@ -424,9 +395,7 @@ class ilEventParticipants
 	// Private
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";

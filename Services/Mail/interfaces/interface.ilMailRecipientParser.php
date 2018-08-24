@@ -10,5 +10,5 @@ interface ilMailRecipientParser
 	/**
 	 * @return ilMailAddress[]
 	 */
-	public function parse(): array;
+	public function parse();
 }

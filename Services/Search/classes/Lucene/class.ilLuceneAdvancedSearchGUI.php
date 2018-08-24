@@ -50,9 +50,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		$this->tabs_gui = $ilTabs;
 		parent::__construct();
@@ -98,10 +96,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	public function showSavedResults()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilBench = $DIC['ilBench'];
+		global $ilUser,$ilBench;
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedQueryParser.php';
@@ -155,9 +150,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initFormSearch()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -232,10 +225,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function performSearch()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$ilBench = $DIC['ilBench'];
+		global $ilUser,$ilBench;
 		
 		unset($_SESSION['vis_references']);
 		
@@ -314,9 +304,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		global $DIC;
-
-		$ilHelp = $DIC['ilHelp'];
+		global $ilHelp;
 
 		$ilHelp->setScreenIdComponent("src_luc");
 
@@ -345,9 +333,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initUserSearchCache()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
@@ -363,9 +349,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	}
 	protected function fillAdminPanel()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 

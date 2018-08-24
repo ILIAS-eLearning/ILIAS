@@ -100,9 +100,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	
 	public function getFieldDefinitionForTableGUI()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return array($lng->txt("meta_advmd_select_options") => implode(",", $this->getOptions()));		
 	}
@@ -115,9 +113,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	 */
 	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$field = new ilTextInputGUI($lng->txt("meta_advmd_select_options"), "opts");			
 		$field->setRequired(true);
@@ -244,10 +240,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$objDefinition = $DIC['objDefinition'];
+		global $lng, $objDefinition;
 				
 		$a_form->getItemByPostVar("opts")->setDisabled(true);				
 		

@@ -1,5 +1,3 @@
-//out: delos.css, sourcemap: true, compress: true
-
 @import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
 
@@ -95,15 +93,13 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Chart/chart.less";
 @import "@{uibase}Input/input.less";
 @import "@{uibase}Table/table.less";
-@import "@{uibase}Listing/workflow.less";
-@import "@{uibase}MessageBox/messagebox.less";
-@import "@{uibase}Modal/modal.less";
 
 @import "less/variables.less";             // customized
 
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
 @import "@{uibase}Popover/popover.less";
+
 
 //Extended color import depending on variables.less
 @import "less/color.less";             // customized
@@ -1160,54 +1156,6 @@ div.il_TreeIcons {
 	float: left;
 }
 
-/* ----------------- permanent link  ------------- */
-#current_perma_link {
-	color: @text-color;
-	font-size: 90%;
-}
-a.permalink_label {
-	> span.glyphicon {
-		display: none;
-	}
-}
-
-.ilPermalinkContainer {
-	width: 100%;
-}
-
-div.ilPermanentLinkWrapper {
-	clear: both;
-	margin-top: 10px;
-	display: inline-block;
-	width: 100%;
-	a.permalink_label {
-		> span.glyphicon {
-			@media only screen and (max-width: @grid-float-breakpoint-max) {
-				display: inline;
-			}
-		}
-	}
-	.ilPermalinkContainer {
-		table-layout: fixed;
-		line-height: 22px;
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			padding-right: 0;
-		}
-		> label {
-			width: 150px;
-			display: table-cell;
-			vertical-align: middle;
-			@media only screen and (max-width: @grid-float-breakpoint-max) {
-				padding-right: 0;
-				width: 24px;
-			}
-		}
-		.input-group-btn {
-			width: 28px;
-		}
-	}
-}
-
 div.il_Footer {
 	padding: 10px 0;
 	font-size: 90%;
@@ -1226,9 +1174,6 @@ footer.ilFooter {
 	text-align: left;
 	background-color: @il-footer-bg-color;
 	color: @il-footer-color;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		height: auto;
-	}
 	div.ilFooterContainer {
 		color: @il-footer-color;
 		//float: left;
@@ -1241,30 +1186,6 @@ footer.ilFooter {
 		white-space: nowrap;
 		&:hover {
 			color: @il-footer-color;
-		}
-	}
-	a.permalink_label {
-		> span.glyphicon {
-			@media only screen and (max-width: @grid-float-breakpoint-max) {
-				display: inline;
-			}
-		}
-	}
-	.ilPermalinkContainer {
-		width: auto;
-		> label {
-			display: table-cell;
-			vertical-align: middle;
-			padding-right: 5px;
-			@media only screen and (max-width: @grid-float-breakpoint-max) {
-				padding-right: 0;
-				width: 24px;
-			}
-		}
-		padding-right: 5px;
-		line-height: 22px;
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			padding-right: 0;
 		}
 	}
 }
@@ -1285,6 +1206,37 @@ footer.ilFooter {
             width: 100%;
         }
     }
+}
+
+/* ----------------- permanent link  ------------- */
+div.ilPermaLink {
+	margin: 15px;
+}
+
+div.ilPermaLink .small {
+	font-size: 70%;
+}
+
+div.ilPermaLink .il_adv_sel {
+	font-size: 100%;
+}
+
+div.ilPermaLink input {
+	font-size: 70%;
+	width: 350px;
+}
+
+div.ilPermaLink a {
+	font-size: 1em;
+}
+
+#current_perma_link {
+	color: @text-color;
+	width: 25%;
+	font-size: 90%;
+	+ .btn-group {
+		vertical-align: top;
+	}
 }
 
 
@@ -2146,3 +2098,4 @@ div.ilGoogleMap {
 		content: "";
 	}
 }
+

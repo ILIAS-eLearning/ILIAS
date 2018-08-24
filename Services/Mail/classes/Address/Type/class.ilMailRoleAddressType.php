@@ -1,33 +1,37 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+
 /**
  * Class ilMailRoleAddressType
  * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailRoleAddressType extends \ilBaseMailAddressType
+class ilMailRoleAddressType extends ilBaseMailAddressType
 {
 	/**
 	 * @var array
 	 */
-	protected static $role_ids_by_address = [];
+	protected static $role_ids_by_address = array();
 
 	/**
 	 * @var array
 	 */
-	protected static $may_send_to_global_roles = [];
+	protected static $may_send_to_global_roles = array();
 
 	/**
-	 * @param \ilMailAddress $a_address
+	 * @param ilMailAddress $a_address
 	 * @return array
 	 */
-	protected static function getRoleIdsByAddress(\ilMailAddress $a_address): array
+	protected static function getRoleIdsByAddress(ilMailAddress $a_address)
 	{
 		$address = $a_address->getMailbox() . '@' . $a_address->getHost();
 
-		if (!isset(self::$role_ids_by_address[$address])) {
+		if(!isset(self::$role_ids_by_address[$address]))
+		{
 			self::$role_ids_by_address[$address] = self::searchRolesByMailboxAddressList($address);
 		}
 
@@ -38,14 +42,19 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 	 * @param int $a_sender_id
 	 * @return bool
 	 */
-	protected function maySendToGlobalRole(int $a_sender_id): bool
+	protected function maySendToGlobalRole($a_sender_id)
 	{
-		if (!isset(self::$may_send_to_global_roles[$a_sender_id])) {
-			if ($a_sender_id == ANONYMOUS_USER_ID) {
+		if(!isset(self::$may_send_to_global_roles[$a_sender_id]))
+		{
+			if($a_sender_id == ANONYMOUS_USER_ID)
+			{
 				self::$may_send_to_global_roles[$a_sender_id] = true;
-			} else {
+			}
+			else
+			{
+				require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 				self::$may_send_to_global_roles[$a_sender_id] = $this->rbacsystem->checkAccessOfUser(
-					$a_sender_id, 'mail_to_global_roles', \ilMailGlobalServices::getMailObjectRefId()
+					$a_sender_id, 'mail_to_global_roles', ilMailGlobalServices::getMailObjectRefId()
 				);
 			}
 		}
@@ -54,74 +63,77 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function isValid(int $a_sender_id): bool
+	public function isValid($a_sender_id)
 	{
 		$role_ids = self::getRoleIdsByAddress($this->address);
-		if (!self::maySendToGlobalRole($a_sender_id)) {
-			foreach ($role_ids as $role_id) {
-				if ($this->rbacreview->isGlobalRole($role_id)) {
+		if(!self::maySendToGlobalRole($a_sender_id))
+		{
+			foreach($role_ids as $role_id)
+			{
+				if($this->rbacreview->isGlobalRole($role_id))
+				{
 					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->getMailbox());
 					return false;
 				}
 			}
 		}
 
-		if (count($role_ids) == 0) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+		if(count($role_ids) == 0)
+		{
+			$this->errors[] = array('mail_recipient_not_found', $this->address->getMailbox());
 			return false;
-		} else {
-			if (count($role_ids) > 1) {
-				$this->errors[] = [
-					'mail_multiple_role_recipients_found',
-					$this->address->getMailbox(),
-					implode(',', $role_ids)
-				];
-				return false;
-			}
+		}
+		else if(count($role_ids) > 1)
+		{
+			$this->errors[] = array('mail_multiple_role_recipients_found', $this->address->getMailbox(), implode(',', $role_ids));
+			return false;
 		}
 
 		return true;
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function resolve(): array
+	public function resolve()
 	{
-		$usr_ids = [];
+		$usr_ids = array();
 
 		$role_ids = self::getRoleIdsByAddress($this->address);
 
-		if (count($role_ids) > 0) {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Found the following role ids for address '%s': %s",
-				$this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($role_ids))
+		if(count($role_ids) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following role ids for address '%s': %s", $this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($role_ids))
 			));
 
-			foreach ($role_ids as $role_id) {
-				foreach ($this->rbacreview->assignedUsers($role_id) as $usr_id) {
+			foreach($role_ids as $role_id)
+			{
+				foreach($this->rbacreview->assignedUsers($role_id) as $usr_id)
+				{
 					$usr_ids[] = $usr_id;
 				}
 			}
 
-			if (count($usr_ids) > 0) {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-					"Found the following user ids for roles determined by address '%s': %s",
-					$this->address->getMailbox() . '@' . $this->address->getHost(),
-					implode(', ', array_unique($usr_ids))
-				));
-			} else {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-					"Did not find any assigned users for roles determined by '%s'",
-					$this->address->getMailbox() . '@' . $this->address->getHost()
+			if(count($usr_ids) > 0)
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Found the following user ids for roles determined by address '%s': %s", $this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($usr_ids))
 				));
 			}
-		} else {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Did not find any role (and user ids) for address '%s'",
-				$this->address->getMailbox() . '@' . $this->address->getHost()
+			else
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Did not find any assigned users for roles determined by '%s'", $this->address->getMailbox() . '@' . $this->address->getHost()
+				));
+			}
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any role (and user ids) for address '%s'", $this->address->getMailbox() . '@' . $this->address->getHost()
 			));
 		}
 

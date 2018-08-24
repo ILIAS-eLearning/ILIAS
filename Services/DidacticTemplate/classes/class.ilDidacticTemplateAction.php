@@ -124,9 +124,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if($this->getActionId())
 		{
@@ -152,9 +150,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM didactic_tpl_a '.
 			'WHERE id = '.$ilDB->quote($this->getActionId(),'integer');
@@ -167,9 +163,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT * FROM didactic_tpl_a '.
 			'WHERE id = '.$ilDB->quote($this->getActionId(), 'integer');
@@ -235,9 +229,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	protected function filterRoles(ilObject $source)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
 		$patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(

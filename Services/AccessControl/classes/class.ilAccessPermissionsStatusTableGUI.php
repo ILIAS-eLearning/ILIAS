@@ -17,9 +17,7 @@ class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
@@ -40,9 +38,7 @@ class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK)
 		{

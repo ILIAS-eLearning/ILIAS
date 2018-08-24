@@ -36,12 +36,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$rbacreview = $DIC['rbacreview'];
-		$tpl = $DIC['tpl'];
-		$tree = $DIC['tree'];
+		global $ilCtrl,$rbacreview,$tpl,$tree;
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
@@ -151,9 +146,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function initFilter()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		$roles = $this->addFilterItemByMetaType(
 			'role',
@@ -194,9 +187,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		
 		// local policy
@@ -369,10 +360,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
+		global $rbacreview,$objDefinition;
 		
 		$this->initColumns();
 
@@ -544,10 +532,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function initColumns()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $rbacreview,$ilCtrl;
 		
 		$roles = $rbacreview->getParentRoleIds($this->getRefId());
 		$roles = $this->getParentObject()->applyRoleFilter(
@@ -611,11 +596,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function createTooltip($role)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$tree = $DIC['tree'];
-		$objDefinition = $DIC['objDefinition'];
+		global $rbacreview,$tree, $objDefinition;
 		
 		#vd($role);
 		$protected_status = $rbacreview->isProtected($role['parent'], $role['obj_id']) ? 'protected_' : '';
@@ -693,10 +674,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function createTitle($role)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$objDefinition = $DIC['objDefinition'];
+		global $ilCtrl, $objDefinition;
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role_title = ilObjRole::_getTranslation($role['title']);

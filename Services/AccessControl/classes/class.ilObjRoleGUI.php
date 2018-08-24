@@ -46,10 +46,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
+		global $tree,$lng;
 		
 		$lng->loadLanguageModule('rbac');
 
@@ -77,9 +74,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$this->prepareOutput();
 		
@@ -90,9 +85,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			case 'ilrepositorysearchgui':
 				
-				if(!$GLOBALS['DIC']['ilAccess']->checkAccess('edit_permission','', $this->obj_ref_id))
+				if(!$GLOBALS['ilAccess']->checkAccess('edit_permission','', $this->obj_ref_id))
 				{
-					$GLOBALS['DIC']['ilErr']->raiseError($GLOBALS['DIC']['lng']->txt('permission_denied'), $GLOBALS['DIC']['ilErr']->WARNING);
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
 				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
@@ -204,9 +199,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function showDefaultPermissionSettings()
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		return $objDefinition->isContainer($this->getContainerType());
 	}
@@ -214,10 +207,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function listDesktopItemsObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacsystem,$rbacreview;
 
 		if(!$rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id) &&
 			$this->obj_ref_id != ROLE_FOLDER_ID)
@@ -240,9 +230,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function askDeleteDesktopItemObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 		
 		
 		if(!$this->checkAccess('edit_permission'))
@@ -294,9 +282,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function deleteDesktopItemsObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 		
 		if(!$this->checkAccess('edit_permission'))
 		{
@@ -335,10 +321,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function selectDesktopItemObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
+		global $rbacsystem,$tree;
 
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItemSelector.php';
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
@@ -372,9 +355,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function assignDesktopItemObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
@@ -539,9 +520,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function readRoleProperties(ilObjRole $role)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 
@@ -573,9 +552,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function createObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 		
 		if(!$rbacsystem->checkAccess('create_role',$this->obj_ref_id))
 		{
@@ -592,13 +569,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function editObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilSetting = $DIC['ilSetting'];
-		$ilErr = $DIC['ilErr'];
-		$ilToolbar = $DIC['ilToolbar'];
+		global $rbacsystem, $rbacreview, $ilSetting,$ilErr,$ilToolbar;
 
 		if(!$this->checkAccess('write','edit_permission'))
 		{
@@ -630,10 +601,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function saveObject()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin,$rbacreview;
 		
 		$this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
 		if($this->form->checkInput() and !$this->checkDuplicate())
@@ -674,9 +642,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function updateObject()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 		
 		$this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
 		if($this->form->checkInput() and !$this->checkDuplicate($this->object->getId()))
@@ -705,13 +671,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function permObject($a_show_admin_permissions = false)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilErr = $DIC['ilErr'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$objDefinition = $DIC['objDefinition'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilTabs, $ilErr, $ilToolbar, $objDefinition,$rbacreview;
 		
 		$ilTabs->setTabActive('default_perm_settings');
 		
@@ -873,9 +833,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	protected function adoptPermObject()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$output = array();
 		
@@ -917,11 +875,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function confirmDeleteRoleObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $ilErr,$rbacreview,$ilUser;
 		
 		$access = $this->checkAccess('visible,write','edit_permission');
 		if (!$access)
@@ -962,9 +916,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function performDeleteRoleObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 
 		$access = $this->checkAccess('visible,write','edit_permission');
 		if (!$access)
@@ -986,13 +938,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permSaveObject($a_show_admin_permissions = false)
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$objDefinition = $DIC['objDefinition'];
-		$tree = $DIC['tree'];
+		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
 		// for role administration check write of global role folder
 		$access = $this->checkAccess('visible,write','edit_permission');
@@ -1132,12 +1078,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-		$tree = $DIC['tree'];
+		global $rbacadmin, $rbacsystem, $rbacreview, $tree;
 
 		if(!$_POST['adopt'])
 		{
@@ -1198,10 +1139,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function addUserObject($a_user_ids)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacreview,$rbacadmin;
 		
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
@@ -1216,7 +1154,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		if(!$a_user_ids)
 		{
-			$GLOBALS['DIC']['lng']->loadLanguageModule('search');
+			$GLOBALS['lng']->loadLanguageModule('search');
 			ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'),true);
 			return false;
 		}
@@ -1253,11 +1191,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function deassignUserObject()
 	{
-    	global $DIC;
-
-    	$rbacsystem = $DIC['rbacsystem'];
-    	$rbacadmin = $DIC['rbacadmin'];
-    	$rbacreview = $DIC['rbacreview'];
+    	global $rbacsystem, $rbacadmin, $rbacreview;
 
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
@@ -1327,12 +1261,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function userassignmentObject()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview, $rbacsystem, $lng, $ilUser;
 		
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
@@ -1427,10 +1356,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function listUsersRoleObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacsystem,$rbacreview;
 
 		$_SESSION["role_role"] = $_POST["role"] = $_POST["role"] ? $_POST["role"] : $_SESSION["role_role"];
 
@@ -1489,6 +1415,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
+		// output locator
+		//$this->__setLocator();
+
 		// output message
 		if ($this->message)
 		{
@@ -1511,36 +1440,79 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->getTabs($this->tabs_gui);
 	}
 
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function addAdminLocatorItems($a_do_not_add_object = false)
+	function __setLocator()
 	{
-		global $DIC;
+		global $tree, $ilCtrl;
+		
+		return;
+		
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
-		$ilLocator = $DIC['ilLocator'];
+		$counter = 0;
 
-		if(
-			$_GET["admin_mode"] == "settings"
+		foreach ($tree->getPathFull($this->obj_ref_id) as $key => $row)
+		{
+			if ($counter++)
+			{
+				$this->tpl->touchBlock('locator_separator_prefix');
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+
+			if ($row["type"] == 'rolf')
+			{
+				$this->tpl->setVariable("ITEM",$this->object->getTitle());
+				$this->tpl->setVariable("LINK_ITEM",$this->ctrl->getLinkTarget($this));
+			}
+			elseif ($row["child"] != $tree->getRootId())
+			{
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
+				$this->tpl->setVariable("ITEM", $row["title"]);
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+			}
+			else
+			{
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
+				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+			}
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* should be overwritten to add object specific items
+	* (repository items are preloaded)
+	*/
+	function addAdminLocatorItems($a_do_not_add_object = false)
+	{
+		global $ilLocator;
+
+		if ($_GET["admin_mode"] == "settings"
 			&& $_GET["ref_id"] == ROLE_FOLDER_ID)	// system settings
 		{		
 			parent::addAdminLocatorItems(true);
 
-			$ilLocator->addItem(
-				$this->lng->txt("obj_".ilObject::_lookupType(ilObject::_lookupObjId($_GET["ref_id"]))),
-				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", 'view')
-			);
+			$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
+				ilObject::_lookupObjId($_GET["ref_id"]))),
+				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 			
 			if ($_GET["obj_id"] > 0)
 			{
-				$ilLocator->addItem(
-					$this->object->getTitle(),
-					$this->ctrl->getLinkTarget($this, 'perm'));
+				$ilLocator->addItem($this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "view"));
 			}
 		}
-		else {
-			parent::addAdminLocatorItems($a_do_not_add_object);
+		else							// repository administration
+		{
+			// ?
 		}
 	}
 	
@@ -1549,10 +1521,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function getTabs()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilHelp = $DIC['ilHelp'];
+		global $rbacreview, $ilHelp;
 
 		$base_role_container = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 		
@@ -1650,10 +1619,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 	function checkAccess($a_perm_global,$a_perm_obj = '')
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem,$ilAccess;
 		
 		$a_perm_obj = $a_perm_obj ? $a_perm_obj : $a_perm_global;
 		
@@ -1673,9 +1639,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function isChangeExistingObjectsConfirmationRequired()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		if(!(int) $_POST['recursive'] and !is_array($_POST['recursive_list']))
 		{
@@ -1772,11 +1736,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function changeExistingObjectsObject()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
+		global $tree,$rbacreview,$rbacadmin;
 		
 		$mode = (int) $_POST['mode'];
 		$start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
@@ -1794,9 +1754,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function setSubTabs($a_tab)
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 		
 		switch($a_tab)
 		{
@@ -1822,10 +1780,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function addToClipboardObject()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$users = (array) $_POST['user_id'];
 		if(!count($users))
@@ -1834,7 +1789,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, 'userassignment');
 		}
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
 		$clip->add($users);
 		$clip->save();
 
@@ -1842,34 +1797,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		$ilCtrl->redirect($this, 'userassignment');
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function addLocatorItems()
-	{
-		global $DIC;
-
-		$ilLocator = $DIC['ilLocator'];
-
-		if($_GET["admin_mode"] == "")
-		{
-			$this->ctrl->setParameterByClass(
-				"ilobjrolegui",
-				"obj_id",
-				(int) $_GET["obj_id"]
-			);
-			$ilLocator->addItem(
-				ilObjRole::_getTranslation($this->object->getTitle()),
-				$this->ctrl->getLinkTargetByClass(
-					array(
-						"ilpermissiongui",
-						"ilobjrolegui"),
-					"perm")
-			);
-		}
-
-	}
-
+	
+	
+	
 } // END class.ilObjRoleGUI
 ?>

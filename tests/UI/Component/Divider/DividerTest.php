@@ -6,7 +6,6 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -14,19 +13,22 @@ use \ILIAS\UI\Implementation as I;
  */
 class DividerTest extends ILIAS_UI_TestBase {
 
-	protected function getFactory() {
-		return new I\Component\Divider\Factory();
+	/**
+	 * @return \ILIAS\UI\Implementation\Factory
+	 */
+	public function getFactory() {
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Divider\\Horizontal", $f->horizontal());
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Divider\\Horizontal", $f->divider()->horizontal());
 	}
 
 	public function test_with_label() {
 		$f = $this->getFactory();
-		$c = $f->horizontal()->withLabel("label");
+		$c = $f->divider()->horizontal()->withLabel("label");
 
 		$this->assertEquals($c->getLabel(), "label");
 	}
@@ -35,7 +37,7 @@ class DividerTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->horizontal();
+		$c = $f->divider()->horizontal();
 
 		$html = trim($r->render($c));
 
@@ -48,7 +50,7 @@ class DividerTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->horizontal()->withLabel("label");
+		$c = $f->divider()->horizontal()->withLabel("label");
 
 		$html = trim($r->render($c));
 		$expected_html = '<hr class="il-divider-with-label" /><h6 class="il-divider">label</h6>';
@@ -60,7 +62,7 @@ class DividerTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$c = $f->vertical();
+		$c = $f->divider()->vertical();
 
 		$html = trim($r->render($c));
 		$expected_html = '<span class="glyphicon il-divider-vertical" aria-hidden="true"></span>';

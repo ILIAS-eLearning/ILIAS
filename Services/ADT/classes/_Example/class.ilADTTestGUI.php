@@ -36,9 +36,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
 
 	protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form)
 	{		
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		// :TODO:
 		$a_adt_form->getForm()->setTitle($lng->txt("test_form_title"));

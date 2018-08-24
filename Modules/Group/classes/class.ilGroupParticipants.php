@@ -76,9 +76,7 @@ class ilGroupParticipants extends ilParticipants
 	 */
 	public static function getMemberRoles($a_ref_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 
@@ -117,14 +115,11 @@ class ilGroupParticipants extends ilParticipants
 	
 	public function addSubscriber($a_usr_id)
 	{
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
+		global $ilAppEventHandler, $ilLog;
 		
 		parent::addSubscriber($a_usr_id);
 
-		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addSubscriber.');
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addSubscriber');
 		$ilAppEventHandler->raise(
 				"Modules/Group", 
 				'addSubscriber', 
@@ -147,12 +142,7 @@ class ilGroupParticipants extends ilParticipants
 	 */
 	public static function _isParticipant($a_ref_id,$a_usr_id)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
 		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);

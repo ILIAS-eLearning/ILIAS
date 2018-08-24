@@ -731,9 +731,7 @@ class ilLDAPQuery
 
 function referralRebind($a_ds,$a_url)
 {
-	global $DIC;
-
-	$ilLog = $DIC['ilLog'];
+	global $ilLog;
 	
 	$ilLog->write('LDAP: Called referralRebind.');
 	

@@ -57,9 +57,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function __construct($a_obj_id,$a_field_id = 0)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$this->db = $ilDB;
 	 	$this->obj_id = $a_obj_id;
@@ -104,9 +102,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _deleteByContainer($a_container_id)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	// Delete user entries
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
@@ -158,9 +154,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _getRequiredFieldIds($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_f_definitions ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -183,9 +177,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _fieldsToInfoString($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		
 		$query = "SELECT field_name FROM crs_f_definitions ".
@@ -210,9 +202,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _getFieldIds($a_container_id,$a_sort = IL_CDF_SORT_ID)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	 	$query = "SELECT field_id FROM crs_f_definitions ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_container_id,'integer')." ".
@@ -235,9 +225,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _lookupName($a_field_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_f_definitions ".
 			"WHERE field_id = ".$ilDB->quote($a_field_id,'integer');
@@ -322,9 +310,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function prepareSelectBox()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$options = array();
 		$options[0] = $lng->txt('select_one');
@@ -401,9 +387,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$next_id = $ilDB->nextId('crs_f_definitions');
 	 	$query = "INSERT INTO crs_f_definitions (field_id,obj_id,field_name,field_type,field_values,field_required,field_values_opt) ".
@@ -429,9 +413,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	 	$query = "UPDATE crs_f_definitions ".
 	 		"SET field_name = ".$this->db->quote($this->getName(),'text').", ".
@@ -454,9 +436,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 	 	ilCourseUserData::_deleteByField($this->getId());

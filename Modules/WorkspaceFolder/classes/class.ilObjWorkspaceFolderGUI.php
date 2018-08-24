@@ -505,24 +505,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 					$source_object->getTitle());
 			}			
 		}
-
-		if ($_SESSION['clipboard']['wsp2repo'] == true)		// see #22959
+									
+		if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
 		{
-			global $ilAccess;
-			if (!$ilAccess->checkAccess("create", "", $target_node_id, $source_object->getType()))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-		}
-		else
-		{
-			if (!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-		}
+			$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
+				$source_object->getTitle(), $target_object->getTitle());
+		}		
 
 		if(sizeof($fail))
 		{

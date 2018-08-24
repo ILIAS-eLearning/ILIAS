@@ -146,8 +146,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-		$rbacsystem = $DIC->rbac()->system();
+		global $rbacsystem;
 
 		$this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
 		$this->tpl->setVariable("TXT_COMP_NAME", 

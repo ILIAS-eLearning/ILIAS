@@ -209,12 +209,7 @@ class ilTestSkillAdministrationGUI
 		{
 			return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
 		}
-		
-		if( $this->testOBJ->isRandomTest() )
-		{
-			return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
-		}
-		
+
 		return null;
 	}
 	

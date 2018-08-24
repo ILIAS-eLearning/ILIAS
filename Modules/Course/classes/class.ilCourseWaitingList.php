@@ -21,10 +21,7 @@ class ilCourseWaitingList extends ilWaitingList
 	 */
 	public function addToList($a_usr_id)
 	{
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
+		global $ilAppEventHandler, $ilLog;
 		
 		if(!parent::addToList($a_usr_id))
 		{
@@ -50,10 +47,7 @@ class ilCourseWaitingList extends ilWaitingList
 	 */
 	public function removeFromList($a_usr_id)
 	{
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
+		global $ilAppEventHandler, $ilLog;
 
 		if(!parent::removeFromList($a_usr_id))
 		{

@@ -32,10 +32,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	public function __construct($a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl,$lng;
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -70,8 +67,8 @@ class ilAuthLoginPageEditorGUI
 		switch($this->ctrl->getNextClass($this))
 		{
 			case 'illoginpagegui':
-				$GLOBALS['DIC']['ilTabs']->clearTargets();
-				$GLOBALS['DIC']['ilTabs']->setBackTarget(
+				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['ilTabs']->setBackTarget(
 					$this->lng->txt('back'),
 					$this->ctrl->getLinkTarget($this,'show'),
 					'_top'
@@ -103,10 +100,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function forwardToPageObject()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
+		global $lng,$tpl;
 
 		$key = (int) $_REQUEST['key'];
 		$this->ctrl->saveParameter($this,'key',$key);
@@ -183,9 +177,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function addEditorSwitch()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		switch($this->getSettings()->getMode())
@@ -254,9 +246,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function showIliasEditor()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorTableGUI.php';
 		$tbl = new ilAuthLoginPageEditorTableGUI($this,'show');
@@ -274,12 +264,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function showRichtextEditor()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
-		$tpl = $DIC['tpl'];
+		global $rbacsystem, $lng,$ilSetting,$tpl;
 
 		if(!$rbacsystem->checkAccess("visible,read", $this->getRefId()))
 		{
@@ -305,11 +290,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function saveLoginInfo()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $rbacsystem, $lng,$ilSetting;
 
 		if(!$rbacsystem->checkAccess("write",$this->getRefId()))
 		{
@@ -349,11 +330,7 @@ class ilAuthLoginPageEditorGUI
 	 */
 	protected function initLoginForm()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $rbacsystem, $lng,$ilSetting;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();

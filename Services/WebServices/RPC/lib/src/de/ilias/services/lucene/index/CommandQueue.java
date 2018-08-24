@@ -36,9 +36,7 @@ import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
-import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import java.util.logging.Level;
 
 
 /**
@@ -109,6 +107,7 @@ public class CommandQueue {
 			psta.addBatch();
 		}
 		psta.executeBatch();
+		return;
 	}
 
 
@@ -132,6 +131,8 @@ public class CommandQueue {
 				1,
 				new java.sql.Timestamp(LuceneSettings.getInstance().getLastIndexTime().getTime()));
 		ResultSet res = pst.executeQuery();
+		
+		
 		
 		int counter = 0;
 		while(res.next()) {
@@ -194,7 +195,6 @@ public class CommandQueue {
 				res.close();
 			} catch (SQLException e) {
 				logger.warn(e);
-				throw e;
 			}
 		}
 		logger.info("Found " + counter + " new update events!");
@@ -251,6 +251,7 @@ public class CommandQueue {
 				"AND obj_id = 0 ");
 			DBFactory.setString(sta, 1, objType);
 			sta.executeUpdate();
+			return;
 		}
 		catch(SQLException e) {
 			logger.error("Cannot delete reset commands!",e);
@@ -272,6 +273,7 @@ public class CommandQueue {
 				"AND obj_id > 0");
 			DBFactory.setString(sta, 1, objType);
 			sta.executeUpdate();
+			return;
 		} 
 		catch (SQLException e) {
 			logger.fatal("Cannot delete reset commands! ",e);
@@ -322,8 +324,8 @@ public class CommandQueue {
 
 			while(res.next()) {
 
-				logger.debug("Added new reset command for " + res.getInt("obj_id"));
-				
+				logger.debug("Added new reset command");
+
 				objReset.setInt(1,res.getInt("obj_id"));
 				objReset.setString(2, objType);
 				objReset.setInt(3,0);
@@ -332,12 +334,7 @@ public class CommandQueue {
 				objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 				objReset.setInt(7,0);
 
-				try {
-					objReset.executeUpdate();
-				}
-				catch(SQLException e) {
-					logger.info("Ignoring duplicate key failure for obj_id: " + res.getInt("obj_id"));
-				}
+				objReset.executeUpdate();
 			}
 			
 			try {
@@ -355,6 +352,7 @@ public class CommandQueue {
 			logger.fatal("Cannot build index ",e);
 			throw e;
 		}
+		
 	}
 	
 	
@@ -398,17 +396,12 @@ public class CommandQueue {
 		resetType.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 		resetType.setInt(7,0);
 
-		try {
-			resetType.executeUpdate();
-		}
-		catch (SQLException e) {
-			logger.error("Command queue update failed with message: " + e.getMessage());
-			throw e;
-		}
+		resetType.executeUpdate();
 	}
 
 	/**
-	 * Delete and add all types
+	 * Delete  and add all types
+	 * @param type
 	 * @throws SQLException 
 	 */
 	public synchronized void addAll() throws SQLException {
@@ -442,17 +435,10 @@ public class CommandQueue {
 					pst.setString(5,"reset_all");
 					pst.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 					pst.setInt(7,0);
-					
-				try {
-					pst.executeUpdate();
-				}
-				catch(SQLException e) {
-					logger.error("Cannot add to command queue",e);
-					throw e;
-				}
+				pst.executeUpdate();
 			}
 		}
-		catch (ConfigurationException e) {
+		catch (Exception e) {
 			logger.error("Cannot add to command queue",e);
 		}
 	}
@@ -473,17 +459,14 @@ public class CommandQueue {
 		}
 		catch (SQLException e) {
 			logger.warn(e);
-			throw e;
 		}
 		logger.info("Search command queue deleted");
 	}
 
 	/**
-	 * Delete non incremental search command queue elements
-	 * @throws java.sql.SQLException
-	 * @throws de.ilias.services.settings.ConfigurationException
+	 * 
 	 */
-	public synchronized void deleteNonIncremental()  throws SQLException, ConfigurationException {
+	public synchronized void deleteNonIncremental()  throws SQLException {
 
 		try {
 			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
@@ -495,23 +478,21 @@ public class CommandQueue {
 				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
 					
 					DBFactory.setString(pst, 1, ((ObjectDefinition) def).getType());
+					//pst.setString(1, ((ObjectDefinition) def).getType());
 					pst.executeUpdate();
 				}
 			}
 		}
-		catch (ConfigurationException | SQLException e) {
+		catch (Exception e) {
 			logger.error("Error deleting from command queue", e);
-			throw e;
 		}
 		
 	}
 
 	/**
-	 * Add non incremental search command queue elements
-	 * @throws java.sql.SQLException
-	 * @throws de.ilias.services.settings.ConfigurationException
+	 * 
 	 */
-	public synchronized void addNonIncremental() throws SQLException, ConfigurationException {
+	public synchronized void addNonIncremental() throws SQLException {
 
 		try {
 
@@ -532,19 +513,12 @@ public class CommandQueue {
 					pst.setString(5,"reset_all");
 					pst.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 					pst.setInt(7,0);
-					
-					try {
-						pst.executeUpdate();
-					}
-					catch(SQLException e) {
-						logger.info("Add non incremental failed failed with message: " + e.getMessage());
-					}
+					pst.executeUpdate();
 				}
 			}
 		}
-		catch (ConfigurationException | SQLException e) {
+		catch (Exception e) {
 			logger.error("Error updating command queue", e);
-			throw e;
 		}
 	}
 

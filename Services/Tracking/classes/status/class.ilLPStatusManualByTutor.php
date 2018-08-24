@@ -43,9 +43,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 */
 	function __construct($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		parent::__construct($a_obj_id);
 		$this->db = $ilDB;
@@ -100,9 +98,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	
 	static function _getCompleted($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$usr_ids = array();
 
@@ -135,10 +131,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache, $ilDB;
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
@@ -174,9 +167,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 */
 	protected static function getMembers($a_obj_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 	
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{

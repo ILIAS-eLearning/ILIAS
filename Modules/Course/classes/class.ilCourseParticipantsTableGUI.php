@@ -31,10 +31,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$a_show_timings = false,
 		$a_show_lp_status_sync = false)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 
 		$this->show_learning_progress = $a_show_learning_progress;	
 		if($this->show_learning_progress)
@@ -167,9 +164,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		$this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
@@ -384,9 +379,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 
 		$this->determineOffsetAndOrder(true);
 
@@ -458,7 +451,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		{
 			if($this->current_filter['roles'])
 			{
-				if(!$GLOBALS['DIC']['rbacreview']->isAssigned($user['usr_id'], $this->current_filter['roles']))
+				if(!$GLOBALS['rbacreview']->isAssigned($user['usr_id'], $this->current_filter['roles']))
 				{
 					continue;
 				}
@@ -506,7 +499,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			foreach($local_roles as $role_id => $role_name)
 			{
 				// @todo fix performance
-				if($GLOBALS['DIC']['rbacreview']->isAssigned($user_id, $role_id))
+				if($GLOBALS['rbacreview']->isAssigned($user_id, $role_id))
 				{
 					$roles[] = $role_name;
 				}
@@ -596,7 +589,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				if($usr_id == $edit_info['update_user'])
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
-					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
+					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
 					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
@@ -618,7 +611,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->isColumnSelected('consultation_hour'))
 		{
 			include_once './Services/Booking/classes/class.ilBookingEntry.php';
-			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['DIC']['ilUser']->getId()) as $buser => $booking)
+			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
 			{
 				if(isset($a_user_data[$buser]))
 				{

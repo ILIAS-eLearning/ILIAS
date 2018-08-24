@@ -32,11 +32,6 @@ class Renderer extends AbstractComponentRenderer {
             $tpl->setVariable("ABBREVIATION",$ab);
         }
 
-		$di = $component->isDisabled();
-		if($di) {
-			$tpl->setVariable("DISABLED", " disabled");
-		}
-
         return $tpl->get();
     }
 

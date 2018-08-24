@@ -47,9 +47,7 @@ class ilLORandomTestQuestionPools
 	 */
 	public static function lookupLimit($a_container_id, $a_objective_id, $a_test_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
@@ -73,9 +71,7 @@ class ilLORandomTestQuestionPools
 	 */
 	public static function lookupSequences($a_container_id, $a_objective_id, $a_test_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
@@ -102,9 +98,7 @@ class ilLORandomTestQuestionPools
 	 */
 	public static function lookupSequencesByType($a_container_id, $a_objective_id, $a_test_id, $a_test_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 			'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
@@ -131,9 +125,7 @@ class ilLORandomTestQuestionPools
 	 */
 	public static function lookupObjectiveIdsBySequence($a_container_id, $a_seq_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT objective_id FROM loc_rnd_qpl '.
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
@@ -273,9 +265,7 @@ class ilLORandomTestQuestionPools
 	 */
 	public function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 			'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
@@ -294,9 +284,7 @@ class ilLORandomTestQuestionPools
 	
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM loc_rnd_qpl '.
 			'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
@@ -326,9 +314,7 @@ class ilLORandomTestQuestionPools
 	
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'INSERT INTO loc_rnd_qpl ' .
 				'(container_id, objective_id, tst_type, tst_id, qp_seq, percentage) '.
@@ -346,9 +332,7 @@ class ilLORandomTestQuestionPools
 	// begin-patch optes_lok_export
 	public static function toXml(ilXmlWriter $writer, $a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 			'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');

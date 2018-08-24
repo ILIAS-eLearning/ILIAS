@@ -9,10 +9,12 @@ class ilMailRfc822AddressParserFactory
 {
 	/**
 	 * @param string $a_address
-	 * @return \ilMailRecipientParser
+	 * @return ilMailRecipientParser
 	 */
-	public function getParser(string $a_address): \ilMailRecipientParser
+	public function getParser($a_address)
 	{
-		return new \ilMailRfc822AddressParser(new \ilMailPearRfc822WrapperAddressParser($a_address));
+		require_once 'Services/Mail/classes/Address/Parser/class.ilMailPearRfc822WrapperAddressParser.php';
+		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParser.php';
+		return new ilMailRfc822AddressParser(new ilMailPearRfc822WrapperAddressParser($a_address));
 	}
 }

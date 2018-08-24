@@ -39,9 +39,7 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 	
 	function __createWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$concat = $ilDB->concat(
 			array(

@@ -198,7 +198,6 @@ class assLongMenuImport extends assQuestionImport
 		$this->object->setOwner($ilUser->getId());
 		$this->object->setObjId($questionpool_id);
 		$this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
-		$this->object->setIdenticalscoring((int)$item->getMetadataEntry("identical_scoring"));
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setCorrectAnswers($correct_answers);
 		$this->object->setPoints($sum);
@@ -213,7 +212,7 @@ class assLongMenuImport extends assQuestionImport
 			foreach($feedbacks as $ident => $material)
 			{
 				$this->object->feedbackOBJ->importSpecificAnswerFeedback(
-					$this->object->getId(), 0, $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
 				);
 			}
 		}

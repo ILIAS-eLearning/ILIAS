@@ -1,11 +1,9 @@
 <?php
 
-namespace SAML2\Utilities;
-
 /**
  * Collection of Utility functions specifically for certificates
  */
-class Certificate
+class SAML2_Utilities_Certificate
 {
     /**
      * The pattern that the contents of a certificate should adhere to

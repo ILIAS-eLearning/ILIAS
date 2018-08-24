@@ -23,12 +23,7 @@ class ilObjCourseGroupingGUI
 	 */
 	public function __construct($content_obj,$a_obj_id = 0)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -47,9 +42,7 @@ class ilObjCourseGroupingGUI
 	
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$ilTabs->setTabActive('crs_groupings');
 
@@ -76,12 +69,7 @@ class ilObjCourseGroupingGUI
 
 	function listGroupings()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$tpl = $DIC['tpl'];
+		global $ilErr, $ilAccess, $ilToolbar, $tpl;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -99,11 +87,7 @@ class ilObjCourseGroupingGUI
 
 	function askDeleteGrouping()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
+		global $ilErr,$ilAccess,$tpl;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -138,10 +122,7 @@ class ilObjCourseGroupingGUI
 
 	function deleteGrouping()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -160,11 +141,7 @@ class ilObjCourseGroupingGUI
 
 	function create($a_form = null)
 	{
-		global $DIC;	
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
+		global $ilErr,$ilAccess,$tpl;	
 		
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -272,11 +249,7 @@ class ilObjCourseGroupingGUI
 	
 	function edit($a_form = null)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
+		global $ilErr,$ilAccess,$tpl;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -293,11 +266,7 @@ class ilObjCourseGroupingGUI
 
 	function update()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilErr,$ilAccess,$ilObjDataCache;
 		
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -323,12 +292,7 @@ class ilObjCourseGroupingGUI
 
 	function selectCourse()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilErr,$ilAccess,$tpl,$ilTabs;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{
@@ -358,13 +322,7 @@ class ilObjCourseGroupingGUI
 
 	function assignCourse()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$tree = $DIC['tree'];
-		$ilUser = $DIC['ilUser'];
+		global $ilErr,$ilAccess,$ilObjDataCache,$tree,$ilUser;
 
 		if(!$ilAccess->checkAccess('write','',$this->content_obj->getRefId()))
 		{

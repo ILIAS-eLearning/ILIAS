@@ -45,9 +45,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$this->type = 'cals';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -65,10 +63,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilErr,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -112,10 +107,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		global $rbacsystem, $ilAccess;
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
@@ -336,20 +328,20 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
 		// repository visibility default
 		$rep = new ilFormSectionHeaderGUI();
-		$rep->setTitle($GLOBALS['DIC']['lng']->txt('cal_setting_global_vis_repos'));
+		$rep->setTitle($GLOBALS['lng']->txt('cal_setting_global_vis_repos'));
 		$this->form->addItem($rep);
 		
-		$crs = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis'),'visible_crs');
-		$crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
+		$crs = new ilCheckboxInputGUI($GLOBALS['lng']->txt('cal_setting_global_crs_vis'),'visible_crs');
+		$crs->setInfo($GLOBALS['lng']->txt('cal_setting_global_crs_vis_info'));
 		$crs->setValue(1);
-		$crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
+		$crs->setInfo($GLOBALS['lng']->txt('cal_setting_global_crs_vis_info'));
 		$crs->setChecked($this->settings->isCourseCalendarEnabled());
 		$this->form->addItem($crs);
 
-		$grp = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis'),'visible_grp');
-		$grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
+		$grp = new ilCheckboxInputGUI($GLOBALS['lng']->txt('cal_setting_global_grp_vis'),'visible_grp');
+		$grp->setInfo($GLOBALS['lng']->txt('cal_setting_global_grp_vis_info'));
 		$grp->setValue(1);
-		$grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
+		$grp->setInfo($GLOBALS['lng']->txt('cal_setting_global_grp_vis_info'));
 		$grp->setChecked($this->settings->isGroupCalendarEnabled());
 		$this->form->addItem($grp);
 

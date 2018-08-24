@@ -22,33 +22,30 @@ class ilDBWrapperFactory {
 
 	/**
 	 * @param $a_type
+	 * @param null $a_inactive_mysqli
 	 * @return ilDBInterface
 	 * @throws ilDatabaseException
 	 */
-	static public function getWrapper($a_type) {
-		global $DIC;
-		$ilClientIniFile = null;
-		if($DIC->offsetExists('ilClientIniFile')) {
-			/**
-			 * @var $ilClientIniFile ilIniFile
-			 */
-			$ilClientIniFile = $DIC['ilClientIniFile'];
-		}
+	static public function getWrapper($a_type, $a_inactive_mysqli = null) {
+		global $ilClientIniFile;
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
 
-		if ($a_type == "" && $ilClientIniFile instanceof ilIniFile) {
+		if ($a_type == "" && is_object($ilClientIniFile)) {
 			$a_type = $ilClientIniFile->readVariable("db", "type");
 		}
 		if ($a_type == "") {
-			$a_type = ilDBConstants::TYPE_INNODB;
+			$a_type = ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
 		}
 
 		// For legacy code
-//		if (!defined('DB_FETCHMODE_ASSOC')) {
-//			define("DB_FETCHMODE_ASSOC", ilDBConstants::FETCHMODE_ASSOC);
-//		}
-//		if (!defined('DB_FETCHMODE_OBJECT')) {
-//			define("DB_FETCHMODE_OBJECT", ilDBConstants::FETCHMODE_OBJECT);
-//		}
+		if (!defined('DB_FETCHMODE_ASSOC')) {
+			define("DB_FETCHMODE_ASSOC", ilDBConstants::FETCHMODE_ASSOC);
+		}
+		if (!defined('DB_FETCHMODE_OBJECT')) {
+			define("DB_FETCHMODE_OBJECT", ilDBConstants::FETCHMODE_OBJECT);
+		}
 
 		switch ($a_type) {
 			case ilDBConstants::TYPE_POSTGRES:
@@ -74,18 +71,18 @@ class ilDBWrapperFactory {
 				require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLGalera.php');
 				$ilDB = new ilDBPdoMySQLGalera();
 				break;
-//			case 'postgres-legacy':
-//				require_once('./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php');
-//				$ilDB = new ilDBPostgreSQL();
-//				break;
-//			case 'mysql-legacy':
-//				require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
-//				$ilDB = new ilDBMySQL();
-//				break;
-//			case 'innodb-legacy':
-//				require_once('./Services/Database/classes/MDB2/class.ilDBInnoDB.php');
-//				$ilDB = new ilDBInnoDB();
-//				break;
+			case 'postgres-legacy':
+				require_once('./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php');
+				$ilDB = new ilDBPostgreSQL();
+				break;
+			case 'mysql-legacy':
+				require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
+				$ilDB = new ilDBMySQL();
+				break;
+			case 'innodb-legacy':
+				require_once('./Services/Database/classes/MDB2/class.ilDBInnoDB.php');
+				$ilDB = new ilDBInnoDB();
+				break;
 			default:
 				throw new ilDatabaseException("No viable database-type given: " . var_export($a_type, true));
 		}

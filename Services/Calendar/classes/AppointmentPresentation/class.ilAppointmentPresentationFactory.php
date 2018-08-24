@@ -14,9 +14,7 @@ class ilAppointmentPresentationFactory extends ilCalendarAppointmentBaseFactory
 {
 	public static function getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 

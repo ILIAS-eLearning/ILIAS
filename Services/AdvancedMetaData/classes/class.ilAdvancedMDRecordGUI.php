@@ -47,9 +47,7 @@ class ilAdvancedMDRecordGUI
 	 */
 	public function __construct($a_mode,$a_obj_type = '',$a_obj_id = '', $a_sub_type = '', $a_sub_id = '')
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 	 	
 	 	$this->lng = $lng;
 	 	$this->mode = $a_mode;
@@ -490,9 +488,7 @@ class ilAdvancedMDRecordGUI
 	 */
 	private function showECSStart($def)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$this->lng->loadLanguageModule('ecs');
 		
@@ -610,9 +606,7 @@ class ilAdvancedMDRecordGUI
 	 */
 	public function parseRecordSelection($a_sec_head = "")
 	{
-	 	global $DIC;
-
-	 	$ilUser = $DIC['ilUser'];
+	 	global $ilUser;
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 	 	$first = true;

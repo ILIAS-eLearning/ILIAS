@@ -5070,8 +5070,8 @@ dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Eğer gerçekten bu alanda silmek istiyor musunuz?
 dcl#:#dcl_confirm_delete_record#:#Bu kayıt silinsin mi?
 dcl#:#dcl_confirm_delete_table#:#Eğer gerçekten içerik ve yapısı ile bu tabloyu silmek istediğinizden emin misiniz?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
-dcl#:#dcl_confirm_delete_detailed_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
+dcl#:#dcl_confirm_delete_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
+dcl#:#dcl_confirm_delete_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
 dcl#:#dcl_copy#:#Kopya Veri Toplama
 dcl#:#dcl_create_field#:#Oluştur Alan
 dcl#:#dcl_datatype#:#Datatipi
@@ -5084,8 +5084,8 @@ dcl#:#dcl_edit_perm#:#Kullanıcı girişlerini düzenleyebilirsiniz
 dcl#:#dcl_edit_record#:#Edit Rekor
 dcl#:#dcl_edit_table#:#Düzen Tablo Ayarları
 dcl#:#dcl_editable_in_table_gui#:#tablo görünümünde oy lütfen.
-dcl#:#dcl_empty_detailed_view#:#Bu Görünümü sil
-dcl#:#dcl_empty_detailed_view_success#:#Viewdefinition başarıyla silindi.
+dcl#:#dcl_empty_view#:#Bu Görünümü sil
+dcl#:#dcl_empty_view_success#:#Viewdefinition başarıyla silindi.
 dcl#:#dcl_field_datatype#:#Alan Datatipi
 dcl#:#dcl_field_description#:#Açıklama
 dcl#:#dcl_field_required#:#Gerekli

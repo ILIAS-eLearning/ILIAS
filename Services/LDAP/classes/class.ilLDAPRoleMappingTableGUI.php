@@ -17,10 +17,7 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj,$a_server_id ,$a_parent_cmd = '')
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -53,10 +50,7 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
 	 */
 	function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$rbacreview = $DIC['rbacreview'];
+		global $ilObjDataCache, $rbacreview;
 		$title = $ilObjDataCache->lookupTitle($rbacreview->getObjectOfRole($a_set["role"]));
 		$this->tpl->setVariable("VAL_ID", $a_set['mapping_id']);
 		$this->tpl->setVariable("VAL_TITLE", ilUtil::shortenText($title,30,true));

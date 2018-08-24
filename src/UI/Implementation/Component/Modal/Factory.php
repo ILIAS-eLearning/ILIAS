@@ -63,11 +63,4 @@ class Factory implements Component\Modal\Factory {
 	public function lightboxImagePage(Image $image, $title, $description = '') {
 		return new LightboxImagePage($image, $title, $description);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function lightboxTextPage(string $text, string $title) {
-		return new LightboxTextPage($text, $title);
-	}
 }

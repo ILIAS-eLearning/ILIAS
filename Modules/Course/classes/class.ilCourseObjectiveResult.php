@@ -28,9 +28,7 @@ class ilCourseObjectiveResult
 	 */
 	public function __construct($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db = $ilDB;
 
@@ -47,9 +45,7 @@ class ilCourseObjectiveResult
 	}
 	public static function _getAccomplished($a_user_id,$a_crs_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
 		// begin-patch lok
@@ -78,9 +74,7 @@ class ilCourseObjectiveResult
 	
 	public static function _getSuggested($a_user_id,$a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		// begin-patch lok
@@ -163,9 +157,7 @@ class ilCourseObjectiveResult
 
 	function reset($a_course_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';		
@@ -186,9 +178,7 @@ class ilCourseObjectiveResult
 			$tst = $factory->getInstanceByRefId($assignment->getTestRefId(),FALSE);
 			if($tst instanceof ilObjTest)
 			{
-				global $DIC;
-
-				$lng = $DIC['lng'];
+				global $lng;
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 				$participantData = new ilTestParticipantData($ilDB, $lng);
@@ -294,9 +284,7 @@ class ilCourseObjectiveResult
 
 	function hasAccomplishedObjective($a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT status FROM crs_objective_status ".
 			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ".
@@ -328,9 +316,7 @@ class ilCourseObjectiveResult
 	// PRIVATE
 	function __deleteEntries($a_objective_ids)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$ilLog->logStack();
 		#$ilLog(__METHOD__.': Call of deprecated method.');
@@ -340,9 +326,7 @@ class ilCourseObjectiveResult
 
 	public static function _deleteUser($user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "DELETE FROM crs_objective_status ".
 			"WHERE user_id = ".$ilDB->quote($user_id ,'integer')." ";
@@ -370,9 +354,7 @@ class ilCourseObjectiveResult
 
 	public static function _readAssignedObjectivesOfQuestion($a_question_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// get all objtives and questions this current question is assigned to
 		$query = "SELECT q2.question_id qid,q2.objective_id ob FROM crs_objective_qst q1, ".
@@ -397,9 +379,7 @@ class ilCourseObjectiveResult
 
 	public static function _readAssignedObjectives($a_all_objectives)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// Read necessary points
 		$query = "SELECT t.objective_id obj,t.ref_id ref, question_id,tst_status,tst_limit ".
@@ -429,10 +409,7 @@ class ilCourseObjectiveResult
 
 	static function _updateObjectiveStatus($a_user_id,$objectives)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilDB,$ilUser;
 
 		if(!count($objectives['all_questions']) or
 		   !count($objectives['all_objectives']))
@@ -545,9 +522,7 @@ class ilCourseObjectiveResult
 	 */
 	static function __updatePassed($a_user_id,$objective_ids)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$passed = array();
 		

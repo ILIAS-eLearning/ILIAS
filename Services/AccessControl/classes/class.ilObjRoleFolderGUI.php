@@ -50,9 +50,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$this->type = "rolf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
@@ -61,9 +59,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
+		global $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -99,13 +95,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	public function viewObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilErr, $rbacsystem, $ilToolbar,$rbacreview,$ilTabs;
 
 		$ilTabs->activateTab('view');
 
@@ -158,11 +148,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function roleSearchObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $rbacsystem, $ilCtrl, $ilTabs;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
@@ -187,9 +173,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function initRoleSearchForm()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -214,9 +198,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function roleSearchFormObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		$_SESSION['rolf_search_query'] = '';
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
@@ -238,10 +220,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function roleSearchListObject()
 	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilTabs, $ilCtrl;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
@@ -274,10 +253,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function chooseCopyBehaviourObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $ilCtrl, $ilTabs;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
@@ -285,7 +261,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this,'roleSearchList')
 		);
 		
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$_REQUEST['copy_source']);
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$_REQUEST['copy_source']);
 
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
 
@@ -298,9 +274,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function initCopyBehaviourForm()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -343,9 +317,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function copyRoleObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		// Finally copy role/rolt
 		$roles = explode(',',$_POST['roles']);
@@ -372,9 +344,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function addRolePermissionsObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		// Finally copy role/rolt
 		$roles = explode(',',$_POST['roles']);
@@ -401,10 +371,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function doAddRolePermissions($source, $target, $change_existing)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin, $rbacreview;
 		
 		$rbacadmin->copyRolePermissionUnion(
 				$source,
@@ -427,9 +394,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function removeRolePermissionsObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		// Finally copy role/rolt
 		$roles = explode(',',$_POST['roles']);
@@ -456,10 +421,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function doRemoveRolePermissions($source, $target, $change_existing)
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacadmin, $rbacreview;
 		
 		ilLoggerFactory::getLogger('ac')->debug('Remove permission source: ' . $source);
 		ilLoggerFactory::getLogger('ac')->debug('Remove permission target: ' . $target);
@@ -493,11 +455,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function doCopyRole($source, $target, $change_existing)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
+		global $tree, $rbacadmin, $rbacreview;
 
 		$target_obj = $rbacreview->getRoleFolderOfRole($target);
 		
@@ -545,9 +503,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function doChangeExistingObjects($a_start_obj, $a_target_role)
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
+		global $rbacreview;
 		
 		if(!$a_start_obj)
 		{
@@ -610,9 +566,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function confirmDeleteObject()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		if(!count($_POST['roles']))
 		{
@@ -648,12 +602,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 */
 	protected function deleteRoleObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $rbacsystem,$ilErr,$rbacreview,$ilCtrl;
 
 		if(!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
 		{
@@ -733,9 +682,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
+		global $rbacsystem;
 
 		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		
@@ -790,9 +737,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 
 		// role folders are created automatically
 		$_GET["new_type"] = $this->object->getType();
@@ -857,11 +802,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	function saveSettingsObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $ilErr, $rbacreview, $ilUser;
 		
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -895,10 +836,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 	protected function initSettingsForm()
 	{
-		global $DIC;
-
-		$rbacreview = $DIC['rbacreview'];
-		$ilUser = $DIC['ilUser'];
+		global $rbacreview, $ilUser;
 		
 		$this->lng->loadLanguageModule('ps');
 		
@@ -913,7 +851,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt('settings'));		
 		
 		// protected admin
-		$admin = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('adm_adm_role_protect'),'admin_role');
+		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
 		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
 		$admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
 		$admin->setChecked((int) $security->isAdminRoleProtected());

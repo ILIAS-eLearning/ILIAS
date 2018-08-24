@@ -684,7 +684,7 @@ class ilPersonalSkillsGUI
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("skmg_really_remove_skills"));
 			$cgui->setCancel($lng->txt("cancel"), "listSkills");
-			$cgui->setConfirm($lng->txt("remove"), "removeSkills");
+			$cgui->setConfirm($lng->txt("delete"), "removeSkills");
 			
 			foreach ($_POST["id"] as $i)
 			{

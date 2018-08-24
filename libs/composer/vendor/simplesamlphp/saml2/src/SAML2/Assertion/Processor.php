@@ -1,52 +1,37 @@
 <?php
 
-namespace SAML2\Assertion;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Assertion;
-use SAML2\Assertion\Exception\InvalidAssertionException;
-use SAML2\Assertion\Exception\InvalidSubjectConfirmationException;
-use SAML2\Assertion\Transformer\Transformer;
-use SAML2\Assertion\Validation\AssertionValidator;
-use SAML2\Assertion\Validation\SubjectConfirmationValidator;
-use SAML2\Configuration\IdentityProvider;
-use SAML2\Response\Exception\InvalidSignatureException;
-use SAML2\Response\Exception\UnencryptedAssertionFoundException;
-use SAML2\Signature\Validator;
-use SAML2\Utilities\ArrayCollection;
-
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) - due to all the named exceptions
  */
-class Processor
+class SAML2_Assertion_Processor
 {
     /**
-     * @var \SAML2\Assertion\Decrypter
+     * @var SAML2_Assertion_Decrypter
      */
     private $decrypter;
 
     /**
-     * @var \SAML2\Assertion\Validation\AssertionValidator
+     * @var SAML2_Assertion_Validation_AssertionValidator
      */
     private $assertionValidator;
 
     /**
-     * @var \SAML2\Assertion\Validation\SubjectConfirmationValidator
+     * @var SAML2_Assertion_Validation_SubjectConfirmationValidator
      */
     private $subjectConfirmationValidator;
 
     /**
-     * @var \SAML2\Assertion\Transformer\Transformer
+     * @var SAML2_Assertion_Transformer_Transformer
      */
     private $transformer;
 
     /**
-     * @var \SAML2\Signature\Validator
+     * @var SAML2_Signature_Validator
      */
     private $signatureValidator;
 
     /**
-     * @var \SAML2\Configuration\IdentityProvider
+     * @var SAML2_Configuration_IdentityProvider
      */
     private $identityProviderConfiguration;
 
@@ -56,13 +41,13 @@ class Processor
     private $logger;
 
     public function __construct(
-        Decrypter $decrypter,
-        Validator $signatureValidator,
-        AssertionValidator $assertionValidator,
-        SubjectConfirmationValidator $subjectConfirmationValidator,
-        Transformer $transformer,
-        IdentityProvider $identityProviderConfiguration,
-        LoggerInterface $logger
+        SAML2_Assertion_Decrypter $decrypter,
+        SAML2_Signature_Validator $signatureValidator,
+        SAML2_Assertion_Validation_AssertionValidator $assertionValidator,
+        SAML2_Assertion_Validation_SubjectConfirmationValidator $subjectConfirmationValidator,
+        SAML2_Assertion_Transformer_Transformer $transformer,
+        SAML2_Configuration_IdentityProvider $identityProviderConfiguration,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->assertionValidator            = $assertionValidator;
         $this->signatureValidator            = $signatureValidator;
@@ -74,13 +59,13 @@ class Processor
     }
 
     /**
-     * @param \SAML2\Utilities\ArrayCollection $assertions
+     * @param SAML2_Utilities_ArrayCollection $assertions
      *
-     * @return \SAML2\Assertion[] Collection (\SAML2\Utilities\ArrayCollection) of processed assertions
+     * @return SAML2_Assertion[] Collection (SAML2_Utilities_ArrayCollection) of processed assertions
      */
     public function processAssertions($assertions)
     {
-        $processed = new ArrayCollection();
+        $processed = new SAML2_Utilities_ArrayCollection();
         foreach ($assertions as $assertion) {
             $processed->add($this->process($assertion));
         }
@@ -89,9 +74,9 @@ class Processor
     }
 
     /**
-     * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
+     * @param SAML2_Assertion|SAML2_EncryptedAssertion $assertion
      *
-     * @return \SAML2\Assertion
+     * @return SAML2_Assertion
      */
     public function process($assertion)
     {
@@ -106,7 +91,7 @@ class Processor
             $this->logger->info(sprintf('Verifying signature of Assertion with id "%s"', $assertion->getId()));
 
             if (!$this->signatureValidator->hasValidSignature($assertion, $this->identityProviderConfiguration)) {
-                throw new InvalidSignatureException();
+                throw new SAML2_Response_Exception_InvalidSignatureException();
             }
         }
 
@@ -118,17 +103,17 @@ class Processor
     }
 
     /**
-     * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
+     * @param SAML2_Assertion|SAML2_EncryptedAssertion $assertion
      *
-     * @return \SAML2\Assertion
+     * @return SAML2_Assertion
      */
     private function decryptAssertion($assertion)
     {
-        if ($this->decrypter->isEncryptionRequired() && $assertion instanceof Assertion) {
-            throw new UnencryptedAssertionFoundException();
+        if ($this->decrypter->isEncryptionRequired() && $assertion instanceof SAML2_Assertion) {
+            throw new SAML2_Response_Exception_UnencryptedAssertionFoundException();
         }
 
-        if ($assertion instanceof Assertion) {
+        if ($assertion instanceof SAML2_Assertion) {
             return $assertion;
         }
 
@@ -136,13 +121,13 @@ class Processor
     }
 
     /**
-     * @param \SAML2\Assertion $assertion
+     * @param SAML2_Assertion $assertion
      */
-    public function validateAssertion(Assertion $assertion)
+    public function validateAssertion(SAML2_Assertion $assertion)
     {
         $assertionValidationResult = $this->assertionValidator->validate($assertion);
         if (!$assertionValidationResult->isValid()) {
-            throw new InvalidAssertionException(sprintf(
+            throw new SAML2_Assertion_Exception_InvalidAssertionException(sprintf(
                 'Invalid Assertion in SAML Response, erorrs: "%s"',
                 implode('", "', $assertionValidationResult->getErrors())
             ));
@@ -153,7 +138,7 @@ class Processor
                 $subjectConfirmation
             );
             if (!$subjectConfirmationValidationResult->isValid()) {
-                throw new InvalidSubjectConfirmationException(sprintf(
+                throw new SAML2_Assertion_Exception_InvalidSubjectConfirmationException(sprintf(
                     'Invalid SubjectConfirmation in Assertion, errors: "%s"',
                     implode('", "', $subjectConfirmationValidationResult->getErrors())
                 ));
@@ -162,11 +147,11 @@ class Processor
     }
 
     /**
-     * @param \SAML2\Assertion $assertion
+     * @param SAML2_Assertion $assertion
      *
-     * @return \SAML2\Assertion
+     * @return SAML2_Assertion
      */
-    private function transformAssertion(Assertion $assertion)
+    private function transformAssertion(SAML2_Assertion $assertion)
     {
         return $this->transformer->transform($assertion);
     }

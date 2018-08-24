@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilObjectCustomIconConfigurationGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -247,20 +247,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();		
 				$this->tabs_gui->activateTab('meta_data');
 				$this->ctrl->forwardCommand($this->getObjectMetadataGUI());
-				break;
-
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->prepareOutput();
-
-				$this->setEditTabs('icons');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -727,12 +713,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->lng->txt("obj_multilinguality"),
 			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 
-		if ($ilSetting->get('custom_icons')) {
-			$this->tabs_gui->addSubTab(
-				'icons',
-				$this->lng->txt('icon_settings'),
-				$this->ctrl->getLinkTargetByClass('ilobjectcustomiconconfigurationgui')
-			);
+		// custom icon
+		if ($ilSetting->get("custom_icons"))
+		{
+			$this->tabs_gui->addSubTab("icons",
+				$this->lng->txt("icon_settings"),
+				$this->ctrl->getLinkTarget($this,'editIcons'));
 		}
 
 		$this->tabs_gui->activateTab("settings");
@@ -1572,6 +1558,79 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	}
 
+
+	////
+	//// Icons
+	////
+	
+	/**
+	 * Edit folder icons
+	 */
+	function editIconsObject($a_form = null)
+	{
+		$tpl = $this->tpl;
+
+		$this->checkPermission('write');
+	
+		$this->tabs_gui->setTabActive('settings');
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initIconsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+
+	function initIconsForm()
+	{
+		$this->setEditTabs("icons");
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));	
+		
+		$this->showCustomIconsEditing(1, $form);
+		
+		// $form->setTitle($this->lng->txt('edit_grouping'));
+		$form->addCommandButton('updateIcons', $this->lng->txt('save'));					
+		
+		return $form;
+	}
+	
+	/**
+	* update container icons
+	*/
+	function updateIconsObject()
+	{
+		$ilSetting = $this->settings;
+
+		$this->checkPermission('write');
+		
+		$form = $this->initIconsForm();
+		if($form->checkInput())
+		{
+			//save custom icons
+			if ($ilSetting->get("custom_icons"))
+			{
+				if($_POST["cont_icon_delete"])
+				{
+					$this->object->removeCustomIcon();
+				}
+				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
+			}
+			if ($_FILES["cont_icon"]['tmp_name'] || $_POST["cont_icon_delete"])
+			{
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			}
+			$this->ctrl->redirect($this,"editIcons");
+		}
+
+		$form->setValuesByPost();
+		$this->editIconsObject($form);	
+	}
+	
+	
 	//
 	// taxonomy
 	// 

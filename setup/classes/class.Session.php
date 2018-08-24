@@ -43,9 +43,8 @@ class Session {
 *   Session-Namen entgegen
 */    
     function __construct($sessionName="SESSID") {
-		$this->sendNoCacheHeader();
+        $this->sendNoCacheHeader();
         
-		ini_set("session.cookie_httponly", 1);
 		if(version_compare(PHP_VERSION, '7.1.0', '>=')) {
 			ini_set("session.sid_length", "32");
 		} else {

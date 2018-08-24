@@ -43,7 +43,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 	public function loadSettings(ilObjIndividualAssessment $obj) {
 		if(ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
 			$obj_id = $obj->getId();
-			assert(is_numeric($obj_id));
+			assert('is_numeric($obj_id)');
 			$sql = "SELECT content, record_template, event_time_place_required, file_required\n"
 				  ." FROM ".self::IASS_SETTINGS_TABLE."\n"
 				  ." WHERE obj_id = ".$this->db->quote($obj_id,'integer');
@@ -88,7 +88,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 	public function loadInfoSettings(ilObjIndividualAssessment $obj) {
 		if(ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
 			$obj_id = $obj->getId();
-			assert(is_numeric($obj_id));
+			assert('is_numeric($obj_id)');
 			$sql = "SELECT contact, responsibility, phone, mails, consultation_hours"
 					." FROM ".self::IASS_SETTINGS_INFO_TABLE." WHERE obj_id = ".$this->db->quote($obj_id,'integer');
 

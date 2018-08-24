@@ -22,21 +22,17 @@
 
 package de.ilias.services.lucene.search;
 
-import de.ilias.services.lucene.index.IndexDirectoryFactory;
 import java.io.IOException;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.store.FSDirectory;
 
 import de.ilias.services.lucene.index.IndexHolder;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.store.FSDirectory;
 
 /**
  * 
@@ -69,8 +65,6 @@ public class SearchHolder {
 	}
 
 	/**
-	 * Init searcher
-	 * 
 	 * @throws ConfigurationException 
 	 * @throws IOException 
 	 * 
@@ -78,23 +72,8 @@ public class SearchHolder {
 	public void init() throws ConfigurationException, IOException {
 
 		ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
-		FSDirectory directory = IndexDirectoryFactory.getDirectory(client.getIndexPath());
-		IndexReader reader = DirectoryReader.open(directory);
-		searcher = new IndexSearcher(reader);
-	}
-	
-	
-	/**
-	 * Reinit searcher with new indexReader to load new index entries.
-	 * Normally called after Index write
-	 * We use DirectoryReader.open(IndexWriter) in this case
-	 * @throws ConfigurationException
-	 * @throws IOException 
-	 */
-	public void reInit(IndexWriter writer) throws ConfigurationException, IOException {
-		
-		IndexReader reader = DirectoryReader.open(writer);
-		searcher = new IndexSearcher(reader);
+		FSDirectory directory = FSDirectory.getDirectory(client.getIndexPath());
+		searcher = new IndexSearcher(directory);
 	}
 
 	/**

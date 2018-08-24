@@ -1,29 +1,22 @@
 <?php
 
-namespace SAML2\Response\Validation\ConstraintValidator;
-
-use SAML2\Configuration\Destination;
-use SAML2\Response;
-use SAML2\Response\Validation\ConstraintValidator;
-use SAML2\Response\Validation\Result;
-
-class DestinationMatches implements
-    ConstraintValidator
+class SAML2_Response_Validation_ConstraintValidator_DestinationMatches implements
+    SAML2_Response_Validation_ConstraintValidator
 {
     /**
-     * @var \SAML2\Configuration\Destination
+     * @var SAML2_Configuration_Destination
      */
     private $expectedDestination;
 
-    public function __construct(Destination $destination)
+    public function __construct(SAML2_Configuration_Destination $destination)
     {
         $this->expectedDestination = $destination;
     }
 
-    public function validate(Response $response, Result $result)
+    public function validate(SAML2_Response $response, SAML2_Response_Validation_Result $result)
     {
         $destination = $response->getDestination();
-        if (!$this->expectedDestination->equals(new Destination($destination))) {
+        if (!$this->expectedDestination->equals(new SAML2_Configuration_Destination($destination))) {
             $result->addError(sprintf(
                 'Destination in response "%s" does not match the expected destination "%s"',
                 $destination,

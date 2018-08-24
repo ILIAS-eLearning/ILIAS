@@ -1,28 +1,19 @@
 <?php
 
-namespace SAML2\Assertion;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Assertion\Exception\NotDecryptedException;
-use SAML2\Certificate\PrivateKeyLoader;
-use SAML2\Configuration\IdentityProvider;
-use SAML2\Configuration\ServiceProvider;
-use SAML2\EncryptedAssertion;
-
-class Decrypter
+class SAML2_Assertion_Decrypter
 {
     /**
-     * @var \SAML2\Configuration\IdentityProvider
+     * @var SAML2_Configuration_IdentityProvider
      */
     private $identityProvider;
 
     /**
-     * @var \SAML2\Configuration\ServiceProvider
+     * @var SAML2_Configuration_ServiceProvider
      */
     private $serviceProvider;
 
     /**
-     * @var \SAML2\Certificate\PrivateKeyLoader
+     * @var SAML2_Certificate_PrivateKeyLoader
      */
     private $privateKeyLoader;
 
@@ -32,10 +23,10 @@ class Decrypter
     private $logger;
 
     public function __construct(
-        LoggerInterface $logger,
-        IdentityProvider $identityProvider,
-        ServiceProvider $serviceProvider,
-        PrivateKeyLoader $privateKeyLoader
+        \Psr\Log\LoggerInterface $logger,
+        SAML2_Configuration_IdentityProvider $identityProvider,
+        SAML2_Configuration_ServiceProvider $serviceProvider,
+        SAML2_Certificate_PrivateKeyLoader $privateKeyLoader
     ) {
         $this->logger = $logger;
         $this->identityProvider = $identityProvider;
@@ -53,11 +44,11 @@ class Decrypter
     }
 
     /**
-     * @param \SAML2\EncryptedAssertion $assertion
+     * @param SAML2_EncryptedAssertion $assertion
      *
-     * @return \SAML2\Assertion
+     * @return SAML2_Assertion
      */
-    public function decrypt(EncryptedAssertion $assertion)
+    public function decrypt(SAML2_EncryptedAssertion $assertion)
     {
         $decryptionKeys = $this->privateKeyLoader->loadDecryptionKeys($this->identityProvider, $this->serviceProvider);
         $blacklistedKeys = $this->identityProvider->getBlacklistedAlgorithms();
@@ -73,7 +64,8 @@ class Decrypter
                 $this->logger->debug(sprintf('Decrypted Assertion with key "#%d"', $index));
 
                 return $decryptedAssertion;
-            } catch (\Exception $e) {
+
+            } catch (Exception $e) {
                 $this->logger->debug(sprintf(
                     'Could not decrypt assertion with key "#%d", "%s" thrown: "%s"',
                     $index,
@@ -83,7 +75,7 @@ class Decrypter
             }
         }
 
-        throw new NotDecryptedException(sprintf(
+        throw new SAML2_Assertion_Exception_NotDecryptedException(sprintf(
             'Could not decrypt the assertion, tried with "%d" keys. See the debug log for more information',
             count($decryptionKeys)
         ));

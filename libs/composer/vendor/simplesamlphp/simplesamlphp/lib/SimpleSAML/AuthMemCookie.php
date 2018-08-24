@@ -7,8 +7,6 @@
  *
  * @author Olav Morken, UNINETT AS.
  * @package SimpleSAMLphp
- *
- * @deprecated This class has been deprecated and will be removed in SSP 2.0. Use the memcookie module instead.
  */
 class SimpleSAML_AuthMemCookie
 {
@@ -110,20 +108,13 @@ class SimpleSAML_AuthMemCookie
      * This function creates and initializes a Memcache object from our configuration.
      *
      * @return Memcache A Memcache object initialized from our configuration.
-     * @throws Exception If the servers configuration is invalid.
      */
     public function getMemcache()
     {
         $memcacheHost = $this->amcConfig->getString('memcache.host', '127.0.0.1');
         $memcachePort = $this->amcConfig->getInteger('memcache.port', 11211);
 
-        $class = class_exists('Memcache') ? 'Memcache' : (class_exists('Memcached') ? 'Memcached' : FALSE);
-        if (!$class) {
-            throw new Exception('Missing Memcached implementation. You must install either the Memcache or Memcached extension.');
-        }
-
-        // Create the Memcache(d) object.
-        $memcache = new $class();
+        $memcache = new Memcache;
 
         foreach (explode(',', $memcacheHost) as $memcacheHost) {
             $memcache->addServer($memcacheHost, $memcachePort);

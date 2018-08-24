@@ -34,8 +34,7 @@
 		"ro": "Afiliere",
 		"eu": "Afiliazioa",
 		"ca": "Afiliaci\u00f3",
-		"af": "Affiliasie",
-		"el": "\u0399\u03b4\u03b9\u03cc\u03c4\u03b7\u03c4\u03b1\u002f\u03b5\u03c2"
+		"af": "Affiliasie"
 	},
 	"attribute_title": {
 		"no": "Tittel",
@@ -71,8 +70,7 @@
 		"lv": "Amats",
 		"ro": "Titlu\/titulatur\u0103",
 		"ca": "Tractament",
-		"af": "Titel",
-		"el": "\u03a4\u03af\u03c4\u03bb\u03bf\u03c2"
+		"af": "Titel"
 	},
 	"attribute_uid": {
 		"no": "Bruker-ID",
@@ -109,8 +107,7 @@
 		"lv": "Lietot\u0101ja ID",
 		"ro": "ID utilizator",
 		"ca": "Identificador d'usuari",
-		"af": "Gebruikers ID",
-		"el": "\u0391\u03bd\u03b1\u03b3\u03bd\u03c9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03cc \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7"
+		"af": "Gebruikers ID"
 	},
 	"attribute_sn": {
 		"no": "Etternavn",
@@ -147,8 +144,7 @@
 		"lv": "Uzv\u0101rds",
 		"ro": "Nume de familie",
 		"ca": "Cognoms",
-		"af": "Van",
-		"el": "\u0395\u03c0\u03ce\u03bd\u03c5\u03bc\u03bf"
+		"af": "Van"
 	},
 	"attribute_givenname": {
 		"no": "Fornavn",
@@ -185,8 +181,7 @@
 		"ro": "Prenume",
 		"eu": "Izena",
 		"ca": "Nom",
-		"af": "Voornaam",
-		"el": "\u038c\u03bd\u03bf\u03bc\u03b1"
+		"af": "Voornaam"
 	},
 	"attribute_cn": {
 		"no": "Fullt navn",
@@ -223,8 +218,7 @@
 		"ro": "Nume comun",
 		"eu": "Izen arrunta (CN)",
 		"ca": "Nom com\u00fa (CN)",
-		"af": "Algemene naam",
-		"el": "\u039a\u03bf\u03b9\u03bd\u03cc \u03cc\u03bd\u03bf\u03bc\u03b1 (CN)"
+		"af": "Algemene naam"
 	},
 	"attribute_mail": {
 		"no": "E-post",
@@ -250,7 +244,7 @@
 		"it": "Mail",
 		"lt": "El.pa\u0161tas",
 		"ja": "\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9",
-		"zh-tw": "Email",
+		"zh-tw": "\u90f5\u4ef6",
 		"et": "E-post",
 		"he": "\u05d3\u05d5\u05d0\u05e8",
 		"ru": "\u041f\u043e\u0447\u0442\u0430",
@@ -261,8 +255,7 @@
 		"lv": "Pasts",
 		"ro": "Mail",
 		"ca": "Correu electr\u00f2nic",
-		"af": "E-pos",
-		"el": "Email"
+		"af": "E-pos"
 	},
 	"attribute_mobile": {
 		"no": "Mobiltelefon",
@@ -299,8 +292,7 @@
 		"lv": "Mobilais telefons",
 		"ro": "Mobil",
 		"ca": "Tel\u00e8fon m\u00f2bil",
-		"af": "Selfoon",
-		"el": "\u039a\u03b9\u03bd\u03b7\u03c4\u03cc \u03c4\u03b7\u03bb\u03ad\u03c6\u03c9\u03bd\u03bf"
+		"af": "Selfoon"
 	},
 	"attribute_preferredlanguage": {
 		"no": "Foretrukket spr\u00e5k",
@@ -337,8 +329,7 @@
 		"ro": "Limba preferat\u0103",
 		"eu": "Hizkuntza lehenetsia",
 		"ca": "Idioma preferit",
-		"af": "Taal voorkeur",
-		"el": "\u03a0\u03c1\u03bf\u03c4\u03b9\u03bc\u03ce\u03bc\u03b5\u03bd\u03b7 \u03b3\u03bb\u03ce\u03c3\u03c3\u03b1"
+		"af": "Taal voorkeur"
 	},
 	"attribute_noredupersonnin": {
 		"no": "F\u00f8dselsnummer",
@@ -375,8 +366,7 @@
 		"ro": "Num\u0103r de identitate atribuit de autorit\u0103\u021bi publice",
 		"eu": "Gizarte-segurantzako zenbakia",
 		"ca": "N\u00famero de la Seguretat Social",
-		"af": "Identiteitsnommer",
-		"el": "\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2 \u03c4\u03b1\u03c5\u03c4\u03cc\u03c4\u03b7\u03c4\u03b1\u03c2 \u03b1\u03c0\u03cc \u03b4\u03b7\u03bc\u03cc\u03c3\u03b9\u03b1 \u03b1\u03c1\u03c7\u03ae"
+		"af": "Identiteitsnommer"
 	},
 	"attribute_schachomeorganization": {
 		"no": "Unik ID for organisasjon",
@@ -400,7 +390,7 @@
 		"it": "Nome del dominio della propria organizzazione",
 		"lt": "Organizacijos domenas",
 		"ja": "\u7d44\u7e54\u5185\u30c9\u30e1\u30a4\u30f3",
-		"zh-tw": "\u6240\u5c6c\u7684\u7d44\u7e54\u7db2\u57df\u540d\u7a31",
+		"zh-tw": "\u9810\u8a2d\u7d44\u7e54 domain name",
 		"et": "Koduorganisatsiooni domeen",
 		"he": "\u05e9\u05dd \u05d4\u05de\u05ea\u05d7\u05dd \u05e9\u05dc \u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u0414\u043e\u043c\u0435\u043d\u043d\u043e\u0435 \u0438\u043c\u044f \u0433\u043b\u0430\u0432\u043d\u043e\u0439 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
@@ -412,8 +402,7 @@
 		"ro": "Njumele de domeniu pentru institu\u021bia de origine",
 		"eu": "Jatorrizko erakundearen domeinu izena",
 		"ca": "Identificador \u00fanic de l'organitzaci\u00f3 d'origen",
-		"af": "Tuis Organisasie domein naam",
-		"el": "\u038c\u03bd\u03bf\u03bc\u03b1 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ae\u03c2 (domain) \u03bf\u03b9\u03ba\u03b5\u03af\u03bf\u03c5 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Tuis Organisasie domein naam"
 	},
 	"attribute_organisationname": {
 		"no": "Navn p\u00e5 organisasjon",
@@ -450,8 +439,7 @@
 		"lv": "Organiz\u0101cijas nosaukums",
 		"ro": "Denumirea institu\u021biei",
 		"ca": "Nom de l'organitzaci\u00f3",
-		"af": "Organisasie naam",
-		"el": "\u038c\u03bd\u03bf\u03bc\u03b1 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Organisasie naam"
 	},
 	"attribute_edupersonentitlement": {
 		"no": "Rettighet",
@@ -488,8 +476,7 @@
 		"ro": "Drepturi relativ la acest serviciu",
 		"eu": "Zerbitzuari dagokion eskubidea",
 		"ca": "Dret relatiu al servei",
-		"af": "Reg mbt. die diens",
-		"el": "\u0394\u03b9\u03ba\u03b1\u03b9\u03ce\u03bc\u03b1\u03c4\u03b1 \u03c0\u03c1\u03cc\u03c3\u03b2\u03b1\u03c3\u03b7\u03c2 \u03c3\u03c4\u03b7\u03bd \u03c5\u03c0\u03b7\u03c1\u03b5\u03c3\u03af\u03b1"
+		"af": "Reg mbt. die diens"
 	},
 	"attribute_edupersonscopedaffiliation": {
 		"no": "Gruppetilh\u00f8righet",
@@ -514,7 +501,7 @@
 		"it": "Affiliazione nella propria organizzazione",
 		"lt": "S\u0105saja su organizacija",
 		"ja": "\u7d44\u7e54\u5185\u8077\u7a2e",
-		"zh-tw": "\u6240\u5c6c\u55ae\u4f4d\u7d44\u7e54\u4e4b\u806f\u7d61\u65b9\u5f0f",
+		"zh-tw": "\u5bb6\u5ead\u9023\u7d61\u5730\u5740",
 		"he": "\u05e9\u05d9\u05d9\u05db\u05d5\u05ea \u05d1\u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u0427\u043b\u0435\u043d\u0441\u0442\u0432\u043e \u0432 \u0433\u043b\u0430\u0432\u043d\u043e\u0439 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
 		"et": "Rollid koduorganisatsioonis",
@@ -526,8 +513,7 @@
 		"ro": "Afiliere \u00een cadrul institu\u021biei de origine",
 		"eu": "Afiliazioa jatorrizko erakundean",
 		"ca": "Afiliaci\u00f3 a l'organitzaci\u00f3 d'origen",
-		"af": "Affiliasie by Tuis organisasie",
-		"el": "\u0399\u03b4\u03b9\u03cc\u03c4\u03b7\u03c4\u03b1 \u03b1\u03bd\u03ac \u03b4\u03b9\u03b1\u03c7\u03b5\u03b9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03ae \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ae (administrative domain)"
+		"af": "Affiliasie by Tuis organisasie"
 	},
 	"attribute_edupersontargetedid": {
 		"no": "Persistent anonym ID",
@@ -550,7 +536,7 @@
 		"it": "Pseudonimo identificativo persistente",
 		"lt": "Nuolatinio pseudonimo ID",
 		"ja": "\u6c38\u7d9a\u7684\u533f\u540dID",
-		"zh-tw": "\u6c38\u4e45\u6027\u533f\u540d ID",
+		"zh-tw": "\u6301\u7e8c\u7684\u533f\u540d ID",
 		"he": "\u05de\u05d6\u05d4\u05d4 \u05de\u05e9\u05ea\u05de\u05e9 \u05d2\u05dc\u05d5\u05d1\u05dc\u05d9",
 		"ru": "ID \u043f\u043e\u0441\u0442\u043e\u044f\u043d\u043d\u043e\u0433\u043e \u043f\u0441\u0435\u0432\u0434\u043e\u043d\u0438\u043c\u0430",
 		"et": "P\u00fcsiv pseudon\u00fc\u00fcmne ID",
@@ -563,8 +549,7 @@
 		"ro": "ID pseudonim persistent",
 		"eu": "Goitizen ID etengabea",
 		"ca": "Identificador pseud\u00f2nim persistent",
-		"af": "Aanhoudende anonieme ID",
-		"el": "\u0391\u03b4\u03b9\u03b1\u03c6\u03b1\u03bd\u03ad\u03c2 \u03b1\u03bd\u03b1\u03b3\u03bd\u03c9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03cc \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u03bc\u03b1\u03ba\u03c1\u03ac\u03c2 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1\u03c2"
+		"af": "Aanhoudende anonieme ID"
 	},
 	"attribute_edupersonprincipalname": {
 		"no": "Personlig ID hos organisasjonen",
@@ -588,7 +573,7 @@
 		"it": "Nome identificativo (principal name) nella propria organizzazione",
 		"lt": "Asmens pagrindinis vardas organizacijoje",
 		"ja": "\u6c38\u7d9a\u7684\u5229\u7528\u8005\u540d",
-		"zh-tw": "\u500b\u4eba\u65bc\u6240\u5c6c\u7d44\u7e54\u7684\u6c38\u4e45\u540d\u5b57",
+		"zh-tw": "\u5bb6\u5ead\u7684\u500b\u4eba\u4e3b\u8981\u540d\u5b57",
 		"he": "\u05d4\u05e9\u05dd \u05d4\u05e2\u05d9\u05e7\u05e8\u05d9 \u05d1\u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u0418\u043c\u044f \u0440\u0443\u043a\u043e\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044f \u0432 \u0433\u043b\u0430\u0432\u043d\u043e\u0439 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
 		"et": "Isiku p\u00f5hinimi koduasutuses",
@@ -601,16 +586,7 @@
 		"ro": "Numele de identificare a persoanei la institu\u021bia de origine (de forma nume_utilizator@domeniu.ro)",
 		"eu": "Jatorrizko erakundean pertsonak duen izen nagusia",
 		"ca": "Identificador \u00fanic de la persona a la seva organitzaci\u00f3 d'origen",
-		"af": "Persoonlike ID by tuis organisasie",
-		"el": "\u0391\u03bd\u03b1\u03b3\u03bd\u03c9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03cc \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u03c3\u03c4\u03bf\u03bd \u03bf\u03b9\u03ba\u03b5\u03af\u03bf \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03cc"
-	},
-	"attribute_edupersonuniqueid": {
-		"zh-tw": "\u500b\u4eba\u7121\u6cd5\u91cd\u65b0\u8a2d\u7f6e\uff0c\u65bc\u6240\u5c6c\u7d44\u7e54\u7684\u6c38\u4e45\u533f\u540d ID",
-		"el": "\u039c\u03cc\u03bd\u03b9\u03bc\u03bf, \u03b1\u03b4\u03b9\u03b1\u03c6\u03b1\u03bd\u03ad\u03c2 \u03b1\u03bd\u03b1\u03b3\u03bd\u03c9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03cc \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u03c3\u03c4\u03bf\u03bd \u03bf\u03b9\u03ba\u03b5\u03af\u03bf \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03cc"
-	},
-	"attribute_edupersonorcid": {
-		"zh-tw": "ORCID \u7814\u7a76\u8005\u8b58\u5225\u78bc",
-		"el": "\u0391\u03bd\u03b1\u03b3\u03bd\u03c9\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03ac \u03b5\u03c1\u03b5\u03c5\u03bd\u03b7\u03c4\u03ae ORCID"
+		"af": "Persoonlike ID by tuis organisasie"
 	},
 	"attribute_o": {
 		"no": "Navn p\u00e5 organisasjon",
@@ -646,8 +622,7 @@
 		"id": "Nama organisasi",
 		"ro": "Denumirea institu\u021biei",
 		"ca": "Nom de l'organitzaci\u00f3",
-		"af": "Organisasie naam",
-		"el": "\u038c\u03bd\u03bf\u03bc\u03b1 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Organisasie naam"
 	},
 	"attribute_dc": {
 		"no": "Navneledd (DC)",
@@ -671,7 +646,7 @@
 		"it": "Componente di dominio (DC)",
 		"lt": "Domeno komponentas",
 		"ja": "\u30c9\u30e1\u30a4\u30f3\u540d",
-		"zh-tw": "\u7db2\u57df Domain component (DC)",
+		"zh-tw": "Domain component (DC)",
 		"et": "Domeeni komponent (DC)",
 		"he": "\u05de\u05e8\u05db\u05d9\u05d1 \u05de\u05ea\u05d7\u05dd (DC)",
 		"ru": "\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442 \u0434\u043e\u043c\u0435\u043d\u0430 (DC)",
@@ -683,8 +658,7 @@
 		"ro": "Componenta de domeniu (DC)",
 		"eu": "Domeinuaren osagaia (DC)",
 		"ca": "Component de domini (DC)",
-		"af": "Domein komponent (DC)",
-		"el": "\u03a3\u03c5\u03c3\u03c4\u03b1\u03c4\u03b9\u03ba\u03cc \u03a4\u03bf\u03bc\u03ad\u03b1 (DC)"
+		"af": "Domein komponent (DC)"
 	},
 	"attribute_displayname": {
 		"no": "Navn som normalt vises",
@@ -720,8 +694,7 @@
 		"ro": "Nume afi\u0219at",
 		"eu": "Bistaratzeko izena",
 		"ca": "Nom de visualitzaci\u00f3",
-		"af": "Vertoon naam",
-		"el": "\u0395\u03bc\u03c6\u03b1\u03bd\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1"
+		"af": "Vertoon naam"
 	},
 	"attribute_facsimiletelephonenumber": {
 		"no": "Faksnummer",
@@ -746,7 +719,7 @@
 		"it": "Numero di fax",
 		"lt": "Fakso numeris",
 		"ja": "Fax\u756a\u53f7",
-		"zh-tw": "\u50b3\u771f\u865f\u78bc",
+		"zh-tw": "\u50b3\u771f",
 		"et": "Faksinumber",
 		"he": "\u05de\u05e1' \u05e4\u05e7\u05e1",
 		"ru": "\u041d\u043e\u043c\u0435\u0440 \u0444\u0430\u043a\u0441\u0430",
@@ -757,8 +730,7 @@
 		"id": "No Fax",
 		"ro": "Num\u0103r de fax",
 		"ca": "N\u00famero de fax",
-		"af": "Faksnommer",
-		"el": "Fax"
+		"af": "Faksnommer"
 	},
 	"attribute_homephone": {
 		"no": "Hjemmetelefon",
@@ -794,8 +766,7 @@
 		"id": "Telepon rumah",
 		"ro": "Telefon acas\u0103",
 		"ca": "Tel\u00e8fon del domicili",
-		"af": "Tuistelefoon",
-		"el": "\u03a4\u03b7\u03bb\u03ad\u03c6\u03c9\u03bd\u03bf \u03bf\u03b9\u03ba\u03af\u03b1\u03c2"
+		"af": "Tuistelefoon"
 	},
 	"attribute_homepostaladdress": {
 		"no": "Postadresse hjemme",
@@ -831,8 +802,7 @@
 		"ro": "Adresa po\u0219tal\u0103 de acas\u0103",
 		"eu": "Etxeko helbidea",
 		"ca": "Adre\u00e7a del domicili",
-		"af": "Tuis posadres",
-		"el": "\u03a4\u03b1\u03c7\u03c5\u03b4\u03c1\u03bf\u03bc\u03b9\u03ba\u03ae \u03b4\u03b9\u03b5\u03cd\u03b8\u03c5\u03bd\u03c3\u03b7 \u03bf\u03b9\u03ba\u03af\u03b1\u03c2"
+		"af": "Tuis posadres"
 	},
 	"attribute_jpegphoto": {
 		"no": "JPEG-foto",
@@ -868,8 +838,7 @@
 		"id": "Foto JPEG",
 		"ro": "Fotografie JPEG",
 		"ca": "Fotografia en JPEG",
-		"af": "JPEG Foto",
-		"el": "\u03a6\u03c9\u03c4\u03bf\u03b3\u03c1\u03b1\u03c6\u03af\u03b1 \u03c3\u03b5 \u03bc\u03bf\u03c1\u03c6\u03ae JPEG"
+		"af": "JPEG Foto"
 	},
 	"attribute_l": {
 		"no": "Sted",
@@ -893,7 +862,7 @@
 		"it": "Localit\u00e0",
 		"lt": "Vietov\u0117",
 		"ja": "\u5730\u57df",
-		"zh-tw": "\u5340\u57df",
+		"zh-tw": "\u4f4d\u7f6e",
 		"he": "\u05d0\u05d9\u05d6\u05d5\u05e8",
 		"ru": "\u0420\u0430\u0439\u043e\u043d",
 		"et": "Asukoht",
@@ -905,8 +874,7 @@
 		"ro": "Localitate",
 		"eu": "Herria",
 		"ca": "Localitat",
-		"af": "Ligging",
-		"el": "\u03a4\u03bf\u03c0\u03bf\u03b8\u03b5\u03c3\u03af\u03b1"
+		"af": "Ligging"
 	},
 	"attribute_labeleduri": {
 		"no": "URI med valgfri tilleggskommentar",
@@ -942,8 +910,7 @@
 		"ro": "URI etichetat",
 		"eu": "URI etiketatua",
 		"ca": "URI etiquetat",
-		"af": "URI",
-		"el": "\u0395\u03c0\u03b9\u03c3\u03b7\u03bc\u03b1\u03c3\u03bc\u03ad\u03bd\u03b1 URI"
+		"af": "URI"
 	},
 	"attribute_ou": {
 		"no": "Organisasjonsenhet",
@@ -979,8 +946,7 @@
 		"ro": "Unitate organiza\u021bional\u0103",
 		"eu": "Antolamendu-unitatea",
 		"ca": "Unitat organitzativa",
-		"af": "Organisasie eenheid",
-		"el": "\u039f\u03c1\u03b3\u03b1\u03bd\u03c9\u03c4\u03b9\u03ba\u03ae \u03bc\u03bf\u03bd\u03ac\u03b4\u03b1"
+		"af": "Organisasie eenheid"
 	},
 	"attribute_postaladdress": {
 		"no": "Postadresse",
@@ -1016,8 +982,7 @@
 		"id": "Alamat pos",
 		"ro": "Adresa po\u0219tal\u0103",
 		"ca": "Adre\u00e7a postal",
-		"af": "Posadres",
-		"el": "\u03a4\u03b1\u03c7\u03c5\u03b4\u03c1\u03bf\u03bc\u03b9\u03ba\u03ae \u03b4\u03b9\u03b5\u03cd\u03b8\u03c5\u03bd\u03c3\u03b7"
+		"af": "Posadres"
 	},
 	"attribute_postalcode": {
 		"no": "Postnummer",
@@ -1053,8 +1018,7 @@
 		"id": "Kode pos",
 		"ro": "Cod po\u0219tal",
 		"ca": "Codi postal",
-		"af": "Poskode",
-		"el": "\u03a4\u03b1\u03c7\u03c5\u03b4\u03c1\u03bf\u03bc\u03b9\u03ba\u03cc\u03c2 \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2"
+		"af": "Poskode"
 	},
 	"attribute_postofficebox": {
 		"no": "Postboks",
@@ -1090,8 +1054,7 @@
 		"id": "PO Box",
 		"ro": "Cutie po\u0219tal\u0103",
 		"ca": "Apartat de correus",
-		"af": "Posbus",
-		"el": "\u03a4\u03b1\u03c7\u03c5\u03b4\u03c1\u03bf\u03bc\u03b9\u03ba\u03ae \u03b8\u03c5\u03c1\u03af\u03b4\u03b1"
+		"af": "Posbus"
 	},
 	"attribute_street": {
 		"no": "Gate",
@@ -1127,8 +1090,7 @@
 		"id": "Jalan",
 		"ro": "Strada",
 		"ca": "Carrer",
-		"af": "Straat",
-		"el": "\u039f\u03b4\u03cc\u03c2"
+		"af": "Straat"
 	},
 	"attribute_telephonenumber": {
 		"no": "Telefon",
@@ -1164,8 +1126,7 @@
 		"id": "No Telepon",
 		"ro": "Num\u0103r de telefon",
 		"ca": "N\u00famero de tel\u00e8fon",
-		"af": "Telefoon nommer",
-		"el": "\u03a4\u03b7\u03bb\u03ad\u03c6\u03c9\u03bd\u03bf"
+		"af": "Telefoon nommer"
 	},
 	"attribute_eduorghomepageuri": {
 		"no": "Organisasjonens hjemmeside",
@@ -1201,8 +1162,7 @@
 		"ro": "Pagina web a institutu\u021biei",
 		"eu": "Erakundearen hasiera-orria",
 		"ca": "P\u00e0gina inicial de l'organitzaci\u00f3",
-		"af": "Organisasie tuisblad",
-		"el": "\u0394\u03b9\u03b5\u03cd\u03b8\u03c5\u03bd\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b9\u03ba\u03ae\u03c2 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1\u03c2 \u03bf\u03b9\u03ba\u03b5\u03af\u03bf\u03c5 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Organisasie tuisblad"
 	},
 	"attribute_eduorglegalname": {
 		"no": "Foretaksnavn",
@@ -1226,7 +1186,7 @@
 		"it": "Nome legale della propria organizzazione",
 		"lt": "Organizacijos juridinis pavadinimas",
 		"ja": "\u7d44\u7e54\u306e\u6b63\u5f0f\u540d\u79f0",
-		"zh-tw": "\u7d44\u7e54\u5168\u929c",
+		"zh-tw": "\u7d44\u7e54\u6b63\u5f0f\u540d\u7a31",
 		"et": "Organisatsiooni ametlik nimetus",
 		"he": "\u05d4\u05e9\u05dd \u05d4\u05e8\u05e9\u05de\u05d9 \u05e9\u05dc \u05d4\u05d0\u05d9\u05e8\u05d2\u05d5\u05df",
 		"ru": "\u042e\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
@@ -1238,8 +1198,7 @@
 		"ro": "Denumirea legal\u0103 a institu\u021biei",
 		"eu": "Erakundearen izen legala",
 		"ca": "Nom legal de l'organitzaci\u00f3",
-		"af": "Wettige naam",
-		"el": "\u0395\u03c0\u03af\u03c3\u03b7\u03bc\u03b7 \u03b5\u03c0\u03c9\u03bd\u03c5\u03bc\u03af\u03b1 \u03bf\u03b9\u03ba\u03b5\u03af\u03bf\u03c5 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Wettige naam"
 	},
 	"attribute_edupersonnickname": {
 		"no": "Kallenavn",
@@ -1275,8 +1234,7 @@
 		"id": "Nama panggilan",
 		"ro": "Porecl\u0103",
 		"ca": "\u00c0lies",
-		"af": "Bynaam",
-		"el": "\u03a8\u03b5\u03c5\u03b4\u03ce\u03bd\u03c5\u03bc\u03bf \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7"
+		"af": "Bynaam"
 	},
 	"attribute_edupersonorgdn": {
 		"no": "Entydig navn (DN) for brukerens vertsorganisasjon",
@@ -1300,7 +1258,7 @@
 		"it": "Distinguished name (DN) dell'organizzazione ",
 		"lt": "Asmens organizacijos atpa\u017einimo vardas",
 		"ja": "\u7d44\u7e54\u8b58\u5225\u540d",
-		"zh-tw": "\u500b\u4eba\u6240\u5c6c\u7d44\u7e54 Distinguished name (DN)",
+		"zh-tw": "Distinguished name (DN) \u500b\u4eba\u9810\u8a2d\u7d44\u7e54",
 		"he": "\u05e9\u05dd \u05de\u05d6\u05d4\u05d4 (DN) \u05e9\u05dc \u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u041e\u0442\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0438\u043c\u044f (DN) \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u0434\u043e\u043c\u0430\u0448\u043d\u0435\u0439 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
 		"zh": "\u4eba\u7684\u5bb6\u5ead\u7ec4\u7ec7\u7684\u5206\u8fa8\u540d\u79f0\uff08DN\uff09",
@@ -1312,8 +1270,7 @@
 		"ro": "Nume distincitv (DN) al institu\u021bie de origine a persoanei",
 		"eu": "Pertsonaren jatorrizko erakundearen izen osatua (DN)",
 		"ca": "Nom distingit (DN) de l'organitzaci\u00f3 d'origen",
-		"af": "Kenmerkende naam (DN) van die person se tuisorganisasie",
-		"el": "\u0394\u03b9\u03b1\u03ba\u03b5\u03ba\u03c1\u03b9\u03bc\u03ad\u03bd\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 (DN) \u03bf\u03b9\u03ba\u03b5\u03af\u03bf\u03c5 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Kenmerkende naam (DN) van die person se tuisorganisasie"
 	},
 	"attribute_edupersonorgunitdn": {
 		"no": "Entydig navn (DN) for brukerens organisasjonsenhet",
@@ -1337,7 +1294,7 @@
 		"it": "Distinguished name (DN) dell'unit\u00e0 organizzativa della persona",
 		"lt": "Asmens organizacijos skyriaus atpa\u017einimo vardas",
 		"ja": "\u7d44\u7e54\u5358\u4f4d\u8b58\u5225\u540d",
-		"zh-tw": "\u500b\u4eba\u6240\u5c6c\u55ae\u4f4d Distinguished name (DN)",
+		"zh-tw": "Distinguished name (DN) \u500b\u4eba\u9810\u8a2d\u7d44\u7e54\u55ae\u4f4d",
 		"he": "\u05e9\u05dd \u05de\u05d6\u05d4\u05d4 (DN) \u05e9\u05dc \u05d4\u05d9\u05d7\u05d9\u05d3\u05d4 \u05d1\u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u041e\u0442\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0438\u043c\u044f (DN) \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f \u0434\u043e\u043c\u0430\u0448\u043d\u0435\u0439 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
 		"zh": "\u4eba\u7684\u5bb6\u7ec4\u7ec7\u5355\u4f4d\u7684\u8fa8\u522b\u540d\u79f0\uff08DN\uff09",
@@ -1349,8 +1306,7 @@
 		"ro": "Nume distincitv (DN) al unit\u0103\u021bii organiza\u021bionale de origine a persoanei",
 		"eu": "Pertsonaren jatorrizko erakundeko antolamendu-unitatearen izen osatua (DN)",
 		"ca": "Nom distingit (DN) de la Unitat Organitzativa (OU) de l'organitzaci\u00f3 d'origen",
-		"af": "Kenmerkende naam (DN) van die persoon se organisatoriese afdeling",
-		"el": "\u0394\u03b9\u03b1\u03ba\u03b5\u03ba\u03c1\u03b9\u03bc\u03ad\u03bd\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 (DN) \u03bf\u03b9\u03ba\u03b5\u03af\u03b1\u03c2 \u03bf\u03c1\u03b3\u03b1\u03bd\u03c9\u03c4\u03b9\u03ba\u03ae\u03c2 \u03bc\u03bf\u03bd\u03ac\u03b4\u03b1\u03c2"
+		"af": "Kenmerkende naam (DN) van die persoon se organisatoriese afdeling"
 	},
 	"attribute_edupersonprimaryaffiliation": {
 		"no": "Prim\u00e6r tilknytning til organisasjon",
@@ -1386,8 +1342,7 @@
 		"ro": "Afiliere primar\u0103",
 		"eu": "Lehen afiliazioa",
 		"ca": "Afiliaci\u00f3 prim\u00e0ria",
-		"af": "Prim\u00eare affiliasie",
-		"el": "\u039a\u03cd\u03c1\u03b9\u03b1 \u03b9\u03b4\u03b9\u03cc\u03c4\u03b7\u03c4\u03b1"
+		"af": "Prim\u00eare affiliasie"
 	},
 	"attribute_noreduorgnin": {
 		"no": "Organisasjonsnummer",
@@ -1423,8 +1378,7 @@
 		"ro": "Num\u0103r organiza\u021bional",
 		"eu": "Erakundearen zenbakia",
 		"ca": "N\u00famero de l'organitzaci\u00f3",
-		"af": "Organisasie nommer",
-		"el": "\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2 \u03bf\u03b9\u03ba\u03b5\u03af\u03bf\u03c5 \u03bf\u03c1\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03bf\u03cd"
+		"af": "Organisasie nommer"
 	},
 	"attribute_noredupersonbirthdate": {
 		"no": "F\u00f8dselsdato",
@@ -1460,8 +1414,7 @@
 		"id": "Tanggal lahir",
 		"ro": "Data na\u0219terii",
 		"ca": "Data de naixement",
-		"af": "Geboorte datum",
-		"el": "\u0397\u03bc\u03b5\u03c1\u03bf\u03bc\u03b7\u03bd\u03af\u03b1 \u03b3\u03ad\u03bd\u03bd\u03b7\u03c3\u03b7\u03c2"
+		"af": "Geboorte datum"
 	},
 	"attribute_noredupersonlin": {
 		"no": "Lokalt ID-nummer",
@@ -1485,7 +1438,7 @@
 		"it": "Numero identificativo locale",
 		"lt": "Vietinis tapatyb\u0117s numeris",
 		"ja": "\u652f\u90e8ID",
-		"zh-tw": "\u672c\u5730\u8eab\u5206\u8b49\u5b57\u865f",
+		"zh-tw": "\u672c\u5730\u9a57\u8b49\u78bc",
 		"he": "\u05de\u05e1\u05e4\u05e8 \u05d6\u05d4\u05d5\u05ea \u05de\u05e7\u05d5\u05de\u05d9",
 		"ru": "\u041c\u0435\u0441\u0442\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u043d\u043e\u043c\u0435\u0440",
 		"et": "Kohalik isikukood",
@@ -1497,8 +1450,7 @@
 		"ro": "Num\u0103r de identificare local",
 		"eu": "Tokiko zenbaki identifikatzailea",
 		"ca": "N\u00famero d'identificaci\u00f3 local",
-		"af": "Identiteitsnommer",
-		"el": "\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2 \u03c4\u03b1\u03c5\u03c4\u03cc\u03c4\u03b7\u03c4\u03b1\u03c2"
+		"af": "Identiteitsnommer"
 	},
 	"attribute_manager": {
 		"no": "Overordnet",
@@ -1534,8 +1486,7 @@
 		"ro": "Director\/Manager",
 		"eu": "Kudeatzailea",
 		"ca": "Gestor",
-		"af": "Bestuurder",
-		"el": "\u0394\u03b9\u03b1\u03ba\u03b5\u03ba\u03c1\u03b9\u03bc\u03ad\u03bd\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 (DN) \u03b4\u03b9\u03b1\u03c7\u03b5\u03b9\u03c1\u03b9\u03c3\u03c4\u03ae"
+		"af": "Bestuurder"
 	},
 	"attribute_userpassword": {
 		"no": "Hash av brukerens passord",
@@ -1557,7 +1508,7 @@
 		"it": "Hash della password utente",
 		"lt": "Naudotojo slapta\u017eod\u017eio mai\u0161a",
 		"ja": "\u30d1\u30b9\u30ef\u30fc\u30c9\u30cf\u30c3\u30b7\u30e5",
-		"zh-tw": "\u4f7f\u7528\u8005\u5bc6\u78bc  (hash)",
+		"zh-tw": "\u4f7f\u7528\u8005\u5bc6\u78bc\u7de8\u78bc",
 		"et": "Kasutaja paroolir\u00e4si",
 		"he": "\u05d4\u05d2\u05d9\u05d1\u05d5\u05d1 \u05e9\u05dc \u05e1\u05d9\u05e1\u05de\u05ea \u05d4\u05de\u05e9\u05ea\u05de\u05e9",
 		"ru": "\u0425\u044d\u0448 \u043f\u0430\u0440\u043e\u043b\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
@@ -1570,8 +1521,7 @@
 		"ro": "Parola utilizatorului \u00een format <i>hash<\/i>",
 		"eu": "Erabiltzailearen pasahitzaren hash-a",
 		"ca": "Clau o contrasenya i m\u00e8tode d'encriptaci\u00f3 usat",
-		"af": "Gebruikerswagwoord",
-		"el": "\u039a\u03c1\u03c5\u03c0\u03c4\u03bf\u03b3\u03c1\u03b1\u03c6\u03b7\u03bc\u03ad\u03bd\u03bf\u03c2 \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2"
+		"af": "Gebruikerswagwoord"
 	},
 	"attribute_edupersonprimaryorgunitdn": {
 		"no": "Entydig navn for organisasjonsenheten som brukeren prim\u00e6rt er tilknyttet",
@@ -1591,7 +1541,7 @@
 		"it": "Distinguished name (DN) dell'unit\u00e0 organizzativa della persona",
 		"lt": "Asmens pirminio organizacijos skyriaus atpa\u017einimo vardas",
 		"ja": "\u4e3b\u8981\u7d44\u7e54\u5358\u4f4d\u8b58\u5225\u540d",
-		"zh-tw": "\u500b\u4eba\u4e3b\u8981\u7d44\u7e54\u55ae\u4f4d Distinguished name (DN)",
+		"zh-tw": "Distinguished name (DN) of \u500b\u4eba\u4e3b\u8981\u7d44\u7e54\u55ae\u4f4d",
 		"he": "\u05e9\u05dd \u05de\u05d6\u05d4\u05d4 (DN) \u05e9\u05dc \u05d4\u05d9\u05d7\u05d9\u05d3\u05d4 \u05d4\u05e2\u05d9\u05e7\u05e8\u05d9\u05ea \u05d1\u05d0\u05d9\u05e8\u05d2\u05d5\u05df \u05d4\u05d1\u05d9\u05ea",
 		"ru": "\u041e\u0442\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0438\u043c\u044f (DN) \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0433\u043e \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
 		"zh": "\u4eba\u7684\u4e3b\u8981\u7ec4\u7ec7\u5355\u4f4d\u7684\u8fa8\u522b\u540d\u79f0\uff08DN\uff09",
@@ -1604,8 +1554,7 @@
 		"ro": "Nume distincitv (DN) al unit\u0103\u021bii organiza\u021bionale primare a persoanei",
 		"eu": "Pertsonaren antolamendu-unitatearen izen osatua (DN)",
 		"ca": "Nom distingit (DN) de l'entrada del directori que representa l'identificador",
-		"af": "Kenmerkende naam (DN) van die persoon se prim\u00eare organisatoriese afdeling",
-		"el": "\u0394\u03b9\u03b1\u03ba\u03b5\u03ba\u03c1\u03b9\u03bc\u03ad\u03bd\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 (DN) \u03ba\u03cd\u03c1\u03b9\u03b1\u03c2 \u03bf\u03c1\u03b3\u03b1\u03bd\u03c9\u03c4\u03b9\u03ba\u03ae\u03c2 \u03bc\u03bf\u03bd\u03ac\u03b4\u03b1\u03c2"
+		"af": "Kenmerkende naam (DN) van die persoon se prim\u00eare organisatoriese afdeling"
 	},
 	"attribute_schacuserprivateattribute": {
 		"no": "Private informasjonselement",
@@ -1639,8 +1588,7 @@
 		"eu": "Informazio pribatuaren elementuak",
 		"ca": "Elements d'informaci\u00f3 privada",
 		"fi": "Yksil\u00f6iv\u00e4t tunnisteet",
-		"af": "Private informasie elemente",
-		"el": "\u0391\u03c0\u03cc\u03c1\u03c1\u03b7\u03c4\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c9\u03c0\u03b9\u03ba\u03ac \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1"
+		"af": "Private informasie elemente"
 	},
 	"attribute_noredupersonlegalname": {
 		"no": "Folkeregistrert navn",
@@ -1672,8 +1620,7 @@
 		"eu": "Izen legala",
 		"ca": "Nom legal",
 		"fi": "Virallinen nimi",
-		"af": "Wettige naam",
-		"el": "\u0395\u03c0\u03af\u03c3\u03b7\u03bc\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1"
+		"af": "Wettige naam"
 	},
 	"attribute_edupersonassurance": {
 		"no": "Tillitsniv\u00e5 for autentisering",
@@ -1689,7 +1636,7 @@
 		"nl": "Identiteitsverzekeringsprofiel",
 		"ja": "\u8b58\u5225\u5b50\u4fdd\u8a3c\u30d7\u30ed\u30d5\u30a1\u30a4\u30eb",
 		"de": "Identity Assurance Profil",
-		"zh-tw": "\u8eab\u5206\u9a57\u8b49\u6587\u4ef6",
+		"zh-tw": "\u53ef\u9760\u9a57\u8b49\u8a2d\u5b9a\u6a94",
 		"he": "\u05e4\u05e8\u05d5\u05e4\u05d9\u05dc \u05d4\u05d1\u05d8\u05d7\u05ea \u05d6\u05d4\u05d5\u05ea",
 		"ru": "\u0418\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u0433\u0430\u0440\u0430\u043d\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0444\u0430\u0439\u043b\u0430",
 		"et": "Identiteedi tagamise profiil",
@@ -1702,8 +1649,7 @@
 		"ro": "Profilul de asigurare a identit\u0103\u021bii",
 		"eu": "Bermearen profilaren identifikatzailea",
 		"ca": "Identificador del perfil de garantia",
-		"af": "Identiteitsversekerings profiel",
-		"el": "\u0395\u03c0\u03af\u03c0\u03b5\u03b4\u03bf \u03b1\u03be\u03b9\u03bf\u03c0\u03b9\u03c3\u03c4\u03af\u03b1\u03c2 \u03c4\u03b1\u03c5\u03c4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2"
+		"af": "Identiteitsversekerings profiel"
 	},
 	"attribute_ismemberof": {
 		"es": "Membres\u00eda a grupos",
@@ -1712,7 +1658,6 @@
 		"zh-tw": "\u7fa4\u7d44\u6210\u54e1",
 		"nl": "Groepslidmaatschap",
 		"da": "Gruppemedlemsskab",
-		"af": "Groeplidmaatskap",
-		"el": "\u03a3\u03c5\u03bc\u03bc\u03b5\u03c4\u03bf\u03c7\u03ae \u03c3\u03b5 \u03bf\u03bc\u03ac\u03b4\u03b5\u03c2"
+		"af": "Groeplidmaatskap"
 	}
 }

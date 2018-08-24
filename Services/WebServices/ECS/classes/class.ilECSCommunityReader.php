@@ -55,9 +55,7 @@ class ilECSCommunityReader
 	 */
 	private function __construct(ilECSSetting $setting = null)
 	{
-	 	global $DIC;
-
-	 	$ilLog = $DIC['ilLog'];
+	 	global $ilLog;
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
@@ -70,8 +68,8 @@ class ilECSCommunityReader
 		}
 		else
 		{
-			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecated call');
-			$GLOBALS['DIC']['ilLog']->logStack();
+			$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+			$GLOBALS['ilLog']->logStack();
 		}
 	 	$this->connector = new ilECSConnector($this->settings);
 	 	$this->log = $ilLog;
@@ -88,7 +86,7 @@ class ilECSCommunityReader
 	 */
 	public static function _getInstance()
 	{
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Using deprecated call');
+		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
 		return self::getInstanceByServerId(15);
 	}
 
@@ -251,9 +249,7 @@ class ilECSCommunityReader
 	 */
 	private function read()
 	{
-	 	global $DIC;
-
-	 	$ilLog = $DIC['ilLog'];
+	 	global $ilLog;
 	 	
 	 	try
 	 	{

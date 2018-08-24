@@ -1,6 +1,8 @@
 <?php
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once "Services/Object/classes/class.ilObject2.php";
+require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 
 /**
  * Class ilObjBibliographic
@@ -13,56 +15,38 @@
  */
 class ilObjBibliographic extends ilObject2 {
 
+	const FILETYPE_RIS = "ris";
+	const FILETYPE_BIB = "bib";
 	/**
-	 * @var \ilBiblFileReaderFactoryInterface
+	 * Number of maximum allowed characters for attributes in order to fit in the database
+	 *
+	 * @var int
 	 */
-	protected $bib_filereader_factory;
-	/**
-	 * @var \ilBiblTypeFactoryInterface
-	 */
-	protected $bib_type_factory;
-	/**
-	 * @var \ilBiblEntryFactoryInterface
-	 */
-	protected $bib_entry_factory;
-	/**
-	 * @var \ilBiblFieldFactory
-	 */
-	protected $bib_field_factory;
-	/**
-	 * @var \ilBiblDataFactoryInterface
-	 */
-	protected $bib_data_factory;
-	/**
-	 * @var \ilBiblOverviewModelFactoryInterface
-	 */
-	protected $bib_overview_factory;
-	/**
-	 * @var \ilBiblAttributeFactoryInterface
-	 */
-	protected $bib_attribute_factory;
+	const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
 	/**
 	 * Id of literary articles
 	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $filename;
 	/**
 	 * Id of literary articles
 	 *
-	 * @var \ilBiblEntry[]
+	 * @var ilBibliographicEntry[]
 	 */
 	protected $entries;
 	/**
 	 * Models describing how the overview of each entry is showed
 	 *
-	 * @var bool
+	 * @var overviewModels[]
+	 */
+	protected $overviewModels;
+	/**
+	 * Models describing how the overview of each entry is showed
+	 *
+	 * @var is_online
 	 */
 	protected $is_online;
-	/**
-	 * @var int
-	 */
-	protected $file_type = 0;
 
 
 	/**
@@ -88,13 +72,6 @@ class ilObjBibliographic extends ilObject2 {
 			$this->doRead();
 		}
 		parent::__construct($existant_bibl_id, false);
-
-		$this->bib_type_factory = new ilBiblTypeFactory();
-		$this->bib_field_factory = new ilBiblFieldFactory($this->bib_type_factory->getInstanceForType($this->getFileType()));
-		$this->bib_overview_factory = new ilBiblOverviewModelFactory();
-		$this->bib_entry_factory = new ilBiblEntryFactory($this->bib_field_factory, $this->bib_type_factory->getInstanceForType($this->getFileType()), $this->bib_overview_factory);
-		$this->bib_filereader_factory = new ilBiblFileReaderFactory();
-		$this->bib_attribute_factory = new ilBiblAttributeFactory($this->bib_field_factory);
 	}
 
 
@@ -112,25 +89,25 @@ class ilObjBibliographic extends ilObject2 {
 			$this->moveUploadedFile($upload);
 		}
 
-		$DIC->database()->insert(
-			"il_bibl_data", [
-			"id" => ["integer", $this->getId()], "filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->determineFileTypeByFileName($this->getFilename())],
-		]
-		);
-
-		$this->parseFileToDatabase();
+		$DIC->database()->insert("il_bibl_data", [
+			"id" => ["integer", $this->getId()],
+			"filename" => ["text", $this->getFilename()],
+			"is_online" => ["integer", $this->getOnline()],
+		]);
 	}
 
 
 	protected function doRead() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$ilBiblData = ilBiblData::where(array('id' => $this->getId()))->first();
-		if (!$this->getFilename()) {
-			$this->setFilename($ilBiblData->getFilename());
+		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			if (!$this->getFilename()) {
+				$this->setFilename($rec["filename"]);
+			}
+			$this->setOnline($rec['is_online']);
 		}
-		$this->setFileType($ilBiblData->getFileType());
-		$this->setOnline($ilBiblData->getIsOnline());
 	}
 
 
@@ -138,23 +115,21 @@ class ilObjBibliographic extends ilObject2 {
 		global $DIC;
 
 		$upload = $DIC->upload();
-		$has_valid_upload = $upload->hasUploads() && !$upload->hasBeenProcessed();
-		if ($_POST['override_entries'] && $has_valid_upload) {
+		if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
 			$upload->process();
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);
 		}
-		if ($has_valid_upload) {
-			// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
-			$this->doDelete(true, true);
-			$this->parseFileToDatabase();
-		}
 
-		$DIC->database()->update(
-			"il_bibl_data", [
-			"filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->getFileType()],
-		], ["id" => ["integer", $this->getId()]]
-		);
+		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
+		$this->doDelete(true, true);
+
+		$DIC->database()->update("il_bibl_data", [
+			"filename" => ["text", $this->getFilename()],
+			"is_online" => ["integer", $this->getOnline()],
+		], ["id" => ["integer", $this->getId()]]);
+
+		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -169,17 +144,16 @@ class ilObjBibliographic extends ilObject2 {
 			$this->deleteFile();
 		}
 		//il_bibl_attribute
-		$ilDB->manipulate(
-			"DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN " . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer") . ")"
-		);
+		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
+		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
+		                  . $ilDB->quote($this->getId(), "integer") . ")");
 		//il_bibl_entry
-		$this->bib_entry_factory->deleteEntryById($this->getId());
-
+		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = "
+		                  . $ilDB->quote($this->getId(), "integer"));
 		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
-			$ilDB->manipulate(
-				"DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer")
-			);
+			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = "
+			                  . $ilDB->quote($this->getId(), "integer"));
 		}
 		// delete history entries
 		ilHistory::_removeEntriesForObject($this->getId());
@@ -187,7 +161,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return string the folder is: bibl/$id
+	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
 	 */
 	public function getFileDirectory() {
 		return "{$this->getType()}/{$this->getId()}";
@@ -198,9 +172,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
 	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
-		/**
-		 * @var $result \ILIAS\FileUpload\DTO\UploadResult
-		 */
 		$result = array_values($upload->getResults())[0];
 		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 			$this->deleteFile();
@@ -250,18 +221,23 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return string
 	 */
 	public function getFilePath($without_filename = false) {
-		$file_name = $this->getFilename();
-
-		if ($without_filename) {
-			return substr($file_name, 0, strrpos($file_name, DIRECTORY_SEPARATOR));
-		} else {
-			return $file_name;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
+		$rec = $ilDB->fetchAssoc($set);
+		{
+			if ($without_filename) {
+				return substr($rec['filename'], 0, strrpos($rec['filename'], DIRECTORY_SEPARATOR));
+			} else {
+				return $rec['filename'];
+			}
 		}
 	}
 
 
 	/**
-	 * @param string $filename
+	 * @param $filename
 	 */
 	public function setFilename($filename) {
 		$this->filename = $filename;
@@ -269,7 +245,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return string
+	 * @return int
 	 */
 	public function getFilename() {
 		return $this->filename;
@@ -293,29 +269,38 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @deprecated use type factory instead of string representation
 	 * @return string
 	 */
-	public function getFileTypeAsString() {
-		$type = $this->getFileType();
+	public function getFiletype() {
+		//return bib for filetype .bibtex:
+		$filename = $this->getFilename();
+		if (strtolower(substr($filename, - 6)) == "bibtex") {
+			return self::FILETYPE_BIB;
+		}
 
-		return $this->bib_type_factory->getInstanceForType($type)->getStringRepresentation();
+		//else return its true filetype
+		return strtolower(substr($filename, - 3));
 	}
 
 
 	/**
-	 * @return int
+	 * @return array
 	 */
-	public function getFileType() {
-		$filename = $this->getFilename();
-		if ($filename === null) {
-			return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+	public static function getAllOverviewModels() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$overviewModels = array();
+		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			if ($rec['literature_type']) {
+				$overviewModels[$rec['filetype']][$rec['literature_type']] = $rec['pattern'];
+			} else {
+				$overviewModels[$rec['filetype']] = $rec['pattern'];
+			}
 		}
-		$instance = $this->bib_type_factory->getInstanceForFileName($filename);
 
-		return $instance->getId();
+		return $overviewModels;
 	}
-
 
 	/**
 	 * Clone BIBL
@@ -362,24 +347,77 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * Reads out the source file and writes all entries to the database
+	 * @param $input
 	 *
-	 * @return void
+	 * @deprecated
+	 * @return string
 	 */
-	public function parseFileToDatabase() {
-		//Read File
-		$type = $this->getFileType();
-		$reader = $this->bib_filereader_factory->getByType($type, $this->bib_entry_factory, $this->bib_field_factory, $this->bib_attribute_factory);
-		$reader->readContent($this->getFileAbsolutePath());
-		$this->entries = $reader->parseContentToEntries($this);
+	protected static function __removeSpacesAndDashesAtBeginning($input) {
+		for ($i = 0; $i < strlen($input); $i ++) {
+			if ($input[$i] != " " && $input[$i] != "-") {
+				return substr($input, $i);
+			}
+		}
 	}
 
 
 	/**
-	 * @param int $file_type
+	 * Reads out the source file and writes all entries to the database
+	 *
+	 * @return void
 	 */
-	public function setFileType($file_type) {
-		$this->file_type = $file_type;
+	public function writeSourcefileEntriesToDb() {
+		//Read File
+		$entries_from_file = array();
+		$filetype = $this->getFiletype();
+		switch ($filetype) {
+			case(self::FILETYPE_RIS):
+				$ilRis = new ilRis();
+				$ilRis->readContent($this->getFileAbsolutePath());
+
+				$entries_from_file = $ilRis->parseContent();
+				break;
+			case(self::FILETYPE_BIB):
+				$bib = new ilBibTex();
+				$bib->readContent($this->getFileAbsolutePath());
+
+				$entries_from_file = $bib->parseContent();
+				break;
+		}
+		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
+		foreach ($entries_from_file as $file_entry) {
+			$type = null;
+			$x = 0;
+			$parsed_entry = array();
+			foreach ($file_entry as $key => $attribute) {
+				// if the attribute is an array, make a comma separated string out of it
+				if (is_array($attribute)) {
+					$attribute = implode(", ", $attribute);
+				}
+				// reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
+				//if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
+				if (ilStr::strLen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
+					// $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
+					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH
+					                                          - 3) . '...';
+				}
+				// ty (RIS) or entryType (BIB) is the type and is treated seperately
+				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
+					$type = $attribute;
+					continue;
+				}
+				//TODO - Refactoring for ILIAS 4.5 - get rid off array restructuring
+				//change array structure (name not as the key, but under the key "name")
+				$parsed_entry[$x]['name'] = $key;
+				$parsed_entry[$x ++]['value'] = $attribute;
+			}
+			//create the entry and fill data into database by executing doCreate()
+			$entry_model = ilBibliographicEntry::getInstance($this->getFiletype());
+			$entry_model->setType($type);
+			$entry_model->setAttributes($parsed_entry);
+			$entry_model->setBibliographicObjId($this->getId());
+			$entry_model->doCreate();
+		}
 	}
 
 
@@ -396,15 +434,5 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getOnline() {
 		return $this->is_online;
-	}
-
-
-	/**
-	 * @param $filename
-	 *
-	 * @return int
-	 */
-	public function determineFileTypeByFileName($filename) {
-		return $this->bib_type_factory->getInstanceForFileName($filename)->getId();
 	}
 }

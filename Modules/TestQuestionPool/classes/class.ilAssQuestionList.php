@@ -105,13 +105,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	private $forcedQuestionIds = array();
 
 	/**
-	 * should object_data table be joined?
-	 * @var bool
-	 */
-	protected $join_obj_data = true;
-
-
-	/**
 	 * answer status domain for single questions
 	 */
 	const QUESTION_ANSWER_STATUS_NON_ANSWERED = 'nonAnswered';
@@ -284,26 +277,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	}
 
 	/**
-	 * Set if object data table should be joined
-	 *
-	 * @param bool $a_val join object_data	
-	 */
-	public function setJoinObjectData($a_val)
-	{
-		$this->join_obj_data = $a_val;
-	}
-	
-	/**
-	 * Get if object data table should be joined
-	 *
-	 * @return bool join object_data
-	 */
-	public function getJoinObjectData()
-	{
-		return $this->join_obj_data;
-	}
-	
-	/**
 	 * @param array $forcedQuestionIds
 	 */
 	public function setForcedQuestionIds($forcedQuestionIds)
@@ -363,10 +336,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 					break;
 				
 				case 'parent_title':
-					if ($this->join_obj_data)
-					{
-						$expressions[] = $this->db->like('object_data.title', 'text', "%%$fieldValue%%");
-					}
+					
+					$expressions[] = $this->db->like('object_data.title', 'text', "%%$fieldValue%%");
 					break;
 			}
 		}
@@ -523,14 +494,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			INNER JOIN	qpl_qst_type
 			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
 		";
-
-		if ($this->join_obj_data)
-		{
-			$tableJoin .= "
-				INNER JOIN	object_data
-				ON			object_data.obj_id = qpl_questions.obj_fi
-			";
-		}
+		
+		$tableJoin .= "
+			INNER JOIN	object_data
+			ON			object_data.obj_id = qpl_questions.obj_fi
+		";
 		
 		if( $this->getAnswerStatusActiveId() )
 		{
@@ -582,13 +550,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			'qpl_qst_type.type_tag',
 			'qpl_qst_type.plugin',
 			'qpl_qst_type.plugin_name',
-			'qpl_questions.points max_points'
+			'qpl_questions.points max_points',
+			'object_data.title parent_title'
 		);
-
-		if ($this->join_obj_data)
-		{
-			$selectFields[] = 'object_data.title parent_title';
-		}
 
 		if( $this->getAnswerStatusActiveId() )
 		{
@@ -643,7 +607,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		$this->checkFilters();
 		
 		$query = $this->buildQuery();
-
+		
 		#vd($query);
 
 		$res = $this->db->query($query);

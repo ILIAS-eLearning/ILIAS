@@ -54,11 +54,7 @@ class ilSearchResultPresentation
 	 */
 	public function __construct($container = null, $a_mode = self::MODE_LUCENE)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $tpl,$lng,$ilCtrl;
 		
 		$this->mode = $a_mode;
 		$this->lng = $lng;
@@ -144,9 +140,7 @@ class ilSearchResultPresentation
 	 */
 	protected function parseResultReferences()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		
 		foreach($this->getResults() as $ref_id => $obj_id)
 		{
@@ -238,11 +232,7 @@ class ilSearchResultPresentation
 	 */
 	protected function renderItemList()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
-		$ilBench = $DIC['ilBench'];
-		$lng = $DIC['lng'];
+		global $tree,$ilBench, $lng;
 
 		$this->html = '';
 		

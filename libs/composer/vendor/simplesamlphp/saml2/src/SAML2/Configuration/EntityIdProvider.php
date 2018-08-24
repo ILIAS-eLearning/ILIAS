@@ -1,11 +1,9 @@
 <?php
 
-namespace SAML2\Configuration;
-
 /**
- * Interface \SAML2\Configuration\EntityIdProvider
+ * Interface SAML2_Configuration_EntityIdProvider
  */
-interface EntityIdProvider
+interface SAML2_Configuration_EntityIdProvider
 {
     /**
      * @return null|string

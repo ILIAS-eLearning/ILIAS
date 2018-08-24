@@ -63,13 +63,7 @@ class ilMemberExportGUI
 	 */
 	public function __construct($a_ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilCtrl,$tpl,$lng,$ilUser,$ilObjDataCache;
 		
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -92,10 +86,7 @@ class ilMemberExportGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilAccess,$rbacsystem;
 
 		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -223,7 +214,7 @@ class ilMemberExportGUI
 		
 		// consultation hours
 		include_once './Services/Booking/classes/class.ilBookingEntry.php';
-		if(ilBookingEntry::hasObjectBookingEntries($this->obj_id,  $GLOBALS['DIC']['ilUser']->getId()))
+		if(ilBookingEntry::hasObjectBookingEntries($this->obj_id,  $GLOBALS['ilUser']->getId()))
 		{			
 			$this->lng->loadLanguageModule('dateplaner');			
 			$chours = new ilCheckboxInputGUI($this->lng->txt('cal_ch_field_ch'), 'export_members[]');
@@ -265,9 +256,7 @@ class ilMemberExportGUI
 	 */
 	public function show()
 	{	
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
+		global $ilToolbar;
 		
 		$ilToolbar->addButton($this->lng->txt('ps_perform_export'), 
 			$this->ctrl->getLinkTarget($this, "initCSV"));

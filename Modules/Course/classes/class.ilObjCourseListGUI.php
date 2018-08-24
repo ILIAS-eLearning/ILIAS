@@ -68,10 +68,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
+		global $lng, $ilUser;
 
 		$props = parent::getProperties();
 		

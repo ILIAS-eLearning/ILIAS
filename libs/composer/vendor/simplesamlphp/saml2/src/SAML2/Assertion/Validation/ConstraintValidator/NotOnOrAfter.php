@@ -1,19 +1,12 @@
 <?php
 
-namespace SAML2\Assertion\Validation\ConstraintValidator;
-
-use SAML2\Assertion;
-use SAML2\Assertion\Validation\AssertionConstraintValidator;
-use SAML2\Assertion\Validation\Result;
-use SAML2\Utilities\Temporal;
-
-class NotOnOrAfter implements
-    AssertionConstraintValidator
+class SAML2_Assertion_Validation_ConstraintValidator_NotOnOrAfter implements
+    SAML2_Assertion_Validation_AssertionConstraintValidator
 {
-    public function validate(Assertion $assertion, Result $result)
+    public function validate(SAML2_Assertion $assertion, SAML2_Assertion_Validation_Result $result)
     {
         $notValidOnOrAfterTimestamp = $assertion->getNotOnOrAfter();
-        if ($notValidOnOrAfterTimestamp && $notValidOnOrAfterTimestamp <= Temporal::getTime() - 60) {
+        if ($notValidOnOrAfterTimestamp && $notValidOnOrAfterTimestamp <= SAML2_Utilities_Temporal::getTime() - 60) {
             $result->addError(
                 'Received an assertion that has expired. Check clock synchronization on IdP and SP.'
             );

@@ -94,7 +94,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
 		*/
 		
 		$all_page_ids = sizeof(self::getLMPages($a_obj_id));				
-		if(!$all_page_ids)
+		if(!sizeof($all_page_ids))
 		{
 			return 0;
 		}
@@ -123,9 +123,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
 				
 	protected static function getLMPages($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		
@@ -150,9 +148,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
 	
 	protected static function getVisitedPages($a_obj_id, $a_user_id = null)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$res = array();
 		

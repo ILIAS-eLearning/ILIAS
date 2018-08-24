@@ -44,6 +44,7 @@ class ilBadgeHandler
 		{
 			$this->tree = $DIC->repositoryTree();
 		}
+		$this->lng = $DIC->language();
 		$this->settings = new ilSetting("bdga");
 	}
 	
@@ -598,6 +599,8 @@ class ilBadgeHandler
 	
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
+		$lng = $this->lng;
+		
 		$badges = array();
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";
@@ -672,7 +675,7 @@ class ilBadgeHandler
 				$notification->setLongDescriptionVar("", $osd_params, "");
 				$notification->setAutoDisable(false);
 				$notification->setLink($url);
-				$notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
+				$notification->setIconPath("templates/default/images/icon_bdga.svg");
 				$notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
 				$notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
 				$notification->notifyByUsers(array($user_id));

@@ -126,7 +126,7 @@ class sspmod_authorize_Auth_Process_Authorize extends SimpleSAML_Auth_Processing
 		// Save state and redirect to 403 page
 		$id = SimpleSAML_Auth_State::saveState($request,
 			'authorize:Authorize');
-		$url = SimpleSAML\Module::getModuleURL(
+		$url = SimpleSAML_Module::getModuleURL(
 			'authorize/authorize_403.php');
 		\SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('StateId' => $id));
 	}

@@ -23,9 +23,7 @@ class ilLoginPageGUI extends ilPageObjectGUI
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 
 		parent::__construct("auth", $a_id, $a_old_nr);	
 	}

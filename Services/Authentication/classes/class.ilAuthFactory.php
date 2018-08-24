@@ -157,7 +157,7 @@ class ilAuthFactory
 				include_once './Services/Calendar/classes/class.ilAuthCalendarToken.php';
 				include_once './Services/Calendar/classes/class.ilAuthContainerCalendarToken.php';
 				// Force token authentication
-				$GLOBALS['DIC']['ilLog']->write('Calling calendar token');
+				$GLOBALS['ilLog']->write('Calling calendar token');
 				return new ilAuthCalendarToken(new ilAuthContainerCalendarToken(),$options);
 				
 			case self::CONTEXT_ECS:

@@ -94,41 +94,4 @@ interface Factory {
 	 */
 	public function sortation(array $options);
 
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *      Pagination allows structured data being displayed in chunks by
-	 *      limiting the number of entries shown. It provides the user with
-	 *      controls to leaf through the chunks of entries.
-	 *   composition: >
-	 *      Pagination is a collection of shy-buttons to access distinct chunks
-	 *      of data, framed by next/back glyphs.
-	 *      When used with the "DropdownAt" option, a dropdown is rendered if
-	 *      the number of chunks exceeds the option's value.
-	 *   effect: >
-	 *      A click on an chunk-option will change the offset of the displayed data-list,
-	 *      thus displaying the respective chunk of entries.
-	 *      The active option is rendered as an unavailable shy-button.
-	 *      Clicking the next/back-glyphs, the previous (respectively: the next)
-	 *      chunk of entries is being displayed.
-	 *      If a previous/next chunk is not available, the glyph is
-	 *      rendered unavailable.
-	 *      If the pagination is used with a maximum of chunk-options to be shown,
-	 *      both first and last options are always displayed.
-	 *
-	 * rules:
-	 *   usage:
-	 *      1: A Pagination MUST only be used for structured data, like tables and lists.
-	 *      2: A Pagination MUST NOT be used standalone.
-	 *      3: Paginations MUST be visually close to the list or table their operation will have effect upon. They MAY be placed directly above and/or below the list.
-	 *   accessibility:
-	 *      1: Pagination MUST be operable via keyboard only.
-	 *
-	 * ---
-	 * @param
-	 *
-	 * @return \ILIAS\UI\Component\ViewControl\Pagination
-	 */
-	public function pagination();
 }

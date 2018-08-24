@@ -47,9 +47,7 @@ class ilCourseUserData
 	 */
 	public function __construct($a_user_id,$a_field_id = 0)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$this->db = $ilDB;
 	 	$this->user_id = $a_user_id;
@@ -71,9 +69,7 @@ class ilCourseUserData
 	 */
 	public static function _getValuesByObjId($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		$field_ids = ilCourseDefinedFieldDefinition::_getFieldIds($a_obj_id);
@@ -108,9 +104,7 @@ class ilCourseUserData
 	 */
 	public static function _checkRequired($a_usr_id,$a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		$required = ilCourseDefinedFieldDefinition::_getRequiredFieldIds($a_obj_id);
@@ -143,9 +137,7 @@ class ilCourseUserData
 	 */
 	public static function _deleteByUser($a_user_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_user_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_user_id ,'integer');
@@ -162,9 +154,7 @@ class ilCourseUserData
 	 */
 	public static function _deleteByField($a_field_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_user_data ".
 			"WHERE field_id = ".$ilDB->quote($a_field_id ,'integer');
@@ -200,9 +190,7 @@ class ilCourseUserData
 	 */
 	public function delete()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM crs_user_data ".
 	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".
@@ -218,9 +206,7 @@ class ilCourseUserData
 	 */
 	public function create()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "INSERT INTO crs_user_data (value,usr_id,field_id) ".
 	 		"VALUES( ".
@@ -239,9 +225,7 @@ class ilCourseUserData
 	 */
 	private function read()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM crs_user_data ".
 	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".

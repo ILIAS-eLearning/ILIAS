@@ -11,9 +11,7 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
 	
 	public function getHTML()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 						
 		if(!$this->getADT()->isNull())
 		{

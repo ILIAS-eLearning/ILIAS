@@ -51,11 +51,7 @@ class ilSessionFile
 	 */
 	public function __construct($a_file_id = null)
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
+		global $ilErr,$ilDB,$lng;
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -182,9 +178,7 @@ class ilSessionFile
 
 	function create($a_upload = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getErrorCode() != 0)
 		{
@@ -221,9 +215,7 @@ class ilSessionFile
 
 	function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// Delete db entry
 		$query = "DELETE FROM event_file ".
@@ -237,9 +229,7 @@ class ilSessionFile
 		
 	function _deleteByEvent($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		// delete all event ids and delete assigned files
 		$query = "DELETE FROM event_file ".
@@ -252,9 +242,7 @@ class ilSessionFile
 
 	static function _readFilesByEvent($a_event_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM event_file ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')."";
@@ -269,9 +257,7 @@ class ilSessionFile
 
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->file_id)
 		{

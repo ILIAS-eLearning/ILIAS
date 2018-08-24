@@ -31,12 +31,7 @@ class ilECSParticipantSettingsGUI
 	 */
 	public function __construct($a_server_id, $a_mid)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+		global $lng,$tpl,$ilCtrl,$ilTabs;
 		
 		$this->server_id = $a_server_id;
 		$this->mid = $a_mid;

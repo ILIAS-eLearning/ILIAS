@@ -30,9 +30,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 	 */
 	public function getDirectoryTrees($a_mid = 0)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 
 		$this->path_postfix = '/campusconnect/directory_trees';
 

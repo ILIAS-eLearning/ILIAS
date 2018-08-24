@@ -15,10 +15,6 @@
 		<event type="raise" id="toTrash" />
 		<event type="raise" id="delete" />
 		<event type="raise" id="undelete" />
-		<event type="listen" id="Services/Object" />
 	</events>
 	<logging />
-	<web_access_checker>
-		<secure_path path="custom_icons" checking-class="ilObjectAccess" />
-	</web_access_checker>
 </service>

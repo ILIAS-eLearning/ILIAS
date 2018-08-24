@@ -19,10 +19,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$objDefinition = $DIC['objDefinition'];
+		global $ilCtrl, $objDefinition;
 		
 		$this->setId("trsmy");
 
@@ -82,10 +79,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	function getSelectableColumns()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $ilSetting;
 
 		$lng_map = array("user_total" => "users", "first_access_min" => "trac_first_access",
 			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
@@ -207,10 +201,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilSetting = $DIC['ilSetting'];
+		global $lng, $ilSetting;
 		
 		if($this->is_root)
 		{
@@ -321,9 +312,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	function getSelCountryCodes()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		include_once("./Services/Utilities/classes/class.ilCountry.php");
 		$options = array();
@@ -343,36 +332,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function getItems($a_object_id, $a_ref_id)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $lng, $rbacsystem;
 		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
-		
-		// show only selected subobjects for lp mode 
-		$preselected_obj_ids = $filter = NULL;
 
-		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
-		if(
-			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL ||
-			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION || 
-			$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR
-		)
-		{
-			$collection = $olp->getCollectionInstance();
-			$preselected_obj_ids[$a_object_id][] = $a_ref_id;
-			foreach($collection->getItems() as $item => $item_info)
-			{
-				$tmp_lp = ilObjectLP::getInstance(ilObject::_lookupObjId($item_info));
-				if($tmp_lp->isActive())
-				{
-					$preselected_obj_ids[ilObject::_lookupObjId($item_info)][] = $item_info;
-				}
-			}
-			$filter = $this->getCurrentFilter();
-		}
-		elseif($this->is_root)
+		$preselected_obj_ids = $filter = NULL;
+		if($this->is_root)
 		{
 			// using search to get all relevant objects
 			// #8498/#8499: restrict to objects with at least "read_learning_progress" access
@@ -383,8 +348,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// using summary filters
 			$filter = $this->getCurrentFilter();
 		}
-
-		
 		
 		$data = ilTrQuery::getObjectsSummaryForObject(
 				$a_object_id,
@@ -503,9 +466,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function getItemsPercentages(array $data = NULL, $overall, array $value_map = NULL, $limit = 3)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		if(!$overall)
 		{
@@ -578,9 +539,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function getItemsPercentagesStatus(array $data = NULL, $overall, array $value_map = NULL)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$result = array();
 		foreach($value_map as $id => $caption)
@@ -604,9 +563,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function parseValue($id, $value, $type)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		// get rid of aggregation
 		$pos = strrpos($id, "_");
@@ -678,10 +635,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 		
 		$this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));

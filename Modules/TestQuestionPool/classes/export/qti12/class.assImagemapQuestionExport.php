@@ -456,7 +456,7 @@ class assImagemapQuestionExport extends assQuestionExport
 			// qti flow_mat
 			$a_xml_writer->xmlStartTag("flow_mat");
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-				$this->object->getId(),0, $index
+				$this->object->getId(), $index
 			);
 			$this->object->addQTIMaterial($a_xml_writer, $fb);
 			$a_xml_writer->xmlEndTag("flow_mat");

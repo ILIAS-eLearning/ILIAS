@@ -47,9 +47,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 	
 	function __createTaxonWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->options['lom_taxon'])
 		{
@@ -73,9 +71,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 	
 	function __createKeywordWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$where = " WHERE (";
 		
@@ -95,9 +91,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 	
 	function __createLifecycleWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->options['lom_version'])
 		{
@@ -121,9 +115,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 	
 	function __createEntityWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if($this->options['lom_role_entry'])
 		{
@@ -147,9 +139,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 
 	function __createCoverageAndCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if($this->options['lom_coverage'])
 		{
@@ -173,9 +163,7 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 	
 	function __createTitleDescriptionWhereCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$concat = $ilDB->concat(
 			array(

@@ -33,11 +33,6 @@
 */
 class ilLDAPAttributeToUser
 {
-	const MODE_INITIALIZE_ROLES = 1;
-
-	private $modes = [];
-
-
 	private $server_settings = null;
 	private $role_assignment = null;
 	private $db = null;
@@ -56,12 +51,7 @@ class ilLDAPAttributeToUser
 	 */
 	public function __construct(ilLDAPServer $a_server)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilSetting = $DIC['ilSetting'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
+		global $ilDB,$ilSetting,$lng,$ilLog;
 		
 		// Initialise language object
 		if(!is_object($lng))
@@ -118,28 +108,6 @@ class ilLDAPAttributeToUser
 	{
 		return $this->new_user_auth_mode;
 	}
-
-	/**
-	 * Add import mode
-	 * @param $a_mode
-	 */
-	public function addMode($a_mode)
-	{
-		if(is_array($this->modes) && !in_array($a_mode, $this->modes))
-		{
-			$this->modes[] = $a_mode;
-		}
-	}
-
-	/**
-	 * Check if mode is active
-	 * @param int $a_mode
-	 * @return bool
-	 */
-	public function isModeActive($a_mode)
-	{
-		return is_array($this->modes) && in_array($a_mode, $this->modes);
-	}
 	
 	
 	/**
@@ -150,9 +118,7 @@ class ilLDAPAttributeToUser
 	 */
 	public function refresh()
 	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
+		global $rbacadmin;
 		
 		$this->usersToXML();
 		
@@ -169,51 +135,6 @@ class ilLDAPAttributeToUser
 		#print_r($this->writer->xmlDumpMem($format));
 		
 		return true;
-	}
-
-	/**
-	 * Parse role assignments for update of user account.
-	 * @param int $a_usr_id
-	 * @param string $a_external_account
-	 * @param array $user
-	 */
-	protected function parseRoleAssignmentsForUpdate($a_usr_id, $a_external_account, $user)
-	{
-		$rules = $this->mapping->getRulesForUpdate();
-
-		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
-		foreach(ilLDAPRoleAssignmentRules::getAssignmentsForUpdate(
-			$this->getServer()->getServerId(),
-			$a_usr_id,
-			$a_external_account,
-			$user) as $role_data)
-		{
-			$this->writer->xmlElement('Role',
-				array('Id' => $role_data['id'],
-					'Type' => $role_data['type'],
-					'Action' => $role_data['action']),'');
-		}
-	}
-
-	/**
-	 * Parse role assignments for update of user account.
-	 * @param string $a_external_account
-	 * @param array $a_user
-	 */
-	protected function parseRoleAssignmentsForCreation($a_external_account, $a_user)
-	{
-		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
-		foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation(
-			$this->getServer()->getServerId(),
-			$a_external_account,
-			$a_user) as $role_data)
-		{
-			$this->writer->xmlElement('Role',
-				array('Id' => $role_data['id'],
-					'Type' => $role_data['type'],
-					'Action' => $role_data['action']),'');
-		}
-
 	}
 	
 	/**
@@ -247,16 +168,20 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlElement('Login',array(),$user['ilInternalAccount']);
 				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
 				$this->writer->xmlElement('AuthMode',array(type => $this->getNewUserAuthMode()),null);
-
-				if($this->isModeActive(self::MODE_INITIALIZE_ROLES))
-				{
-					$this->parseRoleAssignmentsForCreation($external_account, $user);
-				}
-				else
-				{
-					$this->parseRoleAssignmentsForUpdate($usr_id, $external_account, $user);
-				}
 				$rules = $this->mapping->getRulesForUpdate();
+				
+				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForUpdate(
+						$this->getServer()->getServerId(),
+						$usr_id,
+						$external_account, 
+						$user) as $role_data)
+				{
+					$this->writer->xmlElement('Role',
+						array('Id' => $role_data['id'],
+								'Type' => $role_data['type'],
+								'Action' => $role_data['action']),'');
+				}
 			}
 			else
 			{
@@ -264,9 +189,21 @@ class ilLDAPAttributeToUser
 				// Create user
 				$this->writer->xmlStartTag('User',array('Action' => 'Insert'));
 				$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($external_account));
+				
+				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation(
+						$this->getServer()->getServerId(),
+						$external_account, 
+						$user) as $role_data)
+				{
+					$this->writer->xmlElement('Role',
+						array('Id' => $role_data['id'],
+								'Type' => $role_data['type'],
+								'Action' => $role_data['action']),'');
+				}
 
-				$this->parseRoleAssignmentsForCreation($external_account, $user);
 				$rules = $this->mapping->getRules();
+
 			}
 
 			$this->writer->xmlElement('Active',array(),"true");

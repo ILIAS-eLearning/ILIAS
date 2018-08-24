@@ -48,13 +48,7 @@ class ilCourseArchivesGUI
 	 */
 	public function __construct($content_gui)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilTabs = $DIC['ilTabs'];
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -93,10 +87,7 @@ class ilCourseArchivesGUI
 
 	function view()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("read",'',$this->course_obj->getRefId()))
@@ -270,10 +261,7 @@ class ilCourseArchivesGUI
 
 	function confirmDeleteArchives()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -315,10 +303,7 @@ class ilCourseArchivesGUI
 
 	function delete()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
+		global $ilAccess,$ilErr;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -350,9 +335,7 @@ class ilCourseArchivesGUI
 	*/
 	function selectXMLArchiveItems()
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
+		global $tpl;
 		
 		include_once("./Services/Export/classes/class.ilSubItemSelectionTableGUI.php");
 		$sel_table = new ilSubItemSelectionTableGUI($this, "selectXMlArchiveItems",
@@ -363,9 +346,7 @@ class ilCourseArchivesGUI
 	
 	function addXMLArchive()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -384,9 +365,7 @@ class ilCourseArchivesGUI
 
 	function selectArchiveLanguage()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -419,9 +398,7 @@ class ilCourseArchivesGUI
 
 	function addHTMLArchive()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -441,9 +418,7 @@ class ilCourseArchivesGUI
 
 	function downloadArchives()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 
 		// MINIMUM ACCESS LEVEL = 'write'
 		if(!$ilAccess->checkAccess("read",'',$this->course_obj->getRefId()))
@@ -516,9 +491,7 @@ class ilCourseArchivesGUI
 
 	function __initCourseObject()
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		if($this->content_obj->getType() == 'crs')
 		{

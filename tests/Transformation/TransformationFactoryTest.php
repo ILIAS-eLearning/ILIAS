@@ -32,20 +32,4 @@ class TransformationFactoryTest extends PHPUnit_Framework_TestCase {
 		$custom = $this->f->custom(function() {});
 		$this->assertInstanceOf(Transformation\Transformation::class, $custom);
 	}
-
-	public function testToData() {
-		$data = $this->f->toData('password');
-		$this->assertInstanceOf(Transformation\Transformation::class, $data);
-	}
-
-	public function testToDataWrongType() {
-		try	{
-			$data = $this->f->toData('no_such_type');
-			$this->assertFalse("This should not happen");
-		}
-		catch(\InvalidArgumentException $e){
-			$this->assertTrue(true);
-		}
-	}
-
 }

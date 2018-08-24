@@ -168,9 +168,7 @@ abstract class ilDidacticTemplateFilterPattern
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'UPDATE didactic_tpl_fp '.
 			'SET '.
@@ -191,9 +189,7 @@ abstract class ilDidacticTemplateFilterPattern
 	 */
 	public function save()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->setPatternId($ilDB->nextId('didactic_tpl_fp'));
 		$query = 'INSERT INTO didactic_tpl_fp (pattern_id,pattern_type,pattern_sub_type,pattern,parent_id,parent_type) '.
@@ -216,9 +212,7 @@ abstract class ilDidacticTemplateFilterPattern
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'DELETE FROM didactic_tpl_fp '.
 			'WHERE pattern_id = '.$ilDB->quote($this->getPatternId(),'integer');
@@ -242,9 +236,7 @@ abstract class ilDidacticTemplateFilterPattern
 	 */
 	protected function read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT * FROM didactic_tpl_fp '.
 			'WHERE pattern_id = '.$ilDB->quote($this->getPatternId(),'integer');

@@ -140,9 +140,7 @@ class ilLPXmlWriter extends ilXmlWriter
 	 */
 	function addLPInformation()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->xmlStartTag('LPData', array());
 		

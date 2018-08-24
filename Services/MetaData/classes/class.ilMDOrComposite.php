@@ -41,9 +41,7 @@ class ilMDOrComposite extends ilMDRequirement
 	}
 	function getOrCompositeId()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$this->or_composite_id)
 		{
@@ -147,9 +145,7 @@ class ilMDOrComposite extends ilMDRequirement
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT DISTINCT(or_composite_id) or_composite_id FROM il_meta_requirement ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".

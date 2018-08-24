@@ -69,7 +69,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
 			{
 				include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
 				$details = new ilECSEContentDetails();
-				$GLOBALS['DIC']['ilLog']->write(print_r($res,true));
+				$GLOBALS['ilLog']->write(print_r($res,true));
 				$details->loadFromJson($ecs_result->getResult());
 				return $details;
 			}
@@ -93,9 +93,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
 	 */
 	public function addEnrolmentStatus(ilECSEnrolmentStatus $enrolment, $a_target_mid)
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$ilLog->write(__METHOD__.': Add new enrolment status');
 

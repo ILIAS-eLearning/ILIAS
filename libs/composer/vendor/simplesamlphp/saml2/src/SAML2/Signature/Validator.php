@@ -1,38 +1,30 @@
 <?php
 
-namespace SAML2\Signature;
-
-use Psr\Log\LoggerInterface;
-use SAML2\Certificate\FingerprintLoader;
-use SAML2\Certificate\KeyLoader;
-use SAML2\Configuration\CertificateProvider;
-use SAML2\SignedElement;
-
 /**
  * Signature Validator.
  */
-class Validator
+class SAML2_Signature_Validator
 {
     /**
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(\Psr\Log\LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
     public function hasValidSignature(
-        SignedElement $signedElement,
-        CertificateProvider $configuration
+        SAML2_SignedElement $signedElement,
+        SAML2_Configuration_CertificateProvider $configuration
     ) {
         // should be DI
-        $validator = new ValidatorChain(
+        $validator = new SAML2_Signature_ValidatorChain(
             $this->logger,
             array(
-                new PublicKeyValidator($this->logger, new KeyLoader()),
-                new FingerprintValidator($this->logger, new FingerprintLoader())
+                new SAML2_Signature_PublicKeyValidator($this->logger, new SAML2_Certificate_KeyLoader()),
+                new SAML2_Signature_FingerprintValidator($this->logger, new SAML2_Certificate_FingerprintLoader())
             )
         );
 

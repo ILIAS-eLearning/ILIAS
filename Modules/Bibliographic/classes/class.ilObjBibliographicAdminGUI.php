@@ -1,5 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+include_once('./Services/Object/classes/class.ilObjectGUI.php');
+include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php');
+include_once('./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php');
+include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesGUI.php');
+include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php');
 
 /**
  * Bibliographic Administration Settings.
@@ -9,27 +14,20 @@
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblLibraryGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminRisFieldGUI, ilBiblAdminBibtexFieldGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilObjBibliographicAdminAttributeOrderGUI
+ *
+ * @ingroup      ModulesBibliographic
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
-	const TAB_FIELDS = 'fields';
-	const TAB_SETTINGS = 'settings';
-	const CMD_DEFAULT = 'view';
 	/**
-	 * @var string this is the ILIAS-type, not the Bib-type
+	 * @var string
 	 */
 	protected $type = 'bibs';
 	/**
-	 * @var ilObjBibliographicAdmin
+	 * @var ilTabsGUI
 	 */
-	public $object;
-	/**
-	 * @var \ilBiblAdminFactoryFacadeInterface
-	 */
-	protected $facade;
+	protected $tabs_gui;
 
 
 	/**
@@ -43,8 +41,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 * @throws \ilObjectException
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
-		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'bibs';
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('bibl');
 		// Check Permissions globally for all SubGUIs. We check read-permission first
 		$this->checkPermission('read');
@@ -52,7 +50,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 
 	/**
-	 * @return bool|void$
+	 * @return bool|void
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
@@ -60,36 +58,17 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		switch ($next_class) {
 			case 'ilpermissiongui':
 				$this->prepareOutput();
-				$this->tabs_gui->activateTab('perm_settings');
+				$this->tabs_gui->setTabActive('perm_settings');
+				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
-			case strtolower(ilBiblLibraryGUI::class):
-				$this->prepareOutput();
-				$this->tabs_gui->activateTab(self::TAB_SETTINGS);
-				$f = new ilBiblAdminLibraryFacade($this->object);
-				$this->ctrl->forwardCommand(new ilBiblLibraryGUI($f));
-				break;
-			case strtolower(ilBiblAdminRisFieldGUI::class):
-				$this->prepareOutput();
-				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-				$this->ctrl->forwardCommand(new ilBiblAdminRisFieldGUI(new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_RIS)));
-				break;
-			case strtolower(ilBiblAdminBibtexFieldGUI::class):
-				$this->prepareOutput();
-				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-				$this->ctrl->forwardCommand(new ilBiblAdminBibtexFieldGUI(new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX)));
-				break;
 			default:
-				$cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
-				$this->{$cmd}();
+				$this->prepareOutput();
+				$ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
+				$this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
 				break;
 		}
-	}
-
-
-	protected function view() {
-		$this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
 	}
 
 
@@ -99,18 +78,12 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
-		if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
-			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'), $this->ctrl->getLinkTargetByClass(array(
-				ilObjBibliographicAdminGUI::class,
-				ilBiblAdminRisFieldGUI::class,
-			), ilBiblAdminRisFieldGUI::CMD_STANDARD));
-		}
 
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-			$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array(
-				ilObjBibliographicAdminGUI::class,
-				ilBiblLibraryGUI::class,
-			), ilBiblLibraryGUI::CMD_INDEX));
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
+				'ilObjBibliographicAdminGUI',
+				'ilObjBibliographicAdminLibrariesGUI',
+			), 'view'));
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');

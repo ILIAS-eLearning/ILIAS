@@ -65,12 +65,7 @@ class ilSearchResult
 	*/
 	function __construct($a_user_id = 0)
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+		global $ilias,$ilAccess,$ilDB,$ilUser;
 
 		$this->ilAccess = $ilAccess;
 		if($a_user_id)
@@ -371,9 +366,7 @@ class ilSearchResult
 	 */
 	public function filter($a_root_node,$check_and)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		// get ref_ids and check access
 		$counter = 0;
@@ -471,9 +464,7 @@ class ilSearchResult
 	 */
 	function filterResults($a_root_node)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$tmp_results = $this->getResults();
 		$this->results = array();

@@ -44,9 +44,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('webr');
 		foreach($this->getSubItemIds(true) as $sub_item)

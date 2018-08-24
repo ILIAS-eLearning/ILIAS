@@ -1,12 +1,10 @@
 <?php
 
-namespace SAML2\Compat;
-
-abstract class AbstractContainer
+abstract class SAML2_Compat_AbstractContainer
 {
     /**
      * Get a PSR-3 compatible logger.
-     * @return \Psr\Log\LoggerInterface
+     * @return Psr\Log\LoggerInterface
      */
     abstract public function getLogger();
 

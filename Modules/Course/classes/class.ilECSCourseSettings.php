@@ -21,9 +21,7 @@ class ilECSCourseSettings extends ilECSObjectSettings
 	
 	protected function buildJson(ilECSSetting $a_server) 
 	{	
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$json = $this->getJsonCore('application/ecs-course');
 		

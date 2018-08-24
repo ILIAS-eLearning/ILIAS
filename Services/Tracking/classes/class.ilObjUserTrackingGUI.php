@@ -24,11 +24,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $DIC;
-
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $tpl,$lng,$ilCtrl;
 
 		$this->type = "trac";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
@@ -387,9 +383,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	
 	protected function initLPDefaultsForm()
 	{	
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -453,9 +447,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	
 	protected function saveLPDefaultsObject()
 	{		
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		$this->checkPermission('write');
 		

@@ -14,22 +14,38 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 
 /**
- * This implements the checkbox input, note that this uses GroupHelper to manage potentially
+ * This implements the checkbox input, note that this extends group to manage potential
  * attached dependant groups.
  */
-class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
+class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 
 	use JavaScriptBindable;
 	use Triggerer;
-	use DependantGroupHelper;
+	/**
+	 * @var C\Input\Field\DependantGroup|null
+	 */
+	protected $dependant_group = null;
 
 
 	/**
-	 * @inheritdoc
+	 * Checkbox constructor.
+	 *
+	 * @param DataFactory           $data_factory
+	 * @param ValidationFactory     $validation_factory
+	 * @param TransformationFactory $transformation_factory
+	 * @param                       $label
+	 * @param                       $byline
 	 */
-	protected function getConstraintForRequirement() {
-		return null;
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, [], $label, $byline);
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -81,4 +97,65 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 		return $clone;
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group) {
+		$clone = clone $this;
+		/**
+		 * @var $clone           Checkbox
+		 * @var $dependant_group DependantGroup
+		 */
+		$clone = $clone->withOnChange($dependant_group->getToggleSignal());
+		$clone = $clone->appendOnLoad($dependant_group->getInitSignal());
+
+		$clone->inputs["dependant_group"] = $dependant_group;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @return C\Input\Field\DependantGroup|null
+	 */
+	public function getDependantGroup() {
+		if (is_array($this->inputs)) {
+			return $this->inputs["dependant_group"];
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnChange(C\Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'change');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnChange(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'change');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnLoad(C\Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'load');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnLoad(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'load');
+	}
 }

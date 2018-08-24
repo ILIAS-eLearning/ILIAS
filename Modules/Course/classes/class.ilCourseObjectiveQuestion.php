@@ -49,9 +49,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public function __construct($a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->db = $ilDB;
 	
@@ -70,9 +68,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public static function lookupObjectivesOfQuestion($a_qid)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT objective_id FROM crs_objective_qst '.
 				'WHERE question_id = '.$ilDB->quote($a_qid,'integer');
@@ -97,9 +93,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public static function _isTestAssignedToObjective($a_test_id,$a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT qst_ass_id FROM crs_objective_qst ".
 			"WHERE ref_id = ".$ilDB->quote($a_test_id ,'integer')." ".
@@ -119,11 +113,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public function cloneDependencies($a_new_objective,$a_copy_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilLog = $DIC['ilLog'];
-		$ilDB = $DIC['ilDB'];
+		global $ilObjDataCache,$ilLog,$ilDB;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -192,9 +182,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public static function _getAssignableTests($a_container_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		
 		return $tree->getSubTree($tree->getNodeData($a_container_ref_id),true,'tst');
 	}
@@ -218,9 +206,7 @@ class ilCourseObjectiveQuestion
 	}
 	function __addTest()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
 			"SET tst_status = ".$this->db->quote($this->getTestStatus() ,'integer')." ".
@@ -270,9 +256,7 @@ class ilCourseObjectiveQuestion
 
 	function __deleteTest($a_test_ref_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// Delete questions
 		$query = "DELETE FROM crs_objective_qst ".
@@ -303,9 +287,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public static function _updateTestLimits($a_objective_id,$a_status,$a_limit)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
 			"SET tst_limit_p = ".$ilDB->quote($a_limit ,'integer')." ".
@@ -317,9 +299,7 @@ class ilCourseObjectiveQuestion
 
 	function updateTest($a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
 			"SET tst_status = ".$ilDB->quote($this->getTestStatus() ,'integer').", ".
@@ -332,9 +312,7 @@ class ilCourseObjectiveQuestion
 
 	function getTests()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM crs_objective_tst cot ".
 			"JOIN object_data obd ON cot.obj_id = obd.obj_id ".
@@ -397,9 +375,7 @@ class ilCourseObjectiveQuestion
 	
 	public static function _getTest($a_test_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT * FROM crs_objective_tst ".
 			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id ,'integer')." ";
@@ -676,9 +652,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public function updateLimits()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		foreach($this->tests as $ref_id => $test_data)
 		{
@@ -715,9 +689,7 @@ class ilCourseObjectiveQuestion
 
 	function add()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_objective_qst ".
 			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
@@ -743,9 +715,7 @@ class ilCourseObjectiveQuestion
 	}
 	function delete($qst_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if(!$qst_id)
 		{
@@ -784,9 +754,7 @@ class ilCourseObjectiveQuestion
 	// begin-patch lok
 	public static function deleteTest($a_tst_ref_id) 
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'DELETE FROM crs_objective_tst '.
 				'WHERE ref_id = '.$ilDB->quote($a_tst_ref_id,'integer');
@@ -800,9 +768,7 @@ class ilCourseObjectiveQuestion
 	
 	public function deleteByTestType($a_type)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		
 		// Read tests by type
@@ -833,9 +799,7 @@ class ilCourseObjectiveQuestion
 
 	function deleteAll()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "DELETE FROM crs_objective_qst ".
 			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
@@ -852,10 +816,7 @@ class ilCourseObjectiveQuestion
 	// PRIVATE
 	function __read()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$tree = $DIC['tree'];
+		global $ilDB,$tree;
 		
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
@@ -921,9 +882,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public static function _hasTests($a_course_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT co.objective_id FROM crs_objectives co JOIN ".
 			"crs_objective_tst cot ON co.objective_id = cot.objective_id ".
@@ -935,9 +894,7 @@ class ilCourseObjectiveQuestion
 	
 	static function _isAssigned($a_objective_id,$a_tst_ref_id,$a_question_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = "SELECT crs_qst.objective_id objective_id FROM crs_objective_qst crs_qst, crs_objectives crs_obj ".
 			"WHERE crs_qst.objective_id = crs_obj.objective_id ".
@@ -957,9 +914,7 @@ class ilCourseObjectiveQuestion
 	// begin-patch lok
 	public static function lookupQuestionsByObjective($a_test_id, $a_objective)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT question_id FROM crs_objective_qst '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective,'integer').' '.
@@ -976,9 +931,7 @@ class ilCourseObjectiveQuestion
 	
 	public static function loookupTestLimit($a_test_id, $a_objective_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT tst_limit_p FROM crs_objective_tst '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.

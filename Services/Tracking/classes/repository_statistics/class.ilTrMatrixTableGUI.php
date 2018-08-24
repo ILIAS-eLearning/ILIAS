@@ -28,13 +28,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
-		$ilUser = $DIC['ilUser'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilCtrl, $lng, $tree, $ilUser, $rbacsystem;
 
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
@@ -137,9 +131,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function initFilter()
     {
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
 		$this->filter["name"] = $item->getValue();
@@ -154,10 +146,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function getSelectableColumns()
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$rbacsystem = $DIC['rbacsystem'];
+		global $ilObjDataCache, $rbacsystem;
 		
 		$user_cols = $this->getSelectableUserColumns($this->in_course, $this->in_group);
 		
@@ -444,9 +433,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function fillRow($a_set)
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 				
 		if($this->has_multi)
 		{
@@ -563,9 +550,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		$a_excel->setCell($a_row, 0, $this->lng->txt("login"));
 
@@ -644,9 +629,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	protected function fillHeaderCSV($a_csv)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		$a_csv->addColumn($this->lng->txt("login"));
 

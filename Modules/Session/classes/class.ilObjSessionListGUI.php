@@ -44,9 +44,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		$lng->loadLanguageModule('crs');
 		$lng->loadLanguageModule('sess');
@@ -104,9 +102,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	*/
 	public function getCommandLink($a_cmd)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		// separate method for this line
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
@@ -264,9 +260,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	 */
 	protected static function lookupAssignedMaterials($a_sess_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = 'SELECT * FROM event_items ei '.
 				'JOIN tree ON item_id = child '.

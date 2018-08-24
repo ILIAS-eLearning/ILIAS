@@ -50,11 +50,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function __construct(ilECSSetting $set,$a_parent_obj,$a_parent_cmd,$cid)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
-	 	$ilAccess = $DIC['ilAccess'];
+	 	global $lng,$ilCtrl, $ilAccess;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -101,10 +97,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
+		global $ilCtrl, $ilAccess;
 
 		$this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
 		$this->tpl->setVariable('M_ID', $a_set['mid']);

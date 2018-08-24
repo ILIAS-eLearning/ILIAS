@@ -33,9 +33,7 @@ class ilLOMemberTestResultGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -94,7 +92,7 @@ class ilLOMemberTestResultGUI
 		$result_table->init();
 		$result_table->parse();
 		
-		$GLOBALS['DIC']['tpl']->setContent($result_table->getHTML());
+		$GLOBALS['tpl']->setContent($result_table->getHTML());
 	}
 	
 	/**

@@ -25,9 +25,8 @@ package de.ilias.services.lucene.index;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 
 /**
  * Thread local singleton
@@ -37,6 +36,7 @@ import org.apache.lucene.document.TextField;
  */
 public class DocumentHolder {
 
+	
 	protected static Logger logger = Logger.getLogger(DocumentHolder.class);
 	
 	private static ThreadLocal<DocumentHolder> thDocumentHolder = new ThreadLocal<DocumentHolder>() {
@@ -81,7 +81,7 @@ public class DocumentHolder {
 	 */
 	public Document newGlobalDocument() {
 		globalDoc = new Document();
-		globalDoc.add(new StringField("docType","combined",Field.Store.YES));
+		globalDoc.add(new Field("docType","combined",Store.YES,Field.Index.NOT_ANALYZED));
 		return globalDoc;
 	}
 	
@@ -91,8 +91,7 @@ public class DocumentHolder {
 	 */
 	public Document newDocument() {
 		doc = new Document();
-		// new string fields are in contrast to TextFields not analyzed. Ensure STORE.YES
-		doc.add(new StringField("docType", "separated", Field.Store.YES));
+		doc.add(new Field("docType","separated",Store.YES,Field.Index.NOT_ANALYZED));
 		return doc;
 	}
 	
@@ -113,25 +112,18 @@ public class DocumentHolder {
 	}
 	
 	/**
-	 * @param String name
-	 * @param String value
-	 * @param Field.Store store
-	 * @param boolean index
+	 * 
+	 * @param name
+	 * @param value
+	 * @param store
+	 * @param index
 	 */
-	public void add(String name, String value,boolean isGlobal,Field.Store store, boolean indexed) {
+	public void add(String name, String value,boolean isGlobal,Store store,Index index) {
 		
-		if(indexed) {
-			getDocument().add(new TextField(name, value, store));
-		} else {
-			getDocument().add(new StringField(name, value, store));
-		}
+		getDocument().add(new Field(name,value,store,index));
 		
 		if(isGlobal) {
-			if(indexed) {
-				getGlobalDocument().add(new TextField(name, value, store));
-			} else {
-				getGlobalDocument().add(new StringField(name, value, store));
-			}
+			getGlobalDocument().add(new Field(name,value,store,index));
 		}
 		return;
 	}

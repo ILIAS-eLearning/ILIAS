@@ -14,7 +14,7 @@ class ilFileLP extends ilObjectLP
 	{		
 		return array(
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_CONTENT_VISITED
+			ilLPObjSettings::LP_MODE_DOWNLOADED
 		);		
 	}
 	
@@ -27,7 +27,7 @@ class ilFileLP extends ilObjectLP
 	{
 		return array(
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_CONTENT_VISITED
+			ilLPObjSettings::LP_MODE_DOWNLOADED
 		);
 	}
 }

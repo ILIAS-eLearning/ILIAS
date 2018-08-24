@@ -32,9 +32,7 @@ class ilADTActiveRecord
 	 */
 	public function read()
 	{		
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		// reset all group elements
 		$this->properties->getADT()->reset();
@@ -56,9 +54,7 @@ class ilADTActiveRecord
 	 */
 	public function create()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 			
 		$fields = $this->properties->getPrimary();
 		$this->properties->prepareInsert($fields);	
@@ -74,9 +70,7 @@ class ilADTActiveRecord
 	 */
 	public function update()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 				
 		$fields = array();
 		$this->properties->prepareUpdate($fields);	
@@ -93,9 +87,7 @@ class ilADTActiveRecord
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 			
 		$ilDB->manipulate("DELETE FROM ".$this->properties->getTable().
 			" WHERE ".$this->properties->buildPrimaryWhere());

@@ -56,9 +56,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	*/
 	function __construct($group_obj)
 	{
-		global $DIC;
-
-		$ilias = $DIC['ilias'];
+		global $ilias;
 
 		parent::__construct();
 

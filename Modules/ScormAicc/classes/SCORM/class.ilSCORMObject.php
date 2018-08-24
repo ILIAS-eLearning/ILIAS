@@ -186,7 +186,7 @@ class ilSCORMObject
 	*
 	* static
 	*/
-	static function &_getInstance($a_id, $a_slm_id)
+	function &_getInstance($a_id, $a_slm_id)
 	{
 		global $ilDB;
 

@@ -39,9 +39,7 @@ class ilLikeForumSearch extends ilForumSearch
 
 	function __createPostAndCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		/*
 		$concat  = " CONCAT(";
@@ -70,9 +68,7 @@ class ilLikeForumSearch extends ilForumSearch
 
 	function __createTopicAndCondition()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$field = 'thr_subject ';
 		$and = " AND( ";

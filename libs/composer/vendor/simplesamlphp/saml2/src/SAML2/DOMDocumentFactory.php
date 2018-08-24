@@ -1,12 +1,6 @@
 <?php
 
-namespace SAML2;
-
-use SAML2\Exception\InvalidArgumentException;
-use SAML2\Exception\RuntimeException;
-use SAML2\Exception\UnparseableXmlException;
-
-final class DOMDocumentFactory
+final class SAML2_DOMDocumentFactory
 {
     private function __construct()
     {
@@ -15,16 +9,16 @@ final class DOMDocumentFactory
     /**
      * @param string $xml
      *
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     public static function fromString($xml)
     {
         if (!is_string($xml) || trim($xml) === '') {
-            throw InvalidArgumentException::invalidType('non-empty string', $xml);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('non-empty string', $xml);
         }
 
-        $entityLoader   = libxml_disable_entity_loader(true);
-        $internalErrors = libxml_use_internal_errors(true);
+        $entityLoader   = libxml_disable_entity_loader(TRUE);
+        $internalErrors = libxml_use_internal_errors(TRUE);
         libxml_clear_errors();
 
         $domDocument = self::create();
@@ -42,14 +36,14 @@ final class DOMDocumentFactory
             $error = libxml_get_last_error();
             libxml_clear_errors();
 
-            throw new UnparseableXmlException($error);
+            throw new SAML2_Exception_UnparseableXmlException($error);
         }
 
         libxml_clear_errors();
 
         foreach ($domDocument->childNodes as $child) {
             if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new RuntimeException(
+                throw new SAML2_Exception_RuntimeException(
                     'Dangerous XML detected, DOCTYPE nodes are not allowed in the XML body'
                 );
             }
@@ -61,44 +55,44 @@ final class DOMDocumentFactory
     /**
      * @param $file
      *
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     public static function fromFile($file)
     {
         if (!is_string($file)) {
-            throw InvalidArgumentException::invalidType('string', $file);
+            throw SAML2_Exception_InvalidArgumentException::invalidType('string', $file);
         }
 
         if (!is_file($file)) {
-            throw new InvalidArgumentException(sprintf('Path "%s" is not a file', $file));
+            throw new SAML2_Exception_InvalidArgumentException(sprintf('Path "%s" is not a file', $file));
         }
 
         if (!is_readable($file)) {
-            throw new InvalidArgumentException(sprintf('File "%s" is not readable', $file));
+            throw new SAML2_Exception_InvalidArgumentException(sprintf('File "%s" is not readable', $file));
         }
 
-        // libxml_disable_entity_loader(true) disables \DOMDocument::load() method
-        // so we need to read the content and use \DOMDocument::loadXML()
+        // libxml_disable_entity_loader(true) disables DOMDocument::load() method
+        // so we need to read the content and use DOMDocument::loadXML()
         $xml = file_get_contents($file);
-        if ($xml === false) {
-            throw new RuntimeException(sprintf(
+        if ($xml === FALSE) {
+            throw new SAML2_Exception_RuntimeException(sprintf(
                 'Contents of readable file "%s" could not be gotten',
                 $file
             ));
         }
 
         if (trim($xml) === '') {
-            throw new RuntimeException(sprintf('File "%s" does not have content', $file));
+            throw new SAML2_Exception_RuntimeException(sprintf('File "%s" does not have content', $file));
         }
 
         return static::fromString($xml);
     }
 
     /**
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     public static function create()
     {
-        return new \DOMDocument();
+        return new DOMDocument();
     }
 }

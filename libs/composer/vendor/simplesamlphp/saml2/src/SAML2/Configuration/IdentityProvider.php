@@ -1,14 +1,12 @@
 <?php
 
-namespace SAML2\Configuration;
-
 /**
  * Basic configuration wrapper
  */
-class IdentityProvider extends ArrayAdapter implements
-    CertificateProvider,
-    DecryptionProvider,
-    EntityIdProvider
+class SAML2_Configuration_IdentityProvider extends SAML2_Configuration_ArrayAdapter implements
+    SAML2_Configuration_CertificateProvider,
+    SAML2_Configuration_DecryptionProvider,
+    SAML2_Configuration_EntityIdProvider
 {
     public function getKeys()
     {
@@ -25,9 +23,6 @@ class IdentityProvider extends ArrayAdapter implements
         return $this->get('certificateFile');
     }
 
-    /**
-     * @deprecated Please use getCertifiateFile() or getCertificateData()
-     */
     public function getCertificateFingerprints()
     {
         return $this->get('certificateFingerprints');
@@ -48,10 +43,10 @@ class IdentityProvider extends ArrayAdapter implements
         return $this->get('base64EncodedAttributes');
     }
 
-    public function getPrivateKey($name, $required = false)
+    public function getPrivateKey($name, $required = FALSE)
     {
         $privateKeys = $this->get('privateKeys');
-        $key = array_filter($privateKeys, function (PrivateKey $key) use ($name) {
+        $key = array_filter($privateKeys, function (SAML2_Configuration_PrivateKey $key) use ($name) {
             return $key->getName() === $name;
         });
 
@@ -66,7 +61,7 @@ class IdentityProvider extends ArrayAdapter implements
         }
 
         if (!$keyCount) {
-            return null;
+            return NULL;
         }
 
         return array_pop($key);

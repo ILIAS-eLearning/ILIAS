@@ -36,9 +36,7 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
 	
 	function getProperties()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 		
 		return array(
 			array("alert" => false, "property" => $lng->txt("type"),

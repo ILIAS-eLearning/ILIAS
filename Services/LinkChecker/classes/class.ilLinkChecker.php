@@ -22,9 +22,7 @@ class ilLinkChecker
 
 	public function __construct($db,$a_validate_all = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		define('DEBUG',1);
 		define('SOCKET_TIMEOUT',5);
@@ -91,9 +89,7 @@ class ilLinkChecker
 
 	function getInvalidLinksFromDB()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM link_check ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer')." ";
@@ -110,9 +106,7 @@ class ilLinkChecker
 
 	function getLastCheckTimestamp()
 	{
-		global $DIC;		
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;		
 		
 		if($this->getValidateAll())
 		{
@@ -157,9 +151,7 @@ class ilLinkChecker
 	
 	function checkLinks()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$pages = array();
 
@@ -226,9 +218,7 @@ class ilLinkChecker
 	// PRIVATE
 	function __txt($language,$key,$module = 'common')
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		return ilLanguage::_lookupEntry($language, $module, $key);
@@ -236,9 +226,7 @@ class ilLinkChecker
 
 	function __fetchUserData($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$r = $this->db->query("SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote($a_usr_id));
 
@@ -259,9 +247,7 @@ class ilLinkChecker
 
 	function __getTitle($a_lm_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$r = $this->db->query("SELECT title FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id ,'integer')." ");
@@ -273,9 +259,7 @@ class ilLinkChecker
 
 	function __sendMail()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 
 
 		if(!count($notify = $this->__getNotifyLinks()))
@@ -357,9 +341,7 @@ class ilLinkChecker
 	 */
 	protected function createPermanentLink($a_obj_id, $a_usr_id, $a_obj_type)
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
+		global $ilAccess;
 		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = null;
 
@@ -442,9 +424,7 @@ class ilLinkChecker
 
 	function __getWebResourceLinks()
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 		
 		include_once 'Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
@@ -509,9 +489,7 @@ class ilLinkChecker
 	 */
 	function __validateLinks($a_links)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 		include_once('./Services/Logging/classes/public/class.ilLoggerFactory.php');
 		include_once('./Services/WebServices/Curl/classes/class.ilCurlConnection.php');
 		if(!ilCurlConnection::_isCurlExtensionLoaded())
@@ -621,9 +599,7 @@ class ilLinkChecker
 
 	function __saveInDB()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getMailStatus())
 		{
@@ -652,9 +628,7 @@ class ilLinkChecker
 
 	function __checkNotify()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		foreach($this->getInvalidLinks() as $link)
 		{
@@ -674,9 +648,7 @@ class ilLinkChecker
 
 	function __clearDBData()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		if($this->getValidateAll())
 		{

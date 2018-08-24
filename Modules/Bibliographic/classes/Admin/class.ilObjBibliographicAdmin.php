@@ -11,6 +11,7 @@
  * @ingroup ModulesBibliographic
  */
 class ilObjBibliographicAdmin extends ilObject {
+
 	/**
 	 * Constructor
 	 *

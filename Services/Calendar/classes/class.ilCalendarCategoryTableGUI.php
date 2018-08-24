@@ -45,11 +45,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, ilDateTime $seed = null)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
-	 	$ilUser = $DIC['ilUser'];
+	 	global $lng,$ilCtrl,$ilUser;
 
 	 	// this should be deprecated
 	 	die("ilCalendarCategoryTableGUI::_construct");
@@ -156,10 +152,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tree = $DIC['tree'];
+		global $ilUser,$tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
@@ -217,9 +210,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	
 	protected function buildPath($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$path_arr = $tree->getPathFull($a_ref_id,ROOT_FOLDER_ID);
 		$counter = 0;

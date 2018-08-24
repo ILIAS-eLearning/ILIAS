@@ -22,9 +22,7 @@ class ilECSCmsTree extends ilTree
 
 	public function insertRootNode($tree, $a_child)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'INSERT INTO ecs_cms_tree '.
 			'(tree,child,parent,lft,rgt,depth) '.
@@ -47,9 +45,7 @@ class ilECSCmsTree extends ilTree
 	 */
 	public static function deleteByTreeId($a_tree_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$GLOBALS['DIC']->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
 		$query = 'DELETE FROM ecs_cms_tree '.
@@ -64,9 +60,7 @@ class ilECSCmsTree extends ilTree
 	 */
 	public function treeExists($a_tree_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = '.$ilDB->quote($a_tree_id,'integer');
 		$res = $ilDB->query($query);
@@ -83,9 +77,7 @@ class ilECSCmsTree extends ilTree
 	 */
 	public static function lookupRootId($a_tree_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$query = 'SELECT child FROM ecs_cms_tree WHERE tree = '.$ilDB->quote($a_tree_id,'integer');
 		$res = $ilDB->query($query);

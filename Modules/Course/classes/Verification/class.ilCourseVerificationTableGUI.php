@@ -19,9 +19,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -43,9 +41,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function getItems()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		$data = array();
 
@@ -86,9 +82,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :

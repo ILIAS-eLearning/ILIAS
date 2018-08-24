@@ -62,10 +62,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
+		global $ilCtrl,$tpl;
 
 		$this->ctrl->saveParameter($this,'seed');
 
@@ -338,9 +335,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null, $morning_aggr, $evening_aggr)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$this->raster)
 		{
@@ -480,9 +475,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	protected function calculateColspans($hours)
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
+		global $ilUser;
 		
 		foreach($hours as $hour_num => $hours_per_day)
 		{

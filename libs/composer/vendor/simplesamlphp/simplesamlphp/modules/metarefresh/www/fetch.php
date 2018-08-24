@@ -5,14 +5,14 @@ $mconfig = SimpleSAML_Configuration::getOptionalConfig('config-metarefresh.php')
 
 SimpleSAML\Utils\Auth::requireAdmin();
 
-SimpleSAML\Logger::setCaptureLog(TRUE);
+SimpleSAML_Logger::setCaptureLog(TRUE);
 
 
 $sets = $mconfig->getConfigList('sets', array());
 
 foreach ($sets AS $setkey => $set) {
 
-	SimpleSAML\Logger::info('[metarefresh]: Executing set [' . $setkey . ']');
+	SimpleSAML_Logger::info('[metarefresh]: Executing set [' . $setkey . ']');
 
 	try {
 		
@@ -63,7 +63,7 @@ foreach ($sets AS $setkey => $set) {
 				$source['whitelist'] = $whitelist;
 			}
 
-			SimpleSAML\Logger::debug('[metarefresh]: In set [' . $setkey . '] loading source ['  . $source['src'] . ']');
+			SimpleSAML_Logger::debug('[metarefresh]: In set [' . $setkey . '] loading source ['  . $source['src'] . ']');
 			$metaloader->loadSource($source);
 		}
 
@@ -87,7 +87,7 @@ foreach ($sets AS $setkey => $set) {
 
 }
 
-$logentries = SimpleSAML\Logger::getCapturedLog();
+$logentries = SimpleSAML_Logger::getCapturedLog();
 
 $t = new SimpleSAML_XHTML_Template($config, 'metarefresh:fetch.tpl.php');
 $t->data['logentries'] = $logentries;

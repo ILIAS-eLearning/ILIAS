@@ -1,6 +1,8 @@
 <?php
 namespace ILIAS\UI\Implementation\Component;
 
+use ILIAS\UI\Component\Signal;
+
 /**
  * Interface SignalGeneratorInterface
  *

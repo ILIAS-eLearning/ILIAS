@@ -1,7 +1,5 @@
 <?php
 
-namespace SAML2;
-
 /**
  * Class for SAML 2 attribute query messages.
  *
@@ -17,7 +15,7 @@ namespace SAML2;
  *
  * @package SimpleSAMLphp
  */
-class AttributeQuery extends SubjectQuery
+class SAML2_AttributeQuery extends SAML2_SubjectQuery
 {
     /**
      * The attributes, as an associative array.
@@ -39,40 +37,40 @@ class AttributeQuery extends SubjectQuery
     /**
      * Constructor for SAML 2 attribute query messages.
      *
-     * @param \DOMElement|null $xml The input message.
-     * @throws \Exception
+     * @param DOMElement|NULL $xml The input message.
+     * @throws Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
         parent::__construct('AttributeQuery', $xml);
 
         $this->attributes = array();
-        $this->nameFormat = Constants::NAMEFORMAT_UNSPECIFIED;
+        $this->nameFormat = SAML2_Const::NAMEFORMAT_UNSPECIFIED;
 
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
-        $firstAttribute = true;
-        $attributes = Utils::xpQuery($xml, './saml_assertion:Attribute');
+        $firstAttribute = TRUE;
+        $attributes = SAML2_Utils::xpQuery($xml, './saml_assertion:Attribute');
         foreach ($attributes as $attribute) {
             if (!$attribute->hasAttribute('Name')) {
-                throw new \Exception('Missing name on <saml:Attribute> element.');
+                throw new Exception('Missing name on <saml:Attribute> element.');
             }
             $name = $attribute->getAttribute('Name');
 
             if ($attribute->hasAttribute('NameFormat')) {
                 $nameFormat = $attribute->getAttribute('NameFormat');
             } else {
-                $nameFormat = Constants::NAMEFORMAT_UNSPECIFIED;
+                $nameFormat = SAML2_Const::NAMEFORMAT_UNSPECIFIED;
             }
 
             if ($firstAttribute) {
                 $this->nameFormat = $nameFormat;
-                $firstAttribute = false;
+                $firstAttribute = FALSE;
             } else {
                 if ($this->nameFormat !== $nameFormat) {
-                    $this->nameFormat = Constants::NAMEFORMAT_UNSPECIFIED;
+                    $this->nameFormat = SAML2_Const::NAMEFORMAT_UNSPECIFIED;
                 }
             }
 
@@ -80,7 +78,7 @@ class AttributeQuery extends SubjectQuery
                 $this->attributes[$name] = array();
             }
 
-            $values = Utils::xpQuery($attribute, './saml_assertion:AttributeValue');
+            $values = SAML2_Utils::xpQuery($attribute, './saml_assertion:AttributeValue');
             foreach ($values as $value) {
                 $this->attributes[$name][] = trim($value->textContent);
             }
@@ -127,7 +125,7 @@ class AttributeQuery extends SubjectQuery
      */
     public function setAttributeNameFormat($nameFormat)
     {
-        assert(is_string($nameFormat));
+        assert('is_string($nameFormat)');
 
         $this->nameFormat = $nameFormat;
     }
@@ -135,18 +133,18 @@ class AttributeQuery extends SubjectQuery
     /**
      * Convert the attribute query message to an XML element.
      *
-     * @return \DOMElement This attribute query.
+     * @return DOMElement This attribute query.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 
         foreach ($this->attributes as $name => $values) {
-            $attribute = $root->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:Attribute');
+            $attribute = $root->ownerDocument->createElementNS(SAML2_Const::NS_SAML, 'saml:Attribute');
             $root->appendChild($attribute);
             $attribute->setAttribute('Name', $name);
 
-            if ($this->nameFormat !== Constants::NAMEFORMAT_UNSPECIFIED) {
+            if ($this->nameFormat !== SAML2_Const::NAMEFORMAT_UNSPECIFIED) {
                 $attribute->setAttribute('NameFormat', $this->nameFormat);
             }
 
@@ -156,16 +154,17 @@ class AttributeQuery extends SubjectQuery
                 } elseif (is_int($value)) {
                     $type = 'xs:integer';
                 } else {
-                    $type = null;
+                    $type = NULL;
                 }
 
-                $attributeValue = Utils::addString($attribute, Constants::NS_SAML, 'saml:AttributeValue', $value);
-                if ($type !== null) {
-                    $attributeValue->setAttributeNS(Constants::NS_XSI, 'xsi:type', $type);
+                $attributeValue = SAML2_Utils::addString($attribute, SAML2_Const::NS_SAML, 'saml:AttributeValue', $value);
+                if ($type !== NULL) {
+                    $attributeValue->setAttributeNS(SAML2_Const::NS_XSI, 'xsi:type', $type);
                 }
             }
         }
 
         return $root;
     }
+
 }

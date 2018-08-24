@@ -40,10 +40,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	function __construct($a_seed, $a_ref_id = 0)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+		global $ilCtrl, $lng;
 		
 		$this->lng = $lng;
 		parent::__construct();
@@ -114,9 +111,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	static function getScreenMode()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 		
 		return IL_SCREEN_SIDE;
 	}
@@ -126,9 +121,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -145,10 +138,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	public function getCalendars()
 	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$tree = $DIC['tree'];
+		global $ilUser,$tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
@@ -244,9 +234,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	protected function buildPath($a_ref_id)
 	{
-		global $DIC;
-
-		$tree = $DIC['tree'];
+		global $tree;
 
 		$path_arr = $tree->getPathFull($a_ref_id,ROOT_FOLDER_ID);
 		$counter = 0;
@@ -273,10 +261,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		global $lng, $ilCtrl;
 
 		$tpl = new ilTemplate("tpl.cal_selection_block_content.html", true, true, "Services/Calendar");
 
@@ -319,9 +304,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	protected function renderItem($a_set, $a_tpl)
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
+		global $ilCtrl;
 
 		if(strlen($a_set['path']))
 		{
@@ -397,13 +380,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	function getHTML()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilSetting = $DIC['ilSetting'];
+		global $ilCtrl, $lng, $ilUser, $ilAccess, $ilSetting;
 		
 		$this->getCalendars();
 		

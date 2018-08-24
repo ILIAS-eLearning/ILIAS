@@ -55,10 +55,7 @@ class ilECSTaskScheduler
 	 */
 	private function __construct(ilECSSetting $setting)
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
-	 	$ilLog = $DIC['ilLog'];
+	 	global $ilDB,$ilLog;
 	 	
 	 	$this->db = $ilDB;
 		
@@ -148,9 +145,7 @@ class ilECSTaskScheduler
 	 */
 	public function startTaskExecution()
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 
 		try
 		{
@@ -257,7 +252,7 @@ class ilECSTaskScheduler
 					$this->log->warning('Unknown type in queue, raising new event handling event: '. $event['type']);
 					$event_ignored = true;
 					
-					$GLOBALS['DIC']['ilAppEventHandler']->raise(
+					$GLOBALS['ilAppEventHandler']->raise(
 						'Services/WebServices/ECS',
 						'newEcsEvent',
 						array('event' => $event)
@@ -319,9 +314,7 @@ class ilECSTaskScheduler
 	 */
 	private function handleDeprecatedAccounts()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 	 	
 	 	$query = "SELECT usr_id FROM usr_data WHERE auth_mode = 'ecs' ".
 	 		"AND time_limit_until < ".time()." ".
@@ -381,9 +374,7 @@ class ilECSTaskScheduler
 	 */
 	public function checkNextExecution()
 	{
-	 	global $DIC;
-
-	 	$ilDB = $DIC['ilDB'];
+	 	global $ilDB;
 
 	 	
 	 	if(!$this->settings->isEnabled())
@@ -423,9 +414,7 @@ class ilECSTaskScheduler
 	 */
 	protected function initNextExecution()
 	{
-		global $DIC;
-
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 
 		// Start task execution as backend process
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';

@@ -48,10 +48,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_course_obj,$a_objective_id)
 	{
-	 	global $DIC;
-
-	 	$lng = $DIC['lng'];
-	 	$ilCtrl = $DIC['ilCtrl'];
+	 	global $lng,$ilCtrl;
 	 	
 	 	$this->objective_id = $a_objective_id;
 	 	$this->course_obj = $a_course_obj;
@@ -152,9 +149,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 	 */
 	public function parse($a_assignable)
 	{
-		global $DIC;
-
-		$objDefinition = $DIC['objDefinition'];
+		global $objDefinition;
 
 		$materials = array();
 		foreach($a_assignable as $node)

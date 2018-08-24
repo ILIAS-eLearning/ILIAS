@@ -54,9 +54,7 @@ class ilObjSession extends ilObject
 	*/
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
@@ -75,9 +73,7 @@ class ilObjSession extends ilObject
 	 */
 	public static function _lookupRegistrationEnabled($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT reg_type FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -96,9 +92,7 @@ class ilObjSession extends ilObject
 	 */
 	public static function lookupSession($a_obj_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 		
 		$query = "SELECT * FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
@@ -429,9 +423,7 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		global $ilErr;
 		
 		// #17114
 		if($this->isRegistrationUserLimitEnabled() &&
@@ -523,9 +515,7 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $DIC;
-
-		$ilObjDataCache = $DIC['ilObjDataCache'];
+		global $ilObjDataCache;
 		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 
@@ -547,12 +537,8 @@ class ilObjSession extends ilObject
 	 */
 	public function create($a_skip_meta_data = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $ilDB;
+		global $ilAppEventHandler;
 	
 		parent::create();
 		
@@ -601,12 +587,8 @@ class ilObjSession extends ilObject
 	 */
 	public function update($a_skip_meta_update = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $ilDB;
+		global $ilAppEventHandler;
 
 		if(!parent::update())
 		{
@@ -649,12 +631,8 @@ class ilObjSession extends ilObject
 	 */
 	public function delete()
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		global $DIC;
-
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		global $ilDB;
+		global $ilAppEventHandler;
 		
 		if(!parent::delete())
 		{
@@ -828,26 +806,17 @@ class ilObjSession extends ilObject
 			if(in_array($user_id, $parts->getParticipants()))
 			{
 				$this->session_logger->notice('User on waiting list already session member: ' . $user_id);
-				continue;
 			}
 			
 			if($this->enabledRegistration())
 			{
 				$this->session_logger->debug('Registration enabled: register user');
 				$parts->register($user_id);
-				$parts->sendNotification(
-					ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-					$user_id
-				);
 			}
 			else
 			{
 				$this->session_logger->debug('Registration disabled: set user status to participated.');
 				$parts->getEventParticipants()->updateParticipation($user_id, true);
-				$parts->sendNotification(
-					ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-					$user_id
-				);
 			}
 			
 			$session_waiting_list->removeFromList($user_id);

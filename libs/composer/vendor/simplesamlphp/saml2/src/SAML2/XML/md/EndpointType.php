@@ -1,15 +1,11 @@
 <?php
 
-namespace SAML2\XML\md;
-
-use SAML2\Constants;
-
 /**
  * Class representing SAML 2 EndpointType.
  *
  * @package SimpleSAMLphp
  */
-class EndpointType
+class SAML2_XML_md_EndpointType
 {
     /**
      * The binding for this endpoint.
@@ -28,9 +24,9 @@ class EndpointType
     /**
      * The URI where responses can be delivered.
      *
-     * @var string|null
+     * @var string|NULL
      */
-    public $ResponseLocation = null;
+    public $ResponseLocation = NULL;
 
     /**
      * Extra (namespace qualified) attributes.
@@ -42,22 +38,22 @@ class EndpointType
     /**
      * Initialize an EndpointType.
      *
-     * @param \DOMElement|null $xml The XML element we should load.
-     * @throws \Exception
+     * @param DOMElement|NULL $xml The XML element we should load.
+     * @throws Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = NULL)
     {
-        if ($xml === null) {
+        if ($xml === NULL) {
             return;
         }
 
         if (!$xml->hasAttribute('Binding')) {
-            throw new \Exception('Missing Binding on ' . $xml->tagName);
+            throw new Exception('Missing Binding on ' . $xml->tagName);
         }
         $this->Binding = $xml->getAttribute('Binding');
 
         if (!$xml->hasAttribute('Location')) {
-            throw new \Exception('Missing Location on ' . $xml->tagName);
+            throw new Exception('Missing Location on ' . $xml->tagName);
         }
         $this->Location = $xml->getAttribute('Location');
 
@@ -66,7 +62,7 @@ class EndpointType
         }
 
         foreach ($xml->attributes as $a) {
-            if ($a->namespaceURI === null) {
+            if ($a->namespaceURI === NULL) {
                 continue; /* Not namespace-qualified -- skip. */
             }
             $fullName = '{' . $a->namespaceURI . '}' . $a->localName;
@@ -83,12 +79,12 @@ class EndpointType
      *
      * @param  string  $namespaceURI The namespace URI.
      * @param  string  $localName    The local name.
-     * @return boolean true if the attribute exists, false if not.
+     * @return boolean TRUE if the attribute exists, FALSE if not.
      */
     public function hasAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        assert('is_string($namespaceURI)');
+        assert('is_string($localName)');
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
 
@@ -104,8 +100,8 @@ class EndpointType
      */
     public function getAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        assert('is_string($namespaceURI)');
+        assert('is_string($localName)');
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
         if (!isset($this->attributes[$fullName])) {
@@ -121,16 +117,16 @@ class EndpointType
      * @param string $namespaceURI  The namespace URI.
      * @param string $qualifiedName The local name.
      * @param string $value         The attribute value.
-     * @throws \Exception
+     * @throws Exception
      */
     public function setAttributeNS($namespaceURI, $qualifiedName, $value)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($qualifiedName));
+        assert('is_string($namespaceURI)');
+        assert('is_string($qualifiedName)');
 
         $name = explode(':', $qualifiedName, 2);
         if (count($name) < 2) {
-            throw new \Exception('Not a qualified name.');
+            throw new Exception('Not a qualified name.');
         }
         $localName = $name[1];
 
@@ -150,8 +146,8 @@ class EndpointType
      */
     public function removeAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        assert('is_string($namespaceURI)');
+        assert('is_string($localName)');
 
         $fullName = '{' . $namespaceURI . '}' . $localName;
         unset($this->attributes[$fullName]);
@@ -160,18 +156,18 @@ class EndpointType
     /**
      * Add this endpoint to an XML element.
      *
-     * @param \DOMElement $parent The element we should append this endpoint to.
+     * @param DOMElement $parent The element we should append this endpoint to.
      * @param string     $name   The name of the element we should create.
-     * @return \DOMElement
+     * @return DOMElement
      */
-    public function toXML(\DOMElement $parent, $name)
+    public function toXML(DOMElement $parent, $name)
     {
-        assert(is_string($name));
-        assert(is_string($this->Binding));
-        assert(is_string($this->Location));
-        assert(is_null($this->ResponseLocation) || is_string($this->ResponseLocation));
+        assert('is_string($name)');
+        assert('is_string($this->Binding)');
+        assert('is_string($this->Location)');
+        assert('is_null($this->ResponseLocation) || is_string($this->ResponseLocation)');
 
-        $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, $name);
+        $e = $parent->ownerDocument->createElementNS(SAML2_Const::NS_MD, $name);
         $parent->appendChild($e);
 
         $e->setAttribute('Binding', $this->Binding);
@@ -187,4 +183,5 @@ class EndpointType
 
         return $e;
     }
+
 }

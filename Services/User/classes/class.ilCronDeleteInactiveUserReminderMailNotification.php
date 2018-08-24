@@ -31,9 +31,7 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
 
 	public function send()
 	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
+		global $lng;
 
 		$additional_information = $this->getAdditionalInformation();
 
