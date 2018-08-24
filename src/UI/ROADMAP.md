@@ -49,14 +49,10 @@ We want to have examples on the main pages of some components family of the
 documentation displayed in ILIAS System Styles Section. E.g. there should
 also be examples on the "Buttons" Page for the complete Buttons family.
 
-
+### Abstraction for Actions (advanced, ~8h)
 Create an abstraction for Actions that could be used instead of stringy links.
-  It would be strongly related to ilCtrl and probably should be an ILIAS library.
+It would be strongly related to ilCtrl and probably should be an ILIAS library.
   
-### Automatic Less-Variables Extraction (Expert, ~2PD)
-Create a mechanism to wire less-files to delos.less that is more automatic than
-'do it manually'.
-
 ## Long Term
 
 ### All UI-Elements
@@ -72,6 +68,10 @@ hand the components need to use the UI-framework for their actual rendering.
   are confusing. Currently a valid sentence would be "the button triggers click on
   some registered signals". Being able to say something like "the button sends a
   click-signal to some registered receivers" seems to be more intelligible.
+  
+* Create a mechanism to wire less-files to delos.less that is more automatic than
+  'do it manually'.
+
 
 ## Usage
 
