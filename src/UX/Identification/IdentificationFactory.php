@@ -17,7 +17,7 @@
  * database and cache. you don't need to take care of storing this.
  *
  * Since you are passing some identifiers as a string such as 'personal_desktop'
- * the US-Services must take care after naming collisions. Therefore you always
+ * the UX-Services must take care after naming collisions. Therefore you always
  * pass your Provider (or even the Plugin-Class in case of Plugins) and the UX-
  * Services will use this information to generate unique identifications.
  *
