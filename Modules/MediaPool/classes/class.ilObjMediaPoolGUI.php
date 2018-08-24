@@ -717,7 +717,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function getTemplate()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 
 

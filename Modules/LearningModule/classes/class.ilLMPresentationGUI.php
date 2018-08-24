@@ -2863,7 +2863,7 @@ class ilLMPresentationGUI
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
 		//exit;
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->ilLocator(true);
 
 		$a_global_tabs = !$this->offlineMode();
@@ -2992,7 +2992,7 @@ class ilLMPresentationGUI
 			$this->tpl->setStyleSheetLocation("./".$style_name);
 		}
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
@@ -3108,7 +3108,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true,false, 0,
@@ -3959,7 +3959,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true,false, 0,

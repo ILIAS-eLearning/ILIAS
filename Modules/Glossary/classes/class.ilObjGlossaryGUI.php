@@ -1336,7 +1336,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function getTemplate()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		$title = $this->object->getTitle();
 

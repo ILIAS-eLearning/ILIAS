@@ -1877,7 +1877,12 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		}
 	}
 
-	public function getStandardTemplate()
+	/**
+	 * This loads the standard template "tpl.adm_content.html" and
+	 * "tpl.statusline.html" the CONTENT and STATUSLINE placeholders
+	 * if they are not already loaded.
+	 */
+	public function loadStandardTemplate()
 	{
 		if ($this->standard_template_loaded)
 		{

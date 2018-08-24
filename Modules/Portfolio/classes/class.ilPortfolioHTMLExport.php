@@ -204,7 +204,7 @@ class ilPortfolioHTMLExport
 		$ilTabs = $DIC->tabs();
 		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();		
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->addOnLoadCode('il.Tooltip.init();', 3);
 		
 		// js files

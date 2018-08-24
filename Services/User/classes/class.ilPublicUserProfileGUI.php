@@ -215,7 +215,7 @@ class ilPublicUserProfileGUI
 		$next_class = $ilCtrl->getNextClass($this);	
 		$cmd = $ilCtrl->getCmd();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		switch($next_class)
 		{	

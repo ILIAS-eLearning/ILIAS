@@ -21,7 +21,7 @@ class ilMyStaffGUI {
 		$this->lng()->loadLanguageModule('trac');
 
 		// get the standard template
-		$this->tpl()->getStandardTemplate();
+		$this->tpl()->loadStandardTemplate();
 		$this->tpl()->setTitle($this->lng()->txt('mst_my_staff'));
 	}
 

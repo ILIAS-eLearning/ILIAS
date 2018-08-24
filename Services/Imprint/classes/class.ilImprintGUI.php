@@ -124,7 +124,7 @@ class ilImprintGUI extends ilPageObjectGUI
 			ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
 		}
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		$this->setRawPageContent(true);
 		$html = $this->showPage();

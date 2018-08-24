@@ -224,7 +224,7 @@ class ilWikiHTMLExport
 		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$file = $this->export_dir."/wpg_".$a_page_id.".html";
 		// return if file is already existing
 		if (@is_file($file))

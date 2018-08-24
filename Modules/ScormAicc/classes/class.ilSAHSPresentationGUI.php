@@ -611,7 +611,7 @@ class ilSAHSPresentationGUI
 			}
 		}	
 		$ilTabs->activateTab($a_active);
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$ilLocator->addRepositoryItems();

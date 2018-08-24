@@ -12,7 +12,7 @@ $tpl = $DIC['tpl'];
  * @var $ilCtrl ilCtrl
  * @var $tpl    ilTemplate
  */
-$tpl->getStandardTemplate();
+$tpl->loadStandardTemplate();
 $tpl->setVariable('BASE', '/');
 
 require_once('./Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecordGUI.php');

@@ -278,7 +278,7 @@ class ilExport
 		$a_tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$a_tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$a_tpl->getStandardTemplate();
+		$a_tpl->loadStandardTemplate();
 		$a_tpl->setTitle(ilObject::_lookupTitle($a_obj_id));
 		$a_tpl->setDescription($lng->txt("export_export_date").": ".
 			date('Y-m-d H:i:s', time())." (".date_default_timezone_get().")");

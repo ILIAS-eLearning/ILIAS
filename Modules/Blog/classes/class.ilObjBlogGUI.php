@@ -620,7 +620,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case 'ilblogpostinggui':
 				if (!$this->prtf_embed)
 				{
-					$tpl->getStandardTemplate();
+					$tpl->loadStandardTemplate();
 				}
 
 				// #9680
@@ -2798,7 +2798,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 	
 		$ilTabs->clearTargets();
 		if($a_back_url)

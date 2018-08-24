@@ -207,7 +207,7 @@ class ilLMEditorGUI
 	 */
 	function main_header()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");

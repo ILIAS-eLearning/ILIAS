@@ -869,7 +869,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		// set locator
 		$this->setLocator();

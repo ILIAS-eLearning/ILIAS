@@ -123,7 +123,7 @@ class ilObjectActivationGUI
 			$this->ctrl->returnToParent($this);
 		}
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		switch($this->ctrl->getNextClass($this))
 		{

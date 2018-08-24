@@ -215,7 +215,7 @@ class ilGlossaryPresentationGUI
 
 	function prepareOutput()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
@@ -436,7 +436,7 @@ class ilGlossaryPresentationGUI
 			$tpl = $this->tpl;
 
 			require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
-			$tpl->getStandardTemplate();
+			$tpl->loadStandardTemplate();
 //			$this->setTabs();
 
 			if ($this->offlineMode())

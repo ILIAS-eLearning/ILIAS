@@ -253,7 +253,7 @@ class ilSCORMOfflineModeGUI
 		$thisurl =$this->ctrl->getLinkTarget($this, $a_active);
 		$ilTabs->addTab($a_active, $tabTitle, $thisurl);
 		$ilTabs->activateTab($a_active);
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		$tpl->setTitle(ilObject::_lookupTitle($this->lmId));
 		$tpl->setTitleIcon(ilUtil::getImagePath($icon));
 		$ilLocator->addRepositoryItems();

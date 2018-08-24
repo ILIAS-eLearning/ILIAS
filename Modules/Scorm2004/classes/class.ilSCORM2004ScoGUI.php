@@ -73,7 +73,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
 
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

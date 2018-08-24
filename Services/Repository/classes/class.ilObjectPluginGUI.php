@@ -63,7 +63,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		$ilTabs = $this->tabs;
 
 		// get standard template (includes main menu and general layout)
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 
 		// set title
 		if (!$this->getCreationMode())
