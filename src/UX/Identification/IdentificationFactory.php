@@ -27,7 +27,10 @@ class IdentificationFactory {
 
 
 	/**
-	 * Returns a IndentificationProvider for ILIAS-Plugins
+	 * Returns a IndentificationProvider for ILIAS-Plugins which takes care of
+	 * the plugin_id for further identification where a provided UX-element
+	 * comes from (e.g. to disable or delete all elements when a plugin is
+	 * deleted or deactivated).
 	 *
 	 * @param \ilPlugin                   $plugin
 	 * @param \ILIAS\UX\Provider\Provider $provider
