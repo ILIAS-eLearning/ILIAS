@@ -299,7 +299,8 @@ interface Factory {
 	 *      a different view.
 	 *   composition: >
 	 *      Dropdown is a clickable, graphically obtrusive control element. It can
-	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown.
+	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown. Note that empty dropdowns are not
+     *      rendered at all to keep the UI as clean as possible.
 	 *   effect: >
 	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
 	 *      Clicking outside of an opened Dropdown will close the list of items.
@@ -319,6 +320,8 @@ interface Factory {
 	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
 	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
 	 *           kind of Dropdown is used as part of the UI element.
+     *   composition:
+     *      1: > Empty dropdowns MUST NOT be rendered at all to keep the UI as clean as possible.
 	 *   interaction:
 	 *      1: >
 	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
