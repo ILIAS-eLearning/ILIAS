@@ -71,6 +71,6 @@ $id = $this->ux->identification()->plugin($pl, $this)->identifier('my_internal_i
 ```
 
 ## Collectors
-In most cases, you won't need to implement a collector. For the StaticMainMenuProvider, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented under /Services/MainMenu.
+In most cases, you won't need to implement a collector. For the StaticMainMenuProvider, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented in UX\Collector\MainMenu.
 
 
