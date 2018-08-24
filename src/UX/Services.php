@@ -1,7 +1,7 @@
 <?php namespace ILIAS\UX;
 
 use ILIAS\UX\Identification\IdentificationFactory;
-use ILIAS\UX\MainMenu\EntryFactory;
+use ILIAS\UX\MainMenu\MainMenuEntryFactory;
 
 /**
  * Class Services
@@ -11,15 +11,19 @@ use ILIAS\UX\MainMenu\EntryFactory;
 class Services {
 
 	/**
-	 * @inheritdoc
+	 * @see MainMenuEntryFactory
+	 *
+	 * @return MainMenuEntryFactory
 	 */
-	public function mainmenu(): EntryFactory {
-		return new EntryFactory();
+	public function mainmenu(): MainMenuEntryFactory {
+		return new MainMenuEntryFactory();
 	}
 
 
 	/**
-	 * @inheritDoc
+	 * @see IdentificationFactory
+	 *
+	 * @return IdentificationFactory
 	 */
 	public function identification(): IdentificationFactory {
 		return new IdentificationFactory();

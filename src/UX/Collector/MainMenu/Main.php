@@ -5,7 +5,7 @@ use ILIAS\UX\MainMenu\Slate\Slate;
 /**
  * Class Main
  *
- * This Collector will collect and the provide all available slates from the
+ * This Collector will collect and then provide all available slates from the
  * providers in the whole system, stack them and enrich them will their content
  * based on the configuration in "Administration".
  *

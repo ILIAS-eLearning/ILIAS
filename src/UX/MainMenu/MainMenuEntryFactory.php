@@ -9,11 +9,14 @@ use ILIAS\UX\MainMenu\Slate\SlateInterfaceInterface;
 use ILIAS\UX\Identification\IdentificationInterface;
 
 /**
- * Class EntryFactory
+ * Class MainMenuEntryFactory
+ *
+ * This factory provides you all available types for MainMenu UX Elements.
+ *
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class EntryFactory {
+class MainMenuEntryFactory {
 
 	/**
 	 * Returns you a UX Slate which can be added to the MainMenu. Slates are
