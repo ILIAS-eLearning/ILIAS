@@ -167,7 +167,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->willReturnCallback(function() use ($expectedSortingValueExistingDocuments) {
 
 				return [[
-					'id' => 2,
+					'id' => 666,
 					'title' => 'another',
 					'sorting' => $expectedSortingValueExistingDocuments - 1,
 				]];
@@ -209,7 +209,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 		$this->assertEmpty($form->getTranslatedError());
 		$this->assertEquals(
 			$expectedSortingValueExistingDocuments, $document->getSorting(),
-			'Failed asserting that the sorting of the new document equals the maximum incremented by one when no other documents exist'
+			'Failed asserting that the sorting of the new document equals the maximum incremented by one when other documents exist'
 		);
 
 		$documentConnector = $this->getMockBuilder(\arConnector::class)->getMock();
