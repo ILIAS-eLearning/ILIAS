@@ -300,7 +300,7 @@ interface Factory {
 	 *   composition: >
 	 *      Dropdown is a clickable, graphically obtrusive control element. It can
 	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown. Note that empty dropdowns are not
-	 *   rendered at all to keep the UI as clean as possible.
+	 *      rendered at all to keep the UI as clean as possible.
 	 *   effect: >
 	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
 	 *      Clicking outside of an opened Dropdown will close the list of items.
