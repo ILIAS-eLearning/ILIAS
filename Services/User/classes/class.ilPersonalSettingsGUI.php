@@ -20,7 +20,13 @@ class ilPersonalSettingsGUI
 	 */
     function __construct()
     {
-        global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
+        global $DIC;
+
+        $ilias = $DIC['ilias'];
+        $tpl = $DIC['tpl'];
+        $lng = $DIC['lng'];
+        $rbacsystem = $DIC['rbacsystem'];
+        $ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -88,7 +94,13 @@ class ilPersonalSettingsGUI
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
-		global $ilTabs, $ilSetting, $ilHelp, $rbacsystem, $ilUser;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilHelp = $DIC['ilHelp'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		$ilHelp->setScreenIdComponent("user");
 		
@@ -109,8 +121,10 @@ class ilPersonalSettingsGUI
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) && $ilSetting->get('show_mail_settings'))
 		{
+			$this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
+
 			$ilTabs->addTarget(
 				"mail_settings",
 				$this->ctrl->getLinkTargetByClass('ilMailOptionsGUI'), "", array('ilMailOptionsGUI')
@@ -156,7 +170,10 @@ class ilPersonalSettingsGUI
 	 */
 	function showPassword($a_no_init = false, $hide_form = false)
 	{
-		global $ilTabs, $ilUser;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
 		
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("password");
@@ -192,7 +209,11 @@ class ilPersonalSettingsGUI
 	*/
 	public function initPasswordForm()
 	{
-		global $lng, $ilUser, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -259,7 +280,9 @@ class ilPersonalSettingsGUI
 	*/
 	protected function allowPasswordChange()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if (\ilSession::get('used_external_auth')) {
 			return false;
@@ -279,7 +302,13 @@ class ilPersonalSettingsGUI
 	*/
 	public function savePassword()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 	
 		// normally we should not end up here
 		if (!$this->allowPasswordChange())
@@ -421,7 +450,9 @@ class ilPersonalSettingsGUI
 	*/
 	function showGeneralSettings($a_no_init = false)
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("general_settings");
@@ -442,7 +473,12 @@ class ilPersonalSettingsGUI
 	*/
 	public function initGeneralSettingsForm()
 	{
-		global $lng, $ilUser, $styleDefinition, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$styleDefinition = $DIC['styleDefinition'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -689,7 +725,9 @@ class ilPersonalSettingsGUI
 		}		
 		
 		// selector for unicode characters
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		if ($ilSetting->get('char_selector_availability') > 0)
 		{
 			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
@@ -711,7 +749,12 @@ class ilPersonalSettingsGUI
 	 */
 	public function saveGeneralSettings()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 	
 		$this->initGeneralSettingsForm();
 		if ($this->form->checkInput())
@@ -755,7 +798,9 @@ class ilPersonalSettingsGUI
 			}*/
 			
 			// store last visited?
-			global $ilNavigationHistory;
+			global $DIC;
+
+			$ilNavigationHistory = $DIC['ilNavigationHistory'];
 			$ilUser->setPref("store_last_visited", (int) $_POST["store_last_visited"]);
 			if ((int) $_POST["store_last_visited"] > 0)
 			{
@@ -815,7 +860,9 @@ class ilPersonalSettingsGUI
 			}
 
 			// selector for unicode characters
-			global $ilSetting;
+			global $DIC;
+
+			$ilSetting = $DIC['ilSetting'];
 			if ($ilSetting->get('char_selector_availability') > 0)
 			{
 				require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
@@ -848,7 +895,12 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount1()
 	{	
-		global $ilTabs, $ilToolbar, $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if(!(bool)$ilSetting->get('user_delete_own_account') ||
 			$ilUser->getId() == SYSTEM_USER_ID)
@@ -875,7 +927,11 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount2()
 	{	
-		global $ilTabs, $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if(!(bool)$ilSetting->get('user_delete_own_account') ||
 			$ilUser->getId() == SYSTEM_USER_ID)
@@ -899,7 +955,10 @@ class ilPersonalSettingsGUI
 	
 	protected function abortDeleteOwnAccount()
 	{
-		global $ilCtrl, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 		
 		$ilUser->removeDeletionFlag();			
 		
@@ -909,7 +968,10 @@ class ilPersonalSettingsGUI
 	
 	protected function deleteOwnAccountLogout()
 	{
-		global $ilAuth, $ilUser;
+		global $DIC;
+
+		$ilAuth = $DIC['ilAuth'];
+		$ilUser = $DIC['ilUser'];
 				
 		// we are setting the flag and ending the session in the same step
 		
@@ -927,7 +989,11 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount3()
 	{	
-		global $ilTabs, $ilUser, $ilSetting;	
+		global $DIC;	
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		if(!(bool)$ilSetting->get('user_delete_own_account') ||
 			$ilUser->getId() == SYSTEM_USER_ID ||
@@ -955,7 +1021,12 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount4()
 	{	
-		global $ilUser, $ilAuth, $ilSetting, $ilLog;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilAuth = $DIC['ilAuth'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilLog = $DIC['ilLog'];
 		
 		if(!(bool)$ilSetting->get('user_delete_own_account') ||
 			$ilUser->getId() == SYSTEM_USER_ID ||

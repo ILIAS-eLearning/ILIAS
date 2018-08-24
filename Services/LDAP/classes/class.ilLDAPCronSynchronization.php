@@ -28,7 +28,9 @@ class ilLDAPCronSynchronization extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('ldap');
 		return $lng->txt('ldap_user_sync_cron');
@@ -36,7 +38,9 @@ class ilLDAPCronSynchronization extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("ldap");
 		return $lng->txt("ldap_user_sync_cron_info");
@@ -64,7 +68,9 @@ class ilLDAPCronSynchronization extends ilCronJob
 
 	public function run()
 	{				
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;						
 	
@@ -141,7 +147,9 @@ class ilLDAPCronSynchronization extends ilCronJob
 	 */
 	private function deactivateUsers(ilLDAPServer $server,$a_ldap_users)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 	 	include_once './Services/User/classes/class.ilObjUser.php';
 	 	
@@ -167,7 +175,9 @@ class ilLDAPCronSynchronization extends ilCronJob
 
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
 	{				
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		switch($a_form_id)
 		{			

@@ -13,7 +13,9 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_fss_export)
 	{		
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->setId('memexp');
 		
@@ -63,7 +65,9 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 		
 	public function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->tpl->setVariable('VAL_ID', $a_set['id']);
 		$this->tpl->setVariable('VAL_TYPE', $a_set['type']);

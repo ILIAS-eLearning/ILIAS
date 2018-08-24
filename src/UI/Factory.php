@@ -22,10 +22,13 @@ interface Factory {
 	 *     They indicate the functionality or nature of a text-element or context:
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
+	 *     Icons can be disabled. Disabled Icons visually communicate that the depicted
+	 *     functionality is not available for the intended audience.
 	 *   composition: >
 	 *     Icons come in three fixed sizes: small, medium and large.
 	 *     They can be configured with an additional "abbreviation",
 	 *     a text of a few characters that will be rendered on top of the image.
+	 *     The Disabled Icons merely stand out visually: A color shade covers the Icon.
 	 *   effect: >
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
@@ -35,6 +38,8 @@ interface Factory {
 	 *       some action.
 	 *     2: >
 	 *       Images belong to the content and can be purely decorative.
+	 *
+	 *
 	 * rules:
 	 *   usage:
 	 *     1: Icons MUST be used to represent objects or context.
@@ -45,6 +50,7 @@ interface Factory {
 	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
 	 *   accessibility:
 	 *     1: Icons MUST use aria-label.
+	 *     2: Disabled Icons MUST bear an aria-label indicating the special status.
 	 *   wording:
 	 *     1: The aria-label MUST state the represented object-type.
 	 *     2: The abbreviation SHOULD consist of one or two letters.
@@ -716,5 +722,34 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Table\Factory
 	 */
 	public function table();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Message Boxes inform the user about the state of the system or an ongoing user task. Such as the successful
+	 *     completion, the need for further input  of an actual error or stopping users in their tracks in high-risk tasks.
+	 *   composition: >
+	 *     Message Boxes consist of a mandatory message text, optional Buttons and an optional Unordered List of Links.
+	 *     There are four main types of Message Boxes, each is displayed in the according color:
+	 *     1. Failure,
+	 *     2. Success,
+	 *     3. Info,
+	 *     4. Confirmation
+	 *   effect: >
+	 *     Message Boxes convey information and optionally provide interaction by using Buttons and navigation by
+	 *     using Links.
+	 *
+	 * rules:
+	 *   interaction:
+	 *      1: >
+	 *          In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
+	 *          provide interaction by using Buttons.
+	 *      2: >
+	 *          Navigation to other screens MUST by done by using Links.
+	 * ---
+	 * @return  \ILIAS\UI\Component\MessageBox\Factory
+	 */
+	public function messageBox();
 
 }

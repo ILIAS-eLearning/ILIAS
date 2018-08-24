@@ -43,7 +43,9 @@ abstract class ilADTBasedObjectGUI
 	 */
 	public function editAction(ilADTGroupFormBridge $a_form = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		if(!$a_form)
 		{
@@ -67,7 +69,11 @@ abstract class ilADTBasedObjectGUI
 	 */
 	protected function initForm()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -94,7 +100,10 @@ abstract class ilADTBasedObjectGUI
 	 */
 	public function updateAction()
 	{		
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$adt_form = $this->initForm();
 		$valid = $adt_form->getForm()->checkInput(); // :TODO: return value is obsolete		

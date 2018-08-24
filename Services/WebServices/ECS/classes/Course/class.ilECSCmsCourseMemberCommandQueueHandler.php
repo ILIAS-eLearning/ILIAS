@@ -361,8 +361,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 				}
 			}
 		}
-		
-		
+
 		$this->log->debug('Handled assignmnent...');
 		
 		// Assign new participants
@@ -506,6 +505,25 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	 */
 	private function createMember($a_person_id)
 	{
+		if(!$this->getMappingSettings() instanceof ilECSNodeMappingSettings) {
+			$this->log->warning('Node mapping settings not initialized.');
+		}
+		$auth_mode = $this->getMappingSettings()->getAuthMode();
+
+		if(
+			$this->getMappingSettings()->getAuthMode() ==
+			ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)
+		)
+		{
+			$this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
+			return false;
+		}
+		if(substr($auth_mode,0,4) !== 'ldap')
+		{
+			$this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
+			return false;
+		}
+
 		try
 		{
 			include_once './Services/LDAP/classes/class.ilLDAPServer.php';

@@ -1096,7 +1096,7 @@ class ilObjQuestionPool extends ilObject
 								include_once "./Services/Utilities/classes/class.ilUtil.php";
 								ilUtil::makeDirParents($target_path);
 							}
-							@rename($source_path, $target_path . $question_object["question_id"]);
+							rename($source_path, $target_path . $question_object["question_id"]);
 						}
 						// update question count of source question pool
 						ilObjQuestionPool::_updateQuestionCount($source_questionpool);
@@ -1458,7 +1458,7 @@ class ilObjQuestionPool extends ilObject
 		$duplicator->setTargetObjId($newObj->getId());
 		$duplicator->setTargetObjType($newObj->getType());
 		$duplicator->setQuestionIdMapping($questionIdsMap);
-		$duplicator->duplicate();
+		$duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());
 
 		$duplicatedTaxKeyMap = $duplicator->getDuplicatedTaxonomiesKeysMap();
 		$newObj->setNavTaxonomyId($duplicatedTaxKeyMap->getMappedTaxonomyId($this->getNavTaxonomyId()));

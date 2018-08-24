@@ -1,23 +1,27 @@
 <?php
 
+namespace SAML2;
+
+use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 /**
  * Class which implements the HTTP-Redirect binding.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_HTTPRedirect extends SAML2_Binding
+class HTTPRedirect extends Binding
 {
     const DEFLATE = 'urn:oasis:names:tc:SAML:2.0:bindings:URL-Encoding:DEFLATE';
 
     /**
      * Create the redirect URL for a message.
      *
-     * @param  SAML2_Message $message The message.
+     * @param  \SAML2\Message $message The message.
      * @return string        The URL the user should be redirected to in order to send a message.
      */
-    public function getRedirectURL(SAML2_Message $message)
+    public function getRedirectURL(Message $message)
     {
-        if ($this->destination === NULL) {
+        if ($this->destination === null) {
             $destination = $message->getDestination();
         } else {
             $destination = $this->destination;
@@ -30,25 +34,25 @@ class SAML2_HTTPRedirect extends SAML2_Binding
         $msgStr = $message->toUnsignedXML();
         $msgStr = $msgStr->ownerDocument->saveXML($msgStr);
 
-        SAML2_Utils::getContainer()->debugMessage($msgStr, 'out');
+        Utils::getContainer()->debugMessage($msgStr, 'out');
 
         $msgStr = gzdeflate($msgStr);
         $msgStr = base64_encode($msgStr);
 
         /* Build the query string. */
 
-        if ($message instanceof SAML2_Request) {
+        if ($message instanceof Request) {
             $msg = 'SAMLRequest=';
         } else {
             $msg = 'SAMLResponse=';
         }
         $msg .= urlencode($msgStr);
 
-        if ($relayState !== NULL) {
+        if ($relayState !== null) {
             $msg .= '&RelayState=' . urlencode($relayState);
         }
 
-        if ($key !== NULL) {
+        if ($key !== null) {
             /* Add the signature. */
             $msg .= '&SigAlg=' . urlencode($key->type);
 
@@ -56,7 +60,7 @@ class SAML2_HTTPRedirect extends SAML2_Binding
             $msg .= '&Signature=' . urlencode(base64_encode($signature));
         }
 
-        if (strpos($destination, '?') === FALSE) {
+        if (strpos($destination, '?') === false) {
             $destination .= '?' . $msg;
         } else {
             $destination .= '&' . $msg;
@@ -70,13 +74,13 @@ class SAML2_HTTPRedirect extends SAML2_Binding
      *
      * Note: This function never returns.
      *
-     * @param SAML2_Message $message The message we should send.
+     * @param \SAML2\Message $message The message we should send.
      */
-    public function send(SAML2_Message $message)
+    public function send(Message $message)
     {
         $destination = $this->getRedirectURL($message);
-        SAML2_Utils::getContainer()->getLogger()->debug('Redirect to ' . strlen($destination) . ' byte URL: ' . $destination);
-        SAML2_Utils::getContainer()->redirect($destination);
+        Utils::getContainer()->getLogger()->debug('Redirect to ' . strlen($destination) . ' byte URL: ' . $destination);
+        Utils::getContainer()->redirect($destination);
     }
 
     /**
@@ -84,8 +88,8 @@ class SAML2_HTTPRedirect extends SAML2_Binding
      *
      * Throws an exception if it is unable receive the message.
      *
-     * @return SAML2_Message The received message.
-     * @throws Exception
+     * @return \SAML2\Message The received message.
+     * @throws \Exception
      *
      * NPath is currently too high but solving that just moves code around.
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -98,27 +102,27 @@ class SAML2_HTTPRedirect extends SAML2_Binding
         } elseif (array_key_exists('SAMLResponse', $data)) {
             $message = $data['SAMLResponse'];
         } else {
-            throw new Exception('Missing SAMLRequest or SAMLResponse parameter.');
+            throw new \Exception('Missing SAMLRequest or SAMLResponse parameter.');
         }
 
         if (isset($data['SAMLEncoding']) && $data['SAMLEncoding'] !== self::DEFLATE) {
-            throw new Exception('Unknown SAMLEncoding: ' . var_export($data['SAMLEncoding'], TRUE));
+            throw new \Exception('Unknown SAMLEncoding: ' . var_export($data['SAMLEncoding'], true));
         }
 
         $message = base64_decode($message);
-        if ($message === FALSE) {
-            throw new Exception('Error while base64 decoding SAML message.');
+        if ($message === false) {
+            throw new \Exception('Error while base64 decoding SAML message.');
         }
 
         $message = gzinflate($message);
-        if ($message === FALSE) {
-            throw new Exception('Error while inflating SAML message.');
+        if ($message === false) {
+            throw new \Exception('Error while inflating SAML message.');
         }
 
-        SAML2_Utils::getContainer()->debugMessage($message, 'in');
-        $document = SAML2_DOMDocumentFactory::fromString($message);
+        Utils::getContainer()->debugMessage($message, 'in');
+        $document = DOMDocumentFactory::fromString($message);
         $xml      = $document->firstChild;
-        $message  = SAML2_Message::fromXML($xml);
+        $message  = Message::fromXML($xml);
 
         if (array_key_exists('RelayState', $data)) {
             $message->setRelayState($data['RelayState']);
@@ -129,7 +133,7 @@ class SAML2_HTTPRedirect extends SAML2_Binding
         }
 
         if (!array_key_exists('SigAlg', $data)) {
-            throw new Exception('Missing signature algorithm.');
+            throw new \Exception('Missing signature algorithm.');
         }
 
         $signData = array(
@@ -201,13 +205,13 @@ class SAML2_HTTPRedirect extends SAML2_Binding
      *
      * @param array          $data The data we need to validate the query string.
      * @param XMLSecurityKey $key  The key we should validate the query against.
-     * @throws Exception
+     * @throws \Exception
      */
     public static function validateSignature(array $data, XMLSecurityKey $key)
     {
-        assert('array_key_exists("Query", $data)');
-        assert('array_key_exists("SigAlg", $data)');
-        assert('array_key_exists("Signature", $data)');
+        assert(array_key_exists("Query", $data));
+        assert(array_key_exists("SigAlg", $data));
+        assert(array_key_exists("Signature", $data));
 
         $query = $data['Query'];
         $sigAlg = $data['SigAlg'];
@@ -216,15 +220,14 @@ class SAML2_HTTPRedirect extends SAML2_Binding
         $signature = base64_decode($signature);
 
         if ($key->type !== XMLSecurityKey::RSA_SHA1) {
-            throw new Exception('Invalid key type for validating signature on query string.');
+            throw new \Exception('Invalid key type for validating signature on query string.');
         }
         if ($key->type !== $sigAlg) {
-            $key = SAML2_Utils::castKey($key, $sigAlg);
+            $key = Utils::castKey($key, $sigAlg);
         }
 
-        if (!$key->verifySignature($query, $signature)) {
-            throw new Exception('Unable to validate signature on query string.');
+        if ($key->verifySignature($query, $signature) !== 1) {
+            throw new \Exception('Unable to validate signature on query string.');
         }
     }
-
 }

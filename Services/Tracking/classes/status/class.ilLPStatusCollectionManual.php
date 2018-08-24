@@ -145,7 +145,9 @@ class ilLPStatusCollectionManual extends ilLPStatus
 	
 	static function _getObjectStatus($a_obj_id, $a_user_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -174,7 +176,9 @@ class ilLPStatusCollectionManual extends ilLPStatus
 	
 	static function _setObjectStatus($a_obj_id, $a_user_id, array $a_completed = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$now = time();
 		

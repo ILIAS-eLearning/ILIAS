@@ -108,7 +108,9 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 	
 	public function validate()
 	{				
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$valid = true;
 		

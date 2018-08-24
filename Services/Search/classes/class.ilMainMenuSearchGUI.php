@@ -27,7 +27,11 @@ class ilMainMenuSearchGUI
 	 */
 	public function __construct()
 	{
-		global $lng,$objDefinition,$tree;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$objDefinition = $DIC['objDefinition'];
+		$tree = $DIC['tree'];
 		
 		$this->lng = $lng;
 		
@@ -53,7 +57,12 @@ class ilMainMenuSearchGUI
 	
 	public function getHTML()
 	{
-		global $ilCtrl, $tpl, $lng, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->isContainer)
 		{

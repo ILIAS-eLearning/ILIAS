@@ -47,7 +47,10 @@ class ilLDAPAttributeMapping
 	 */
 	private function __construct($a_server_id)
 	{
-		global $ilDB,$lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$this->db = $ilDB;
 		$this->lng = $lng;
@@ -81,7 +84,9 @@ class ilLDAPAttributeMapping
 	 */
 	public static function _delete($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ldap_attribute_mapping ".
 			"WHERE server_id =".$ilDB->quote($a_server_id,'integer');
@@ -97,7 +102,9 @@ class ilLDAPAttributeMapping
 	 */
 	public static function _lookupGlobalRole($a_server_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT value FROM ldap_attribute_mapping ".
 	 		"WHERE server_id =".$ilDB->quote($a_server_id,'integer')." ".
@@ -119,7 +126,9 @@ class ilLDAPAttributeMapping
 	 */
 	public static function hasRulesForUpdate($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT perform_update FROM ldap_attribute_mapping '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
@@ -246,7 +255,9 @@ class ilLDAPAttributeMapping
 	 */
 	public function save()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$this->delete();
 	 	
@@ -316,7 +327,9 @@ class ilLDAPAttributeMapping
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM ldap_attribute_mapping ".
 	 		"WHERE server_id =".$this->db->quote($this->server_id,'integer')." ";

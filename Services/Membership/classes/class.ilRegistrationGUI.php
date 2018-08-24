@@ -64,7 +64,11 @@ abstract class ilRegistrationGUI
 	 */
 	public function __construct($a_container)
 	{
-		global $lng,$ilCtrl,$tpl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -168,7 +172,11 @@ abstract class ilRegistrationGUI
 	
 	protected function leaveWaitingList()
 	{
-		global $ilUser,$tree,$ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->getWaitingList()->removeFromList($ilUser->getId());
 		$parent = $tree->getParentId($this->container->getRefId());
@@ -230,7 +238,10 @@ abstract class ilRegistrationGUI
 	 */
 	protected function fillMembershipLimitation()
 	{
-		global $ilAccess, $ilCtrl;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		include_once('Modules/Course/classes/class.ilObjCourseGrouping.php');
 		if(!$items = ilObjCourseGrouping::_getGroupingItems($this->container))
@@ -287,7 +298,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function fillAgreement()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		if(!$this->isRegistrationPossible())
 		{
@@ -335,7 +348,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function showCustomFields()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 	 	include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
@@ -394,7 +409,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function validateAgreement()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 	 	if($_POST['agreement'])
 	 	{
@@ -416,7 +433,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function validateCustomFields()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 
 		$required_fullfilled = true;
@@ -428,8 +447,6 @@ abstract class ilRegistrationGUI
 					
 					// Split value id from post
 					list($field_id,$option_id) = explode('_', $_POST['cdf_'.$field_obj->getId()]);
-					
-					#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($field_id,TRUE).' '.print_r($option_id,TRUE).' '.print_r($_POST,TRUE));
 					
 					$open_answer_indexes = (array) $field_obj->getValueOptions();
 					if(in_array($option_id, $open_answer_indexes))
@@ -446,9 +463,6 @@ abstract class ilRegistrationGUI
 					$value = $_POST['cdf_'.$field_obj->getId()];
 					break;
 			}
-			
-			$GLOBALS['ilLog']->write(__METHOD__.': new value '. $value);
-			
 			
 			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
 			$course_user_data->setValue($value);
@@ -472,7 +486,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function setAccepted($a_status)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		if(!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
@@ -494,7 +510,10 @@ abstract class ilRegistrationGUI
 	 */
 	public function cancel()
 	{
-		global $tree, $ilCtrl;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$tree->getParentId($this->container->getRefId()));
@@ -572,7 +591,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function initForm()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(is_object($this->form))
 		{
@@ -612,7 +633,9 @@ abstract class ilRegistrationGUI
 	 */
 	protected function addCommandButtons()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->isRegistrationPossible() and $this->isWaitingListActive() and !$this->getWaitingList()->isOnList($ilUser->getId()))
 		{
@@ -641,7 +664,11 @@ abstract class ilRegistrationGUI
 	 */
 	protected function updateSubscriptionRequest()
 	{
-		global $ilUser, $tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['subject']));
 		ilUtil::sendSuccess($this->lng->txt('sub_request_saved'),true);
@@ -653,7 +680,11 @@ abstract class ilRegistrationGUI
 	
 	protected function cancelSubscriptionRequest()
 	{
-		global $ilUser, $tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->participants->deleteSubscriber($ilUser->getId());
 		ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'),true);

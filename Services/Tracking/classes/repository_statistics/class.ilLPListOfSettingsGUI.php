@@ -52,7 +52,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	 */
 	protected function show()
 	{
-		global $ilHelp;
+		global $DIC;
+
+		$ilHelp = $DIC['ilHelp'];
 
 		$ilHelp->setSubScreenId("trac_settings");
 		
@@ -378,7 +380,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	 */
 	protected function getLPPathInfo($a_ref_id, array &$a_res)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$has_lp_parents = false;
 				
@@ -474,7 +478,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	
 	protected function handleLPUsageInfo()
 	{
-		global $lng, $ilAccess;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$ref_id = $_GET["ref_id"];
 		if(!$ref_id)

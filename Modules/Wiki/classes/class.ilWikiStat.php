@@ -1121,7 +1121,7 @@ class ilWikiStat
 		$res = array();
 		
 		// because of read_events this db table is updated most often
-		$set = $ilDB->query("SELECT DISTINCT(SUBSTR(ts_day, 1, 7)) month".
+		$set = $ilDB->query("SELECT DISTINCT(SUBSTR(ts_day, 1, 7)) ".$ilDB->quoteIdentifier("month").
 			" FROM wiki_stat_page_user".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" AND ts_day IS NOT NULL");

@@ -100,13 +100,13 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 				{
 					$value = $this->getPageObjectNonEditableValueHTML(
 						$this->getSpecificAnswerFeedbackPageObjectType(),
-						$this->getSpecificAnswerFeedbackPageObjectId($this->questionOBJ->getId(), $index)
+						$this->getSpecificAnswerFeedbackPageObjectId($this->questionOBJ->getId(), 0, $index)
 					);
 				}
 				else
 				{
 					$value = $this->questionOBJ->prepareTextareaOutput(
-						$this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), $index)
+						$this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), 0, $index)
 					);
 				}
 
@@ -133,7 +133,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
 			{
 				$this->saveSpecificAnswerFeedbackContent(
-					$this->questionOBJ->getId(), $index, $form->getInput("feedback_answer_$index")
+					$this->questionOBJ->getId(), 0, $index, $form->getInput("feedback_answer_$index")
 				);
 			}
 		}
@@ -182,30 +182,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 		
 		$this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
 
-		// sync specific answer feedback to duplicated question
-
-		$res = $this->db->queryF(
-			"SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s", array('integer'), array($originalQuestionId)
-		);
-
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
-
-			$this->db->insert($this->getSpecificFeedbackTableName(), array(
-				'feedback_id' => array('integer', $nextId),
-				'question_fi' => array('integer', $duplicateQuestionId),
-				'answer' => array('integer', $row['answer']),
-				'feedback' => array('text', $row['feedback']),
-				'tstamp' => array('integer', time())
-			));
-
-			if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
-			{
-				$pageObjectType = $this->getSpecificAnswerFeedbackPageObjectType();
-				$this->duplicatePageObject($pageObjectType, $row['feedback_id'], $nextId, $duplicateQuestionId);
-			}
-		}
+		parent::duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
 	}
 
 	/**
@@ -222,31 +199,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 		// sync specific feedback setting to the original
 		$this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
 
-		// delete specific feedback of the original
-		$this->db->manipulateF(
-			"DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-			array('integer'), array($originalQuestionId)
-		);
-
-		// get specific feedback of the actual question
-		$res = $this->db->queryF(
-			"SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-			array('integer'), array($duplicateQuestionId)
-		);
-
-		// save specific feedback to the original
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
-
-			$this->db->insert($this->getSpecificFeedbackTableName(), array(
-				'feedback_id' => array('integer', $nextId),
-				'question_fi' => array('integer', $originalQuestionId),
-				'answer' => array('integer',$row['answer']),
-				'feedback' => array('text',$row['feedback']),
-				'tstamp' => array('integer',time())
-			));
-		}
+		parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
 	}
 	
 	private function syncSpecificFeedbackSetting($sourceQuestionId, $targetQuestionId)

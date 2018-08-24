@@ -55,6 +55,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @inheritdoc
 	 */
 	public function registerResources(ResourceRegistry $registry) {
+		$registry->register('./src/UI/templates/js/Core/ui.js');
 	}
 
 	/**

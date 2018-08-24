@@ -6,7 +6,7 @@
  * discovery service pages. This should reduce code duplication.
  *
  * Experimental support added for Extended IdP Metadata Discovery Protocol by Andreas 2008-08-28
- * More information: http://rnd.feide.no/content/extended-identity-provider-discovery-service-protocol
+ * More information: https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-idp-discovery.pdf
  *
  * @author Jaime Pérez <jaime.perez@uninett.no>, UNINETT AS.
  * @author Olav Morken, UNINETT AS.
@@ -175,7 +175,7 @@ class SimpleSAML_XHTML_IdPDisco
      */
     protected function log($message)
     {
-        SimpleSAML_Logger::info('idpDisco.'.$this->instance.': '.$message);
+        SimpleSAML\Logger::info('idpDisco.'.$this->instance.': '.$message);
     }
 
 
@@ -217,7 +217,7 @@ class SimpleSAML_XHTML_IdPDisco
             // we save the cookies for 90 days
             'lifetime' => (60 * 60 * 24 * 90),
             // the base path for cookies. This should be the installation directory for SimpleSAMLphp
-            'path'     => ('/'.$this->config->getBaseUrl()),
+            'path'     => $this->config->getBasePath(),
             'httponly' => false,
         );
 

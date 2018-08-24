@@ -101,7 +101,9 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
 		// for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
 		// $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
 
-		if($a_permission == "visible" && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+		//TODO refactor this: first check if the object is online and then the permissions.
+		#22653
+		if(($a_permission == "visible" || $a_permission == "read") && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 		{
 			include_once "Modules/BookingManager/classes/class.ilObjBookingPool.php";
 			$pool = new ilObjBookingPool($a_ref_id);

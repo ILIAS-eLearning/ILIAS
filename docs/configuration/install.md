@@ -28,6 +28,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
+      1. [Optional Dependencies](#optional-dependencies)
    1. [Installation Wizard](#installation-wizard)
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
@@ -120,6 +121,8 @@ Please note that different configurations SHOULD be possible, but it might be ha
 <a name="database-recommendations"></a>
 ## Database Recommendations
 
+> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only. 
+
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
@@ -187,7 +190,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ServerAdmin webmaster@example.com
 
     DocumentRoot /var/www/html/ilias/
-    <Directory /var/drbd/www/html/>
+    <Directory /var/www/html/>
         Options FollowSymLinks
         AllowOverride All
         Require all granted
@@ -201,6 +204,11 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 ```
+
+Please take care to [restrict access to the setup-folder](#secure-installation-files)
+Normal users should not be able to access the setup at all. Also see
+[Hardening and Security Guidance](#hardening-and-security-guidance) for further
+security enhancing configuration.
 
 After changing the configuration remember to reload the web server daemon:
 
@@ -262,6 +270,9 @@ session.gc_probability = 1
 session.gc_divisor = 100
 session.gc_maxlifetime = 14400
 session.hash_function = 0
+session.cookie_httponly = On
+; If you installation is served via HTTPS also use:
+session.cookie_secure = On
  
 ; for chat server since ILIAS 4.2
 allow_url_fopen = 1
@@ -269,6 +280,10 @@ allow_url_fopen = 1
 ; How many GET/POST/COOKIE input variables may be accepted
 max_input_vars = 10000
 ```
+
+Please see [Hardening and Security Guidance](#hardening-and-security-guidance)
+for [HTTPS configuration](#enable-http-strict-transport-security) and further
+security relevant configuration.
 
 Remember to reload your web server configuration to apply those changes.
 
@@ -374,22 +389,22 @@ FromLineOverride=YES
 
 On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk phantomjs
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
 ```
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk phantomjs
+apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
+yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
 ```
-
-Please ensure that the phantomjs version you use is at least 2.0.0.
+### Optional Dependencies
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
+
 * php-curl
 * php-xmlrpc
 * php-soap
@@ -397,6 +412,9 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 * php-mbstring
 * ffmpeg
 * mimetex
+* phantomjs
+
+Please ensure that the phantomjs version you use is at least 2.0.0. Please note that phantomjs development has been suspended until further notice. See https://github.com/ariya/phantomjs/issues/15344 for details.
 
 <a name="installation-wizard"></a>
 ## Installation Wizard

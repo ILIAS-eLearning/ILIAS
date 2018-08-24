@@ -40,7 +40,7 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @var	ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown|null
 	 */
-	private $actions;
+	private $action;
 
 	/**
 	 * @var	array
@@ -219,16 +219,27 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withActions($actions) {
+	public function withAction($action) {
+		$check =
+			is_null($action)
+			|| $action instanceof \ILIAS\UI\Component\Button\Button
+			|| $action instanceof \ILIAS\UI\Component\Dropdown\Dropdown;
+
+		$expected =
+			" NULL or ".
+			" \ILIAS\UI\Component\Button\Button or ".
+			" \ILIAS\UI\Component\ropdown\Dropdown";
+
+		$this->checkArg("action", $check, $this->wrongTypeMessage($expected, $action));
 		$clone = clone $this;
-		$clone->actions = $actions;
+		$clone->action = $action;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getActions() {
-		return $this->actions;
+	public function getAction() {
+		return $this->action;
 	}
 }

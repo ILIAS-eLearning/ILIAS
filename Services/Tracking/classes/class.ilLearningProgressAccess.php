@@ -39,7 +39,7 @@ class ilLearningProgressAccess
 	{
 		if(is_null($a_user_id))
 		{
-			$a_user_id = $GLOBALS['ilUser']->getId();
+			$a_user_id = $GLOBALS['DIC']['ilUser']->getId();
 		}
 		
 		// position access
@@ -51,7 +51,7 @@ class ilLearningProgressAccess
 				$a_ref_id
 			);
 		}
-		return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
+		return $GLOBALS['DIC']['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
 	}
 
 

@@ -2127,148 +2127,173 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<figure>
-		<xsl:if test="@Class">
-			<xsl:attribute name="class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="not(@Class)">
-			<xsl:attribute name="class">ilc_media_cont_MediaContainer</xsl:attribute>
-		</xsl:if>
+	<!-- determine purpose -->
+	<xsl:variable name="curPurpose"><xsl:choose>
+		<xsl:when test="$mode = 'fullscreen'">Fullscreen</xsl:when>
+		<xsl:otherwise>Standard</xsl:otherwise>
+	</xsl:choose></xsl:variable>
 
-		<xsl:attribute name="style">display:table;</xsl:attribute>
+	<xsl:variable name="figureclass">
+	<xsl:if test="@Class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:if>
+	<xsl:if test="not(@Class)">ilc_media_cont_MediaContainer</xsl:if>
+	</xsl:variable>
 
-		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
-		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
-			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">display:table;<xsl:if test="$mode != 'edit'">float:left; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
-			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">display:table;<xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
-		</xsl:if>
 
-		<!-- make object fit to left/right border -->
-		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-			<xsl:attribute name="style">display:table; margin-left: 0px;</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-			<xsl:attribute name="style">display:table; margin-right: 0px;</xsl:attribute>
-		</xsl:if>
+	<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
-		<!-- determine purpose -->
-		<xsl:variable name="curPurpose"><xsl:choose>
-			<xsl:when test="$mode = 'fullscreen'">Fullscreen</xsl:when>
-			<xsl:otherwise>Standard</xsl:otherwise>
-		</xsl:choose></xsl:variable>
 
-		<!-- build object tag -->
-		<div class="ilc_Mob">
-			<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
+		<!-- data / Location -->
+		<xsl:variable name="curItemNr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
 
-				<!-- data / Location -->
-				<xsl:variable name="curItemNr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
+		<!-- determine location mode (curpurpose, standard) -->
+		<xsl:variable name="location_mode">
+			<xsl:choose>
+				<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location != ''">curpurpose</xsl:when>
+				<xsl:otherwise>standard</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine location mode (curpurpose, standard) -->
-				<xsl:variable name="location_mode">
-					<xsl:choose>
-						<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location != ''">curpurpose</xsl:when>
-						<xsl:otherwise>standard</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine location type (LocalFile, Reference) -->
+		<xsl:variable name="curType">
+			<xsl:choose>
+				<xsl:when test="$location_mode = 'curpurpose'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Location/@Type"/>
+				</xsl:when>
+				<xsl:when test="$location_mode = 'standard'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine location type (LocalFile, Reference) -->
-				<xsl:variable name="curType">
-					<xsl:choose>
-						<xsl:when test="$location_mode = 'curpurpose'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Location/@Type"/>
-						</xsl:when>
-						<xsl:when test="$location_mode = 'standard'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine title -->
+		<xsl:variable name="title">
+			<xsl:choose>
+				<xsl:when test="$location_mode = 'curpurpose'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Title"/>
+				</xsl:when>
+				<xsl:when test="$location_mode = 'standard'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Title"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine title -->
-				<xsl:variable name="title">
-					<xsl:choose>
-						<xsl:when test="$location_mode = 'curpurpose'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Title"/>
-						</xsl:when>
-						<xsl:when test="$location_mode = 'standard'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Title"/>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine format (mime type) -->
+		<xsl:variable name="type">
+			<xsl:choose>
+				<xsl:when test="$location_mode = 'curpurpose'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Format"/>
+				</xsl:when>
+				<xsl:when test="$location_mode = 'standard'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine format (mime type) -->
-				<xsl:variable name="type">
-					<xsl:choose>
-						<xsl:when test="$location_mode = 'curpurpose'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Format"/>
-						</xsl:when>
-						<xsl:when test="$location_mode = 'standard'">
-							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine location -->
+		<xsl:variable name="data">
+			<xsl:choose>
+				<xsl:when test="$location_mode = 'curpurpose'">
+					<xsl:if test="$curType = 'LocalFile'">
+						<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+					</xsl:if>
+					<xsl:if test="$curType = 'Reference'">
+						<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:when test="$location_mode = 'standard'">
+					<xsl:if test="$curType = 'LocalFile'">
+						<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					</xsl:if>
+					<xsl:if test="$curType = 'Reference'">
+						<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					</xsl:if>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine location -->
-				<xsl:variable name="data">
-					<xsl:choose>
-						<xsl:when test="$location_mode = 'curpurpose'">
-							<xsl:if test="$curType = 'LocalFile'">
-								<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
-							</xsl:if>
-							<xsl:if test="$curType = 'Reference'">
-								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
-							</xsl:if>
-						</xsl:when>
-						<xsl:when test="$location_mode = 'standard'">
-							<xsl:if test="$curType = 'LocalFile'">
-								<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
-							</xsl:if>
-							<xsl:if test="$curType = 'Reference'">
-								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
-							</xsl:if>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine size mode (alias, mob or none) -->
+		<xsl:variable name="sizemode">
+			<xsl:choose>
+				<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
+					../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">alias</xsl:when>
+				<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
+					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">mob</xsl:when>
+				<xsl:otherwise>none</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine size mode (alias, mob or none) -->
-				<xsl:variable name="sizemode">
-					<xsl:choose>
-						<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
-							../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">alias</xsl:when>
-						<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
-							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">mob</xsl:when>
-						<xsl:otherwise>none</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
+		<!-- determine width -->
+		<xsl:variable name="width">
+			<xsl:choose>
+				<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
+				<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
-				<!-- determine width -->
-				<xsl:variable name="width">
-					<xsl:choose>
-						<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
-						<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
-						<xsl:otherwise></xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				
+
+		<!-- determine height -->
+		<xsl:variable name="height">
+			<xsl:choose>
+				<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
+				<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="figuredisplay">
+			<xsl:choose>
+				<!-- all images use table as container since they expand the table even without width/height -->
+				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">display:table;</xsl:when>
+				<!-- if we have width/height, we also use table as container, since we will expand it -->
+				<xsl:when test="$width != '' and $height != ''">display:table;</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="captiondisplay">
+			<xsl:choose>
+				<xsl:when test="$figuredisplay = 'display:table;'">
+					display: table-caption; caption-side: bottom;
+				</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<figure>
+
+			<xsl:attribute name="class"><xsl:value-of select="$figureclass"/></xsl:attribute>
+			<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/></xsl:attribute>
+
+			<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">float:left; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
+			</xsl:if>
+
+			<!-- make object fit to left/right border -->
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
+				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-left: 0px;</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
+				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-right: 0px;</xsl:attribute>
+			</xsl:if>
+
+			<!-- build object tag -->
+			<div class="ilc_Mob">
+
 				<!-- set width of td, see bug #10911 and #19464 -->
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="style">width:<xsl:value-of select="$width" />px;</xsl:attribute>
 				</xsl:if>
 
-				<!-- determine height -->
-				<xsl:variable name="height">
-					<xsl:choose>
-						<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
-						<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
-						<xsl:otherwise></xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
 
 				<xsl:call-template name="MOBTag">
 					<xsl:with-param name="data" select="$data" />
@@ -2291,59 +2316,61 @@
 					</param>
 				</xsl:for-each>-->
 
-			</xsl:for-each>
-		</div>
-		<!-- mob caption -->
-		<xsl:choose>			<!-- derive -->
-			<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
-				<xsl:call-template name="FullscreenLink">
-					<xsl:with-param name="cmobid" select="$cmobid"/>
-				</xsl:call-template>
-				<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</div></figcaption>
-			</xsl:when>
-			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
-				<xsl:call-template name="FullscreenLink">
-					<xsl:with-param name="cmobid" select="$cmobid"/>
-				</xsl:call-template>
-				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</div></figcaption>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
-					<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
+			</div>
+			<!-- mob caption -->
+			<xsl:choose>			<!-- derive -->
+				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
+					<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
 					</div></figcaption>
-				</xsl:if>
-			</xsl:otherwise>
-		</xsl:choose>
-
-		<!-- command selectbox -->
-		<xsl:if test="$mode = 'edit' and $javascript='disable'">
-			<div>
-				<!-- <xsl:value-of select="../../@HierId"/> -->
-				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>
-					</xsl:attribute>
-				</input>
-				<select size="1" class="ilEditSelect">
-					<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
-					</xsl:attribute>
-					<xsl:call-template name="MOBEditMenu">
-						<xsl:with-param name="hier_id" select="../../@HierId"/>
+				</xsl:when>
+				<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+					<xsl:call-template name="FullscreenLink">
+						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
-				</select>
-				<input class="ilEditSubmit" type="submit">
-					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>]</xsl:attribute>
-				</input>
-			</div>
-		</xsl:if>
-	</figure>
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
+					</div></figcaption>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
+						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+						<xsl:call-template name="FullscreenLink">
+							<xsl:with-param name="cmobid" select="$cmobid"/>
+						</xsl:call-template>
+						</div></figcaption>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
+
+			<!-- command selectbox -->
+			<xsl:if test="$mode = 'edit' and $javascript='disable'">
+				<div>
+					<!-- <xsl:value-of select="../../@HierId"/> -->
+					<input type="checkbox" name="target[]">
+						<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>
+						</xsl:attribute>
+					</input>
+					<select size="1" class="ilEditSelect">
+						<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
+						</xsl:attribute>
+						<xsl:call-template name="MOBEditMenu">
+							<xsl:with-param name="hier_id" select="../../@HierId"/>
+						</xsl:call-template>
+					</select>
+					<input class="ilEditSubmit" type="submit">
+						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>]</xsl:attribute>
+					</input>
+				</div>
+			</xsl:if>
+		</figure>
+
+	</xsl:for-each>
+
 	<!-- menu -->
 	<xsl:if test="$mode = 'edit' and $javascript='enable'">
 		<div class="ilOverlay il_editmenu ilNoDisplay">
@@ -2409,7 +2436,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-	<img border="0" style="width:100%">
+	<img border="0">
 		<!-- see 0020796 -->
 		<xsl:if test = "name(..) != 'Paragraph'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
@@ -2757,7 +2784,10 @@
 		<!-- mp4 -->
 
 		<!-- YouTube -->
-		<xsl:when test = "substring-after($data,'youtube.com') != ''">
+		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
+			<xsl:if test="$width = '' and $height = ''">
+				<xsl:attribute name="class">embed-responsive embed-responsive-16by9</xsl:attribute>
+			</xsl:if>
 			<!-- iframe instead of object tag, see bug #21657 -->
 			<iframe frameborder="0" allowfullscreen="1">
 				<xsl:if test="$width != ''">
@@ -2765,6 +2795,9 @@
 				</xsl:if>
 				<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$width = '' and $height = ''">
+					<xsl:attribute name="class">embed-responsive-item</xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="src">
 					<xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />
@@ -2871,6 +2904,12 @@
 				<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				</xsl:if>
+				<!-- see #bug22632 -->
+				<xsl:if test="$width = '' and $height = ''">
+					<xsl:attribute name="width">100%</xsl:attribute>
+					<xsl:attribute name="height">100%</xsl:attribute>
+					<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -2910,6 +2949,11 @@
 					</xsl:if>
 					<xsl:if test="$height != ''">
 						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$width = '' and $height = ''">
+						<xsl:attribute name="width">100%</xsl:attribute>
+						<xsl:attribute name="height">100%</xsl:attribute>
+						<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
 					<param name="movie">

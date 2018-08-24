@@ -84,7 +84,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public function __construct($a_rec_id = 0)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$this->db = $ilDB;
 	 	$this->recurrence_id = $a_rec_id;
@@ -104,7 +106,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public static function _delete($a_cal_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM cal_recurrence_rules ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
@@ -704,7 +708,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
 	 		null : 
@@ -742,7 +748,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public function update()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
 	 		null : 
@@ -775,7 +783,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public function delete()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "DELETE FROM cal_recurrence_rules ".
 	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer');
@@ -791,7 +801,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM cal_recurrence_rules ".
 	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer')." ";

@@ -49,7 +49,8 @@ class ilObjDataCollection extends ilObject2 {
 			$main_table->setTitle($this->getTitle());
 			$main_table->setAddPerm(1);
 			$main_table->setEditPerm(1);
-			$main_table->setDeletePerm(1);
+			$main_table->setDeletePerm(0);
+			$main_table->setDeleteByOwner(1);
 			$main_table->setEditByOwner(1);
 			$main_table->setLimited(0);
 			$main_table->setIsVisible(true);

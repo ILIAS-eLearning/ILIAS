@@ -19,7 +19,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->preselected = $a_preselect;
 
@@ -78,7 +81,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	*/
 	public function initFilter()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->setDisableFilterHiding(true);
 
@@ -202,7 +207,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$type = ilObject::_lookupType($a_set["obj_id"]);				
 
@@ -245,7 +252,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 	function getGraph(array $a_graph_items)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstdly");

@@ -343,7 +343,9 @@ class ilImport
 	 */
 	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,$a_install_id, $a_install_url)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		// skip
 		if ($this->skip_entity[$this->current_comp][$a_entity])

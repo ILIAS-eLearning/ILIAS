@@ -46,7 +46,9 @@ class ilMDUtilSelect
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		foreach(ilMDLanguageItem::_getPossibleLanguageCodes() as $code)
 		{
@@ -78,7 +80,9 @@ class ilMDUtilSelect
 	static function _getStructureSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Atomic','Collection','Networked','Hierarchical','Linear');
 		
@@ -109,7 +113,9 @@ class ilMDUtilSelect
 	static function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Draft','Final','Revised','Unavailable');
 		
@@ -140,7 +146,9 @@ class ilMDUtilSelect
 	static function _getRoleSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Author','Publisher','Unknown','Initiator','Terminator','Editor','GraphicalDesigner','TechnicalImplementer',
 					   'ContentProvider','TechnicalValidator','EducationalValidator','ScriptWriter','InstructionalDesigner',
@@ -173,7 +181,9 @@ class ilMDUtilSelect
 	static function _getOperatingSystemSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('PC-DOS','MS-Windows','MAC-OS','Unix','Multi-OS','None');
 		
@@ -204,7 +214,9 @@ class ilMDUtilSelect
 	static function _getBrowserSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Any','NetscapeCommunicator','MS-InternetExplorer','Opera','Amaya','Mozilla');
 		
@@ -236,7 +248,10 @@ class ilMDUtilSelect
 	static function _getFormatSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng,$ilDB;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		foreach($prepend as $value => $translation)
 		{
@@ -277,7 +292,9 @@ class ilMDUtilSelect
 	 */
 	static function _getDurationSelect($a_selected,$a_name,$prepend = array())
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		foreach($prepend as $value => $translation)
 		{
@@ -313,7 +330,9 @@ class ilMDUtilSelect
 	static function _getInteractivityTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Actice','Expositive','Mixed');
 		
@@ -345,7 +364,9 @@ class ilMDUtilSelect
 	static function _getLearningResourceTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Exercise','Simulation','Questionnaire','Diagram','Figure','Graph','Index',
 					   'Slide','Table','NarrativeText','Exam','Experiment','ProblemStatement','SelfAssessment','Lecture');
@@ -376,7 +397,9 @@ class ilMDUtilSelect
 	 */
 	static function _getInteractivityLevelSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array(1 => 'VeryLow',2 => 'Low',3 => 'Medium',4 => 'High',5 => 'VeryHigh');
 		
@@ -408,7 +431,9 @@ class ilMDUtilSelect
 	static function _getSemanticDensitySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array(1 => 'VeryLow',2 => 'Low',3 => 'Medium',4 => 'High',5 => 'VeryHigh');
 		
@@ -440,7 +465,9 @@ class ilMDUtilSelect
 	static function _getIntendedEndUserRoleSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Teacher','Author','Learner','Manager');
 		
@@ -471,7 +498,9 @@ class ilMDUtilSelect
 	static function _getContextSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('School','HigherEducation','Training','Other');
 		
@@ -502,7 +531,9 @@ class ilMDUtilSelect
 	 */
 	static function _getLocationTypeSelect($a_selected,$a_name,$prepend = array())
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('LocalFile','Reference');
 		
@@ -531,7 +562,9 @@ class ilMDUtilSelect
 	static function _getDifficultySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array(1 => 'VeryEasy',2 => 'Easy',3 => 'Medium',4 => 'Difficult',5 => 'VeryDifficult');
 		
@@ -561,7 +594,9 @@ class ilMDUtilSelect
 	 */
 	static function _getTypicalAgeRangeSelect($a_selected,$a_name,$prepend = array())
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		foreach($prepend as $value => $translation)
 		{
@@ -590,7 +625,9 @@ class ilMDUtilSelect
 	 */
 	static function _getTypicalLearningTimeSelect($a_selected,$a_name,$prepend = array())
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		foreach($prepend as $value => $translation)
 		{
@@ -625,7 +662,9 @@ class ilMDUtilSelect
 	static function _getCostsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Yes','No');
 		
@@ -657,7 +696,9 @@ class ilMDUtilSelect
 	static function _getCopyrightAndOtherRestrictionsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Yes','No');
 		
@@ -689,7 +730,9 @@ class ilMDUtilSelect
 	static function _getPurposeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$items = array('Discipline','Idea','Prerequisite','EducationalObjective','AccessibilityRestrictions',
 					   'EducationalLevel','SkillLevel','SecurityLevel','Competency');

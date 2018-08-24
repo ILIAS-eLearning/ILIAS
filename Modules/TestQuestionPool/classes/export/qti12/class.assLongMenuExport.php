@@ -51,6 +51,10 @@ class assLongMenuExport extends assQuestionExport
 		$xml->xmlElement("fieldlabel", NULL, "minAutoCompleteLength");
 		$xml->xmlElement("fieldentry", NULL, $this->object->getMinAutoComplete());
 		$xml->xmlEndTag("qtimetadatafield");
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "identical_scoring");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getIdenticalScoring());
+		$xml->xmlEndTag("qtimetadatafield");
 
 		$xml->xmlStartTag("qtimetadatafield");
 		$xml->xmlElement("fieldlabel", NULL, "gapTypes");
@@ -223,7 +227,7 @@ class assLongMenuExport extends assQuestionExport
 			// qti flow_mat
 			$xml->xmlStartTag("flow_mat");
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-				$this->object->getId(), $i
+				$this->object->getId(),0, $i
 			);
 			$this->object->addQTIMaterial($xml, $fb);
 			$xml->xmlEndTag("flow_mat");

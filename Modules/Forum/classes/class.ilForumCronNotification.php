@@ -584,6 +584,7 @@ class ilForumCronNotification extends ilCronJob
 
 	private function sendNotificationForDeletedThreads()
 	{
+
 		$res = $this->ilDB->queryF('
 			SELECT 	frm_posts_deleted.thread_title thr_subject, 
 					frm_posts_deleted.forum_title  top_name, 
@@ -594,7 +595,8 @@ class ilForumCronNotification extends ilCronJob
 					frm_posts_deleted.deleted_id,
 					frm_posts_deleted.post_date pos_date,
 					frm_posts_deleted.post_title pos_subject,
-					frm_posts_deleted.post_message pos_message
+					frm_posts_deleted.post_message pos_message, 
+					frm_posts_deleted.deleted_by
 					
 			FROM 	frm_notification, frm_posts_deleted
 			
@@ -625,7 +627,8 @@ class ilForumCronNotification extends ilCronJob
 					frm_posts_deleted.deleted_id,
 					frm_posts_deleted.post_date pos_date,
 					frm_posts_deleted.post_title pos_subject,
-					frm_posts_deleted.post_message pos_message
+					frm_posts_deleted.post_message pos_message,
+					frm_posts_deleted.deleted_by
 					
 			FROM 	frm_notification, frm_posts_deleted
 			

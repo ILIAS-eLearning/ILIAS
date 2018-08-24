@@ -1,0 +1,17 @@
+div.alert {
+	div {
+		margin-top: @il-messagebox-margin-top;
+	}
+	ul {
+		margin-top: @il-messagebox-link-list-margin-top;
+		background-color: @il-primary-container-bg;
+		padding: @padding-large-vertical @padding-large-horizontal;
+		font-size: @font-size-small;
+		color: @il-light-text-color;
+		list-style-type: none;
+	}
+	ul > li:before {
+		content: @il-messagebox-link-bullet;
+		/* margin-left: -10px; */
+	}
+}

@@ -241,7 +241,7 @@ class ilObjStyleSheet extends ilObject
 	// displayed with matching tag (group -> tags)
 	public static $filtered_groups =
 			array("ol" => array("ol"), "ul" => array("ul"),
-				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a"));
+				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure"));
 
 	// style types and their super type
 	public static $style_super_types = array(
@@ -2409,11 +2409,19 @@ class ilObjStyleSheet extends ilObject
 					$s = substr($char["class"], strlen($char["class"]) - 6);
 					if ($s != ":hover")
 					{
+						$ilDB->replace("style_char",
+							array(
+								"style_id" => array("integer", $this->getId()),
+								"type" => array("text", $char["type"]),
+								"characteristic" => array("text", $char["class"])),
+							array("hide" => array("integer", 0))
+							);
+						/*
 						$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
 							"(".$ilDB->quote($this->getId(), "integer").",".
 							$ilDB->quote($char["type"], "text").",".
 							$ilDB->quote($char["class"], "text").")";
-						$ilDB->manipulate($q);
+						$ilDB->manipulate($q);*/
 						$this->is_3_10_skin = false;
 					}
 				}
