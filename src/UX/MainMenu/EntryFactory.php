@@ -16,7 +16,14 @@ use ILIAS\UX\Identification\IdentificationInterface;
 class EntryFactory {
 
 	/**
-	 * @inheritDoc
+	 * Returns you a UX Slate which can be added to the MainMenu. Slates are
+	 * always the first level of entries in the MaiMenu and can contain other
+	 * entries (e.g. Links).
+	 *
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return SlateInterfaceInterface
 	 */
 	public function slate(IdentificationInterface $identification): SlateInterfaceInterface {
 		return new Slate($identification);
@@ -24,7 +31,11 @@ class EntryFactory {
 
 
 	/**
-	 * @inheritdoc
+	 * Returns you s UX Link which can be added to Slates.
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return LinkInterface
 	 */
 	public function link(IdentificationInterface $identification): LinkInterface {
 		return new Link($identification);
@@ -32,7 +43,12 @@ class EntryFactory {
 
 
 	/**
-	 * @inheritdoc
+	 * Returns you a UX Divider which is used to separate to other entries in a
+	 * optical way.
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return DividerInterface
 	 */
 	public function divider(IdentificationInterface $identification): DividerInterface {
 		return new Divider($identification);
