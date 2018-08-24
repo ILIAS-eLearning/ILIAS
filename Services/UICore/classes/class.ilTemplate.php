@@ -1757,24 +1757,6 @@ class ilTemplate extends HTML_Template_ITX
 			$this->parseCurrentBlock();
 		}
 		
-		// mount webfolder
-		if ($this->mount_webfolder != "")
-		{
-			require_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-			$dav_util = ilWebDAVUtil::getInstance();
-			$a_ref_id = $this->mount_webfolder;
-			$a_link =  $dav_util->getMountURI($a_ref_id);
-			$a_folder = $dav_util->getFolderURI($a_ref_id);
-			
-			$this->setCurrentBlock("mount_webfolder");
-			$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
-			$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
-			$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.png"));
-			$this->setVariable("ALT_MOUNT_WEBFOLDER",$lng->txt("mount_webfolder"));
-			$this->setVariable("TARGET_MOUNT_WEBFOLDER", '_blank');
-			$this->parseCurrentBlock();
-		}
-		
 		$this->setCurrentBlock("tree_icons");
 		$this->parseCurrentBlock();
 	}
