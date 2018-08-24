@@ -34,6 +34,10 @@
  * @package ilias-setup
  */
 
+if(version_compare(PHP_VERSION, '7.1.0', '>=')) {
+	ini_set('session.save_handler', 'files');
+}
+
 chdir("..");
 define('IL_INITIAL_WD', getcwd());
 require_once "./setup/include/inc.setup_header.php";
