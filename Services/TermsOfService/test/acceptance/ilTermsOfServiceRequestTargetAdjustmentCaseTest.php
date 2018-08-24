@@ -186,7 +186,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends \ilTermsOfServiceB
 	 * @dataProvider  userProvider
 	 * @param \ilObjUser $user
 	 */
-	public function testUserShouldBeNotForcedToAcceptTermsOfServiceWhenAlreadyDone(\ilObjUser $user)
+	public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenAlreadyDone(\ilObjUser $user)
 	{
 		$ctrl = $this
 			->getMockBuilder(\ilCtrl::class)
