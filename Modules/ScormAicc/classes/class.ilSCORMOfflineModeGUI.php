@@ -238,7 +238,7 @@ class ilSCORMOfflineModeGUI
 		$tpl->setVariable("SOM_URL",$this->offlineMode->som_url);
 		$tpl->setVariable("TRACKING_URL",$this->tracking_url);
 		$tpl->parseCurrentBlock();
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	function setOfflineModeTabs($offline_mode)

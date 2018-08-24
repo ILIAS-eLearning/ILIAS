@@ -288,7 +288,7 @@ class ilAdministrationGUI
 					{
 						$this->tpl->setVariable("OBJECTS", $html);
 					}
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 				else	// 
 				{

@@ -78,7 +78,7 @@ class ilSystemSupportContactsGUI
 		$panel->setBody($html);
 
 		$this->tpl->setContent($panel->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	

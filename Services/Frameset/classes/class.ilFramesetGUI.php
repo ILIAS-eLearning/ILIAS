@@ -194,7 +194,7 @@ class ilFramesetGUI
 		}
 		else
 		{
-			$tpl->show("DEFAULT", false);
+			$tpl->printToStdout("DEFAULT", false);
 		}
 	}
 

@@ -19,7 +19,7 @@ require_once('./Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRec
 
 $arTestRecordGUI = new arStorageRecordGUI();
 $arTestRecordGUI->executeCommand();
-$tpl->show();
+$tpl->printToStdout();
 
 ?>
 

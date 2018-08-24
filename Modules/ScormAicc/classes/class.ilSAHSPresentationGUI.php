@@ -135,7 +135,7 @@ class ilSAHSPresentationGUI
 				include_once "./Services/Tracking/classes/class.ilLearningProgressGUI.php";
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET['ref_id']);
 				$this->ctrl->forwardCommand($new_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilscormofflinemodegui":
@@ -149,7 +149,7 @@ class ilSAHSPresentationGUI
 				$new_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"],true,false);
 				$this->ctrl->forwardCommand($new_gui);
 				$this->setInfoTabs("cont_tracking_data");
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilobjscormlearningmodulegui":
@@ -157,7 +157,7 @@ class ilSAHSPresentationGUI
 				$new_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
 				$this->ctrl->forwardCommand($new_gui);
 				$this->setInfoTabs("cont_tracking_data");
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 				default:
@@ -190,7 +190,7 @@ class ilSAHSPresentationGUI
 	{
 		$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
 		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 		exit;
 	}
 
@@ -248,7 +248,7 @@ class ilSAHSPresentationGUI
 		$this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -262,7 +262,7 @@ class ilSAHSPresentationGUI
 		}
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function api()
@@ -282,7 +282,7 @@ class ilSAHSPresentationGUI
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 
@@ -469,7 +469,7 @@ class ilSAHSPresentationGUI
 			$item->insertTrackData("cmi.core.entry", "", $sahs_obj_id);
 		}
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function finishSahs ()
@@ -492,7 +492,7 @@ class ilSAHSPresentationGUI
 		);
 		$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function unloadSahs ()
@@ -500,7 +500,7 @@ class ilSAHSPresentationGUI
 		$this->tpl = new ilGlobalTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -530,7 +530,7 @@ class ilSAHSPresentationGUI
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 		$this->tpl = new ilGlobalTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -685,7 +685,7 @@ class ilSAHSPresentationGUI
 		{*/
 			// forward the command
 			$this->ctrl->forwardCommand($info);
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		//}
 	}
 

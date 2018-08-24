@@ -581,7 +581,7 @@ class ilAttendanceList
 		$tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
 	    $tpl->setVariable("CONTENT", $this->getHTML());
 		
-		return $tpl->show();
+		return $tpl->printToStdout();
 	}
 	
 	/**

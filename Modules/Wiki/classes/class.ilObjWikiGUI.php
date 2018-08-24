@@ -1630,7 +1630,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if(!$a_pdf_export)
 		{
-			$tpl->show(false);
+			$tpl->printToStdout(false);
 			exit;		
 		}
 		else

@@ -124,7 +124,7 @@ class ilMailingListsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	
 		return true;	
 	}
@@ -296,7 +296,7 @@ class ilMailingListsGUI
 		}
 
 		$this->tpl->setVariable('MAILING_LISTS', $tbl->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		return true;
 	}
 
@@ -362,7 +362,7 @@ class ilMailingListsGUI
 		$this->form_gui->setValuesByPost();
 		
 		$this->tpl->setVariable('FORM', $this->form_gui->getHTML());
-		return $this->tpl->show();
+		return $this->tpl->printToStdout();
 	}
 	
 	private function initForm($a_type = 'create')
@@ -425,7 +425,7 @@ class ilMailingListsGUI
 		}		
 		
 		$this->tpl->setVariable('FORM', $this->form_gui->getHTML());
-		return $this->tpl->show();
+		return $this->tpl->printToStdout();
 	}	
 	
 	public function showMembersList()
@@ -488,7 +488,7 @@ class ilMailingListsGUI
 		$tbl->setData($result);
 
 		$this->tpl->setVariable('MEMBERS_LIST', $tbl->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		return true;
 	}
 
@@ -532,7 +532,7 @@ class ilMailingListsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->print();
 		return true;
 	}
 
@@ -682,7 +682,7 @@ class ilMailingListsGUI
 		}
 
 		$this->tpl->setVariable('FORM', $form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 
 		return true;
 	}

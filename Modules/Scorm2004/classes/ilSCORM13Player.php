@@ -497,7 +497,7 @@ class ilSCORM13Player
 		$this->increase_attemptAndsave_module_version();
 		$this->resetSharedData();
 
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 	}
 
 	/**
@@ -1012,7 +1012,7 @@ class ilSCORM13Player
 		} else {
 			$this->tpl->setVariable('CLOSE_WINDOW',"");	
 		}
-		$this->tpl->show("DEFAULT", false);				
+		$this->tpl->printToStdout("DEFAULT", false);				
 	}
 	
 	

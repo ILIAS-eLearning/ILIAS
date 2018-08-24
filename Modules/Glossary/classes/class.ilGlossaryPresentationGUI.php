@@ -210,7 +210,7 @@ class ilGlossaryPresentationGUI
 				$ret = $this->$cmd();
 				break;
 		}
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function prepareOutput()
@@ -1410,7 +1410,7 @@ class ilGlossaryPresentationGUI
 			});
 		//-->
 		</script>');
-		$tpl->show(false);
+		$tpl->printToStdout(false);
 		exit;
 	}
 

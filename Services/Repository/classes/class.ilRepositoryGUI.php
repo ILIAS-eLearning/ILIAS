@@ -383,7 +383,7 @@ class ilRepositoryGUI
 					{
 						$_SESSION["il_rep_ref_id"] = "";
 						$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 					}
 					else
 					{
@@ -402,7 +402,7 @@ class ilRepositoryGUI
 		$ret = $this->ctrl->forwardCommand($this->gui_obj);
 		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -543,7 +543,7 @@ class ilRepositoryGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 		
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 

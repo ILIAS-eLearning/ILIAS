@@ -183,7 +183,7 @@ class ilSharedResourceGUI
 				$this->$cmd();
 		}
 		
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	protected function process()

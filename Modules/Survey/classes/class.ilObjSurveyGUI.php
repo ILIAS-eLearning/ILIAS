@@ -282,7 +282,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 				

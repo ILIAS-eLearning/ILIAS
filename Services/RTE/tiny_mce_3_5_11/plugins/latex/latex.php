@@ -55,4 +55,4 @@ else if(strlen($ilIliasIniFile->readVariable('tools', 'latex')))
 
 $tpl->addJavaScript(str_repeat('../', $steps) . $jquery_path, true, 1);
 $tpl->fillJavaScriptFiles(true);
-$tpl->show('DEFAULT', false, true);
+$tpl->printToStdout('DEFAULT', false, true);

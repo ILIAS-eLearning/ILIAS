@@ -1598,7 +1598,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		if(!$a_pdf_export)
 		{
-			$tpl->show(false);
+			$tpl->printToStdout(false);
 			exit;
 		}
 		else

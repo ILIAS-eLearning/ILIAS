@@ -196,7 +196,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$tpl->setContent($ret);
 				}
 				$this->setMediaPoolPageTabs();
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilobjmediaobjectgui":
@@ -254,7 +254,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				}
 				else
 				{
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 				}
 				break;
 
@@ -272,7 +272,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$folder_gui->setFormAction("save",
 							$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->createObject();
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 						break;
 
 					case "saveObject":
@@ -291,7 +291,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$this->ctrl->setParameter($this, "foldereditmode", "1");
 						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->editObject();
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 						break;
 
 					case "updateObject":
@@ -320,14 +320,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
 				$ilTabs->setTabActive("clipboard");
 				$this->ctrl->forwardCommand($clip_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case 'ilinfoscreengui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$this->infoScreen();
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilpermissiongui':
@@ -337,7 +337,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case "ilexportgui":
@@ -355,7 +355,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$exp_gui->addFormat("xml_masternomedia", "XML (".$lng->txt("mep_master_language_only_no_media").")", $this, "export");
 				}
 				$this->ctrl->forwardCommand($exp_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilfilesystemgui":
@@ -379,7 +379,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						false, true);
 					$this->ctrl->forwardCommand($fs_gui);
 				}
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case "ilcommonactiondispatchergui":
@@ -398,7 +398,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$transgui = new ilObjectTranslationGUI($this);
 				$transgui->setTitleDescrOnlyMode(false);
 				$this->ctrl->forwardCommand($transgui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilmediapoolimportgui":
@@ -408,7 +408,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php");
 				$gui = new ilMediaPoolImportGUI($this->object);
 				$this->ctrl->forwardCommand($gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilmobmultisrtuploadgui":
@@ -420,7 +420,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("./Modules/MediaPool/classes/class.ilMepMultiSrt.php");
 				$gui = new ilMobMultiSrtUploadGUI(new ilMepMultiSrt($this->object));
 				$this->ctrl->forwardCommand($gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 
@@ -431,7 +431,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->$cmd();
 				if (!$this->getCreationMode())
 				{
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 				break;
 		}
@@ -839,7 +839,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		//$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
 
 
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 	}
 	

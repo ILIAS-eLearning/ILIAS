@@ -179,7 +179,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
 		if (!$this->getCreationMode())
 		{
-			$tpl->show();
+			$tpl->printToStdout();
 		}
 	}
 

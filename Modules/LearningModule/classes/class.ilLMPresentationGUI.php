@@ -795,7 +795,7 @@ class ilLMPresentationGUI
 			$this->ilGlossary($child);
 			if (!$this->offlineMode())
 			{
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 			else
 			{
@@ -1397,7 +1397,7 @@ class ilLMPresentationGUI
 		$this->pg_obj = $this->getLMPage($page_id);
 		$xml = $this->pg_obj->getXMLContent();
 		$this->lm_gui->showCitation($xml);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -2948,7 +2948,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	
@@ -3073,7 +3073,7 @@ class ilLMPresentationGUI
 			// forward the command
 			$this->ctrl->forwardCommand($info);
 			//$this->tpl->setContent("aa");
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -3256,7 +3256,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TOOLBAR", $tb->getHTML());
 
 		$this->tpl->setVariable("ITEM_SELECTION", $f);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 
 	}
 
@@ -3889,7 +3889,7 @@ class ilLMPresentationGUI
 			}
 		}
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 	}
 
 	/**
@@ -4003,7 +4003,7 @@ class ilLMPresentationGUI
 		include_once("./Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php");
 		$download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
 		$this->tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	

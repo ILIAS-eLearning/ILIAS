@@ -68,7 +68,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 				$this->tpl->setVariable("ADAPTER_NAME", $slm_obj->getAPIAdapterName());
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				exit;
 			}
 		}
@@ -125,7 +125,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));	
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		exit;
 	}
 }

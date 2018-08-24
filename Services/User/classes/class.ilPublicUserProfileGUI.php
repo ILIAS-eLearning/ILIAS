@@ -253,7 +253,7 @@ class ilPublicUserProfileGUI
 		// only for direct links
 		if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
 		{
-			$tpl->show();
+			$tpl->printToStdout();
 		}
 	}
 	

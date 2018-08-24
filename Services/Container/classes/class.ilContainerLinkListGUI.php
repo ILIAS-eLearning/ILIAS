@@ -123,7 +123,7 @@ class ilContainerLinkListGUI
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 
 	}

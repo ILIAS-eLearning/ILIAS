@@ -59,7 +59,7 @@ class ilMyStaffGUI {
 				break;
 		}
 
-		$this->tpl()->show();
+		$this->tpl()->printToStdout();
 	}
 
 

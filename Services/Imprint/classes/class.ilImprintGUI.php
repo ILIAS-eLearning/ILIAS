@@ -138,7 +138,7 @@ class ilImprintGUI extends ilPageObjectGUI
 		
 		$ilMainMenu->showLogoOnly(true);
 		
-		echo $tpl->show("DEFAULT", true, false);
+		$tpl->printToStdout("DEFAULT", true, false);
 		exit();
 	}
 }

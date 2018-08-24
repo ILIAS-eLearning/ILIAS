@@ -743,7 +743,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ( !in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui')) &&
 			$this->getCreationMode() != true)
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	

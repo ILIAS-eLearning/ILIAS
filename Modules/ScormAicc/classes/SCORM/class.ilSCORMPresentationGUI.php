@@ -148,7 +148,7 @@ class ilSCORMPresentationGUI
 		}
 		$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
 		$this->tpl->setVariable("API_LINK", $api_link);
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 
 		
 		exit;
@@ -398,7 +398,7 @@ class ilSCORMPresentationGUI
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		//BUG 16794? $this->tpl->show();
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 	}
 
 
@@ -415,7 +415,7 @@ class ilSCORMPresentationGUI
 		}
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 	}
 
 	function contentSelect() {
@@ -424,7 +424,7 @@ class ilSCORMPresentationGUI
 		$this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt("seq_toc"));
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -522,7 +522,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));
 		
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 
@@ -719,7 +719,7 @@ class ilSCORMPresentationGUI
 			$item->insertTrackData("cmi.core.entry", "", $sahs_obj_id);
 		}
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		//echo htmlentities($this->tpl->get()); exit;
 	}
 
@@ -762,7 +762,7 @@ class ilSCORMPresentationGUI
 		// END Partial fix for SCO sequencing
 		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
 		// $this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function unloadSahs ()
@@ -770,7 +770,7 @@ class ilSCORMPresentationGUI
 		$this->tpl = new ilGlobalTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -800,7 +800,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 		$this->tpl = new ilGlobalTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function pingSession()

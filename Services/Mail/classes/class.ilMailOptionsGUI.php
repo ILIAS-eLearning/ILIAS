@@ -198,6 +198,6 @@ class ilMailOptionsGUI
 		}
 
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }

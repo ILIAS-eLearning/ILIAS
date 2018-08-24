@@ -1223,11 +1223,11 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	}
 	
 	/**
-	 * @param string $part
+	 * @param string|bool $part
 	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs
 	 * @param bool   $a_skip_main_menu
 	 */
-	public function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
+	public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
 		global $DIC;
 

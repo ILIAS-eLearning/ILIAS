@@ -346,13 +346,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			{
 				if (!$this->getCreationMode())
 				{
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 			}
 		}
 		else
 		{
-			$this->tpl->show(false);
+			$this->tpl->printToStdout(false);
 		}
 	}
 

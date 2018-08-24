@@ -112,7 +112,7 @@ class ilForumExportGUI
 				$this->renderPostHtml($tpl, $post, $z++, self::MODE_EXPORT_WEB);
 			}
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	public function printPost()
@@ -143,7 +143,7 @@ class ilForumExportGUI
 
 			$this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**

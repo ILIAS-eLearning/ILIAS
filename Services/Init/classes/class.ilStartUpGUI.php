@@ -229,7 +229,7 @@ class ilStartUpGUI
 		$tpl->fillWindowTitle();
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 
 	/**
@@ -489,7 +489,7 @@ class ilStartUpGUI
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
 
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 	
 	protected function showCodeForm($a_username = null, $a_form = null)
@@ -506,7 +506,7 @@ class ilStartUpGUI
 		}
 		
 		$tpl->setVariable("FORM", $a_form->getHTML());
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 	
 	protected function initCodeForm($a_username)
@@ -1389,7 +1389,7 @@ class ilStartUpGUI
 			ilUtil::sendFailure($a_message);
 		}
 
-		$tpl->show('DEFAULT');
+		$tpl->printToStdout('DEFAULT');
 	}
 	
 	/**
@@ -1612,7 +1612,7 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1679,7 +1679,7 @@ class ilStartUpGUI
 		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1786,7 +1786,7 @@ class ilStartUpGUI
 		
 		// render table
 		$tbl->render();
-		$tpl->show("DEFAULT", true, true);
+		$tpl->printToStdout("DEFAULT", true, true);
 	}
 
 	/**
@@ -1817,7 +1817,7 @@ class ilStartUpGUI
 			<br/>- Check 'Always allow session cookies'
 			</p>";
 		$tpl->setVariable("CONTENT", $str);
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1878,7 +1878,7 @@ class ilStartUpGUI
 			);
 		}
 
-		$this->mainTemplate->show();
+		$this->mainTemplate->printToStdout();
 	}
 
 	/**
@@ -2614,6 +2614,6 @@ class ilStartUpGUI
 		$mainTpl->fillWindowTitle();
 		$mainTpl->fillCssFiles();
 		$mainTpl->fillJavaScriptFiles();
-		$mainTpl->show('DEFAULT', false);
+		$mainTpl->printToStdout('DEFAULT', false);
 	}
 }

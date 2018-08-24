@@ -226,7 +226,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->tpl = new ilGlobalTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
 			$this->tpl->setVariable("SRC",
 			$this->ctrl->getLinkTarget($this, "properties"));
-			$this->tpl->show("DEFAULT", false);
+			$this->tpl->printToStdout("DEFAULT", false);
 		}
 		exit;
 	}
@@ -1412,7 +1412,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		
 		
 		exit;
