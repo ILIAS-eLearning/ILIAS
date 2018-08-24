@@ -10,16 +10,14 @@ use ILIAS\UX\Services;
 interface Provider {
 
 	/**
+	 * You will get an Instance of the UX-Services to use i you provider.
+	 * Do not create own Instances of the UX-Services.
+	 *
+	 * All Providers will be called at some point, the UX-Services will take
+	 * care of the initialisation of your providers by creating instances and by
+	 * injecting the one and only instance of the UX-Services using this method.
+	 *
 	 * @param Services $services
 	 */
 	public function inject(Services $services);
-
-
-	/**
-	 * This is the first method which would be called and is in most cases a
-	 * simple return true or return false without any futher checks.
-	 *
-	 * @return bool
-	 */
-	public function mayHaveElements(): bool;
 }

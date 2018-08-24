@@ -11,6 +11,7 @@ class ilSamlAuthFactory
 	/**
 	 * @param string $authSourceName
 	 * @return ilSamlAuth
+	 * @throws Exception
 	 */
 	public function auth($authSourceName = 'default-sp')
 	{
@@ -22,6 +23,7 @@ class ilSamlAuthFactory
 
 	/**
 	 * @return string
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	public function getConfigDirectory()
 	{

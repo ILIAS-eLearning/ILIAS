@@ -1,11 +1,16 @@
 <?php namespace ILIAS\UX\Identification;
 
 /**
- * Class Identification
+ * Class PluginIdentification
+ *
+ * @see    IdentificationFactory
+ * This is a implementation of IdentificationInterface for usage in Plugins
+ * (they will get them through the factory or through ilPlugin).
+ * This a Serializable and will be used to store in database and cache.
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Identification implements IdentificationInterface {
+class PluginIdentification implements IdentificationInterface {
 
 	const DIVIDER = '|';
 	/**
@@ -16,17 +21,23 @@ class Identification implements IdentificationInterface {
 	 * @var string
 	 */
 	protected $classname = '';
+	/**
+	 * @var string
+	 */
+	protected $plugin_id = "";
 
 
 	/**
-	 * Identification constructor.
+	 * CoreIdentification constructor.
 	 *
 	 * @param string $internal_identifier
 	 * @param string $classname
+	 * @param string $plugin_id
 	 */
-	public function __construct(string $internal_identifier, string $classname) {
+	public function __construct(string $internal_identifier, string $classname, string $plugin_id) {
 		$this->internal_identifier = $internal_identifier;
 		$this->classname = $classname;
+		$this->plugin_id = $plugin_id;
 	}
 
 
@@ -36,7 +47,7 @@ class Identification implements IdentificationInterface {
 	public function serialize() {
 		$divider = self::DIVIDER;
 
-		return "{$this->getClassName()}{$divider}{$this->getInternalIdentifier()}";
+		return "{$this->plugin_id}{$divider}{$this->getClassName()}{$divider}{$this->getInternalIdentifier()}";
 	}
 
 
@@ -44,7 +55,8 @@ class Identification implements IdentificationInterface {
 	 * @inheritDoc
 	 */
 	public function unserialize($serialized) {
-		list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized);
+		list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized);
+		$this->plugin_id = $plugin_id;
 		$this->classname = $class_name;
 		$this->internal_identifier = $internal_identifier;
 	}

@@ -42,6 +42,11 @@ class ilTestDynamicQuestionSet
 	/**
 	 * @var ilAssQuestionList
 	 */
+	private $selectionQuestionList = null;
+	
+	/**
+	 * @var ilAssQuestionList
+	 */
 	private $filteredQuestionList = null;
 	
 	/**
@@ -70,6 +75,10 @@ class ilTestDynamicQuestionSet
 					$dynamicQuestionSetConfig, $filterSelection->getAnswerStatusActiveId()
 		);
 		
+		$this->selectionQuestionList = $this->initSelectionQuestionList(
+					$dynamicQuestionSetConfig, $filterSelection
+		);
+		
 		$this->filteredQuestionList = $this->initFilteredQuestionList(
 					$dynamicQuestionSetConfig, $filterSelection
 		);
@@ -83,11 +92,9 @@ class ilTestDynamicQuestionSet
 
 	private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $answerStatusActiveId)
 	{
-		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
-
-		$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
-
-		$questionList->setAnswerStatusActiveId($answerStatusActiveId);
+		$questionList = $this->buildQuestionList(
+			$dynamicQuestionSetConfig->getSourceQuestionPoolId(), $answerStatusActiveId
+		);
 		
 		$questionList->load();
 		
@@ -96,11 +103,9 @@ class ilTestDynamicQuestionSet
 	
 	private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
-		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
-
-		$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
-
-		$questionList->setAnswerStatusActiveId($filterSelection->getAnswerStatusActiveId());
+		$questionList = $this->buildQuestionList(
+			$dynamicQuestionSetConfig->getSourceQuestionPoolId(), $filterSelection->getAnswerStatusActiveId()
+		);
 
 		if( $dynamicQuestionSetConfig->isAnswerStatusFilterEnabled() )
 		{
@@ -130,6 +135,38 @@ class ilTestDynamicQuestionSet
 		}
 		
 		$questionList->setForcedQuestionIds($filterSelection->getForcedQuestionIds());
+		
+		$questionList->load();
+		
+		return $questionList;
+	}
+	
+	/**
+	 * @param ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig
+	 * @param ilTestDynamicQuestionSetFilterSelection $filterSelection
+	 * @return ilAssQuestionList
+	 */
+	public function initSelectionQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
+	{
+		$questionList = $this->buildQuestionList(
+			$dynamicQuestionSetConfig->getSourceQuestionPoolId(), $filterSelection->getAnswerStatusActiveId()
+		);
+		
+		if( $dynamicQuestionSetConfig->isTaxonomyFilterEnabled() )
+		{
+			require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+			
+			$questionList->setAvailableTaxonomyIds( ilObjTaxonomy::getUsageOfObject(
+				$dynamicQuestionSetConfig->getSourceQuestionPoolId()
+			));
+			
+			foreach($filterSelection->getTaxonomySelection() as $taxId => $taxNodes)
+			{
+				$questionList->addTaxonomyFilter(
+					$taxId, $taxNodes, $this->testOBJ->getId(), $this->testOBJ->getType()
+				);
+			}
+		}
 		
 		$questionList->load();
 		
@@ -227,14 +264,41 @@ class ilTestDynamicQuestionSet
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * @return ilAssQuestionList
+	 */
 	public function getCompleteQuestionList()
 	{
 		return $this->completeQuestionList;
 	}
 	
+	/**
+	 * @return ilAssQuestionList
+	 */
+	public function getSelectionQuestionList()
+	{
+		return $this->selectionQuestionList;
+	}
+	
+	/**
+	 * @return ilAssQuestionList
+	 */
 	public function getFilteredQuestionList()
 	{
 		return $this->filteredQuestionList;
+	}
+	
+	/**
+	 * @param integer $sourceQuestionPoolId
+	 * @param string $answerStatusActiveId
+	 * @return ilAssQuestionList
+	 */
+	private function buildQuestionList($sourceQuestionPoolId, $answerStatusActiveId)
+	{
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+		$questionList->setParentObjId($sourceQuestionPoolId);
+		$questionList->setAnswerStatusActiveId($answerStatusActiveId);
+		return $questionList;
 	}
 }
 

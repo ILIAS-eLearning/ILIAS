@@ -1,9 +1,13 @@
-<?php namespace ILIAS\UX\Collector;
+<?php namespace ILIAS\UX\Collector\MainMenu;
 
 use ILIAS\UX\MainMenu\Slate\Slate;
 
 /**
  * Class Main
+ *
+ * This Collector will collect and then provide all available slates from the
+ * providers in the whole system, stack them and enrich them will their content
+ * based on the configuration in "Administration".
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */

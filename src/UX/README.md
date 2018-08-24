@@ -33,18 +33,44 @@ return [$this->ux->mainmenu()->link($this->ux->identification()->internal('mm_pd
 `->withParent()` defines the default parent (e.g. a slate). However, depending on the configuration in the installation, this will be overwritten later by the configured parent.
 
 ### Static vs. Dynamic
-For the MainMenu - but probably also for other UX components - there are two different types of providers. Most components will use StaticProviders. These provide elements for the UX (e.g. slates and menu entries), which are collected once during installation or an update of ILIAS and are stored "statically" in the database with their identifiers. These UX elements are thus always statically available to ILIAS, whether they are displayed depends on various other properties (see withAvailableCallable, withVisibilityCallable). The static elements can also be adapted via a configuration in the ILIAS Administration, e.g. by renaming or changing the order.
+For the StaticMainMenuProvider - but probably also for other UX components - there are two different types of providers. Most components will use StaticProviders. These provide elements for the UX (e.g. slates and menu entries), which are collected once during installation or an update of ILIAS and are stored "statically" in the database with their identifiers. These UX elements are thus always statically available to ILIAS, whether they are displayed depends on various other properties (see withAvailableCallable, withVisibilityCallable). The static elements can also be adapted via a configuration in the ILIAS Administration, e.g. by renaming or changing the order.
 
 DynamicProviders, on the other hand, will in future provide UX elements that are only available at a certain point in time, such as the tools that are displayed context-dependently. The documentation for tools is only added when the tools are implemented.
 
+### How to implement your provider
+Whether a component has UX providers is determined by entries in `service.xml` or `module.xml`. The following entry is added, e.g.:
+```xml
+    <uxproviders>
+        <mainmenu class_name="ilBadgeUXProvider"/>
+    </uxproviders>
+```
+As many providers as desired can be registered. These can implement one or more of the available provider interfaces, e.g..:
+```php
+use ILIAS\UX\Provider\DynamicProvider\DynamicMainMenuProvider;
+use ILIAS\UX\Provider\StaticProvider\StaticMainMenuProvider;
+
+class ilBadgeUXProvider implements StaticMainMenuProvider, DynamicMainMenuProvider {
+    ...
+}
+```
+
 ## Identification
+### Core
 All elements in the UX service must be identifiable for the supplying components mentioned above. The UX service uses this identification, for example, for parent/child relationships. The identification is also forwarded to the UI service or to the instance that then renders the UX elements. This means that the identification can be used there again, for example, to generate unique IDs for the online help.
 
 Identifications can be retrieved in a provider as follows, for example:
 ```php
-$id = $this->ux->identification()->internal('my_internal_id');
+// assuming $this is a provider
+$id = $this->ux->identification()->core($this)->identifier('my_internal_id');
 ```
+### Plugins
+There is a special Identification for Plugins which can be get as follows:
+```php
+// assuming $this is a provider and $pl is a ilPlugin-child
+$id = $this->ux->identification()->plugin($pl, $this)->identifier('my_internal_id');
+```
+
 ## Collectors
-In most cases, you won't need to implement a collector. For the MainMenu, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented under /Services/MainMenu.
+In most cases, you won't need to implement a collector. For the StaticMainMenuProvider, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented in UX\Collector\MainMenu.
 
 
