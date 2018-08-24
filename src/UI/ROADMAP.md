@@ -43,6 +43,19 @@ test for all existing examples, i.e. checks if the example can be executed at
 all and delivers a string to be included in the documentation of the UI frame-
 work.
 
+### Examples on Main Page (Beginner, ~4h)
+
+We want to have examples on the main pages of some components family of the 
+documentation displayed in ILIAS System Styles Section. E.g. there should
+also be examples on the "Buttons" Page for the complete Buttons family.
+
+
+Create an abstraction for Actions that could be used instead of stringy links.
+  It would be strongly related to ilCtrl and probably should be an ILIAS library.
+  
+### Automatic Less-Variables Extraction (Expert, ~2PD)
+Create a mechanism to wire less-files to delos.less that is more automatic than
+'do it manually'.
 
 ## Long Term
 
