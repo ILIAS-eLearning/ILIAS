@@ -5,6 +5,9 @@ use ILIAS\UX\MainMenu\AbstractChildEntry;
 /**
  * Class Link
  *
+ * Attention: This is not the same as the \ILIAS\UI\Component\Link\Link. Please
+ * read the difference between UX and UI in the README.md of the UX Service.
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Link extends AbstractChildEntry implements LinkInterface {
