@@ -1,11 +1,12 @@
 <?php namespace ILIAS\UX\Identification;
 
 /**
- * Class DynamicProvider
+ * Class CoreIdentificationProvider
  *
+ * @see    IdentificationProviderInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Core implements ProviderInterface {
+class CoreIdentificationProvider implements IdentificationProviderInterface {
 
 	/**
 	 * @var string
@@ -22,11 +23,9 @@ class Core implements ProviderInterface {
 
 
 	/**
-	 * @param string $identifier
-	 *
-	 * @return Identification$
+	 * @inheritdoc
 	 */
-	public function internal(string $identifier): IdentificationInterface {
-		return new Identification($identifier, $this->class_name);
+	public function identifier(string $identifier_string): IdentificationInterface {
+		return new CoreIdentification($identifier_string, $this->class_name);
 	}
 }

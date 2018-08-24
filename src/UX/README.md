@@ -55,13 +55,22 @@ class ilBadgeUXProvider implements StaticMainMenuProvider, DynamicMainMenuProvid
 ```
 
 ## Identification
+### Core
 All elements in the UX service must be identifiable for the supplying components mentioned above. The UX service uses this identification, for example, for parent/child relationships. The identification is also forwarded to the UI service or to the instance that then renders the UX elements. This means that the identification can be used there again, for example, to generate unique IDs for the online help.
 
 Identifications can be retrieved in a provider as follows, for example:
 ```php
-$id = $this->ux->identification()->internal('my_internal_id');
+// assuming $this is a provider
+$id = $this->ux->identification()->core($this)->identifier('my_internal_id');
 ```
+### Plugins
+There is a special Identification for Plugins which can be get as follows:
+```php
+// assuming $this is a provider and $pl is a ilPlugin-child
+$id = $this->ux->identification()->plugin($pl, $this)->identifier('my_internal_id');
+```
+
 ## Collectors
-In most cases, you won't need to implement a collector. For the StaticMainMenuProvider, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented under /Services/StaticMainMenuProvider.
+In most cases, you won't need to implement a collector. For the StaticMainMenuProvider, for example, the necessary collectors (Main-Collector, which combines all necessary elements from the collectors "Plugins" and "Core") are already implemented under /Services/MainMenu.
 
 

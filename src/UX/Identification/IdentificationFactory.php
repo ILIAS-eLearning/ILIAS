@@ -3,15 +3,36 @@
 /**
  * Class IdentificationFactory
  *
+ * There will be at least two IdentificationProvider, one cor core components
+ * and one for plugins. This factory allows to acces both.
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class IdentificationFactory {
 
 	/**
-	 * @inheritdoc
+	 * Returns a IndentificationProvider for core components, only a Provider
+	 * is needed.
+	 *
+	 * @param \ILIAS\UX\Provider\Provider $provider
+	 *
+	 * @return IdentificationProviderInterface
 	 */
-	public function core(\ILIAS\UX\Provider\Provider $provider): ProviderInterface {
-		return new Core(get_class($provider));
+	public function core(\ILIAS\UX\Provider\Provider $provider): IdentificationProviderInterface {
+		return new CoreIdentificationProvider(get_class($provider));
+	}
+
+
+	/**
+	 * Returns a IndentificationProvider for ILIAS-Plugins
+	 *
+	 * @param \ilPlugin                   $plugin
+	 * @param \ILIAS\UX\Provider\Provider $provider
+	 *
+	 * @return IdentificationProviderInterface
+	 */
+	public function plugin(\ilPlugin $plugin, \ILIAS\UX\Provider\Provider $provider): IdentificationProviderInterface {
+		return new PluginIdentificationProvider(get_class($provider), $plugin->getId());
 	}
 }
 
