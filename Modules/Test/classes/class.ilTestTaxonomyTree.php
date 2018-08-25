@@ -17,6 +17,7 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
 	private $allNodes = array();
 	private $maxOrderValueLength = 1;
 	private $pathNodesByNodeCache = array();
+	private $orderingFieldName;
 	
 	public function __construct($taxonomyId)
 	{
@@ -24,8 +25,19 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
 		$this->readRootId();
 	}
 	
-	public function initOrderedTreeIndex()
+	public function initOrderedTreeIndex(ilObjTaxonomy $taxonomy)
 	{
+		switch($taxonomy->getSortingMode())
+		{
+			case ilObjTaxonomy::SORT_MANUAL:
+				$this->orderingFieldName = 'order_nr';
+				break;
+			
+			case ilObjTaxonomy::SORT_ALPHABETICAL:
+			default:
+				$this->orderingFieldName = 'title';
+		}
+		
 		$this->allNodes = $this->getSubTree($this->getNodeData($this->getRootId()));
 		$this->maxOrderValueLength = $this->getMaxOrderValueLength($this->allNodes);
 	}
@@ -43,7 +55,17 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
 				$pathString .= '-';
 			}
 			
-			$pathString .= sprintf("%0{$this->maxOrderValueLength}d", (int)$n['order_nr']);
+			switch($this->orderingFieldName)
+			{
+				case 'order_nr':
+					$pathString .= sprintf("%0{$this->maxOrderValueLength}d", (int)$n[$this->orderingFieldName]);
+					break;
+				case 'title':
+				default:
+					$pathString .= $n[$this->orderingFieldName];
+			}
+			
+			
 		}
 		
 		return $pathString;
@@ -65,7 +87,7 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
 		
 		foreach($nodes as $n)
 		{
-			$l = strlen($n['order_nr']);
+			$l = strlen($n[$this->orderingFieldName]);
 			
 			if( $l > $length )
 			{
