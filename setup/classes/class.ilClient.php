@@ -26,7 +26,7 @@ class ilClient
 	 */
 	public $error = '';
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	public $db;
 	/**

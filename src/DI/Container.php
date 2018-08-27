@@ -16,7 +16,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDB
+	 * @return	\ilDBInterface
 	 */
 	public function database() {
 		return $this["ilDB"];
