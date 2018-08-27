@@ -17,7 +17,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
+	public function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
 		global $DIC;
 
@@ -49,28 +49,20 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		
 		$data = array();
 
-		include_once "Modules/Course/classes/class.ilObjCourse.php";		
-		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-		
-		$obj_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), "crs");
-		if($obj_ids)
-		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";	
-			include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";					
-			ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $obj_ids);
-			
-			foreach($obj_ids as $crs_id)
-			{			
+		$userId = $ilUser->getId();
+		$obj_ids = ilCourseParticipants::_getMembershipByType($userId, "crs");
+		if($obj_ids) {
+			ilCourseCertificateAdapter::_preloadListData($userId, $obj_ids);
+
+			foreach($obj_ids as $crs_id) {
 				// #11210 - only available certificates!
-				if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $crs_id))															
-				{
+				if(ilCourseCertificateAdapter::_hasUserCertificate($userId, $crs_id)) {
 					$courseObject = ilObjectFactory::getInstanceByObjId($crs_id);
 					$factory = new ilCertificateFactory();
 
 					$certificate = $factory->create($courseObject);
 
-					if($certificate->isComplete())
-					{							
+					if($certificate->isComplete()) {
 						$data[] = array("id" => $crs_id,
 							"title" => ilObject::_lookupTitle($crs_id),
 							"passed" => true);
