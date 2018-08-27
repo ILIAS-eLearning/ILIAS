@@ -12,14 +12,30 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilTestVerificationTableGUI extends ilTable2GUI
 {
 	/**
-	 * Constructor
-	 *
+	 * @var ilUserCertificateRepository|null
+	 */
+	private $userCertificateRepository;
+
+	/**
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
-		global $ilCtrl;
+	public function  __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -41,23 +57,27 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function getItems()
 	{
-		global $ilUser;
+		global $DIC;
 
-		include_once "Modules/Test/classes/class.ilObjTest.php";					
-	    include_once "Modules/Test/classes/class.ilTestSessionFactory.php";
-         
+		$ilUser = $DIC->user();
+
 		$data = array();
-		foreach(ilObjTest::getTestObjIdsWithActiveForUserId($ilUser->getId()) as $test_id)
-		{
-			// #11210 - only available certificates!
-			$test = new ilObjTest($test_id, false);								
-			$session = new ilTestSessionFactory($test);
-		    $session = $session->getSession(null);
-			if($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
-			{						
-				$data[] = array("id" => $test_id,
-					"title" => $test->getTitle(),
-					"passed" => $test->getPassed($session->getActiveId()));
+
+		$userId = $ilUser->getId();
+		$obj_ids = ilObjTest::getTestObjIdsWithActiveForUserId($ilUser->getId());
+
+		if($obj_ids) {
+			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
+
+			/** @var ilUserCertificate $certificate */
+			foreach ($certificateArray as $certificate) {
+				$title = ilObject::_lookupTitle($certificate->getObjId());
+
+				$data[] = array(
+					'id'     => $certificate->getObjId(),
+					'title'  => $title,
+					'passed' => true
+				);
 			}
 		}
 
