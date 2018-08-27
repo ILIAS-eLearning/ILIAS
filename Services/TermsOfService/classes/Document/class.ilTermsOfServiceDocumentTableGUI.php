@@ -166,7 +166,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				'modification_ts' => $document->getModificationTs(),
 				'text' => $document->getText(),
 				'criteria' => '',
-				'criteriaAssignments' => $document->getCriteria()
+				'criteriaAssignments' => $document->criteria()
 			];
 		}
 	}
