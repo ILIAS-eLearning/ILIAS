@@ -31,7 +31,7 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements \ilTermsOf
 	 */
 	public function evaluate(\ilTermsOfServiceSignableDocument $document): bool
 	{
-		foreach ($document->getCriteria() as $criterionAssignment) {
+		foreach ($document->criteria() as $criterionAssignment) {
 			/** @var $criterionAssignment \ilTermsOfServiceEvaluableCriterion */
 
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($criterionAssignment->getCriterionId(), true);

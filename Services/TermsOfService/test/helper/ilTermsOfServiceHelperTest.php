@@ -60,27 +60,27 @@ class ilTermsOfServiceHelperTest extends \ilTermsOfServiceBaseTest
 		$document = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getText', 'getId', 'getCriteria', 'getTitle'])
+			->setMethods(['content', 'id', 'criteria', 'title'])
 			->getMock();
 
 		$document
 			->expects($this->atLeast(1))
-			->method('getText')
+			->method('content')
 			->willReturn('phpunit');
 
 		$document
 			->expects($this->atLeast(1))
-			->method('getTitle')
+			->method('title')
 			->willReturn('phpunit');
 
 		$document
 			->expects($this->atLeast(1))
-			->method('getId')
+			->method('id')
 			->willReturn(1);
 
 		$document
 			->expects($this->atLeast(1))
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([]);
 
 		$helper->trackAcceptance($user, $document);

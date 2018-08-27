@@ -261,7 +261,7 @@ class ilAccountRegistrationGUI
 			$this->form->addItem($field);
 
 			$field = new ilCustomInputGUI();
-			$field->setHTML('<div id="agreement">' . $document->getText() . '</div>');
+			$field->setHTML('<div id="agreement">' . $document->content() . '</div>');
 			$this->form->addItem($field);
 
 			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');

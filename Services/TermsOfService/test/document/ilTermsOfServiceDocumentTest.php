@@ -128,7 +128,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 			'title' => 'phpunit',
 		]);
 
-		$this->assertCount(3, $document->getCriteria());
+		$this->assertCount(3, $document->criteria());
 	}
 
 	/**
@@ -192,7 +192,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 
 		$document = new \ilTermsOfServiceDocument(4711);
 
-		$this->assertCount(3, $document->getCriteria());
+		$this->assertCount(3, $document->criteria());
 	}
 
 	/**
@@ -211,7 +211,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$document->attachCriterion($criterionAssignment2);
 		$document->attachCriterion($criterionAssignment3);
 
-		$this->assertCount(3, $document->getCriteria());
+		$this->assertCount(3, $document->criteria());
 	}
 
 	/**
@@ -230,11 +230,11 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 		$document->attachCriterion($criterionAssignment2);
 		$document->attachCriterion($criterionAssignment3);
 
-		$this->assertCount(3, $document->getCriteria());
+		$this->assertCount(3, $document->criteria());
 
 		$document->detachCriterion($criterionAssignment2);
 
-		$this->assertCount(2, $document->getCriteria());
+		$this->assertCount(2, $document->criteria());
 	}
 
 	/**
@@ -296,7 +296,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 			->expects($this->once())
 			->method('delete');
 
-		$this->assertCount(3, $document->getCriteria());
+		$this->assertCount(3, $document->criteria());
 
 		$document->store(); // 1 / 2 / 3
 
@@ -304,12 +304,12 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 
 		$document->store();  // 1 / 3
 
-		$this->assertCount(2, $document->getCriteria());
+		$this->assertCount(2, $document->criteria());
 
 		$document->detachCriterion($criterionAssignment1);
 		$document->detachCriterion($criterionAssignment3);
 
-		$this->assertCount(0, $document->getCriteria());
+		$this->assertCount(0, $document->criteria());
 
 		$document->delete();
 	}

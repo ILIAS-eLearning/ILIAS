@@ -1846,7 +1846,7 @@ class ilStartUpGUI
 				$this->mainTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
-			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getText());
+			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
 		} else {
 			$this->mainTemplate->setVariable(
 				'TERMS_OF_SERVICE_CONTENT',

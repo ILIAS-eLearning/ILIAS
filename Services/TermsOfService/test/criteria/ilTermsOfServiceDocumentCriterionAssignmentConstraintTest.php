@@ -120,12 +120,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
@@ -156,12 +156,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
@@ -207,12 +207,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
@@ -243,12 +243,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$dataFavtgory = new Factory();
@@ -289,12 +289,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
@@ -325,12 +325,12 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$document1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
-			->setMethods(['getCriteria'])
+			->setMethods(['criteria'])
 			->getMock();
 
 		$document1
 			->expects($this->any())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(

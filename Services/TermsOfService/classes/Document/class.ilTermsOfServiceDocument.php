@@ -100,7 +100,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getText(): string
+	public function content(): string
 	{
 		return $this->text;
 	}
@@ -108,7 +108,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getTitle(): string
+	public function title(): string
 	{
 		return $this->title;
 	}
@@ -116,7 +116,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getId(): int
+	public function id(): int
 	{
 		return $this->id;
 	}
@@ -209,7 +209,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements \ilTermsOfService
 	/**
 	 * @inheritdoc
 	 */
-	public function getCriteria(): array
+	public function criteria(): array
 	{
 		return $this->criteria;
 	}

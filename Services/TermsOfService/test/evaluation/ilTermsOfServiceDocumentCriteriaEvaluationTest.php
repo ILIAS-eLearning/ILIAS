@@ -21,7 +21,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 
 		$doc
 			->expects($this->once())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([]);
 
 		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user);
@@ -70,7 +70,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 
 		$doc
 			->expects($this->once())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([
 				$criterionAssignment1,
 				$criterionAssignment2,
@@ -133,7 +133,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 
 		$doc
 			->expects($this->once())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([
 				$criterionAssignment1,
 				$criterionAssignment2,

@@ -565,7 +565,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		}
 
 		$criterionAssignment = array_values(array_filter(
-			$document->getCriteria(),
+			$document->criteria(),
 			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
 				return $criterionAssignment->getId() == $criterionId;
 			}
@@ -593,7 +593,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		}
 
 		$criterionAssignment = array_values(array_filter(
-			$document->getCriteria(),
+			$document->criteria(),
 			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
 				return $criterionAssignment->getId() == $criterionId;
 			}
@@ -628,7 +628,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		}
 
 		$criterionAssignment = array_values(array_filter(
-			$document->getCriteria(),
+			$document->criteria(),
 			function(\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use ($criterionId) {
 				return $criterionAssignment->getId() == $criterionId;
 			}

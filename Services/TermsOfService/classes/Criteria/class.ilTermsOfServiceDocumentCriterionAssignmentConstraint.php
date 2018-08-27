@@ -27,7 +27,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 
 		parent::__construct(
 			function (\ilTermsOfServiceDocumentCriterionAssignment $value) {
-				$criteria = $this->document->getCriteria();
+				$criteria = $this->document->criteria();
 
 				return 0 === count(array_filter($criteria, function(\ilTermsOfServiceDocumentCriterionAssignment $assignment) use ($value) {
 					$idCurrent = $assignment->getId();

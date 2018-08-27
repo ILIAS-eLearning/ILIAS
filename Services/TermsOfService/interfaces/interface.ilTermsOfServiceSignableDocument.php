@@ -10,20 +10,20 @@ interface ilTermsOfServiceSignableDocument
 	/**
 	 * @return string
 	 */
-	public function getText(): string;
+	public function content(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getTitle(): string;
+	public function title(): string;
 
 	/**
 	 * @return int
 	 */
-	public function getId(): int;
+	public function id(): int;
 
 	/**
 	 * @return \ilTermsOfServiceEvaluableCriterion[]
 	 */
-	public function getCriteria(): array;
+	public function criteria(): array;
 }

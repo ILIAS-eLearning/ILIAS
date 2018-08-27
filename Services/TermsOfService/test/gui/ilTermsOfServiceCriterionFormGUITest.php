@@ -405,7 +405,7 @@ class ilTermsOfServiceCriterionFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$document
 			->expects($this->once())
-			->method('getCriteria')
+			->method('criteria')
 			->willReturn([$anotherCriterionAssignment]);
 
 		$user = $this

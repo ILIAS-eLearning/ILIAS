@@ -112,12 +112,12 @@ class ilTermsOfServiceHelper
 
 		$entity->setUserId($user->getId());
 		$entity->setTimestamp(time());
-		$entity->setText($document->getText());
-		$entity->setHash(md5($document->getText()));
-		$entity->setDocumentId($document->getId());
-		$entity->setTitle($document->getTitle());
+		$entity->setText($document->content());
+		$entity->setHash(md5($document->content()));
+		$entity->setDocumentId($document->id());
+		$entity->setTitle($document->title());
 
-		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->getCriteria());
+		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
 		$entity->setCriteria($criteriaBag->toJson());
 
 		$databaseGateway->trackAcceptance($entity);
