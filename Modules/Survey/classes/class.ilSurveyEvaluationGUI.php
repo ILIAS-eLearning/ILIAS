@@ -1996,11 +1996,15 @@ class ilSurveyEvaluationGUI
 		$parts = parse_url(ILIAS_HTTP_PATH);
 
 		$target = ilUtil::ilTempnam() . "." . $a_suffix;
+		$path = $parts["path"];
+		if(empty($path)) {
+			$path = "''";
+		}
 
 		$args = array(
 			session_id(),
 			$parts["host"],
-			$parts["path"],
+			$path,
 			CLIENT_ID,
 			"\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
 			$target
@@ -2022,6 +2026,7 @@ class ilSurveyEvaluationGUI
 		ilLoggerFactory::getRootLogger()->debug("* Arguments:");
 		ilLoggerFactory::getRootLogger()->dump($args);
 
+		ilLoggerFactory::getRootLogger()->debug("EXEC => ".$bin . " " . $script . " " . implode(" ", $args));
 		//die("before");
 		exec($bin . " " . $script . " " . implode(" ", $args), $output, $return);
 		//die("After");
