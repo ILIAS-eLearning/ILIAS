@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentInterface {
+abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentEntryInterface {
 
 	/**
 	 * @var EntryInterface[]
@@ -24,7 +24,7 @@ abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentIn
 	/**
 	 * @inheritDoc
 	 */
-	public function withChildren(array $children): ParentInterface {
+	public function withChildren(array $children): ParentEntryInterface {
 		$clone = clone($this);
 		$clone->children = $children;
 
@@ -35,7 +35,7 @@ abstract class AbstractParentEntry extends AbstractBaseEntry implements ParentIn
 	/**
 	 * @inheritDoc
 	 */
-	public function appendChild(ChildEntryInterface $child): ParentInterface {
+	public function appendChild(ChildEntryInterface $child): ParentEntryInterface {
 		$this->children[] = $child;
 
 		return $this;

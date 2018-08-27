@@ -5,6 +5,6 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface TopEntryInterface extends ParentInterface {
+interface TopEntryInterface extends ParentEntryInterface {
 
 }

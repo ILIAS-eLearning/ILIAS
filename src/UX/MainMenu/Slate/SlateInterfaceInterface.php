@@ -2,7 +2,7 @@
 
 use ILIAS\UX\MainMenu\AsyncContentEntry;
 use ILIAS\UX\MainMenu\EntryInterface;
-use ILIAS\UX\MainMenu\ParentInterface;
+use ILIAS\UX\MainMenu\ParentEntryInterface;
 use ILIAS\UX\MainMenu\TopEntryInterface;
 
 /**
@@ -10,7 +10,7 @@ use ILIAS\UX\MainMenu\TopEntryInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface SlateInterfaceInterface extends EntryInterface, ParentInterface, AsyncContentEntry, TopEntryInterface {
+interface SlateInterfaceInterface extends EntryInterface, ParentEntryInterface, AsyncContentEntry, TopEntryInterface {
 
 	/**
 	 * @param string $title

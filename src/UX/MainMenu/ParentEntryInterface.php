@@ -1,11 +1,11 @@
 <?php namespace ILIAS\UX\MainMenu;
 
 /**
- * Interface ParentInterface
+ * Interface ParentEntryInterface
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ParentInterface extends EntryInterface {
+interface ParentEntryInterface extends EntryInterface {
 
 	/**
 	 * @return EntryInterface[]
@@ -18,7 +18,7 @@ interface ParentInterface extends EntryInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function withChildren(array $children): ParentInterface;
+	public function withChildren(array $children): ParentEntryInterface;
 
 
 	/**
@@ -28,5 +28,5 @@ interface ParentInterface extends EntryInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function appendChild(ChildEntryInterface $child): ParentInterface;
+	public function appendChild(ChildEntryInterface $child): ParentEntryInterface;
 }
