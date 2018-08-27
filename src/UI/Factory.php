@@ -321,7 +321,8 @@ interface Factory {
 	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
 	 *           kind of Dropdown is used as part of the UI element.
 	 *   composition:
-	 *      1: > Empty dropdowns MUST NOT be rendered at all to keep the UI as clean as possible.
+	 *      1: >
+	 *           Empty dropdowns MUST NOT be rendered at all to keep the UI as clean as possible.
 	 *   interaction:
 	 *      1: >
 	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
