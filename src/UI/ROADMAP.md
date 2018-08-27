@@ -9,6 +9,7 @@ acts as a notepad for information that comes up during day to day work with the
 framework, discussions, etc. It may act as a source for new tasks. The sections
 are explained in [Usage](#usage).
 
+
 ## Short Term
 
 ### Enaged Buttons (advanced, ~4h)
@@ -43,6 +44,12 @@ test for all existing examples, i.e. checks if the example can be executed at
 all and delivers a string to be included in the documentation of the UI frame-
 work.
 
+### Examples on Main Page (Beginner, ~4h)
+
+We want to have examples on the main pages of some components family of the 
+documentation displayed in ILIAS System Styles Section. E.g. there should
+also be examples on the "Buttons" Page for the complete Buttons family.
+
 
 ## Long Term
 
@@ -53,12 +60,18 @@ thus supersede the current templating. The challenge is two-fold: on the one han
 the required elements need to be implemented in the UI-framework, on the other
 hand the components need to use the UI-framework for their actual rendering. 
 
+
 ## Ideas and Food for Thought
 
 * The names `Triggerer` and `Signal` for client side interaction in the UI-framework
   are confusing. Currently a valid sentence would be "the button triggers click on
   some registered signals". Being able to say something like "the button sends a
   click-signal to some registered receivers" seems to be more intelligible.
+* Create a mechanism to wire less-files to delos.less that is more automatic than
+  'do it manually'.
+* Create an abstraction for Actions that could be used instead of stringy links.
+  It would be strongly related to ilCtrl and probably should be an ILIAS library.
+
 
 ## Usage
 
