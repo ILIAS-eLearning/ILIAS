@@ -2,7 +2,7 @@
 
 use ILIAS\UX\MainMenu\AsyncContentEntry;
 use ILIAS\UX\MainMenu\EntryInterface;
-use ILIAS\UX\MainMenu\ParentInterface;
+use ILIAS\UX\MainMenu\ParentEntryInterface;
 use ILIAS\UX\MainMenu\TopEntryInterface;
 
 /**
@@ -10,6 +10,6 @@ use ILIAS\UX\MainMenu\TopEntryInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ToolInterfaceInterface extends EntryInterface, ParentInterface, AsyncContentEntry, TopEntryInterface {
+interface ToolInterfaceInterface extends EntryInterface, ParentEntryInterface, AsyncContentEntry, TopEntryInterface {
 
 }

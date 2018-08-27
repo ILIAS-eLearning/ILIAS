@@ -4,7 +4,7 @@
  * Class IdentificationFactory
  *
  * All elements in the UX service must be identifiable for the supplying
- * components mentioned above. The UX service uses this identification, for
+ * components mentioned in the readme. The UX service uses this identification, for
  * example, for parent/child relationships. The identification is also forwarded
  * to the UI service or to the instance that then renders the UX elements. This
  * means that the identification can be used there again, for example, to
@@ -17,7 +17,7 @@
  * database and cache. you don't need to take care of storing this.
  *
  * Since you are passing some identifiers as a string such as 'personal_desktop'
- * the US-Services must take care after naming collisions. Therefore you always
+ * the UX-Services must take care after naming collisions. Therefore you always
  * pass your Provider (or even the Plugin-Class in case of Plugins) and the UX-
  * Services will use this information to generate unique identifications.
  *
