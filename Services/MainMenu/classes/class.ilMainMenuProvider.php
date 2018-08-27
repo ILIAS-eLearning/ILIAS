@@ -5,14 +5,14 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements \ILIAS\UX\Provider\StaticProvider\MainMenu {
+class ilMainMenuProvider extends \ILIAS\GlobalScreen\Provider\AbstractProvider implements \ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider {
 
 	/**
-	 * @var \ILIAS\UX\MainMenu\EntryFactory
+	 * @var \ILIAS\GlobalScreen\MainMenu\MainMenuEntryFactory
 	 */
 	protected $mainmenu;
 	/**
-	 * @var \ILIAS\UX\Identification\ProviderInterface
+	 * @var \ILIAS\GlobalScreen\Identification\IdentificationProviderInterface
 	 */
 	protected $identification;
 	/**
@@ -30,8 +30,8 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 	/**
 	 * ilMainMenuProvider constructor.
 	 *
-	 * @param \ILIAS\UX\Services  $ux
-	 * @param \ILIAS\DI\Container $DIC
+	 * @param \ILIAS\GlobalScreen\Services $ux
+	 * @param \ILIAS\DI\Container          $DIC
 	 */
 	const INTERNAL_DESKTOP = 'desktop';
 	const INTERNAL_REPOSITORY = 'rep';
@@ -46,14 +46,14 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 	/**
 	 * @inheritDoc
 	 */
-	public function inject(\ILIAS\UX\Services $services) {
+	public function inject(\ILIAS\GlobalScreen\Services $services) {
 		parent::inject($services);
-		$this->mainmenu = $this->ux->mainmenu();
-		$this->identification = $this->ux->identification()->core($this);
+		$this->mainmenu = $this->gs->mainmenu();
+		$this->identification = $this->gs->identification()->core($this);
 		$this->slate_ids = [
-			self::INTERNAL_DESKTOP        => $this->identification->internal(self::INTERNAL_DESKTOP),
-			self::INTERNAL_REPOSITORY     => $this->identification->internal(self::INTERNAL_REPOSITORY),
-			self::INTERNAL_ADMINISTRATION => $this->identification->internal(self::INTERNAL_ADMINISTRATION),
+			self::INTERNAL_DESKTOP        => $this->identification->identifier(self::INTERNAL_DESKTOP),
+			self::INTERNAL_REPOSITORY     => $this->identification->identifier(self::INTERNAL_REPOSITORY),
+			self::INTERNAL_ADMINISTRATION => $this->identification->identifier(self::INTERNAL_ADMINISTRATION),
 		];
 	}
 
@@ -83,12 +83,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// Administration
 		$slates[] = $this->mainmenu->slate($this->slate_ids[self::INTERNAL_ADMINISTRATION])->withTitle(
 			$this->dic->language()->txt("administration")
-		)->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
-			->withVisibilityCallable(
-				function () use ($dic) {
-					return (bool)($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-				}
-			);
+		);
 
 		return $slates;
 	}
@@ -108,12 +103,12 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		//
 
 		// overview
-		$entries[] = $m->link($g->internal('mm_pd_sel_items'))->withTitle($lng->txt("overview"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_sel_items'))->withTitle($lng->txt("overview"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// my groups and courses, if both is available
-		$entries[] = $m->link($g->internal('mm_pd_crs_grp'))->withTitle($lng->txt("my_courses_groups"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_crs_grp'))->withTitle($lng->txt("my_courses_groups"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships"
 		)->withVisibilityCallable(
 			function () use ($dic) {
@@ -124,7 +119,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// bookmarks
-		$entries[] = $m->link($g->internal('mm_pd_bookm'))->withTitle($lng->txt("bookmarks"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_bookm'))->withTitle($lng->txt("bookmarks"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks"
 		)->withAvailableCallable(
 			function () use ($ilSetting) {
@@ -143,7 +138,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 			$t = $lng->txt("notes_comments");
 			$c = "jumpToComments";
 		}
-		$entries[] = $m->link($g->internal('mm_pd_notes'))->withTitle($t)->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_notes'))->withTitle($t)->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=" . $c
 		)->withAvailableCallable(
 			function () use ($ilSetting) {
@@ -152,7 +147,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// news
-		$entries[] = $m->link($g->internal('mm_pd_news'))->withTitle($lng->txt("news"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_news'))->withTitle($lng->txt("news"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews"
 		)->withAvailableCallable(
 			function () use ($ilSetting) {
@@ -161,10 +156,10 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// overview is always active
-		$entries[] = $m->divider($g->internal('sep_1'));
+		$entries[] = $m->divider($g->identifier('sep_1'));
 
 		// MyStaff
-		$entries[] = $m->link($g->internal('mm_pd_mst'))->withTitle($lng->txt("my_staff"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_mst'))->withTitle($lng->txt("my_staff"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff"
 		)->withAvailableCallable(
 			function () use ($ilSetting) {
@@ -177,7 +172,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// Workspace
-		$entries[] = $m->link($g->internal('mm_pd_wsp'))->withTitle($lng->txt("personal_workspace"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_wsp'))->withTitle($lng->txt("personal_workspace"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace"
 		)->withAvailableCallable(
 			function () use ($ilSetting) {
@@ -186,7 +181,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// portfolio
-		$entries[] = $m->link($g->internal('mm_pd_port'))->withTitle($lng->txt("portfolio"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_port'))->withTitle($lng->txt("portfolio"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withActiveCallable(
 			function () use ($ilSetting) {
@@ -195,7 +190,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		);
 
 		// skills
-		$entries[] = $m->link($g->internal('mm_pd_skill'))->withTitle($lng->txt("skills"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_skill'))->withTitle($lng->txt("skills"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withAvailableCallable(
 			function () {
@@ -206,7 +201,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		);
 
 		// Badges
-		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("obj_bdga"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_contacts'))->withTitle($lng->txt("obj_bdga"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges"
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP])->withAvailableCallable(
 			function () {
@@ -215,7 +210,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		);
 
 		// Learning Progress
-		$entries[] = $m->link($g->internal('mm_pd_lp'))->withTitle($lng->txt("learning_progress"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_lp'))->withTitle($lng->txt("learning_progress"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP"
 		)->withAvailableCallable(
 			function () {
@@ -228,7 +223,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// dynamic separator missing
 
 		// calendar
-		$entries[] = $m->link($g->internal('mm_pd_cal'))->withTitle($lng->txt("calendar"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_cal'))->withTitle($lng->txt("calendar"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar"
 		)->withAvailableCallable(
 			function () {
@@ -239,7 +234,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// mail
-		$entries[] = $m->link($g->internal('mm_pd_mail'))->withTitle($lng->txt("mail"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_mail'))->withTitle($lng->txt("mail"))->withAction(
 			"ilias.php?baseClass=ilMailGUI"
 		)->withAvailableCallable(
 			function () use ($dic) {
@@ -254,7 +249,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		)->withParent($this->slate_ids[self::INTERNAL_DESKTOP]);
 
 		// contacts
-		$entries[] = $m->link($g->internal('mm_pd_contacts'))->withTitle($lng->txt("mail_addressbook"))->withAction(
+		$entries[] = $m->link($g->identifier('mm_pd_contacts'))->withTitle($lng->txt("mail_addressbook"))->withAction(
 			"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts"
 		)->withAvailableCallable(
 			function () {
@@ -274,7 +269,7 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
 		$title = $icon . " " . $title . " - " . $lng->txt("rep_main_page");
 		$action = ilLink::_getStaticLink(1, 'root', true);
-		$entries[] = $this->mainmenu->link($this->identification->internal('rep_main_page'))
+		$entries[] = $this->mainmenu->link($this->identification->identifier('rep_main_page'))
 			->withTitle($title)
 			->withAction($action)
 			->withParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
@@ -295,13 +290,13 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 			)            // do not list current item
 			{
 				if ($cnt == 0) {
-					$entries[] = $this->mainmenu->divider($this->identification->internal('sep2'));
+					$entries[] = $this->mainmenu->divider($this->identification->identifier('sep2'));
 				}
 				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 				$cnt++;
 				$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 				$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-				$entries[] = $this->mainmenu->link($this->identification->internal('rep_main_page'))
+				$entries[] = $this->mainmenu->link($this->identification->identifier('rep_main_page'))
 					->withTitle($icon . " " . $ititle)
 					->withAction($item["link"])
 					->withParent($this->slate_ids[self::INTERNAL_REPOSITORY]);
@@ -313,6 +308,13 @@ class ilMainMenuProvider extends \ILIAS\UX\Provider\AbstractProvider implements 
 		// ADMINISTRATION
 		//
 		//
+
+		$entries[] = $this->gs->mainmenu()->complex($this->identification->identifier('adm_content'))->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
+			->withVisibilityCallable(
+				function () use ($dic) {
+					return (bool)($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
+				}
+			);
 
 		return $entries;
 	}

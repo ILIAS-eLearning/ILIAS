@@ -13,12 +13,12 @@ class ilMMEntryRendererGUI {
 	public function getHTML(): string {
 		global $DIC;
 		$provider = new ilMainMenuProvider($DIC);
-		$provider->inject(new \ILIAS\UX\Services());
+		$provider->inject(new \ILIAS\GlobalScreen\Services());
 
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 		/**
-		 * @var $slate \ILIAS\UX\MainMenu\Slate\SlateInterfaceInterface
-		 * @var $entry \ILIAS\UX\MainMenu\ChildEntryInterface
+		 * @var $slate \ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface
+		 * @var $entry \ILIAS\GlobalScreen\MainMenu\ChildEntryInterface
 		 */
 		$slates = [];
 		foreach ($provider->getStaticSlates() as $slate) {
@@ -47,7 +47,7 @@ class ilMMEntryRendererGUI {
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
 			/**
-			 * @var $child \ILIAS\UX\MainMenu\Entry\LinkInterface
+			 * @var $child \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface
 			 */
 			foreach ($slate->getChildren() as $child) {
 				if (!$child->isVisible()) {
@@ -55,10 +55,10 @@ class ilMMEntryRendererGUI {
 				}
 				$i = $child->getProviderIdentification()->getInternalIdentifier();
 				switch (true) {
-					case ($child instanceof \ILIAS\UX\MainMenu\Entry\DividerInterface):
+					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface):
 						$gl->addSeparator();
 						break;
-					case ($child instanceof \ILIAS\UX\MainMenu\Entry\LinkInterface):
+					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface):
 						$this->addEntry($gl, $child, $i);
 						break;
 				}
@@ -75,10 +75,10 @@ class ilMMEntryRendererGUI {
 
 	/**
 	 * @param ilGroupedListGUI                       $gl
-	 * @param \ILIAS\UX\MainMenu\Entry\LinkInterface $child
+	 * @param \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface $child
 	 * @param string                                 $identifier
 	 */
-	protected function addEntry(ilGroupedListGUI $gl, \ILIAS\UX\MainMenu\Entry\LinkInterface $child, string $identifier) {
+	protected function addEntry(ilGroupedListGUI $gl, \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface $child, string $identifier) {
 		$gl->addEntry(
 			$child->getTitle(), $child->getAction(), "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
