@@ -67,7 +67,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 			try {
 				$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
 			} catch (\Exception $exception) {
-				return ilUtil::sendFailure($this->lng->txt('error_creating_pdf'));
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
 			}
 
 			if($newObj) {
