@@ -11,25 +11,40 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var ilUserCertificateRepository
+	 */
+	private $userCertificateRepository;
+
 	/**
 	 * @var ilObjUser
 	 */
 	protected $user;
 
 	/**
-	 * Constructor
-	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
+	public function  __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->user = $DIC->user();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		$ilCtrl = $DIC->ctrl();
-		
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -53,23 +68,22 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 		$ilUser = $this->user;
 
 		$data = array();
-		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
-		{			
-			// #11210 - only available certificates!
-			$exc = new ilObjExercise($exercise_id, false);				
-			if($exc->hasUserCertificate($ilUser->getId()))
-			{
-				$factory = new ilCertificateFactory();
 
-				$certificate = $factory->create($exc);
+		$userId = $ilUser->getId();
+		$obj_ids = array_keys(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()));
 
-				if($certificate->isComplete()) {
-					$data[] = array(
-						"id" => $exercise_id,
-						"title" => ilObject::_lookupTitle($exercise_id),
-						"passed" => $passed
-					);
-				}
+		if($obj_ids) {
+			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
+
+			/** @var ilUserCertificate $certificate */
+			foreach ($certificateArray as $certificate) {
+				$title = ilObject::_lookupTitle($certificate->getObjId());
+
+				$data[] = array(
+					'id'     => $certificate->getObjId(),
+					'title'  => $title,
+					'passed' => true
+				);
 			}
 		}
 
