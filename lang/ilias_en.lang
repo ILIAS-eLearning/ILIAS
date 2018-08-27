@@ -398,9 +398,9 @@ assessment#:#answers_select#:#Select
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
-assessment#:#correct_answers#:#Correct Answers: 
-assessment#:#answer_options#:#Answer Options: 
-assessment#:#add_answers#:#Add answers 
+assessment#:#correct_answers#:#Correct Answers:
+assessment#:#answer_options#:#Answer Options:
+assessment#:#add_answers#:#Add answers
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -1042,7 +1042,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
 assessment#:#finish_all_user_passes#:#Finish all test Passes
 assessment#:#finish_unfinished_passes#:#Finish open Passes
-assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. 
+assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job.
 assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_side_list#:#Hide List of Questions
@@ -1165,7 +1165,7 @@ assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered t
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab. 
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
@@ -1196,7 +1196,7 @@ assessment#:#tst_select_questionpool#:#Please select a question pool to store th
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
-assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants 
+assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_show_answer_sheet#:#Show Answers
@@ -1257,7 +1257,7 @@ assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included in the test results.
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
-assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. 
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
@@ -1319,9 +1319,9 @@ assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Selected Question Pools
 assessment#:#tst_question_set_type#:#Selection of Test Questions
 assessment#:#tst_question_set_type_fixed#:#Fixed Set of Questions
-assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions. 
+assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions.
 assessment#:#tst_question_set_type_random#:#Random Set of Questions
-assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools. 
+assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools.
 assessment#:#tst_question_set_type_dynamic#:#Question Queue - All Questions from a Question Pool
 assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. Questions can be added and edited in a running test.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/question pool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
@@ -2145,7 +2145,7 @@ common#:#err_check_input#:#The settings could not be saved. Please check your in
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
-common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. 
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account.
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_no_cookies#:#Please enable session cookies in your browser!
 common#:#err_no_langfile_found#:#No language file found!
@@ -3634,7 +3634,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system) 
+common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system)
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -4551,7 +4551,7 @@ crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial t
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
 crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.
-crs#:#crs_objective_wiz_title#:#Describe Learning Objective 
+crs#:#crs_objective_wiz_title#:#Describe Learning Objective
 crs#:#crs_objectives_assigned_lm#:#The selected materials have been assigned.
 crs#:#crs_objectives_deleted#:#Delete learning objectives
 crs#:#crs_objectives_edit_question_assignments#:#Edit Question Assignment
@@ -4661,7 +4661,7 @@ crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this co
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
-crs#:#crs_view_info_objective#:#Course for individualised studying: Performance on learning objectives organises the course work. Content might be recommended based on individual performance in an initial test. A final test can be used to prove learning objective mastery. 
+crs#:#crs_view_info_objective#:#Course for individualised studying: Performance on learning objectives organises the course work. Content might be recommended based on individual performance in an initial test. A final test can be used to prove learning objective mastery.
 crs#:#crs_view_info_timing#:#Presentation mode for timings settings.
 crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Learning Objectives-Driven Course
@@ -5766,7 +5766,7 @@ meta#:#md_adv_fields_show#:#Show Field Names
 meta#:#md_adv_file_list#:#Export Files
 meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_adv_no_fields#:#No Fields Defined
-meta#:#md_adv_record_list#:#Datasets 
+meta#:#md_adv_record_list#:#Datasets
 meta#:#md_adv_records_exported#:#A new export file has been created.
 meta#:#md_adv_records#:#Included Data Sets
 meta#:#md_adv_searchable#:#Searchable
@@ -6483,7 +6483,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts. 
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts.
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_not_accepted#:#Not Accepted
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
@@ -6623,7 +6623,7 @@ rbac#:#rbac_create_lm#:#Create ILIAS Learning Module
 rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
 rbac#:#rbac_create_qpl#:#Create Question Pool Test
-rbac#:#rbac_create_rcrs#:#Create ECS Course 
+rbac#:#rbac_create_rcrs#:#Create ECS Course
 rbac#:#rbac_create_sahs#:#Create SCORM Learning Module
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
@@ -6707,7 +6707,7 @@ registration#:#registration_codes_add#:#Add Codes
 registration#:#registration_codes_export#:#Export Codes
 registration#:#registration_codes_edit_header#:#Add Codes
 registration#:#registration_codes_number#:#Number Of Codes
-registration#:#registration_codes_roles#:#Global Role 
+registration#:#registration_codes_roles#:#Global Role
 registration#:#registration_code#:#Code
 registration#:#registration_generated#:#Date Of Generation
 registration#:#registration_used#:#Date Of Usage
@@ -7195,7 +7195,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
-survey#:#evaluation_access_all#:#All Registered Users can Access the Results 
+survey#:#evaluation_access_all#:#All Registered Users can Access the Results
 survey#:#evaluation_access_info#:#You have access to the survey results
 survey#:#evaluation_access_off#:#Participants Cannot Access Results
 survey#:#evaluation_access_participants#:#All Survey Participants can Access the Results
@@ -7624,7 +7624,7 @@ common#:#session_max_idle_after_first_request_info#:#All sessions that idles for
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this e-mail because you are assigned as moderator and have the permission to activate this posting.
 rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles
-common#:#mail_to_global_roles_not_allowed#:#%1$s (it is not allowed to send mails to global roles) 
+common#:#mail_to_global_roles_not_allowed#:#%1$s (it is not allowed to send mails to global roles)
 assessment#:#tst_search_users#:#Search Participants
 survey#:#svy_search_users#:#Search for participants
 survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
@@ -9750,8 +9750,8 @@ wiki#:#wiki_activate_page_rating#:#Activate Rating
 wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating
 rating#:#rating_overlay_submit#:#Submit Rating
 rep#:#rep_visibility_until#:#Limited Availability Period
-assessment#:#tst_activation_online_info#:#If online, participants can take the test. 
-assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. 
+assessment#:#tst_activation_online_info#:#If online, participants can take the test.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test.
 book#:#booking_nr_of_items#:#Nr of Items
 book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.
@@ -10231,7 +10231,7 @@ content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to k
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module: Navigational options will be determined from the results of interactions with the content. Please check whether or not your learning module does actually contain this kind of sequencing & navigation data, since this is rare.
 content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue ILIAS can determine the processing time adhering to the strict standards of SCORM.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
-survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
+survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used.
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
 survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for this survey first.
 mcst#:#mcst_viewmode#:#Presentation Mode
@@ -10276,7 +10276,7 @@ common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#General ECS Settings
 rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration
 rbac#:#ecss_read#:#User can read general ECS settings
-rbac#:#ecss_visible#:#ECS settings are visible 
+rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
 help#:#help_imported_on#:#Imported on
@@ -10286,24 +10286,24 @@ help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_set_mode#:#Set Mode
 poll#:#poll_result#:#Results
 fold#:#fold_copy#:#Copy Folder
-rbac#:#rfil_delete#:#User can move or delete ECS File 
+rbac#:#rfil_delete#:#User can move or delete ECS File
 rbac#:#rfil_edit_permission#:#User can change permission settings
-rbac#:#rfil_read#:#User can use ECS File 
+rbac#:#rfil_read#:#User can use ECS File
 rbac#:#rfil_visible#:#ECS File is visible
 rbac#:#rfil_write#:#User can edit settings of ECS File
-rbac#:#rgrp_delete#:#User can move or delete ECS Group 
+rbac#:#rgrp_delete#:#User can move or delete ECS Group
 rbac#:#rgrp_edit_permission#:#User can change permission settings
-rbac#:#rgrp_read#:#User can use ECS Group 
+rbac#:#rgrp_read#:#User can use ECS Group
 rbac#:#rgrp_visible#:#ECS Group is visible
 rbac#:#rgrp_write#:#User can edit settings of ECS Group
-rbac#:#rglo_delete#:#User can move or delete ECS Glossary 
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary
 rbac#:#rglo_edit_permission#:#User can change permission settings
-rbac#:#rglo_read#:#User can use ECS Glossary 
+rbac#:#rglo_read#:#User can use ECS Glossary
 rbac#:#rglo_visible#:#ECS Glossary is visible
 rbac#:#rglo_write#:#User can edit settings of ECS Glossary
-rbac#:#rlm_delete#:#User can move or delete ECS Learning Module 
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module
 rbac#:#rlm_edit_permission#:#User can change permission settings
-rbac#:#rlm_read#:#User can use ECS Learning Module 
+rbac#:#rlm_read#:#User can use ECS Learning Module
 rbac#:#rlm_visible#:#ECS Learning Module is visible
 rbac#:#rlm_write#:#User can edit settings of ECS Learning Module
 rbac#:#rtst_delete#:#User can move or delete ECS Test
@@ -10388,7 +10388,7 @@ survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
@@ -10439,7 +10439,7 @@ cron#:#cron_schedule_in_hours#:#Every %s hours
 cron#:#cron_schedule_in_days#:#Every %s days
 cron#:#cron_schedule_type#:#Schedule
 cron#:#cron_schedule_value#:#Interval
-cron#:#cron_changed_by_crontab#:#SYSTEM 
+cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_running_since#:#Running since
 cron#:#cron_action_run#:#Execute
 cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
@@ -10740,7 +10740,7 @@ common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
 registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role
-registration#:#registration_codes_roles_local#:#Local Role(s) 
+registration#:#registration_codes_roles_local#:#Local Role(s)
 registration#:#registration_codes_roles_title#:#Role for New Accounts
 registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
@@ -10793,7 +10793,7 @@ file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal W
 file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
 file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
@@ -11004,7 +11004,7 @@ common#:#obj_crss_desc#:#General settings for Courses
 common#:#obj_grps#:#Group
 common#:#obj_grps_desc#:#General settings for Groups
 administration#:#adm_external_setting_edit#:#Edit Settings
-ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 rating#:#rating_new_objects_auto#:#Default Object Rating
 rating#:#rating_new_objects_auto_info#:#Rating is activated by default for new files, learning modules and wikis.
 rating#:#rating_activate_rating#:#Enable Rating
@@ -11194,7 +11194,7 @@ orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
 orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
-exc#:#exc_peer_review_deadline#:#Feedback Deadline 
+exc#:#exc_peer_review_deadline#:#Feedback Deadline
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
 exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
@@ -11227,7 +11227,7 @@ assessment#:#result_units#:#Available Units
 assessment#:#precision#:#Precision
 assessment#:#err_range#:#The maximum range must be greater than the minimum range
 assessment#:#err_no_formula#:#You must enter a formula
-assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent 
+assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#rating_sign#:#Rate Sign
 assessment#:#rating_value#:#Rate Value
 assessment#:#rating_unit#:#Rate Unit
@@ -11515,7 +11515,7 @@ sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
 sop#:#sop_reload_page#:#Reload page
-sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
+sop#:#sop_text_export#:#Export SCORM Learning Module for offline use
 sop#:#sop_export#:#SCORM Learning Module Export
 sop#:#sop_desc_export#:#A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.
 sop#:#sop_text_start_offline#:#Start Learning Module in offline mode
@@ -11527,7 +11527,7 @@ sop#:#sop_purge_cache#:#Delete offline cache of Learning Module
 sop#:#sop_push_tracking#:#Import tracking data
 common#:#offline_mode#:#Use offline
 sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
 sop#:#sop_msg_export_failure#:#Transferring content or data to SCORM Offline Manager was not successful.
 sop#:#sop_msg_export_ok#:#Transferring content and tracking data was successful
 sop#:#sop_msg_export_content#:#Transferring content to SCORM Offline Manager. This might need a moment. Please be patient.
@@ -11563,7 +11563,7 @@ registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 registration#:#reg_mail_body_timelimit#:#Your account has a limited period of validity: %s.
 mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
-mail#:#mail_nacc_timelimit#:#User access period 
+mail#:#mail_nacc_timelimit#:#User access period
 common#:#msg_obj_already_deleted#:#The object has already been deleted.
 notes#:#notes_no_comments#:#No comment has been posted yet.
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
@@ -11907,8 +11907,8 @@ wiki#:#wiki_stat_scope#:#Timeframe
 wiki#:#wiki_stat_figure#:#Figure
 wiki#:#wiki_stat_deleted_pages#:#Number of Deleted Pages
 wiki#:#wiki_stat_read_pages#:#Number of Read Accesses
-wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages 
-wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages 
+wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages
+wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages
 wiki#:#wiki_stat_num_rating#:#Number of Ratings
 wiki#:#wiki_stat_num_rating_avg#:#Average Number of Ratings per Page
 wiki#:#wiki_stat_rating_avg#:#Average Rating
@@ -11962,7 +11962,7 @@ exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers are shown with full name
 exc#:#exc_peer_review_recipient#:#Feedback Recipient
 exc#:#exc_peer_review_giver#:#Feedback Giver
-exc#:#exc_global_feedback_file_date#:#Availability 
+exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_note_for_tutor#:#Note for Tutors
@@ -12018,7 +12018,7 @@ content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 user#:#send_mail_to_inactive_users#:#Warning Mail
-user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame. 
+user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame.
 user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value ‘Days passed since last login’.
@@ -12126,9 +12126,9 @@ crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
 crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Course
 crs#:#crs_loc_tab_materials#:#Material
-crs#:#crs_loc_tab_itest#:#Initial Test 
+crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_qtest#:#Final Test
-crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test 
+crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test
 crs#:#crs_loc_tab_objectives#:#Learning Objectives
 crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Final Test
 crs#:#crs_loc_tab_start#:#Start Objects
@@ -12267,9 +12267,9 @@ mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Please enter only positive numbers.
 content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
 content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
-survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
+survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey.
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
-survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
+survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it.
 survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#survey_360_self_evaluation_info#:#Appraisees are allowed to rate themselves using the questions.
 survey#:#survey_360_self_raters_info#:#Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.
@@ -12328,7 +12328,7 @@ exc#:#exc_peer_review_missing_users#:#Users with submissions who are not part of
 exc#:#exc_peer_review_not_returned_users#:#Users without submissions who are not part of the peer-feedback
 exc#:#exc_peer_review_invalid_peer_ids#:#Peer recipients who are not exercise members anymore or do not have a submission
 exc#:#exc_peer_review_invalid_giver_ids#:#Peer givers who are not exercise members anymore or do not have a submission
-exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback 
+exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
 exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
@@ -12341,7 +12341,7 @@ content#:#cont_download#:#Download
 exc#:#exc_assignment_type#:#Type of Submission
 trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Edit Participants'-tab.
 sess#:#sess_lp_preset#:#Activate Learning Progress
-sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
+sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created.
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
 survey#:#survey_access_codes#:#Authentication by Access Codes
@@ -12596,11 +12596,11 @@ style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
 membership#:#mem_force_notification#:#Notification per Mail
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
-membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically 
+membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
-common#:#settings_for_all_members#:#Members will be notified automatically 
+common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
@@ -12643,10 +12643,10 @@ exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedb
 exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
 exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
 exc#:#exc_peer_review_completion_none#:#Peer feedback is optional
-exc#:#exc_peer_review_completion_none_info#:#The assignment will be automatically set to "Passed" after submission regardless of feedback being provided or not. 
-exc#:#exc_peer_review_completion_one#:#At least one feedback 
+exc#:#exc_peer_review_completion_none_info#:#The assignment will be automatically set to "Passed" after submission regardless of feedback being provided or not.
+exc#:#exc_peer_review_completion_one#:#At least one feedback
 exc#:#exc_peer_review_completion_one_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and at least one feedback.
-exc#:#exc_peer_review_completion_all#:#All required feedbacks 
+exc#:#exc_peer_review_completion_all#:#All required feedbacks
 exc#:#exc_peer_review_completion_all_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and all required feedbacks.
 exc#:#exc_team_multi_create#:#Create Team
 exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
@@ -12667,7 +12667,7 @@ exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group
 exc#:#exc_adopt_group_teams_added#:#%s Users were added.
 exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
-exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed. 
+exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed.
 exc#:#exc_peer_review_min_number#:#Required Number of Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Number of feedbacks a participant is required to give to peers. In case the minimum number of required feedbacks is greater than the actual number of submissions, the required minimum is automatically reduced to the the number of peer submissions.
 exc#:#exc_criteria_catalogues#:#Criteria Catalogues
@@ -12708,7 +12708,7 @@ meta#:#meta_tab_advmd#:#Custom Metadata
 meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
-prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio 
+prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
 blog#:#blog_back_to_blog_owner#:#Edit Blog
 content#:#cont_assign_to_parent#:#Assign to Parent
 content#:#cont_type_not_allowed#:#Content type not allowed at this position
@@ -12831,7 +12831,7 @@ crs#:#crs_loc_settings_qt_all#:#Final Test
 crs#:#crs_loc_settings_type_q_all#:#Comprehensive Final Test Covering all Objectives
 crs#:#crs_loc_settings_qt_start_object#:#Final Test is Start Object
 crs#:#crs_loc_settings_type_q_selected#:#Separate Final Test for Each Objective
-crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.		
+crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.
 crs#:#crs_loc_tab_qtests#:#Final Tests
 crs#:#crs_loc_tab_itests#:#Initial Tests
 crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
@@ -12892,7 +12892,7 @@ buddysystem#:#buddy_notification_contact_request#:#Contact Request
 buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request: 
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
@@ -13221,7 +13221,7 @@ sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure
 wiki#:#wiki_page_list_mode#:#Type of List
 wiki#:#wiki_page_list_mode_unordered#:#Not numbered
 wiki#:#wiki_page_list_mode_ordered#:#Numbered
-blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s. 
+blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s.
 blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
 blog#:#blog_news_posting_authors#:#Contributing authors: %s
 book#:#book_reservation_filter_period#:#Period for the reservation list
@@ -13338,13 +13338,13 @@ badge#:#badge_settings#:#Badge Settings
 badge#:#badge_service_activate#:#Activate Service
 badge#:#badge_service_activate_info#:#Activate the service to make badges available
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications. 
+badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications.
 badge#:#badge_obi_organisation#:#Organisation
 badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
 badge#:#badge_obi_contact#:#Contact E-Mail
-badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge. 
+badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. 
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards.
 badge#:#badge_types#:#Types
 badge#:#badge_image_templates#:#Image Templates
 badge#:#badge_activity_badges#:#Activity Badges
@@ -13362,7 +13362,7 @@ badge#:#badge_award_badge#:#Award Badge
 badge#:#badge_remove_badge#:#Revoke Badge
 badge#:#badge_template_deletion_confirmation#:#Are you sure you want to delete the following image templates?
 badge#:#badge_assignment_deletion_confirmation#:#Are you sure you want to revoke the following badge assignments for "%s"?
-badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments? 
+badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
 badge#:#badge_template_types#:#Valid Types
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific
@@ -13664,7 +13664,7 @@ bgtask#:#bgtask_empty_folder#:#The current selection does not include any downlo
 bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
 bgtask#:#bgtask_blocked#:#Concurrent download
 bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.
-bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download 
+bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download
 bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
 bgtask#:#bgtask_processing#:#Creating download
 bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.
@@ -13768,7 +13768,7 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
-chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory. 
+chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
@@ -13796,7 +13796,7 @@ chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of th
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
-chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. 
+chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened.
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13949,7 +13949,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your 
 auth#:#auth_saml_login_form#:#Button on Login Page
 auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
 auth#:#auth_saml_idps#:#SAML IDP List
-auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Don't forget to add the paths to your private key and certificate in the authsources.php file. Please read the manual for further explanations %s.<br />Federation Metadata URL: %s 
+auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Don't forget to add the paths to your private key and certificate in the authsources.php file. Please read the manual for further explanations %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -14217,7 +14217,7 @@ rbac#:#exc_edit_submissions_grades#:#User can edit submissions and grades
 rbac#:#release_objects#:#Release Objects
 rbac#:#ltis_release_objects#:#User can release Objects for LTI Consumer
 rbac#:#ltis_visible#:#LTI administration is visible
-rbac#:#ltis_read#:#User has read access to LTI administration 
+rbac#:#ltis_read#:#User has read access to LTI administration
 rbac#:#ltis_write#:#User can edit settings in LTI administration
 rbac#:#ltis_edit_permission#:#User can change permission settings in LTI administration
 content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2
@@ -14287,3 +14287,4 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
+wsp#:#error_creating_certificate_pdf#:#The PDF certificate could not be created. Is the Java server active?
