@@ -558,10 +558,9 @@ class ilPersonalProfileGUI
 		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
 		if ($handleDocument) {
 			$document = $this->termsOfServiceEvaluation->document();
-			$this->tpl->setPermanentLink('usr', null, 'agreement');
-			$this->tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
 		} else {
-			$this->tpl->setVariable(
+			$tpl->setVariable(
 				'TERMS_OF_SERVICE_CONTENT',
 				sprintf(
 					$this->lng->txt('no_agreement_description'),
@@ -571,7 +570,6 @@ class ilPersonalProfileGUI
 		}
 
 		$this->tpl->setContent($tpl->get());
-
 		$this->tpl->setPermanentLink('usr', null, 'agreement');
 		$this->tpl->show();
 	}
