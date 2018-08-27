@@ -12,21 +12,13 @@ abstract class AbstractProvider implements Provider {
 	/**
 	 * @var Services
 	 */
-	protected $ux;
+	protected $gs;
 
 
 	/**
 	 * @inheritDoc
 	 */
 	public function inject(Services $services) {
-		$this->ux = $services;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function mayHaveElements(): bool {
-		return true;
+		$this->gs = $services;
 	}
 }
