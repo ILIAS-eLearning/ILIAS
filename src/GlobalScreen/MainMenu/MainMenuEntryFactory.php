@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
+use ILIAS\GlobalScreen\MainMenu\Entry\Complex;
+use ILIAS\GlobalScreen\MainMenu\Entry\ComplexInterface;
 use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
@@ -55,5 +57,18 @@ class MainMenuEntryFactory {
 	 */
 	public function divider(IdentificationInterface $identification): DividerInterface {
 		return new Divider($identification);
+	}
+
+
+	/**
+	 * Returns you a GlobalScreen Complex Entry which is used to generate complex
+	 * content from a Async-URL
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return ComplexInterface
+	 */
+	public function complex(IdentificationInterface $identification): ComplexInterface {
+		return new Complex($identification);
 	}
 }
