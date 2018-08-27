@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Slate;
 
-use ILIAS\GlobalScreen\MainMenu\AsyncContentEntry;
+use ILIAS\GlobalScreen\MainMenu\AsyncContentEntryInterface;
 use ILIAS\GlobalScreen\MainMenu\EntryInterface;
 use ILIAS\GlobalScreen\MainMenu\IconEntryInterface;
 use ILIAS\GlobalScreen\MainMenu\ParentEntryInterface;
@@ -11,7 +11,7 @@ use ILIAS\GlobalScreen\MainMenu\TopEntryInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface SlateInterfaceInterface extends EntryInterface, ParentEntryInterface, AsyncContentEntry, TopEntryInterface, IconEntryInterface {
+interface SlateInterfaceInterface extends EntryInterface, ParentEntryInterface, TopEntryInterface, IconEntryInterface {
 
 	/**
 	 * @param string $title
