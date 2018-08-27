@@ -2012,25 +2012,8 @@ class ilSurveyEvaluationGUI
 
 		$output = $return = "";
 
-		ilLoggerFactory::getRootLogger()->debug("**** Call phantom from survey evaluation");
-		ilLoggerFactory::getRootLogger()->debug("URL = ".$a_url);
-		ilLoggerFactory::getRootLogger()->debug("SUFFIX = ".$a_suffix);
-		ilLoggerFactory::getRootLogger()->debug("filename = ".$a_filename);
-		ilLoggerFactory::getRootLogger()->debug("return = ".$a_return);
-
-		ilLoggerFactory::getRootLogger()->debug("*** Exec phantom data **");
-		ilLoggerFactory::getRootLogger()->debug("Bin = ".$bin);
-		ilLoggerFactory::getRootLogger()->debug("script = ".$script);
-		ilLoggerFactory::getRootLogger()->debug("output = ".$output);
-		ilLoggerFactory::getRootLogger()->debug("return = ".$return);
-		ilLoggerFactory::getRootLogger()->debug("* Arguments:");
-		ilLoggerFactory::getRootLogger()->dump($args);
-
 		ilLoggerFactory::getRootLogger()->debug("EXEC => ".$bin . " " . $script . " " . implode(" ", $args));
-		//die("before");
 		exec($bin . " " . $script . " " . implode(" ", $args), $output, $return);
-		//die("After");
-		ilLoggerFactory::getRootLogger()->debug("At this point we MUST have the tmp file in external data directory/phan/temp");
 
 		$log = ilLoggerFactory::getLogger("svy");
 		$log->dump($output, ilLogLevel::DEBUG);
