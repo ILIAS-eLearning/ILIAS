@@ -351,11 +351,11 @@ class ilTestServiceGUI
 	/**
 	 * @return ilTestPassOverviewTableGUI $tableGUI
 	 */
-	public function buildPassOverviewTableGUI($targetGUI)
+	public function buildPassOverviewTableGUI($targetGUI, $targetCmd = '')
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php';
 
-		$table = new ilTestPassOverviewTableGUI($targetGUI, '');
+		$table = new ilTestPassOverviewTableGUI($targetGUI, $targetCmd);
 		
 		$table->setPdfPresentationEnabled(
 			isset($_GET['pdf']) && $_GET['pdf'] == 1
