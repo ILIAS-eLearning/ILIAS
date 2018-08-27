@@ -178,8 +178,6 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		try {
 			$criterionType = $this->criterionTypeFactory->findByTypeIdent($this->getInput('criterion'));
 			$criterionGui = $criterionType->ui($this->lng);
-$id = $criterionType->getTypeIdent();
-$val = $criterionGui->getConfigByForm($this);
 
 			$this->assignment->setCriterionId($criterionType->getTypeIdent());
 			$this->assignment->setCriterionValue($criterionGui->getConfigByForm($this));
