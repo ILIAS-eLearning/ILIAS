@@ -2,6 +2,7 @@
 
 use ILIAS\UX\MainMenu\AbstractParentEntry;
 use ILIAS\UX\MainMenu\EntryInterface;
+use ILIAS\UX\MainMenu\IconEntryInterface;
 
 /**
  * Class Slate
@@ -22,6 +23,10 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 	 * @var string
 	 */
 	protected $async_content_url = '';
+	/**
+	 * @var string
+	 */
+	protected $icon_path = "";
 
 
 	/**
@@ -80,5 +85,24 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 		$clone->async_content_url = $async_content_url;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIconPath(string $path_to_svg_icon): IconEntryInterface {
+		$clone = clone($this);
+		$clone->icon_path = $path_to_svg_icon;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIconPath(): string {
+		return $this->icon_path;
 	}
 }
