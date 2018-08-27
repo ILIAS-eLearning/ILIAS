@@ -2500,9 +2500,15 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else if('agreement' == $a_target)
 		{
-			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
-			$ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
+			if ($ilUser->getId() > 0 && !$ilUser->isAnonymous()) {
+				$ilCtrl->setTargetScript("ilias.php");
+				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
+				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalprofilegui"), "showUserAgreement");
+			} else {
+				$_GET["baseClass"] = 'ilStartUpGUI';
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
+			}
 		}
 
 		if (substr($a_target, 0, 1) == "n")
