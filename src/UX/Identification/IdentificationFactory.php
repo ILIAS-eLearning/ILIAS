@@ -4,7 +4,7 @@
  * Class IdentificationFactory
  *
  * All elements in the UX service must be identifiable for the supplying
- * components mentioned above. The UX service uses this identification, for
+ * components mentioned in the readme. The UX service uses this identification, for
  * example, for parent/child relationships. The identification is also forwarded
  * to the UI service or to the instance that then renders the UX elements. This
  * means that the identification can be used there again, for example, to
