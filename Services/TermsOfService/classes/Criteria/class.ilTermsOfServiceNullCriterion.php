@@ -29,6 +29,14 @@ class ilTermsOfServiceNullCriterion implements \ilTermsOfServiceCriterionType
 	/**
 	 * @inheritdoc
 	 */
+	public function hasUniqueNature(): bool
+	{
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
 	{
 		return new class($lng) implements \ilTermsOfServiceCriterionTypeGUI {

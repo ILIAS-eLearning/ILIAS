@@ -35,6 +35,14 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCri
 	/**
 	 * @inheritdoc
 	 */
+	public function hasUniqueNature(): bool
+	{
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
 	{
 		$roleId = $config['role_id'] ?? 0;

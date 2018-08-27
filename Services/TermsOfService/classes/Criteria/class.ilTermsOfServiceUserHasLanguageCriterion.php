@@ -18,6 +18,14 @@ class ilTermsOfServiceUserHasLanguageCriterion implements \ilTermsOfServiceCrite
 	/**
 	 * @inheritdoc
 	 */
+	public function hasUniqueNature(): bool
+	{
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
 	{
 		$lng = $config['lng'] ?? '';
