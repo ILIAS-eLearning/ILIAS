@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "fschmid(21087)",
-    "second_maintainer": "akill(149)",
+    "first_maintainer": "",
+    "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "tloewen(41553)",
-    "testcase_writer": "tloewen(41553)",
+    "tester": "",
+    "testcase_writer": "",
     "path": "Services/DiskQuota",
-    "belong_to_component": "File",
+    "belong_to_component": "",
     "used_in_components": []
 }
