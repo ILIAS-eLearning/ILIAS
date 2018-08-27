@@ -10,6 +10,65 @@ use ILIAS\Data\Factory;
 class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTermsOfServiceCriterionBaseTest
 {
 	/**
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface
+	 */
+	protected function getCriterionTypeFactoryMock(): \ilTermsOfServiceCriterionTypeFactoryInterface
+	{
+		$criterionTypeFactory = $this
+			->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)
+			->getMock();
+
+		return $criterionTypeFactory;
+	}
+
+	/**
+	 * @param string $typeIdent
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionType
+	 */
+	protected function getCriterionTypeMock(string $typeIdent): \ilTermsOfServiceCriterionType
+	{
+		$criterionType = $this
+			->getMockBuilder(\ilTermsOfServiceCriterionType::class)
+			->getMock();
+
+		$criterionType
+			->expects($this->any())
+			->method('getTypeIdent')
+			->willReturn($typeIdent);
+
+		return $criterionType;
+	}
+
+	/**
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface
+	 */
+	protected function getTypeMockForConstraint(): \ilTermsOfServiceCriterionTypeFactoryInterface
+	{
+		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
+
+		$criterionType1 = $this->getCriterionTypeMock('dummy');
+
+		$criterionType1
+			->expects($this->any())
+			->method('hasUniqueNature')
+			->willReturn(false);
+
+		$criterionTypeFactory
+			->expects($this->any())
+			->method('getTypesByIdentMap')
+			->willReturn([
+				$criterionType1->getTypeIdent() => $criterionType1,
+			]);
+
+		$criterionTypeFactory
+			->expects($this->any())
+			->method('findByTypeIdent')
+			->willReturn($criterionType1);
+
+		return $criterionTypeFactory;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function criteriaAssignmentProvider(): array
@@ -129,6 +188,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			new Factory()
 		);
@@ -165,6 +225,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			new Factory()
 		);
@@ -216,6 +277,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			new Factory()
 		);
@@ -254,6 +316,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$dataFavtgory = new Factory();
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			$dataFavtgory
 		);
@@ -298,6 +361,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			new Factory()
 		);
@@ -334,6 +398,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 			->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$this->getTypeMockForConstraint(),
 			$document1,
 			new Factory()
 		);
@@ -348,5 +413,80 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 
 		$this->assertEquals('The passed assignment must be unique for the document!', $constraint->problemWith($criterionAssignment3));
 		$this->assertEquals('The passed assignment must be unique for the document!', $constraint->problemWith($criterionAssignment5));
+	}
+
+	/**
+	 * @dataProvider criteriaAssignmentProvider
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
+	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
+	 */
+	public function testCriterionWithSameNatureIsNotAcceptedWhenAlreadyAssigned(
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
+		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
+	)
+	{
+		$document = $this
+			->getMockBuilder(\ilTermsOfServiceDocument::class)
+			->disableOriginalConstructor()
+			->setMethods(['criteria'])
+			->getMock();
+
+		$document
+			->expects($this->any())
+			->method('criteria')
+			->willReturn([$criterionAssignment1, $criterionAssignment2]);
+
+		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
+
+		$criterionType1 = $this->getCriterionTypeMock('usr_global_role');
+		$criterionType2 = $this->getCriterionTypeMock('usr_language');
+
+		$criterionType1
+			->expects($this->any())
+			->method('hasUniqueNature')
+			->willReturn(false);
+
+		$criterionType2
+			->expects($this->any())
+			->method('hasUniqueNature')
+			->willReturn(true);
+
+		$criterionTypeFactory
+			->expects($this->any())
+			->method('findByTypeIdent')
+			->willReturn($criterionType2);
+
+		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
+			$criterionTypeFactory,
+			$document,
+			new Factory()
+		);
+
+		$criterionWithSameNature = $this
+			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
+			->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+			->disableOriginalConstructor()
+			->getMock();
+
+		$criterionWithSameNature
+			->expects($this->any())
+			->method('getId')
+			->willReturn(0);
+
+		$criterionWithSameNature
+			->expects($this->any())
+			->method('getCriterionId')
+			->willReturn('usr_language');
+
+		$criterionWithSameNature
+			->expects($this->any())
+			->method('getCriterionValue')
+			->willReturn($this->getCriterionConfig(['lng' => 'ru']));
+
+		$this->assertFalse($constraint->accepts($criterionWithSameNature));
 	}
 }
