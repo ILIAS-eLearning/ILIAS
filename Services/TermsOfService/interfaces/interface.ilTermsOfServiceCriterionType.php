@@ -8,9 +8,17 @@
 interface ilTermsOfServiceCriterionType
 {
 	/**
+	 * Returns a unique id of the criterion type
 	 * @return string
 	 */
 	public function getTypeIdent(): string;
+
+	/**
+	 * Returns whether or not a criterion is unique by it's nature.
+	 * Example: "User Language". A user account can only have one profile language .
+	 * @return bool 
+	 */
+	public function hasUniqueNature(): bool;
 
 	/**
 	 * @param \ilObjUser $user
