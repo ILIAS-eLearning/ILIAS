@@ -46,6 +46,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 		$criterion = $this->getInstance();
 
 		$this->assertEquals('null', $criterion->getTypeIdent());
+		$this->assertEquals(false, $criterion->hasUniqueNature());
 
 		return $criterion;
 	}

@@ -60,6 +60,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 		$criterion = $this->getInstance();
 
 		$this->assertEquals('usr_language', $criterion->getTypeIdent());
+		$this->assertEquals(true, $criterion->hasUniqueNature());
 
 		return $criterion;
 	}
