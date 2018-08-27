@@ -129,6 +129,44 @@ AND currently_active = 1';
 	}
 
 	/**
+	 * @param $userId
+	 * @param $objectIds
+	 * @return array
+	 */
+	public function fetchActiveCertificateForObjectIds($userId, $objectIds)
+	{
+		$sql = 'SELECT *
+FROM user_certificates
+WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+ AND obj_id IN (' . implode(',', $objectIds) . ')
+ AND currently_active = 1';
+
+		$query = $this->database->query($sql);
+
+		$result = array();
+		while ($row = $this->database->fetchAssoc($query)) {
+			$result[] = new ilUserCertificate(
+				$row['pattern_certificate_id'],
+				$row['obj_id'],
+				$row['obj_type'],
+				$row['user_id'],
+				$row['user_name'],
+				$row['acquired_timestamp'],
+				$row['certificate_content'],
+				$row['template_values'],
+				$row['valid_until'],
+				$row['version'],
+				$row['ilias_version'],
+				$row['currently_active'],
+				$row['background_image_path'],
+				$row['id']
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @param $id
 	 * @return ilUserCertificate
 	 * @throws ilException
@@ -139,7 +177,6 @@ AND currently_active = 1';
 
 		$query = $this->database->query($sql);
 
-		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
 			return new ilUserCertificate(
 				$row['pattern_certificate_id'],

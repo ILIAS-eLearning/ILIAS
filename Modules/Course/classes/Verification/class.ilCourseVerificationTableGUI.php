@@ -11,18 +11,29 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
+	private $userCertificateRepository;
+
 	/**
-	 * Constructor
-	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "")
-	{
+	public function __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
 		global $DIC;
 
 		$ilCtrl = $DIC['ilCtrl'];
-		
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -31,7 +42,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("crsv_create"));
 		$this->setDescription($this->lng->txt("crsv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.crs_verification_row.html", "Modules/Course");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -46,28 +57,26 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
-		
+
 		$data = array();
 
 		$userId = $ilUser->getId();
 		$obj_ids = ilCourseParticipants::_getMembershipByType($userId, "crs");
+
 		if($obj_ids) {
 			ilCourseCertificateAdapter::_preloadListData($userId, $obj_ids);
 
-			foreach($obj_ids as $crs_id) {
-				// #11210 - only available certificates!
-				if(ilCourseCertificateAdapter::_hasUserCertificate($userId, $crs_id)) {
-					$courseObject = ilObjectFactory::getInstanceByObjId($crs_id);
-					$factory = new ilCertificateFactory();
+			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
 
-					$certificate = $factory->create($courseObject);
+			/** @var ilUserCertificate $certificate */
+			foreach ($certificateArray as $certificate) {
+				$title = ilObject::_lookupTitle($certificate->getObjId());
 
-					if($certificate->isComplete()) {
-						$data[] = array("id" => $crs_id,
-							"title" => ilObject::_lookupTitle($crs_id),
-							"passed" => true);
-					}
-				}
+				$data[] = array(
+					'id'     => $certificate->getObjId(),
+					'title'  => $title,
+					'passed' => true
+				);
 			}
 		}
 
