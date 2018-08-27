@@ -189,6 +189,13 @@ class ilTestDynamicQuestionSet
 	
 	private function getQuestionSequenceStructuredByTaxonomy(ilAssQuestionList $questionList, $orderingTaxId)
 	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		$tax = new ilObjTaxonomy($orderingTaxId);
+		
+		require_once 'Modules/Test/classes/class.ilTestTaxonomyTree.php';
+		$tree = new ilTestTaxonomyTree($orderingTaxId);
+		$tree->initOrderedTreeIndex($tax);
+		
 		$questionsByNode = array();
 		$nodelessQuestions = array();
 		
@@ -198,8 +205,21 @@ class ilTestDynamicQuestionSet
 			{
 				foreach($qData['taxonomies'][$orderingTaxId] as $nodeId => $itemData)
 				{
-					$questionsByNode[ $itemData['node_lft'] ][ $itemData['order_nr'] ] = $qId;
-					break;
+					$nodeOrderingPath = $tree->getNodeOrderingPathString($itemData['node_id']);
+					
+					if( !isset($questionsByNode[ $nodeOrderingPath ]) )
+					{
+						$questionsByNode[ $nodeOrderingPath ] = array();
+					}
+					
+					if($tax->getItemSorting() == ilObjTaxonomy::SORT_MANUAL)
+					{
+						$questionsByNode[ $nodeOrderingPath ][$itemData['order_nr']] = $qId;
+					}
+					else
+					{
+						$questionsByNode[ $nodeOrderingPath ][$qData['title'].'::'.$qId] = $qId;
+					}
 				}
 			}
 			else
@@ -208,13 +228,21 @@ class ilTestDynamicQuestionSet
 			}
 		}
 		
-		foreach($questionsByNode as $nodeLft => $questions)
+		foreach($questionsByNode as $path => $questions)
 		{
-			ksort($questions, SORT_NUMERIC);
-			$questionsByNode[$nodeLft] = array_values($questions);
+			if($tax->getItemSorting() == ilObjTaxonomy::SORT_MANUAL)
+			{
+				ksort($questions, SORT_NUMERIC);
+			}
+			else
+			{
+				ksort($questions, SORT_STRING);
+			}
+			
+			$questionsByNode[$path] = array_values($questions);
 		}
 
-		ksort($questionsByNode, SORT_NUMERIC);
+		ksort($questionsByNode, SORT_STRING);
 		$sequence = array_values($questionsByNode);
 		
 		ksort($nodelessQuestions);

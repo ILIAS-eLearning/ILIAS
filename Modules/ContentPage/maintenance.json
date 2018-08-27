@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "ukohnle(21855)",
-    "second_maintainer": "smeyer(191)",
+    "first_maintainer": "",
+    "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
-    "path": "Services/LTI",
-    "belong_to_component": "LTI",
+    "path": "Modules/ContentPage",
+    "belong_to_component": "None",
     "used_in_components": []
 }
