@@ -53,7 +53,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("excv_create"));
 		$this->setDescription($this->lng->txt("excv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.exc_verification_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -61,30 +61,26 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * Get all completed tests
+	 * Get all achieved test certificates for the current user
 	 */
 	protected function getItems()
 	{
 		$ilUser = $this->user;
+		$userId = $ilUser->getId();
+
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'exc');
 
 		$data = array();
 
-		$userId = $ilUser->getId();
-		$obj_ids = array_keys(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()));
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificateArray as $certificate) {
+			$title = ilObject::_lookupTitle($certificate->getObjId());
 
-		if($obj_ids) {
-			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
-
-			/** @var ilUserCertificate $certificate */
-			foreach ($certificateArray as $certificate) {
-				$title = ilObject::_lookupTitle($certificate->getObjId());
-
-				$data[] = array(
-					'id'     => $certificate->getObjId(),
-					'title'  => $title,
-					'passed' => true
-				);
-			}
+			$data[] = array(
+				'id'     => $certificate->getObjId(),
+				'title'  => $title,
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -92,7 +88,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -102,7 +98,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "exc_id", $a_set["id"]);
