@@ -48,4 +48,21 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	public function listing() {
 		return $this->listing_factory;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sticky($views)
+	{
+		return new Sticky($views);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function stickyView($title, $content)
+	{
+		return new StickyView($title, $content);
+	}
+
 }

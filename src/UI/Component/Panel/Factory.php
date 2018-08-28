@@ -131,4 +131,66 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Listing\Factory
 	 */
 	public function listing();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       A Sticky Panel keeps multiple types of information or functionalities available to users while they
+	 *       carry out workflows that spread over several screens.
+	 *   composition: >
+	 *       A Sticky Panel is comprised of one or multiple views including a title and a Dropdown that allows
+	 *       to switch between views. Each view contains a content body. A Close Glyph allows to close the current view.
+	 *   effect: >
+	 *       Only one content body will be presented at a time. Other views will be selectable via Dropdown.
+	 *       The last view being added to the panel or selected by a user action will be the current view
+	 *       If all views are closed, the whole panel will be removed.
+	 *       The panel can be collapsed and expanded as a whole. It will be presented
+	 *       as a fixed area under the top bar. If collapsed, the title of the last opened view
+	 *       will persist in the collapsed bar under the top bar.
+	 *       The Sticky Panel will be presented on top of the right column (e.g. side blocks) of the main view.
+	 *       If no right column is currently active, an empty one will be displayed under the Sticky Panel
+	 *       to push the content of the main column to the left (and ensure its full visibility).
+	 *       The right edge of the tabs bar and the header actions will also be pushed to the left to ensure
+	 *       its full functionality.
+	 * rules:
+	 *   usage:
+	 *      1: Rendering is done by by the Standard Template. Consumer code SHOULD NOT render
+	 *         the Sticky Panel.
+	 *   composition:
+	 *      1: Consumer code CAN add individual views to the Sticky Panel.
+	 * ---
+	 * @param \ILIAS\UI\Component\Panel\StickyView[]
+	 * @return \ILIAS\UI\Component\Panel\Sticky
+	 */
+	public function sticky(array $views);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       A Sticky View keeps one specific type of information or functionality available to users while they
+	 *       carry out workflows that spread over several screens.
+	 *       Envisaged Views are currently the online help and the exercise instruction view.
+	 *   composition: >
+	 *       A Sticky View holds one content body of a Sticky Panel.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: Sticky Views should be used for information or tool-like purpose where the view needs
+	 *         to persist over multiple requests. It SHOULD not be used for navigational purposes only.
+	 *         Sticky Views SHOULD usually be added using a function of the Standard Template.
+	 *   composition:
+	 *      1: A Stick View consists of a title and content. Since the content can be presented by any
+	 *         kitchen sink element currently, each Sticky View needs to be confirmed by the Jour Fixe. The
+	 *         title is used in the Heading of the Sticky Panel, if a view is the current view. The
+	 *         title is also used in the Dropdown of the Sticky Panel to allow switching to a
+	 *         particular view.
+	 * ---
+	 * @param string
+	 * @param \ILIAS\UI\Component\Component[]
+	 * @return \ILIAS\UI\Component\Panel\StickyView
+	 */
+	public function stickyView(string $title, array $content): \ILIAS\UI\Component\Panel\StickyView;
+
 }
