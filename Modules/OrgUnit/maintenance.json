@@ -9,7 +9,9 @@
         "swanzenried(36442)",
         "ttruffer(42894)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "wischniak(21896)",
     "testcase_writer": "wischniak(21896)",
     "path": "Modules/OrgUnit",

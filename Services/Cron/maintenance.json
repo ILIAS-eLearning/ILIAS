@@ -3,7 +3,9 @@
     "first_maintainer": "mjansen(8784)",
     "second_maintainer": "bheyser(14300)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "kunkel(115)",
     "testcase_writer": "kunkel(115)",
     "path": "Services/Cron",
