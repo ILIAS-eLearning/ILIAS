@@ -36,6 +36,11 @@ class Main {
 
 
 	/**
+	 * This will return all available slates, stacked based on the configuration
+	 * in "Administration" and for the visibility of the currently user.
+	 * Additionally this will filter sequent Dividers to avoid double Dividers
+	 * in the UI.
+	 *
 	 * @return Slate[]
 	 */
 	public function getStackedSlates(): array {
