@@ -10,7 +10,6 @@
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.15",
-		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "4.9.3",
 		"phpmailer/phpmailer": "^5.2.24",
@@ -26,7 +25,8 @@
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
-        "sabre/dav": "~3.2.2"
+        "sabre/dav": "~3.2.2",
+		"phpoffice/phpspreadsheet": "^1.3.1"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
@@ -79,16 +79,6 @@
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"last_update" : "2016-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
-		},
-		"phpoffice/phpexcel" : {
-			"source" : "https://github.com/PHPOffice/PHPExcel",
-			"used_version" : "v1.8.1",
-			"wrapped_by" : "Services/Excel",
-			"added_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
@@ -283,6 +273,16 @@
             "approved-by": "Jour Fixe",
             "approved-date": "2018-03-12"
         },
+		"phpoffice/phpspreadsheet" : {
+			"source" : "https://github.com/PHPOffice/PhpSpreadsheet",
+			"used_version" : "v1.3.1",
+			"wrapped_by" : "Services/Excel",
+			"added_by" : "Jesús López <lopez@leifos.com>",
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jesús López <lopez@leifos.com>",
+			"approved-by": "",
+			"approved-date": "YYYY-MM-DD"
+		},
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"

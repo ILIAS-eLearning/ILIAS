@@ -10,7 +10,6 @@ return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'SAML2\\' => array($vendorDir . '/simplesamlphp/saml2/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
-    'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
