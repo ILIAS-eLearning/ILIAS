@@ -61,23 +61,18 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		$data = array();
 
 		$userId = $ilUser->getId();
-		$obj_ids = ilCourseParticipants::_getMembershipByType($userId, "crs");
 
-		if($obj_ids) {
-			ilCourseCertificateAdapter::_preloadListData($userId, $obj_ids);
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'crs');
 
-			$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'crs');
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificateArray as $certificate) {
+			$title = ilObject::_lookupTitle($certificate->getObjId());
 
-			/** @var ilUserCertificate $certificate */
-			foreach ($certificateArray as $certificate) {
-				$title = ilObject::_lookupTitle($certificate->getObjId());
-
-				$data[] = array(
-					'id'     => $certificate->getObjId(),
-					'title'  => $title,
-					'passed' => true
-				);
-			}
+			$data[] = array(
+				'id'     => $certificate->getObjId(),
+				'title'  => $title,
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
