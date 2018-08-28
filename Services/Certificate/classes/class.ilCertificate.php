@@ -417,29 +417,29 @@ class ilCertificate
 	{
 		$exportpath = $this->createArchiveDirectory();
 		ilUtil::makeDir($exportpath);
+		$time = time();
 
 		$adapter = $this->getAdapter();
 		$objId = $adapter->getCertificateID();
 
-		$templates = $this->templateRepository->fetchCertificateTemplatesByObjId($objId);
+		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
 
-		/** @var ilCertificateTemplate $template */
-		foreach ($templates as $template) {
-			$xslExport = $template->getCertificateContent();
-			$version = $template->getVersion();
-			$this->createCertificateFile($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
-			$backgroundImagePath = $template->getBackgroundImagePath();
+		$xslExport = $template->getCertificateContent();
+		$version = $template->getVersion();
+		$this->createCertificateFile($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
+		$backgroundImagePath = $template->getBackgroundImagePath();
 
-			if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-				copy($backgroundImagePath, $exportpath . basename($backgroundImagePath));
-			}
-			$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->objectId . "__certificate.zip";
-			ilUtil::zip($exportpath, $this->certificatePath . $zipfile);
+		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
+			copy($backgroundImagePath, $exportpath . basename($backgroundImagePath));
 		}
 
+		$objectType = ilObject::_lookupType($this->objectId);
+		$zipFileName = $time . "__" . IL_INST_ID . "__" . $objectType . "__" . $this->objectId . "__certificate.zip";
+
+		ilUtil::zip($exportpath, $this->certificatePath . $zipFileName);
 
 		ilUtil::delDir($exportpath);
-		ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
+		ilUtil::deliverFile($this->certificatePath . $zipFileName, $zipFileName, "application/zip");
 	}
 
 	/**
@@ -450,54 +450,60 @@ class ilCertificate
 	 */
 	public function importCertificate($zipfile, $filename)
 	{
-		$importPath = $this->createArchiveDirectory();
-		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importPath . $filename)) {
-			ilUtil::delDir($importPath);
+		$importpath = $this->createArchiveDirectory();
+		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importpath . $filename))
+		{
+			ilUtil::delDir($importpath);
 			return FALSE;
 		}
 
-		ilUtil::unzip($importPath . $filename, TRUE);
-		$subDirectory = str_replace(".zip", "", strtolower($filename)) . "/";
-		$copyDirectory = $importPath;
+		ilUtil::unzip($importpath . $filename, TRUE);
 
-		if (is_dir($importPath . $subDirectory)) {
-			$importPath = $importPath .$subDirectory;
-			$copyDirectory = $importPath . $subDirectory;
+		$subDirectoryName = str_replace(".zip", "", strtolower($filename)) . "/";
+		$subDirectoryAbsolutePath = $importpath . $subDirectoryName;
+
+		$copydir = $importpath;
+		if (is_dir($subDirectoryAbsolutePath)) {
+			$copydir = $subDirectoryAbsolutePath;
 		}
+		$dirinfo = ilUtil::getDir($copydir);
 
-		$directoryInfo = ilUtil::getDir($importPath);
 
-		$xmlFiles = 0;
-		$otherFiles = 0;
-
-		foreach ($directoryInfo as $file) {
-			if (strcmp($file["type"], "file") == 0) {
-				if (strpos($file["entry"], ".xml") !== false) {
-					$xmlFiles++;
-				}
-				else if (strpos($file["entry"], ".zip") !== false)
-				{}
-				else {
-					$otherFiles++;
+		$xmlfiles = 0;
+		foreach ($dirinfo as $file)
+		{
+			if (strcmp($file["type"], "file") == 0)
+			{
+				if (strpos($file["entry"], ".xml") !== FALSE)
+				{
+					$xmlfiles++;
 				}
 			}
 		}
 
-		// if one XML file is in the archive, we try to import it
-		if ($xmlFiles == 1) {
-			$version = 1;
-			foreach ($directoryInfo as $file) {
-				if (strcmp($file["type"], "file") == 0) {
-					if (strpos($file["entry"], '.xml') !== false) {
-						$xsl = file_get_contents($copyDirectory . $file["entry"]);
-						// as long as we cannot make RPC calls in a given directory, we have
-						// to add the complete path to every url
-						$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
-							$basePath = rtrim(dirname($this->getBackgroundImageDirectory(true)), '/');
-							$fileName = basename($matches[1]);
+		if (0 === $xmlfiles) {
+			ilUtil::delDir($importpath);
+			return false;
+		}
 
-							return 'url(' . $basePath . '/' . $fileName . ')';
-						}, $xsl);
+		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+
+		$currentVersion = (int) $certificate->getVersion();
+
+		$backgroundImagePath = '';
+		foreach ($dirinfo as $file) {
+			if (strcmp($file["type"], "file") == 0) {
+
+				if (strpos($file["entry"], '.xml') !== false) {
+					$xsl = file_get_contents($copydir . $file["entry"]);
+					// as long as we cannot make RPC calls in a given directory, we have
+					// to add the complete path to every url
+					$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
+						$basePath = rtrim(dirname($this->getBackgroundImageDirectory(true)), '/');
+						$fileName = basename($matches[1]);
+
+						return 'url(' . $basePath . '/' . $fileName . ')';
+					}, $xsl);
 
 						$currentCertificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
@@ -515,35 +521,32 @@ class ilCertificate
 							true
 						);
 
-						$this->templateRepository->save($template);
-					}
-					else if (strpos($file["entry"], '.zip') !== false)
-					{}
-					else if (strpos($file["entry"], '.jpg') !== false) {
-						@copy($copyDirectory . $file["entry"], $this->certificatePath . $file["entry"]);
-						$backgroundImage = 'background_' . $version . '.jpg';
+					$this->templateRepository->save($template);
+				}
+				else if (strpos($file["entry"], '.jpg') !== false) {
+					$newVersion = $currentVersion + 1;
+					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
+					$newPath = $this->certificatePath . $newBackgroundImageName;
+					@copy($copydir . $file["entry"], $newPath);
 
-						if (strcmp($this->getBackgroundImageDirectory() . $backgroundImage, $this->certificatePath . $file["entry"]) == 0) {
-							// upload of the background image, create a preview
-							ilUtil::convertImage(
-								$this->getBackgroundImageDirectory() . $backgroundImage,
-								$this->getBackgroundImageThumbPath(),
-								'JPEG',
-								100
-							);
-						}
-					}
+					$backgroundImagePath = $newPath;
+					// upload of the background image, create a thumbnail
+
+					$backgroundImageThumbPath = $this->getBackgroundImageThumbPath();
+					ilUtil::convertImage(
+						$newPath,
+						$backgroundImageThumbPath,
+						'JPEG',
+						100
+					);
 				}
 			}
-		} else {
-			ilUtil::delDir($importPath);
-			return false;
 		}
 
-		ilUtil::delDir($importPath);
+		ilUtil::delDir($importpath);
 		return true;
 	}
-	
+
 	/**
 	* Gets the adapter
 	*
@@ -553,7 +556,7 @@ class ilCertificate
 	{
 		return $this->adapter;
 	}
-	
+
 	/**
 	* Sets the adapter
 	*
@@ -563,7 +566,7 @@ class ilCertificate
 	{
 		$this->adapter =& $adapter;
 	}
-	
+
 	/***************************************
 	/* BULK CERTIFICATE PROCESSING METHODS *
 	/***************************************
@@ -575,12 +578,14 @@ class ilCertificate
 	*/
 	public function createArchiveDirectory()
 	{
-		$dir = $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate/";
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$type = ilObject::_lookupType($this->objectId);
+		$certificateId = $this->objectId;
+
+		$dir = $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
 		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
-	
+
 	/**
 	* Adds PDF data as a file to a given directory
 	*
@@ -594,7 +599,7 @@ class ilCertificate
 		fwrite($fh, $pdfdata);
 		fclose($fh);
 	}
-	
+
 	/**
 	* Create a ZIP file from a directory with certificates
 	*
@@ -612,9 +617,9 @@ class ilCertificate
 		}
 		return $this->certificatePath . $zipfile;
 	}
-	
+
 	public static function isActive()
-	{				
+	{
 		if(self::$is_active === null)
 		{
 			// basic admin setting active?
@@ -627,7 +632,7 @@ class ilCertificate
 				include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();
 			}
-			
+
 			self::$is_active = (bool)$certificate_active;
 		}
 
