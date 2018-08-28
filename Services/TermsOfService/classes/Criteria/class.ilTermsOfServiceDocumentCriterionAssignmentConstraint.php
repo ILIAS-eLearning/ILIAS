@@ -33,7 +33,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 
 		parent::__construct(
 			function (\ilTermsOfServiceDocumentCriterionAssignment $value) {
-				return 0 === count($this->getMatchingCriteriaForValue($value));
+				return 0 === count($this->filterEqualValues($value));
 			},
 			function ($value) {
 				return "The passed assignment must be unique for the document!";
@@ -46,12 +46,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 	 * @param \ilTermsOfServiceDocumentCriterionAssignment $value
 	 * @return \ilTermsOfServiceDocumentCriterionAssignment[]
 	 */
-	protected function getMatchingCriteriaForValue(
+	protected function filterEqualValues(
 		\ilTermsOfServiceDocumentCriterionAssignment $value
 	): array {
-		$criteria = $this->document->criteria();
+		$otherValues = $this->document->criteria();
 
-		return array_filter($criteria,
+		return array_filter(
+			$otherValues,
 			function (\ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) {
 				$idCurrent = $otherValue->getId();
 				$idNew = $value->getId();
