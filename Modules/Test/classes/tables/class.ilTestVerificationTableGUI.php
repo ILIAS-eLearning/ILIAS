@@ -36,7 +36,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		}
 		$this->userCertificateRepository = $userCertificateRepository;
-		
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -45,7 +45,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("tstv_create"));
 		$this->setDescription($this->lng->txt("tstv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.il_test_verification_row.html", "Modules/Test");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -61,24 +61,20 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
 		$ilUser = $DIC->user();
 
-		$data = array();
-
 		$userId = $ilUser->getId();
-		$obj_ids = ilObjTest::getTestObjIdsWithActiveForUserId($ilUser->getId());
 
-		if($obj_ids) {
-			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'tst');
 
-			/** @var ilUserCertificate $certificate */
-			foreach ($certificateArray as $certificate) {
-				$title = ilObject::_lookupTitle($certificate->getObjId());
+		$data = array();
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificateArray as $certificate) {
+			$title = ilObject::_lookupTitle($certificate->getObjId());
 
-				$data[] = array(
-					'id'     => $certificate->getObjId(),
-					'title'  => $title,
-					'passed' => true
-				);
-			}
+			$data[] = array(
+				'id'     => $certificate->getObjId(),
+				'title'  => $title,
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -86,7 +82,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -96,7 +92,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
