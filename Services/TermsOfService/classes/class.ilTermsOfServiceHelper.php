@@ -66,8 +66,7 @@ class ilTermsOfServiceHelper
 		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-		$entity->setUserId($userId);
-		$databaseGateway->deleteAcceptanceHistoryByUser($entity);
+		$databaseGateway->deleteAcceptanceHistoryByUser($entity->withUserId($userId));
 	}
 
 	/**
@@ -80,9 +79,7 @@ class ilTermsOfServiceHelper
 		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-		$entity->setUserId($user->getId());
-
-		return $databaseGateway->loadCurrentAcceptanceOfUser($entity);
+		return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId($user->getId()));
 	}
 
 	/**
@@ -95,9 +92,7 @@ class ilTermsOfServiceHelper
 		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-		$entity->setId($id);
-
-		return $databaseGateway->loadById($entity);
+		return $databaseGateway->loadById($entity->withId($id));
 	}
 
 	/**
@@ -110,15 +105,16 @@ class ilTermsOfServiceHelper
 		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-		$entity->setUserId($user->getId());
-		$entity->setTimestamp(time());
-		$entity->setText($document->content());
-		$entity->setHash(md5($document->content()));
-		$entity->setDocumentId($document->id());
-		$entity->setTitle($document->title());
+		$entity = $entity
+			->withUserId($user->getId())
+			->withTimestamp(time())
+			->withText($document->content())
+			->withHash(md5($document->content()))
+			->withDocumentId($document->id())
+			->withTitle($document->title());
 
 		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
-		$entity->setCriteria($criteriaBag->toJson());
+		$entity = $entity->withSerializedCriteria($criteriaBag->toJson());
 
 		$databaseGateway->trackAcceptance($entity);
 

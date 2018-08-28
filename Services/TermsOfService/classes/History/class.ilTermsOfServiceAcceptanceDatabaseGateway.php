@@ -53,7 +53,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 			[
 				'tosv_id' => ['integer', $versionId],
 				'usr_id' => ['integer', $entity->getUserId()],
-				'criteria' => ['clob', $entity->getCriteria()],
+				'criteria' => ['clob', $entity->getSerializedCriteria()],
 				'ts' => ['integer', $entity->getTimestamp()]
 			]
 		);
@@ -81,14 +81,15 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 		);
 		$row = $this->db->fetchAssoc($res);
 
-		$entity->setId($row['id']);
-		$entity->setUserId($row['usr_id']);
-		$entity->setText($row['text']);
-		$entity->setTimestamp($row['accepted_ts']);
-		$entity->setHash($row['hash']);
-		$entity->setDocumentId($row['doc_id']);
-		$entity->setTitle($row['title']);
-		$entity->setCriteria($row['criteria']);
+		$entity = $entity
+			->withId($row['id'])
+			->withUserId($row['usr_id'])
+			->withText($row['text'])
+			->withTimestamp($row['accepted_ts'])
+			->withHash($row['hash'])
+			->withDocumentId($row['doc_id'])
+			->withTitle($row['title'])
+			->withSerializedCriteria($row['criteria']);
 
 		return $entity;
 	}
@@ -108,11 +109,12 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 		);
 		$row = $this->db->fetchAssoc($res);
 
-		$entity->setId($row['id']);
-		$entity->setText($row['text']);
-		$entity->setHash($row['hash']);
-		$entity->setDocumentId($row['doc_id']);
-		$entity->setTitle($row['title']);
+		$entity = $entity
+			->withId($row['id'])
+			->withText($row['text'])
+			->withHash($row['hash'])
+			->withDocumentId($row['doc_id'])
+			->withTitle($row['title']);
 
 		return $entity;
 	}

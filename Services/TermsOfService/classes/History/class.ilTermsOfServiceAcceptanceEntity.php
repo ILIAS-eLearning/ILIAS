@@ -32,14 +32,6 @@ class ilTermsOfServiceAcceptanceEntity
 	protected $criteria = '';
 
 	/**
-	 * @param string $hash
-	 */
-	public function setHash(string $hash)
-	{
-		$this->hash = $hash;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getHash(): string
@@ -48,11 +40,16 @@ class ilTermsOfServiceAcceptanceEntity
 	}
 
 	/**
-	 * @param string $text
+	 * @param string $hash
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setText(string $text)
+	public function withHash(string $hash): self
 	{
-		$this->text = $text;
+		$clone = clone $this;
+
+		$clone->hash = $hash;
+
+		return $clone;
 	}
 
 	/**
@@ -64,11 +61,16 @@ class ilTermsOfServiceAcceptanceEntity
 	}
 
 	/**
-	 * @param int $timestamp
+	 * @param string $text
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setTimestamp(int $timestamp)
+	public function withText(string $text): self
 	{
-		$this->timestamp = $timestamp;
+		$clone = clone $this;
+
+		$clone->text = $text;
+
+		return $clone;
 	}
 
 	/**
@@ -80,11 +82,16 @@ class ilTermsOfServiceAcceptanceEntity
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param int $timestamp
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setUserId(int $user_id)
+	public function withTimestamp(int $timestamp): self
 	{
-		$this->user_id = $user_id;
+		$clone = clone $this;
+
+		$clone->timestamp = $timestamp;
+
+		return $clone;
 	}
 
 	/**
@@ -93,6 +100,19 @@ class ilTermsOfServiceAcceptanceEntity
 	public function getUserId(): int
 	{
 		return $this->user_id;
+	}
+
+	/**
+	 * @param int $user_id
+	 * @return \ilTermsOfServiceAcceptanceEntity
+	 */
+	public function withUserId(int $user_id): self
+	{
+		$clone = clone $this;
+
+		$clone->user_id = $user_id;
+
+		return $clone;
 	}
 
 	/**
@@ -105,10 +125,15 @@ class ilTermsOfServiceAcceptanceEntity
 
 	/**
 	 * @param $id
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setId(int $id)
+	public function withId(int $id): self
 	{
-		$this->id = $id;
+		$clone = clone $this;
+
+		$clone->id = $id;
+
+		return $clone;
 	}
 
 	/**
@@ -121,10 +146,15 @@ class ilTermsOfServiceAcceptanceEntity
 
 	/**
 	 * @param string $title
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setTitle(string $title)
+	public function withTitle(string $title): self
 	{
-		$this->title = $title;
+		$clone = clone $this;
+
+		$clone->title = $title;
+
+		return $clone;
 	}
 
 	/**
@@ -137,25 +167,35 @@ class ilTermsOfServiceAcceptanceEntity
 
 	/**
 	 * @param int $document_id
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setDocumentId(int $document_id)
+	public function withDocumentId(int $document_id): self
 	{
-		$this->document_id = $document_id;
+		$clone = clone $this;
+
+		$clone->document_id = $document_id;
+
+		return $clone;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCriteria(): string 
+	public function getSerializedCriteria(): string 
 	{
 		return $this->criteria;
 	}
 
 	/**
 	 * @param string $criteria
+	 * @return \ilTermsOfServiceAcceptanceEntity
 	 */
-	public function setCriteria(string $criteria)
+	public function withSerializedCriteria(string $criteria): self
 	{
-		$this->criteria = $criteria;
+		$clone = clone $this;
+
+		$clone->criteria = $criteria;
+
+		return $clone;
 	}
 }

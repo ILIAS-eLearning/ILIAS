@@ -85,7 +85,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 	public function testCriteriaAreInitiallyEmpty()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getCriteria());
+		$this->assertEmpty($entity->getSerializedCriteria());
 	}
 
 	/**
@@ -96,8 +96,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 4711;
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setId($expected);
-		$this->assertEquals($expected, $entity->getId());
+		$this->assertEquals($expected, $entity->withId($expected)->getId());
 	}
 
 	/**
@@ -108,8 +107,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 1337;
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setUserId($expected);
-		$this->assertEquals($expected, $entity->getUserId());
+		$this->assertEquals($expected, $entity->withUserId($expected)->getUserId());
 	}
 
 	/**
@@ -120,8 +118,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 'Lorem Ipsum';
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setText($expected);
-		$this->assertEquals($expected, $entity->getText());
+		$this->assertEquals($expected, $entity->withText($expected)->getText());
 	}
 
 	/**
@@ -132,8 +129,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 4711;
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setDocumentId($expected);
-		$this->assertEquals($expected, $entity->getDocumentId());
+		$this->assertEquals($expected, $entity->withDocumentId($expected)->getDocumentId());
 	}
 
 	/**
@@ -144,8 +140,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 'Document PHP Unit';
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setTitle($expected);
-		$this->assertEquals($expected, $entity->getTitle());
+		$this->assertEquals($expected, $entity->withTitle($expected)->getTitle());
 	}
 
 	/**
@@ -156,8 +151,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = time();
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setTimestamp($expected);
-		$this->assertEquals($expected, $entity->getTimestamp());
+		$this->assertEquals($expected, $entity->withTimestamp($expected)->getTimestamp());
 	}
 
 	/**
@@ -168,8 +162,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 'hash';
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setHash($expected);
-		$this->assertEquals($expected, $entity->getHash());
+		$this->assertEquals($expected, $entity->withHash($expected)->getHash());
 	}
 
 	/**
@@ -180,7 +173,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 		$expected = 'criteria';
 
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setCriteria($expected);
-		$this->assertEquals($expected, $entity->getCriteria());
+		$this->assertEquals($expected, $entity->withSerializedCriteria($expected)->getSerializedCriteria());
 	}
 }

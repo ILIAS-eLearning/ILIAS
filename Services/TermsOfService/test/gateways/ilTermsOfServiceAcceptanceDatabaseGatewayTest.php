@@ -24,13 +24,13 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersion()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setUserId(666);
-		$entity->setDocumentId(4711);
-		$entity->setTitle('Document PHP Unit');
-		$entity->setCriteria('');
-		$entity->setText('PHP Unit');
-		$entity->setTimestamp(time());
-		$entity->setHash(md5($entity->getText()));
+		$entity->withUserId(666);
+		$entity->withDocumentId(4711);
+		$entity->withTitle('Document PHP Unit');
+		$entity->withSerializedCriteria('');
+		$entity->withText('PHP Unit');
+		$entity->withTimestamp(time());
+		$entity->withHash(md5($entity->getText()));
 
 		$expected_id = 4711;
 
@@ -69,7 +69,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 		$expectedTracking = [
 			'tosv_id' => ['integer', $expected_id],
 			'usr_id' => ['integer', $entity->getUserId()],
-			'criteria' => ['clob', $entity->getCriteria()],
+			'criteria' => ['clob', $entity->getSerializedCriteria()],
 			'ts' => ['integer', $entity->getTimestamp()]
 		];
 
@@ -91,13 +91,13 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setUserId(666);
-		$entity->setDocumentId(4711);
-		$entity->setTitle('Document PHP Unit');
-		$entity->setCriteria('');
-		$entity->setText('PHP Unit');
-		$entity->setTimestamp(time());
-		$entity->setHash(md5($entity->getText()));
+		$entity->withUserId(666);
+		$entity->withDocumentId(4711);
+		$entity->withTitle('Document PHP Unit');
+		$entity->withSerializedCriteria('');
+		$entity->withText('PHP Unit');
+		$entity->withTimestamp(time());
+		$entity->withHash(md5($entity->getText()));
 
 		$expected_id = 4711;
 
@@ -128,7 +128,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 		$expectedTracking = [
 			'tosv_id' => ['integer', $expected_id],
 			'usr_id' => ['integer', $entity->getUserId()],
-			'criteria' => ['clob', $entity->getCriteria()],
+			'criteria' => ['clob', $entity->getSerializedCriteria()],
 			'ts' => ['integer', $entity->getTimestamp()]
 		];
 		$database
@@ -165,13 +165,13 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 			->will($this->onConsecutiveCalls($expected));
 
 		$gateway = new \ilTermsOfServiceAcceptanceDatabaseGateway($database);
-		$gateway->loadCurrentAcceptanceOfUser($entity);
+		$entity = $gateway->loadCurrentAcceptanceOfUser($entity);
 
 		$this->assertEquals($expected['id'], $entity->getId());
 		$this->assertEquals($expected['usr_id'], $entity->getUserId());
 		$this->assertEquals($expected['doc_id'], $entity->getDocumentId());
 		$this->assertEquals($expected['title'], $entity->getTitle());
-		$this->assertEquals($expected['criteria'], $entity->getCriteria());
+		$this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
 		$this->assertEquals($expected['text'], $entity->getText());
 		$this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
 		$this->assertEquals($expected['hash'], $entity->getHash());
@@ -183,7 +183,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	public function testAcceptanceHistoryOfAUserIsDeleted()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
-		$entity->setUserId(4711);
+		$entity->withUserId(4711);
 
 		$database = $this->getMockBuilder(\ilDBInterface::class)->getMock();
 
@@ -225,12 +225,12 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 			->will($this->onConsecutiveCalls($expected));
 
 		$gateway = new \ilTermsOfServiceAcceptanceDatabaseGateway($database);
-		$gateway->loadById($entity);
+		$entity = $gateway->loadById($entity);
 
 		$this->assertEquals($expected['id'], $entity->getId());
 		$this->assertEquals($expected['doc_id'], $entity->getDocumentId());
 		$this->assertEquals($expected['title'], $entity->getTitle());
-		$this->assertEquals($expected['criteria'], $entity->getCriteria());
+		$this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
 		$this->assertEquals($expected['text'], $entity->getText());
 		$this->assertEquals($expected['hash'], $entity->getHash());
 	}
