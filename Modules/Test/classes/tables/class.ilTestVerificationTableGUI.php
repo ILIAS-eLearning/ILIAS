@@ -12,15 +12,31 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilTestVerificationTableGUI extends ilTable2GUI
 {
 	/**
-	 * Constructor
-	 *
+	 * @var ilUserCertificateRepository|null
+	 */
+	private $userCertificateRepository;
+
+	/**
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
-		global $ilCtrl;
-		
+	public function  __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -29,7 +45,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("tstv_create"));
 		$this->setDescription($this->lng->txt("tstv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.il_test_verification_row.html", "Modules/Test");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -41,24 +57,24 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function getItems()
 	{
-		global $ilUser;
+		global $DIC;
 
-		include_once "Modules/Test/classes/class.ilObjTest.php";					
-	    include_once "Modules/Test/classes/class.ilTestSessionFactory.php";
-         
+		$ilUser = $DIC->user();
+
+		$userId = $ilUser->getId();
+
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'tst');
+
 		$data = array();
-		foreach(ilObjTest::getTestObjIdsWithActiveForUserId($ilUser->getId()) as $test_id)
-		{
-			// #11210 - only available certificates!
-			$test = new ilObjTest($test_id, false);								
-			$session = new ilTestSessionFactory($test);
-		    $session = $session->getSession(null);
-			if($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
-			{						
-				$data[] = array("id" => $test_id,
-					"title" => $test->getTitle(),
-					"passed" => $test->getPassed($session->getActiveId()));
-			}
+		/** @var ilUserCertificate $certificate */
+		foreach ($certificateArray as $certificate) {
+			$title = ilObject::_lookupTitle($certificate->getObjId());
+
+			$data[] = array(
+				'id'     => $certificate->getObjId(),
+				'title'  => $title,
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -66,7 +82,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -76,7 +92,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
