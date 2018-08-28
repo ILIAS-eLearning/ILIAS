@@ -7,6 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/LTI",
-    "belong_to_component": "None",
+    "belong_to_component": "LTI",
     "used_in_components": []
 }

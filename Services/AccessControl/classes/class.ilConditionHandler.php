@@ -107,7 +107,10 @@ class ilConditionHandler
 	*/
 	public function __construct()
 	{
-		global $ilDB,$lng;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
@@ -141,7 +144,9 @@ class ilConditionHandler
 	 */
 	public static function lookupHiddenStatusByTarget($a_target_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT hidden_status FROM conditions '.
 				'WHERE target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer');
@@ -165,7 +170,9 @@ class ilConditionHandler
 	 */
 	public static function _adjustMovedObjectConditions($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		if($tree->checkForParentType($a_ref_id,'crs'))
 		{
@@ -196,7 +203,9 @@ class ilConditionHandler
 	 */
 	public static function _getDistinctTargetRefIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT DISTINCT target_ref_id ref FROM conditions ";
 		$res = $ilDB->query($query);
@@ -219,7 +228,9 @@ class ilConditionHandler
 	 */
 	public static function _deleteTargetConditionsByRefId($a_target_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM conditions ".
 			"WHERE target_ref_id = ".$ilDB->quote($a_target_ref_id,'integer')." ".
@@ -433,9 +444,11 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
-		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg');
+		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa');
 
 		foreach($objDefinition->getPlugins() as $p_type => $p_info)
 		{
@@ -475,7 +488,9 @@ class ilConditionHandler
 	 */
 	public function getOperatorsByTargetType($a_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		switch($a_type)
 		{
@@ -523,7 +538,9 @@ class ilConditionHandler
 	*/
 	function storeCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// first insert, then validate: it's easier to check for circles if the new condition is in the db table
 		$next_id = $ilDB->nextId('conditions');
@@ -556,7 +573,9 @@ class ilConditionHandler
 
 	function checkExists()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM conditions ".
 			"WHERE target_ref_id = ".$ilDB->quote($this->getTargetRefId(),'integer')." ".
@@ -573,7 +592,9 @@ class ilConditionHandler
 	*/
 	function updateCondition($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE conditions SET ".
 			"target_ref_id = ".$ilDB->quote($this->getTargetRefId(),'integer').", ".
@@ -596,7 +617,9 @@ class ilConditionHandler
 	 */
 	public function updateHiddenStatus($a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE conditions SET '.
 				'hidden_status = '.$ilDB->quote($a_status,'integer').' '.
@@ -613,7 +636,9 @@ class ilConditionHandler
 	 */
 	static function updateObligatory($a_id, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE conditions SET ".
 			'obligatory = '.$ilDB->quote($a_status,'integer').' '.
@@ -629,7 +654,9 @@ class ilConditionHandler
 	*/
 	function delete($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM conditions WHERE ".
 			"target_ref_id = ".$ilDB->quote($a_ref_id,'integer')." ".
@@ -644,7 +671,9 @@ class ilConditionHandler
 	*/
 	function deleteByObjId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM conditions WHERE ".
 			"target_obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -659,7 +688,9 @@ class ilConditionHandler
 	*/
 	function deleteCondition($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM conditions ".
 			"WHERE condition_id = ".$ilDB->quote($a_id,'integer');
@@ -674,7 +705,9 @@ class ilConditionHandler
 	*/
 	static function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM conditions ".
 			"WHERE trigger_obj_id = ".$ilDB->quote($a_trigger_id,'integer')." ".
@@ -715,7 +748,10 @@ class ilConditionHandler
 	*/
 	public static function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
 	{
-		global $ilDB, $ilBench;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilBench = $DIC['ilBench'];
 
 		// get type if no type given
 		if ($a_target_type == "")
@@ -782,7 +818,9 @@ class ilConditionHandler
 	 */
 	static function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (is_array($a_obj_ids) && count($a_obj_ids) > 0)
 		{
@@ -808,7 +846,9 @@ class ilConditionHandler
 
 	static function _getCondition($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM conditions ".
 			"WHERE condition_id = ".$ilDB->quote($a_id,'integer');
@@ -843,7 +883,10 @@ class ilConditionHandler
 	*/
 	static function _checkCondition($a_id,$a_usr_id = 0)
 	{
-		global $ilUser, $objDefinition;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
@@ -907,7 +950,9 @@ class ilConditionHandler
 	 */
 	public static function lookupObligatoryConditionsOfTarget($a_target_ref_id, $a_target_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT max(num_obligatory) obl from conditions WHERE '.
 			'target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer').' '.
@@ -931,7 +976,9 @@ class ilConditionHandler
 	 */
 	public static function calculateRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '', $a_force_update = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// Get all conditions
 		$all = self::_getConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_target_obj_type);
@@ -973,7 +1020,9 @@ class ilConditionHandler
 	 */
 	public static function saveNumberOfRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_num)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'UPDATE conditions '.
 			'SET num_obligatory = '.$ilDB->quote($a_num,'integer').' '.
@@ -988,7 +1037,11 @@ class ilConditionHandler
 	*/
 	static function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
 	{
-		global $ilBench,$ilUser,$tree;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
@@ -1041,7 +1094,9 @@ class ilConditionHandler
 	// PRIVATE
 	function validate()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// check if obj_id is already assigned
 		$trigger_obj =& ilObjectFactory::getInstanceByRefId($this->getTriggerRefId());

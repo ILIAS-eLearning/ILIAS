@@ -74,7 +74,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$form->setValuesByPost();
 		$this->writeQuestionGenericPostData();
 		$this->writeQuestionSpecificPostData($form);
-		$custom_check = $this->object->checkQuestionCustomPart();
+		$custom_check = $this->object->checkQuestionCustomPart($form);
 		if( !$form->checkInput() ||  !$custom_check)
 		{
 			if(!$custom_check)
@@ -97,6 +97,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$this->object->setQuestion($_POST['question']);
 			$this->object->setLongMenuTextValue($_POST["longmenu_text"]);
 			$this->object->setMinAutoComplete((int)$_POST["min_auto_complete"]);
+			$this->object->setIdenticalScoring((int) $_POST["identical_scoring"] );
 			$this->saveTaxonomyAssignments();
 	}
 
@@ -190,7 +191,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$min_auto_complete->setMaxValue(99);
 		$min_auto_complete->setSize(5);
 		$form->addItem($min_auto_complete);
-		
+		// identical scoring
+		$identical_scoring = new ilCheckboxInputGUI($this->lng->txt( "identical_scoring" ), "identical_scoring");
+		$identical_scoring->setValue( 1 );
+		$identical_scoring->setChecked( $this->object->getIdenticalScoring() );
+		$identical_scoring->setInfo( $this->lng->txt( 'identical_scoring_desc' ) );
+		$identical_scoring->setRequired( FALSE );
+		$form->addItem( $identical_scoring );
 		$hidden_text = new ilHiddenInputGUI('hidden_text_files');
 		$form->addItem($hidden_text);
 
@@ -307,7 +314,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$fb = $this->getSpecificFeedbackOutput(array());
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -474,9 +481,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$this->addBackTab($this->ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
-		if( !$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0) )
+		if( !$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, 0) )
 		{
 			return '';
 		}
@@ -492,7 +499,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
 			$feedback .= $caption .'</td><td>';
 			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $index
+					$this->object->getId(),0, $index
 				) . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';

@@ -46,7 +46,12 @@ class ConcreteForm extends Form {
 
 
 	public function setInputs(array $inputs) {
-		$input_factory = new Input\Factory(new SignalGenerator());
+		$signal_generator = new SignalGenerator();
+		$input_factory = new Input\Factory(
+			$signal_generator,
+			new Input\Field\Factory($signal_generator),
+			new Input\Container\Factory()
+		);
 		$this->input_group = $input_factory->field()->group($inputs);
 		$this->inputs = $inputs;
 	}

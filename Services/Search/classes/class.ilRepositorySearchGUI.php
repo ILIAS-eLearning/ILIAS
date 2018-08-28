@@ -62,7 +62,11 @@ class ilRepositorySearchGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl,$tpl,$lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -147,7 +151,12 @@ class ilRepositorySearchGUI
 	 */
 	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array(), $a_sticky = false)
 	{
-		global $ilToolbar, $lng, $ilCtrl, $tree;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
 
 		if(!$toolbar instanceof ilToolbarGUI)
 		{
@@ -205,7 +214,7 @@ class ilRepositorySearchGUI
 		}
 		
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
 		if($clip->hasContent())
 		{
 			include_once './Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
@@ -306,7 +315,7 @@ class ilRepositorySearchGUI
 	protected function doUserAutoComplete()
 	{
 		// hide anonymout request
-		if($GLOBALS['ilUser']->getId() == ANONYMOUS_USER_ID)
+		if($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
 			include_once './Services/JSON/classes/class.ilJsonUtil.php';
 			return ilJsonUtil::encode(new stdClass());
@@ -364,7 +373,9 @@ class ilRepositorySearchGUI
 	*/
 	function executeCommand()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -443,29 +454,29 @@ class ilRepositorySearchGUI
 
 		if(!$class->$method($user_ids,$user_type))
 		{
-			$GLOBALS['ilCtrl']->returnToParent($this);
+			$GLOBALS['DIC']['ilCtrl']->returnToParent($this);
 		}
 	}
 	
 	protected function showClipboard()
 	{
-		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$GLOBALS['DIC']['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
 		
 		ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
 		
-		$GLOBALS['ilTabs']->clearTargets();
-		$GLOBALS['ilTabs']->setBackTarget(
-			$GLOBALS['lng']->txt('back'),
-			$GLOBALS['ilCtrl']->getParentReturn($this)
+		$GLOBALS['DIC']['ilTabs']->clearTargets();
+		$GLOBALS['DIC']['ilTabs']->setBackTarget(
+			$GLOBALS['DIC']['lng']->txt('back'),
+			$GLOBALS['DIC']['ilCtrl']->getParentReturn($this)
 		);
 		
 		include_once './Services/User/classes/class.ilUserClipboardTableGUI.php';
-		$clip = new ilUserClipboardTableGUI($this, 'showClipboard', $GLOBALS['ilUser']->getId());
-		$clip->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$clip = new ilUserClipboardTableGUI($this, 'showClipboard', $GLOBALS['DIC']['ilUser']->getId());
+		$clip->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
 		$clip->init();
 		$clip->parse();
 		
-		$GLOBALS['tpl']->setContent($clip->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($clip->getHTML());
 	}
 	
 	/**
@@ -473,12 +484,12 @@ class ilRepositorySearchGUI
 	 */
 	protected function addFromClipboard()
 	{
-		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$GLOBALS['DIC']['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
 		$users = (array) $_POST['uids'];
 		if(!count($users))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'), true);
-			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+			$GLOBALS['DIC']['ilCtrl']->redirect($this, 'showClipboard');
 		}
 		$class = $this->callback['class'];
 		$method = $this->callback['method'];
@@ -486,7 +497,7 @@ class ilRepositorySearchGUI
 
 		if(!$class->$method($users,$user_type))
 		{
-			$GLOBALS['ilCtrl']->returnToParent($this);
+			$GLOBALS['DIC']['ilCtrl']->returnToParent($this);
 		}
 	}
 
@@ -495,16 +506,16 @@ class ilRepositorySearchGUI
 	 */
 	protected function removeFromClipboard()
 	{
-		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$GLOBALS['DIC']['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
 		$users = (array) $_POST['uids'];
 		if(!count($users))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'), true);
-			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+			$GLOBALS['DIC']['ilCtrl']->redirect($this, 'showClipboard');
 		}
 
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
 		$clip->delete($users);
 		$clip->save();
 		
@@ -518,7 +529,7 @@ class ilRepositorySearchGUI
 	protected function emptyClipboard()
 	{
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
 		$clip->clear();
 		$clip->save();
 		
@@ -582,7 +593,9 @@ class ilRepositorySearchGUI
 	
 	public function initFormSearch(ilObjUser $user = NULL)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -1233,7 +1246,9 @@ class ilRepositorySearchGUI
 					break;
 					
 				case 'role':
-					global $rbacreview;
+					global $DIC;
+
+					$rbacreview = $DIC['rbacreview'];
 					
 					$assigned = [];
 					if(is_callable($this->user_filter))

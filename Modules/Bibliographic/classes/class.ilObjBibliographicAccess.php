@@ -134,5 +134,3 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		return $bibl_rec["is_online"];
 	}
 }
-
-?>

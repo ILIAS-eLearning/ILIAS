@@ -49,7 +49,9 @@ class ilECSExport
 	 */
 	public function __construct($a_server_id,$a_obj_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 
 		$this->server_id = $a_server_id;
 	 	$this->obj_id = $a_obj_id;
@@ -83,7 +85,9 @@ class ilECSExport
 	 */
 	public static function _isExported($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_export '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -105,7 +109,9 @@ class ilECSExport
 	 */
 	public static function _getAllEContentIds($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT econtent_id,obj_id FROM ecs_export ".
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -125,7 +131,9 @@ class ilECSExport
 	 */
 	public static function getExportedIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT obj_id FROM ecs_export ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -142,7 +150,9 @@ class ilECSExport
 	 */
 	public static function getExportedIdsByType($a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT e.obj_id FROM ecs_export e".
 			" JOIN object_data o ON (e.obj_id = o.obj_id)".
 			" WHERE o.type = ".$ilDB->quote($a_type, "text");
@@ -162,7 +172,9 @@ class ilECSExport
 	 */
 	public static function getExportServerIds($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_export '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -185,7 +197,9 @@ class ilECSExport
 	 */
 	public static function _getExportedIDsByServer($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT obj_id FROM ecs_export ".
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
@@ -204,7 +218,9 @@ class ilECSExport
 	 */
 	public static function lookupServerIds($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_export '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' ';
@@ -227,7 +243,9 @@ class ilECSExport
 	 */
 	public static function _deleteEContentIds($a_server_id,$a_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!is_array($a_ids) or !count($a_ids))
 		{
@@ -247,7 +265,9 @@ class ilECSExport
 	 */
 	public static function deleteByServer($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_export '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -264,7 +284,9 @@ class ilECSExport
 	 */
 	public static function _isRemote($a_server_id,$a_econtent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id FROM ecs_export ".
 			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
@@ -331,7 +353,9 @@ class ilECSExport
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM ecs_export ".
 			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
@@ -358,7 +382,9 @@ class ilECSExport
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM ecs_export WHERE ".
 	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." AND ".
@@ -373,7 +399,9 @@ class ilECSExport
 	
 	public static function deleteByServerId($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_export'.
 			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');

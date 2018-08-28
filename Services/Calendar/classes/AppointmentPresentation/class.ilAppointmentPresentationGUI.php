@@ -201,7 +201,9 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");

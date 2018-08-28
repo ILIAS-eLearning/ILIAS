@@ -2,7 +2,7 @@ ILIAS Maintenance
 =================
 The development of the ILIAS source code is coordinated and maintained by a coordination team within the ILIAS network. Besides the main responsibilities for the project, several developers and users are maintaining certain modules of ILIAS.
 
-# Coordination Team
+# Special Roles
 
 * **Product Management**: [Matthias Kunkel]
 * **Technical Board**: [Alexander Killing], [Michael Jansen], [Fabian Schmid], [Timon Amstutz], [Richard Klees]
@@ -13,9 +13,14 @@ The development of the ILIAS source code is coordinated and maintained by a coor
 # Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described in the development guide.
  
-Communication among developers that are working on a specific module needs to be assured. Final decision about getting write access to the ILIAS development system (Github) is handled by the product manager.
+Communication among developers that are working on a specific component needs to be assured. Final decision about getting write access to the ILIAS development system (Github) is handled by the product manager.
  
-The following rules must be respected for everyone involved in the programming of ILIAS:
+ILIAS is currently maintained by three types of Maintainerships:
+- First Component Maintainer
+- Second Component Maintainer
+- [Coordinator Model](maintenance-coordinator.md) 
+ 
+The following rules must be respected for everyone involved in the programming of ILIAS for all components having a listed component maintainer (see bellow):
 
 1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager in the Jour Fixe meetings after an open discussion.
 2. All components have a first and second maintainer. Code changes are usually done by the first maintainer. The first maintainer may forward new implementations to the second maintainer.
@@ -26,14 +31,9 @@ Responsibilities of a component maintainer:
 - Component maintainers must agree to coordinate the development of their component with the product manager.
 - Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically by the [Issue-Tracker](http://mantis.ilias.de).
 
-ILIAS is currently maintained by two types of Maintainerships:
-
-- First Maintainer
-- Second Maintainer
 
 The code base is deviced in several components:
 <!-- REMOVE -->
-
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -214,12 +214,6 @@ The code base is deviced in several components:
 	* Testcases: iLUB Universität Bern
 	* Tester: iLUB Universität Bern
 
-* **HTTP**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-
 * **HTTP-Request**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -249,6 +243,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: MISSING
 	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
+
+* **LTI**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
 * **Language Handling**
 	* 1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
@@ -285,12 +285,6 @@ The code base is deviced in several components:
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-
-* **LTI**
-	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
-	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
 * **Mail**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
@@ -534,7 +528,7 @@ The code base is deviced in several components:
 
 * **WebDAV**
 	* 1st Maintainer: [fawinike](http://www.ilias.de/docu/goto_docu_usr_44474.html)
-	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [rheer](http://www.ilias.de/docu/goto_docu_usr_47872.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
@@ -569,19 +563,16 @@ The code base is deviced in several components:
 	* Tester: [richtera](http://www.ilias.de/docu/goto_docu_usr_41247.html)
 
 
-Components in the Service Maintenance Model:
+Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) 
 	* Used in Directories: src/UI, 
 
 
-The following directories are currently maintained unter the Service Maintenance Model:
+The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
 * src/UI
  (Coordinator: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 
 
 The following directories are currently unmaintained:
-* Services/License
-* Services/Membership
-* Services/QTI
-* Services/Randomization
+* Modules/ContentPage

@@ -61,7 +61,22 @@ class ilInfoScreenGUI
 	var $table_class = "il_InfoScreen";
 	var $open_form_tag = true;
 	var $close_form_tag = true;
-	
+
+	/**
+	 * @var int|null
+	 */
+	protected $contextRefId = null;
+
+	/**
+	 * @var int|null
+	 */
+	protected $contextObjId = null;
+
+	/**
+	 * @var string|null
+	 */
+	protected $contentObjType = null;
+
 	/**
 	* a form action parameter. if set a form is generated
 	*/
@@ -641,26 +656,24 @@ class ilInfoScreenGUI
 		{
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-				$davLocks = new ilDAVLocks();
+				require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php';
+				$webdav_lock_backend = new ilWebDAVLockBackend();
 
 				// Show lock info
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
-					if (count($locks) > 0)
+                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId()))
 					{
-						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+						$lock_user = new ilObjUser($lock->getIliasOwner());
 						$this->addProperty($this->lng->txt("in_use_by"),
-							$lockUser->getPublicName()
+							$lock_user->getPublicName()
 							,
-							"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
 						);
 					}
 				}
 			}
 		}
-
 	}
 	// END ChangeEvent: Display standard object info
 	/**
@@ -955,12 +968,72 @@ class ilInfoScreenGUI
 		return $tpl->get();
 	}
 
+	/**
+	 * @return int|null
+	 */
+	public function getContextRefId(): int
+	{
+		if ($this->contextRefId !== null) {
+			return $this->contextRefId;
+		}
+
+		return $this->gui_object->object->getRefId();
+	}
+
+	/**
+	 * @param int|null $contextRefId
+	 */
+	public function setContextRefId(int $contextRefId)
+	{
+		$this->contextRefId = $contextRefId;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getContextObjId(): int
+	{
+		if ($this->contextObjId !== null) {
+			return $this->contextObjId;
+		}
+
+		return $this->gui_object->object->getId();
+	}
+
+	/**
+	 * @param int|null $contextObjId
+	 */
+	public function setContextObjId(int $contextObjId)
+	{
+		$this->contextObjId = $contextObjId;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getContentObjType(): string
+	{
+		if ($this->contentObjType !== null) {
+			return $this->contentObjType;
+		}
+
+		return $this->gui_object->object->getType();
+	}
+
+	/**
+	 * @param null|string $contentObjType
+	 */
+	public function setContentObjType(string $contentObjType)
+	{
+		$this->contentObjType = $contentObjType;
+	}
+
 	function showLearningProgress($a_tpl)
 	{
 		$ilUser = $this->user;
 		$rbacsystem = $this->rbacsystem;
 
-		if(!$rbacsystem->checkAccess('read',$this->gui_object->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read', $this->getContextRefId()))
 		{
 			return false;
 		}
@@ -970,13 +1043,13 @@ class ilInfoScreenGUI
 		}
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (!ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
+		if (!ilObjUserTracking::_enabledLearningProgress())
 		{
 			return false;
 		}
 			
 		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->gui_object->object->getId());				
+		$olp = ilObjectLP::getInstance($this->getContextObjId());				
 		if($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL)
 		{
 			return false;
@@ -997,7 +1070,7 @@ class ilInfoScreenGUI
 		$i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
 		$i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
 		$i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect((int) ilLPMarks::_hasCompleted($ilUser->getId(),
-			   $this->gui_object->object->getId()),
+			$this->getContextObjId()),
 				'lp_edit',
 				array(0 => $this->lng->txt('trac_not_completed'),
 					  1 => $this->lng->txt('trac_completed')),
@@ -1014,13 +1087,13 @@ class ilInfoScreenGUI
 
 
 		// More infos for lm's
-		if($this->gui_object->object->getType() == 'lm' ||
-		   $this->gui_object->object->getType() == 'htlm')
+		if($this->getContentObjType() == 'lm' ||
+			$this->getContentObjType() == 'htlm')
 		{
 			$a_tpl->setCurrentBlock("pv");
 
 			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-			$progress = ilLearningProgress::_getProgress($ilUser->getId(),$this->gui_object->object->getId());
+			$progress = ilLearningProgress::_getProgress($ilUser->getId(), $this->getContextObjId());
 			if($progress['access_time'])
 			{
 				$a_tpl->setVariable("TXT_PROPERTY_VALUE",
@@ -1049,7 +1122,7 @@ class ilInfoScreenGUI
 			// $a_tpl->touchBlock("row");
 
 
-			if($this->gui_object->object->getType() == 'lm')
+			if($this->getContentObjType() == 'lm')
 			{
 				// tags of all users
 				$a_tpl->setCurrentBlock("pv");
@@ -1067,24 +1140,25 @@ class ilInfoScreenGUI
 		$a_tpl->touchBlock("row");
 	}
 
-	function saveProgress()
+	function saveProgress($redirect = true)
 	{
 		$ilUser = $this->user;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
-		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());
+		$lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
 		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
 		$lp_marks->update();
 
 		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_updateStatus($this->gui_object->object->getId(),$ilUser->getId());
+		ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
 
 		$this->lng->loadLanguageModule('trac');
 		ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
-		$this->ctrl->redirect($this, ""); // #14993
-		
-		// $this->showSummary();
+
+		if ($redirect) {
+			$this->ctrl->redirect($this, ""); // #14993
+		}
 	}
 
 

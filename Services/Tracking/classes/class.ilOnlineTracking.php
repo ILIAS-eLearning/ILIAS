@@ -27,7 +27,9 @@ class ilOnlineTracking
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->query('SELECT online_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer'));
 		while($row = $ilDB->fetchAssoc($res))
@@ -49,7 +51,9 @@ class ilOnlineTracking
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->query('SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer'));
 		if($ilDB->numRows($res))
@@ -81,7 +85,10 @@ class ilOnlineTracking
 		 * @var $ilDB      ilDB
 		 * @var $ilSetting ilSetting
 		 */
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		if(null === self::$last_access_time)
 		{

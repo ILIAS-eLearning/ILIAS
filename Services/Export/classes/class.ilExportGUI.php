@@ -27,7 +27,10 @@ class ilExportGUI
 	 */
 	function __construct($a_parent_gui, $a_main_obj = null)
 	{
-		global $lng,$tpl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		$this->parent_gui = $a_parent_gui;
 		if ($a_main_obj == null)
@@ -68,7 +71,9 @@ class ilExportGUI
 	 */
 	function addFormat($a_key, $a_txt = "", $a_call_obj = null, $a_call_func = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if ($a_txt == "")
 		{
@@ -141,7 +146,12 @@ class ilExportGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 		
 		// this should work (at least) for repository objects 
 		if(method_exists($this->obj, 'getRefId') and $this->obj->getRefId())
@@ -185,7 +195,12 @@ class ilExportGUI
 	 */
 	function listExportFiles()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();		
@@ -239,7 +254,10 @@ class ilExportGUI
 	 */
 	function createExportFile()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if ($ilCtrl->getCmd() == "createExportFile")
 		{
@@ -279,7 +297,11 @@ class ilExportGUI
 	 */
 	function confirmDeletion()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 			
 		if (!is_array($_POST["file"]) || count($_POST["file"]) == 0)
 		{
@@ -318,7 +340,9 @@ class ilExportGUI
 	 */
 	function delete()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		foreach($_POST["file"] as $file)
 		{
@@ -354,7 +378,10 @@ class ilExportGUI
 	 */
 	public function download()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 						
 		if(!isset($_GET["file"]) || 
 			is_array($_GET["file"]))
@@ -381,7 +408,9 @@ class ilExportGUI
 	 */
 	function handleCustomMultiCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$cmd = substr($ilCtrl->getCmd(), 6);
 		foreach ($this->getCustomMultiCommands() as $c)
@@ -399,7 +428,9 @@ class ilExportGUI
 	 */
 	protected function showItemSelection()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		$tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
 		$tpl->setVariable('BODY_ATTRIBUTES','onload="ilDisableChilds(\'cmd\');"');
@@ -416,7 +447,13 @@ class ilExportGUI
 	 */
 	protected function saveItemSelection()
 	{
-		global $tree,$objDefinition, $ilAccess, $ilCtrl,$lng;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$objDefinition = $DIC['objDefinition'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());

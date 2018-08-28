@@ -28,11 +28,13 @@ final class ilPHPOutputDelivery {
 	 * @param string $mime_type
 	 */
 	public function start($download_file_name, $mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM) {
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		$this->ilFileDelivery = new Delivery(ilFileDelivery::DIRECT_PHP_OUTPUT, self::http());
 		$this->ilFileDelivery->setMimeType($mime_type);
 		$this->ilFileDelivery->setDownloadFileName($download_file_name);
 		$this->ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-		$this->ilFileDelivery->setConvertFileNameToAsci(true);
+		$this->ilFileDelivery->setConvertFileNameToAsci((bool)!$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
 		$this->ilFileDelivery->clearBuffer();
 		$this->ilFileDelivery->checkCache();
 		$this->ilFileDelivery->setGeneralHeaders();

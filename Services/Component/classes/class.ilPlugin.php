@@ -952,14 +952,14 @@ abstract class ilPlugin
 			return false;
 		}
 
+		// Load language files
+		$this->updateLanguages();
+
 		// DB update
 		if ($result === true)
 		{
 			$result = $this->updateDatabase();
 		}
-
-		// Load language files
-		$this->updateLanguages();
 
 		// load control structure
 		include_once("./setup/classes/class.ilCtrlStructureReader.php");

@@ -1149,15 +1149,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
 			$alt = $this->lng->txt("obj_".$a_image_type);
-			
-			// custom icon
-			if ($ilSetting->get("custom_icons") &&
-				in_array($a_image_type, array("cat","grp","crs")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
-				{
-					$icon = $path;
+
+			if ($ilSetting->get('custom_icons')) {
+				global $DIC;
+				/** @var \ilObjectCustomIconFactory $customIconFactory */
+				$customIconFactory = $DIC['object.customicons.factory'];
+				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+
+				if ($customIcon->exists()) {
+					$icon = $customIcon->getFullPath();
 				}
 			}
 
@@ -1461,45 +1461,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return $this->multi_download_enabled;
 	}
 	
-	// BEGIN WebDAV: Lock/Unlock objects
-	function lockObject()
-	{
-		$tree = $this->tree;
-		$ilUser = $this->user;
-		$rbacsystem = $this->rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write",$_GET['item_ref_id']))
-		{
-				$this->ilErr->raiseError($this->lng->txt('err_no_permission'),$this->ilErr->MESSAGE);
-		}
-
-
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
-		{
-			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-			if (ilDAVServer::_isActionsVisible())
-			{
-				require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
-				$locks = new ilDAVLocks();
-
-				$result = $locks->lockRef($_GET['item_ref_id'],
-						$ilUser->getId(), $ilUser->getLogin(), 
-						'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
-						time() + /*30*24*60**/60, 0, 'exclusive'
-						);
-
-				ilUtil::sendInfo(
-							$this->lng->txt(
-									($result === true) ? 'object_locked' : $result
-									),
-							true);
-			}
-		}
-		$this->renderObject();
-	}
-	// END WebDAV: Lock/Unlock objects
-
 	/**
 	* cut object(s) out from a container and write the information to clipboard
 	*
@@ -2652,48 +2613,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
-	
-	/**
-	* show edit section of custom icons for container
-	* 
-	*/
-	function showCustomIconsEditing($a_input_colspan = 1, ilPropertyFormGUI $a_form = null, $a_as_section = true)
-	{
-		$ilSetting = $this->settings;
-		if ($ilSetting->get("custom_icons"))
-		{
-			if($a_form)
-			{
-				$custom_icon = $this->object->getCustomIconPath();
-
-				if($a_as_section)
-				{					
-					$title = new ilFormSectionHeaderGUI();
-					$title->setTitle($this->lng->txt("icon_settings"));
-				}
-				else
-				{
-					$title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
-				}
-				$a_form->addItem($title);
-
-				$caption = $this->lng->txt("cont_custom_icon");
-				$icon = new ilImageFileInputGUI($caption, "cont_icon");
-				$icon->setSuffixes(array("svg"));
-				$icon->setUseCache(false);
-				$icon->setImage($custom_icon);
-				if($a_as_section)
-				{
-					$a_form->addItem($icon);
-				}
-				else
-				{
-					$title->addSubItem($icon);
-				}
-			}
-		}
-	}
-
 	function isActiveAdministrationPanel()
 	{
 		$ilAccess = $this->access;
@@ -3318,15 +3237,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->initFormPasswordInstruction();
 		}
 		
-		include_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-		$davServer = ilDAVServer::getInstance();
+		include_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
+		$dav_util = ilWebDAVUtil::getInstance();
 		$ilToolbar->addButton(
 			$this->lng->txt('mount_webfolder'),
-			$davServer->getMountURI($this->object->getRefId()),
+		    $dav_util->getMountURI($this->object->getRefId()),
 			'_blank',
 			'',
-			$davServer->getFolderURI($this->object->getRefId())
+		    $dav_util->getFolderURI($this->object->getRefId())
 		);
+
 
 		$tpl->setContent($this->form->getHTML());
 	}
