@@ -400,7 +400,7 @@ class ilAuthFrontend
 	 */
 	protected function checkExceededLoginAttempts(\ilObjUser $user)
 	{
-		if(in_array($user->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+		if(in_array($user->getId(), array(ANONYMOUS_USER_ID)))
 		{
 			return true;
 		}
@@ -482,7 +482,7 @@ class ilAuthFrontend
 		$this->getLogger()->debug('Authentication failed for all authentication methods.');
 
 		$user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
-		if(!in_array($user_id, array(ANONYMOUS_USER_ID,SYSTEM_USER_ID)))
+		if(!in_array($user_id, array(ANONYMOUS_USER_ID)))
 		{
 			ilObjUser::_incrementLoginAttempts($user_id);
 			$login_attempts = ilObjUser::_getLoginAttempts($user_id);

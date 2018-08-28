@@ -236,7 +236,7 @@ abstract class ilAuthBase
 		if($a_username)
 		{
 			$usr_id = ilObjUser::_lookupId($a_username);
-			if(!in_array($usr_id, array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+			if(!in_array($usr_id, array(ANONYMOUS_USER_ID)))
 			{
 				ilObjUser::_incrementLoginAttempts($usr_id);
 				$login_attempts = ilObjUser::_getLoginAttempts($usr_id);
