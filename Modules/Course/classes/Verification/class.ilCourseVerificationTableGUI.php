@@ -66,7 +66,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		if($obj_ids) {
 			ilCourseCertificateAdapter::_preloadListData($userId, $obj_ids);
 
-			$certificateArray = $this->userCertificateRepository->fetchActiveCertificateForObjectIds($userId, $obj_ids);
+			$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'crs');
 
 			/** @var ilUserCertificate $certificate */
 			foreach ($certificateArray as $certificate) {
@@ -85,7 +85,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -97,7 +97,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "crs_id", $a_set["id"]);
