@@ -44,9 +44,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 		$this->lng->loadLanguageModule("crsv");
 
 		$ilTabs->setBackTarget($this->lng->txt("back"),
-			$this->ctrl->getLinkTarget($this, "cancel"));
+		$this->ctrl->getLinkTarget($this, "cancel"));
 
-		include_once "Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php";
 		$table = new ilCourseVerificationTableGUI($this, "create");
 		$this->tpl->setContent($table->getHTML());
 	}
@@ -63,28 +62,30 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 		$course_id = $_REQUEST["crs_id"];
 		if($course_id)
 		{
-			include_once "Modules/Course/classes/class.ilObjCourse.php";
 			$course = new ilObjCourse($course_id, false);
 
-			include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
-			$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
-			if($newObj)
-			{
+			try {
+				$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
+			if($newObj) {
 				$parent_id = $this->node_id;
 				$this->node_id = null;
 				$this->putObjectInTree($newObj, $parent_id);
-				
+
 				$this->afterSave($newObj);
 			}
-			else
-			{
+			else {
 				ilUtil::sendFailure($this->lng->txt("msg_failed"));
 			}
 		}
-		else
-		{
+		else {
 			ilUtil::sendFailure($this->lng->txt("select_one"));
 		}
+
 		$this->create();
 	}
 	
