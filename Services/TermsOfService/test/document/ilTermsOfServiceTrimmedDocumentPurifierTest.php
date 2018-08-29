@@ -8,13 +8,13 @@
 class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCriterionBaseTest
 {
 	/**
-	 * @return string[]
+	 * @return array[]
 	 */
 	public function stringsToTrimProvider(): array
 	{
 		return [
-			[' phpunit ', 'phpunit'],
-			["\n\r\tphpunit\n\r\t", 'phpunit'],
+			[' phpunit ', 'phpunit', ],
+			["\n\r\tphpunit\n\r\t", 'phpunit', ],
 		];
 	}
 
@@ -24,17 +24,17 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 	public function stringsArraysToTrimProvider(): array
 	{
 		return [
-			[[' phpunit '], ['phpunit']],
-			[["\n\r\tphpunit\n\r\t"], ['phpunit']],
+			[[' phpunit '], ['phpunit'], ],
+			[["\n\r\tphpunit\n\r\t"], ['phpunit'], ],
 		];
 	}
 
 	/**
 	 * @dataProvider stringsToTrimProvider
 	 * @param string $text
-	 * @param string $result
+	 * @param string $expectedResult
 	 */
-	public function testSingleStringIsTrimmed(string $text, string $result)
+	public function testSingleStringIsTrimmed(string $text, string $expectedResult)
 	{
 		$aggregated = $this
 			->getMockBuilder(\ilHtmlPurifierInterface::class)
@@ -48,15 +48,15 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 
 		$purifier = new \ilTermsOfServiceTrimmedDocumentPurifier($aggregated);
 
-		$this->assertEquals($result, $purifier->purify($text));
+		$this->assertEquals($expectedResult, $purifier->purify($text));
 	}
 
 	/**
 	 * @dataProvider stringsArraysToTrimProvider
 	 * @param string[] $texts
-	 * @param string[] $result
+	 * @param string[] $expectedResult
 	 */
-	public function testArrayOfStringIsTrimmed(array $texts, array $result)
+	public function testArrayOfStringIsTrimmed(array $texts, array $expectedResult)
 	{
 		$aggregated = $this
 			->getMockBuilder(\ilHtmlPurifierInterface::class)
@@ -70,6 +70,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 
 		$purifier = new \ilTermsOfServiceTrimmedDocumentPurifier($aggregated);
 
-		$this->assertEquals($result, $purifier->purifyArray($texts));
+		$this->assertEquals($expectedResult, $purifier->purifyArray($texts));
 	}
 }
