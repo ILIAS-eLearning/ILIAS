@@ -10377,9 +10377,9 @@ tos#:#tos_form_edit_doc_head#:#Edit Document
 tos#:#tos_form_document_title#:#Title
 tos#:#tos_form_document_title_info#:#Please enter a title for the document.
 tos#:#tos_form_document#:#Document
-tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a HTML file. HTML files will be purified, only the contents of the body element will be used.
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
 tos#:#tos_form_document_new#:#Change Content
-tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
+tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
 tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
 tos#:#tos_tbl_docs_title#:#Documents
 tos#:#tos_tbl_docs_head_sorting#:#Sorting
