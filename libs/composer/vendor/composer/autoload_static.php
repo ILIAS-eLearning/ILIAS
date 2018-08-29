@@ -6615,6 +6615,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTermsOfServiceDocumentEvaluation' => __DIR__ . '/../..' . '/../../Services/TermsOfService/interfaces/interface.ilTermsOfServiceDocumentEvaluation.php',
         'ilTermsOfServiceDocumentFormGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentFormGUI.php',
         'ilTermsOfServiceDocumentGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
+        'ilTermsOfServiceDocumentHtmlPurifier' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentHtmlPurifier.php',
         'ilTermsOfServiceDocumentTableDataProvider' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentTableDataProvider.php',
         'ilTermsOfServiceDocumentTableGUI' => __DIR__ . '/../..' . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentTableGUI.php',
         'ilTermsOfServiceDuplicateCriterionAssignmentException' => __DIR__ . '/../..' . '/../../Services/TermsOfService/exceptions/class.ilTermsOfServiceDuplicateCriterionAssignmentException.php',

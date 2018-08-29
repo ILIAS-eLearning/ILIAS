@@ -6371,6 +6371,7 @@ return array(
     'ilTermsOfServiceDocumentEvaluation' => $baseDir . '/../../Services/TermsOfService/interfaces/interface.ilTermsOfServiceDocumentEvaluation.php',
     'ilTermsOfServiceDocumentFormGUI' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentFormGUI.php',
     'ilTermsOfServiceDocumentGUI' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
+    'ilTermsOfServiceDocumentHtmlPurifier' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentHtmlPurifier.php',
     'ilTermsOfServiceDocumentTableDataProvider' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentTableDataProvider.php',
     'ilTermsOfServiceDocumentTableGUI' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentTableGUI.php',
     'ilTermsOfServiceDuplicateCriterionAssignmentException' => $baseDir . '/../../Services/TermsOfService/exceptions/class.ilTermsOfServiceDuplicateCriterionAssignmentException.php',

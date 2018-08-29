@@ -61,9 +61,13 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
 
+	/** @var \ilHtmlPurifierInterface */
+	protected $documentPurifier;
+
 	/**
 	 * ilTermsOfServiceDocumentGUI constructor.
 	 * @param \ilObjTermsOfService $tos
+	 * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param \ilTemplate $tpl
 	 * @param \ilObjUser $user
 	 * @param \ilCtrl $ctrl
@@ -75,9 +79,10 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 	 * @param GlobalHttpState $httpState
 	 * @param Factory $uiFactory
 	 * @param Renderer $uiRenderer
-	 * @param Filesystems $fileSystems,
+	 * @param Filesystems $fileSystems ,
 	 * @param FileUpload $fileUpload
 	 * @param \ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
+	 * @param \ilHtmlPurifierInterface $documentPurifier
 	 */
 	public function __construct(
 		\ilObjTermsOfService $tos,
@@ -95,7 +100,8 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		Renderer $uiRenderer,
 		Filesystems $fileSystems,
 		FileUpload $fileUpload,
-		ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
+		ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
+		\ilHtmlPurifierInterface $documentPurifier
 	)
 	{
 		$this->tos                      = $tos;
@@ -114,6 +120,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$this->fileSystems              = $fileSystems;
 		$this->fileUpload               = $fileUpload;
 		$this->tableDataProviderFactory = $tableDataProviderFactory;
+		$this->documentPurifier = $documentPurifier;
 	}
 
 	/**
@@ -256,6 +263,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 
 		$form = new \ilTermsOfServiceDocumentFormGUI(
 			$document,
+			$this->documentPurifier,
 			$this->user,
 			$this->fileSystems->temp(),
 			$this->fileUpload,

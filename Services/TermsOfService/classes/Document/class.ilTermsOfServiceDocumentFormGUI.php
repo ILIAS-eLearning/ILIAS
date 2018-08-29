@@ -40,9 +40,13 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	/** @var string */
 	protected $translatedError = '';
 
+	/** @var \ilHtmlPurifierInterface */
+	protected $documentPurifier;
+
 	/**
 	 * ilTermsOfServiceDocumentFormGUI constructor.
 	 * @param \ilTermsOfServiceDocument $document
+	 * @param \ilHtmlPurifierInterface $documentPurifier
 	 * @param \ilObjUser $actor
 	 * @param Filesystem $tmpFileSystem
 	 * @param FileUpload $fileUpload
@@ -53,6 +57,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	 */
 	public function __construct(
 		\ilTermsOfServiceDocument $document,
+		\ilHtmlPurifierInterface $documentPurifier,
 		\ilObjUser $actor,
 		Filesystem $tmpFileSystem,
 		FileUpload $fileUpload,
@@ -62,6 +67,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 		bool $isEditable = false
 	) {
 		$this->document = $document;
+		$this->documentPurifier = $documentPurifier;
 		$this->actor = $actor;
 		$this->tmpFileSystem = $tmpFileSystem;
 		$this->fileUpload = $fileUpload;
@@ -194,7 +200,9 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 					throw new \ilException($this->lng->txt('form_input_not_valid'));
 				}
 
-				$this->document->setText($this->tmpFileSystem->read($pathToFile));
+				$content = $this->tmpFileSystem->read($pathToFile);
+
+				$this->document->setText($content);
 				$this->tmpFileSystem->delete($pathToFile);
 			} catch (Exception $e) {
 				$this->translatedError = $e->getMessage();
