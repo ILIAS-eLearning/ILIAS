@@ -121,10 +121,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->willReturn('phpunit');
 
 		$purifier
-			->expects($this->exactly(2))
+			->expects($this->atLeast(1))
 			->method('purify')
 			->with('phpunit')
-			->willReturn('phpunit');
+			->willReturnArgument(0);
 
 		$fs
 			->expects($this->exactly(2))
