@@ -61,6 +61,9 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
 
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilHtmlPurifierInterface */
+	protected $documentPurifier;
+
 	/**
 	 *
 	 */
@@ -78,12 +81,13 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 		$this->user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
 		$this->log = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
 		$this->toolbar = $this->getMockBuilder(\ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
-		$this->httpState = $this->getMockBuilder(GlobalHttpState::class)->disableOriginalConstructor()->getMock();
+		$this->httpState = $this->getMockBuilder(GlobalHttpState::class)->getMock();
 		$this->uiFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
 		$this->uiRenderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
-		$this->fileSystems = $this->getMockBuilder(Filesystems::class)->disableOriginalConstructor()->getMock();
-		$this->fileUpload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock();
+		$this->fileSystems = $this->getMockBuilder(Filesystems::class)->getMock();
+		$this->fileUpload = $this->getMockBuilder(FileUpload::class)->getMock();
 		$this->tableDataProviderFactory = $this->getMockBuilder(\ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
+		$this->documentPurifier = $this->getMockBuilder(\ilHtmlPurifierInterface::class)->getMock();
 	}
 
 	/**
@@ -150,7 +154,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->rbacsystem, $this->error, $this->log,
 			$this->toolbar, $this->httpState, $this->uiFactory,
 			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
-			$this->tableDataProviderFactory
+			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
 		$this->assertException(\ilException::class);
@@ -278,7 +282,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->rbacsystem, $this->error, $this->log,
 			$this->toolbar, $this->httpState, $this->uiFactory,
 			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
-			$this->tableDataProviderFactory
+			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
 		$gui->executeCommand();
@@ -387,7 +391,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->rbacsystem, $this->error, $this->log,
 			$this->toolbar, $this->httpState, $this->uiFactory,
 			$this->uiRenderer, $this->fileSystems, $this->fileUpload,
-			$this->tableDataProviderFactory
+			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
 		$gui->executeCommand();

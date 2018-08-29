@@ -25,6 +25,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->setMethods(['getId'])
 			->getMock();
 
+		$purifier = $this
+			->getMockBuilder(\ilHtmlPurifierInterface::class)
+			->getMock();
+
 		$user = $this
 			->getMockBuilder(\ilObjUser::class)
 			->disableOriginalConstructor()
@@ -39,7 +43,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->getMock();
 
 		$form = new \ilTermsOfServiceDocumentFormGUI(
-			$document, $user, $fs, $fu,
+			$document, $purifier, $user, $fs, $fu,
 			'action', 'save', 'cancel',
 			true
 		);
@@ -53,7 +57,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 		$this->assertEquals('cancel', $form->getCommandButtons()[1]['cmd'],'Failed asserting save and cancel buttons are given if form is editable');
 
 		$form = new \ilTermsOfServiceDocumentFormGUI(
-			$document, $user, $fs, $fu,
+			$document, $purifier, $user, $fs, $fu,
 			'action', 'save', 'cancel',
 			false
 		);
@@ -77,6 +81,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 		$document
 			->expects($this->any())
 			->method('fetchAllCriterionAssignments');
+
+		$purifier = $this
+			->getMockBuilder(\ilHtmlPurifierInterface::class)
+			->getMock();
 
 		$uploadResult = new UploadResult(
 			'phpunit', 1024, 'text/xml',
@@ -184,7 +192,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 			->setConstructorArgs([
-				$document, $user, $fs, $fu,
+				$document, $purifier, $user, $fs, $fu,
 				'action', 'save', 'cancel',
 				true
 			])
@@ -226,7 +234,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 			->setConstructorArgs([
-				$document, $user, $fs, $fu,
+				$document, $purifier, $user, $fs, $fu,
 				'action', 'save', 'cancel',
 				true
 			])
@@ -265,6 +273,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->method('getId')
 			->willReturn(1);
 
+		$purifier = $this
+			->getMockBuilder(\ilHtmlPurifierInterface::class)
+			->getMock();
+
 		$user = $this
 			->getMockBuilder(\ilObjUser::class)
 			->disableOriginalConstructor()
@@ -280,7 +292,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->getMock();
 
 		$form = new \ilTermsOfServiceDocumentFormGUI(
-			$document, $user, $fs, $fu,
+			$document, $purifier, $user, $fs, $fu,
 			'action', 'save', 'cancel',
 			true
 		);
@@ -304,6 +316,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 		$document->setId(4711);
 		$document->setTitle('phpunit');
 		$document->setSorting($expectedSorting);
+
+		$purifier = $this
+			->getMockBuilder(\ilHtmlPurifierInterface::class)
+			->getMock();
 
 		$user = $this
 			->getMockBuilder(\ilObjUser::class)
@@ -339,7 +355,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 			->setConstructorArgs([
-				$document, $user, $fs, $fu,
+				$document, $purifier, $user, $fs, $fu,
 				'action', 'save', 'cancel',
 				true
 			])
@@ -386,6 +402,10 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->getMockBuilder(\ilTermsOfServiceDocument::class)
 			->disableOriginalConstructor()
 			->setMethods(['getId', 'fetchAllCriterionAssignments'])
+			->getMock();
+
+		$purifier = $this
+			->getMockBuilder(\ilHtmlPurifierInterface::class)
 			->getMock();
 
 		$user = $this
@@ -453,7 +473,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 		->setConstructorArgs([
-			$document, $user, $fs, $fu,
+			$document, $purifier, $user, $fs, $fu,
 			'action', 'save', 'cancel',
 			true
 		])
@@ -478,7 +498,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 			->setConstructorArgs([
-				$document, $user, $fs, $fu,
+				$document, $purifier, $user, $fs, $fu,
 				'action', 'save', 'cancel',
 				true
 			])
@@ -498,7 +518,7 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 
 		$form = $this->getMockBuilder(\ilTermsOfServiceDocumentFormGUI::class)
 			->setConstructorArgs([
-				$document, $user, $fs, $fu,
+				$document, $purifier, $user, $fs, $fu,
 				'action', 'save', 'cancel',
 				true
 			])
