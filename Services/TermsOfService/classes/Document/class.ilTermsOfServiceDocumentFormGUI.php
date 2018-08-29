@@ -40,6 +40,9 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	/** @var string */
 	protected $translatedError = '';
 
+	/** @var string */
+	protected $translatedInfo = '';
+
 	/** @var \ilHtmlPurifierInterface */
 	protected $documentPurifier;
 
@@ -153,6 +156,22 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 	/**
 	 * @return bool
 	 */
+	public function hasTranslatedInfo(): bool
+	{
+		return strlen($this->translatedInfo);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTranslatedInfo(): string
+	{
+		return $this->translatedInfo;
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function saveObject() :bool 
 	{
 		if (!$this->fillObject()) {
@@ -200,9 +219,17 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 					throw new \ilException($this->lng->txt('form_input_not_valid'));
 				}
 
-				$content = $this->tmpFileSystem->read($pathToFile);
+				$originalContent = $content = $this->tmpFileSystem->read($pathToFile);
+				if (strip_tags($content) === $content) {
+					$content = nl2br($content);
+				}
+				$purifiedHtmlContent = $this->documentPurifier->purify($content);
 
-				$this->document->setText($content);
+				if ($purifiedHtmlContent !== $originalContent) {
+					$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
+				}
+
+				$this->document->setText($purifiedHtmlContent);
 				$this->tmpFileSystem->delete($pathToFile);
 			} catch (Exception $e) {
 				$this->translatedError = $e->getMessage();

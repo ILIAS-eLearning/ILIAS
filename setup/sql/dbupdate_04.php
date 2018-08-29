@@ -22803,10 +22803,14 @@ foreach ([
 
 			$i++;
 
+			$sorting = $i;
 			$docTitle = $docTitlePrefix . ' ' . $i;
 			$languageValue = $matches[1];
+
 			$text = file_get_contents($file->getPathname());
-			$sorting = $i;
+			if (strip_tags($text) === $text) {
+				$text = nl2br($text);
+			}
 
 			$docId = $ilDB->nextId('tos_documents');
 			$ilDB->insert(

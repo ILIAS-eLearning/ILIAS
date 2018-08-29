@@ -6395,6 +6395,7 @@ return array(
     'ilTermsOfServiceTableDataProviderFactory' => $baseDir . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php',
     'ilTermsOfServiceTableDatabaseDataProvider' => $baseDir . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableDatabaseDataProvider.php',
     'ilTermsOfServiceTableGUI' => $baseDir . '/../../Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php',
+    'ilTermsOfServiceTrimmedDocumentPurifier' => $baseDir . '/../../Services/TermsOfService/classes/Document/class.ilTermsOfServiceTrimmedDocumentPurifier.php',
     'ilTermsOfServiceUnexpectedCriteriaBagContentException' => $baseDir . '/../../Services/TermsOfService/exceptions/class.ilTermsOfServiceUnexpectedCriteriaBagContentException.php',
     'ilTermsOfServiceUserHasGlobalRoleCriterion' => $baseDir . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasGlobalRoleCriterion.php',
     'ilTermsOfServiceUserHasGlobalRoleCriterionGUI' => $baseDir . '/../../Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasGlobalRoleCriterionGUI.php',

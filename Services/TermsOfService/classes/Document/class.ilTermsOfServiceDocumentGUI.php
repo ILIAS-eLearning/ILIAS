@@ -288,6 +288,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = $this->getDocumentForm(new ilTermsOfServiceDocument());
 		if ($form->saveObject()) {
 			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			if ($form->hasTranslatedInfo()) {
+				\ilUtil::sendInfo($form->getTranslatedInfo(), true);
+			}
 			$this->ctrl->redirect($this, 'showDocuments');
 		} else if ($form->hasTranslatedError()) {
 			\ilUtil::sendFailure($form->getTranslatedError());
@@ -338,6 +341,9 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		$form = $this->getDocumentForm($document);
 		if ($form->saveObject()) {
 			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			if ($form->hasTranslatedInfo()) {
+				\ilUtil::sendInfo($form->getTranslatedInfo(), true);
+			}
 			$this->ctrl->redirect($this, 'showDocuments');
 		} else if ($form->hasTranslatedError()) {
 			\ilUtil::sendFailure($form->getTranslatedError());

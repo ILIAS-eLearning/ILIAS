@@ -77,7 +77,7 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 					$this->dic->filesystem(),
 					$this->dic->upload(),
 					$tableDataProviderFactory,
-					new \ilTermsOfServiceDocumentHtmlPurifier()
+					new \ilTermsOfServiceTrimmedDocumentPurifier(new \ilTermsOfServiceDocumentHtmlPurifier())
 				);
 				$this->ctrl->forwardCommand($documentGui);
 				break;
