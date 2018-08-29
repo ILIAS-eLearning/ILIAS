@@ -24,7 +24,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends \ilTermsOfServi
 	 * @param string $text
 	 * @param bool $result
 	 */
-	public function testSim(string $text, bool $result)
+	public function testHtmlCanBeDetected(string $text, bool $result)
 	{
 		$validator = new \ilTermsOfServiceDocumentsContainsHtmlValidator($text);
 		$this->assertEquals($result, $validator->isValid());
