@@ -29,7 +29,7 @@ class ilPersonalProfileGUI
 	*/
     function __construct()
     {
-        global $ilias, $tpl, $lng, $ilCtrl;
+        global $ilias, $tpl, $lng, $ilCtrl, $ilTabs;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
