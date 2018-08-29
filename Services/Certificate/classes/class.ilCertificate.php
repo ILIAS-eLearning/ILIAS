@@ -370,6 +370,7 @@ class ilCertificate
 		fwrite($fileHandle, $xslfo);
 		fclose($fileHandle);
 	}
+
 	/**
 	 * Checks for the background image of the certificate
 	 *
@@ -490,6 +491,8 @@ class ilCertificate
 		$currentVersion = (int) $certificate->getVersion();
 
 		$backgroundImagePath = '';
+		$newBackgroundImageName = '';
+
 		foreach ($dirinfo as $file) {
 			if (strcmp($file["type"], "file") == 0) {
 
@@ -504,23 +507,25 @@ class ilCertificate
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
 
-						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $xsl);
+					if ($newBackgroundImageName !== '') {
+						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $newBackgroundImageName, $xsl);
+					}
 
-						$currentCertificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+					$currentCertificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
-						$version = $currentCertificate->getVersion();
+					$version = $currentCertificate->getVersion();
 
-						$template = new ilCertificateTemplate(
-							$this->objectId,
-							ilObject::_lookupType($this->objectId),
-							$xsl,
-							md5($xsl),
-							json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
-							$version + 1,
-							ILIAS_VERSION_NUMERIC,
-							time(),
-							true
-						);
+					$template = new ilCertificateTemplate(
+						$this->objectId,
+						ilObject::_lookupType($this->objectId),
+						$xsl,
+						md5($xsl),
+						json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
+						$version + 1,
+						ILIAS_VERSION_NUMERIC,
+						time(),
+						true
+					);
 
 					$this->templateRepository->save($template);
 				}
