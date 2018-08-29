@@ -23,6 +23,11 @@ class ilCertificatePdfAction
 		$this->pdfGenerator = $pdfGenerator;
 	}
 
+	/**
+	 * @param integer $userId
+	 * @param integer $objectId
+	 * @throws ilException
+	 */
 	public function downloadPdf($userId, $objectId)
 	{
 		$this->logger->info(sprintf('Start download certificate PDF for user: "%s" object id; "%s"', $userId, $objectId));
