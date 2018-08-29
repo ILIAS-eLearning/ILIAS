@@ -63,11 +63,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 		$userId = $ilUser->getId();
 
-		$scormCertificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'scorm');
-
-		$sahsCertificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'sahs');
-
-		$certificateArray = array_merge($scormCertificateArray, $sahsCertificateArray);
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'sahs');
 
 		$data = array();
 		/** @var ilUserCertificate $certificate */
