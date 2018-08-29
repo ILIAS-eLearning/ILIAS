@@ -14,23 +14,12 @@
  */
 class ilLPStatus
 {
-	/**
-	 * @var ilCertificateQueueRepository
-	 */
-	private $certificateQueueRepository;
-
-	/**
-	 * @var ilCertificateTypeClassMap
-	 */
-	private $certificateClassMap;
-
 	var $obj_id = null;
 
 	var $db = null;	
 	
 	static $list_gui_cache;
-
-
+	
 	const LP_STATUS_NOT_ATTEMPTED = 'trac_no_attempted';
 	const LP_STATUS_IN_PROGRESS = 'trac_in_progress';
 	const LP_STATUS_COMPLETED = 'trac_completed';
@@ -46,28 +35,14 @@ class ilLPStatus
 	const LP_STATUS_PARTICIPATED = 'trac_participated';
 	const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 	
-	function __construct(
-		$a_obj_id,
-		ilCertificateQueueRepository $certificateQueueRepository = null,
-		ilCertificateTypeClassMap $certificateClassMap = null
-	) {
+	function __construct($a_obj_id)
+	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
 		$this->obj_id = $a_obj_id;
 		$this->db = $ilDB;
-
-		if (null === $certificateQueueRepository) {
-			$certificateQueueRepository = new ilCertificateQueueRepository($DIC->database(), $DIC->logger()->root());
-		}
-		$this->certificateQueueRepository = $certificateQueueRepository;
-
-		if (null === $certificateClassMap) {
-			$certificateClassMap = new ilCertificateTypeClassMap();
-		}
-		$this->certificateClassMap = $certificateClassMap;
-
 	}
 
 	static function _getCountNotAttempted($a_obj_id)
@@ -241,27 +216,7 @@ class ilLPStatus
 		if(!$changed && (bool)$a_force_raise) // #15529
 		{
 			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);
-		}
-
-		if (true === $changed && $status === self::LP_STATUS_COMPLETED_NUM) {
-			/** @var ilObject $object */
-			$object = ilObjectFactory::getInstanceByObjId($a_obj_id);
-			$type = $object->getType();
-
-			if ($this->certificateClassMap->typeExistsInMap($type)) {
-				$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
-
-				$entry = new ilCertificateQueueEntry(
-					$a_obj_id,
-					$a_usr_id,
-					$className,
-					ilCronConstants::IN_PROGRESS,
-					time()
-				);
-
-				$this->certificateQueueRepository->addToQueue($entry);
-			}
-		}
+		}			
 	}
 	
 	/**
@@ -353,12 +308,11 @@ class ilLPStatus
 			$a_status.", percentage: ".$a_percentage);
 
 		$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
-				"obj_id" => $a_obj_id,
-				"usr_id" => $a_usr_id,
-				"status" => $a_status,
-				"percentage" => $a_percentage
-			)
-		);
+			"obj_id" => $a_obj_id,
+			"usr_id" => $a_usr_id,
+			"status" => $a_status,
+			"percentage" => $a_percentage
+			));
 	}
 	
 	/**
