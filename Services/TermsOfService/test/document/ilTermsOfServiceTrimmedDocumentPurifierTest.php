@@ -21,7 +21,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 	/**
 	 * @return array[]
 	 */
-	public function stringsArraysToTrimProvider(): array
+	public function stringArraysToTrimProvider(): array
 	{
 		return [
 			[[' phpunit '], ['phpunit'], ],
@@ -52,7 +52,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 	}
 
 	/**
-	 * @dataProvider stringsArraysToTrimProvider
+	 * @dataProvider stringArraysToTrimProvider
 	 * @param string[] $texts
 	 * @param string[] $expectedResult
 	 */
