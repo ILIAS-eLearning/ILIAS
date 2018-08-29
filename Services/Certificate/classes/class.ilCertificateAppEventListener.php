@@ -1,6 +1,14 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * Class ilCourseLPBadge
+ *
+ * @author Niels Theen <ntheen@databay.de>
+ * @version $Id:$
+ *
+ * @package Services/Certificate
+ */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
 	/**
