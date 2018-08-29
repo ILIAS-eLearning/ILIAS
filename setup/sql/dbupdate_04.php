@@ -22585,8 +22585,9 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'notnull' => true,
 		),
 		'certificate_hash' => array(
-			'type' => 'clob',
-			'notnull' => true,
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
 		),
 		'template_values' => array(
 			'type' => 'clob',
@@ -22610,8 +22611,10 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'default' => 'v5.4.0'
 		),
 		'created_timestamp' => array(
-			'type' => 'timestamp',
+			'type' => 'integer',
+			'length' => 4,
 			'notnull' => true,
+			'default' => 0
 		),
 		'currently_active' => array(
 			'type' => 'integer',
@@ -22623,7 +22626,7 @@ if(!$ilDB->tableExists('certificate_template')) {
 
 	$ilDB->addPrimaryKey('certificate_template', array('id'));
 	$ilDB->createSequence('certificate_template');
-	$ilDB->addUniqueConstraint('certificate_template', array('id', 'obj_id'));
+	$ilDB->addIndex('certificate_template', array('obj_id'), 'i1');
 }
 
 if(!$ilDB->tableExists('user_certificates')) {
@@ -22665,8 +22668,10 @@ if(!$ilDB->tableExists('user_certificates')) {
 			'default' => 0
 		),
 		'acquired_timestamp' => array(
-			'type' => 'timestamp',
+			'type' => 'integer',
+			'length' => 4,
 			'notnull' => true,
+			'default' => 0
 		),
 		'certificate_content' => array(
 			'type' => 'clob',
@@ -22677,8 +22682,10 @@ if(!$ilDB->tableExists('user_certificates')) {
 			'notnull' => true,
 		),
 		'valid_until' => array(
-			'type' => 'timestamp',
-			'notnull' => false
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
 		),
 		'version' => array(
 			'type' => 'text',
@@ -22702,7 +22709,7 @@ if(!$ilDB->tableExists('user_certificates')) {
 
 	$ilDB->addPrimaryKey('user_certificates', array('id'));
 	$ilDB->createSequence('user_certificates');
-	$ilDB->addUniqueConstraint('user_certificates', array('id', 'pattern_certificate_id'));
+	$ilDB->addIndex('user_certificates', array('obj_id', 'pattern_certificate_id'), 'i1');
 }
 
 if(!$ilDB->tableExists('certificate_cron_queue')) {
@@ -22736,14 +22743,16 @@ if(!$ilDB->tableExists('certificate_cron_queue')) {
 			'notnull' => true
 		),
 		'started_timestamp' => array(
-			'type' => 'timestamp',
+			'type' => 'integer',
+			'length' => 4,
 			'notnull' => true,
+			'default' => 0
 		),
 	));
 
 	$ilDB->addPrimaryKey('certificate_cron_queue', array('id'));
 	$ilDB->createSequence('certificate_cron_queue');
-	$ilDB->addUniqueConstraint('certificate_cron_queue', array('id', 'obj_id', 'usr_id'));
+	$ilDB->addIndex('certificate_cron_queue', array('obj_id', 'usr_id'), 'i1');
 }
 ?>
 <#5295>

@@ -48,7 +48,7 @@ class ilUserCertificateRepository
 			'obj_type'               => array('clob', $userCertificate->getObjType()),
 			'user_id'                => array('integer', $userId),
 			'user_name'              => array('string', $userCertificate->getUserName()),
-			'acquired_timestamp'     => array('clob', $userCertificate->getAcquiredTimestamp()),
+			'acquired_timestamp'     => array('integer', $userCertificate->getAcquiredTimestamp()),
 			'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
 			'template_values'        => array('clob', $userCertificate->getTemplateValues()),
 			'valid_until'            => array('integer', $userCertificate->getValidUntil()),
