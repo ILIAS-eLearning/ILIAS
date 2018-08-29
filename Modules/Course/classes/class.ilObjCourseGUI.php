@@ -2455,10 +2455,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilcertificategui":
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
-				
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -3278,26 +3277,27 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		return $lg;
-	}	
-	
+	}
+
 	function deliverCertificateObject()
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-	
+		$logger   = $DIC->logger()->root();
+		$database = $DIC->database();
+
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
-		{		
+		{
 			$user_id = $_REQUEST["member_id"];
 		}
 		if(!$user_id)
 		{
 			$user_id = $ilUser->getId();
 		}
-		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
+
 		if(!ilCertificate::isActive() ||
 			!ilCertificate::isObjectActive($this->object->getId()) ||
 			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
@@ -3305,10 +3305,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
-		
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $user_id), true);				
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
+		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+		$pdfAction->downloadPdf($user_id, $this->object->getid());
 	}
 	
 	
