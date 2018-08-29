@@ -209,7 +209,7 @@ class ilCertificate
 	{
 		return CLIENT_WEB_DIR . $this->certificatePath . $this->getXSLName();
 	}
-	
+
 	/**
 	* Returns the filename of the XSL-FO file
 	*
@@ -219,7 +219,7 @@ class ilCertificate
 	{
 		return "certificate.xml";
 	}
-	
+
 	/**
 	* Returns the filename of the XSL-FO file
 	*
@@ -229,7 +229,7 @@ class ilCertificate
 	{
 		return "certificate.xml";
 	}
-	
+
 	/**
 	* Returns the web path of the background image
 	*
@@ -246,7 +246,7 @@ class ilCertificate
 			$webdir
 		);
 	}
-	
+
 	/**
 	* Returns the web path of the background image thumbnail
 	*
@@ -261,7 +261,7 @@ class ilCertificate
 			$this->getBackgroundImageThumbPath()
 		);
 	}
-	
+
 	/**
 	* Deletes the background image of a certificate
 	*
@@ -370,7 +370,6 @@ class ilCertificate
 		fwrite($fileHandle, $xslfo);
 		fclose($fileHandle);
 	}
-
 	/**
 	 * Checks for the background image of the certificate
 	 *
@@ -504,6 +503,8 @@ class ilCertificate
 
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
+
+						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $xsl);
 
 						$currentCertificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
@@ -712,7 +713,7 @@ class ilCertificate
 					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
 			}
 		}
-		
+
 		return $fields;
 	}
 }
