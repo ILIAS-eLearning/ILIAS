@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceDocumentHtmlPurifier extends \ilHtmlPurifierAbstractLibWrapper
 {
-	/** @var string */
-	public static $_type = 'textarea';
-
 	/**
 	 * @inheritdoc
 	 */
@@ -22,8 +19,13 @@ class ilTermsOfServiceDocumentHtmlPurifier extends \ilHtmlPurifierAbstractLibWra
 		$config->set('Cache.SerializerPath', \ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
 		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');
 
-		$tags = \ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type);
+		$tags = \ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
 		$tags = $this->makeElementListTinyMceCompliant($tags);
+
+		$tags[] = 'b';
+		$tags[] = 'i';
+		$tags[] = 'u';
+
 		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
 		$config->set('HTML.ForbiddenAttributes', 'div@style');
 
