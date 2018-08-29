@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilCourseLPBadge
+ * Class ilCertificateAppEventListener
  *
  * @author Niels Theen <ntheen@databay.de>
  * @version $Id:$
@@ -12,10 +12,7 @@
 class ilCertificateAppEventListener implements ilAppEventListener
 {
 	/**
-	 * @param string $a_component
-	 * @param string $a_event
-	 * @param array $a_params
-	 * @throws ilException
+	 * @inheritdoc
 	 */
 	public static function handleEvent($a_component, $a_event, $a_params)
 	{
