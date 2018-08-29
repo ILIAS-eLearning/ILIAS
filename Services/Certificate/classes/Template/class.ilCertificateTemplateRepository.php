@@ -32,7 +32,7 @@ class ilCertificateTemplateRepository
 			'id'                    => array('integer', $id),
 			'obj_id'                => array('integer', $objId),
 			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
-			'certificate_hash'      => array('clob', $certificateTemplate->getCertificateHash()),
+			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
 			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
 			'version'               => array('clob', $certificateTemplate->getVersion()),
 			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
