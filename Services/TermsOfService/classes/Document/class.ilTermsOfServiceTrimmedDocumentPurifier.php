@@ -3,6 +3,7 @@
 
 /**
  * Class ilTermsOfServiceTrimmedDocumentPurifier
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceTrimmedDocumentPurifier implements \ilHtmlPurifierInterface
 {
