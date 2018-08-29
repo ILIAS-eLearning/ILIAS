@@ -16,6 +16,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends \ilTermsOfServi
 			['phpunit', false, ],
 			['php<b>unit</b>', true, ],
 			['<html><body>php<b>unit</b></body></html>', true, ],
+			['<html><body>php<b>unit</b>Php Unit <info@ilias.de></body></html>', false, ],
 		];
 	}
 
