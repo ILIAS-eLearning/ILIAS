@@ -120,6 +120,12 @@ class ilTermsOfServiceDocumentFormGUITest extends \ilTermsOfServiceBaseTest
 			->with('/agreements/' . $uploadResult->getName())
 			->willReturn('phpunit');
 
+		$purifier
+			->expects($this->exactly(2))
+			->method('purify')
+			->with('phpunit')
+			->willReturn('phpunit');
+
 		$fs
 			->expects($this->exactly(2))
 			->method('delete')
