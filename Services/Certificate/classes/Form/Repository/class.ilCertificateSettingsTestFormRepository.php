@@ -19,6 +19,8 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	private $testObject;
 
 	/**
+	 * @param $objectId
+	 * @param $certificatePath
 	 * @param ilObjTest $testObject
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
@@ -26,9 +28,10 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateDeleteAction $deleteAction
 	 */
 	public function __construct(
+		$objectId,
+		$certificatePath,
 		ilObjTest $testObject,
 		ilLanguage $language,
 		ilTemplate $template,
@@ -41,6 +44,8 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$objectId,
+			$certificatePath,
 			$language,
 			$template,
 			$controller,

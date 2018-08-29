@@ -197,6 +197,8 @@ class ilCertificateGUI
 
 		if (null === $settingsFormFactory) {
 			$settingsFormFactory = new ilCertificateSettingsFormRepository(
+				$this->objectId,
+				$certificatePath,
 				$this->lng,
 				$this->tpl,
 				$this->ctrl,

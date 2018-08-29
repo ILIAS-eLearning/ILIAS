@@ -43,7 +43,11 @@ class ilCertificateGUIFactory
 				$placeholderValuesObject = new TestPlaceHolderValues();
 				$adapter = new ilTestCertificateAdapter($object);
 
+				$certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
+
 				$formFactory = new ilCertificateSettingsTestFormRepository(
+					$objectId,
+					$certificatePath,
 					$object,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
@@ -63,8 +67,11 @@ class ilCertificateGUIFactory
 				$placeholderDescriptionObject = new CoursePlaceholderDescription();
 				$placeholderValuesObject = new CoursePlaceholderValues();
 
-				$formFactory = new ilCertificateSettingsCourseFormRepository(
+				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
+
+				$formFactory = new ilCertificateSettingsFormRepository(
 					$object,
+					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
 					$DIC->ctrl(),
@@ -80,8 +87,11 @@ class ilCertificateGUIFactory
 				$placeholderDescriptionObject = new ExercisePlaceholderDescription();
 				$placeholderValuesObject = new ilExercisePlaceHolderValues();
 
+				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
+
 				$formFactory = new ilCertificateSettingsExerciseRepository(
-					$object,
+					$objectId,
+					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
 					$DIC->ctrl(),
@@ -97,7 +107,11 @@ class ilCertificateGUIFactory
 				$placeholderDescriptionObject = new ilScormPlaceholderDescription();
 				$placeholderValuesObject = new ilScormPlaceholderValues();
 
+				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
+
 				$formFactory = new ilCertificateSettingsScormFormRepository(
+					$objectId,
+					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
 					$DIC->ctrl(),
@@ -116,7 +130,11 @@ class ilCertificateGUIFactory
 				$placeholderDescriptionObject = new ilDefaultPlaceholderDescription();
 				$placeholderValuesObject = new ilDefaultPlaceholderValues();
 
+				$certificatePath = ilCertificatePathConstants::SKILL_PATH . $objectId . '/' . $skillLevelId;
+
 				$formFactory = new ilCertificateSettingsFormRepository(
+					$objectId,
+					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
 					$DIC->ctrl(),

@@ -26,9 +26,11 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilCertificateDeleteAction $deleteAction
 	 */
 	public function __construct(
 		ilObject $object,
+		$certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -40,6 +42,8 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$object->getId(),
+			$certificatePath,
 			$language,
 			$template,
 			$controller,

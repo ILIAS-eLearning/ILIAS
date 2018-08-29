@@ -25,6 +25,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	 * @param ilCertificateGUI|null $certificateGUI
 	 */
 	public function __construct(
+		$objectId,
+		$certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -35,6 +37,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$objectId,
+			$certificatePath,
 			$language,
 			$template,
 			$controller,

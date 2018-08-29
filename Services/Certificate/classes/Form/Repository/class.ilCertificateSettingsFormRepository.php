@@ -44,6 +44,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $formFieldParser;
 
 	/**
+	 * @var ilCertificateTemplateImportAction|null
+	 */
+	private $importAction;
+
+	/**
+	 * @param integer $objectId
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
@@ -52,9 +59,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilPageFormats|null $pageFormats
 	 * @param ilFormFieldParser|null $formFieldParser
-	 * @param ilCertificateDeleteAction|null $deleteAction
+	 * @param ilCertificateTemplateImportAction|null $importAction
 	 */
 	public function __construct(
+		$objectId,
+		$certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -62,7 +71,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilPageFormats $pageFormats = null,
-		ilFormFieldParser $formFieldParser = null
+		ilFormFieldParser $formFieldParser = null,
+		ilCertificateTemplateImportAction $importAction = null
 	) {
 		$this->language                     = $language;
 		$this->template                     = $template;
@@ -81,6 +91,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		}
 		$this->formFieldParser = $formFieldParser;
 
+		if (null === $importAction) {
+			$importAction = new ilCertificateTemplateImportAction($objectId, $certificatePath, $placeholderDescriptionObject);
+		}
+		$this->importAction = $importAction;
 	}
 
 	/**
