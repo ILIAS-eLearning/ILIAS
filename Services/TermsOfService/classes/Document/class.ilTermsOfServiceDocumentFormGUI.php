@@ -225,7 +225,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 				}
 				$purifiedHtmlContent = $this->documentPurifier->purify($content);
 
-				if ($purifiedHtmlContent !== trim($originalContent)) {
+				if (trim($purifiedHtmlContent) !== trim($originalContent)) {
 					$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
 				}
 
