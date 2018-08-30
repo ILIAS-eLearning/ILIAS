@@ -22753,6 +22753,27 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 	exit;
 }
 
+if (!$ilDB->tableExists('agreement_migr')) {
+	$fields = [
+		'agr_type' => [
+			'type'    => 'text',
+			'length'  => 20,
+			'notnull' => true
+		],
+		'agr_lng' => [
+			'type'    => 'text',
+			'length'  => 2,
+			'notnull' => true
+		]
+	];
+
+	$ilDB->createTable('agreement_migr', $fields);
+	$ilDB->addPrimaryKey('agreement_migr', ['agr_type', 'agr_lng']);
+	$GLOBALS['ilLog']->warn(sprintf(
+		'Created agreement migration table: agreement_migr'
+	));
+}
+
 // Determine system language
 $ilIliasIniFile = new \ilIniFile(ILIAS_ABSOLUTE_PATH . '/ilias.ini.php');
 $ilIliasIniFile->read();
@@ -22800,12 +22821,25 @@ foreach ([
 				));
 				continue;
 			}
+			$languageValue = $matches[1];
+
+			$res = $ilDB->queryF(
+				"SELECT * FROM agreement_migr WHERE agr_type = %s AND agr_lng = %s",
+				['text', 'text'],
+				[$type, $languageValue]
+			);
+			if ($ilDB->numRows($res) > 0) {
+				$GLOBALS['ilLog']->info(sprintf(
+					"DB Step %s: Ignored migration of %s user agreement file '%s' because it has been already migrated",
+					$dbStep, $type, $file->getPathname()
+				));
+				continue;
+			}
 
 			$i++;
 
 			$sorting = $i;
 			$docTitle = $docTitlePrefix . ' ' . $i;
-			$languageValue = $matches[1];
 
 			$text = file_get_contents($file->getPathname());
 			if (strip_tags($text) === $text) {
@@ -22935,6 +22969,15 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 }
 ?>
 <#5303>
+<?php
+if ($ilDB->tableExists('agreement_migr')) {
+	$ilDB->dropTable('agreement_migr');
+	$GLOBALS['ilLog']->warn(sprintf(
+		'Dropped agreement migration table: agreement_migr'
+	));
+}
+?>
+<#5304>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
