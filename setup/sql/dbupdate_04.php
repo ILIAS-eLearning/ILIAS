@@ -22770,7 +22770,7 @@ if (!$ilDB->tableExists('agreement_migr')) {
 
 	$ilDB->createTable('agreement_migr', $fields);
 	$ilDB->addPrimaryKey('agreement_migr', ['agr_type', 'agr_lng']);
-	$GLOBALS['ilLog']->warn(sprintf(
+	$GLOBALS['ilLog']->info(sprintf(
 		'Created agreement migration table: agreement_migr'
 	));
 }
@@ -22982,7 +22982,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 <?php
 if ($ilDB->tableExists('agreement_migr')) {
 	$ilDB->dropTable('agreement_migr');
-	$GLOBALS['ilLog']->warn(sprintf(
+	$GLOBALS['ilLog']->info(sprintf(
 		'Dropped agreement migration table: agreement_migr'
 	));
 }
