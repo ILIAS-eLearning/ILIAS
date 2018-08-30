@@ -411,38 +411,6 @@ class ilCertificate
 	}
 
 	/**
-	* Builds an export file in ZIP format and delivers it
-	*/
-	public function deliverExportFileXML()
-	{
-		$exportpath = $this->createArchiveDirectory();
-		ilUtil::makeDir($exportpath);
-		$time = time();
-
-		$adapter = $this->getAdapter();
-		$objId = $adapter->getCertificateID();
-
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
-
-		$xslExport = $template->getCertificateContent();
-		$version = $template->getVersion();
-		$this->createCertificateFile($xslExport, $exportpath . 'certificate_' . $version . ' .xml');
-		$backgroundImagePath = $template->getBackgroundImagePath();
-
-		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-			copy($backgroundImagePath, $exportpath . basename($backgroundImagePath));
-		}
-
-		$objectType = ilObject::_lookupType($this->objectId);
-		$zipFileName = $time . "__" . IL_INST_ID . "__" . $objectType . "__" . $this->objectId . "__certificate.zip";
-
-		ilUtil::zip($exportpath, $this->certificatePath . $zipFileName);
-
-		ilUtil::delDir($exportpath);
-		ilUtil::deliverFile($this->certificatePath . $zipFileName, $zipFileName, "application/zip");
-	}
-
-	/**
 	* Gets the adapter
 	*
 	* @return object Adapter
