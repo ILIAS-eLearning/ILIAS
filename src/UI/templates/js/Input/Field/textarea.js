@@ -34,7 +34,7 @@ il.UI = il.UI || {};
                     $('#'+feedback_id_prefix+textarea_id).html(il.Language.txt("ui_chars_remaining") +" "+ text_remaining);
                     return true;
                 }
-            })
+            });
         };
 
         /**
