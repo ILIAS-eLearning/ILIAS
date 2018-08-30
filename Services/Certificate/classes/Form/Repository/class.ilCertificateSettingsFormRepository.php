@@ -128,7 +128,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		{
 			if ($import->checkInput())
 			{
-				$result = $certificateObject->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+				$result = $this->importAction->import($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
 				if ($result == FALSE)
 				{
 					$import->setAlert($this->language->txt("certificate_error_import"));
