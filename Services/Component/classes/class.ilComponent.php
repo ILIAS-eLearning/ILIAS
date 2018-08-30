@@ -40,8 +40,11 @@ abstract class ilComponent
 	abstract function getVersion();
 	
 	abstract function isCore();
-	
-	abstract static function getComponentType();
+
+	/**
+	 * @return string
+	 */
+	abstract function getComponentType(): string;
 	
 	/**
 	* Get Name.

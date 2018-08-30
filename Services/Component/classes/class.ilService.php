@@ -36,11 +36,9 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 abstract class ilService extends ilComponent
 {
 	/**
-	* Get Component Type.
-	*
-	* @return	string	Component Type
-	*/
-	final static function getComponentType()
+	 * @inheritdoc
+	 */
+	final public function getComponentType(): string 
 	{
 		return IL_COMP_SERVICE;
 	}

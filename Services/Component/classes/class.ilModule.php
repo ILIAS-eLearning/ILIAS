@@ -48,13 +48,11 @@ abstract class ilModule extends ilComponent
 	{
 		parent::__construct();
 	}
-	
+
 	/**
-	* Get Component Type.
-	*
-	* @return	string	Component Type
-	*/
-	final static function getComponentType()
+	 * @inheritdoc
+	 */
+	final public function getComponentType(): string 
 	{
 		return IL_COMP_MODULE;
 	}
