@@ -1795,7 +1795,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$pdfAction->downloadPdf($user->getId(), $this->object->getid());
+		$pdfAction->downloadPdf((int) $user->getId(), (int) $this->object->getId());
 	}
 	
 	public function confirmDeletePass()
