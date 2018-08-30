@@ -886,7 +886,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$pdfAction->downloadPdf($ilUser->getId(), $this->object->getid());
+		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
 	}
 }
 

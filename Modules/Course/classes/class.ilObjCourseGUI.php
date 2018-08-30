@@ -3311,7 +3311,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$pdfAction->downloadPdf($user_id, $this->object->getid());
+		$pdfAction->downloadPdf((int) $user_id, (int) $this->object->getId());
 	}
 	
 	

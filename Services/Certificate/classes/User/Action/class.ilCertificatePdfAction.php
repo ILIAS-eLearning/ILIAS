@@ -33,7 +33,7 @@ class ilCertificatePdfAction
 	 * @param integer $objectId
 	 * @throws ilException
 	 */
-	public function downloadPdf($userId, $objectId)
+	public function downloadPdf(int $userId, int $objectId)
 	{
 		$this->logger->info(sprintf('Start download certificate PDF for user: "%s" object id; "%s"', $userId, $objectId));
 
