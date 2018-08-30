@@ -22745,6 +22745,7 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 		client-related documents.
 
 		With ILIAS 5.4.x user agreement documents can be managed in the global ILIAS administration.
+		The contents of a document can be uploaded as text or HTML file and will be stored (after purification) in the database.
 
 		If you reload this page, the migration will be executed. The files will NOT be deleted.
 		</pre>";
@@ -22789,7 +22790,8 @@ if ('de' === strtolower($language)) {
 	$docTitlePrefix = 'Dokument';
 }
 
-$i = 0;
+$res = $ilDB->query("SELECT * FROM agreement_migr");
+$i = (int)$ilDB->numRows($res);
 foreach ([
 			 'client-independent' => $globalAgreementPath,
 			 'client-related' => $clientAgreementPath,
@@ -22895,6 +22897,14 @@ foreach ([
 				"DB Step %s: Migrated %s user agreement file '%s'",
 				$dbStep, $type, $file->getPathname()
 			));
+
+			$ilDB->replace(
+				'agreement_migr',
+				[
+					'agr_type' => ['text', $type],
+					'agr_lng' => ['text', $languageValue],
+				], []
+			);
 		}
 	} catch (\Exception $e) {
 		$GLOBALS['ilLog']->error(sprintf(
