@@ -63,35 +63,34 @@ class ilCertificateTemplateImportAction
 	 */
 	public function import(string $zipFile, string $filename)
 	{
-		$importpath = $this->createArchiveDirectory();
-		if (!ilUtil::moveUploadedFile($zipFile, $filename, $importpath . $filename))
-		{
-			ilUtil::delDir($importpath);
+		$importPath = $this->createArchiveDirectory();
+		if (!ilUtil::moveUploadedFile($zipFile, $filename, $importPath . $filename)) {
+			ilUtil::delDir($importPath);
 			return false;
 		}
 
-		ilUtil::unzip($importpath . $filename, true);
+		ilUtil::unzip($importPath . $filename, true);
 
-		$subDirectoryName = str_replace(".zip", "", strtolower($filename)) . "/";
-		$subDirectoryAbsolutePath = $importpath . $subDirectoryName;
+		$subDirectoryName = str_replace('.zip', '', strtolower($filename)) . '/';
+		$subDirectoryAbsolutePath = $importPath . $subDirectoryName;
 
-		$copydir = $importpath;
+		$copydir = $importPath;
 		if (is_dir($subDirectoryAbsolutePath)) {
 			$copydir = $subDirectoryAbsolutePath;
 		}
 		$dirinfo = ilUtil::getDir($copydir);
 
-		$xmlfiles = 0;
+		$xmlFiles = 0;
 		foreach ($dirinfo as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
 				if (strpos($file['entry'], '.xml') !== false) {
-					$xmlfiles++;
+					$xmlFiles++;
 				}
 			}
 		}
 
-		if (0 === $xmlfiles) {
-			ilUtil::delDir($importpath);
+		if (0 === $xmlFiles) {
+			ilUtil::delDir($importPath);
 			return false;
 		}
 
@@ -101,7 +100,6 @@ class ilCertificateTemplateImportAction
 
 		$backgroundImagePath = '';
 		$newBackgroundImageName = '';
-
 		foreach ($dirinfo as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
 				if (strpos($file['entry'], '.xml') !== false) {
@@ -153,7 +151,7 @@ class ilCertificateTemplateImportAction
 			}
 		}
 
-		ilUtil::delDir($importpath);
+		ilUtil::delDir($importPath);
 		return true;
 	}
 
@@ -162,7 +160,7 @@ class ilCertificateTemplateImportAction
 	 *
 	 * @return string The created archive directory
 	 */
-	private function createArchiveDirectory()
+	private function createArchiveDirectory() : string
 	{
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
@@ -177,7 +175,7 @@ class ilCertificateTemplateImportAction
 	 * @param string $backgroundImagePath
 	 * @return mixed|string
 	 */
-	private function getBackgroundImageDirectory(bool $asRelative = false, string $backgroundImagePath = '')
+	private function getBackgroundImageDirectory(bool $asRelative = false, string $backgroundImagePath = '') : string
 	{
 		if($asRelative) {
 			return str_replace(
@@ -193,7 +191,7 @@ class ilCertificateTemplateImportAction
 	/**
 	 * @return string
 	 */
-	private function getBackgroundImageThumbPath()
+	private function getBackgroundImageThumbPath() : string
 	{
 		return $this->certificatePath . $this->getBackgroundImageName() . '.thumb.jpg';
 	}
@@ -201,9 +199,9 @@ class ilCertificateTemplateImportAction
 	/**
 	 * @return string
 	 */
-	public function getBackgroundImageName()
+	public function getBackgroundImageName() : string
 	{
-		return "background.jpg";
+		return 'background.jpg';
 	}
 
 }

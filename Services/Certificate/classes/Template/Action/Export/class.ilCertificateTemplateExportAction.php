@@ -41,42 +41,39 @@ class ilCertificateTemplateExportAction
 	 */
 	public function export()
 	{
-		$exportpath = $this->createArchiveDirectory();
-		ilUtil::makeDir($exportpath);
+		global $DIC;
+
 		$time = time();
+		$fileSystem = $DIC->filesystem()->temp();
+		$web = $DIC->filesystem()->web();
+
+
+		$type = ilObject::_lookupType($this->objectId);
+		$certificateId = $this->objectId;
+
+		$exportPath = $this->certificatePath . $time . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
+
+		$fileSystem->createDir($exportPath);
 
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 		$xslExport = $template->getCertificateContent();
-		$this->createCertificateFile($xslExport, $exportpath . 'certificate.xml');
-		$backgroundImagePath = $template->getBackgroundImagePath();
 
+		$fileSystem->put($exportPath . 'certificate.xml', $xslExport);
+
+		$backgroundImagePath = $template->getBackgroundImagePath();
 		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-			copy($backgroundImagePath, $exportpath . 'background.jpg');
+			$web->copy($backgroundImagePath, $exportPath . 'background.jpg');
 		}
 
 		$objectType = ilObject::_lookupType($this->objectId);
-		$zipFileName = $time . "__" . IL_INST_ID . "__" . $objectType . "__" . $this->objectId . "__certificate.zip";
+		$zipFileName = $time . '__' . IL_INST_ID . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';
 
-		ilUtil::zip($exportpath, $this->certificatePath . $zipFileName);
 
-		ilUtil::delDir($exportpath);
+		ilUtil::zip($exportPath, $this->certificatePath . $zipFileName);
+
+		$fileSystem->deleteDir($exportPath);
 		ilUtil::deliverFile($this->certificatePath . $zipFileName, $zipFileName, "application/zip");
-	}
-
-	/**
-	 * Creates a directory for a zip archive containing multiple certificates
-	 *
-	 * @return string The created archive directory
-	 */
-	public function createArchiveDirectory()
-	{
-		$type = ilObject::_lookupType($this->objectId);
-		$certificateId = $this->objectId;
-
-		$dir = $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
-		ilUtil::makeDirParents($dir);
-		return $dir;
 	}
 
 	/**
@@ -105,7 +102,7 @@ class ilCertificateTemplateExportAction
 	 *
 	 * @return string The filesystem path of the XSL-FO file
 	 */
-	private function getXSLPath()
+	private function getXSLPath() : string
 	{
 		return $this->certificatePath . $this->getXSLName();
 	}
@@ -115,8 +112,8 @@ class ilCertificateTemplateExportAction
 	 *
 	 * @return string The filename of the XSL-FO file
 	 */
-	private function getXSLName()
+	private function getXSLName() : string
 	{
-		return "certificate.xml";
+		return 'certificate.xml';
 	}
 }
