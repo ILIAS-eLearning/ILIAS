@@ -10381,6 +10381,7 @@ tos#:#tos_form_document_info#:#Please select a file from your local filesystem. 
 tos#:#tos_form_document_new#:#Change Content
 tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
 tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+tos#:#tos_enabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted.
 tos#:#tos_tbl_docs_title#:#Documents
 tos#:#tos_tbl_docs_head_sorting#:#Sorting
 tos#:#tos_tbl_docs_head_title#:#Title
