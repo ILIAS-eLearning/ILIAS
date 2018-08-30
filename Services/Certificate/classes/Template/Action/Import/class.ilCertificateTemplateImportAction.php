@@ -67,10 +67,10 @@ class ilCertificateTemplateImportAction
 		if (!ilUtil::moveUploadedFile($zipFile, $filename, $importpath . $filename))
 		{
 			ilUtil::delDir($importpath);
-			return FALSE;
+			return false;
 		}
 
-		ilUtil::unzip($importpath . $filename, TRUE);
+		ilUtil::unzip($importpath . $filename, true);
 
 		$subDirectoryName = str_replace(".zip", "", strtolower($filename)) . "/";
 		$subDirectoryAbsolutePath = $importpath . $subDirectoryName;
@@ -84,7 +84,7 @@ class ilCertificateTemplateImportAction
 		$xmlfiles = 0;
 		foreach ($dirinfo as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
-				if (strpos($file['entry'], '.xml') !== FALSE) {
+				if (strpos($file['entry'], '.xml') !== false) {
 					$xmlfiles++;
 				}
 			}
@@ -172,7 +172,12 @@ class ilCertificateTemplateImportAction
 		return $dir;
 	}
 
-	private function getBackgroundImageDirectory($asRelative = false, $backgroundImagePath = '')
+	/**
+	 * @param bool $asRelative
+	 * @param string $backgroundImagePath
+	 * @return mixed|string
+	 */
+	private function getBackgroundImageDirectory(bool $asRelative = false, string $backgroundImagePath = '')
 	{
 		if($asRelative) {
 			return str_replace(
@@ -185,11 +190,17 @@ class ilCertificateTemplateImportAction
 		return $this->certificatePath;
 	}
 
+	/**
+	 * @return string
+	 */
 	private function getBackgroundImageThumbPath()
 	{
 		return $this->certificatePath . $this->getBackgroundImageName() . '.thumb.jpg';
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getBackgroundImageName()
 	{
 		return "background.jpg";

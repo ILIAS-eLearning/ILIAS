@@ -62,8 +62,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilCertificateTemplateImportAction|null $importAction
 	 */
 	public function __construct(
-		$objectId,
-		$certificatePath,
+		int $objectId,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
