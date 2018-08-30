@@ -131,6 +131,11 @@ class ilCertificateGUI
 	private $deleteAction;
 
 	/**
+	 * @var ilCertificateTemplateExportAction|null
+	 */
+	private $exportAction;
+
+	/**
 	 * @var ilCertificateBackgroundImageUpload
 	 */
 	private $backgroundImageUpload;
@@ -142,6 +147,7 @@ class ilCertificateGUI
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
 	 * @param $certificatePath
+	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateFormRepository $settingsFormFactory
 	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateTemplateRepository|null $templateRepository
@@ -163,6 +169,7 @@ class ilCertificateGUI
 		ilPageFormats $pageFormats = null,
 		ilXlsFoParser $xlsFoParser = null,
 		ilFormFieldParser $formFieldParser = null,
+		ilCertificateTemplateExportAction $exportAction = null,
 		ilCertificateBackgroundImageUpload $upload = null
 	) {
 		global $DIC;
@@ -243,6 +250,15 @@ class ilCertificateGUI
 		}
 		$this->backgroundImageUpload = $upload;
 
+		if (null === $exportAction) {
+			$exportAction = new ilCertificateTemplateExportAction(
+				$this->objectId,
+				$certificatePath,
+				$this->templateRepository
+			);
+		}
+		$this->exportAction = $exportAction;
+
 		$this->lng->loadLanguageModule('certificate');
 	}
 
@@ -293,7 +309,7 @@ class ilCertificateGUI
 	*/
 	public function certificateExportFO()
 	{
-		$this->certifcateObject->deliverExportFileXML();
+		$this->exportAction->export();
 	}
 
 	/**
