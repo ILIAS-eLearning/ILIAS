@@ -124,7 +124,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 			'field' => 'modification_ts',
 			'txt' => $this->lng->txt('tos_tbl_docs_head_last_change'),
 			'default' => true,
-			'optional' => false,
+			'optional' => true,
 			'sortable' => false
 		];
 
