@@ -270,6 +270,10 @@ class Renderer extends AbstractComponentRenderer {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
+		if($input instanceof TextArea){
+			$tpl = $this->renderTextareaField($tpl, $input);
+		}
+
 		$tpl->setVariable("NAME", $input->getName());
 
 		switch (true) {
@@ -277,6 +281,7 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
+			case ($input instanceof TextArea):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -351,10 +356,6 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("VALUE", $option_key);
 			$tpl->setVariable("VALUE_STR", $option_value);
 			$tpl->parseCurrentBlock();
-		}
-		//specific options for textarea component.
-		if($input instanceof TextArea){
-			$tpl = $this->renderTextareaField($tpl, $input);
 		}
 
 		return $tpl;
