@@ -221,14 +221,12 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 
 				$originalContent = $content = $this->tmpFileSystem->read($pathToFile);
 
-				$htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator(
-					$this->documentPurifier->purify($content)
-				);
-				if (!$htmlValidator->isValid()) {
-					$content = nl2br($content);
-				}
-
 				$purifiedHtmlContent = $this->documentPurifier->purify($content);
+
+				$htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator($purifiedHtmlContent);
+				if (!$htmlValidator->isValid()) {
+					$purifiedHtmlContent = nl2br($purifiedHtmlContent);
+				}
 
 				if (trim($purifiedHtmlContent) !== trim($originalContent)) {
 					$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
