@@ -1733,32 +1733,11 @@ class ilCtrl
 		$cached_ctrl = ilCachedCtrl::getInstance();
 		$cid_info = $cached_ctrl->lookupCid($a_cid);
 
-<<<<<<< HEAD
 		if($cid_info)
 		{
 			$this->updateClassCidMap($cid_info['class'], $a_cid);
 			$this->fetchCallsOfClassFromCache($cid_info['class'], $cached_ctrl);
 			$this->info_read_class[$cid_info["class"]] = true;
-=======
-		if($rec)
-		{
-			$this->cid_class[$a_cid] = $rec["class"];
-			$this->class_cid[$rec["class"]] = $a_cid;
-
-			$calls = $cached_ctrl->lookupCall($rec["class"]);
-
-			foreach($calls as $rec2)
-			{
-				if (!isset($this->calls[$rec["class"]]) || !is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
-				{
-					if ($rec2["child"] != "")
-					{
-						$this->calls[$rec["class"]][] = $rec2["child"];
-					}
-				}
-			}
-			$this->info_read_class[$rec["class"]] = true;
->>>>>>> trunk
 		}
 		
 		$this->info_read_cid[$a_cid] = true;
