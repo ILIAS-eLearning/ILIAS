@@ -1,5 +1,10 @@
 <?php
 
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class ilCertificateTemplateImportAction
 {
 	/**
@@ -30,8 +35,8 @@ class ilCertificateTemplateImportAction
 	 * @param ilCertificateTemplateImportAction|null $importAction
 	 */
 	public function __construct(
-		$objectId,
-		$certificatePath,
+		int $objectId,
+		string $certificatePath,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilCertificateTemplateImportAction $importAction = null
@@ -56,7 +61,7 @@ class ilCertificateTemplateImportAction
 	 * @return bool
 	 * @throws ilException
 	 */
-	public function import($zipFile, $filename)
+	public function import(string $zipFile, string $filename)
 	{
 		$importpath = $this->createArchiveDirectory();
 		if (!ilUtil::moveUploadedFile($zipFile, $filename, $importpath . $filename))

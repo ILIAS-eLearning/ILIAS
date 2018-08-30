@@ -92,7 +92,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$this->formFieldParser = $formFieldParser;
 
 		if (null === $importAction) {
-			$importAction = new ilCertificateTemplateImportAction($objectId, $certificatePath, $placeholderDescriptionObject);
+			$importAction = new ilCertificateTemplateImportAction((int) $objectId, $certificatePath, $placeholderDescriptionObject);
 		}
 		$this->importAction = $importAction;
 	}

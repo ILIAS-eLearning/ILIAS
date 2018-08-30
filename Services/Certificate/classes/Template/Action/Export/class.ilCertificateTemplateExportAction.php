@@ -27,8 +27,8 @@ class ilCertificateTemplateExportAction
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 */
 	public function __construct(
-		$objectId,
-		$certificatePath,
+		int $objectId,
+		string $certificatePath,
 		ilCertificateTemplateRepository $templateRepository
 	) {
 		$this->objectId = $objectId;
@@ -83,8 +83,9 @@ class ilCertificateTemplateExportAction
 	 * Saves the XSL-FO code to a file
 	 *
 	 * @param string $xslfo XSL-FO code
+	 * @param string $filename
 	 */
-	private function createCertificateFile($xslfo, $filename = '')
+	private function createCertificateFile(string $xslfo, string $filename = '')
 	{
 		if (!file_exists($this->certificatePath)) {
 			ilUtil::makeDirParents($this->certificatePath);
