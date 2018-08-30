@@ -427,6 +427,11 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 				\ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_s'), true);
 			}
 
+			if (0 === \ilTermsOfServiceDocument::getCollection()->count()) {
+				$this->tos->saveStatus(false);
+				\ilUtil::sendInfo($this->lng->txt('tos_disabled_no_docs_left'), true);
+			}
+
 			$this->ctrl->redirect($this);
 		} else {
 			$this->ctrl->setParameter($this, 'delete', 1);
