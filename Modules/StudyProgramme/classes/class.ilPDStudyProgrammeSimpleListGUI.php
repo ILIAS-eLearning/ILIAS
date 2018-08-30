@@ -121,12 +121,18 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		}
 		return $content;
 	}
-	
-	static public function getBlockType() {
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getBlockType(): string {
 		return self::BLOCK_TYPE;
 	}
-	
-	static public function isRepositoryObject() {
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool {
 		return false;
 	}
 	

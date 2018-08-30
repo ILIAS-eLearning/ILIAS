@@ -11,9 +11,17 @@
 */
 abstract class ilBlockGUI
 {
-	abstract static function getBlockType();		// return block type, e.g. "feed"
-	abstract static function isRepositoryObject();	// returns whether block has a
-													// corresponding repository object
+	/**
+	 * @return string
+	 */
+	abstract protected function getBlockType(): string ;
+
+	/**
+	 * Returns whether block has a corresponding repository object
+	 * 
+	 * @return bool
+	 */
+	abstract protected function isRepositoryObject(): bool;
 	
 	protected $data = array();
 	protected $colspan = 1;

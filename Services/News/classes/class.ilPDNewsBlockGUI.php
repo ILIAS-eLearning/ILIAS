@@ -112,23 +112,19 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
 		return $data;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	protected function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Is block used in repository object?
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

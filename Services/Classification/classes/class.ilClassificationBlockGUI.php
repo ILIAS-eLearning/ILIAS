@@ -54,17 +54,23 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("clsfct_block_title"));
 		$this->setFooterInfo($lng->txt("clsfct_block_info"));	
 	}
-	
-	public static function getBlockType()
+
+	/**
+	 *  @inheritdoc
+	 */
+	protected function getBlockType() :string 
 	{
 		return 'clsfct';
 	}
 
-	public static function isRepositoryObject()
+	/**
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
-	
+
 	public function executeCommand()
 	{
 		$ilCtrl = $this->ctrl;

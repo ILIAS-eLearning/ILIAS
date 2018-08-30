@@ -59,13 +59,11 @@ class ilDummyBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$this->allow_moving = true;
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	protected function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
@@ -81,11 +79,9 @@ class ilDummyBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* Is this a repository object
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
