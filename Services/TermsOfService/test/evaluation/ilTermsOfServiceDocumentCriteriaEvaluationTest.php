@@ -10,7 +10,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	/**
 	 * 
 	 */
-	public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAssignedAtAll()
+	public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll()
 	{
 		$user = $this->getUserMock();
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
@@ -32,7 +32,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	/**
 	 *
 	 */
-	public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaMatch()
+	public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch()
 	{
 		$user = $this->getUserMock();
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
@@ -95,7 +95,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	/**
 	 *
 	 */
-	public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaDoesNotMatch()
+	public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch()
 	{
 		$user = $this->getUserMock();
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();

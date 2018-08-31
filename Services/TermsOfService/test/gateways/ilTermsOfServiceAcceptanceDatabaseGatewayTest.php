@@ -21,7 +21,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	/**
 	 *
 	 */
-	public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersion()
+	public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->withUserId(666);
@@ -143,7 +143,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	/**
 	 *
 	 */
-	public function testCurrentAcceptanceOfUserIsLoaded()
+	public function testLatestAcceptanceOfUserCanBeLoaded()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
 
@@ -180,7 +180,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends \ilTermsOfServiceBas
 	/**
 	 *
 	 */
-	public function testAcceptanceHistoryOfAUserIsDeleted()
+	public function testAcceptanceHistoryOfAUserCanBeDeleted()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$entity->withUserId(4711);
