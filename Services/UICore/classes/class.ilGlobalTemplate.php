@@ -12,19 +12,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 */
 class ilGlobalTemplate
 {
-	const MESSAGE_TYPE_FAILURE = 'failure';
-	const MESSAGE_TYPE_INFO = "info";
-	const MESSAGE_TYPE_SUCCESS = "success";
-	const MESSAGE_TYPE_QUESTION = "question";
-	/**
-	 * @var array  available Types for Messages
-	 */
-	protected static $message_types = array(
-		self::MESSAGE_TYPE_FAILURE,
-		self::MESSAGE_TYPE_INFO,
-		self::MESSAGE_TYPE_SUCCESS,
-		self::MESSAGE_TYPE_QUESTION,
-	);
 
 	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);	// version parameter flag
@@ -33,7 +20,6 @@ class ilGlobalTemplate
 	var $inline_css = array();
 	
 
-	protected $message = array();
 	
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
@@ -295,9 +281,30 @@ class ilGlobalTemplate
 	}
 
 
+	//***********************************
+	//
 	// MESSAGES
 	//
 	// setMessage is only used in ilUtil
+	//
+	//***********************************
+
+	const MESSAGE_TYPE_FAILURE = 'failure';
+	const MESSAGE_TYPE_INFO = "info";
+	const MESSAGE_TYPE_SUCCESS = "success";
+	const MESSAGE_TYPE_QUESTION = "question";
+
+	/**
+	 * @var array  available Types for Messages
+	 */
+	protected static $message_types = array(
+		self::MESSAGE_TYPE_FAILURE,
+		self::MESSAGE_TYPE_INFO,
+		self::MESSAGE_TYPE_SUCCESS,
+		self::MESSAGE_TYPE_QUESTION,
+	);
+
+	protected $message = array();
 
 	/**
 	 * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
@@ -316,10 +323,6 @@ class ilGlobalTemplate
 		{
 			return;
 		}
-		if ($a_type == self::MESSAGE_TYPE_QUESTION)
-		{
-			$a_type = "mess_question";
-		}
 		if (!$a_keep)
 		{
 			$this->message[$a_type] = $a_txt;
@@ -337,34 +340,15 @@ class ilGlobalTemplate
 	{
 		global $DIC;
 
-		$ms = array( self::MESSAGE_TYPE_INFO,
-		             self::MESSAGE_TYPE_SUCCESS, self::MESSAGE_TYPE_FAILURE,
-		             self::MESSAGE_TYPE_QUESTION
-		);
 		$out = "";
 
-		foreach ($ms as $m)
+		foreach (self::$message_types as $m)
 		{
-
-			if ($m == self::MESSAGE_TYPE_QUESTION)
-			{
-				$m = "mess_question";
-			}
 			$txt = $this->getMessageTextForType($m);
-
-			if ($m == "mess_question")
-			{
-				$m = self::MESSAGE_TYPE_QUESTION;
-			}
 
 			if ($txt != "")
 			{
 				$out.= ilUtil::getSystemMessageHTML($txt, $m);
-			}
-
-			if ($m == self::MESSAGE_TYPE_QUESTION)
-			{
-				$m = "mess_question";
 			}
 
 			$request = $DIC->http()->request();
@@ -378,6 +362,25 @@ class ilGlobalTemplate
 		{
 			$this->setVariable("MESSAGE", $out);
 		}
+	}
+
+
+	/**
+	 * @param $m
+	 *
+	 * @return mixed|string
+	 */
+	private function getMessageTextForType($m) {
+		$txt = "";
+		if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
+			$txt = $_SESSION[$m];
+		} else {
+			if (isset($this->message[$m])) {
+				$txt = $this->message[$m];
+			}
+		}
+
+		return $txt;
 	}
 
 
@@ -1823,24 +1826,6 @@ class ilGlobalTemplate
 		$this->enable_fileupload = $a_ref_id;
 	}
 
-
-	/**
-	 * @param $m
-	 *
-	 * @return mixed|string
-	 */
-	private function getMessageTextForType($m) {
-		$txt = "";
-		if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
-			$txt = $_SESSION[$m];
-		} else {
-			if (isset($this->message[$m])) {
-				$txt = $this->message[$m];
-			}
-		}
-
-		return $txt;
-	}
 
 	// TEMPLATING AND GLOBAL RENDERING
 	//
