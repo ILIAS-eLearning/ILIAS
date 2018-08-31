@@ -21,7 +21,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 	/**
 	 * @return array[]
 	 */
-	public function stringArraysToTrimProvider(): array
+	public function stringElementsArrayToTrimProvider(): array
 	{
 		return [
 			[[' phpunit '], ['phpunit'], ],
@@ -52,11 +52,11 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends \ilTermsOfServiceCrite
 	}
 
 	/**
-	 * @dataProvider stringArraysToTrimProvider
+	 * @dataProvider stringElementsArrayToTrimProvider
 	 * @param string[] $texts
 	 * @param string[] $expectedResult
 	 */
-	public function testArrayOfStringIsTrimmed(array $texts, array $expectedResult)
+	public function testArrayOfStringElementsIsTrimmed(array $texts, array $expectedResult)
 	{
 		$aggregated = $this
 			->getMockBuilder(\ilHtmlPurifierInterface::class)

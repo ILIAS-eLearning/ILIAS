@@ -86,7 +86,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
 	 */
-	public function testDocumentModalCanBeBuiltFromArrayWithReadAttachedCriteria(
+	public function testDocumentModelCanBeBuiltFromArrayWithAttachedCriteriaBeingRead(
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -137,7 +137,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
 	 */
-	public function testDocumentModalCanBeReadWithAttachedCriteria(
+	public function testDocumentModelCanCreatedByIdWithAttachedCriteriaBeingRead(
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -201,7 +201,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
 	 */
-	public function testCriteriaCanBeAttached(
+	public function testCriteriaCanBeAttachedToDocument(
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -220,7 +220,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
 	 */
-	public function testCriteriaCanBeDetached(
+	public function testCriteriaCanBeDetachedFromDocument(
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -243,7 +243,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
 	 * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
 	 */
-	public function testCriteriaCanBeAttachedAndDetachedPersistently(
+	public function testCriteriaCanBeAttachedToAndDetachedFromDocumentPersistently(
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
 		\ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -372,7 +372,7 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	/**
 	 * @expectedException \ilTermsOfServiceDuplicateCriterionAssignmentException
 	 */
-	public function testExceptionIsRaisedWhenAttachingDuplicateCriteriaEventWithDifferentIds()
+	public function testExceptionIsRaisedWhenAttachingDuplicateCriteriaEvenWithDifferentIds()
 	{
 		$this->assertException(\ilTermsOfServiceDuplicateCriterionAssignmentException::class);
 

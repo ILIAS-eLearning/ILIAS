@@ -19,7 +19,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public function testExceptionIsRaisedWhenWhenGatewayIsRequestedWithMissingDependencies()
+	public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies()
 	{
 		$this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
 
@@ -30,7 +30,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function testExceptionIsRaisedWhenUnknowDataGatewayIsRequested()
+	public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested()
 	{
 		$this->assertException(\InvalidArgumentException::class);
 

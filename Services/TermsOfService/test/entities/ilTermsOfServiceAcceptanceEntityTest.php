@@ -64,7 +64,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function testTimestampOfSigningIsInitiallyEmpty()
+	public function testTimestampOfSignatureIsInitiallyEmpty()
 	{
 		$entity = new \ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getTimestamp());

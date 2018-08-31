@@ -20,7 +20,7 @@ class ilTermsOfServiceEntityFactoryTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
+	public function testExceptionIsRaisedWhenUnknownEntityIsRequested()
 	{
 		$this->assertException(\InvalidArgumentException::class);
 

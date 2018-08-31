@@ -28,7 +28,7 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends \ilTermsOfServiceBas
 	 * @depends testDocumentProviderCanBeCreatedByFactory
 	 * @param ilTermsOfServiceDocumentTableDataProvider $provider
 	 */
-	public function testListCanBeRetrieved(\ilTermsOfServiceDocumentTableDataProvider $provider)
+	public function testListOfDocumentsCanBeRetrieved(\ilTermsOfServiceDocumentTableDataProvider $provider)
 	{
 		$documentConnector = $this->getMockBuilder(\arConnector::class)->getMock();
 		$criterionConnector = $this->getMockBuilder(\arConnector::class)->getMock();
