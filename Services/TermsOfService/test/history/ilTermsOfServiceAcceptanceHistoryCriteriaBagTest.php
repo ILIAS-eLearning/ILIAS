@@ -127,7 +127,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 	/**
 	 * @expectedException \ilTermsOfServiceUnexpectedCriteriaBagContentException
 	 */
-	public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnImport()
+	public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport()
 	{
 		$configCrit1 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
@@ -152,7 +152,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 	/**
 	 *
 	 */
-	public function testImportWorksAsExpected()
+	public function testCriteriaImportFromJsonStringWorksAsExpected()
 	{
 		$bag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag();
 		$bag->fromJson('[{"id":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]');

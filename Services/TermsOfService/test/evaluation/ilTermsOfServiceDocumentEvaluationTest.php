@@ -10,7 +10,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	/**
 	 * 
 	 */
-	public function testNoDocumentIsFoundIfNoDocumentIsProvidedAtAll()
+	public function testAskingEvaluatorForDocumentExistenceIfNoDocumentExistAtAllResultsInANegativeAnswer()
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
@@ -27,7 +27,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	/**
 	 * @expectedException \ilTermsOfServiceNoSignableDocumentFoundException
 	 */
-	public function testExceptionIsRaisedIfADocumentIsRequestedAndNotDocumentExistsAtAll()
+	public function testExceptionIsRaisedIfADocumentIsRequestedFromEvaluatorAndNoDocumentExistsAtAll()
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
@@ -46,7 +46,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	/**
 	 *
 	 */
-	public function testFirstDocumentIsReturnedIfFirstDocumentMatchesCriteria()
+	public function testFirstDocumentIsReturnedIfEvaluationOfFirstDocumentSucceeded()
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
@@ -74,7 +74,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	/**
 	 *
 	 */
-	public function testFirstMatchingDocumentIsReturnedIfOnlyOneDocumentMatches()
+	public function testDocumentOnArbitraryPositionIsReturnedMatchingFirstDocumentWithASucceededEvaluation()
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
@@ -118,7 +118,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	/**
 	 *
 	 */
-	public function testFirstMatchingDocumentIsReturnedIfMultipleDocumentsMatch()
+	public function testFirstMatchingDocumentIsReturnedIfEvaluationOfMultipleDocumentsSucceeded()
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
