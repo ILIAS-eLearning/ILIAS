@@ -96,6 +96,9 @@ class ilTemplate extends HTML_Template_ITX
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
+
+		// Option for baseclass HTML_Template_IT  
+		$this->setOption('use_preg', false);
 		
 		return true;
 	}
