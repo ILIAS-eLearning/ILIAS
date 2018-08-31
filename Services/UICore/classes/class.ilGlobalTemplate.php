@@ -12,9 +12,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 */
 class ilGlobalTemplate
 {
-
-	var $css_files = array();		// list of css files that should be included
-	var $inline_css = array();
 	
 
 	
@@ -567,6 +564,161 @@ class ilGlobalTemplate
 
 	//***********************************
 	//
+	// CSS files and code
+	//
+	//***********************************
+
+	/**
+	 * Stores CSS-files to be included.
+	 * @var array
+	 */
+	protected $css_files = array();
+
+	/**
+	 * Stores CSS to be included directly.
+	 * array
+	 */
+	protected $inline_css = array();
+
+	/**
+	 * Add a css file that should be included in the header.
+	 */
+	public function addCss($a_css_file, $media = "screen")
+	{
+		if (!array_key_exists($a_css_file . $media, $this->css_files))
+		{
+			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
+		}
+	}
+
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilDclRecordEditGUI
+	//    - ilObjStyleSheetGUI
+	/**
+	 * Add a css file that should be included in the header.
+	 */
+	public function addInlineCss($a_css, $media = "screen")
+	{
+		$this->inline_css[] = array("css" => $a_css, "media" => $media);
+	}
+
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - ilSAHSPresentationGUI
+	public function setStyleSheetLocation($a_stylesheet)
+	{
+		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
+	}
+
+	// PRIVATE CANDIDATE
+	// Usage locations:
+	//    - ilPageObjectGUI
+	//	  - ilDclDetailedViewGUI
+	//    - ilStartUpGUI
+	//    - ilLMPresentationGUI
+	/**
+	 * Fill in the css file tags
+	 *
+	 * @param boolean $a_force
+	 */
+	public function fillCssFiles($a_force = false)
+	{
+		if (!$this->blockExists("css_file"))
+		{
+			return;
+		}
+		foreach($this->css_files as $css)
+		{
+			$filename = $css["file"];
+			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
+			if (is_file($filename) || $a_force)
+			{
+				$this->setCurrentBlock("css_file");
+				$this->setVariable("CSS_FILE", $css["file"]);
+				$this->setVariable("CSS_MEDIA", $css["media"]);
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
+	// REMOVAL CANDIDATE:
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - ilObjMediaPoolGUI
+	//    - ilAttendanceList
+	//    - ilObjPortfolioGUI
+	//    - ilSCORM2004ScoGUI
+	//    - ilTestSubmissionReviewGUI
+	//    - ilTestPlayerAbstractGUI
+	//    - ilAssQuestionHintRequestGUI
+	//    - ilWorkspaceFolderExplorer
+	public function setBodyClass($a_class = "")
+	{
+		$this->body_class = $a_class;
+	}
+
+	// PRIVATE CANDIDATE:
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	public function fillBodyClass()
+	{
+		if ($this->body_class != "" && $this->blockExists("body_class"))
+		{
+			$this->setCurrentBlock("body_class");
+			$this->setVariable("BODY_CLASS", $this->body_class);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	// REMOVAL CANDIDATE:
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	/**
+	 * Reset css files
+	 *
+	 * @param
+	 * @return
+	 */
+	public function resetCss()
+	{
+		$this->css_files = array();
+	}
+
+	/**
+	 * Fill in the inline css
+	 *
+	 * @param boolean $a_force
+	 */
+	private function fillInlineCss()
+	{
+		if (!$this->blockExists("css_inline"))
+		{
+			return;
+		}
+		foreach($this->inline_css as $css)
+		{
+			$this->setCurrentBlock("css_file");
+			$this->setVariable("CSS_INLINE", $css["css"]);
+			$this->parseCurrentBlock();
+		}
+	}
+
+	/**
+	 * Fill Content Style
+	 */
+	private function fillNewContentStyle()
+	{
+		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
+			'<link rel="stylesheet" type="text/css" href="'.
+			ilUtil::getNewContentStyleSheetLocation()
+			.'" />');
+	}
+
+
+	//***********************************
+	//
 	// ILIAS STANDARD TEMPLATE
 	// which is responsible for the look
 	// i.e. a title, tabs, ...
@@ -1077,73 +1229,6 @@ class ilGlobalTemplate
 		}
 	}
 
-
-
-
-	/**
-	 * Fill in the css file tags
-	 * 
-	 * @param boolean $a_force
-	 */
-	public function fillCssFiles($a_force = false)
-	{
-		if (!$this->blockExists("css_file"))
-		{
-			return;
-		}
-		foreach($this->css_files as $css)
-		{
-			$filename = $css["file"];
-			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
-			if (is_file($filename) || $a_force)
-			{
-				$this->setCurrentBlock("css_file");
-				$this->setVariable("CSS_FILE", $css["file"]);
-				$this->setVariable("CSS_MEDIA", $css["media"]);
-				$this->parseCurrentBlock();
-			}
-		}
-	}
-
-	/**
-	 * Fill in the inline css
-	 *
-	 * @param boolean $a_force
-	 */
-	private function fillInlineCss()
-	{
-		if (!$this->blockExists("css_inline"))
-		{
-			return;
-		}
-		foreach($this->inline_css as $css)
-		{
-			$this->setCurrentBlock("css_file");
-			$this->setVariable("CSS_INLINE", $css["css"]);
-			$this->parseCurrentBlock();
-		}
-	}
-
-	public function setStyleSheetLocation($a_stylesheet)
-	{
-		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
-	}
-
-	public function setBodyClass($a_class = "")
-	{
-		$this->body_class = $a_class;
-	}
-	
-	public function fillBodyClass()
-	{
-		if ($this->body_class != "" && $this->blockExists("body_class"))
-		{
-			$this->setCurrentBlock("body_class");
-			$this->setVariable("BODY_CLASS", $this->body_class);
-			$this->parseCurrentBlock();
-		}
-	}
-
 	public function setPageFormAction($a_action)
 	{
 		$this->page_form_action = $a_action;
@@ -1457,16 +1542,6 @@ class ilGlobalTemplate
 	}
 
 
-	/**
-	* Fill Content Style
-	*/
-	private function fillNewContentStyle()
-	{
-		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
-			'<link rel="stylesheet" type="text/css" href="'.
-			ilUtil::getNewContentStyleSheetLocation()
-			.'" />');
-	}
 	
 	private function getMainMenu()
 	{
@@ -1675,35 +1750,6 @@ class ilGlobalTemplate
 		$this->tree_flat_mode = $a_mode;
 	}
 	
-	/**
-	 * Reset css files
-	 *
-	 * @param
-	 * @return
-	 */
-	public function resetCss()
-	{
-		$this->css_files = array();
-	}
-	
-	/**
-	 * Add a css file that should be included in the header.
-	 */
-	public function addCss($a_css_file, $media = "screen")
-	{
-		if (!array_key_exists($a_css_file . $media, $this->css_files))
-		{
-			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
-		}
-	}
-
-	/**
-	 * Add a css file that should be included in the header.
-	 */
-	public function addInlineCss($a_css, $media = "screen")
-	{
-		$this->inline_css[] = array("css" => $a_css, "media" => $media);
-	}
 	
 	/**
 	 * Add lightbox html
