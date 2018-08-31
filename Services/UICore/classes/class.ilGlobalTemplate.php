@@ -264,6 +264,64 @@ class ilGlobalTemplate
 
 	//***********************************
 	//
+	// MAIN MENU
+	//
+	//***********************************
+
+	/**
+	 * @var string
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var string
+	 */
+	protected $main_menu_spacer;
+
+	private function getMainMenu()
+	{
+		global $DIC;
+
+		$ilMainMenu = $DIC["ilMainMenu"];
+
+		if($this->variableExists('MAINMENU'))
+		{
+			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+			$this->main_menu = $ilMainMenu->getHTML();
+			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
+		}
+	}
+
+	private function fillMainMenu()
+	{
+		global $DIC;
+		$tpl = $DIC["tpl"];
+		if($this->variableExists('MAINMENU'))
+		{
+			$tpl->setVariable("MAINMENU", $this->main_menu);
+			$tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
+		}
+	}
+
+
+	//***********************************
+	//
+	// HELP
+	//
+	//***********************************
+
+	/**
+	 * Init help
+	 */
+	private function initHelp()
+	{
+		include_once("./Services/Help/classes/class.ilHelpGUI.php");
+		ilHelpGUI::initHelp($this);
+	}
+
+
+	//***********************************
+	//
 	// MESSAGES
 	//
 	// setMessage is only used in ilUtil
@@ -823,6 +881,39 @@ class ilGlobalTemplate
 		$this->setAlertProperties(array());
 	}
 
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilCalendarPresentationGUI
+	//    - ilContainerGUI
+	//    - ilObjDataCollectionGUI
+	//    - ilPersonalDesktopGUI
+	//    - ilObjPortfolioTemplateGUI
+	//    - ilWikiPageGUI
+	//    - ilObjWikiGUI
+	/**
+	 * Set header action menu
+	 *
+	 * @param string $a_gui $a_header
+	 */
+	public function setHeaderActionMenu($a_header)
+	{
+		$this->header_action = $a_header;
+	}
+
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - ilObjLanguageExtGUI
+	//    - ilTestServiceGUI
+	//    - ilWikiPageGUI
+	/**
+	 * Sets the title of the page (for browser window).
+	 */
+	public function setHeaderPageTitle($a_title)
+	{
+		$this->header_page_title = $a_title;
+	}
+
 	/**
 	* Fill header
 	*/
@@ -973,7 +1064,7 @@ class ilGlobalTemplate
 
 	//***********************************
 	//
-	// TABS
+	// TABS in standard template
 	//
 	//***********************************
 
@@ -1165,10 +1256,35 @@ class ilGlobalTemplate
 		}
 	}
 
+
+	//***********************************
+	//
+	// TOOLBAR in standard template
+	//
+	//***********************************
+
+	private function fillToolbar()
+	{
+		global $DIC;
+
+		$ilToolbar = $DIC["ilToolbar"];;
+
+		$thtml = $ilToolbar->getHTML();
+		if ($thtml != "")
+		{
+			$this->setCurrentBlock("toolbar_buttons");
+			$this->setVariable("BUTTONS", $thtml);
+			$this->parseCurrentBlock();
+		}
+	}
+
 	// SPECIAL REQUIREMENTS
 	//
 	// Stuff that is only used by a little other classes.
 
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
 	/**
 	 * Add current user language to meta tags
 	 *
@@ -1205,6 +1321,10 @@ class ilGlobalTemplate
 		return true;	 	
 	}
 
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - ilLMEditorGUI
 	public function fillWindowTitle()
 	{
 		global $DIC;
@@ -1229,29 +1349,34 @@ class ilGlobalTemplate
 		}
 	}
 
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLuceneAdvancedSearchGUI
+	//    - ilLuceneSearchGUI
+	//    - ilContainerGUI
 	public function setPageFormAction($a_action)
 	{
 		$this->page_form_action = $a_action;
 	}
 
-	/**
-	 * Set header action menu
-	 *
-	 * @param string $a_gui $a_header
-	 */
-	public function setHeaderActionMenu($a_header)
+	private function fillPageFormAction()
 	{
-		$this->header_action = $a_header;
+		if ($this->page_form_action != "")
+		{
+			$this->setCurrentBlock("page_form_start");
+			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
+			$this->parseCurrentBlock();
+			$this->touchBlock("page_form_end");
+		}
 	}
 
-	/**
-	 * Sets the title of the page (for browser window).
-	 */
-	public function setHeaderPageTitle($a_title)
-	{
-		$this->header_page_title = $a_title;
-	}
 
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilBlogPostingGUI
+	//    - ilObjForumGUI
+	//    - ilObjPortfolioBaseGUI
+	//    - ilWikiPageGUI
 	/**
 	 * Set target parameter for login (public sector).
 	 * This is used by the main menu
@@ -1261,6 +1386,30 @@ class ilGlobalTemplate
 		$this->login_target_par = $a_val;
 	}
 
+	/**
+	 * Get target parameter for login
+	 */
+	private function getLoginTargetPar()
+	{
+		return $this->login_target_par;
+	}
+
+
+	// REMOVAL CANDIDATE:
+	// Usage locations:
+	//    - ilLPListOfObjectsGUI
+	//	  - ilExport
+	//    - ilLMEditorGUI
+	//    - ilObjPortfolioGUI
+	//    - ilPortfolioHTMLExport
+	//    - ilForumExportGUI
+	//    - ilObjWikiGUI.php
+	//    - ilWikiHTMLExport
+	//    - ilScormSpecialPagesTableGUI
+	//    - ilObjBlogGUI
+	//
+	// Also this seems to be somehow similar to the stuff going on in printToStdout.
+	// Maybe we could unify them.
 	/**
 	 * @param	string
 	 * @return	string
@@ -1515,69 +1664,6 @@ class ilGlobalTemplate
 		}
 	}
 
-	private function fillToolbar()
-	{
-		global $DIC;
-
-		$ilToolbar = $DIC["ilToolbar"];;
-
-		$thtml = $ilToolbar->getHTML();
-		if ($thtml != "")
-		{
-			$this->setCurrentBlock("toolbar_buttons");
-			$this->setVariable("BUTTONS", $thtml);
-			$this->parseCurrentBlock();
-		}
-	}
-
-	private function fillPageFormAction()
-	{
-		if ($this->page_form_action != "")
-		{
-			$this->setCurrentBlock("page_form_start");
-			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
-			$this->parseCurrentBlock();
-			$this->touchBlock("page_form_end");
-		}
-	}
-
-
-	
-	private function getMainMenu()
-	{
-		global $DIC;
-
-		$ilMainMenu = $DIC["ilMainMenu"];
-
-		if($this->variableExists('MAINMENU'))
-		{
-			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-			$this->main_menu = $ilMainMenu->getHTML();
-			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-		}
-	}
-	
-	private function fillMainMenu()
-	{
-		global $DIC;
-		$tpl = $DIC["tpl"];
-		if($this->variableExists('MAINMENU'))
-		{
-			$tpl->setVariable("MAINMENU", $this->main_menu);
-			$tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-		}
-	}
-
-	/**
-	 * Init help
-	 */
-	private function initHelp()
-	{
-		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initHelp($this);
-	}
-	
-
 
 	/**
 	* TODO: this is nice, but shouldn't be done here
@@ -1657,13 +1743,6 @@ class ilGlobalTemplate
 		}
 	}
 
-	/**
-	 * Get target parameter for login
-	 */
-	private function getLoginTargetPar()
-	{
-		return $this->login_target_par;
-	}
 
 	/**
 	* Accessibility focus for screen readers
