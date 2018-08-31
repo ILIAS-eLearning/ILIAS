@@ -648,6 +648,16 @@ class ilGlobalTemplate
 	//***********************************
 
 	/**
+	 * @var	string
+	 */
+	protected $tabs_html = "";
+
+	/**
+	 * @var string
+	 */
+	protected $sub_tabs_html = "";
+
+	/**
 	* sets tabs in standard template
 	*/
 	public function setTabs($a_tabs_html)
@@ -683,11 +693,11 @@ class ilGlobalTemplate
 			$this->touchBlock("tabs_inner_start");
 			$this->touchBlock("tabs_inner_end");
 
-			if ($this->thtml != "")
+			if ($this->tabs_html != "")
 			{
-				$this->setVariable("TABS",$this->thtml);
+				$this->setVariable("TABS",$this->tabs_html);
 			}
-			$this->setVariable("SUB_TABS", $this->sthtml);
+			$this->setVariable("SUB_TABS", $this->sub_tabs_html);
 		}
 	}
 
@@ -699,8 +709,8 @@ class ilGlobalTemplate
 
 		if ($this->blockExists("tabs_outer_start"))
 		{
-			$this->sthtml = $ilTabs->getSubTabHTML();
-			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+			$this->sub_tabs_html = $ilTabs->getSubTabHTML();
+			$this->tabs_html = $ilTabs->getHTML(true);
 		}
 	}
 
