@@ -68,8 +68,6 @@ class ilTemplate extends HTML_Template_ITX
 	public function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
-		global $DIC;
-
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		
@@ -82,14 +80,8 @@ class ilTemplate extends HTML_Template_ITX
 		$this->tplPath = dirname($fname);
 		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
 		
-		if (!file_exists($fname))
-		{
-			if (isset($DIC["ilErr"]))
-			{
-				$ilErr = $DIC["ilErr"];
-				$ilErr->raiseError("template " . $fname . " was not found.", $ilErr->FATAL);
-			}
-			return false;
+		if (!file_exists($fname)) {
+			throw new \LogicException("Template '$fname' was not found.");
 		}
 
 		parent::__construct();
