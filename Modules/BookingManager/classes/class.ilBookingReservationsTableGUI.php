@@ -432,7 +432,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			}
 			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-			$data = ilAdvancedMDValues::queryForRecords($this->pool_id, "bobj", $data, "pool_id", "object_id", $this->record_gui->getFilterElements());
+			$data = ilAdvancedMDValues::queryForRecords(
+				$this->ref_id, "book", "bobj",
+				$this->pool_id, "bobj", $data, "pool_id", "object_id", $this->record_gui->getFilterElements());
 		}
 		
 		$this->setData($data);

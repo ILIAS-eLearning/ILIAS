@@ -44,6 +44,11 @@ class ilGlossaryTermGUI
 	protected $log;
 
 	/**
+	 * @var ilObjGlossary|null
+	 */
+	protected $term_glossary = null;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -65,11 +70,20 @@ class ilGlossaryTermGUI
 
 		$this->log = ilLoggerFactory::getLogger('glo');
 
+		$this->ref_id = $_GET["ref_id"];
+
 		if($a_id != 0)
 		{
 			$this->term = new ilGlossaryTerm($a_id);
 			require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-			$this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($a_id), false);
+			if (ilObject::_lookupObjectId($this->ref_id) == ilGlossaryTerm::_lookGlossaryID($a_id))
+			{
+				$this->term_glossary = new ilObjGlossary($this->ref_id, true);
+			}
+			else
+			{
+				$this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($a_id), false);
+			}
 		}
 	}
 
@@ -104,7 +118,7 @@ class ilGlossaryTermGUI
 				$this->setTabs();
 				$ilTabs->activateTab('meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI(new ilObjGlossary($this->term->getGlossaryId(), false), 
+				$md_gui = new ilObjectMetaDataGUI($this->term_glossary,
 					'term', $this->term->getId());	
 				$this->ctrl->forwardCommand($md_gui);
 				$this->quickList();
@@ -713,7 +727,7 @@ class ilGlossaryTermGUI
 				$this->ctrl->getLinkTarget($this, "listUsages"));
 			
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI(new ilObjGlossary($this->term->getGlossaryId(), false), 
+			$mdgui = new ilObjectMetaDataGUI($this->term_glossary,
 				"term", $this->term->getId());					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
