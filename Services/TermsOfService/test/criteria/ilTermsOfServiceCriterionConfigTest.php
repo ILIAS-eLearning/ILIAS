@@ -29,7 +29,7 @@ class ilTermsOfServiceCriterionConfigTest extends \ilTermsOfServiceCriterionBase
 	/**
 	 *
 	 */
-	public function testConfigCanBePassedAsJsonAndJson()
+	public function testConfigCanBePassedAsJson()
 	{
 		$actualKey = 'phpunit';
 		$actualValue = 'rulz';
