@@ -13,9 +13,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 class ilGlobalTemplate
 {
 
-	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
-	var $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);	// version parameter flag
-	var $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 	var $inline_css = array();
 	
@@ -52,23 +49,6 @@ class ilGlobalTemplate
 		$this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
 	}
 
-	/**
-	 * @param string $file
-	 * @param string $vers
-	 */
-	protected function fillJavascriptFile($file, $vers)
-	{
-		$this->setCurrentBlock("js_file");
-		if($this->js_files_vp[$file])
-		{
-			$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file, $vers));
-		}
-		else
-		{
-			$this->setVariable("JS_FILE", $file);
-		}
-		$this->parseCurrentBlock();
-	}
 
 	//***********************************
 	//
@@ -386,6 +366,204 @@ class ilGlobalTemplate
 
 		return $txt;
 	}
+
+	//***********************************
+	//
+	// JAVASCRIPT files and code
+	//
+	//***********************************
+
+	/**
+	 * List of JS-Files that should be included.
+	 * @var array<int,string>
+	 */
+	protected $js_files = array(0 => "./Services/JavaScript/js/Basic.js");
+
+	/**
+	 * Stores if a version parameter should be appended to the js-file to force reloading.
+	 * @var array<string,bool>
+	 */
+	protected $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);
+
+	/**
+	 * Stores the order in which js-files should be included.
+	 * @var array<string,int>
+	 */
+	protected $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);
+
+	/**
+	 * Add a javascript file that should be included in the header.
+	 */
+	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
+	{
+		// three batches currently
+		if ($a_batch < 1 || $a_batch > 3)
+		{
+			$a_batch = 2;
+		}
+
+		// ensure jquery files being loaded first
+		if (is_int(strpos($a_js_file, "Services/jQuery")) ||
+			is_int(strpos($a_js_file, "/jquery.js")) ||
+			is_int(strpos($a_js_file, "/jquery-min.js")))
+		{
+			$a_batch = 0;
+		}
+
+		if (!in_array($a_js_file, $this->js_files))
+		{
+			$this->js_files[] = $a_js_file;
+			$this->js_files_vp[$a_js_file] = $a_add_version_parameter;
+			$this->js_files_batch[$a_js_file] = $a_batch;
+		}
+	}
+
+	/**
+	 * Add on load code
+	 */
+	public function addOnLoadCode($a_code, $a_batch = 2)
+	{
+		// three batches currently
+		if ($a_batch < 1 || $a_batch > 3)
+		{
+			$a_batch = 2;
+		}
+		$this->on_load_code[$a_batch][] = $a_code;
+	}
+
+	/**
+	 * Get js onload code for ajax calls
+	 *
+	 * @return string
+	 */
+	public function getOnLoadCodeForAsynch()
+	{
+		$js = "";
+		for ($i = 1; $i <= 3; $i++)
+		{
+			if (is_array($this->on_load_code[$i]))
+			{
+				foreach ($this->on_load_code[$i] as $code)
+				{
+					$js .= $code."\n";
+				}
+			}
+		}
+		if($js)
+		{
+			return '<script type="text/javascript">'."\n".
+				$js.
+				'</script>'."\n";
+		}
+	}
+
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - latex.php
+	/**
+	 * Reset javascript files
+	 */
+	public function resetJavascript()
+	{
+		$this->js_files = array();
+		$this->js_files_vp = array();
+		$this->js_files_batch = array();
+	}
+
+	// PRIVATE CANDIDATE
+	// Usage locations:
+	//    - ilPageObjectGUI
+	//    - ilStartUpGUI
+	//    - ilLMPresentationGUI
+	//    - ilObjPortfolioGUI
+	//    - latex.php
+	public function fillJavaScriptFiles($a_force = false)
+	{
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		if (is_object($ilSetting))		// maybe this one can be removed
+		{
+			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+
+			if(DEVMODE)
+			{
+				$vers .= '-'.time();
+			}
+		}
+		if ($this->blockExists("js_file"))
+		{
+			// three batches
+			for ($i=0; $i<=3; $i++)
+			{
+				reset($this->js_files);
+				foreach($this->js_files as $file)
+				{
+					if ($this->js_files_batch[$file] == $i)
+					{
+						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
+						{
+							$this->fillJavascriptFile($file, $vers);
+						}
+						else if(substr($file, 0, 2) == './') // #13962
+						{
+							$url_parts = parse_url($file);
+							if(is_file($url_parts['path']))
+							{
+								$this->fillJavascriptFile($file, $vers);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	/**
+	 * Fill add on load code
+	 */
+	public function fillOnLoadCode()
+	{
+		for ($i = 1; $i <= 3; $i++)
+		{
+			if (is_array($this->on_load_code[$i]))
+			{
+				$this->setCurrentBlock("on_load_code");
+				foreach ($this->on_load_code[$i] as $code)
+				{
+					$this->setCurrentBlock("on_load_code_inner");
+					$this->setVariable("OLCODE", $code);
+					$this->parseCurrentBlock();
+				}
+				$this->setCurrentBlock("on_load_code");
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
+	/**
+	 * @param string $file
+	 * @param string $vers
+	 */
+	protected function fillJavascriptFile($file, $vers)
+	{
+		$this->setCurrentBlock("js_file");
+		if($this->js_files_vp[$file])
+		{
+			$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file, $vers));
+		}
+		else
+		{
+			$this->setVariable("JS_FILE", $file);
+		}
+		$this->parseCurrentBlock();
+	}
+
 
 	//***********************************
 	//
@@ -901,48 +1079,6 @@ class ilGlobalTemplate
 
 
 
-	public function fillJavaScriptFiles($a_force = false)
-	{
-		global $DIC;
-
-		$ilSetting = $DIC->settings();
-
-		if (is_object($ilSetting))		// maybe this one can be removed
-		{
-			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
-			
-			if(DEVMODE)
-			{
-				$vers .= '-'.time();
-			}
-		}
-		if ($this->blockExists("js_file"))
-		{
-			// three batches
-			for ($i=0; $i<=3; $i++)
-			{
-				reset($this->js_files);
-				foreach($this->js_files as $file)
-				{
-					if ($this->js_files_batch[$file] == $i)
-					{
-						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
-						{
-							$this->fillJavascriptFile($file, $vers);							
-						}
-						else if(substr($file, 0, 2) == './') // #13962
-						{
-							$url_parts = parse_url($file);
-							if(is_file($url_parts['path']))
-							{
-								$this->fillJavascriptFile($file, $vers);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Fill in the css file tags
@@ -1538,43 +1674,6 @@ class ilGlobalTemplate
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
 	}
-
-	/**
-	* Add a javascript file that should be included in the header.
-	*/
-	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
-	{
-		// three batches currently
-		if ($a_batch < 1 || $a_batch > 3)
-		{
-			$a_batch = 2;
-		}
-
-		// ensure jquery files being loaded first
-		if (is_int(strpos($a_js_file, "Services/jQuery")) ||
-			is_int(strpos($a_js_file, "/jquery.js")) ||
-			is_int(strpos($a_js_file, "/jquery-min.js")))
-		{
-			$a_batch = 0;
-		}
-
-		if (!in_array($a_js_file, $this->js_files))
-		{
-			$this->js_files[] = $a_js_file;
-			$this->js_files_vp[$a_js_file] = $a_add_version_parameter;
-			$this->js_files_batch[$a_js_file] = $a_batch;
-		}
-	}
-
-	/**
-	 * Reset javascript files
-	 */
-	public function resetJavascript()
-	{
-		$this->js_files = array();
-		$this->js_files_vp = array();
-		$this->js_files_batch = array();
-	}
 	
 	/**
 	 * Reset css files
@@ -1585,20 +1684,6 @@ class ilGlobalTemplate
 	public function resetCss()
 	{
 		$this->css_files = array();
-	}
-	
-	
-	/**
-	* Add on load code
-	*/
-	public function addOnLoadCode($a_code, $a_batch = 2)
-	{
-		// three batches currently
-		if ($a_batch < 1 || $a_batch > 3)
-		{
-			$a_batch = 2;
-		}
-		$this->on_load_code[$a_batch][] = $a_code;
 	}
 	
 	/**
@@ -1747,53 +1832,7 @@ class ilGlobalTemplate
 		}
 	}
 
-	/**
-	* Fill add on load code
-	*/
-	public function fillOnLoadCode()
-	{
-		for ($i = 1; $i <= 3; $i++)
-		{
-			if (is_array($this->on_load_code[$i]))
-			{
-				$this->setCurrentBlock("on_load_code");
-				foreach ($this->on_load_code[$i] as $code)
-				{
-					$this->setCurrentBlock("on_load_code_inner");
-					$this->setVariable("OLCODE", $code);
-					$this->parseCurrentBlock();
-				}
-				$this->setCurrentBlock("on_load_code");
-				$this->parseCurrentBlock();
-			}
-		}
-	}
 	
-	/**
-	 * Get js onload code for ajax calls
-	 * 
-	 * @return string
-	 */
-	public function getOnLoadCodeForAsynch()
-	{
-		$js = "";
-		for ($i = 1; $i <= 3; $i++)
-		{
-			if (is_array($this->on_load_code[$i]))
-			{
-				foreach ($this->on_load_code[$i] as $code)
-				{
-					$js .= $code."\n";
-				}
-			}
-		}		
-		if($js)
-		{
-			return '<script type="text/javascript">'."\n".
-				$js.
-				'</script>'."\n";
-		}
-	}
 	
 	public function setBackgroundColor($a_bg_color)
 	{
