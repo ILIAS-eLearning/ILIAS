@@ -10,7 +10,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilGlobalTemplate extends HTML_Template_ITX
+class ilGlobalTemplate
 {
 	const MESSAGE_TYPE_FAILURE = 'failure';
 	const MESSAGE_TYPE_INFO = "info";
@@ -26,20 +26,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		self::MESSAGE_TYPE_QUESTION,
 	);
 
-	/**
-	* variablen die immer in jedem block ersetzt werden sollen
-	* @var	array
-	*/
-	var $vars;
-
-	/**
-	* Aktueller Block
-	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
-	* vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
-	* @var	string
-	*/
-	var $activeBlock;
-	
 	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);	// version parameter flag
 	var $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
@@ -47,7 +33,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	var $inline_css = array();
 	
 
-	protected static $il_cache = array();
 	protected $message = array();
 	
 	protected $tree_flat_link = "";
@@ -61,6 +46,11 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
 	/**
+	 * @var	\ilTemplate
+	 */
+	protected $template;
+
+	/**
 	* constructor
 	* @param	string	$file 		templatefile (mit oder ohne pfad)
 	* @param	boolean	$flag1 		remove unknown variables
@@ -72,44 +62,8 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	public function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
-		global $DIC;
-
-		$this->activeBlock = "__global__";
-		$this->vars = array();
-		$this->addFooter = TRUE;
-		
-		$this->il_use_cache = $a_use_cache;
-		$this->il_cur_key = $file."/".$in_module;
-
-		$fname = $this->getTemplatePath($file, $in_module, $plugin);
-
-		$this->tplName = basename($fname);
-		$this->tplPath = dirname($fname);
-		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
-		
-		if (!file_exists($fname))
-		{
-			if (isset($DIC["ilErr"]))
-			{
-				$ilErr = $DIC["ilErr"];
-				$ilErr->raiseError("template " . $fname . " was not found.", $ilErr->FATAL);
-			}
-			return false;
-		}
-
-		parent::__construct();
-		$this->loadTemplatefile($fname, $flag1, $flag2);
-		//add tplPath to replacevars
-		$this->vars["TPLPATH"] = $this->tplPath;
-		
-		// set Options
-		if (method_exists($this, "setOption"))
-		{
-			$this->setOption('use_preg', false);
-		}
 		$this->setBodyClass("std");
-
-		return true;
+		$this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
 	}
 
 	/**
@@ -129,52 +83,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		}
 		$this->parseCurrentBlock();
 	}
-
-	// overwrite their init function
-    protected function init()
-    {
-        $this->free();
-        $this->buildFunctionlist();
-        
-        $cache_hit = false;
-        if ($this->il_use_cache)
-        {
-        	// cache hit
-        	if (isset(self::$il_cache[$this->il_cur_key]) && is_array(self::$il_cache[$this->il_cur_key]))
-        	{
-        		$cache_hit = true;
-//echo "cache hit";
-        		$this->err = self::$il_cache[$this->il_cur_key]["err"];
-        		$this->flagBlocktrouble = self::$il_cache[$this->il_cur_key]["flagBlocktrouble"];
-        		$this->blocklist = self::$il_cache[$this->il_cur_key]["blocklist"];
-        		$this->blockdata = self::$il_cache[$this->il_cur_key]["blockdata"];
-        		$this->blockinner = self::$il_cache[$this->il_cur_key]["blockinner"];
-        		$this->blockparents = self::$il_cache[$this->il_cur_key]["blockparents"];
-        		$this->blockvariables = self::$il_cache[$this->il_cur_key]["blockvariables"];
-        	}
-        }
-        
-		if (!$cache_hit)
-		{
-			$this->findBlocks($this->template);
-			$this->template = '';
-			$this->buildBlockvariablelist();
-	        if ($this->il_use_cache)
-	        {
-        		self::$il_cache[$this->il_cur_key]["err"] = $this->err;
-        		self::$il_cache[$this->il_cur_key]["flagBlocktrouble"] = $this->flagBlocktrouble;
-        		self::$il_cache[$this->il_cur_key]["blocklist"] = $this->blocklist;
-        		self::$il_cache[$this->il_cur_key]["blockdata"] = $this->blockdata;
-        		self::$il_cache[$this->il_cur_key]["blockinner"] = $this->blockinner;
-        		self::$il_cache[$this->il_cur_key]["blockparents"] = $this->blockparents;
-        		self::$il_cache[$this->il_cur_key]["blockvariables"] = $this->blockvariables;
-	        }
-		}
-		
-        // we don't need it any more
-        $this->template = '';
-
-    } // end func init
 
 	// FOOTER
 	//
@@ -994,18 +902,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
 	}
 
-	/**
-	* check if block exists in actual template
-	* @access	private
-	* @param string blockname
-	* @return	boolean
-	*/
-	public function blockExists($a_blockname)
-	{
-		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
-		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
-	}
-
 	public function setBodyClass($a_class = "")
 	{
 		$this->body_class = $a_class;
@@ -1052,10 +948,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 	{
 		$this->login_target_par = $a_val;
 	}
-
-	// TEMPLATING AND GLOBAL RENDERING
-	//
-	// used in a lot of places
 
 	/**
 	 * @param	string
@@ -1149,70 +1041,17 @@ class ilGlobalTemplate extends HTML_Template_ITX
 
 		if ($part == "DEFAULT")
 		{
-			$html = parent::get();
+			$html = $this->template->get();
 		}
 		else
 		{
-			$html = parent::get($part);
-		}
-
-		// include the template output hook
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-			
-			$resp = $gui_class->getHTML("", "template_get", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$html = $gui_class->modifyHTML($html, $resp);
-			}
+			$html = $this->template->get($part);
 		}
 
 		// fix #9992: save language usages as late as possible
 		if ($this->translation_linked)
 		{
 			ilObjLanguageAccess::_saveUsages();
-		}
-
-		return $html;
-	}
-
-	/**
-	 * @param	string
-	 * @return	string
-	 */
-	public function get($part = "DEFAULT") {
-		global $DIC;
-
-		if ($part == "DEFAULT")
-		{
-			$html = parent::get();
-		}
-		else
-		{
-			$html = parent::get($part);
-		}
-
-		// include the template output hook
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-
-			$resp = $gui_class->getHTML("", "template_get",
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$html = $gui_class->modifyHTML($html, $resp);
-			}
 		}
 
 		return $html;
@@ -1325,14 +1164,16 @@ class ilGlobalTemplate extends HTML_Template_ITX
 
 				if ($part == "DEFAULT" or is_bool($part))
 				{
-					$html = parent::get();
+					$html = $this->template->getUnmodified();
 				}
 				else
 				{
-					$html = parent::get($part);
+					$html = $this->template->getUnmodified($part);
 				}
 
-				// include the template output hook
+				// Modification of html is done inline here and can't be done
+				// by ilTemplate, because the "phase" is template_show in this
+				// case here.
 				$ilPluginAdmin = $DIC["ilPluginAdmin"];
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 				foreach ($pl_names as $pl)
@@ -1360,126 +1201,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 				$this->handleReferer();
 				break;
 		}
-	}
-
-	/**
-	* Überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
-	* @access	public
-	* @param	string
-	* @return	???
-	*/
-	public function setCurrentBlock ($part = "DEFAULT")
-	{
-		$this->activeBlock = $part;
-
-		if ($part == "DEFAULT")
-		{
-			return parent::setCurrentBlock();
-		}
-		else
-		{
-			return parent::setCurrentBlock($part);
-		}
-	}
-
-	/**
-	* overwrites ITX::touchBlock.
-	* @access	public
-	* @param	string
-	* @return	???
-	*/
-	public function touchBlock($block)
-	{
-		$this->setCurrentBlock($block);
-		$count = $this->fillVars();
-		$this->parseCurrentBlock();
-
-		if ($count == 0)
-		{
-			parent::touchBlock($block);
-		}
-	}
-
-	/**
-	* Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
-	* @access	public
-	* @param	string
-	* @return	string
-	*/
-	public function parseCurrentBlock($part = "DEFAULT")
-	{
-		// Hier erst noch ein replace aufrufen
-		if ($part != "DEFAULT")
-		{
-			$tmp = $this->activeBlock;
-			$this->activeBlock = $part;
-		}
-
-		if ($part != "DEFAULT")
-		{
-			$this->activeBlock = $tmp;
-		}
-
-		$this->fillVars();
-
-		$this->activeBlock = "__global__";
-
-		if ($part == "DEFAULT")
-		{
-			return parent::parseCurrentBlock();
-		}
-		else
-		{
-			return parent::parseCurrentBlock($part);
-		}
-	}
-
-	/**
-	* overwrites ITX::addBlockFile
-	* @access	public
-	* @param	string
-	* @param	string
-	* @param	string		$tplname		template name
-	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
-	* @return	boolean/string
-	*/
-	public function addBlockFile($var, $block, $tplname, $in_module = false)
-	{
-		global $DIC;
-
-		if (DEBUG)
-		{
-			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
-		}
-
-		$tplfile = $this->getTemplatePath($tplname, $in_module);
-		if (file_exists($tplfile) == false)
-		{
-			echo "<br/>Template '".$tplfile."' doesn't exist! aborting...";
-			return false;
-		}
-
-		$id = $this->getTemplateIdentifier($tplname, $in_module);
-		$template = $this->getFile($tplfile);
-
-		// include the template input hook
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-
-			$resp = $gui_class->getHTML("", "template_add",
-					array("tpl_id" => $id, "tpl_obj" => $this, "html" => $template));
-
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$template = $gui_class->modifyHTML($template, $resp);
-			}
-		}
-
-		return $this->addBlock($var, $block, $template);
 	}
 
 	/**
@@ -1650,229 +1371,6 @@ class ilGlobalTemplate extends HTML_Template_ITX
 			}
 
 			unset($_SESSION["error_post_vars"]);
-		}
-	}
-
-	private function variableExists($a_variablename)
-	{
-		return (isset($this->blockvariables["content"][$a_variablename]) ? true : false);
-	}
-
-	/**
-	* all template vars defined in $vars will be replaced automatically
-	* without setting and parsing them with setVariable & parseCurrentBlock
-	* @access	private
-	* @return	integer
-	*/
-	private function fillVars()
-	{
-		$count = 0;
-		reset($this->vars);
-
-		while(list($key, $val) = each($this->vars))
-		{
-			if (is_array($this->blockvariables[$this->activeBlock]))
-			{
-				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
-				{
-					$count++;
-
-					$this->setVariable($key, $val);
-				}
-			}
-		}
-		
-		return $count;
-	}
-
-	/**
-     * Reads a template file from the disk.
-     *
-	 * overwrites IT:loadTemplateFile to include the template input hook
-	 *
-     * @param    string      name of the template file
-     * @param    bool        how to handle unknown variables.
-     * @param    bool        how to handle empty blocks.
-     * @access   public
-     * @return   boolean    false on failure, otherwise true
-     * @see      $template, setTemplate(), $removeUnknownVariables,
-     *           $removeEmptyBlocks
-     */
-    public function loadTemplatefile( $filename,
-                               $removeUnknownVariables = true,
-                               $removeEmptyBlocks = true )
-    {
-    	global $DIC;
-
-    	// copied from IT:loadTemplateFile
-        $template = '';
-        if (!$this->flagCacheTemplatefile ||
-            $this->lastTemplatefile != $filename
-        ) {
-            $template = $this->getFile($filename);
-        }
-        $this->lastTemplatefile = $filename;
-		// copied.	
-        
-		// new code to include the template input hook:
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-			
-			$resp = $gui_class->getHTML("", "template_load", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $template));
-
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$template = $gui_class->modifyHTML($template, $resp);
-			}
-		}
-		// new.     
-        
-        // copied from IT:loadTemplateFile
-        return $template != '' ?
-                $this->setTemplate(
-                        $template,$removeUnknownVariables, $removeEmptyBlocks
-                    ) : false;
-        // copied.
-                    
-    }
-	
-
-	/**
-	* builds a full template path with template and module name
-	*
-	* @param	string		$a_tplname		template name
-	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
-	*
-	* @return	string		full template path
-	*/
-	protected function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
-	{
-		global $DIC;
-
-		$ilCtrl = null;
-		if (isset($DIC["ilCtrl"]))
-		{
-			$ilCtrl = $DIC->ctrl();
-		}
-		
-		$fname = "";
-		
-		// if baseClass functionality is used (ilias.php):
-		// get template directory from ilCtrl
-		if (!empty($_GET["baseClass"]) && $a_in_module === true)
-		{
-			$a_in_module = $ilCtrl->getModuleDir();
-		}
-
-		if (strpos($a_tplname,"/") === false)
-		{
-			$module_path = "";
-			
-			if ($a_in_module)
-			{
-				if ($a_in_module === true)
-				{
-					$module_path = ILIAS_MODULE."/";
-				}
-				else
-				{
-					$module_path = $a_in_module."/";
-				}
-			}
-
-			// use ilStyleDefinition instead of account to get the current skin
-			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
-			if (ilStyleDefinition::getCurrentSkin() != "default")
-			{
-				$fname = "./Customizing/global/skin/".
-					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
-			}
-
-			if($fname == "" || !file_exists($fname))
-			{
-				$fname = "./".$module_path."templates/default/".basename($a_tplname);
-			}
-		}
-		else if(strpos($a_tplname,"src/UI")===0)
-		{
-			if (class_exists("ilStyleDefinition") // for testing
-			&& ilStyleDefinition::getCurrentSkin() != "default")
-			{
-				$fname = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".str_replace("src/UI/templates/default","UI",$a_tplname);
-			}
-			if($fname == "" || !file_exists($fname))
-			{
-				$fname = $a_tplname;
-			}
-		}
-		else
-		{
-			$fname = $a_tplname;
-		}
-		
-		return $fname;
-	}
-	
-	/**
-	 * get a unique template identifier
-	 *
-	 * The identifier is common for default or customized skins
-	 * but distincts templates of different services with the same name.
-	 *
-	 * This is used by the UI plugin hook for template input/output
-	 * 
-	 * @param	string				$a_tplname		template name
-	 * @param	string				$in_module		Component, e.g. "Modules/Forum"
-	 * 			boolean				$in_module		or true, if component should be determined by ilCtrl
-	 *
-	 * @return	string				template identifier, e.g. "tpl.confirm.html"
-	 */
-	private function getTemplateIdentifier($a_tplname, $a_in_module = false)
-	{
-		global $DIC;
-
-		$ilCtrl = null;
-		if (isset($DIC["ilCtrl"]))
-		{
-			$ilCtrl = $DIC->ctrl();
-		}
-
-
-		// if baseClass functionality is used (ilias.php):
-		// get template directory from ilCtrl
-		if (!empty($_GET["baseClass"]) && $a_in_module === true)
-		{
-			$a_in_module = $ilCtrl->getModuleDir();
-		}
-
-		if (strpos($a_tplname,"/") === false)
-		{
-			if ($a_in_module)
-			{
-				if ($a_in_module === true)
-				{
-					$module_path = ILIAS_MODULE."/";
-				}
-				else
-				{
-					$module_path = $a_in_module."/";
-				}
-			}
-			else
-			{
-				$module_path = "";
-			}
-			
-			return $module_path.basename($a_tplname);
-		}
-		else
-		{
-			return $a_tplname;
 		}
 	}
 
@@ -2342,5 +1840,83 @@ class ilGlobalTemplate extends HTML_Template_ITX
 		}
 
 		return $txt;
+	}
+
+	// TEMPLATING AND GLOBAL RENDERING
+	//
+	// Forwards to ilTemplate-member.
+
+	/**
+	 * @param	string
+	 * @return	string
+	 */
+	public function get($part = "DEFAULT") {
+		return $this->template->get($part);
+	}
+
+	public function setVariable($variable, $value = '') {
+		return $this->template->setVariable($variable, $value);
+	}
+
+	private function variableExists($a_variablename)
+	{
+		return $this->template->variableExists($a_variablename);
+	}
+
+	/**
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
+	public function setCurrentBlock ($part = "DEFAULT")
+	{
+		return $this->template->setCurrentBlock($part);
+	}
+
+	/**
+	* overwrites ITX::touchBlock.
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
+	public function touchBlock($block)
+	{
+		return $this->template->touchBlock($block);
+	}
+
+	/**
+	* Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	public function parseCurrentBlock($part = "DEFAULT")
+	{
+		return $this->template->parseCurrentBlock($part);
+	}
+
+	/**
+	* overwrites ITX::addBlockFile
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	string		$tplname		template name
+	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
+	* @return	boolean/string
+	*/
+	public function addBlockFile($var, $block, $tplname, $in_module = false)
+	{
+		return $this->template->addBlockFile($var, $block, $tplname, $in_module);
+	}
+
+	/**
+	* check if block exists in actual template
+	* @access	private
+	* @param string blockname
+	* @return	boolean
+	*/
+	public function blockExists($a_blockname)
+	{
+		return $this->template->blockExists($a_blockname);
 	}
 }

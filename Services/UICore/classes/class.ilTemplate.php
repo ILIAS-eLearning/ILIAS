@@ -160,14 +160,7 @@ class ilTemplate extends HTML_Template_ITX
 	public function get($part = "DEFAULT") {
 		global $DIC;
 
-		if ($part == "DEFAULT")
-		{
-			$html = parent::get();
-		}
-		else
-		{
-			$html = parent::get($part);
-		}
+		$html = $this->getUnmodified($part);
 
 		// include the template output hook
 		$ilPluginAdmin = $DIC["ilPluginAdmin"];
@@ -188,6 +181,22 @@ class ilTemplate extends HTML_Template_ITX
 
 		return $html;
 	}
+
+	/**
+	 * @param	string
+	 * @return	string
+	 */
+	public function getUnmodified($part = "DEFAULT") {
+		global $DIC;
+
+		if ($part == "DEFAULT")
+		{
+			return parent::get();
+		}
+		return parent::get($part);
+	}
+
+
 
 	/**
 	* Überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
@@ -535,6 +544,11 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			return $a_tplname;
 		}
+	}
+
+	public function variableExists($a_variablename)
+	{
+		return (isset($this->blockvariables["content"][$a_variablename]) ? true : false);
 	}
 }
 
