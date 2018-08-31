@@ -26,7 +26,35 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	var $activeBlock;
 	
+	/**
+	 * @var array
+	 */
 	protected static $il_cache = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $il_use_cache;
+
+	/**
+	 * @var string
+	 */
+	protected $il_cur_key;
+
+	/**
+	 * @var string
+	 */
+	protected $tplName;
+
+	/**
+	 * @var string
+	 */
+	protected $tplPath;
+
+	/**
+	 * @var string
+	 */
+	protected $tplIdentifier;
 
 	/**
 	* constructor
