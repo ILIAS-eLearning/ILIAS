@@ -70,6 +70,8 @@ class ilGlobalTemplate
 		$this->parseCurrentBlock();
 	}
 
+	//***********************************
+	//
 	// FOOTER
 	//
 	// Used in:
@@ -77,6 +79,8 @@ class ilGlobalTemplate
 	//  * ilTestSubmissionReviewGUI
 	//  * ilTestPlayerAbstractGUI
 	//  * ilAssQuestionHintRequestGUI
+	//
+	//***********************************
 
 	private $show_footer = true;
 	
@@ -383,8 +387,47 @@ class ilGlobalTemplate
 		return $txt;
 	}
 
+	//***********************************
+	//
+	// ILIAS STANDARD TEMPLATE
+	// which is responsible for the look
+	// i.e. a title, tabs, ...
+	//
+	//***********************************
 
-	// HEADER in standard page
+	/**
+	 * This loads the standard template "tpl.adm_content.html" and
+	 * "tpl.statusline.html" the CONTENT and STATUSLINE placeholders
+	 * if they are not already loaded.
+	 */
+	public function loadStandardTemplate()
+	{
+		if ($this->standard_template_loaded)
+		{
+			return;
+		}
+
+		// always load jQuery
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQueryUI();
+
+		// always load ui framework
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		ilUIFramework::init();
+
+		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$this->standard_template_loaded = true;
+	}
+
+
+	//***********************************
+	//
+	// HEADER in standard template
+	//
+	//***********************************
 
 	protected $header_page_title = "";
 	protected $title = "";
@@ -551,7 +594,11 @@ class ilGlobalTemplate
 	}
 
 
-	// LOCATOR
+	//***********************************
+	//
+	// LOCATOR in standard template
+	//
+	//***********************************
 
 	/**
 	* Insert locator.
@@ -594,7 +641,11 @@ class ilGlobalTemplate
 	}
 
 
+	//***********************************
+	//
 	// TABS
+	//
+	//***********************************
 
 	/**
 	* sets tabs in standard template
@@ -612,48 +663,106 @@ class ilGlobalTemplate
 	}
 
 	/**
-	* sets subtabs in standard template
-	*/
+	 * sets subtabs in standard template
+	 */
 	public function setSubTabs($a_tabs_html)
 	{
 		$this->setVariable("SUB_TABS", $a_tabs_html);
 	}
 
-
-	// COLUMN LAYOUT IN STANDARD TEMPLATE
-	
-	/**
-	* Fill main content
-	*/
-	private function fillMainContent()
+	// REMOVAL CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	//    - ilLMEditorGUI
+	public function fillTabs()
 	{
-		if (trim($this->main_content) != "")
+		if ($this->blockExists("tabs_outer_start"))
 		{
-			$this->setVariable("ADM_CONTENT", $this->main_content);
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+
+			if ($this->thtml != "")
+			{
+				$this->setVariable("TABS",$this->thtml);
+			}
+			$this->setVariable("SUB_TABS", $this->sthtml);
+		}
+	}
+
+	private function getTabsHTML()
+	{
+		global $DIC;
+
+		$ilTabs = $DIC["ilTabs"];
+
+		if ($this->blockExists("tabs_outer_start"))
+		{
+			$this->sthtml = $ilTabs->getSubTabHTML();
+			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+		}
+	}
+
+
+	//***********************************
+	//
+	// COLUMN LAYOUT in standard template
+	//
+	//***********************************
+
+	/**
+	 * Sets content for standard template.
+	 */
+	public function setContent($a_html)
+	{
+		if ($a_html != "")
+		{
+			$this->main_content = $a_html;
 		}
 	}
 
 	/**
-	* sets content of right column
-	*/
+	 * Sets content of left column.
+	 */
+	public function setLeftContent($a_html)
+	{
+		$this->left_content = $a_html;
+	}
+
+	/**
+	 * Sets content of left navigation column.
+	 */
+	public function setLeftNavContent($a_content)
+	{
+		$this->left_nav_content = $a_content;
+	}
+
+	// PRIVATE CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
+	/**
+	 * Fill left navigation frame
+	 */
+	public function fillLeftNav()
+	{
+		if (trim($this->left_nav_content) != "")
+		{
+			$this->setCurrentBlock("left_nav");
+			$this->setVariable("LEFT_NAV_CONTENT", $this->left_nav_content);
+			$this->parseCurrentBlock();
+			$this->touchBlock("left_nav_space");
+		}
+	}
+
+	/**
+	 * Sets content of right column.
+	 */
 	public function setRightContent($a_html)
 	{
 		$this->right_content = $a_html;
 	}
 
-	/**
-	* Fill right content
-	*/
-	private function fillRightContent()
-	{
-		if (trim($this->right_content) != "")
-		{
-			$this->setCurrentBlock("right_column");
-			$this->setVariable("RIGHT_CONTENT", $this->right_content);
-			$this->parseCurrentBlock();
-		}
-	}
-	
 	private function setCenterColumnClass()
 	{
 		if (!$this->blockExists("center_col_width"))
@@ -684,17 +793,14 @@ class ilGlobalTemplate
 		$this->parseCurrentBlock();
 	}
 
-	/**
-	* sets content of left column
-	*/
-	public function setLeftContent($a_html)
+	private function fillMainContent()
 	{
-		$this->left_content = $a_html;
+		if (trim($this->main_content) != "")
+		{
+			$this->setVariable("ADM_CONTENT", $this->main_content);
+		}
 	}
 
-	/**
-	* Fill left content
-	*/
 	private function fillLeftContent()
 	{
 		if (trim($this->left_content) != "")
@@ -709,28 +815,15 @@ class ilGlobalTemplate
 		}
 	}
 
-	/**
-	 * Sets content of left navigation column
-	 */
-	public function setLeftNavContent($a_content)
+	private function fillRightContent()
 	{
-		$this->left_nav_content = $a_content;
-	}
-
-	/**
-	 * Fill left navigation frame
-	 */
-	public function fillLeftNav()
-	{
-		if (trim($this->left_nav_content) != "")
+		if (trim($this->right_content) != "")
 		{
-			$this->setCurrentBlock("left_nav");
-			$this->setVariable("LEFT_NAV_CONTENT", $this->left_nav_content);
+			$this->setCurrentBlock("right_column");
+			$this->setVariable("RIGHT_CONTENT", $this->right_content);
 			$this->parseCurrentBlock();
-			$this->touchBlock("left_nav_space");
 		}
 	}
-
 
 	// SPECIAL REQUIREMENTS
 	//
@@ -796,22 +889,7 @@ class ilGlobalTemplate
 		}
 	}
 
-	public function fillTabs()
-	{
-		if ($this->blockExists("tabs_outer_start"))
-		{
-			$this->touchBlock("tabs_outer_start");
-			$this->touchBlock("tabs_outer_end");
-			$this->touchBlock("tabs_inner_start");
-			$this->touchBlock("tabs_inner_end");
 
-			if ($this->thtml != "")
-			{
-				$this->setVariable("TABS",$this->thtml);
-			}
-			$this->setVariable("SUB_TABS", $this->sthtml);
-		}
-	}
 
 	public function fillJavaScriptFiles($a_force = false)
 	{
@@ -1206,25 +1284,6 @@ class ilGlobalTemplate
 		}
 	}
 
-	/**
-	 * Get tabs HTML
-	 *
-	 * @param
-	 * @return
-	 */
-	private function getTabsHTML()
-	{
-		global $DIC;
-
-		$ilTabs = $DIC["ilTabs"];
-
-		if ($this->blockExists("tabs_outer_start"))
-		{
-			$this->sthtml = $ilTabs->getSubTabHTML();
-			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
-		}
-	}
-
 	private function fillToolbar()
 	{
 		global $DIC;
@@ -1374,44 +1433,6 @@ class ilGlobalTemplate
 			}
 
 			unset($_SESSION["error_post_vars"]);
-		}
-	}
-
-	/**
-	 * This loads the standard template "tpl.adm_content.html" and
-	 * "tpl.statusline.html" the CONTENT and STATUSLINE placeholders
-	 * if they are not already loaded.
-	 */
-	public function loadStandardTemplate()
-	{
-		if ($this->standard_template_loaded)
-		{
-			return;
-		}
-
-		// always load jQuery
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
-		iljQueryUtil::initjQueryUI();
-
-		// always load ui framework
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-		ilUIFramework::init();
-
-		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		$this->standard_template_loaded = true;
-	}
-
-	/**
-	* sets content for standard template
-	*/
-	public function setContent($a_html)
-	{
-		if ($a_html != "")
-		{
-			$this->main_content = $a_html;
 		}
 	}
 
