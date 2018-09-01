@@ -1161,7 +1161,7 @@ assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
 assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
-assessment#:#tst_results_access_passed#:#After Test has been passed
+assessment#:#tst_results_access_passed#:#After Test has been Passed
 assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
