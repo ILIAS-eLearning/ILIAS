@@ -133,6 +133,11 @@ class ilTestPassesSelector
 		return $reportablePasses;
 	}
 	
+	public function hasReportablePasses()
+	{
+		return (bool)count($this->getReportablePasses());
+	}
+	
 	private function fetchReportablePasses($existingPasses)
 	{
 		$lastPass = $this->fetchLastPass($existingPasses);

@@ -8574,71 +8574,18 @@ function getAnswerFeedbackPoints()
 		return $result;
 	}
 
-	/**
-	 * Returns true, if the test results can be viewed
-	 *
-	 * @return boolean True, if the test results can be viewed, else false
-	 * @access public
-	 * @deprecated use class ilTestPassesSelector instead
-	 */
-	function canViewResults()
-	{
-		// this logic was implemented before, it got stabled only for now
-		// this method is not as exact as it's required, it's to be replaced in the long time
 		
-		switch( $this->getScoreReporting() )
-		{
-			case self::SCORE_REPORTING_IMMIDIATLY:
-			case self::SCORE_REPORTING_FINISHED: // this isn't excact enough
-				
-				return true;
-
-			case self::SCORE_REPORTING_DATE:
-
-				if (!$this->getReportingDate())
-				{
-					return false;
-				}
-				
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
-				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = time();
-					if ($now < $epoch_time)
-					{
-						return false;
-					}
-				}
-
-				return true;
-		}
-		
-		return false;
-	}
-
-	function canShowTestResults($testSession)
+	public function canShowTestResults(ilTestSession $testSession)
 	{
-		$active_id = $testSession->getActiveId();
-		if ($active_id > 0)
-		{
-			$starting_time = $this->getStartingTimeOfUser($active_id);
-		}
-		$notimeleft = FALSE;
-		if ($starting_time !== FALSE)
-		{
-			if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
-			{
-				$notimeleft = TRUE;
-			}
-		}
-		$result = TRUE;
-		if (!$this->isTestFinishedToViewResults($active_id, $testSession->getPass()) && ($this->getScoreReporting() == self::SCORE_REPORTING_FINISHED))
-		{
-			$result = FALSE;
-		}
-		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
-		$result = $result & $this->canViewResults();
-		return $result;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
+		
+		$passSelector->setActiveId($testSession->getActiveId());
+		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
+		return $passSelector->hasReportablePasses();
 	}
 
 /**
