@@ -22564,3 +22564,26 @@ catch(ilException $e)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5294>
+<?php
+$setting = new ilSetting();
+
+if( !$setting->get('tst_score_rep_consts_cleaned', 0) )
+{
+	$ilDB->queryF(
+		"UPDATE tst_tests SET score_reporting = %s WHERE score_reporting = %s",
+		array('integer', 'integer'), array(0, 4)
+	);
+	
+	$setting->set('tst_score_rep_consts_cleaned', 1);
+}
+?>
+<#5295>
+<?php
+if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
+{
+	$ilDB->addTableColumn('tst_result_cache', 'passed_once', array(
+		'type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0
+	));
+}
+?>
