@@ -20,7 +20,7 @@ class ilTestPassesSelector
 	
 	private $passes = null;
 	
-	private $testPassedCache = array();
+	private $testPassedOnceCache = array();
 	
 	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
@@ -208,7 +208,7 @@ class ilTestPassesSelector
 				
 			case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
 				
-				if( !$this->hasTestPassed($this->getActiveId()) )
+				if( !$this->hasTestPassedOnce($this->getActiveId()) )
 				{
 					return false;
 				}
@@ -291,22 +291,25 @@ class ilTestPassesSelector
 		return $passes[$this->getLastFinishedPass()]['tstamp'];
 	}
 	
-	public function hasTestPassed($activeId)
+	public function hasTestPassedOnce($activeId)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( !isset($this->testPassedCache[$activeId]) )
+		if( !isset($this->testPassedOnceCache[$activeId]) )
 		{
-			$row = $DIC->database()->fetchAssoc($DIC->database()->queryF(
-				"SELECT passed FROM tst_result_cache WHERE active_fi = %s",
+			$this->testPassedOnceCache[$activeId] = false;
+			
+			$res = $DIC->database()->queryF(
+				"SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
 				array('integer'), array($activeId)
-			));
+			);
 			
-			if( !is_array($row) ) $row = array('passed' => 0);
-			
-			$this->testPassedCache[$activeId] = (bool)$row['passed'];
+			while($row = $DIC->database()->fetchAssoc($res))
+			{
+				$this->testPassedOnceCache[$activeId] = (bool)$row['passed_once'];
+			}
 		}
 		
-		return $this->testPassedCache[$activeId];
+		return $this->testPassedOnceCache[$activeId];
 	}
 }
