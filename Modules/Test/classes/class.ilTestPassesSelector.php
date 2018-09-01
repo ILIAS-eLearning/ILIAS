@@ -20,6 +20,8 @@ class ilTestPassesSelector
 	
 	private $passes = null;
 	
+	private $testPassedCache = array();
+	
 	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
@@ -198,6 +200,15 @@ class ilTestPassesSelector
 				}
 
 				return $this->isClosedPass($pass);
+				
+			case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+				
+				if( !$this->hasTestPassed($this->getActiveId()) )
+				{
+					return false;
+				}
+				
+				return $this->isClosedPass($pass);
 		}
 		
 		return false;
@@ -273,5 +284,24 @@ class ilTestPassesSelector
 		
 		$passes = $this->getLazyLoadedPasses();
 		return $passes[$this->getLastFinishedPass()]['tstamp'];
+	}
+	
+	public function hasTestPassed($activeId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( !isset($this->testPassedCache[$activeId]) )
+		{
+			$row = $DIC->database()->fetchAssoc($DIC->database()->queryF(
+				"SELECT passed FROM tst_result_cache WHERE active_fi = %s",
+				array('integer'), array($activeId)
+			));
+			
+			if( !is_array($row) ) $row = array('passed' => 0);
+			
+			$this->testPassedCache[$activeId] = (bool)$row['passed'];
+		}
+		
+		return $this->testPassedCache[$activeId];
 	}
 }
