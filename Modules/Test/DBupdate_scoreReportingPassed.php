@@ -24,6 +24,13 @@ try
 		
 		$setting->set('tst_score_rep_consts_cleaned', 1);
 	}
+	
+	if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
+	{
+		$ilDB->addTableColumn('tst_result_cache', 'passed_once', array(
+			'type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0
+		));
+	}
 }
 catch(ilException $e)
 {
