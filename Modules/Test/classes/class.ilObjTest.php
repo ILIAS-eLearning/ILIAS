@@ -626,7 +626,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->introduction = "";
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
-		$this->score_reporting = REPORT_AFTER_TEST;
+		$this->score_reporting = self::SCORE_REPORTING_FINISHED;
 		$this->instant_verification = 0;
 		$this->answer_feedback_points = 0;
 		$this->reporting_date = "";
@@ -2487,6 +2487,7 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	const SCORE_REPORTING_FINISHED = 1;
 	const SCORE_REPORTING_IMMIDIATLY = 2;
 	const SCORE_REPORTING_DATE = 3;
+	const SCORE_REPORTING_AFTER_PASSED = 4;
 
 /**
 * Gets the score reporting of the ilObjTest object
@@ -2502,7 +2503,20 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	
 	public function isScoreReportingEnabled()
 	{
-		return $this->getScoreReporting() > 0 && $this->getScoreReporting() < 4;
+		switch( $this->getScoreReporting() )
+		{
+			case self::SCORE_REPORTING_FINISHED:
+			case self::SCORE_REPORTING_IMMIDIATLY:
+			case self::SCORE_REPORTING_DATE:
+			case self::SCORE_REPORTING_AFTER_PASSED:
+				
+				return true;
+				
+			case self::SCORE_REPORTING_DISABLED:
+			default:
+				
+				return false;
+		}
 	}
 
 /**
@@ -8618,7 +8632,7 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		$result = TRUE;
-		if (!$this->isTestFinishedToViewResults($active_id, $testSession->getPass()) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
+		if (!$this->isTestFinishedToViewResults($active_id, $testSession->getPass()) && ($this->getScoreReporting() == self::SCORE_REPORTING_FINISHED))
 		{
 			$result = FALSE;
 		}
@@ -12200,12 +12214,12 @@ function getAnswerFeedbackPoints()
 
 	public function isScoreReportingAvailable()
 	{
-		if ($this->getScoreReporting() == 4)
+		if (!$this->getScoreReporting())
 		{
 			return false;
 		}
 
-		if ($this->getScoreReporting() == 3 && $this->getReportingDate() > time())
+		if ($this->getScoreReporting() == self::SCORE_REPORTING_DATE && $this->getReportingDate() > time())
 		{
 			return false;
 		}
