@@ -774,31 +774,44 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	 */
 	function getAdminTabs()
 	{
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
+		$cmd = $ilCtrl->getCmd();
+
         if (!ilObjLanguageAccess::_isPageTranslation())
         {
-            $this->tabs_gui->addTarget("edit",
-                $this->ctrl->getLinkTarget($this, "view"),
-                array("","view","cancel","save"));
+        	$this->tabs_gui->setBackTarget($this->lng->txt('back'),
+				$this->ctrl->getLinkTargetByClass('ilObjLanguageFolderGUI'));
 
-            $this->tabs_gui->addTarget("export",
-                $this->ctrl->getLinkTarget($this, "export"),
-                array("export","download"));
+            $this->tabs_gui->addTab("edit", $this->lng->txt("edit"),
+                $this->ctrl->getLinkTarget($this, "view"));
 
-            $this->tabs_gui->addTarget("import",
-                $this->ctrl->getLinkTarget($this, "import"),
-                array("import","upload"));
+            $this->tabs_gui->addTab("export", $this->lng->txt('export'),
+                $this->ctrl->getLinkTarget($this, "export"));
 
-            $this->tabs_gui->addTarget("language_maintain",
-                $this->ctrl->getLinkTarget($this, "maintain"),
-                array("maintain"));
+            $this->tabs_gui->addTab("import", $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, "import"));
 
-            $this->tabs_gui->addTarget("settings",
-                $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings"));
+            $this->tabs_gui->addTab("maintain", $this->lng->txt('language_maintain'),
+                $this->ctrl->getLinkTarget($this, "maintain"));
 
-            $this->tabs_gui->addTarget("language_statistics",
-                $this->ctrl->getLinkTarget($this, "statistics"),
-                array("statistics"));
+            $this->tabs_gui->addTab("settings", $this->lng->txt('settings'),
+                $this->ctrl->getLinkTarget($this, "settings"));
+
+            $this->tabs_gui->addTab("statistics", $this->lng->txt("language_statistics"),
+                $this->ctrl->getLinkTarget($this, "statistics"));
+
+            switch ($cmd) {
+				case '':
+				case 'view':
+				case 'applyFilter';
+				case 'resetFilter';
+				case 'save':
+					$this->tabs_gui->activateTab('edit');
+					break;
+				default:
+					$this->tabs_gui->activateTab($cmd);
+			}
         }
 	}
 
