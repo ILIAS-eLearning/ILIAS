@@ -68,11 +68,11 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function __construct($a_id,$a_call_by_reference = true)
 	{
+		global $DIC;
+		$lng = $DIC->language();
+
 		$this->type = "lngf";
 		parent::__construct($a_id,$a_call_by_reference);
-
-		// init language support
-		global $lng;
 
 		$this->lang_path = $lng->lang_path;
 		$this->lang_default = $lng->lang_default;
@@ -96,7 +96,8 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function getLanguages ()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("meta");
 
@@ -238,8 +239,9 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function removeLanguages($a_languages)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		foreach ($a_languages as $lang_key => $lang_data)
 		{
 			if ($lang_data["desc"] == "not_installed" && $lang_data["info"] == "file_not_found")
@@ -268,8 +270,9 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function checkAllLanguages()
 	{
+		global $DIC;
 		// TODO: lng object should not be used in this class
-		global $lng;
+		$lng = $DIC->language();
 
 		// set path to directory where lang-files reside
 		$d = dir($this->lang_path);

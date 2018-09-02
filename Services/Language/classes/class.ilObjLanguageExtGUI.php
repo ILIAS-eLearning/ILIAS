@@ -36,7 +36,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function __construct($a_data, $a_id = 0, $a_call_by_reference = false)
 	{
-		global $lng, $ilCtrl, $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC->clientIni();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		// language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -94,8 +97,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilHelp;
-		
+		global $DIC;
+		$ilHelp = $DIC->help();
+
 		if (!ilObjLanguageAccess::_checkMaintenance())
 		{
              $this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
@@ -139,7 +143,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-        global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
         // get the view table
         $table_gui = $this->getViewTable();
@@ -237,7 +242,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     $translations = $this->object->getAllValues(
 					            	$filter_modules, $filter_pattern, $filter_topics);
 
-					$translations = array_intersect_key($translations, $remarks);
+					$translations = array_intersect_key($translations, $comments);
 					break;
 
 				case "equal":
@@ -686,7 +691,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC->settings();
 
 		$translate_key = "lang_translate_". $this->object->key;
 
@@ -803,7 +809,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	 */
 	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 
         if (!ilObjLanguageAccess::_isPageTranslation())
         {
@@ -843,8 +850,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	
 	protected function buildMissingEntries(array $a_missing = null)
 	{
-		global $ilCtrl;
-		
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
+
 		if(!is_array($a_missing) ||
 			!sizeof($a_missing))
 		{
@@ -869,8 +877,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	
 	function addNewEntryObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
-		
+		global $DIC;
+		$tpl = $DIC['tpl'];
+
 		$id = trim($_GET["eid"]);
 		
 		if(!$a_form)
@@ -882,9 +891,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	}
 	
 	protected function initAddNewEntryForm($a_id = null)
-	{		
-		global $ilCtrl;
-		
+	{
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
+
 		if(!$a_id)
 		{
 			$a_id = $_POST["id"];
@@ -932,8 +942,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	
 	function saveNewEntryObject()
 	{
-		global $ilCtrl, $ilUser, $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+
 		$form = $this->initAddNewEntryForm();
 		if($form->checkInput())
 		{
