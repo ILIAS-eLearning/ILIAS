@@ -18,6 +18,8 @@
  */
 class ilTestResultsGUI
 {
+	const DEFAULT_CMD = 'show';
+	
 	/**
 	 * @var ilObjTest
 	 */
@@ -271,6 +273,66 @@ class ilTestResultsGUI
 				
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
+				
+			case strtolower(__CLASS__):
+			default:
+				
+				$command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD).'Cmd';
+				$this->{$command}();
 		}
+	}
+	
+	protected function showCmd()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $this->testObj->canShowTestResults($this->getTestSession()) )
+		{
+			$DIC->ctrl()->redirectByClass(array('ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
+		}
+		
+		$this->showNoResultsReportingMessage();
+	}
+	
+	protected function showNoResultsReportingMessage()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$message = $DIC->language()->txt('tst_res_tab_msg_res_after_taking_test');
+		
+		switch( $this->testObj->getScoreReporting() )
+		{
+			case ilObjTest::SCORE_REPORTING_FINISHED:
+				
+				if( $this->testObj->hasAnyTestResult($this->getTestSession()) )
+				{
+					$message = $DIC->language()->txt('tst_res_tab_msg_res_after_finish_test');
+				}
+				
+				break;
+			
+			case ilObjTest::SCORE_REPORTING_DATE:
+				
+				$date = new ilDateTime($this->testObj->getReportingDate(), IL_CAL_TIMESTAMP);
+				
+				if( !$this->testObj->hasAnyTestResult($this->getTestSession()) )
+				{
+					$message = sprintf($DIC->language()->txt('tst_res_tab_msg_res_after_date_no_res'),
+						ilDatePresentation::formatDate($date)
+					);
+					break;
+				}
+				
+				$message = sprintf($DIC->language()->txt('tst_res_tab_msg_res_after_date'),
+					ilDatePresentation::formatDate($date)
+				);
+				break;
+				
+			case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+				$message = $DIC->language()->txt('tst_res_tab_msg_res_after_test_passed');
+				break;
+		}
+		
+		ilUtil::sendInfo($message);
 	}
 }

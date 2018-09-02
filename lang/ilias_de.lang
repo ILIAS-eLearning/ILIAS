@@ -1298,6 +1298,11 @@ assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nac
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_report_after_passed#:#Testergebnisse erst anzeigen wenn der Test bestanden wurde
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#Wenn Sie den Test durchgeführt haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#Wenn Sie den Test abgeschlossen haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#Wenn Sie den Test bestanden haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_date#:#Die Testergebnisse werden Ihnen hier zu folgendem Datum präsentiert: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Wenn Sie den Test durchführen werden Ihnen hier zu folgendem Datum die Testergebnisse präsentiert: %s
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_reset_processing_time_desc#:#Die maximale Bearbeitungsdauer steht für jeden Testdurchlauf zur Verfügung.

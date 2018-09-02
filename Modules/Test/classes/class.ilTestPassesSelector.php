@@ -110,6 +110,11 @@ class ilTestPassesSelector
 	{
 		return array_keys($this->getLazyLoadedPasses());
 	}
+	
+	public function hasExistingPasses()
+	{
+		return (bool)count($this->getExistingPasses());
+	}
 
 	public function getNumExistingPasses()
 	{

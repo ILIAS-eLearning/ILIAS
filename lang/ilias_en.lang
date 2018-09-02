@@ -1150,6 +1150,11 @@ assessment#:#tst_report_after_first_question#:#Offer test results when the test 
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
 assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
 assessment#:#tst_report_never#:#No test results available
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
 assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
 assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s

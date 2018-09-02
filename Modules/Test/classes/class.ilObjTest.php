@@ -8573,8 +8573,8 @@ function getAnswerFeedbackPoints()
 		}
 		return $result;
 	}
-
-		
+	
+	
 	public function canShowTestResults(ilTestSession $testSession)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -8586,6 +8586,19 @@ function getAnswerFeedbackPoints()
 		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 		
 		return $passSelector->hasReportablePasses();
+	}
+	
+	public function hasAnyTestResult(ilTestSession $testSession)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
+		
+		$passSelector->setActiveId($testSession->getActiveId());
+		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
+		return $passSelector->hasExistingPasses();
 	}
 
 /**
