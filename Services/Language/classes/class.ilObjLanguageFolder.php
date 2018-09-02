@@ -159,6 +159,7 @@ class ilObjLanguageFolder extends ilObject
 		{
 			if (!in_array($lang_key,$lang_keys))
 			{
+                $languages[$lang_key] = array();
 				$languages[$lang_key]["info"] = "new_language";
 				//$languages[$lang_key]["desc"] = "not_installed";
 			}
