@@ -565,7 +565,7 @@ The code base is deviced in several components:
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 * **UI-Service**
-	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), 
+	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI, 
 
 
