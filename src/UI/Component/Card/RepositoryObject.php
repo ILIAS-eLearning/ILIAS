@@ -31,7 +31,7 @@ interface RepositoryObject extends Standard {
 	/**
 	 * Get a Custom card like this, but with an additional certificate outlined icon
 	 * @param Icon $certificate_icon
-	 * @return Custom
+	 * @return RepositoryObject
 	 */
 	public function withCertificate($certificate_icon);
 

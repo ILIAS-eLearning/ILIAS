@@ -13,14 +13,13 @@ use ILIAS\UI\Component\Component;
 interface Factory {
 
 	/**
-	 * TODO ::: Rename this card to standard and change this description if necessary.
 	 * ---
 	 * description:
 	 *   purpose: >
 	 *      A card is a flexible content container for small chunks of structured data.
 	 *      Cards are often used in so-called Decks which are a gallery of Cards.
 	 *   composition: >
-	 *      Cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
+	 *      Standard cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
 	 *      Default Buttons and 0 to n sections that may contain further textual descriptions, links and buttons.
 	 *      The size of the cards in decks may be set to extra small (12 cards per row),
 	 *      small (6 cards per row, default), medium (4 cards per row), large (3 cards per row),
@@ -37,11 +36,11 @@ interface Factory {
 	 *
 	 * rules:
 	 *   composition:
-	 *      1: Cards MUST contain a title.
-	 *      2: Cards SHOULD contain an Image or Icon in the header section.
-	 *      3: Cards MAY contain Interaction Triggers.
+	 *      1: Standard Cards MUST contain a title.
+	 *      2: Standard Cards SHOULD contain an Image or Icon in the header section.
+	 *      3: Standard Cards MAY contain Interaction Triggers.
 	 *   style:
-	 *      1: Sections of  Cards MUST be separated by Dividers.
+	 *      1: Sections of Cards MUST be separated by Dividers.
 	 *   accessibility:
 	 *      1: If multiple Cards are used, they MUST be contained in a Deck.
 	 * ---
@@ -55,14 +54,35 @@ interface Factory {
 	/**
 	 * TODO ::: Create full description for the repositoryObject card.
 	 * TODO ::: Type the parameters properly.
-	 * ---
-	 *
 	 * TODO ::: What outlined icons should we use?
 	 * TODO ::: To discuss:
 	 * Are the object type icons mandatory?
 	 * 		(yes) UI Outlined Icon in the constructor.
 	 * 		(no) New method withObjectIcon(UI Outlined Icon) will be required.
-	 * 		IMO should be yes. Since we are placing the icons in specific position.
+	 *
+	 * description:
+	 *   purpose: >
+	 *      A repositoryObject card is a flexible content container for small chunks of structured data based on
+	 *      repository objects and display specific icons to identify about what object type is the card related.
+	 *      Cards are often used in so-called Decks which are a gallery of Cards.
+	 *   composition: >
+	 *      RepositoryObject Cards use as a basis the same structure as Standard Cards.
+	 *      RepositoryObject Cards add icons on a darkened layer over the image. This Darkened layer is divided into
+	 *      4 horizontal cells where the icons can be located.
+	 *      Starting from the left, the icons have the following order:
+	 *          Cell 1: Object type (UI Icon)
+	 *          Cell 2: Learning Progress (UI ProgressMeter) or Certificate (UI Icon)
+	 *          Cell 3: Empty
+	 *          Cell 4: Actions (UI Dropdown)
+	 *      Cells and its content are responsively adapted if the size of the screen is changed.
+	 *   effect: >
+	 *      RepositoryObject Cards MUST contain a UI Icon displaying the object type.
+	 *      RepositoryObject Cards MAY contain a UI ProgressMeter displaying the learning progress of the user.
+	 *      RepositoryObject Cards MAY contain a UI Icon displaying a certificate icon if the user finished the task.
+	 *      RepositoryObject Cards MAY contain a UI ProgressMeter OR UI Icon certificate, NOT both.
+	 *   rivals:
+	 *      Heading Panel: Heading Panels fill up the complete available width in the Center Content Section. Multiple Heading Panels are stacked vertically.
+	 *      Block Panels: Block Panels are used in Sidebars
 	 *
 	 * featurewiki:
 	 *       - https://docu.ilias.de/goto_docu_wiki_wpage_4921_1357.html
