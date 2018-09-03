@@ -32,6 +32,9 @@ The PM and the TB appoint or replace coordinators. The coordinator role belongs 
 not the company, since the role builds on social capital in the community and a 
 vision of the component it will be near impossible to leave that role at a company. 
 
+It is encouraged that two people share the role of the coordinator for one
+component to enhance it's [Bus factor](https://en.wikipedia.org/wiki/Bus_factor).
+
 <a name="change-management"></a>
 ## Change Management
 Everybody may contribute to any aspect of the component. Such contributions 
@@ -44,6 +47,11 @@ on the public interface must be accepted by the JF. The coordinator gives a reco
 JF on whether to accept or decline the PR. The decision of the JF may 
 be implicit if no objections to the recommendation of the coordinator is made. If no agreement 
 is achieved in the JF, the Technical Board will decide upon the request.
+Further note in case two people sharing the role of the coordinator, that the feedback of one
+coordinator is enough for a request to be processed further. If both give
+feedback, the points of both coordinators must be respected. If the coordinators
+give contradictory feedback, the coordinators must resolve their differences 
+before further processing.
 
 Final implementations without further changes on the interface do not need 
 formal approval by the JF. The merge of the implementation is performed 
@@ -76,6 +84,12 @@ a collaborative development of the vision for such a key aspect.
 the development of the component.
 * The coordinator MUST give recommendations to the JF whether to accept 
 or decline changes.
+* If two people share the role of the coordinator and give contradictory 
+feedback for a change request, they MUST resolve the conflict as quickly
+as possible and publish a new feedback without contradictions. 
+* If two people share the role of the coordinator they MAY give feedback
+the different aspects of a change request. In such a case, both feedbacks
+MUST be considered.
 * The coordinator MUST accept decisions of the Technical Board on change 
 requests in case of disagreement on the JF.
 * The coordinator MUST review final implementation of some accepted 
