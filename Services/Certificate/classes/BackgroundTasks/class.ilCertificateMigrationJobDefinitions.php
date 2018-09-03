@@ -90,11 +90,11 @@ if(!$ilDB->tableExists('bgtask_cert_migration')) {
             'notnull' => true
         ),
         'started_ts' => array(
-            'type' => 'timestamp',
+            'type' => 'integer',
             'notnull' => false,
         ),
         'finished_ts' => array(
-            'type' => 'timestamp',
+            'type' => 'integer',
             'notnull' => false,
         ),
     ));

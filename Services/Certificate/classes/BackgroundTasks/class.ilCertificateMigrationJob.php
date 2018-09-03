@@ -90,7 +90,10 @@ class ilCertificateMigrationJob extends AbstractJob
             // @TODO stop with output
         }
 
-        $this->updateState(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT);
+        $this->updateTask([
+            'lock' => true,
+            'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT
+        ]);
 
         $certificates = [];
         $output = new IntegerValue();
@@ -99,29 +102,42 @@ class ilCertificateMigrationJob extends AbstractJob
 
         try {
             // collect all data
+            $found_items = 0;
             $certificates['scorm'] = $this->getScormCertificates();
+            $found_items += count($certificates['scorm']);
             $observer->heartbeat();
             $certificates['test'] = $this->getTestCertificates();
+            $found_items += count($certificates['test']);
             $observer->heartbeat();
             $certificates['exercise'] = $this->getExerciseCertificates();
+            $found_items += count($certificates['exercise']);
             $observer->heartbeat();
             $certificates['course'] = $this->getCourseCertificates();
+            $found_items += count($certificates['course']);
             $observer->heartbeat();
+            $this->updateTask(['found_items' => $found_items]);
+            $this->logMessage('found overall ' . $found_items . ' items for user with id: ' . $this->user_id, 'debug');
 
         } catch (\Exception $e) {
             $this->logMessage($e->getMessage(), 'error');
-            $this->updateState(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED);
+            $this->updateTask([
+                'lock' => false,
+                'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
+            ]);
             $output->setValue((int)$e->getCode());
             return $output;
         }
 
         try {
-
+            // prepare all data?
             // @TODO what to do next?
 
         } catch (\Exception $e) {
             $this->logMessage($e->getMessage(), 'error');
-            $this->updateState(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED);
+            $this->updateTask([
+                'lock' => false,
+                'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
+            ]);
             $output->setValue((int)$e->getCode());
             return $output;
         }
@@ -129,7 +145,11 @@ class ilCertificateMigrationJob extends AbstractJob
         $output->setValue(200);
 
         $this->logMessage('finished at ' . ($f_time = date('d.m.Y H:i:s')) . ' after ' . (strtotime($f_time) - strtotime($st_time)) . ' seconds', 'debug');
-        $this->updateState(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FINISHED);
+        $this->updateTask([
+            'lock' => false,
+            'finished_ts' => $f_time,
+            'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FINISHED
+        ]);
 
         return $output;
     }
@@ -199,7 +219,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @param $state
      * @return void
      */
-    public function updateState($state)
+    protected function updateState($state)
     {
         if (empty($this->getTaskInformations())) {
             $this->logMessage('insert new entry for user with id: ' . $this->user_id, 'debug');
@@ -211,12 +231,47 @@ class ilCertificateMigrationJob extends AbstractJob
                 'processed_items' => ['integer', 0],
                 'progress' => ['integer', 0],
                 'state' => ['text', $state],
-                'started_ts' => ['timestamp', strtotime('now')],
+                'started_ts' => ['integer', strtotime('now')],
                 'finished_ts' => null,
             ]);
         } else {
             $this->logMessage('update entry for user with id: ' . $this->user_id, 'debug');
-            $this->db->update($this->db_table, ['state' => $state], ['usr_id' => ['integer', $this->user_id] ]);
+            $this->db->update($this->db_table, ['state' => ['text', $state] ], ['usr_id' => ['integer', $this->user_id] ]);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    protected function updateTask(array $data)
+    {
+        $updata = [];
+        if(array_key_exists('lock', $data)) {
+            $updata['lock'] = ['integer', $data['lock']];
+        }
+        if(array_key_exists('found_items', $data)) {
+            $updata['found_items'] = ['integer', $data['found_items']];
+        }
+        if(array_key_exists('processed_items', $data)) {
+            $updata['processed_items'] = ['integer', $data['processed_items']];
+        }
+        if(array_key_exists('progress', $data)) {
+            $updata['progress'] = ['integer', $data['progress']];
+        }
+        if(array_key_exists('state', $data)) {
+            $updata['state'] = ['text', $data['state']];
+        }
+        if(array_key_exists('started_ts', $data)) {
+            $updata['started_ts'] = ['integer', $data['started_ts']];
+        }
+        if(array_key_exists('finished_ts', $data)) {
+            $updata['finished_ts'] = ['integer', $data['finished_ts']];
+        }
+        $this->logMessage('update data: ' . json_encode($updata), 'debug');
+        if(!empty($updata)) {
+            $this->logMessage('update entry for user with id: ' . $this->user_id, 'debug');
+            $this->db->update($this->db_table, $updata, ['usr_id' => ['integer', $this->user_id] ]);
         }
     }
 
