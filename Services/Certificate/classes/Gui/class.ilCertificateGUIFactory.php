@@ -79,6 +79,7 @@ class ilCertificateGUIFactory
 				$placeholderValuesObject = new ilExercisePlaceHolderValues();
 
 				$formFactory = new ilCertificateSettingsExerciseRepository(
+					$object,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
 					$DIC->ctrl(),
