@@ -74,7 +74,12 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 	{
 		$lockFilePath = $this->getLockFilePath($processName);
 		$this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
-		flock($this->lockFileHandles[$processName], LOCK_EX);
+		if ($this->lockFileHandles[$processName] === false) {
+			throw new ilTestException("could not open lock file");
+		}
+		if (flock($this->lockFileHandles[$processName], LOCK_EX) !== true) {
+			throw new ilTestException("could not acquire file lock");
+		}
 	}
 	
 	private function getLockFilePath($processName)
