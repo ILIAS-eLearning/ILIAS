@@ -21,8 +21,9 @@
   +----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Certificate/classes/class.ilCertificate.php");
+//include_once("./Services/Certificate/classes/class.ilCertificate.php");
 include_once("./Services/Certificate/classes/Migration/class.ilCertificateMigration.php");
+include_once("./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJob.php");
 
 /**
  * Class ilCertificateMigrationGUI
@@ -121,6 +122,7 @@ class ilCertificateMigrationGUI
     {
         global $DIC;
 
+        // @TODO check for \ilCertificate::isactive
 //        if (!self::isActive()) {
 //            return '';
 //        }

@@ -782,6 +782,7 @@ class ilPersonalProfileGUI
 		}
 
         include_once './Services/Certificate/classes/class.ilCertificate.php';
+        include_once './Services/Certificate/classes/class.ilCertificateMigrationGUI.php';
 		$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
         $messagebox = \ilCertificateMigrationGUI::getMigrationMessageBox($messagebox_link);
 
