@@ -14,6 +14,13 @@ use ILIAS\UI\Component\Icon\Icon;
 interface RepositoryObject extends Standard {
 
 	/**
+	 * Get a repositoryCard like this, but with an additional UI Icon showing the object type.
+	 * @param Icon
+	 * @return RepositoryObject
+	 */
+	public function withObjectIcon($icon);
+
+	/**
 	 *
 	 * Get a Custom card like this, but with an additional UI Progressmeter object
 	 * @param ProgressMeter $progressmeter

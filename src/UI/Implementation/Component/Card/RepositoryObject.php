@@ -12,6 +12,11 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
 class RepositoryObject extends Standard implements C\RepositoryObject {
 
 	/**
+	 * @var Icon
+	 */
+	protected $object_icon;
+
+	/**
 	 * @var ProgressMeter
 	 */
 	protected $progress;
@@ -27,10 +32,21 @@ class RepositoryObject extends Standard implements C\RepositoryObject {
 	protected $actions;
 
 	/**
+	 * @param Icon $icon
+	 * @return RepositoryObject
+	 */
+	public function withObjectIcon(Icon $icon):RepositoryObject
+	{
+		$clone = clone $this;
+		$clone->object_icon = $icon;
+		return $clone;
+	}
+
+	/**
 	 * @param ProgressMeter $a_progressmeter
 	 * @return RepositoryObject
 	 */
-	public function withProgress(ProgressMeter $a_progressmeter):Custom
+	public function withProgress(ProgressMeter $a_progressmeter):RepositoryObject
 	{
 		$clone = clone $this;
 		$clone->progress = $a_progressmeter;

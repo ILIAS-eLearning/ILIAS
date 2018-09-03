@@ -53,8 +53,7 @@ interface Factory {
 
 
 	/**
-	 * TODO ::: Create full description for the custom card.
-	 * TODO ::: Rename this custom to something more relevant.
+	 * TODO ::: Create full description for the repositoryObject card.
 	 * TODO ::: Type the parameters properly.
 	 * ---
 	 *
@@ -64,12 +63,6 @@ interface Factory {
 	 * 		(yes) UI Outlined Icon in the constructor.
 	 * 		(no) New method withObjectIcon(UI Outlined Icon) will be required.
 	 * 		IMO should be yes. Since we are placing the icons in specific position.
-	 * Should we consider the possibility to allow other icons depending on the object type? e.g.Survey finished or not, sessions attending or no etc.
-	 * 		(yes) Should we create different cards for object type?
-	 * 			e.g. courseCard(?)->withProgress(icon)
-	 * 			e.g. sessionCard(?)->withAttending(icon)
-
-	 *
 	 *
 	 * featurewiki:
 	 *       - https://docu.ilias.de/goto_docu_wiki_wpage_4921_1357.html
@@ -80,6 +73,6 @@ interface Factory {
 	 * @param \ILIAS\UI\Component\Icon\????
 	 * @return \ILIAS\UI\Component\Card\RepositoryObject
 	 */
-	public function repositoryObject($title, $image, $object_icon);
+	public function repositoryObject($title, $image);
 
 }
