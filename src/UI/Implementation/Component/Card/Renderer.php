@@ -14,7 +14,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		/**
-		 * @var Component\Card\Card $component
+		 * @var Component\Card\Standard $component
 		 */
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
@@ -55,6 +55,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return array(Component\Card\Card::class);
+		return array(Component\Card\Standard::class);
 	}
 }

@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Icon\Icon;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 
-class Custom extends Card implements C\Custom {
+class RepositoryObject extends Standard implements C\RepositoryObject {
 
 	/**
 	 * @var ProgressMeter
@@ -28,7 +28,7 @@ class Custom extends Card implements C\Custom {
 
 	/**
 	 * @param ProgressMeter $a_progressmeter
-	 * @return Custom
+	 * @return RepositoryObject
 	 */
 	public function withProgress(ProgressMeter $a_progressmeter):Custom
 	{
@@ -39,9 +39,9 @@ class Custom extends Card implements C\Custom {
 
 	/**
 	 * @param $a_certificate Icon
-	 * @return Custom
+	 * @return RepositoryObject
 	 */
-	public function withCertificate($a_certificate):Custom
+	public function withCertificate($a_certificate):RepositoryObject
 	{
 		$clone = clone $this;
 		$clone->certificate = $a_certificate;
@@ -50,9 +50,9 @@ class Custom extends Card implements C\Custom {
 
 	/**
 	 * @param \ILIAS\UI\Component\Dropdown\Dropdown $dropdown
-	 * @return Custom
+	 * @return RepositoryObject
 	 */
-	public function withActions($dropdown):Custom
+	public function withActions($dropdown):RepositoryObject
 	{
 		$clone = clone $this;
 		$clone->actions = $dropdown;

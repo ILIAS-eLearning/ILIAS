@@ -11,13 +11,13 @@ use ILIAS\UI\Component\Icon\Icon;
  * Interface Custom
  * @package ILIAS\UI\Component\Card
  */
-interface Custom extends Card {
+interface RepositoryObject extends Standard {
 
 	/**
 	 *
 	 * Get a Custom card like this, but with an additional UI Progressmeter object
 	 * @param ProgressMeter $progressmeter
-	 * @return mixed
+	 * @return RepositoryObject
 	 */
 	public function withProgress($progressmeter);
 
@@ -31,7 +31,7 @@ interface Custom extends Card {
 	/**
 	 * Get a Custom card like this, but with an additional UI Dropdown object
 	 * @param $dropdown Dropdown
-	 * @return Custom
+	 * @return RepositoryObject
 	 */
 	public function withActions($dropdown);
 }

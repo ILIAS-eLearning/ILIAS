@@ -47,9 +47,9 @@ interface Factory {
 	 * ---
 	 * @param string $title
 	 * @param \ILIAS\UI\Component\Image\Image $image
-	 * @return \ILIAS\UI\Component\Card\Card
+	 * @return \ILIAS\UI\Component\Card\Standard
 	 */
-	public function card($labelled_actions, $aria_label);
+	public function standard($labelled_actions, $aria_label);
 
 
 	/**
@@ -78,8 +78,8 @@ interface Factory {
 	 * @param string $title
 	 * @param \ILIAS\UI\Component\Image\Image $image
 	 * @param \ILIAS\UI\Component\Icon\????
-	 * @return \ILIAS\UI\Component\Card\Custom
+	 * @return \ILIAS\UI\Component\Card\RepositoryObject
 	 */
-	public function custom($title, $image, $object_icon);
+	public function repositoryObject($title, $image, $object_icon);
 
 }

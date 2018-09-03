@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 use ILIAS\UI\Component\Card as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Card implements C\Card {
+class Standard implements C\Standard {
 	use ComponentHelper;
 
 	/**

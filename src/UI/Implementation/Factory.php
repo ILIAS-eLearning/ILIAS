@@ -178,7 +178,7 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function card($title, \ILIAS\UI\Component\Image\Image $image = null)
 	{
-		return new Component\Card\Card($title, $image);
+		return new Component\Card\Standard($title, $image);
 	}
 
 	/**
