@@ -9,10 +9,4 @@ namespace ILIAS\UI\Component\Input\Container\Filter;
  */
 interface Standard extends Filter {
 
-	/**
-	 * Get the URL this form posts its result to.
-	 *
-	 * @return    string
-	 */
-	public function getPostURL();
 }

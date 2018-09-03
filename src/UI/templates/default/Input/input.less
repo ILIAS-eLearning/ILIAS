@@ -57,4 +57,72 @@
     margin: 0;
   }
 
+  .il-filter-bar {
+    padding: 10px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid black;
+  }
+
+  .il-filter-bar-opener {
+    cursor: pointer;
+  }
+
+  .il-filter-bar-controls {
+    float: right;
+    .btn-bulky {
+      width: auto;
+      background-color: initial;
+      font-size: 0.75em;
+    }
+    .glyph {
+      //margin-right: 15px;
+      //padding-right: 15px;
+      //border-right: 1.5px solid lightgrey;
+    }
+  }
+
+  .il-filter-bar-opener-collapse .glyph {
+    margin-left: 8px;
+  }
+
+  .col-md-4 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  //Strange fix, check later if we really need this
+  .glyphicon-ok {
+    font-size: unset;
+    text-align: unset;
+  }
+
+  input {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .input-group {
+    width: 100%;
+    height: 25px;
+    table-layout: fixed;
+    .glyphicon-plus-sign {
+      //font-size: 1.2em;
+    }
+  }
+
+  #leftaddon {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 30%;
+  }
+
+  #rightaddon {
+    overflow: visible;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 10%;
+  }
+
 }

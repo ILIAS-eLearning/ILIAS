@@ -14,6 +14,9 @@ use ILIAS\Transformation\Transformation;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Constraint;
 use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * This implements commonalities between inputs.
@@ -21,6 +24,8 @@ use ILIAS\Validation\Factory as ValidationFactory;
 abstract class Input implements C\Input\Field\Input, InputInternal {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
+	use Triggerer;
 	/**
 	 * @var DataFactory
 	 */
@@ -426,5 +431,19 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	final public function getContent() {
 		return $this->content;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnClick(Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'click');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnClick(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'click');
 	}
 }

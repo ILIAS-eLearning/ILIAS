@@ -7,6 +7,8 @@ namespace ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Component;
 use ILIAS\Transformation\Transformation;
 use ILIAS\Validation\Constraint;
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes commonalities between all inputs.
@@ -27,7 +29,7 @@ use ILIAS\Validation\Constraint;
  * into other types of data. This means, that e.g. the value of an input could
  * be some id, while the content could be some object referenced by that id.
  */
-interface Input extends Component {
+interface Input extends Component, JavaScriptBindable, Clickable {
 
 	/**
 	 * Get the label of the input.
