@@ -32,13 +32,13 @@ class ilCertificateFactory
 				$certificatePath = ilCertificatePathConstants::SKILL_PATH . $object->getId() . '/';
 				break;
 			case 'scrm':
-				$adapter = new ilSkillCertificateAdapter($object);
+				$adapter = new ilSCORMCertificateAdapter($object);
 				$placeholderDescriptionObject = new ilScormPlaceholderDescription();
 				$placeholderValuesObject = new ilScormPlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
 				break;
 			case 'exc':
-				$adapter = new ilSkillCertificateAdapter($object);
+				$adapter = new ilExerciseCertificateAdapter($object);
 				$placeholderDescriptionObject = new ExercisePlaceholderDescription();
 				$placeholderValuesObject = new ilExercisePlaceHolderValues();
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
