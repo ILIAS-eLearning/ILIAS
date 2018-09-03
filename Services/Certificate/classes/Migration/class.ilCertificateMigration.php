@@ -58,7 +58,7 @@ class ilCertificateMigration
         $db = $DIC->database();
 
         $result = $db->queryF(
-            'select * from bgtask_cert_migration where user_id = %s',
+            'select * from bgtask_cert_migration where usr_id = %s',
             ['integer'],
             [$this->user_id]
         );
@@ -91,7 +91,7 @@ class ilCertificateMigration
      */
     public function isTaskStarted()
     {
-        return $this->information_object->getState() !== \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT;
+        return $this->information_object->getState() === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT;
     }
 
     /**

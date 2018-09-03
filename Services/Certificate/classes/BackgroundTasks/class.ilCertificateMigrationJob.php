@@ -77,6 +77,8 @@ class ilCertificateMigrationJob extends AbstractJob
         $this->db = $DIC->database();
         $this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
 
+        $this->logMessage('startet at ' . ($st_time = date('d.m.Y H:i:s')) . ' for user with id: ' . $this->user_id, 'debug');
+
         $task_informations = $this->getTaskInformations();
         if ($task_informations['lock'] == true) {
             // @TODO stop with output
@@ -93,7 +95,6 @@ class ilCertificateMigrationJob extends AbstractJob
         $certificates = [];
         $output = new IntegerValue();
 
-        $this->logMessage('startet at ' . ($st_time = date('d.m.Y H:i:s')), 'debug');
         $this->updateState(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_RUNNING);
 
         try {
@@ -182,7 +183,7 @@ class ilCertificateMigrationJob extends AbstractJob
         $db = $DIC->database();
 
         $result = $db->queryF(
-            'select * from ' . $this->db_table . ' where user_id = %s',
+            'select * from ' . $this->db_table . ' where usr_id = %s',
             ['integer'],
             [$this->user_id]
         );
@@ -201,19 +202,21 @@ class ilCertificateMigrationJob extends AbstractJob
     public function updateState($state)
     {
         if (empty($this->getTaskInformations())) {
+            $this->logMessage('insert new entry for user with id: ' . $this->user_id, 'debug');
             $this->db->insert($this->db_table, [
-                'id' => $this->db->nextId($this->db_table),
-                'usr_id' => $this->user_id,
-                'lock' => true,
-                'found_items' => 0,
-                'processed_items' => 0,
-                'progress' => 0,
-                'state' => $state,
-                'started_ts' => strtotime('now'),
+                'id' => ['integer', $this->db->nextId($this->db_table)],
+                'usr_id' => ['integer', $this->user_id],
+                'lock' => ['integer', true],
+                'found_items' => ['integer', 0],
+                'processed_items' => ['integer', 0],
+                'progress' => ['integer', 0],
+                'state' => ['text', $state],
+                'started_ts' => ['timestamp', strtotime('now')],
                 'finished_ts' => null,
             ]);
         } else {
-            $this->db->update($this->db_table, ['state' => $state], ['usr_id' => $this->user_id]);
+            $this->logMessage('update entry for user with id: ' . $this->user_id, 'debug');
+            $this->db->update($this->db_table, ['state' => $state], ['usr_id' => ['integer', $this->user_id] ]);
         }
     }
 
@@ -283,42 +286,39 @@ class ilCertificateMigrationJob extends AbstractJob
                             $lm = new \ilObjSCORM2004LearningModule($obj_id, false);
                         }
 
-//                        $factory = new \ilCertificateFactory();
-//
-//                        try {
-//                            $certificate = $factory->create($lm);
-//                        } catch (\Exception $e) {
-//                            $this->logMessage('Error getting certificate for object with id \'' . $obj_id . '\' and type \'' . $type . '\'.');
-//                            continue;
-//                        }
-//
-//                        if ($certificate->isComplete())
                         $adapter = new \ilSCORMCertificateAdapter($lm); // old method
-                        if (\ilCertificate::_isComplete($adapter))       // old method
-                        {
-                            $lpdata = $completed = false;
-                            if ($lp_active)
-                            {
-                                $completed = \ilLPStatus::_hasUserCompleted($obj_id, $this->user_id);
-                                $lpdata = true;
-                            }
-                            if (!$lpdata)
-                            {
-                                switch ($type)
-                                {
-                                    case "scorm":
-                                        $completed = \ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $this->user_id);
-                                        break;
 
-                                    case "scorm2004":
-                                        $completed = \ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $this->user_id);
-                                        break;
+                        $obj_id = $adapter->getCertificateID();
+                        if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
+                        {
+                            if (file_exists($adapter->getCertificatePath()))
+                            {
+                                $xsl_path = $adapter->getCertificatePath() . "certificate.xml";
+                                if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
+                                {
+                                    $lpdata = $completed = false;
+                                    if ($lp_active) {
+                                        $completed = \ilLPStatus::_hasUserCompleted($obj_id, $this->user_id);
+                                        $lpdata = true;
+                                    }
+                                    if (!$lpdata) {
+                                        switch ($type) {
+                                            case "scorm":
+                                                $completed = \ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $this->user_id);
+                                                break;
+
+                                            case "scorm2004":
+                                                $completed = \ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $this->user_id);
+                                                break;
+                                        }
+                                    }
+
+                                    $this->logMessage('found scorm certificate with id: ' . $obj_id, 'debug');
+                                    $data[] = array("id" => $obj_id,
+                                        "title" => \ilObject::_lookupTitle($obj_id),
+                                        "passed" => (bool)$completed);
                                 }
                             }
-
-                            $data[] = array("id" => $obj_id,
-                                "title" => \ilObject::_lookupTitle($obj_id),
-                                "passed" => (bool)$completed);
                         }
                     }
                 }
@@ -345,6 +345,7 @@ class ilCertificateMigrationJob extends AbstractJob
             $session = $session->getSession(null);
             if ($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
             {
+                $this->logMessage('found test certificate with id: ' . $test_id, 'debug');
                 $data[] = array("id" => $test_id,
                     "title" => $test->getTitle(),
                     "passed" => $test->getPassed($session->getActiveId()));
@@ -369,25 +370,26 @@ class ilCertificateMigrationJob extends AbstractJob
             $exc = new \ilObjExercise($exercise_id, false);
             if ($exc->hasUserCertificate($this->user_id))
             {
-//                $factory = new \ilCertificateFactory();
-//
-//                try {
-//                    $certificate = $factory->create($exc);
-//                } catch (\Exception $e) {
-//                    $this->logMessage('Error getting certificate for object with id \'' . $exercise_id . '\' and type \'exercise\'.');
-//                    continue;
-//                }
-//
-//                if ($certificate->isComplete())
+
                 include_once('./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php');
-                $adapter = new \ilExerciseCertificateAdapter($exc); // old method
-                if (\ilCertificate::_isComplete($adapter))           // old method
+                $adapter = new \ilExerciseCertificateAdapter($exc);
+
+                $obj_id = $adapter->getCertificateID();
+                if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
                 {
-                    $data[] = array(
-                        "id" => $exercise_id,
-                        "title" => \ilObject::_lookupTitle($exercise_id),
-                        "passed" => $passed
-                    );
+                    if (file_exists($adapter->getCertificatePath()))
+                    {
+                        $xsl_path = $adapter->getCertificatePath() . "certificate.xml";
+                        if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
+                        {
+                            $this->logMessage('found exercise certificate with id: ' . $obj_id, 'debug');
+                            $data[] = array(
+                                "id" => $exercise_id,
+                                "title" => \ilObject::_lookupTitle($exercise_id),
+                                "passed" => $passed
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -415,24 +417,23 @@ class ilCertificateMigrationJob extends AbstractJob
             {
                 if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $crs_id))
                 {
-//                    $courseObject = new \ilObjCourse($crs_id, false);
-//                    $factory = new \ilCertificateFactory();
-//
-//                    try {
-//                        $certificate = $factory->create($courseObject);
-//                    } catch (\Exception $e) {
-//                        $this->logMessage('Error getting certificate for object with id \'' . $crs_id . '\' and type \'course\'.');
-//                        continue;
-//                    }
-//
-//                    if ($certificate->isComplete())
-                    $crs = new \ilObjCourse($crs_id, false); // old method
-                    $adapter = new \ilCourseCertificateAdapter($crs);        // old method
-                    if (\ilCertificate::_isComplete($adapter))                // old method
+
+                    $crs = new \ilObjCourse($crs_id, false);
+                    $adapter = new \ilCourseCertificateAdapter($crs);
+                    $obj_id = $adapter->getCertificateID();
+                    if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
                     {
-                        $data[] = array("id" => $crs_id,
-                            "title" => \ilObject::_lookupTitle($crs_id),
-                            "passed" => true);
+                        if (file_exists($adapter->getCertificatePath()))
+                        {
+                            $xsl_path = $adapter->getCertificatePath() . "certificate.xml";
+                            if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
+                            {
+                                $this->logMessage('found course certificate with id: ' . $crs_id, 'debug');
+                                $data[] = array("id" => $crs_id,
+                                    "title" => \ilObject::_lookupTitle($crs_id),
+                                    "passed" => true);
+                            }
+                        }
                     }
                 }
             }
