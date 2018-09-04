@@ -574,13 +574,10 @@ class ilGlobalTemplate
 		}
 	}
 
-	// REMOVAL CANDIDATE
-	// Usage locations:
-	//    - ilLMPresentationGUI
 	/**
 	 * Fill add on load code
 	 */
-	public function fillOnLoadCode()
+	private function fillOnLoadCode()
 	{
 		for ($i = 1; $i <= 3; $i++)
 		{
@@ -713,10 +710,7 @@ class ilGlobalTemplate
 		$this->body_class = $a_class;
 	}
 
-	// PRIVATE CANDIDATE:
-	// Usage locations:
-	//    - ilLMPresentationGUI
-	public function fillBodyClass()
+	private function fillBodyClass()
 	{
 		if ($this->body_class != "" && $this->blockExists("body_class"))
 		{
@@ -726,16 +720,10 @@ class ilGlobalTemplate
 		}
 	}
 
-	// REMOVAL CANDIDATE:
-	// Usage locations:
-	//    - ilLMPresentationGUI
 	/**
 	 * Reset css files
-	 *
-	 * @param
-	 * @return
 	 */
-	public function resetCss()
+	private function resetCss()
 	{
 		$this->css_files = array();
 	}
@@ -1096,11 +1084,7 @@ class ilGlobalTemplate
 		$this->setVariable("SUB_TABS", $a_tabs_html);
 	}
 
-	// REMOVAL CANDIDATE
-	// Usage locations:
-	//    - ilLMPresentationGUI
-	//    - ilLMEditorGUI
-	public function fillTabs()
+	private function fillTabs()
 	{
 		if ($this->blockExists("tabs_outer_start"))
 		{
@@ -1167,7 +1151,7 @@ class ilGlobalTemplate
 	/**
 	 * Fill left navigation frame
 	 */
-	public function fillLeftNav()
+	private function fillLeftNav()
 	{
 		if (trim($this->left_nav_content) != "")
 		{
@@ -1274,15 +1258,10 @@ class ilGlobalTemplate
 	//
 	// Stuff that is only used by a little other classes.
 
-	// REMOVAL CANDIDATE
-	// Usage locations:
-	//    - ilLMPresentationGUI
 	/**
 	 * Add current user language to meta tags
-	 *
-	 * @access public
 	 */
-	public function fillContentLanguage()
+	private function fillContentLanguage()
 	{
 		global $DIC;
 
@@ -1738,7 +1717,7 @@ class ilGlobalTemplate
 	/**
 	* Accessibility focus for screen readers
 	*/
-	public function fillScreenReaderFocus()
+	private function fillScreenReaderFocus()
 	{
 		global $DIC;
 
