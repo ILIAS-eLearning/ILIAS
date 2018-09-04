@@ -33,6 +33,9 @@ include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
 include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
 include_once "./Services/Tracking/classes/class.ilLPStatus.php";
 include_once "./Services/Utilities/classes/class.ilUtil.php";
+include_once "./Services/User/classes/class.ilUserDefinedFields.php";
+require_once "./Services/MathJax/classes/class.ilMathJax.php";
+include_once "./Services/WebServices/RPC/classes/class.ilRpcClientFactory.php";
 include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
 include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
@@ -41,7 +44,7 @@ include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
 include_once "./Modules/Test/classes/class.ilObjTest.php";
 include_once "./Modules/Test/classes/class.ilTestSessionFactory.php";
 include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
-include_once('./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php');
+include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
 include_once "./Modules/Course/classes/class.ilObjCourse.php";
 include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 
@@ -67,6 +70,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @param \ILIAS\BackgroundTasks\Value[] $input
      * @param Observer                       $observer
      * @return \ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue
+     * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      */
     public function run(Array $input, Observer $observer)
     {
@@ -78,35 +82,36 @@ class ilCertificateMigrationJob extends AbstractJob
         $this->db = $DIC->database();
         $this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
 
+        $certificates = [];
+        $output = new IntegerValue();
+
+        $this->logMessage('Startet at ' . ($st_time = date('d.m.Y H:i:s')) . ' for user with id: ' . $this->user_id, 'debug');
+
         $task_informations = $this->getTaskInformations();
         if(empty($task_informations)) {
             $this->initTask();
         }
-        if ($task_informations['state'] === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT) {
-            // @TODO anything to do here?
-        }
         if ($task_informations['state'] === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_RUNNING) {
-            // @TODO stop with output
+            $this->logMessage('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is already running.');
+            $output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_ALREADY_RUNNING);
+            return $output;
         }
         if ($task_informations['lock'] == true) {
-            // @TODO anything to do here? remove lock?
+            // we should never get here if no fatal error occures
+            $this->logMessage('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is locked.');
+            $output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_LOCKED);
+            return $output;
         }
-
-        $this->logMessage('startet at ' . ($st_time = date('d.m.Y H:i:s')) . ' for user with id: ' . $this->user_id, 'debug');
 
         $this->updateTask([
             'lock' => true,
             'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_RUNNING
         ]);
 
-        $certificates = [];
-        $output = new IntegerValue();
-
-
+        $found_items = 0;
         try {
             // collect all data
-            $this->logMessage('start collection certificate data for user: ' . $this->user_id);
-            $found_items = 0;
+            $this->logMessage('Start collection certificate data for user: ' . $this->user_id);
 
             $certificates['scorm'] = $this->getScormCertificates();
             $found_items += count($certificates['scorm']);
@@ -125,8 +130,8 @@ class ilCertificateMigrationJob extends AbstractJob
             $observer->heartbeat();
 
             $this->updateTask(['found_items' => $found_items]);
-            $this->logMessage('found overall ' . $found_items . ' items for user with id: ' . $this->user_id, 'debug');
-            $this->logMessage('finished collecting certificate data for user: ' . $this->user_id);
+            $this->logMessage('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id, 'debug');
+            $this->logMessage('Finished collecting certificate data for user: ' . $this->user_id);
 
         } catch (\Exception $e) {
             $this->logMessage($e->getMessage(), 'error');
@@ -138,66 +143,73 @@ class ilCertificateMigrationJob extends AbstractJob
             return $output;
         }
 
+        $processed_items = 0;
         try {
             // prepare all data?
-            // @TODO what to do next?
-            $this->logMessage('start preparing certificate informations for user: ' . $this->user_id);
-            $processed_items = 0;
+            $this->logMessage('Start preparing certificate informations for user: ' . $this->user_id);
 
-            $this->logMessage('start preparing scorm certificates');
-            foreach ($certificates['scorm'] as &$scorm) {
-                $this->getCertificateInformations($scorm);
-                $processed_items++;
+            if(!empty($certificates['scorm'])) {
+                $this->logMessage('Start preparing scorm certificates');
+                foreach ($certificates['scorm'] as &$scorm) {
+                    $this->getCertificateInformations($scorm);
+                    $processed_items++;
+                }
+                $observer->heartbeat();
+                $this->logMessage('Finished preparing scorm certificates');
             }
-            $observer->heartbeat();
-            $this->logMessage('finished preparing scorm certificates');
 
-            $this->logMessage('start preparing test certificates');
-            foreach ($certificates['test'] as &$test) {
-                $this->getCertificateInformations($test);
-                $processed_items++;
+            if(!empty($certificates['test'])) {
+                $this->logMessage('Start preparing test certificates');
+                foreach ($certificates['test'] as &$test) {
+                    $this->getCertificateInformations($test);
+                    $processed_items++;
+                }
+                $observer->heartbeat();
+                $this->logMessage('Finished preparing test certificates');
             }
-            $observer->heartbeat();
-            $this->logMessage('finished preparing test certificates');
 
-            $this->logMessage('start preparing exercise certificates');
-            foreach ($certificates['exercise'] as &$exercise) {
-                $this->getCertificateInformations($exercise);
-                $processed_items++;
+            if(!empty($certificates['exercise'])) {
+                $this->logMessage('Start preparing exercise certificates');
+                foreach ($certificates['exercise'] as &$exercise) {
+                    $this->getCertificateInformations($exercise);
+                    $processed_items++;
+                }
+                $observer->heartbeat();
+                $this->logMessage('Finished preparing exercise certificates');
             }
-            $observer->heartbeat();
-            $this->logMessage('finished preparing exercise certificates');
 
-            $this->logMessage('start preparing course certificates');
-            foreach ($certificates['course'] as &$course) {
-                $this->getCertificateInformations($course);
-                $processed_items++;
+            if(!empty($certificates['course'])) {
+                $this->logMessage('Start preparing course certificates');
+                foreach ($certificates['course'] as &$course) {
+                    $this->getCertificateInformations($course);
+                    $processed_items++;
+                }
+                $observer->heartbeat();
+                $this->logMessage('Finished preparing course certificates');
             }
-            $observer->heartbeat();
-            $this->logMessage('finished preparing course certificates');
 
-            $this->updateTask(['processed_items' => $processed_items]);
-            $this->logMessage('finished preparing certificate informations for user: ' . $this->user_id);
+            $this->logMessage('Finished preparing certificate informations for user: ' . $this->user_id);
 
+            // @TODO trigger event
 
         } catch (\Exception $e) {
             $this->logMessage($e->getMessage(), 'error');
             $this->updateTask([
                 'lock' => false,
+                'processed_items' => $processed_items,
                 'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
             ]);
             $output->setValue((int)$e->getCode());
             return $output;
         }
 
-        $this->logMessage(var_export($certificates, true), 'debug');
+        $output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_SUCCESS);
 
-        $output->setValue(200);
-
-        $this->logMessage('finished at ' . ($f_time = date('d.m.Y H:i:s')) . ' after ' . (strtotime($f_time) - strtotime($st_time)) . ' seconds', 'debug');
+        $this->logMessage('Finished at ' . ($f_time = date('d.m.Y H:i:s')) . ' after ' . (strtotime($f_time) - strtotime($st_time)) . ' seconds', 'debug');
         $this->updateTask([
             'lock' => false,
             'finished_ts' => $f_time,
+            'processed_items' => $processed_items,
             'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FINISHED
         ]);
 
@@ -221,7 +233,7 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     public function getExpectedTimeOfTaskInSeconds()
     {
-        return 300; // @TODO mesure time and modify this value
+        return 100;
     }
 
     /**
@@ -243,8 +255,7 @@ class ilCertificateMigrationJob extends AbstractJob
     }
 
     /**
-     * @param $user_id
-     * @return array
+     * @return array|mixed
      */
     public function getTaskInformations()
     {
@@ -274,13 +285,13 @@ class ilCertificateMigrationJob extends AbstractJob
         if (empty($this->getTaskInformations())) {
             $this->initTask();
         }
-        $this->logMessage('update entry for user with id: ' . $this->user_id, 'debug');
+        $this->logMessage('Update entry for user with id: ' . $this->user_id, 'debug');
         $this->db->update($this->db_table, ['state' => ['text', $state] ], ['usr_id' => ['integer', $this->user_id] ]);
     }
 
     protected function initTask()
     {
-        $this->logMessage('insert new entry for user with id: ' . $this->user_id, 'debug');
+        $this->logMessage('Insert new entry for user with id: ' . $this->user_id, 'debug');
         $this->db->insert($this->db_table, [
             'id' => ['integer', $this->db->nextId($this->db_table)],
             'usr_id' => ['integer', $this->user_id],
@@ -322,9 +333,9 @@ class ilCertificateMigrationJob extends AbstractJob
             }
             $updata['finished_ts'] = ['integer', $data['finished_ts']];
         }
-        $this->logMessage('update data: ' . json_encode($updata), 'debug');
+        $this->logMessage('Update data: ' . json_encode($updata), 'debug');
         if(!empty($updata)) {
-            $this->logMessage('update entry for user with id: ' . $this->user_id, 'debug');
+            $this->logMessage('Update entry for user with id: ' . $this->user_id, 'debug');
             $this->db->update($this->db_table, $updata, ['usr_id' => ['integer', $this->user_id] ]);
         }
     }
@@ -365,7 +376,7 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     protected function getScormCertificates()
     {
-        $this->logMessage('trying to get scorm certificates for user: ' . $this->user_id);
+        $this->logMessage('Trying to get scorm certificates for user: ' . $this->user_id);
 
         $data = array();
 
@@ -380,7 +391,6 @@ class ilCertificateMigrationJob extends AbstractJob
             if ($obj_ids)
             {
 
-                $lp_active = \ilObjUserTracking::_enabledLearningProgress();
                 foreach(\ilCertificate::areObjectsActive($obj_ids) as $obj_id => $active)
                 {
                     if ($active)
@@ -395,7 +405,7 @@ class ilCertificateMigrationJob extends AbstractJob
                             $lm = new \ilObjSCORM2004LearningModule($obj_id, false);
                         }
 
-                        $adapter = new \ilSCORMCertificateAdapter($lm); // old method
+                        $adapter = new \ilSCORMCertificateAdapter($lm);
 
                         $obj_id = $adapter->getCertificateID();
                         if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
@@ -406,13 +416,18 @@ class ilCertificateMigrationJob extends AbstractJob
                                 $xsl_path = $cert_path . "certificate.xml";
                                 if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
                                 {
-                                    $this->logMessage('found scorm certificate with id: ' . $obj_id, 'debug');
+                                    $this->logMessage('Found scorm certificate with id: ' . $obj_id, 'debug');
                                     $webdir = $cert_path . "background.jpg";
-                                    $background_image_path = str_replace(\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+                                    $background_image_path = str_replace(
+                                        \ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                                        \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                                        $webdir
+                                    );
                                     $data[] = array(
                                         "obj_id" => $obj_id,
                                         "user_id" => $this->user_id,
                                         "certificate_path" => $cert_path,
+                                        "certificate_type" => 'sahs',
                                         "background_image_path" => $background_image_path,
                                         "aquired_timestamp" => null,
                                         "ilias_version" => ILIAS_VERSION_NUMERIC,
@@ -426,7 +441,7 @@ class ilCertificateMigrationJob extends AbstractJob
             }
         }
 
-        $this->logMessage('got ' . count($data) . ' scorm certificates for user: ' . $this->user_id);
+        $this->logMessage('Got ' . count($data) . ' scorm certificates for user: ' . $this->user_id);
         return $data;
     }
 
@@ -436,7 +451,7 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     protected function getTestCertificates()
     {
-        $this->logMessage('trying to get test certificates for user: ' . $this->user_id);
+        $this->logMessage('Trying to get test certificates for user: ' . $this->user_id);
 
         $data = array();
 
@@ -459,13 +474,18 @@ class ilCertificateMigrationJob extends AbstractJob
                         $xsl_path = $cert_path . "certificate.xml";
                         if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
                         {
-                            $this->logMessage('found test certificate with id: ' . $test_id, 'debug');
+                            $this->logMessage('Found test certificate with id: ' . $test_id, 'debug');
                             $webdir = $cert_path . "background.jpg";
-                            $background_image_path = str_replace(\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+                            $background_image_path = str_replace(
+                                \ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                                \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                                $webdir
+                            );
                             $data[] = array(
                                 "obj_id" => $test_id,
                                 "user_id" => $this->user_id,
                                 "certificate_path" => $cert_path,
+                                "certificate_type" => 'tst',
                                 "background_image_path" => $background_image_path,
                                 "aquired_timestamp" => null,
                                 "ilias_version" => ILIAS_VERSION_NUMERIC,
@@ -477,7 +497,7 @@ class ilCertificateMigrationJob extends AbstractJob
             }
         }
 
-        $this->logMessage('got ' . count($data) . ' test certificates for user: ' . $this->user_id);
+        $this->logMessage('Got ' . count($data) . ' test certificates for user: ' . $this->user_id);
         return $data;
     }
 
@@ -487,7 +507,7 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     protected function getExerciseCertificates()
     {
-        $this->logMessage('trying to get exercise certificates for user: ' . $this->user_id);
+        $this->logMessage('Trying to get exercise certificates for user: ' . $this->user_id);
 
         $data = array();
 
@@ -508,13 +528,18 @@ class ilCertificateMigrationJob extends AbstractJob
                         $xsl_path = $cert_path . "certificate.xml";
                         if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
                         {
-                            $this->logMessage('found exercise certificate with id: ' . $obj_id, 'debug');
+                            $this->logMessage('Found exercise certificate with id: ' . $obj_id, 'debug');
                             $webdir = $cert_path . "background.jpg";
-                            $background_image_path = str_replace(\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+                            $background_image_path = str_replace(
+                                \ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                                \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                                $webdir
+                            );
                             $data[] = array(
                                 "obj_id" => $exercise_id,
                                 "user_id" => $this->user_id,
                                 "certificate_path" => $cert_path,
+                                "certificate_type" => 'exc',
                                 "background_image_path" => $background_image_path,
                                 "aquired_timestamp" => null,
                                 "ilias_version" => ILIAS_VERSION_NUMERIC,
@@ -526,7 +551,7 @@ class ilCertificateMigrationJob extends AbstractJob
             }
         }
 
-        $this->logMessage('got ' . count($data) . ' exercise certificates for user: ' . $this->user_id);
+        $this->logMessage('Got ' . count($data) . ' exercise certificates for user: ' . $this->user_id);
         return $data;
     }
 
@@ -536,7 +561,7 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     protected function getCourseCertificates()
     {
-        $this->logMessage('trying to get course certificates for user: ' . $this->user_id);
+        $this->logMessage('Trying to get course certificates for user: ' . $this->user_id);
 
         $data = array();
 
@@ -561,13 +586,18 @@ class ilCertificateMigrationJob extends AbstractJob
                             $xsl_path = $cert_path . "certificate.xml";
                             if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
                             {
-                                $this->logMessage('found course certificate with id: ' . $crs_id, 'debug');
+                                $this->logMessage('Found course certificate with id: ' . $crs_id, 'debug');
                                 $webdir = $cert_path . "background.jpg";
-                                $background_image_path = str_replace(\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+                                $background_image_path = str_replace(
+                                    \ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                                    \ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                                    $webdir
+                                );
                                 $data[] = array(
                                     "obj_id" => $crs_id,
                                     "user_id" => $this->user_id,
                                     "certificate_path" => $cert_path,
+                                    "certificate_type" => 'crs',
                                     "background_image_path" => $background_image_path,
                                     "aquired_timestamp" => null,
                                     "ilias_version" => ILIAS_VERSION_NUMERIC,
@@ -580,7 +610,7 @@ class ilCertificateMigrationJob extends AbstractJob
             }
         }
 
-        $this->logMessage('got ' . count($data) . ' course certificates for user: ' . $this->user_id);
+        $this->logMessage('Got ' . count($data) . ' course certificates for user: ' . $this->user_id);
         return $data;
     }
 
@@ -595,10 +625,117 @@ class ilCertificateMigrationJob extends AbstractJob
             $cert_path = $cert_data['certificate_path'] . "certificate.xml";
             if (file_exists($cert_path) && (filesize($cert_path) > 0))
             {
-                $cert_data['certificate_content'] = file_get_contents($cert_path);
                 $cert_data['aquired_timestamp'] = filemtime($cert_path);
+                $cert_data['certificate_content'] = $this->renderCertificate($cert_data);
             }
         }
+    }
+
+    /**
+     * @param array $cert_data
+     * @return mixed
+     */
+    protected function renderCertificate($cert_data)
+    {
+        \ilDatePresentation::setUseRelativeDates(false);
+        $this->logMessage(
+            'Try to render ' . $cert_data['certificate_type'] . ' certificate for obj_id: ' . $cert_data['obj_id'] . ' and user_id: ' . $this->user_id,
+            'debug'
+        );
+
+        $user_data = [];
+        // get type specific adapter build data array
+        switch ($cert_data['certificate_type']) {
+            case 'sahs':
+                $type = \ilObjSAHSLearningModule::_lookupSubType($cert_data['obj_id']);
+                if ($type == "scorm")
+                {
+                    $lm = new \ilObjSCORMLearningModule($cert_data['obj_id'], false);
+                    $last_access = \ilObjSCORMLearningModule::_lookupLastAccess($lm->getId(), $cert_data['user_id']);
+                } else {
+                    $lm = new \ilObjSCORM2004LearningModule($cert_data['obj_id'], false);
+                    $last_access = \ilObjSCORM2004LearningModule::_lookupLastAccess($lm->getId(), $cert_data['user_id']);
+                }
+                $adapter = new \ilSCORMCertificateAdapter($lm);
+                $user_data['user_data'] = \ilObjUser::_lookupFields($cert_data['user_id']);
+                $user_data['last_access'] = $last_access;
+                break;
+            case 'tst':
+                $test = new \ilObjTest($cert_data['obj_id'], false);
+                $adapter = new \ilTestCertificateAdapter($test);
+                $user_data['active_id'] = $test->getActiveIdOfUser($cert_data['user_id']);
+                $user_data['pass'] = ilObjTest::_getResultPass($user_data['active_id']);
+                break;
+            case 'exc':
+                $exc = new \ilObjExercise($cert_data['obj_id'], false);
+                $adapter = new \ilExerciseCertificateAdapter($exc);
+                $user_data['user_id'] = $cert_data['user_id'];
+                break;
+            case 'crs':
+                $crs = new \ilObjCourse($cert_data['obj_id'], false);
+                $adapter = new \ilCourseCertificateAdapter($crs);
+                $user_data['user_id'] = $cert_data['user_id'];
+                break;
+            default:
+                return '';
+                break;
+        }
+
+        // get fields
+        $insert_tags = $adapter->getCertificateVariablesForPresentation($user_data);
+        $cust_data = new \ilUserDefinedData($adapter->getUserIdForParams($user_data));
+        $cust_data = $cust_data->getAll();
+
+        // get field representations
+        $user_field_definitions = \ilUserDefinedFields::_getInstance();
+        $fds = $user_field_definitions->getDefinitions();
+        foreach ($fds as $f)
+        {
+            if ($f["certificate"])
+            {
+                $ph = "[#".str_replace(" ", "_", strtoupper($f["field_name"]))."]";
+                $insert_tags[$ph] = \ilUtil::prepareFormOutput($cust_data["f_".$f["field_id"]]);
+            }
+        }
+
+        $xslfo = file_get_contents($cert_data['certificate_path'] . "certificate.xml");
+
+        // render tex as fo graphics
+        $xslfo = \ilMathJax::getInstance()
+            ->init(ilMathJax::PURPOSE_PDF)
+            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+            ->insertLatexImages($xslfo);
+
+
+        // exchange certificate variables
+        if (count($insert_tags) == 0)
+        {
+            $insert_tags = $adapter->getCertificateVariablesForPreview();
+            foreach ($fds as $f)
+            {
+                if ($f["certificate"])
+                {
+                    $ph = "[#".str_replace(" ", "_", strtoupper($f["field_name"]))."]";
+                    $insert_tags[$ph] = \ilUtil::prepareFormOutput($f["field_name"]);
+                }
+            }
+
+        }
+        foreach ($insert_tags as $var => $value)
+        {
+            $xslfo = str_replace($var, $value, $xslfo);
+        }
+        $xslfo = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $xslfo);
+
+        $pdf_base64 = \ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($xslfo);
+
+        $this->logMessage(
+            'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id,
+            'debug'
+        );
+
+        ilDatePresentation::setUseRelativeDates(true);
+        return $pdf_base64->scalar;
     }
 
 }

@@ -42,66 +42,11 @@ class ilCertificateMigrationJobDefinitions
     // task has stopped because something failed
     const CERT_MIGRATION_STATE_FAILED = 'failed';
 
+    // job has run successful
+    const CERT_MIGRATION_RETURN_SUCCESS = 200;
+    // job execution was stopped because it is already running
+    const CERT_MIGRATION_RETURN_ALREADY_RUNNING = 201;
+    // job execution was stopped because it is locked
+    const CERT_MIGRATION_RETURN_LOCKED = 202;
+
 }
-/*
- * DBUPDATE
-<?php
-if(!$ilDB->tableExists('bgtask_cert_migration')) {
-    $ilDB->createTable('bgtask_cert_migration', array(
-        'id' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'usr_id' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'lock' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'found_items' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'processed_items' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'progress' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'state' => array(
-            'type' => 'text',
-            'length' => '255',
-            'notnull' => true
-        ),
-        'started_ts' => array(
-            'type' => 'integer',
-            'notnull' => false,
-        ),
-        'finished_ts' => array(
-            'type' => 'integer',
-            'notnull' => false,
-        ),
-    ));
-    $ilDB->addPrimaryKey('bgtask_cert_migration', array('id'));
-    $ilDB->createSequence('bgtask_cert_migration');
-    $ilDB->addUniqueConstraint('bgtask_cert_migration', array('id', 'usr_id'));
-}
-$ilCtrlStructureReader->getStructure();
-?>
- */
