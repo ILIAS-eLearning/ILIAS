@@ -6,26 +6,27 @@ include_once "./Services/Container/classes/class.ilContainerGUI.php";
 include_once('./Modules/Group/classes/class.ilObjGroup.php');
 
 /**
-* Class ilObjGroupGUI
-*
-* @author	Stefan Meyer <smeyer.ilias@gmx.de>
-* @author	Sascha Hofmann <saschahofmann@gmx.de>
-*
-* @version	$Id$
-*
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
-* 
-*
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjGroupGUI
+ *
+ * @author    Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author    Sascha Hofmann <saschahofmann@gmx.de>
+ *
+ * @version    $Id$
+ *
+ * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI
+ *
+ *
+ *
+ * @extends ilObjectGUI
+ */
 class ilObjGroupGUI extends ilContainerGUI
 {
 	/**
@@ -1131,8 +1132,24 @@ class ilObjGroupGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-		}				
-		
+		}
+
+		// meta data
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$md_gui = new ilObjectMetaDataGUI($this->object);
+			$tab_link = $md_gui->getTab();
+			if($tab_link !== null) {
+				$this->tabs_gui->addTab(
+					'meta_data',
+					$this->lng->txt('meta_data'),
+					$tab_link,
+					'',
+					'ilObjectMetaDataGUI'
+				);
+			}
+		}
+
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{

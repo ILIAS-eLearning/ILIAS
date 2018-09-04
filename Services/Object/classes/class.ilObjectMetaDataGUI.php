@@ -328,7 +328,13 @@ class ilObjectMetaDataGUI
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Get tab link if available
+	 *
+	 * @param null $a_base_class
+	 * @return null|string
+	 */
 	public function getTab($a_base_class = null)
 	{
 		$ilCtrl = $this->ctrl;
