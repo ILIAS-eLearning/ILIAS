@@ -68,6 +68,7 @@ class ilExAssignment
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
+	protected $feedback_date_custom;
 	protected $team_tutor = false;
 	protected $max_file;
 	protected $portfolio_template;
@@ -758,6 +759,24 @@ class ilExAssignment
 	{
 		return (int)$this->feedback_date;
 	}
+
+	/**
+	 * Set (global) feedback file availability using a custom date.
+	 * @param int $a_value timestamp
+	 */
+	function setFeedbackDateCustom($a_value)
+	{
+		$this->feedback_date_custom = $a_value;
+	}
+
+	/**
+	 * Get feedback file availability using custom date.
+	 * @return string timestamp
+	 */
+	function getFeedbackDateCustom()
+	{
+		return $this->feedback_date_custom;
+	}
 	
 	/**
 	 * Set team management by tutor
@@ -806,7 +825,7 @@ class ilExAssignment
 	/**
 	 * Set portfolio template id
 	 *
-	 * @param	int		portfolio id
+	 * @param int $a_val
 	 */
 	function setPortfolioTemplateId($a_val)
 	{
@@ -874,6 +893,7 @@ class ilExAssignment
 		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
+		$this->setFeedbackDateCustom($a_set["fb_date_custom"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
 		$this->setMaxFile($a_set["max_file"]);
@@ -921,6 +941,7 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
@@ -967,6 +988,7 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
@@ -1082,6 +1104,7 @@ class ilExAssignment
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
+			$new_ass->setFeedbackDateCustom($d->getFeedbackDateCustom());
 			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());

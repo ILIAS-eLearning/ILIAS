@@ -22587,3 +22587,13 @@ if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
 	));
 }
 ?>
+<#5296>
+<?php
+if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
+	$ilDB->addTableColumn('exc_assignment', 'fb_date_custom', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+?>

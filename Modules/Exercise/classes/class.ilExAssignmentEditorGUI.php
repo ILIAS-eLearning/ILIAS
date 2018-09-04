@@ -479,8 +479,12 @@ class ilExAssignmentEditorGUI
 			$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
 			$time_deadline_ext = $time_deadline_ext
 				? $time_deadline_ext->get(IL_CAL_UNIX)
-				: null;			
-			
+				: null;
+			$time_fb_custom_date = $a_form->getItemByPostVar("fb_date_custom")->getDate();
+			$time_fb_custom_date = $time_fb_custom_date
+				? $time_fb_custom_date->get(IL_CAL_UNIX)
+				: null;
+
 			// handle disabled elements
 			if($protected_peer_review_groups)
 			{									
@@ -607,7 +611,7 @@ class ilExAssignmentEditorGUI
 					$res["fb"] = true;
 					$res["fb_cron"] = $a_form->getInput("fb_cron");
 					$res["fb_date"] = $a_form->getInput("fb_date");
-					$res["fb_date_custom"] = $a_form->getInput("fb_date_custom");
+					$res["fb_date_custom"] = $time_fb_custom_date;
 
 					if($_FILES["fb_file"]["tmp_name"])
 					{
@@ -668,6 +672,7 @@ class ilExAssignmentEditorGUI
 		{
 			$a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
 			$a_ass->setFeedbackDate($a_input["fb_date"]);
+			$a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
 		}
 		
 		// id needed for file handling
@@ -816,7 +821,12 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{		
 			$values["team_tutor"] = $this->assignment->getTeamTutor();
-		}		
+		}
+
+		if ($this->assignment->getFeedbackDateCustom())
+		{
+			$values["fb_date_custom"] = new ilDateTime($this->assignment->getFeedbackDateCustom(), IL_CAL_UNIX);
+		}
 		
 		$a_form->setValuesByArray($values);
 		
