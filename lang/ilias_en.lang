@@ -14314,3 +14314,6 @@ exc#:#exc_reminder_frequency#:#Frequency
 exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
 exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
 exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
+exc#:#exc_reminder_users_submit_cron#:#Reminder Users to Submit an Assignment.
+exc#:#exc_reminder_users_submit_cron_info#:#If enabled, users will be reminded to submit an assignment.
+exc#:#exc_reminder_end#:#Reminder ends

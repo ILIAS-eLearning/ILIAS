@@ -214,11 +214,26 @@ class ilExerciseDataSet extends ilDataSet
 						,"PeerText" => "integer"
 						,"PeerRating" => "integer"
 						,"PeerCritCat" => "integer"
+						// peer reminder
+						,"PeerRmdStatus" => "integer"
+						,"PeerRmdStart" => "integer"
+						,"PeerRmdEnd" => "integer"
+						,"PeerRmdFrequency" => "integer"
 						// global feedback
 						,"FeedbackFile" => "integer"
 						,"FeedbackCron" => "integer"
 						,"FeedbackDate" => "integer"
 						,"FeedbackDir" => "directory"
+						,"FbDateCustom" => "integer"
+						//reminders
+						,"RmdSubmitStatus" => "integer"
+						,"RmdSubmitStart" => "integer"
+						,"RmdSubmitEnd" => "integer"
+						,"RmdSubmitFreq" => "integer"
+						,"RmdGradeStatus" => "integer"
+						,"RmdGradeStart" => "integer"
+						,"RmdGradeEnd" => "integer"
+						,"RmdGradeFreq" => "integer"
 					);
 			}
 		}
@@ -353,7 +368,9 @@ class ilExerciseDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
-						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date,".
+						" fb_date_custom, rmd_submit_status, rmd_submit_start, rmd_submit_end, rmd_submit_freq, rmd_grade_status,".
+						" rmd_grade_start, rmd_grade_end, rmd_grade_freq, peer_rmd_status, peer_rmd_start, peer_rmd_end, peer_rmd_freq".
 						" FROM exc_assignment".
 						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
@@ -600,6 +617,21 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setPeerReviewValid($a_rec["PeerValid"]);
 					$ass->setPeerReviewText($a_rec["PeerText"]);
 					$ass->setPeerReviewRating($a_rec["PeerRating"]);
+
+					$ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
+
+					$ass->setReminderSubmitStatus($a_rec["RmdSubmitStatus"]);
+					$ass->setReminderSubmitStart($a_rec["RmdSubmitStart"]);
+					$ass->setReminderSubmitEnd($a_rec["RmdSubmitEnd"]);
+					$ass->setReminderSubmitFrequency($a_rec["RmdSubmitFreq"]);
+					$ass->setReminderGradeStatus($a_rec["RmdGradeStatus"]);
+					$ass->setReminderGradeStart($a_rec["RmdGradeStart"]);
+					$ass->setReminderGradeEnd($a_rec["RmdGradeEnd"]);
+					$ass->setReminderGradeFrequency($a_rec["RmdGradeFreq"]);
+					$ass->setPeerReviewReminderStatus($a_rec["PeerRmdStatus"]);
+					$ass->setPeerReviewReminderStart($a_rec["PeerRmdStart"]);
+					$ass->setPeerReviewReminderEnd($a_rec["PeerRmdEnd"]);
+					$ass->setPeerReviewReminderFrequency($a_rec["PeerRmdFreq"]);
 					
 					// criteria catalogue
 					if($a_rec["PeerCritCat"])
