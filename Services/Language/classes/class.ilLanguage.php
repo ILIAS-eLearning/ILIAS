@@ -638,6 +638,8 @@ class ilLanguage
 		global $DIC;
 		if($DIC){
 			$ilDB = $DIC->database();
+		}else{
+			return;
 		}
 
 
