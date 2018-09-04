@@ -14296,3 +14296,8 @@ mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are acce
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
 exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#exc_feedback_given#:#Feedback given
+exc#:#exc_feedback_received#:#Feedback received
+exc#:#exc_feedback_from#:#Feedback from
+exc#:#exc_text_assignment#:#Text Assignment
+exc#:#exc_not_yet#:#not yet

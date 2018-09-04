@@ -453,34 +453,148 @@ class ilExerciseManagementGUI
 	{
 		$this->listTextAssignmentObject(true);
 	}
-	
-	function listTextAssignmentObject($a_show_peer_review = false)
-	{
-		$tpl = $this->tpl;
-		$ilCtrl = $this->ctrl;
-		$ilTabs = $this->tabs_gui;
-		$lng = $this->lng;
-				
-		if(!$this->assignment || $this->assignment->getType() != ilExAssignment::TYPE_TEXT)
-		{
-			$ilCtrl->redirect($this, "members");
-		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "members"));
-		
+	/**
+	 * //todo lang vars.
+	 * always true after we mixed the 2 ui tables into panels.
+	 */
+	function listTextAssignmentObject($a_show_peer_review = true)
+	{
+		global $DIC;
+
+		//tabs
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "members"));
+
+		//toolbar
+		$toolbar = $DIC->toolbar();
+		$toolbar->addText("Grade Filter (Dropdown)");
+		$toolbar->addText("Feedback Filter (Dropdown)");
+		$toolbar->addText("OK button");
+		$toolbar->addSeparator();
+		$toolbar->addText("Print button");
+
+		//retrieve data
+		$peer_data = array();
 		if($a_show_peer_review)
 		{
-			$cmd = "listTextAssignmentWithPeerReview";
+			$peer_review = new ilExPeerReview($this->assignment);
+			$peer_data = $peer_review->getAllPeerReviews();
 		}
-		else
+
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		include_once "Services/RTE/classes/class.ilRTE.php";
+
+		$report_html = "";
+		foreach(ilExSubmission::getAllAssignmentFiles($this->assignment->getExerciseId(), $this->assignment->getId()) as $file)
 		{
-			$cmd = "listTextAssignment";
+			if(trim($file["atext"]))
+			{
+				$user = new ilObjUser($file["user_id"]);
+				$uname = $user->getFirstname().", ".$user->getLastname();
+				$data = array(
+					"uid" => $file["user_id"],
+					"uname" => $uname,
+					"udate" => $file["ts"],
+					"utext" => ilRTE::_replaceMediaObjectImageSrc($file["atext"], 1) // mob id to mob src
+				);
+
+				if(isset($peer_data[$file["user_id"]]))
+				{
+					$data["peer"] = array_keys($peer_data[$file["user_id"]]);
+				}
+
+				$data["fb_received"] = count($data["peer"]);
+				$data["fb_given"] = $peer_review->countGivenFeedback(true, $file["user_id"]);
+
+				$submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"]);
+
+				$data = array_merge($data, $submission_data);
+
+				$report_html .= $this->getReportPanel($data);
+			}
 		}
-		include_once "Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php";
-		$tbl = new ilExAssignmentListTextTableGUI($this, $cmd, $this->assignment, $a_show_peer_review);		
-		$tpl->setContent($tbl->getHTML());		
+
+		$this->tpl->setContent($report_html);
+	}
+
+	public function getReportPanel($a_data)
+	{
+		global $DIC;
+		$ui_factory = $DIC->ui()->factory();
+		$ui_render = $DIC->ui()->renderer();
+
+		//todo lang var
+		$actions = $ui_factory->dropdown()->standard(array(
+			$ui_factory->button()->shy("Grade and Evaluate", "https://www.ilias.de"),
+			$ui_factory->button()->shy("Grade and Evaluate", "https://www.ilias.de")
+
+		));
+
+		if($a_data['status'] == 'notgraded') {
+			$status = $this->lng->txt('exc_tbl_status')." ".$this->lng->txt('exc_not_yet');
+		} else {
+			$status = $this->lng->txt('exc_tbl_status_time')." ".$a_data['status_time'];
+		}
+
+		if($a_data['feedback_time']) {
+			$evaluation = $this->lng->txt('exc_tbl_feedback_time')." ".$a_data['feedback_time'];
+		} else {
+			$evaluation = $this->lng->txt('exc_settings_feedback')." ".$this->lng->txt('exc_not_yet');
+		}
+		//todo: tpl for this sections ¿?¿¿ like in surveys
+		$card_sections_html =
+			"Submited on ".ilDatePresentation::formatDate(new ilDate($a_data["udate"], IL_CAL_DATETIME)).
+			"<br>".$status.
+			"<br>".$evaluation.
+			"<br>".$this->lng->txt('exc_feedback_given')." ".$a_data['fb_given'].
+			"<br>".$this->lng->txt('exc_feedback_received')." ".$a_data['fb_received'];
+
+
+		$main_panel = $ui_factory->panel()->sub($a_data['uname'], $ui_factory->legacy($a_data['utext']))
+			->withCard($ui_factory->card($this->lng->txt('exc_text_assignment'))->withSections(array($ui_factory->legacy($card_sections_html))))->withActions($actions);
+
+		//todo remove this css
+		$feedback_html = "<div style='background-color:#F9F9F9;padding:9px;'>";
+
+		foreach($a_data["peer"] as $peer_id)
+		{
+			$user = new ilObjUser($peer_id);
+			$peer_name =  $user->getFirstname()." ".$user->getLastname();
+			//todo: apply only 20px in intermediate elements.
+			$feedback_html .= "<div style='margin-bottom:20px;'>".$this->lng->txt("exc_feedback_from")." ".$peer_name;
+
+			$submission = new ilExSubmission($this->assignment, $a_data["uid"]);
+			$values = $submission->getPeerReview()->getPeerReviewValues($peer_id, $a_data["uid"]);
+
+			//Todo: template for this could be nice.
+			foreach($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit)
+			{
+				$crit_id = $crit->getId()
+					? $crit->getId()
+					: $crit->getType();
+				$crit->setPeerReviewContext($this->assignment, $peer_id, $a_data["uid"]);
+
+				$feedback_html .=
+					'<div class="ilBlockPropertyCaption">'.$crit->getTitle().'</div>'.
+					'<div style="margin:2px 0;">'.$crit->getHTML($values[$crit_id]).'</div>';
+			}
+			$feedback_html .= "</div>";
+		}
+		$feedback_html .= "</div>";
+
+		$feedback_html .= "<p>".$this->lng->txt('grade').": ".$this->lng->txt('exc_'.$a_data['status'])."</p>";
+
+		//todo this lng var evaluation statement. See FWE
+		$feedback_html .= "<p>".$this->lng->txt('exc_comment')."<br>".$a_data['comment']."</p>";
+
+		$feedback_panel = $ui_factory->panel()->sub("",$ui_factory->legacy($feedback_html));
+
+		$panel_title = $this->lng->txt("exc_list_text_assignment").": ".$this->assignment->getTitle();
+		$report = $ui_factory->panel()->report($panel_title, array($main_panel, $feedback_panel));
+
+		return $ui_render->render($report);
 	}
 		
 	

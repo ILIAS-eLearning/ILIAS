@@ -1406,7 +1406,46 @@ class ilExAssignment
 		}
 		return $mem;
 	}
-	
+
+	/**
+	 * Get submission data for an specific user,exercise and assignment.
+	 * todo we can refactor a bit the method getMemberListData to use this and remove duplicate code.
+	 * @param $a_user_id
+	 * @return array
+	 */
+	public function getExerciseMemberAssignmentData($a_user_id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+
+		$data = array();
+
+		$q = "SELECT * FROM exc_mem_ass_status ".
+			"WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
+
+		$set = $ilDB->query($q);
+
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$sub = new ilExSubmission($this, $a_user_id);
+
+			$data["sent_time"] = $rec["sent_time"];
+			$data["submission"] = $sub->getLastSubmission();
+			$data["status_time"] = $rec["status_time"];
+			$data["feedback_time"] = $rec["feedback_time"];
+			$data["notice"] = $rec["notice"];
+			$data["status"] = $rec["status"];
+			$data["mark"] = $rec["mark"];
+			$data["comment"] = $rec["u_comment"];
+		}
+
+		return $data;
+
+	}
+
 	/**
 	 * Create member status record for a new participant for all assignments
 	 */
