@@ -185,7 +185,7 @@ class ilCertificate
 	*/
 	public function getBackgroundImageThumbPath()
 	{
-		return $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
+		return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
 	}
 
 	/**
@@ -195,7 +195,7 @@ class ilCertificate
 	*/
 	public function getBackgroundImageTempfilePath()
 	{
-		return $this->certificatePath . "background_upload.tmp";
+		return CLIENT_WEB_DIR . $this->certificatePath . "background_upload.tmp";
 	}
 
 	/**
@@ -205,7 +205,7 @@ class ilCertificate
 	*/
 	public function getXSLPath()
 	{
-		return $this->certificatePath . $this->getXSLName();
+		return CLIENT_WEB_DIR . $this->certificatePath . $this->getXSLName();
 	}
 	
 	/**
@@ -370,61 +370,6 @@ class ilCertificate
 	}
 
 	/**
-	 * Uploads a background image for the certificate. Creates a new directory for the
-	 * certificate if needed. Removes an existing certificate image if necessary
-	 *
-	 * @param string $image_tempfilename Name of the temporary uploaded image file
-	 * @param $version - Version of the current certifcate template
-	 * @return integer An errorcode if the image upload fails, 0 otherwise
-	 * @throws ilException
-	 */
-	public function uploadBackgroundImage($image_tempfilename, $version)
-	{
-		if (!empty($image_tempfilename)) {
-			$convert_filename = $this->getBackgroundImageName();
-
-			$imagepath = $this->certificatePath;
-
-			if (!file_exists($imagepath)) {
-				ilUtil::makeDirParents($imagepath);
-			}
-			// upload the file
-			$backgroundImageTempfilePath = $this->getBackgroundImageTempfilePath();
-
-			if (!ilUtil::moveUploadedFile(
-					$image_tempfilename,
-					basename($backgroundImageTempfilePath),
-				$backgroundImageTempfilePath
-			)) {
-				throw new ilException('Unable to move file');
-			}
-			// convert the uploaded file to JPEG
-			$backgroundImagePath = $this->getBackgroundImageDirectory() . 'background_' . $version . '.jpg';
-
-			ilUtil::convertImage($backgroundImageTempfilePath, $backgroundImagePath, "JPEG");
-
-			$backgroundImageThumbnailPath = $this->getBackgroundImageThumbPath();
-
-			ilUtil::convertImage($backgroundImageTempfilePath, $backgroundImageThumbnailPath, "JPEG", 100);
-
-			if (!file_exists($backgroundImagePath)) {
-				// something went wrong converting the file. use the original file and hope, that PDF can work with it
-				if (!ilUtil::moveUploadedFile($backgroundImageTempfilePath, $convert_filename, $backgroundImagePath)) {
-					throw new ilException('Unable to convert the file and the original file');
-				}
-			}
-
-			unlink($backgroundImageTempfilePath);
-
-			if (file_exists($backgroundImagePath) && (filesize($backgroundImagePath) > 0)) {
-				return $backgroundImagePath;
-			}
-		}
-
-		throw new ilException('The given temporary filename is empty');
-	}
-
-	/**
 	 * Checks for the background image of the certificate
 	 *
 	 * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
@@ -434,8 +379,8 @@ class ilCertificate
 	{
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
-		if (file_exists($template->getBackgroundImagePath())
-			&& (filesize($template->getBackgroundImagePath()) > 0)
+		if (file_exists(CLIENT_WEB_DIR . $template->getBackgroundImagePath())
+			&& (filesize(CLIENT_WEB_DIR . $template->getBackgroundImagePath()) > 0)
 		) {
 			return true;
 		}

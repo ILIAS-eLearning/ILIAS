@@ -67,11 +67,11 @@ class ilCertificateCloneAction
 
 		/** @var ilCertificateTemplate $template */
 		foreach ($templates as $template) {
-			$backgroundImagePath = $template->getBackgroundImagePath();
+			$backgroundImagePath = CLIENT_WEB_DIR . $template->getBackgroundImagePath();
 			$backgroundImageFile = basename($backgroundImagePath);
 			$backgroundImageThumbnail = $oldCertificate->getBackgroundImageThumbPath();
 
-			$newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
+			$newBackgroundImage = CLIENT_WEB_DIR . $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
 			$newBackgroundImageThumbnail = $newCertificate->getBackgroundImageThumbPath();
 
 			if (@file_exists($backgroundImagePath)) {
