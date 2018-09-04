@@ -338,6 +338,7 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
 		$rmd_submit_start->setSize(3);
 		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
 		$rmd_submit_start->setInfo($this->lng->txt("exc_reminder_start_info"));
 		$rmd_submit_start->setRequired(true);
 		$rmd_submit_start->setMinValue(1);
@@ -346,6 +347,7 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_submit_freq");
 		$rmd_submit_frequency->setSize(3);
 		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
 		$rmd_submit_frequency->setRequired(true);
 		$rmd_submit_frequency->setMinValue(1);
 		$rmd_submit->addSubItem($rmd_submit_frequency);
@@ -362,6 +364,7 @@ class ilExAssignmentEditorGUI
 		$rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
 		$rmd_grade_frequency->setSize(3);
 		$rmd_grade_frequency->setMaxLength(3);
+		$rmd_grade_frequency->setSuffix($lng->txt('days'));
 		$rmd_grade_frequency->setRequired(true);
 		$rmd_grade_frequency->setMinValue(1);
 		$rmd_grade->addSubItem($rmd_grade_frequency);
@@ -1302,6 +1305,7 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "rmd_peer_start");
 		$rmd_submit_start->setSize(3);
 		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
 		$rmd_submit_start->setRequired(true);
 		$rmd_submit_start->setMinValue(1);
 		$rmd_feedback->addSubItem($rmd_submit_start);
@@ -1309,6 +1313,7 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_peer_freq");
 		$rmd_submit_frequency->setSize(3);
 		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
 		$rmd_submit_frequency->setRequired(true);
 		$rmd_submit_frequency->setMinValue(1);
 		$rmd_feedback->addSubItem($rmd_submit_frequency);
