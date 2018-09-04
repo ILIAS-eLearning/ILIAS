@@ -115,7 +115,7 @@ class ilCertificateBackgroundImageUpload
 			throw new ilException($processingStatus->getMessage());
 		}
 
-		$upload->moveOneFileTo(
+		$this->fileUpload->moveOneFileTo(
 			$uploadResult,
 			$targetDir,
 			$targetFilesystem,
