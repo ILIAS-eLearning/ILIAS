@@ -803,18 +803,15 @@ class ilExAssignmentEditorGUI
 				$a_ass->update();
 			}	
 		}
-
-		$this->importFormToAssignmentReminders($a_input);
+		$this->importFormToAssignmentReminders($a_input, $a_ass->getId());
 	}
 
-	protected function importFormToAssignmentReminders($a_input)
+	protected function importFormToAssignmentReminders($a_input, $a_ass_id)
 	{
-		$ass_id = $this->assignment->getId();
-
-		$reminder = new ilExAssignmentReminder($this->exercise_id, $ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
 		$this->saveReminderData($reminder, $a_input);
 
-		$reminder = new ilExAssignmentReminder($this->exercise_id, $ass_id, ilExAssignmentReminder::GRADE_REMINDER);
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::GRADE_REMINDER);
 		$this->saveReminderData($reminder, $a_input);
 
 	}

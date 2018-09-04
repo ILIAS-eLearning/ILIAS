@@ -329,8 +329,102 @@ class ilExAssignmentReminder
 		$reminders = $this->getReminders();
 		$reminders = $this->parseReminders($reminders);
 
+		foreach ($reminders as $reminder)
+		{
+			include_once "./Services/Mail/classes/class.ilMail.php";
+			//...is this ok?
+			$parent_ref = current(ilObject::_getAllReferences($reminder["exc_id"]));
+			$exc = new ilObjExercise($parent_ref);
+			$ass = new ilExAssignment($reminder["ass_id"]);
 
-		//todo send notification
+			$member_id = $reminder["member_id"];
+			$rmd_type = $reminder["reminder_type"];
+			$template_id = $reminder['template_id'];
+
+			if($template_id)
+			{
+				$prov = new ilMailTemplateDataProvider();
+				$tpl = $prov->getTemplateById($template_id);
+
+				$subject = $tpl->getSubject();
+				$message = $this->sentReminderPlaceholders($tpl->getMessage(), $member_id);
+			}
+			else
+			{
+				// use language of recipient to compose message
+				include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+				$ulng = ilLanguageFactory::_getLanguageOfUser($member_id);
+				$ulng->loadLanguageModule('exc');
+
+				$tmpl = null;
+
+				//remove this line
+				//$link2 = ILIAS_HTTP_PATH."/goto.php?ref_id=".$parent_ref."&ass_id=".$ass->getId()."&cmd=showOverview&cmdClass=ilobjexercisegui&baseClass=ilexercisehandlergui";
+
+				include_once "./Services/Link/classes/class.ilLink.php";
+				$link = ilLink::_getStaticLink($parent_ref, "exc");
+				//$link .="&ass_id=".$ass->getId();
+
+				$message = sprintf($ulng->txt('exc_reminder_salutation'), ilObjUser::_lookupFullname($member_id))."\n\n";
+
+				switch($rmd_type)
+				{
+					case "submit":
+						$subject = sprintf($ulng->txt('exc_reminder_submit_subject'), $ass->getTitle());
+						$message .= $ulng->txt('exc_reminder_submit_body').":\n\n";
+						break;
+
+					case "grade":
+						$subject = sprintf($ulng->txt('exc_reminder_grade_subject'), $ass->getTitle());
+						$message .= $ulng->txt('exc_reminder_grade_body').":\n\n";
+						break;
+
+					case "peer":
+						$subject = sprintf($ulng->txt('exc_reminder_peer_subject'), $ass->getTitle());
+						$message .= $ulng->txt('exc_reminder_peer_body').":\n\n";
+						break;
+				}
+
+				$message .= $ulng->txt('obj_exc').": ". $exc->getTitle()."\n";
+				$message .= $ulng->txt('obj_svy').": ". $ass->getTitle()."\n";
+				$message .= "\n".$ulng->txt('exc_reminder_link').": ".$link;
+			}
+
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($member_id),
+				"", "", $subject, $message, array(), array("system"));
+
+		}
+
 		return true;
+	}
+
+	//see ilObjSurvey.
+	protected function sentReminderPlaceholders($a_message, $a_user_id)
+	{
+		// see ilMail::replacePlaceholders()
+		include_once "Modules/Exercise/classes/class.ilExerciseMailTemplateReminderContext.php";
+
+		try
+		{
+			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+			$context = ilMailTemplateService::getTemplateContextById(ilExerciseMailTemplateReminderContext::ID);
+
+			$user = new ilObjUser($a_user_id);
+
+			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
+			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
+
+		}
+		catch(Exception $e)
+		{
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
+		}
+
+		return $a_message;
 	}
 }

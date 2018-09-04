@@ -14322,3 +14322,11 @@ exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
 exc#:#exc_mail_context_reminder_title#:#Exercise Reminder
 exc#:#exc_mail_context_reminder_info#:#Specific Reminders for Exercises (Submit, Grade or Feedback)
 exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
+exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
+exc#:#exc_reminder_link#:#URL

@@ -633,7 +633,26 @@ class ilExerciseManagementGUI
 	{
 		$modal_tpl = new ilTemplate("tpl.exc_report_evaluation_modal.html", true, true, "Modules/Exercise");
 		$modal_tpl->setVariable("USER_NAME",$a_data['uname']);
-		$modal_tpl->setVariable("USER_TEXT",$a_data['utext']);
+
+		/** "show more" hack to discuss about.
+		 * https://codepen.io/Idered/pen/AeBgF
+		 * or
+		 * https://codepen.io/ojbravo/pen/YPJpXe
+		 *
+		 * TODO: tpl or kitchen sink element is needed.
+		 * TODO: deal with html tags.
+		 */
+		$u_text = strip_tags($a_data["utext"]); //otherwise will get open P
+		$show_more = "<input type='checkbox' class='read-more-state' id='post-1' />";
+		$show_more .= "<div class='read-more-wrap'>";
+		$show_more .= mb_substr($u_text, 0, 500);
+		$show_more .= "<span class='read-more-target'>";
+		$show_more .= mb_substr($u_text, 500);
+		$show_more .= "</span></div>";
+		$show_more .= "<label for='post-1' class='read-more-trigger'></label>";
+		/** end show more */
+
+		$modal_tpl->setVariable("USER_TEXT",$show_more);
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
