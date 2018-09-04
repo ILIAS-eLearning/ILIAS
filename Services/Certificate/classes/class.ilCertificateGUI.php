@@ -413,6 +413,7 @@ class ilCertificateGUI
 
 				$certificateTemplate = new ilCertificateTemplate(
 					$objId,
+					ilObject::_lookupType($objId),
 					$xslfo,
 					md5($xslfo),
 					json_encode($templateValues),

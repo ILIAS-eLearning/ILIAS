@@ -84,6 +84,7 @@ class ilCertificateCloneAction
 
 			$newTemplate = new ilCertificateTemplate(
 				$newObject->getId(),
+				ilObject::_lookupType($newObject->getId()),
 				$template->getCertificateContent(),
 				$template->getCertificateHash(),
 				$template->getTemplateValues(),

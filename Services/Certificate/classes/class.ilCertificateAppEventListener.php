@@ -25,15 +25,18 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 							/** @var ilObjectDataCache $ilObjectDataCache */
 							$ilObjectDataCache = $DIC['ilObjDataCache'];
-							$certificateQueueRepository = new ilCertificateQueueRepository($DIC->database(), $DIC->logger()->root());
+							$database = $DIC->database();
+
+							$certificateQueueRepository = new ilCertificateQueueRepository($database, $DIC->logger()->root());
 							$certificateClassMap = new ilCertificateTypeClassMap();
+							$activeAction = new ilCertificateAction($database);
 
 							$objectId = $a_params['obj_id'];
 							$userId = $a_params['usr_id'];
 
 							$type = $ilObjectDataCache->lookupType($objectId);
 
-							if ($certificateClassMap->typeExistsInMap($type)) {
+							if ($certificateClassMap->typeExistsInMap($type) && $activeAction->isObjectActive($objectId)) {
 								$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
 
 								$entry = new ilCertificateQueueEntry(
@@ -46,6 +49,29 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 								$certificateQueueRepository->addToQueue($entry);
 							}
+
+							foreach (ilObject::_getAllReferences($objectId) as $refId) {
+								$templateRepository = new ilCertificateTemplateRepository($database);
+								$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
+
+								$completedCourses = $progressEvaluation->evaluate($refId, $userId);
+								foreach ($completedCourses as $courseObjId) {
+									$type = $ilObjectDataCache->lookupType($courseObjId);
+
+									$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+
+									$entry = new ilCertificateQueueEntry(
+										$courseObjId,
+										$userId,
+										$className,
+										ilCronConstants::IN_PROGRESS,
+										time()
+									);
+
+									$certificateQueueRepository->addToQueue($entry);
+								}
+							}
+
 						}
 						break;
 				}

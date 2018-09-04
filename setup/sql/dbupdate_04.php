@@ -22580,6 +22580,12 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'notnull' => true,
 			'default' => 0
 		),
+		'obj_type' => array(
+			'type' => 'string',
+			'length' => 255,
+			'notnull' => true,
+			'default' => ''
+		),
 		'certificate_content' => array(
 			'type' => 'clob',
 			'notnull' => true,
