@@ -38,6 +38,7 @@ IsDependencyAvailableMethod = Methods with name:"isDependencyAvailable"
 GetMessageHTML = Functions with name: "getMessageHTML"
 SetOnScreenMessage = Functions with name: "setOnScreenMessage"
 GetSystemMessageHTML = Functions with name: "getSystemMessageHTML"
+GetSpecial = Functions with name: "getSpecial"
 
 
 /**
@@ -165,3 +166,14 @@ WholeIliasCodebaseExceptIlUtil cannot depend on: SetOnScreenMessage
  * the MessageBox-component in the UI-framework.
  */
 WholeIliasCodebase cannot depend on: GetSystemMessageHTML
+
+/**
+ * The method `ilGlobalTemplate::getSpecial` encapsulates rendering logic for
+ * main-template and the standard content template. It is somehow similar to
+ * `ilGlobalTemplate::printToStd` and used in conjunction with `echo` at most
+ * of its usage locations. This suggests, that the usages could be replaced by
+ * `printToStd`. The current developements regarding the UI-framework and the
+ * page layout (e.g. https://github.com/ILIAS-eLearning/ILIAS/pull/1146) suggest,
+ * that at some point this method should vanish completely.
+ */
+WholeIliasCodebase cannot depend on: GetSpecial
