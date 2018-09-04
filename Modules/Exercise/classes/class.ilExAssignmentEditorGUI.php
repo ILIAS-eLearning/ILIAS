@@ -394,7 +394,17 @@ class ilExAssignmentEditorGUI
 			$fb_date->setRequired(true);
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
-			$fb->addSubItem($fb_date);
+
+			//Extra radio option with date selection
+			$fb_date_custom_date = new ilDateTimeInputGUI($lng->txt("date"),"fb_date_custom");
+			$fb_date_custom_date->setRequired(true);
+			$fb_date_custom_date->setShowTime(true);
+			$fb_date_custom_option = new ilRadioOption($lng->txt("exc_global_feedback_file_after_date"), ilExAssignment::FEEDBACK_DATE_CUSTOM);
+			$fb_date_custom_option->addSubItem($fb_date_custom_date);
+			$fb_date->addOption($fb_date_custom_option);
+
+
+		$fb->addSubItem($fb_date);
 
 			$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 			$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
@@ -596,7 +606,9 @@ class ilExAssignmentEditorGUI
 				{
 					$res["fb"] = true;
 					$res["fb_cron"] = $a_form->getInput("fb_cron");
-					$res["fb_date"] = $a_form->getInput("fb_date");	
+					$res["fb_date"] = $a_form->getInput("fb_date");
+					$res["fb_date_custom"] = $a_form->getInput("fb_date_custom");
+
 					if($_FILES["fb_file"]["tmp_name"])
 					{
 						$res["fb_file"] = $_FILES["fb_file"];

@@ -38,6 +38,7 @@ class ilExAssignment
 	
 	const FEEDBACK_DATE_DEADLINE = 1;
 	const FEEDBACK_DATE_SUBMISSION = 2;
+	const FEEDBACK_DATE_CUSTOM = 3;
 	
 	const PEER_REVIEW_VALID_NONE = 1;
 	const PEER_REVIEW_VALID_ONE = 2;
