@@ -636,7 +636,7 @@ class ilLanguage
 	function __destruct()
 	{
 		global $DIC;
-		if($DIC){
+		if($DIC && $DIC->isDependencyAvailable("database")){
 			$ilDB = $DIC->database();
 		}else{
 			return;
