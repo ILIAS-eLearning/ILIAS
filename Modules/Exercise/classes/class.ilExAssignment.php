@@ -1786,24 +1786,41 @@ class ilExAssignment
 		$ilDB = $DIC->database();
 		
 		$res = array();
-		
-		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
+
+		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2,fb_date FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
-			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
-			" AND time_stamp IS NOT NULL".
-			" AND time_stamp > ".$ilDB->quote(0, "integer").			
-			" AND time_stamp < ".$ilDB->quote(time(), "integer").
-			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
+			" AND (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
+				" AND time_stamp IS NOT NULL".
+				" AND time_stamp > ".$ilDB->quote(0, "integer").
+				" AND time_stamp < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").
+			") OR (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_CUSTOM, "integer").
+				" AND fb_date_custom IS NOT NULL".
+				" AND fb_date_custom > ".$ilDB->quote(0, "integer").
+				" AND fb_date_custom < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").")");
+
+
+
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$max = max($row['time_stamp'], $row['deadline2']);
-
-			if(trim($row["fb_file"]) && $max <= time())
+			if($row['fb_date'] == self::FEEDBACK_DATE_DEADLINE)
 			{
-				$res[] = $row["id"];			
+				$max = max($row['time_stamp'], $row['deadline2']);
+				if (trim($row["fb_file"]) && $max <= time())
+				{
+					$res[] = $row["id"];
+				}
 			}
-		}		
-	
+			elseif($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM)
+			{
+				if(trim($row["fb_file"]) && $row['fb_date_custom'] <= time())
+				{
+					$res[] = $row["id"];
+				}
+			}
+		}
+
 		return $res;
 	}
 	
@@ -1896,6 +1913,20 @@ class ilExAssignment
 		
 		return ($deadline > 0 && 
 			$this->afterDeadline());	
+	}
+
+	/**
+	 * @return bool return if sample solution is available using a custom date.
+	 */
+	public function afterCustomDate()
+	{
+		$date_custom = $this->getFeedbackDateCustom();
+
+		//if the solution will be displayed only after reach all the deadlines.
+		//$final_deadline = $this->afterDeadlineStrict();
+		//$dl = max($final_deadline, time());
+		//return ($date_custom - $dl <= 0);
+		return ($date_custom - time() <= 0);
 	}
 	
 	public function beforeDeadline()
