@@ -249,7 +249,7 @@ function ilLookupAddress(id, address)
 	var geocoder = new google.maps.Geocoder();
 	geocoder.geocode({address: address}, function(result)
 	{
-		if (Array.isArray(result) && result.length > 0 && "geometry" in result[0])
+		if (Array.isArray(result) && result.length > 0 && typeof result[0] === "object" && "geometry" in result[0])
 		{
 			map.setCenter(result[0]["geometry"]["location"]);
 			ilUpdateLocationInput(id, map, result[0]["geometry"]["location"],
