@@ -94,11 +94,11 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-marker"><div class="il-chart-progressmeter-arrow"></div></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success  ">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-progressmeter-innerbox    ">' .
+            '      <div class="il-chart-progressmeter-innerbox">' .
             '        <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(51.615deg)"></div>' .
             '        <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(12.385deg) skew(51.615deg)"></div>' .
             '        <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(49.77deg) skew(51.615deg)"></div>' .
@@ -135,7 +135,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-marker"><div class="il-chart-progressmeter-arrow"></div></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success  ">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
@@ -170,7 +170,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-mini-marker"></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success  ">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
