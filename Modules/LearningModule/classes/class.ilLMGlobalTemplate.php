@@ -5,12 +5,12 @@ include_once("./Services/UICore/lib/html-it/IT.php");
 include_once("./Services/UICore/lib/html-it/ITX.php");
 
 /**
-* special template class to simplify handling of ITX/PEAR
+* Copy of ilGlobalTemplate with broader interface, specialized for LM.
 * @author	Stefan Kesseler <skesseler@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilGlobalTemplate
+class ilLMGlobalTemplate
 {
 	
 
@@ -18,7 +18,6 @@ class ilGlobalTemplate
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
-	protected $main_content = "";
 	
 	protected $lightbox = array();
 	protected $standard_template_loaded = false;
@@ -514,6 +513,7 @@ class ilGlobalTemplate
 
 	// REMOVAL CANDIDATE
 	// Usage locations:
+	//    - ilLMPresentationGUI
 	//    - latex.php
 	/**
 	 * Reset javascript files
@@ -529,6 +529,7 @@ class ilGlobalTemplate
 	// Usage locations:
 	//    - ilPageObjectGUI
 	//    - ilStartUpGUI
+	//    - ilLMPresentationGUI
 	//    - ilObjPortfolioGUI
 	//    - latex.php
 	public function fillJavaScriptFiles($a_force = false)
@@ -673,6 +674,7 @@ class ilGlobalTemplate
 	//    - ilPageObjectGUI
 	//	  - ilDclDetailedViewGUI
 	//    - ilStartUpGUI
+	//    - ilLMPresentationGUI
 	/**
 	 * Fill in the css file tags
 	 *
@@ -700,6 +702,7 @@ class ilGlobalTemplate
 
 	// REMOVAL CANDIDATE:
 	// Usage locations:
+	//    - ilLMPresentationGUI
 	//    - ilObjMediaPoolGUI
 	//    - ilAttendanceList
 	//    - ilObjPortfolioGUI
@@ -898,6 +901,7 @@ class ilGlobalTemplate
 
 	// REMOVAL CANDIDATE
 	// Usage locations:
+	//    - ilLMPresentationGUI
 	//    - ilObjLanguageExtGUI
 	//    - ilTestServiceGUI
 	//    - ilWikiPageGUI
@@ -1164,6 +1168,9 @@ class ilGlobalTemplate
 		$this->left_nav_content = $a_content;
 	}
 
+	// PRIVATE CANDIDATE
+	// Usage locations:
+	//    - ilLMPresentationGUI
 	/**
 	 * Fill left navigation frame
 	 */
@@ -1313,9 +1320,10 @@ class ilGlobalTemplate
 		return true;	 	
 	}
 
-	// PRIVATE CANDIDATE
+	// REMOVAL CANDIDATE
 	// Usage locations:
-	//    - ilStartUpGUI
+	//    - ilLMPresentationGUI
+	//    - ilLMEditorGUI
 	public function fillWindowTitle()
 	{
 		global $DIC;
@@ -1547,10 +1555,6 @@ class ilGlobalTemplate
 
 				// set standard parts (tabs and title icon)
 				$this->fillBodyClass();
-
-				// see #22992
-				$this->fillContentLanguage();
-
 				if ($a_fill_tabs)
 				{
 					if ($this->blockExists("content"))
@@ -1583,6 +1587,7 @@ class ilGlobalTemplate
 					// these fill just plain placeholder variables in tpl.main.html
 					$this->setCurrentBlock("DEFAULT");
 					$this->fillNewContentStyle();
+					$this->fillContentLanguage();
 					$this->fillWindowTitle();
 
 					// these fill blocks in tpl.adm_content.html

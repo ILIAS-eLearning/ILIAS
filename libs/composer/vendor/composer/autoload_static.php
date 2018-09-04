@@ -5051,6 +5051,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLMEditorGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMEditorGUI.php',
         'ilLMException' => __DIR__ . '/../..' . '/../../Modules/LearningModule/exceptions/class.ilLMException.php',
         'ilLMExplorerGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMExplorerGUI.php',
+        'ilLMGlobalTemplate' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMGlobalTemplate.php',
         'ilLMGlossaryTableGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMGlossaryTableGUI.php',
         'ilLMImportGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMImportGUI.php',
         'ilLMLayout' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLMLayout.php',

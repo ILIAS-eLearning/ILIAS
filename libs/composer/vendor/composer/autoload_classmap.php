@@ -4714,6 +4714,7 @@ return array(
     'ilLMEditorGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMEditorGUI.php',
     'ilLMException' => $baseDir . '/../../Modules/LearningModule/exceptions/class.ilLMException.php',
     'ilLMExplorerGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMExplorerGUI.php',
+    'ilLMGlobalTemplate' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMGlobalTemplate.php',
     'ilLMGlossaryTableGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMGlossaryTableGUI.php',
     'ilLMImportGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMImportGUI.php',
     'ilLMLayout' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLMLayout.php',

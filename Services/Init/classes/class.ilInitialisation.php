@@ -1636,6 +1636,14 @@ class ilInitialisation
 			include_once "./Services/LTI/classes/class.ilTemplate.php";
 			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
 		}
+		else if (
+			$_REQUEST["baseClass"] == "ilLMPresentationGUI" ||
+			$_GET["baseClass"] == "ilLMPresentationGUI" ||
+			$_REQUEST["baseClass"] == "ilLMEditorGUI" ||
+			$_GET["baseClass"] == "ilLMEditorGUI"
+		) {
+			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
+		}
 		else 
 		{
 			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
