@@ -11,8 +11,8 @@
 	</div>
 	<!-- BEGIN address_input -->
 	<div>
-		<input id="{MAP_ID_ADDR}_addr" type="text" class="form-control" name="{POST_VAR_ADDR}[address]" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').attr('value')); return false;}"/>
-		<input class="btn btn-default" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').prop('value'));" />
+		<input id="{MAP_ID_ADDR}_addr" type="text" class="form-control" name="{POST_VAR_ADDR}[address]" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').val()); return false;}"/>
+		<input class="btn btn-default" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').val());" />
 	</div>
 	<!-- END address_input -->
 	<!-- BEGIN alert -->
