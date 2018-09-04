@@ -4,8 +4,6 @@
 /**
  *
  * TODO: import/export reminder data with the exercise/assignment.
- * TODO: Mail templates setup + Mail templates in Assignment.
- * TODO: Send the notifications.
  * TODO: Delete reminders from exc_ass_reminders when the assignment is deleted.
  *
  * Exercise Assignment Reminders
@@ -34,12 +32,16 @@ class ilExAssignmentReminder
 	protected $exc_id;
 	protected $rmd_type;
 
+	protected $log;
+
 	//todo remove the params as soon as possible.
 	function __construct($a_exc_id = "", $a_ass_id = "", $a_type = "")
 	{
 		global $DIC;
 		$this->db = $DIC->database();
 		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$this->log = $DIC->logger()->root();
 
 		if($a_ass_id) {
 			$this->ass_id = $a_ass_id;
@@ -215,22 +217,30 @@ class ilExAssignmentReminder
 	}
 
 
-	// CRON STUFF
+	// Specific Methods to be used via Cron Job.
 	/**
 	 * Get reminders available by date/frequence.
+	 * @param $a_type string reminder type
 	 * @return mixed
 	 */
-	function getReminders()
+	function getReminders($a_type = "")
 	{
 		$now = time();
 		//remove time from the timestamp (86400 = 24h)
 		$now = floor($now/86400)*86400;
+		$and_type = "";
+		if($a_type == self::SUBMIT_REMINDER || $a_type == self::GRADE_REMINDER || $a_type == self::FEEDBACK_REMINDER)
+		{
+			$and_type = " AND type = '".$a_type."'";
+		}
 
 		$query = "SELECT ass_id, exc_id, status, start, freq, end, type, last_send, template_id".
 			" FROM exc_ass_reminders".
 			" WHERE status = 1".
 			" AND start <= ".$now.
-			" AND end > ".$now;
+			" AND end > ".$now.
+			$and_type;
+
 
 		$result = $this->db->query($query);
 
@@ -265,7 +275,7 @@ class ilExAssignmentReminder
 	 * @param $a_reminders
 	 * @return array
 	 */
-	function parseReminders($a_reminders)
+	function parseSubmissionReminders($a_reminders)
 	{
 		$reminders = $a_reminders;
 		$users_to_remind = array();
@@ -277,43 +287,48 @@ class ilExAssignmentReminder
 
 			$exc_id = $rem["exc_id"];
 
-			$refs = ilObject::_getAllReferences($exc_id);
-			$exc_ref = end($refs);
-
-			if($course_ref_id = $this->tree->checkForParentType($exc_ref, 'crs')) {
-				$obj = new ilObjCourse($course_ref_id);
-				$participants_class = "ilCourseParticipants";
-				$parent_ref_id = $course_ref_id;
-			} else if ($group_ref_id = $parent_ref_id = $this->tree->checkForParentType($exc_ref, 'grp')) {
-				$obj = new ilObjGroup($group_ref_id);
-				$participants_class = "ilGroupParticipants";
-				$parent_ref_id = $group_ref_id;
-			} else {
-				continue;
-			}
-
-			 //TODO should we use getOfflineStatus instead of isActivated?
-			if($obj->isActivated())
+			$exc_refs = ilObject::_getAllReferences($exc_id);
+			foreach($exc_refs as $exc_ref)
 			{
+
+				//$this->log->debug("Reference => ".$exc_ref);
+				if($course_ref_id = $this->tree->checkForParentType($exc_ref, 'crs')) {
+					$obj = new ilObjCourse($course_ref_id);
+					$participants_class = "ilCourseParticipants";
+					$parent_ref_id = $course_ref_id;
+					$parent_obj_type = 'crs';
+				} else if ($group_ref_id = $parent_ref_id = $this->tree->checkForParentType($exc_ref, 'grp')) {
+					$obj = new ilObjGroup($group_ref_id);
+					$participants_class = "ilGroupParticipants";
+					$parent_ref_id = $group_ref_id;
+					$parent_obj_type = 'grp';
+				} else {
+					continue;
+				}
+
 				$parent_obj_id = $obj->getId();
 				$participants_ids = $participants_class::getInstance($parent_ref_id)->getMembers();
 
 				foreach($participants_ids as $member_id)
 				{
-					$submission = new ilExSubmission($ass_obj, $member_id);
-
-					if(!$submission->getLastSubmission())
+					if($this->access->checkAccessOfUser($member_id, "read", "", $exc_ref))
 					{
-						$member_data = array(
-							"parent_type" => "crs",
-							"parent_id" => $parent_obj_id,
-							"exc_id" => $exc_id,
-							"ass_id" => $ass_id,
-							"member_id" => $member_id,
-							"reminder_type" => $rem["type"],
-							"template_id" => $rem["template_id"]
-						);
-						array_push($users_to_remind, $member_data);
+						$submission = new ilExSubmission($ass_obj, $member_id);
+
+						if(!$submission->getLastSubmission())
+						{
+							$member_data = array(
+								"parent_type" => $parent_obj_type,
+								"parent_id" => $parent_obj_id,
+								"exc_id" => $exc_id,
+								"exc_ref" => $exc_ref,
+								"ass_id" => $ass_id,
+								"member_id" => $member_id,
+								"reminder_type" => $rem["type"],
+								"template_id" => $rem["template_id"]
+							);
+							array_push($users_to_remind, $member_data);
+						}
 					}
 				}
 			}
@@ -321,103 +336,259 @@ class ilExAssignmentReminder
 		return $users_to_remind;
 	}
 
-	/**
-	 * send reminders
-	 */
-	public function sendReminders()
+	function parseGradeReminders($a_reminders)
 	{
-		$reminders = $this->getReminders();
-		$reminders = $this->parseReminders($reminders);
+		$reminders = $a_reminders;
+		$users_to_remind = array();
+
+		$has_pending_to_grade = false;
+
+		foreach($reminders as $rem)
+		{
+			//$this->log->debug("---- parse grade reminder with values -> ",$rem);
+			$ass_obj = new ilExAssignment($rem["ass_id"]);
+			$members_data = $ass_obj->getMemberListData();
+
+			//$this->log->debug("--- get members list data  => ",$members_data);
+			foreach($members_data as $member_id => $assignment_data)
+			{
+				if ($assignment_data["status"] == ilExerciseManagementGUI::GRADE_NOT_GRADED)
+				{
+					//at least there is one submission pending to grade.
+					$has_pending_to_grade = true;
+					continue;
+				}
+			}
+
+			/* //DEBUG
+			if($has_pending_to_grade){
+				$this->log->debug("SOMEONE HAS TO BE GRADED");
+			} else {
+				$this->log->debug("There is nothing to Grade");
+			}
+			*/
+
+			if($has_pending_to_grade)
+			{
+				//get tutor of this exercise.
+				include_once "./Services/Notification/classes/class.ilNotification.php";
+
+				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $rem["exc_id"]);
+
+				foreach ($users as $user_id) {
+					$exc_refs = ilObject::_getAllReferences($rem["exc_id"]);
+					$unike_usr_id = array();
+					foreach ($exc_refs as $exc_ref) {
+						if ($this->access->checkAccessOfUser($user_id, "write", "", $exc_ref)) {
+							if (!in_array($user_id, $unike_usr_id)) {
+								$member_data = array(
+									"exc_id" => $rem["exc_id"],
+									"exc_ref" => $exc_ref,
+									"ass_id" => $rem["ass_id"],
+									"member_id" => $user_id,
+									"reminder_type" => $rem["type"],
+									"template_id" => $rem["template_id"]
+								);
+								array_push($users_to_remind, $member_data);
+								array_push($unike_usr_id, $user_id);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $users_to_remind;
+	}
+
+	function parsePeerReminders($a_reminders)
+	{
+		$reminders = $a_reminders;
+		$users_to_remind = array();
+
+		foreach($reminders as $reminder)
+		{
+			$giver_ids = array_unique(ilExPeerReview::lookupGiversWithPendingFeedback($reminder["ass_id"]));
+
+			foreach($giver_ids as $giver_id)
+			{
+				$exc_refs = ilObject::_getAllReferences($reminder["exc_id"]);
+				foreach ($exc_refs as $exc_ref)
+				{
+					if ($this->access->checkAccessOfUser($giver_id, "read", "", $exc_ref))
+					{
+						$member_data = array(
+							"exc_id" => $reminder["exc_id"],
+							"exc_ref" => $exc_ref,
+							"ass_id" => $reminder["ass_id"],
+							"member_id" => $giver_id,
+							"reminder_type" => $reminder["type"],
+							"template_id" => $reminder["template_id"]
+						);
+						array_push($users_to_remind, $member_data);
+					}
+				}
+			}
+		}
+
+		return $users_to_remind;
+	}
+
+	/**
+	 * CRON send reminders
+	 */
+	public function checkReminders()
+	{
+		$submit_reminders = $this->getReminders(self::SUBMIT_REMINDER);
+		$parsed_submit_reminders = $this->parseSubmissionReminders($submit_reminders);
+
+		$grade_reminders = $this->getReminders(self::GRADE_REMINDER);
+		$parsed_grade_reminders = $this->parseGradeReminders($grade_reminders);
+
+		$peer_reminders = $this->getReminders(self::FEEDBACK_REMINDER);
+		$parsed_peer_reminders = $this->parsePeerReminders($peer_reminders);
+
+		/* //DEBUG
+		$this->log->debug("ALL SUBMIT REMINDERS");
+		$this->log->dump($submit_reminders);
+		$this->log->debug("PARSED SUBMIT REMINDERS");
+		$this->log->dump($parsed_submit_reminders);
+		$this->log->debug("GRADE REMINDERS ARRAY");
+		$this->log->dump($grade_reminders);
+		$this->log->debug("PARSED GRADE REMINDERS");
+		$this->log->dump($parsed_grade_reminders);
+		$this->log->debug("PEER REMINDERS ARRAY");
+		$this->log->dump($peer_reminders);
+		$this->log->debug("PARSED PEER REMINDERS");
+		$this->log->dump($parsed_peer_reminders);
+		*/
+
+		$reminders = array_merge($parsed_submit_reminders, $parsed_grade_reminders, $parsed_peer_reminders);
+
+		$reminders_sent = $this->sendReminders($reminders);
+
+		return $reminders_sent;
+	}
+
+	/**
+	 * @param $reminders array reminders data
+	 * @return integer
+	 */
+	protected function sendReminders($reminders)
+	{
+		$tpl = null;
 
 		foreach ($reminders as $reminder)
 		{
 			include_once "./Services/Mail/classes/class.ilMail.php";
-			//...is this ok?
-			$parent_ref = current(ilObject::_getAllReferences($reminder["exc_id"]));
-			$exc = new ilObjExercise($parent_ref);
-			$ass = new ilExAssignment($reminder["ass_id"]);
 
-			$member_id = $reminder["member_id"];
-			$rmd_type = $reminder["reminder_type"];
 			$template_id = $reminder['template_id'];
 
+			$rmd_type = $reminder["reminder_type"];
+			$this->log->debug("Sending reminder type = ".$rmd_type);
+
+			//if the template exists (can be deleted via Administration/Mail)
 			if($template_id)
 			{
 				$prov = new ilMailTemplateDataProvider();
 				$tpl = $prov->getTemplateById($template_id);
+			}
 
+			if($tpl)
+			{
+				$this->log->debug("** send reminder WITH template.");
 				$subject = $tpl->getSubject();
-				$message = $this->sentReminderPlaceholders($tpl->getMessage(), $member_id);
+
+				$placeholder_params = array(
+					"exc_id" => $reminder["exc_id"],
+					"exc_ref" => $reminder["exc_ref"],
+					"ass_id" => $reminder["ass_id"],
+					"member_id" => $reminder["member_id"]
+				);
+				$message = $this->sentReminderPlaceholders($tpl->getMessage(), $placeholder_params, $rmd_type);
 			}
 			else
 			{
+				$this->log->debug("** send reminder WITHOUT template.");
+
+				$ass_title = ilExAssignment::lookupTitle($reminder["ass_id"]);
+				$exc_title = ilObjExercise::_lookupTitle($reminder["exc_id"]);
+
 				// use language of recipient to compose message
 				include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-				$ulng = ilLanguageFactory::_getLanguageOfUser($member_id);
+				$ulng = ilLanguageFactory::_getLanguageOfUser($reminder["member_id"]);
 				$ulng->loadLanguageModule('exc');
 
-				$tmpl = null;
+				$link = ilLink::_getLink($reminder["exc_ref"], "exc", array(), "_".$reminder["ass_id"]);
 
-				//remove this line
-				//$link2 = ILIAS_HTTP_PATH."/goto.php?ref_id=".$parent_ref."&ass_id=".$ass->getId()."&cmd=showOverview&cmdClass=ilobjexercisegui&baseClass=ilexercisehandlergui";
+				$message = sprintf($ulng->txt('exc_reminder_salutation'), ilObjUser::_lookupFullname($reminder["member_id"]))."\n\n";
 
-				include_once "./Services/Link/classes/class.ilLink.php";
-				$link = ilLink::_getStaticLink($parent_ref, "exc");
-				//$link .="&ass_id=".$ass->getId();
-
-				$message = sprintf($ulng->txt('exc_reminder_salutation'), ilObjUser::_lookupFullname($member_id))."\n\n";
+				$this->log->debug("MAIL TYPE = ".$rmd_type);
 
 				switch($rmd_type)
 				{
 					case "submit":
-						$subject = sprintf($ulng->txt('exc_reminder_submit_subject'), $ass->getTitle());
+						$subject = sprintf($ulng->txt('exc_reminder_submit_subject'), $ass_title);
 						$message .= $ulng->txt('exc_reminder_submit_body').":\n\n";
 						break;
 
 					case "grade":
-						$subject = sprintf($ulng->txt('exc_reminder_grade_subject'), $ass->getTitle());
+						$subject = sprintf($ulng->txt('exc_reminder_grade_subject'), $ass_title);
 						$message .= $ulng->txt('exc_reminder_grade_body').":\n\n";
 						break;
 
 					case "peer":
-						$subject = sprintf($ulng->txt('exc_reminder_peer_subject'), $ass->getTitle());
+						$subject = sprintf($ulng->txt('exc_reminder_peer_subject'), $ass_title);
 						$message .= $ulng->txt('exc_reminder_peer_body').":\n\n";
 						break;
 				}
 
-				$message .= $ulng->txt('obj_exc').": ". $exc->getTitle()."\n";
-				$message .= $ulng->txt('obj_svy').": ". $ass->getTitle()."\n";
+				$message .= $ulng->txt('obj_exc').": ".$exc_title."\n";
+				$message .= $ulng->txt('obj_ass').": ".$ass_title."\n";
 				$message .= "\n".$ulng->txt('exc_reminder_link').": ".$link;
 			}
-
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->sendMail(ilObjUser::_lookupLogin($member_id),
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($reminder["member_id"]),
 				"", "", $subject, $message, array(), array("system"));
-
 		}
 
-		return true;
+		$this->updateRemindersLastDate($reminders);
+		return sizeof($reminders);
 	}
 
 	//see ilObjSurvey.
-	protected function sentReminderPlaceholders($a_message, $a_user_id)
+	protected function sentReminderPlaceholders($a_message, $a_reminder_data, $a_reminder_type)
 	{
 		// see ilMail::replacePlaceholders()
-		include_once "Modules/Exercise/classes/class.ilExerciseMailTemplateReminderContext.php";
-
 		try
 		{
 			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			$context = ilMailTemplateService::getTemplateContextById(ilExerciseMailTemplateReminderContext::ID);
 
-			$user = new ilObjUser($a_user_id);
+			switch($a_reminder_type)
+			{
+				case ilExAssignmentReminder::SUBMIT_REMINDER:
+					include_once "Modules/Exercise/classes/class.ilExcMailTemplateSubmitReminderContext.php";
+					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplateSubmitReminderContext::ID);
+					break;
+				case ilExAssignmentReminder::GRADE_REMINDER:
+					include_once "Modules/Exercise/classes/class.ilExcMailTemplateGradeReminderContext.php";
+					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplateGradeReminderContext::ID);
+					break;
+				case ilExAssignmentReminder::FEEDBACK_REMINDER:
+					include_once "Modules/Exercise/classes/class.ilExcMailTemplatePeerReminderContext.php";
+					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplatePeerReminderContext::ID);
+					break;
+				default:
+					exit();
+			}
+
+			$user = new ilObjUser($a_reminder_data["member_id"]);
 
 			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
 
+			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, $a_reminder_data);
 		}
 		catch(Exception $e)
 		{
@@ -426,5 +597,35 @@ class ilExAssignmentReminder
 		}
 
 		return $a_message;
+	}
+
+	/**
+	 * Update reminders last_send value with the current timestamp.
+	 * @param $a_reminders
+	 */
+	protected function updateRemindersLastDate($a_reminders)
+	{
+		foreach($a_reminders as $reminder)
+		{
+			$sql = "UPDATE exc_ass_reminders".
+				" SET last_send = ".$this->db->quote(time(),'integer').
+				" WHERE type = ".$this->db->quote($reminder["reminder_type"],'text').
+				" AND ass_id = ".$this->db->quote($reminder["ass_id"],'integer').
+				" AND exc_id = ".$this->db->quote($reminder["exc_id"],'integer');
+
+			$this->db->manipulate($sql);
+		}
+	}
+
+	/**
+	 * remove reminders from DB when the parent assignment is deleted.
+	 * @param $a_ass_id
+	 */
+	function deleteReminders($a_ass_id)
+	{
+		$sql = "DELETE FROM exc_ass_reminders".
+			" WHERE ass_id = ".$a_ass_id;
+
+		$this->db->manipulate($sql);
 	}
 }

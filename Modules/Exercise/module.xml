@@ -30,7 +30,9 @@
 		<cron id="exc_reminders" class="ilExcCronReminders" />
 	</crons>
 	<mailtemplates>
-		<context id="exc_context_rmd" class="ilExerciseMailTemplateReminderContext" />
+		<context id="exc_context_submit_rmd" class="ilExcMailTemplateSubmitReminderContext" />
+		<context id="exc_context_grade_rmd" class="ilExcMailTemplateGradeReminderContext" />
+		<context id="exc_context_peer_rmd" class="ilExcMailTemplatePeerReminderContext" />
 	</mailtemplates>
 	<events>				
 		<event type="raise" id="createAssignment" />

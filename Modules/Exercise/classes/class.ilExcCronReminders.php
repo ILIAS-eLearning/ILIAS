@@ -76,18 +76,24 @@ class ilExcCronReminders extends ilCronJob
 		include_once "Modules/Exercise/classes/class.ilExAssignmentReminder.php";
 
 		$cron_status = ilCronJobResult::STATUS_NO_ACTION;
-
+		$message = "";
 		$reminder = new ilExAssignmentReminder();
+		$num_reminders = $reminder->checkReminders();
 
-		$result = $reminder->sendReminders();
-
-		/**
-		 * TODO
-		 * WORKING HERE
-		 */
+		if($num_reminders)
+		{
+			$cron_status = ilCronJobResult::STATUS_OK;
+			$message = $this->lng->txt('exc_reminder_cron_ok');
+		}
 
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus($cron_status);
+
+		if($message != "")
+		{
+			$cron_result->setMessage($message." ".$num_reminders);
+			$cron_result->setCode("#".$num_reminders);
+		}
 
 		return $cron_result;
 	}

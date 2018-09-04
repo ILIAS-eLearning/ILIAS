@@ -556,12 +556,12 @@ class ilExerciseManagementGUI
 			$str_status_value = $this->lng->txt('not_yet');
 		} else {
 			$str_status_key = $this->lng->txt('exc_tbl_status_time');
-			$str_status_value = $a_data['status_time'];
+			$str_status_value = ilDatePresentation::formatDate(new ilDateTime($a_data["status_time"], IL_CAL_DATETIME));
 		}
 
 		if($a_data['feedback_time']) {
 			$str_evaluation_key = $this->lng->txt('exc_tbl_feedback_time');
-			$str_evaluation_value = $a_data['feedback_time'];
+			$str_evaluation_value = ilDatePresentation::formatDate(new ilDateTime($a_data["feedback_time"], IL_CAL_DATETIME));
 		} else {
 			$str_evaluation_key = $this->lng->txt('exc_settings_feedback');
 			$str_evaluation_value = $this->lng->txt('not_yet');
@@ -634,25 +634,23 @@ class ilExerciseManagementGUI
 		$modal_tpl = new ilTemplate("tpl.exc_report_evaluation_modal.html", true, true, "Modules/Exercise");
 		$modal_tpl->setVariable("USER_NAME",$a_data['uname']);
 
-		/** "show more" hack to discuss about.
-		 * https://codepen.io/Idered/pen/AeBgF
-		 * or
-		 * https://codepen.io/ojbravo/pen/YPJpXe
-		 *
-		 * TODO: tpl or kitchen sink element is needed.
-		 * TODO: deal with html tags.
-		 */
-		$u_text = strip_tags($a_data["utext"]); //otherwise will get open P
-		$show_more = "<input type='checkbox' class='read-more-state' id='post-1' />";
-		$show_more .= "<div class='read-more-wrap'>";
-		$show_more .= mb_substr($u_text, 0, 500);
-		$show_more .= "<span class='read-more-target'>";
-		$show_more .= mb_substr($u_text, 500);
-		$show_more .= "</span></div>";
-		$show_more .= "<label for='post-1' class='read-more-trigger'></label>";
-		/** end show more */
+		//TODO: CHECK ilias string utils. ilUtil shortenText with net blank.
+		$max_chars = 500;
 
-		$modal_tpl->setVariable("USER_TEXT",$show_more);
+		$u_text = strip_tags($a_data["utext"]); //otherwise will get open P
+		$text = $u_text;
+		//show more
+		if(strlen($u_text) > $max_chars)
+		{
+			$text = "<input type='checkbox' class='read-more-state' id='post-1' />";
+			$text .= "<div class='read-more-wrap'>";
+			$text .= mb_substr($u_text, 0, $max_chars);
+			$text .= "<span class='read-more-target'>";
+			$text .= mb_substr($u_text, $max_chars);
+			$text .= "</span></div>";
+			$text .= "<label for='post-1' class='read-more-trigger'></label>";
+		}
+		$modal_tpl->setVariable("USER_TEXT",$text);
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
@@ -703,6 +701,9 @@ class ilExerciseManagementGUI
 			$member_status = $this->assignment->getMemberStatus($user_id);
 			$member_status->setComment(ilUtil::stripSlashes($comment));
 			$member_status->setStatus($grade);
+			if($comment != "") {
+				$member_status->setFeedback(true);
+			}
 			$member_status->update();
 		}
 		ilUtil::sendSuccess($this->lng->txt("exc_status_saved"), true);

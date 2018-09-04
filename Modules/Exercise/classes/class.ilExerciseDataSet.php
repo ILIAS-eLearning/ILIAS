@@ -13,6 +13,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - exc_crit_cat: criteria category
  * - exc_crit: criteria
  * - exc_ass_file_order: Order of instruction files
+ * - exc_ass_reminders: Assingment reminder data
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -214,26 +215,12 @@ class ilExerciseDataSet extends ilDataSet
 						,"PeerText" => "integer"
 						,"PeerRating" => "integer"
 						,"PeerCritCat" => "integer"
-						// peer reminder
-						,"PeerRmdStatus" => "integer"
-						,"PeerRmdStart" => "integer"
-						,"PeerRmdEnd" => "integer"
-						,"PeerRmdFrequency" => "integer"
 						// global feedback
 						,"FeedbackFile" => "integer"
 						,"FeedbackCron" => "integer"
 						,"FeedbackDate" => "integer"
 						,"FeedbackDir" => "directory"
 						,"FbDateCustom" => "integer"
-						//reminders
-						,"RmdSubmitStatus" => "integer"
-						,"RmdSubmitStart" => "integer"
-						,"RmdSubmitEnd" => "integer"
-						,"RmdSubmitFreq" => "integer"
-						,"RmdGradeStatus" => "integer"
-						,"RmdGradeStart" => "integer"
-						,"RmdGradeEnd" => "integer"
-						,"RmdGradeFreq" => "integer"
 					);
 			}
 		}
@@ -284,6 +271,25 @@ class ilExerciseDataSet extends ilDataSet
 					, "AssignmentId" => "integer"
 					, "Filename" => "text"
 					, "OrderNr" => "integer"
+					);
+			}
+		}
+
+		if ($a_entity == "exc_ass_reminders")
+		{
+			switch($a_version)
+			{
+				case "5.3.0":
+					return array(
+						"Type" => "text",
+						"AssignmentId" => "integer",
+						"ExerciseId" => "integer",
+						"Status" => "integer",
+						"Start" => "integer",
+						"End" => "integer",
+						"Frequency" => "integer",
+						"LastSend" => "integer",
+						"TemplateId" => "integer"
 					);
 			}
 		}
@@ -417,6 +423,18 @@ class ilExerciseDataSet extends ilDataSet
 			}
 
 		}
+
+		if($a_entity == "exc_ass_reminders")
+		{
+			switch ($a_version)
+			{
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT type, ass_id, exc_id, status, start, end, freq, last_send, template_id".
+						" FROM exc_ass_reminders".
+						" WHERE ".$ilDB->in("ass_id", $a_ids, false, "integer"));
+					break;
+			}
+		}
 	}
 
 	/**
@@ -458,6 +476,22 @@ class ilExerciseDataSet extends ilDataSet
 			include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 			$fswebstorage = new ilFSWebStorageExercise($a_set['ExerciseId'], $a_set['Id']);
 			$a_set['WebDataDir'] = $fswebstorage->getPath();
+		}
+
+		//Discuss if necessary when working with timestamps.
+		if($a_entity == "exc_ass_reminders")
+		{
+
+			if($a_set["End"] != "")
+			{
+				$end = new ilDateTime($a_set["End"], IL_CAL_UNIX);
+				$a_set["End"] = $end->get(IL_CAL_DATETIME,'','UTC');
+			}
+			if($a_set["LastSend"] != "")
+			{
+				$last = new ilDateTime($a_set["LastSend"], IL_CAL_UNIX);
+				$a_set["LastSend"] = $last->get(IL_CAL_DATETIME,'','UTC');
+			}
 		}
 
 		return $a_set;
@@ -520,7 +554,6 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-		ilLoggerFactory::getRootLogger()->debug("**** import record => ".$a_entity);
 //echo $a_entity;
 //var_dump($a_rec);
 
@@ -630,30 +663,6 @@ class ilExerciseDataSet extends ilDataSet
 															
 					$ass->save();
 
-					// (5.3) reminders
-					include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
-
-					$rmd_sub = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::SUBMIT_REMINDER);
-					$rmd_sub->setReminderStatus($a_rec["RmdSubmitStatus"]);
-					$rmd_sub->setReminderStart($a_rec["RmdSubmitStart"]);
-					$rmd_sub->setReminderEnd($a_rec["RmdSubmitEnd"]);
-					$rmd_sub->setReminderFrequency($a_rec["RmdSubmitFreq"]);
-					$rmd_sub->save();
-
-					$rmd_grade = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::GRADE_REMINDER);
-					$rmd_grade->setReminderStatus($a_rec["RmdGradeStatus"]);
-					$rmd_grade->setReminderStart($a_rec["RmdGradeStart"]);
-					$rmd_grade->setReminderEnd($a_rec["RmdGradeEnd"]);
-					$rmd_grade->setReminderFrequency($a_rec["RmdGradeFreq"]);
-					$rmd_grade->save();
-
-					$rmd_sub = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::FEEDBACK_REMINDER);
-					$rmd_sub->setReminderStatus($a_rec["PeerRmdStatus"]);
-					$rmd_sub->setReminderStart($a_rec["PeerRmdStart"]);
-					$rmd_sub->setReminderEnd($a_rec["PeerRmdEnd"]);
-					$rmd_sub->setReminderFrequency($a_rec["PeerRmdFreq"]);
-					$rmd_sub->save();
-
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
 					$fstorage->create();
@@ -733,6 +742,22 @@ class ilExerciseDataSet extends ilDataSet
 					ilExAssignment::instructionFileInsertOrder($a_rec["Filename"], $ass_id, $a_rec["OrderNr"]);
 				}
 				break;
+
+			case "exc_ass_reminders":
+				// (5.3) reminders
+				include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
+				$new_ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssId"]);
+				$new_exc_id = $a_mapping->getMapping('Modules/Exercise','exc',$a_rec['ExcId']);
+				//always UTC timestamp in db.
+				$end = new ilDateTime($a_rec["End"], IL_CAL_DATETIME, "UTC");
+				$rmd = new ilExAssignmentReminder($new_exc_id, $new_ass_id,$a_rec["Type"]);
+				$rmd->setReminderStatus($a_rec["Status"]);
+				$rmd->setReminderStart($a_rec["Start"]);
+				$rmd->setReminderEnd($end->get(IL_CAL_UNIX));
+				$rmd->setReminderFrequency($a_rec["Freq"]);
+				$rmd->setReminderLastSend($a_rec["LastSend"]);
+				$rmd->setReminderMailTemplate($a_rec["TemplateId"]);
+				$rmd->save();
 		}
 	}
 }

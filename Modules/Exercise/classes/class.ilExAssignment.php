@@ -1021,6 +1021,9 @@ class ilExAssignment
 		$exc->updateAllUsersStatus();
 		
 		$this->handleCalendarEntries("delete");
+
+		$reminder = new ilExAssignmentReminder();
+		$reminder->deleteReminders($this->getId());
 	}
 	
 	
