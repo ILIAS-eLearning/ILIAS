@@ -503,6 +503,7 @@ class ilCertificate
 
 						$template = new ilCertificateTemplate(
 							$this->objectId,
+							ilObject::_lookupType($this->objectId),
 							$xsl,
 							md5($xsl),
 							json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),

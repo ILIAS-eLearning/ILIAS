@@ -31,6 +31,7 @@ class ilCertificateTemplateRepository
 		$this->database->insert('certificate_template', array(
 			'id'                    => array('integer', $id),
 			'obj_id'                => array('integer', $objId),
+			'obj_type'              => array('clob', $certificateTemplate->getObjType()),
 			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
 			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
 			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
@@ -61,6 +62,7 @@ ORDER BY version ASC';
 		while ($row = $this->database->fetchAssoc($query)) {
 			$result[] = new ilCertificateTemplate(
 				$row['obj_id'],
+				$row['obj_type'],
 				$row['certificate_content'],
 				$row['certificate_hash'],
 				$row['template_values'],
@@ -94,6 +96,7 @@ AND currently_active = 1
 		while ($row = $this->database->fetchAssoc($query)) {
 			return new ilCertificateTemplate(
 				$row['obj_id'],
+				$row['obj_type'],
 				$row['certificate_content'],
 				$row['certificate_hash'],
 				$row['template_values'],
@@ -181,6 +184,19 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 		$this->database->execute($query);
 
 		return $previousCertificate;
+	}
+
+	public function fetchAllObjectIdsByType($type)
+	{
+		$sql = 'SELECT DISTINCT obj_id FROM certificate_template WHERE obj_type = ' . $this->database->quote($type, 'text');
+		$query = $this->database->query($sql);
+
+		$result = array();
+		while ($row = $this->database->fetchAssoc($query)) {
+			$result[] = $row['obj_id'];
+		}
+
+		return $result;
 	}
 
 	/**

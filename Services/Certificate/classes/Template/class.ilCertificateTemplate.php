@@ -54,7 +54,13 @@ class ilCertificateTemplate
 	private $backgroundImagePath;
 
 	/**
+	 * @var string
+	 */
+	private $obj_type;
+
+	/**
 	 * @param integer $obj_id
+	 * @param $obj_type
 	 * @param string $certificateContent
 	 * @param string $certificateHash
 	 * @param string $templateValues
@@ -67,6 +73,7 @@ class ilCertificateTemplate
 	 */
 	public function __construct(
 		$obj_id,
+		$obj_type,
 		$certificateContent,
 		$certificateHash,
 		$templateValues,
@@ -78,6 +85,7 @@ class ilCertificateTemplate
 		$id = null
 	) {
 		$this->obj_id = $obj_id;
+		$this->obj_type = $obj_type;
 		$this->certificateContent = $certificateContent;
 		$this->certificateHash = $certificateHash;
 		$this->templateValues = $templateValues;
@@ -167,5 +175,13 @@ class ilCertificateTemplate
 	public function getBackgroundImagePath()
 	{
 		return $this->backgroundImagePath;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getObjType(): string
+	{
+		return $this->obj_type;
 	}
 }
