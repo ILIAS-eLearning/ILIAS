@@ -33,7 +33,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	 */
 	private function overwriteBackgroundImageThumbnail($previousTemplate)
 	{
-		$backgroundImagePath = $previousTemplate->getBackgroundImagePath();
+		$backgroundImagePath = CLIENT_DIR . $previousTemplate->getBackgroundImagePath();
 
 		$pathInfo = pathinfo($backgroundImagePath);
 		$newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';

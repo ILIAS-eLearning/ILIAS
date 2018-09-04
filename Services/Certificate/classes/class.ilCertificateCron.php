@@ -134,7 +134,7 @@ class ilCertificateCron extends ilCronJob
 				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
 			}
 
-			$certificateContent = str_replace('[BACKGROUND_IMAGE]', $template->getBackgroundImagePath(), $certificateContent);
+			$certificateContent = str_replace('[BACKGROUND_IMAGE]',  CLIENT_WEB_DIR . $template->getBackgroundImagePath(), $certificateContent);
 
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),

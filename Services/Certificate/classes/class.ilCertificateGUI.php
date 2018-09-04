@@ -131,18 +131,24 @@ class ilCertificateGUI
 	private $deleteAction;
 
 	/**
+	 * @var ilCertificateBackgroundImageUpload
+	 */
+	private $backgroundImageUpload;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
 	 * @param $certificatePath
-	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateFormRepository $settingsFormFactory
+	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilPageFormats|null $pageFormats
 	 * @param ilXlsFoParser|null $xlsFoParser
 	 * @param ilFormFieldParser $formFieldParser
+	 * @param ilCertificateBackgroundImageUpload|null $upload
 	 * @access public
 	 */
 	public function __construct(
@@ -156,7 +162,8 @@ class ilCertificateGUI
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilPageFormats $pageFormats = null,
 		ilXlsFoParser $xlsFoParser = null,
-		ilFormFieldParser $formFieldParser = null
+		ilFormFieldParser $formFieldParser = null,
+		ilCertificateBackgroundImageUpload $upload = null
 	) {
 		global $DIC;
 
@@ -221,6 +228,11 @@ class ilCertificateGUI
 			$xlsFoParser = new ilXlsFoParser($DIC->settings(), $pageFormats);
 		}
 		$this->xlsFoParser = $xlsFoParser;
+
+		if (null === $upload) {
+			$backgroundImageUpload = new ilCertificateBackgroundImageUpload($DIC->upload(), $certificatePath, $DIC->language());
+		}
+		$this->backgroundImageUpload = $backgroundImageUpload;
 
 		$this->lng->loadLanguageModule('certificate');
 	}
@@ -390,7 +402,7 @@ class ilCertificateGUI
 					$temporaryFileName = $_FILES['background']['tmp_name'];
 					if (strlen($temporaryFileName)) {
 						try {
-							$backgroundImagePath = $this->certifcateObject->uploadBackgroundImage($temporaryFileName, $nextVersion);
+							$backgroundImagePath = $this->backgroundImageUpload->upload($temporaryFileName, $nextVersion);
 						} catch (ilException $exception) {
 							$form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
 						}
