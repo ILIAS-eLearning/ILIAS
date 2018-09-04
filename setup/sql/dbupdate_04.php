@@ -22721,6 +22721,11 @@ if(!$ilDB->tableExists('exc_ass_reminders'))
 			"type"    => "integer",
 			"length"  => 4,
 			"default" => NULL
+		),
+		'template_id' => array (
+			"type" => "integer",
+			"length" => 4,
+			"default" => NULL
 		)
 	));
 	$ilDB->addPrimaryKey("exc_ass_reminders", array("ass_id", "exc_id", "type"));

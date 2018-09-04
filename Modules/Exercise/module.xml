@@ -29,6 +29,9 @@
 		<cron id="exc_feedback_notification" class="ilExcCronFeedbackNotification" />
 		<cron id="exc_reminders" class="ilExcCronReminders" />
 	</crons>
+	<mailtemplates>
+		<context id="exc_context_rmd" class="ilExerciseMailTemplateReminderContext" />
+	</mailtemplates>
 	<events>				
 		<event type="raise" id="createAssignment" />
 		<event type="raise" id="updateAssignment" />

@@ -14317,3 +14317,8 @@ exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
 exc#:#exc_reminders_cron#:#Reminders for Assignments
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
 exc#:#exc_reminder_end#:#Reminder ends
+exc#:#exc_reminder_mail_template#:#Mail Template
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
+exc#:#exc_mail_context_reminder_title#:#Exercise Reminder
+exc#:#exc_mail_context_reminder_info#:#Specific Reminders for Exercises (Submit, Grade or Feedback)
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title

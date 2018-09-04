@@ -427,7 +427,6 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
-		ilLoggerFactory::getRootLogger()->debug("GET XML RECORD!");
 		if ($a_entity == "exc_assignment")
 		{
 			// convert server dates to utc

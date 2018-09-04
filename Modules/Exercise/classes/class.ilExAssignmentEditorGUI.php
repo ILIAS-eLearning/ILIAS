@@ -332,7 +332,7 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
-		//reminders
+		// submit reminder
 		$rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
 
 		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
@@ -354,6 +354,9 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_end->setRequired(true);
 		$rmd_submit->addSubItem($rmd_submit_end);
 
+		$rmd_submit->addSubItem($this->addMailTemplatesRadio("rmd_submit_template_id"));
+
+		// grade reminder
 		$rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
 
 		$rmd_grade_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_grade_start");
@@ -374,24 +377,7 @@ class ilExAssignmentEditorGUI
 		$rmd_grade_end->setRequired(true);
 		$rmd_grade->addSubItem($rmd_grade_end);
 
-		/*
-		$mtmpl = $this->object->getReminderMailTemplates();
-		if ($mtmpl)
-		{
-			$rmd_submit_template = new ilRadioGroupInputGUI($this->lng->txt("svy_reminder_mail_template"), "user_rmd_template");
-			$rmd_submit_template->setRequired(true);
-			$rmd_submit_template->addOption(new ilRadioOption($this->lng->txt("svy_reminder_mail_template_none"), -1));
-			foreach ($mtmpl as $mtmpl_id => $mtmpl_caption)
-			{
-				$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
-				$rmd_submit_template->addOption($option);
-			}
-			$rmd_submit_template->setValue($this->object->getReminderTemplate()
-				? $this->object->getReminderTemplate()
-				: -1);
-			$rmd_submit->addSubItem($rmd_submit_template);
-		}
-		*/
+		$rmd_grade->addSubItem($this->addMailTemplatesRadio("rmd_grade_template_id"));
 
 		$form->addItem($rmd_submit);
 		$form->addItem($rmd_grade);
@@ -487,6 +473,26 @@ class ilExAssignmentEditorGUI
 		}
 		
 		return $form;
+	}
+
+	public function addMailTemplatesRadio($a_postvar_name)
+	{
+		include_once "Modules/Exercise/classes/class.ilExerciseMailTemplateReminderContext.php";
+
+		$r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $a_postvar_name);
+		$r_group->setRequired(true);
+		$r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+
+		$context = new ilExerciseMailTemplateReminderContext();
+		$template_data = new ilMailTemplateDataProvider();
+		$templates = $template_data->getTemplateByContextId($context->getId());
+
+		foreach($templates as $template)
+		{
+			$r_group->addOption(new ilRadioOption($template->getTitle(),$template->getTplId()));
+		}
+
+		return $r_group;
 	}
 
 	/**
@@ -698,6 +704,7 @@ class ilExAssignmentEditorGUI
 					$res["rmd_submit_start"] = $a_form->getInput("rmd_submit_start");
 					$res["rmd_submit_freq"] = $a_form->getInput("rmd_submit_freq");
 					$res["rmd_submit_end"] = $reminder_submit_end_date;
+					$res["rmd_submit_template_id"] = $a_form->getInput("rmd_submit_template_id");
 				}
 				if($a_form->getInput("rmd_grade_status"))
 				{
@@ -705,6 +712,7 @@ class ilExAssignmentEditorGUI
 					$res["rmd_grade_start"] = $a_form->getInput("rmd_grade_start");
 					$res["rmd_grade_freq"] = $a_form->getInput("rmd_grade_freq");
 					$res["rmd_grade_end"] = $reminder_grade_end_date;
+					$res["rmd_grade_template_id"] = $a_form->getInput("rmd_grade_template_id");
 				}
 				
 				return $res;
@@ -723,7 +731,7 @@ class ilExAssignmentEditorGUI
 	 * @param array $a_input
 	 */
 	protected function importFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{			
+	{
 		$is_create = !(bool)$a_ass->getId();
 		
 		$a_ass->setTitle($a_input["title"]);
@@ -801,11 +809,7 @@ class ilExAssignmentEditorGUI
 
 	protected function importFormToAssignmentReminders($a_input)
 	{
-		ilLoggerFactory::getRootLogger()->debug("import form");
-		ilLoggerFactory::getRootLogger()->debug("exercise id = ".$this->exercise_id);
-		ilLoggerFactory::getRootLogger()->debug("as id ? ".$this->assignment->getId());
 		$ass_id = $this->assignment->getId();
-		//$this->assignment->getId
 
 		$reminder = new ilExAssignmentReminder($this->exercise_id, $ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
 		$this->saveReminderData($reminder, $a_input);
@@ -834,6 +838,7 @@ class ilExAssignmentEditorGUI
 		$reminder->setReminderStart((int)$a_input["rmd_".$type."_start"]);
 		$reminder->setReminderEnd((int)$a_input["rmd_".$type."_end"]);
 		$reminder->setReminderFrequency((int)$a_input["rmd_".$type."_freq"]);
+		$reminder->setReminderMailTemplate((int)$a_input["rmd_".$type."_template_id"]);
 		$reminder->{$action}();
 	}
 	
@@ -964,6 +969,7 @@ class ilExAssignmentEditorGUI
 			$values["rmd_submit_start"] = $rmd_sub->getReminderStart();
 			$values["rmd_submit_end"] = new ilDateTime($rmd_sub->getReminderEnd(), IL_CAL_UNIX);
 			$values["rmd_submit_freq"] = $rmd_sub->getReminderFrequency();
+			$values["rmd_submit_template_id"] = $rmd_sub->getReminderMailTemplate();
 		}
 
 		$rmd_grade = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::GRADE_REMINDER);
@@ -973,6 +979,7 @@ class ilExAssignmentEditorGUI
 			$values["rmd_grade_start"] = $rmd_grade->getReminderStart();
 			$values["rmd_grade_end"] = new ilDateTime($rmd_grade->getReminderEnd(), IL_CAL_UNIX);
 			$values["rmd_grade_freq"] = $rmd_grade->getReminderFrequency();
+			$values["rmd_grade_template_id"] = $rmd_grade->getReminderMailTemplate();
 		}
 
 		$a_form->setValuesByArray($values);
@@ -1305,6 +1312,8 @@ class ilExAssignmentEditorGUI
 		$rmd_submit_end->setRequired(true);
 		$rmd_feedback->addSubItem($rmd_submit_end);
 
+		$rmd_feedback->addSubItem($this->addMailTemplatesRadio("rmd_peer_template_id"));
+
 		$form->addItem($rmd_feedback);
 
 		// criteria
@@ -1369,7 +1378,7 @@ class ilExAssignmentEditorGUI
 		
 		$form->addCommandButton("updatePeerReview", $lng->txt("save"));
 		$form->addCommandButton("editAssignment", $lng->txt("cancel"));
-		
+
 		return $form;
 	}
 			
@@ -1408,6 +1417,7 @@ class ilExAssignmentEditorGUI
 			$values["rmd_peer_start"] = $reminder->getReminderStart();
 			$values["rmd_peer_end"] = 	new ilDateTime($reminder->getReminderEnd(), IL_CAL_UNIX);
 			$values["rmd_peer_freq"] = $reminder->getReminderFrequency();
+			$values["rmd_peer_template_id"] = $reminder->getReminderMailTemplate();
 		}
 
 		$a_form->setValuesByArray($values);
@@ -1573,6 +1583,7 @@ class ilExAssignmentEditorGUI
 					$res["rmd_peer_start"] = $a_form->getInput("rmd_peer_start");
 					$res["rmd_peer_end"] = $reminder_date;
 					$res["rmd_peer_freq"] = $a_form->getInput("rmd_peer_freq");
+					$res["rmd_peer_template_id"] = $a_form->getInput("rmd_peer_template_id");
 				}
 
 				return $res;
@@ -1585,7 +1596,7 @@ class ilExAssignmentEditorGUI
 	}
 	
 	protected function importPeerReviewFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{					
+	{
 		$a_ass->setPeerReviewMin($a_input["peer_min"]);
 		$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);			
 		$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);		
@@ -1621,7 +1632,6 @@ class ilExAssignmentEditorGUI
 		if(is_array($input))
 		{										
 			$this->importPeerReviewFormToAssignment($this->assignment, $input);
-						
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editPeerReview");
 		}

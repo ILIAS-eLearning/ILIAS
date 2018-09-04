@@ -28,6 +28,7 @@ class ilExAssignmentReminder
 	protected $rmd_end;
 	protected $rmd_frequency;
 	protected $rmd_last_send;
+	protected $rmd_tpl_id;
 
 	protected $ass_id;
 	protected $exc_id;
@@ -141,6 +142,16 @@ class ilExAssignmentReminder
 		return $this->rmd_last_send;
 	}
 
+	function setReminderMailTemplate($a_tpl_id)
+	{
+		$this->rmd_tpl_id = $a_tpl_id;
+	}
+
+	function getReminderMailTemplate()
+	{
+		return $this->rmd_tpl_id;
+	}
+
 	public function save()
 	{
 		$this->db->insert("exc_ass_reminders", array(
@@ -151,7 +162,8 @@ class ilExAssignmentReminder
 			"start" => array("integer", $this->getReminderStart()),
 			"end" => array("integer", $this->getReminderEnd()),
 			"freq" => array("integer", $this->getReminderFrequency()),
-			"last_send" => array("integer", $this->getReminderLastSend())
+			"last_send" => array("integer", $this->getReminderLastSend()),
+			"template_id" => array("integer", $this->getReminderMailTemplate())
 		));
 	}
 
@@ -162,7 +174,8 @@ class ilExAssignmentReminder
 			"start" => array("integer", $this->getReminderStart()),
 			"end" => array("integer", $this->getReminderEnd()),
 			"freq" => array("integer", $this->getReminderFrequency()),
-			"last_send" => array("integer", $this->getReminderLastSend())
+			"last_send" => array("integer", $this->getReminderLastSend()),
+			"template_id" => array("integer", $this->getReminderMailTemplate())
 		),
 		array(
 			"type" => array("text", $this->rmd_type),
@@ -174,7 +187,7 @@ class ilExAssignmentReminder
 
 	public function read()
 	{
-		$set = $this->db->query("SELECT status, start, freq, end, last_send".
+		$set = $this->db->query("SELECT status, start, freq, end, last_send, template_id".
 			" FROM exc_ass_reminders".
 			" WHERE type ='".$this->rmd_type."'".
 			" AND ass_id = ".$this->ass_id.
@@ -198,6 +211,7 @@ class ilExAssignmentReminder
 		$this->setReminderEnd($a_set["end"]);
 		$this->setReminderFrequency($a_set["freq"]);
 		$this->setReminderLastSend($a_set["last_send"]);
+		$this->setReminderMailTemplate($a_set["template_id"]);
 	}
 
 
@@ -212,7 +226,7 @@ class ilExAssignmentReminder
 		//remove time from the timestamp (86400 = 24h)
 		$now = floor($now/86400)*86400;
 
-		$query = "SELECT ass_id, exc_id, status, start, freq, end, type, last_send".
+		$query = "SELECT ass_id, exc_id, status, start, freq, end, type, last_send, template_id".
 			" FROM exc_ass_reminders".
 			" WHERE status = 1".
 			" AND start <= ".$now.
@@ -230,7 +244,8 @@ class ilExAssignmentReminder
 				"end" => $rec["end"],
 				"freq" => $rec["freq"],
 				"type" => $rec["type"],
-				"last_send" => $rec["last_send"]
+				"last_send" => $rec["last_send"],
+				"template_id" => $rec["template_id"]
 			);
 
 			//frequency
@@ -295,7 +310,8 @@ class ilExAssignmentReminder
 							"exc_id" => $exc_id,
 							"ass_id" => $ass_id,
 							"member_id" => $member_id,
-							"reminder_type" => $rem["type"]
+							"reminder_type" => $rem["type"],
+							"template_id" => $rem["template_id"]
 						);
 						array_push($users_to_remind, $member_data);
 					}
