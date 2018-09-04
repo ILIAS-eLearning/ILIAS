@@ -331,6 +331,61 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
+		//reminders
+		$rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
+
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setInfo($this->lng->txt("exc_reminder_start_info"));
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_submit_freq");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_frequency);
+
+		$rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
+
+		$rmd_grade_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_grade_start");
+		$rmd_grade_start->setSize(3);
+		$rmd_grade_start->setMaxLength(3);
+		$rmd_grade_start->setRequired(true);
+		$rmd_grade_start->setMinValue(1);
+		$rmd_grade->addSubItem($rmd_grade_start);
+
+		$rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
+		$rmd_grade_frequency->setSize(3);
+		$rmd_grade_frequency->setMaxLength(3);
+		$rmd_grade_frequency->setRequired(true);
+		$rmd_grade_frequency->setMinValue(1);
+		$rmd_grade->addSubItem($rmd_grade_frequency);
+
+		/*
+		$mtmpl = $this->object->getReminderMailTemplates();
+		if ($mtmpl)
+		{
+			$rmd_submit_template = new ilRadioGroupInputGUI($this->lng->txt("svy_reminder_mail_template"), "user_rmd_template");
+			$rmd_submit_template->setRequired(true);
+			$rmd_submit_template->addOption(new ilRadioOption($this->lng->txt("svy_reminder_mail_template_none"), -1));
+			foreach ($mtmpl as $mtmpl_id => $mtmpl_caption)
+			{
+				$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
+				$rmd_submit_template->addOption($option);
+			}
+			$rmd_submit_template->setValue($this->object->getReminderTemplate()
+				? $this->object->getReminderTemplate()
+				: -1);
+			$rmd_submit->addSubItem($rmd_submit_template);
+		}
+		*/
+
+		$form->addItem($rmd_submit);
+		$form->addItem($rmd_grade);
 
 		// max number of files
 		if($a_type == ilExAssignment::TYPE_UPLOAD ||
@@ -618,6 +673,18 @@ class ilExAssignmentEditorGUI
 						$res["fb_file"] = $_FILES["fb_file"];
 					}						
 				}
+				if($a_form->getInput("rmd_submit_status"))
+				{
+					$res["rmd_submit_status"] = true;
+					$res["rmd_submit_start"] = $a_form->getInput("rmd_submit_start");
+					$res["rmd_submit_freq"] = $a_form->getInput("rmd_submit_freq");
+				}
+				if($a_form->getInput("rmd_grade_status"))
+				{
+					$res["rmd_grade_status"] = true;
+					$res["rmd_grade_start"] = $a_form->getInput("rmd_grade_start");
+					$res["rmd_grade_freq"] = $a_form->getInput("rmd_grade_freq");
+				}
 				
 				return $res;
 			}
@@ -645,6 +712,14 @@ class ilExAssignmentEditorGUI
 		$a_ass->setStartTime($a_input["start"]);
 		$a_ass->setDeadline($a_input["deadline"]);
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
+
+		$a_ass->setReminderSubmitStatus((bool)$a_input["rmd_submit_status"]);
+		$a_ass->setReminderSubmitStart((int)$a_input["rmd_submit_start"]);
+		$a_ass->setReminderSubmitFrequency((int)$a_input["rmd_submit_freq"]);
+
+		$a_ass->setReminderGradeStatus((bool)$a_input["rmd_grade_status"]);
+		$a_ass->setReminderGradeStart((int)$a_input["rmd_grade_start"]);
+		$a_ass->setReminderGradeFrequency((int)$a_input["rmd_grade_freq"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
 		$a_ass->setTeamTutor($a_input["team_tutor"]);
@@ -827,7 +902,20 @@ class ilExAssignmentEditorGUI
 		{
 			$values["fb_date_custom"] = new ilDateTime($this->assignment->getFeedbackDateCustom(), IL_CAL_UNIX);
 		}
-		
+
+		if($this->assignment->getReminderSubmitStatus())
+		{
+			$values["rmd_submit_status"] = $this->assignment->getReminderSubmitStatus();
+			$values["rmd_submit_start"] = $this->assignment->getReminderSubmitStart();
+			$values["rmd_submit_freq"] = $this->assignment->getReminderSubmitFrequency();
+		}
+		if($this->assignment->getReminderGradeStatus())
+		{
+			$values["rmd_grade_status"] = $this->assignment->getReminderGradeStatus();
+			$values["rmd_grade_start"] = $this->assignment->getReminderGradeStart();
+			$values["rmd_grade_freq"] = $this->assignment->getReminderGradeFrequency();
+		}
+
 		$a_form->setValuesByArray($values);
 		
 		// global feedback		
@@ -1136,8 +1224,26 @@ class ilExAssignmentEditorGUI
 		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
 		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 		$form->addItem($peer_prsl);
-		
-		
+
+		//feedback reminders
+		$rmd_feedback = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_feedback_setting"), "peer_reminder_status");
+
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "peer_reminder_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "peer_reminder_frequency");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_frequency);
+
+		$form->addItem($rmd_feedback);
+
 		// criteria
 		
 		$cats = new ilRadioGroupInputGUI($lng->txt("exc_criteria_catalogues"), "crit_cat");
@@ -1228,7 +1334,14 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getPeerReviewDeadline() > 0)
 		{
 			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
-		}				
+		}
+
+		if($this->assignment->getPeerReviewReminderStatus())
+		{
+			$values["peer_reminder_status"] = $this->assignment->getPeerReviewReminderStatus();
+			$values["peer_reminder_start"] = $this->assignment->getPeerReviewReminderStart();
+			$values["peer_reminder_frequency"] = $this->assignment->getPeerReviewReminderFrequency();
+		}
 
 		$a_form->setValuesByArray($values);
 		
@@ -1382,6 +1495,12 @@ class ilExAssignmentEditorGUI
 					$res["peer_char"] = $a_form->getInput("peer_char");
 					$res["crit_cat"] = $a_form->getInput("crit_cat");	
 				}
+				if($a_form->getInput("peer_reminder_status"))
+				{
+					$res["peer_reminder_status"] = $a_form->getInput("peer_reminder_status");
+					$res["peer_reminder_start"] = $a_form->getInput("peer_reminder_start");
+					$res["peer_reminder_frequency"] = $a_form->getInput("peer_reminder_frequency");
+				}
 
 				return $res;
 			}
@@ -1403,7 +1522,11 @@ class ilExAssignmentEditorGUI
 		$a_ass->setPeerReviewValid($a_input["peer_valid"]
 			? $a_input["peer_valid"]
 			: ilExAssignment::PEER_REVIEW_VALID_NONE);
-		
+
+		$a_ass->setPeerReviewReminderStatus((bool)$a_input["peer_reminder_status"]);
+		$a_ass->setPeerReviewReminderStart((int)$a_input["peer_reminder_start"]);
+		$a_ass->setPeerReviewReminderFrequency((int)$a_input["peer_reminder_frequency"]);
+
 		$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
 		$a_ass->setPeerReviewChars($a_input["peer_char"]);
 		$a_ass->setPeerReviewText($a_input["peer_text"]);

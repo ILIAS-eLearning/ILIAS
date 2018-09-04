@@ -22597,3 +22597,69 @@ if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
 	]);
 }
 ?>
+<#5297>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+?>

@@ -50,6 +50,12 @@ class ilExAssignment
 	protected $start_time;
 	protected $deadline;
 	protected $deadline2;
+	protected $rmd_submit_status;
+	protected $rmd_submit_starting;
+	protected $rmd_submit_frequency;
+	protected $rmd_grade_status;
+	protected $rmd_grade_starting;
+	protected $rmd_grade_frequency;
 	protected $instruction;
 	protected $title;
 	protected $mandatory;
@@ -65,6 +71,9 @@ class ilExAssignment
 	protected $peer_text;
 	protected $peer_rating;
 	protected $peer_crit_cat;
+	protected $peer_rmd_status;
+	protected $peer_rmd_start;
+	protected $peer_rmd_frequency;
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
@@ -777,6 +786,97 @@ class ilExAssignment
 	{
 		return $this->feedback_date_custom;
 	}
+
+	//TODO think about move all this stuff about reminders to a new class ilExAssignmentReminder.php z.B.
+	function setReminderSubmitStatus($a_status)
+	{
+		$this->rmd_submit_status = $a_status;
+	}
+
+	function getReminderSubmitStatus()
+	{
+		return $this->rmd_submit_status;
+	}
+
+	function setReminderSubmitStart($a_num_days)
+	{
+		$this->rmd_submit_starting = $a_num_days;
+	}
+
+	function getReminderSubmitStart()
+	{
+		return $this->rmd_submit_starting;
+	}
+
+	function setReminderSubmitFrequency($a_num_days)
+	{
+		$this->rmd_submit_frequency = $a_num_days;
+	}
+
+	function getReminderSubmitFrequency()
+	{
+		return $this->rmd_submit_frequency;
+	}
+
+	function setReminderGradeStatus($a_status)
+	{
+		$this->rmd_grade_status = $a_status;
+	}
+
+	function getReminderGradeStatus()
+	{
+		return $this->rmd_grade_status;
+	}
+
+	function setReminderGradeStart($a_num_days)
+	{
+		$this->rmd_grade_starting = $a_num_days;
+	}
+
+	function getReminderGradeStart()
+	{
+		return $this->rmd_grade_starting;
+	}
+
+	function setReminderGradeFrequency($a_num_days)
+	{
+		$this->rmd_grade_frequency = $a_num_days;
+	}
+
+	function getReminderGradeFrequency()
+	{
+		return $this->rmd_grade_frequency;
+	}
+
+	function setPeerReviewReminderStatus($a_status)
+	{
+		$this->peer_rmd_status = $a_status;
+	}
+
+	function getPeerReviewReminderStatus()
+	{
+		return $this->peer_rmd_status;
+	}
+
+	function setPeerReviewReminderStart($a_num_days)
+	{
+		$this->peer_rmd_start = $a_num_days;
+	}
+
+	function getPeerReviewReminderStart()
+	{
+		return $this->peer_rmd_start;
+	}
+
+	function setPeerReviewReminderFrequency($a_num_days)
+	{
+		$this->peer_rmd_frequency = $a_num_days;
+	}
+
+	function getPeerReviewReminderFrequency()
+	{
+		return $this->peer_rmd_frequency;
+	}
 	
 	/**
 	 * Set team management by tutor
@@ -891,6 +991,9 @@ class ilExAssignment
 		$this->setPeerReviewText($a_set["peer_text"]);
 		$this->setPeerReviewRating($a_set["peer_rating"]);
 		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
+		$this->setPeerReviewReminderStatus($a_set["peer_rmd_status"]);
+		$this->setPeerReviewReminderStart($a_set["peer_rmd_start"]);
+		$this->setPeerReviewReminderFrequency($a_set["peer_rmd_freq"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackDateCustom($a_set["fb_date_custom"]);
@@ -900,6 +1003,12 @@ class ilExAssignment
 		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
 		$this->setMinCharLimit($a_set["min_char_limit"]);
 		$this->setMaxCharLimit($a_set["max_char_limit"]);
+		$this->setReminderSubmitStatus($a_set["rmd_submit_status"]);
+		$this->setReminderSubmitStart($a_set["rmd_submit_start"]);
+		$this->setReminderSubmitFrequency($a_set["rmd_submit_freq"]);
+		$this->setReminderGradeStatus($a_set["rmd_grade_status"]);
+		$this->setReminderGradeStart($a_set["rmd_grade_start"]);
+		$this->setReminderGradeFrequency($a_set["rmd_grade_freq"]);
 	}
 	
 	/**
@@ -939,6 +1048,9 @@ class ilExAssignment
 			"peer_text" => array("integer", (int) $this->hasPeerReviewText()),
 			"peer_rating" => array("integer", (int) $this->hasPeerReviewRating()),
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
+			"peer_rmd_status" => array("integer", $this->getPeerReviewReminderStatus()),
+			"peer_rmd_start" => array("integer", $this->getPeerReviewReminderStart()),
+			"peer_rmd_freq" => array("integer", $this->getPeerReviewReminderFrequency()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
@@ -947,8 +1059,14 @@ class ilExAssignment
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit())
-			));
+			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
+			"rmd_submit_status" => array("integer", $this->getReminderSubmitStatus()),
+			"rmd_submit_start" => array("integer", $this->getReminderSubmitStart()),
+			"rmd_submit_freq" => array("integer", $this->getReminderSubmitFrequency()),
+			"rmd_grade_status" => array("integer", $this->getReminderGradeStatus()),
+			"rmd_grade_start" => array("integer", $this->getReminderGradeStart()),
+			"rmd_grade_freq" => array("integer", $this->getReminderGradeFrequency())
+		));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
@@ -963,7 +1081,7 @@ class ilExAssignment
 	function update()
 	{		
 		$ilDB = $this->db;
-		
+
 		$ilDB->update("exc_assignment",
 			array(
 			"exc_id" => array("integer", $this->getExerciseId()),
@@ -986,6 +1104,9 @@ class ilExAssignment
 			"peer_text" => array("integer", (int) $this->hasPeerReviewText()),
 			"peer_rating" => array("integer", (int) $this->hasPeerReviewRating()),
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
+			"peer_rmd_status" => array("integer", $this->getPeerReviewReminderStatus()),
+			"peer_rmd_start" => array("integer", $this->getPeerReviewReminderStart()),
+			"peer_rmd_freq" => array("integer", $this->getPeerReviewReminderFrequency()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
@@ -994,7 +1115,13 @@ class ilExAssignment
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit())
+			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
+			"rmd_submit_status" => array("integer", $this->getReminderSubmitStatus()),
+			"rmd_submit_start" => array("integer", $this->getReminderSubmitStart()),
+			"rmd_submit_freq" => array("integer", $this->getReminderSubmitFrequency()),
+			"rmd_grade_status" => array("integer", $this->getReminderGradeStatus()),
+			"rmd_grade_start" => array("integer", $this->getReminderGradeStart()),
+			"rmd_grade_freq" => array("integer", $this->getReminderGradeFrequency())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -1072,6 +1199,7 @@ class ilExAssignment
 	/**
 	 * Clone assignments of exercise
 	 *
+	 * //TODO should the reminders been cloned?
 	 * @param
 	 * @return
 	 */
@@ -1411,20 +1539,25 @@ class ilExAssignment
 	 * Get submission data for an specific user,exercise and assignment.
 	 * todo we can refactor a bit the method getMemberListData to use this and remove duplicate code.
 	 * @param $a_user_id
+	 * @param $a_grade
 	 * @return array
 	 */
-	public function getExerciseMemberAssignmentData($a_user_id)
+	public function getExerciseMemberAssignmentData($a_user_id, $a_grade = "")
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 
-		$data = array();
+		if(in_array($a_grade, array("notgraded", "passed", "failed")))
+		{
+			$and_grade = " AND status = ".$ilDB->quote($a_grade, "text");
+		}
 
 		$q = "SELECT * FROM exc_mem_ass_status ".
 			"WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			$and_grade;
 
 		$set = $ilDB->query($q);
 
