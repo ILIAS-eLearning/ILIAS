@@ -281,10 +281,12 @@ class ilSystemStyleSettings
 		return $skin_id;
 	}
 
-	/**
-	 * Gets default style of the system
-	 * @return string
-	 */
+    /**
+     * Gets default style of the system
+     *
+     * @return mixed
+     * @throws ilSystemStyleException
+     */
 	static function getCurrentDefaultStyle(){
 		global $DIC;
 		$skin_id = $DIC['ilias']->ini->readVariable("layout","skin");
