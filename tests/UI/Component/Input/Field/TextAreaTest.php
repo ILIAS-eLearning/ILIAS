@@ -41,8 +41,6 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 
 		$r = $this->getDefaultRenderer();
 
-		print_r("clase de renderer =".get_class($r));
-
 		$expected = "<div class=\"form-group\" id=\"il_prop_cont_atxt\">"
 			."<label for=\"atxt\" class=\"col-sm-3 control-label\">$label</label>"
 			."<div class=\"col-sm-9\">"
@@ -113,7 +111,6 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$byline = "Just a textarea input<br>Minimum: ".$min." Maximum: ".$max;
 		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withMaxLimit($max);
 
-		print_r("xus xus xus xus => ".$textarea->getName());
 		$r = $this->getDefaultRenderer();
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"form_input_1\" class=\"control-label col-sm-3\">$label</label>"
