@@ -656,15 +656,6 @@ class ilGlobalTemplate
 		$this->inline_css[] = array("css" => $a_css, "media" => $media);
 	}
 
-	// REMOVAL CANDIDATE
-	// Usage locations:
-	//    - ilLMPresentationGUI
-	//    - ilSAHSPresentationGUI
-	public function setStyleSheetLocation($a_stylesheet)
-	{
-		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
-	}
-
 	// PRIVATE CANDIDATE
 	// Usage locations:
 	//    - ilPageObjectGUI
