@@ -50,14 +50,6 @@ class ilExAssignment
 	protected $start_time;
 	protected $deadline;
 	protected $deadline2;
-	protected $rmd_submit_status;
-	protected $rmd_submit_starting;
-	protected $rmd_submit_end;
-	protected $rmd_submit_frequency;
-	protected $rmd_grade_status;
-	protected $rmd_grade_starting;
-	protected $rmd_grade_end;
-	protected $rmd_grade_frequency;
 	protected $instruction;
 	protected $title;
 	protected $mandatory;
@@ -73,10 +65,6 @@ class ilExAssignment
 	protected $peer_text;
 	protected $peer_rating;
 	protected $peer_crit_cat;
-	protected $peer_rmd_status;
-	protected $peer_rmd_start;
-	protected $peer_rmd_end;
-	protected $peer_rmd_frequency;
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
@@ -790,224 +778,6 @@ class ilExAssignment
 		return $this->feedback_date_custom;
 	}
 
-	//TODO think about move all this stuff about reminders to a new class ilExAssignmentReminder.php z.B.
-
-	/**
-	 * Set reminder for users without submission.
-	 * @param $a_status
-	 */
-	function setReminderSubmitStatus($a_status)
-	{
-		$this->rmd_submit_status = $a_status;
-	}
-
-	/**
-	 * Get status of the "user submit" reminder
-	 * @return mixed
-	 */
-	function getReminderSubmitStatus()
-	{
-		return $this->rmd_submit_status;
-	}
-
-	/**
-	 * Set num days before the deadline to start sending "user submit" reminders
-	 * @param $a_num_days
-	 */
-	function setReminderSubmitStart($a_num_days)
-	{
-		$this->rmd_submit_starting = $a_num_days;
-	}
-
-	/**
-	 * Get num days before the deadline to start sending "user submit" reminders.
-	 * @return mixed
-	 */
-	function getReminderSubmitStart()
-	{
-		return $this->rmd_submit_starting;
-	}
-
-	/**
-	 * Set the ending of the submit reminder
-	 * @param $a_date
-	 */
-	function setReminderSubmitEnd($a_date)
-	{
-		$this->rmd_submit_end = $a_date;
-	}
-
-	/**
-	 * get the ending of the submit reminder
-	 * @return mixed
-	 */
-	function getReminderSubmitEnd()
-	{
-		return $this->rmd_submit_end;
-	}
-
-	/**
-	 * Set submit reminder frequency in days
-	 * @param $a_num_days
-	 */
-	function setReminderSubmitFrequency($a_num_days)
-	{
-		$this->rmd_submit_frequency = $a_num_days;
-	}
-
-	/**
-	 * get submit reminder frequency in days.
-	 * @return mixed
-	 */
-	function getReminderSubmitFrequency()
-	{
-		return $this->rmd_submit_frequency;
-	}
-
-	/**
-	 * Set reminder for tutors to grade.
-	 * @param $a_status
-	 */
-	function setReminderGradeStatus($a_status)
-	{
-		$this->rmd_grade_status = $a_status;
-	}
-
-	/**
-	 * get the status of the tutors reminder.
-	 * @return mixed
-	 */
-	function getReminderGradeStatus()
-	{
-		return $this->rmd_grade_status;
-	}
-
-	/**
-	 * set the starting day of the grade reminder
-	 * @param $a_num_days
-	 */
-	function setReminderGradeStart($a_num_days)
-	{
-		$this->rmd_grade_starting = $a_num_days;
-	}
-
-	/**
-	 * get reminder grade start
-	 * @return mixed
-	 */
-	function getReminderGradeStart()
-	{
-		return $this->rmd_grade_starting;
-	}
-
-	/**
-	 * set the grade reminder ending date
-	 * @param $a_date
-	 */
-	function setReminderGradeEnd($a_date)
-	{
-		$this->rmd_grade_end = $a_date;
-	}
-
-	/**
-	 * get the grade reminder ending date
-	 * @return mixed
-	 */
-	function getReminderGradeEnd()
-	{
-		return $this->rmd_grade_end;
-	}
-
-	/**
-	 * set grade reminder frequency
-	 * @param $a_num_days
-	 */
-	function setReminderGradeFrequency($a_num_days)
-	{
-		$this->rmd_grade_frequency = $a_num_days;
-	}
-
-	/**
-	 * get grade reminder frequency
-	 * @return mixed
-	 */
-	function getReminderGradeFrequency()
-	{
-		return $this->rmd_grade_frequency;
-	}
-
-	/**
-	 * set peer review reminder status
-	 * @param $a_status
-	 */
-	function setPeerReviewReminderStatus($a_status)
-	{
-		$this->peer_rmd_status = $a_status;
-	}
-
-	/**
-	 * Get peer review reminder status
-	 * @return mixed
-	 */
-	function getPeerReviewReminderStatus()
-	{
-		return $this->peer_rmd_status;
-	}
-
-	/**
-	 * set peer review reminder start in days
-	 * @param $a_num_days
-	 */
-	function setPeerReviewReminderStart($a_num_days)
-	{
-		$this->peer_rmd_start = $a_num_days;
-	}
-
-	/**
-	 * get the start of the peer reminder in days.
-	 * @return mixed
-	 */
-	function getPeerReviewReminderStart()
-	{
-		return $this->peer_rmd_start;
-	}
-
-	/**
-	 * set peer review reminder ending in days
-	 * @param $a_date integer
-	 */
-	function setPeerReviewReminderEnd($a_date)
-	{
-		$this->peer_rmd_end = $a_date;
-	}
-
-	/**
-	 * get the end of the peer reminder in days.
-	 * @return mixed
-	 */
-	function getPeerReviewReminderEnd()
-	{
-		return $this->peer_rmd_end;
-	}
-
-	/**
-	 * Set the frequency in days for the PEER review reminder
-	 * @param $a_num_days
-	 */
-	function setPeerReviewReminderFrequency($a_num_days)
-	{
-		$this->peer_rmd_frequency = $a_num_days;
-	}
-
-	/**
-	 * get the review reminder frequency
-	 * @return mixed
-	 */
-	function getPeerReviewReminderFrequency()
-	{
-		return $this->peer_rmd_frequency;
-	}
-	
 	/**
 	 * Set team management by tutor
 	 * 
@@ -1121,10 +891,6 @@ class ilExAssignment
 		$this->setPeerReviewText($a_set["peer_text"]);
 		$this->setPeerReviewRating($a_set["peer_rating"]);
 		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
-		$this->setPeerReviewReminderStatus($a_set["peer_rmd_status"]);
-		$this->setPeerReviewReminderStart($a_set["peer_rmd_start"]);
-		$this->setPeerReviewReminderFrequency($a_set["peer_rmd_freq"]);
-		$this->setPeerReviewReminderEnd($a_set["peer_rmd_end"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackDateCustom($a_set["fb_date_custom"]);
@@ -1134,14 +900,6 @@ class ilExAssignment
 		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
 		$this->setMinCharLimit($a_set["min_char_limit"]);
 		$this->setMaxCharLimit($a_set["max_char_limit"]);
-		$this->setReminderSubmitStatus($a_set["rmd_submit_status"]);
-		$this->setReminderSubmitStart($a_set["rmd_submit_start"]);
-		$this->setReminderSubmitFrequency($a_set["rmd_submit_freq"]);
-		$this->setReminderSubmitEnd($a_set["rmd_submit_end"]);
-		$this->setReminderGradeStatus($a_set["rmd_grade_status"]);
-		$this->setReminderGradeStart($a_set["rmd_grade_start"]);
-		$this->setReminderGradeFrequency($a_set["rmd_grade_freq"]);
-		$this->setReminderGradeEnd($a_set["rmd_grade_end"]);
 	}
 	
 	/**
@@ -1181,10 +939,6 @@ class ilExAssignment
 			"peer_text" => array("integer", (int) $this->hasPeerReviewText()),
 			"peer_rating" => array("integer", (int) $this->hasPeerReviewRating()),
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
-			"peer_rmd_status" => array("integer", $this->getPeerReviewReminderStatus()),
-			"peer_rmd_start" => array("integer", $this->getPeerReviewReminderStart()),
-			"peer_rmd_end" => array("integer", $this->getPeerReviewReminderEnd()),
-			"peer_rmd_freq" => array("integer", $this->getPeerReviewReminderFrequency()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
@@ -1193,15 +947,7 @@ class ilExAssignment
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
-			"rmd_submit_status" => array("integer", $this->getReminderSubmitStatus()),
-			"rmd_submit_start" => array("integer", $this->getReminderSubmitStart()),
-			"rmd_submit_end" => array("integer", $this->getReminderSubmitEnd()),
-			"rmd_submit_freq" => array("integer", $this->getReminderSubmitFrequency()),
-			"rmd_grade_status" => array("integer", $this->getReminderGradeStatus()),
-			"rmd_grade_start" => array("integer", $this->getReminderGradeStart()),
-			"rmd_grade_end" => array("integer", $this->getReminderGradeEnd()),
-			"rmd_grade_freq" => array("integer", $this->getReminderGradeFrequency())
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 		));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -1240,10 +986,6 @@ class ilExAssignment
 			"peer_text" => array("integer", (int) $this->hasPeerReviewText()),
 			"peer_rating" => array("integer", (int) $this->hasPeerReviewRating()),
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
-			"peer_rmd_status" => array("integer", $this->getPeerReviewReminderStatus()),
-			"peer_rmd_start" => array("integer", $this->getPeerReviewReminderStart()),
-			"peer_rmd_end" => array("integer", $this->getPeerReviewReminderEnd()),
-			"peer_rmd_freq" => array("integer", $this->getPeerReviewReminderFrequency()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
@@ -1252,15 +994,7 @@ class ilExAssignment
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
-			"rmd_submit_status" => array("integer", $this->getReminderSubmitStatus()),
-			"rmd_submit_start" => array("integer", $this->getReminderSubmitStart()),
-			"rmd_submit_end" => array("integer", $this->getReminderSubmitEnd()),
-			"rmd_submit_freq" => array("integer", $this->getReminderSubmitFrequency()),
-			"rmd_grade_status" => array("integer", $this->getReminderGradeStatus()),
-			"rmd_grade_start" => array("integer", $this->getReminderGradeStart()),
-			"rmd_grade_end" => array("integer", $this->getReminderGradeEnd()),
-			"rmd_grade_freq" => array("integer", $this->getReminderGradeFrequency())
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -1337,8 +1071,6 @@ class ilExAssignment
 	
 	/**
 	 * Clone assignments of exercise
-	 *
-	 * //TODO should the reminders been cloned?
 	 * @param
 	 * @return
 	 */
@@ -1378,18 +1110,6 @@ class ilExAssignment
 			$new_ass->setMinCharLimit($d->getMinCharLimit());
 			$new_ass->setMaxCharLimit($d->getMaxCharLimit());
 			$new_ass->setPortfolioTemplateId($d->getPortfolioTemplateId());
-			$new_ass->setReminderSubmitStatus($d->getReminderSubmitStatus());
-			$new_ass->setReminderSubmitStart($d->getReminderSubmissionStart());
-			$new_ass->setReminderSubmitEnd($d->getReminderSubmissionEnd());
-			$new_ass->setReminderSubmitFrequency($d->getReminderSubmissionFrequency());
-			$new_ass->setReminderGradeStatus($d->getReminderGradeStatus());
-			$new_ass->setReminderGradeStart($d->getReminderGradeStart());
-			$new_ass->setReminderGradeEnd($d->getReminderGradeEnd());
-			$new_ass->setReminderGradeFrequency($d->getReminderGradeFrequency());
-			$new_ass->setPeerReviewReminderStatus($d->getPeerReviewReminderStatus());
-			$new_ass->setPeerReviewReminderStart($d->getPeerReviewReminderStart());
-			$new_ass->setPeerReviewReminderEnd($d->getPeerReviewReminderEnd());
-			$new_ass->setPeerReviewReminderFrequency($d->getPeerReviewReminderFrequency());
 
 			// criteria catalogue(s)
 			if($d->getPeerReviewCriteriaCatalogue() &&

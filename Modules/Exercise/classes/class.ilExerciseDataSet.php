@@ -369,8 +369,7 @@ class ilExerciseDataSet extends ilDataSet
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
 						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date,".
-						" fb_date_custom, rmd_submit_status, rmd_submit_start, rmd_submit_end, rmd_submit_freq, rmd_grade_status,".
-						" rmd_grade_start, rmd_grade_end, rmd_grade_freq, peer_rmd_status, peer_rmd_start, peer_rmd_end, peer_rmd_freq".
+						" fb_date_custom".
 						" FROM exc_assignment".
 						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
@@ -428,6 +427,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
+		ilLoggerFactory::getRootLogger()->debug("GET XML RECORD!");
 		if ($a_entity == "exc_assignment")
 		{
 			// convert server dates to utc
@@ -502,7 +502,8 @@ class ilExerciseDataSet extends ilDataSet
 				{
 					case "5.3.0":
 						return array(
-							"exc_ass_file_order" => array("ids" => $a_rec["Id"])
+							"exc_ass_file_order" => array("ids" => $a_rec["Id"]),
+							"exc_ass_reminders" => array("ids" => $a_rec["Id"])
 						);
 
 				}
@@ -520,6 +521,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
+		ilLoggerFactory::getRootLogger()->debug("**** import record => ".$a_entity);
 //echo $a_entity;
 //var_dump($a_rec);
 
@@ -618,20 +620,8 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setPeerReviewText($a_rec["PeerText"]);
 					$ass->setPeerReviewRating($a_rec["PeerRating"]);
 
+					// 5.3
 					$ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
-
-					$ass->setReminderSubmitStatus($a_rec["RmdSubmitStatus"]);
-					$ass->setReminderSubmitStart($a_rec["RmdSubmitStart"]);
-					$ass->setReminderSubmitEnd($a_rec["RmdSubmitEnd"]);
-					$ass->setReminderSubmitFrequency($a_rec["RmdSubmitFreq"]);
-					$ass->setReminderGradeStatus($a_rec["RmdGradeStatus"]);
-					$ass->setReminderGradeStart($a_rec["RmdGradeStart"]);
-					$ass->setReminderGradeEnd($a_rec["RmdGradeEnd"]);
-					$ass->setReminderGradeFrequency($a_rec["RmdGradeFreq"]);
-					$ass->setPeerReviewReminderStatus($a_rec["PeerRmdStatus"]);
-					$ass->setPeerReviewReminderStart($a_rec["PeerRmdStart"]);
-					$ass->setPeerReviewReminderEnd($a_rec["PeerRmdEnd"]);
-					$ass->setPeerReviewReminderFrequency($a_rec["PeerRmdFreq"]);
 					
 					// criteria catalogue
 					if($a_rec["PeerCritCat"])
@@ -640,6 +630,30 @@ class ilExerciseDataSet extends ilDataSet
 					}
 															
 					$ass->save();
+
+					// (5.3) reminders
+					include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
+
+					$rmd_sub = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::SUBMIT_REMINDER);
+					$rmd_sub->setReminderStatus($a_rec["RmdSubmitStatus"]);
+					$rmd_sub->setReminderStart($a_rec["RmdSubmitStart"]);
+					$rmd_sub->setReminderEnd($a_rec["RmdSubmitEnd"]);
+					$rmd_sub->setReminderFrequency($a_rec["RmdSubmitFreq"]);
+					$rmd_sub->save();
+
+					$rmd_grade = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::GRADE_REMINDER);
+					$rmd_grade->setReminderStatus($a_rec["RmdGradeStatus"]);
+					$rmd_grade->setReminderStart($a_rec["RmdGradeStart"]);
+					$rmd_grade->setReminderEnd($a_rec["RmdGradeEnd"]);
+					$rmd_grade->setReminderFrequency($a_rec["RmdGradeFreq"]);
+					$rmd_grade->save();
+
+					$rmd_sub = new ilExAssignmentReminder($exc_id, $ass->getId(),ilExAssignmentReminder::FEEDBACK_REMINDER);
+					$rmd_sub->setReminderStatus($a_rec["PeerRmdStatus"]);
+					$rmd_sub->setReminderStart($a_rec["PeerRmdStart"]);
+					$rmd_sub->setReminderEnd($a_rec["PeerRmdEnd"]);
+					$rmd_sub->setReminderFrequency($a_rec["PeerRmdFreq"]);
+					$rmd_sub->save();
 
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
