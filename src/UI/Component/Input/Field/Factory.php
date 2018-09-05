@@ -353,6 +353,51 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     A Radio Input is used to depict a choice of options excluding each other.
+	 *   composition: >
+	 *     The Radio is considered as one field with a label and a number of
+	 *     options. Each option in turn bears a label in form of a positive statement.
+	 *   effect: >
+	 *     If used in a form, each option of a Radio may open a Dependant Section (formerly known
+	 *     as Sub Form).
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Select: >
+	 *       Use Selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, e.g. service behavior,
+	 *       or needs further configuration, stick to radios.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Radio Input SHOULD contain 3 to 5 options.
+	 *       If there are more, the Select Input might be the better option.
+	 *     2: >
+	 *       Radios MAY also be used to select between two options
+	 *       where one is not automatically the inverse of the other
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: The options' labels MUST state something positive.
+	 *     3: >
+	 *        An option's label SHOULD not simply repeat the label of the Radio.
+	 *        A meaningful labeling SHOULD be chosen instead.
+	 *   ordering:
+	 *     1: The presumably most relevant option SHOULD be the first option.
+	 *
+	 * ---
+	 *
+	 * @param    string 	$label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	public function radio($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *     A Multi Select is used to allow users to pick several options from a list.
 	 *   composition: >
 	 *     The Multi Select field will render labeled checkboxes according to given options.
@@ -382,14 +427,13 @@ interface Factory {
 	 *     2: >
 	 *       If the option governs a change of (service-)behavior, the option's
 	 *       label MUST be in form of a positive statement.
-	 *
-	 * ---
-	 * @param string 	$label
-	 * @param array<string,string> 	$options 	with the select options as value=>label.
-	 * @param string 	$byline
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
-	 */
-	public function multiSelect($label, array $options, $byline = null);
+ 	 *
+ 	 * ---
+ 	 * @param string 	$label
+ 	 * @param array<string,string> 	$options 	with the select options as value=>label.
+ 	 * @param string 	$byline
+ 	 *
+ 	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
+ 	 */
+ 	public function multiSelect($label, array $options, $byline = null);
 }
-
