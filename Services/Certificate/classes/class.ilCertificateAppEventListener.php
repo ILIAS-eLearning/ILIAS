@@ -16,66 +16,166 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_params)
 	{
+		global $DIC;
+
+		$database = $DIC->database();
+		$ilObjectDataCache = $DIC['ilObjDataCache'];
+		$logger = $DIC->logger()->root();
+
 		switch($a_component) {
 			case 'Services/Tracking':
 				switch($a_event) {
 					case 'updateStatus':
-						if($a_params['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-							global $DIC;
+						self::handleLPUpdate(
+							$a_params,
+							$DIC,
+							$ilObjectDataCache,
+							$logger
+						);
+						break;
+				}
+			break;
 
-							/** @var ilObjectDataCache $ilObjectDataCache */
-							$ilObjectDataCache = $DIC['ilObjDataCache'];
-							$database = $DIC->database();
-
-							$certificateQueueRepository = new ilCertificateQueueRepository($database, $DIC->logger()->root());
-							$certificateClassMap = new ilCertificateTypeClassMap();
-							$activeAction = new ilCertificateAction($database);
-
-							$objectId = $a_params['obj_id'];
-							$userId = $a_params['usr_id'];
-
-							$type = $ilObjectDataCache->lookupType($objectId);
-
-							if ($certificateClassMap->typeExistsInMap($type) && $activeAction->isObjectActive($objectId)) {
-								$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
-
-								$entry = new ilCertificateQueueEntry(
-									$objectId,
-									$userId,
-									$className,
-								ilCronConstants::IN_PROGRESS,
-									time()
-								);
-
-								$certificateQueueRepository->addToQueue($entry);
-							}
-
-							foreach (ilObject::_getAllReferences($objectId) as $refId) {
-								$templateRepository = new ilCertificateTemplateRepository($database);
-								$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
-
-								$completedCourses = $progressEvaluation->evaluate($refId, $userId);
-								foreach ($completedCourses as $courseObjId) {
-									$type = $ilObjectDataCache->lookupType($courseObjId);
-
-									$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
-
-									$entry = new ilCertificateQueueEntry(
-										$courseObjId,
-										$userId,
-										$className,
-										ilCronConstants::IN_PROGRESS,
-										time()
-									);
-
-									$certificateQueueRepository->addToQueue($entry);
-								}
-							}
-
+			case 'Services/Certificate':
+				switch($a_event) {
+					case 'user_certificate':
+						try {
+							self::handleNewUserCertificate($a_params, $database, $logger);
+						} catch (ilException $exception) {
+							$logger->error($exception->getMessage();
 						}
 						break;
 				}
 				break;
 		}
+	}
+
+	/**
+	 * @param $a_params
+	 * @param ilDBInterface $database
+	 * @param ilObjectDataCache $ilObjectDataCache
+	 * @param ilLogger $logger
+	 * @throws ilException
+	 */
+	private static function handleLPUpdate(
+		$a_params,
+		ilDBInterface $database,
+		ilObjectDataCache $ilObjectDataCache,
+		ilLogger $logger
+	) {
+		if ($a_params['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+			/** @var ilObjectDataCache $ilObjectDataCache */
+
+			$certificateQueueRepository = new ilCertificateQueueRepository($database, $logger);
+			$certificateClassMap = new ilCertificateTypeClassMap();
+			$activeAction = new ilCertificateAction($database);
+
+			$objectId = $a_params['obj_id'];
+			$userId = $a_params['usr_id'];
+
+			$type = $ilObjectDataCache->lookupType($objectId);
+
+			if ($certificateClassMap->typeExistsInMap($type) && $activeAction->isObjectActive($objectId)) {
+				$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+
+				$entry = new ilCertificateQueueEntry(
+					$objectId,
+					$userId,
+					$className,
+					ilCronConstants::IN_PROGRESS,
+					time()
+				);
+
+				$certificateQueueRepository->addToQueue($entry);
+			}
+
+			foreach (ilObject::_getAllReferences($objectId) as $refId) {
+				$templateRepository = new ilCertificateTemplateRepository($database);
+				$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
+
+				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
+				foreach ($completedCourses as $courseObjId) {
+					$type = $ilObjectDataCache->lookupType($courseObjId);
+
+					$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+
+					$entry = new ilCertificateQueueEntry(
+						$courseObjId,
+						$userId,
+						$className,
+						ilCronConstants::IN_PROGRESS,
+						time()
+					);
+
+					$certificateQueueRepository->addToQueue($entry);
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * @param $a_params
+	 * @param ilDBInterface $database
+	 * @param ilLogger $logger
+	 * @return void
+	 * @throws ilDatabaseException
+	 * @throws ilException
+	 */
+	private static function handleNewUserCertificate($a_params, ilDBInterface $database, ilLogger $logger)
+	{
+		if (false === array_key_exists($a_params, 'certificate_content')) {
+			return $logger->error('Certificate Content is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'obj_id')) {
+			return $logger->error('Object ID is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'user_id')) {
+			return $logger->error('User ID is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'background_image_path')) {
+			return $logger->error('Background Image Path is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'acquired_timestamp')) {
+			return $logger->error('Acquired Timestamp is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'ilias_version')) {
+			return $logger->error('ILIAS version is not added to the event. Abort.');
+		}
+
+		$certificateContent = $a_params['certificate_content'];
+		$objectId = $a_params['obj_id'];
+		$userId = $a_params['user_id'];
+		$backgroundImagePath = $a_params['background_image_path'];
+		$acquiredTimestamp = $a_params['acquired_timestamp'];
+		$iliasVersion = $a_params['ilias_version'];
+
+		$templateRepository = new ilCertificateTemplateRepository($database);
+		$template = $templateRepository->fetchFirstCreatedTemplate($objectId);
+
+		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+
+		$userCertificate = new ilUserCertificate(
+			$template->getId(),
+			$objectId,
+			ilObject::_lookupType($objectId),
+			$userId,
+			ilUse,
+			$acquiredTimestamp,
+			$certificateContent,
+			'',
+			null,
+			1,
+			$iliasVersion,
+			true,
+			$backgroundImagePath
+		);
+
+		$userCertificateRepository->save($userCertificate);
 	}
 }
