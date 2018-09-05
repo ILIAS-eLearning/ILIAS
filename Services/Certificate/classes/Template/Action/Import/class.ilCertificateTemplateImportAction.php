@@ -28,16 +28,23 @@ class ilCertificateTemplateImportAction
 	private $placeholderDescriptionObject;
 
 	/**
+	 * @var ilLogger
+	 */
+	private $logger;
+
+	/**
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilCertificateTemplateImportAction|null $importAction
+	 * @param ilLogger $logger
 	 */
 	public function __construct(
 		int $objectId,
 		string $certificatePath,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilLogger $logger,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilCertificateTemplateImportAction $importAction = null
 	) {
@@ -46,11 +53,12 @@ class ilCertificateTemplateImportAction
 		$this->objectId = $objectId;
 		$this->certificatePath = $certificatePath;
 
+		$this->logger = $logger;
 		$database = $DIC->database();
 
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
 		if (null === $templateRepository) {
-			$templateRepository = new ilCertificateTemplateRepository($database);
+			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 		}
 		$this->templateRepository = $templateRepository;
 	}

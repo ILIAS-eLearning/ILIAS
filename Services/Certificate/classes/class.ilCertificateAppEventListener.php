@@ -90,7 +90,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			}
 
 			foreach (ilObject::_getAllReferences($objectId) as $refId) {
-				$templateRepository = new ilCertificateTemplateRepository($database);
+				$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 				$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
 				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
