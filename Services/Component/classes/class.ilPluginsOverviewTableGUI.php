@@ -118,8 +118,10 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	 */
 	protected function gatherPluginData($a_type, ilPluginSlot $a_slot, $a_slot_subdir, array $a_plugin)
 	{
+		$plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin["component_name"], $a_plugin["slot_id"], $a_plugin["name"]);
+
 		$config_class = null;
-		if(ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin["name"]) &&
+		if(ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data) &&
 			$this->ctrl->checkTargetClass(ilPlugin::getConfigureClassName($a_plugin["name"])))
 		{
 			$config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin["name"]));

@@ -18626,7 +18626,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 			include_once("./Services/Component/classes/class.ilPluginSlot.php");
 			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -18639,7 +18640,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 		foreach ($plugin_slots as $ps) {
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}

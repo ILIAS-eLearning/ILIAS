@@ -342,17 +342,22 @@ abstract class ilPlugin
 	/**
 	 * Has the plugin a configure class?
 	 *
-	 * @param	string	slot directory
-	 * @param	string	plugin name
-	 * @return	boolean	true/false
+	 * @param string $a_slot_dir     slot directory
+	 * @param array  $plugin_data    plugin data
+	 * @param array  $plugin_db_data plugin db data
+	 *
+	 * @return boolean true/false
 	 */
-	static function hasConfigureClass($a_slot_dir, $a_name)
-	{
-		if (is_file($a_slot_dir."/".
-			$a_name."/classes/class.il".$a_name."ConfigGUI.php"))
-		{
-			return true;
+	static function hasConfigureClass($a_slot_dir, array $plugin_data, array $plugin_db_data) {
+		// Mantis: 23282: Disable plugin config page for incompatible plugins
+		if (!(ilComponent::isVersionGreaterString($plugin_data["ilias_min_version"], ILIAS_VERSION_NUMERIC)
+			|| ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $plugin_data["ilias_max_version"])
+			|| ilComponent::isVersionGreaterString($plugin_db_data["last_update_version"], $plugin_data["version"]))) {
+			if (is_file($a_slot_dir . "/" . $plugin_data["name"] . "/classes/class.il" . $plugin_data["name"] . "ConfigGUI.php")) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 
