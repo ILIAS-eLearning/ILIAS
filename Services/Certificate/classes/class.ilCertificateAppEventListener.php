@@ -39,7 +39,11 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			case 'Services/Certificate':
 				switch($a_event) {
 					case 'user_certificate':
-						self::handleNewUserCertificate($a_params, $database, $logger);
+						try {
+							self::handleNewUserCertificate($a_params, $database, $logger);
+						} catch (ilException $exception) {
+							$logger->error($exception->getMessage();
+						}
 						break;
 				}
 				break;
