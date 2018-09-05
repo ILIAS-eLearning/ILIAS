@@ -204,7 +204,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	 * @return ilCertificateTemplate
 	 * @throws ilException
 	 */
-	public function fetchFirstCreatedTemplate(integer $objId)
+	public function fetchFirstCreatedTemplate(int $objId)
 	{
 		$sql = 'SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '

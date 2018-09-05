@@ -36,7 +36,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 				}
 			break;
 
-			case 'Services/Certificates':
+			case 'Services/Certificate':
 				switch($a_event) {
 					case 'user_certificate':
 						self::handleNewUserCertificate($a_params, $database, $logger);
@@ -113,11 +113,37 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	/**
 	 * @param $a_params
 	 * @param ilDBInterface $database
+	 * @param ilLogger $logger
+	 * @return void
 	 * @throws ilDatabaseException
 	 * @throws ilException
 	 */
-	private static function handleNewUserCertificate($a_params, ilDBInterface $database)
+	private static function handleNewUserCertificate($a_params, ilDBInterface $database, ilLogger $logger)
 	{
+		if (false === array_key_exists($a_params, 'certificate_content')) {
+			return $logger->error('Certificate Content is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'obj_id')) {
+			return $logger->error('Object ID is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'user_id')) {
+			return $logger->error('User ID is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'background_image_path')) {
+			return $logger->error('Background Image Path is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'acquired_timestamp')) {
+			return $logger->error('Acquired Timestamp is not added to the event. Abort.');
+		}
+
+		if (false === array_key_exists($a_params, 'ilias_version')) {
+			return $logger->error('ILIAS version is not added to the event. Abort.');
+		}
+
 		$certificateContent = $a_params['certificate_content'];
 		$objectId = $a_params['obj_id'];
 		$userId = $a_params['user_id'];
@@ -128,7 +154,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$templateRepository = new ilCertificateTemplateRepository($database);
 		$template = $templateRepository->fetchFirstCreatedTemplate($objectId);
 
-		$userCertificateRepository = new ilUserCertificateRepository($database);
+		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
 
 		$userCertificate = new ilUserCertificate(
 			$template->getId(),
@@ -138,7 +164,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			ilUse,
 			$acquiredTimestamp,
 			$certificateContent,
-			array(),
+			'',
 			null,
 			1,
 			$iliasVersion,
