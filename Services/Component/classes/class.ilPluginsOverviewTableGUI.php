@@ -122,9 +122,9 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 
 		$config_class = null;
 		if(ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data) &&
-			$this->ctrl->checkTargetClass(ilPlugin::getConfigureClassName($a_plugin["name"])))
+			$this->ctrl->checkTargetClass(ilPlugin::getConfigureClassName($a_plugin)))
 		{
-			$config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin["name"]));
+			$config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin));
 		}
 
 		return array("slot_name" => $a_slot->getSlotName(),

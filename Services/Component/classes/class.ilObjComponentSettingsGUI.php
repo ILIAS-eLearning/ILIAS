@@ -326,7 +326,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin)))
 			{
 				$ilToolbar->addButton($lng->txt("cmps_configure"),
-					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin["name"])), "configure"));
+					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin)), "configure"));
 			}
 			// refresh languages button
 			if (count($langs) > 0)

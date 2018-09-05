@@ -18615,7 +18615,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
 		global $ilCtrl;
 		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
-		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data), $prefix);
 	}
 
 	include_once("./Services/Component/classes/class.ilModule.php");
@@ -18627,7 +18627,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
 				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -18641,7 +18641,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
 				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}

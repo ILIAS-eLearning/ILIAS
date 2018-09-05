@@ -348,7 +348,7 @@ abstract class ilPlugin
 	 *
 	 * @return boolean true/false
 	 */
-	static function hasConfigureClass($a_slot_dir, array $plugin_data, array $plugin_db_data) {
+	public static function hasConfigureClass($a_slot_dir, array $plugin_data, array $plugin_db_data) {
 		// Mantis: 23282: Disable plugin config page for incompatible plugins
 		if (!(ilComponent::isVersionGreaterString($plugin_data["ilias_min_version"], ILIAS_VERSION_NUMERIC)
 			|| ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $plugin_data["ilias_max_version"])
@@ -364,12 +364,12 @@ abstract class ilPlugin
 	/**
 	 * Get plugin configure class name
 	 *
-	 * @param
-	 * @return
+	 * @param array $plugin_data
+	 *
+	 * @return string
 	 */
-	static function getConfigureClassName($a_name)
-	{
-		return "il".$a_name."ConfigGUI";
+	public static function getConfigureClassName(array $plugin_data) {
+		return "il" . $plugin_data["name"] . "ConfigGUI";
 	}
 
 	/**
@@ -547,7 +547,7 @@ abstract class ilPlugin
 
 	/**
 	 * Is searched lang var available in plugin lang files
-	 * 
+	 *
 	 * @param int 		$pluginId
 	 * @param string 	$langVar
 	 *
@@ -889,20 +889,20 @@ abstract class ilPlugin
 	protected function afterDeactivation()
 	{
 	}
-	
-	
+
+
 	protected function beforeUninstall()
 	{
 		// plugin-specific
 		// false would indicate that anything went wrong
-		return true; 
+		return true;
 	}
-	
+
 	final function uninstall()
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-	
+
 		if($this->beforeUninstall())
 		{
 			// remove all language entries (see ilObjLanguage)
@@ -911,7 +911,7 @@ abstract class ilPlugin
 			if($prefix)
 			{
 				$ilDB->manipulate("DELETE FROM lng_data".
-					" WHERE module = ".$ilDB->quote($prefix, "text"));		
+					" WHERE module = ".$ilDB->quote($prefix, "text"));
 				$ilDB->manipulate("DELETE FROM lng_modules".
 					" WHERE module = ".$ilDB->quote($prefix, "text"));
 			}
@@ -919,7 +919,7 @@ abstract class ilPlugin
 			$this->clearEventListening();
 
 			// db version is kept in il_plugin - will be deleted, too						
-			
+
 			$q = "DELETE FROM il_plugin".
 				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
 				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
@@ -928,19 +928,19 @@ abstract class ilPlugin
 			$ilDB->manipulate($q);
 
 			$this->afterUninstall();
-			
+
 			ilCachedComponentData::flush();
 			return true;
-		}		
+		}
 
 		return false;
 	}
-	
+
 	protected function afterUninstall()
 	{
 		// plugin-specific
 	}
-			
+
 	/**
 	 * Update plugin
 	 */
@@ -974,7 +974,7 @@ abstract class ilPlugin
 		//		$ilCtrl->storeCommonStructures();
 
 		// add config gui to the ctrl calls
-		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($this->getPluginName()),
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName([ "name" => $this->getPluginName() ]),
 			$this->getPrefix());
 
 		$this->readEventListening();
