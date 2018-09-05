@@ -480,7 +480,7 @@ class ilExerciseManagementGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "members"));
 
-		$button_print = $this->ui_factory->button()->standard("Print", "#")
+		$button_print = $this->ui_factory->button()->standard($this->lng->txt('print'), "#")
 			->withOnLoadCode(function($id) {
 				return "$('#{$id}').click(function() { window.print(); return false; });";
 			});
