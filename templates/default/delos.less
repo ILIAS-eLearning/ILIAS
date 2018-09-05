@@ -97,6 +97,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Table/table.less";
 @import "@{uibase}Listing/workflow.less";
 @import "@{uibase}MessageBox/messagebox.less";
+@import "@{uibase}Modal/modal.less";
 
 @import "less/variables.less";             // customized
 
@@ -2144,4 +2145,41 @@ div.ilGoogleMap {
 	a[href]:after {
 		content: "";
 	}
+}
+
+// show more text
+.read-more-state {
+	display: none;
+}
+
+.read-more-target {
+	opacity: 0;
+	max-height: 0;
+	font-size: 0;
+	transition: .25s ease;
+}
+
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+	opacity: 1;
+	font-size: inherit;
+	max-height: 999em;
+}
+
+.read-more-state ~ .read-more-trigger:before {
+	content: 'Show more';
+}
+
+.read-more-state:checked ~ .read-more-trigger:before {
+	content: 'Show less';
+}
+
+.read-more-trigger {
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 .5em;
+	color: #666;
+	font-size: .9em;
+	line-height: 2;
+	border: 1px solid #ddd;
+	border-radius: .25em;
 }

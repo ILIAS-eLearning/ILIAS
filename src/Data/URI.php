@@ -1,7 +1,8 @@
 <?php
 
-namespace ILIAS\Data;
+declare(strict_types=1);
 
+namespace ILIAS\Data;
 
 /**
  * The scope of this class is split ilias-conform URI's into components.
@@ -81,9 +82,8 @@ class URI
 	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
 	const FRAGMENT = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?|\\#)+$#';
 
-	public function __construct($uri_string)
+	public function __construct(string $uri_string)
 	{
-		assert('is_string($uri_string)');
 		$this->schema = $this->digestSchema(parse_url($uri_string,PHP_URL_SCHEME));
 		$this->host = $this->digestHost(parse_url($uri_string,PHP_URL_HOST));
 		$this->port = $this->digestPort(parse_url($uri_string,PHP_URL_PORT));
@@ -99,7 +99,7 @@ class URI
 	 * @throws	\InvalidArgumentException
 	 * @return	string
 	 */
-	protected function digestSchema($schema)
+	protected function digestSchema(string $schema) : string
 	{
 		return $this->checkCorrectFormatOrThrow(self::SCHEMA, (string)$schema);
 	}
@@ -111,7 +111,7 @@ class URI
 	 * @throws	\InvalidArgumentException
 	 * @return	string
 	 */
-	protected function digestHost($host)
+	protected function digestHost(string $host) : string
 	{
 		return $this->checkCorrectFormatOrThrow(self::HOST, (string)$host);
 	}
@@ -119,17 +119,13 @@ class URI
 	/**
 	 * Check port formating. Return it in case of success.
 	 *
- 	 * @param	int	$port
-	 * @throws	\InvalidArgumentException
+	 * @param	int|null	$port
 	 * @return	int|null
 	 */
-	protected function digestPort($port)
+	protected function digestPort(int $port = null)
 	{
 		if($port === null) {
 			return null;
-		}
-		if(!is_int($port)) {
-			throw new \InvalidArgumentException('ill-formated component '.$port);
 		}
 		return $port;
 	}
@@ -137,16 +133,15 @@ class URI
 	/**
 	 * Check path formating. Return it in case of success.
 	 *
-	 * @param	string	$path
+	 * @param	string|null	$path
 	 * @throws	\InvalidArgumentException
 	 * @return	string|null
 	 */
-	protected function digestPath($path)
+	protected function digestPath(string $path = null)
 	{
 		if($path === null) {
 			return null;
 		}
-		assert('is_string($path)');
 		$path = trim($this->checkCorrectFormatOrThrow(self::PATH, $path),self::PATH_DELIM);
 		if($path === '') {
 			$path = null;
@@ -157,32 +152,30 @@ class URI
 	/**
 	 * Check query formating. Return it in case of success.
 	 *
-	 * @param	string	$query
+	 * @param	string|null	$query
 	 * @throws	\InvalidArgumentException
 	 * @return	string|null
 	 */
-	protected function digestQuery($query)
+	protected function digestQuery(string $query = null)
 	{
 		if($query === null) {
 			return null;
 		}
-		assert('is_string($query)');
 		return $this->checkCorrectFormatOrThrow(self::QUERY, $query);
 	}
 
 	/**
 	 * Check fragment formating. Return it in case of success.
 	 *
-	 * @param	string	$fragment
+	 * @param	string|null	$fragment
 	 * @throws	\InvalidArgumentException
 	 * @return	string|null
 	 */
-	protected function digestFragment($fragment)
+	protected function digestFragment(string $fragment = null)
 	{
 		if($fragment === null) {
 			return null;
 		}
-		assert('is_string($fragment)');
 		return $this->checkCorrectFormatOrThrow(self::FRAGMENT, $fragment);
 	}
 
@@ -196,18 +189,18 @@ class URI
 	 * @throws	\InvalidArgumentException
 	 * @return	string|null
 	 */
-	protected function checkCorrectFormatOrThrow($regexp,$string)
+	protected function checkCorrectFormatOrThrow(string $regexp, string $string)
 	{
 		if(preg_match($regexp, (string)$string) === 1) {
 			return $string;
 		}
-		throw new \InvalidArgumentException('ill-formated component '.$string);
+		throw new \InvalidArgumentException('ill-formated component "'.$string.'" expected "'.$regexp.'"');
 	}
 
 	/**
 	 * @return	string
 	 */
-	public function schema()
+	public function schema() : string
 	{
 		return $this->schema;
 	}
@@ -218,7 +211,7 @@ class URI
 	 * @param	string	$schema
 	 * @return	URI
 	 */
-	public function withSchema($schema)
+	public function withSchema(string $schema) : URI
 	{
 		assert('is_string($schema)');
 		$shema = $this->digestSchema($schema);
@@ -231,7 +224,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function authority()
+	public function authority() : string
 	{
 		$port = $this->port();
 		if($port === null) {
@@ -248,7 +241,7 @@ class URI
 	 * @param	string	$authority
 	 * @return	URI
 	 */
-	public function withAuthority($authority)
+	public function withAuthority(string $authority) : URI
 	{
 		assert('is_string($authority)');
 		$parts = explode(':', $authority);
@@ -280,9 +273,8 @@ class URI
 	 * @param	int|null	$port
 	 * @return	URI
 	 */
-	public function withPort($port = null)
+	public function withPort(int $port = null) : URI
 	{
-		assert('is_int($port) || is_null($port)');
 		$port = $this->digestPort($port);
 		$other = clone $this;
 		$other->port = $port;
@@ -292,7 +284,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function host()
+	public function host() : string
 	{
 		return $this->host;
 	}
@@ -303,9 +295,8 @@ class URI
 	 * @param	string	$host
 	 * @return	URI
 	 */
-	public function withHost($host)
+	public function withHost(string $host) : URI
 	{
-		assert('is_string($host)');
 		$host = $this->digestHost($host);
 		$other = clone $this;
 		$other->host = $host;
@@ -327,9 +318,8 @@ class URI
 	 * @param	string|null	$path
 	 * @return	URI
 	 */
-	public function withPath($path = null)
+	public function withPath(string $path = null) : URI
 	{
-		assert('is_string($path) || is_null($path)');
 		$path = $this->digestPath($path);
 		$other = clone $this;
 		$other->path = $path;
@@ -350,9 +340,8 @@ class URI
 	 * @param	string|null	$query
 	 * @return	URI
 	 */
-	public function withQuery($query = null)
+	public function withQuery(string $query = null) : URI
 	{
-		assert('is_string($query) || is_null($query)');
 		$query = $this->digestQuery($query);
 		$other = clone $this;
 		$other->query = $query;
@@ -373,7 +362,7 @@ class URI
 	 * @param	string|null	$fragment
 	 * @return	URI
 	 */
-	public function withFragment($fragment = null)
+	public function withFragment(string $fragment = null) : URI
 	{
 		assert('is_string($fragment) || is_null($fragment)');
 		$fragment = $this->digestFragment($fragment);
@@ -388,7 +377,7 @@ class URI
 	 *
 	 * @return	string
 	 */
-	public function baseURI()
+	public function baseURI() : string
 	{
 		$path = $this->path();
 		if($path === null) {

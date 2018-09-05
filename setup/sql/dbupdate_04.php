@@ -22521,3 +22521,213 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
+<#5291> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5292> 
+<?php
+try
+{
+	require_once 'Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationQueries.php';
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+		'Read Test Participants Learning Progress',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_ACCESS_RESULTS,
+		'Access Test Participants Results',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
+		'Manage Test Participants',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+		'Score Test Participants',
+		ilOrgUnitOperationContext::CONTEXT_TST
+	);
+	
+}
+catch(ilException $e)
+{
+}
+?>
+<#5293> 
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5294>
+<?php
+$setting = new ilSetting();
+
+if( !$setting->get('tst_score_rep_consts_cleaned', 0) )
+{
+	$ilDB->queryF(
+		"UPDATE tst_tests SET score_reporting = %s WHERE score_reporting = %s",
+		array('integer', 'integer'), array(0, 4)
+	);
+	
+	$setting->set('tst_score_rep_consts_cleaned', 1);
+}
+?>
+<#5295>
+<?php
+if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
+{
+	$ilDB->addTableColumn('tst_result_cache', 'passed_once', array(
+		'type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0
+	));
+}
+?>
+<#5296>
+<?php
+if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
+	$ilDB->addTableColumn('exc_assignment', 'fb_date_custom', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableExists('exc_ass_reminders'))
+{
+	$ilDB->createTable('exc_ass_reminders', array(
+		'type' => array(
+			'type'     => 'text',
+			'length'   => 32,
+		),
+		'ass_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'exc_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'status' => array(
+			"type"    => "integer",
+			"length"  => 1,
+			"default" => NULL
+		),
+		'start' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'end' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'freq' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'last_send' => array (
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'template_id' => array (
+			"type" => "integer",
+			"length" => 4,
+			"default" => NULL
+		)
+	));
+	$ilDB->addPrimaryKey("exc_ass_reminders", array("ass_id", "exc_id", "type"));
+}
+?>

@@ -1,6 +1,7 @@
 <?php
 namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -185,11 +186,18 @@ class Renderer extends AbstractComponentRenderer {
 			}
 		}
 		foreach ($pages as $i => $page) {
+			if ($page instanceof LightboxTextPage) {
+				$tpl->setCurrentBlock('pages');
+				$tpl->touchBlock('page_type_text');
+				$tpl->parseCurrentBlock();
+			}
 			$tpl->setCurrentBlock('pages');
 			$tpl->setVariable('CLASS_ACTIVE', ($i == 0) ? ' active' : '');
 			$tpl->setVariable('TITLE2', htmlentities($page->getTitle(), ENT_QUOTES, 'UTF-8'));
 			$tpl->setVariable('CONTENT', $default_renderer->render($page->getComponent()));
-			$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			if ($page instanceof LightboxDescriptionEnabledPage) {
+				$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			}
 			$tpl->parseCurrentBlock();
 		}
 		if (count($pages) > 1) {

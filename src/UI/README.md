@@ -399,6 +399,10 @@ If you would like to implement a new component to the framework you should perfo
     ```
 17. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
 
+18. Optional: If your component introduces a new factory, do not forget to wire it up in the according
+    location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
+    `Services/Init/class/class.ilInitialisation.php`.
+
 
 ### How to Change an Existing Component?
 

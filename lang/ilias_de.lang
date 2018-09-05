@@ -1296,7 +1296,13 @@ assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
+assessment#:#tst_report_after_passed#:#Testergebnisse erst anzeigen wenn der Test bestanden wurde
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#Wenn Sie den Test durchgeführt haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#Wenn Sie den Test abgeschlossen haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#Wenn Sie den Test bestanden haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_date#:#Die Testergebnisse werden Ihnen hier zu folgendem Datum präsentiert: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Wenn Sie den Test durchführen werden Ihnen hier zu folgendem Datum die Testergebnisse präsentiert: %s
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_reset_processing_time_desc#:#Die maximale Bearbeitungsdauer steht für jeden Testdurchlauf zur Verfügung.
@@ -1314,6 +1320,8 @@ assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer Ihre Ergebnisse im 'Ergebnis'-Reiter einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Ergebnisse'-Reiter einsehen.
+assessment#:#tst_results_access_passed#:#Nach Bestehen des Tests
+assessment#:#tst_results_access_passed_desc#:#Teilnehmer sehen ihre Ergebnisse nachdem sie den Test bestanden haben. Sie können ihre Ergebnisse dann jederzeit im 'Ergebnisse'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
 assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
@@ -2264,7 +2272,7 @@ common#:#by#:#durch
 pd#:#pd_sort_by_location#:#Nach Ort sortieren
 pd#:#pd_sort_by_type#:#Nach Typ sortieren
 pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
-pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
+pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
 pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_ended#:#Beendet
@@ -6624,12 +6632,14 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
 mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_usr_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen. Die E-Mail-Adresse jenes Benutzerkontos, das eine manuell erstellte Nachricht versendet, wird automatisch in den 'Reply-To'-Header übernommen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
 mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten des Absenders der E-Mail ersetzt.
 mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
 mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_sys_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
@@ -11093,6 +11103,12 @@ orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
 orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
+orgu#:#org_op_access_results#:#Zugriff auf Ergebnisse
+rbac#:#org_op_access_results#:#Zugriff auf Ergebnisse untergeordneter Benutzer
+orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
+rbac#:#org_op_manage_participants#:#Untergeordnete Teilnehmer verwalten
+orgu#:#org_op_score_participants#:#Teilnehmer bewerten
+rbac#:#org_op_score_participants#:#Untergeordnete Teilnehmer bewerten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten

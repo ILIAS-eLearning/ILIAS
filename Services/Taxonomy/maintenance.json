@@ -3,7 +3,9 @@
     "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "Tested separately in each module that supports taxonomies",
     "testcase_writer": "Tested separately in each module that supports taxonomies",
     "path": "Services/Taxonomy",

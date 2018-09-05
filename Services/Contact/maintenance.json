@@ -3,7 +3,9 @@
     "first_maintainer": "mjansen(8784)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "abaulig1(44386)",
     "testcase_writer": "suittenpointner(3458)",
     "path": "Services/Contact",

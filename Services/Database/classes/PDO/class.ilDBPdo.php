@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
-require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
-require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
-require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
-require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
-require_once('./Services/Database/classes/class.ilDBConstants.php');
-require_once('./Services/Database/interfaces/interface.ilDBLegacyInterface.php');
-
 /**
  * Class pdoDB
  *
