@@ -7,6 +7,7 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\UI\Component\Input\Field;
 
 class TextAreaTest extends ILIAS_UI_TestBase {
 
@@ -26,49 +27,55 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
 		$textarea = $f->textArea("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $textarea);
+		$this->assertInstanceOf(Field\TextArea::class, $textarea);
 	}
 
 	public function test_implements_factory_interface_without_byline() {
 		$f = $this->buildFactory();
 		$textarea = $f->textArea("label");
+		$this->assertInstanceOf(Field\Input::class, $textarea);
+		$this->assertInstanceOf(Field\TextArea::class, $textarea);
 	}
 
 	public function test_renderer() {
 		$f = $this->buildFactory();
+		$r = $this->getDefaultRenderer();
 		$label = "label";
 		$byline = "byline";
-		$textarea = $f->textArea($label, $byline);
+		$name = "name_0";
+		$textarea = $f->textArea($label, $byline)->withNameFrom($this->name_source);
 
-		$r = $this->getDefaultRenderer();
-
-		$expected = "<div class=\"form-group\" id=\"il_prop_cont_atxt\">"
-			."<label for=\"atxt\" class=\"col-sm-3 control-label\">$label</label>"
-			."<div class=\"col-sm-9\">"
-			."<textarea class=\"form-control \" name=\"atxt\" id=\"atxt\" rows=\"40\" required=\"required\" onkeyup=\"return il.Form.showCharCounterTextarea('atxt','textarea_feedback_atxt','','')\" style=\"width: 841px; height: 68px;\" wrap=\"virtual\"></textarea>"
-			."<p id=\"charcounter\" style=\"display:none;\"><input spellcheck=\"false\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" readonly=\"readonly\" id=\"myCounter\" name=\"myCounter\" style=\"border: 0; background: transparent;\" size=\"\" value=\"\" type=\"text\"></p>"
-			."</div>"
-			."</div>";
+		$expected = "<div class=\"form-group row\">"
+				."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+				."<div class=\"col-sm-9\">"
+				."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"\"></textarea>"
+				."<div id=\"textarea_feedback_\" data-maxchars=\"\"></div>"
+				."<div class=\"help-block\">byline</div>"
+				."</div>"
+				."</div>";
 
 		$html = $this->normalizeHTML($r->render($textarea));
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	//TODO fix expected
 	public function test_renderer_with_min_limit()
 	{
 		$f = $this->buildFactory();
-		$label = "label";
-		$min = 5;
-		$byline = "Just a textarea input<br>Minimum: ".$min;
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min);
-
 		$r = $this->getDefaultRenderer();
+		$name = "name_0";
+		$id = "id_1";
+		$label = "label";
+
+		$min = 5;
+		$byline = "This is just a byline Min: ".$min;
+		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
-			."<label for=\"form_input_1\" class=\"control-label col-sm-3\">$label</label>"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 			."<div class=\"col-sm-9\">"
-			."<textarea name=\"form_input_1\" class=\"form-control form-control-sm\" id=\"il_ui_fw_5b87d7a6c8a984_60891539\"></textarea>"
-			."<div id=\"textarea_feedback_il_ui_fw_5b87d7a6c8a984_60891539\"></div>"
+			."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+			."<div id=\"textarea_feedback_$id\" data-maxchars=\"\"></div>"
 			."<div class=\"help-block\">$byline</div>"
 			."</div>"
 			."</div>";
@@ -78,21 +85,22 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 
 	}
 
-	//TODO fix expected
 	public function test_renderer_with_max_limit()
 	{
 		$f = $this->buildFactory();
-		$label = "label";
-		$max = 10;
-		$byline = "Just a textarea input<br>Maximum: ".$max;
-		$textarea = $f->textArea($label, $byline)->withMaxLimit($max);
 		$r = $this->getDefaultRenderer();
+		$name = "name_0";
+		$id = "id_1";
+		$label = "label";
+		$max = 20;
+		$byline = "This is just a byline Max: ".$max;
+		$textarea = $f->textArea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
-			."<label for=\"form_input_1\" class=\"control-label col-sm-3\">$label</label>"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 			."<div class=\"col-sm-9\">"
-			."<textarea name=\"form_input_1\" class=\"form-control form-control-sm\" id=\"il_ui_fw_5b87d7a6c8a984_60891539\"></textarea>"
-			."<div id=\"textarea_feedback_il_ui_fw_5b87d7a6c8a984_60891539\" data-maxchars=\"$max\"></div>"
+			."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+			."<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
 			."<div class=\"help-block\">$byline</div>"
 			."</div>"
 			."</div>";
@@ -101,22 +109,23 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	//TODO fix expected + ID
 	public function test_renderer_with_min_and_max_limit()
 	{
 		$f = $this->buildFactory();
-		$label = "label";
-		$min = 3;
-		$max = 10;
-		$byline = "Just a textarea input<br>Minimum: ".$min." Maximum: ".$max;
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withMaxLimit($max);
-
 		$r = $this->getDefaultRenderer();
+		$name = "name_0";
+		$id = "id_1";
+		$label = "label";
+		$min = 5;
+		$max = 20;
+		$byline = "This is just a byline Min: ".$min." Max: ".$max;
+		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom($this->name_source);
+
 		$expected = "<div class=\"form-group row\">"
-			."<label for=\"form_input_1\" class=\"control-label col-sm-3\">$label</label>"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 			."<div class=\"col-sm-9\">"
-			."<textarea name=\"form_input_1\" class=\"form-control form-control-sm\" id=\"il_ui_fw_5b87d7a6c8a984_60891539\"></textarea>"
-			."<div id=\"textarea_feedback_il_ui_fw_5b87d7a6c8a984_60891539\" data-maxchars=\"$max\"></div>"
+			."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+			."<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
 			."<div class=\"help-block\">$byline</div>"
 			."</div>"
 			."</div>";
@@ -125,46 +134,22 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	//TODO fix ID
 	public function test_renderer_counter_with_value()
 	{
 		$f = $this->buildFactory();
+		$r = $this->getDefaultRenderer();
 		$label = "label";
 		$byline = "byline";
-		$value = "lorem ipsum";
-		$textarea = $f->textArea($label, $byline)->withValue($value);
-		$r = $this->getDefaultRenderer();
-
-		$expected = "<div class=\"form-group\" id=\"il_prop_cont_atxt\">"
-			."<label for=\"atxt\" class=\"col-sm-3 control-label\">$label</label>"
-			."<div class=\"col-sm-9\">"
-			."<textarea class=\"form-control \" name=\"atxt\" id=\"atxt\" rows=\"40\" required=\"required\" onkeyup=\"return il.Form.showCharCounterTextarea('atxt','textarea_feedback_atxt','','')\" style=\"width: 841px; height: 68px;\" wrap=\"virtual\">$value</textarea>"
-			."<p id=\"charcounter\" style=\"display:none;\"><input spellcheck=\"false\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" readonly=\"readonly\" id=\"myCounter\" name=\"myCounter\" style=\"border: 0; background: transparent;\" size=\"\" value=\"\" type=\"text\"></p>"
-			."</div>"
-			."</div>";
-
-		$html = $this->normalizeHTML($r->render($textarea));
-		$this->assertHTMLEquals($expected, $html);
-	}
-
-	//TODO fix expected
-	public function test_renderer_min_error()
-	{
-		$f = $this->buildFactory();
-		$label = "label";
-		$min = 5;
-		$value = "lorem ipsum";
-		$byline = "Just a textarea input<br>Minimum: ".$min;
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min);
-		$textarea->withValue($value);
-		$r = $this->getDefaultRenderer();
+		$name = "name_0";
+		$value = "Lorem ipsum dolor sit";
+		$textarea = $f->textArea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
-			."<label for=\"form_input_1\" class=\"control-label col-sm-3\">$label</label>"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 			."<div class=\"col-sm-9\">"
-			."<textarea name=\"form_input_1\" class=\"form-control form-control-sm\" id=\"il_ui_fw_5b87d7a6c8a984_60891539\">$value</textarea>"
-			."<div id=\"textarea_feedback_il_ui_fw_5b87d7a6c8a984_60891539\" data-maxchars=\"20\"></div>"
-			."<div class=\"help-block\">$byline</div>"
+			."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"\">$value</textarea>"
+			."<div id=\"textarea_feedback_\" data-maxchars=\"\"></div>"
+			."<div class=\"help-block\">byline</div>"
 			."</div>"
 			."</div>";
 
@@ -172,29 +157,31 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	//TODO fix expected
-	public function test_renderer_max_error()
+	public function test_renderer_with_error()
 	{
 		$f = $this->buildFactory();
-		$label = "label";
-		$byline = "byline";
-		$min = 5;
-		$max = 10;
-		$value = "lorem ipsum";
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withMaxLimit($max);
-		$textarea->withValue($value);
 		$r = $this->getDefaultRenderer();
+		$name = "name_0";
+		$label = "label";
+		$min = 5;
+		$byline = "This is just a byline Min: ".$min;
+		$error = "an_error";
+		$textarea = $f->textArea($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
-		$expected = "<div class=\"form-group\" id=\"il_prop_cont_atxt\">"
-			."<label for=\"atxt\" class=\"col-sm-3 control-label\">$label</label>"
+		$expected = "<div class=\"form-group row\">"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 			."<div class=\"col-sm-9\">"
-			."<textarea class=\"form-control \" name=\"atxt\" id=\"atxt\" rows=\"40\" required=\"required\" onkeyup=\"return il.Form.showCharCounterTextarea('atxt','textarea_feedback_atxt','','')\" style=\"width: 841px; height: 68px;\" wrap=\"virtual\">$value</textarea>"
-			."<p id=\"charcounter\" style=\"display:none;\"><input spellcheck=\"false\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" readonly=\"readonly\" id=\"myCounter\" name=\"myCounter\" style=\"border: 0; background: transparent;\" size=\"\" value=\"\" type=\"text\"></p>"
-			."</div>"
-			."</div>";
+			."<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"\"></textarea>"
+			."<div id=\"textarea_feedback_\" data-maxchars=\"\"></div>"
+			."<div class=\"help-block\">$byline</div>"
+			."<div class=\"help-block alert alert-danger\" role=\"alert\">"
+			."<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">"
+			."$error</div></div></div>";
 
 		$html = $this->normalizeHTML($r->render($textarea));
-		$this->assertHTMLEquals($expected, $html);
+		$html = trim(preg_replace('/\t+/', '', $html));
+		$expected = trim(preg_replace('/\t+/', '', $expected));
+		$this->assertEquals($expected, $html);
 	}
 
 }
