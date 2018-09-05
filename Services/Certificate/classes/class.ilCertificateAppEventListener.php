@@ -130,7 +130,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$userCertificateRepository = new ilUserCertificateRepository($database);
 
-		$userCertificat = new ilUserCertificate(
+		$userCertificate = new ilUserCertificate(
 			$template->getId(),
 			$objectId,
 			ilObject::_lookupType($objectId),
@@ -146,6 +146,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			$backgroundImagePath
 		);
 
-		$userCertificateRepository->save($userCertificat);
+		$userCertificateRepository->save($userCertificate);
 	}
 }
