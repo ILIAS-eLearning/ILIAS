@@ -24,7 +24,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd,$skin_id,$style_id, $sub_style_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -39,10 +39,10 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1");
 		$this->addColumn($this->lng->txt("obj_cat"));
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.sty_cat_ass_row.html", "Services/Style/System");
 
-		$this->addMultiCommand("deleteAssignments", $lng->txt("remove_assignment"));
+		$this->addMultiCommand("deleteAssignments", $DIC->language()->txt("remove_assignment"));
 	}
 
 

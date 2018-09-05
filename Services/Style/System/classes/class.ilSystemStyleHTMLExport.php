@@ -67,13 +67,13 @@ class ilSystemStyleHTMLExport
 	 */
 	function export()
 	{
-		global $ilUser;
+		global $DIC;
 		
 		$this->createDirectories();
 		
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-		$style_name = $ilUser->prefs["style"].".css";
+		$style_name = $DIC->user()->prefs["style"].".css";
 		copy($location_stylesheet, $this->style_dir."/".$style_name);
 		$fh = fopen($location_stylesheet, "r");
 		$css = fread($fh, filesize($location_stylesheet));

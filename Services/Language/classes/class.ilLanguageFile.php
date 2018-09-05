@@ -116,7 +116,9 @@ class ilLanguageFile
 	*/
 	function __construct($a_file, $a_key = "", $a_scope = 'global')
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
+
 		$this->separator = $lng->separator;
 		$this->comment_separator = $lng->comment_separator;
 
@@ -155,7 +157,8 @@ class ilLanguageFile
 	*/
 	public function read()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 		
 		$this->header = '';
 		$this->params = array();
@@ -279,7 +282,9 @@ class ilLanguageFile
 	*/
 	public function build($a_header = '')
 	{
-		global $ilUser, $lng;
+		global $DIC;
+		$ilUser = $DIC->user();
+		$lng = $DIC->language();
 
 		if ($a_header)
 		{
@@ -476,7 +481,8 @@ class ilLanguageFile
 	*/
 	public static function _getGlobalLanguageFile($a_lang_key)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 		
 		if (!isset(self::$global_file_objects[$a_lang_key]))
 		{
