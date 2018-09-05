@@ -30,8 +30,8 @@ class FieldFactoryTest extends AbstractFactoryTest {
 			"context" => false,
 		),
 		"textArea"	=> array(
-      "context" => false,
-    ),
+			"context" => false,
+		),
 		"radio"		=> array(
 			"context" => false,
 		)

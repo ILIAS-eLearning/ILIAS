@@ -349,7 +349,7 @@ interface Factory {
 	 */
 	public function select($label, array $options, $byline = null);
 
-  
+
 	/**
 	 * ---
 	 * description:
@@ -394,7 +394,7 @@ interface Factory {
 	 */
 	public function textArea($label, $byline = null);
   
-  /**
+	/**
 	 * ---
 	 * description:
 	 *   purpose: >

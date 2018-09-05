@@ -509,15 +509,15 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return [Component\Input\Field\Text::class,
-		        Component\Input\Field\Numeric::class,
-		        Component\Input\Field\Group::class,
-		        Component\Input\Field\Section::class,
-		        Component\Input\Field\Checkbox::class,
-		        Component\Input\Field\Tag::class,
-		        Component\Input\Field\DependantGroup::class,
-		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class,
-            Component\Input\Field\Radio::class,
-		        Component\Input\Field\TextArea::class];
+				Component\Input\Field\Numeric::class,
+				Component\Input\Field\Group::class,
+				Component\Input\Field\Section::class,
+				Component\Input\Field\Checkbox::class,
+				Component\Input\Field\Tag::class,
+				Component\Input\Field\DependantGroup::class,
+				Component\Input\Field\Password::class,
+				Component\Input\Field\Select::class,
+				Component\Input\Field\Radio::class,
+		 		Component\Input\Field\TextArea::class];
 	}
 }
