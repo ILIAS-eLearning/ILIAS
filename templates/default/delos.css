@@ -8477,7 +8477,8 @@ ul.breadcrumb li:hover {
 }
 .il-standard-form input[type="radio"],
 .il-standard-form input[type="checkbox"] {
-  margin: 0;
+  height: unset;
+  width: unset;
 }
 .il-input-tag {
   height: auto;
@@ -8530,6 +8531,11 @@ ul.breadcrumb li:hover {
 }
 .revealed.il-input-password .revelation-mask {
   display: block;
+}
+.il-input-radio .form-control.il-input-radiooption {
+  height: unset;
+  border: unset;
+  background-color: unset;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
