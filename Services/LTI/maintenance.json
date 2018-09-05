@@ -3,10 +3,12 @@
     "first_maintainer": "ukohnle(21855)",
     "second_maintainer": "smeyer(191)",
     "implicit_maintainers": [],
-    "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "coordinator": [
+        ""
+    ],
+    "tester": "atoedt(3139)",
+    "testcase_writer": "atoedt(3139)",
     "path": "Services/LTI",
-    "belong_to_component": "None",
+    "belong_to_component": "LTI",
     "used_in_components": []
 }

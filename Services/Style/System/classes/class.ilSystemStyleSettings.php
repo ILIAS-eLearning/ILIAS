@@ -27,14 +27,14 @@ class ilSystemStyleSettings
 	 */
 	static function _lookupActivatedStyle($a_skin, $a_style)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$q = "SELECT count(*) cnt FROM settings_deactivated_s".
-			" WHERE skin = ".$ilDB->quote($a_skin, "text").
-			" AND style = ".$ilDB->quote($a_style, "text")." ";
+			" WHERE skin = ".$DIC->database()->quote($a_skin, "text").
+			" AND style = ".$DIC->database()->quote($a_style, "text")." ";
 
-		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $ilDB->fetchAssoc($cnt_set);
+		$cnt_set = $DIC->database()->query($q);
+		$cnt_rec = $DIC->database()->fetchAssoc($cnt_set);
 
 		if ($cnt_rec["cnt"] > 0)
 		{
@@ -54,15 +54,15 @@ class ilSystemStyleSettings
 	 */
 	static function _deactivateStyle($a_skin, $a_style)
 	{
-		global $ilDB;
+		global $DIC;
 
 		ilSystemStyleSettings::_activateStyle($a_skin, $a_style);
 		$q = "INSERT into settings_deactivated_s".
 			" (skin, style) VALUES ".
-			" (".$ilDB->quote($a_skin, "text").",".
-			" ".$ilDB->quote($a_style, "text").")";
+			" (".$DIC->database()->quote($a_skin, "text").",".
+			" ".$DIC->database()->quote($a_style, "text").")";
 
-		$ilDB->manipulate($q);
+		$DIC->database()->manipulate($q);
 	}
 
 	/**
@@ -73,13 +73,13 @@ class ilSystemStyleSettings
 	 */
 	static function _activateStyle($a_skin, $a_style)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$q = "DELETE FROM settings_deactivated_s".
-			" WHERE skin = ".$ilDB->quote($a_skin, "text").
-			" AND style = ".$ilDB->quote($a_style, "text");
+			" WHERE skin = ".$DIC->database()->quote($a_skin, "text").
+			" AND style = ".$DIC->database()->quote($a_style, "text");
 
-		$ilDB->manipulate($q);
+		$DIC->database()->manipulate($q);
 	}
 
 	/**
@@ -92,14 +92,14 @@ class ilSystemStyleSettings
 	 */
 	static function getSystemStyleCategoryAssignments($a_skin_id, $a_style_id)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$assignments = [];
-		$set = $ilDB->query("SELECT substyle, category_ref_id FROM syst_style_cat ".
-				" WHERE skin_id = ".$ilDB->quote($a_skin_id, "text").
-				" AND style_id = ".$ilDB->quote($a_style_id, "text")
+		$set = $DIC->database()->query("SELECT substyle, category_ref_id FROM syst_style_cat ".
+				" WHERE skin_id = ".$DIC->database()->quote($a_skin_id, "text").
+				" AND style_id = ".$DIC->database()->quote($a_style_id, "text")
 		);
-		while (($rec = $ilDB->fetchAssoc($set)))
+		while (($rec = $DIC->database()->fetchAssoc($set)))
 		{
 			$assignments[] = [
 					"substyle" => $rec["substyle"],
@@ -120,16 +120,16 @@ class ilSystemStyleSettings
 	 */
 	static function getSubStyleCategoryAssignments($a_skin_id, $a_style_id, $a_sub_style_id)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$assignmnts = [];
 
-		$set = $ilDB->query("SELECT substyle, category_ref_id FROM syst_style_cat ".
-				" WHERE skin_id = ".$ilDB->quote($a_skin_id, "text").
-				" AND substyle = ".$ilDB->quote($a_sub_style_id, "text").
-				" AND style_id = ".$ilDB->quote($a_style_id, "text")
+		$set = $DIC->database()->query("SELECT substyle, category_ref_id FROM syst_style_cat ".
+				" WHERE skin_id = ".$DIC->database()->quote($a_skin_id, "text").
+				" AND substyle = ".$DIC->database()->quote($a_sub_style_id, "text").
+				" AND style_id = ".$DIC->database()->quote($a_style_id, "text")
 		);
-		while (($rec = $ilDB->fetchAssoc($set)))
+		while (($rec = $DIC->database()->fetchAssoc($set)))
 		{
 			$assignmnts[] = [
 					"substyle" => $rec["substyle"],
@@ -151,7 +151,7 @@ class ilSystemStyleSettings
 	static function writeSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
 													   $a_substyle, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$assignments = self::getSubStyleCategoryAssignments($a_skin_id, $a_style_id,$a_substyle);
 
@@ -160,12 +160,12 @@ class ilSystemStyleSettings
 				throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS,$a_substyle. ": ".$a_ref_id);
 			}
 		}
-		$ilDB->manipulate("INSERT INTO syst_style_cat ".
+		$DIC->database()->manipulate("INSERT INTO syst_style_cat ".
 				"(skin_id, style_id, substyle, category_ref_id) VALUES (".
-				$ilDB->quote($a_skin_id, "text").",".
-				$ilDB->quote($a_style_id, "text").",".
-				$ilDB->quote($a_substyle, "text").",".
-				$ilDB->quote($a_ref_id, "integer").
+				$DIC->database()->quote($a_skin_id, "text").",".
+				$DIC->database()->quote($a_style_id, "text").",".
+				$DIC->database()->quote($a_substyle, "text").",".
+				$DIC->database()->quote($a_ref_id, "integer").
 				")");
 	}
 
@@ -181,13 +181,13 @@ class ilSystemStyleSettings
 	static function deleteSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
 														$a_substyle, $a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$ilDB->manipulate("DELETE FROM syst_style_cat WHERE ".
-				" skin_id = ".$ilDB->quote($a_skin_id, "text").
-				" AND style_id = ".$ilDB->quote($a_style_id, "text").
-				" AND substyle = ".$ilDB->quote($a_substyle, "text").
-				" AND category_ref_id = ".$ilDB->quote($a_ref_id, "integer"));
+		$DIC->database()->manipulate("DELETE FROM syst_style_cat WHERE ".
+				" skin_id = ".$DIC->database()->quote($a_skin_id, "text").
+				" AND style_id = ".$DIC->database()->quote($a_style_id, "text").
+				" AND substyle = ".$DIC->database()->quote($a_substyle, "text").
+				" AND category_ref_id = ".$DIC->database()->quote($a_ref_id, "integer"));
 	}
 
 	/**
@@ -199,12 +199,12 @@ class ilSystemStyleSettings
 	 */
 	static function deleteSubStyleCategoryAssignments($a_skin_id, $a_style_id, $a_substyle)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$ilDB->manipulate("DELETE FROM syst_style_cat WHERE ".
-				" skin_id = ".$ilDB->quote($a_skin_id, "text").
-				" AND style_id = ".$ilDB->quote($a_style_id, "text").
-				" AND substyle = ".$ilDB->quote($a_substyle, "text"));
+		$DIC->database()->manipulate("DELETE FROM syst_style_cat WHERE ".
+				" skin_id = ".$DIC->database()->quote($a_skin_id, "text").
+				" AND style_id = ".$DIC->database()->quote($a_style_id, "text").
+				" AND substyle = ".$DIC->database()->quote($a_substyle, "text"));
 	}
 
 	/**
@@ -252,9 +252,9 @@ class ilSystemStyleSettings
 	static function setCurrentDefaultStyle($skin_id, $style_id){
 		global $DIC;
 
-		$DIC['ilias']->ini->setVariable("layout","skin", $skin_id);
-		$DIC['ilias']->ini->setVariable("layout","style",$style_id);
-		$DIC['ilias']->ini->write();
+		$DIC->clientIni()->setVariable("layout","skin", $skin_id);
+		$DIC->clientIni()->setVariable("layout","style",$style_id);
+		$DIC->clientIni()->write();
 		self::_activateStyle($skin_id, $style_id);
 
 	}
@@ -272,27 +272,30 @@ class ilSystemStyleSettings
 	 */
 	static function getCurrentDefaultSkin(){
 		global $DIC;
-		$skin_id = $DIC['ilias']->ini->readVariable("layout","skin");
+
+		$skin_id = $DIC->clientIni()->readVariable("layout","skin");
 
 		if(!ilStyleDefinition::skinExists($skin_id)){
 			self::resetDefaultToDelos();
-			$skin_id = $DIC['ilias']->ini->readVariable("layout","skin");
+			$skin_id = $DIC->clientIni()->readVariable("layout","skin");
 		}
 		return $skin_id;
 	}
 
-	/**
-	 * Gets default style of the system
-	 * @return string
-	 */
+    /**
+     * Gets default style of the system
+     *
+     * @return mixed
+     * @throws ilSystemStyleException
+     */
 	static function getCurrentDefaultStyle(){
 		global $DIC;
-		$skin_id = $DIC['ilias']->ini->readVariable("layout","skin");
-		$style_id = $DIC['ilias']->ini->readVariable("layout","style");
+		$skin_id = $DIC->clientIni()->readVariable("layout","skin");
+		$style_id = $DIC->clientIni()->readVariable("layout","style");
 
 		if(!ilStyleDefinition::styleExistsForSkinId($skin_id,$style_id)){
 			self::resetDefaultToDelos();
-			$style_id = $DIC['ilias']->ini->readVariable("layout","style");
+			$style_id = $DIC->clientIni()->readVariable("layout","style");
 		}
 		return $style_id;
 	}

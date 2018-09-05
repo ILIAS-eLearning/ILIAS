@@ -6,7 +6,9 @@
         "mherren(42714)",
         "ttruffer(42894)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "mstuder(8473)",
     "testcase_writer": "rklees(34047)",
     "path": "Modules/StudyProgramme",

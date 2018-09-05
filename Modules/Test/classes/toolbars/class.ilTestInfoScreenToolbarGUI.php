@@ -549,7 +549,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 						$testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
 						$testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
 
-						$closedPasses = $testPassesSelector->getReportablePasses();
+						$closedPasses = $testPassesSelector->getClosedPasses();
 						$existingPasses = $testPassesSelector->getExistingPasses();
 
 						if ($existingPasses > $closedPasses)

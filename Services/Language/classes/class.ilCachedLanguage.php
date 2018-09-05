@@ -74,10 +74,9 @@ class ilCachedLanguage {
 
 
 	protected function readFromDB() {
-		global $ilDB;
-		/**
-		 * @var $ilDB ilDB
-		 */
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$q = 'SELECT module, lang_array FROM lng_modules WHERE lang_key = %s';
 		$res = $ilDB->queryF($q, array( 'text' ), array( $this->getLanguageKey() ));
 		$translations = array();

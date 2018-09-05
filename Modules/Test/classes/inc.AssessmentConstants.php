@@ -85,10 +85,6 @@ define ("OQ_NESTED_TERMS", 3);
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
 
-define("REPORT_AFTER_TEST", 1);
-define("REPORT_ALWAYS", 2);
-define("REPORT_AFTER_DATE", 3);
-
 define("TYPE_ASSESSMENT", "1");
 define("TYPE_SELF_ASSESSMENT", "2");
 define("TYPE_ONLINE_TEST", "4");
