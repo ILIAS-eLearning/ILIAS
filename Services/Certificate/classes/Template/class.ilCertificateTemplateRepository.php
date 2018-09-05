@@ -201,6 +201,38 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
 	/**
 	 * @param $objId
+	 * @return ilCertificateTemplate
+	 * @throws ilException
+	 */
+	public function fetchFirstCreatedTemplate(integer $objId)
+	{
+		$sql = 'SELECT * FROM certificate_template
+WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+ORDER BY id ASC LIMIT 1 ';
+
+		$query = $this->database->query($sql);
+
+		while ($row = $this->database->fetchAssoc($query)) {
+			return new ilCertificateTemplate(
+				$row['obj_id'],
+				$row['obj_type'],
+				$row['certificate_content'],
+				$row['certificate_hash'],
+				$row['template_values'],
+				$row['version'],
+				$row['ilias_version'],
+				$row['created_timestamp'],
+				(boolean) $row['currently_active'],
+				$row['background_image_path'],
+				$row['id']
+			);
+		}
+
+		throw new ilException('No matching template found. MAY missing DBUpdate. Please check if the correct version is installed.');
+	}
+
+	/**
+	 * @param $objId
 	 * @throws ilDatabaseException
 	 */
 	private function deactivatePreviousTemplates($objId)

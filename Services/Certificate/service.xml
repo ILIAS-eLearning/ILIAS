@@ -10,6 +10,7 @@
 	</objects>
 	<events>
 		<event type="listen" id="Services/Tracking" />
+		<event type="listen" id="Services/Certificate" />
 	</events>
 	<crons>
 		<cron id="certificate" class="ilCertificateCron" />
