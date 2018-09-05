@@ -32,7 +32,9 @@ class ilCertificateGUIFactory
 		$type = $object->getType();
 		$objectId = $object->getId();
 
-		$templateRepository = new ilCertificateTemplateRepository($this->dic->database());
+		$logger = ilLoggerFactory::getLogger('cert');
+
+		$templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
 		$deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
 
 		switch ($type) {

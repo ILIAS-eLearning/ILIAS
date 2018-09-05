@@ -48,6 +48,8 @@ class ilUserCertificateGUI
 	) {
 		global $DIC;
 
+		$logger = ilLoggerFactory::getLogger('cert');
+
 		if ($template === null) {
 			$template = $DIC->ui()->mainTemplate();
 		}
@@ -64,7 +66,7 @@ class ilUserCertificateGUI
 		$this->language = $language;
 
 		if ($userCertificateRepository === null) {
-			$userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->root());
+			$userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $logger);
 		}
 		$this->userCertificateRepository = $userCertificateRepository;
 

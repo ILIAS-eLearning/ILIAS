@@ -193,6 +193,8 @@ class ilCertificateGUI
 
 		$this->objectId = $objectId;
 
+		$logger = ilLoggerFactory::getLogger('cert');
+
 		if (null === $settingsFormFactory) {
 			$settingsFormFactory = new ilCertificateSettingsFormRepository(
 				$this->lng,
@@ -206,7 +208,7 @@ class ilCertificateGUI
 		$this->settingsFormFactory = $settingsFormFactory;
 
 		if (null === $templateRepository) {
-			$templateRepository = new ilCertificateTemplateRepository($DIC->database());
+			$templateRepository = new ilCertificateTemplateRepository($DIC->database(), $logger);
 		}
 		$this->templateRepository = $templateRepository;
 
@@ -230,9 +232,14 @@ class ilCertificateGUI
 		$this->xlsFoParser = $xlsFoParser;
 
 		if (null === $upload) {
-			$backgroundImageUpload = new ilCertificateBackgroundImageUpload($DIC->upload(), $certificatePath, $DIC->language());
+			$upload = new ilCertificateBackgroundImageUpload(
+				$DIC->upload(),
+				$certificatePath,
+				$DIC->language(),
+				$logger
+			);
 		}
-		$this->backgroundImageUpload = $backgroundImageUpload;
+		$this->backgroundImageUpload = $upload;
 
 		$this->lng->loadLanguageModule('certificate');
 	}

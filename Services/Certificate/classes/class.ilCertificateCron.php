@@ -42,8 +42,14 @@ class ilCertificateCron extends ilCronJob
 
 		$database = $DIC->database();
 
+
+		if (null === $logger) {
+			$logger = ilLoggerFactory::getLogger('cert');
+		}
+		$this->logger = $logger;
+
 		if (null === $queueRepository) {
-			$queueRepository = new ilCertificateQueueRepository($database, $DIC->logger()->root());
+			$queueRepository = new ilCertificateQueueRepository($database, $logger);
 		}
 		$this->queueRepository = $queueRepository;
 
@@ -53,19 +59,14 @@ class ilCertificateCron extends ilCronJob
 		$this->templateRepository = $templateRepository;
 
 		if (null === $userRepository) {
-			$userRepository = new ilUserCertificateRepository($database, $DIC->logger()->root());
+			$userRepository = new ilUserCertificateRepository($database, $logger);
 		}
 		$this->userRepository = $userRepository;
-
-		if (null === $logger) {
-			$logger = $DIC->logger();
-		}
-		$this->logger = $logger;
 	}
 
 	public function run()
 	{
-		$this->logger->info('Begin with cron job to create user certificates from templates');
+		$this->logger->info('START - Begin with cron job to create user certificates from templates');
 
 		$entries = $this->queueRepository->getAllEntriesFromQueue();
 

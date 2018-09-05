@@ -138,13 +138,15 @@ class ilCertificate
 
 		$this->certificatePath = $certificatePath;
 
+		$logger = ilLoggerFactory::getLogger('cert');
+
 		if ($templateRepository === null) {
-			$templateRepository = new ilCertificateTemplateRepository($DIC->database());
+			$templateRepository = new ilCertificateTemplateRepository($DIC->database(), $logger);
 		}
 		$this->templateRepository = $templateRepository;
 
 		if ($certificateRepository === null) {
-			$certificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->root());
+			$certificateRepository = new ilUserCertificateRepository($DIC->database(), $logger);
 		}
 		$this->certificateRepository = $certificateRepository;
 	}

@@ -9,11 +9,18 @@ class ilCertificateTemplateRepository
 	private $database;
 
 	/**
-	 * @param ilDB $database
+	 * @var ilLogger
 	 */
-	public function __construct(\ilDBInterface $database)
+	private $logger;
+
+	/**
+	 * @param ilDBInterface $database
+	 * @param ilLogger $logger
+	 */
+	public function __construct(\ilDBInterface $database, ilLogger $logger)
 	{
 		$this->database = $database;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -22,25 +29,31 @@ class ilCertificateTemplateRepository
 	 */
 	public function save(ilCertificateTemplate $certificateTemplate)
 	{
+		$this->logger->info('START - Save new certificate template');
+
 		$objId = $certificateTemplate->getObjId();
 
 		$id = $this->database->nextId('certificate_template');
 
 		$this->deactivatePreviousTemplates($objId);
 
-		$this->database->insert('certificate_template', array(
-			'id'                    => array('integer', $id),
-			'obj_id'                => array('integer', $objId),
-			'obj_type'              => array('clob', $certificateTemplate->getObjType()),
-			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
-			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
-			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
-			'version'               => array('clob', $certificateTemplate->getVersion()),
-			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
-			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
-			'currently_active'      => array('integer', (integer) $certificateTemplate->isCurrentlyActive()),
+		$columns = array(
+			'id' => array('integer', $id),
+			'obj_id' => array('integer', $objId),
+			'obj_type' => array('clob', $certificateTemplate->getObjType()),
+			'certificate_content' => array('clob', $certificateTemplate->getCertificateContent()),
+			'certificate_hash' => array('text', $certificateTemplate->getCertificateHash()),
+			'template_values' => array('clob', $certificateTemplate->getTemplateValues()),
+			'version' => array('clob', $certificateTemplate->getVersion()),
+			'ilias_version' => array('clob', $certificateTemplate->getIliasVersion()),
+			'created_timestamp' => array('integer', $certificateTemplate->getCreatedTimestamp()),
+			'currently_active' => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
 			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
-		));
+		);
+
+		$this->database->insert('certificate_template', $columns);
+
+		$this->logger->info('END - certificate template saved with columns: ', json_encode($columns));
 	}
 
 	/**
@@ -49,6 +62,8 @@ class ilCertificateTemplateRepository
 	 */
 	public function fetchCertificateTemplatesByObjId($objId)
 	{
+		$this->logger->info(sprintf('START - Fetch multiple certificate templates for object: "%s"', $objId));
+
 		$result = array();
 
 		$sql = '
@@ -75,6 +90,8 @@ ORDER BY version ASC';
 			);
 		}
 
+		$this->logger->info(sprintf('END - Fetching of certificate templates for object: "%s" with "%s" results', $objId, count($result)));
+
 		return $result;
 	}
 
@@ -85,6 +102,8 @@ ORDER BY version ASC';
 	 */
 	public function fetchCurrentlyActiveCertificate($objId)
 	{
+		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
+
 		$sql = '
 SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
@@ -94,6 +113,8 @@ AND currently_active = 1
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->info(sprintf('END - Found active certificate for: "%s"', $objId));
+
 			return new ilCertificateTemplate(
 				$row['obj_id'],
 				$row['obj_type'],
@@ -108,6 +129,8 @@ AND currently_active = 1
 				$row['id']
 			);
 		}
+
+		$this->logger->info(sprintf('END - Found NO active certificate for: "%s"', $objId));
 
 		return new ilCertificateTemplate(
 			$objId,
@@ -124,6 +147,9 @@ AND currently_active = 1
 
 	public function fetchPreviousCertificate($objId)
 	{
+
+		$this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));
+
 		$templates = $this->fetchCertificateTemplatesByObjId($objId);
 
 		$resultTemplate = new ilCertificateTemplate(
@@ -146,11 +172,15 @@ AND currently_active = 1
 			}
 		}
 
+		$this->logger->info(sprintf('Latest version active certificate template for object: "%s"', $objId));
+
 		return $resultTemplate;
 	}
 
 	public function deleteTemplate($templateId, $objectId)
 	{
+		$this->logger->info(sprintf('START - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
+
 		$sql = '
 DELETE FROM certificate_template
 WHERE id = ' . $this->database->quote($templateId, 'integer') . '
@@ -159,10 +189,14 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 		$query = $this->database->query($sql);
 
 		$this->database->execute($query);
+
+		$this->logger->info(sprintf('END - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
 	}
 
 	public function activatePreviousCertificate($objId)
 	{
+		$this->logger->info(sprintf('START - Activate previous certificate template for object: "%s"', $objId));
+
 		$certificates = $this->fetchCertificateTemplatesByObjId($objId);
 
 		/** @var ilCertificateTemplate $previousCertificate */
@@ -183,11 +217,15 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
 		$this->database->execute($query);
 
+		$this->logger->info(sprintf('END - Previous certificate updated for object: "%s"', $objId));
+
 		return $previousCertificate;
 	}
 
 	public function fetchAllObjectIdsByType($type)
 	{
+		$this->logger->info(sprintf('START - Fetch all object ids for object type: "%s"', $type));
+
 		$sql = 'SELECT DISTINCT obj_id FROM certificate_template WHERE obj_type = ' . $this->database->quote($type, 'text');
 		$query = $this->database->query($sql);
 
@@ -195,6 +233,8 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 		while ($row = $this->database->fetchAssoc($query)) {
 			$result[] = $row['obj_id'];
 		}
+
+		$this->logger->info(sprintf('END - All object ids for object type: "%s" in certificate templates: "%s"', $type, json_encode($result)));
 
 		return $result;
 	}
@@ -206,6 +246,8 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	 */
 	public function fetchFirstCreatedTemplate(int $objId)
 	{
+		$this->logger->info(sprintf('START - Fetch first create certificate template for object: "%s"', $objId));
+
 		$sql = 'SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 ORDER BY id ASC LIMIT 1 ';
@@ -213,6 +255,8 @@ ORDER BY id ASC LIMIT 1 ';
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->info(sprintf('END - Found first create certificate template for object: "%s"', $objId));
+
 			return new ilCertificateTemplate(
 				$row['obj_id'],
 				$row['obj_type'],
@@ -237,6 +281,8 @@ ORDER BY id ASC LIMIT 1 ';
 	 */
 	private function deactivatePreviousTemplates($objId)
 	{
+		$this->logger->info(sprintf('START - Deactivate previous certificate template for object: "%s"', $objId));
+
 		$sql = '
 UPDATE certificate_template
 SET currently_active = 0
@@ -244,5 +290,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
 		$query = $this->database->query($sql);
 		$this->database->execute($query);
+
+		$this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
 	}
 }

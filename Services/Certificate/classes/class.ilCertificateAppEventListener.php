@@ -20,7 +20,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$database = $DIC->database();
 		$ilObjectDataCache = $DIC['ilObjDataCache'];
-		$logger = $DIC->logger()->root();
+		$logger = ilLoggerFactory::getLogger('cert');
 
 		switch($a_component) {
 			case 'Services/Tracking':
@@ -124,27 +124,29 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	 */
 	private static function handleNewUserCertificate($a_params, ilDBInterface $database, ilLogger $logger)
 	{
-		if (false === array_key_exists($a_params, 'certificate_content')) {
+		$logger->info('Try to create new certificates based on event');
+
+		if (false === array_key_exists('certificate_content', $a_params)) {
 			return $logger->error('Certificate Content is not added to the event. Abort.');
 		}
 
-		if (false === array_key_exists($a_params, 'obj_id')) {
+		if (false === array_key_exists('obj_id', $a_params)) {
 			return $logger->error('Object ID is not added to the event. Abort.');
 		}
 
-		if (false === array_key_exists($a_params, 'user_id')) {
+		if (false === array_key_exists('user_id', $a_params)) {
 			return $logger->error('User ID is not added to the event. Abort.');
 		}
 
-		if (false === array_key_exists($a_params, 'background_image_path')) {
+		if (false === array_key_exists('background_image_path', $a_params)) {
 			return $logger->error('Background Image Path is not added to the event. Abort.');
 		}
 
-		if (false === array_key_exists($a_params, 'acquired_timestamp')) {
+		if (false === array_key_exists('acquired_timestamp', $a_params)) {
 			return $logger->error('Acquired Timestamp is not added to the event. Abort.');
 		}
 
-		if (false === array_key_exists($a_params, 'ilias_version')) {
+		if (false === array_key_exists('ilias_version', $a_params)) {
 			return $logger->error('ILIAS version is not added to the event. Abort.');
 		}
 
@@ -155,7 +157,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$acquiredTimestamp = $a_params['acquired_timestamp'];
 		$iliasVersion = $a_params['ilias_version'];
 
-		$templateRepository = new ilCertificateTemplateRepository($database);
+		$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 		$template = $templateRepository->fetchFirstCreatedTemplate($objectId);
 
 		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
