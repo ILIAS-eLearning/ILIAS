@@ -29,7 +29,7 @@ class ilUserCertificateRepository
 	 */
 	public function save(ilUserCertificate $userCertificate)
 	{
-		$this->logger->debug('Start saving of user certificate');
+		$this->logger->info('START - saving of user certificate');
 
 		$version = $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
 		$version += 1;
@@ -58,7 +58,7 @@ class ilUserCertificateRepository
 			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
 		);
 
-		$this->logger->debug(sprintf('Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
+		$this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
 
 		$this->database->insert('user_certificates', $columns);
 	}
@@ -69,6 +69,8 @@ class ilUserCertificateRepository
 	 */
 	public function fetchActiveCertificates($userId)
 	{
+		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
+
 		$sql = 'SELECT * FROM user_certificates WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
 		$query = $this->database->query($sql);
@@ -93,11 +95,16 @@ class ilUserCertificateRepository
 			);
 		}
 
+		$this->logger->debug(sprintf('Actual results:', json_encode($result)));
+		$this->logger->info(sprintf('END - All active certificates for user: "%s" total: "%s"', $userId, count($result)));
+
 		return $result;
 	}
 
 	public function fetchActiveCertificate($userId, $objectId)
 	{
+		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and object: "%s"', $userId, $objectId));
+
 		$sql = 'SELECT *
 FROM user_certificates
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
@@ -107,6 +114,11 @@ AND currently_active = 1';
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
+
+			$this->logger->debug(sprintf('Active certificate values: %s', $row));
+
+			$this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
+
 			return new ilUserCertificate(
 				$row['pattern_certificate_id'],
 				$row['obj_id'],
@@ -135,6 +147,8 @@ AND currently_active = 1';
 	 */
 	public function fetchActiveCertificatesByType($userId, $type)
 	{
+		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));
+
 		$sql = 'SELECT *
 FROM user_certificates
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
@@ -163,6 +177,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			);
 		}
 
+		$this->logger->info(sprintf('END - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));
+
 		return $result;
 	}
 
@@ -173,11 +189,17 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	 */
 	public function fetchCertificate($id)
 	{
+		$this->logger->info(sprintf('START - Fetch certificate by id: "%s"', $id));
+
 		$sql = 'SELECT * FROM user_certificates WHERE id = ' . $this->database->quote($id, 'integer');
 
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+
+			$this->logger->info(sprintf('END - Fetch certificate by id: "%s"', $id));
+
 			return new ilUserCertificate(
 				$row['pattern_certificate_id'],
 				$row['obj_id'],
@@ -206,8 +228,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	 */
 	private function fetchCertificatesOfObject($objId, $userId)
 	{
-		$this->logger->debug(sprintf(
-			'Start fetching all certificates(user id: "%s", object id: "%s")',
+		$this->logger->info(sprintf(
+			'START -  fetching all certificates of object(user id: "%s", object id: "%s")',
 			$userId,
 			$objId
 		));
@@ -224,6 +246,8 @@ AND obj_id = ' . $objId;
 				'Certificate found: "%s")',
 				json_encode($row,JSON_PRETTY_PRINT)
 			));
+
+			$this->logger->info(sprintf('Certificate: ', json_encode($row)));
 
 			$result[] = new ilUserCertificate(
 				$row['pattern_certificate_id'],
@@ -243,14 +267,22 @@ AND obj_id = ' . $objId;
 			);
 		}
 
-		$this->logger->debug('End of fetching certificates of object ');
+		$this->logger->info(sprintf(
+			'END -  fetching all certificates of object(user id: "%s", object id: "%s")',
+			$userId,
+			$objId
+		));
 
 		return $result;
 	}
 
 	private function fetchLatestVersion($objId, $userId)
 	{
-		$this->logger->debug('Start of fetching latest version');
+		$this->logger->info(sprintf(
+			'START -  fetching of latest certificates of object(user id: "%s", object id: "%s")',
+			$userId,
+			$objId
+		));
 
 		$templates = $this->fetchCertificatesOfObject($objId, $userId);
 
@@ -261,8 +293,12 @@ AND obj_id = ' . $objId;
 			}
 		}
 
-		$this->logger->debug(sprintf('Latest version: %s' , $version));
-
+		$this->logger->info(sprintf(
+			'END -  fetching of latest certificates of object(user id: "%s", object id: "%s") with verision',
+			$userId,
+			$objId,
+			$version
+		));
 		return $version;
 	}
 
@@ -273,7 +309,7 @@ AND obj_id = ' . $objId;
 	 */
 	private function deactivatePreviousCertificates($objId, $userId)
 	{
-		$this->logger->debug(sprintf('Start deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
+		$this->logger->info(sprintf('START - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 
 		$sql = '
 UPDATE user_certificates
@@ -284,6 +320,6 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
 		$query = $this->database->query($sql);
 		$this->database->execute($query);
 
-		$this->logger->debug('End of deactivating');
+		$this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 	}
 }

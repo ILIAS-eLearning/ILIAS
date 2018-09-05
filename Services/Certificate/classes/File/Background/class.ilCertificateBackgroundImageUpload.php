@@ -29,12 +29,18 @@ class ilCertificateBackgroundImageUpload
 	 * @param \ILIAS\FileUpload\FileUpload $fileUpload
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
+	 * @param ilLogger $logger
 	 */
-	public function __construct(\ILIAS\FileUpload\FileUpload $fileUpload, string $certificatePath, ilLanguage $language)
-	{
+	public function __construct(
+		\ILIAS\FileUpload\FileUpload $fileUpload,
+		string $certificatePath,
+		ilLanguage $language,
+		ilLogger $logger
+	) {
 		$this->fileUpload = $fileUpload;
 		$this->certificatePath = $certificatePath;
 		$this->language = $language;
+		$this->logger = $logger;
 	}
 
 	/**
