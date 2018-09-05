@@ -42,7 +42,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 						try {
 							self::handleNewUserCertificate($a_params, $database, $logger);
 						} catch (ilException $exception) {
-							$logger->error($exception->getMessage();
+							$logger->error($exception->getMessage());
 						}
 						break;
 				}
