@@ -44,22 +44,20 @@ class ilCertificateTemplateExportAction
 		global $DIC;
 
 		$time = time();
-		$fileSystem = $DIC->filesystem()->temp();
 		$web = $DIC->filesystem()->web();
-
 
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
 		$exportPath = $this->certificatePath . $time . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
 
-		$fileSystem->createDir($exportPath);
+		$web->createDir($exportPath, \ILIAS\Filesystem\Visibility::PUBLIC_ACCESS);
 
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
-		$xslExport = $template->getCertificateContent();
+		$xslContent = $template->getCertificateContent();
 
-		$fileSystem->put($exportPath . 'certificate.xml', $xslExport);
+		$web->put($exportPath . 'certificate.xml', $xslContent);
 
 		$backgroundImagePath = $template->getBackgroundImagePath();
 		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
@@ -70,10 +68,11 @@ class ilCertificateTemplateExportAction
 		$zipFileName = $time . '__' . IL_INST_ID . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';
 
 
-		ilUtil::zip($exportPath, $this->certificatePath . $zipFileName);
+		$zipPath = CLIENT_WEB_DIR . $this->certificatePath . $zipFileName;
+		ilUtil::zip($exportPath, $zipPath);
+		$web->deleteDir($exportPath);
 
-		$fileSystem->deleteDir($exportPath);
-		ilUtil::deliverFile($this->certificatePath . $zipFileName, $zipFileName, "application/zip");
+		ilUtil::deliverFile($zipPath, $zipFileName, "application/zip");
 	}
 
 	/**
