@@ -54,7 +54,7 @@ class ilCertificateCron extends ilCronJob
 		$this->queueRepository = $queueRepository;
 
 		if (null === $templateRepository) {
-			$templateRepository = new ilCertificateTemplateRepository($database);
+			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 		}
 		$this->templateRepository = $templateRepository;
 

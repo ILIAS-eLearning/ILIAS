@@ -30,15 +30,19 @@ class ilCertificateCloneAction
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 */
 	public function __construct(
-		ilLogger $logger,
 		ilDBInterface $database,
 		ilCertificateFactory $certificateFactory,
-		ilCertificateTemplateRepository $templateRepository
+		ilCertificateTemplateRepository $templateRepository,
+		illLogger $logger = null
 	) {
-		$this->logger = $logger;
 		$this->database = $database;
 		$this->certificateFactory = $certificateFactory;
 		$this->templateRepository = $templateRepository;
+
+		if (null === $logger) {
+			$logger = ilLoggerFactory::getLogger('cert');
+		}
+		$this->logger = $logger;
 	}
 
 	/**

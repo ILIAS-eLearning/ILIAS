@@ -20,6 +20,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 
 	/**
 	 * @param ilObject $object
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
@@ -29,6 +30,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 	 */
 	public function __construct(
 		ilObject $object,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -40,6 +42,8 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$object->getId(),
+			$certificatePath,
 			$language,
 			$template,
 			$controller,
@@ -84,7 +88,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 	 * @param $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 		$formFields['certificate_visibility'] = $this->object->getCertificateVisibility();

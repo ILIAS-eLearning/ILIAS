@@ -17,10 +17,15 @@ class ilCertificateTemplateRepository
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
 	 */
-	public function __construct(\ilDBInterface $database, ilLogger $logger)
+	public function __construct(\ilDBInterface $database, ilLogger $logger = null)
 	{
 		$this->database = $database;
+
+		if (null === $logger) {
+			$logger = $logger = ilLoggerFactory::getLogger('cert');
+		}
 		$this->logger = $logger;
+
 	}
 
 	/**

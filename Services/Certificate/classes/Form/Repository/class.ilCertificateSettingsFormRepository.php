@@ -44,6 +44,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $formFieldParser;
 
 	/**
+	 * @var ilCertificateTemplateImportAction|null
+	 */
+	private $importAction;
+
+	/**
+	 * @param integer $objectId
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
@@ -52,9 +59,12 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilPageFormats|null $pageFormats
 	 * @param ilFormFieldParser|null $formFieldParser
-	 * @param ilCertificateDeleteAction|null $deleteAction
+	 * @param ilCertificateTemplateImportAction|null $importAction
+	 * @param ilLogger|null $logger
 	 */
 	public function __construct(
+		int $objectId,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -62,14 +72,22 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilPageFormats $pageFormats = null,
-		ilFormFieldParser $formFieldParser = null
+		ilFormFieldParser $formFieldParser = null,
+		ilCertificateTemplateImportAction $importAction = null,
+		ilLogger $logger = null
 	) {
+		global $DIC;
+
 		$this->language                     = $language;
 		$this->template                     = $template;
 		$this->controller                   = $controller;
 		$this->access                       = $access;
 		$this->toolbar                      = $toolbar;
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
+
+		if (null === $logger) {
+			$logger = $logger = ilLoggerFactory::getLogger('cert');
+		}
 
 		if (null === $pageFormats) {
 			$pageFormats = new ilPageFormats($language);
@@ -81,6 +99,16 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		}
 		$this->formFieldParser = $formFieldParser;
 
+		if (null === $importAction) {
+			$importAction = new ilCertificateTemplateImportAction(
+				(int) $objectId,
+				$certificatePath,
+				$placeholderDescriptionObject,
+				$logger,
+				$DIC->filesystem()->web()
+			);
+		}
+		$this->importAction = $importAction;
 	}
 
 	/**
@@ -114,7 +142,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		{
 			if ($import->checkInput())
 			{
-				$result = $certificateObject->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+				$result = $this->importAction->import($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
 				if ($result == FALSE)
 				{
 					$import->setAlert($this->language->txt("certificate_error_import"));
@@ -278,10 +306,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	{}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		return $this->formFieldParser->fetchDefaultFormFields($content);
 	}

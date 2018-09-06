@@ -20,5 +20,5 @@ interface ilCertificateFormRepository
 	 * @param $content
 	 * @return mixed
 	 */
-	public function fetchFormFieldData($content);
+	public function fetchFormFieldData(string $content);
 }

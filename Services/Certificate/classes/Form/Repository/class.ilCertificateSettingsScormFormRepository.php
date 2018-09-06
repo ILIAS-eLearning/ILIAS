@@ -16,15 +16,18 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	private $object;
 
 	/**
+	 * @param int $objectId
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateGUI|null $certificateGUI
 	 */
 	public function __construct(
+		int $objectId,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -35,6 +38,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$objectId,
+			$certificatePath,
 			$language,
 			$template,
 			$controller,
@@ -80,10 +85,10 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		$scormSetting = new ilSetting('scorm');
 

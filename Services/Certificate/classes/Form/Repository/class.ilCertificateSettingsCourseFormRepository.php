@@ -107,10 +107,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
@@ -121,10 +121,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	}
 
 	/**
-	 * @param $a_parent_ref_id
+	 * @param int $a_parent_ref_id
 	 * @return array
 	 */
-	private function getLPTypes($a_parent_ref_id)
+	private function getLPTypes(int $a_parent_ref_id)
 	{
 		global $DIC;
 
