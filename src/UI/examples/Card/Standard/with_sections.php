@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
-function base() {
+function with_sections() {
 	//Init Factory and Renderer
 	global $DIC;
 	$f = $DIC->ui()->factory();
@@ -19,10 +19,16 @@ function base() {
 		"./templates/default/images/HeaderIcon.svg",
 		"Thumbnail Example");
 
-	$card = $f->card(
+	$card = $f->card()->standard(
 		"Title",
 		$image
-	)->withSections(array($content));
+	)->withSections(
+		array(
+			$content,
+			$content,
+			$content
+		)
+	);
 
 	//Render
 	return $renderer->render($card);

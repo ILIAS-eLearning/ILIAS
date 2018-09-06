@@ -102,6 +102,11 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	protected $table_factory;
 
+	/**
+	 * @var C\Card\Factory
+	 */
+	protected $card_factory;
+
     /**
      * @var Component\MessageBox\Factory
      */
@@ -126,7 +131,8 @@ class Factory implements \ILIAS\UI\Factory
 		C\Chart\Factory $chart_factory,
 		C\Input\Factory $input_factory,
 		C\Table\Factory $table_factory,
-		C\MessageBox\Factory $messagebox_factory
+		C\MessageBox\Factory $messagebox_factory,
+		C\Card\Factory $card_factory
 	) {
 		$this->counter_factory = $counter_factory;
 		$this->glyph_factory = $glyph_factory;
@@ -147,6 +153,7 @@ class Factory implements \ILIAS\UI\Factory
 		$this->input_factory = $input_factory;
 		$this->table_factor = $table_factory;
 		$this->messagebox_factory = $messagebox_factory;
+		$this->card_factory = $card_factory;
 	}
 
 	/**
@@ -176,9 +183,9 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function card($title, \ILIAS\UI\Component\Image\Image $image = null)
+	public function card()
 	{
-		return new Component\Card\Standard($title, $image);
+		return $this->card_factory;
 	}
 
 	/**

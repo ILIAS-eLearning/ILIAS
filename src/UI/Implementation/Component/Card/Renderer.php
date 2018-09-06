@@ -14,13 +14,13 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		/**
-		 * @var Component\Card\Standard $component
+		 * @var Component\Card\Card $component
 		 */
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
 		if($component->getImage()){
-			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
+			//$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
 		}
 
 		if($component->isHighlighted()) {
@@ -48,6 +48,36 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 		}
+
+		if($component instanceof Component\Card\RepositoryObject)
+		{
+			if($component->getObjectIcon());
+			{
+				$tpl->setCurrentBlock("action");
+				$tpl->setVariable("OBJECT_ICON",$default_renderer->render($component->getObjectIcon(),$default_renderer));
+				$tpl->parseCurrentBlock();
+			}
+			if($component->getProgressMeter())
+			{
+				$tpl->setCurrentBlock("progress");
+				$tpl->setVariable("PROGRESS_ICON",$default_renderer->render($component->getProgress()));
+				$tpl->parseCurrentBlock();
+			}
+			if($component->getCertificate())
+			{
+				$tpl->setCurrentBlock("progress");
+				$tpl->setVariable("PROGRESS_ICON"),$default_renderer->render($component->getCertificate());
+				$tpl->parseCurrentBlock();
+			}
+			if($component->getActions())
+			{
+				$tpl->setCurrentBlock("actions");
+				$tpl->setVariable("DROPDOWN", $default_renderer->render($component->getActions()));
+				$tpl->parseCurrentBlock();
+			}
+
+		}
+
 		return $tpl->get();
 	}
 
@@ -55,6 +85,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return array(Component\Card\Standard::class);
+		return array(Component\Card\Card::class);
 	}
 }

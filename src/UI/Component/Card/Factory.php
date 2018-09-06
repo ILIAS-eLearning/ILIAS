@@ -4,9 +4,6 @@
 
 namespace ILIAS\UI\Component\Card;
 
-use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Component;
-
 /**
  * This is how the factory for UI elements looks.
  */
@@ -52,14 +49,7 @@ interface Factory {
 
 
 	/**
-	 * TODO ::: Create full description for the repositoryObject card.
-	 * TODO ::: Type the parameters properly.
-	 * TODO ::: What outlined icons should we use?
-	 * TODO ::: To discuss:
-	 * Are the object type icons mandatory?
-	 * 		(yes) UI Outlined Icon in the constructor.
-	 * 		(no) New method withObjectIcon(UI Outlined Icon) will be required.
-	 *
+	 * ---
 	 * description:
 	 *   purpose: >
 	 *      A repositoryObject card is a flexible content container for small chunks of structured data based on
@@ -90,7 +80,6 @@ interface Factory {
 	 * ---
 	 * @param string $title
 	 * @param \ILIAS\UI\Component\Image\Image $image
-	 * @param \ILIAS\UI\Component\Icon\????
 	 * @return \ILIAS\UI\Component\Card\RepositoryObject
 	 */
 	public function repositoryObject($title, $image);

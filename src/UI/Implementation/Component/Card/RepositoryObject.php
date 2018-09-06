@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Icon\Icon;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 
-class RepositoryObject extends Standard implements C\RepositoryObject {
+class RepositoryObject extends Card implements C\RepositoryObject {
 
 	/**
 	 * @var Icon
@@ -35,22 +35,36 @@ class RepositoryObject extends Standard implements C\RepositoryObject {
 	 * @param Icon $icon
 	 * @return RepositoryObject
 	 */
-	public function withObjectIcon(Icon $icon):RepositoryObject
+	public function withObjectIcon(Icon $icon)
 	{
 		$clone = clone $this;
 		$clone->object_icon = $icon;
 		return $clone;
 	}
 
+	public function getObjectIcon()
+	{
+		return $this->object_icon;
+	}
+
 	/**
 	 * @param ProgressMeter $a_progressmeter
 	 * @return RepositoryObject
 	 */
-	public function withProgress(ProgressMeter $a_progressmeter):RepositoryObject
+	public function withProgress(ProgressMeter $a_progressmeter)
 	{
 		$clone = clone $this;
 		$clone->progress = $a_progressmeter;
 		return $clone;
+	}
+
+	/**
+	 * Get the progressmeter for this couse.
+	 * @return ProgressMeter
+	 */
+	public function getProgress()
+	{
+		return $this->progress;
 	}
 
 	/**
@@ -62,6 +76,15 @@ class RepositoryObject extends Standard implements C\RepositoryObject {
 		$clone = clone $this;
 		$clone->certificate = $a_certificate;
 		return $clone;
+	}
+
+	/**
+	 * Get the certificated icon
+	 * @return Icon
+	 */
+	public function getCertificate()
+	{
+		return $this->certificate;
 	}
 
 	/**

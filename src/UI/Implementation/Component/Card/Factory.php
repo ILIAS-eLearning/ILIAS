@@ -15,7 +15,7 @@ class Factory implements Component\Card\Factory {
 		return new Standard($title, $image);
 	}
 
-	public function repositoryObject($title, $image, $object_icon){
-		return new RepositoryObject($title, $image, $object_icon);
+	public function repositoryObject($title, $image){
+		return new RepositoryObject($title, $image);
 	}
 }
