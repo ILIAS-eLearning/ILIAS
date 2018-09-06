@@ -30,8 +30,8 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 */
 	public function __construct(
-		$objectId,
-		$certificatePath,
+		int $objectId,
+		string $certificatePath,
 		ilObjTest $testObject,
 		ilLanguage $language,
 		ilTemplate $template,
@@ -86,10 +86,10 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 		$formFields['certificate_visibility'] = $this->testObject->getCertificateVisibility();

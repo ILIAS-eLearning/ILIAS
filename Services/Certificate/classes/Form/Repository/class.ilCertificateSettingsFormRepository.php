@@ -76,6 +76,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilCertificateTemplateImportAction $importAction = null,
 		ilLogger $logger = null
 	) {
+		global $DIC;
+
 		$this->language                     = $language;
 		$this->template                     = $template;
 		$this->controller                   = $controller;
@@ -102,7 +104,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 				(int) $objectId,
 				$certificatePath,
 				$placeholderDescriptionObject,
-				$logger
+				$logger,
+				$DIC->filesystem()->web()
 			);
 		}
 		$this->importAction = $importAction;
@@ -303,10 +306,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	{}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array|mixed
 	 */
-	public function fetchFormFieldData($content)
+	public function fetchFormFieldData(string $content)
 	{
 		return $this->formFieldParser->fetchDefaultFormFields($content);
 	}
