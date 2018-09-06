@@ -400,11 +400,8 @@ class ilCertificate
 			if($this->objectId && !self::isObjectActive($this->objectId)) {
 				return false;
 			}
-			if (file_exists($this->certificatePath)) {
-				if (file_exists($this->getXSLPath()) && (filesize($this->getXSLPath()) > 0)) {
-					return true;
-				}
-			}
+
+			return true;
 		}
 
 		return false;
