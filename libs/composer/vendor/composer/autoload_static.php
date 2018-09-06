@@ -6514,6 +6514,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilPortfolioDeclarationOfAuthorship' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioDeclarationOfAuthorship.php',
         'ilPortfolioExerciseGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php',
         'ilPortfolioExporter' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioExporter.php',
+        'ilPortfolioGlobalTemplate' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioGlobalTemplate.php',
         'ilPortfolioHTMLExport' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php',
         'ilPortfolioImporter' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioImporter.php',
         'ilPortfolioPage' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPage.php',

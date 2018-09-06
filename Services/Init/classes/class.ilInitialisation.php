@@ -1650,6 +1650,18 @@ class ilInitialisation
 		) {
 			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
 		}
+		else if (
+			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
+			$_GET["cmdClass"] == "ilobjportfoliotemplategui" ||
+			$_REQUEST["cmdClass"] == "ilobjportfoliogui" ||
+			$_GET["cmdClass"] == "ilobjportfoliogui" ||
+			$_REQUEST["cmdClass"] == "ilobjportfoliobasegui" ||
+			$_GET["cmdClass"] == "ilobjportfoliobasegui" ||
+			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
+			$_GET["baseClass"] == "ilObjPortfolioGUI"
+		) {
+			$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+		}
 		else 
 		{
 			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);

@@ -6177,6 +6177,7 @@ return array(
     'ilPortfolioDeclarationOfAuthorship' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioDeclarationOfAuthorship.php',
     'ilPortfolioExerciseGUI' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php',
     'ilPortfolioExporter' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioExporter.php',
+    'ilPortfolioGlobalTemplate' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioGlobalTemplate.php',
     'ilPortfolioHTMLExport' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php',
     'ilPortfolioImporter' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioImporter.php',
     'ilPortfolioPage' => $baseDir . '/../../Modules/Portfolio/classes/class.ilPortfolioPage.php',
