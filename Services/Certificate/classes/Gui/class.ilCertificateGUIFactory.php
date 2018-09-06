@@ -90,7 +90,7 @@ class ilCertificateGUIFactory
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
 
 				$formFactory = new ilCertificateSettingsExerciseRepository(
-					$objectId,
+					$object,
 					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
