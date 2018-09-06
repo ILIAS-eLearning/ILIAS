@@ -20,17 +20,17 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 
 	/**
 	 * @param ilObject $object
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateDeleteAction $deleteAction
 	 */
 	public function __construct(
 		ilObject $object,
-		$certificatePath,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,

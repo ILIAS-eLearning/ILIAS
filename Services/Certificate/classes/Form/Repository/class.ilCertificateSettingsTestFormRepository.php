@@ -19,8 +19,8 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	private $testObject;
 
 	/**
-	 * @param $objectId
-	 * @param $certificatePath
+	 * @param int $objectId
+	 * @param string $certificatePath
 	 * @param ilObjTest $testObject
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
