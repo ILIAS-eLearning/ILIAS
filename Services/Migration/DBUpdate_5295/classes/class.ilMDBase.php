@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * Meta Data class
 * always instantiate this class first to set/get single meta data elements
@@ -33,7 +32,9 @@
 class ilMDBase
 {
 	/*
-	 * rbac_id ref_id of rbac object (e.g for page objects the obj_id of the content object)
+	 * object id (NOT ref_id!) of rbac object (e.g for page objects the obj_id
+	 * of the content object; for media objects this is set to 0, because their
+	 * object id are not assigned to ref ids)
 	 */
 	var $rbac_id;
 
@@ -46,16 +47,42 @@ class ilMDBase
 	 * type of the object (e.g st,pg,crs ...)
 	 */
 	var $obj_type;
+	
+	/*
+	 * export mode, if true, first Identifier will be
+	 * set to ILIAS/il_<INSTALL_ID>_<TYPE>_<ID>
+	 */
+	var $export_mode = false;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
+	/*
+	 * constructor
+	 *
+	 * @param	$a_rbac_id	int		object id (NOT ref_id!) of rbac object (e.g for page objects
+	 *								the obj_id of the content object; for media objects this
+	 *								is set to 0, because their object id are not assigned to ref ids)
+	 * @param	$a_obj_id	int		object id (e.g for structure objects the obj_id of the structure object)
+	 * @param	$a_type		string	type of the object (e.g st,pg,crs ...)
+	 */
 	function __construct($a_rbac_id = 0,
 					  $a_obj_id = 0,
 					  $a_type = 0)
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		if ($a_obj_id == 0)
+		{
+			$a_obj_id = $a_rbac_id;
+		}
 
 		$this->db = $ilDB;
-		$this->log = $ilLog;
+		$this->log = ilLoggerFactory::getLogger("meta");
 
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;
@@ -116,6 +143,17 @@ class ilMDBase
 	{
 		return $this->parent_id;
 	}
+	
+	function setExportMode($a_export_mode = true)
+	{
+		$this->export_mode = $a_export_mode;
+	}
+	
+	function getExportMode()
+	{
+		return $this->export_mode;
+	}
+
 
 	/*
 	 * Should be overwritten in all inherited classes

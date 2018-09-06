@@ -35,13 +35,13 @@ class ilMDRelation extends ilMDBase
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getIdentifier_Ids()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
 
 		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getIdentifier_($a_identifier__id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
 
 		if(!$a_identifier__id)
 		{
@@ -54,7 +54,7 @@ class ilMDRelation extends ilMDBase
 	}
 	function &addIdentifier_()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
 
 		$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
@@ -65,13 +65,13 @@ class ilMDRelation extends ilMDBase
 
 	function &getDescriptionIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 
 		return ilMdDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getDescription($a_description_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 		
 		if(!$a_description_id)
 		{
@@ -84,7 +84,7 @@ class ilMDRelation extends ilMDBase
 	}
 	function &addDescription()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 		
 		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
@@ -124,12 +124,16 @@ class ilMDRelation extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_relation',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_relation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_relation'));
+		
+		if($this->db->insert('il_meta_relation',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -137,14 +141,15 @@ class ilMDRelation extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_relation',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_relation_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_relation',
+									$this->__getFields(),
+									array("meta_relation_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -154,14 +159,15 @@ class ilMDRelation extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_relation ".
-				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 
 			foreach($this->getIdentifier_Ids() as $id)
 			{
@@ -170,7 +176,7 @@ class ilMDRelation extends ilMDBase
 			}
 			foreach($this->getDescriptionIds() as $id)
 			{
-				$des = $this->getDescription();
+				$des = $this->getDescription($id);
 				$des->delete();
 			}
 			
@@ -182,20 +188,22 @@ class ilMDRelation extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'kind'		=> ilUtil::prepareDBString($this->getKind()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'kind'		=> array('text',$this->getKind()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_relation ".
-				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -203,7 +211,7 @@ class ilMDRelation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setKind(ilUtil::stripSlashes($row->kind));
+				$this->setKind($row->kind);
 			}
 		}
 		return true;
@@ -216,21 +224,39 @@ class ilMDRelation extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Relation',array('Kind' => $this->getKind()));
+		$writer->xmlStartTag('Relation',array('Kind' => $this->getKind()
+											  ? $this->getKind()
+											  : 'IsPartOf'));
 		$writer->xmlStartTag('Resource');
 
 		// Identifier_
-		foreach($this->getIdentifier_Ids() as $id)
+		$ides = $this->getIdentifier_Ids();
+		foreach($ides as $id)
 		{
 			$ide =& $this->getIdentifier_($id);
 			$ide->toXML($writer);
 		}
+		if(!count($ides))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
+			$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId());
+			$ide->toXML($writer);
+		}
+
 		// Description
-		foreach($this->getDescriptionIds() as $id)
+		$dess = $this->getDescriptionIds();
+		foreach($dess as $id)
 		{
 			$des =& $this->getDescription($id);
 			$des->toXML($writer);
 		}
+		if(!count($dess))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			$des->toXML($writer);
+		}
+
 		$writer->xmlEndTag('Resource');
 		$writer->xmlEndTag('Relation');
 	}
@@ -238,13 +264,15 @@ class ilMDRelation extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_relation_id FROM il_meta_relation ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

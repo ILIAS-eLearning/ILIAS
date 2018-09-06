@@ -32,16 +32,32 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTechnical extends ilMDBase
 {
+	function getPossibleSubelements()
+	{
+		$subs['Format'] = 'meta_format';
+		$subs['Location'] = 'meta_location';
+		if(!$this->getOrCompositeIds())
+		{
+			$subs['Requirement'] = 'meta_requirement';
+		}
+		if(!$this->getRequirementIds())
+		{
+			$subs['OrComposite'] = 'meta_or_composite';
+		}
+			
+		return $subs;
+	}
+
 	// Methods for child objects (Format, Location, Requirement OrComposite)
 	function &getFormatIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDFormat.php';
 
 		return ilMDFormat::_getIds($this->getRBACId(),$this->getObjId());
 	}
 	function &getFormat($a_format_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDFormat.php';
 
 		if(!$a_format_id)
 		{
@@ -54,7 +70,7 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &addFormat()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDFormat.php';
 
 		$for = new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
@@ -62,13 +78,13 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &getLocationIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLocation.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLocation.php';
 
 		return ilMDLocation::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getLocation($a_location_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLocation.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLocation.php';
 
 		if(!$a_location_id)
 		{
@@ -81,7 +97,7 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &addLocation()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLocation.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLocation.php';
 
 		$loc = new ilMDLocation($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$loc->setParentId($this->getMetaId());
@@ -91,13 +107,13 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &getRequirementIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		return ilMDRequirement::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getRequirement($a_requirement_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		if(!$a_requirement_id)
 		{
@@ -110,7 +126,7 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &addRequirement()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		$rec = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$rec->setParentId($this->getMetaId());
@@ -120,13 +136,13 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &getOrCompositeIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDOrComposite.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDOrComposite.php';
 
 		return ilMDOrComposite::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getOrComposite($a_or_composite_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDOrComposite.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDOrComposite.php';
 
 		if(!$a_or_composite_id)
 		{
@@ -141,7 +157,7 @@ class ilMDTechnical extends ilMDBase
 	}
 	function &addOrComposite()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDOrComposite.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDOrComposite.php';
 
 		$orc = new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$orc->setParentId($this->getMetaId());
@@ -220,28 +236,32 @@ class ilMDTechnical extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_technical',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_technical_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_technical'));
+		
+		if($this->db->insert('il_meta_technical',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
-
 		return false;
 	}
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_technical',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_technical_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_technical',
+									$this->__getFields(),
+									array("meta_technical_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -251,14 +271,15 @@ class ilMDTechnical extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_technical ".
-				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			foreach($this->getFormatIds() as $id)
 			{
@@ -291,42 +312,43 @@ class ilMDTechnical extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'size'		=> ilUtil::prepareDBString($this->getSize()),
-					 'installation_remarks' => ilUtil::prepareDBString($this->getInstallationRemarks()),
-					 'installation_remarks_language' => ilUtil::prepareDBString($this->getInstallationRemarksLanguageCode()),
-					 'other_platform_requirements' => ilUtil::prepareDBString($this->getOtherPlatformRequirements()),
-					 'other_platform_requirements_language' => ilUtil::prepareDBString($this->getOtherPlatformRequirementsLanguageCode()),
-					 'duration' => ilUtil::prepareDBString($this->getDuration()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 't_size'		=> array('text',$this->getSize()),
+					 'ir' => array('text',$this->getInstallationRemarks()),
+					 'ir_language' => array('text',$this->getInstallationRemarksLanguageCode()),
+					 'opr' => array('text',$this->getOtherPlatformRequirements()),
+					 'opr_language' => array('text',$this->getOtherPlatformRequirementsLanguageCode()),
+					 'duration' => array('text',$this->getDuration()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 
 			$query = "SELECT * FROM il_meta_technical ".
-				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId() ,'integer')." ";
 
-		
-			$res = $this->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setSize(ilUtil::stripSlashes($row->size));
-				$this->setInstallationRemarks(ilUtil::stripSlashes($row->installation_remarks));
-				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));
-				$this->setOtherPlatformRequirements(ilUtil::stripSlashes($row->other_platform_requirements));
-				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->other_platform_requirements_language));
-				$this->setDuration(ilUtil::stripSlashes($row->duration));
+				$this->setSize($row->t_size);
+				$this->setInstallationRemarks($row->ir);
+				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->ir_language));
+				$this->setOtherPlatformRequirements($row->opr);
+				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->opr_language));
+				$this->setDuration($row->duration);
 			}
 			return true;
 		}
@@ -342,7 +364,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		$writer->xmlStartTag('Technical');
 
-		// Foramt
+		// Format
 		foreach($this->getFormatIds() as $id)
 		{
 			$for =& $this->getFormat($id);
@@ -380,7 +402,9 @@ class ilMDTechnical extends ilMDBase
 		if(strlen($this->getInstallationRemarks()))
 		{
 			$writer->xmlElement('InstallationRemarks',
-								array('Language' => $this->getInstallationRemarksLanguageCode()),
+								array('Language' => $this->getInstallationRemarksLanguageCode()
+									  ? $this->getInstallationRemarksLanguageCode()
+									  : 'en'),
 								$this->getInstallationRemarks());
 		}
 
@@ -388,10 +412,12 @@ class ilMDTechnical extends ilMDBase
 		if(strlen($this->getOtherPlatformRequirements()))
 		{
 			$writer->xmlElement('OtherPlatformRequirements',
-								array('Language' => $this->getOtherPlatformRequirementsLanguageCode()),
+								array('Language' => $this->getOtherPlatformRequirementsLanguageCode()
+									  ? $this->getOtherPlatformRequirementsLanguageCode()
+									  : 'en'),
 								$this->getOtherPlatformRequirements());
 		}
-		// Durtation
+		// Duration
 		if(strlen($this->getDuration()))
 		{
 			$writer->xmlElement('Duration',null,$this->getDuration());
@@ -401,13 +427,15 @@ class ilMDTechnical extends ilMDBase
 
 	}
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_technical_id FROM il_meta_technical ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

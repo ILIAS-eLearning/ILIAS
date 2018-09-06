@@ -35,10 +35,10 @@ class ilMDGeneral extends ilMDBase
 {
 	function getPossibleSubelements()
 	{
-		$subs['Identifier'] = 'meta_identifier';
-		$subs['Language'] = 'meta_language';
-		$subs['Description'] = 'meta_description';
 		$subs['Keyword'] = 'meta_keyword';
+		$subs['Language'] = 'meta_language';
+		$subs['Identifier'] = 'meta_identifier';
+		$subs['Description'] = 'meta_description';
 
 		return $subs;
 	}
@@ -47,13 +47,13 @@ class ilMDGeneral extends ilMDBase
 	// Subelements (Identifier, Language, Description, Keyword)
 	function &getIdentifierIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 
 		return ilMDIdentifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getIdentifier($a_identifier_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 		
 		if(!$a_identifier_id)
 		{
@@ -66,7 +66,7 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &addIdentifier()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 
 		$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
@@ -76,13 +76,13 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getLanguageIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
 
 		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getLanguage($a_language_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
 
 		if(!$a_language_id)
 		{
@@ -96,7 +96,7 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &addLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
 		
 		$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$lan->setParentId($this->getMetaId());
@@ -106,13 +106,13 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getDescriptionIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 
 		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getDescription($a_description_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 
 
 		if(!$a_description_id)
@@ -126,7 +126,7 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &addDescription()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
 
 		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
@@ -136,13 +136,13 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getKeywordIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 
 		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getKeyword($a_keyword_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 		
 		if(!$a_keyword_id)
 		{
@@ -155,7 +155,7 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &addKeyword()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 
 		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
@@ -224,7 +224,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		if(is_object($lng_obj))
 		{
-			$this->coverage_language =& $lng_obj;
+			$this->coverage_language = $lng_obj;
 		}
 	}
 	function &getCoverageLanguage()
@@ -239,12 +239,19 @@ class ilMDGeneral extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_general',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_general_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_general'));
+
+		//$this->log->debug("Insert General ".print_r($fields, true));
+		//ilUtil::printBacktrace(10);
+
+		if($this->db->insert('il_meta_general',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -252,14 +259,15 @@ class ilMDGeneral extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_general',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_general_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_general',
+									$this->__getFields(),
+									array("meta_general_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -269,7 +277,9 @@ class ilMDGeneral extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getMetaId())
 		{
@@ -306,10 +316,8 @@ class ilMDGeneral extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_general ".
-				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
-			
+				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 
@@ -320,26 +328,28 @@ class ilMDGeneral extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'general_structure'	=> ilUtil::prepareDBString($this->getStructure()),
-					 'title'		=> ilUtil::prepareDBString($this->getTitle()),
-					 'title_language' => ilUtil::prepareDBString($this->getTitleLanguageCode()),
-					 'coverage' => ilUtil::prepareDBString($this->getCoverage()),
-					 'coverage_language' => ilUtil::prepareDBString($this->getCoverageLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'general_structure'	=> array('text',$this->getStructure()),
+					 'title'		=> array('text',$this->getTitle()),
+					 'title_language' => array('text',$this->getTitleLanguageCode()),
+					 'coverage' => array('text',$this->getCoverage()),
+					 'coverage_language' => array('text',$this->getCoverageLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_general ".
-				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -347,10 +357,10 @@ class ilMDGeneral extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setStructure(ilUtil::stripSlashes($row->general_structure));
-				$this->setTitle(ilUtil::stripSlashes($row->title));
+				$this->setStructure($row->general_structure);
+				$this->setTitle($row->title);
 				$this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
-				$this->setCoverage(ilUtil::stripSlashes($row->coverage));
+				$this->setCoverage($row->coverage);
 				$this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
 			}
 		}
@@ -364,43 +374,90 @@ class ilMDGeneral extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('General',array('Structure' => $this->getStructure()));
+		$writer->xmlStartTag('General',array('Structure' => $this->getStructure() ?
+											 $this->getStructure() :
+											 'Atomic'));
+											 
 
 		// Identifier
-		foreach($this->getIdentifierIds() as $id)
+		$first = true;
+		$identifiers = array();
+		$identifiers = $this->getIdentifierIds();
+		foreach($identifiers as $id)
 		{
 			$ide =& $this->getIdentifier($id);
+			$ide->setExportMode($this->getExportMode());
 			$ide->toXML($writer);
+			$first = false;
+		}
+		if(!count($identifiers))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
+			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),
+				$this->getObjType());		// added type, alex, 31 Oct 2007
+			$ide->setExportMode(true);
+			$ide->toXML($writer,true);
 		}
 		
-		// TItle
-		$writer->xmlElement('Title',array('Language' => $this->getTitleLanguageCode()),$this->getTitle());
+		// Title
+		$writer->xmlElement('Title',array('Language' => $this->getTitleLanguageCode() ? 
+										  $this->getTitleLanguageCode() :
+										  'en'),
+							$this->getTitle());
 
 		// Language
-		foreach($this->getLanguageIds() as $id)
+		$languages = $this->getLanguageIds();
+		foreach($languages as $id)
 		{
 			$lan =& $this->getLanguage($id);
 			$lan->toXML($writer);
 		}
+		if(!count($languages))
+		{
+			// Default
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+			$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId());
+			$lan->toXML($writer);
+		}
 
 		// Description
-		foreach($this->getDescriptionIds() as $id)
+		$descriptions = $this->getDescriptionIds();
+		foreach($descriptions as $id)
 		{
 			$des =& $this->getDescription($id);
 			$des->toXML($writer);
 		}
+		if(!count($descriptions))
+		{
+			// Default
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			$des->toXML($writer);
+		}
+			
 
 		// Keyword
-		foreach($this->getKeywordIds() as $id)
+		$keywords = $this->getKeywordIds();
+		foreach($keywords as $id)
 		{
 			$key =& $this->getKeyword($id);
+			$key->toXML($writer);
+		}
+		if(!count($keywords))
+		{
+			// Default
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		
 		// Copverage
 		if(strlen($this->getCoverage()))
 		{
-			$writer->xmlElement('Coverage',array('Language' => $this->getCoverageLanguageCode()),$this->getCoverage());
+			$writer->xmlElement('Coverage',array('Language' => $this->getCoverageLanguageCode() ?
+												 $this->getCoverageLanguageCode() :
+												 'en'),
+								$this->getCoverage());
 		}
 		$writer->xmlEndTag('General');
 	}
@@ -408,13 +465,15 @@ class ilMDGeneral extends ilMDBase
 				
 
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_general_id FROM il_meta_general ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 
 		$res = $ilDB->query($query);

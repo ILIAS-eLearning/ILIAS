@@ -79,12 +79,16 @@ class ilMDAnnotation extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_annotation',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_annotation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_annotation'));
+		
+		if($this->db->insert('il_meta_annotation',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -92,14 +96,15 @@ class ilMDAnnotation extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_annotation',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_annotation_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_annotation',
+									$this->__getFields(),
+									array("meta_annotation_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -109,14 +114,15 @@ class ilMDAnnotation extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			return true;
 		}
@@ -126,25 +132,27 @@ class ilMDAnnotation extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'entity'	=> ilUtil::prepareDBString($this->getEntity()),
-					 'date'		=> ilUtil::prepareDBString($this->getDate()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'entity'	=> array('clob',$this->getEntity()),
+					 'a_date'		=> array('clob',$this->getDate()),
+					 'description' => array('clob',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -152,9 +160,9 @@ class ilMDAnnotation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setEntity(ilUtil::stripSlashes($row->entity));
-				$this->setDate(ilUtil::stripSlashes($row->date));
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setEntity($row->entity);
+				$this->setDate($row->a_date);
+				$this->setDescription($row->description);
 				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}
@@ -171,20 +179,25 @@ class ilMDAnnotation extends ilMDBase
 		$writer->xmlStartTag('Annotation');
 		$writer->xmlElement('Entity',null,$this->getEntity());
 		$writer->xmlElement('Date',null,$this->getDate());
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+							$this->getDescription());
 		$writer->xmlEndTag('Annotation');
 	}
 
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 
 		$res = $ilDB->query($query);

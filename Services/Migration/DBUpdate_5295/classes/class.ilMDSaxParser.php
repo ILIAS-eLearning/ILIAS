@@ -44,6 +44,10 @@ class ilMDSaxParser extends ilSaxParser
 	var $md_cur_el = null;
 
 	/*
+	 * @var boolean enable/disable parsing status. 
+	 */
+	var $md_parsing_enabled = null;
+	/*
 	 * @var object ilMD
 	 */
 	var $md = null;
@@ -53,6 +57,10 @@ class ilMDSaxParser extends ilSaxParser
 	 */
 	var $md_gen;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $meta_log;
 
 	/**
 	* Constructor
@@ -61,14 +69,36 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function __construct($a_xml_file = '')
 	{
-		global $lng, $tree;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
+
+		$this->meta_log = ilLoggerFactory::getLogger("meta");
+
+
+		// Enable parsing. E.g qpl' s will set this value to false
+		$this->md_parsing_enabled = true;
 
 		parent::__construct($a_xml_file);
+	}
+
+	function enableMDParsing($a_status)
+	{
+		$this->md_parsing_enabled = (bool) $a_status;
+	}
+	function getMDParsingStatus()
+	{
+		return (bool) $this->md_parsing_enabled;
 	}
 
 	function setMDObject(&$md)
 	{
 		$this->md =& $md;
+	}
+	function &getMDObject()
+	{
+		return is_object($this->md) ? $this->md : false;
 	}
 
 	function inMetaData()
@@ -76,13 +106,32 @@ class ilMDSaxParser extends ilSaxParser
 		return $this->md_in_md;
 	}
 
+	/**
+	* set event handlers
+	*
+	* @param	resource	reference to the xml parser
+	* @access	private
+	*/
+	function setHandlers($a_xml_parser)
+	{
+		xml_set_object($a_xml_parser,$this);
+		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
+		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+	}
+
+
 
 	/**
 	* handler for begin of element
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
 
 		switch($a_name)
 		{
@@ -296,7 +345,7 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Rights':
 				$par =& $this->__getParent();
 				$this->md_rig =& $par->addRights();
-				$this->md_rig->setCosts($a_attribs['Costs']);
+				$this->md_rig->setCosts($a_attribs['Cost']);
 				$this->md_rig->setCopyrightAndOtherRestrictions($a_attribs['CopyrightAndOtherRestrictions']);
 				$this->md_rig->save();
 				$this->__pushParent($this->md_rig);
@@ -365,6 +414,11 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
+
 		switch($a_name)
 		{
 			case 'MetaData':
@@ -413,6 +467,7 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Keyword':
 				$par =& $this->__getParent();
 				$par->setKeyword($this->__getCharacterData());
+				$this->meta_log->debug("Keyword: ".$this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
@@ -603,6 +658,11 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
+
 		if ($this->inMetaData() and $a_data != "\n")
 		{
 			// Replace multiple tabs with one space
@@ -631,9 +691,9 @@ class ilMDSaxParser extends ilSaxParser
 	}
 	function &__popParent()
 	{
-		$class =& array_pop($this->md_parent);
+		$class = array_pop($this->md_parent);
 		unset($class);
-		#echo '<br />Popped '.get_class($class);
+		#echo '<br />DELETE '.get_class($class);
 	}
 	function &__getParent()
 	{

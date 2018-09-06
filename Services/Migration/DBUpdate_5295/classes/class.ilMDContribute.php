@@ -36,13 +36,13 @@ class ilMDContribute extends ilMDBase
 	// Subelements
 	function &getEntityIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
 
 		return ilMDEntity::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_contribute');
 	}
 	function &getEntity($a_entity_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
 		
 		if(!$a_entity_id)
 		{
@@ -55,7 +55,7 @@ class ilMDContribute extends ilMDBase
 	}
 	function &addEntity()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
 
 		$ent = new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ent->setParentId($this->getMetaId());
@@ -85,6 +85,7 @@ class ilMDContribute extends ilMDBase
 			case 'SubjectMatterExpert':
 			case 'Creator':
 			case 'Validator':
+			case 'PointOfContact':
 				$this->role = $a_role;
 				return true;
 
@@ -108,12 +109,16 @@ class ilMDContribute extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_contribute',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+
+		$fields = $this->__getFields();
+		$fields['meta_contribute_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_contribute'));
+		
+		if($this->db->insert('il_meta_contribute',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -121,14 +126,15 @@ class ilMDContribute extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_contribute',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_contribute_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_contribute',
+									$this->__getFields(),
+									array("meta_contribute_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -138,18 +144,19 @@ class ilMDContribute extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_contribute ".
-				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			foreach($this->getEntityIds() as $id)
 			{
-				$ent =& $this->getEntity($id);
+				$ent = $this->getEntity($id);
 				$ent->delete();
 			}
 			return true;
@@ -160,25 +167,27 @@ class ilMDContribute extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'role'	=> ilUtil::prepareDBString($this->getRole()),
-					 'date' => ilUtil::prepareDBString($this->getDate()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'role'	=> array('text',$this->getRole()),
+					 'c_date' => array('text',$this->getDate()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_contribute ".
-				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -188,8 +197,8 @@ class ilMDContribute extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setRole(ilUtil::stripSlashes($row->role));
-				$this->setDate(ilUtil::stripSlashes($row->date));
+				$this->setRole($row->role);
+				$this->setDate($row->c_date);
 			}
 		}
 		return true;
@@ -202,29 +211,41 @@ class ilMDContribute extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Contribute',array('Role' => $this->getRole()));
+		$writer->xmlStartTag('Contribute',array('Role' => $this->getRole()
+												? $this->getRole()
+												: 'Author'));
 
 		// Entities
-		foreach($this->getEntityIds() as $id)
+		$entities = $this->getEntityIds();
+		foreach($entities as $id)
 		{
 			$ent =& $this->getEntity($id);
 			$ent->toXML($writer);
 		}
+		if(!count($entities))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
+			$ent = new ilMDEntity($this->getRBACId(),$this->getObjId());
+			$ent->toXML($writer);
+		}
+			
 		$writer->xmlElement('Date',null,$this->getDate());
 		$writer->xmlEndTag('Contribute');
 	}
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_contribute_id FROM il_meta_contribute ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -232,6 +253,39 @@ class ilMDContribute extends ilMDBase
 			$ids[] = $row->meta_contribute_id;
 		}
 		return $ids ? $ids : array();
+	}
+	
+	/**
+	 * Lookup authors
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * @param string obj_type
+	 * @return array string authors
+	 */
+	public static function _lookupAuthors($a_rbac_id,$a_obj_id,$a_obj_type)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		
+		// Ask for 'author' later to use indexes 
+		$query = "SELECT entity,ent.parent_type,role FROM il_meta_entity ent ".
+			"JOIN il_meta_contribute con ON ent.parent_id = con.meta_contribute_id ".
+			"WHERE  ent.rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND ent.obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			if($row->role == 'Author' and $row->parent_type == 'meta_contribute')
+			{
+				$authors[] = trim($row->entity);
+			}
+		}
+		return $authors ? $authors : array();
 	}
 }
 ?>

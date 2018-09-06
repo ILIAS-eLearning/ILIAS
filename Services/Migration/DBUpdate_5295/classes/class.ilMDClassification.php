@@ -35,13 +35,13 @@ class ilMDClassification extends ilMDBase
 	// METHODS OF CLIENT OBJECTS (TaxonPath, Keyword)
 	function &getTaxonPathIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
 
 		return ilMDTaxonPath::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
 	}
 	function &getTaxonPath($a_taxon_path_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
 
 		if(!$a_taxon_path_id)
 		{
@@ -54,7 +54,7 @@ class ilMDClassification extends ilMDBase
 	}
 	function &addTaxonPath()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
 
 		$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
@@ -65,13 +65,13 @@ class ilMDClassification extends ilMDBase
 
 	function &getKeywordIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 
 		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
 	}
 	function &getKeyword($a_keyword_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 		
 		if(!$a_keyword_id)
 		{
@@ -84,7 +84,7 @@ class ilMDClassification extends ilMDBase
 	}
 	function &addKeyword()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
 
 		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
@@ -130,7 +130,7 @@ class ilMDClassification extends ilMDBase
 	{
 		if(is_object($lng_obj))
 		{
-			$this->description_language =& $lng_obj;
+			$this->description_language = $lng_obj;
 		}
 	}
 	function &getDescriptionLanguage()
@@ -145,12 +145,16 @@ class ilMDClassification extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_classification',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_classification_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_classification'));
+		
+		if($this->db->insert('il_meta_classification',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -158,14 +162,15 @@ class ilMDClassification extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_classification',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_classification_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_classification',
+									$this->__getFields(),
+									array("meta_classification_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -175,23 +180,24 @@ class ilMDClassification extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_classification ".
-				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);			
 
 			foreach($this->getTaxonPathIds() as $id)
 			{
-				$tax =& $this->getTaxonPath($id);
+				$tax = $this->getTaxonPath($id);
 				$tax->delete();
 			}
 			foreach($this->getKeywordIds() as $id)
 			{
-				$key =& $this->getKeyword($id);
+				$key = $this->getKeyword($id);
 				$key->delete();
 			}
 			
@@ -203,24 +209,26 @@ class ilMDClassification extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'purpose'	=> ilUtil::prepareDBString($this->getPurpose()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'purpose'	=> array('text',$this->getPurpose()),
+					 'description' => array('text',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_classification ".
-				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -228,8 +236,8 @@ class ilMDClassification extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setPurpose(ilUtil::stripSlashes($row->purpose));
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setPurpose($row->purpose);
+				$this->setDescription($row->description);
 				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}
@@ -243,21 +251,41 @@ class ilMDClassification extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Classification',array('Purpose' => $this->getPurpose()));
+		$writer->xmlStartTag('Classification',array('Purpose' => $this->getPurpose()
+													? $this->getPurpose()
+													: 'Idea'));
 
 		// Taxon Path
-		foreach($this->getTaxonPathIds() as $id)
+		$taxs = $this->getTaxonPathIds();
+		foreach($taxs as $id)
 		{
 			$tax =& $this->getTaxonPath($id);
 			$tax->toXML($writer);
 		}
+		if(!count($taxs))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
+			$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId());
+			$tax->toXML($writer);
+		}
+
 		// Description
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+							$this->getDescription());
 		
 		// Keyword
-		foreach($this->getKeywordIds() as $id)
+		$keys = $this->getKeywordIds();
+		foreach($keys as $id)
 		{
 			$key =& $this->getKeyword($id);
+			$key->toXML($writer);
+		}
+		if(!count($keys))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		$writer->xmlEndTag('Classification');
@@ -266,13 +294,15 @@ class ilMDClassification extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_classification_id FROM il_meta_classification ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 
 		$res = $ilDB->query($query);

@@ -30,7 +30,7 @@
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
-include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 class ilMDOrComposite extends ilMDRequirement
 {
@@ -41,14 +41,15 @@ class ilMDOrComposite extends ilMDRequirement
 	}
 	function getOrCompositeId()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->or_composite_id)
 		{
-			$query = "SELECT MAX(or_composite_id) AS orc FROM il_meta_requirement ".
-				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId())." ".
-				"AND obj_id = ".$ilDB->quote($this->getObjId())." ".
-				"GROUP BY or_composite_id";
+			$query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement ".
+				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId() ,'integer')." ".
+				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -62,7 +63,7 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &getRequirementIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		return ilMDRequirement::_getIds($this->getRBACId(),
 										$this->getObjId(),
@@ -73,7 +74,7 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &getRequirement($a_requirement_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		if(!$a_requirement_id)
 		{
@@ -87,7 +88,7 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &addRequirement()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
 
 		$req = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$req->setParentId($this->getParentId());
@@ -126,9 +127,16 @@ class ilMDOrComposite extends ilMDRequirement
 		// For all requirements
 		$writer->xmlStartTag('OrComposite');
 
-		foreach($this->getRequirementIds() as $id)
+		$reqs = $this->getRequirementIds();
+		foreach($reqs as $id)
 		{
 			$req = $this->getRequirement($id);
+			$req->toXML($writer);
+		}
+		if(!count($reqs))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
+			$req = new ilMDRequirement($this->getRBACId(),$this->getObjId());
 			$req->toXML($writer);
 		}
 		$writer->xmlEndTag('OrComposite');
@@ -137,15 +145,17 @@ class ilMDOrComposite extends ilMDRequirement
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$query = "SELECT DISTINCT(or_composite_id) AS or_composite_id FROM il_meta_requirement ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type)." ".
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT DISTINCT(or_composite_id) or_composite_id FROM il_meta_requirement ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text')." ".
 			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);

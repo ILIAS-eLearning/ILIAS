@@ -33,16 +33,23 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLifecycle extends ilMDBase
 {
+	function getPossibleSubelements()
+	{
+		$subs['Contribute'] = 'meta_contribute';
+
+		return $subs;
+	}		
+
 	// Get subelemsts 'Contribute'
 	function &getContributeIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 
 		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_lifecycle');
 	}
 	function &getContribute($a_contribute_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 		
 		if(!$a_contribute_id)
 		{
@@ -55,7 +62,7 @@ class ilMDLifecycle extends ilMDBase
 	}
 	function &addContribute()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 
 		$con = new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$con->setParentId($this->getMetaId());
@@ -114,12 +121,16 @@ class ilMDLifecycle extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_lifecycle',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_lifecycle_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_lifecycle'));
+		
+		if($this->db->insert('il_meta_lifecycle',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -127,14 +138,15 @@ class ilMDLifecycle extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_lifecycle',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_lifecycle_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_lifecycle',
+									$this->__getFields(),
+									array("meta_lifecycle_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -144,7 +156,9 @@ class ilMDLifecycle extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// Delete 'contribute'
 		foreach($this->getContributeIds() as $id)
@@ -157,10 +171,8 @@ class ilMDLifecycle extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_lifecycle ".
-				"WHERE meta_lifecycle_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
-			
+				"WHERE meta_lifecycle_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 		return false;
@@ -169,24 +181,26 @@ class ilMDLifecycle extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'lifecycle_status'	=> ilUtil::prepareDBString($this->getStatus()),
-					 'meta_version'		=> ilUtil::prepareDBString($this->getVersion()),
-					 'version_language' => ilUtil::prepareDBString($this->getVersionLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'lifecycle_status'	=> array('text',$this->getStatus()),
+					 'meta_version'		=> array('text',$this->getVersion()),
+					 'version_language' => array('text',$this->getVersionLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
-				
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_lifecycle ".
-				"WHERE meta_lifecycle_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_lifecycle_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -194,8 +208,8 @@ class ilMDLifecycle extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setStatus(ilUtil::stripSlashes($row->lifecycle_status));
-				$this->setVersion(ilUtil::stripSlashes($row->meta_version));
+				$this->setStatus($row->lifecycle_status);
+				$this->setVersion($row->meta_version);
 				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
 			}
 		}
@@ -209,29 +223,42 @@ class ilMDLifecycle extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Lifecycle',array('Status' => $this->getStatus()));
-		$writer->xmlElement('Version',array('Language' => $this->getVersionLanguageCode()),$this->getVersion());
+		$writer->xmlStartTag('Lifecycle',array('Status' => $this->getStatus() 
+											   ? $this->getStatus() 
+											   : 'Draft'));
+		$writer->xmlElement('Version',array('Language' => $this->getVersionLanguageCode() 
+											? $this->getVersionLanguageCode()
+											: 'en'),
+							$this->getVersion());
 
 		// contribute
-		foreach($this->getContributeIds() as $id)
+		$contributes = $this->getContributeIds();
+		foreach($contributes as $id)
 		{
 			$con =& $this->getContribute($id);
 			$con->toXML($writer);
 		}
-
+		if(!count($contributes))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
+			$con = new ilMDContribute($this->getRBACId(),$this->getObjId());
+			$con->toXML($writer);
+		}
 		$writer->xmlEndTag('Lifecycle');
 	}
 
 				
 
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_lifecycle_id FROM il_meta_lifecycle ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 
 		$res = $ilDB->query($query);

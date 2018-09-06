@@ -271,7 +271,8 @@ class ilObjectMetaDataGUI
 		
 		return (($this->obj_id || !$this->obj_type) &&
 			in_array($type, array(
-				"crs", 
+				"crs",
+				'grp',
 				"file", 
 				"glo", "glo:gdf", 
 				"svy", "spl", 

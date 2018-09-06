@@ -45,12 +45,16 @@ class ilMDFormat extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_format',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+
+		$fields = $this->__getFields();
+		$fields['meta_format_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_format'));
+		
+		if($this->db->insert('il_meta_format',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -58,14 +62,15 @@ class ilMDFormat extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
-		
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_format',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_format_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_format',
+									$this->__getFields(),
+									array("meta_format_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -75,14 +80,15 @@ class ilMDFormat extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_format ".
-				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			return true;
 		}
@@ -92,22 +98,24 @@ class ilMDFormat extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'format'	=> ilUtil::prepareDBString($this->getFormat()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'format'	=> array('text',$this->getFormat()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_format ".
-				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -115,7 +123,7 @@ class ilMDFormat extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setFormat(ilUtil::stripSlashes($row->format));
+				$this->setFormat($row->format);
 			}
 		}
 		return true;
@@ -128,18 +136,23 @@ class ilMDFormat extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Format',null,$this->getFormat());
+		if($this->getFormat())
+		{
+			$writer->xmlElement('Format',null,$this->getFormat());
+		}
 	}
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_format_id FROM il_meta_format ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

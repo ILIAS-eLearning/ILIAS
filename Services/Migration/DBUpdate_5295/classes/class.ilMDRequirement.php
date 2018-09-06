@@ -120,12 +120,16 @@ class ilMDRequirement extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_requirement',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_requirement_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_requirement'));
+		
+		if($this->db->insert('il_meta_requirement',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -133,14 +137,15 @@ class ilMDRequirement extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_requirement',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_requirement_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_requirement',
+									$this->__getFields(),
+									array("meta_requirement_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -150,15 +155,15 @@ class ilMDRequirement extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_requirement ".
-				"WHERE meta_requirement_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
-			
+				"WHERE meta_requirement_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 		return false;
@@ -167,30 +172,32 @@ class ilMDRequirement extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'operating_system_name'	=> ilUtil::prepareDBString($this->getOperatingSystemName()),
-					 'operating_system_minimum_version' => ilUtil::prepareDBString($this->getOperatingSystemMinimumVersion()),
-					 'operating_system_maximum_version' => ilUtil::prepareDBString($this->getOperatingSystemMaximumVersion()),
-					 'browser_name'	=> ilUtil::prepareDBString($this->getBrowserName()),
-					 'browser_minimum_version' => ilUtil::prepareDBString($this->getBrowserMinimumVersion()),
-					 'browser_maximum_version' => ilUtil::prepareDBString($this->getBrowserMaximumVersion()),
-					 'or_composite_id' => $this->getOrCompositeId());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'operating_system_name'	=> array('text',$this->getOperatingSystemName()),
+					 'os_min_version' => array('text',$this->getOperatingSystemMinimumVersion()),
+					 'os_max_version' => array('text',$this->getOperatingSystemMaximumVersion()),
+					 'browser_name'	=> array('text',$this->getBrowserName()),
+					 'browser_minimum_version' => array('text',$this->getBrowserMinimumVersion()),
+					 'browser_maximum_version' => array('text',$this->getBrowserMaximumVersion()),
+					 'or_composite_id' => array('integer',$this->getOrCompositeId()));
 	}
 
 	function read()
 	{
-		global $ilDB;
-				
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_requirement ".
-				"WHERE meta_requirement_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_requirement_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -200,13 +207,13 @@ class ilMDRequirement extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setOperatingSystemName(ilUtil::stripSlashes($row->operating_system_name));
-				$this->setOperatingSystemMinimumVersion(ilUtil::stripSlashes($row->operating_system_minimum_version));
-				$this->setOperatingSystemMaximumVersion(ilUtil::stripSlashes($row->operating_system_maximum_version));
-				$this->setBrowserName(ilUtil::stripSlashes($row->browser_name));
-				$this->setBrowserMinimumVersion(ilUtil::stripSlashes($row->browser_minimum_version));
-				$this->setBrowserMaximumVersion(ilUtil::stripSlashes($row->browser_maximum_version));
-				$this->setOrCompositeId(ilUtil::stripSlashes($row->or_composite_id));
+				$this->setOperatingSystemName($row->operating_system_name);
+				$this->setOperatingSystemMinimumVersion($row->os_min_version);
+				$this->setOperatingSystemMaximumVersion($row->os_max_version);
+				$this->setBrowserName($row->browser_name);
+				$this->setBrowserMinimumVersion($row->browser_minimum_version);
+				$this->setBrowserMaximumVersion($row->browser_maximum_version);
+				$this->setOrCompositeId($row->or_composite_id);
 			}
 		}
 		return true;
@@ -224,13 +231,17 @@ class ilMDRequirement extends ilMDBase
 			
 		if(strlen($this->getOperatingSystemName()))
 		{
-			$writer->xmlElement('OperatingSystem',array('Name' => $this->getOperatingSystemName(),
+			$writer->xmlElement('OperatingSystem',array('Name' => $this->getOperatingSystemName()
+														? $this->getOperatingSystemName()
+														: 'None',
 														'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
 														'MaximumVersion' => $this->getOperatingSystemMaximumVersion()));
 		}
-		else
+		if(strlen($this->getBrowserName()))
 		{
-			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName(),
+			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName()
+												? $this->getBrowserName()
+												: 'Any',
 												'MinimumVersion' => $this->getBrowserMinimumVersion(),
 												'MaximumVersion' => $this->getBrowserMaximumVersion()));
 		}
@@ -241,16 +252,18 @@ class ilMDRequirement extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_requirement_id FROM il_meta_requirement ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type)." ".
-			"AND or_composite_id = ".$ilDB->quote($a_or_composite_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text')." ".
+			"AND or_composite_id = ".$ilDB->quote($a_or_composite_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

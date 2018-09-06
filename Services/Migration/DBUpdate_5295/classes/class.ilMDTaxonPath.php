@@ -35,13 +35,13 @@ class ilMDTaxonPath extends ilMDBase
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getTaxonIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxon.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
 
 		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_taxon_path');
 	}
 	function &getTaxon($a_taxon_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxon.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
 
 		if(!$a_taxon_id)
 		{
@@ -54,7 +54,7 @@ class ilMDTaxonPath extends ilMDBase
 	}
 	function &addTaxon()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTaxon.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
 
 		$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
@@ -91,12 +91,16 @@ class ilMDTaxonPath extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_taxon_path',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_taxon_path_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon_path'));
+		
+		if($this->db->insert('il_meta_taxon_path',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -104,14 +108,15 @@ class ilMDTaxonPath extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_taxon_path',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_taxon_path_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_taxon_path',
+									$this->__getFields(),
+									array("meta_taxon_path_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -121,14 +126,15 @@ class ilMDTaxonPath extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_taxon_path ".
-				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId(), 'integer');
+			$res = $ilDB->manipulate($query);
 
 			foreach($this->getTaxonIds() as $id)
 			{
@@ -144,27 +150,29 @@ class ilMDTaxonPath extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'source'	=> ilUtil::prepareDBString($this->getSource()),
-					 'source_language' => ilUtil::prepareDBString($this->getSourceLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'source'	=> array('text',$this->getSource()),
+					 'source_language' => array('text',$this->getSourceLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_taxon_path ".
-				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
-			$res = $this->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
@@ -172,7 +180,7 @@ class ilMDTaxonPath extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setSource(ilUtil::stripSlashes($row->source));
+				$this->setSource($row->source);
 				$this->source_language = new ilMDLanguageItem($row->source_language);
 			}
 		}
@@ -188,12 +196,22 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		$writer->xmlStartTag('TaxonPath');
 
-		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()),$this->getSource());
+		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()
+										   ? $this->getSourceLanguageCode()
+										   : 'en'),
+							$this->getSource());
 
 		// Taxon
-		foreach($this->getTaxonIds() as $id)
+		$taxs = $this->getTaxonIds();
+		foreach($taxs as $id)
 		{
 			$tax =& $this->getTaxon($id);
+			$tax->toXML($writer);
+		}
+		if(!count($taxs))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
+			$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId());
 			$tax->toXML($writer);
 		}
 		
@@ -203,15 +221,17 @@ class ilMDTaxonPath extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_taxon_path_id FROM il_meta_taxon_path ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

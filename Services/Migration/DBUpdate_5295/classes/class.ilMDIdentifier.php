@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * Meta Data class (element identifier)
 *
@@ -32,6 +31,7 @@ include_once 'class.ilMDBase.php';
 
 class ilMDIdentifier extends ilMDBase
 {
+
 	// SET/GET
 	function setCatalog($a_catalog)
 	{
@@ -53,12 +53,16 @@ class ilMDIdentifier extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_identifier',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_identifier_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_identifier'));
+		
+		if($this->db->insert('il_meta_identifier',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -66,14 +70,15 @@ class ilMDIdentifier extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_identifier',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_identifier_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_identifier',
+									$this->__getFields(),
+									array("meta_identifier_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -83,15 +88,15 @@ class ilMDIdentifier extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
-		
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_identifier ".
-				"WHERE meta_identifier_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
-			
+				"WHERE meta_identifier_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 		return false;
@@ -100,24 +105,26 @@ class ilMDIdentifier extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'catalog'	=> ilUtil::prepareDBString($this->getCatalog()),
-					 'entry'	=> ilUtil::prepareDBString($this->getEntry()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'catalog'	=> array('text',$this->getCatalog()),
+					 'entry'	=> array('text',$this->getEntry()));
 
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_identifier ".
-				"WHERE meta_identifier_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_identifier_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -127,8 +134,8 @@ class ilMDIdentifier extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setCatalog(ilUtil::stripSlashes($row->catalog));
-				$this->setEntry(ilUtil::stripSlashes($row->entry));
+				$this->setCatalog($row->catalog);
+				$this->setEntry($row->entry);
 			}
 		}
 		return true;
@@ -139,24 +146,45 @@ class ilMDIdentifier extends ilMDBase
 	 * @param object (xml writer) see class.ilMD2XML.php
 	 * 
 	 */
-	function toXML(&$writer)
+	function toXML(&$writer, $a_overwrite_id = false)
 	{
-		$writer->xmlElement('Identifier',array('Catalog' => $this->getCatalog(),
-												'Entry'	  => $this->getEntry()));
+		$entry_default = ($this->getObjId() == 0)
+			? "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getRBACId()
+			: "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getObjId();
+
+		$entry = $this->getEntry() ? $this->getEntry() : $entry_default; 
+		$catalog = $this->getCatalog();
+
+		if ($this->getExportMode() && $this->getCatalog() != "ILIAS_NID")
+		{
+			$entry = $entry_default;
+			$catalog = "ILIAS";
+		}
+
+		if(strlen($catalog))
+		{
+			$writer->xmlElement('Identifier',array('Catalog' => $catalog,
+												   'Entry'	 => $entry));
+		}
+		else
+		{
+			$writer->xmlElement('Identifier',array('Entry' => $entry));
+		}
 	}
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	public static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_identifier_id FROM il_meta_identifier ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
-
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -165,5 +193,119 @@ class ilMDIdentifier extends ilMDBase
 		}
 		return $ids ? $ids : array();
 	}
+
+	/**
+	 * Get IDs for an object
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function _getEntriesForObj($a_rbac_id, $a_obj_id, $a_obj_type)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT meta_identifier_id, catalog, entry FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text');
+
+		$res = $ilDB->query($query);
+		$entries = array();
+		while($r = $ilDB->fetchAssoc($res))
+		{
+			$entries[$r["meta_identifier_id"]] =
+				array("catalog" => $r["catalog"],
+					"entry" => $r["entry"]);
+		}
+		return $entries;
+	}
+
+	/**
+	 * Get IDs for an rbac object
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function _getEntriesForRbacObj($a_rbac_id, $a_obj_type = "")
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT meta_identifier_id, catalog, entry, obj_id FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer');
+
+		if ($a_obj_type != "")
+		{
+			$query.=
+				" AND obj_type = ".$ilDB->quote($a_obj_type ,'text');
+		}
+
+		$res = $ilDB->query($query);
+		$entries = array();
+		while($r = $ilDB->fetchAssoc($res))
+		{
+			$entries[$r["meta_identifier_id"]] =
+				array("catalog" => $r["catalog"],
+					"entry" => $r["entry"],
+					"obj_id" => $r["obj_id"]);
+		}
+		return $entries;
+	}
+
+	/**
+	 * Does id entry exist in rbac object?
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function existsIdInRbacObject($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT meta_identifier_id, obj_id FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').
+			" AND obj_type = ".$ilDB->quote($a_obj_type , 'text').
+			" AND catalog = ".$ilDB->quote($a_catalog , 'text').
+			" AND entry = ".$ilDB->quote($a_entry , 'text');
+		$s = $ilDB->query($query);
+		if ($r = $ilDB->fetchAssoc($s))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Does id entry exist in rbac object?
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function readIdData($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT * FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').
+			" AND obj_type = ".$ilDB->quote($a_obj_type , 'text').
+			" AND catalog = ".$ilDB->quote($a_catalog , 'text').
+			" AND entry = ".$ilDB->quote($a_entry , 'text');
+		$s = $ilDB->query($query);
+		$data = array();
+		while ($r = $ilDB->fetchAssoc($s))
+		{
+			$data[] = $r;
+		}
+		return $data;
+	}
+
 }
+
 ?>

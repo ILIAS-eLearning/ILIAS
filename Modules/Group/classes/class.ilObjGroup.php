@@ -691,6 +691,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			return false;
 		}
 
+		if(!$a_upload)
+		{
+			$this->createMetaData();
+		}
+
+
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
 			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".

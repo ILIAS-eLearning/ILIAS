@@ -312,6 +312,16 @@ class ilObjGroupGUI extends ilContainerGUI
 				$ret = $this->ctrl->forwardCommand($cal);
 				break;
 
+			case 'ilobjectmetadatagui';
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				$this->tabs_gui->activateTab('meta_data');
+				$this->ctrl->forwardCommand(new ilObjectMetaDataGUI($this->object));
+				break;
+
+
 			default:
 			
 				// check visible permission
@@ -374,6 +384,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
 			$this->object->getRefId(),'grp');
+
+		ilMDUtils::_fillHTMLMetaTags(
+			$this->object->getId(),
+			$this->object->getId(),
+			'grp'
+		);
+
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -628,6 +645,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::USE_NEWS,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::BADGES,
@@ -1226,6 +1244,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->checkPermission('visible');
 		}
 
+		ilMDUtils::_fillHTMLMetaTags(
+			$this->object->getId(),
+			$this->object->getId(),
+			'grp'
+		);
+
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
@@ -1238,6 +1262,14 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress(true);
+
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'grp',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
+
+		// meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+
 
 		$info->addSection($this->lng->txt('group_registration'));
 		$info->showLDAPRoleGroupMappingInfo();
@@ -1729,6 +1761,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::USE_NEWS,
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
 						ilObjectServiceSettingsGUI::BADGES,

@@ -93,12 +93,16 @@ class ilMDRights extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_rights',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_rights_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_rights'));
+		
+		if($this->db->insert('il_meta_rights',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -106,14 +110,15 @@ class ilMDRights extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_rights',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_rights_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_rights',
+									$this->__getFields(),
+									array("meta_rights_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -123,12 +128,14 @@ class ilMDRights extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_rights ".
-				"WHERE meta_rights_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_rights_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			
 			$this->db->query($query);
 			
@@ -140,27 +147,29 @@ class ilMDRights extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'costs'	=> ilUtil::prepareDBString($this->getCosts()),
-					 'copyright_and_other_restrictions' => ilUtil::prepareDBString($this->getCopyrightAndOtherRestrictions()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'costs'	=> array('text',$this->getCosts()),
+					 'cpr_and_or' => array('text',$this->getCopyrightAndOtherRestrictions()),
+					 'description' => array('text',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 
 		if($this->getMetaId())
 		{
 
 			$query = "SELECT * FROM il_meta_rights ".
-				"WHERE meta_rights_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_rights_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 		
 			$res = $this->db->query($query);
@@ -169,10 +178,10 @@ class ilMDRights extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setDescription(ilUtil::stripSlashes($row->description));
+				$this->setDescription($row->description);
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
-				$this->setCosts(ilUtil::stripSlashes($row->costs));
-				$this->setCopyrightAndOtherRestrictions(ilUtil::stripSlashes($row->copyright_and_other_restrictions));
+				$this->setCosts($row->costs);
+				$this->setCopyrightAndOtherRestrictions($row->cpr_and_or);
 			}
 			return true;
 		}
@@ -186,20 +195,54 @@ class ilMDRights extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Rights',array('Costs' => $this->getCosts(),
-											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()));
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlStartTag('Rights',array('Cost' => $this->getCosts()
+											? $this->getCosts()
+											: 'No',
+											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
+											? $this->getCopyrightAndOtherRestrictions()
+											: 'No'));
+		include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCopyrightSelectionEntry.php';
+		$writer->xmlElement(
+			'Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+			ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
+		);
 		$writer->xmlEndTag('Rights');
+	}
+	
+	/**
+	 * Lookup description (copyright)
+	 *
+	 * @access public
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * 
+	 */
+	public static function _lookupDescription($a_rbac_id,$a_obj_id)
+	{
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
+	 	
+	 	$query = "SELECT description FROM il_meta_rights ".
+	 		"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+	 		"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+	 	$res = $ilDB->query($query);
+	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+	 	return $row->description ? $row->description : '';
 	}
 
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_rights_id FROM il_meta_rights ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

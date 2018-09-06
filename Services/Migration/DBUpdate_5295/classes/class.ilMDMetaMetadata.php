@@ -32,16 +32,25 @@ include_once 'class.ilMDBase.php';
 
 class ilMDMetaMetadata extends ilMDBase
 {
+	function getPossibleSubelements()
+	{
+		$subs['Identifier'] = 'meta_identifier';
+		$subs['Contribute'] = 'meta_contribute';
+
+		return $subs;
+	}
+
+
 	// SUBELEMENTS
 	function &getIdentifierIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 
 		return ilMDIdentifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_meta_data');
 	}
 	function &getIdentifier($a_identifier_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 		
 		if(!$a_identifier_id)
 		{
@@ -54,7 +63,7 @@ class ilMDMetaMetadata extends ilMDBase
 	}
 	function &addIdentifier()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
 
 		$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
@@ -65,13 +74,13 @@ class ilMDMetaMetadata extends ilMDBase
 	
 	function &getContributeIds()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 
 		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_meta_data');
 	}
 	function &getContribute($a_contribute_id)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 		
 		if(!$a_contribute_id)
 		{
@@ -84,7 +93,7 @@ class ilMDMetaMetadata extends ilMDBase
 	}
 	function &addContribute()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
 
 		$con = new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$con->setParentId($this->getMetaId());
@@ -124,12 +133,16 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_meta_data',
-								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $DIC;
 
+		$ilDB = $DIC['ilDB'];
+		
+		$fields = $this->__getFields();
+		$fields['meta_meta_data_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_meta_data'));
+		
+		if($this->db->insert('il_meta_meta_data',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -137,14 +150,15 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_meta_data',
-									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
-									  "meta_meta_data_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_meta_data',
+									$this->__getFields(),
+									array("meta_meta_data_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -154,14 +168,15 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_meta_data ".
-				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 
 			foreach($this->getIdentifierIds() as $id)
@@ -184,25 +199,27 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'meta_data_scheme'	=> ilUtil::prepareDBString($this->getMetaDataScheme()),
-					 'language' => ilUtil::prepareDBString($this->getLanguageCode()));
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'meta_data_scheme'	=> array('text',$this->getMetaDataScheme()),
+					 'language' => array('text',$this->getLanguageCode()));
 	}
 
 	function read()
 	{
-		global $ilDB;
-				
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 
 		if($this->getMetaId())
 		{
 
 			$query = "SELECT * FROM il_meta_meta_data ".
-				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 		
 			$res = $this->db->query($query);
@@ -211,7 +228,7 @@ class ilMDMetaMetadata extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setMetaDataScheme(ilUtil::stripSlashes($row->meta_data_scheme));
+				$this->setMetaDataScheme($row->meta_data_scheme);
 				$this->setLanguage(new ilMDLanguageItem($row->language));
 			}
 			return true;
@@ -226,9 +243,9 @@ class ilMDMetaMetadata extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		if($this->getMigration/DBUpdate_426Scheme())
+		if($this->getMetaDataScheme())
 		{
-			$attr['Metadata-Scheme'] = $this->getMigration/DBUpdate_426Scheme();
+			$attr['MetadataScheme'] = $this->getMetaDataScheme();
 		}
 		if($this->getLanguageCode())
 		{
@@ -237,16 +254,30 @@ class ilMDMetaMetadata extends ilMDBase
 		$writer->xmlStartTag('Meta-Metadata',$attr ? $attr : null);
 
 		// ELEMENT IDENTIFIER
-		foreach($this->getIdentifierIds() as $id)
+		$identifiers = $this->getIdentifierIds();
+		foreach($identifiers as $id)
 		{
 			$ide =& $this->getIdentifier($id);
 			$ide->toXML($writer);
 		}
+		if(!count($identifiers))
+		{
+			include_once 'Services/Metadata/classes/class.ilMDIdentifier.php';
+			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId());
+			$ide->toXML($writer);
+		}
 		
 		// ELEMETN Contribute
-		foreach($this->getContributeIds() as $id)
+		$contributes = $this->getContributeIds();
+		foreach($contributes as $id)
 		{
 			$con =& $this->getContribute($id);
+			$con->toXML($writer);
+		}
+		if(!count($contributes))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
+			$con = new ilMDContribute($this->getRBACId(),$this->getObjId());
 			$con->toXML($writer);
 		}
 
@@ -254,13 +285,15 @@ class ilMDMetaMetadata extends ilMDBase
 	}
 
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT meta_meta_data_id FROM il_meta_meta_data ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

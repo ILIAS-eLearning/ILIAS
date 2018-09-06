@@ -15,33 +15,58 @@ The responsible GUI class for presenting the main features like *Settings*
 *Info-Screen* should provide a meta data tab and forward the meta data related 
 commands to *ilObjectMetaDataGUI*.
 
-```php
-* @ilCtrl_Calls ilObjGroupGUI:ilObjectMetaDataGUI
-...
 
-// Add meta data tab
-/**
- * @inheritdoc
+```php
+<?php
+
+/*
+ * ...
+ * @ilCtrl_Calls ilObjGroupGUI:ilObjectMetaDataGUI
+ * ...
  */
-protected function getTabs() {
-...
-	if ($ilAccess->checkAccess('write','',$this->ref_id))
+class ilObjXXXGUI extends ilObject2GUI 
+{
+	// Add meta data tab
+	/**
+	 * @inheritdoc
+	 */
+	protected function getTabs() 
 	{
-		$mdgui = new ilObjectMetaDataGUI($this->object);					
-		if($md_gui->getTab() !== null)
+		global $DIC;
+		
+		if ($DIC->access()->checkAccess('write','',$this->ref_id))
 		{
-			$this->tabs_gui->addTab(
-			 "meta_data",
-			 $DIC->language()->txt('meta_data'),
-			 $mdtab,
-			 "",
-			 "ilobjectmetadatagui"
-			);
+			$mdgui = new ilObjectMetaDataGUI($this->object);
+			$mdtab = $mdgui->getTab();
+			if($mdtab !== null)
+			{
+				$this->tabs_gui->addTab(
+					"meta_data",
+					$DIC->language()->txt('meta_data'),
+					$mdtab,
+					"",
+					"ilobjectmetadatagui"
+				);
+			}
 		}
 	}
-	...
+	//...
+	// forward to meta data gui
+	public function executeCommand() 
+	{
+		// ...
+		switch($next_class) {
+			
+			case 'ilobjectmetadatagui';
+				$this->tabs_gui->activateTab('meta_data');
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+		}
+	}
+}
 
-// forward to meta data gui
+```
 
 	
 

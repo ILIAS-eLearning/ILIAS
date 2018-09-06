@@ -1,5 +1,5 @@
 <?php
-include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDSaxParser.php';
+include_once 'Services/Migration/DBUpdate_5295/classes/classes/class.ilMDSaxParser.php';
 
 class ilMDXMLParser extends ilMDSaxParser
 {

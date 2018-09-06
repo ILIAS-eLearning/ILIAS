@@ -54,7 +54,12 @@ class ilMDCreator
 
 	function __construct($a_rbac_id,$a_obj_id,$a_type)
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+
+		if ($a_obj_id == 0)
+		{
+			$a_obj_id = $a_rbac_id;
+		}
 
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;
@@ -86,7 +91,7 @@ class ilMDCreator
 	}
 	function &getTitleLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		return new ilMDLanguageItem($this->title_lng);
 	}
@@ -96,7 +101,7 @@ class ilMDCreator
 	}
 	function &getDescriptionLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		return new ilMDLanguageItem($this->title_lng);
 	}
@@ -106,7 +111,7 @@ class ilMDCreator
 	}
 	function &getLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		return new ilMDLanguageItem($this->title_lng);
 	}
@@ -138,7 +143,7 @@ class ilMDCreator
 	}
 	function &getKeywordLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		return new ilMDLanguageItem($this->title_lng);
 	}
@@ -202,13 +207,6 @@ class ilMDCreator
 		$md_key->setKeyword($this->getKeyword());
 		$md_key->setKeywordLanguage($this->getKeywordLanguage());
 		$md_key->save();
-
-
-		unset($md_gen);
-		unset($md_ide);
-		unset($md_lng);
-		unset($md_des);
-		unset($md_key);
 
 		return true;
 	}
