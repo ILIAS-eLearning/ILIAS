@@ -108,7 +108,7 @@ class ilCertificateTemplateImportAction
 		$currentVersion = (int) $certificate->getVersion();
 		$newVersion = $currentVersion;
 		$backgroundImagePath = '';
-		$newBackgroundImageName = '';
+
 		foreach ($dirinfo as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
 				if (strpos($file['entry'], '.xml') !== false) {
@@ -121,10 +121,6 @@ class ilCertificateTemplateImportAction
 
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
-
-//					if ($newBackgroundImageName !== '') {
-//						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $newBackgroundImageName, $xsl);
-//					}
 
 					$template = new ilCertificateTemplate(
 						$this->objectId,
