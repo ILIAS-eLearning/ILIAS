@@ -4,10 +4,10 @@
 class ilFormFieldParser
 {
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @return array
 	 */
-	public function fetchDefaultFormFields($content)
+	public function fetchDefaultFormFields(string $content)
 	{
 		$pagewidth = "21cm";
 		if (preg_match("/page-width\=\"([^\"]+)\"/", $content, $matches)) {
