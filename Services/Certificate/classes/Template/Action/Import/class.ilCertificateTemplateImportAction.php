@@ -86,6 +86,7 @@ class ilCertificateTemplateImportAction
 		if (is_dir($subDirectoryAbsolutePath)) {
 			$copydir = $subDirectoryAbsolutePath;
 		}
+
 		$dirinfo = ilUtil::getDir($copydir);
 
 		$xmlFiles = 0;
@@ -105,7 +106,7 @@ class ilCertificateTemplateImportAction
 		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 		$currentVersion = (int) $certificate->getVersion();
-
+		$newVersion = $currentVersion;
 		$backgroundImagePath = '';
 		$newBackgroundImageName = '';
 		foreach ($dirinfo as $file) {
@@ -121,16 +122,17 @@ class ilCertificateTemplateImportAction
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
 
-					if ($newBackgroundImageName !== '') {
-						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $newBackgroundImageName, $xsl);
-					}
+//					if ($newBackgroundImageName !== '') {
+//						$xsl = preg_replace('/background_{0,1}[0-9]+\\.jpg/', $newBackgroundImageName, $xsl);
+//					}
 
 					$template = new ilCertificateTemplate(
 						$this->objectId,
+						ilObject::_lookupType($this->objectId),
 						$xsl,
 						md5($xsl),
 						json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
-						$currentVersion + 1,
+						$newVersion,
 						ILIAS_VERSION_NUMERIC,
 						time(),
 						true,
@@ -142,16 +144,16 @@ class ilCertificateTemplateImportAction
 				else if (strpos($file['entry'], '.jpg') !== false) {
 					$newVersion = $currentVersion + 1;
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-					$newPath = $this->certificatePath . $newBackgroundImageName;
+					$newPath = CLIENT_WEB_DIR . $this->certificatePath . $newBackgroundImageName;
 					@copy($copydir . $file['entry'], $newPath);
 
-					$backgroundImagePath = $newPath;
+					$backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
 					// upload of the background image, create a thumbnail
 
 					$backgroundImageThumbPath = $this->getBackgroundImageThumbPath();
 					ilUtil::convertImage(
 						$newPath,
-						$backgroundImageThumbPath,
+						CLIENT_WEB_DIR . $backgroundImageThumbPath,
 						'JPEG',
 						100
 					);
@@ -173,7 +175,7 @@ class ilCertificateTemplateImportAction
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
-		$dir = $this->certificatePath . time() . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
+		$dir = CLIENT_WEB_DIR . $this->certificatePath . time() . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
 		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
