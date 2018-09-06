@@ -636,13 +636,14 @@ class ilLanguage
 	function __destruct()
 	{
 		global $DIC;
-		$ilDB = $DIC->database();
 
 		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
-		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)))
+		if(!$this->usage_log_enabled || !$DIC->isDependencyAvailable("database"))
 		{
 			return;
 		}
+
+		$ilDB = $DIC->database();
 
 		foreach((array)self::$lng_log as $identifier => $module)
 		{
