@@ -139,6 +139,7 @@ AND currently_active = 1
 
 		return new ilCertificateTemplate(
 			$objId,
+			ilObject::_lookupType($objId),
 			'',
 			'',
 			'',
@@ -159,6 +160,7 @@ AND currently_active = 1
 
 		$resultTemplate = new ilCertificateTemplate(
 			$objId,
+			ilObject::_lookupType($objId),
 			'',
 			'',
 			'',
