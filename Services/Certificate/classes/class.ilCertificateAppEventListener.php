@@ -28,7 +28,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 					case 'updateStatus':
 						self::handleLPUpdate(
 							$a_params,
-							$DIC,
+							$DIC->database(),
 							$ilObjectDataCache,
 							$logger
 						);
