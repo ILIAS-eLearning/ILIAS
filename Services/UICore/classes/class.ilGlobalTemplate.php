@@ -795,7 +795,6 @@ class ilGlobalTemplate
 	protected $header_page_title = "";
 	protected $title = "";
 	protected $title_desc = "";
-	protected $title_url = "";
 	protected $title_alerts = array();
 	protected $header_action;
 
@@ -818,14 +817,6 @@ class ilGlobalTemplate
 		$this->title_desc = $a_descr;
 	}
 
-	/**
-	 * Sets title url in standard template.
-	 */
-	public function setTitleUrl($a_url)
-	{
-		$this->title_url = $a_url;
-	}
-	
 	/**
 	 * set title icon
 	 */
@@ -917,10 +908,6 @@ class ilGlobalTemplate
 		{
 			$title = ilUtil::stripScriptHTML($this->title);
 			$this->setVariable("HEADER", $title);
-			if ($this->title_url != "")
-			{
-				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
-			}
 			
 			$header = true;
 		}
@@ -1916,44 +1903,6 @@ class ilGlobalTemplate
 		}
 	}
 
-	
-	
-	public function setBackgroundColor($a_bg_color)
-	{
-		// :TODO: currently inactive, JF should discuss this
-		return;
-		
-		if($a_bg_color != "")
-		{
-			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
-		}
-	}
-
-	/**
-	 * Set banner
-	 * 	
-	 * @param string $a_img banner full path (background image)	
-	 * @param int $a_width banner width
-	 * @param int $a_height banner height
-	 * @param bool $a_export
-	 */
-	public function setBanner($a_img, $a_width = 1370, $a_height = 100, $a_export = false)
-	{		
-		if($a_img)
-		{
-			if(!$a_export)
-			{
-				$a_img = ILIAS_HTTP_PATH."/".$a_img;
-			}
-			
-			$this->setCurrentBlock("banner_bl");
-			$this->setVariable("BANNER_WIDTH", $a_width); // currently not needed
-			$this->setVariable("BANNER_HEIGHT", $a_height);
-			$this->setVariable("BANNER_URL", $a_img);			
-			$this->parseCurrentBlock();
-		}
-	}
-	
 	/**
 	 * Reset all header properties: title, icon, description, alerts, action menu
 	 */
