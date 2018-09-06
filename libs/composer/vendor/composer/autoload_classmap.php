@@ -3362,6 +3362,7 @@ return array(
     'ilBlogDataSet' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogDataSet.php',
     'ilBlogExerciseGUI' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogExerciseGUI.php',
     'ilBlogExporter' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogExporter.php',
+    'ilBlogGlobalTemplate' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogGlobalTemplate.php',
     'ilBlogImporter' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogImporter.php',
     'ilBlogNewsRendererGUI' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogNewsRendererGUI.php',
     'ilBlogPosting' => $baseDir . '/../../Modules/Blog/classes/class.ilBlogPosting.php',

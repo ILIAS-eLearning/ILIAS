@@ -10,7 +10,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilGlobalTemplate
+class ilBlogGlobalTemplate
 {
 	
 
@@ -18,7 +18,6 @@ class ilGlobalTemplate
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
-	protected $main_content = "";
 	
 	protected $lightbox = array();
 	protected $standard_template_loaded = false;
@@ -1334,6 +1333,7 @@ class ilGlobalTemplate
 
 	// REMOVAL CANDIDATE
 	// Usage locations:
+	//    - ilBlogPostingGUI
 	//    - ilObjForumGUI
 	//    - ilObjPortfolioBaseGUI
 	//    - ilWikiPageGUI
@@ -1366,6 +1366,7 @@ class ilGlobalTemplate
 	//    - ilObjWikiGUI.php
 	//    - ilWikiHTMLExport
 	//    - ilScormSpecialPagesTableGUI
+	//    - ilObjBlogGUI
 	//
 	// Also this seems to be somehow similar to the stuff going on in printToStdout.
 	// Maybe we could unify them.
@@ -1515,10 +1516,6 @@ class ilGlobalTemplate
 
 				// set standard parts (tabs and title icon)
 				$this->fillBodyClass();
-
-				// see #22992
-				$this->fillContentLanguage();
-
 				if ($a_fill_tabs)
 				{
 					if ($this->blockExists("content"))
@@ -1551,6 +1548,7 @@ class ilGlobalTemplate
 					// these fill just plain placeholder variables in tpl.main.html
 					$this->setCurrentBlock("DEFAULT");
 					$this->fillNewContentStyle();
+					$this->fillContentLanguage();
 					$this->fillWindowTitle();
 
 					// these fill blocks in tpl.adm_content.html

@@ -3699,6 +3699,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilBlogDataSet' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogDataSet.php',
         'ilBlogExerciseGUI' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogExerciseGUI.php',
         'ilBlogExporter' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogExporter.php',
+        'ilBlogGlobalTemplate' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogGlobalTemplate.php',
         'ilBlogImporter' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogImporter.php',
         'ilBlogNewsRendererGUI' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogNewsRendererGUI.php',
         'ilBlogPosting' => __DIR__ . '/../..' . '/../../Modules/Blog/classes/class.ilBlogPosting.php',

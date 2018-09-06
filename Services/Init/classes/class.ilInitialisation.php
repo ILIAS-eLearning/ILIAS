@@ -1644,6 +1644,12 @@ class ilInitialisation
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
 		}
+		else if (
+			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
+			$_GET["cmdClass"] == "ilobjbloggui"
+		) {
+			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+		}
 		else 
 		{
 			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
