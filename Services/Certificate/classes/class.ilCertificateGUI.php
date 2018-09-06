@@ -254,7 +254,8 @@ class ilCertificateGUI
 			$exportAction = new ilCertificateTemplateExportAction(
 				$this->objectId,
 				$certificatePath,
-				$this->templateRepository
+				$this->templateRepository,
+				$DIC->filesystem()->web()
 			);
 		}
 		$this->exportAction = $exportAction;
