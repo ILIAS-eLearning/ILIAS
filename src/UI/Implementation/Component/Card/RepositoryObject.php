@@ -97,4 +97,13 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 		$clone->actions = $dropdown;
 		return $clone;
 	}
+
+	/**
+	 * Get dropdown with different actions.
+	 * @return Dropdown
+	 */
+	public function getActions()
+	{
+		return $this->actions;
+	}
 }

@@ -66,7 +66,7 @@ class Renderer extends AbstractComponentRenderer {
 			if($component->getCertificate())
 			{
 				$tpl->setCurrentBlock("progress");
-				$tpl->setVariable("PROGRESS_ICON"),$default_renderer->render($component->getCertificate());
+				$tpl->setVariable("PROGRESS_ICON",$default_renderer->render($component->getCertificate()));
 				$tpl->parseCurrentBlock();
 			}
 			if($component->getActions())
