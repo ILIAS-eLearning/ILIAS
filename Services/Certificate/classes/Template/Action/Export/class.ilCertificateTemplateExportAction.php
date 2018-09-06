@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -22,18 +24,26 @@ class ilCertificateTemplateExportAction
 	private $templateRepository;
 
 	/**
+	 * @var Filesystem
+	 */
+	private $filesystem;
+
+	/**
 	 * @param integer $objectId
 	 * @param string $certificatePath
+	 * @param Filesystem $filesystem
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 */
 	public function __construct(
 		int $objectId,
 		string $certificatePath,
-		ilCertificateTemplateRepository $templateRepository
+		ilCertificateTemplateRepository $templateRepository,
+		Filesystem $filesystem
 	) {
-		$this->objectId = $objectId;
-		$this->certificatePath = $certificatePath;
+		$this->objectId           = $objectId;
+		$this->certificatePath    = $certificatePath;
 		$this->templateRepository = $templateRepository;
+		$this->filesystem         = $filesystem;
 	}
 
 	/**
@@ -41,27 +51,24 @@ class ilCertificateTemplateExportAction
 	 */
 	public function export()
 	{
-		global $DIC;
-
 		$time = time();
-		$web = $DIC->filesystem()->web();
 
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
 		$exportPath = $this->certificatePath . $time . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
 
-		$web->createDir($exportPath, \ILIAS\Filesystem\Visibility::PUBLIC_ACCESS);
+		$this->filesystem->createDir($exportPath, \ILIAS\Filesystem\Visibility::PUBLIC_ACCESS);
 
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
 		$xslContent = $template->getCertificateContent();
 
-		$web->put($exportPath . 'certificate.xml', $xslContent);
+		$this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
 		$backgroundImagePath = $template->getBackgroundImagePath();
 		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-			$web->copy($backgroundImagePath, $exportPath . 'background.jpg');
+			$this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
 		}
 
 		$objectType = ilObject::_lookupType($this->objectId);
@@ -70,49 +77,8 @@ class ilCertificateTemplateExportAction
 
 		$zipPath = CLIENT_WEB_DIR . $this->certificatePath . $zipFileName;
 		ilUtil::zip($exportPath, $zipPath);
-		$web->deleteDir($exportPath);
+		$this->filesystem->deleteDir($exportPath);
 
 		ilUtil::deliverFile($zipPath, $zipFileName, "application/zip");
-	}
-
-	/**
-	 * Saves the XSL-FO code to a file
-	 *
-	 * @param string $xslfo XSL-FO code
-	 * @param string $filename
-	 */
-	private function createCertificateFile(string $xslfo, string $filename = '')
-	{
-		if (!file_exists($this->certificatePath)) {
-			ilUtil::makeDirParents($this->certificatePath);
-		}
-
-		if (strlen($filename) == 0) {
-			$filename = $this->getXSLPath();
-		}
-
-		$fileHandle = fopen($filename, "w");
-		fwrite($fileHandle, $xslfo);
-		fclose($fileHandle);
-	}
-
-	/**
-	 * Returns the filesystem path of the XSL-FO file
-	 *
-	 * @return string The filesystem path of the XSL-FO file
-	 */
-	private function getXSLPath() : string
-	{
-		return $this->certificatePath . $this->getXSLName();
-	}
-
-	/**
-	 * Returns the filename of the XSL-FO file
-	 *
-	 * @return string The filename of the XSL-FO file
-	 */
-	private function getXSLName() : string
-	{
-		return 'certificate.xml';
 	}
 }
