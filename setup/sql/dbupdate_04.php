@@ -22765,3 +22765,65 @@ if(!$ilDB->tableExists('certificate_cron_queue')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5296>
+<?php
+// Insert all current templates as database entries
+$web_path = CLIENT_WEB_DIR;
+
+$directories = array(
+	'exc' =>  '/exercise/certificates/',
+	'crs' =>  '/course/certificates/',
+	'tst' =>  '/assessment/certificates/',
+	'sahs' => '/assessment/certificates/'
+);
+
+foreach ($directories as $type => $relativePath) {
+	$directory = $web_path . $relativePath;
+
+	$directoryInformation = ilUtil::getDir($directory);
+
+	$objectIds = array();
+	foreach ($directoryInformation as $file) {
+		if (strcmp($file['type'], 'dir') == 0) {
+			if (true === is_numeric($file['entry'])) {
+				$objectIds[] = $file['entry'];
+			}
+		}
+	}
+
+	foreach($objectIds as $objectId)
+	{
+		$actualDirectory = $directory . $objectId;
+
+		$certificateXml = $actualDirectory . '/certificate.xml';
+		if (false === file_exists($certificateXml)) {
+			continue;
+		}
+
+		$content = file_get_contents($certificateXml);
+		$timestamp = filemtime($certificateXml);
+
+		if (false !== $content) {
+			$backgroundImagePath = $relativePath . $objectId . '/background.jpg';
+
+			$id = $ilDB->nextId('certificate_template');
+
+			$columns = array(
+				'id'                    => array('integer', $id),
+				'obj_id'                => array('integer', $objectId),
+				'obj_type'              => array('text', $type),
+				'certificate_content'   => array('text', $content),
+				'certificate_hash'      => array('text', md5($content)),
+				'template_values'       => array('text', ''),
+				'version'               => array('text', '1'),
+				'ilias_version'         => array('text', ILIAS_VERSION_NUMERIC),
+				'created_timestamp'     => array('integer', $timestamp),
+				'currently_active'      => array('integer', 1),
+				'background_image_path' => array('text', $backgroundImagePath),
+			);
+
+			$ilDB->insert('certificate_template', $columns);
+		}
+	}
+}
+?>
