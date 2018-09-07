@@ -219,15 +219,15 @@ class Factory implements G\Factory {
 	}
 
 	/**
-	* @inheritdoc
-	*/
+	 * @inheritdoc
+	 */
 	public function apply($action = null) {
 		return new Glyph(G\Glyph::APPLY, "apply", $action);
 	}
 
 	/**
-	* @inheritdoc
-	*/
+	 * @inheritdoc
+	 */
 	public function calendar($action = null) {
 		return new Glyph(G\Glyph::CALENDAR, "calendar", $action);
 	}

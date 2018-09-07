@@ -844,7 +844,7 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking the calendar glyph will usually open a date-picker.
 	 *
-	 * context: Use in conjunction with Date Inputs.
+	 * context: Use in conjunction with DateTime Inputs.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -866,7 +866,7 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking the time glyph will usually open a time-picker.
 	 *
-	 * context: Use in conjunction with Date Inputs.
+	 * context: Use in conjunction with DateTime Inputs.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -877,5 +877,4 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function time($action = null);
-
 }

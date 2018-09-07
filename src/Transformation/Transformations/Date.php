@@ -16,7 +16,7 @@ class Date implements Transformation {
 		if($from) {
 			return new \DateTime($from);
 		}
-		return '';
+		return null;
 	}
 
 	/**

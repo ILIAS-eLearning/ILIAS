@@ -52,14 +52,12 @@ class Factory implements Field\Factory {
 		$this->signal_generator = $signal_generator;
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function text($label, $byline = null) {
 		return new Text($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -68,14 +66,12 @@ class Factory implements Field\Factory {
 		return new Numeric($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function group(array $inputs) {
 		return new Group($this->data_factory, $this->validation_factory, $this->transformation_factory, $inputs, "", "");
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -84,14 +80,12 @@ class Factory implements Field\Factory {
 		return new Section($this->data_factory, $this->validation_factory, $this->transformation_factory, $inputs, $label, $byline);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function dependantGroup(array $inputs) {
 		return new DependantGroup($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->signal_generator, $inputs);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -100,14 +94,12 @@ class Factory implements Field\Factory {
 		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
-
 	/**
 	 * @inheritDoc
 	 */
 	public function tag(string $label, array $tags, $byline = null): Field\Tag {
 		return new Tag($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $tags);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -147,8 +139,8 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function date($label, $byline = null) {
-		return new Date($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	public function dateTime($label, $byline = null) {
+		return new DateTime($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
 	/**
