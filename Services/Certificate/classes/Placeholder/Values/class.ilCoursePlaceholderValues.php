@@ -1,7 +1,7 @@
 <?php
 
 
-class CoursePlaceholderValues implements ilCertificatePlaceholderValues
+class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
 	/**
 	 * @var ilDefaultPlaceholderValues

@@ -4,10 +4,10 @@
 class ilCertificateTypeClassMap
 {
 	private $typeClassMap = array(
-		'crs'   => array('placeholder' => 'CoursePlaceholderValues'),
-		'tst'   => array('placeholder' => 'TestPlaceHolderValues'),
-		'exc'   => array('placeholder' =>'ilExercisePlaceHolderValues'),
-		'scorm' => array('placeholder' =>'ilDefaultPlaceholderValues'),
+		'crs'   => array('placeholder' => 'ilCoursePlaceholderValues'),
+		'tst'   => array('placeholder' => 'ilTestPlaceHolderValues'),
+		'exc'   => array('placeholder' => 'ilExercisePlaceHolderValues'),
+		'scorm' => array('placeholder' => 'ilDefaultPlaceholderValues'),
 	);
 
 	/**

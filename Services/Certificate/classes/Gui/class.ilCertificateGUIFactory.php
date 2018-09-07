@@ -39,8 +39,8 @@ class ilCertificateGUIFactory
 
 		switch ($type) {
 			case 'tst':
-				$placeholderDescriptionObject = new TestPlaceholderDescription();
-				$placeholderValuesObject = new TestPlaceHolderValues();
+				$placeholderDescriptionObject = new ilTestPlaceholderDescription();
+				$placeholderValuesObject = new ilTestPlaceHolderValues();
 				$adapter = new ilTestCertificateAdapter($object);
 
 				$certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
@@ -64,8 +64,8 @@ class ilCertificateGUIFactory
 				break;
 			case 'crs':
 				$adapter = new ilCourseCertificateAdapter($object);
-				$placeholderDescriptionObject = new CoursePlaceholderDescription();
-				$placeholderValuesObject = new CoursePlaceholderValues();
+				$placeholderDescriptionObject = new ilCoursePlaceholderDescription();
+				$placeholderValuesObject = new ilCoursePlaceholderValues();
 
 				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
 
@@ -84,7 +84,7 @@ class ilCertificateGUIFactory
 				break;
 			case 'exc':
 				$adapter = new ilExerciseCertificateAdapter($object);
-				$placeholderDescriptionObject = new ExercisePlaceholderDescription();
+				$placeholderDescriptionObject = new ilExercisePlaceholderDescription();
 				$placeholderValuesObject = new ilExercisePlaceHolderValues();
 
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';

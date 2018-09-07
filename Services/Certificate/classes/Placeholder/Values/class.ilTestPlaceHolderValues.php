@@ -1,7 +1,7 @@
 <?php
 
 
-class TestPlaceHolderValues implements ilCertificatePlaceholderValues
+class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 {
 	/**
 	 * @var ilDefaultPlaceholderValues

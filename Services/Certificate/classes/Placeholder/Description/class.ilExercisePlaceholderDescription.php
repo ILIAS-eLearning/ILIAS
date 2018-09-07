@@ -1,7 +1,7 @@
 <?php
 
 
-class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
+class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
 	/**
 	 * @var ilDefaultPlaceholderDescription
