@@ -66,6 +66,9 @@ class ilCertificateMigrationJob extends AbstractJob
     /** @var \ilDB */
     protected $db;
 
+    /** @var ilAppEventHandler $ilAppEventHandler */
+    protected $event_handler;
+
     /**
      * @param \ILIAS\BackgroundTasks\Value[] $input
      * @param Observer                       $observer
@@ -81,6 +84,7 @@ class ilCertificateMigrationJob extends AbstractJob
         $this->tree = $DIC->repositoryTree();
         $this->db = $DIC->database();
         $this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
+        $this->event_handler = $DIC['ilAppEventHandler'];
 
         $certificates = [];
         $output = new IntegerValue();
@@ -137,6 +141,7 @@ class ilCertificateMigrationJob extends AbstractJob
             $this->logMessage($e->getMessage(), 'error');
             $this->updateTask([
                 'lock' => false,
+                'found_items' => $found_items,
                 'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
             ]);
             $output->setValue((int)$e->getCode());
@@ -145,7 +150,7 @@ class ilCertificateMigrationJob extends AbstractJob
 
         $processed_items = 0;
         try {
-            // prepare all data?
+            // prepare all data
             $this->logMessage('Start preparing certificate informations for user: ' . $this->user_id);
 
             if(!empty($certificates['scorm'])) {
@@ -154,6 +159,7 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($scorm);
                     $processed_items++;
                 }
+                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing scorm certificates');
             }
@@ -164,6 +170,7 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($test);
                     $processed_items++;
                 }
+                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing test certificates');
             }
@@ -174,6 +181,7 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($exercise);
                     $processed_items++;
                 }
+                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing exercise certificates');
             }
@@ -184,6 +192,7 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($course);
                     $processed_items++;
                 }
+                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing course certificates');
             }
@@ -197,6 +206,41 @@ class ilCertificateMigrationJob extends AbstractJob
             $this->updateTask([
                 'lock' => false,
                 'processed_items' => $processed_items,
+                'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
+            ]);
+            $output->setValue((int)$e->getCode());
+            return $output;
+        }
+
+        $migrated_items = 0;
+        try {
+            // call event for migrating certificates
+            $this->logMessage('Start migrating certificates for user: ' . $this->user_id);
+
+            foreach ($certificates as $type => $certs) {
+                if(!empty($certs)) {
+                    foreach ($certs as $cert) {
+                        $this->logMessage('migrate cert for truple (type, obj_id, user_id): ' . implode(
+                            '', [$type, $cert['obj_id'], $cert['user_id']]
+                            ));
+                        $this->event_handler->raise(
+                            'Services/Certificate',
+                            'migrateUserCertificate',
+                            $cert
+                        );
+                        $migrated_items++;
+                    }
+                    $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items, $migrated_items)]);
+                }
+            }
+
+            $this->logMessage('Finished migrating certificates for user: ' . $this->user_id);
+
+        } catch (\Exception $e) {
+            $this->logMessage($e->getMessage(), 'error');
+            $this->updateTask([
+                'lock' => false,
+                'migrated_items' => $migrated_items,
                 'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED
             ]);
             $output->setValue((int)$e->getCode());
@@ -298,6 +342,7 @@ class ilCertificateMigrationJob extends AbstractJob
             'lock' => ['integer', false],
             'found_items' => ['integer', 0],
             'processed_items' => ['integer', 0],
+            'migrated_items' => ['integer', 0],
             'progress' => ['integer', 0],
             'state' => ['text', \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT],
             'started_ts' => ['integer', strtotime('now')],
@@ -321,6 +366,9 @@ class ilCertificateMigrationJob extends AbstractJob
         if(array_key_exists('processed_items', $data)) {
             $updata['processed_items'] = ['integer', $data['processed_items']];
         }
+        if(array_key_exists('migrated_items', $data)) {
+            $updata['migrated_items'] = ['integer', $data['migrated_items']];
+        }
         if(array_key_exists('progress', $data)) {
             $updata['progress'] = ['integer', $data['progress']];
         }
@@ -338,6 +386,17 @@ class ilCertificateMigrationJob extends AbstractJob
             $this->logMessage('Update entry for user with id: ' . $this->user_id, 'debug');
             $this->db->update($this->db_table, $updata, ['usr_id' => ['integer', $this->user_id] ]);
         }
+    }
+
+    /**
+     * @param int $found
+     * @param int $processed
+     * @param int $migrated
+     * @return float|int
+     */
+    protected function measureProgress($found, $processed = 0, $migrated = 0)
+    {
+        return (100 / $found * (($processed + $migrated) / 2));
     }
 
     /**
@@ -727,7 +786,7 @@ class ilCertificateMigrationJob extends AbstractJob
         }
         $xslfo = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $xslfo);
 
-        $pdf_base64 = \ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($xslfo);
+//        $pdf_base64 = \ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($xslfo);
 
         $this->logMessage(
             'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id,
@@ -735,7 +794,8 @@ class ilCertificateMigrationJob extends AbstractJob
         );
 
         ilDatePresentation::setUseRelativeDates(true);
-        return $pdf_base64->scalar;
+//        return $pdf_base64->scalar;
+        return $xslfo;
     }
 
 }

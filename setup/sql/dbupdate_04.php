@@ -22870,6 +22870,12 @@ if(!$ilDB->tableExists('bgtask_cert_migration')) {
             'notnull' => true,
             'default' => 0
         ),
+        'migrated_items' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
         'progress' => array(
             'type' => 'integer',
             'length' => 4,
