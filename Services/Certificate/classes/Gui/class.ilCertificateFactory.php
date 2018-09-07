@@ -15,14 +15,14 @@ class ilCertificateFactory
 		switch ($type) {
 			case 'tst':
 				$adapter = new ilTestCertificateAdapter($object);
-				$placeholderDescriptionObject = new TestPlaceholderDescription();
-				$placeholderValuesObject = new TestPlaceHolderValues();
+				$placeholderDescriptionObject = new ilTestPlaceholderDescription();
+				$placeholderValuesObject = new ilTestPlaceHolderValues();
 				$certificatePath = ilCertificatePathConstants::TEST_PATH . $object->getId() . '/';
 				break;
 			case 'crs':
 				$adapter = new ilCourseCertificateAdapter($object);
-				$placeholderDescriptionObject = new CoursePlaceholderDescription();
-				$placeholderValuesObject = new CoursePlaceholderValues();
+				$placeholderDescriptionObject = new ilCoursePlaceholderDescription();
+				$placeholderValuesObject = new ilCoursePlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $object->getId() . '/';
 				break;
 			case 'scrm':
@@ -33,7 +33,7 @@ class ilCertificateFactory
 				break;
 			case 'exc':
 				$adapter = new ilExerciseCertificateAdapter($object);
-				$placeholderDescriptionObject = new ExercisePlaceholderDescription();
+				$placeholderDescriptionObject = new ilExercisePlaceholderDescription();
 				$placeholderValuesObject = new ilExercisePlaceHolderValues();
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
 				break;

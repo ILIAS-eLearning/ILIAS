@@ -1,7 +1,7 @@
 <?php
 
 
-class CoursePlaceholderDescription implements ilCertificatePlaceholderDescription
+class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
 	/**
 	 * @var ilDefaultPlaceholderDescription
@@ -37,7 +37,14 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
 		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-		$this->placeholder['COURSE_TITLE'] =  $this->language->txt("crs_title");
+
+		$this->placeholder['RESULT_PASSED']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_passed'));
+		$this->placeholder['RESULT_POINTS']     = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_points'));
+		$this->placeholder['RESULT_PERCENT']    = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_percent'));
+		$this->placeholder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
+		$this->placeholder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+		$this->placeholder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
+		$this->placeholder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_title'));
 	}
 
 
@@ -51,13 +58,13 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	{
 		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
 
-		$template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));
+		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
-		$template->setCurrentBlock("items");
+		$template->setCurrentBlock('items');
 		foreach($this->placeholder as $id => $caption)
 		{
-			$template->setVariable("ID", $id);
-			$template->setVariable("TXT", $caption);
+			$template->setVariable('ID', $id);
+			$template->setVariable('TXT', $caption);
 			$template->parseCurrentBlock();
 		}
 
@@ -72,7 +79,6 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	 */
 	public function getPlaceholderDescriptions()
 	{
-
-		return $this->placeholder;
+		return $this->placeHolders;
 	}
 }
