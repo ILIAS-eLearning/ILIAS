@@ -349,11 +349,11 @@ interface Factory {
 	 */
 	public function select($label, array $options, $byline = null);
 
+
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-<<<<<<< ddb9726ef0bb67852822fdc9d141e9023894f544
 	 *     A textarea is intended for entering multi-line texts.
 	 *   composition: >
 	 *      Textarea fields will render an textarea HTML tag.
@@ -486,14 +486,59 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A Date Input is used to enter dates.
+	 *     A Radio Input is used to depict a choice of options excluding each other.
 	 *   composition: >
-	 *     Date Input will render a text field with the placeholder-attribute
+	 *     The Radio is considered as one field with a label and a number of
+	 *     options. Each option in turn bears a label in form of a positive statement.
+	 *   effect: >
+	 *     If used in a form, each option of a Radio may open a Dependant Section (formerly known
+	 *     as Sub Form).
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Select: >
+	 *       Use Selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, e.g. service behavior,
+	 *       or needs further configuration, stick to radios.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Radio Input SHOULD contain 3 to 5 options.
+	 *       If there are more, the Select Input might be the better option.
+	 *     2: >
+	 *       Radios MAY also be used to select between two options
+	 *       where one is not automatically the inverse of the other
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: The options' labels MUST state something positive.
+	 *     3: >
+	 *        An option's label SHOULD not simply repeat the label of the Radio.
+	 *        A meaningful labeling SHOULD be chosen instead.
+	 *   ordering:
+	 *     1: The presumably most relevant option SHOULD be the first option.
+	 *
+	 * ---
+	 *
+	 * @param    string 	$label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	public function radio($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A DateTime Input is used to enter dates and/or times.
+	 *   composition: >
+	 *     DateTime Input will render a text field with the placeholder-attribute
 	 *     indicating the specified format.
 	 *     Next to the text field, a Calendar Glyph will trigger a popover containing
 	 *     a graphical selector/date-picker.
 	 *     Depending on the given format, next to the date-picker a time-picker will be shown.
-	 *     If desired, the Date Input can be rendered with the Time Glyph instead of the Calendar Glyph.
+	 *     If desired, the DateTime Input can be rendered with the Time Glyph instead of the Calendar Glyph.
 	 *   effect: >
 	 *     When clicking the glyph, a popover is shown with the days of the month.
 	 *     Within the popover, the user may navigate to prior and following months.
@@ -502,7 +547,7 @@ interface Factory {
 	 *     Text field: Text Felds MUST NOT be used to input date-strings.
 	 *
 	 * context:
-	 *   Date Input is used in forms.
+	 *   DateTime Input is used in forms.
 	 *
 	 * rules:
 	 *   usage:
@@ -512,9 +557,10 @@ interface Factory {
 	 * @param string 	$label   defines the label.
 	 * @param string 	$byline
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\Date
+	 * @return \ILIAS\UI\Component\Input\Field\DateTime
 	 */
-	public function date($label, $byline = null);
+	public function dateTime($label, $byline = null);
+
 
 	/**
 	 * ---
@@ -522,7 +568,7 @@ interface Factory {
 	 *   purpose: >
 	 *     A Duration Input is used to enter a time span instead of a single point in time.
 	 *   composition: >
-	 *     A Duration Input is composed as a group of two Date Inputs.
+	 *     A Duration Input is composed as a group of two DateTime Inputs.
 	 *   effect: >
 	 *     Dependant on the format, the inputs will accept dates, times or datetimes.
 	 *
@@ -540,4 +586,5 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Input\Field\Duration
 	 */
 	public function duration($label,$byline = null);
+
 }

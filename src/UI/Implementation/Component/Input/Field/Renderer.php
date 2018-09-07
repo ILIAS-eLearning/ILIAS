@@ -52,7 +52,11 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
+<<<<<<< 2d88157fb1ea20737024f01ef84e5a46fa8dc86e
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
+=======
+		$registry->register('./src/UI/templates/js/Input/Field/duration.js');
+>>>>>>> rename Date to DateTime
 	}
 
 
@@ -91,8 +95,10 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderRadioField($input, $default_renderer);
 		} else if ($input instanceof MultiSelect) {
 			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-		} else if ($input instanceof Date) {
-			$input_tpl = $this->getTemplate("tpl.date.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Radio) {
+			return $this->renderRadioField($input, $default_renderer);
+		} else if ($input instanceof DateTime) {
+			$input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -354,8 +360,8 @@ class Renderer extends AbstractComponentRenderer {
 					}
 				}
 				break;
-			case ($input instanceof Date):
-				return $this->renderDateInput($tpl, $input);
+			case ($input instanceof DateTime):
+				return $this->renderDateTimeInput($tpl, $input);
 				break;
 		}
 
@@ -566,8 +572,8 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-	protected function renderDateInput(Template $tpl, Date $input) :string {
 
+	protected function renderDateTimeInput(Template $tpl, DateTime $input) :string {
 		global $DIC;
 		$f = $this->getUIFactory();
 		//render glyph in button-context (w/o a-tag)
@@ -586,11 +592,13 @@ class Renderer extends AbstractComponentRenderer {
 			'sideBySide' => true,
 			'format' => $input->getFormat(),
 		];
-		$min_date = $input->getMinDate();
+		$config = array_merge($config, $input->getAdditionalPickerConfig());
+
+		$min_date = $input->getMinValue();
 		if(! is_null($min_date)) {
 			$config['minDate'] = date_format($min_date, $format);
 		}
-		$max_date = $input->getMaxDate();
+		$max_date = $input->getMaxValue();
 		if(! is_null($max_date)) {
 			$config['maxDate'] = date_format($max_date, $format);
 		}
@@ -645,15 +653,100 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		$input = $input->withAdditionalOnLoadCode(
+			function($id) {
+				return "il.UI.Input.duration.init('$id')";
+			}
+		);
+		$id = $this->bindJavaScript($input);
+		$tpl_duration->setVariable("ID", $id);
+
 		$input_html = '';
-		foreach ($input->getInputs() as $inpt) {
-			$input_html .= $default_renderer->render($inpt);
-		}
+		$inputs = $input->getInputs();
+
+		$inpt = array_shift($inputs); //from
+		$input_html .= $default_renderer->render($inpt);
+
+		$inpt = array_shift($inputs)->withAdditionalPickerConfig([ //until
+			'useCurrent' => false
+		]);
+		$input_html .= $default_renderer->render($inpt);
+
 		$tpl_duration->setVariable('DURATION', $input_html);
 		$tpl->setVariable("INPUT", $tpl_duration->get());
 		return $tpl->get();
 	}
 
+
+	/**
+	 * @param Radio $input
+	 * @param RendererInterface    $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderRadioField(Component\Input\Field\Radio $input, RendererInterface $default_renderer) {
+		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
+
+		//monitor change-events
+		$input = $input->withAdditionalOnLoadCode(function ($id) {
+			return "il.UI.Input.radio.init('$id');";
+		});
+		$id = $this->bindJavaScript($input);
+		$input_tpl->setVariable("ID", $id);
+
+		foreach ($input->getOptions() as $value=>$label) {
+			$group_id = $id .'_' .$value .'_group';
+			$opt_id = $id .'_' .$value .'_opt';
+
+			$input_tpl->setCurrentBlock('optionblock');
+			$input_tpl->setVariable("NAME", $input->getName());
+			$input_tpl->setVariable("OPTIONID", $opt_id);
+			$input_tpl->setVariable("VALUE", $value);
+			$input_tpl->setVariable("LABEL", $label);
+
+			if ($input->getValue() !== null && $input->getValue()===$value) {
+				$input_tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+
+			//dependant fields
+			$dependant_group_html = '';
+			$dep_fields = $input->getDependantFieldsFor($value);
+			if(! is_null($dep_fields)) {
+				$inputs_html = '';
+				$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
+				foreach ($dep_fields as $key => $inpt) {
+					$inputs_html .= $default_renderer->render($inpt);
+				}
+				$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
+				$dependant_group_tpl->setVariable("ID", $group_id);
+				$dependant_group_html = $dependant_group_tpl->get();
+			}
+			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+
+			$input_tpl->parseCurrentBlock();
+		}
+		$options_html = $input_tpl->get();
+
+		//render with context:
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl->setVariable("LABEL", $input->getLabel());
+		$tpl->setVariable("INPUT", $options_html);
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
+	}
 
 	/**
 	 * @inheritdoc
@@ -672,7 +765,8 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Radio::class,
 			Component\Input\Field\Textarea::class,
 			Component\Input\Field\MultiSelect::class
-			Component\Input\Field\Date::class
+			Component\Input\Field\DateTime::class,
+			Component\Input\Field\Duration::class
 		];
 	}
 }

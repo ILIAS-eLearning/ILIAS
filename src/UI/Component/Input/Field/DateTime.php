@@ -5,9 +5,9 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes the duration input.
+ * This describes the datetime-field.
  */
-interface Duration extends Group { //extend group? or extend date?
+interface DateTime extends Input {
 
 	/**
 	 * Get an input like this using the given format.
@@ -18,17 +18,17 @@ interface Duration extends Group { //extend group? or extend date?
 	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
 	 * http://momentjs.com/docs/#/displaying/format/
 	 */
-	public function withFormat(string $format) : Duration;
+	public function withFormat(string $format) : DateTime;
 
 	/**
-	 * Return the input's date-format
+	 * Return the input's datetime format.
 	 */
 	public function getFormat() : string;
 
 	/**
 	 * Limit accepted values to datetime past (and including) the given $datetime.
 	 */
-	public function withMinValue(\DateTime $datetime) : Duration;
+	public function withMinValue(\DateTime $datetime) : DateTime;
 
 	/**
 	 * Return the lowest value the input accepts.
@@ -39,7 +39,7 @@ interface Duration extends Group { //extend group? or extend date?
 	/**
 	 * Limit accepted values to datetime before (and including) the given value.
 	 */
-	public function withMaxValue(\DateTime $datetime) : Duration;
+	public function withMaxValue(\DateTime $datetime) : DateTime;
 
 	/**
 	 * Return the maximum date the input accepts.
@@ -51,6 +51,7 @@ interface Duration extends Group { //extend group? or extend date?
 	 * Render input with time-glyph (calendar-glyph otherwise).
 	 * @return  DateTime
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : Duration;
+	public function withTimeGlyph(bool $use_time_glyph) : DateTime;
+
 
 }

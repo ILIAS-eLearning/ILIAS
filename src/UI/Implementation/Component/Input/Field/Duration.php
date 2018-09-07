@@ -9,14 +9,16 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-
+use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements the duration input group.
  */
-class Duration extends Group implements C\Input\Field\Duration {
+class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string
@@ -49,8 +51,8 @@ class Duration extends Group implements C\Input\Field\Duration {
 	) {
 
 		$inputs = [
-			$field_factory->date('start'),
-			$field_factory->date('end')
+			$field_factory->dateTime('start'),
+			$field_factory->dateTime('end')
 		];
 
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $inputs, $label, $byline);
@@ -66,7 +68,7 @@ class Duration extends Group implements C\Input\Field\Duration {
 			if($from && $until) {
 				return ['start'=>$from, 'end'=>$until, 'interval'=>$from->diff($until)];
 			}
-			return '';
+			return null;
 		});
 		$this->setAdditionalTransformation($duration);
 	}
@@ -74,12 +76,12 @@ class Duration extends Group implements C\Input\Field\Duration {
 	protected function addValidation(ValidationFactory $validation_factory) {
 		$from_before_until = $validation_factory->custom(
 			function($v) {
-				if($v === '') {
+				if(is_null($v)) {
 					return true;
 				}
 				return $v['start'] < $v['end'];
 			},
-			"start must be earlier than end"
+			"start must be earlier than end" //TODO: this must be translateable...
 		);
 		$this->setAdditionalConstraint($from_before_until);
 	}
@@ -117,7 +119,7 @@ class Duration extends Group implements C\Input\Field\Duration {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMinDate(\DateTime $date) : C\Input\Field\Duration {
+	public function withMinValue(\DateTime $date) : C\Input\Field\Duration {
 		$clone = clone $this;
 		$clone->min_date = $date;
 		$clone->applyMinDate();
@@ -127,7 +129,7 @@ class Duration extends Group implements C\Input\Field\Duration {
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyMinDate() {
+	protected function applyMinValue() {
 		$this->inputs = array_map(
 			function($inpt) {
 				return $inpt->withMinDate($this->getMinDate());
@@ -139,14 +141,14 @@ class Duration extends Group implements C\Input\Field\Duration {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMinDate() {
+	public function getMinValue() {
 		return $this->min_date;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxDate(\DateTime $date) : C\Input\Field\Duration {
+	public function withMaxValue(\DateTime $date) : C\Input\Field\Duration {
 		$clone = clone $this;
 		$clone->max_date = $date;
 		$clone->applyMaxDate();
@@ -168,7 +170,7 @@ class Duration extends Group implements C\Input\Field\Duration {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxDate() {
+	public function getMaxValue() {
 		return $this->max_date;
 	}
 

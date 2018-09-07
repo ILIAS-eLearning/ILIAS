@@ -10,7 +10,7 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory {
 
 	public function getRendererInContext(Component\Component $component, array $contexts) {
 		if( in_array('BulkyButton', $contexts) ||
-			in_array('DateFieldInput', $contexts)
+			in_array('DateTimeFieldInput', $contexts)
 		) {
 			return new ButtonContextRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 		}
