@@ -22785,7 +22785,7 @@ $directories = array(
 foreach ($directories as $type => $relativePath) {
 	$directory = $web_path . $relativePath;
 
-	if (false === file_exists($directory))
+	if (false === file_exists($directory)) {
 		continue;
 	}
 
