@@ -22785,7 +22785,11 @@ $directories = array(
 foreach ($directories as $type => $relativePath) {
 	$directory = $web_path . $relativePath;
 
-	$directoryInformation = ilUtil::getDir($directory);
+	if (false === file_exists($directory))
+		continue;
+	}
+
+	$directoryInformation = ilUtil::getDir($directory$directory);
 
 	$objectIds = array();
 	foreach ($directoryInformation as $file) {
