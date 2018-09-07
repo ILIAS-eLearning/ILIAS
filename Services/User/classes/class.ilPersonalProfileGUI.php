@@ -80,7 +80,7 @@ class ilPersonalProfileGUI
                 /** @var ilTemplate $tpl */
                 $tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
                 $this->setTabs();
-                $this->showPersonalData(false);
+                $this->showPersonalData(false, true);
                 break;
 			
 			default:
@@ -741,7 +741,7 @@ class ilPersonalProfileGUI
 	/**
 	* Personal data form.
 	*/
-	function showPersonalData($a_no_init = false)
+	function showPersonalData($a_no_init = false, $a_migration_started = false)
 	{
 		global $DIC;
 
@@ -781,14 +781,17 @@ class ilPersonalProfileGUI
 			}
 		}
 
-        include_once './Services/Certificate/classes/class.ilCertificate.php';
-        include_once './Services/Certificate/classes/class.ilCertificateMigrationGUI.php';
-		$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-        $messagebox = \ilCertificateMigrationGUI::getMigrationMessageBox($messagebox_link);
+        $messagebox = '';
+		if (!$a_migration_started) {
+            include_once './Services/Certificate/classes/class.ilCertificate.php';
+            include_once './Services/Certificate/classes/class.ilCertificateMigrationGUI.php';
+            $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+            $messagebox = \ilCertificateMigrationGUI::getMigrationMessageBox($messagebox_link);
 
+        }
         $this->tpl->setContent($messagebox . $this->form->getHTML());
 
-		$this->tpl->show();
+        $this->tpl->show();
 	}
 
 	/**

@@ -21,7 +21,7 @@
   +----------------------------------------------------------------------------+
 */
 
-//include_once("./Services/Certificate/classes/class.ilCertificate.php");
+include_once("./Services/Certificate/classes/class.ilCertificate.php");
 include_once("./Services/Certificate/classes/Migration/class.ilCertificateMigration.php");
 include_once("./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJob.php");
 
@@ -122,16 +122,14 @@ class ilCertificateMigrationGUI
     {
         global $DIC;
 
-        // @TODO check for \ilCertificate::isactive
-//        if (!self::isActive()) {
-//            return '';
-//        }
+        if (!\ilCertificate::isActive()) {
+            return '';
+        }
         $migrationHelper = new \ilCertificateMigration($DIC->user()->getId());
         if (
-            $migrationHelper->isTaskStarted() ||
             $migrationHelper->isTaskRunning() ||
-            $migrationHelper->isTaskFinished())
-        {
+            $migrationHelper->isTaskFinished()
+        ) {
             return '';
         }
 
@@ -139,16 +137,18 @@ class ilCertificateMigrationGUI
         $ui_renderer = $DIC->ui()->renderer();
 
         $message_buttons = [
-            $ui_factory->button()->standard($DIC->language()->txt("Go"), $link),
+            $ui_factory->button()->standard($DIC->language()->txt("certificate_migration_go"), $link),
         ];
-        /* @TODO insert into lang:
-         * certificate#:#certificate_migration_confirm_start#:#Migration der Zertifikate starten?
-         * certificate#:#Go#Los
-         */
-        $messagebox = $ui_factory->messageBox()
-            ->confirmation($DIC->language()->txt('certificate_migration_confirm_start'))
-            ->withButtons($message_buttons);
 
+        if ($migrationHelper->isTaskFailed()) {
+            $messagebox = $ui_factory->messageBox()
+                ->failure($DIC->language()->txt('certificate_migration_lastrun_failed'))
+                ->withButtons($message_buttons);
+        } else {
+            $messagebox = $ui_factory->messageBox()
+                ->confirmation($DIC->language()->txt('certificate_migration_confirm_start'))
+                ->withButtons($message_buttons);
+        }
 
         return $ui_renderer->render($messagebox);
 

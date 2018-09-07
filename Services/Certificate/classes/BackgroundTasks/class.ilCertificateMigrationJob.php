@@ -27,7 +27,7 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 
-include_once "./Services/Certificate/classes/BackgroundTasks/class.ilMigrationJobDefinitions.php";
+include_once "./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJobDefinitions.php";
 include_once "./Services/Certificate/classes/class.ilCertificate.php";
 include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
 include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
@@ -159,7 +159,10 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($scorm);
                     $processed_items++;
                 }
-                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
+                $this->updateTask([
+                    'processed_items' => $processed_items,
+                    'progress' => $this->measureProgress($found_items, $processed_items)
+                ]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing scorm certificates');
             }
@@ -170,7 +173,10 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($test);
                     $processed_items++;
                 }
-                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
+                $this->updateTask([
+                    'processed_items' => $processed_items,
+                    'progress' => $this->measureProgress($found_items, $processed_items)
+                ]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing test certificates');
             }
@@ -181,7 +187,10 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($exercise);
                     $processed_items++;
                 }
-                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
+                $this->updateTask([
+                    'processed_items' => $processed_items,
+                    'progress' => $this->measureProgress($found_items, $processed_items)
+                ]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing exercise certificates');
             }
@@ -192,14 +201,15 @@ class ilCertificateMigrationJob extends AbstractJob
                     $this->getCertificateInformations($course);
                     $processed_items++;
                 }
-                $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items)]);
+                $this->updateTask([
+                    'processed_items' => $processed_items,
+                    'progress' => $this->measureProgress($found_items, $processed_items)
+                ]);
                 $observer->heartbeat();
                 $this->logMessage('Finished preparing course certificates');
             }
 
             $this->logMessage('Finished preparing certificate informations for user: ' . $this->user_id);
-
-            // @TODO trigger event
 
         } catch (\Exception $e) {
             $this->logMessage($e->getMessage(), 'error');
@@ -221,7 +231,7 @@ class ilCertificateMigrationJob extends AbstractJob
                 if(!empty($certs)) {
                     foreach ($certs as $cert) {
                         $this->logMessage('migrate cert for truple (type, obj_id, user_id): ' . implode(
-                            '', [$type, $cert['obj_id'], $cert['user_id']]
+                            ', ', [$type, $cert['obj_id'], $cert['user_id']]
                             ));
                         $this->event_handler->raise(
                             'Services/Certificate',
@@ -230,7 +240,10 @@ class ilCertificateMigrationJob extends AbstractJob
                         );
                         $migrated_items++;
                     }
-                    $this->updateTask(['progress' => $this->measureProgress($found_items, $processed_items, $migrated_items)]);
+                    $this->updateTask([
+                        'migrated_items' => $migrated_items,
+                        'progress' => $this->measureProgress($found_items, $processed_items, $migrated_items)
+                    ]);
                 }
             }
 
@@ -488,7 +501,7 @@ class ilCertificateMigrationJob extends AbstractJob
                                         "certificate_path" => $cert_path,
                                         "certificate_type" => 'sahs',
                                         "background_image_path" => $background_image_path,
-                                        "aquired_timestamp" => null,
+                                        "acquired_timestamp" => null,
                                         "ilias_version" => ILIAS_VERSION_NUMERIC,
                                         "certificate_content" => null,
                                     );
@@ -546,7 +559,7 @@ class ilCertificateMigrationJob extends AbstractJob
                                 "certificate_path" => $cert_path,
                                 "certificate_type" => 'tst',
                                 "background_image_path" => $background_image_path,
-                                "aquired_timestamp" => null,
+                                "acquired_timestamp" => null,
                                 "ilias_version" => ILIAS_VERSION_NUMERIC,
                                 "certificate_content" => null,
                             );
@@ -600,7 +613,7 @@ class ilCertificateMigrationJob extends AbstractJob
                                 "certificate_path" => $cert_path,
                                 "certificate_type" => 'exc',
                                 "background_image_path" => $background_image_path,
-                                "aquired_timestamp" => null,
+                                "acquired_timestamp" => null,
                                 "ilias_version" => ILIAS_VERSION_NUMERIC,
                                 "certificate_content" => null,
                             );
@@ -658,7 +671,7 @@ class ilCertificateMigrationJob extends AbstractJob
                                     "certificate_path" => $cert_path,
                                     "certificate_type" => 'crs',
                                     "background_image_path" => $background_image_path,
-                                    "aquired_timestamp" => null,
+                                    "acquired_timestamp" => null,
                                     "ilias_version" => ILIAS_VERSION_NUMERIC,
                                     "certificate_content" => null,
                                 );
@@ -684,7 +697,7 @@ class ilCertificateMigrationJob extends AbstractJob
             $cert_path = $cert_data['certificate_path'] . "certificate.xml";
             if (file_exists($cert_path) && (filesize($cert_path) > 0))
             {
-                $cert_data['aquired_timestamp'] = filemtime($cert_path);
+                $cert_data['acquired_timestamp'] = filemtime($cert_path);
                 $cert_data['certificate_content'] = $this->renderCertificate($cert_data);
             }
         }
