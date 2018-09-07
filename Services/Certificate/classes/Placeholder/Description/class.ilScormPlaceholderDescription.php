@@ -18,12 +18,23 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	private $placeholder;
 
 	/**
+	 * @var ilObject
+	 */
+	private $object;
+
+	/**
+	 * @param ilObject $object
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
 	 * @param ilLanguage|null $language
 	 */
-	public function __construct(ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null, ilLanguage $language = null)
-	{
+	public function __construct(
+		ilObject $object,
+		ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+		ilLanguage $language = null
+	) {
 		global $DIC;
+
+		$this->object = $object;
 
 		if (null === $language) {
 			$language = $DIC->language();

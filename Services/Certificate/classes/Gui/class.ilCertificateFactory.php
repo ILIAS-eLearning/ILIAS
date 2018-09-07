@@ -27,7 +27,7 @@ class ilCertificateFactory
 				break;
 			case 'scrm':
 				$adapter = new ilSCORMCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilScormPlaceholderDescription();
+				$placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
 				$placeholderValuesObject = new ilScormPlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
 				break;
