@@ -22581,7 +22581,7 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'default' => 0
 		),
 		'obj_type' => array(
-			'type' => 'string',
+			'type' => 'text',
 			'length' => 255,
 			'notnull' => true,
 			'default' => ''
