@@ -20,6 +20,7 @@ for 'Certificates' to their component.
 * [Queue](#queue)
 * [Cron Job](#cron-job)
 * [GUI](#gui)
+* [Events](#events)
 
 ## General
 
@@ -336,3 +337,59 @@ the Interface `ilCertificateDeleteAction`.
 #### Download
 
 Download
+
+### Events
+
+The certificates using the ILIAS Event System to add new
+certificates to the cron job queue.
+There are a few possible events the certificate service is
+listening to:
+
+| Event            | Component            | Explanation                                           |
+|------------------|----------------------|-------------------------------------------------------|
+| updateStatus     | Services/Tracking    | This event will be thrown by the Learning Progress    |
+| user_certificate | Services/Certificate | These are custom events to add a new user certificate |
+
+
+#### Event `updateStatus`
+
+On an update status event (performed by the Learning Progress)
+a possible new user certificate will be added directly to the queue.
+
+#### Event `user_certificate`
+
+The `user_certificate` event can be used to add a complete
+user certificate directly to the database.
+The certificates that come via this event will use the first
+certificate template as reference in the database.
+The reason for this is that this event is supposed to be used
+by the migration service.
+
+Example to use this event:
+
+```php
+global $DIC;
+$ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+$ilAppEventHandler->raise(
+   'Services/Certificate',
+   'user_certificate',
+   array(
+      'certificate_content'   => $content,
+      'obj_id'                => $object->getId(),
+      'user_id'               => $user->getId(),
+      'background_image_path' => $backgroundImagePath,
+      'acquired_timestamp'    => $acquiredTimestamp,
+      'ilias_version'         => ILIAS_VERSION_NUMERIC
+   )
+);
+
+// 'certificate_content' - Content of user certificate(replaced placholders in the template)
+// 'obj_id' - MUST be the object ID the certificate creator(e.g. course, test, ...)
+// 'user_id' - MUST be the user ID of the actual user
+// 'background_image_path' - relative path to the background image (without the web 
+//                           directories eg. 'course/certificates/282/background.jpg')
+// 'aquired_timestamp' - Timestamp at the time of achieving the certificate,
+//                       could be creation date of the file
+// ilias_version - ILIAS version at the time this event will be send
+```
