@@ -22811,15 +22811,15 @@ foreach ($directories as $type => $relativePath) {
 			$columns = array(
 				'id'                    => array('integer', $id),
 				'obj_id'                => array('integer', $objectId),
-				'obj_type'              => array('clob', $type),
-				'certificate_content'   => array('clob', $content),
+				'obj_type'              => array('text', $type),
+				'certificate_content'   => array('text', $content),
 				'certificate_hash'      => array('text', md5($content)),
-				'template_values'       => array('clob', ''),
-				'version'               => array('clob', '1'),
-				'ilias_version'         => array('clob', ILIAS_VERSION_NUMERIC),
+				'template_values'       => array('text', ''),
+				'version'               => array('text', '1'),
+				'ilias_version'         => array('text', ILIAS_VERSION_NUMERIC),
 				'created_timestamp'     => array('integer', $timestamp),
 				'currently_active'      => array('integer', 1),
-				'background_image_path' => array('clob', $backgroundImagePath),
+				'background_image_path' => array('text', $backgroundImagePath),
 			);
 
 			$ilDB->insert('certificate_template', $columns);
