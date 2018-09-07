@@ -3374,6 +3374,7 @@ return array(
     'ilCertificateTemplateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTemplateDeleteAction.php',
     'ilCertificateTemplateExportAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Export/class.ilCertificateTemplateExportAction.php',
     'ilCertificateTemplateImportAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Import/class.ilCertificateTemplateImportAction.php',
+    'ilCertificateTemplatePreviewAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Preview/ilCertificateTemplatePreviewAction.php',
     'ilCertificateTemplateRepository' => $baseDir . '/../../Services/Certificate/classes/Template/class.ilCertificateTemplateRepository.php',
     'ilCertificateTestTemplateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTestTemplateDeleteAction.php',
     'ilCertificateTypeClassMap' => $baseDir . '/../../Services/Certificate/classes/Cron/class.ilCertificateTypeClassMap.php',

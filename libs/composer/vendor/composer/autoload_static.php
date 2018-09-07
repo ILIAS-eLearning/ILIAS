@@ -3618,6 +3618,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateTemplateDeleteAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTemplateDeleteAction.php',
         'ilCertificateTemplateExportAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Export/class.ilCertificateTemplateExportAction.php',
         'ilCertificateTemplateImportAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Import/class.ilCertificateTemplateImportAction.php',
+        'ilCertificateTemplatePreviewAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Preview/ilCertificateTemplatePreviewAction.php',
         'ilCertificateTemplateRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/class.ilCertificateTemplateRepository.php',
         'ilCertificateTestTemplateDeleteAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTestTemplateDeleteAction.php',
         'ilCertificateTypeClassMap' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Cron/class.ilCertificateTypeClassMap.php',
