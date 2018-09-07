@@ -22693,6 +22693,11 @@ if(!$ilDB->tableExists('user_certificates')) {
 			'notnull' => true,
 			'default' => 0
 		),
+		'background_image_path' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		),
 		'version' => array(
 			'type' => 'text',
 			'length' => 255,
