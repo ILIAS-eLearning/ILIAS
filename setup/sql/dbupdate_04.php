@@ -22690,8 +22690,8 @@ if(!$ilDB->tableExists('user_certificates')) {
 		'valid_until' => array(
 			'type' => 'integer',
 			'length' => 4,
-			'notnull' => true,
-			'default' => 0
+			'notnull' => false,
+			'default' => null
 		),
 		'background_image_path' => array(
 			'type' => 'text',
@@ -22702,7 +22702,7 @@ if(!$ilDB->tableExists('user_certificates')) {
 			'type' => 'text',
 			'length' => 255,
 			'notnull' => true,
-			'default' => 'v1'
+			'default' => '1'
 		),
 		'ilias_version' => array(
 			'type' => 'text',
