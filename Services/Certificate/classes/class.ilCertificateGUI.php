@@ -141,20 +141,26 @@ class ilCertificateGUI
 	private $backgroundImageUpload;
 
 	/**
+	 * @var ilCertificateTemplatePreviewAction|null
+	 */
+	private $previewAction;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param $objectId
 	 * @param $certificatePath
-	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateFormRepository $settingsFormFactory
 	 * @param ilCertificateDeleteAction $deleteAction
 	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 * @param ilPageFormats|null $pageFormats
 	 * @param ilXlsFoParser|null $xlsFoParser
 	 * @param ilFormFieldParser $formFieldParser
+	 * @param ilCertificateTemplateExportAction|null $exportAction
 	 * @param ilCertificateBackgroundImageUpload|null $upload
+	 * @param ilCertificateTemplatePreviewAction|null $previewAction
 	 * @access public
 	 */
 	public function __construct(
@@ -170,7 +176,8 @@ class ilCertificateGUI
 		ilXlsFoParser $xlsFoParser = null,
 		ilFormFieldParser $formFieldParser = null,
 		ilCertificateTemplateExportAction $exportAction = null,
-		ilCertificateBackgroundImageUpload $upload = null
+		ilCertificateBackgroundImageUpload $upload = null,
+		ilCertificateTemplatePreviewAction $previewAction = null
 	) {
 		global $DIC;
 
@@ -260,6 +267,11 @@ class ilCertificateGUI
 		}
 		$this->exportAction = $exportAction;
 
+		if (null === $previewAction) {
+			$previewAction = new ilCertificateTemplatePreviewAction($templateRepository, $placeholderValuesObject);
+		}
+		$this->previewAction = $previewAction;
+
 		$this->lng->loadLanguageModule('certificate');
 	}
 
@@ -302,7 +314,7 @@ class ilCertificateGUI
 	*/
 	public function certificatePreview()
 	{
-		$this->certifcateObject->createPreview();
+		$this->previewAction->createPreviewPdf($this->objectId);
 	}
 
 	/**
