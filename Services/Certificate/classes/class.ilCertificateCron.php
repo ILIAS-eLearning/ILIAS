@@ -25,16 +25,24 @@ class ilCertificateCron extends ilCronJob
 	 */
 	private $logger;
 
+
+	/**
+	 * @var
+	 */
+	private $valueReplacement;
+
 	/**
 	 * @param ilCertificateQueueRepository $queueRepository
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilUserCertificateRepository $userRepository
+	 * @param ilCertificateValueReplacement|null $valueReplacement
 	 * @param ilLogger|null $logger
 	 */
 	public function __construct(
 		ilCertificateQueueRepository $queueRepository = null,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilUserCertificateRepository $userRepository = null,
+		ilCertificateValueReplacement $valueReplacement = null,
 		ilLogger $logger = null
 	)
 	{
@@ -62,6 +70,11 @@ class ilCertificateCron extends ilCronJob
 			$userRepository = new ilUserCertificateRepository($database, $logger);
 		}
 		$this->userRepository = $userRepository;
+
+		if (null === $valueReplacement) {
+			$valueReplacement = new ilCertificateValueReplacement();
+		}
+		$this->valueReplacement = $valueReplacement;
 	}
 
 	public function run()
@@ -118,24 +131,24 @@ class ilCertificateCron extends ilCronJob
 			} catch (ilInvalidCertificateException $exception) {
 				$this->logger->warning($exception->getMessage());
 				$this->logger->warning('The user MAY not be able to achieve the certificate based on the adapters settings');
-				$this->logger->warning('Due the error, the entry will now be remove from the queue.');
+				$this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
 				$this->queueRepository->removeFromQueue($entry->getId());
 
 				continue;
 			} catch (ilException $exception) {
 				$this->logger->warning($exception->getMessage());
-				$this->logger->warning('Due the error, the entry will now be remove from the queue.');
+				$this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
 				$this->queueRepository->removeFromQueue($entry->getId());
 				continue;
 			}
 
-			foreach ($placeholderValues as $placeholder => $value) {
-				$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
-			}
-
-			$certificateContent = str_replace('[BACKGROUND_IMAGE]',  CLIENT_WEB_DIR . $template->getBackgroundImagePath(), $certificateContent);
+			$certificateContent = $this->valueReplacement->replace(
+				$placeholderValues,
+				$certificateContent,
+				CLIENT_WEB_DIR . $template->getBackgroundImagePath()
+			);
 
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),
