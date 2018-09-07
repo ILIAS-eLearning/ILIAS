@@ -8,7 +8,6 @@ class ilCertificateTypeClassMap
 		'tst'   => array('placeholder' => 'TestPlaceHolderValues'),
 		'exc'   => array('placeholder' =>'ilExercisePlaceHolderValues'),
 		'scorm' => array('placeholder' =>'ilDefaultPlaceholderValues'),
-		'skill' => array('placeholder' =>'ilDefaultPlaceholderValues')
 	);
 
 	/**

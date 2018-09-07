@@ -25,12 +25,6 @@ class ilCertificateFactory
 				$placeholderValuesObject = new CoursePlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $object->getId() . '/';
 				break;
-			case 'skl':
-				$adapter = new ilSkillCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilDefaultPlaceholderDescription();
-				$placeholderValuesObject = new ilDefaultPlaceholderValues();
-				$certificatePath = ilCertificatePathConstants::SKILL_PATH . $object->getId() . '/';
-				break;
 			case 'scrm':
 				$adapter = new ilSCORMCertificateAdapter($object);
 				$placeholderDescriptionObject = new ilScormPlaceholderDescription();

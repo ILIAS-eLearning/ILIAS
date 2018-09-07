@@ -123,29 +123,6 @@ class ilCertificateGUIFactory
 				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
 				break;
-			case 'skl':
-				$skillLevelId = (int) $_GET["level_id"];
-
-				$adapter = new ilSkillCertificateAdapter($object, $skillLevelId);
-				$placeholderDescriptionObject = new ilDefaultPlaceholderDescription();
-				$placeholderValuesObject = new ilDefaultPlaceholderValues();
-
-				$certificatePath = ilCertificatePathConstants::SKILL_PATH . $objectId . '/' . $skillLevelId;
-
-				$formFactory = new ilCertificateSettingsFormRepository(
-					$objectId,
-					$certificatePath,
-					$DIC->language(),
-					$DIC->ui()->mainTemplate(),
-					$DIC->ctrl(),
-					$DIC->access(),
-					$DIC->toolbar(),
-					$placeholderDescriptionObject
-				);
-
-				$certificatePath = ilCertificatePathConstants::SKILL_PATH . $objectId . '/' . $skillLevelId;
-
-				break;
 			default:
 				throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
 				break;
