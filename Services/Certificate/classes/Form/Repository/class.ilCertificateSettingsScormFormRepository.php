@@ -4,6 +4,11 @@
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
 	/**
+	 * @var ilObject
+	 */
+	private $object;
+
+	/**
 	 * @var ilLanguage
 	 */
 	private $language;
@@ -13,10 +18,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	 */
 	private $settingsFromFactory;
 
-	private $object;
-
 	/**
-	 * @param int $objectId
+	 * @param ilObject $object
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
@@ -26,7 +29,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 */
 	public function __construct(
-		int $objectId,
+		ilObject $object,
 		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
@@ -35,10 +38,12 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	) {
+		$this->object = $object;
+
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
-			$objectId,
+			$object->getId(),
 			$certificatePath,
 			$language,
 			$template,
@@ -60,7 +65,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$short_name = new ilTextInputGUI($this->lng->txt('certificate_short_name'), 'short_name');
+		$short_name = new ilTextInputGUI($this->language->txt('certificate_short_name'), 'short_name');
 		$short_name->setRequired(true);
 		$short_name->setValue(ilStr::subStr($this->object->getTitle(), 0, 30));
 		$short_name->setSize(30);

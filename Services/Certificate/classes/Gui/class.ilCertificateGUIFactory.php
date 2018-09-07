@@ -102,15 +102,15 @@ class ilCertificateGUIFactory
 
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
 				break;
-			case 'scorm':
+			case 'sahs':
 				$adapter = new ilSCORMCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilScormPlaceholderDescription();
+				$placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
 				$placeholderValuesObject = new ilScormPlaceholderValues();
 
 				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
 				$formFactory = new ilCertificateSettingsScormFormRepository(
-					$objectId,
+					$object,
 					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),
