@@ -126,10 +126,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	{
 		$logger->info('Try to create new certificates based on event');
 
-		if (false === array_key_exists('certificate_content', $a_params)) {
-			return $logger->error('Certificate Content is not added to the event. Abort.');
-		}
-
 		if (false === array_key_exists('obj_id', $a_params)) {
 			return $logger->error('Object ID is not added to the event. Abort.');
 		}
@@ -150,7 +146,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			return $logger->error('ILIAS version is not added to the event. Abort.');
 		}
 
-		$certificateContent = $a_params['certificate_content'];
 		$objectId = $a_params['obj_id'];
 		$userId = $a_params['user_id'];
 		$backgroundImagePath = $a_params['background_image_path'];
@@ -162,10 +157,25 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
 
+		$type = ilObject::_lookupType($objectId);
+
+		$classMap = new ilCertificateTypeClassMap();
+		$className = $classMap->getPlaceHolderClassNameByType($type);
+
+		$placeholderValuesObject = new $className();
+		$placeholderValues = $placeholderValuesObject->getPlaceholderValues($userId, $objectId);
+
+		$replacementService = new ilCertificateValueReplacement();
+		$certificateContent = $replacementService->replace(
+			$placeholderValues,
+			$template->getCertificateContent(),
+			$backgroundImagePath
+		);
+
 		$userCertificate = new ilUserCertificate(
 			$template->getId(),
 			$objectId,
-			ilObject::_lookupType($objectId),
+			$type,
 			$userId,
 			ilUse,
 			$acquiredTimestamp,
