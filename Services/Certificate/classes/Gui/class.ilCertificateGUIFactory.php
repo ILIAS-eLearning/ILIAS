@@ -69,8 +69,8 @@ class ilCertificateGUIFactory
 
 				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
 
-				$formFactory = new ilCertificateSettingsFormRepository(
-					$object->getId(),
+				$formFactory = new ilCertificateSettingsCourseFormRepository(
+					$object,
 					$certificatePath,
 					$DIC->language(),
 					$DIC->ui()->mainTemplate(),

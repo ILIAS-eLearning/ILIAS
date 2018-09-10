@@ -22,28 +22,39 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	private $object;
 
 	/**
-	 * @param $object
+	 * @var ilObjectLP|mixed
+	 */
+	private $learningProgressObject;
+
+	/**
+	 * @param ilObject $object
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilObjectLP|null $learningProgressObject
 	 */
 	public function __construct(
 		\ilObject $object,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilObjectLP $learningProgressObject = null
 	) {
 		$this->object = $object;
 
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$object->getId(),
+			$certificatePath,
 			$language,
 			$template,
 			$controller,
@@ -51,6 +62,11 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 			$toolbar,
 			$placeholderDescriptionObject
 		);
+
+		if (null === $learningProgressObject) {
+			$learningProgressObject = ilObjectLP::getInstance($this->object->getId());
+		}
+		$this->learningProgressObject = $learningProgressObject;
 	}
 
 	/**
@@ -66,33 +82,37 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
+		$learningProgressMode = $this->learningProgressObject->getCurrentMode();
 
-		$formSection = new \ilFormSectionHeaderGUI();
-		$formSection->setTitle($this->language->txt('course_certificate_options'));
-		$form->addItem($formSection);
+		if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
-		$exp = $subitems->getExplorerGUI();
-		$exp->setSkipRootNode(true);
-		$exp->setRootId($this->object->getRefId());
-		$exp->setTypeWhiteList($this->getLPTypes($this->object));
+			$formSection = new \ilFormSectionHeaderGUI();
+			$formSection->setTitle($this->language->txt('course_certificate_options'));
+			$form->addItem($formSection);
 
-		$subitems->setTitleModifier(function ($id) {
-			$obj_id = ilObject::_lookupObjId($id);
-			$olp = ilObjectLP::getInstance($obj_id);
+			$exp = $subitems->getExplorerGUI();
+			$exp->setSkipRootNode(true);
+			$exp->setRootId($this->object->getRefId());
+			$exp->setTypeWhiteList($this->getLPTypes($this->object->getId()));
 
-			$invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
+			$subitems->setTitleModifier(function ($id) {
+				$obj_id = ilObject::_lookupObjId($id);
+				$olp = ilObjectLP::getInstance($obj_id);
 
-			$mode = $olp->getModeText($olp->getCurrentMode());
+				$invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
 
-			if(in_array($olp->getCurrentMode(), $invalid_modes)) {
-				$mode = '<strong>' . $mode . '</strong>';
-			}
-			return ilObject::_lookupTitle(ilObject::_lookupObjId($id)).' ('.$mode.')';
-		});
+				$mode = $olp->getModeText($olp->getCurrentMode());
 
-		$subitems->setRequired(true);
-		$form->addItem($subitems);
+				if(in_array($olp->getCurrentMode(), $invalid_modes)) {
+					$mode = '<strong>' . $mode . '</strong>';
+				}
+				return ilObject::_lookupTitle(ilObject::_lookupObjId($id)).' ('.$mode.')';
+			});
+
+			$subitems->setRequired(true);
+			$form->addItem($subitems);
+		}
 
 		return $form;
 	}
