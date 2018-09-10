@@ -18,8 +18,12 @@ function with_object_icon_and_progressmeter() {
 		)
 	);
 
+	//testing images with other predominant colors.
+	//"https://picsum.photos/900/900?image=893",
+	//"https://picsum.photos/900/900?image=390",
+
 	$image = $f->image()->responsive(
-		"./templates/default/images/HeaderIcon.svg",
+		"https://picsum.photos/g/900/900?image=998",
 		"Thumbnail Example");
 
 	$card = $f->card()->repositoryObject(
