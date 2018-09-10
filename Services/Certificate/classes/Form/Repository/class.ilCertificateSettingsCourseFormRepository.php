@@ -64,7 +64,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		);
 
 		if (null === $learningProgressObject) {
-			$learningProgressObject = ilObjectLP::getInstance($this->object->getId();
+			$learningProgressObject = ilObjectLP::getInstance($this->object->getId());
 		}
 		$this->learningProgressObject = $learningProgressObject;
 	}
