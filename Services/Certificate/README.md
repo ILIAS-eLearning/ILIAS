@@ -334,9 +334,15 @@ in the form.
 Custom delete action can be created by implementing
 the Interface `ilCertificateDeleteAction`.
 
-#### Download
+#### Preview
 
-Download
+The preview action will create a PDF with default 
+values.
+This default values of this action are defined in the
+implementations of the
+[Placeholder Values Classes](#placeholder-values).
+
+The class `ilCertificateTemplatePreviewAction` 
 
 ### Events
 
@@ -351,12 +357,12 @@ listening to:
 | migrateUserCertificate | Services/Certificate | These are custom events to add a new user certificate |
 
 
-#### Event `updateStatus`
+#### updateStatus
 
 On an update status event (performed by the Learning Progress)
 a possible new user certificate will be added directly to the queue.
 
-#### Event `migrateUserCertificate`
+#### migrateUserCertificate
 
 The `migrateUserCertificate` event can be used to add a complete
 user certificate directly to the database.
@@ -389,5 +395,5 @@ $ilAppEventHandler->raise(
 //                           directories eg. 'course/certificates/282/background.jpg')
 // 'aquired_timestamp' - Timestamp at the time of achieving the certificate,
 //                       could be creation date of the file
-// ilias_version - ILIAS version at the time this event will be send
+// ilias_version - ILIAS version at the time this event will be emitted
 ```
