@@ -24,7 +24,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	/**
 	 * @var ilObjectLP|mixed
 	 */
-	private $learningProgrgressObject;
+	private $learningProgressObject;
 
 	/**
 	 * @param ilObject $object
@@ -35,6 +35,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilObjectLP|null $learningProgressObject
 	 */
 	public function __construct(
 		\ilObject $object,
@@ -45,7 +46,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilObjectLP $learningProgrgressObject = null
+		ilObjectLP $learningProgressObject = null
 	) {
 		$this->object = $object;
 
@@ -62,10 +63,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 			$placeholderDescriptionObject
 		);
 
-		if (null === $learningProgrgressObject) {
-			$learningProgrgressObject = ilObjectLP::getInstance($this->object->getId();
+		if (null === $learningProgressObject) {
+			$learningProgressObject = ilObjectLP::getInstance($this->object->getId();
 		}
-		$this->learningProgrgressObject = $learningProgrgressObject;
+		$this->learningProgressObject = $learningProgressObject;
 	}
 
 	/**
@@ -81,7 +82,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$learningProgressMode = $this->learningProgrgressObject->getCurrentMode();
+		$learningProgressMode = $this->learningProgressObject->getCurrentMode();
 
 		if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
 			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
