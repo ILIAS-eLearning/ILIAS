@@ -4,10 +4,10 @@ php:
     - 7.1
 install:
     - cd ./libs/composer && composer install && cd ../..
-    - cd .. && git clone git@github.com:ILIAS-eLearning/CI-Results.git && cd ILIAS
+    - cd .. && git clone https://github.com/ILIAS-eLearning/CI-Results.git && cd ./ILIAS
 script:
     - ./run_tests.sh
-    - cd .. && ./CI-Results/dicto/run.sh && cd ILIAS
+    - cd .. && ./CI-Results/dicto/run.sh && cd ./ILIAS
 addons:
     apt:
         packages:
