@@ -645,7 +645,7 @@ class ilCronManager implements \ilCronManagerInterface
 		$ilDB = $DIC->database();
 
 		$user_id = 0;
-		if ($DIC->isDependencyAvailable('ilUser')) {
+		if ($DIC->isDependencyAvailable('user')) {
 			$user = $DIC->user();
 			$user_id = $a_manual ? $user->getId() : 0;
 		}
