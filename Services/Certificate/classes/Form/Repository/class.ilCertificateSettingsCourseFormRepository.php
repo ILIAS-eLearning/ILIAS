@@ -22,6 +22,11 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	private $object;
 
 	/**
+	 * @var ilObjectLP|mixed
+	 */
+	private $learningProgrgressObject;
+
+	/**
 	 * @param ilObject $object
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
@@ -39,7 +44,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilObjectLP $learningProgrgressObject = null
 	) {
 		$this->object = $object;
 
@@ -55,6 +61,11 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 			$toolbar,
 			$placeholderDescriptionObject
 		);
+
+		if (null === $learningProgrgressObject) {
+			$learningProgrgressObject = ilObjectLP::getInstance($this->object->getId();
+		}
+		$this->learningProgrgressObject = $learningProgrgressObject;
 	}
 
 	/**
@@ -70,10 +81,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$olp = ilObjectLP::getInstance($this->object->getId());
-		$mode = $olp->getCurrentMode();
+		$learningProgressMode = $this->learningProgrgressObject->getCurrentMode();
 
-		if($mode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+		if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
 			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
 			$formSection = new \ilFormSectionHeaderGUI();
