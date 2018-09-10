@@ -22,7 +22,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	private $object;
 
 	/**
-	 * @param $object
+	 * @param ilObject $object
+	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
@@ -32,6 +33,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 */
 	public function __construct(
 		\ilObject $object,
+		string $certificatePath,
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
@@ -44,6 +46,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		$this->language = $language;
 
 		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
+			$object->getId(),
+			$certificatePath,
 			$language,
 			$template,
 			$controller,
@@ -66,33 +70,38 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$mode = $olp->getCurrentMode();
 
-		$formSection = new \ilFormSectionHeaderGUI();
-		$formSection->setTitle($this->language->txt('course_certificate_options'));
-		$form->addItem($formSection);
+		if($mode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
-		$exp = $subitems->getExplorerGUI();
-		$exp->setSkipRootNode(true);
-		$exp->setRootId($this->object->getRefId());
-		$exp->setTypeWhiteList($this->getLPTypes($this->object));
+			$formSection = new \ilFormSectionHeaderGUI();
+			$formSection->setTitle($this->language->txt('course_certificate_options'));
+			$form->addItem($formSection);
 
-		$subitems->setTitleModifier(function ($id) {
-			$obj_id = ilObject::_lookupObjId($id);
-			$olp = ilObjectLP::getInstance($obj_id);
+			$exp = $subitems->getExplorerGUI();
+			$exp->setSkipRootNode(true);
+			$exp->setRootId($this->object->getRefId());
+			$exp->setTypeWhiteList($this->getLPTypes($this->object->getId()));
 
-			$invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
+			$subitems->setTitleModifier(function ($id) {
+				$obj_id = ilObject::_lookupObjId($id);
+				$olp = ilObjectLP::getInstance($obj_id);
 
-			$mode = $olp->getModeText($olp->getCurrentMode());
+				$invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
 
-			if(in_array($olp->getCurrentMode(), $invalid_modes)) {
-				$mode = '<strong>' . $mode . '</strong>';
-			}
-			return ilObject::_lookupTitle(ilObject::_lookupObjId($id)).' ('.$mode.')';
-		});
+				$mode = $olp->getModeText($olp->getCurrentMode());
 
-		$subitems->setRequired(true);
-		$form->addItem($subitems);
+				if(in_array($olp->getCurrentMode(), $invalid_modes)) {
+					$mode = '<strong>' . $mode . '</strong>';
+				}
+				return ilObject::_lookupTitle(ilObject::_lookupObjId($id)).' ('.$mode.')';
+			});
+
+			$subitems->setRequired(true);
+			$form->addItem($subitems);
+		}
 
 		return $form;
 	}
