@@ -643,10 +643,13 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-		$ilUser = $DIC->user();
 
-		$user_id = $a_manual ? $ilUser->getId() : 0;
-		
+		$user_id = 0;
+		if ($DIC->isDependencyAvailable('ilUser')) {
+			$user = $DIC->user();
+			$user_id = $a_manual ? $user->getId() : 0;
+		}
+
 		$sql = "UPDATE cron_job SET ".
 			" job_status = ".$ilDB->quote(1, "integer").
 			" , job_status_user_id = ".$ilDB->quote($user_id, "integer").
