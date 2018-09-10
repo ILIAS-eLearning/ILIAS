@@ -13,17 +13,24 @@ class ilServicesCertificateSuite extends PHPUnit_Framework_TestSuite
 	{
 		$suite = new self();
 
-		require_once 'Services/Certificate/test/ilCertificateTypeClassMapTest.php';
-		$suite->addTestSuite('ilCertificateTypeClassMapTest');
-
-		require_once 'Services/Certificate/test/ilPageFormatsTest.php';
-		$suite->addTestSuite('ilPageFormatsTest');
-
-		require_once 'Services/Certificate/test/ilCoursePlaceholderDescriptionTest.php';
-		$suite->addTestSuite('ilCoursePlaceholderDescriptionTest');
-
-		require_once 'Services/Certificate/test/ilDefaultPlaceholderDescriptionTest.php';
-		$suite->addTestSuite('ilDefaultPlaceholderDescriptionTest');
+		foreach (new \RegExIterator(
+					 new \RecursiveIteratorIterator(
+						 new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+						 \RecursiveIteratorIterator::LEAVES_ONLY
+					 ), '/(?<!Base)Test\.php$/') as $file) {
+			/** @var \SplFileInfo $file */
+			require_once $file->getPathname();
+			$className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
+			if (class_exists($className)) {
+				$reflection = new \ReflectionClass($className);
+				if (
+					!$reflection->isAbstract() &&
+					!$reflection->isInterface() &&
+					$reflection->isSubclassOf(\PHPUnit_Framework_TestCase::class)) {
+					$suite->addTestSuite($className);
+				}
+			}
+		}
 
 		return $suite;
 	}
