@@ -7,7 +7,7 @@ install:
     - cd .. && git clone git@github.com:ILIAS-eLearning/CI-Results.git && cd ILIAS
 script:
 	- ./run_tests.sh
-	- cd .. && ./CI-Results/dicto/run.sh && cd ILIAS
+    - cd .. && ./CI-Results/dicto/run.sh && cd ILIAS
 addons:
     apt:
         packages:
