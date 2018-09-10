@@ -12,6 +12,11 @@ class ilCertificateTemplatePreviewAction
 	private $templateRepository;
 
 	/**
+	 * @var ilCertificatePlaceholderValues
+	 */
+	private $placeholderValuesObject;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 */
@@ -24,11 +29,11 @@ class ilCertificateTemplatePreviewAction
 	}
 
 	/**
-	 * @param $objectId
+	 * @param int $objectId
 	 * @return bool
 	 * @throws ilException
 	 */
-	public function createPreviewPdf($objectId)
+	public function createPreviewPdf(int $objectId)
 	{
 		ilDatePresentation::setUseRelativeDates(false);
 
@@ -67,9 +72,10 @@ class ilCertificateTemplatePreviewAction
 	 * Exchanges the variables in the certificate text with given values
 	 *
 	 * @param string $certificate_text The XSL-FO certificate text
+	 * @param $template
 	 * @return string XSL-FO code
 	 */
-	private function exchangeCertificateVariables($certificate_text, $template)
+	private function exchangeCertificateVariables(string $certificate_text, ilCertificateTemplate $template)
 	{
 		$insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview();
 		foreach ($this->getCustomCertificateFields() as $key => $value) {
@@ -97,6 +103,8 @@ class ilCertificateTemplatePreviewAction
 
 	/**
 	 * Get custom certificate fields
+	 *
+	 * @return array
 	 */
 	private function getCustomCertificateFields()
 	{
@@ -106,7 +114,8 @@ class ilCertificateTemplatePreviewAction
 		$fields = array();
 		foreach ($fds as $f) {
 			if ($f["certificate"]) {
-				$fields[$f["field_id"]] = array("name" => $f["field_name"],
+				$fields[$f["field_id"]] = array(
+					"name" => $f["field_name"],
 					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
 			}
 		}
