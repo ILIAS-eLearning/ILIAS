@@ -102,7 +102,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI {
 		foreach ($libraries as $library) {
 			if ($library->getShowInList()) {
 				$presentation = new ilBiblLibraryPresentationGUI($library, $this->facade);
-				$arr_library_link[] = $presentation->getButton($this->parent_obj->object, $ilBiblEntry);
+				$arr_library_link[] = $presentation->getButton($this->facade, $ilBiblEntry);
 			}
 		}
 		if (count($arr_library_link)) {

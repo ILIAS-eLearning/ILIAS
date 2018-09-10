@@ -30,16 +30,11 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocCollector;
 import org.apache.lucene.search.BooleanClause.Occur;
 
 import de.ilias.services.lucene.index.FieldInfo;
@@ -50,6 +45,12 @@ import de.ilias.services.settings.LocalSettings;
 
 import de.ilias.services.lucene.settings.*;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser.Operator;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 /**
  * 
@@ -132,8 +133,7 @@ public class RPCSearchHandler {
 			for(Object f : fieldInfo.getFields()) {
 				logger.info(((String) f).toString());
 			}
-			
-			TopDocCollector collector = new TopDocCollector(1000);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(1000);
 			long s_start = new java.util.Date().getTime();
 			searcher.search(query,collector);
 			long s_end = new java.util.Date().getTime();
@@ -146,6 +146,8 @@ public class RPCSearchHandler {
 			long end = new java.util.Date().getTime();
 			logger.info("Total time: " + (end - start));
 			logger.info("Query time: " + (s_end - s_start));
+			logger.info("Num hits: " + collector.topDocs().totalHits);
+			
 
 			return writer.toXML();
 		}
@@ -220,7 +222,7 @@ public class RPCSearchHandler {
 			logger.info("Max clauses allowed: " + BooleanQuery.getMaxClauseCount());
 			
 			logger.info("Rewritten query is: " + query.toString());
-			TopDocCollector collector = new TopDocCollector(1000);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(1000);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
  
@@ -252,6 +254,11 @@ public class RPCSearchHandler {
 		catch(SQLException e) {
 			StringWriter writer = new StringWriter();
 			e.printStackTrace(new PrintWriter(writer));
+			logger.fatal(writer.toString());
+		} 
+		catch (InvalidTokenOffsetsException ex) {
+			StringWriter writer = new StringWriter();
+			ex.printStackTrace(new PrintWriter(writer));
 			logger.fatal(writer.toString());
 		}
 		
@@ -308,13 +315,13 @@ public class RPCSearchHandler {
 					)
 			);
 
-			logger.debug("What occurs" + occurs.toString());
-			logger.debug("Rewritten query is: " + query.toString());
+			logger.info("What occurs" + occurs.toString());
+			logger.info("Rewritten query is: " + query.toString());
 			
-			TopDocCollector collector = new TopDocCollector(1000);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(1000);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
+			
 			long h_start = new java.util.Date().getTime();
 			HitHighlighter hh = new HitHighlighter(query,hits);
 			hh.highlight();
@@ -325,6 +332,7 @@ public class RPCSearchHandler {
 			
 			logger.info("Highlighter time: " + (h_end - h_start));
 			logger.info("Total time: " + (end - start));
+			logger.info("Num hits: " + collector.topDocs().totalHits);
 			return hh.toXML();
 		}
 		catch(CorruptIndexException e) {
@@ -389,8 +397,8 @@ public class RPCSearchHandler {
 			);
 
 			logger.info("Rewritten query is: " + query.toString());
+			TopScoreDocCollector collector = TopScoreDocCollector.create(500);
 			
-			TopDocCollector collector = new TopDocCollector(500);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 

@@ -97,7 +97,7 @@ class ilBiblEntryDetailPresentationGUI {
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());
 			$presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
-			$ci->setHtml($presentation->getButton($this->facade->iliasObject(), $this->entry));
+			$ci->setHtml($presentation->getButton($this->facade, $this->entry));
 			$form->addItem($ci);
 		}
 	}

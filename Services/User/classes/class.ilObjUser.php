@@ -2598,10 +2598,6 @@ class ilObjUser extends ilObject
 	 */
 	private static function getLoginFromAuth()
 	{
-		global $DIC;
-
-		$ilAuth = $DIC['ilAuth'];
-
 		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
 		$login = ilObjUser::_lookupLogin($uid);
 

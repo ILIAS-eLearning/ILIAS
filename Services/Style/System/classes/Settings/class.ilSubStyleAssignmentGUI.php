@@ -63,11 +63,13 @@ class ilSubStyleAssignmentGUI
 
 	}
 
-	/**
-	 * Assign styles to categories
-	 * @param ilSkinXML $skin
-	 * @param ilSkinStyleXML $substyle
-	 */
+    /**
+     * Assign styles to categories
+     *
+     * @param ilSkinXML $skin
+     * @param ilSkinStyleXML $substyle
+     * @throws ilSystemStyleException
+     */
 	function assignStyle(ilSkinXML $skin,ilSkinStyleXML $substyle)
 	{
 		$style = $skin->getStyle($substyle->getSubstyleOf());

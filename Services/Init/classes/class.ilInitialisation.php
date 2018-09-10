@@ -624,6 +624,17 @@ class ilInitialisation
 	/**
 	 * @param \ILIAS\DI\Container $c
 	 */
+	protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
+	{
+		$c["object.customicons.factory"] = function ($c) {
+			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
+			return new ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
 	protected static function initAvatar(\ILIAS\DI\Container $c)
 	{
 		$c["user.avatar.factory"] = function ($c) {
@@ -678,7 +689,7 @@ class ilInitialisation
 	 */
 	protected static function initStyle()
 	{
-		global $styleDefinition, $ilPluginAdmin;
+		global $DIC, $ilPluginAdmin;
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
@@ -690,7 +701,7 @@ class ilInitialisation
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
+			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
 		}
 	}
 
@@ -1181,6 +1192,7 @@ class ilInitialisation
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
+		self::initCustomObjectIcons($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1400,8 +1412,108 @@ class ilInitialisation
 	 */
 	protected static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
-			return new ILIAS\UI\Implementation\Factory();
+			return new ILIAS\UI\Implementation\Factory(
+				$c["ui.factory.counter"],
+				$c["ui.factory.glyph"],
+				$c["ui.factory.button"],
+				$c["ui.factory.listing"],
+				$c["ui.factory.image"],
+				$c["ui.factory.panel"],
+				$c["ui.factory.modal"],
+				$c["ui.factory.dropzone"],
+				$c["ui.factory.popover"],
+				$c["ui.factory.divider"],
+				$c["ui.factory.link"],
+				$c["ui.factory.dropdown"],
+				$c["ui.factory.item"],
+				$c["ui.factory.icon"],
+				$c["ui.factory.viewcontrol"],
+				$c["ui.factory.chart"],
+				$c["ui.factory.input"],
+				$c["ui.factory.table"],
+				$c["ui.factory.messagebox"]
+			);
 		};
+		$c["ui.signal_generator"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\SignalGenerator;
+		};
+		$c["ui.factory.counter"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Counter\Factory();
+		};
+		$c["ui.factory.glyph"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Glyph\Factory();
+		};
+		$c["ui.factory.button"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Button\Factory();
+		};
+		$c["ui.factory.listing"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Listing\Factory();
+		};
+		$c["ui.factory.image"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Image\Factory();
+		};
+		$c["ui.factory.panel"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Panel\Factory($c["ui.factory.panel.listing"]);
+		};
+		$c["ui.factory.modal"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Modal\Factory($c["ui.signal_generator"]);
+		};
+		$c["ui.factory.dropzone"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Dropzone\Factory($c["ui.factory.dropzone.file"]);
+		};
+		$c["ui.factory.popover"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Popover\Factory($c["ui.signal_generator"]);
+		};
+		$c["ui.factory.divider"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Divider\Factory();
+		};
+		$c["ui.factory.link"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Link\Factory();
+		};
+		$c["ui.factory.dropdown"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Dropdown\Factory();
+		};
+		$c["ui.factory.item"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Item\Factory();
+		};
+		$c["ui.factory.icon"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Icon\Factory();
+		};
+		$c["ui.factory.viewcontrol"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
+		};
+		$c["ui.factory.chart"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
+		};
+		$c["ui.factory.input"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Factory(
+				$c["ui.signal_generator"],
+				$c["ui.factory.input.field"],
+				$c["ui.factory.input.container"]
+			);
+		};
+		$c["ui.factory.table"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
+		};
+		$c["ui.factory.messagebox"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
+		};
+		$c["ui.factory.progressmeter"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
+		};
+		$c["ui.factory.dropzone.file"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
+		};
+		$c["ui.factory.input.field"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
+		};
+		$c["ui.factory.input.container"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
+		};
+		$c["ui.factory.panel.listing"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
+		};
+
 		$c["ui.renderer"] = function($c) {
 			return new ILIAS\UI\Implementation\DefaultRenderer
 				( $c["ui.component_renderer_loader"]
@@ -1628,7 +1740,7 @@ class ilInitialisation
 			if(
 				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
 			)
 			{
 				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);

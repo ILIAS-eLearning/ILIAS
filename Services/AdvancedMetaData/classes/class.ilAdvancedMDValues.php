@@ -353,17 +353,26 @@ class ilAdvancedMDValues
 		global $DIC;
 
 		$ilLog = $DIC['ilLog'];
-		
+
 		// clone local records
-		
-		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";	
-		$new_records = $fields_map = array();		
+
+		// new records are created automatically, only if source and target id differs.
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
+		$new_records = $fields_map = array();
+
 		foreach(ilAdvancedMDRecord::_getRecords() as $record)
 		{
 			if($record->getParentObject() == $a_source_id)
 			{
 				$tmp = array();
-				$new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);				
+				if($a_source_id != $a_target_id)
+				{
+					$new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);
+				}
+				else
+				{
+					$new_records[$record->getRecordId()] = $record->getRecordId();
+				}
 				$fields_map[$record->getRecordId()] = $tmp;
 			}
 		}
@@ -386,8 +395,7 @@ class ilAdvancedMDValues
 			}		
 			ilAdvancedMDRecord::saveObjRecSelection($a_target_id, $a_sub_type, $target_sel);
 		}
-		
-		
+
 		// clone values 
 		
 		$source_primary = array("obj_id"=>array("integer", $a_source_id));

@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -17,15 +18,15 @@ class ItemGroupTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+		return new I\Component\Item\Factory;
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$group = $f->item()->group("group", array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+		$group = $f->group("group", array(
+			$f->standard("title1"),
+			$f->standard("title2")
 		));
 
 		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Item\\Group", $group);
@@ -33,9 +34,9 @@ class ItemGroupTest extends ILIAS_UI_TestBase {
 
 	public function test_get_title() {
 		$f = $this->getFactory();
-		$c = $f->item()->group("group", array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+		$c = $f->group("group", array(
+			$f->standard("title1"),
+			$f->standard("title2")
 		));
 
 		$this->assertEquals($c->getTitle(), "group");
@@ -45,11 +46,11 @@ class ItemGroupTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 
 		$items = array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+			$f->standard("title1"),
+			$f->standard("title2")
 		);
 
-		$c = $f->item()->group("group", $items);
+		$c = $f->group("group", $items);
 
 		$this->assertEquals($c->getItems(), $items);
 	}
@@ -57,16 +58,16 @@ class ItemGroupTest extends ILIAS_UI_TestBase {
 	public function test_with_actions() {
 		$f = $this->getFactory();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 		$items = array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+			$f->standard("title1"),
+			$f->standard("title2")
 		);
 
-		$c = $f->item()->group("group", $items)->withActions($actions);
+		$c = $f->group("group", $items)->withActions($actions);
 
 		$this->assertEquals($c->getActions(), $actions);
 	}
@@ -76,11 +77,11 @@ class ItemGroupTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 
 		$items = array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+			$f->standard("title1"),
+			$f->standard("title2")
 		);
 
-		$c = $f->item()->group("group", $items);
+		$c = $f->group("group", $items);
 
 		$html = $r->render($c);
 
@@ -103,16 +104,16 @@ EOT;
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
 		$items = array(
-			$f->item()->standard("title1"),
-			$f->item()->standard("title2")
+			$f->standard("title1"),
+			$f->standard("title2")
 		);
 
-		$c = $f->item()->group("group", $items)->withActions($actions);
+		$c = $f->group("group", $items)->withActions($actions);
 
 		$html = $r->render($c);
 

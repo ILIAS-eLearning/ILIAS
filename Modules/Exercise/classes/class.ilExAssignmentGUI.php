@@ -367,6 +367,11 @@ class ilExAssignmentGUI
 			}
 		}
 
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
+
 		include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
 		ilExPeerReviewGUI::getOverviewContent($a_info, $submission);
 
@@ -375,6 +380,13 @@ class ilExAssignmentGUI
 		{
 			$show_global_feedback = ($a_ass->afterDeadlineStrict() && $a_ass->getFeedbackFile());
 		}
+		//If it is not well configured...(e.g. show solution before deadline)
+		//the user can get the solution before he summit it.
+		//we can check in the elseif $submission->hasSubmitted()
+		elseif($a_ass->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_CUSTOM)
+		{
+			$show_global_feedback = ($a_ass->afterCustomDate() && $a_ass->getFeedbackFile());
+		}
 		else
 		{
 			$show_global_feedback = ($last_sub && $a_ass->getFeedbackFile());
@@ -382,10 +394,6 @@ class ilExAssignmentGUI
 
 		$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
 
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($a_info, $a_ass);
-		}
 	}
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)

@@ -38,6 +38,7 @@ class ilExAssignment
 	
 	const FEEDBACK_DATE_DEADLINE = 1;
 	const FEEDBACK_DATE_SUBMISSION = 2;
+	const FEEDBACK_DATE_CUSTOM = 3;
 	
 	const PEER_REVIEW_VALID_NONE = 1;
 	const PEER_REVIEW_VALID_ONE = 2;
@@ -67,6 +68,7 @@ class ilExAssignment
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
+	protected $feedback_date_custom;
 	protected $team_tutor = false;
 	protected $max_file;
 	protected $portfolio_template;
@@ -757,7 +759,25 @@ class ilExAssignment
 	{
 		return (int)$this->feedback_date;
 	}
-	
+
+	/**
+	 * Set (global) feedback file availability using a custom date.
+	 * @param int $a_value timestamp
+	 */
+	function setFeedbackDateCustom($a_value)
+	{
+		$this->feedback_date_custom = $a_value;
+	}
+
+	/**
+	 * Get feedback file availability using custom date.
+	 * @return string timestamp
+	 */
+	function getFeedbackDateCustom()
+	{
+		return $this->feedback_date_custom;
+	}
+
 	/**
 	 * Set team management by tutor
 	 * 
@@ -805,7 +825,7 @@ class ilExAssignment
 	/**
 	 * Set portfolio template id
 	 *
-	 * @param	int		portfolio id
+	 * @param int $a_val
 	 */
 	function setPortfolioTemplateId($a_val)
 	{
@@ -873,6 +893,7 @@ class ilExAssignment
 		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
+		$this->setFeedbackDateCustom($a_set["fb_date_custom"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
 		$this->setMaxFile($a_set["max_file"]);
@@ -920,13 +941,14 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
 			"max_char_limit" => array("integer", $this->getMaxCharLimit())
-			));
+		));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
@@ -941,7 +963,7 @@ class ilExAssignment
 	function update()
 	{		
 		$ilDB = $this->db;
-		
+
 		$ilDB->update("exc_assignment",
 			array(
 			"exc_id" => array("integer", $this->getExerciseId()),
@@ -966,6 +988,7 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
@@ -998,6 +1021,9 @@ class ilExAssignment
 		$exc->updateAllUsersStatus();
 		
 		$this->handleCalendarEntries("delete");
+
+		$reminder = new ilExAssignmentReminder();
+		$reminder->deleteReminders($this->getId());
 	}
 	
 	
@@ -1048,7 +1074,6 @@ class ilExAssignment
 	
 	/**
 	 * Clone assignments of exercise
-	 *
 	 * @param
 	 * @return
 	 */
@@ -1081,13 +1106,13 @@ class ilExAssignment
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
+			$new_ass->setFeedbackDateCustom($d->getFeedbackDateCustom());
 			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
 			$new_ass->setMinCharLimit($d->getMinCharLimit());
 			$new_ass->setMaxCharLimit($d->getMaxCharLimit());
 			$new_ass->setPortfolioTemplateId($d->getPortfolioTemplateId());
-
 
 			// criteria catalogue(s)
 			if($d->getPeerReviewCriteriaCatalogue() &&
@@ -1382,7 +1407,51 @@ class ilExAssignment
 		}
 		return $mem;
 	}
-	
+
+	/**
+	 * Get submission data for an specific user,exercise and assignment.
+	 * todo we can refactor a bit the method getMemberListData to use this and remove duplicate code.
+	 * @param $a_user_id
+	 * @param $a_grade
+	 * @return array
+	 */
+	public function getExerciseMemberAssignmentData($a_user_id, $a_grade = "")
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+
+		if(in_array($a_grade, array("notgraded", "passed", "failed")))
+		{
+			$and_grade = " AND status = ".$ilDB->quote($a_grade, "text");
+		}
+
+		$q = "SELECT * FROM exc_mem_ass_status ".
+			"WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			$and_grade;
+
+		$set = $ilDB->query($q);
+
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$sub = new ilExSubmission($this, $a_user_id);
+
+			$data["sent_time"] = $rec["sent_time"];
+			$data["submission"] = $sub->getLastSubmission();
+			$data["status_time"] = $rec["status_time"];
+			$data["feedback_time"] = $rec["feedback_time"];
+			$data["notice"] = $rec["notice"];
+			$data["status"] = $rec["status"];
+			$data["mark"] = $rec["mark"];
+			$data["comment"] = $rec["u_comment"];
+		}
+
+		return $data;
+
+	}
+
 	/**
 	 * Create member status record for a new participant for all assignments
 	 */
@@ -1762,24 +1831,41 @@ class ilExAssignment
 		$ilDB = $DIC->database();
 		
 		$res = array();
-		
-		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
+
+		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2,fb_date FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
-			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
-			" AND time_stamp IS NOT NULL".
-			" AND time_stamp > ".$ilDB->quote(0, "integer").			
-			" AND time_stamp < ".$ilDB->quote(time(), "integer").
-			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
+			" AND (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
+				" AND time_stamp IS NOT NULL".
+				" AND time_stamp > ".$ilDB->quote(0, "integer").
+				" AND time_stamp < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").
+			") OR (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_CUSTOM, "integer").
+				" AND fb_date_custom IS NOT NULL".
+				" AND fb_date_custom > ".$ilDB->quote(0, "integer").
+				" AND fb_date_custom < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").")");
+
+
+
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$max = max($row['time_stamp'], $row['deadline2']);
-
-			if(trim($row["fb_file"]) && $max <= time())
+			if($row['fb_date'] == self::FEEDBACK_DATE_DEADLINE)
 			{
-				$res[] = $row["id"];			
+				$max = max($row['time_stamp'], $row['deadline2']);
+				if (trim($row["fb_file"]) && $max <= time())
+				{
+					$res[] = $row["id"];
+				}
 			}
-		}		
-	
+			elseif($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM)
+			{
+				if(trim($row["fb_file"]) && $row['fb_date_custom'] <= time())
+				{
+					$res[] = $row["id"];
+				}
+			}
+		}
+
 		return $res;
 	}
 	
@@ -1872,6 +1958,20 @@ class ilExAssignment
 		
 		return ($deadline > 0 && 
 			$this->afterDeadline());	
+	}
+
+	/**
+	 * @return bool return if sample solution is available using a custom date.
+	 */
+	public function afterCustomDate()
+	{
+		$date_custom = $this->getFeedbackDateCustom();
+
+		//if the solution will be displayed only after reach all the deadlines.
+		//$final_deadline = $this->afterDeadlineStrict();
+		//$dl = max($final_deadline, time());
+		//return ($date_custom - $dl <= 0);
+		return ($date_custom - time() <= 0);
 	}
 	
 	public function beforeDeadline()

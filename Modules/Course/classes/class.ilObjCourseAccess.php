@@ -236,8 +236,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
-			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
+			include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
+			if(ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired())
 			{
 				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
 			}
@@ -482,7 +482,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		else
 		{
 			$registration_possible = false;
-			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
+			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg');
 			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 		}
 		
