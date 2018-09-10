@@ -1,11 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilDefaultPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 {
-	public function testPlaceholderGetHtmlDescription()
+	public function testCreateHtmlDescription()
 	{
 		$languageMock = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
@@ -16,25 +17,25 @@ class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$placeholderDescriptionObject = new ilCoursePlaceholderDescription(null, $languageMock);
+		$placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
 		$this->assertEquals(null, $html);
 	}
 
-	public function testPlaceholderDescriptions()
+	public function testPlaceholderDescription()
 	{
 		$languageMock = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
 			->setMethods(array('txt'))
 			->getMock();
 
-		$languageMock->expects($this->exactly(17))
+		$languageMock->expects($this->exactly(16))
 			->method('txt')
 			->willReturn('Something translated');
 
-		$placeholderDescriptionObject = new ilCoursePlaceholderDescription(null, $languageMock);
+		$placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock);
 
 		$placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
@@ -55,10 +56,8 @@ class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 				'USER_COUNTRY'       => 'Something translated',
 				'USER_MATRICULATION' => 'Something translated',
 				'DATE'               => 'Something translated',
-				'DATETIME'           => 'Something translated',
-				'COURSE_TITLE'       => 'Something translated'
+				'DATETIME'           => 'Something translated'
 			),
-			$placeHolders
-		);
+			$placeHolders);
 	}
 }
