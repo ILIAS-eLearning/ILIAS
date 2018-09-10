@@ -2,11 +2,14 @@
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-function with_sections() {
+function with_object_icon_and_progressmeter() {
 	//Init Factory and Renderer
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
+
+	$icon = $f->icon()->standard('crs', 'Course', 'medium');
+	$progressmeter = $f->chart()->progressMeter()->mini(100,70);
 
 	$content = $f->listing()->descriptive(
 		array(
@@ -22,11 +25,14 @@ function with_sections() {
 	$card = $f->card()->repositoryObject(
 		"Title",
 		$image
+	)->withObjectIcon(
+		$icon
+	)->withProgress(
+		$progressmeter
 	)->withSections(
 		array(
 			$content,
 			$content,
-			$content
 		)
 	);
 

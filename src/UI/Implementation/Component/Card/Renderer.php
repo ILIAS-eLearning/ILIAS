@@ -20,7 +20,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
 		if($component->getImage()){
-			//$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
+			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
 		}
 
 		if($component->isHighlighted()) {
@@ -51,31 +51,30 @@ class Renderer extends AbstractComponentRenderer {
 
 		if($component instanceof Component\Card\RepositoryObject)
 		{
-			if($component->getObjectIcon());
-			{
-				$tpl->setCurrentBlock("action");
-				$tpl->setVariable("OBJECT_ICON",$default_renderer->render($component->getObjectIcon(),$default_renderer));
-				$tpl->parseCurrentBlock();
-			}
-			if($component->getProgressMeter())
-			{
-				$tpl->setCurrentBlock("progress");
-				$tpl->setVariable("PROGRESS_ICON",$default_renderer->render($component->getProgress()));
-				$tpl->parseCurrentBlock();
-			}
-			if($component->getCertificate())
-			{
-				$tpl->setCurrentBlock("progress");
-				$tpl->setVariable("PROGRESS_ICON",$default_renderer->render($component->getCertificate()));
-				$tpl->parseCurrentBlock();
-			}
-			if($component->getActions())
-			{
-				$tpl->setCurrentBlock("actions");
-				$tpl->setVariable("DROPDOWN", $default_renderer->render($component->getActions()));
-				$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("action");
+
+			$obj_icon = $component->getObjectIcon();
+			if($obj_icon !== null) {
+				$tpl->setVariable("OBJECT_ICON",$default_renderer->render($obj_icon,$default_renderer));
 			}
 
+			$progress = $component->getProgress();
+			if($progress !== null) {
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($progress));
+			}
+
+			$certificate = $component->getCertificate();
+			if($certificate !== null) {
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate));
+			}
+
+			$dropdown = $component->getActions();
+			if($dropdown !== null)
+			{
+				$tpl->setVariable("DROPDOWN", $default_renderer->render($dropdown));
+			}
+
+			$tpl->parseCurrentBlock();
 		}
 
 		return $tpl->get();
