@@ -1680,14 +1680,28 @@ class ilNewsItem
 
 		return $objs;
 	}
-	
+
+
 	/**
 	 * Determine title for news item entry
+	 *
+	 * @param string        $a_context_obj_type
+	 * @param string        $a_title
+	 * @param bool          $a_content_is_lang_var
+	 * @param int           $a_agg_ref_id
+	 * @param string|array  $a_aggregation
+	 *
+	 * @return string
 	 */
 	static function determineNewsTitle($a_context_obj_type, $a_title, $a_content_is_lang_var,
 		$a_agg_ref_id = 0, $a_aggregation = "")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
+		/**
+		 * @var ilObjectDefinition $objDefinition
+		 */
+		$objDefinition = $DIC['objDefinition'];
 
 		if ($a_agg_ref_id > 0)
 		{
@@ -1745,6 +1759,9 @@ class ilNewsItem
 		{
 			if ($a_content_is_lang_var)
 			{
+				if($objDefinition->isPlugin($a_context_obj_type))
+					return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
+
 				return $lng->txt($a_title);
 			}
 			else
@@ -1752,8 +1769,6 @@ class ilNewsItem
 				return $a_title;
 			}
 		}
-		
-		return "";
 	}
 
 	/**
@@ -1761,10 +1776,18 @@ class ilNewsItem
 	 */
 	static function determineNewsContent($a_context_obj_type, $a_content, $a_is_lang_var)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
+		/**
+		 * @var ilObjectDefinition $objDefinition
+		 */
+		$objDefinition = $DIC['objDefinition'];
 
 		if ($a_is_lang_var)
 		{
+			if($objDefinition->isPlugin($a_context_obj_type))
+				return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
+
 			$lng->loadLanguageModule($a_context_obj_type);
 			return $lng->txt($a_content);
 		}
