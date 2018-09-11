@@ -3344,7 +3344,7 @@ return array(
     'ilCategoryXmlParser' => $baseDir . '/../../Modules/Category/classes/class.ilCategoryXmlParser.php',
     'ilCategoryXmlWriter' => $baseDir . '/../../Modules/Category/classes/class.ilCategoryXmlWriter.php',
     'ilCertificate' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificate.php',
-    'ilCertificateAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Active/class.ilCertificateAction.php',
+    'ilCertificateAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Active/class.ilCertificateActiveAction.php',
     'ilCertificateAdapter' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateAdapter.php',
     'ilCertificateAdapterInterface' => $baseDir . '/../../Services/Certificate/classes/Adapter/interface.ilCertificateAdapterInterface.php',
     'ilCertificateAppEventListener' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateAppEventListener.php',
