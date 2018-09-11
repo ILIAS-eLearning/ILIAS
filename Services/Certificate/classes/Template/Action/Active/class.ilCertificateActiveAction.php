@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateAction
+class ilCertificateActiveAction
 {
 	/**
 	 * @var ilDBInterface

@@ -3588,7 +3588,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCategoryXmlParser' => __DIR__ . '/../..' . '/../../Modules/Category/classes/class.ilCategoryXmlParser.php',
         'ilCategoryXmlWriter' => __DIR__ . '/../..' . '/../../Modules/Category/classes/class.ilCategoryXmlWriter.php',
         'ilCertificate' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificate.php',
-        'ilCertificateAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Active/class.ilCertificateActiveAction.php',
+        'ilCertificateActiveAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Active/class.ilCertificateActiveAction.php',
         'ilCertificateAdapter' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificateAdapter.php',
         'ilCertificateAdapterInterface' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Adapter/interface.ilCertificateAdapterInterface.php',
         'ilCertificateAppEventListener' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificateAppEventListener.php',
