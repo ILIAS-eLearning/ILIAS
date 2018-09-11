@@ -9,17 +9,43 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	private $templateRepository;
 
 	/**
-	 * @param ilCertificateTemplateRepository $templateRepository
+	 * @var \ILIAS\Filesystem\Filesystem
 	 */
-	public function __construct(ilCertificateTemplateRepository $templateRepository)
-	{
+	private $fileSystem;
+
+	/**
+	 * @var string
+	 */
+	private $rootDirectory;
+
+	/**
+	 * @param ilCertificateTemplateRepository $templateRepository
+	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
+	 * @param string $rootDirectory
+	 */
+	public function __construct(
+		ilCertificateTemplateRepository $templateRepository,
+		\ILIAS\Filesystem\Filesystem $filesystem = null,
+		string $rootDirectory = CLIENT_DIR
+	) {
 		$this->templateRepository = $templateRepository;
+
+		if (null ===$filesystem) {
+			global $DIC;
+			$filesystem = $DIC->filesystem();
+		}
+		$this->fileSystem = $filesystem;
+
+		$this->rootDirectory = $rootDirectory;
 	}
 
 	/**
 	 * @param $templateTemplateId
 	 * @param $objectId
 	 * @return mixed
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	public function delete($templateTemplateId, $objectId)
 	{
@@ -30,14 +56,18 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
 	/**
 	 * @param $previousTemplate
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	private function overwriteBackgroundImageThumbnail($previousTemplate)
 	{
-		$backgroundImagePath = CLIENT_DIR . $previousTemplate->getBackgroundImagePath();
+		$backgroundImagePath = $this->rootDirectory . $previousTemplate->getBackgroundImagePath();
+		if (null !== $backgroundImagePath && '' !== $backgroundImagePath) {
+			$pathInfo = pathinfo($backgroundImagePath);
+			$newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
 
-		$pathInfo = pathinfo($backgroundImagePath);
-		$newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
-
-		copy($backgroundImagePath, $newFilePath);
+			$this->fileSystem->copy($backgroundImagePath, $newFilePath);
+		}
 	}
 }
