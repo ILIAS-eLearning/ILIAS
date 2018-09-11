@@ -66,13 +66,13 @@ class ilCertificateMigrationInformationObject
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return isset($this->id) ? $this->id : 0;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getUserId()
     {
@@ -82,47 +82,47 @@ class ilCertificateMigrationInformationObject
     /**
      * @return bool
      */
-    public function getLock()
+    public function getLock(): bool
     {
-        return $this->lock;
+        return isset($this->lock) ? $this->lock : false;
     }
 
     /**
      * @return int
      */
-    public function getProgressedItems()
+    public function getProgressedItems(): int
     {
-        return $this->processed_items;
+        return isset($this->processed_items) ? $this->processed_items : 0;
     }
 
     /**
      * @return int
      */
-    public function getFoundItems()
+    public function getFoundItems(): int
     {
-        return $this->found_items;
+        return isset($this->found_items) ? $this->found_items : 0;
     }
 
     /**
      * @return int
      */
-    public function getProgress()
+    public function getProgress(): int
     {
-        return $this->progress;
+        return isset($this->progress) ? $this->progress : 0;
     }
 
     /**
      * @return string
      */
-    public function getState()
+    public function getState(): string
     {
-        return $this->state;
+        return isset($this->state) ? $this->state : '';
     }
 
     /**
      * @return int
      */
-    public function getStartingTime()
+    public function getStartingTime(): int
     {
         return isset($this->starting_time) ? $this->starting_time : 0;
     }
@@ -130,7 +130,7 @@ class ilCertificateMigrationInformationObject
     /**
      * @return int
      */
-    public function getFinishedTime()
+    public function getFinishedTime(): int
     {
         return isset($this->finished_time) ? $this->finished_time : 0;
     }
@@ -138,7 +138,7 @@ class ilCertificateMigrationInformationObject
     /**
      * @return int
      */
-    public function getProcessingTime()
+    public function getProcessingTime(): int
     {
         return $this->getFinishedTime() - $this->getStartingTime();
     }
@@ -146,7 +146,7 @@ class ilCertificateMigrationInformationObject
     /**
      * @return array
      */
-    public function getDataAsArray()
+    public function getDataAsArray(): array
     {
         return [
             'id' => $this->getId(),
@@ -162,10 +162,10 @@ class ilCertificateMigrationInformationObject
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return void
      */
-    private function setDataByArray($data)
+    private function setDataByArray(array $data)
     {
         $this->id = $data['id'];
         $this->usr_id = $data['usr_id'];

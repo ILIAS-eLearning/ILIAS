@@ -54,7 +54,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @return \ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      */
-    public function run(Array $input, Observer $observer)
+    public function run(Array $input, Observer $observer): \ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue
     {
         global $DIC;
 
@@ -258,7 +258,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @return bool returns true iff the job's output ONLY depends on the input. Stateless task
      *              results may be cached!
      */
-    public function isStateless()
+    public function isStateless(): bool
     {
         return true;
     }
@@ -269,7 +269,7 @@ class ilCertificateMigrationJob extends AbstractJob
      *             calculate it. If a task duration exceeds this value, it will be displayed as
      *             "possibly failed" to the user
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 100;
     }
@@ -277,7 +277,7 @@ class ilCertificateMigrationJob extends AbstractJob
     /**
      * @return Type[] Classof the Values
      */
-    public function getInputTypes()
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class),
@@ -287,15 +287,15 @@ class ilCertificateMigrationJob extends AbstractJob
     /**
      * @return Type
      */
-    public function getOutputType()
+    public function getOutputType(): SingleType
     {
         return new SingleType(IntegerValue::class);
     }
 
     /**
-     * @return array|mixed
+     * @return array
      */
-    public function getTaskInformations()
+    public function getTaskInformations(): array
     {
         global $DIC;
 
@@ -315,10 +315,10 @@ class ilCertificateMigrationJob extends AbstractJob
     }
 
     /**
-     * @param $state
+     * @param string $state
      * @return void
      */
-    protected function updateState($state)
+    protected function updateState(string $state)
     {
         if (empty($this->getTaskInformations())) {
             $this->initTask();
@@ -389,11 +389,11 @@ class ilCertificateMigrationJob extends AbstractJob
      * @param int $found
      * @param int $processed
      * @param int $migrated
-     * @return float|int
+     * @return float
      */
-    protected function measureProgress($found, $processed = 0, $migrated = 0)
+    protected function measureProgress(int $found, int $processed = 0, int $migrated = 0): float
     {
-        return (100 / $found * (($processed + $migrated) / 2));
+        return (float)(100 / $found * (($processed + $migrated) / 2));
     }
 
     /**
@@ -401,7 +401,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @param string $type
      * @return void
      */
-    protected function logMessage($message, $type = 'info')
+    protected function logMessage(string $message, string $type = 'info')
     {
         $m_prefix = '[BackgroundTask][MigrationJob] ';
         switch ($type) {
@@ -430,7 +430,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * Get certificates for scorm objects
      * @return array
      */
-    protected function getScormCertificates()
+    protected function getScormCertificates(): array
     {
         $this->logMessage('Trying to get scorm certificates for user: ' . $this->user_id);
 
@@ -505,7 +505,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * Get certificates for test objects
      * @return array
      */
-    protected function getTestCertificates()
+    protected function getTestCertificates(): array
     {
         $this->logMessage('Trying to get test certificates for user: ' . $this->user_id);
 
@@ -561,7 +561,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * Get certificates for exercise objects
      * @return array
      */
-    protected function getExerciseCertificates()
+    protected function getExerciseCertificates(): array
     {
         $this->logMessage('Trying to get exercise certificates for user: ' . $this->user_id);
 
@@ -615,7 +615,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * Get certificates for course objects
      * @return array
      */
-    protected function getCourseCertificates()
+    protected function getCourseCertificates(): array
     {
         $this->logMessage('Trying to get course certificates for user: ' . $this->user_id);
 
@@ -674,7 +674,7 @@ class ilCertificateMigrationJob extends AbstractJob
      * @param array $cert_data
      * @return void
      */
-    protected function getCertificateInformations(&$cert_data)
+    protected function getCertificateInformations(array &$cert_data)
     {
         if(array_key_exists('certificate_path', $cert_data))
         {
@@ -689,9 +689,9 @@ class ilCertificateMigrationJob extends AbstractJob
 
     /**
      * @param array $cert_data
-     * @return mixed
+     * @return string
      */
-    protected function renderCertificate($cert_data)
+    protected function renderCertificate(array $cert_data): string
     {
         \ilDatePresentation::setUseRelativeDates(false);
         $this->logMessage(

@@ -59,7 +59,7 @@ class ilCertificateMigration
     /**
      * @return array
      */
-    public function getTaskInformations()
+    public function getTaskInformations(): array
     {
         $result = $this->db->queryF(
             'SELECT * FROM bgtask_cert_migration WHERE usr_id = %s',
@@ -77,23 +77,23 @@ class ilCertificateMigration
     /**
      * @return \ilCertificateMigrationInformationObject
      */
-    public function getTaskInformationObject()
+    public function getTaskInformationObject(): \ilCertificateMigrationInformationObject
     {
         return $this->information_object;
     }
 
     /**
-     * @return float|int
+     * @return float
      */
-    public function getProgressedItemsAsPercent()
+    public function getProgressedItemsAsPercent(): float
     {
-        return (100 / $this->information_object->getFoundItems() * $this->information_object->getProgressedItems());
+        return (float)(100 / $this->information_object->getFoundItems() * $this->information_object->getProgressedItems());
     }
 
     /**
      * @return bool
      */
-    public function isTaskStarted()
+    public function isTaskStarted(): bool
     {
         return $this->information_object->getState() === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_INIT;
     }
@@ -101,7 +101,7 @@ class ilCertificateMigration
     /**
      * @return bool
      */
-    public function isTaskRunning()
+    public function isTaskRunning(): bool
     {
         return (
             $this->information_object->getLock() &&
@@ -112,7 +112,7 @@ class ilCertificateMigration
     /**
      * @return bool
      */
-    public function isTaskFailed()
+    public function isTaskFailed(): bool
     {
         return (
             $this->information_object->getState() === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FAILED ||
@@ -128,7 +128,7 @@ class ilCertificateMigration
     /**
      * @return bool
      */
-    public function isTaskFinished()
+    public function isTaskFinished(): bool
     {
         return $this->information_object->getState() === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FINISHED;
     }

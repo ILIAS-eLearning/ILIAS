@@ -54,13 +54,13 @@ class ilCertificateMigrationGUI
         global $DIC;
 
         if (null === $ctrl) {
-            $this->ctrl = $DIC->ctrl();
+            $ctrl = $DIC->ctrl();
         }
         if (null === $lng) {
-            $this->lng = $DIC->language();
+            $lng = $DIC->language();
         }
         if (null === $access) {
-            $this->access = $DIC->access();
+            $access = $DIC->access();
         }
         $this->ctrl = $ctrl;
         $lng->loadLanguageModule('cert');
@@ -92,7 +92,7 @@ class ilCertificateMigrationGUI
      * @param string $cmd
      * @return mixed
      */
-    public function getCommand($cmd)
+    public function getCommand(string $cmd)
     {
         return $cmd;
     }
@@ -102,7 +102,7 @@ class ilCertificateMigrationGUI
      * @param ilObjUser $user
      * @return string
      */
-    public function startMigration(\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
+    public function startMigration(\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null): string
     {
         global $DIC;
 
@@ -140,7 +140,7 @@ class ilCertificateMigrationGUI
      * @param ilLanguage $lng
      * @return string
      */
-    static function getMigrationMessageBox(string $link, \ilObjUser $user = null, \ILIAS\DI\UIServices $ui = null, \ilLanguage $lng = null)
+    static function getMigrationMessageBox(string $link, \ilObjUser $user = null, \ILIAS\DI\UIServices $ui = null, \ilLanguage $lng = null): string
     {
         global $DIC;
 
