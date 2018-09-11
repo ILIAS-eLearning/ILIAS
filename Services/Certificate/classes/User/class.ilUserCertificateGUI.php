@@ -38,12 +38,18 @@ class ilUserCertificateGUI
 	private $request;
 
 	/**
+	 * @var ilLogger
+	 */
+	private $certificateLogger;
+
+	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
 	 * @param ilUser|null $user
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 * @param \GuzzleHttp\Psr7\Request|null $request
+	 * @param ilLogger $certificateLogger
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -51,7 +57,8 @@ class ilUserCertificateGUI
 		ilLanguage $language = null,
 		ilUser $user = null,
 		ilUserCertificateRepository $userCertificateRepository = null,
-		GuzzleHttp\Psr7\Request $request = null
+		GuzzleHttp\Psr7\Request $request = null,
+		ilLogger $certificateLogger = null
 	) {
 		global $DIC;
 
@@ -86,6 +93,11 @@ class ilUserCertificateGUI
 			$request = $DIC->http()->request();
 		}
 		$this->request = $request;
+
+		if ($certificateLogger === null) {
+			$certificateLogger = $DIC->logger()->cert();
+		}
+		$this->certificateLogger = $certificateLogger;
 	}
 
 	public function executeCommand()
@@ -95,8 +107,7 @@ class ilUserCertificateGUI
 
 		switch ($cmd) {
 			case 'download':
-				$logger = ilLoggerFactory::getLogger('cert');
-				$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $logger);
+				$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
 				$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
 
 				ilUtil::deliverData(

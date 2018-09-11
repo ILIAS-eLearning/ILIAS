@@ -134,7 +134,7 @@ class ilBadgeProfileGUI
 
 		$database = $DIC->database();
 
-		$logger = $DIC->logger()->root();
+		$logger = $DIC->logger()->cert();
 
 		$pdfGenerator = new ilPdfGenerator(new ilUserCertificateRepository($database, $logger), $logger);
 
