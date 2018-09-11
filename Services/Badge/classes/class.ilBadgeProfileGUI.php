@@ -38,15 +38,34 @@ class ilBadgeProfileGUI
 	 */
 	protected $user;
 
+	/**
+	 * @var ilDBInterface
+	 */
+	private $database;
+
+	/**
+	 * @var ilLogger
+	 */
+	private $logger;
+
+	/**
+	 * @var \Psr\Http\Message\ServerRequestInterface
+	 */
+	private $request;
+
 
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
+		$this->database = $DIC->database();
+		$this->logger = $DIC->logger()->root();
+		$this->request = $DIC->http()->request();
+		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
 		$this->tabs = $DIC->tabs();
@@ -79,16 +98,10 @@ class ilBadgeProfileGUI
 
 	public function listCertificates()
 	{
-		global $DIC;
-
-		$database = $DIC->database();
-
-		$logger = $DIC->logger()->root();
-
-		$provider = new ilUserCertificateRepository($database, $logger);
+		$provider = new ilUserCertificateRepository($this->database, $this->logger);
 
 		$table = new ilUserCertificateTableGUI($this, 'show');
-		$certificates = $provider->fetchActiveCertificates($DIC->user()->getId());
+		$certificates = $provider->fetchActiveCertificates($this->user->getId());
 
 		$this->getSubTabs('certificate');
 		$data = array();
@@ -106,7 +119,7 @@ class ilBadgeProfileGUI
 				'id'     => $certificate->getId(),
 				'title'  => $object->getTitle(),
 				'date'   => ilDatePresentation::formatDate($ilDateTime),
-				'action' => $DIC->ctrl()->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
+				'action' => $this->ctrl->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
 			);
 		}
 
@@ -125,7 +138,7 @@ class ilBadgeProfileGUI
 
 		$pdfGenerator = new ilPdfGenerator(new ilUserCertificateRepository($database, $logger), $logger);
 
-		$pdfScalar = $pdfGenerator->generate((int) $_GET['certificate_id']);
+		$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['certificate_id']);
 
 		ilUtil::deliverData(
 			$pdfScalar,
