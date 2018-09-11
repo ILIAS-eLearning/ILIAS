@@ -9,11 +9,22 @@ class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteActio
 	private $deleteAction;
 
 	/**
-	 * @param ilCertificateTemplateDeleteAction $deleteAction
+	 * @var ilSetting|null
 	 */
-	public function __construct(ilCertificateTemplateDeleteAction $deleteAction)
+	private $setting;
+
+	/**
+	 * @param ilCertificateTemplateDeleteAction $deleteAction
+	 * @param ilSetting|null $setting
+	 */
+	public function __construct(ilCertificateTemplateDeleteAction $deleteAction, ilSetting $setting = null)
 	{
 		$this->deleteAction = $deleteAction;
+
+		if (null === $setting) {
+			$setting = new ilSetting('scorm');
+		}
+		$this->setting = $setting;
 	}
 
 	/**
@@ -25,7 +36,6 @@ class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteActio
 	{
 		$this->deleteAction->delete($templateId, $objectId);
 
-		$scormSetting = new ilSetting('scorm');
-		$scormSetting->delete('certificate_' . $objectId);
+		$this->setting->delete('certificate_' . $objectId);
 	}
 }
