@@ -85,6 +85,10 @@ class ilObjectLP
 					include_once "Modules/Folder/classes/class.ilFolderLP.php";
 					return "ilFolderLP";
 
+				case "lso":
+					include_once "Modules/LearningSequence/classes/LearnerProgress/class.ilLSLP.php";
+					return "ilLSLP";
+
 
 				// learning resources
 
@@ -151,9 +155,10 @@ class ilObjectLP
 		global $DIC;
 
 		$objDefinition = $DIC["objDefinition"];
-		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "iass", "copa");
-		
+
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
+			"sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso");
+
 		if(in_array($a_type, $valid))
 		{
 			return true;			
