@@ -95,7 +95,8 @@ class ilUserCertificateGUI
 
 		switch ($cmd) {
 			case 'download':
-				$pdfGenerator = new ilPdfGenerator();
+				$logger = ilLoggerFactory::getLogger('cert');
+				$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $logger);
 				$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
 
 				ilUtil::deliverData(
