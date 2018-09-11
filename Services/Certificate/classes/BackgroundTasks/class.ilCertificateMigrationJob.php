@@ -270,6 +270,8 @@ class ilCertificateMigrationJob extends AbstractJob
             'state' => \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_FINISHED
         ]);
 
+        $DIC->user()->writePref('cert_migr_finished', 1);
+
         return $output;
     }
 

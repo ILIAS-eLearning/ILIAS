@@ -125,6 +125,9 @@ class ilCertificateMigrationGUI
         if (!\ilCertificate::isActive()) {
             return '';
         }
+        if (!$DIC->user()->getPref('cert_migr_finished')) {
+            return '';
+        }
         $migrationHelper = new \ilCertificateMigration($DIC->user()->getId());
         if (
             $migrationHelper->isTaskRunning() ||
