@@ -782,8 +782,9 @@ class ilPersonalProfileGUI
 		}
 
 		if (!$a_migration_started) {
+		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
             $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-            $messagebox = \ilCertificateMigrationGUI::getMigrationMessageBox($messagebox_link);
+            $messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
             $this->tpl->setCurrentBlock('mess');
             $this->tpl->setVariable('MESSAGE', $messagebox);
             $this->tpl->parseCurrentBlock('mess');
