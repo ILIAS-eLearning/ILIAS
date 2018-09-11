@@ -68,7 +68,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 			$certificateQueueRepository = new ilCertificateQueueRepository($database, $logger);
 			$certificateClassMap = new ilCertificateTypeClassMap();
-			$activeAction = new ilCertificateAction($database);
+			$activeAction = new ilCertificateActiveAction($database);
 
 			$objectId = $a_params['obj_id'];
 			$userId = $a_params['usr_id'];
