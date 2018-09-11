@@ -43,13 +43,21 @@ class ilCertificateMigrationGUI
     /** @var \ilTemplate */
     protected $tpl;
 
+    /** @var \ilObjUser */
+    protected $user;
+
+    /** @var \ILIAS\DI\BackgroundTaskServices */
+    protected $backgroundTasks;
+
     /**
      * ilCertificateMigrationGUI constructor.
      * @param \ilCtrl $ctrl
      * @param \ilLanguage $lng
      * @param \ilAccessHandler $acces
+     * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
+     * @param \ilObjUser $user
      */
-    public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null)
+    public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null, \ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
     {
         global $DIC;
 
@@ -62,10 +70,20 @@ class ilCertificateMigrationGUI
         if (null === $access) {
             $access = $DIC->access();
         }
+
+        if (null === $backgroundTasks) {
+            $backgroundTasks = $DIC->backgroundTasks();
+        }
+        if (null === $user) {
+            $user = $DIC->user();
+        }
+
         $this->ctrl = $ctrl;
         $lng->loadLanguageModule('cert');
         $this->lng = $lng;
         $this->access = $access;
+        $this->user = $user;
+        $this->backgroundTasks = $backgroundTasks;
     }
 
     /**
@@ -98,29 +116,17 @@ class ilCertificateMigrationGUI
     }
 
     /**
-     * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
-     * @param ilObjUser $user
      * @return string
      */
-    public function startMigration(\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null): string
+    public function startMigration(): string
     {
-        global $DIC;
-
-        if (null === $backgroundTasks) {
-            $factory = $DIC->backgroundTasks()->taskFactory();
-            $taskManager = $DIC->backgroundTasks()->taskManager();
-        } else {
-            $factory = $backgroundTasks->taskFactory();
-            $taskManager = $backgroundTasks->taskManager();
-        }
-        if (null === $user) {
-            $user = $DIC->user();
-        }
+        $factory = $this->backgroundTasks->taskFactory();
+        $taskManager = $this->backgroundTasks->taskManager();
 
         $bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
-        $bucket->setUserId($user->getId());
+        $bucket->setUserId($this->user->getId());
 
-        $task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$user->getId()]);
+        $task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$this->user->getId()]);
 
         $bucket->setTask($task);
         $bucket->setTitle('Certificate Migration');

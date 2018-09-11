@@ -47,10 +47,9 @@ class ilCertificateMigration
 
         $this->user_id = $user_id;
         if (null === $db) {
-            $this->db = $DIC->database();
-        } else {
-            $this->db = $db;
+            $db = $DIC->database();
         }
+        $this->db = $db;
         $this->information_object = new \ilCertificateMigrationInformationObject(
             $this->getTaskInformations()
         );

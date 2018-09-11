@@ -302,7 +302,7 @@ class ilCertificateMigrationJob extends AbstractJob
         $db = $DIC->database();
 
         $result = $db->queryF(
-            'select * from ' . $this->db_table . ' where usr_id = %s',
+            'SELECT * FROM ' . $this->db_table . ' WHERE usr_id = %s',
             ['integer'],
             [$this->user_id]
         );
