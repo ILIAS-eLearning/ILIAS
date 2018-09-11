@@ -781,15 +781,15 @@ class ilPersonalProfileGUI
 			}
 		}
 
-        $messagebox = '';
 		if (!$a_migration_started) {
-            include_once './Services/Certificate/classes/class.ilCertificate.php';
-            include_once './Services/Certificate/classes/class.ilCertificateMigrationGUI.php';
             $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
             $messagebox = \ilCertificateMigrationGUI::getMigrationMessageBox($messagebox_link);
-
+            $this->tpl->setCurrentBlock('mess');
+            $this->tpl->setVariable('MESSAGE', $messagebox);
+            $this->tpl->parseCurrentBlock('mess');
         }
-        $this->tpl->setContent($messagebox . $this->form->getHTML());
+
+        $this->tpl->setContent($this->form->getHTML());
 
         $this->tpl->show();
 	}
