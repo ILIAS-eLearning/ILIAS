@@ -51,6 +51,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	{
 		$this->templateRepository->deleteTemplate($templateTemplateId, $objectId);
 		$previousTemplate = $this->templateRepository->activatePreviousCertificate($objectId);
+
 		$this->overwriteBackgroundImageThumbnail($previousTemplate);
 	}
 
@@ -62,12 +63,14 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	 */
 	private function overwriteBackgroundImageThumbnail($previousTemplate)
 	{
-		$backgroundImagePath = $this->rootDirectory . $previousTemplate->getBackgroundImagePath();
-		if (null !== $backgroundImagePath && '' !== $backgroundImagePath) {
-			$pathInfo = pathinfo($backgroundImagePath);
+		$relativePath = $previousTemplate->getBackgroundImagePath();
+		$absoluteImagePath = $this->rootDirectory . $relativePath;
+
+		if (null !== $relativePath && '' !== $relativePath) {
+			$pathInfo = pathinfo($absoluteImagePath);
 			$newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
 
-			$this->fileSystem->copy($backgroundImagePath, $newFilePath);
+			$this->fileSystem->copy($absoluteImagePath, $newFilePath);
 		}
 	}
 }
