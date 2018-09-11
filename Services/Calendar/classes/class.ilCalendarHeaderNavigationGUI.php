@@ -121,7 +121,9 @@ class ilCalendarHeaderNavigationGUI
 		}
 		ilDatePresentation::setUseRelativeDates(true);
 		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'today','true');
 		$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'today','');
 
 		// next button
 		$this->incrementDate(1);

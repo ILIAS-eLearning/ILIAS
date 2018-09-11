@@ -747,8 +747,24 @@ class ilCalendarPresentationGUI
 	public function initSeed()
 	{
 		include_once('Services/Calendar/classes/class.ilDate.php');
-		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
+
+		if($_GET['baseClass'] == "ilPersonalDesktopGUI"){
+			$cal_name = "il_pdcal_cal_seed";
+			if($_REQUEST['seed']){
+				$this->seed = new ilDate($_REQUEST['seed'],IL_CAL_DATE);
+			}else if($_SESSION[$cal_name] != "" && !$_GET['today']){
+				$this->seed = new ilDate($_SESSION[$cal_name],IL_CAL_DATE);
+			}else{
+				$this->seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+			}
+
+			$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
+			$_SESSION[$cal_name] = $_GET["seed"];
+		}else{
+			$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+			$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
+		}
+
 		$this->ctrl->saveParameter($this,array('seed'));
  	}
 	
