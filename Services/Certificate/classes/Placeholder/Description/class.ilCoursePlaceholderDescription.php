@@ -37,7 +37,7 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
 		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-		$this->placeholder['COURSE_TITLE'] =  $this->language->txt("crs_title");
+		$this->placeholder['COURSE_TITLE'] =  $this->language->txt('crs_title');
 	}
 
 
@@ -45,11 +45,14 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 	 * This methods MUST return an array containing an array with
 	 * the the description as array value.
 	 *
+	 * @param null $template
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function createPlaceholderHtmlDescription()
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		if (null === $template) {
+			$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		}
 
 		$template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));
 
@@ -72,7 +75,6 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 	 */
 	public function getPlaceholderDescriptions()
 	{
-
 		return $this->placeholder;
 	}
 }

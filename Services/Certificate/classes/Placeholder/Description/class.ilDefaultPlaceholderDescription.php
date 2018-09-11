@@ -48,12 +48,14 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 	 * method is used to create a placeholder value array containing dummy values
 	 * that is used to create a preview certificate.
 	 *
-
+	 * @param null $template
 	 * @return array|mixed
 	 */
-	public function createPlaceholderHtmlDescription()
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		if (null === $template) {
+			$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		}
 
 		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 

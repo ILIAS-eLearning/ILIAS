@@ -1,11 +1,10 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/Certificate/classes/File/Template/class.ilPageFormats.php';
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilPageFormatsTest  extends \PHPUnit_Framework_TestCase
+class ilPageFormatsTest extends \PHPUnit_Framework_TestCase
 {
 	public function testFetchFormats()
 	{
@@ -32,6 +31,7 @@ class ilPageFormatsTest  extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals('a4', $formats['a4']['value']);
 		$this->assertEquals('210mm', $formats['a4']['width']);
+
 		$this->assertEquals('297mm', $formats['a4']['height']);
 		$this->assertEquals('Some Translation', $formats['a4']['name']);
 
