@@ -33,18 +33,25 @@ class ilUserCertificateGUI
 	private $user;
 
 	/**
+	 * @var \GuzzleHttp\Psr7\Request|null|\Psr\Http\Message\ServerRequestInterface
+	 */
+	private $request;
+
+	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
 	 * @param ilUser|null $user
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
+	 * @param \GuzzleHttp\Psr7\Request|null $request
 	 */
 	public function __construct(
 		ilTemplate $template = null,
 		ilCtrl $controller = null,
 		ilLanguage $language = null,
 		ilUser $user = null,
-		ilUserCertificateRepository $userCertificateRepository = null
+		ilUserCertificateRepository $userCertificateRepository = null,
+		GuzzleHttp\Psr7\Request $request = null
 	) {
 		global $DIC;
 
@@ -74,6 +81,11 @@ class ilUserCertificateGUI
 			$user = $DIC->user();
 		}
 		$this->user = $user;
+
+		if ($request === null) {
+			$request = $DIC->http()->request();
+		}
+		$this->request = $request;
 	}
 
 	public function executeCommand()
@@ -84,7 +96,7 @@ class ilUserCertificateGUI
 		switch ($cmd) {
 			case 'download':
 				$pdfGenerator = new ilPdfGenerator();
-				$pdfScalar = $pdfGenerator->generate($_GET['user_certificate_id']);
+				$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
 
 				ilUtil::deliverData(
 					$pdfScalar,
