@@ -5,7 +5,9 @@
     "implicit_maintainers": [
         "akill(149)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Locator",

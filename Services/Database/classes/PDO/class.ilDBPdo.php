@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
-require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
-require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
-require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
-require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
-require_once('./Services/Database/classes/class.ilDBConstants.php');
-require_once('./Services/Database/interfaces/interface.ilDBLegacyInterface.php');
-
 /**
  * Class pdoDB
  *
@@ -196,11 +188,17 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param null $tmpClientIniFile
 	 */
 	public function initFromIniFile($tmpClientIniFile = null) {
-		global $ilClientIniFile;
+		global $DIC;
+
 		if ($tmpClientIniFile instanceof ilIniFile) {
 			$clientIniFile = $tmpClientIniFile;
 		} else {
-			$clientIniFile = $ilClientIniFile;
+			$ilClientIniFile = null;
+			if ($DIC->offsetExists('ilClientIniFile')) {
+				$clientIniFile = $DIC['ilClientIniFile'];
+			} else {
+				throw new InvalidArgumentException('$tmpClientIniFile is not an instance of ilIniFile');
+			}
 		}
 
 		$this->setUsername($clientIniFile->readVariable("db", "user"));
@@ -608,11 +606,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$fields = array();
 		foreach ($values as $key => $val) {
 			$real[] = $this->quote($val[1], $val[0]);
-			$fields[] = $key;
+			$fields[] = $this->quoteIdentifier($key);
 		}
 		$values = implode(",", $real);
-		$fields = implode("`,`", $fields);
-		$query = "INSERT INTO " . $table_name . " (`" . $fields . "`) VALUES (" . $values . ")";
+		$fields = implode(",", $fields);
+		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
 
 		$query = $this->sanitizeMB4StringIfNotSupported($query);
 
@@ -702,7 +700,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$q = "UPDATE " . $table_name . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
-				$q .= $lim . '`' . $field . '`' . " = " . $placeholders[$k];
+				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
 				$lim = ", ";
 			}
 			$q .= " WHERE ";
@@ -956,7 +954,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @deprecated use
 	 */
 	public static function getReservedWords() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		/**
 		 * @var $ilDB ilDBPdo
@@ -973,9 +972,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		assert(is_array($tables));
 
 		$lock = $this->manager->getQueryUtils()->lock($tables);
-		global $ilLog;
-		if ($ilLog instanceof ilLog) {
-			$ilLog->write('ilDB::lockTables(): ' . $lock);
+		global $DIC;
+		$ilLogger = $DIC->logger()->root();
+		if ($ilLogger instanceof ilLogger) {
+			$ilLogger->log('ilDB::lockTables(): ' . $lock);
 		}
 
 		$this->pdo->exec($lock);
@@ -1583,7 +1583,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public static function isReservedWord($a_word) {
 		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
 		global $DIC;
-		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC['ilDB']);
+		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC->database());
 
 		return $ilDBPdoMySQLFieldDefinition->isReserved($a_word);
 	}
@@ -2069,5 +2069,20 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function doesCollationSupportMB4Strings()
 	{
 		return false;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
 	}
 }

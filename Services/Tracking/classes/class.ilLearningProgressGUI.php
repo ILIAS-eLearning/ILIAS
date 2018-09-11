@@ -21,9 +21,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function executeCommand()
 	{
-		global $ilBench, $ilHelp, $ilAccess;
-		
-		$ilBench->start('LearningProgress','0000_Start');
+		global $DIC;
+
+		$ilHelp = $DIC['ilHelp'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$this->ctrl->setReturn($this, "");
 
@@ -122,8 +123,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		$this->__buildFooter();
 
 
-		$ilBench->stop('LearningProgress','0000_Start');
-
 		return true;
 	}
 
@@ -141,7 +140,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 	function __getNextClass()
 	{
-		global $ilAccess, $ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 		
 		// #9857
 		if(!ilObjUserTracking::_enabledLearningProgress())
@@ -265,7 +267,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	 */
 	protected function editManual()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 		
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
 		{	
@@ -280,7 +284,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function initCollectionManualForm()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -365,7 +372,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function updateManual()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
@@ -391,7 +401,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	
 	protected function showtlt()
 	{
-		global $lng, $ilCtrl, $tpl, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilUser = $DIC['ilUser'];
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();

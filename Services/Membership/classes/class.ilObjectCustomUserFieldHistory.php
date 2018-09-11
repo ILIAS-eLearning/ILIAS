@@ -35,7 +35,9 @@ class ilObjectCustomUserFieldHistory
 	 */
 	public static function lookupEntriesByObjectId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM obj_user_data_hist '.
 				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -91,7 +93,9 @@ class ilObjectCustomUserFieldHistory
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->delete();
 		
@@ -110,7 +114,9 @@ class ilObjectCustomUserFieldHistory
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM obj_user_data_hist '.
 				'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer').' '.
@@ -124,7 +130,9 @@ class ilObjectCustomUserFieldHistory
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM obj_user_data_hist '.
 				'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer').' '.

@@ -26,6 +26,15 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		"checkbox"       => array(
 			"context" => false,
 		),
+		"select"		=> array(
+			"context" => false,
+		),
+		"radio"			=> array(
+			"context" => false,
+		),
+		"multiSelect"	=> array(
+			"context" => false,
+		)
 	);
 	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';
 

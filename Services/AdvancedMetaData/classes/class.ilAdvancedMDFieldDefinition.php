@@ -56,7 +56,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public static function getInstance($a_field_id, $a_type = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$a_type)
 		{
@@ -114,7 +116,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public static function getInstancesByRecordId($a_record_id, $a_only_searchable = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$defs = array();
 		
@@ -138,7 +142,9 @@ abstract class ilAdvancedMDFieldDefinition
 	
 	public static function getInstancesByObjType($a_obj_type, $a_active_only = true)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$defs = array();
 		
@@ -169,7 +175,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public static function getInstanceByImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT field_id, field_type FROM adv_mdf_definition".
 			" WHERE import_id = ".$ilDB->quote($a_import_id,'text');
@@ -188,7 +196,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public static function getSearchableDefinitionIds()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$field_ids = array();		
 		
@@ -629,7 +639,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form, ilAdvancedMDPermissionHelper $a_permissions)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$perm = $a_permissions->hasPermissions(
 			ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
@@ -773,7 +785,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	protected function getLastPosition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$sql = "SELECT max(position) pos".
 			" FROM adv_mdf_definition".
@@ -853,7 +867,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	protected function read($a_field_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!(int)$a_field_id)
 		{
@@ -875,7 +891,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public function save($a_keep_pos = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->getFieldId())
 		{
@@ -909,7 +927,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getFieldId())
 		{
@@ -926,7 +946,9 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public function delete()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getFieldId())
 		{
@@ -1074,14 +1096,16 @@ abstract class ilAdvancedMDFieldDefinition
 	
 	/**
 	 * Add object-data needed for global search to AMD search results
-	 * 
+	 *
 	 * @param array $a_records
 	 * @param array $a_object_types
 	 * @return array
 	 */
 	protected function parseSearchObjects(array $a_records, array $a_object_types)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		

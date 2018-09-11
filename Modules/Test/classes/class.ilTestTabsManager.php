@@ -969,8 +969,7 @@ class ilTestTabsManager
 	 */
 	protected function needsResultsTab()
 	{
-		return $this->needsParticipantsResultsSubTab() || $this->needsMyResultsSubTab()
-			|| $this->needsHighSoreSubTab() || $this->needsSkillResultsSubTab();
+		return $this->needsParticipantsResultsSubTab() || $this->testOBJ->isScoreReportingEnabled();
 	}
 	
 	/**
@@ -990,7 +989,7 @@ class ilTestTabsManager
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 		
-		return '';
+		return $DIC->ctrl()->getLinkTargetByClass('ilTestResultsGUI');
 	}
 	
 	/**

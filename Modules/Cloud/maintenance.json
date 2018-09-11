@@ -7,7 +7,9 @@
         "otruffer(29130)",
         "ttruffer(42894)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "amstutz(26468)",
     "testcase_writer": "ttruffer(42894)",
     "path": "Modules/Cloud",

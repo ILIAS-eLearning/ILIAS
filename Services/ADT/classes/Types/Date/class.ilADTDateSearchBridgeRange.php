@@ -33,7 +33,9 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 	
 	public function addToForm()
 	{				
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if($this->getForm() instanceof ilPropertyFormGUI)
 		{			
@@ -150,7 +152,9 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 	
 	public function getSQLCondition($a_element_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->isNull() && $this->isValid())		
 		{

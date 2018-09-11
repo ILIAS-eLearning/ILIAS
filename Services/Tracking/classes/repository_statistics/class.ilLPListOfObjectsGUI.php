@@ -37,7 +37,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	*/
 	function executeCommand()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		$this->ctrl->setReturn($this, "");
 
@@ -91,7 +93,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function updateUser()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		if(isset($_GET["userdetails_id"]))
 		{
@@ -125,7 +129,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function editUser()
 	{
-		global $ilObjDataCache, $rbacsystem;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$parent_id = $this->details_id;
 		if(isset($_GET["userdetails_id"]))
@@ -159,7 +166,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
-		global $ilToolbar;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
@@ -226,7 +235,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function userDetails()
 	{
-		global $ilObjDataCache, $ilToolbar;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilToolbar = $DIC['ilToolbar'];
 
 		if($this->isAnonymized())
 		{
@@ -299,7 +311,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __listObjects()
 	{
-		global $ilUser,$ilObjDataCache;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
 
@@ -312,7 +327,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __initDetails($a_details_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if(!$a_details_id)
 		{
@@ -336,7 +353,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	 */
 	function showObjectSummary()
 	{
-		global $tpl, $ilToolbar;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
 
 		/*
 		$print_view = (bool)$_GET['prt'];
@@ -368,7 +388,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	 */
 	function showUserObjectMatrix()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
 
 		if($this->isAnonymized())
 		{

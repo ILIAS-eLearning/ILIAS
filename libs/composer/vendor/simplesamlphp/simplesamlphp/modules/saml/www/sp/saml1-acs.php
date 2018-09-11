@@ -1,5 +1,7 @@
 <?php
 
+use SimpleSAML\Bindings\Shib13\Artifact;
+
 if (!array_key_exists('SAMLResponse', $_REQUEST) && !array_key_exists('SAMLart', $_REQUEST)) {
 	throw new SimpleSAML_Error_BadRequest('Missing SAMLResponse or SAMLart parameter.');
 }
@@ -21,7 +23,7 @@ $sourceId = substr($sourceId, 1, $end - 1);
 
 $source = SimpleSAML_Auth_Source::getById($sourceId, 'sspmod_saml_Auth_Source_SP');
 
-SimpleSAML_Logger::debug('Received SAML1 response');
+SimpleSAML\Logger::debug('Received SAML1 response');
 
 $target = (string)$_REQUEST['TARGET'];
 
@@ -53,7 +55,7 @@ if (array_key_exists('SAMLart', $_REQUEST)) {
 	}
 	$idpMetadata = $source->getIdPMetadata($state['saml:idp']);
 
-	$responseXML = SimpleSAML_Bindings_Shib13_Artifact::receive($spMetadata, $idpMetadata);
+	$responseXML = Artifact::receive($spMetadata, $idpMetadata);
 	$isValidated = TRUE; /* Artifact binding validated with ssl certificate. */
 } elseif (array_key_exists('SAMLResponse', $_REQUEST)) {
 	$responseXML = $_REQUEST['SAMLResponse'];
@@ -63,7 +65,7 @@ if (array_key_exists('SAMLart', $_REQUEST)) {
 	assert('FALSE');
 }
 
-$response = new SimpleSAML_XML_Shib13_AuthnResponse();
+$response = new \SimpleSAML\XML\Shib13\AuthnResponse();
 $response->setXML($responseXML);
 
 $response->setMessageValidated($isValidated);

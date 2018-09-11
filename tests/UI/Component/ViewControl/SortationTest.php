@@ -5,6 +5,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
@@ -18,8 +19,9 @@ class SortationTest extends ILIAS_UI_TestBase {
 	);
 
 	private function getFactory() {
-		$f = new \ILIAS\UI\Implementation\Factory();
-		return $f->viewControl();
+		return new I\Component\ViewControl\Factory(
+			new SignalGenerator()
+		);
 	}
 
 	public function testConstruction() {
@@ -80,4 +82,27 @@ EOT;
 		return $this->normalizeHTML($expected);
 	}
 
+	public function getUIFactory() {
+		return new \ILIAS\UI\Implementation\Factory(
+			$this->createMock(C\Counter\Factory::class),
+			$this->createMock(C\Glyph\Factory::class),
+			new I\Component\Button\Factory,
+			$this->createMock(C\Listing\Factory::class),
+			$this->createMock(C\Image\Factory::class),
+			$this->createMock(C\Panel\Factory::class),
+			$this->createMock(C\Modal\Factory::class),
+			$this->createMock(C\Dropzone\Factory::class),
+			$this->createMock(C\Popover\Factory::class),
+			$this->createMock(C\Divider\Factory::class),
+			$this->createMock(C\Link\Factory::class),
+			new I\Component\Dropdown\Factory,
+			$this->createMock(C\Item\Factory::class),
+			$this->createMock(C\Icon\Factory::class),
+			$this->createMock(C\ViewControl\Factory::class),
+			$this->createMock(C\Chart\Factory::class),
+			$this->createMock(C\Input\Factory::class),
+			$this->createMock(C\Table\Factory::class),
+			$this->createMock(C\MessageBox\Factory::class)
+		);
+	}
 }

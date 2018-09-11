@@ -25,7 +25,11 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-		global $lng,$ilAccess,$ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
@@ -169,7 +173,10 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl,$lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if(!stristr($a_set['target'], '|'))
 		{

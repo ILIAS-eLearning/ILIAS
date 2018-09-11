@@ -57,16 +57,16 @@ class ilWorkflowDbHelper
 		{
 			$ilDB->update('wfe_workflows', 
 				array(
-					'workflow_type'		=> array ('text', $wf_data['type'] ),
+					'workflow_type'			=> array ('text', $wf_data['type'] ),
 					'workflow_content'	=> array ('text', $wf_data['content']),
-					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
-					'subject_type'		=> array ('text', $wf_subject['type']),
-					'subject_id'		=> array ('integer', $wf_subject['identifier']),
-					'context_type'		=> array ('text', $wf_context['type']),
-					'context_id'		=> array ('integer', $wf_context['identifier']),
+					'workflow_class'		=> array ('text', $workflow->getWorkflowClass()),
+					'workflow_location' 	=> array ('text', $workflow->getWorkflowLocation()),
+					'subject_type'			=> array ('text', $wf_subject['type']),
+					'subject_id'					=> array ('integer', $wf_subject['identifier']),
+					'context_type'			=> array ('text', $wf_context['type']),
+					'context_id'				=> array ('integer', $wf_context['identifier']),
 					'workflow_instance' => array ('clob', $instance),
-					'active'			=> array ('integer', (int)$active)
+					'active'						=> array ('integer', (int)$active)
 				),
 				array(
 					'workflow_id'		=> array ('integer', $wf_id)
@@ -78,16 +78,16 @@ class ilWorkflowDbHelper
 		{
 			$ilDB->insert('wfe_workflows', 
 				array(
-					'workflow_id'		=> array ('integer', $wf_id),
-					'workflow_type'		=> array ('text', $wf_data['type'] ),
-					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
+					'workflow_id'				=> array ('integer', $wf_id),
+					'workflow_type'			=> array ('text', $wf_data['type'] ),
+					'workflow_class'		=> array ('text', $workflow->getWorkflowClass()),
+					'workflow_location'	=> array ('text', $workflow->getWorkflowLocation()),
 					'workflow_content'	=> array ('text', $wf_data['content']),
-					'subject_type'		=> array ('text', $wf_subject['type']),
-					'subject_id'		=> array ('integer', $wf_subject['identifier']),
-					'context_type'		=> array ('text', $wf_context['type']),
-					'context_id'		=> array ('integer', $wf_context['identifier']),
-					'workflow_instance' => array ('clob', $instance),
+					'subject_type'			=> array ('text', $wf_subject['type']),
+					'subject_id'					=> array ('integer', $wf_subject['identifier']),
+					'context_type'			=> array ('text', $wf_context['type']),
+					'context_id'				=> array ('integer', $wf_context['identifier']),
+					'workflow_instance'	=> array ('clob', $instance),
 					'active'			=> array ('integer', (int)$active)
 				)
 			);
@@ -233,14 +233,14 @@ class ilWorkflowDbHelper
 			$ilDB->update('wfe_det_listening', 
 				array(
 					'workflow_id'		=> array ('integer', $wf_id),
-					'type'				=> array ('text', $det_data['type'] ),
-					'content'			=> array ('text', $det_data['content']),
-					'subject_type'		=> array ('text', $det_subject['type']),
-					'subject_id'		=> array ('integer', $det_subject['identifier']),
-					'context_type'		=> array ('text', $det_context['type']),
+					'type'					=> array ('text', $det_data['type'] ),
+					'content'				=> array ('text', $det_data['content']),
+					'subject_type'	=> array ('text', $det_subject['type']),
+					'subject_id'			=> array ('integer', $det_subject['identifier']),
+					'context_type'	=> array ('text', $det_context['type']),
 					'context_id'		=> array ('integer', $det_context['identifier']),
 					'listening_start'	=> array ('integer', $det_listen['listening_start']),
-					'listening_end'		=> array ('integer', $det_listen['listening_end'])
+					'listening_end'	=> array ('integer', $det_listen['listening_end'])
 				),
 				array(
 					'detector_id'		=> array ('integer', $det_id)
@@ -254,14 +254,14 @@ class ilWorkflowDbHelper
 				array(
 					'detector_id'		=> array ('integer', $det_id),
 					'workflow_id'		=> array ('integer', $wf_id),
-					'type'				=> array ('text', $det_data['type'] ),
-					'content'			=> array ('text', $det_data['content']),
-					'subject_type'		=> array ('text', $det_subject['type']),
-					'subject_id'		=> array ('integer', $det_subject['identifier']),
-					'context_type'		=> array ('text', $det_context['type']),
+					'type'					=> array ('text', $det_data['type'] ),
+					'content'				=> array ('text', $det_data['content']),
+					'subject_type'	=> array ('text', $det_subject['type']),
+					'subject_id'			=> array ('integer', $det_subject['identifier']),
+					'context_type'	=> array ('text', $det_context['type']),
 					'context_id'		=> array ('integer', $det_context['identifier']),
 					'listening_start'	=> array ('integer', $det_listen['listening_start']),
-					'listening_end'		=> array ('integer', $det_listen['listening_end'])
+					'listening_end'	=> array ('integer', $det_listen['listening_end'])
 				)
 			);
 		}
@@ -401,13 +401,13 @@ class ilWorkflowDbHelper
 
 		$ilDB->insert('wfe_startup_events',
 					  array(
-						  'event_id'		=> array ('integer', $event_id),
-						  'workflow_id'		=> array ('text', $process_id),
-						  'type'				=> array ('text', $event['type'] ),
+						  'event_id'			=> array ('integer', $event_id),
+						  'workflow_id'	=> array ('text', $process_id),
+						  'type'					=> array ('text', $event['type'] ),
 						  'content'			=> array ('text', $event['content']),
-						  'subject_type'		=> array ('text', $event['subject_type']),
+						  'subject_type'	=> array ('text', $event['subject_type']),
 						  'subject_id'		=> array ('integer', $event['subject_id']),
-						  'context_type'		=> array ('text', $event['context_type']),
+						  'context_type'	=> array ('text', $event['context_type']),
 						  'context_id'		=> array ('integer', $event['context_id'])
 					  )
 		);
@@ -432,7 +432,7 @@ class ilWorkflowDbHelper
 				'input_id'	=> array ('integer', $ilDB->nextId('wfe_static_inputs')),
 				'event_id'	=> array ('integer', $start_event),
 				'name'		=> array ('text',    $key),
-				'value'		=> array ('text',    $value)
+				'value'			=> array ('text',    $value)
 			)
 		);
 	}
@@ -494,7 +494,7 @@ class ilWorkflowDbHelper
 
 		$result = $ilDB->query(
 			'SELECT event_id FROM wfe_startup_events 
-				  WHERE workflow_id = ' . $ilDB->quote($event_id, 'text')
+				  WHERE workflow_id = ' . $ilDB->quote($event_id, 'integer')
 		);
 
 		$events = array();
@@ -506,7 +506,7 @@ class ilWorkflowDbHelper
 		$ilDB->manipulate(
 			'DELETE
 				FROM wfe_startup_events
-				WHERE workflow_id = ' . $ilDB->quote($event_id, 'text')
+				WHERE workflow_id = ' . $ilDB->quote($event_id, 'integer')
 		);
 
 		if(count($events))

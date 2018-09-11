@@ -329,6 +329,18 @@ abstract class assQuestion
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
+	
+	protected static $forcePassResultsUpdateEnabled = false;
+	
+	public static function setForcePassResultUpdateEnabled($forcePassResultsUpdateEnabled)
+	{
+		self::$forcePassResultsUpdateEnabled = $forcePassResultsUpdateEnabled;
+	}
+	
+	public static function isForcePassResultUpdateEnabled()
+	{
+		return self::$forcePassResultsUpdateEnabled;
+	}
 
 	public static function isAllowedImageMimeType($mimeType)
 	{
@@ -1331,6 +1343,11 @@ abstract class assQuestion
 	 */
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
+		if( !$this->validateSolutionSubmit() )
+		{
+			return false;
+		}
+		
 		$this->savePreviewData($previewSession);
 	}
 	
@@ -1403,12 +1420,19 @@ abstract class assQuestion
 
 		$userTestResultUpdateCallback = function() use ($ilDB, $active_id, $pass, $max, $reached, $isFailed, $isPassed, $obligationsAnswered, $row, $mark) {
 
-			$query = "
-				DELETE FROM		tst_result_cache
-				WHERE			active_fi = %s
-			";
+			$passedOnceBefore = 0;
+			$query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
+			$res = $ilDB->queryF($query, array('integer'), array($active_id));
+			while( $row = $ilDB->fetchAssoc($res) )
+			{
+				$passedOnceBefore = (int)$row['passed_once'];
+			}
+			
+			$passedOnce = (int)($isPassed || $passedOnceBefore);
+				
 			$ilDB->manipulateF(
-				$query, array('integer'), array($active_id)
+				"DELETE FROM tst_result_cache WHERE active_fi = %s",
+				array('integer'), array($active_id)
 			);
 
 			$ilDB->insert('tst_result_cache', array(
@@ -1418,6 +1442,7 @@ abstract class assQuestion
 				'reached_points'=> array('float', strlen($reached) ? $reached : 0),
 				'mark_short'=> array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
 				'mark_official'=> array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+				'passed_once' => array('integer', $passedOnce),
 				'passed'=> array('integer', $isPassed),
 				'failed'=> array('integer', $isFailed),
 				'tstamp'=> array('integer', time()),
@@ -3593,14 +3618,7 @@ abstract class assQuestion
 	*/
 	function isHTML($a_text)
 	{
-		if (preg_match("/<[^>]*?>/", $a_text))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE; 
-		}
+		return ilUtil::isHTML($a_text);
 	}
 	
 	/**
@@ -3760,7 +3778,7 @@ abstract class assQuestion
 				);
 			}
 
-			if($old_points != $points || !$rowsnum)
+			if(self::isForcePassResultUpdateEnabled() || $old_points != $points || !$rowsnum)
 			{
 				assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
 				// finally update objective result

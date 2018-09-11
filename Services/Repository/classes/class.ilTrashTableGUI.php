@@ -77,9 +77,9 @@ class ilTrashTableGUI extends ilTable2GUI
 	{
 		$lng = $this->lng;
 		$objDefinition = $this->obj_definition;
-		
-		$img = ilObject::_getIcon($obj_id, "small", $a_set["type"]);
-		if (is_file($img))
+
+		$img = ilObject::_getIcon($a_set["obj_id"], "small", $a_set["type"]);
+		if (strlen($img) > 0)
 		{
 			$alt = ($objDefinition->isPlugin($a_set["type"]))
 				? $lng->txt("icon")." ".ilObjectPlugin::lookupTxtById($a_set["type"], "obj_".$a_set["type"])

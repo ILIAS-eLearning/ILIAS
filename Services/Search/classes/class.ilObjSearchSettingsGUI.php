@@ -68,7 +68,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $ilAccess,$ilErr;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 		
 		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
@@ -88,7 +91,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	{
 		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(!$rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
@@ -135,7 +140,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -170,8 +177,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-		global $lng,$ilDB,$DIC;
-		
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
+
 		$access = $GLOBALS['DIC']->access();
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -318,7 +328,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function updateSettingsObject()
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		
 		$this->initFormSettings();
 		$this->form->checkInput();
@@ -508,7 +520,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function saveLuceneSettingsObject()
 	{
-		global $ilBench,$ilLog,$ilSetting;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilLog = $DIC['ilLog'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->initFormLuceneSettings();
 		
@@ -555,7 +571,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function refreshLuceneSettings()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		if(!ilSearchSettings::getInstance()->enabledLucene())
 		{

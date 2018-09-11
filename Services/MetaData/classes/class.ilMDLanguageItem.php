@@ -77,7 +77,9 @@ class ilMDLanguageItem
 	 */
 	static function _getLanguages()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule("meta");
 

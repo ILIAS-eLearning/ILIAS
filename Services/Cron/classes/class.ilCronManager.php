@@ -180,8 +180,18 @@ class ilCronManager implements \ilCronManagerInterface
 				" , alive_ts = ".$ilDB->quote(time(), "integer").
 				" WHERE job_id = ".$ilDB->quote($a_job_data["job_id"], "text"));
 
-			$ts_in = self::getMicrotime();					
-			$result = $a_job->run();
+			$ts_in = self::getMicrotime();
+			try {
+				$result = $a_job->run();
+			} catch (\Exception $e) {
+				$result = new \ilCronJobResult();
+				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
+				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+			} catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
+				$result = new \ilCronJobResult();
+				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
+				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+			}
 			$ts_dur = self::getMicrotime()-$ts_in;
 
 			// no proper result 
@@ -633,10 +643,13 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-		$ilUser = $DIC->user();
 
-		$user_id = $a_manual ? $ilUser->getId() : 0;
-		
+		$user_id = 0;
+		if ($DIC->isDependencyAvailable('user')) {
+			$user = $DIC->user();
+			$user_id = $a_manual ? $user->getId() : 0;
+		}
+
 		$sql = "UPDATE cron_job SET ".
 			" job_status = ".$ilDB->quote(1, "integer").
 			" , job_status_user_id = ".$ilDB->quote($user_id, "integer").

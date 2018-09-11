@@ -77,7 +77,7 @@ component to other code without being concerned if the other code modifies it.
 ## Implementing Elements in the Framework
 
 As an implementor of components in the ILIAS UI-Framework you need to stick to
-some [rules](doku/rules.md), to make sure the framework behaves in a uniform and
+some [rules](docu/rules.md), to make sure the framework behaves in a uniform and
 predictable way accross all components. Since a lot of code will rely on the
 framework and the Kitchen Sink is coupled to the framework, there also are processes
 to introduce new components in the framework and modify existing components.
@@ -398,6 +398,10 @@ If you would like to implement a new component to the framework you should perfo
     @il-demo-color: @brand-danger;
     ```
 17. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
+
+18. Optional: If your component introduces a new factory, do not forget to wire it up in the according
+    location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
+    `Services/Init/class/class.ilInitialisation.php`.
 
 
 ### How to Change an Existing Component?

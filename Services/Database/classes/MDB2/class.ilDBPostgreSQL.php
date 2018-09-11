@@ -267,7 +267,6 @@ class ilDBPostgreSQL extends ilDB
 
 
 	/**
-	 *
 	 * @param string $a_field_name
 	 * @param string $a_seperator
 	 * @param string $a_order

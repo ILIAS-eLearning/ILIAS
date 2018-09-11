@@ -11,7 +11,15 @@ class ilLoggingErrorSettings {
 	protected $mail;
 
 	protected function __construct() {
-		global $ilIliasIniFile, $ini, $ilClientIniFile;
+		global $DIC;
+
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
+		// temporary bugfix for global usage
+		if($DIC->offsetExists('ini'))
+		{
+			$ini = $DIC['ini'];
+		}
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		//realy not nice but necessary to initalize logger at setup
 		//ilias_ini is named only as $ini in inc.setup_header.php

@@ -45,7 +45,10 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		global $ilLog,$ilUser;
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
+		$ilUser = $DIC['ilUser'];
 		
 		$delete_cache = false;
 		
@@ -57,14 +60,14 @@ class ilCalendarAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case 'create':
-						$ilLog->write(__METHOD__.': Handling create event');
+						$logger->debug('Handling create event');
 						self::createCategory($a_parameter['object']);
 						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
 						$delete_cache = true;
 						break;
 					
 					case 'update':
-						$ilLog->write(__METHOD__.': Handling update event');
+						$logger->debug('Handling update event');
 						self::updateCategory($a_parameter['object']);
 						self::deleteAppointments($a_parameter['obj_id']);
 						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
@@ -72,7 +75,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 						break;
 					
 					case 'delete':
-						$ilLog->write(__METHOD__.': Handling delete event');
+						$logger->debug('Handling delete event');
 						self::deleteCategory($a_parameter['obj_id']);
 						$delete_cache = true;
 						break;
@@ -95,14 +98,14 @@ class ilCalendarAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case 'createAssignment':
-						$ilLog->write(__METHOD__.': Handling create event (exercise assignment)');
+						$logger->debug('Handling create event (exercise assignment)');
 						self::createCategory($a_parameter['object'],true); // exercise category could already exist
 						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
 						$delete_cache = true;
 						break;
 					
 					case 'updateAssignment':
-						$ilLog->write(__METHOD__.': Handling update event (exercise assignment)');
+						$logger->debug('Handling update event (exercise assignment)');
 						self::createCategory($a_parameter['object'],true); // different life-cycle than ilObject
 						self::deleteAppointments($a_parameter['obj_id'],$a_parameter['context_ids']);
 						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
@@ -110,13 +113,13 @@ class ilCalendarAppEventListener implements ilAppEventListener
 						break;
 					
 					case 'deleteAssignment':
-						$ilLog->write(__METHOD__.': Handling delete event (exercise assignment)');
+						$logger->debug('Handling delete event (exercise assignment)');
 						self::deleteAppointments($a_parameter['obj_id'],$a_parameter['context_ids']);
 						$delete_cache = true;
 						break;
 					
 					case 'delete':
-						$ilLog->write(__METHOD__.': Handling delete event');
+						$logger->debug(':Handling delete event');
 						self::deleteCategory($a_parameter['obj_id']);
 						$delete_cache = true;
 						break;
@@ -141,7 +144,9 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function createCategory($a_obj, $a_check_existing = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
@@ -191,7 +196,9 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function createAppointments($a_obj,$a_appointments)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
 
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
@@ -199,7 +206,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		
 		if(!$cat_id = ilCalendarCategories::_lookupCategoryIdByObjId($a_obj->getId()))
 		{
-			$ilLog->write(__METHOD__.': Cannot find calendar category for obj_id '.$a_obj->getId());
+			$logger->warning('Cannot find calendar category for obj_id '.$a_obj->getId());
 			$cat_id = self::createCategory($a_obj);
 		}
 		
@@ -264,13 +271,15 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function deleteCategory($a_obj_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		
 		if(!$cat_id = ilCalendarCategories::_lookupCategoryIdByObjId($a_obj_id))
 		{
-			$ilLog->write(__METHOD__.': Cannot find calendar category for obj_id '.$a_obj_id);
+			$logger->warning('Cannot find calendar category for obj_id '.$a_obj_id);
 			return false;
 		}
 		

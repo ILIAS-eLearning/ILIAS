@@ -337,15 +337,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $button;
 	}
 
-	protected function populateSpecificFeedbackBlock($question_gui)
+	protected function populateSpecificFeedbackBlock(assQuestionGUI $question_gui)
 	{
-		$this->tpl->setCurrentBlock( "specific_feedback" );
-		$this->tpl->setVariable( "SPECIFIC_FEEDBACK",
-								 $question_gui->getSpecificFeedbackOutput(
-									 $this->testSession->getActiveId(),
-									 NULL
-								 )
+		$solutionValues = $question_gui->object->getSolutionValues(
+			$this->testSession->getActiveId(), NULL
 		);
+		
+		$feedback = $question_gui->getSpecificFeedbackOutput(
+			$question_gui->object->fetchIndexedValuesFromValuePairs($solutionValues)
+		);
+		
+		$this->tpl->setCurrentBlock( "specific_feedback" );
+		$this->tpl->setVariable( "SPECIFIC_FEEDBACK", $feedback);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -859,7 +862,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// redirect after test
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
-		if( $redirection_url && $redirection_mode && !$this->object->canViewResults() )
+		if( $redirection_url && $redirection_mode )
 		{
 			if( $redirection_mode == REDIRECT_KIOSK )
 			{
@@ -1215,7 +1218,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 // fau.
 		}
-		else
+		elseif( $this->object->isPostponingEnabled() )
 		{
 			$questionNavigationGUI->setSkipQuestionLinkTarget(
 				$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -1879,17 +1882,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function isParticipantsAnswerFixed($questionId)
 	{
-		if( !$this->object->isInstantFeedbackAnswerFixationEnabled() )
+		if( $this->object->isInstantFeedbackAnswerFixationEnabled() && $this->testSequence->isQuestionChecked($questionId) )
 		{
-			return false;
+			return true;
 		}
 
-		if( !$this->testSequence->isQuestionChecked($questionId) )
+		if( $this->object->isFollowupQuestionAnswerFixationEnabled() && $this->testSequence->isNextQuestionPresented($questionId) )
 		{
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -2270,6 +2273,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
+		$this->populateFeedbackBlockHeader(
+			!$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback()
+		);
+		
 		// This controls if the solution should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
 		if($this->object->getInstantFeedbackSolution())
@@ -2281,12 +2288,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				NULL,                                                #pass
 				FALSE,                                                #graphical_output
 				$show_question_inline_score,                        #result_output
-				FALSE,                                                #show_question_only
+				TRUE,                                                #show_question_only
 				FALSE,                                                #show_feedback
 				TRUE,                                                #show_correct_solution
 				FALSE,                                                #show_manual_scoring
 				FALSE                                                #show_question_text
 			);
+			$solutionoutput = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $solutionoutput);
 			$this->populateSolutionBlock($solutionoutput);
 		}
 		
@@ -2320,6 +2328,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
+	protected function populateFeedbackBlockHeader($withFocusAnchor)
+	{
+		if( $withFocusAnchor )
+		{
+			$this->tpl->setCurrentBlock('inst_resp_id');
+			$this->tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', 'focus');
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock('instant_response_header');
+		$this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	protected function getCurrentSequenceElement()
 	{
 		if( $this->getSequenceElementParameter() )
@@ -2328,6 +2350,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		return $this->testSession->getLastSequence();
+	}
+	
+	protected function resetSequenceElementParameter()
+	{
+		unset($_GET['sequence']);
+		$this->ctrl->setParameter($this, 'sequence', null);
 	}
 
 	protected function getSequenceElementParameter()
@@ -2439,6 +2467,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if (!empty($_POST['save_on_navigation_prevent_confirmation']))
 		{
 			$_SESSION['save_on_navigation_prevent_confirmation'] = true;
+		}
+		
+		if( !empty($_POST[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM]) )
+		{
+			$_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
 		}
 	}
 // fau.
@@ -2588,6 +2621,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->populateNavWhenChangedModal();
 // fau.
 
+		if( $this->object->isFollowupQuestionAnswerFixationEnabled() )
+		{
+			$this->populateNextLocksChangedModal();
+			
+			$this->populateNextLocksUnchangedModal();
+		}
+		
 		if( $this->object->getKioskMode() )
 		{
 			$this->tpl->addJavaScript(ilUIFramework::BOWER_BOOTSTRAP_JS, true);
@@ -2731,7 +2771,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$tpl->setCurrentBlock('checkbox');
 		$tpl->setVariable('CONFIRMATION_CHECKBOX_NAME','save_on_navigation_prevent_confirmation');
-		$tpl->setVariable('CONFIRMATION_CHECKBOX_LABEL',$this->lng->txt('save_on_navigation_prevent_confirmation'));
+		$tpl->setVariable('CONFIRMATION_CHECKBOX_LABEL',$this->lng->txt('tst_dont_show_msg_again_in_current_session'));
 		$tpl->parseCurrentBlock();
 
 		$modal = ilModalGUI::getInstance();
@@ -2744,7 +2784,80 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 // fau.
+		
+	protected function populateNextLocksUnchangedModal()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPlayerConfirmationModal.php';
+		$modal = new ilTestPlayerConfirmationModal();
+		$modal->setModalId('tst_next_locks_unchanged_modal');
 
+		$modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
+		$modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
+		
+		$button = $modal->buildModalButtonInstance('tst_nav_next_empty_answer_button');
+		$button->setCaption('tst_proceed');
+		$button->setPrimary(false);
+		$modal->addButton($button);
+		
+		$button = $modal->buildModalButtonInstance('tst_cancel_next_empty_answer_button');
+		$button->setCaption('cancel');
+		$button->setPrimary(true);
+		$modal->addButton($button);
+		
+		$this->tpl->setCurrentBlock('next_locks_unchanged_modal');
+		$this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	protected function populateNextLocksChangedModal()
+	{
+		if( $this->isFollowUpQuestionLocksConfirmationPrevented() )
+		{
+			return;
+		}
+		
+		require_once 'Modules/Test/classes/class.ilTestPlayerConfirmationModal.php';
+		$modal = new ilTestPlayerConfirmationModal();
+		$modal->setModalId('tst_next_locks_changed_modal');
+		
+		$modal->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'));
+		$modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_current_answer_confirm'));
+		
+		$modal->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
+		$modal->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
+		
+		$button = $modal->buildModalButtonInstance('tst_nav_next_changed_answer_button');
+		$button->setCaption('tst_save_and_proceed');
+		$button->setPrimary(true);
+		$modal->addButton($button);
+		
+		$button = $modal->buildModalButtonInstance('tst_cancel_next_changed_answer_button');
+		$button->setCaption('cancel');
+		$button->setPrimary(false);
+		$modal->addButton($button);
+		
+		$this->tpl->setCurrentBlock('next_locks_changed_modal');
+		$this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	const FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM = 'followup_qst_locks_prevent_confirmation';
+	
+	protected function setFollowUpQuestionLocksConfirmationPrevented()
+	{
+		$_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
+	}
+	
+	protected function isFollowUpQuestionLocksConfirmationPrevented()
+	{
+		if( !isset($_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM]) )
+		{
+			return false;
+		}
+		
+		return $_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM];
+	}
+		
 // fau: testNav - new function populateQuestionEditControl
 	/**
 	 * Populate the navigation and saving control for editable questions
@@ -2793,7 +2906,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		// Forced feedback will change the navigation saving command
 		$config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
-
+		$config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
+		
 		$this->tpl->addJavascript('./Modules/Test/js/ilTestPlayerQuestionEditControl.js');
 		$this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init('.json_encode($config).')');
 	}
@@ -2822,5 +2936,43 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		return $fixedSeed;
+	}
+	
+	protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
+	{
+		if( !isset($_SESSION['forced_feedback_navigation_url']) )
+		{
+			$_SESSION['forced_feedback_navigation_url'] = array();
+		}
+		
+		$_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
+	}
+	
+	protected function getRegisteredForcedFeedbackNavUrl()
+	{
+		if( !isset($_SESSION['forced_feedback_navigation_url']) )
+		{
+			return null;
+		}
+		
+		if( !isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]) )
+		{
+			return null;
+		}
+		
+		return $_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()];
+	}
+	
+	protected function isForcedFeedbackNavUrlRegistered()
+	{
+		return !empty($this->getRegisteredForcedFeedbackNavUrl());
+	}
+	
+	protected function unregisterForcedFeedbackNavUrl()
+	{
+		if( isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]) )
+		{
+			unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
+		}
 	}
 }

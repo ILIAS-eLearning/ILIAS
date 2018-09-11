@@ -32,14 +32,11 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.store.FSDirectory;
-
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.SimpleFSLockFactory;
+import org.apache.lucene.index.IndexWriterConfig;
 
 /**
  * Capsulates the interaction between IndexReader and IndexWriter
@@ -51,6 +48,8 @@ import org.apache.lucene.store.SimpleFSLockFactory;
 public class IndexHolder {
 	
 	protected static Logger logger = Logger.getLogger(IndexHolder.class);
+	
+	public static final int MAX_NUM_SEGMENTS = 100;
 	
 	private static HashMap<String, IndexHolder> instances = new HashMap<String, IndexHolder>();
 	private ClientSettings settings;
@@ -146,13 +145,12 @@ public class IndexHolder {
 			try {
 				logger.info("Closing writer: " + (String) key);
 				IndexHolder holder = instances.get((String) key);
-				FSDirectory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
+				IndexDirectoryFactory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
 				holder.close();
-				// Close
 			}
-			catch (Exception ex)
+			catch (ConfigurationException | IOException ex)
 			{
-				logger.error("Cannot close fs directory");
+				logger.error("Cannot close fs directory: " + ex.getMessage());
 			}
 
 		}
@@ -161,32 +159,26 @@ public class IndexHolder {
 	}
 	
 	/**
-	 * 
+	 * @todo obtain lock for index writer
 	 * @throws IOException
 	 */
-	public void init() throws IOException {
+	public void init() throws IOException, ConfigurationException {
 		
 		try {
 			logger.debug("Adding new separated index for " + LocalSettings.getClientKey());
 			
-			if(IndexWriter.isLocked(FSDirectory.getDirectory(settings.getIndexPath()))) {
-				logger.warn("Index writer is locked. Forcing unlock...");
-				IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
-			}
-
+			IndexWriterConfig writerConfig = new IndexWriterConfig(
+				new StandardAnalyzer()
+			);
+			writerConfig.
+				setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND).
+				setRAMBufferSizeMB(ServerSettings.getInstance().getRAMSize());
 			writer = new IndexWriter(
-					FSDirectory.getDirectory(settings.getIndexPath()),
-					new StandardAnalyzer(),
-					IndexWriter.MaxFieldLength.UNLIMITED);
-			try {
-				writer.setRAMBufferSizeMB(ServerSettings.getInstance().getRAMSize());
-			} 
-			catch (ConfigurationException e) {
-				logger.error("Cannot set RAMBufferSize");
-				
-			}
+				IndexDirectoryFactory.getDirectory(settings.getIndexPath()),
+				writerConfig
+			);
 		}
-		catch(IOException e) {
+		catch(IOException | ConfigurationException e) {
 			throw e;
 		}
 		
@@ -213,9 +205,7 @@ public class IndexHolder {
 		
 		try {
 			getWriter().close();
-			IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
-			// Closing index directory
-			FSDirectory.getDirectory(settings.getIndexPath()).close();
+			IndexDirectoryFactory.getDirectory(settings.getIndexPath()).close();
 
 		} catch (CorruptIndexException e) {
 			logger.fatal("Index corrupted." + e);

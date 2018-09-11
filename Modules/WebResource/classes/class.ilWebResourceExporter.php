@@ -53,7 +53,7 @@ class ilWebResourceExporter extends ilXmlExporter
 		}
 		catch(UnexpectedValueException $e) 
 		{
-			$GLOBALS['ilLog']->write("Caught error: ".$e->getMessage());
+			$GLOBALS['DIC']->logger()->webr()->warning("Caught error: ".$e->getMessage());
 			return '';
 		}
 	}

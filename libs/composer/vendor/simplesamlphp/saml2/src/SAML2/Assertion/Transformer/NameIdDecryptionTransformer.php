@@ -1,22 +1,33 @@
 <?php
 
-class SAML2_Assertion_Transformer_NameIdDecryptionTransformer implements
-    SAML2_Assertion_Transformer_Transformer,
-    SAML2_Configuration_IdentityProviderAware,
-    SAML2_Configuration_ServiceProviderAware
+namespace SAML2\Assertion\Transformer;
+
+use Psr\Log\LoggerInterface;
+use SAML2\Assertion;
+use SAML2\Assertion\Exception\NotDecryptedException;
+use SAML2\Certificate\PrivateKeyLoader;
+use SAML2\Configuration\IdentityProvider;
+use SAML2\Configuration\IdentityProviderAware;
+use SAML2\Configuration\ServiceProvider;
+use SAML2\Configuration\ServiceProviderAware;
+
+class NameIdDecryptionTransformer implements
+    Transformer,
+    IdentityProviderAware,
+    ServiceProviderAware
 {
     /**
-     * @var SAML2_Certificate_PrivateKeyLoader
+     * @var \SAML2\Certificate\PrivateKeyLoader
      */
     private $privateKeyLoader;
 
     /**
-     * @var SAML2_Configuration_IdentityProvider
+     * @var \SAML2\Configuration\IdentityProvider
      */
     private $identityProvider;
 
     /**
-     * @var SAML2_Configuration_ServiceProvider
+     * @var \SAML2\Configuration\ServiceProvider
      */
     private $serviceProvider;
 
@@ -26,13 +37,14 @@ class SAML2_Assertion_Transformer_NameIdDecryptionTransformer implements
     private $logger;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
-        SAML2_Certificate_PrivateKeyLoader $privateKeyLoader
+        LoggerInterface $logger,
+        PrivateKeyLoader $privateKeyLoader
     ) {
+        $this->logger = $logger;
         $this->privateKeyLoader = $privateKeyLoader;
     }
 
-    public function transform(SAML2_Assertion $assertion)
+    public function transform(Assertion $assertion)
     {
         if (!$assertion->isNameIdEncrypted()) {
             return $assertion;
@@ -48,7 +60,7 @@ class SAML2_Assertion_Transformer_NameIdDecryptionTransformer implements
             try {
                 $assertion->decryptNameId($key, $blacklistedKeys);
                 $this->logger->debug(sprintf('Decrypted assertion NameId with key "#%d"', $index));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger->debug(sprintf(
                     'Decrypting assertion NameId with key "#%d" failed, "%s" thrown: "%s"',
                     $index,
@@ -59,7 +71,7 @@ class SAML2_Assertion_Transformer_NameIdDecryptionTransformer implements
         }
 
         if ($assertion->isNameIdEncrypted()) {
-            throw new SAML2_Assertion_Exception_NotDecryptedException(
+            throw new NotDecryptedException(
                 'Could not decrypt the assertion NameId with the configured keys, see the debug log for information'
             );
         }
@@ -67,12 +79,12 @@ class SAML2_Assertion_Transformer_NameIdDecryptionTransformer implements
         return $assertion;
     }
 
-    public function setIdentityProvider(SAML2_Configuration_IdentityProvider $identityProvider)
+    public function setIdentityProvider(IdentityProvider $identityProvider)
     {
         $this->identityProvider = $identityProvider;
     }
 
-    public function setServiceProvider(SAML2_Configuration_ServiceProvider $serviceProvider)
+    public function setServiceProvider(ServiceProvider $serviceProvider)
     {
         $this->serviceProvider = $serviceProvider;
     }

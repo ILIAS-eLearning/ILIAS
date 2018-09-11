@@ -21,7 +21,9 @@ class ilADTTest extends ilADTBasedObject
 	
 	protected function initProperties()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 				
 		// this could be generated from XML or code comments or whatever
 		
@@ -113,7 +115,9 @@ class ilADTTest extends ilADTBasedObject
 	
 	protected function createPrimaryKey()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->id = $ilDB->nextId("adt_test");
 		

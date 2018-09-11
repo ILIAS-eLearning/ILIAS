@@ -281,9 +281,9 @@ class ilCalendarRecurrenceCalculator
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
 	 	{
 			// Switch the date to the original defined timzone for this recurrence 
-			return $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
+			return $this->createDate($this->start->get(IL_CAL_UNIX,'',$this->timezone));
 	 	}
-	 	$optimized = $start = $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
+	 	$optimized = $start = $this->createDate($this->start->get(IL_CAL_UNIX,'',$this->timezone));
 	 	while(ilDateTime::_before($start,$this->period_start))
 	 	{
 	 		$optimized = clone $start;
@@ -300,7 +300,9 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function incrementByFrequency($start)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
 
 		switch($this->recurrence->getFrequenceType())
 		{
@@ -321,7 +323,7 @@ class ilCalendarRecurrenceCalculator
 				break;
 			
 			default:
-				$ilLog->write(__METHOD__.'No frequence defined.');
+				$logger->warning('No frequence defined.');
 				break;
 		}
 		return $start;

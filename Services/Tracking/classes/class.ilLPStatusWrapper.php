@@ -66,7 +66,7 @@ class ilLPStatusWrapper
 			return self::$in_progress_cache[$a_obj_id];
 		}
 
-		global $ilBench;
+		global $DIC;
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		self::$in_progress_cache[$a_obj_id] = $class::_getInProgress($a_obj_id);

@@ -55,7 +55,7 @@ class ilMStListUsers {
 	               phone_office,
 	               phone_mobile,
 	               active
-	               FROM `usr_data`' .
+	               FROM ' . $ilDB->quoteIdentifier('usr_data') .
 
 		          self::createWhereStatement($arr_usr_ids, $options['filters']);
 
