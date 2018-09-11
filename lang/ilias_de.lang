@@ -14286,7 +14286,7 @@ mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Ein
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 common#:#presentation_table_more#:#mehr
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
-common#:#certificate_migration_confirm_start#:#Migration der Zertifikate starten?
-common#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
-common#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
-common#:#certificate_migration_go#:#Los
+cert#:#certificate_migration_confirm_start#:#Migration der Zertifikate starten?
+cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
+cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
+cert#:#certificate_migration_go#:#Los

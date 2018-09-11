@@ -119,6 +119,7 @@ class ilCertificateMigration
             $this->information_object->getState() === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_STOPPED ||
             (
                 $this->information_object->getFinishedTime() === 0 &&
+                $this->information_object->getStartingTime() !== 0 &&
                 strtotime('-1 hours') > $this->information_object->getStartingTime()
             )
         );

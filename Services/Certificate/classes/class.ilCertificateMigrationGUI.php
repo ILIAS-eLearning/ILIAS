@@ -37,9 +37,6 @@ class ilCertificateMigrationGUI
     /** @var \ilLanguage */
     protected $lng;
 
-    /** @var \ilLanguage */
-    static protected $_lng;
-
     /** @var ilAccessHandler */
     protected $access;
 
@@ -66,8 +63,8 @@ class ilCertificateMigrationGUI
             $this->access = $DIC->access();
         }
         $this->ctrl = $ctrl;
+        $lng->loadLanguageModule('cert');
         $this->lng = $lng;
-        self::$_lng = $lng;
         $this->access = $access;
     }
 
@@ -154,8 +151,9 @@ class ilCertificateMigrationGUI
             $ui = $DIC->ui();
         }
         if (null === $lng) {
-            self::$_lng = $lng;
+            $lng = $DIC->language();
         }
+        $lng->loadLanguageModule('cert');
 
         if (!\ilCertificate::isActive()) {
             return '';
@@ -175,16 +173,16 @@ class ilCertificateMigrationGUI
         $ui_renderer = $ui->renderer();
 
         $message_buttons = [
-            $ui_factory->button()->standard(self::$_lng->txt("certificate_migration_go"), $link),
+            $ui_factory->button()->standard($lng->txt("certificate_migration_go"), $link),
         ];
 
         if ($migrationHelper->isTaskFailed()) {
             $messagebox = $ui_factory->messageBox()
-                ->failure(self::$_lng->txt('certificate_migration_lastrun_failed'))
+                ->failure($lng->txt('certificate_migration_lastrun_failed'))
                 ->withButtons($message_buttons);
         } else {
             $messagebox = $ui_factory->messageBox()
-                ->confirmation(self::$_lng->txt('certificate_migration_confirm_start'))
+                ->confirmation($lng->txt('certificate_migration_confirm_start'))
                 ->withButtons($message_buttons);
         }
 
