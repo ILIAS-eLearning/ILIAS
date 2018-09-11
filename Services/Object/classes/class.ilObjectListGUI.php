@@ -2003,7 +2003,7 @@ class ilObjectListGUI
 				continue;
 			}
 
-			include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+			include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 			$cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'],$condition['operator']).' '.$condition['value'];
 			
 			// display trigger item
@@ -2065,7 +2065,7 @@ class ilObjectListGUI
 	*/
 	function insertPreconditions()
 	{
-		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+		include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
 
 		// do not show multi level conditions (messes up layout)
 		if ($this->condition_depth > 0)

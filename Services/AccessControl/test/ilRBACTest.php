@@ -142,7 +142,7 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConditions()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		
 		ilConditionHandler::_getDistinctTargetRefIds();
 		ilConditionHandler::_deleteTargetConditionsByRefId(1);

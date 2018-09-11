@@ -454,7 +454,7 @@ class ilConditionHandler
 		{
 			if(@include_once $p_info['location'].'/class.ilObj'.$p_info['class_name'].'Access.php')
 			{
-				include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+				include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 				$name = 'ilObj'.$p_info['class_name'].'Access';
 				$reflection = new ReflectionClass($name);
 				if($reflection->implementsInterface('ilConditionHandling'))
@@ -503,7 +503,7 @@ class ilConditionHandler
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 		
-		include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+		include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 		
 		$reflection = new ReflectionClass($full_class);
 		if(!$reflection->implementsInterface('ilConditionHandling'))

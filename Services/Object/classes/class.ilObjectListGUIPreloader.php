@@ -89,7 +89,7 @@ class ilObjectListGUIPreloader
 		}
 						
 		// type specific preloads
-		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+		include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
 		foreach ($this->types as $type)
 		{
 			$this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);

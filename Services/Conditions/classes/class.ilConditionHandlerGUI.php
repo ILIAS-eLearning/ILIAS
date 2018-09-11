@@ -48,7 +48,6 @@ class ilConditionHandlerGUI
 		$tree = $DIC['tree'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 
 		$this->ch_obj = new ilConditionHandler();
 
@@ -228,26 +227,6 @@ class ilConditionHandlerGUI
 		return $this->target_title;
 	}
 
-	function chi_init(&$chi_target_obj,$a_ref_id = null)
-	{
-		echo 'deprecated';
-		
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
-
-		$this->ch_obj = new ilConditionHandler();
-
-		if($a_ref_id)
-		{
-			$this->target_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
-		}
-		else
-		{
-			$this->target_obj =& $this->object;
-		}
-
-		return true;
-	}
-
 	/**
 	 * list conditions
 	 * @global ilToolbar 
@@ -293,7 +272,6 @@ class ilConditionHandlerGUI
 			}
 		}
 
-		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
 		$table = new ilConditionHandlerTableGUI($this,'listConditions', ($_REQUEST["list_mode"] != "all"));
 		$table->setConditions(
 			ilConditionHandler::_getConditionsOfTarget(
@@ -322,7 +300,6 @@ class ilConditionHandlerGUI
 				case "all":
 					if($old_mode != "all")
 					{
-						include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 						$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
@@ -519,7 +496,6 @@ class ilConditionHandlerGUI
 		}
 
 		// Update condition
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		$condition_handler = new ilConditionHandler();
 
 		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
@@ -622,8 +598,6 @@ class ilConditionHandlerGUI
 	
 	function selector()
 	{
-		include_once ("./Services/AccessControl/classes/class.ilConditionSelector.php");
-
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this, "selector");
@@ -760,7 +734,6 @@ class ilConditionHandlerGUI
 	}
 	function __getConditionsOfTarget()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
 		{
@@ -833,7 +806,6 @@ class ilConditionHandlerGUI
 		$this->form->addItem($obl);
 	 	
 	 	$sel = new ilSelectInputGUI($this->lng->txt('condition'),'operator');
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		$ch_obj = new ilConditionHandler();
 		if($a_mode == 'add')
 		{

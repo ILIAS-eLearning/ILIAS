@@ -79,7 +79,7 @@ class ilScormLP extends ilObjectLP
 	
 	protected function checkSCORMPreconditions()
 	{
-		include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+		include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 		if(count(ilConditionHandler::_getConditionsOfTrigger('sahs', $this->obj_id)))
 		{
 			return true;

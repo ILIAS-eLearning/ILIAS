@@ -1982,7 +1982,7 @@ class ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php' ;
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php' ;
 		ilConditionHandler::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
 		
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
