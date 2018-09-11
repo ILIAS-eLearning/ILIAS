@@ -21,10 +21,6 @@
   +----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Certificate/classes/class.ilCertificate.php");
-include_once("./Services/Certificate/classes/Migration/class.ilCertificateMigration.php");
-include_once("./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJob.php");
-
 /**
  * Class ilCertificateMigrationGUI
  * @author Ralph Dittrich <dittrich@qualitus.de>
@@ -35,30 +31,44 @@ include_once("./Services/Certificate/classes/BackgroundTasks/class.ilCertificate
 class ilCertificateMigrationGUI
 {
 
-    /** @var ilCtrl */
+    /** @var \ilCtrl */
     protected $ctrl;
 
-    /** @var ilLanguage */
+    /** @var \ilLanguage */
     protected $lng;
+
+    /** @var \ilLanguage */
+    static protected $_lng;
 
     /** @var ilAccessHandler */
     protected $access;
 
-    /**
-     * @var \ilTemplate
-     */
+    /** @var \ilTemplate */
     protected $tpl;
 
     /**
      * ilCertificateMigrationGUI constructor.
+     * @param \ilCtrl $ctrl
+     * @param \ilLanguage $lng
+     * @param \ilAccessHandler $acces
      */
-    public function __construct()
+    public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null)
     {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        if (null === $ctrl) {
+            $this->ctrl = $DIC->ctrl();
+        }
+        if (null === $lng) {
+            $this->lng = $DIC->language();
+        }
+        if (null === $access) {
+            $this->access = $DIC->access();
+        }
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        self::$_lng = $lng;
+        $this->access = $access;
     }
 
     /**
@@ -91,19 +101,29 @@ class ilCertificateMigrationGUI
     }
 
     /**
+     * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
+     * @param ilObjUser $user
      * @return string
      */
-    public function startMigration()
+    public function startMigration(\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
     {
         global $DIC;
 
-        $factory = $DIC->backgroundTasks()->taskFactory();
-        $taskManager = $DIC->backgroundTasks()->taskManager();
+        if (null === $backgroundTasks) {
+            $factory = $DIC->backgroundTasks()->taskFactory();
+            $taskManager = $DIC->backgroundTasks()->taskManager();
+        } else {
+            $factory = $backgroundTasks->taskFactory();
+            $taskManager = $backgroundTasks->taskManager();
+        }
+        if (null === $user) {
+            $user = $DIC->user();
+        }
 
         $bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
-        $bucket->setUserId($DIC->user()->getId());
+        $bucket->setUserId($user->getId());
 
-        $task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$DIC->user()->getId()]);
+        $task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$user->getId()]);
 
         $bucket->setTask($task);
         $bucket->setTitle('Certificate Migration');
@@ -111,24 +131,39 @@ class ilCertificateMigrationGUI
 
         $taskManager->run($bucket);
 
-        return $DIC->language()->txt('certificate_migration_confirm_started');
+        return $this->lng->txt('certificate_migration_confirm_started');
     }
 
     /**
      * Get confirmation messagebox for manual migration start
+     *
+     * @param string $link
+     * @param ilObjUser $user
+     * @param \ILIAS\DI\UIServices $ui
+     * @param ilLanguage $lng
      * @return string
      */
-    static function getMigrationMessageBox($link)
+    static function getMigrationMessageBox(string $link, \ilObjUser $user = null, \ILIAS\DI\UIServices $ui = null, \ilLanguage $lng = null)
     {
         global $DIC;
+
+        if (null === $user) {
+            $user = $DIC->user();
+        }
+        if (null === $ui) {
+            $ui = $DIC->ui();
+        }
+        if (null === $lng) {
+            self::$_lng = $lng;
+        }
 
         if (!\ilCertificate::isActive()) {
             return '';
         }
-        if (!$DIC->user()->getPref('cert_migr_finished')) {
+        if ($user->getPref('cert_migr_finished') === 1) {
             return '';
         }
-        $migrationHelper = new \ilCertificateMigration($DIC->user()->getId());
+        $migrationHelper = new \ilCertificateMigration($user->getId());
         if (
             $migrationHelper->isTaskRunning() ||
             $migrationHelper->isTaskFinished()
@@ -136,25 +171,24 @@ class ilCertificateMigrationGUI
             return '';
         }
 
-        $ui_factory = $DIC->ui()->factory();
-        $ui_renderer = $DIC->ui()->renderer();
+        $ui_factory = $ui->factory();
+        $ui_renderer = $ui->renderer();
 
         $message_buttons = [
-            $ui_factory->button()->standard($DIC->language()->txt("certificate_migration_go"), $link),
+            $ui_factory->button()->standard(self::$_lng->txt("certificate_migration_go"), $link),
         ];
 
         if ($migrationHelper->isTaskFailed()) {
             $messagebox = $ui_factory->messageBox()
-                ->failure($DIC->language()->txt('certificate_migration_lastrun_failed'))
+                ->failure(self::$_lng->txt('certificate_migration_lastrun_failed'))
                 ->withButtons($message_buttons);
         } else {
             $messagebox = $ui_factory->messageBox()
-                ->confirmation($DIC->language()->txt('certificate_migration_confirm_start'))
+                ->confirmation(self::$_lng->txt('certificate_migration_confirm_start'))
                 ->withButtons($message_buttons);
         }
 
         return $ui_renderer->render($messagebox);
-
     }
 
 }

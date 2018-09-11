@@ -27,27 +27,6 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 
-include_once "./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJobDefinitions.php";
-include_once "./Services/Certificate/classes/class.ilCertificate.php";
-include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
-include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
-include_once "./Services/Tracking/classes/class.ilLPStatus.php";
-include_once "./Services/Utilities/classes/class.ilUtil.php";
-include_once "./Services/User/classes/class.ilUserDefinedFields.php";
-require_once "./Services/MathJax/classes/class.ilMathJax.php";
-include_once "./Services/WebServices/RPC/classes/class.ilRpcClientFactory.php";
-include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-include_once "./Modules/Test/classes/class.ilObjTest.php";
-include_once "./Modules/Test/classes/class.ilTestSessionFactory.php";
-include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
-include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-include_once "./Modules/Course/classes/class.ilObjCourse.php";
-include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-
 /**
  * Class ilCertificateMigrationJob
  * @author Ralph Dittrich <dittrich@qualitus.de>
@@ -348,6 +327,9 @@ class ilCertificateMigrationJob extends AbstractJob
         $this->db->update($this->db_table, ['state' => ['text', $state] ], ['usr_id' => ['integer', $this->user_id] ]);
     }
 
+    /**
+     * @return void
+     */
     protected function initTask()
     {
         $this->logMessage('Insert new entry for user with id: ' . $this->user_id, 'debug');
@@ -801,15 +783,12 @@ class ilCertificateMigrationJob extends AbstractJob
         }
         $xslfo = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $xslfo);
 
-//        $pdf_base64 = \ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($xslfo);
-
         $this->logMessage(
             'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id,
             'debug'
         );
 
         ilDatePresentation::setUseRelativeDates(true);
-//        return $pdf_base64->scalar;
         return $xslfo;
     }
 
