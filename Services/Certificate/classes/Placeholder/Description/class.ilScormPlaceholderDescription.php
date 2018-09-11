@@ -23,14 +23,21 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	private $object;
 
 	/**
+	 * @var ilObjectLP|mixed|null
+	 */
+	private $learningProgressObject;
+
+	/**
 	 * @param ilObject $object
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
 	 * @param ilLanguage|null $language
+	 * @param ilObjectLP|null $learningProgressObject
 	 */
 	public function __construct(
 		ilObject $object,
 		ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-		ilLanguage $language = null
+		ilLanguage $language = null,
+		ilObjectLP $learningProgressObject = null
 	) {
 		global $DIC;
 
@@ -46,7 +53,12 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-		$this->placeHolders = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+		if (null === $learningProgressObject) {
+			$learningProgressObject = ilObjectLP::getInstance($this->object->getId());
+		}
+		$this->learningProgressObject = $learningProgressObject;
+
+		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
 		$this->placeholder['SCORM_TITLE']      = $language->txt('certificate_ph_scormtitle');
 		$this->placeholder['SCORM_POINTS']     = $language->txt('certificate_ph_scormpoints');
@@ -57,11 +69,15 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 * This methods MUST return an array containing an array with
 	 * the the description as array value.
 	 *
+	 * @param ilTemplate|null $template
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function createPlaceholderHtmlDescription()
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
 	{
-		$template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
+		if (null === $template) {
+			$template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
+		}
+
 		$template->setCurrentBlock('items');
 
 		foreach($this->placeholder as $id => $caption) {
@@ -72,8 +88,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
 		$template->setVariable('PH_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
-		$olp = ilObjectLP::getInstance($this->object->getId());
-		$collection = $olp->getCollectionInstance();
+		$collection = $this->learningProgressObject->getCollectionInstance();
 		if($collection) {
 			$items = $collection->getPossibleItems();
 		}
@@ -123,6 +138,6 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 */
 	public function getPlaceholderDescriptions()
 	{
-		return $this->placeHolders;
+		return $this->placeholder;
 	}
 }
