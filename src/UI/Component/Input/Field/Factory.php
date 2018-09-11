@@ -255,7 +255,6 @@ interface Factory {
 	 *     4: >
 	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
 	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
-	 *      (Not yet part of the KitchenSink).
 	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
@@ -437,5 +436,48 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Radio
 	 */
 	public function radio($label, $byline = null);
-}
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Multi Select is used to allow users to pick several options from a list.
+	 *   composition: >
+	 *     The Multi Select field will render labeled checkboxes according to given options.
+	 *   effect: >
+	 *
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
+	 *     Select Field: >
+	 *       Use a Select Input when the user's choice is limited to one option
+	 *       or the options are mutually exclusive.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A Multi Select input SHOULD be used when a user has to choose from a finite list of options
+	 *      which cannot be extended by the user's input and where more than one choice can be made.
+	 *     2: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     3: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one option can be selected. A Select MUST be used in this case
+	 *
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: >
+	 *       If the option governs a change of (service-)behavior, the option's
+	 *       label MUST be in form of a positive statement.
+ 	 *
+ 	 * ---
+ 	 * @param string 	$label
+ 	 * @param array<string,string> 	$options 	with the select options as value=>label.
+ 	 * @param string 	$byline
+ 	 *
+ 	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
+ 	 */
+ 	public function multiSelect($label, array $options, $byline = null);
+}

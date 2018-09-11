@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -87,6 +88,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Radio) {
 			return $this->renderRadioField($input, $default_renderer);
+		} else if ($input instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -301,6 +304,10 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Select):
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
 			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(
@@ -335,7 +342,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
-		global $DIC;
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -361,6 +367,25 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		return $tpl;
+	}
+
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+
+			$tpl->parseCurrentBlock();
+		}
 		return $tpl;
 	}
 
@@ -508,16 +533,19 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\Input\Field\Text::class,
-				Component\Input\Field\Numeric::class,
-				Component\Input\Field\Group::class,
-				Component\Input\Field\Section::class,
-				Component\Input\Field\Checkbox::class,
-				Component\Input\Field\Tag::class,
-				Component\Input\Field\DependantGroup::class,
-				Component\Input\Field\Password::class,
-				Component\Input\Field\Select::class,
-				Component\Input\Field\Radio::class,
-		 		Component\Input\Field\TextArea::class];
+		return [
+			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
+			Component\Input\Field\Section::class,
+			Component\Input\Field\Checkbox::class,
+			Component\Input\Field\Tag::class,
+			Component\Input\Field\DependantGroup::class,
+			Component\Input\Field\Password::class,
+			Component\Input\Field\Select::class,
+			Component\Input\Field\Radio::class,
+			Component\Input\Field\TextArea::class,
+			Component\Input\Field\MultiSelect::class
+		];
 	}
 }

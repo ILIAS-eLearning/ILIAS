@@ -38,7 +38,7 @@
 * @param	string		$save_pathDSN	information about how to access the database, format:
 *										dbtype(dbsyntax)://username:password@protocol+hostspec/database
 *										eg. mysql://phpsessmgr:topsecret@db.example.com/sessiondb
-* @param	string		$name			session name [PHPSESSID]
+* @param	string		$name			session name [session_name()]
 */
 function db_pwassist_session_open($save_path, $name)
 {
