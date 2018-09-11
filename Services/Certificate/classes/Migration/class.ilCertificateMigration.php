@@ -21,9 +21,6 @@
   +----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Certificate/classes/Migration/class.ilCertificateMigrationInformationObject.php");
-include_once("./Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJobDefinitions.php");
-
 /**
  * Class ilCertificateMigration
  * @author Ralph Dittrich <dittrich@qualitus.de>
@@ -36,13 +33,22 @@ class ilCertificateMigration
     /** @var \ilCertificateMigrationInformationObject */
     protected $information_object;
 
+    /** @var \ilDBInterface */
+    protected $db;
+
     /**
      * ilCertificateMigration constructor.
      * @param int $user_id
+     * @param \ilDBInterface $db
      */
-    public function __construct($user_id)
+    public function __construct(int $user_id, \ilDBInterface $db = null)
     {
+        global $DIC;
+
         $this->user_id = $user_id;
+        if (null === $db) {
+            $this->db = $DIC->database();
+        }
         $this->information_object = new \ilCertificateMigrationInformationObject(
             $this->getTaskInformations()
         );
@@ -53,18 +59,14 @@ class ilCertificateMigration
      */
     public function getTaskInformations()
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $result = $db->queryF(
-            'select * from bgtask_cert_migration where usr_id = %s',
+        $result = $this->db->queryF(
+            'SELECT * FROM bgtask_cert_migration WHERE usr_id = %s',
             ['integer'],
             [$this->user_id]
         );
         if ($result->numRows() == 1)
         {
-            $data = $db->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             return $data;
         }
         return [];
