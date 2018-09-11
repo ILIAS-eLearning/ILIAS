@@ -125,7 +125,7 @@ class ilBadgeProfileGUI
 
 		$pdfGenerator = new ilPdfGenerator(new ilUserCertificateRepository($database, $logger), $logger);
 
-		$pdfScalar = $pdfGenerator->generate($_GET['certificate_id']);
+		$pdfScalar = $pdfGenerator->generate((int) $_GET['certificate_id']);
 
 		ilUtil::deliverData(
 			$pdfScalar,
