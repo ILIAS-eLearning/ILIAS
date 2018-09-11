@@ -48,11 +48,14 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
 	 * This methods MUST return an array containing an array with
 	 * the the description as array value.
 	 *
+	 * @param ilTemplate $template
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function createPlaceholderHtmlDescription()
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
 	{
-		$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		if (null === $template) {
+			$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+		}
 
 		$template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
@@ -75,6 +78,6 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
 	 */
 	public function getPlaceholderDescriptions()
 	{
-		return $this->placeHolders;
+		return $this->placeholder;
 	}
 }
