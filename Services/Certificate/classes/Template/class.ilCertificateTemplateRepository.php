@@ -14,11 +14,20 @@ class ilCertificateTemplateRepository
 	private $logger;
 
 	/**
+	 * @var null|ObjectHelper
+	 */
+	private $objectHelper;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
+	 * @param ObjectHelper|null $objectHelper
 	 */
-	public function __construct(\ilDBInterface $database, ilLogger $logger = null)
-	{
+	public function __construct(
+		\ilDBInterface $database,
+		ilLogger $logger = null,
+		ObjectHelper $objectHelper = null
+	) {
 		$this->database = $database;
 
 		if (null === $logger) {
@@ -26,6 +35,10 @@ class ilCertificateTemplateRepository
 		}
 		$this->logger = $logger;
 
+		if (null === $objectHelper) {
+			$objectHelper = new ObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
 	}
 
 	/**
@@ -43,16 +56,16 @@ class ilCertificateTemplateRepository
 		$this->deactivatePreviousTemplates($objId);
 
 		$columns = array(
-			'id' => array('integer', $id),
-			'obj_id' => array('integer', $objId),
-			'obj_type' => array('clob', $certificateTemplate->getObjType()),
-			'certificate_content' => array('clob', $certificateTemplate->getCertificateContent()),
-			'certificate_hash' => array('text', $certificateTemplate->getCertificateHash()),
-			'template_values' => array('clob', $certificateTemplate->getTemplateValues()),
-			'version' => array('clob', $certificateTemplate->getVersion()),
-			'ilias_version' => array('clob', $certificateTemplate->getIliasVersion()),
-			'created_timestamp' => array('integer', $certificateTemplate->getCreatedTimestamp()),
-			'currently_active' => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
+			'id'                    => array('integer', $id),
+			'obj_id'                => array('integer', $objId),
+			'obj_type'              => array('clob', $certificateTemplate->getObjType()),
+			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
+			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
+			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
+			'version'               => array('clob', $certificateTemplate->getVersion()),
+			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
+			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
+			'currently_active'      => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
 			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
 		);
 
@@ -139,7 +152,7 @@ AND currently_active = 1
 
 		return new ilCertificateTemplate(
 			$objId,
-			ilObject::_lookupType($objId),
+			$this->objectHelper->lookUpType($objId),
 			'',
 			'',
 			'',
@@ -153,14 +166,13 @@ AND currently_active = 1
 
 	public function fetchPreviousCertificate($objId)
 	{
-
 		$this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));
 
 		$templates = $this->fetchCertificateTemplatesByObjId($objId);
 
 		$resultTemplate = new ilCertificateTemplate(
 			$objId,
-			ilObject::_lookupType($objId),
+			$this->objectHelper->lookUpType($objId),
 			'',
 			'',
 			'',
