@@ -464,7 +464,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// percentages
 			$users_no = $result["user_total"];
 			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
-			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array("m"=>$lng->txt("gender_m"), "f"=>$lng->txt("gender_f")));
+			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array(
+				"m"=>$lng->txt("gender_m"),
+				"f"=>$lng->txt("gender_f"),
+				"n"=>$lng->txt("gender_n"),
+			));
 			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
 			$data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
 			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
