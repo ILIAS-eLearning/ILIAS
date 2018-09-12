@@ -124,8 +124,8 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function textArea($label, $byline = null) {
-		return new TextArea($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	public function textarea($label, $byline = null) {
+		return new Textarea($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
 
 	/**

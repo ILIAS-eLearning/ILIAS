@@ -84,7 +84,7 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
-		} else if ($input instanceof Component\Input\Field\TextArea) {
+		} else if ($input instanceof Component\Input\Field\Textarea) {
 			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Radio) {
 			return $this->renderRadioField($input, $default_renderer);
@@ -276,7 +276,7 @@ class Renderer extends AbstractComponentRenderer {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
-		if($input instanceof TextArea){
+		if($input instanceof Textarea){
 			$tpl = $this->renderTextareaField($tpl, $input);
 		}
 
@@ -287,7 +287,7 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
-			case ($input instanceof TextArea):
+			case ($input instanceof Textarea):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -434,7 +434,7 @@ class Renderer extends AbstractComponentRenderer {
 		return $id;
 	}
 
-	protected function renderTextareaField(Template $tpl, TextArea $input)
+	protected function renderTextareaField(Template $tpl, Textarea $input)
 	{
 		if($input->isLimited())
 		{
@@ -544,7 +544,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Password::class,
 			Component\Input\Field\Select::class,
 			Component\Input\Field\Radio::class,
-			Component\Input\Field\TextArea::class,
+			Component\Input\Field\Textarea::class,
 			Component\Input\Field\MultiSelect::class
 		];
 	}

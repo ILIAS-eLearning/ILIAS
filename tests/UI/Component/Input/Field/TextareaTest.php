@@ -9,7 +9,7 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 
-class TextAreaTest extends ILIAS_UI_TestBase {
+class TextreaTest extends ILIAS_UI_TestBase {
 
 	/**
 	 * @var DefNamesource
@@ -26,16 +26,16 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
-		$textarea = $f->textArea("label", "byline");
+		$textarea = $f->textarea("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $textarea);
-		$this->assertInstanceOf(Field\TextArea::class, $textarea);
+		$this->assertInstanceOf(Field\Textarea::class, $textarea);
 	}
 
 	public function test_implements_factory_interface_without_byline() {
 		$f = $this->buildFactory();
-		$textarea = $f->textArea("label");
+		$textarea = $f->textarea("label");
 		$this->assertInstanceOf(Field\Input::class, $textarea);
-		$this->assertInstanceOf(Field\TextArea::class, $textarea);
+		$this->assertInstanceOf(Field\Textarea::class, $textarea);
 	}
 
 	public function test_renderer() {
@@ -44,7 +44,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$byline = "byline";
 		$name = "name_0";
-		$textarea = $f->textArea($label, $byline)->withNameFrom($this->name_source);
+		$textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
 				."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
@@ -69,7 +69,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 
 		$min = 5;
 		$byline = "This is just a byline Min: ".$min;
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
+		$textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
@@ -94,7 +94,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$max = 20;
 		$byline = "This is just a byline Max: ".$max;
-		$textarea = $f->textArea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
+		$textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
@@ -119,7 +119,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$min = 5;
 		$max = 20;
 		$byline = "This is just a byline Min: ".$min." Max: ".$max;
-		$textarea = $f->textArea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom($this->name_source);
+		$textarea = $f->textarea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
@@ -142,7 +142,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$byline = "byline";
 		$name = "name_0";
 		$value = "Lorem ipsum dolor sit";
-		$textarea = $f->textArea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
+		$textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
@@ -166,7 +166,7 @@ class TextAreaTest extends ILIAS_UI_TestBase {
 		$min = 5;
 		$byline = "This is just a byline Min: ".$min;
 		$error = "an_error";
-		$textarea = $f->textArea($label, $byline)->withNameFrom($this->name_source)->withError($error);
+		$textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
 		$expected = "<div class=\"form-group row\">"
 			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"

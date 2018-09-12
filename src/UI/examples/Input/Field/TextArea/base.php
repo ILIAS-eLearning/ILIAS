@@ -12,7 +12,7 @@ function base() {
 	$request = $DIC->http()->request();
 
 	//Step 1: Define the textarea input field
-	$textarea_input = $ui->input()->field()->textArea("Textarea Input", "Just a textarea input.");
+	$textarea_input = $ui->input()->field()->textarea("Textarea Input", "Just a textarea input.");
 
 	//Step 2: Define the form and form actions.
 	$ctrl->setParameterByClass(

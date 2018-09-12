@@ -15,7 +15,7 @@ function with_limits() {
 	$max_limit = 20;
 
 	//Step 1: Define the textarea input field
-	$textarea_input = $ui->input()->field()->textArea("Textarea Input", "Just a textarea input.")->withMinLimit($min_limit)->withMaxLimit($max_limit);
+	$textarea_input = $ui->input()->field()->textarea("Textarea Input", "Just a textarea input.")->withMinLimit($min_limit)->withMaxLimit($max_limit);
 
 	//Step 2: Define the form and form actions.
 	$ctrl->setParameterByClass(

@@ -389,9 +389,9 @@ interface Factory {
 	 * ---
 	 * @param    string      $label
 	 * @param    string|null $byline
-	 * @return    \ILIAS\UI\Component\Input\Field\TextArea
+	 * @return    \ILIAS\UI\Component\Input\Field\Textarea
 	 */
-	public function textArea($label, $byline = null);
+	public function textarea($label, $byline = null);
   
 	/**
 	 * ---

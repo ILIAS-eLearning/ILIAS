@@ -10,7 +10,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * This implements the textarea input.
  */
-class TextArea extends Input implements C\Input\Field\TextArea {
+class Textarea extends Input implements C\Input\Field\Textarea {
 
 	use JavaScriptBindable;
 
@@ -20,7 +20,7 @@ class TextArea extends Input implements C\Input\Field\TextArea {
 	/**
 	 * set maximum number of characters
 	 * @param $max_limit
-	 * @return TextArea
+	 * @return Textarea
 	 */
 	public function withMaxLimit($max_limit)
 	{
@@ -42,7 +42,7 @@ class TextArea extends Input implements C\Input\Field\TextArea {
 	/**
 	 * set minimum number of characters
 	 * @param $min_limit
-	 * @return TextArea
+	 * @return Textarea
 	 */
 	public function withMinLimit($min_limit)
 	{
