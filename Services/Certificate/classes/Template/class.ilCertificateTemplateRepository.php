@@ -1,32 +1,32 @@
 <?php
-
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilCertificateTemplateRepository
 {
 	/**
-	 * @var ilDB
+	 * @var \ilDB
 	 */
 	private $database;
 
 	/**
-	 * @var ilLogger
+	 * @var \ilLogger
 	 */
 	private $logger;
 
 	/**
-	 * @var ilObjectDataCache|mixed
+	 * @var \ilObjectDataCache|mixed
 	 */
 	private $objectDataCache;
 
 	/**
-	 * @param ilDBInterface $database
-	 * @param ilLogger $logger
-	 * @param ilObjectDataCache|null $objectDataCache
+	 * @param \ilDBInterface $database
+	 * @param \ilLogger $logger
+	 * @param \ilObjectDataCache|null $objectDataCache
 	 */
 	public function __construct(
 		\ilDBInterface $database,
-		ilLogger $logger = null,
-		ilObjectDataCache $objectDataCache = null
+		\ilLogger $logger = null,
+		\ilObjectDataCache $objectDataCache = null
 	) {
 		$this->database = $database;
 
@@ -76,10 +76,10 @@ class ilCertificateTemplateRepository
 	}
 
 	/**
-	 * @param $objId
+	 * @param int $objId
 	 * @return array
 	 */
-	public function fetchCertificateTemplatesByObjId(int $objId)
+	public function fetchCertificateTemplatesByObjId(int $objId): array
 	{
 		$this->logger->info(sprintf('START - Fetch multiple certificate templates for object: "%s"', $objId));
 
@@ -166,9 +166,9 @@ AND currently_active = 1
 
 	/**
 	 * @param int $objId
-	 * @return ilCertificateTemplate|mixed
+	 * @return \ilCertificateTemplate
 	 */
-	public function fetchPreviousCertificate(int $objId)
+	public function fetchPreviousCertificate(int $objId): \ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));
 
@@ -223,10 +223,10 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
 	/**
 	 * @param int $objId
-	 * @return ilCertificateTemplate|mixed
+	 * @return \ilCertificateTemplate
 	 * @throws ilDatabaseException
 	 */
-	public function activatePreviousCertificate(int $objId)
+	public function activatePreviousCertificate(int $objId): \ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Activate previous certificate template for object: "%s"', $objId));
 
@@ -255,7 +255,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 		return $previousCertificate;
 	}
 
-	public function fetchAllObjectIdsByType(string $type)
+	public function fetchAllObjectIdsByType(string $type): array
 	{
 		$this->logger->info(sprintf('START - Fetch all object ids for object type: "%s"', $type));
 
@@ -273,11 +273,11 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	}
 
 	/**
-	 * @param $objId
-	 * @return ilCertificateTemplate
-	 * @throws ilException
+	 * @param int $objId
+	 * @return \ilCertificateTemplate
+	 * @throws \ilException
 	 */
-	public function fetchFirstCreatedTemplate(int $objId)
+	public function fetchFirstCreatedTemplate(int $objId): \ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Fetch first create certificate template for object: "%s"', $objId));
 
