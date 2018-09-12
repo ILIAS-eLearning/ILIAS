@@ -656,17 +656,12 @@ class ilGlobalTemplate
 		$this->inline_css[] = array("css" => $a_css, "media" => $media);
 	}
 
-	// PRIVATE CANDIDATE
-	// Usage locations:
-	//    - ilPageObjectGUI
-	//	  - ilDclDetailedViewGUI
-	//    - ilStartUpGUI
 	/**
 	 * Fill in the css file tags
 	 *
 	 * @param boolean $a_force
 	 */
-	public function fillCssFiles($a_force = false)
+	private function fillCssFiles($a_force = false)
 	{
 		if (!$this->blockExists("css_file"))
 		{
