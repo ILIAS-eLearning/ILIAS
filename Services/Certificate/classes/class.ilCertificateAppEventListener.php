@@ -172,7 +172,12 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			$backgroundImagePath
 		);
 
-		$user = new ilObjUser($userId);
+
+		$user = ilObjectFactory::getInstanceByObjId($userId, false);
+
+		if (!$user || !($user instanceof \ilObjUser)) {
+			throw new ilException(sprintf('The given user ID("%s") is not a user', $userId));
+		}
 
 		$userCertificate = new ilUserCertificate(
 			$template->getId(),
