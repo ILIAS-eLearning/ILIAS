@@ -1270,10 +1270,7 @@ class ilGlobalTemplate
 		return true;	 	
 	}
 
-	// PRIVATE CANDIDATE
-	// Usage locations:
-	//    - ilStartUpGUI
-	public function fillWindowTitle()
+	private function fillWindowTitle()
 	{
 		global $DIC;
 
