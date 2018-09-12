@@ -3458,6 +3458,7 @@ return array(
     'ilCOPageException' => $baseDir . '/../../Services/COPage/exceptions/class.ilCOPageException.php',
     'ilCOPageExportConfig' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageExportConfig.php',
     'ilCOPageExporter' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageExporter.php',
+    'ilCOPageGlobalTemplate' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageGlobalTemplate.php',
     'ilCOPageHTMLExport' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageHTMLExport.php',
     'ilCOPageImportConfig' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageImportConfig.php',
     'ilCOPageImporter' => $baseDir . '/../../Services/COPage/classes/class.ilCOPageImporter.php',

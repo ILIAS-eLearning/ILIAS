@@ -2628,7 +2628,7 @@ return;
 	{
 		$tpl = $this->tpl;
 
-		$tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
 
 		//$int_links = $page_object->getInternalLinks();

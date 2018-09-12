@@ -3795,6 +3795,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCOPageException' => __DIR__ . '/../..' . '/../../Services/COPage/exceptions/class.ilCOPageException.php',
         'ilCOPageExportConfig' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageExportConfig.php',
         'ilCOPageExporter' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageExporter.php',
+        'ilCOPageGlobalTemplate' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageGlobalTemplate.php',
         'ilCOPageHTMLExport' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageHTMLExport.php',
         'ilCOPageImportConfig' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageImportConfig.php',
         'ilCOPageImporter' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilCOPageImporter.php',
