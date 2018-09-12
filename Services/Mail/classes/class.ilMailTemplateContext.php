@@ -150,6 +150,10 @@ abstract class ilMailTemplateContext
 						$resolved = $this->getLanguage()->txt('salutation_m');
 						break;
 
+					case 'n':
+						$resolved = $this->getLanguage()->txt('salutation_n');
+						break;
+
 					default:
 						$resolved = $this->getLanguage()->txt('salutation');
 				}
