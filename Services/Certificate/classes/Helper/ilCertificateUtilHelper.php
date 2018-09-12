@@ -25,6 +25,7 @@ class ilCertificateUtilHelper
 
 	/**
 	 * @param string $string
+	 * @return string
 	 */
 	public function prepareFormOutput(string $string)
 	{
