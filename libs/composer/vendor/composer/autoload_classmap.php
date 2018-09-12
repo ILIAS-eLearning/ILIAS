@@ -3983,6 +3983,7 @@ return array(
     'ilDOMUtil' => $baseDir . '/../../Services/Utilities/classes/class.ilDOMUtil.php',
     'ilDataCollectionDataSet' => $baseDir . '/../../Modules/DataCollection/classes/class.ilDataCollectionDataSet.php',
     'ilDataCollectionExporter' => $baseDir . '/../../Modules/DataCollection/classes/class.ilDataCollectionExporter.php',
+    'ilDataCollectionGlobalTemplate' => $baseDir . '/../../Modules/DataCollection/classes/class.ilDataCollectionGlobalTemplate.php',
     'ilDataCollectionImporter' => $baseDir . '/../../Modules/DataCollection/classes/class.ilDataCollectionImporter.php',
     'ilDataDetector' => $baseDir . '/../../Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php',
     'ilDataEmitter' => $baseDir . '/../../Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php',

@@ -4320,6 +4320,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilDOMUtil' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilDOMUtil.php',
         'ilDataCollectionDataSet' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/class.ilDataCollectionDataSet.php',
         'ilDataCollectionExporter' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/class.ilDataCollectionExporter.php',
+        'ilDataCollectionGlobalTemplate' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/class.ilDataCollectionGlobalTemplate.php',
         'ilDataCollectionImporter' => __DIR__ . '/../..' . '/../../Modules/DataCollection/classes/class.ilDataCollectionImporter.php',
         'ilDataDetector' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php',
         'ilDataEmitter' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php',
