@@ -143,15 +143,15 @@ abstract class ilMailTemplateContext
 				switch($recipient->getGender())
 				{
 					case 'f':
-						$resolved = $this->getLanguage()->txt('salutation_f');
+						$resolved = $this->getLanguage()->txt('mail_salutation_f');
 						break;
 
 					case 'm':
-						$resolved = $this->getLanguage()->txt('salutation_m');
+						$resolved = $this->getLanguage()->txt('mail_salutation_m');
 						break;
 
 					case 'n':
-						$resolved = $this->getLanguage()->txt('salutation_n');
+						$resolved = $this->getLanguage()->txt('mail_salutation_n');
 						break;
 
 					default:
