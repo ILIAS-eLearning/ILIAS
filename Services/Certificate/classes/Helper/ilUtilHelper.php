@@ -9,6 +9,11 @@
  */
 class ilUtilHelper
 {
+	/**
+	 * @param string $data
+	 * @param string $fileName
+	 * @param string $mimeType
+	 */
 	public function deliverData(string $data, string $fileName, string $mimeType)
 	{
 		ilUtil::deliverData(

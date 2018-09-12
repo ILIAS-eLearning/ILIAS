@@ -6711,6 +6711,7 @@ return array(
     'ilUsersGalleryUserCollectionSorter' => $baseDir . '/../../Services/User/Gallery/interfaces/interface.ilUsersGalleryUserCollectionSorter.php',
     'ilUsersGalleryUserImpl' => $baseDir . '/../../Services/User/Gallery/classes/class.ilUsersGalleryUserImpl.php',
     'ilUtil' => $baseDir . '/../../Services/Utilities/classes/class.ilUtil.php',
+    'ilUtilHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilUtilHelper.php',
     'ilValidator' => $baseDir . '/../../Services/Repository/classes/class.ilValidator.php',
     'ilValidatorAdapter' => $baseDir . '/../../Services/XHTMLValidator/classes/class.ilValidatorAdapter.php',
     'ilVerificationObject' => $baseDir . '/../../Services/Verification/classes/class.ilVerificationObject.php',
