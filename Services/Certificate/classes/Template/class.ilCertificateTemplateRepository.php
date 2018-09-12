@@ -77,7 +77,7 @@ class ilCertificateTemplateRepository
 
 	/**
 	 * @param int $objId
-	 * @return array
+	 * @return \ilCertificateTemplate[]
 	 */
 	public function fetchCertificateTemplatesByObjId(int $objId): array
 	{
@@ -116,9 +116,9 @@ ORDER BY version ASC';
 
 	/**
 	 * @param int $objId
-	 * @return ilCertificateTemplate
+	 * @return \ilCertificateTemplate
 	 */
-	public function fetchCurrentlyActiveCertificate(int $objId)
+	public function fetchCurrentlyActiveCertificate(int $objId): \ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
@@ -309,7 +309,7 @@ ORDER BY id ASC LIMIT 1 ';
 	}
 
 	/**
-	 * @param $objId
+	 * @param int $objId
 	 * @throws ilDatabaseException
 	 */
 	private function deactivatePreviousTemplates(int $objId)
