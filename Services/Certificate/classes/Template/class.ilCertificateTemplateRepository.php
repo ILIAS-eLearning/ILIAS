@@ -14,11 +14,6 @@ class ilCertificateTemplateRepository
 	private $logger;
 
 	/**
-	 * @var null|ObjectHelper
-	 */
-	private $objectHelper;
-
-	/**
 	 * @var ilObjectDataCache|mixed
 	 */
 	private $objectDataCache;
@@ -84,7 +79,7 @@ class ilCertificateTemplateRepository
 	 * @param $objId
 	 * @return array
 	 */
-	public function fetchCertificateTemplatesByObjId($objId)
+	public function fetchCertificateTemplatesByObjId(int $objId)
 	{
 		$this->logger->info(sprintf('START - Fetch multiple certificate templates for object: "%s"', $objId));
 
@@ -120,11 +115,10 @@ ORDER BY version ASC';
 	}
 
 	/**
-	 * @param $objId
+	 * @param int $objId
 	 * @return ilCertificateTemplate
-	 * @throws ilException
 	 */
-	public function fetchCurrentlyActiveCertificate($objId)
+	public function fetchCurrentlyActiveCertificate(int $objId)
 	{
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
@@ -170,7 +164,11 @@ AND currently_active = 1
 		);
 	}
 
-	public function fetchPreviousCertificate($objId)
+	/**
+	 * @param int $objId
+	 * @return ilCertificateTemplate|mixed
+	 */
+	public function fetchPreviousCertificate(int $objId)
 	{
 		$this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));
 
@@ -202,7 +200,12 @@ AND currently_active = 1
 		return $resultTemplate;
 	}
 
-	public function deleteTemplate($templateId, $objectId)
+	/**
+	 * @param int $templateId
+	 * @param int $objectId
+	 * @throws ilDatabaseException
+	 */
+	public function deleteTemplate(int $templateId, int $objectId)
 	{
 		$this->logger->info(sprintf('START - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
 
@@ -218,7 +221,12 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 		$this->logger->info(sprintf('END - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
 	}
 
-	public function activatePreviousCertificate($objId)
+	/**
+	 * @param int $objId
+	 * @return ilCertificateTemplate|mixed
+	 * @throws ilDatabaseException
+	 */
+	public function activatePreviousCertificate(int $objId)
 	{
 		$this->logger->info(sprintf('START - Activate previous certificate template for object: "%s"', $objId));
 
@@ -247,7 +255,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 		return $previousCertificate;
 	}
 
-	public function fetchAllObjectIdsByType($type)
+	public function fetchAllObjectIdsByType(string $type)
 	{
 		$this->logger->info(sprintf('START - Fetch all object ids for object type: "%s"', $type));
 
@@ -304,7 +312,7 @@ ORDER BY id ASC LIMIT 1 ';
 	 * @param $objId
 	 * @throws ilDatabaseException
 	 */
-	private function deactivatePreviousTemplates($objId)
+	private function deactivatePreviousTemplates(int $objId)
 	{
 		$this->logger->info(sprintf('START - Deactivate previous certificate template for object: "%s"', $objId));
 
