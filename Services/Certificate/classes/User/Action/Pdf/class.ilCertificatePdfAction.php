@@ -36,10 +36,10 @@ class ilCertificatePdfAction
 	/**
 	 * @param integer $objectId
 	 * @param integer $userId
-	 * @return bool
+	 * @return string
 	 * @throws ilException
 	 */
-	public function createPDF(int $userId, int $objectId)
+	public function createPDF(int $userId, int $objectId) : string
 	{
 		$pdfScalar = $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
 
@@ -49,11 +49,11 @@ class ilCertificatePdfAction
 	/**
 	 * @param $objectId
 	 * @param $userId
-	 * @return bool
+	 * @return string
 	 * @throws ilException
 	 * @throws ilInvalidCertificateException
 	 */
-	public function downloadPdf(int $userId, int $objectId)
+	public function downloadPdf(int $userId, int $objectId) : string
 	{
 		$pdfScalar = $this->createPDF($userId, $objectId);
 

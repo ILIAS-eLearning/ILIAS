@@ -41,7 +41,7 @@ class ilPdfGenerator
 	 * @return mixed
 	 * @throws ilException
 	 */
-	public function generateCurrentActiveCertificate($userId, $objId)
+	public function generateCurrentActiveCertificate($userId, $objId) : string
 	{
 		$certificate = $this->certificateRepository->fetchActiveCertificate($userId, $objId);
 
@@ -52,7 +52,7 @@ class ilPdfGenerator
 	 * @param $certificate
 	 * @return mixed
 	 */
-	private function createPDFScalar($certificate)
+	private function createPDFScalar($certificate) : string
 	{
 		$certificateContent = $certificate->getCertificateContent();
 		$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
