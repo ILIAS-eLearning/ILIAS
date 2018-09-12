@@ -93,7 +93,7 @@ be assigned by the Technical Board or Maintainers:
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
 <a name="rules-for-maintainers-assigned-to-prs"></a>
-#### Rules for Maintainers assigned to PRs
+#### Rules for Maintainers and Coordinators assigned to PRs
 
 As an FOSS community we should be glad that people want to contribute code to
 our project as this reflects usage of our project. To show this when handling
