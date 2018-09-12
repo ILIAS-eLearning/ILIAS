@@ -1,0 +1,175 @@
+<?php
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * Cron job for definition for oer harvesting
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ *
+ */
+class ilCronOerHarvester extends ilCronJob
+{
+	/**
+	 * @param string
+	 */
+	const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+
+	/**
+	 * @param int
+	 */
+	const DEFAULT_SCHEDULE_VALUE = 1;
+
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng = null;
+
+	/**
+	 * @var null
+	 */
+	private $settings = null;
+
+
+	/**
+	 * ilOerHarvester constructor.
+	 */
+	public function __construct()
+	{
+		global $DIC;
+
+		$this->logger = $DIC->logger()->meta();
+		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule('meta');
+
+		$this->settings = ilOerHarvesterSettings::getInstance();
+
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitle()
+	{
+		return $this->lng->txt('meta_oer_harvester');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDescription()
+	{
+		return $this->lng->txt('meta_oer_harvester_desc');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getId()
+	{
+		return self::CRON_JOB_IDENTIFIER;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasAutoActivation()
+	{
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasFlexibleSchedule()
+	{
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDefaultScheduleType()
+	{
+		return self::SCHEDULE_TYPE_DAILY;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getDefaultScheduleValue()
+	{
+		return self::DEFAULT_SCHEDULE_VALUE;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasCustomSettings()
+	{
+		return true;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+	{
+		$target = new ilRepositorySelector2InputGUI(
+			$this->lng->txt('meta_oer_target'),
+			'target',
+			false);
+
+		$explorer = $target->getExplorerGUI();
+		$explorer->setSelectMode('target',false);
+		$explorer->setRootId(ROOT_FOLDER_ID);
+		$explorer->setTypeWhiteList(['cat']);
+
+		if($this->settings->getTarget())
+		{
+			$explorer->setPathOpen($this->settings->getTarget());
+			$target->setValue($this->settings->getTarget());
+		}
+
+		$target->setRequired(true);
+		$a_form->addItem($target);
+
+		return $a_form;
+	}
+
+
+	/**
+	 * @param \ilPropertyFormGUI $a_form
+	 * @return bool|void
+	 */
+	public function saveCustomSettings(ilPropertyFormGUI $a_form)
+	{
+		$this->logger->dump($_POST,ilLogLevel::INFO);
+		$this->settings->setTarget($a_form->getInput('target'));
+		$this->settings->save();
+
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function run()
+	{
+		$this->logger->info('Started cron oer harvester.');
+
+		$res = new ilCronJobResult();
+		$res->setStatus(ilCronJobResult::STATUS_OK);
+
+		$this->logger->info('cron oer harvester finished');
+
+		return $res;
+	}
+}
