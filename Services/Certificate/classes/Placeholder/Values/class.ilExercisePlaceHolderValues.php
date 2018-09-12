@@ -74,7 +74,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	 *
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview()
+	public function getPlaceholderValuesForPreview() : array
 	{
 		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
 	}

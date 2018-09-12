@@ -95,7 +95,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 *
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview()
+	public function getPlaceholderValuesForPreview() : array
 	{
 		return $this->getPlaceholderValuesForPreview();
 	}
