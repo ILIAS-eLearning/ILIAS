@@ -3,6 +3,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+ *
+ * INTERNAL CLASS: Please do not use in consumer code.
+ *
+ *
+ *
 * Handles conditions for accesses to different ILIAS objects
 *
 * A condition consists of four elements:
@@ -20,12 +25,20 @@
 * (Note: This table must not be accessed directly from other classes.
 * The data should be accessed via the interface of class ilCondition.)
 *   cond_id					INT			condition id
-*   trigger_obj_type		VARCHAR(10)	"crs" | "tst" | "qst", ...
-*   trigger_id				INT			obj id of trigger object
+*   trigger_obj_type		VARCHAR(10)	"crs" | "tst" | ...
+*   trigger_ref_id			INT			obj id of trigger object	(only exception where this is 0 are currently (5.3) course groupings this might be refactored
+*   trigger_obj_id			INT			obj id of trigger object
 *   operator				varchar(10  "=", "<", ">", ">=", "<=", "passed", "contains", ...
 *   value					VARCHAR(10) optional value
-*   target_obj_type			VARCHAR(10)	"lm" | "frm" | "st" | "pg", ...
-*   target_id				object or reference id of target object
+*   target_obj_type			VARCHAR(10)	"lm" | "frm" | "st", "lobj", ...
+*   target_obj_id			object id of target object
+*   target_ref_id			reference id of target object
+ *
+ * Special current targets (5.3)
+ * - learning objectives: type: "lobj"; obj_id: objective id; ref_id: ref id of course
+ * - lm chapters: type: "st"; obj_id: chapter id, ref_id: ref id of learning module
+ *
+ *
 *
 * Trigger objects are always stored with their object id (if a test has been
 * passed by a user, he doesn't need to repeat it in other contexts. But
@@ -74,7 +87,8 @@ class ilConditionHandler
 	const OPERATOR_ACCREDITED_OR_PASSED = 'accredited_or_passed';
 	
 	const UNIQUE_CONDITIONS = 1;
-	const SHARED_CONDITIONS = 0;
+	const SHARED_CONDITIONS = 0;			// conditions are used for all tree references of the target object
+											// this is currently only used for lm chapters and likely to be abandonded in the future
 	
 	var $db;
 	var $lng;
@@ -468,7 +482,7 @@ class ilConditionHandler
 		$active_triggers = array();
 		foreach($trigger_types as $type)
 		{
-			if(count($this->getOperatorsByTargetType($type)))
+			if(count($this->getOperatorsByTriggerType($type)))
 			{
 				$active_triggers[] = $type;
 			}
@@ -482,11 +496,11 @@ class ilConditionHandler
 
 
 	/**
-	 * Get operators by target type
+	 * Get operators by trigger type
 	 * @param string $a_type
-	 * @return type
+	 * @return string[]
 	 */
-	public function getOperatorsByTargetType($a_type)
+	public function getOperatorsByTriggerType($a_type)
 	{
 		global $DIC;
 
@@ -533,8 +547,6 @@ class ilConditionHandler
 
 	/**
 	* store new condition in database
-	* NOT STATIC
-	* @access	public
 	*/
 	function storeCondition()
 	{
@@ -751,7 +763,6 @@ class ilConditionHandler
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilBench = $DIC['ilBench'];
 
 		// get type if no type given
 		if ($a_target_type == "")

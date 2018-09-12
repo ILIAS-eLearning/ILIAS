@@ -195,10 +195,10 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get conditions service
 	 *
-	 * @return	ilConditionService
+	 * @return	\ilConditionService
 	 */
 	public function conditions() {
-		return ilConditionService::getInstance($this);
+		return \ilConditionService::getInstance($this);
 	}
 
 

@@ -48,15 +48,14 @@ class ilConditionHandlerGUI
 		$tree = $DIC['tree'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-
 		$this->ch_obj = new ilConditionHandler();
 
-		$this->ctrl =& $ilCtrl;
-		$this->gui_obj =& $gui_obj;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->gui_obj = $gui_obj;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('rbac');
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
 		
 		if($a_ref_id)
 		{
@@ -811,7 +810,7 @@ class ilConditionHandlerGUI
 		{
 			$operators[0] = $this->lng->txt('select_one');
 		}
-		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
+		foreach($ch_obj->getOperatorsByTriggerType($trigger_type) as $operator)
 		{
 			$operators[$operator] = $this->lng->txt('condition_'.$operator);
 		}

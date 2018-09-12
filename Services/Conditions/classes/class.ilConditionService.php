@@ -11,11 +11,19 @@
 class ilConditionService
 {
 	/**
+	 * @var ilConditionObjectAdapterInterface
+	 */
+	protected $cond_obj_adapter;
+
+	/**
 	 * Constructor
 	 */
-	protected function __construct($dic)
+	protected function __construct(ilConditionObjectAdapterInterface $cond_obj_adapter = null)
 	{
-
+		if (is_null($cond_obj_adapter))
+		{
+			$this->cond_obj_adapter = new ilConditionObjectAdapter();
+		}
 	}
 
 	/**
@@ -23,10 +31,29 @@ class ilConditionService
 	 *
 	 * @return ilConditionService
 	 */
-	protected function getInstance($dic)
+	static public function getInstance($dic)
 	{
 		return new self($dic);
 	}
 
+	/**
+	 * factory
+	 *
+	 * @return ilConditionFactory
+	 */
+	protected function factory()
+	{
+		return new ilConditionFactory($this->cond_obj_adapter);
+	}
+
+	/**
+	 * query
+	 *
+	 * @return ilConditionQuery
+	 */
+	protected function query()
+	{
+		return new ilConditionQuery();
+	}
 
 }
