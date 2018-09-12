@@ -279,8 +279,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		if($ilSetting->get("usr_settings_course_export_gender"))
 		{
 			$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
-			$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"),
-				"f" => $lng->txt("gender_f")));
+			$item->setOptions(array(
+				"" => $lng->txt("trac_all"),
+				"n" => $lng->txt("gender_n"),
+				"m" => $lng->txt("gender_m"),
+				"f" => $lng->txt("gender_f"),
+			));
 			$this->filter["gender"] = $item->getValue();
 		}
 
@@ -465,9 +469,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$users_no = $result["user_total"];
 			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
 			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array(
+				"n"=>$lng->txt("gender_n"),
 				"m"=>$lng->txt("gender_m"),
 				"f"=>$lng->txt("gender_f"),
-				"n"=>$lng->txt("gender_n"),
 			));
 			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
 			$data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
