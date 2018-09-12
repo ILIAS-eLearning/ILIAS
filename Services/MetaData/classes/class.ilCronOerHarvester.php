@@ -122,6 +122,7 @@ class ilCronOerHarvester extends ilCronJob
 	 */
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
+		// target selection
 		$target = new ilRepositorySelector2InputGUI(
 			$this->lng->txt('meta_oer_target'),
 			'target',
@@ -141,6 +142,28 @@ class ilCronOerHarvester extends ilCronJob
 		$target->setRequired(true);
 		$a_form->addItem($target);
 
+
+		// copyright selection
+		$checkbox_group = new ilCheckboxGroupInputGUI(
+			$this->lng->txt('meta_oer_copyright_selection'),
+			'copyright'
+		);
+		$checkbox_group->setRequired(true);
+		$checkbox_group->setValue($this->settings->getCopyrightTemplates());
+		$checkbox_group->setInfo(
+			$this->lng->txt('meta_oer_copyright_selection_info')
+		);
+
+		foreach(ilMDCopyrightSelectionEntry::_getEntries() as $copyright_entry)
+		{
+			$copyright_checkox = new ilCheckboxOption(
+				$copyright_entry->getTitle(),
+				$copyright_entry->getEntryId(),
+				$copyright_entry->getDescription()
+			);
+			$checkbox_group->addOption($copyright_checkox);
+		}
+		$a_form->addItem($checkbox_group);
 		return $a_form;
 	}
 
@@ -151,8 +174,8 @@ class ilCronOerHarvester extends ilCronJob
 	 */
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		$this->logger->dump($_POST,ilLogLevel::INFO);
 		$this->settings->setTarget($a_form->getInput('target'));
+		$this->settings->setCopyrightTemplates($a_form->getInput('copyright'));
 		$this->settings->save();
 
 		return true;

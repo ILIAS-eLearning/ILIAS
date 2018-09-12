@@ -28,6 +28,12 @@ class ilOerHarvesterSettings
 	private $target = 0;
 
 
+	/**
+	 * @var string[]
+	 */
+	private $copyright_templates = [];
+
+
 
 	/**
 	 * ilOerHarvesterSettings constructor.
@@ -67,11 +73,28 @@ class ilOerHarvesterSettings
 	}
 
 	/**
+	 * @param array $a_template_ids
+	 */
+	public function setCopyrightTemplates(array $a_template_ids)
+	{
+		$this->copyright_templates = $a_template_ids;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getCopyrightTemplates()
+	{
+		return $this->copyright_templates;
+	}
+
+	/**
 	 * Save settings
 	 */
 	public function save()
 	{
 		$this->storage->set('target', $this->getTarget());
+		$this->storage->set('templates', serialize($this->copyright_templates));
 	}
 
 	/**
@@ -79,7 +102,8 @@ class ilOerHarvesterSettings
 	 */
 	public function read()
 	{
-		$this->setTarget($this->storage->get('target'));
+		$this->setTarget($this->storage->get('target',0));
+		$this->setCopyrightTemplates(unserialize($this->storage->get('templates',[])));
 	}
 
 

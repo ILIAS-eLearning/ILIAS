@@ -64,6 +64,7 @@ class ilMDCopyrightSelectionEntry
 	/**
 	 * get entries
 	 *
+	 * @return ilMDCopyrightSelectionEntry[]
 	 * @access public
 	 * @static
 	 *
