@@ -1464,13 +1464,13 @@ class ilObjUserGUI extends ilObjectGUI
 		// gender
 		if($this->isSettingChangeable('gender'))
 		{
-			$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
+			$gndr = new ilRadioGroupInputGUI($lng->txt("salutation"), "gender");
 			$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
-			$neutral = new ilRadioOption($lng->txt("gender_n"), "n");
+			$neutral = new ilRadioOption($lng->txt("salutation_n"), "n");
 			$gndr->addOption($neutral);
-			$female = new ilRadioOption($lng->txt("gender_f"), "f");
+			$female = new ilRadioOption($lng->txt("salutation_f"), "f");
 			$gndr->addOption($female);
-			$male = new ilRadioOption($lng->txt("gender_m"), "m");
+			$male = new ilRadioOption($lng->txt("salutation_m"), "m");
 			$gndr->addOption($male);
 			$this->form_gui->addItem($gndr);
 		}

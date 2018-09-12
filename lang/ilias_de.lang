@@ -3833,6 +3833,7 @@ rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM-Lernmoduls bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
+common#:#salutation_n#:#Keine Angabe
 common#:#save#:#Speichern
 common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Als Entwurf speichern
