@@ -1662,6 +1662,12 @@ class ilInitialisation
 		) {
 			$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
 		}
+		else if (
+			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
+			$_GET["baseClass"] == "ilStartUpGUI"
+		) {
+			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+		}
 		else 
 		{
 			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);

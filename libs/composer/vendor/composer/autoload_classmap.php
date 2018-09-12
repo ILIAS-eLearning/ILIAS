@@ -4653,6 +4653,7 @@ return array(
     'ilIndividualAssessmentSettingsStorageDB' => $baseDir . '/../../Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php',
     'ilInfoScreenGUI' => $baseDir . '/../../Services/InfoScreen/classes/class.ilInfoScreenGUI.php',
     'ilIniFile' => $baseDir . '/../../Services/Init/classes/class.ilIniFile.php',
+    'ilInitGlobalTemplate' => $baseDir . '/../../Services/Init/classes/class.ilInitGlobalTemplate.php',
     'ilInitialisation' => $baseDir . '/../../Services/Init/classes/class.ilInitialisation.php',
     'ilIntLinkRepItemExplorerGUI' => $baseDir . '/../../Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php',
     'ilIntermediateCatchEventElement' => $baseDir . '/../../Services/WorkflowEngine/classes/parser/elements/catchevent/class.ilIntermediateCatchEventElement.php',

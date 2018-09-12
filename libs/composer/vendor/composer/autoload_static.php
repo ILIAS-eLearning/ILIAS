@@ -4990,6 +4990,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilIndividualAssessmentSettingsStorageDB' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php',
         'ilInfoScreenGUI' => __DIR__ . '/../..' . '/../../Services/InfoScreen/classes/class.ilInfoScreenGUI.php',
         'ilIniFile' => __DIR__ . '/../..' . '/../../Services/Init/classes/class.ilIniFile.php',
+        'ilInitGlobalTemplate' => __DIR__ . '/../..' . '/../../Services/Init/classes/class.ilInitGlobalTemplate.php',
         'ilInitialisation' => __DIR__ . '/../..' . '/../../Services/Init/classes/class.ilInitialisation.php',
         'ilIntLinkRepItemExplorerGUI' => __DIR__ . '/../..' . '/../../Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php',
         'ilIntermediateCatchEventElement' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/parser/elements/catchevent/class.ilIntermediateCatchEventElement.php',
