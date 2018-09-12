@@ -16,6 +16,10 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 	 */
 	const PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
 
+	/**
+	 * presentation mode for embedded presentation, e.g. in a kiosk mode
+	 */
+	const PRESENTATION_MODE_EMBEDDED_PRESENTATION =  'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
 	/**
 	 * @var string
@@ -192,6 +196,17 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 				}
 
 				return $this->ctrl->getHTML($pageObjectGUI);
+
+			case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
+				$pageObjectGUI = $this->buildPresentationPageObjectGUI();
+
+				if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
+					$pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
+					$pageObjectGUI->setFullscreenLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN);
+					$pageObjectGUI->setSourcecodeDownloadScript($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH);
+				}
+
+				return $pageObjectGUI->getHTML();
 
 			default:
 				throw new \ilException('Unknown presentation mode given');

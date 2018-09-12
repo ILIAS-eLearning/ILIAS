@@ -107,6 +107,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		URLBuilder $url_builder,
 		array $post = null
 	): Component {
+		global $DIC;
+
 		\ilLearningProgress::_tracProgress(
 			$GLOBALS['DIC']->user()->getId(),
 			$this->contentPageObject->getId(),
@@ -114,8 +116,18 @@ class ilContentPageKioskModeView extends ilKioskModeView
 			$this->contentPageObject->getType()
 		);
 
-		return new Legacy(
-			"Content Page: " . $this->contentPageObject->getTitle()
+		$DIC->ui()->mainTemplate()->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath(
+			$this->contentPageObject->getStyleSheetId()
+		));
+		$DIC->ui()->mainTemplate()->setCurrentBlock('SyntaxStyle');
+		$DIC->ui()->mainTemplate()->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+		$DIC->ui()->mainTemplate()->parseCurrentBlock();
+
+		$forwarder = new \ilContentPagePageCommandForwarder(
+			$DIC->http()->request(), $DIC->ctrl(), $DIC->tabs(), $this->lng, $this->contentPageObject
 		);
+		$forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
+
+		return new Legacy($forwarder->forward(''));
 	}
 }
