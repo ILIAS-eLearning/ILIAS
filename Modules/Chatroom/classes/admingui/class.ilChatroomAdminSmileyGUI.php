@@ -214,7 +214,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$this->form_gui->addItem($inp);
 
 
-		if ($DIC->rbac()->system()->checkAccess("write", $this->gui->ref_id)) {
+		if ($this->rbacsystem->checkAccess("write", $this->gui->ref_id)) {
 			$this->form_gui->addCommandButton('smiley-uploadSmileyObject', $DIC->language()->txt('chatroom_upload_smiley'));
 		}
 		return $this->form_gui;

@@ -115,7 +115,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		}
 
 		$this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
-		if($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+		if ($this->dic->rbac()->system()->checkAccess('write', (int)$this->dic->http()->request()->getQueryParams()['ref_id'])) {
 			$actions = new ilAdvancedSelectionListGUI();
 			$actions->setListTitle($this->lng->txt('actions'));
 			$actions->setId('act_' . $row['tpl_id']);

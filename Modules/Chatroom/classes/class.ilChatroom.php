@@ -104,7 +104,7 @@ class ilChatroom
 		{
 			if($pub_ref_id == $refId)
 			{
-				$hasAccess = $DIC->rbac()->system()->checkAccess($permission, $refId);
+				$hasAccess = $DIC->rbac()->system()->checkAccessOfUser($usrId, $permission, $refId);
 				if($hasAccess)
 				{
 					$hasWritePermission = $DIC->rbac()->system()->checkAccessOfUser($usrId, 'write', $refId);
@@ -143,7 +143,7 @@ class ilChatroom
 			}
 			else
 			{
-				$hasAccess = $DIC->rbac()->system()->checkAccess($permission, $refId);
+				$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
 				//$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
 			}
 

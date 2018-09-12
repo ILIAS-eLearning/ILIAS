@@ -26,7 +26,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 	 * @param string $a_parent_cmd
 	 * @param string $a_template_context
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+	public function __construct($a_parent_obj, $a_parent_cmd = "", $mayEdit = true)
 	{
 		global $DIC;
 
@@ -35,8 +35,10 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 		$f        = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 
+		$this->mayEdit = $mayEdit;
+
 		$this->setId('saml_idp_list');
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+		parent::__construct($a_parent_obj, $a_parent_cmd, '');
 
 		$this->ctrl = $GLOBALS['DIC']->ctrl();
 

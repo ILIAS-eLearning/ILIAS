@@ -66,9 +66,9 @@ class ilSamlSettingsGUI
 	 */
 	protected $access;
 	/**
-	 * @var ilRbacSystem
+	 * @var \ILIAS\DI\RBACServices
 	 */
-	protected $rbacsystem;
+	protected $rbac;
 
 	/**
 	 * @var ilErrorHandling
@@ -79,11 +79,6 @@ class ilSamlSettingsGUI
 	 * @var ilTabsGUI
 	 */
 	protected $tabs;
-
-	/**
-	 * @var ilRbacReview
-	 */
-	protected $rbacreview;
 
 	/**
 	 * @var \ilToolbarGUI
@@ -122,10 +117,9 @@ class ilSamlSettingsGUI
 		$this->tpl           = $DIC->ui()->mainTemplate();
 		$this->lng           = $DIC->language();
 		$this->access        = $DIC->access();
-		$this->rbacsystem    = $DIC->rbac();
+		$this->rbac          = $DIC->rbac();
 		$this->error_handler = $DIC['ilErr'];
 		$this->tabs          = $DIC->tabs();
-		$this->rbacreview    = $DIC->rbac()->review();
 		$this->toolbar       = $DIC['ilToolbar'];
 		$this->help          = $DIC['ilHelp'];
 
@@ -138,7 +132,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function ensureAccess($operation)
 	{
-		if(!$this->rbacsystem->system()->checkAccess($operation, $this->getRefId()))
+		if(!$this->rbac->system()->checkAccess($operation, $this->getRefId()))
 		{
 			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
 		}
@@ -258,7 +252,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function listIdps()
 	{
-		if($this->samlAuth && $this->rbacsystem->system()->checkAccess('visible,read', $this->ref_id)) {
+		if($this->samlAuth && $this->rbac->system()->checkAccess('visible,read', $this->ref_id)) {
 			$addIdpButton = ilLinkButton::getInstance();
 			$addIdpButton->setCaption('auth_saml_add_idp_btn');
 			$addIdpButton->setUrl($this->ctrl->getLinkTarget($this, 'showNewIdpForm'));
@@ -513,7 +507,7 @@ class ilSamlSettingsGUI
 	protected function prepareRoleSelection()
 	{
 		$global_roles = ilUtil::_sortIds(
-			$this->rbacreview->getGlobalRoles(),
+			$this->rbac->review()->getGlobalRoles(),
 			'object_data',
 			'title',
 			'obj_id'
