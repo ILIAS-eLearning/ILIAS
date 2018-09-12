@@ -4,22 +4,23 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilDateHelper
+class ilCertificateDateHelper
 {
 	/**
-	 * @param string $dateTime
+	 * @param string $date
 	 * @return string
 	 */
-	public function formatDate(string $dateTime)
+	public function formatDate(string $date): string
 	{
-		return ilDatePresentation::formatDate(new ilDate($completionDate, IL_CAL_DATETIME));
+		return ilDatePresentation::formatDate(new ilDate($date, IL_CAL_DATETIME));
 	}
 
 	/**
 	 * @param string $dateTime
 	 * @return string
+	 * @throws ilDateTimeException
 	 */
-	public function formatDateTime(string $dateTime)
+	public function formatDateTime(string $dateTime): string
 	{
 		return ilDatePresentation::formatDate(new ilDateTime($dateTime, IL_CAL_DATETIME));
 	}

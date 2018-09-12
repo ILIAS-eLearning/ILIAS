@@ -4,9 +4,14 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilParticipantsHelper
+class ilCertificateParticipantsHelper
 {
-	public function getDateTimeOfPassed($objectId, $userId)
+	/**
+	 * @param int $objectId
+	 * @param int $userId
+	 * @return string
+	 */
+	public function getDateTimeOfPassed(int $objectId, int $userId) : string
 	{
 		return ilCourseParticipants::getDateTimeOfPassed($objectId, $userId);
 	}

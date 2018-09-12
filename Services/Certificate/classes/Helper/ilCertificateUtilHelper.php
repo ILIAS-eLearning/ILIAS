@@ -7,7 +7,7 @@
  *
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUtilHelper
+class ilCertificateUtilHelper
 {
 	/**
 	 * @param string $data

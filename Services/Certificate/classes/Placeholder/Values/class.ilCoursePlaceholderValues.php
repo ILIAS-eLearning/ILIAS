@@ -14,40 +14,40 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	private $language;
 
 	/**
-	 * @var ilObjectHelper|null
+	 * @var ilCertificateObjectHelper|null
 	 */
 	private $objectHelper;
 
 	/**
-	 * @var ilParticipantsHelper|null
+	 * @var ilCertificateParticipantsHelper|null
 	 */
 	private $participantsHelper;
 
 	/**
-	 * @var ilUtilHelper
+	 * @var ilCertificateUtilHelper
 	 */
 	private $ilUtilHelper;
 
 	/**
-	 * @var ilDateHelper|null
+	 * @var ilCertificateDateHelper|null
 	 */
 	private $ilDateHelper;
 
 	/**
 	 * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
 	 * @param ilLanguage|null $language
-	 * @param ilObjectHelper|null $objectHelper
-	 * @param ilParticipantsHelper|null $participantsHelper
-	 * @param ilUtilHelper $ilUtilHelper
-	 * @param ilDateHelper|null $ilDateHelper
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateParticipantsHelper|null $participantsHelper
+	 * @param ilCertificateUtilHelper $ilUtilHelper
+	 * @param ilCertificateDateHelper|null $ilDateHelper
 	 */
 	public function __construct(
 		ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
 		ilLanguage $language = null,
-		ilObjectHelper $objectHelper = null,
-		ilParticipantsHelper $participantsHelper = null,
-		ilUtilHelper $ilUtilHelper = null,
-		ilDateHelper $ilDateHelper = null
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateParticipantsHelper $participantsHelper = null,
+		ilCertificateUtilHelper $ilUtilHelper = null,
+		ilCertificateDateHelper $ilDateHelper = null
 	) {
 		if (null === $language) {
 			global $DIC;
@@ -60,22 +60,22 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 		}
 
 		if (null === $objectHelper) {
-			$objectHelper = new ilObjectHelper();
+			$objectHelper = new ilCertificateObjectHelper();
 		}
 		$this->objectHelper = $objectHelper;
 
 		if (null === $participantsHelper) {
-			$participantsHelper = new ilParticipantsHelper();
+			$participantsHelper = new ilCertificateParticipantsHelper();
 		}
 		$this->participantsHelper = $participantsHelper;
 
 		if (null === $ilUtilHelper) {
-			$ilUtilHelper = new ilUtilHelper();
+			$ilUtilHelper = new ilCertificateUtilHelper();
 		}
 		$this->ilUtilHelper = $ilUtilHelper;
 
 		if (null === $ilDateHelper) {
-			$ilDateHelper = new ilDateHelper();
+			$ilDateHelper = new ilCertificateDateHelper();
 		}
 		$this->ilDateHelper = $ilDateHelper;
 

@@ -4,9 +4,13 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilObjectHelper
+class ilCertificateObjectHelper
 {
-	public function getInstanceByObjId($objectId)
+	/**
+	 * @param int $objectId
+	 * @return ilObject
+	 */
+	public function getInstanceByObjId(int $objectId): ilObject
 	{
 		return ilObjectFactory::getInstanceByObjId($objectId);
 	}
