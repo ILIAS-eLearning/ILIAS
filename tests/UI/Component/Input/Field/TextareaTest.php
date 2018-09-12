@@ -9,7 +9,7 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 
-class TextreaTest extends ILIAS_UI_TestBase {
+class TextareaTest extends ILIAS_UI_TestBase {
 
 	/**
 	 * @var DefNamesource
@@ -20,9 +20,11 @@ class TextreaTest extends ILIAS_UI_TestBase {
 		$this->name_source = new DefNamesource();
 	}
 
+
 	protected function buildFactory() {
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
 	}
+
 
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
@@ -31,6 +33,7 @@ class TextreaTest extends ILIAS_UI_TestBase {
 		$this->assertInstanceOf(Field\Textarea::class, $textarea);
 	}
 
+
 	public function test_implements_factory_interface_without_byline() {
 		$f = $this->buildFactory();
 		$textarea = $f->textarea("label");
@@ -38,6 +41,65 @@ class TextreaTest extends ILIAS_UI_TestBase {
 		$this->assertInstanceOf(Field\Textarea::class, $textarea);
 	}
 
+
+	public function test_with_min_limit() {
+		$f = $this->buildFactory();
+		$limit = 5;
+		$textarea = $f->textarea('label')->withMinLimit($limit);
+		$this->assertInstanceOf(Field\Input::class, $textarea);
+		$this->assertInstanceOf(Field\Textarea::class, $textarea);
+		$this->assertEquals($textarea->getMinLimit(), $limit);
+	}
+
+
+	public function test_with_max_limit() {
+		$f = $this->buildFactory();
+		$limit = 15;
+		$textarea = $f->textarea('label')->withMaxLimit($limit);
+		$this->assertInstanceOf(Field\Input::class, $textarea);
+		$this->assertInstanceOf(Field\Textarea::class, $textarea);
+		$this->assertEquals($textarea->getMaxLimit(), $limit);
+	}
+
+
+	public function test_is_limited() {
+		$f = $this->buildFactory();
+
+		// with min limit
+		$textarea = $f->textarea('label')->withMinLimit(5);
+		$this->assertTrue($textarea->isLimited());
+
+		// with max limit
+		$textarea = $f->textarea('label')->withMaxLimit(5);
+		$this->assertTrue($textarea->isLimited());
+
+		// with min-max limit
+		$textarea = $f->textarea('label')->withMinLimit(5)->withMaxLimit(20);
+		$this->assertTrue($textarea->isLimited());
+
+		// without limit
+		$textarea = $f->textarea('label');
+		$this->assertFalse($textarea->isLimited());
+	}
+
+
+	public function test_get_min_limit() {
+		$f = $this->buildFactory();
+		$limit = 5;
+		$textarea = $f->textarea('label')->withMinLimit($limit);
+		$this->assertEquals($textarea->getMinLimit(), $limit);
+	}
+
+
+	public function test_get_max_limit() {
+		$f = $this->buildFactory();
+		$limit = 15;
+		$textarea = $f->textarea('label')->withMaxLimit($limit);
+		$this->assertEquals($textarea->getMaxLimit(), $limit);
+	}
+
+
+	// RENDERER
 	public function test_renderer() {
 		$f = $this->buildFactory();
 		$r = $this->getDefaultRenderer();
@@ -183,5 +245,4 @@ class TextreaTest extends ILIAS_UI_TestBase {
 		$expected = trim(preg_replace('/\t+/', '', $expected));
 		$this->assertEquals($expected, $html);
 	}
-
 }
