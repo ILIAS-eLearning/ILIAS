@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\KioskMode\View;
-use ILIAS\UI;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Factory;
 
 /**
  * Class ilContentPageKioskModeView
@@ -22,7 +24,7 @@ class ilContentPageKioskModeView implements View
 	/**
 	 * @inheritDoc
 	 */
-	public function buildControls(State $state, \ILIAS\KioskMode\ControlBuilder $builder)
+	public function buildControls(State $state, ControlBuilder $builder)
 	{
 		// TODO: Implement buildControls() method.
 	}
@@ -48,10 +50,10 @@ class ilContentPageKioskModeView implements View
 	 */
 	public function render(
 		State $state,
-		UI\Factory $factory,
+		Factory $factory,
 		URLBuilder $url_builder,
 		array $post = null
-	): UI\Component\Component {
+	): Component {
 		// TODO: Implement render() method.
 	}
 }
