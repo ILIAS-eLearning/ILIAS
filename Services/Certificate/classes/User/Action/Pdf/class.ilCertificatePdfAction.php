@@ -14,25 +14,32 @@ class ilCertificatePdfAction
 	private $pdfGenerator;
 
 	/**
+	 * @var ilUtilHelper
+	 */
+	private $ilUtilHelper;
+
+	/**
 	 * @param ilLogger $logger
-	 * @param ilUserCertificateRepository $userCertificateRepository
-	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilPdfGenerator $pdfGenerator
+	 * @param ilUtilHelper $ilUtilHelper
 	 */
 	public function __construct(
 		ilLogger $logger,
-		ilPdfGenerator $pdfGenerator
+		ilPdfGenerator $pdfGenerator,
+		ilUtilHelper $ilUtilHelper
 	) {
-		$this->logger = $logger;
-		$this->pdfGenerator          = $pdfGenerator;
+		$this->logger       = $logger;
+		$this->pdfGenerator = $pdfGenerator;
+		$this->ilUtilHelper = $ilUtilHelper;
 	}
 
 	/**
 	 * @param integer $objectId
 	 * @param integer $userId
-	 * @return bool
+	 * @return string
+	 * @throws ilException
 	 */
-	public function createPDF($userId, $objectId)
+	public function createPDF(int $userId, int $objectId) : string
 	{
 		$pdfScalar = $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
 
@@ -42,15 +49,15 @@ class ilCertificatePdfAction
 	/**
 	 * @param $objectId
 	 * @param $userId
-	 * @return bool
+	 * @return string
 	 * @throws ilException
 	 * @throws ilInvalidCertificateException
 	 */
-	public function downloadPdf($userId, $objectId)
+	public function downloadPdf(int $userId, int $objectId) : string
 	{
 		$pdfScalar = $this->createPDF($userId, $objectId);
 
-		ilUtil::deliverData(
+		$this->ilUtilHelper->deliverData(
 			$pdfScalar,
 			'Certificate.pdf',
 			'application/pdf'

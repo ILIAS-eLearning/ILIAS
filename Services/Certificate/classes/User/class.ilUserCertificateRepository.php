@@ -115,7 +115,7 @@ AND currently_active = 1';
 
 		while ($row = $this->database->fetchAssoc($query)) {
 
-			$this->logger->debug(sprintf('Active certificate values: %s', $row));
+			$this->logger->debug(sprintf('Active certificate values: %s', json_encode($row)));
 
 			$this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
 

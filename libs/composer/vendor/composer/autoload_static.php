@@ -6956,6 +6956,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilUsersGalleryUserCollectionSorter' => __DIR__ . '/../..' . '/../../Services/User/Gallery/interfaces/interface.ilUsersGalleryUserCollectionSorter.php',
         'ilUsersGalleryUserImpl' => __DIR__ . '/../..' . '/../../Services/User/Gallery/classes/class.ilUsersGalleryUserImpl.php',
         'ilUtil' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilUtil.php',
+        'ilUtilHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilUtilHelper.php',
         'ilValidator' => __DIR__ . '/../..' . '/../../Services/Repository/classes/class.ilValidator.php',
         'ilValidatorAdapter' => __DIR__ . '/../..' . '/../../Services/XHTMLValidator/classes/class.ilValidatorAdapter.php',
         'ilVerificationObject' => __DIR__ . '/../..' . '/../../Services/Verification/classes/class.ilVerificationObject.php',
