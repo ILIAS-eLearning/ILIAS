@@ -172,12 +172,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			$backgroundImagePath
 		);
 
+		$user = new ilObjUser($userId);
+
 		$userCertificate = new ilUserCertificate(
 			$template->getId(),
 			$objectId,
 			$type,
 			$userId,
-			ilUse,
+			$user->getFullname(),
 			$acquiredTimestamp,
 			$certificateContent,
 			'',
