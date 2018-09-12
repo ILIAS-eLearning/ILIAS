@@ -47,7 +47,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	 * @throws ilDateTimeException
 	 * @throws ilException
 	 */
-	public function getPlaceholderValues($userId, $objId)
+	public function getPlaceholderValues(int $userId, int $objId) : array
 	{
 		$exerciseObject = ilObjectFactory::getInstanceByObjId($objId);
 
@@ -76,6 +76,6 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValuesForPreview()
 	{
-		// TODO: Implement getPlaceholderValuesForPreview() method.
+		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
 	}
 }

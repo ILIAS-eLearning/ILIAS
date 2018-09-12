@@ -10,12 +10,12 @@ interface ilCertificatePlaceholderValues
 	 * data could not be determined or the user did NOT
 	 * achieve the certificate.
 	 *
-	 * @param $userId
-	 * @param $objId
+	 * @param int $userId
+	 * @param int $objId
 	 * @throws ilInvalidCertificateException
 	 * @return mixed - [PLACEHOLDER] => 'actual value'
 	 */
-	public function getPlaceholderValues($userId, $objId);
+	public function getPlaceholderValues(int $userId, int $objId);
 
 	/**
 	 * This method is different then the 'getPlaceholderValues' method, this

@@ -42,7 +42,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 * @return mixed - [PLACEHOLDER] => 'actual value'
 	 * @throws ilException
 	 */
-	public function getPlaceholderValues($userId, $objId)
+	public function getPlaceholderValues(int $userId, int $objId): array
 	{
 		$testObject = ilObjectFactory::getInstanceByObjId($objId);
 
@@ -97,6 +97,6 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValuesForPreview()
 	{
-		// TODO: Implement getPlaceholderValuesForPreview() method.
+		return $this->getPlaceholderValuesForPreview();
 	}
 }

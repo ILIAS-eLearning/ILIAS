@@ -34,7 +34,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 			'DATETIME'           => '',
 			'DATE_COMPLETED'     => '',
 			'DATETIME_COMPLETED' => '',
-			'CLIENT_WEB_DIR'         => ''
+			'CLIENT_WEB_DIR'     => ''
 		);
 	}
 
@@ -44,7 +44,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	 * @return array - Array with a mapping of [placholder_key] => actual value
 	 * @throws ilException
 	 */
-	public function getPlaceholderValues($userId, $objId)
+	public function getPlaceholderValues(int $userId, int $objId) : array
 	{
 		/** @var ilObjUser $user */
 		$user = ilObjectFactory::getInstanceByObjId($userId);

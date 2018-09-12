@@ -22,4 +22,12 @@ class ilUtilHelper
 			$mimeType
 		);
 	}
+
+	/**
+	 * @param string $string
+	 */
+	public function prepareFormOutput(string $string)
+	{
+		return ilUtil::prepareFormOutput($string);
+	}
 }
