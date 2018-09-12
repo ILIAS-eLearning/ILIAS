@@ -11,10 +11,45 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	private $placeholder;
 
 	/**
-	 * @param ilLanguage $language
+	 * @var ilCertificateObjectHelper
 	 */
-	public function __construct()
-	{
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateDateHelper
+	 */
+	private $dateHelper;
+
+	/**
+	 * @var integer
+	 */
+	private $dateFormat;
+
+	/**
+	 * @param ilCertificateObjectHelper $objectHelper
+	 * @param ilCertificateDateHelper $dateHelper
+	 * @param int $dateFormat
+	 */
+	public function __construct(
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateDateHelper $dateHelper = null,
+		int $dateFormat = null
+	) {
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $dateHelper) {
+			$dateHelper = new ilCertificateDateHelper();
+		}
+		$this->dateHelper = $dateHelper;
+
+		if (null === $dateFormat) {
+			$dateFormat = IL_CAL_UNIX;
+		}
+		$this->dateFormat = $dateFormat;
+
 		$this->placeholder = array(
 			'USER_LOGIN'         => '',
 			'USER_FULLNAME'      => '',
@@ -47,15 +82,12 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	public function getPlaceholderValues(int $userId, int $objId) : array
 	{
 		/** @var ilObjUser $user */
-		$user = ilObjectFactory::getInstanceByObjId($userId);
+		$user = $this->objectHelper->getInstanceByObjId($userId);
 		if (!$user instanceof ilObjUser) {
 			throw new ilException('The entered id: ' . $userId . ' is not an user object');
 		}
 
 		$placeholder = $this->placeholder;
-
-		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
 
 		$placeholder['USER_LOGIN']         = $user->getLogin();
 		$placeholder['USER_FULLNAME']      = $user->getFullname();
@@ -71,10 +103,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 		$placeholder['USER_ZIPCODE']       = $user->getZipcode();
 		$placeholder['USER_COUNTRY']       = $user->getCountry();
 		$placeholder['USER_MATRICULATION'] = $user->getMatriculation();
-		$placeholder['DATE']               = ilDatePresentation::formatDate(new ilDate(time(), IsL_CAL_UNIX));
-		$placeholder['DATETIME']           = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
-
-		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+		$placeholder['DATE']               = $this->dateHelper->formatDate(time(), $this->dateFormat);
+		$placeholder['DATETIME']           = $this->dateHelper->formatDatetime(time(), $this->dateFormat);
 
 		return $placeholder;
 	}
@@ -89,7 +119,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	 *
 	 * @return mixed
 	 */
-	public function getPlaceholderValuesForPreview()
+	public function getPlaceholderValuesForPreview() : array
 	{
 		return $this->placeholder;
 	}

@@ -10,7 +10,7 @@ class ilCertificateObjectHelper
 	 * @param int $objectId
 	 * @return ilObject
 	 */
-	public function getInstanceByObjId(int $objectId): ilObject
+	public function getInstanceByObjId(int $objectId)
 	{
 		return ilObjectFactory::getInstanceByObjId($objectId);
 	}
