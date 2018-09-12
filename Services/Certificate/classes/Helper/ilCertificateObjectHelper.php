@@ -9,15 +9,9 @@ class ilCertificateObjectHelper
 	/**
 	 * @param int $objectId
 	 * @return ilObject
-	 * @throws ilException
 	 */
 	public function getInstanceByObjId(int $objectId): ilObject
 	{
-		$result = ilObjectFactory::getInstanceByObjId($objectId, false);
-		if (! $result instanceof ilObject) {
-			throw new ilException(sprintf('An instance for the object id "%s" could not be created', $objectId));
-		}
-
-		return $result;
+		return ilObjectFactory::getInstanceByObjId($objectId);
 	}
 }
