@@ -14276,6 +14276,7 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
