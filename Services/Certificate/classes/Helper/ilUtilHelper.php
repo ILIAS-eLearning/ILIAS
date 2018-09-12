@@ -18,8 +18,8 @@ class ilUtilHelper
 	{
 		ilUtil::deliverData(
 			$data,
-			'Certificate.pdf',
-			'application/pdf'
+			$fileName,
+			$mimeType
 		);
 	}
 }
