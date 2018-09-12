@@ -65,8 +65,9 @@ class ilObjUserGUI extends ilObjectGUI
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
-							  'f'    => "salutation_f"
+							  'f'    => "salutation_f",
 							  );
 	}
 
@@ -1465,6 +1466,8 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
 			$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
+			$neutral = new ilRadioOption($lng->txt("gender_n"), "n");
+			$gndr->addOption($neutral);
 			$female = new ilRadioOption($lng->txt("gender_f"), "f");
 			$gndr->addOption($female);
 			$male = new ilRadioOption($lng->txt("gender_m"), "m");
