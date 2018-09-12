@@ -16,8 +16,8 @@ class HasMaxLength extends Custom implements Constraint {
 		assert('is_int($max_length)');
 		$this->max_length = $max_length;
 		parent::__construct( function ($value) {
-			return strlen($value) <= $this->max_length;
-		},
+				return strlen($value) <= $this->max_length;
+			},
 			function () {
 				return "The entered text has a length more than '{$this->max_length}'.";
 			},
