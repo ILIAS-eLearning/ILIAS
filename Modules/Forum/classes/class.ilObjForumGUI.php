@@ -762,6 +762,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
 					}
+					else if($authorinfo->getAuthor()->getGender() == 'n')
+					{
+						$this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_n'));
+					}
 				}
 				
 				// get create- and update-dates
