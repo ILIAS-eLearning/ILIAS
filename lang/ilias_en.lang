@@ -14295,6 +14295,9 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
+ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback
