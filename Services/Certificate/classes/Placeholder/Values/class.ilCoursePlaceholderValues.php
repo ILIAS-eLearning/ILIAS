@@ -29,11 +29,6 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	private $ilUtilHelper;
 
 	/**
-	 * @var ilCertificateDateHelper|null
-	 */
-	private $ilDateHelper;
-
-	/**
 	 * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
 	 * @param ilLanguage|null $language
 	 * @param ilCertificateObjectHelper|null $objectHelper
@@ -46,8 +41,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 		ilLanguage $language = null,
 		ilCertificateObjectHelper $objectHelper = null,
 		ilCertificateParticipantsHelper $participantsHelper = null,
-		ilCertificateUtilHelper $ilUtilHelper = null,
-		ilCertificateDateHelper $ilDateHelper = null
+		ilCertificateUtilHelper $ilUtilHelper = null
 	) {
 		if (null === $language) {
 			global $DIC;
@@ -74,11 +68,6 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 		}
 		$this->ilUtilHelper = $ilUtilHelper;
 
-		if (null === $ilDateHelper) {
-			$ilDateHelper = new ilCertificateDateHelper();
-		}
-		$this->ilDateHelper = $ilDateHelper;
-
 		$this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
 	}
 
@@ -100,11 +89,8 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 		$courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
 		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
-		$completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
 
-		$placeholders['COURSE_TITLE']       = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
-		$placeholders['DATE_COMPLETED']     = $this->ilDateHelper->formatDate($completionDate);
-		$placeholders['DATETIME_COMPLETED'] = $this->ilDateHelper->formatDateTime($completionDate);
+		$placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
 
 		return $placeholders;
 	}

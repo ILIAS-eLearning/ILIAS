@@ -43,31 +43,19 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$ilUtilHelper->method('prepareFormOutput')
 			->willReturn('Some Title');
 
-		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->getMock();
-
-		$ilDateHelper->method('formatDate')
-			->willReturn('2018-09-10');
-
-		$ilDateHelper->method('formatDateTime')
-			->willReturn('2018-09-10 10:32:00');
-
 		$valuesObject = new ilCoursePlaceholderValues(
 			$defaultPlaceholderValues,
 			$language,
 			$objectHelper,
 			$participantsHelper,
-			$ilUtilHelper,
-			$ilDateHelper
+			$ilUtilHelper
 		);
 
 		$placeholderValues = $valuesObject->getPlaceholderValues(100, 200);
 
 		$this->assertEquals(
 			array(
-				'COURSE_TITLE'       => 'Some Title',
-				'DATE_COMPLETED'     => '2018-09-10',
-				'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
+				'COURSE_TITLE'       => 'Some Title'
 			),
 			$placeholderValues);
 	}
@@ -98,16 +86,12 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
-		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->getMock();
-
 		$valuesObject = new ilCoursePlaceholderValues(
 			$defaultPlaceholderValues,
 			$language,
 			$objectHelper,
 			$participantsHelper,
-			$ilUtilHelper,
-			$ilDateHelper
+			$ilUtilHelper
 		);
 
 		$placeholderValues = $valuesObject->getPlaceholderValuesForPreview();
@@ -117,6 +101,7 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'SOME_PLACEHOLDER'        => 'ANYTHING',
 				'SOME_OTHER_PLACEHOLDER'  => '2018-09-10',
 			),
-			$placeholderValues);
+			$placeholderValues
+		);
 	}
 }
