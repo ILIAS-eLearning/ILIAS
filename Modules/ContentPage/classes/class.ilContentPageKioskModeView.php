@@ -4,15 +4,41 @@
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
-use ILIAS\KioskMode\View;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 
 /**
  * Class ilContentPageKioskModeView
  */
-class ilContentPageKioskModeView implements View
+class ilContentPageKioskModeView extends ilKioskModeView
 {
+	/** @var \ilObjContentPage */
+	protected $contentPageObject;
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getObjectClass(): string
+	{
+		return \ilObjContentPage::class;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function setObject(\ilObject $object)
+	{
+		$this->contentPageObject = $object;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function hasPermissionToAccessKioskMode(): bool
+	{
+		return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
+	}
+
 	/**
 	 * @inheritDoc
 	 */
