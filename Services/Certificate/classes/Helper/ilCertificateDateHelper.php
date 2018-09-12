@@ -8,22 +8,44 @@ class ilCertificateDateHelper
 {
 	/**
 	 * @param string $date
-	 * @param int $format
+	 * @param int $dateFormat
 	 * @return string
 	 */
-	public function formatDate(string $date): string
+	public function formatDate(string $date, $dateFormat = null): string
 	{
-		return ilDatePresentation::formatDate(new ilDate($date, IL_CAL_DATETIME));
+		if (null === $dateFormat) {
+			$dateFormat = IL_CAL_DATETIME;
+		}
+
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$date = ilDatePresentation::formatDate(new ilDate($date, $dateFormat));
+
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+
+		return $date;
 	}
 
 	/**
 	 * @param string $dateTime
-	 * @param int $format
+	 * @param int $dateFormat
 	 * @return string
 	 * @throws ilDateTimeException
 	 */
-	public function formatDateTime(string $dateTime): string
+	public function formatDateTime(string $dateTime, $dateFormat = null): string
 	{
-		return ilDatePresentation::formatDate(new ilDateTime($dateTime, IL_CAL_DATETIME));
+		if (null === $dateFormat) {
+			$dateFormat = IL_CAL_DATETIME;
+		}
+
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$date = ilDatePresentation::formatDate(new ilDateTime($dateTime, $dateFormat));
+
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+
+		return $date;
 	}
 }
