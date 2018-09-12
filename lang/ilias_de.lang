@@ -14299,3 +14299,6 @@ mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 common#:#presentation_table_more#:#mehr
+meta#:#meta_oer_harvester#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
