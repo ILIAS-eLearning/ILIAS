@@ -38,47 +38,21 @@ There are two requirements that cannot be handled by any concrete and question t
 
 # Usage of the Service
 
-
-
 ## Authoring Consume
 
-
-
-### Authoring Forward
-
-
-
-### Show and Manage Questions
-
-
-
-### Questions Import
-
-
-
-### Questions Export
-
-
-
-### Question Deletion
-
-
+Usage examples can be viewed within the file:  
+* Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php
+* Services/AssessmentQuestion/examples/class.exQuestionsTableGUI.php
 
 ## Presentation Consume
 
-
-
-### Question Presentation
-
-
-
-### Solution Submit
-
-
+Usage examples can be viewed within the file:  
+* Services/AssessmentQuestion/examples/class.exTestPlayerGUI.php
 
 ## Offline Export Consume
 
-
+Usage examples can be viewed within the file:  
+* Services/AssessmentQuestion/examples/class.exOfflinePresentationQuestionExporter.php
 
 # Decoupled Database
 
