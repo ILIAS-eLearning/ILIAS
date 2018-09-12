@@ -9,5 +9,8 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<crons>
+		<cron id="meta_oer_harvester" class="ilCronOerHarvester" />
+	</crons>
 	<logging/>
 </service>
