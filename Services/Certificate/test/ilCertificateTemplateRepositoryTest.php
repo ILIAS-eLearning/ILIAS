@@ -16,11 +16,11 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
 		$database->method('nextId')
 			->willReturn(10);
@@ -59,7 +59,7 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 			$backgroundImagePath = '/some/where/background.jpg'
 		);
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$repository->save($template);
 	}
@@ -104,13 +104,13 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 				)
 			);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$templates = $repository->fetchCertificateTemplatesByObjId(10);
 
@@ -158,13 +158,13 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 				)
 			);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$template = $repository->fetchCurrentlyActiveCertificate(10);
 
@@ -211,13 +211,13 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 				)
 			);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$template = $repository->fetchPreviousCertificate(10);
 
@@ -244,13 +244,13 @@ DELETE FROM certificate_template
 WHERE id = 10
 AND obj_id = 200');
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$repository->deleteTemplate(10, 200);
 	}
@@ -306,13 +306,13 @@ SET currently_active = 1
 WHERE id = 30')
 			);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$objectHelper->method('lookUpType')->willReturn('crs');
+		$objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$template = $repository->activatePreviousCertificate(10, 200);
 
@@ -333,7 +333,7 @@ WHERE id = 30')
 			->with('crs')
 			->willReturn('crs');
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -366,7 +366,7 @@ WHERE id = 30')
 			)
 		);
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$ids = $repository->fetchAllObjectIdsByType('crs');
 
@@ -390,7 +390,7 @@ WHERE id = 30')
 			->with(10, 'integer')
 			->willReturn(10);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -400,7 +400,7 @@ WHERE id = 30')
 		$database->method('fetchAssoc')
 			->willReturn(array());
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$repository->fetchFirstCreatedTemplate(10);
 
@@ -421,7 +421,7 @@ WHERE id = 30')
 			->with(10, 'integer')
 			->willReturn(10);
 
-		$objectHelper = $this->getMockBuilder('ObjectHelper')
+		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -444,7 +444,7 @@ WHERE id = 30')
 			)
 		);
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectHelper);
+		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
 		$firstTemplate = $repository->fetchFirstCreatedTemplate(10);
 

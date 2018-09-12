@@ -19,14 +19,19 @@ class ilCertificateTemplateRepository
 	private $objectHelper;
 
 	/**
+	 * @var ilObjectDataCache|mixed
+	 */
+	private $objectDataCache;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
-	 * @param ObjectHelper|null $objectHelper
+	 * @param ilObjectDataCache|null $objectDataCache
 	 */
 	public function __construct(
 		\ilDBInterface $database,
 		ilLogger $logger = null,
-		ObjectHelper $objectHelper = null
+		ilObjectDataCache $objectDataCache = null
 	) {
 		$this->database = $database;
 
@@ -35,10 +40,11 @@ class ilCertificateTemplateRepository
 		}
 		$this->logger = $logger;
 
-		if (null === $objectHelper) {
-			$objectHelper = new ObjectHelper();
+		if (null === $objectDataCache) {
+			global $DIC;
+			$objectDataCache = $DIC['ilObjDataCache'];
 		}
-		$this->objectHelper = $objectHelper;
+		$this->objectDataCache = $objectDataCache;
 	}
 
 	/**
@@ -152,7 +158,7 @@ AND currently_active = 1
 
 		return new ilCertificateTemplate(
 			$objId,
-			$this->objectHelper->lookUpType($objId),
+			$this->objectDataCache->lookUpType($objId),
 			'',
 			'',
 			'',
@@ -172,7 +178,7 @@ AND currently_active = 1
 
 		$resultTemplate = new ilCertificateTemplate(
 			$objId,
-			$this->objectHelper->lookUpType($objId),
+			$this->objectDataCache->lookUpType($objId),
 			'',
 			'',
 			'',
