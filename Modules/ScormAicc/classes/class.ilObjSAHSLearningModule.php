@@ -1473,6 +1473,10 @@ class ilObjSAHSLearningModule extends ilObject
 						$studentName = $lng->txt('salutation_m');
 						break;
 
+					case 'n':
+						$studentName = $lng->txt('salutation_n');
+						break;
+
 					default:
 						$studentName = $lng->txt('salutation');
 				}
