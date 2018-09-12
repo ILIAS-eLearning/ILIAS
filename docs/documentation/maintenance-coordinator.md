@@ -90,6 +90,9 @@ or decline changes.
 * If two people share the role of the coordinator and give contradictory 
 feedback for a change request, they MUST resolve the conflict as quickly
 as possible and publish a new feedback without contradictions. 
+* If two people share the role of the coordinator they MUST define whom of
+them is contact person for Mantis bug reports as well as for other applicationsi
+that do not support more than one contact.
 * If two people share the role of the coordinator they MAY give feedback
 the different aspects of a change request. In such a case, both feedbacks
 MUST be considered.
