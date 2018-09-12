@@ -18,7 +18,7 @@ global $DIC;
 $ilIliasIniFile = $DIC['ilIliasIniFile'];
 $ilUser = $DIC['ilUser'];
 
-$tpl = new ilGlobalTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
+$tpl = new ilRTEGlobalTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
 
 $tpl->resetJavascript();
 

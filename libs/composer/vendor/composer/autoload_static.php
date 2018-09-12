@@ -6607,6 +6607,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilRPCServerSettings' => __DIR__ . '/../..' . '/../../Services/WebServices/RPC/classes/class.ilRPCServerSettings.php',
         'ilRSSButtonGUI' => __DIR__ . '/../..' . '/../../Services/News/classes/class.ilRSSButtonGUI.php',
         'ilRTE' => __DIR__ . '/../..' . '/../../Services/RTE/classes/class.ilRTE.php',
+        'ilRTEGlobalTemplate' => __DIR__ . '/../..' . '/../../Services/RTE/classes/class.ilRTEGlobalTemplate.php',
         'ilRadioGroupInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilRadioGroupInputGUI.php',
         'ilRadioOption' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilRadioOption.php',
         'ilRadiusAttributeToUser' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilRadiusAttributeToUser.php',

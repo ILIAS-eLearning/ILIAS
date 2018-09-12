@@ -6270,6 +6270,7 @@ return array(
     'ilRPCServerSettings' => $baseDir . '/../../Services/WebServices/RPC/classes/class.ilRPCServerSettings.php',
     'ilRSSButtonGUI' => $baseDir . '/../../Services/News/classes/class.ilRSSButtonGUI.php',
     'ilRTE' => $baseDir . '/../../Services/RTE/classes/class.ilRTE.php',
+    'ilRTEGlobalTemplate' => $baseDir . '/../../Services/RTE/classes/class.ilRTEGlobalTemplate.php',
     'ilRadioGroupInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilRadioGroupInputGUI.php',
     'ilRadioOption' => $baseDir . '/../../Services/Form/classes/class.ilRadioOption.php',
     'ilRadiusAttributeToUser' => $baseDir . '/../../Services/Radius/classes/class.ilRadiusAttributeToUser.php',
