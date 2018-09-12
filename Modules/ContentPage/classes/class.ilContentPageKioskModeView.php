@@ -6,12 +6,15 @@ use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class ilContentPageKioskModeView
  */
 class ilContentPageKioskModeView extends ilKioskModeView
 {
+	const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
+
 	/** @var \ilObjContentPage */
 	protected $contentPageObject;
 
@@ -52,7 +55,22 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function buildControls(State $state, ControlBuilder $builder)
 	{
-		// TODO: Implement buildControls() method.
+		$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
+		if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
+			$isCompleted = ilLPMarks::_hasCompleted($GLOBALS['DIC']->user()->getId(), $this->contentPageObject->getId());
+
+			$this->lng->loadLanguageModule('copa');
+			$learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
+			if (!$isCompleted) {
+				$learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_not_completed');
+			}
+
+			$builder->generic(
+				$learningProgressToggleCtrlLabel,
+				self::CMD_TOGGLE_LEARNING_PROGRESS,
+				1
+			);
+		}
 	}
 
 	/**
@@ -68,7 +86,16 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function updatePost(State $state, string $command, array $post): State
 	{
-		// TODO: Implement updatePost() method.
+		if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
+			$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
+			if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
+				$marks = new ilLPMarks($this->contentPageObject->getId(), $GLOBALS['DIC']->user()->getId());
+				$marks->setCompleted(!$marks->getCompleted());
+				$marks->update();
+
+				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $GLOBALS['DIC']->user()->getId());
+			}
+		}
 	}
 
 	/**
@@ -80,6 +107,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		URLBuilder $url_builder,
 		array $post = null
 	): Component {
-		// TODO: Implement render() method.
+		\ilLearningProgress::_tracProgress(
+			$GLOBALS['DIC']->user()->getId(),
+			$this->contentPageObject->getId(),
+			$this->contentPageObject->getRefId(),
+			$this->contentPageObject->getType()
+		);
+
+		return new Legacy(
+			"Content Page: " . $this->contentPageObject->getTitle()
+		);
 	}
 }
