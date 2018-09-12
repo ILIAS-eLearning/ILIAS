@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ *
+ * Repository that allows interaction with the database
+ * in the context of certificate templates.
+ */
 class ilCertificateTemplateRepository
 {
 	/**
