@@ -48,7 +48,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 	 * @return mixed - [PLACEHOLDER] => 'actual value'
 	 * @throws ilException
 	 */
-	public function getPlaceholderValues($userId, $objId)
+	public function getPlaceholderValues(int $userId, int $objId) : array
 	{
 		$this->lng->loadLanguageModule('certificate');
 
@@ -134,8 +134,8 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 	 *
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview()
+	public function getPlaceholderValuesForPreview() : array
 	{
-		// TODO: Implement getPlaceholderValuesForPreview() method.
+		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
 	}
 }

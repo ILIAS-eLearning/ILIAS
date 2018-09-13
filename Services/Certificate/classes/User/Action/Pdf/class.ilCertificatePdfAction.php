@@ -14,19 +14,19 @@ class ilCertificatePdfAction
 	private $pdfGenerator;
 
 	/**
-	 * @var ilUtilHelper
+	 * @var ilCertificateUtilHelper
 	 */
 	private $ilUtilHelper;
 
 	/**
 	 * @param ilLogger $logger
 	 * @param ilPdfGenerator $pdfGenerator
-	 * @param ilUtilHelper $ilUtilHelper
+	 * @param ilCertificateUtilHelper $ilUtilHelper
 	 */
 	public function __construct(
 		ilLogger $logger,
 		ilPdfGenerator $pdfGenerator,
-		ilUtilHelper $ilUtilHelper
+		ilCertificateUtilHelper $ilUtilHelper
 	) {
 		$this->logger       = $logger;
 		$this->pdfGenerator = $pdfGenerator;

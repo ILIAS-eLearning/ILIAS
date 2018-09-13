@@ -20,7 +20,7 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 		$pdfGenerator->method('generateCurrentActiveCertificate')
 			->willReturn('Something');
 
-		$ilUtilHelper = $this->getMockBuilder('ilUtilHelper')
+		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
 		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator, $ilUtilHelper);
@@ -44,7 +44,7 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 		$pdfGenerator->method('generateCurrentActiveCertificate')
 			->willReturn('Something');
 
-		$ilUtilHelper = $this->getMockBuilder('ilUtilHelper')
+		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
 		$ilUtilHelper->method('deliverData')

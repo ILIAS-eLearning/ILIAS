@@ -7,7 +7,7 @@
  *
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUtilHelper
+class ilCertificateUtilHelper
 {
 	/**
 	 * @param string $data
@@ -21,5 +21,14 @@ class ilUtilHelper
 			$fileName,
 			$mimeType
 		);
+	}
+
+	/**
+	 * @param string $string
+	 * @return string
+	 */
+	public function prepareFormOutput(string $string)
+	{
+		return ilUtil::prepareFormOutput($string);
 	}
 }
