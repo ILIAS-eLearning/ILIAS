@@ -97,9 +97,6 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
-		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->getMock();
-
 		$valuesObject = new ilCoursePlaceholderValues(
 			$defaultPlaceholderValues,
 			$language,
