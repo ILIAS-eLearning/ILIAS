@@ -6,7 +6,6 @@ use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class ilContentPageKioskModeView
@@ -128,7 +127,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
 		$DIC->ctrl()->setParameterByClass(ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
-		return new Legacy($forwarder->forward($DIC->ctrl()->getLinkTargetByClass([
+		return $factory->legacy($forwarder->forward($DIC->ctrl()->getLinkTargetByClass([
 			ilRepositoryGUI::class, ilObjContentPageGUI::class, ilContentPagePageGUI::class
 		])));
 	}
