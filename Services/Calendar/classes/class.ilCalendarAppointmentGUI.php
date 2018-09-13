@@ -199,6 +199,8 @@ class ilCalendarAppointmentGUI
 			$obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
 			$calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
 			$selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
+			$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+			$cats->readSingleCalendar($selected_calendar);
 		}
 		else
 		{
