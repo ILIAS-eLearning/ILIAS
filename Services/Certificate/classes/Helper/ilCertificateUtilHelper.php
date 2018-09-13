@@ -27,7 +27,7 @@ class ilCertificateUtilHelper
 	 * @param string $string
 	 * @return string
 	 */
-	public function prepareFormOutput(string $string)
+	public function prepareFormOutput(string $string) : string
 	{
 		return ilUtil::prepareFormOutput($string);
 	}

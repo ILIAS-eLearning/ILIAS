@@ -14,14 +14,57 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	private $defaultPlaceHolderValuesObject;
 
 	/**
+	 * @var ilCertificateLPMarksHelper|null
+	 */
+	private $lpMarksHelper;
+
+	/**
+	 * @var ilCertificateObjectHelper|null
+	 */
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateExerciseMembersHelper|null
+	 */
+	private $exerciseMembersHelper;
+
+	/**
+	 * @var ilCertificateLPStatusHelper|null
+	 */
+	private $lpStatusHelper;
+
+	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
+	 * @var ilCertificateDateHelper|null
+	 */
+	private $dateHelper;
+
+	/**
 	 * @param ilDefaultPlaceholderValues|null $defaultPlaceholderValues
 	 * @param ilLanguage|null $language
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateLPMarksHelper|null $lpMarksHelper
+	 * @param ilCertificateExerciseMembersHelper|null $exerciseMembersHelper
+	 * @param ilCertificateLPStatusHelper|null $lpStatusHelper
+	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilCertificateDateHelper|null $dateHelper
 	 */
-	public function __construct(ilDefaultPlaceholderValues $defaultPlaceholderValues = null, ilLanguage $language = null)
-	{
-		global $DIC;
-
+	public function __construct(
+		ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+		ilLanguage $language = null,
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateLPMarksHelper $lpMarksHelper = null,
+		ilCertificateExerciseMembersHelper $exerciseMembersHelper = null,
+		ilCertificateLPStatusHelper $lpStatusHelper = null,
+		ilCertificateUtilHelper $utilHelper = null,
+		ilCertificateDateHelper $dateHelper = null
+	) {
 		if (null === $language) {
+			global $DIC;
 			$language = $DIC->language();
 		}
 		$this->language = $language;
@@ -29,8 +72,37 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 		if (null === $defaultPlaceholderValues) {
 			$defaultPlaceholderValues = new ilDefaultPlaceholderValues($language);
 		}
-
 		$this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $lpMarksHelper) {
+			$lpMarksHelper = new ilCertificateLPMarksHelper();
+		}
+		$this->lpMarksHelper = $lpMarksHelper;
+
+		if (null === $exerciseMembersHelper) {
+			$exerciseMembersHelper = new ilCertificateExerciseMembersHelper();
+		}
+		$this->exerciseMembersHelper = $exerciseMembersHelper;
+
+		if (null === $lpStatusHelper) {
+			$lpStatusHelper = new ilCertificateLPStatusHelper();
+		}
+		$this->lpStatusHelper = $lpStatusHelper;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
+
+		if (null === $dateHelper) {
+			$dateHelper = new ilCertificateDateHelper();
+		}
+		$this->dateHelper = $dateHelper;
 	}
 
 	/**
@@ -49,20 +121,20 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValues(int $userId, int $objId) : array
 	{
-		$exerciseObject = ilObjectFactory::getInstanceByObjId($objId);
+		$exerciseObject = $this->objectHelper->getInstanceByObjId($objId);
 
-		$mark = ilLPMarks::_lookupMark($userId, $objId);
-		$status = ilExerciseMembers::_lookupStatus($objId, $userId);
+		$mark = $this->lpMarksHelper->lookUpMark($userId, $objId);
+		$status = $this->exerciseMembersHelper->lookUpStatus($objId, $userId);
 
-		$completionDate = ilLPStatus::_lookupStatusChanged($objId, $userId);
+		$completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
 
 		$placeHolders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-		$placeHolders['RESULT_PASSED']      = ilUtil::prepareFormOutput($this->language->txt('exc_' . $status));
-		$placeHolders['RESULT_MARK']        = ilUtil::prepareFormOutput($mark);
-		$placeHolders['EXERCISE_TITLE']     = ilUtil::prepareFormOutput($exerciseObject->getTitle());
-		$placeholders['DATE_COMPLETED']     = ilDatePresentation::formatDate(new ilDate($completionDate, IL_CAL_DATETIME));
-		$placeholders['DATETIME_COMPLETED'] = ilDatePresentation::formatDate(new ilDateTime($completionDate, IL_CAL_DATETIME));
+		$placeHolders['RESULT_PASSED']      = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
+		$placeHolders['RESULT_MARK']        = $this->utilHelper->prepareFormOutput($mark);
+		$placeHolders['EXERCISE_TITLE']     = $this->utilHelper->prepareFormOutput($exerciseObject->getTitle());
+		$placeHolders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+		$placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
 
 		return $placeHolders;
 	}

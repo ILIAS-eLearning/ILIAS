@@ -43,6 +43,15 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$ilUtilHelper->method('prepareFormOutput')
 			->willReturn('Some Title');
 
+		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
+			->getMock();
+
+		$ilDateHelper->method('formatDate')
+			->willReturn('2018-09-10');
+
+		$ilDateHelper->method('formatDateTime')
+			->willReturn('2018-09-10 10:32:00');
+
 		$valuesObject = new ilCoursePlaceholderValues(
 			$defaultPlaceholderValues,
 			$language,
@@ -84,6 +93,9 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->getMock();
 
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+			->getMock();
+
+		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
 
 		$valuesObject = new ilCoursePlaceholderValues(

@@ -12,7 +12,14 @@ class ilCertificateDateHelper
 	 */
 	public function formatDate(string $date): string
 	{
-		return ilDatePresentation::formatDate(new ilDate($date, IL_CAL_DATETIME));
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$date = ilDatePresentation::formatDate(new ilDate($date, IL_CAL_DATETIME));
+
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+
+		return $date;
 	}
 
 	/**
@@ -22,6 +29,13 @@ class ilCertificateDateHelper
 	 */
 	public function formatDateTime(string $dateTime): string
 	{
-		return ilDatePresentation::formatDate(new ilDateTime($dateTime, IL_CAL_DATETIME));
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$date = ilDatePresentation::formatDate(new ilDateTime($dateTime, IL_CAL_DATETIME));
+
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+
+		return $date;
 	}
 }
