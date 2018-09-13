@@ -19,7 +19,7 @@ interface View {
 	/**
 	 * Construct the controls for the view based on the current state.
 	 */
-	public function buildControls(State $state, ControlBuilder $builder) : null;
+	public function buildControls(State $state, ControlBuilder $builder);
 
 	/**
 	 * Update the state based on the provided command.

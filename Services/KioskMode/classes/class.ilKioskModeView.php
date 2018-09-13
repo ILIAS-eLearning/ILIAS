@@ -36,7 +36,9 @@ abstract class ilKioskModeView implements ILIAS\KioskMode\View {
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 		$this->access = $access;
-		if (!($object instanceof $this->getObjectClass())) {
+
+		$objectClassName = $this->getObjectClass();
+		if (!($object instanceof $objectClassName)) {
 			throw new \LogicException(
 				"Provided object of class '".get_class($object)."' does not ".
 				"fit view for '".$this->getObjectClass()."'"
@@ -61,7 +63,7 @@ abstract class ilKioskModeView implements ILIAS\KioskMode\View {
 	 * This makes it possible to use an appropriately typehinted member variable to
 	 * allow for static code analysis. Sadly PHP has no generics...
 	 */
-	abstract protected setObject(\ilObject $object) : null;
+	abstract protected function setObject(\ilObject $object);
 
 	/**
 	 * Check if the global user has permission to access the kiosk mode of the
