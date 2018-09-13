@@ -3606,6 +3606,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateLPStatusHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateLPStatusHelper.php',
         'ilCertificateNotObtainedException' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Exception/class.ilCertificateNotObtainedException.php',
         'ilCertificateObjectHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateObjectHelper.php',
+        'ilCertificateObjectLPHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateObjectLPHelper.php',
         'ilCertificateParticipantsHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
         'ilCertificatePathConstants' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
         'ilCertificatePdfAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',

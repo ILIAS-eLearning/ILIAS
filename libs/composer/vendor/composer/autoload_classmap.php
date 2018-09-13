@@ -3362,6 +3362,7 @@ return array(
     'ilCertificateLPStatusHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateLPStatusHelper.php',
     'ilCertificateNotObtainedException' => $baseDir . '/../../Services/Certificate/classes/Exception/class.ilCertificateNotObtainedException.php',
     'ilCertificateObjectHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateObjectHelper.php',
+    'ilCertificateObjectLPHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateObjectLPHelper.php',
     'ilCertificateParticipantsHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
     'ilCertificatePathConstants' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
     'ilCertificatePdfAction' => $baseDir . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',
