@@ -47,7 +47,6 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function buildInitialState(State $empty_state): State
 	{
-		// TODO: Implement buildInitialState() method.
 	}
 
 	/**
@@ -78,7 +77,6 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function updateGet(State $state, string $command, int $param = null): State
 	{
-		// TODO: Implement updateGet() method.
 	}
 
 	/**
@@ -128,6 +126,10 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		);
 		$forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
-		return new Legacy($forwarder->forward(''));
+		$DIC->ctrl()->setParameterByClass(ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
+
+		return new Legacy($forwarder->forward($DIC->ctrl()->getLinkTargetByClass([
+			ilRepositoryGUI::class, ilObjContentPageGUI::class, ilContentPagePageGUI::class
+		])));
 	}
 }
