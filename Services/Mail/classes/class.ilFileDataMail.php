@@ -9,6 +9,9 @@
 * @version $Id$
 * 
 */
+
+use ILIAS\Filesystem\Filesystem;
+
 require_once("./Services/FileSystem/classes/class.ilFileData.php");
 require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
@@ -36,6 +39,12 @@ class ilFileDataMail extends ilFileData
 	 */
 	protected $mail_max_upload_file_size;
 
+	/** @var Filesystem */
+	protected $tmpDirectory;
+
+	/** @var \ilDBInterface */
+	protected $db;
+
 	/**
 	* Constructor
 	* call base constructors
@@ -45,11 +54,16 @@ class ilFileDataMail extends ilFileData
 	*/
 	public function __construct($a_user_id = 0)
 	{
+		global $DIC;
+
 		define('MAILPATH','mail');
 		parent::__construct();
 		$this->mail_path = parent::getPath()."/".MAILPATH;
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;
+
+		$this->db = $DIC->database();
+		$this->tmpDirectory = $DIC->filesystem()->temp();
 
 		$this->initAttachmentMaxUploadSize();
 	}
@@ -117,13 +131,11 @@ class ilFileDataMail extends ilFileData
 	*/
 	public function getAttachmentPathByMD5Filename($a_filename,$a_mail_id)
 	{
-		global $ilDB;
-
-		$query = $ilDB->query("SELECT path FROM mail_attachment 
-				  WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer')."");
+		$query = $this->db->query("SELECT path FROM mail_attachment 
+				  WHERE mail_id = ".$this->db->quote($a_mail_id,'integer'));
 		
 		$rel_path = "";
-		while($row = $ilDB->fetchObject($query))
+		while($row = $this->db->fetchObject($query))
 		{
 			$rel_path = $row->path;
 			$path = $this->getMailPath().'/'.$row->path;
@@ -143,41 +155,38 @@ class ilFileDataMail extends ilFileData
 		}
 		return '';
 	}
-	
+
+	/**
+	 * @param int $mailId
+	 * @return string
+	 */
+	private function getAttachmentPathByMailId(int $mailId): string
+	{
+		$query = $this->db->query(
+			"SELECT path FROM mail_attachment WHERE mail_id = " . $this->db->quote($mailId, 'integer')
+		);
+
+		while($row = $this->db->fetchObject($query)) {
+			return $row->path;
+		}
+
+		return '';
+	}
 
 	/**
 	* get the path of a specific attachment
 	* @param string filename
 	* @param integer mail_id
-	* @access	public
 	* @return string path
 	*/
 	function getAttachmentPath($a_filename,$a_mail_id)
 	{
-		global $ilDB;
-		
-/*		$query = "SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
-		
-		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
-		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
-*/
-		$query = $ilDB->query("SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id, 'integer')."");
+		$path = $this->getMailPath() . '/' . $this->getAttachmentPathByMailId($a_mail_id) . '/' . $a_filename;
 
-		while($row = $ilDB->fetchObject($query))
-		{
-			$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;			
+		if (file_exists($path) && is_readable($path)) {
+			return $path;
 		}
-			
-		if(file_exists($path))
-		{
-			if(is_readable($path))
-			{
-				return $path;
-			}
-			return '';
-		}
+
 		return '';
 	}
 	/**
@@ -406,8 +415,13 @@ class ilFileDataMail extends ilFileData
 			$this->saveFile($a_mail_id, $attachment);
 		}
 	}
-	
-	public static function getStorage($a_mail_id, $a_usr_id)
+
+	/**
+	 * @param $a_mail_id
+	 * @param $a_usr_id
+	 * @return \ilFSStorageMail
+	 */
+	public static function getStorage($a_mail_id, $a_usr_id): \ilFSStorageMail
 	{
 		static $fsstorage_cache = array();
 		
@@ -694,5 +708,45 @@ class ilFileDataMail extends ilFileData
 			array($this->user_id)
 		);
 	}
+
+	/**
+	 * @param string $filename
+	 * @param int $mailId
+	 * @param array $files
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilException
+	 */
+	public function deliverAttachmentsAsZip(string $filename, int $mailId, $files = [])
+	{
+		$path = $this->getAttachmentPathByMailId($mailId);
+		if (0 === strlen($path)) {
+			throw new \ilException('mail_download_zip_no_attachments');
+		} 
+
+		$zipDirectory = \ilUtil::ilTempnam();
+		$zipDirectoryName = basename($zipDirectory);
+
+		$this->tmpDirectory->createDir($zipDirectoryName);
+
+		foreach ($files as $fileName) {
+			$source = str_replace('//', '/', $this->getMailPath(). '/' .$path . '/' . $fileName);
+			$target = $zipDirectory . '/' . $fileName;
+
+			// We cannot copy files across FileSystem instances  
+			copy($source, $target);
+		}
+
+		$pathToZipFile = dirname($zipDirectory) . '/' . $zipDirectoryName . '.zip';
+		\ilUtil::zip($zipDirectory, $pathToZipFile);
+
+		$this->tmpDirectory->deleteDir($zipDirectoryName);
+
+		$delivery = new ilFileDelivery($pathToZipFile);
+		$delivery->setDisposition(\ilFileDelivery::DISP_ATTACHMENT);
+		$delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__ZIP);
+		$delivery->setDownloadFileName(\ilFileUtils::getValidFilename($filename) . '.zip');
+		$delivery->setDeleteFile(true);
+
+		$delivery->deliver();
+	}
 }
-?>

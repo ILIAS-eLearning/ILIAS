@@ -568,9 +568,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['attachment_indicator'] = '';
 			if (is_array($mail['attachments'])) {
+				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
 				$mail['attachment_indicator'] = $this->uiRenderer->render(
-					$this->uiFactory->glyph()->attachment('http://www.databay.de')
+					$this->uiFactory->glyph()->attachment(
+						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
+					)
 				);
+				$this->ctrl->clearParametersByClass('ilmailformgui');
 			}
 
 			$data['set'][$key] = $mail;
@@ -715,6 +719,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->addFilterItem($onlyWithAttachments);
 		$onlyWithAttachments->readFromSession();
 		$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
+
+		$duration = new \ilDateDurationInputGUI($this->lng->txt('mail_filter_period'), 'period');
+		$duration->setRequired(true);
+		// TODO: Make start and end optional
+		$duration->setStartText($this->lng->txt('mail_filter_period_from'));
+		$duration->setEndText($this->lng->txt('mail_filter_period_until'));
+		$duration->setStart(new ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
+		$duration->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
+		$duration->setShowTime(false);
+		$this->addFilterItem($duration);
+		$duration->readFromSession();
+		$this->filter['period'] = $duration->getValue();
 	}
 
 	/**

@@ -21,49 +21,31 @@ class ilMailFolderGUI
 	private $current_select_cmd;
 	private $current_selected_cmd;
 
-	/**
-	 * @var \ilTemplate
-	 */
+	/** @var \ilTemplate */
 	private $tpl;
 
-	/**
-	 * @var \ilCtrl
-	 */
+	/** @var \ilCtrl */
 	private $ctrl;
 
-	/**
-	 * @var \ilLanguage
-	 */
+	/** @var \ilLanguage */
 	private $lng;
 
-	/**
-	 * @var \ilToolbarGUI
-	 */
+	/** @var \ilToolbarGUI */
 	private $toolbar;
 
-	/**
-	 * @var \ilTabsGUI
-	 */
+	/** @var \ilTabsGUI */
 	private $tabs;
 
-	/**
-	 * @var \ilObjUser
-	 */
+	/** @var \ilObjUser */
 	private $user;
 
-	/**
-	 * @var \ilMail
-	 */
+	/** @var \ilMail */
 	public $umail;
 
-	/**
-	 * @var \ilMailBox
-	 */
+	/** @var \ilMailBox */
 	public $mbox;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $errorDelete = false;
 
 	/**
@@ -966,43 +948,57 @@ class ilMailFolderGUI
 		$tplprint->show();
 	}
 
-	function deliverFile()
+	protected function deliverFile()
 	{
-		if ($_SESSION["mail_id"])
-		{
-			$_GET["mail_id"] = $_SESSION["mail_id"];
+		$mailId = $_GET['mail_id'] ?? 0;
+		if (isset($_SESSION['mail_id']) && (int)$_SESSION['mail_id'] > 0) {
+			$mailId = $_SESSION["mail_id"];
+			$_SESSION['mail_id'] = '';
 		}
-		$_SESSION["mail_id"] = "";
 
-		$filename = ($_SESSION["filename"]
-						? $_SESSION["filename"]
-						: ($_POST["filename"]
-							? $_POST["filename"]
-							: $_GET["filename"]));
-		$_SESSION["filename"] = "";
+		$filename = $_POST['filename'] ?? '';
+		if (isset($_SESSION['filename']) && strlen($_SESSION['filename']) > 0) {
+			$filename = $_SESSION["filename"];
+			$_SESSION['filename'] = '';
+		}
 
-		if ($filename != "")
-		{
-			require_once "./Services/Mail/classes/class.ilFileDataMail.php";
-			
-			// secure filename
-			$filename = str_replace("..", "", $filename);
-			
-			$mfile = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-			if(!is_array($file = $mfile->getAttachmentPathByMD5Filename($filename, $_GET['mail_id'])))
-			{
+		if ($mailId > 0 && $filename !== '') {
+			while (strpos($filename, '..') !== false) {
+				$filename = str_replace('..', '', $filename);
+			}
+
+			$mailFileData = new ilFileDataMail($this->user->getId());
+			if (!is_array($file = $mailFileData->getAttachmentPathByMD5Filename($filename, (int)$mailId))) {
 				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));
 				$this->showMail();
-			}
-			else
-			{
+			} else {
 				ilUtil::deliverFile($file['path'], $file['filename']);
 			}
-		}
-		else
-		{
+		} else {
 			ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
 			$this->showMail();
+		}
+	}
+
+	protected function deliverAttachmentsAsZipFile()
+	{
+		try {
+			$mailId = $_GET['mail_id'] ?? 0;
+
+			$mailData = $this->umail->getMail((int)$mailId);
+			if (null === $mailData || 0 === count((array)$mailData['attachments'])) {
+				throw new \ilException('permission_denied');
+			}
+
+			$mailFileData = new \ilFileDataMail($this->user->getId());
+			$mailFileData->deliverAttachmentsAsZip(
+				$mailData['m_subject'],
+				(int)$mailId,
+				$mailData['attachments']
+			);
+		} catch (\ilException $e) {
+			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
+			$this->ctrl->redirect($this, '');
 		}
 	}
 
@@ -1052,4 +1048,3 @@ class ilMailFolderGUI
 		$this->showFolder();
 	}
 }
-?>

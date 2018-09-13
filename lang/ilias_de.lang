@@ -11380,6 +11380,7 @@ mail#:#mail_filter_only_with_attachments#:#Anhänge
 mail#:#mail_filter_period#:#Zeitraum
 mail#:#mail_filter_period_from#:#Von
 mail#:#mail_filter_period_until#:#Bis
+mail#:#mail_download_zip_no_attachments#:#Es wurden keine Anhänge gefunden.
 blog#:#blog_properties#:#Blog-Eigenschaften
 blog#:#blog_style#:#Blog-Style
 prtf#:#prtf_properties#:#Portfolio-Eigenschaften
