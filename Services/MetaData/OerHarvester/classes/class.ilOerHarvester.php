@@ -50,8 +50,14 @@ class ilOerHarvester
 			$obj_ids = $this->filter($obj_ids);
 			$num = $this->harvest($obj_ids);
 
+			$message = 'Created '. $num . ' new objects. <br />';
+
+			$deleted = $this->deleteDeprecated();
+
+			$message .= 'Deleted '. $deleted . ' deprecated objects.';
+
 			$this->cronresult->setStatus(ilCronJobResult::STATUS_OK);
-			$this->cronresult->setMessage('Created '.$num.' new objects.');
+			$this->cronresult->setMessage($message);
 		}
 		catch(Exception $e) {
 
@@ -174,5 +180,55 @@ class ilOerHarvester
 		$status->save();
 
 		return true;
+	}
+
+	/**
+	 * Delete object
+	 */
+	protected function deleteObject($a_ref_id)
+	{
+		$object = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
+
+		if(!$object instanceof ilObject)
+		{
+			$this->logger->warning('Found invalid reference: ' . $a_ref_id);
+		}
+		$this->logger->debug('Deleting reference...');
+		$object->delete();
+
+
+		$status = new ilOerHarvesterObjectStatus(
+			ilOerHarvesterObjectStatus::lookupObjIdByHarvestingId($a_ref_id)
+		);
+		$status->delete();
+	}
+
+	/**
+	 * Delete deprecated
+	 */
+	protected function deleteDeprecated()
+	{
+		$num_deleted = 0;
+		foreach(ilOerHarvesterObjectStatus::lookupHarvested() as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$copyright = ilMDRights::_lookupDescription($obj_id,$obj_id);
+			$is_valid = false;
+			foreach($this->settings->getCopyRightTemplatesInLomFormat() as $cp)
+			{
+				if(strcmp($copyright, $cp) === 0)
+				{
+					$is_valid = true;
+				}
+			}
+
+			if(!$is_valid)
+			{
+				$this->logger->debug('Deleting deprecated object with ref_id: ' . $ref_id);
+				$this->deleteObject($ref_id);
+				$num_deleted++;
+			}
+		}
+		return $num_deleted;
 	}
 }

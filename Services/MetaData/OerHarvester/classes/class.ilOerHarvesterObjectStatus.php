@@ -36,6 +36,44 @@ class ilOerHarvesterObjectStatus
 
 	}
 
+	/**
+	 * @return int[]
+	 * @throws ilDatabaseException
+	 */
+	public static function lookupHarvested()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = 'SELECT href_id FROM il_meta_oer_stat ';
+		$res = $db->query($query);
+
+		$hids = [];
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$hids[] = $row->href_id;
+		}
+		return $hids;
+	}
+
+	/**
+	 * @param $a_href_id
+	 */
+	public static function lookupObjIdByHarvestingId($a_href_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$query = 'SELECT obj_id FROM il_meta_oer_stat '.
+			'WHERE href_id = ' . $db->quote($a_href_id,'integer');
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+	}
+
 	public function setObjId($a_obj_id)
 	{
 		$this->obj_id = $a_obj_id;
