@@ -87,15 +87,29 @@ class ilConditionQuery
 		$class = $this->obj_definition->getClassName($parent_type);
 		$class_name = "il".$class."ConditionController";
 		$location = $this->obj_definition->getLocation($parent_type);
-		if (is_file($location."/class.".$class_name.".php"))
-		{
-
-		}
-
 
 		// if yes, get from parent
+		if (is_file($location."/class.".$class_name.".php"))
+		{
+			$controller = new $class_name();
+			if ($controller->isContainerConditionController($parent))
+			{
+				return $controller->getConditionSetForRepositoryObject($ref_id);
+			}
+		}
 
 		// get conditions the old fashioned way
+		/*
+		foreach (ilConditionHandler::_getConditionsOfTarget($parent, $parent_obj_id, $parent_type) as $c)
+		{
+			$f = $DIC->conditions()->factory();
+			$condition1 = $f->condition(
+				$f->repositoryTrigger($trigger_ref_id),
+				$f->operator()->passed()
+			);
+			$condition_set = $f->set(array($condition1));
+			return $condition_set;
+		}*/
 	}
 
 	

@@ -1410,7 +1410,7 @@ class ilObjContentObject extends ilObject
 					foreach ($tconds as $tcond)
 					{
 						// store all missing preconditions
-						if (!ilConditionHandler::_checkCondition($tcond["id"]))
+						if (!ilConditionHandler::_checkCondition($tcond))
 						{
 							$conds[] = $tcond;
 						}
@@ -1445,7 +1445,7 @@ class ilObjContentObject extends ilObject
 					foreach ($tconds as $tcond)
 					{
 						// look for missing precondition
-						if (!ilConditionHandler::_checkCondition($tcond["id"]))
+						if (!ilConditionHandler::_checkCondition($tcond))
 						{
 							return $node["child"];
 						}

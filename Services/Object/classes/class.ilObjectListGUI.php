@@ -1977,7 +1977,7 @@ class ilObjectListGUI
 			}
 
 			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
-			$ok = ilConditionHandler::_checkCondition($condition['id']) and
+			$ok = ilConditionHandler::_checkCondition($condition) and
 				!ilMemberViewSettings::getInstance()->isActive();
 
 			if(!$ok)

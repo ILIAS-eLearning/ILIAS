@@ -749,15 +749,15 @@ class ilConditionHandler
 	}
 
 	/**
-	* get all conditions of target object
-	* @param    $a_target_ref_id    target reference id
-	* @param	$a_target_obj_id	target object id
-	* @param	$a_target_type		target object type (must be provided only
-	*								if object is not derived from ilObject
-	*								and therefore stored in object_data; this
-	*								is e.g. the case for chapters (type = "st"))
-	* @static
-	*/
+	 * get all conditions of target object
+	 * @param    int $a_target_ref_id    target reference id
+	 * @param	int $a_target_obj_id	target object id
+	 * @param	string $a_target_type	target object type (must be provided only
+	 *								if object is not derived from ilObject
+	 *								and therefore stored in object_data; this
+	 *								is e.g. the case for chapters (type = "st"))
+	 * @return array|mixed
+	 */
 	public static function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
 	{
 		global $DIC;
@@ -892,16 +892,16 @@ class ilConditionHandler
 	* every trigger object type must implement a static method
 	* _checkCondition($a_operator, $a_value)
 	*/
-	static function _checkCondition($a_id,$a_usr_id = 0)
+	static function _checkCondition($condition, $a_usr_id = 0)
 	{
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
 		$objDefinition = $DIC['objDefinition'];
-		
+
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
-		$condition = ilConditionHandler::_getCondition($a_id);
+		//$condition = ilConditionHandler::_getCondition($a_id);
 		
 		// check lp 
 		if($condition['operator'] == self::OPERATOR_LP)
@@ -1050,7 +1050,6 @@ class ilConditionHandler
 	{
 		global $DIC;
 
-		$ilBench = $DIC['ilBench'];
 		$ilUser = $DIC['ilUser'];
 		$tree = $DIC['tree'];
 		
@@ -1080,7 +1079,7 @@ class ilConditionHandler
 			{
 				continue;
 			}
-			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
+			$check = ilConditionHandler::_checkCondition($condition,$a_usr_id);
 
 			if($check)
 			{
