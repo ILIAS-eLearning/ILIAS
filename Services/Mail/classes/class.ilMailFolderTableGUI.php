@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Mail/classes/class.ilMailUserCache.php';
 require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
@@ -37,31 +40,47 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	protected $_isDraftsFolder = false;
 	protected $_isSentFolder = false;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $filter = array();
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $sub_filter = array();
-	
+
+	/** @var Factory|null */
+	private $uiFactory;
+
+	/** @var Renderer|null */
+	private $uiRenderer;
+
 	/**
 	 * Constructor
-	 * @access	public
-	 * @param			        $a_parent_obj		   Pass an instance of ilObjectGUI
-	 * @param	integer			$a_current_folder_id	Id of the current mail box folder
-	 * @param	string			 $a_parent_cmd		   Command for the parent class
-	 *
+	 * @access    public
+	 * @param                    $a_parent_obj           Pass an instance of ilObjectGUI
+	 * @param    integer $a_current_folder_id Id of the current mail box folder
+	 * @param    string $a_parent_cmd Command for the parent class
+	 * @param Factory|null $uiFactory
+	 * @param Renderer|null $uiRenderer
 	 */
-	public function __construct($a_parent_obj, $a_current_folder_id, $a_parent_cmd = '')
+	public function __construct(
+		$a_parent_obj, $a_current_folder_id, $a_parent_cmd = '',
+		Factory $uiFactory = null,
+		Renderer $uiRenderer = null
+	)
 	{
 		global $DIC;
 
 		$this->lng  = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
 		$this->user = $DIC->user();
+		
+		if (null === $uiFactory) {
+			$uiFactory = $DIC->ui()->factory();
+		}
+		if (null === $uiRenderer) {
+			$uiRenderer = $DIC->ui()->renderer();
+		}
+		$this->uiFactory = $uiFactory;
+		$this->uiRenderer = $uiRenderer;
 
 		$this->_currentFolderId = $a_current_folder_id;
 		$this->_parentObject = $a_parent_obj;
@@ -84,6 +103,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 		$this->setFilterCommand('applyFilter');
 		$this->setResetCommand('resetFilter');
+		$this->uiFactory = $uiFactory;
+		$this->uiRenderer = $uiRenderer;
 	}
 
 	/**
@@ -108,9 +129,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addColumn($this->lng->txt('subject'), 'm_subject', '40%');
+			$this->addColumn($this->lng->txt('subject'), 'm_subject', '30%');
 		}
 		$this->addColumn($this->lng->txt('date'), 'send_time', '20%');
+		$this->addColumn($this->lng->txt('actions'), '');
 
 		// init folder data
 		$mtree = new ilTree($this->user->getId());
@@ -469,6 +491,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['mail_date']    = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
 
+			$mail['actions'] = $this->formatActionsDropDown($mail);
+
 			$data['set'][$key] = $mail;
 		}
 
@@ -636,5 +660,119 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			}
 		}
 	}
-} 
-?>
+
+	/**
+	 * @param array $mail
+	 * @return string
+	 */
+	protected function formatActionsDropDown(array $mail): string
+	{
+		$buttons = [];
+
+		$this->addViewRowAction($mail, $buttons);
+		$this->addReplyRowAction($mail, $buttons);
+		$this->addForwardRowAction($mail, $buttons);
+		$this->addPrintRowAction($mail, $buttons);
+
+		$dropDown = $this->uiFactory
+			->dropdown()
+			->standard($buttons)
+			->withLabel($this->lng->txt('actions'));
+
+		return $this->uiRenderer->render([$dropDown]);
+	}
+
+	/**
+	 * @param array $mail
+	 * @param array $buttons
+	 */
+	protected function addViewRowAction(array $mail, array &$buttons)
+	{
+		if ($this->isDraftFolder()) {
+			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
+			$viewButton = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('view'),
+					$this->ctrl->getLinkTargetByClass('ilmailformgui')
+				);
+			$this->ctrl->clearParametersByClass('ilmailformgui');
+		} else {
+			$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+			$viewButton = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('view'),
+					$this->ctrl->getLinkTarget($this->_parentObject, 'showMail')
+				);
+			$this->ctrl->clearParameters($this->_parentObject);
+		}
+
+		$buttons[] = $viewButton;
+	}
+
+	/**
+	 * @param array $mail
+	 * @param array $buttons
+	 */
+	protected function addReplyRowAction(array $mail, array &$buttons)
+	{
+		if (!$this->isDraftFolder()) {
+			if (isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] != ANONYMOUS_USER_ID) {
+				$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
+				$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
+				$replyButton = $this->uiFactory
+					->button()
+					->shy(
+						$this->lng->txt('reply'),
+						$this->ctrl->getLinkTargetByClass('ilmailformgui')
+					);
+				$this->ctrl->clearParametersByClass('ilmailformgui');
+
+				$buttons[] = $replyButton;
+			}
+		}
+	}
+
+	/**
+	 * @param array $mail
+	 * @param array $buttons
+	 */
+	protected function addForwardRowAction(array $mail, array &$buttons)
+	{
+		if (!$this->isDraftFolder()) {
+			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
+			$forwardButton = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('forward'),
+					$this->ctrl->getLinkTargetByClass('ilmailformgui')
+				);
+			$this->ctrl->clearParametersByClass('ilmailformgui');
+
+			$buttons[] = $forwardButton;
+		}
+	}
+
+	/**
+	 * @param array $mail
+	 * @param array $buttons
+	 */
+	protected function addPrintRowAction(array $mail, array &$buttons)
+	{
+		if (!$this->isDraftFolder()) {
+			$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+			$printButton = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('print'),
+					$this->ctrl->getLinkTarget($this->_parentObject, 'printMail')
+				);
+			$this->ctrl->clearParameters($this->_parentObject);
+
+			$buttons[] = $printButton;
+		}
+	}
+}
