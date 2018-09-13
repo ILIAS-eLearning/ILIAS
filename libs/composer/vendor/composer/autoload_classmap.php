@@ -5410,6 +5410,8 @@ return array(
     'ilObjectTranslationTableGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslationTableGUI.php',
     'ilObjectTypeMismatchException' => $baseDir . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
     'ilObjectivesAlignmentTableGUI' => $baseDir . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
+    'ilOerHarvester' => $baseDir . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvester.php',
+    'ilOerHarvesterObjectStatus' => $baseDir . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvesterObjectStatus.php',
     'ilOerHarvesterSettings' => $baseDir . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvesterSettings.php',
     'ilOnScreenChat' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
     'ilOnScreenChatAppEventListener' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',

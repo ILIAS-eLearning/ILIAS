@@ -5654,6 +5654,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectTranslationTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslationTableGUI.php',
         'ilObjectTypeMismatchException' => __DIR__ . '/../..' . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
         'ilObjectivesAlignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
+        'ilOerHarvester' => __DIR__ . '/../..' . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvester.php',
+        'ilOerHarvesterObjectStatus' => __DIR__ . '/../..' . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvesterObjectStatus.php',
         'ilOerHarvesterSettings' => __DIR__ . '/../..' . '/../../Services/MetaData/OerHarvester/classes/class.ilOerHarvesterSettings.php',
         'ilOnScreenChat' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
         'ilOnScreenChatAppEventListener' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',

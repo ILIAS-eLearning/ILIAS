@@ -10,7 +10,13 @@
  */
 class ilOerHarvesterSettings
 {
+	const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+
 	const STORAGE_IDENTIFIER = 'meta_oer';
+
+	const COLLECTED_TYPES = [
+		'file'
+	];
 
 	/**
 	 * @var \ilOerHarvesterSettings
@@ -33,16 +39,33 @@ class ilOerHarvesterSettings
 	 */
 	private $copyright_templates = [];
 
+	/**
+	 * @var ilCronOerHarvester
+	 */
+	private $cronjob = null;
+
 
 
 	/**
 	 * ilOerHarvesterSettings constructor.
+	 * @throws \LogicException
 	 */
 	protected function __construct()
 	{
 		$this->storage = new ilSetting(self::STORAGE_IDENTIFIER);
+		/*
+		$this->cronjob = ilCronManager::getJobInstanceById(self::CRON_JOB_IDENTIFIER);
+		if(!$this->cronjob instanceof ilCronJob) {
+
+			throw new \LogicException(
+				'Cannot create cron job instance'
+			);
+		}
+		*/
 		$this->read();
 	}
+
+
 
 	/**
 	 * @return \ilOerHarvesterSettings
@@ -54,6 +77,23 @@ class ilOerHarvesterSettings
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * @param string $a_type
+	 * @return bool
+	 */
+	public function supportsHarvesting($a_type)
+	{
+		return in_array($a_type, self::COLLECTED_TYPES);
+	}
+
+	/**
+	 * Get obj types that support harvesing
+	 */
+	public function getHarvestingTypes()
+	{
+		return self::COLLECTED_TYPES;
 	}
 
 	/**
@@ -87,6 +127,25 @@ class ilOerHarvesterSettings
 	{
 		return $this->copyright_templates;
 	}
+
+	/**
+	 * Get copyright entries in LOM format: "il_copyright_entry_INST_ID_ID"
+	 * return string[]
+	 */
+	public function getCopyRightTemplatesInLomFormat()
+	{
+		global $DIC;
+
+		$settings = $DIC->settings();
+
+		$lom_entries = [];
+		foreach($this->getCopyrightTemplates() as $copyright_id)
+		{
+			$lom_entries[] = 'il_copyright_entry__'. $settings->get('inst_id',0).'__'.$copyright_id;
+		}
+		return $lom_entries;
+	}
+
 
 	/**
 	 * Save settings

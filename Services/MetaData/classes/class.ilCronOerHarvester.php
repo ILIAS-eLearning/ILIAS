@@ -187,10 +187,8 @@ class ilCronOerHarvester extends ilCronJob
 	public function run()
 	{
 		$this->logger->info('Started cron oer harvester.');
-
-		$res = new ilCronJobResult();
-		$res->setStatus(ilCronJobResult::STATUS_OK);
-
+		$harvester = new ilOerHarvester(new ilCronJobResult());
+		$res = $harvester->run();
 		$this->logger->info('cron oer harvester finished');
 
 		return $res;
