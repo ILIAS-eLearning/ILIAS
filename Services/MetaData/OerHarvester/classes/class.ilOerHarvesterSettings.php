@@ -162,7 +162,7 @@ class ilOerHarvesterSettings
 	public function read()
 	{
 		$this->setTarget($this->storage->get('target',0));
-		$this->setCopyrightTemplates(unserialize($this->storage->get('templates',[])));
+		$this->setCopyrightTemplates(unserialize($this->storage->get('templates',serialize([]))));
 	}
 
 
