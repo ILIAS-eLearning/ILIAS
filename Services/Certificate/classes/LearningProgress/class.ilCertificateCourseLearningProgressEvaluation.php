@@ -11,9 +11,49 @@ class ilCertificateCourseLearningProgressEvaluation
 	 */
 	private $templateRepository;
 
-	public function __construct(ilCertificateTemplateRepository $templateRepository)
-	{
+	/**
+	 * @var ilSetting
+	 */
+	private $setting;
+
+	/**
+	 * @var ilCertificateObjectHelper
+	 */
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateLPStatusHelper
+	 */
+	private $statusHelper;
+
+	/**
+	 * @param ilCertificateTemplateRepository $templateRepository
+	 * @param ilSetting|null $setting
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateLPStatusHelper|null $statusHelper
+	 */
+	public function __construct(
+		ilCertificateTemplateRepository $templateRepository,
+		ilSetting $setting = null,
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateLPStatusHelper $statusHelper = null
+	) {
 		$this->templateRepository = $templateRepository;
+
+		if (null === $setting) {
+			$setting = new ilSetting('crs');
+		}
+		$this->setting = $setting;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $statusHelper) {
+			$statusHelper = new ilCertificateLPStatusHelper();
+		}
+		$this->statusHelper = $statusHelper;
 	}
 
 	/**
@@ -21,15 +61,13 @@ class ilCertificateCourseLearningProgressEvaluation
 	 * @param $userId
 	 * @return array
 	 */
-	public function evaluate($refId, $userId)
+	public function evaluate(int $refId, int $userId) : array
 	{
-		$courseSetting = new ilSetting('crs');
-
 		$courseObjectIds = $this->templateRepository->fetchAllObjectIdsByType('crs');
 
 		$completedCourses = array();
 		foreach ($courseObjectIds as $courseObjectId) {
-			$subItems = $courseSetting->get('cert_subitems_' . $courseObjectId, false);
+			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
 
 			if (false === $subItems) {
 				continue;
@@ -39,21 +77,22 @@ class ilCertificateCourseLearningProgressEvaluation
 
 			$subitem_obj_ids = array();
 			foreach($subItems as $subItemRefId) {
-				$subitem_obj_ids[$subItemRefId] = ilObject::_lookupObjId($subItemRefId);
+				$subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
 			}
 
-			// relevant for current badge instance?
 			if(in_array($refId, $subItems)) {
 				$completed = true;
 
 				// check if all subitems are completed now
 				foreach($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
-					$status = ilLPStatus::_lookupStatus($subitem_id, $userId);
+					$status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
+
 					if($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 						$completed = false;
 						break;
 					}
 				}
+
 				if (true === $completed) {
 					$completedCourses[] = $courseObjectId;
 				}

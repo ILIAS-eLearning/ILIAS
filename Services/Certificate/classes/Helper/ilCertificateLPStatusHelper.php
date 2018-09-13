@@ -15,4 +15,9 @@ class ilCertificateLPStatusHelper
 	{
 		return ilLPStatus::_lookupStatusChanged($objId, $userId);
 	}
+
+	public function lookUpStatus($objectId, $userId)
+	{
+		return ilLPStatus::_lookupStatus($objectId, $userId);
+	}
 }
