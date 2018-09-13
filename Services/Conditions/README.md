@@ -2,7 +2,7 @@
 
 If a component `Modules/[Container]` wants to take over the control of conditions for its childs it needs to implement `ilConditionControllerInterface` in a class `il[Container]ConditionController` located under `Modules/[Container]/classes/class.il[Container]ConditionController.php`.
 
-The method `isContainerConditionController` MUST return `true` if the container currently controls the conditions, otherwise `false`.
+The method `isContainerConditionController($container_ref_id)` MUST return `true` if the container currently controls the conditions, otherwise `false`.
 
 The method `getConditionSetForRepositoryObject` MUST return a valid instance of `ilConditionSet` for a valid `ref_id` for a child of the container.
 
