@@ -76,13 +76,6 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function updateGet(State $state, string $command, int $param = null): State
 	{
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function updatePost(State $state, string $command, array $post): State
-	{
 		if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
 			$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
 			if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
@@ -93,6 +86,13 @@ class ilContentPageKioskModeView extends ilKioskModeView
 				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $GLOBALS['DIC']->user()->getId());
 			}
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function updatePost(State $state, string $command, array $post): State
+	{
 	}
 
 	/**
