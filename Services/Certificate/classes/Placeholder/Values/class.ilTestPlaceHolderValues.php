@@ -9,14 +9,62 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	private $defaultPlaceHolderValuesObject;
 
 	/**
+	 * @var ilCertificateObjectHelper|null
+	 */
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateTestObjectHelper
+	 */
+	private $testObjectHelper;
+
+	/**
+	 * @var ilCertificateUserObjectHelper
+	 */
+	private $userObjectHelper;
+
+	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
+	 * @var ilCertificateLPStatusHelper|null
+	 */
+	private $lpStatusHelper;
+
+	/**
+	 * @var ilCertificateDateHelper|ilDatePresentation|null
+	 */
+	private $dateHelper;
+
+	/**
+	 * @var ilLanguage|null
+	 */
+	private $language;
+
+	/**
 	 * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
 	 * @param ilLanguage|null $language
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateTestObjectHelper|null $testObjectHelper
+	 * @param ilCertificateUserObjectHelper|null $userObjectHelper
+	 * @param ilCertificateLPStatusHelper|null $lpStatusHelper
+	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilDatePresentation|null $dateHelper
 	 */
-	public function __construct(ilDefaultPlaceholderValues $defaultPlaceholderValues = null, ilLanguage $language = null)
-	{
-		global $DIC;
-
+	public function __construct(
+		ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+		ilLanguage $language = null,
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateTestObjectHelper $testObjectHelper = null,
+		ilCertificateUserObjectHelper $userObjectHelper = null,
+		ilCertificateLPStatusHelper $lpStatusHelper = null,
+		ilCertificateUtilHelper $utilHelper = null,
+		ilCertificateDateHelper $dateHelper = null
+	) {
 		if (null === $language) {
+			global $DIC;
 			$language = $DIC->language();
 		}
 		$this->language = $language;
@@ -24,8 +72,37 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 		if (null === $defaultPlaceholderValues) {
 			$defaultPlaceholderValues = new ilDefaultPlaceholderValues($language);
 		}
-
 		$this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $testObjectHelper) {
+			$testObjectHelper = new ilCertificateTestObjectHelper();
+		}
+		$this->testObjectHelper = $testObjectHelper;
+
+		if (null === $userObjectHelper) {
+			$userObjectHelper = new ilCertificateUserObjectHelper();
+		}
+		$this->userObjectHelper = $userObjectHelper;
+
+		if (null === $lpStatusHelper) {
+			$lpStatusHelper = new ilCertificateLPStatusHelper();
+		}
+		$this->lpStatusHelper = $lpStatusHelper;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
+
+		if (null === $dateHelper) {
+			$dateHelper = new ilCertificateDateHelper();
+		}
+		$this->dateHelper = $dateHelper;
 	}
 
 	/**
@@ -44,10 +121,11 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValues(int $userId, int $objId): array
 	{
-		$testObject = ilObjectFactory::getInstanceByObjId($objId);
+		/** @var ilObjTest $testObject */
+		$testObject = $this->objectHelper->getInstanceByObjId($objId);
 
 		$active_id = $testObject->getActiveIdOfUser($userId);
-		$pass = ilObjTest::_getResultPass($active_id);
+		$pass = $this->testObjectHelper->getResultPass($active_id);
 
 		$result_array =& $testObject->getTestResult($active_id);
 		if (strlen($pass)) {
@@ -64,26 +142,25 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 			$percentage = ($result_array['test']['total_reached_points'] / $result_array['test']['total_max_points']) * 100;
 		}
 
-		$mark_obj = $testObject->mark_schema->getMatchingMark($percentage);
-		$user_id = $testObject->_getUserIdFromActiveId($active_id);
-		$user_data = ilObjUser::_lookupFields($user_id);
+		$mark_obj = $testObject->getMarkSchema()->getMatchingMark($percentage);
+		$user_data = $this->userObjectHelper->lookupFields($userId);
 
 		$completionDate = false;
 		if($user_data['usr_id'] > 0) {
-			$completionDate = ilLPStatus::_lookupStatusChanged($objId, $userId);
+			$completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
 		}
 
 		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-		$placeholders['RESULT_PASSED']      = ilUtil::prepareFormOutput($passed);
-		$placeholders['RESULT_POINTS']      = ilUtil::prepareFormOutput($result_array['test']['total_reached_points']);
+		$placeholders['RESULT_PASSED']      = $this->utilHelper->prepareFormOutput($passed);
+		$placeholders['RESULT_POINTS']      = $this->utilHelper->prepareFormOutput($result_array['test']['total_reached_points']);
 		$placeholders['RESULT_PERCENT']     = sprintf('%2.2f', $percentage) . '%';
-		$placeholders['MAX_POINTS']         = ilUtil::prepareFormOutput($result_array['test']['total_max_points']);
-		$placeholders['RESULT_MARK_SHORT']  = ilUtil::prepareFormOutput($mark_obj->getShortName());
-		$placeholders['RESULT_MARK_LONG']   = ilUtil::prepareFormOutput($mark_obj->getOfficialName());
-		$placeholders['TEST_TITLE']         = ilUtil::prepareFormOutput($testObject->getTitle());
-		$placeholders['DATE_COMPLETED']     = ilDatePresentation::formatDate(new ilDate($completionDate, IL_CAL_DATETIME));
-		$placeholders['DATETIME_COMPLETED'] = ilDatePresentation::formatDate(new ilDateTime($completionDate, IL_CAL_DATETIME));
+		$placeholders['MAX_POINTS']         = $this->utilHelper->prepareFormOutput($result_array['test']['total_max_points']);
+		$placeholders['RESULT_MARK_SHORT']  = $this->utilHelper->prepareFormOutput($mark_obj->getShortName());
+		$placeholders['RESULT_MARK_LONG']   = $this->utilHelper->prepareFormOutput($mark_obj->getOfficialName());
+		$placeholders['TEST_TITLE']         = $this->utilHelper->prepareFormOutput($testObject->getTitle());
+		$placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+		$placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
 
 		return $placeholders;
 	}
@@ -97,6 +174,6 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValuesForPreview() : array
 	{
-		return $this->getPlaceholderValuesForPreview();
+		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
 	}
 }
