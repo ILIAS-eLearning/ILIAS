@@ -9,6 +9,7 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 	public function testGetPlaceholderValues()
 	{
 		 $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+			 ->disableOriginalConstructor()
 			 ->getMock();
 
 		 $defaultPlaceholderValues->method('getPlaceholderValues')
@@ -72,6 +73,7 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 	public function testGetPreviewPlaceholderValues()
 	{
 		$defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+			->disableOriginalConstructor()
 			->getMock();
 
 		$defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
@@ -93,9 +95,6 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->getMock();
 
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
-			->getMock();
-
-		$ilDateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
 
 		$valuesObject = new ilCoursePlaceholderValues(
