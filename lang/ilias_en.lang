@@ -11438,6 +11438,9 @@ mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_filter_only_unread#:#Only Unread
 mail#:#mail_filter_only_with_attachments#:#With Attachments
+mail#:#mail_filter_period#:#Period
+mail#:#mail_filter_period_from#:#From
+mail#:#mail_filter_period_until#:#Until
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
 prtf#:#prtf_properties#:#Portfolio Properties
