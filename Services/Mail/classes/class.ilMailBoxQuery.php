@@ -66,6 +66,13 @@ class ilMailBoxQuery
 			$filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
 		}
 
+		if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
+			$filter_qry .= ' AND (' . implode(' AND ', array(
+				'send_time >= ' . $DIC->database()->quote($filter['period']['start'], 'integer'),
+				'send_time <= ' . $DIC->database()->quote($filter['period']['end'], 'integer')
+			)) . ') ';
+		}
+
 		// count query
 		$queryCount = 'SELECT COUNT(mail_id) cnt FROM mail '
 			   	    . 'LEFT JOIN usr_data ON usr_id = sender_id '
