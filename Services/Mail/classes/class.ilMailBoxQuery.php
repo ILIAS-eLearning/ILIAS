@@ -68,8 +68,8 @@ class ilMailBoxQuery
 
 		if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
 			$filter_qry .= ' AND (' . implode(' AND ', array(
-				'send_time >= ' . $DIC->database()->quote($filter['period']['start'], 'integer'),
-				'send_time <= ' . $DIC->database()->quote($filter['period']['end'], 'integer')
+				'send_time >= ' . $DIC->database()->quote(date('Y-m-d H:i:s', self::$filter['period']['start']), 'timestamp'),
+				'send_time <= ' . $DIC->database()->quote(date('Y-m-d H:i:s', self::$filter['period']['end']), 'timestamp')
 			)) . ') ';
 		}
 
