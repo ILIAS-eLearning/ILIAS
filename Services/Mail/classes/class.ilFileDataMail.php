@@ -118,13 +118,7 @@ class ilFileDataMail extends ilFileData
 	public function getAttachmentPathByMD5Filename($a_filename,$a_mail_id)
 	{
 		global $ilDB;
-		
-/*		$query = "SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
-		
-		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
-		$path = $this->getMailPath().'/'.$row->path;
-*/
+
 		$query = $ilDB->query("SELECT path FROM mail_attachment 
 				  WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer')."");
 		

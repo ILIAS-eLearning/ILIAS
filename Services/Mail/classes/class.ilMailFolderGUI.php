@@ -302,19 +302,16 @@ class ilMailFolderGUI
 		$mailtable->isSentFolder($isSentFolder)
 			->isDraftFolder($isDraftFolder)
 			->isTrashFolder($isTrashFolder)
+			->setSelectedItems(is_array($_POST['mail_id']) ? $_POST['mail_id'] : [])
 			->initFilter();
-		$mailtable->setSelectedItems($_POST['mail_id']);
 
-		try
-		{
+		try {
 			$mailtable->prepareHTML();
-		}
-		catch(Exception $e)
-		{
+		} catch (Exception $e) {
 			ilUtil::sendFailure(
-				$this->lng->txt($e->getMessage()) != '-'.$e->getMessage().'-' ?
-				$this->lng->txt($e->getMessage()) :
-				$e->getMessage()
+				$this->lng->txt($e->getMessage()) != '-' . $e->getMessage() . '-' ?
+					$this->lng->txt($e->getMessage()) :
+					$e->getMessage()
 			);
 		}
 
@@ -384,7 +381,7 @@ class ilMailFolderGUI
 		// END SHOW_FOLDER
 		
 		if($mailtable->isTrashFolder() && 
-		   $mailtable->getNumerOfMails() > 0 &&
+		   $mailtable->getNumberOfMails() > 0 &&
 		   $this->askForConfirmation)
 		{
 			$confirmation = new ilConfirmationGUI();

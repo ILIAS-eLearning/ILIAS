@@ -11375,6 +11375,8 @@ mail#:#mail_filter_body#:#Nachricht
 mail#:#mail_filter_attach#:#Anhänge
 mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
 mail#:#mail_filter_txt#:#Suchen in
+mail#:#mail_filter_only_unread#:#Ungelesen
+mail#:#mail_filter_only_with_attachments#:#Anhänge
 blog#:#blog_properties#:#Blog-Eigenschaften
 blog#:#blog_style#:#Blog-Style
 prtf#:#prtf_properties#:#Portfolio-Eigenschaften
