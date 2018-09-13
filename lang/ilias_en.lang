@@ -14297,4 +14297,6 @@ mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image 
 common#:#presentation_table_more#:#more
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
+meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_target#:#Category for Release OER Content
