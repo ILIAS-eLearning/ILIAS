@@ -209,15 +209,12 @@ class ilSurveyExecutionGUI
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
 		}
-		else //Self evaluation mode
-		{
-			$appr_id = $_REQUEST["appr_id"];
-
-			if(!$appr_id)
-			{
-				$appr_id = $_SESSION["appr_id"][$this->object->getId()];
-			}
+		//Self evaluation mode
+		#23575 in self eval the appraisee is the current user.
+		if($this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
+			$appr_id = $ilUser->getId();
 		}
+		
 		$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
 					
 		if(!$a_ignore_status)
