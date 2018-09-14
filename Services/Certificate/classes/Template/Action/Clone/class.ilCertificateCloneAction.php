@@ -1,6 +1,9 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class ilCertificateCloneAction
 {
 	/**
@@ -24,16 +27,31 @@ class ilCertificateCloneAction
 	private $database;
 
 	/**
-	 * @param ilLogger $logger
+	 * @var \ILIAS\Filesystem\Filesystem|null
+	 */
+	private $fileSystem;
+
+	/**
+	 * @var ilCertificateObjectHelper|null
+	 */
+	private $objectHelper;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilCertificateFactory $certificateFactory
 	 * @param ilCertificateTemplateRepository $templateRepository
+	 * @param \ILIAS\Filesystem\Filesystem|null $fileSystem
+	 * @param illLogger $logger
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param string $rootDirectory
 	 */
 	public function __construct(
 		ilDBInterface $database,
 		ilCertificateFactory $certificateFactory,
 		ilCertificateTemplateRepository $templateRepository,
-		illLogger $logger = null
+		\ILIAS\Filesystem\Filesystem $fileSystem = null,
+		illLogger $logger = null,
+		ilCertificateObjectHelper $objectHelper = null
 	) {
 		$this->database = $database;
 		$this->certificateFactory = $certificateFactory;
@@ -43,15 +61,34 @@ class ilCertificateCloneAction
 			$logger = ilLoggerFactory::getLogger('cert');
 		}
 		$this->logger = $logger;
+
+		if (null === $fileSystem) {
+			global $DIC;
+			$fileSystem = $DIC->filesystem()->web();
+		}
+		$this->fileSystem = $fileSystem;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
 	}
 
 	/**
 	 * @param ilObject $oldObject
 	 * @param ilObject $newObject
+	 * @param string $iliasVersion
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 * @throws ilException
 	 */
-	public function cloneCertificate(ilObject $oldObject, ilObject $newObject)
-	{
+	public function cloneCertificate(
+		ilObject $oldObject,
+		ilObject $newObject,
+		string $iliasVersion = ILIAS_VERSION_NUMERIC
+	) {
 		$oldType = $oldObject->getType();
 		$newType = $newObject->getType();
 
@@ -71,29 +108,35 @@ class ilCertificateCloneAction
 
 		/** @var ilCertificateTemplate $template */
 		foreach ($templates as $template) {
-			$backgroundImagePath = CLIENT_WEB_DIR . $template->getBackgroundImagePath();
+			$backgroundImagePath = $template->getBackgroundImagePath();
 			$backgroundImageFile = basename($backgroundImagePath);
 			$backgroundImageThumbnail = $oldCertificate->getBackgroundImageThumbPath();
 
-			$newBackgroundImage = CLIENT_WEB_DIR . $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
+			$newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
 			$newBackgroundImageThumbnail = $newCertificate->getBackgroundImageThumbPath();
 
-			if (@file_exists($backgroundImagePath)) {
-				@copy($backgroundImagePath, $newBackgroundImage);
+			if ($this->fileSystem->has($backgroundImagePath)) {
+				$this->fileSystem->copy(
+					$backgroundImagePath,
+					$newBackgroundImage
+				);
 			}
 
-			if (@file_exists($backgroundImageThumbnail)) {
-				@copy($backgroundImageThumbnail, $newBackgroundImageThumbnail);
+			if ($this->fileSystem->has($backgroundImageThumbnail)) {
+				$this->fileSystem->copy(
+					$backgroundImageThumbnail,
+					$newBackgroundImageThumbnail
+				);
 			}
 
 			$newTemplate = new ilCertificateTemplate(
 				$newObject->getId(),
-				ilObject::_lookupType($newObject->getId()),
+				$this->objectHelper->lookupObjId($newObject->getId()),
 				$template->getCertificateContent(),
 				$template->getCertificateHash(),
 				$template->getTemplateValues(),
 				$template->getVersion(),
-				ILIAS_VERSION_NUMERIC,
+				$iliasVersion,
 				time(),
 				$template->isCurrentlyActive(),
 				$newBackgroundImage
@@ -105,7 +148,7 @@ class ilCertificateCloneAction
 		// #10271
 		if($this->readActive($oldObject->getId())) {
 			$this->database->replace('il_certificate',
-				array("obj_id" => array("integer", $newObject->getId())),
+				array('obj_id' => array('integer', $newObject->getId())),
 				array()
 			);
 		}
