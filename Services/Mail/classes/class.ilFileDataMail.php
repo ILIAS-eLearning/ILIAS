@@ -710,41 +710,50 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	 * @param string $filename
+	 * @param string $basename
 	 * @param int $mailId
 	 * @param array $files
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 * @throws ilException
 	 */
-	public function deliverAttachmentsAsZip(string $filename, int $mailId, $files = [])
+	public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [])
 	{
 		$path = $this->getAttachmentPathByMailId($mailId);
 		if (0 === strlen($path)) {
 			throw new \ilException('mail_download_zip_no_attachments');
-		} 
+		}
 
-		$zipDirectory = \ilUtil::ilTempnam();
-		$zipDirectoryName = basename($zipDirectory);
+		$downloadFilename = \ilUtil::getASCIIFilename($basename);
+		if (0 === strlen($downloadFilename)) {
+			$downloadFilename = 'attachments';
+		}
 
-		$this->tmpDirectory->createDir($zipDirectoryName);
+		$processingDirectory = \ilUtil::ilTempnam();
+		$relativeProcessingDirectory = basename($processingDirectory);
+
+		$absoluteZipDirectory = $processingDirectory . '/' . $downloadFilename;
+		$relativeZipDirectory = $relativeProcessingDirectory . '/' . $downloadFilename;
+
+		$this->tmpDirectory->createDir($relativeZipDirectory);
 
 		foreach ($files as $fileName) {
 			$source = str_replace('//', '/', $this->getMailPath(). '/' .$path . '/' . $fileName);
-			$target = $zipDirectory . '/' . $fileName;
+			$target = $absoluteZipDirectory . '/' . $fileName;
 
-			// We cannot copy files across FileSystem instances  
+			// We cannot copy files across FileSystem instances, so we do it the "old way"
 			copy($source, $target);
 		}
 
-		$pathToZipFile = dirname($zipDirectory) . '/' . $zipDirectoryName . '.zip';
-		\ilUtil::zip($zipDirectory, $pathToZipFile);
+		$pathToZipFile = $processingDirectory . '/' . $downloadFilename . '.zip';
+		\ilUtil::zip($absoluteZipDirectory, $pathToZipFile);
 
-		$this->tmpDirectory->deleteDir($zipDirectoryName);
+		$this->tmpDirectory->deleteDir($relativeZipDirectory);
 
-		$delivery = new ilFileDelivery($pathToZipFile);
+		$delivery = new \ilFileDelivery($processingDirectory . '/' .  $downloadFilename . '.zip');
 		$delivery->setDisposition(\ilFileDelivery::DISP_ATTACHMENT);
 		$delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__ZIP);
-		$delivery->setDownloadFileName(\ilFileUtils::getValidFilename($filename) . '.zip');
+		$delivery->setConvertFileNameToAsci(true);
+		$delivery->setDownloadFileName(\ilFileUtils::getValidFilename($downloadFilename . '.zip'));
 		$delivery->setDeleteFile(true);
 
 		$delivery->deliver();
