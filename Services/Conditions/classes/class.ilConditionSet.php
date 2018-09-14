@@ -3,15 +3,14 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Condition set for repository object
+ * Condition set
  *
- * Note: Currently one target ref id can have only one condition set in ILIAS.
  * Note: This object currently focuses on repository objects as targets. It does not make use of the SHARED_CONDITIONS mode (ref_handling will be 1 for these items).
  *
- * @author @leifos.de
- * @ingroup
+ * @author killing@leifos.de
+ * @ingroup ServicesConditions
  */
-class ilRepositoryConditionSet
+class ilConditionSet
 {
 	/**
 	 * @var bool
@@ -38,10 +37,20 @@ class ilRepositoryConditionSet
 	 */
 	public function __construct(array $conditions)
 	{
+		$this->conditions = $conditions;
 	}
 
 	/**
-	 * Set hidden status
+	 * Get conditions
+	 *
+	 * @return ilCondition[] conditions
+	 */
+	public function getConditions() {
+		return $this->conditions;
+	}
+
+	/**
+	 * Set hidden status (trigger objects should be hidden in presentation)
 	 *
 	 * @param bool $hidden_status hidden status
 	 * @return self

@@ -22,8 +22,8 @@ interface ilConditionControllerInterface
 	 * Returns condition set for a repository object which is children under a container that controls the conditions
 	 *
 	 * @param int $a_container_child_ref_id ref if of children object
-	 * @return ilRepoConditionSet
+	 * @return ilConditionSet
 	 */
-	function getConditionSetForRepositoryObject($a_container_child_ref_id): ilRepoConditionSet;
+	function getConditionSetForRepositoryObject($a_container_child_ref_id): ilConditionSet;
 
 }

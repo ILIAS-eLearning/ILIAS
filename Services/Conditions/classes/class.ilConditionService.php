@@ -31,9 +31,9 @@ class ilConditionService
 	 *
 	 * @return ilConditionService
 	 */
-	static public function getInstance($dic)
+	static public function getInstance(ilConditionObjectAdapterInterface $cond_obj_adapter = null)
 	{
-		return new self($dic);
+		return new self($cond_obj_adapter);
 	}
 
 	/**
@@ -41,19 +41,19 @@ class ilConditionService
 	 *
 	 * @return ilConditionFactory
 	 */
-	protected function factory()
+	public function factory()
 	{
 		return new ilConditionFactory($this->cond_obj_adapter);
 	}
 
 	/**
-	 * query
+	 * utilities
 	 *
-	 * @return ilConditionQuery
+	 * @return ilConditionUtil
 	 */
-	protected function query()
+	public function util()
 	{
-		return new ilConditionQuery();
+		return new ilConditionUtil();
 	}
 
 }

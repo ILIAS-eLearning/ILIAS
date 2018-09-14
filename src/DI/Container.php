@@ -198,7 +198,8 @@ class Container extends \Pimple\Container {
 	 * @return	\ilConditionService
 	 */
 	public function conditions() {
-		return \ilConditionService::getInstance($this);
+
+		return \ilConditionService::getInstance(new \ilConditionObjectAdapter());
 	}
 
 

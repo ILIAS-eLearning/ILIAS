@@ -1406,7 +1406,7 @@ class ilObjContentObject extends ilObject
 				if ($node["type"] == "st")
 				{
 					// get all preconditions of upper chapters
-					$tconds = ilConditionHandler::_getConditionsOfTarget($cont_ref_id,$node["child"], "st");
+					$tconds = ilConditionHandler::_getPersistedConditionsOfTarget($cont_ref_id,$node["child"], "st");
 					foreach ($tconds as $tcond)
 					{
 						// store all missing preconditions
@@ -1441,7 +1441,7 @@ class ilObjContentObject extends ilObject
 				if ($node["type"] == "st")
 				{
 					// get all preconditions of upper chapters
-					$tconds = ilConditionHandler::_getConditionsOfTarget($cont_obj_ref_id,$node["child"], "st");
+					$tconds = ilConditionHandler::_getPersistedConditionsOfTarget($cont_obj_ref_id,$node["child"], "st");
 					foreach ($tconds as $tcond)
 					{
 						// look for missing precondition

@@ -66,8 +66,14 @@ class ilScormLP extends ilObjectLP
 			return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
 				ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
 		}
-	}		
-	
+	}
+
+	/**
+	 * AK, 14Sep2018: This looks strange, the mode is auto-activated if this object is used
+	 * as a precondition trigger? This is not implemented for any other object type.
+	 *
+	 * @return int
+	 */
 	public function getCurrentMode()
 	{
 		if($this->checkSCORMPreconditions())
@@ -80,7 +86,7 @@ class ilScormLP extends ilObjectLP
 	protected function checkSCORMPreconditions()
 	{
 		include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
-		if(count(ilConditionHandler::_getConditionsOfTrigger('sahs', $this->obj_id)))
+		if(count(ilConditionHandler::_getPersistedConditionsOfTrigger('sahs', $this->obj_id)))
 		{
 			return true;
 		}

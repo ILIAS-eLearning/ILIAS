@@ -54,6 +54,7 @@ class ilConditionHandlerGUI
 		$this->gui_obj = $gui_obj;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule('cond');
 		$this->tpl = $tpl;
 		$this->tree = $tree;
 		
@@ -234,13 +235,22 @@ class ilConditionHandlerGUI
 	{
 		global $DIC;
 
+		$util = $DIC->conditions()->util();
+
+		// check if parent deals with conditions
+		if ($this->getTargetRefId() > 0 && $util->isUnderParentControl($this->getTargetRefId()))
+		{
+			ilUtil::sendInfo($this->lng->txt("cond_under_parent_control"));
+			return;
+		}
+
 		$ilToolbar = $DIC['ilToolbar'];
 
 		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.list_conditions.html','Services/AccessControl');
 
-		$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+		$optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 			$this->getTargetRefId(),
 			$this->getTargetId(),
 			$this->getTargetType()
@@ -258,7 +268,7 @@ class ilConditionHandlerGUI
 		}
 		
 		// Show form only if conditions are availabe
-		if(count(ilConditionHandler::_getConditionsOfTarget(
+		if(count(ilConditionHandler::_getPersistedConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()))
@@ -273,7 +283,7 @@ class ilConditionHandlerGUI
 
 		$table = new ilConditionHandlerTableGUI($this,'listConditions', ($_REQUEST["list_mode"] != "all"));
 		$table->setConditions(
-			ilConditionHandler::_getConditionsOfTarget(
+			ilConditionHandler::_getPersistedConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()
@@ -299,7 +309,7 @@ class ilConditionHandlerGUI
 				case "all":
 					if($old_mode != "all")
 					{
-						$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+						$optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -316,7 +326,7 @@ class ilConditionHandlerGUI
 					$num_req = $form->getInput('required');
 					if($old_mode != "subset")
 					{
-						$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+						$all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -352,7 +362,7 @@ class ilConditionHandlerGUI
 	 */
 	protected function saveObligatoryList()
 	{
-		$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+		$all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -375,7 +385,7 @@ class ilConditionHandlerGUI
 		}
 		
 		// re-calculate 
-		ilConditionHandler::calculateRequiredTriggers(
+		ilConditionHandler::calculatePersistedRequiredTriggers(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType(),
@@ -400,14 +410,14 @@ class ilConditionHandlerGUI
 		
 		if(!$opt)
 		{
-			$opt = ilConditionHandler::getOptionalConditionsOfTarget(
+			$opt = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()
 			);
 		}
 		
-		$all = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
+		$all = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -416,7 +426,7 @@ class ilConditionHandlerGUI
 		$form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
 		
 		$hide = new ilCheckboxInputGUI($this->lng->txt('rbac_precondition_hide'),'hidden');
-		$hide->setChecked(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
+		$hide->setChecked(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
 		$hide->setValue(1);
 		$hide->setInfo($this->lng->txt('rbac_precondition_hide_info'));
 		$form->addItem($hide);
@@ -675,7 +685,7 @@ class ilConditionHandlerGUI
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator($_POST['operator']);
 		$this->ch_obj->setObligatory((int) $_POST['obligatory']);
-		$this->ch_obj->setHiddenStatus(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
+		$this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
 		$this->ch_obj->setValue('');
 
 		// Save assigned sco's
@@ -734,7 +744,7 @@ class ilConditionHandlerGUI
 	function __getConditionsOfTarget()
 	{
 
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
+		foreach(ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{

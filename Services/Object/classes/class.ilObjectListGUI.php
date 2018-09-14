@@ -1953,9 +1953,9 @@ class ilObjectListGUI
 		$objDefinition = $this->obj_definition;
 		$tree = $this->tree;
 		
-		$num_required = ilConditionHandler::calculateRequiredTriggers($this->ref_id, $this->obj_id);
+		$num_required = ilConditionHandler::calculateEffectiveRequiredTriggers($this->ref_id, $this->obj_id);
 		$num_optional_required =
-			$num_required - count($conditions) + count(ilConditionHandler::getOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
+			$num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
 
 		// Check if all conditions are fullfilled
 		$visible_conditions = array();
@@ -2075,7 +2075,7 @@ class ilObjectListGUI
 
 		if($this->condition_target)
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget(
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
 					$this->condition_target['ref_id'],
 					$this->condition_target['obj_id'],
 					$this->condition_target['target_type']
@@ -2083,7 +2083,7 @@ class ilObjectListGUI
 		}
 		else
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
 		}
 		
 		if(sizeof($conditions))

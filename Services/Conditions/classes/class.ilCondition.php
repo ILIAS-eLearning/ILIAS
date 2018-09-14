@@ -46,6 +46,33 @@ class ilCondition
 	}
 
 	/**
+	 * Get trigger
+	 *
+	 * @return ilConditionTrigger trigger
+	 */
+	public function getTrigger() {
+		return $this->trigger;
+	}
+
+	/**
+	 * Get operator
+	 *
+	 * @return string operator
+	 */
+	public function getOperator() {
+		return $this->operator;
+	}
+
+	/**
+	 * Get value
+	 *
+	 * @return string value
+	 */
+	public function getValue() {
+		return $this->value;
+	}
+
+	/**
 	 * Set obligatory
 	 *
 	 * @param bool $obligatory obligatory

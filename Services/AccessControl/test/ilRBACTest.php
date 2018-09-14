@@ -168,8 +168,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		// syntax check
 		$handler->deleteByObjId(-1);
 		$handler->deleteCondition(-1);
-		ilConditionHandler::_getConditionsOfTrigger(-1,-1);
-		ilConditionHandler::_getConditionsOfTarget(-1,-1);
+		ilConditionHandler::_getPersistedConditionsOfTrigger(-1,-1);
+		ilConditionHandler::_getPersistedConditionsOfTarget(-1,-1);
 		ilConditionHandler::_getCondition(-1);
 	}
 

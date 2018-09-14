@@ -103,7 +103,7 @@ class ilObjectListGUIPreloader
 				$this->context == ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP ||
 				$this->context == ilObjectListGUI::CONTEXT_SEARCH)
 			{
-				ilConditionHandler::preloadConditionsForTargetRecords($type,
+				ilConditionHandler::preloadPersistedConditionsForTargetRecords($type,
 					$this->obj_ids_by_type[$type]);
 			}
 
