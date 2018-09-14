@@ -3616,6 +3616,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificatePlaceholderValues' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Values/interface.ilCertificatePlaceholderValues.php',
         'ilCertificateQueueEntry' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Queue/class.ilCertificateQueueEntry.php',
         'ilCertificateQueueRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Queue/class.ilCertificateQueueRepository.php',
+        'ilCertificateRpcClientFactoryHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateRpcClientFactoryHelper.php',
         'ilCertificateScormTemplateDeleteAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateScormTemplateDeleteAction.php',
         'ilCertificateSettingsCourseFormRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Form/Repository/class.ilCertificateSettingsCourseFormRepository.php',
         'ilCertificateSettingsExerciseRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Form/Repository/class.ilCertificateSettingsExerciseRepository.php',

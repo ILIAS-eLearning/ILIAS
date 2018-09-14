@@ -3372,6 +3372,7 @@ return array(
     'ilCertificatePlaceholderValues' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Values/interface.ilCertificatePlaceholderValues.php',
     'ilCertificateQueueEntry' => $baseDir . '/../../Services/Certificate/classes/Queue/class.ilCertificateQueueEntry.php',
     'ilCertificateQueueRepository' => $baseDir . '/../../Services/Certificate/classes/Queue/class.ilCertificateQueueRepository.php',
+    'ilCertificateRpcClientFactoryHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateRpcClientFactoryHelper.php',
     'ilCertificateScormTemplateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateScormTemplateDeleteAction.php',
     'ilCertificateSettingsCourseFormRepository' => $baseDir . '/../../Services/Certificate/classes/Form/Repository/class.ilCertificateSettingsCourseFormRepository.php',
     'ilCertificateSettingsExerciseRepository' => $baseDir . '/../../Services/Certificate/classes/Form/Repository/class.ilCertificateSettingsExerciseRepository.php',
