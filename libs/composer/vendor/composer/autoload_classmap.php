@@ -3391,6 +3391,8 @@ return array(
     'ilCertificateUserObjectHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateUserObjectHelper.php',
     'ilCertificateUtilHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateUtilHelper.php',
     'ilCertificateValueReplacement' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Replacement/class.ilCertificateValueReplacement.php',
+    'ilCertificateXlsFileLoader' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificateXlsFileLoader.php',
+    'ilCertificateXlstProcess' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificateXlstProcess.php',
     'ilChangeEvent' => $baseDir . '/../../Services/Tracking/classes/class.ilChangeEvent.php',
     'ilChapterHierarchyFormGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php',
     'ilCharSelectorConfig' => $baseDir . '/../../Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.php',

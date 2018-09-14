@@ -48,4 +48,13 @@ class ilCertificateUtilHelper
 	) {
 		return ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
 	}
+
+	/**
+	 * @param string $string
+	 * @return mixed|null|string|string[]
+	 */
+	public function stripSlashes(string $string) : string
+	{
+		return ilUtil::stripSlashes($string);
+	}
 }

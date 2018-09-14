@@ -447,7 +447,7 @@ class ilCertificateGUI
 					}
 				}
 
-				$xslfo = $this->xlsFoParser->parse($form_fields, $backgroundImagePath);
+				$xslfo = $this->xlsFoParser->parse($form_fields);
 
 				$certificateTemplate = new ilCertificateTemplate(
 					$objId,
