@@ -1789,23 +1789,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// copy to temporary directory
 		$oldFilename = ilObjFile::_lookupAbsolutePath($obj_id);
 
-		//fix for mantis bug 0022951
-		if(!file_exists($oldFilename)) {
-			$pathInfo = pathinfo($oldFilename);
-			$basename = $pathInfo['basename'];
-
-			$oldFilename = str_replace('.', '', $basename);
-			$oldFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
-			$oldFilename = $pathInfo['dirname'] . '/' . $oldFilename;
-
-			$pathInfo = pathinfo($newFilename);
-			$basename = $pathInfo['basename'];
-
-			$newFilename = str_replace('.', '', $basename);
-			$newFilename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
-			$newFilename = $pathInfo['dirname'] . '/' . $newFilename;
-		}
-
 		if (!copy($oldFilename, $newFilename))
 			throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
 		
