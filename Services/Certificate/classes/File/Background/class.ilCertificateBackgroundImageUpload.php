@@ -26,21 +26,87 @@ class ilCertificateBackgroundImageUpload
 	private $language;
 
 	/**
+	 * @var string
+	 */
+	private $rootDirectory;
+
+	/**
+	 * @var \ILIAS\Filesystem\Filesystem|\ILIAS\Filesystem\Filesystems
+	 */
+	private $fileSystem;
+
+	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
+	 * @var ilCertificateFileUtilsHelper|null
+	 */
+	private $fileUtilsHelper;
+
+	/**
+	 * @var string
+	 */
+	private $clientId;
+
+	/**
+	 * @var LegacyPathHelperHelper
+	 */
+	private $legacyPathHelper;
+
+	/**
 	 * @param \ILIAS\FileUpload\FileUpload $fileUpload
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
 	 * @param ilLogger $logger
+	 * @param \ILIAS\Filesystem\Filesystem|null $fileSystem
+	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilCertificateFileUtilsHelper|null $certificateFileUtilsHelper
+	 * @param LegacyPathHelperHelper|null $legacyPathHelper
+	 * @param string $rootDirectory
+	 * @param string $clientID
 	 */
 	public function __construct(
 		\ILIAS\FileUpload\FileUpload $fileUpload,
 		string $certificatePath,
 		ilLanguage $language,
-		ilLogger $logger
+		ilLogger $logger,
+		\ILIAS\Filesystem\Filesystem $fileSystem = null,
+		ilCertificateUtilHelper $utilHelper = null,
+		ilCertificateFileUtilsHelper $certificateFileUtilsHelper = null,
+		LegacyPathHelperHelper $legacyPathHelper = null,
+		string $rootDirectory = CLIENT_WEB_DIR,
+		string $clientID = CLIENT_ID
 	) {
 		$this->fileUpload = $fileUpload;
 		$this->certificatePath = $certificatePath;
 		$this->language = $language;
 		$this->logger = $logger;
+		$this->rootDirectory = $rootDirectory;
+
+		if (null === $fileSystem) {
+			global $DIC;
+			$fileSystem = $DIC->filesystem()->web();
+		}
+		$this->fileSystem = $fileSystem;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
+
+		if (null === $certificateFileUtilsHelper) {
+			$certificateFileUtilsHelper = new ilCertificateFileUtilsHelper();
+		}
+		$this->fileUtilsHelper = $certificateFileUtilsHelper;
+
+		if (null === $legacyPathHelper) {
+			$legacyPathHelper = new LegacyPathHelperHelper();
+		}
+		$this->legacyPathHelper = $legacyPathHelper;
+
+		$this->clientId = $clientID;
 	}
 
 	/**
@@ -48,16 +114,19 @@ class ilCertificateBackgroundImageUpload
 	 * certificate if needed. Removes an existing certificate image if necessary
 	 *
 	 * @param string $imageTempFilename Name of the temporary uploaded image file
-	 * @param $version - Version of the current certifcate template
+	 * @param int $version - Version of the current certifcate template
 	 * @return integer An errorcode if the image upload fails, 0 otherwise
-	 * @throws ilException
 	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilException
+	 * @throws ilFileUtilsException
 	 */
 	public function upload(string $imageTempFilename, int $version)
 	{
-		$imagepath = CLIENT_WEB_DIR . $this->certificatePath;
+		$imagepath = $this->rootDirectory . $this->certificatePath;
 
-		if (!file_exists($imagepath)) {
+		if (!$this->fileSystem->hasDir($imagepath)) {
 			ilUtil::makeDirParents($imagepath);
 		}
 
@@ -65,24 +134,35 @@ class ilCertificateBackgroundImageUpload
 
 		$this->uploadFile($imageTempFilename, $backgroundImageTempFilePath);
 
-		$backgroundImagePath = CLIENT_WEB_DIR . $this->certificatePath . 'background_' . $version . '.jpg';
-		ilUtil::convertImage($backgroundImageTempFilePath, $backgroundImagePath, 'JPEG');
+		$backgroundImagePath = $this->certificatePath . 'background_' . $version . '.jpg';
+
+		$this->utilHelper->convertImage(
+			$backgroundImageTempFilePath,
+			$this->rootDirectory . $backgroundImagePath,
+			'JPEG'
+		);
 
 		$backgroundImageThumbnailPath = $this->createBackgroundImageThumbPath();
-		ilUtil::convertImage($backgroundImageTempFilePath, $backgroundImageThumbnailPath, 'JPEG', 100);
+
+		$this->utilHelper->convertImage(
+			$backgroundImageTempFilePath,
+			$backgroundImageThumbnailPath,
+			'JPEG',
+			100
+		);
 
 		$convert_filename = self::BACKGROUND_IMAGE_NAME;
 
-		if (!file_exists($backgroundImagePath)) {
+		if (!$this->fileSystem->has($backgroundImagePath)) {
 			// something went wrong converting the file. use the original file and hope, that PDF can work with it
-			if (!ilUtil::moveUploadedFile($backgroundImageTempFilePath, $convert_filename, $backgroundImagePath)) {
+			if (!ilUtil::moveUploadedFile($backgroundImageTempFilePath, $convert_filename, $this->rootDirectory . $backgroundImagePath)) {
 				throw new ilException('Unable to convert the file and the original file');
 			}
 		}
 
-		unlink($backgroundImageTempFilePath);
+		$this->fileSystem->delete($this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME);
 
-		if (file_exists($backgroundImagePath) && (filesize($backgroundImagePath) > 0)) {
+		if ($this->fileSystem->has($backgroundImagePath)) {
 			return $this->certificatePath . 'background_' . $version . '.jpg';
 		}
 
@@ -99,7 +179,7 @@ class ilCertificateBackgroundImageUpload
 	private function uploadFile(string $temporaryFilename, string $targetFileName)
 	{
 		$targetFilename = basename($targetFileName);
-		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
+		$targetFilename = $this->fileUtilsHelper->getValidFilename($targetFilename);
 
 		$targetFilesystem = $this->getTargetFilesystem($targetFileName);
 		$targetDir = $this->getTargetDir($targetFileName);
@@ -137,9 +217,9 @@ class ilCertificateBackgroundImageUpload
 	private function getTargetFilesystem(string $target)
 	{
 		switch (true) {
-			case strpos($target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($target, CLIENT_WEB_DIR) === 0:
+			case strpos($target, $this->rootDirectory . '/' . $this->clientId) === 0:
+			case strpos($target, './' . $this->rootDirectory . '/' . $this->clientId) === 0:
+			case strpos($target, $this->rootDirectory) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
 				break;
 			case strpos($target, CLIENT_DATA_DIR . "/temp") === 0:
@@ -165,7 +245,7 @@ class ilCertificateBackgroundImageUpload
 	private function getTargetDir(string $target)
 	{
 		$absTargetDir = dirname($target);
-		$targetDir = ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($absTargetDir);
+		$targetDir = $this->legacyPathHelper->createRelativePath($absTargetDir);
 
 		return  $targetDir;
 	}
@@ -177,7 +257,7 @@ class ilCertificateBackgroundImageUpload
 	 */
 	private function createBackgroundImageTempfilePath()
 	{
-		return CLIENT_WEB_DIR . $this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME;
+		return $this->rootDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME;
 	}
 
 	/**
@@ -187,7 +267,7 @@ class ilCertificateBackgroundImageUpload
 	 */
 	private function createBackgroundImageThumbPath()
 	{
-		return CLIENT_WEB_DIR . $this->certificatePath . self::BACKGROUND_THUMBNAIL_IMAGE_NAME;
+		return $this->rootDirectory . $this->certificatePath . self::BACKGROUND_THUMBNAIL_IMAGE_NAME;
 	}
 
 }

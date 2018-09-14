@@ -31,4 +31,21 @@ class ilCertificateUtilHelper
 	{
 		return ilUtil::prepareFormOutput($string);
 	}
+
+	/**
+	 * @param string $from
+	 * @param string $to
+	 * @param string $targetFormat
+	 * @param string $geometry
+	 * @param string $backgroundColor
+	 */
+	public function convertImage(
+		string $from,
+		string $to,
+		string $targetFormat = '',
+		string $geometry = '',
+		string $backgroundColor = ''
+	) {
+		return ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+	}
 }

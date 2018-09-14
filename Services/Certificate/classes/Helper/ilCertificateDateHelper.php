@@ -29,7 +29,7 @@ class ilCertificateDateHelper
 
 	/**
 	 * @param string $dateTime
-	 * @param int $dateFormat
+	 * @param int $format
 	 * @return string
 	 * @throws ilDateTimeException
 	 */

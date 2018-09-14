@@ -15,6 +15,7 @@ class ilCertificateObjectHelper
 		return ilObjectFactory::getInstanceByObjId($objectId);
 	}
 
+
 	/**
 	 * @param int $refId
 	 * @return int
@@ -23,5 +24,4 @@ class ilCertificateObjectHelper
 	{
 		return ilObject::_lookupObjId($refId);
 	}
-
 }
