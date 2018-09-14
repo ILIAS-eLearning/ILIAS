@@ -50,7 +50,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 		$this->language = $language;
 
 		if (null === $defaultPlaceholderValues) {
-			$defaultPlaceholderValues = new ilDefaultPlaceholderValues($language);
+			$defaultPlaceholderValues = new ilDefaultPlaceholderValues();
 		}
 
 		if (null === $objectHelper) {
