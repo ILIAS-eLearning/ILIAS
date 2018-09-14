@@ -14300,3 +14300,5 @@ meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_target#:#Category for Release OER Content
+meta#:#meta_oer_blocked#:#Ignored by OER Harvester
+meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)

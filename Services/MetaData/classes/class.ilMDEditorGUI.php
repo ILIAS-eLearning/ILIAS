@@ -549,15 +549,14 @@ class ilMDEditorGUI
 	protected function listQuickEditCopyright(ilPropertyFormGUI $form)
 	{
 		$md_settings = ilMDSettings::_getInstance();
+		$oer_settings = ilOerHarvesterSettings::getInstance();
+
 		$cp_entries = ilMDCopyrightSelectionEntry::_getEntries();
 		$description = ilMDRights::_lookupDescription(
 			$this->md_obj->getRBACId(),
 			$this->md_obj->getObjId()
 		);
 		$current_id = ilMDCopyrightSelectionEntry::_extractEntryId($description);
-
-		ilLoggerFactory::getLogger('meta')->debug($description);
-		ilLoggerFactory::getLogger('meta')->debug($current_id);
 
 		if(
 			!$this->md_settings->isCopyrightSelectionActive() ||
@@ -577,6 +576,29 @@ class ilMDEditorGUI
 				$copyright_entry->getEntryId(),
 				$copyright_entry->getDescription()
 			);
+
+			if(
+				$oer_settings->supportsHarvesting($this->md_obj->getObjType()) &&
+				$oer_settings->isActiveCopyrightTemplate($copyright_entry->getEntryId())
+			)
+			{
+				// block harvesting
+				$blocked = new ilCheckboxInputGUI(
+					$this->lng->txt('meta_oer_blocked'),
+					'copyright_oer_blocked'
+				);
+				$blocked->setInfo($this->lng->txt('meta_oer_blocked_info'));
+				$blocked->setValue(1);
+				$status = new ilOerHarvesterObjectStatus($this->md_obj->getRBACId());
+				if($status->isBlocked())
+				{
+					$blocked->setChecked(true);
+				}
+				$radio_entry->addSubItem($blocked);
+
+			}
+
+
 			$copyright->addOption($radio_entry);
 		}
 

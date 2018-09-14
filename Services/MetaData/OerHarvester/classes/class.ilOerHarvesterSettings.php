@@ -129,6 +129,15 @@ class ilOerHarvesterSettings
 	}
 
 	/**
+	 * @param $a_id
+	 * @return bool
+	 */
+	public function isActiveCopyrightTemplate($a_id)
+	{
+		return in_array($a_id, $this->getCopyrightTemplates());
+	}
+
+	/**
 	 * Get copyright entries in LOM format: "il_copyright_entry_INST_ID_ID"
 	 * return string[]
 	 */
