@@ -29,7 +29,8 @@ class ilOerHarvesterObjectStatus
 
 		$this->db = $DIC->database();
 
-		if($obj_id)
+		$this->obj_id = $obj_id;
+		if($this->obj_id)
 		{
 			$this->read();
 		}

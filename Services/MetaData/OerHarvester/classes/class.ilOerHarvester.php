@@ -212,6 +212,17 @@ class ilOerHarvester
 		foreach(ilOerHarvesterObjectStatus::lookupHarvested() as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
+
+			// blocked items are always deleted
+			$status = new ilOerHarvesterObjectStatus($obj_id);
+			if($status->isBlocked())
+			{
+				$this->logger->debug('Deleting blocked object ressource.');
+				$this->deleteObject($ref_id);
+				$num_deleted++;
+				continue;
+			}
+
 			$copyright = ilMDRights::_lookupDescription($obj_id,$obj_id);
 			$is_valid = false;
 			foreach($this->settings->getCopyRightTemplatesInLomFormat() as $cp)

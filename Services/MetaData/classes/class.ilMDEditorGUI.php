@@ -595,7 +595,6 @@ class ilMDEditorGUI
 					$blocked->setChecked(true);
 				}
 				$radio_entry->addSubItem($blocked);
-
 			}
 
 
@@ -737,6 +736,16 @@ class ilMDEditorGUI
 				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright_text']));
 			}
 			$this->md_section->update();
+
+			// update oer status
+
+			$oer_settings = ilOerHarvesterSettings::getInstance();
+			if($oer_settings->supportsHarvesting($this->md_obj->getObjType()))
+			{
+				$status = new ilOerHarvesterObjectStatus($this->md_obj->getRBACId());
+				$status->setBlocked((int) $_POST['copyright_oer_blocked'] ? true : false);
+				$status->save();
+			}
 		}
 		else
 		{
