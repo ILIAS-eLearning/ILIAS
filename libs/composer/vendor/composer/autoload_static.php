@@ -3635,6 +3635,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateUserObjectHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateUserObjectHelper.php',
         'ilCertificateUtilHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateUtilHelper.php',
         'ilCertificateValueReplacement' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Replacement/class.ilCertificateValueReplacement.php',
+        'ilCertificateXlsFileLoader' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificateXlsFileLoader.php',
+        'ilCertificateXlstProcess' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificateXlstProcess.php',
         'ilChangeEvent' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilChangeEvent.php',
         'ilChapterHierarchyFormGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php',
         'ilCharSelectorConfig' => __DIR__ . '/../..' . '/../../Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.php',
