@@ -57,4 +57,23 @@ class ilCertificateUtilHelper
 	{
 		return ilUtil::stripSlashes($string);
 	}
+
+	/**
+	 * @param string $exportPath
+	 * @param string $zipPath
+	 */
+	public function zip(string $exportPath, string $zipPath)
+	{
+		ilUtil::zip($exportPath, $zipPath);
+	}
+
+	/**
+	 * @param string $zipPath
+	 * @param string $zipFileName
+	 * @param string $mime
+	 */
+	public function deliverFile(string $zipPath, string $zipFileName, string $mime)
+	{
+		ilUtil::deliverFile($zipPath, $zipFileName, $mime);
+	}
 }
