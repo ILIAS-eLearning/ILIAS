@@ -42,6 +42,9 @@ class ilFileDataMail extends ilFileData
 	/** @var Filesystem */
 	protected $tmpDirectory;
 
+	/** @var Filesystem */
+	protected $storageDirectory;
+
 	/** @var \ilDBInterface */
 	protected $db;
 
@@ -64,6 +67,7 @@ class ilFileDataMail extends ilFileData
 
 		$this->db = $DIC->database();
 		$this->tmpDirectory = $DIC->filesystem()->temp();
+		$this->storageDirectory = $DIC->filesystem()->storage();
 
 		$this->initAttachmentMaxUploadSize();
 	}
@@ -737,11 +741,11 @@ class ilFileDataMail extends ilFileData
 		$this->tmpDirectory->createDir($relativeZipDirectory);
 
 		foreach ($files as $fileName) {
-			$source = str_replace('//', '/', $this->getMailPath(). '/' .$path . '/' . $fileName);
-			$target = $absoluteZipDirectory . '/' . $fileName;
+			$source = str_replace('//', '/', MAILPATH . '/' .$path . '/' . $fileName);
+			$target = $relativeZipDirectory . '/' . $fileName;
 
-			// We cannot copy files across FileSystem instances, so we do it the "old way"
-			copy($source, $target);
+			$stream = $this->storageDirectory->readStream($source);
+			$this->tmpDirectory->writeStream($target, $stream);
 		}
 
 		$pathToZipFile = $processingDirectory . '/' . $downloadFilename . '.zip';
