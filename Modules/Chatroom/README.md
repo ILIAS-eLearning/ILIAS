@@ -1,168 +1,167 @@
 # Chat Server Setup
 
-**Inhaltsverzeichnis**
+**Table of Contents**
 <!-- TOC -->
 
-  - [Voraussetzung](#voraussetzung)
-  - [ILIAS Konfiguration](#ilias-konfiguration)
-      - [Chat-Server-Einstellungen](#chat-server-einstellungen)
-          - [IP-Adresse/FQDN](#ip-adressefqdn)
-          - [Port](#port)
-          - [Relativer Pfad](#relativer-pfad)
-          - [Protokoll](#protokoll)
-          - [Logging](#logging)
-          - [Verbindung ILIAS zum Server](#verbindung-ilias-zum-server)
-          - [Verbindung Client zum Server](#verbindung-client-zum-server)
-          - [Löschen alter Nachrichten](#l%C3%B6schen-alter-nachrichten)
-      - [Allgemeine-Einstellungen](#allgemeine-einstellungen)
-          - [Chat aktivieren](#chat-aktivieren)
-          - [Magazin-Chat: On-Screen Benachrichtigungen aktivieren](#magazin-chat-on-screen-benachrichtigungen-aktivieren)
-          - [Name und Authentifikation](#name-und-authentifikation)
-  - [Server Konfiguration](#server-konfiguration)
-      - [Single ILIAS Mandant:](#single-ilias-mandant)
-      - [Multiple ILIAS Mandant:](#multiple-ilias-mandant)
-  - [Chat Server automatisch starten](#chat-server-automatisch-starten)
+  - [Requirement](#requirement)
+  - [ILIAS configuration](#ilias-configuration)
+    - [Chat Server Settings](#chat server settings)
+      - [IP Address / FQDN](#ip-addressfqdn)
+        - [port](#port)
+        - [relative path](#relative path)
+        - [protocol](#protocol)
+        - [Logging](#logging)
+        - [Connection ILIAS to server](#connection-ilias-to-server)
+        - [connection client to server](#connection-client-to-server)
+        - [Delete old messages](#delete-old-messages)
+      - [General Settings](#General Settings)
+        - [Enable chat](#chat-enable)
+        - [Magazine Chat: Enable on-screen notifications](#enable magazine-chat-on-screen notifications)
+        - [Name and Authentication](#name-and-authentication)
+  - [Server Configuration](#server configuration)
+      - [Single ILIAS client:](#single-ilias-client)
+      - [Multiple ILIAS client:](#multiple-ilias-client)
+  - [Start chat server automatically](#chat-server-automatically-start)
       - [systemd (ubuntu)](#systemd-ubuntu)
-  - [Proxy Konfiguration](#proxy-konfiguration)
-      - [Proxy Konfiguration per nginx](#proxy-konfiguration-per-nginx)
-      - [Proxy Konfiguration per apache2](#proxy-konfiguration-per-apache2)
+  - [Proxy Configuration](#proxy configuration)
+      - [Proxy configuration via nginx](#proxy-configuration-by-nginx)
+      - [Proxy configuration via apache2](#proxy-configuration-per-apache2)
 
 <!-- /TOC -->
 
-# Voraussetzung
+# Requirement
 
-Eine Voraussetzung für den Chat Server ist Node.js. Der Chat Server ist mit folgenden Versionen von Node.js getestet:
+A prerequisite for the chat server is Node.js. The chat server is tested with the following versions of Node.js:
 
 * 8.9.4 (LTS)
 * 9.7.1
 
 
-Die letzte Version kann unter der folgenden URL herunterladen werden: https://github.com/nodesource/distributions#debinstall
+The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#debinstall
 
-Zudem befindet sich [hier](https://github.com/nodesource/distributions#deb "hier") eine Installationanleitung für das jeweilige unix-basierte Betriebssystem.
-
-
-Die Grundkonfiguration erfolgt innerhalb von ILIAS in dem Bereich `Administration/Chat`. Nachdem die Server- und Clienteinstellungen gespeichert wurden, sind im externen ILIAS Data Verzeichnis im Unterverzeichnis `chatroom` die Konfigurationsdateien `server.cfg` und `client.cfg` abgelegt. Diese Dateien müssen für den Start des Chat Servers übergeben werden (siehe [Server Konfiguration](#Server-Konfiguration)).
-
-![](./docu/images/view-clientsettings_de.PNG)
-
-***Hinweis:*** Bei allen Änderungen der Einstellungen, **muss** der Chat Server zwingend neu gestartet werden!
-
-## ILIAS Konfiguration
-
-### Chat-Server-Einstellungen
-
-![](./docu/images/view-serversettings_adress_de.PNG)
+In addition, [here](https://github.com/nodesource/distributions#deb "here") is an installation guide for the respective Unix-based operating system.
 
 
-#### IP-Adresse/FQDN
-Die IPv4 Adresse oder der FQDN, auf dem der Chat Server gebunden werden soll.
+The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files must be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
 
-Beispiel:
+![](./docu/images/view-clientsettings_en.PNG)
 
-*  `chat.myilias.de`
-*  `192.168.1.1`
+*** Note: *** On all changes to the settings, the chat server ** must ** be restarted!
+
+## ILIAS Configuration
+
+### Chat Server Settings
+
+![](./docu/images/view-serversettings_adress_en.PNG)
+
+
+#### IP address / FQDN
+The IPv4 address or FQDN where the chat server is to be bound.
+
+Example:
+
+* `chat.myilias.de`
+* `192.168.1.1`
 
 #### Port
 
-Der Port auf dem der Chat Server gebunden werden soll.
+The port on which the chat server is to be bound.
 
-Beispiel:
+Example:
 
 * `8888`
 
-#### Relativer Pfad
+#### Relative Path
 
-Dieser Konfigurationsabschnitt wird nur benötigt, wenn der Chat Server nicht direkt unterhalb des ILIAS Document-Root Verzeichnis ausgeführt und die Chat Server URL wie folgt aussieht: `http(s)://[IP/DOMAIN]/[PATH]/[TO]/[CHAT]`. Für einige technische Anforderungen kann es notwendig sein den relativen Pfad zu verwenden.
+This configuration section is only needed if the chat server is not running directly below the ILIAS document root directory and the chat server URL looks like this: `http (s): // [IP / DOMAIN] / [PATH] / [TO] / [CHAT] `. For some technical requirements it may be necessary to use the relative path.
 
-Beispiele:
+Examples:
 
 
-*  `https://myilias.de/servers/chat` (Relativer Pfad: "/servers/chat")
-*  `https://myilias.de` (Relativer Pfad: [Feld leer lassen])
+* `https://myilias.de/servers/chat` (relative path: "/servers/chat")
+* `https: // myilias.de` (relative path: [leave field empty])
 
 #### Protokoll
 
-![](./docu/images/view-serversettings_protocol_de.PNG)
+![](./docu/images/view-serversettings_protocol_en.PNG)
 
 
-* **HTTP**: Es findet eine unverschlüsselte Kommunikation über HTTP mit dem Chat-Server statt.
+* **HTTP**: There is an unencrypted communication over HTTP with the chat server.
 
-* **HTTPS**: Es findet eine mit SSL verschlüsselte Kommunikation über HTTP mit dem Chat-Server statt. Folgende Einstellungen sind notwendig.
-  * Zertifikat: absoluter Serverpfad zum SSL-Zertifikat (bspw.: `/etc/ssl/certs/server.pem`).
-  * Schlüssel: absoluter Serverpfad zum privaten Schlüssel (bspw.: * `/etc/ssl/private/server.key`).
-  * Diffie-Hellman Parameter: absoluter Serverpfad zu Diffie-Hellman Datei (bspw.: `/etc/ssl/private/dhparam.pem`),
-  * Diffie-Hellman-Parameter Erstellung (z.B. generiert via: `openssl dhparam -out /etc/ssl/private/dhparam.pem 2048` ).
+* **HTTPS**: There is SSL encrypted communication over HTTP with the chat server. The following settings are necessary.
+  *   Certificate: absolute server path to the SSL certificate (for example: `/ etc / ssl / certs / server.pem`).
+  *   Key: absolute server path to the private key (eg: * `/ etc / ssl / private / server.key`).
+  *   Diffie-Hellman parameter: absolute server path to Diffie-Hellman file (eg: `/ etc / ssl / private / dhparam.pem`),
+  *   Diffie-Hellman parameter creation (e.g., generated via: `openssl dhparam -out /etc/ssl/private/dhparam.pem 2048`).
 
 #### Logging
 
-![](./docu/images/view-serversettings_log_de.PNG)
+![](./docu/images/view-serversettings_log_en.PNG)
 
 
-Optional können die Pfade für den Chat Server Log und das Fehler Log angegeben werden.
+Optionally, the paths for the Chat Server Log and the Log error can be specified.
 
-  *   Chat Server Log-File: Absoluter Serverpfad zum Log-File (bspw. `/var/www/ilias/data/chat.log`), in die der Chat Server allgemeine Ereignisse protokolliert.
+*  Chat server log file: Absolute server path to the log file (eg `/var/www/ilias/data/chat.log`), into which the chat server logs general events.
+*  Chat server error log file: Absolute server path to the error log file (for example, `/var/www/ilias/data/chat_errors.log`), into which the chat server logs errors.
 
-  *   Chat Server Error-Log-File: Absoluter Serverpfad zur Error-log-File an (bspw. `/var/www/ilias/data/chat_errors.log`), in die der Chat Server Fehler protokolliert.
+If no paths are defined, the chat server creates the log file in the chat server directory.
 
-Werden keine Pfade definiert, erstellt der Chat Server das Log-File im Chat Server Verzeichnis.
+#### Connection ILIAS to the server
 
-#### Verbindung ILIAS zum Server
+By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL must be specified, via which the client can connect to the chat server.
 
-Standardmäßig nutzt ILIAS die IP-Adresse oder den FQDN der bei der Serverkonfiguration eingestellt ist. Es ist empfiehlt sich, dass der Chat-Server nur lokal erreichbar ist und über einen Proxy-Server öffentlich zur Verfügung gestellt wird. In diesem Fall muss eine andere URL angegeben werden, über welche der Client eine Verbindung zum Chat-Server aufbauen kann.
+![](./docu/images/view-serversettings_ilias_proxy_en.PNG)
 
-![](./docu/images/view-serversettings_ilias_proxy_de.PNG)
+**Note:** It is possible to specify the URL with and without protocol definition. If no protocol is specified, the protocol definition setting for the URL will be used.
 
-**Hinweis:** Es ist möglich die URL mit und ohne Protokolldefinition anzugeben. Wenn kein Protokoll angegeben wird, wird die Einstellung der Protokolldefinition für die URL verwendet.
+#### Connection client to the server
 
-#### Verbindung Client zum Server
+See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connection the browser (client) uses to the chat server. The URL must be reachable by all browser clients.
 
-Siehe [Verbindung ILIAS zum Server](#verbindung-ilias-zum-server) hierbei handelt es sich um die Verbindung die der Browser (Client) zum Chat Server verwendet. Die URL muss von allen Browser Clients erreicht werden können.
+![](./docu/images/view-serversettings_client_proxy_en.PNG)
 
-![](./docu/images/view-serversettings_client_proxy_de.PNG)
+#### Delete old messages
 
-#### Löschen alter Nachrichten
+The deletion of old messages can be activated by selecting a ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the magazine chat and from the on-screen chats are deleted.
 
-Das Löschen alter Nachrichten kann durch die Auswahl eines ***Intervalls*** aktiviert werden. Nach Ablauf dieses Intervalls werden Abhängig vom konfigurierten Schwellwert, alle vergangenen Nachrichten gelöscht. Dabei werden sowohl Nachrichten aus dem Magazin-Chat, als auch aus den On-Screen-Chats gelöscht.
-
-![](./docu/images/view-serversettings_deletion_mode_de.PNG)
+![](./docu/images/view-serversettings_deletion_mode_en.PNG)
 
 
-### Allgemeine-Einstellungen
+### General Settings
 
-![](./docu/images/view-clientsettings_de.PNG)
+![](./docu/images/view-clientsettings_en.PNG)
 
-#### Chat aktivieren
+#### Enable chat
 
-Über das Auswahlfeld kann der Chat aktiviert bzw. deaktiviert werden.
+The chat can be activated or deactivated via the selection field.
 
-#### Magazin-Chat: On-Screen Benachrichtigungen aktivieren
+#### Magazine Chat: Enable on-screen notifications
 
-Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Einladungen in Magazin-Chats informiert.
+If enabled, users will be informed by a pop-up about new invitations in magazine chats.
 
-![](./docu/images/view-clientsettings_enable_osd_de.PNG)
+![](./docu/images/view-clientsettings_enable_osd_en.PNG)
 
-***Hinweis***: Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
+***Note***: Less time allows more timely notifications, but increases server load.
 
-#### Name und Authentifizierung
+#### Name and Authentication
 
-Um eine Verbindung zwischen einem ILIAS Mandanten und einem Chat-Server herstellen zu können,
-muss im ILIAS Mandant ein eindeutiger Name definiert werden. Es ist zwingend erforderlich, dass jeder Name innerhalb einer Chat-Server Instanz eindeutig ist.
+To establish a connection between an ILIAS client and a chat server,
+a unique name must be defined in the ILIAS client. It is imperative that each name is unique within a chat server instance.
 
-Um den Chat-Server vor unbefugtem Zugriff abzusichern, muss für jeden Mandanten ein Schlüsselpaar zur ***Authentifizierung*** generiert werden.
+In order to protect the chat server against unauthorized access, a key pair for the ***authentication*** must be generated for each client.
 
-Beispiel:
+Example:
 
-  * Authentifizierungs-Schlüssel = 801c4a44-739a-45d8-93df-880e7a2ac8e7
-  * Authentifizierungs-Geheimnis = 04e60a6e-e9e7-4eb7-bd01-96e65b9a767c
+* Authentication Key = 801c4a44-739a-45d8-93df-880e7a2ac8e7
+* Authentication Secret = 04e60a6e-e9e7-4eb7-bd01-96e65b9a767c
 
-## Server Konfiguration
+## Server configuration
 
-Wenn der Chat Server in einem anderen Verzeichnis ausgeführt werden soll, muss das gesamte ILIAS Chat Verzeichnis (`ILIAS/Modules/Chatroom/chat`) in das gewünschte Verzeichnis kopiert werden.
+If the chat server is to be run in a different directory, the entire ILIAS chat directory (`ILIAS / Modules / Chatroom / chat`) must be copied to the desired directory.
 
-***Hinweis***: Die folgenden Konfigurationsdateien werden in ILIAS erzeugt (siehe - [ILIAS Konfiguration](#ilias-konfiguration)). Diese **müssen** bei einer Änderung der Konfiguration in ILIAS wieder erneut kopiert werden!
+***Note***: The following configuration files are generated in ILIAS (see - [ILIAS Configuration](#ilias configuration)). These **must** be copied again when changing the configuration in ILIAS!
 
-Die beiden Konfigurationsdateien `server.cfg` und `client.cfg` sind im Pfad `[PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[ANY_CLIENT_ID]/chatroom` zu finden.
+The two configuration files `server.cfg` and` client.cfg` can be found in the path `[PATH_TO_EXTERNAL_DATA_DIRECTORY] / [ANY_CLIENT_ID] / chatroom`.
 
 server.cfg:
 ```json
@@ -208,34 +207,32 @@ client.cfg:
     }
 }
 ```
+### Single ILIAS client:
 
-### Single ILIAS Mandant:
-
-Im Folgenden wird der Befehl dargestellt, mit welchem ein Chat-Server für einen einzigen Mandanten gestartet werden kann.
+The following is the command to start a chat server for a single client.
 
 ```bash
-cd [ILIAS_ROOT_VERZEICHNIS]
-node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID]/chatroom/client.cfg &
+cd [ILIAS_ROOT_DIRECTORY]
+node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID]/chatroom/client.cfg &
 ```
 
 
 
-### Multiple ILIAS Mandanten:
+### Multiple ILIAS clients:
 
-Im Folgenden wird der Befehl dargestellt, mit welchem ein Chat-Server für mehrere Mandanten gestartet werden kann.
+The following shows the command that can be used to start a multi-client chat server.
 
 ```bash
-cd [ILIAS_ROOT_VERZEICHNIS]
-node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[ANY_CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID_1]/chatroom/client.cfg [PATH_TO_EXTERNAL_DATA_VERZEICHNIS]/[CLIENT_ID_2]/chatroom/client.cfg ... &
+cd [ILIAS_ROOT_DIRECTORY]
+node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ... &
 ```
-
-Ob der Chat Server läuft, kann mit dem Befehl ***netstat*** überprüft werden. In der Ausgabe sollte der Dienst mit dem angegeben ip:port angezeigt werden.
+Whether the chat server is running can be checked with the command ***netstat***. In the output, the service should be displayed with the specified ip:port.
 
 ```bash
 netstat -tlpn
 ```
 
-Zudem kann die Funktion über die folgende URL überprüft werden. Bei Erfolg wird der Statuscode **200** zurückgegeben.
+In addition, the function can be checked via the following URL. If successful, the status code **200** will be returned.
 
 ```bash
 curl http(s)://myilas.de/backend/Heartbeat/onscreen
@@ -245,15 +242,15 @@ curl http(s)://myilas.de/backend/Heartbeat/onscreen
 }
 ```
 
-## Chat Server automatisch starten
+## Start the chat server automatically
 
-Auf Unix-basierenden Betriebssystem gibt es verschiedene Systeme um Dienste zu verwalten, z.B. SysVinit, systemd, etc.
+On Unix-based operating systems, there are various systems for managing services, e.g. SysVinit, systemd, etc.
 
 ### systemd (ubuntu)
 
-Um den Chat Server mit systemd automatisch zu starten wird in `/etc/systemd/system` eine Datei z.B. chat.myilias.service mit folgendem Inhalt angelegt.
+To automatically start the chat server with systemd, a file is stored in `/ etc / systemd / system`. chat.myilias.service created with the following content.
 
-***Hinweis:*** Die Pfade müssen entsprechend angepasst werden. Bei mehreren Mandanten müssen eindeutige Namen für die client.cfg vergeben werden, z.B. a_client.cfg, b_client.cfg, etc.
+***Note:*** The paths must be adjusted accordingly. For multiple clients, unique names must be assigned to the client.cfg, e.g. a_client.cfg, b_client.cfg, etc.
 
 ```ini
 [Unit]
@@ -274,14 +271,14 @@ RestartSec=3
 WantedBy=multi-user.target
 ```
 
-## Proxy Konfiguration
+## Proxy configuration
 
-Es ist empfohlen den Chat-Server ausschließlich über einen Proxy-Server öffentlich zur Verfügung zu stellen.
-In diesem Abschnitt wird beschrieben, wie ein solcher Proxy-Server mit `nginx` oder `Apache2` durchgeführt werden kann.
+It is recommended to make the chat server publicly available only through a proxy server.
+This section describes how to use such a proxy server with `nginx` or` Apache2`.
 
-### Proxy Konfiguration per nginx
+### Proxy configuration via nginx
 
-globale Konfiguration:
+Global configuration:
 
     proxy_set_header   Upgrade          $http_upgrade;
     proxy_set_header   Connection       $connection_upgrade;
@@ -293,7 +290,7 @@ globale Konfiguration:
     }
 
 
-vHost Konfiguration:
+vHost Configuration:
 
     upstream onscreenchat  {
         server      127.0.0.1:8888;
@@ -308,16 +305,16 @@ vHost Konfiguration:
     }
 
 
-In der ILIAS Konfiguration wird bei den ***Chat-Server-Einstellungen*** die Proxy Konfigurationen angepasst.
+In the ILIAS configuration the proxy configurations are adjusted in the ***Chatserver settings***.
 
-Beispiel:
+Example:
 
     https://onscreenchat.domain.de
 
 
-### Proxy Konfiguration per apache2
+### Proxy configuration via apache2
 
-Die Konfiguration erfolgt in der Apache default-Konfiguration oder im entsprechendem vHost. Zudem werden folgende Apache-Module benötigt:
+The configuration takes place in the Apache default configuration or in the corresponding vHost. In addition, the following Apache modules are required:
 proxy, proxy_connect, proxy_html, proxy_http, proxy_wstunnel, xml2enc
 
     ProxyPassMatch backend/(.*)$ http://127.0.0.1:8888/$0
@@ -331,8 +328,8 @@ proxy, proxy_connect, proxy_html, proxy_http, proxy_wstunnel, xml2enc
         RewriteCond %{QUERY_STRING} transport=polling       [NC]
         RewriteRule /(.*)           http://127.0.0.1:8888/$1 [P]
 
-In der ILIAS Konfiguration wird bei den ***Chat-Server-Einstellungen*** die Proxy Konfigurationen angepasst.
+In the ILIAS configuration the proxy configurations are adjusted in the ***Chat server settings***.
 
-Beispiel:
+Example:
 
     https://onscreenchat.domain.de
