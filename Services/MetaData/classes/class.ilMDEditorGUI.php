@@ -102,9 +102,9 @@ class ilMDEditorGUI
 
 		return true;
 	}
-	
-	/*
-	 * list quick edit screen
+
+	/**
+	 * @deprecated with release 5_3
 	 */
 	function listQuickEdit_scorm()
 	{
@@ -332,33 +332,9 @@ class ilMDEditorGUI
 		}
 
 		// Rights...
-		// Copyright 
-		
-		include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php');
-		
-		$copyright_gui = new ilMDCopyrightSelectionGUI(ilMDCopyrightSelectionGUI::MODE_QUICKEDIT,
-			$this->md_obj->getRBACId(),
-			$this->md_obj->getObjId());
-		$copyright_gui->fillTemplate();
-		
-		
-		/*
-		if(is_object($this->md_section = $this->md_obj->getRights()))
-		{
-			$this->tpl->setVariable("COPYRIGHT_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-		}
-		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright'));
-		*/
+		// Copyright
+		// smeyer 2018-09-14 not supported
 
-		// Educational...
-		// Typical learning time
-		// creates entries like 2H59M12S. If entry is not parsable => warning.
-
-		#if(is_object($this->md_section = $this->md_obj->getEducational()))
-		#{
-		#	$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
-		#}
-		
 		$tlt = array(0,0,0,0,0);
 		$valid = true;
 		if(is_object($this->md_section = $this->md_obj->getEducational()))
@@ -546,16 +522,9 @@ class ilMDEditorGUI
 		$this->form->addItem($ta);
 
 		// copyright
-		include_once("./Services/MetaData/classes/class.ilCopyrightInputGUI.php"); 
-		$cp = new ilCopyrightInputGUI($this->lng->txt("meta_copyright"), "copyright");
-		$cp->setCols(50);
-		$cp->setRows(3);
-		$desc = ilMDRights::_lookupDescription($this->md_obj->getRBACId(),
-			$this->md_obj->getObjId());
-		$val["ta"] = $desc;
-		$cp->setValue($val);
-		$this->form->addItem($cp);
-		
+		$this->listQuickEditCopyright($this->form);
+
+
 		// typical learning time
 		include_once("./Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php");
 		$tlt = new ilTypicalLearningTimeInputGUI($this->lng->txt("meta_typical_learning_time"), "tlt");
@@ -565,24 +534,73 @@ class ilMDEditorGUI
 			$tlt->setValueByLOMDuration($edu->getTypicalLearningTime());
 		}
 		$this->form->addItem($tlt);
-		
-		// #18563
-		/*
-		if(!$_REQUEST["wsp_id"])
-		{
-			// (parent) container taxonomies?
-			include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
-			$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
-			$tax_gui->addToMDForm($this->form);
-		}*/
-		
+
 		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	 
 		return $this->form;
 	}
-	
+
+	/**
+	 * Show copyright selecetion
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function listQuickEditCopyright(ilPropertyFormGUI $form)
+	{
+		$md_settings = ilMDSettings::_getInstance();
+		$cp_entries = ilMDCopyrightSelectionEntry::_getEntries();
+		$description = ilMDRights::_lookupDescription(
+			$this->md_obj->getRBACId(),
+			$this->md_obj->getObjId()
+		);
+		$current_id = ilMDCopyrightSelectionEntry::_extractEntryId($description);
+
+		ilLoggerFactory::getLogger('meta')->debug($description);
+		ilLoggerFactory::getLogger('meta')->debug($current_id);
+
+		if(
+			!$this->md_settings->isCopyrightSelectionActive() ||
+			!count($cp_entries)
+		)
+		{
+			return true;
+		}
+
+		$copyright = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright'),'copyright');
+		$copyright->setValue($current_id);
+
+		foreach($cp_entries as $copyright_entry)
+		{
+			$radio_entry = new ilRadioOption(
+				$copyright_entry->getTitle(),
+				$copyright_entry->getEntryId(),
+				$copyright_entry->getDescription()
+			);
+			$copyright->addOption($radio_entry);
+		}
+
+		// add own selection
+		$own_selection = new ilRadioOption(
+			$this->lng->txt('meta_cp_own'),
+			'copyright_text'
+		);
+		$own_selection->setValue(0);
+
+		// copyright text
+		$own_copyright = new ilTextAreaInputGUI(
+			'',
+			'copyright_text'
+		);
+		if($current_id == 0)
+		{
+			$own_copyright->setValue($description);
+		}
+		$own_selection->addSubItem($own_copyright);
+		$copyright->addOption($own_selection);
+		$form->addItem($copyright);
+	}
+
 	/**
 	 * Keyword list for autocomplete
 	 *
@@ -679,23 +697,22 @@ class ilMDEditorGUI
 		$this->callListeners('General');
 		
 		// Copyright
-		//if($_POST['copyright_id'] or $_POST['rights_copyright'])
-		if($_POST['copyright']['sel'] || $_POST['copyright']['ta'])
+		if($_POST['copyright'] || $_POST['copyright_text'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getRights()))
 			{
 				$this->md_section = $this->md_obj->addRights();
 				$this->md_section->save();
 			}
-			if($_POST['copyright']['sel'])
+			if($_POST['copyright'] > 0)
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright']['sel']);
+				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright']);
 			}
 			else
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright']['ta']));
+				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright_text']));
 			}
 			$this->md_section->update();
 		}
