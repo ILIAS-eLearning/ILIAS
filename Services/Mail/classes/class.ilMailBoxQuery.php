@@ -67,10 +67,25 @@ class ilMailBoxQuery
 		}
 
 		if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
-			$filter_qry .= ' AND (' . implode(' AND ', array(
-				'send_time >= ' . $DIC->database()->quote(date('Y-m-d H:i:s', self::$filter['period']['start']), 'timestamp'),
-				'send_time <= ' . $DIC->database()->quote(date('Y-m-d H:i:s', self::$filter['period']['end']), 'timestamp')
-			)) . ') ';
+			$dateFilterParts = [];
+
+			if (null !== $filter['period']['start']) {
+				$dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
+					date('Y-m-d H:i:s', self::$filter['period']['start']),
+					'timestamp'
+				);
+			}
+
+			if (null !== $filter['period']['end']) {
+				$dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
+					date('Y-m-d H:i:s', self::$filter['period']['end']),
+					'timestamp'
+				);
+			}
+
+			if (count($dateFilterParts) > 0) {
+				$filter_qry .= ' AND (' . implode(' AND ', $dateFilterParts) . ') ';
+			}
 		}
 
 		// count query
