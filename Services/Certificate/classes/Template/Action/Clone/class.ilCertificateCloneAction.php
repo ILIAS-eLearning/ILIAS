@@ -158,7 +158,7 @@ class ilCertificateCloneAction
 	 * @param integer $objectId
 	 * @return int
 	 */
-	private function readActive($objectId)
+	private function readActive(int $objectId) : int
 	{
 		$sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
