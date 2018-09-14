@@ -20,6 +20,8 @@ class ilTestPassesSelector
 	
 	private $passes = null;
 	
+	private $testPassedOnceCache = array();
+	
 	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
@@ -88,9 +90,30 @@ class ilTestPassesSelector
 		return $this->passes;
 	}
 
+	public function loadLastFinishedPass()
+	{
+		$query = "
+			SELECT last_finished_pass FROM tst_active WHERE active_id = %s
+		";
+		
+		$res = $this->db->queryF(
+			$query, array('integer'), array($this->getActiveId())
+		);
+		
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			$this->setLastFinishedPass($row['last_finished_pass']);
+		}
+	}
+
 	public function getExistingPasses()
 	{
 		return array_keys($this->getLazyLoadedPasses());
+	}
+	
+	public function hasExistingPasses()
+	{
+		return (bool)count($this->getExistingPasses());
 	}
 
 	public function getNumExistingPasses()
@@ -113,6 +136,11 @@ class ilTestPassesSelector
 		$reportablePasses = $this->fetchReportablePasses($existingPasses);
 
 		return $reportablePasses;
+	}
+	
+	public function hasReportablePasses()
+	{
+		return (bool)count($this->getReportablePasses());
 	}
 	
 	private function fetchReportablePasses($existingPasses)
@@ -181,6 +209,15 @@ class ilTestPassesSelector
 					return true;
 				}
 
+				return $this->isClosedPass($pass);
+				
+			case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+				
+				if( !$this->hasTestPassedOnce($this->getActiveId()) )
+				{
+					return false;
+				}
+				
 				return $this->isClosedPass($pass);
 		}
 		
@@ -257,5 +294,27 @@ class ilTestPassesSelector
 		
 		$passes = $this->getLazyLoadedPasses();
 		return $passes[$this->getLastFinishedPass()]['tstamp'];
+	}
+	
+	public function hasTestPassedOnce($activeId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( !isset($this->testPassedOnceCache[$activeId]) )
+		{
+			$this->testPassedOnceCache[$activeId] = false;
+			
+			$res = $DIC->database()->queryF(
+				"SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
+				array('integer'), array($activeId)
+			);
+			
+			while($row = $DIC->database()->fetchAssoc($res))
+			{
+				$this->testPassedOnceCache[$activeId] = (bool)$row['passed_once'];
+			}
+		}
+		
+		return $this->testPassedOnceCache[$activeId];
 	}
 }

@@ -153,22 +153,10 @@ class ilLanguage
 	 */
 	function __construct($a_lang_key)
 	{
-		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
+		global $DIC;
+		$ilIliasIniFile = $DIC->iliasIni();
 
-		$this->ilias = $ilias;
-
-		if (!isset($log))
-		{
-			if (is_object($ilias))
-			{
-				require_once "./Services/Logging/classes/class.ilLog.php";
-				$this->log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
-			}
-		}
-		else
-		{
-			$this->log =& $log;
-		}
+		$this->log = $DIC->logger()->root();
 
 		$this->lang_key = $a_lang_key;
 		
@@ -177,22 +165,25 @@ class ilLanguage
 
 		$this->usage_log_enabled = self::isUsageLogEnabled();
 
-		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
-
-		// if no directory was found fall back to default lang dir
-		//if (!is_dir($this->lang_path))
-		//{
-			$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
-		//}
+		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
 		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 
 		$this->lang_default = $ilIliasIniFile->readVariable("language","default");
-		if (is_object($ilSetting) && $ilSetting->get("language") != "")
+
+		if ($DIC->offsetExists('ilSetting'))
 		{
-			$this->lang_default = $ilSetting->get("language");
+			$ilSetting = $DIC->settings();
+			if ($ilSetting->get("language") != "")
+			{
+				$this->lang_default = $ilSetting->get("language");
+			}
 		}
-		$this->lang_user = $ilUser->prefs["language"];
-		
+		if ($DIC->offsetExists('ilUser'))
+		{
+			$ilUser = $DIC->user();
+			$this->lang_user = $ilUser->prefs["language"];
+		}
+
 		$langs = $this->getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
@@ -287,7 +278,7 @@ class ilLanguage
 		{
 			if (ILIAS_LOG_ENABLED && is_object($this->log))
 			{
-				$this->log->writeLanguageLog($a_topic,$this->lang_key);
+				$this->log->debug("Language (".$a_lang_key."): topic -".$a_topic."- not present");
 			}
 			return "-".$a_topic."-";
 		}
@@ -313,7 +304,8 @@ class ilLanguage
 	
 	function loadLanguageModule ($a_module)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		if (in_array($a_module, $this->loaded_modules))
 		{
@@ -345,18 +337,6 @@ class ilLanguage
 
 			return;
 		}
-
-/*
-		$query = "SELECT identifier,value FROM lng_data " .
-				"WHERE lang_key = '" . $lang_key."' " .
-				"AND module = '$a_module'";
-		$r = $this->ilias->db->query($query);
-
-		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$this->text[$row->identifier] = $row->value;
-		}
-*/
 
 		$q = "SELECT * FROM lng_modules " .
 				"WHERE lang_key = ".$ilDB->quote($lang_key, "text")." AND module = ".
@@ -404,7 +384,8 @@ class ilLanguage
 
 	public static function _lookupEntry($a_lang_key, $a_mod, $a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query($q = sprintf("SELECT * FROM lng_data WHERE module = %s ".
 			"AND lang_key = %s AND identifier = %s",
@@ -437,7 +418,8 @@ class ilLanguage
 	 */
 	public static function lookupId($a_lang_key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$query = 'SELECT obj_id FROM object_data '.' '.
 		'WHERE title = '.$ilDB->quote($a_lang_key, 'text').' '.
@@ -470,16 +452,26 @@ class ilLanguage
 	}
 
 	/**
+	 * Builds a global default language instance
+	 * @return \ilLanguage
+	 */
+	public static function getFallbackInstance()
+	{
+		return new self('en');
+	}
+
+	/**
 	 * Builds the global language object
 	 * @return self
 	 */
 	public static function getGlobalInstance()
 	{
-		/**
-		 * @var $ilUser    ilObjUser
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilUser, $ilSetting, $lng;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+		if ($DIC->offsetExists('ilUser'))
+		{
+			$ilUser = $DIC->user();
+		}
 
 		if(!ilSession::get('lang') && !$_GET['lang'])
 		{
@@ -540,7 +532,8 @@ class ilLanguage
 	 */
 	function toJS($a_lang_key, ilTemplate $a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		if (!is_object($a_tpl))
 		{
@@ -568,7 +561,8 @@ class ilLanguage
 	 */
 	function toJSMap($a_map, ilTemplate $a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		if (!is_object($a_tpl))
 		{
@@ -614,9 +608,10 @@ class ilLanguage
 	 */
 	protected static function isUsageLogEnabled()
 	{
-		/** @var ilIniFile $ilClientIniFile */
-		global $ilClientIniFile, $ilDB;
-		
+		global $DIC;
+		$ilClientIniFile = $DIC->clientIni();
+		$ilDB = $DIC->database();
+
 		if(!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)) || !$ilClientIniFile instanceof ilIniFile)
 		{
 
@@ -640,13 +635,15 @@ class ilLanguage
 	 */
 	function __destruct()
 	{
-		global $ilDB;
+		global $DIC;
 
 		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
-		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)))
+		if(!$this->usage_log_enabled || !$DIC->isDependencyAvailable("database"))
 		{
 			return;
 		}
+
+		$ilDB = $DIC->database();
 
 		foreach((array)self::$lng_log as $identifier => $module)
 		{

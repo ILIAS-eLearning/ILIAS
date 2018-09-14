@@ -21,7 +21,7 @@ class ilDclContentExporter
 {
 	const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
-	const EXPORT_EXCEL = 'xls';
+	const EXPORT_EXCEL = 'xlsx';
 	const IN_PROGRESS_POSTFIX = '.prog';
 
 	/**
@@ -252,7 +252,7 @@ class ilDclContentExporter
 		$soap_params = array($this->dcl->getRefId());
 		array_push($soap_params, $this->table_id, $format, $filepath);
 
-		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
+		$new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);
 		$client_id = $_COOKIE['ilClientId'];
 
 		// Start cloning process using soap call
@@ -276,7 +276,7 @@ class ilDclContentExporter
 			$ilLog->warning('SOAP clone call failed. Calling clone method manually');
 			require_once('./webservice/soap/include/inc.soap_functions.php');
 			if(method_exists('ilSoapFunctions', $method)) {
-				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $soap_params);
+				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $this->dcl->getRefId(), $this->table_id, $format, $filepath);
 			} else {
 				throw new ilDclException("SOAP call ".$method." does not exists!");
 			}

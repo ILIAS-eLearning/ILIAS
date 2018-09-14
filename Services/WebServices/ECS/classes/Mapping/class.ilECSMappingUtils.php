@@ -45,7 +45,9 @@ class ilECSMappingUtils
 	 */
 	public static function mappingStatusToString($a_status)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt('ecs_node_mapping_status_'.$a_status);
 	}
@@ -53,7 +55,9 @@ class ilECSMappingUtils
 	
 	public static function getCourseMappingFieldInfo()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$field_info = array();
 		$counter = 0;
@@ -79,7 +83,9 @@ class ilECSMappingUtils
 	
 	public static function getCourseMappingFieldSelectOptions()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$options[''] = $lng->txt('select_one');
 		foreach(self::getCourseMappingFieldInfo() as $info)
@@ -211,18 +217,32 @@ class ilECSMappingUtils
 	
 	/**
 	 * Get auth mode selection
+	 * @return array 
 	 */
 	public static function getAuthModeSelection()
 	{
-		$options[0] = $GLOBALS['lng']->txt('select_one');
-		$options['local'] = $GLOBALS['lng']->txt('auth_local');
-		
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+
+
+		$options[0] = $lng->txt('select_one');
+		$options['local'] = $lng->txt('auth_local');
+
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 		foreach(ilLDAPServer::getServerIds() as $sid)
 		{
 			$server = ilLDAPServer::getInstanceByServerId($sid);
 			$options['ldap_'.$server->getServerId()] = 'LDAP (' . $server->getName().')';
 		}
+
+		if($ilSetting->get('shib_active', 0))
+		{
+			$options[ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)] =
+				$lng->txt('auth_shibboleth');
+		}
+
 		return $options;
 	}
 

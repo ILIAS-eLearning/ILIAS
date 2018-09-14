@@ -18,7 +18,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 	
 	public function readRecord(array $a_row)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 				
 		$sql = "SELECT ".$this->getElementId().
 			" FROM ".$this->getSubTableName().
@@ -47,7 +49,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 	
 	public function afterUpdate() 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// :TODO: build diff, save difference
 		
@@ -71,7 +75,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 	
 	public function afterDelete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulate("DELETE FROM ".$this->getSubTableName().
 			" WHERE ".$this->buildPrimaryWhere());		

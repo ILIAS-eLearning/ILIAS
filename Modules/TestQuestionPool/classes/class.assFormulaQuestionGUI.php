@@ -1012,7 +1012,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$user_solution = "";
+		$user_solution = array();
 		if(($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions = array();
@@ -1232,7 +1232,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $pageoutput;
 	}
 
-	public function getSpecificFeedbackOutput($active_id, $pass)
+	public function getSpecificFeedbackOutput($userSolution)
 	{
 		return '';
 	}

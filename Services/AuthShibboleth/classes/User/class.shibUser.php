@@ -151,6 +151,8 @@ class shibUser extends ilObjUser {
 	 */
 	protected function returnNewLoginName() {
 		$login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
+		//remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
+		$login = preg_replace('/\s+/', '', $login);
 		$appendix = null;
 		$login_tmp = $login;
 		while (self::loginExists($login, $this->getId())) {

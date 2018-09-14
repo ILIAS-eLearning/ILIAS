@@ -16,7 +16,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDB
+	 * @return	\ilDBInterface
 	 */
 	public function database() {
 		return $this["ilDB"];
@@ -162,5 +162,62 @@ class Container extends \Pimple\Container {
 	 */
 	public function event() {
 		return $this['ilAppEventHandler'];
+	}
+
+	/**
+	 * @return \ilIniFile
+	 */
+	public function iliasIni() {
+		return $this['ilIliasIniFile'];
+	}
+
+	/**
+	 * @return \ilIniFile
+	 */
+	public function clientIni() {
+		return $this['ilClientIniFile'];
+	}
+
+	/**
+	 *  @return \ilStyleDefinition
+	 */
+	public function systemStyle(){
+		return $this['styleDefinition'];
+	}
+
+	/**
+	 *  @return \ilHelpGUI
+	 */
+	public function help(){
+		return $this['ilHelp'];
+	}
+
+	/**
+	 * Note: Only use isDependencyAvailable if strictly required. The need for this,
+	 * mostly points to some underlying problem needing to be solved instead of using this.
+	 * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064
+	 *
+	 * This is syntactic sugar for executing the try catch statement in the clients code.
+	 * Note that the use of the offsetSet code of the default container should be avoided,
+	 * since knowledge about the containers internal mechanism is injected.
+	 *
+	 * Example:
+	 * //This is bad since the client should not need to know about the id's name
+	 * $DIC->offsetSet("styleDefinition")
+	 *
+	 * //This is better, since the client just needs to know the name defined in the
+	 * //interface of the component
+	 * $DIC->isDependencyAvailable("systemStyle")
+	 *
+	 * @param $name
+	 * @return bool
+	 */
+	public function isDependencyAvailable($name){
+		try{
+			$this->$name();
+		}catch(\InvalidArgumentException $e){
+			return false;
+		}
+		return true;
 	}
 }

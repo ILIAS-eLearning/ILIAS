@@ -35,6 +35,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$this->object->loadFromDb($qId);
 		}
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasInlineFeedback()
+	{
+		return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
+	}
 
 	protected function getAdditionalEditQuestionCommands()
 	{
@@ -333,7 +341,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	 * @param integer $pass
 	 * @return string
 	 */
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		return ''; // question type supports inline answer specific feedback
 	}
@@ -460,7 +468,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		));
 		
 		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $showInlineFeedback);
 		return $pageoutput;
 	}
 
@@ -751,6 +759,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 		$solutionoutput = $solutiontemplate->get();
 		
+		if( $show_feedback && $this->hasInlineFeedback() )
+		{
+			$solutionoutput = $this->buildFocusAnchorHtml() .$solutionoutput;
+		}
+		
 		if (!$show_question_only)
 		{
 			// get page object output
@@ -779,7 +792,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		{
 			if($user_solution[$answer_id])
 			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 				if(strlen($fb))
 				{
 					$template->setCurrentBlock("feedback");
@@ -791,7 +804,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL)
 		{
-			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 			if(strlen($fb))
 			{
 				$template->setCurrentBlock("feedback");
@@ -806,7 +819,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 			if($answer->getCorrectness())
 			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(),0, $answer_id);
 				if(strlen($fb))
 				{
 					$template->setCurrentBlock("feedback");

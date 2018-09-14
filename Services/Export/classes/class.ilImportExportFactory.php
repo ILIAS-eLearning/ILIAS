@@ -16,7 +16,9 @@ class ilImportExportFactory
 		/**
 		 * @var $objDefinition ilObjectDefinition
 		 */
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 
 		if($objDefinition->isPlugin($a_type))
 		{
@@ -59,7 +61,9 @@ class ilImportExportFactory
 		/**
 		 * @var $objDefinition ilObjectDefinition
 		 */
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 
 		if($objDefinition->isPlugin($a_type))
 		{
@@ -83,7 +87,9 @@ class ilImportExportFactory
 		/**
 		 * @var $objDefinition ilObjectDefinition
 		 */
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		$parts = explode('/', $a_component);
 		$component_type = $parts[0];

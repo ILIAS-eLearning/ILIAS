@@ -1157,6 +1157,10 @@ class ilUtil
 
 		$ilErr = $DIC["ilErr"];
 
+		if (null === $a_email || !is_string($a_email)) {
+			return false;
+		}
+
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
@@ -1166,7 +1170,7 @@ class ilUtil
 		{
 			try
 			{
-				$parser    = $mailAddressParserFactory->getParser($a_email);
+				$parser    = $mailAddressParserFactory->getParser((string)$a_email);
 				$addresses = $parser->parse();
 				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}
@@ -1602,6 +1606,8 @@ class ilUtil
 	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
+		$a_sdir = realpath($a_sdir); // See https://www.ilias.de/mantis/view.php?id=23056
+		$a_tdir = realpath($a_tdir); // See https://www.ilias.de/mantis/view.php?id=23056
 		try {
 			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
 			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
@@ -1696,22 +1702,6 @@ class ilUtil
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		return ilObjUser::_getUsersOnline($a_user_id);
-	}
-
-	/**
-	* reads all active sessions from db and returns users that are online
-	* and who have a local role in a group or a course for which the
-    * the current user has also a local role.
-	*
-	* @param	integer	user_id User ID of the current user.
-	* @return	array
-	* @static
-	* 
-	*/
-	public static function getAssociatedUsersOnline($a_user_id)
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
 	}
 
 	/**
@@ -2211,71 +2201,29 @@ class ilUtil
 	public static function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
 		$a_exit_after = true)
 	{
+		global $DIC;
 		// should we fail silently?
 		if(!file_exists($a_file))
 		{
 			return false;
-		}	
+		}
+		$delivery = new ilFileDelivery($a_file);
 
 		if ($isInline) {
-			$disposition = "inline"; // "inline" to view file in browser
+			$delivery->setDisposition(ilFileDelivery::DISP_INLINE);
 		} else {
-			$disposition =  "attachment"; // "attachment" to download to hard disk
-			//$a_mime = "application/octet-stream"; // override mime type to ensure that no browser tries to show the file anyway.
+			$delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
 		}
-	// END WebDAV: Show file in browser or provide it as attachment
 
 		if(strlen($a_mime))
 		{
-			$mime = $a_mime;
-		}
-		else
-		{
-			$mime = "application/octet-stream"; // or whatever the mime type is
-		}
-	// BEGIN WebDAV: Removed broken HTTPS code.
-	// END WebDAV: Removed broken HTTPS code.
-		if ($disposition == "attachment")
-		{
-			header("Cache-control: private");
-		}
-		else
-		{
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Pragma: no-cache");
+			$delivery->setMimeType($a_mime);
 		}
 
-		$ascii_filename = ilUtil::getASCIIFilename($a_filename);
-
-		header("Content-Type: $mime");
-		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
-		header("Content-Description: ".$ascii_filename);
-		
-		// #7271: if notice gets thrown download will fail in IE
-		$filesize = @filesize($a_file);
-		if ($filesize)
-		{
-			header("Content-Length: ".(string)$filesize);
-		}
-
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		#if($_SERVER['HTTPS'])
-		if(ilHTTPS::getInstance()->isDetected())
-		{
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-		}
-
-		header("Connection: close");
-		ilUtil::readFile( $a_file );
-		if ($removeAfterDelivery)
-		{
-			unlink ($a_file);
-		}
-		if ($a_exit_after)
-		{
-			exit;
-		}
+		$delivery->setDownloadFileName($a_filename);
+		$delivery->setConvertFileNameToAsci((bool)!$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
+		$delivery->setDeleteFile($removeAfterDelivery);
+		$delivery->deliver();
 	}
 
 
@@ -4600,7 +4548,7 @@ class ilUtil
 	 */
 	public static function isHTML($a_text)
 	{
-		if( preg_match("/<[^>]*?>/", $a_text) )
+		if( strlen(strip_tags($a_text)) < strlen($a_text) )
 		{
 			return true;
 		}
@@ -4948,7 +4896,7 @@ class ilUtil
 
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
-				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+				$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);

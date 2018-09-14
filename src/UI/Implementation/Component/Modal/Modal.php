@@ -33,7 +33,6 @@ abstract class Modal implements Component\Modal\Modal {
 	 * @var Signal
 	 */
 	protected $close_signal;
-
 	/**
 	 * @var string
 	 */
@@ -113,7 +112,7 @@ abstract class Modal implements Component\Modal\Modal {
 	 * @inheritdoc
 	 */
 	public function withOnLoad(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'ready');
+		return $this->withTriggeredSignal($signal, 'ready');
 	}
 
 	/**

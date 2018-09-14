@@ -116,5 +116,6 @@ interface Standard extends Icon {
 	const BDGA  = 'bdga';	//Badge Settings
 	const WFE  	= 'wfe';	//WorkflowEngine
 	const IASS  = 'iass';	//Individual Assessment
+	const COPA  = 'copa';	//Content Page
 
 }

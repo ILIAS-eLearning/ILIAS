@@ -15,6 +15,7 @@ use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
+use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
 
@@ -47,6 +48,7 @@ class NoUIFactory implements Factory {
 	public function chart() {}
 	public function input() {}
 	public function table() {}
+	public function messageBox() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -66,6 +68,8 @@ class ilLanguageMock extends \ilLanguage {
 	}
 	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
 	}
+	public $lang_module = 'common';
+	public function loadLanguageModule($lang_module) {}
 }
 
 class LoggingJavaScriptBinding implements JavaScriptBinding {
@@ -158,6 +162,12 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 					( $resource_registry
 					, new Render\FSLoader
 						( new DefaultRendererFactory
+							( $ui_factory
+							, $tpl_factory
+							, $lng
+							, $js_binding
+							),
+						  new GlyphRendererFactory
 							( $ui_factory
 							, $tpl_factory
 							, $lng

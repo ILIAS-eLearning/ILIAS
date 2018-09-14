@@ -402,7 +402,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->addHeaderAction();
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
+	public function infoScreenObject()
+	{
+		$this->ctrl->setCmd('showSummary');
+		$this->ctrl->setCmdClass('ilinfoscreengui');
+		$this->infoScreen();
+	}
+
 	/**
 	 * @param ilPropertyFormGUI $a_form
 	 */
@@ -3244,6 +3254,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
+
+		$this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
+			var $elm = $(this);
+			$elm.css({
+				maxWidth: $elm.attr("width") + "px", 
+				maxHeight: $elm.attr("height")  + "px"
+			});
+			$elm.removeAttr("width");
+			$elm.removeAttr("height");
+		});');
 
 		return true;
 	}

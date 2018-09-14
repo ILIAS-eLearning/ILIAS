@@ -30,7 +30,13 @@ class ilUserTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_mode = self::MODE_USER_FOLDER, $a_load_items = true)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		$this->user_folder_id = $a_parent_obj->object->getRefId();
 
@@ -173,7 +179,9 @@ class ilUserTableGUI extends ilTable2GUI
 	 */
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -273,7 +281,9 @@ class ilUserTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->determineOffsetAndOrder();
 		if($this->getMode() == self::MODE_USER_FOLDER)
@@ -455,7 +465,12 @@ class ilUserTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		
 		// Show context filter
@@ -633,7 +648,9 @@ class ilUserTableGUI extends ilTable2GUI
 	 */
 	function addFilterItemByUdfType($id, $type, $a_optional = false, $caption = NULL, $a_options = array())
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if(!$caption)
 		{
@@ -681,7 +698,10 @@ class ilUserTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($user)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
 		

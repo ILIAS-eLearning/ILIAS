@@ -196,7 +196,8 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A  Select Input or a Radio Group in MUST be used in this case.
+	 *      'Order by Name'). A Select Input or a Radio Group in MUST be
+	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
 	 *
@@ -205,6 +206,110 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Tag Input is used to choose a subset amount of tags (techn.: array of strings) out
+	 *     of a finite list of tags. The Tag Field SHOULD be used, whenever it is not required
+	 *     or not possible to display all available options, e.g. because the amount is too high
+	 *     when the options are "all users" or "all tags.
+	 *     Besides the tags to choose from, the user can provide own tags by typing them
+	 *     into the Input (@see Tag::withOptionsAreExtendable ).
+	 *   composition: >
+	 *     The Input is presented as a text-input and prepended by already selected tags
+	 *     presented as texts including a close-button.  (e.g. [ Amsterdam X ] )
+	 *     The input is labeled by the label given.
+	 *     Suggested tags are listed in a dropdown-list beneath the text-input.
+	 *     All mentioned elements are not taken from the UI-Service.
+	 *   effect: >
+	 *     As soon as the user types in the text-input, the Tag Input suggests matching tags from
+	 *     the the given list of tags. Suggestions will appear after a defined
+	 *     amount of characters, one by default.
+	 *     Clicking on one of these tags closes the list and transfers the selected tag into
+	 *     the text-input, displayed as a tag with a close-button.
+	 *     By clicking on a close-button of a already selected tag, this tag will disappear
+	 *     from the Input.
+	 *     All mentioned elements are not taken from the UI-Service.
+	 *
+	 * rivals: >
+	 *     + SelectInput: Currently not part of the UI-Service.
+	 *     + Checkbox Group
+	 *
+	 * context:
+	 *   - Tag Input is used in forms.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A Tag Input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     2: >
+	 *      A Tag Input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one Option has to be selected. A Select MUST be used in this case
+	 *      (Not yet part of the KitchenSink).
+	 *     3: >
+	 *      A Tag Input SHOULD be used whenever a User should be able to extend the list of given options.
+	 *     4: >
+	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
+	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
+	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
+	 *
+	 * ---
+	 * @param string   $label
+	 * @param string   $byline
+	 * @param string[] $tags  List of tags to select from, given as a list of texts
+	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Tag
+	 */
+	public function tag(string $label, array $tags, $byline = null): Tag;
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A password-field is intended for entering passwords.
+	 *   composition: >
+	 *      Text password will render an input-tag with type="password".
+	 *      Optionally, an eye-closed/open glyph is rendered above the input
+	 *      to toggle revelation/masking.
+	 *   effect: >
+	 *      Text password is restricted to one line of text and will
+	 *      mask the entered characters.
+	 *      When configured with the revelation-option, the clear-text
+	 *      password will be shown (respectively hidden) upon clicking the glyph.
+	 *   rivals:
+	 *      text field: >
+	 *          Use a text field for discloseable information (i.e.
+	 *          information that can safely be displayed to an audience)
+	 *
+	 * context: Login-Form and own profile (change Password).
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Password Input MUST be used for passwords.
+	 *   interaction:
+	 *     1: >
+	 *         Password Input SHOULD NOT limit the number of characters.
+	 *     2: >
+	 *         When used for authentication, Password Input MUST NOT reveal any
+	 *         settings by placing constraints on it.
+	 *     3: >
+	 *         On the other hand, when setting a password, Password Input
+	 *         SHOULD enforce strong passwords by appropiate contraints.
+	 *
+	 * ---
+	 *
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Password
+	 */
+	public function password($label, $byline = null);
 
 
 	/**
@@ -235,10 +340,144 @@ interface Factory {
 	 *     2: First Option MAY be selectable when the field is not required.
 	 *
 	 * ---
-	 * @param $label string defines the label.
+	 * @param $label   string defines the label.
 	 * @param $options array<string,string> with the select options as key-value pairs.
-	 * @param $byline string
+	 * @param $byline  string
+	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Select
 	 */
 	public function select($label, array $options, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A textarea is intended for entering multi-line texts.
+	 *   composition: >
+	 *      Textarea fields will render an textarea HTML tag.
+	 *      If a limit is set, a byline about limitation is automatically set.
+	 *   effect: >
+	 *      Textarea inputs are NOT restricted to one line of text.
+	 *      A textarea counts the amount of character input by user and displays the number.
+	 *   rivals:
+	 *      text field: Use a text field if users should input only one line of text.
+	 *      numeric field: Use a numeric field if users should input numbers.
+	 *      alphabet field: >
+	 *          Use an alphabet field if the user should input single letters.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Textarea Input MUST NOT be used for choosing from predetermined options.
+	 *     2: >
+	 *         Textarea input MUST NOT be used for numeric input, a Numeric Field is
+	 *         to be used instead.
+	 *     3: >
+	 *         Textarea Input MUST NOT be used for letter-only input, an Alphabet Field
+	 *         is to be used instead.
+	 *     4: >
+	 *         Textarea Input MUST NOT be used for single-line input, a Text Field
+	 *         is to be used instead.
+	 *     5: >
+	 *         If a min. or max. number of characters is set for textarea, a byline MUST
+	 *         be added stating the number of min. and/or max. characters.
+	 *   interaction:
+	 *     1: >
+	 *         Textarea Input MAY limit the number of characters, if a certain length
+	 *         of text-input may not be exceeded (e.g. due to database-limitations).
+	 *
+	 * ---
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 * @return    \ILIAS\UI\Component\Input\Field\Textarea
+	 */
+	public function textarea($label, $byline = null);
+  
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Radio Input is used to depict a choice of options excluding each other.
+	 *   composition: >
+	 *     The Radio is considered as one field with a label and a number of
+	 *     options. Each option in turn bears a label in form of a positive statement.
+	 *   effect: >
+	 *     If used in a form, each option of a Radio may open a Dependant Section (formerly known
+	 *     as Sub Form).
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Select: >
+	 *       Use Selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, e.g. service behavior,
+	 *       or needs further configuration, stick to radios.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Radio Input SHOULD contain 3 to 5 options.
+	 *       If there are more, the Select Input might be the better option.
+	 *     2: >
+	 *       Radios MAY also be used to select between two options
+	 *       where one is not automatically the inverse of the other
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: The options' labels MUST state something positive.
+	 *     3: >
+	 *        An option's label SHOULD not simply repeat the label of the Radio.
+	 *        A meaningful labeling SHOULD be chosen instead.
+	 *   ordering:
+	 *     1: The presumably most relevant option SHOULD be the first option.
+	 *
+	 * ---
+	 *
+	 * @param    string 	$label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	public function radio($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Multi Select is used to allow users to pick several options from a list.
+	 *   composition: >
+	 *     The Multi Select field will render labeled checkboxes according to given options.
+	 *   effect: >
+	 *
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
+	 *     Select Field: >
+	 *       Use a Select Input when the user's choice is limited to one option
+	 *       or the options are mutually exclusive.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A Multi Select input SHOULD be used when a user has to choose from a finite list of options
+	 *      which cannot be extended by the user's input and where more than one choice can be made.
+	 *     2: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     3: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one option can be selected. A Select MUST be used in this case
+	 *
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: >
+	 *       If the option governs a change of (service-)behavior, the option's
+	 *       label MUST be in form of a positive statement.
+ 	 *
+ 	 * ---
+ 	 * @param string 	$label
+ 	 * @param array<string,string> 	$options 	with the select options as value=>label.
+ 	 * @param string 	$byline
+ 	 *
+ 	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
+ 	 */
+ 	public function multiSelect($label, array $options, $byline = null);
 }

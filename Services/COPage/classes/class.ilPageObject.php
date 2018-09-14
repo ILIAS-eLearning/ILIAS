@@ -783,7 +783,6 @@ abstract class ilPageObject
 		global $DIC;
 
 		$db = $DIC->database();
-
 		$db->manipulateF("UPDATE page_object SET parent_id = %s WHERE page_id = %s".
 			" AND parent_type = %s", array("integer", "integer", "text"),
 			array($a_par_id, $a_pg_id, $a_parent_type));
@@ -4794,7 +4793,7 @@ abstract class ilPageObject
 			}
 		}
 
-		$set = $db->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+		$set = $db->queryF("SELECT count(*) as cnt, lang, page_id, user_id FROM page_history ".
 			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
 			" GROUP BY page_id, user_id, lang ",
 			array("integer", "text", "integer"),
@@ -4864,7 +4863,7 @@ abstract class ilPageObject
 			}
 		}
 
-		$set = $db->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+		$set = $db->queryF("SELECT count(*) as cnt, lang, page_id, user_id FROM page_history ".
 			" WHERE page_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
 			" GROUP BY user_id, page_id, lang ",
 			array("integer", "text", "integer"),

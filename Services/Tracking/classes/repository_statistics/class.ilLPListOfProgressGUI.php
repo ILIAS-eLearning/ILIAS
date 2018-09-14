@@ -36,7 +36,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	 */
 	function executeCommand()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$this->ctrl->setReturn($this, "show");
 		$this->ctrl->saveParameter($this,'user_id',$this->getUserId());
@@ -59,7 +61,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function show()
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		switch($this->getMode())
 		{
@@ -79,9 +83,27 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
  		$this->__showProgressList();
 	}
 
+	/**
+	 * 
+	 */
+	protected function saveProgress()
+	{
+		$info = new ilInfoScreenGUI($this);
+		$info->setContextRefId((int)$this->ref_id);
+		$info->setContextObjId((int)$this->details_obj_id);
+		$info->setContentObjType($this->obj_type);
+		$info->saveProgress(false);
+		$this->ctrl->redirect($this);
+	}
+
 	function details()
 	{
-		global $ilToolbar,$ilCtrl,$rbacsystem, $ilAccess;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		/**
 		 * @var $ilAccess ilAccessHandler
@@ -108,6 +130,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setContextRefId((int)$this->details_id);
+		$info->setContextObjId((int)$this->details_obj_id);
+		$info->setContentObjType($this->obj_type);
+		$info->enableLearningProgress(true);
 		$info->setFormAction($ilCtrl->getFormAction($this));
 		$this->__appendUserInfo($info, $this->tracked_user);		
 		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
@@ -155,7 +181,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showProgressList()
 	{
-		global $ilUser,$ilObjDataCache,$ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
 		
@@ -180,7 +210,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __initUser($a_usr_id = 0)
 	{
-		global $ilUser,$rbacreview,$rbacsystem;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if($_POST['user_id'])
 		{
@@ -219,7 +253,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __initDetails($a_details_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if(!$a_details_id)
 		{

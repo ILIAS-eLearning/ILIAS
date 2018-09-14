@@ -1,6 +1,7 @@
 <?php
 namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -50,10 +51,16 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Modal\Modal $modal) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$options = json_encode(array(
+
+		$replace = "";
+		if ($modal instanceof Component\Modal\RoundTrip) {
+			$replace = $modal->getReplaceSignal();
+		}
+
+		$options = array(
 			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
-			'keyboard' => $modal->getCloseWithKeyboard(),
-		));
+			'keyboard' => $modal->getCloseWithKeyboard()
+		);
 		// ATTENTION, ATTENTION:
 		// with(Additional)OnLoadCode opens a wormhole into the future, where some unspecified
 		// entity magically created an id for the component that can be used to refer to it
@@ -70,10 +77,16 @@ class Renderer extends AbstractComponentRenderer {
 		//   created
 		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
 		//   tempering with the id _here_.
-		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options) {
-			return
-				"$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });".
+		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options, $replace) {
+			$options["url"] = "#{$id}";
+			$options = json_encode($options);
+			$code =
+				"$(document).on('{$show}', function(event, signalData) { il.UI.modal.showModal('{$id}', {$options}, signalData); return false; });".
 				"$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });";
+			if ($replace != "") {
+				$code.= "$(document).on('{$replace}', function(event, signalData) { il.UI.modal.replaceFromSignal('{$id}', signalData);});";
+			}
+			return $code;
 		});
 	}
 
@@ -173,11 +186,18 @@ class Renderer extends AbstractComponentRenderer {
 			}
 		}
 		foreach ($pages as $i => $page) {
+			if ($page instanceof LightboxTextPage) {
+				$tpl->setCurrentBlock('pages');
+				$tpl->touchBlock('page_type_text');
+				$tpl->parseCurrentBlock();
+			}
 			$tpl->setCurrentBlock('pages');
 			$tpl->setVariable('CLASS_ACTIVE', ($i == 0) ? ' active' : '');
 			$tpl->setVariable('TITLE2', htmlentities($page->getTitle(), ENT_QUOTES, 'UTF-8'));
 			$tpl->setVariable('CONTENT', $default_renderer->render($page->getComponent()));
-			$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			if ($page instanceof LightboxDescriptionEnabledPage) {
+				$tpl->setVariable('DESCRIPTION', $page->getDescription());
+			}
 			$tpl->parseCurrentBlock();
 		}
 		if (count($pages) > 1) {

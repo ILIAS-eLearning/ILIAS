@@ -27,7 +27,9 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	public function __construct($a_parent_obj)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->parent_object = $a_parent_obj;
 		$this->lng = $lng;
@@ -56,7 +58,10 @@ class ilDidacticTemplateSettingsGUI
 		/**
 		 * @var ilAccessHandler $ilAccess
 		 */
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -104,7 +109,12 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function overview()
 	{
-		global $ilToolbar,$lng, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -120,7 +130,7 @@ class ilDidacticTemplateSettingsGUI
 		$table->init();
 		$table->parse();
 
-		$GLOBALS['tpl']->setContent($table->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($table->getHTML());
 	}
 
 	/**
@@ -130,7 +140,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function showImportForm(ilPropertyFormGUI $form = NULL)
 	{
-		global $ilTabs, $ilCtrl;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(isset($_REQUEST["tplid"]))
 		{
@@ -149,7 +162,7 @@ class ilDidacticTemplateSettingsGUI
 		{
 			$form = $this->createImportForm();
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 
 	/**
@@ -158,7 +171,9 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function createImportForm()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -183,7 +198,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function importTemplate()
 	{
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -267,7 +285,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function editTemplate(ilPropertyFormGUI $form = null)
 	{
-		global $ilCtrl,$ilTabs;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->setEditTabs("edit");
 
@@ -290,7 +311,7 @@ class ilDidacticTemplateSettingsGUI
 		{
 			$form = $this->initEditTemplate($this->object);
 		}
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 
 	/**
@@ -298,7 +319,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function updateTemplate()
 	{
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -362,7 +386,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function initEditTemplate(ilDidacticTemplateSetting $set)
 	{
-		global $ilCtrl,$objDefinition;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$objDefinition = $DIC['objDefinition'];
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -463,7 +490,7 @@ class ilDidacticTemplateSettingsGUI
 			include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
 			$effrom = new ilRepositorySelector2InputGUI($this->lng->txt("effective_form"), "effective_from", true);
 			//$effrom->setMulti(true);
-			$definition = $GLOBALS['objDefinition'];
+			$definition = $GLOBALS['DIC']['objDefinition'];
 			$white_list = [];
 			foreach($definition->getAllRepositoryTypes() as $type)
 			{
@@ -495,7 +522,11 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function copyTemplate()
 	{
-		global $ilErr, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -522,7 +553,10 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function exportTemplate()
 	{
-		global $ilErr, $ilCtrl;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$_REQUEST['tplid'])
 		{
@@ -551,7 +585,10 @@ class ilDidacticTemplateSettingsGUI
 		/**
 		 * @var ilCtrl $ilCtrl
 		 */
-		global $ilErr, $ilCtrl;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$_REQUEST['tpls'])
 		{
@@ -591,7 +628,7 @@ class ilDidacticTemplateSettingsGUI
 		}
 
 		ilUtil::sendQuestion($this->lng->txt('didactic_confirm_delete_msg'));
-		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
 	}
 
 	/**
@@ -602,7 +639,11 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function deleteTemplates()
 	{
-		global $ilErr, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -633,7 +674,11 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function activateTemplates()
 	{
-		global $ilErr, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -664,7 +709,11 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function deactivateTemplates()
 	{
-		global $ilErr, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
@@ -697,7 +746,10 @@ class ilDidacticTemplateSettingsGUI
 		 * @var ilTabsGUI $ilTabs
 		 * @var ilCtrl $ilCtrl
 		 */
-		global $ilCtrl, $ilTabs;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
 
 
 		$ilTabs->clearTargets();
@@ -731,12 +783,14 @@ class ilDidacticTemplateSettingsGUI
 
 		$form = $this->editImportForm();
 		
-		$GLOBALS['tpl']->setContent($form->getHTML());
+		$GLOBALS['DIC']['tpl']->setContent($form->getHTML());
 	}
 
 	function editImportForm()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -760,7 +814,9 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	function editImport($a_settings)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		$tplid = $_REQUEST['tplid'];
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';

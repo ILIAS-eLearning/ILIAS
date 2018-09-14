@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 
 /**
@@ -17,18 +18,18 @@ class ItemTest extends ILIAS_UI_TestBase {
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Factory();
+		return new I\Component\Item\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Item\\Standard", $f->item()->standard("title"));
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Item\\Standard", $f->standard("title"));
 	}
 
 	public function test_get_title() {
 		$f = $this->getFactory();
-		$c = $f->item()->standard("title");
+		$c = $f->standard("title");
 
 		$this->assertEquals($c->getTitle(), "title");
 	}
@@ -36,7 +37,7 @@ class ItemTest extends ILIAS_UI_TestBase {
 	public function test_with_description() {
 		$f = $this->getFactory();
 
-		$c = $f->item()->standard("title")->withDescription("description");
+		$c = $f->standard("title")->withDescription("description");
 
 		$this->assertEquals($c->getDescription(), "description");
 	}
@@ -45,7 +46,7 @@ class ItemTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 
 		$props = array("prop1" => "val1", "prop2" => "val2");
-		$c = $f->item()->standard("title")->withProperties($props);
+		$c = $f->standard("title")->withProperties($props);
 
 		$this->assertEquals($c->getProperties(), $props);
 	}
@@ -53,11 +54,11 @@ class ItemTest extends ILIAS_UI_TestBase {
 	public function test_with_actions() {
 		$f = $this->getFactory();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
-		$c = $f->item()->standard("title")->withActions($actions);
+		$c = $f->standard("title")->withActions($actions);
 
 		$this->assertEquals($c->getActions(), $actions);
 	}
@@ -68,7 +69,7 @@ class ItemTest extends ILIAS_UI_TestBase {
 
 		$color = $df->color('#ff00ff');
 
-		$c = $f->item()->standard("title")->withColor($color);
+		$c = $f->standard("title")->withColor($color);
 
 		$this->assertEquals($c->getColor(), $color);
 	}
@@ -76,17 +77,27 @@ class ItemTest extends ILIAS_UI_TestBase {
 	public function test_with_lead_image() {
 		$f = $this->getFactory();
 
-		$image = $f->image()->standard("src","str");
+		$image = new I\Component\Image\Image("standard", "src","str");
 
-		$c = $f->item()->standard("title")->withLeadImage($image);
+		$c = $f->standard("title")->withLeadImage($image);
 
 		$this->assertEquals($c->getLead(), $image);
+	}
+
+	public function test_with_lead_icon() {
+		$f = $this->getFactory();
+
+		$icon = new I\Component\Icon\Standard("name", "aria_label", "small", false);
+
+		$c = $f->standard("title")->withLeadIcon($icon);
+
+		$this->assertEquals($c->getLead(), $icon);
 	}
 
 	public function test_with_lead_text() {
 		$f = $this->getFactory();
 
-		$c = $f->item()->standard("title")->withLeadText("text");
+		$c = $f->standard("title")->withLeadText("text");
 
 		$this->assertEquals($c->getLead(), "text");
 	}
@@ -94,7 +105,7 @@ class ItemTest extends ILIAS_UI_TestBase {
 	public function test_with_no_lead() {
 		$f = $this->getFactory();
 
-		$c = $f->item()->standard("title")->withLeadText("text")->withNoLead();
+		$c = $f->standard("title")->withLeadText("text")->withNoLead();
 
 		$this->assertEquals($c->getLead(), null);
 	}
@@ -103,11 +114,11 @@ class ItemTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$actions = $f->dropdown()->standard(array(
-			$f->button()->shy("ILIAS", "https://www.ilias.de"),
-			$f->button()->shy("GitHub", "https://www.github.com")
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
 		));
-		$c = $f->item()->standard("Item Title")
+		$c = $f->standard("Item Title")
 			->withActions($actions)
 			->withProperties(array(
 				"Origin" => "Course Title 1",
@@ -168,12 +179,11 @@ EOT;
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$image = $f->image()->standard("src","str");
+		$image = new I\Component\Image\Image("standard", "src","str");
 
-		$c = $f->item()->standard("title")->withLeadImage($image);
+		$c = $f->standard("title")->withLeadImage($image);
 
 		$html = $r->render($c);
-
 		$expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
@@ -190,6 +200,30 @@ EOT;
 		$this->assertHTMLEquals($expected, $html);
 	}
 
+	public function test_render_lead_icon() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$icon = new I\Component\Icon\Standard("name", "aria_label", "small", false);
+
+		$c = $f->standard("title")->withLeadIcon($icon);
+
+		$html = $r->render($c);
+		$expected = <<<EOT
+<div class="il-item il-std-item ">
+	<div class="media">
+		<div class="media-left">
+			<div class="icon name small" aria-label="aria_label"></div></div>
+		<div class="media-body">		
+			<h5>title</h5>
+		</div>
+	</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected, $html);
+	}
+
 	public function test_render_lead_text_and_color() {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
@@ -197,7 +231,7 @@ EOT;
 
 		$color = $df->color('#ff00ff');
 
-		$c = $f->item()->standard("title")->withColor($color)->withLeadText("lead");
+		$c = $f->standard("title")->withColor($color)->withLeadText("lead");
 
 		$html = $r->render($c);
 
@@ -224,8 +258,8 @@ EOT;
 
 		$color = $df->color('#ff00ff');
 
-		$c = $f->item()->standard($f->button()->shy("ILIAS", "https://www.ilias.de"))
-			->withProperties(array("test" => $f->button()->shy("GitHub", "https://www.github.com")));
+		$c = $f->standard(new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"))
+			->withProperties(array("test" => new I\Component\Button\Shy("GitHub", "https://www.github.com")));
 
 		$html = $r->render($c);
 		$expected = <<<EOT

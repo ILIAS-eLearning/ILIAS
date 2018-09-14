@@ -51,11 +51,13 @@ class ilMailSummaryNotification extends ilMailNotification
 		$res = $this->db->queryF('SELECT mail.* FROM mail_options
 						INNER JOIN mail ON mail.user_id = mail_options.user_id
 						INNER JOIN mail_obj_data ON mail_obj_data.obj_id = mail.folder_id
-						WHERE cronjob_notification = %s
-						AND send_time >= %s
-						AND m_status = %s',
-						array('integer', 'timestamp', 'text'),
-						array(1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread')
+						INNER JOIN usr_data ud ON ud.usr_id = mail.user_id
+						WHERE mail_options.cronjob_notification = %s
+						AND mail.send_time >= %s
+						AND mail.m_status = %s
+						AND ud.active = %s',
+						array('integer', 'timestamp', 'text', 'integer'),
+						array(1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1)
 		);
 		
 		$users = array();

@@ -68,6 +68,18 @@ class ilObjFile extends ilObject2 {
 	 * @var int
 	 */
 	protected $version = 1;
+	/**
+	 * @var string
+	 */
+	protected $action = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_version = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_user_id = null;
 
 
 	/**
@@ -550,6 +562,30 @@ class ilObjFile extends ilObject2 {
 		return $this->filesize;
 	}
 
+	function setAction($a_action) {
+		$this->action = $a_action;
+	}
+
+	function getAction() {
+		return $this->action;
+	}
+
+	function setRollbackVersion($a_rollback_version) {
+		$this->rollback_version = $a_rollback_version;
+	}
+
+	function getRollbackVersion() {
+		return $this->rollback_version;
+	}
+
+	function setRollbackUserId($a_rollback_user_id) {
+		$this->rollback_user_id = $a_rollback_user_id;
+	}
+
+	function getRollbackUserId() {
+		return $this->rollback_user_id;
+	}
+
 
 	/**
 	 * Gets the disk usage of the object in bytes.
@@ -705,7 +741,7 @@ class ilObjFile extends ilObject2 {
 			$ilFileDelivery = new ilFileDelivery($file);
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
-			$ilFileDelivery->setConvertFileNameToAsci(true);
+			$ilFileDelivery->setConvertFileNameToAsci((bool)!$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
 
 			// also returning the 'real' filename if a history file is delivered
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename')
@@ -1234,7 +1270,16 @@ class ilObjFile extends ilObject2 {
 		                                                    . $ilUser->getId());
 
 		// get id of newest entry
-		$new_version = $this->getSpecificVersion($ilDB->getLastInsertId());
+		$entries = ilHistory::_getEntriesForObject($this->getId());
+		$newest_entry_id = 0;
+		foreach($entries as $entry)
+		{
+			if($entry["action"] == "rollback")
+			{
+				$newest_entry_id = $entry["hist_entry_id"];
+			}
+		}
+		$new_version = $this->getSpecificVersion($newest_entry_id);
 
 		// change user back to the original uploader
 		ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);

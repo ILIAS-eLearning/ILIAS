@@ -76,7 +76,10 @@ class ilCalendarSchedule
 	 */
 	public function __construct(ilDate $seed,$a_type,$a_user_id = 0, $a_strict_period = false)
 	{
-	 	global $ilUser,$ilDB;
+	 	global $DIC;
+
+	 	$ilUser = $DIC['ilUser'];
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$this->db = $ilDB;
 
@@ -381,12 +384,16 @@ class ilCalendarSchedule
 	
 	protected function modifyEventByFilters(ilCalendarEntry $event)
 	{
+		global $DIC;
+
+		$logger = $DIC->logger()->cal();
+
 		foreach($this->filters as $filter)
 		{
 			$res = $filter->modifyEvent($event);
 			if(!$res)
 			{
-				ilLoggerFactory::getLogger('crs')->debug('filtering failed for ' . get_class($filter));
+				$logger->info('filtering failed for ' . get_class($filter));
 				return FALSE;
 			}
 			$event = $res;
@@ -418,7 +425,9 @@ class ilCalendarSchedule
 	 */
 	public function getChangedEvents($a_include_subitem_calendars = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($a_include_subitem_calendars);
@@ -465,7 +474,9 @@ class ilCalendarSchedule
 	 */
 	public function getEvents()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());

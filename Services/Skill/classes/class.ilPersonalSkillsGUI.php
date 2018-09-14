@@ -684,7 +684,7 @@ class ilPersonalSkillsGUI
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("skmg_really_remove_skills"));
 			$cgui->setCancel($lng->txt("cancel"), "listSkills");
-			$cgui->setConfirm($lng->txt("delete"), "removeSkills");
+			$cgui->setConfirm($lng->txt("remove"), "removeSkills");
 			
 			foreach ($_POST["id"] as $i)
 			{
@@ -1315,14 +1315,16 @@ class ilPersonalSkillsGUI
 				{
 					$cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
 				}
-				$cd2->setFill(true, "#8080FF");
+				//$cd2->setFill(true, "#dcb496");
+				$cd2->setFill(true, "#FF8080");
+				$cd2->setFill(true, "#cc8466");
 
 				// self evaluation
 				if ($incl_self_eval)
 				{
 					$cd3 = $chart->getDataInstance();
 					$cd3->setLabel($lng->txt("skmg_self_evaluation"));
-					$cd3->setFill(true, "#FF8080");
+					$cd3->setFill(true, "#6ea03c");
 				}
 
 				// fill in data
@@ -1552,7 +1554,10 @@ class ilPersonalSkillsGUI
 			$tpl->touchBlock("stb".$type);
 		}
 
-		$tpl->setVariable("TITLE", $title);
+		if ($title != $lng->txt("skmg_eval_type_".$type))
+		{
+			$tpl->setVariable("TITLE", $title);
+		}
 
 		return $tpl->get();
 	}

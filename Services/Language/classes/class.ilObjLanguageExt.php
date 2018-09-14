@@ -244,7 +244,10 @@ class ilObjLanguageExt extends ilObjLanguage
 	*/
 	public function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
 	{
-		global $ilDB, $ilErr;
+		global $DIC;
+		$ilDB = $DIC->database();
+		/** @var ilErrorHandling $ilErr */
+		$ilErr = $DIC['ilErr'];
 
 		// read the new language file
 		require_once "./Services/Language/classes/class.ilLanguageFile.php";
@@ -304,8 +307,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	*/
 	public static function _getModules($a_lang_key)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$q = "SELECT DISTINCT module FROM lng_data WHERE ".
 			" lang_key = ".$ilDB->quote($a_lang_key, "text")." order by module";
 		$set = $ilDB->query($q);
@@ -329,7 +333,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	*/
 	public static function _getRemarks($a_lang_key, $a_all_changed = false)
 	{
-	    global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 	    $q = "SELECT module, identifier, remarks"
 		.	" FROM lng_data"
@@ -370,7 +376,9 @@ class ilObjLanguageExt extends ilObjLanguage
 			$a_modules = array(), $a_topics = array(),
 			$a_pattern = '', $a_state = '')
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$q = "SELECT * FROM lng_data WHERE".
 			" lang_key = ".$ilDB->quote($a_lang_key, "text")." ";
@@ -420,7 +428,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	*/
 	public static function _saveValues($a_lang_key, $a_values = array(), $a_remarks = array())
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 		
 		if (!is_array($a_values))
 		{
@@ -491,7 +501,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	*/
 	public static function _deleteValues($a_lang_key, $a_values = array())
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		if (!is_array($a_values))
 		{
