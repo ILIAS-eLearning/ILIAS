@@ -1,6 +1,9 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class ilPdfGenerator
 {
 	/**
@@ -14,13 +17,27 @@ class ilPdfGenerator
 	private $logger;
 
 	/**
+	 * @var ilCertificateRpcClientFactoryHelper|null
+	 */
+	private $rpcHelper;
+
+	/**
 	 * @param ilUserCertificateRepository $userCertificateRepository
 	 * @param ilLogger $logger
+	 * @param ilCertificateRpcClientFactoryHelper|null $rpcHelper
 	 */
-	public function __construct(ilUserCertificateRepository $userCertificateRepository, ilLogger $logger)
-	{
+	public function __construct(
+		ilUserCertificateRepository $userCertificateRepository,
+		ilLogger $logger,
+		ilCertificateRpcClientFactoryHelper $rpcHelper = null
+	) {
 		$this->certificateRepository = $userCertificateRepository;
 		$this->logger                = $logger;
+
+		if (null === $rpcHelper) {
+			$rpcHelper = new ilCertificateRpcClientFactoryHelper();
+		}
+		$this->rpcHelper = $rpcHelper;
 	}
 
 	/**
@@ -28,7 +45,7 @@ class ilPdfGenerator
 	 * @return mixed
 	 * @throws ilException
 	 */
-	public function generate($userCertificateId)
+	public function generate(int $userCertificateId)
 	{
 		$certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
 
@@ -41,7 +58,7 @@ class ilPdfGenerator
 	 * @return mixed
 	 * @throws ilException
 	 */
-	public function generateCurrentActiveCertificate($userId, $objId) : string
+	public function generateCurrentActiveCertificate(int $userId, int $objId) : string
 	{
 		$certificate = $this->certificateRepository->fetchActiveCertificate($userId, $objId);
 
@@ -52,11 +69,10 @@ class ilPdfGenerator
 	 * @param $certificate
 	 * @return mixed
 	 */
-	private function createPDFScalar($certificate) : string
+	private function createPDFScalar(ilUserCertificate $certificate) : string
 	{
 		$certificateContent = $certificate->getCertificateContent();
-		$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
-			->ilFO2PDF($certificateContent);
+		$pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);
 
 		return $pdf_base64->scalar;
 	}
