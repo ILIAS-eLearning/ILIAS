@@ -8,16 +8,14 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 {
 	public function testDeleteTemplateAndUseOldThumbnail()
 	{
-		$filesystemMock = $this->getMockBuilder('\ILIAS\Filesystem\Filesystem')
-			->getMock();
-
-		$filesystemMock->expects($this->atLeastOnce())->method('copy');
-
 		$templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$templateRepositoryMock->method('deleteTemplate')->with(100, 2000);
+		$templateRepositoryMock
+			->method('deleteTemplate')
+			->with(100, 2000);
+
 		$templateRepositoryMock->method('activatePreviousCertificate')
 			->with(2000)
 			->willReturn(new ilCertificateTemplate(
@@ -33,10 +31,17 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 				'samples/background.jpg'
 			));
 
+		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+			->getMock();
+
+		$utilHelper
+			->expects($this->once())
+			->method('convertImage');
+
 		$action = new ilCertificateTemplateDeleteAction(
 			$templateRepositoryMock,
-			$filesystemMock,
-			__DIR__
+			__DIR__,
+			$utilHelper
 		);
 
 		$action->delete(100, 2000);
@@ -44,17 +49,14 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate()
 	{
-		$filesystemMock = $this->getMockBuilder('\ILIAS\Filesystem\Filesystem')
-			->getMock();
-
-		$filesystemMock->expects($this->never())
-			->method('copy');
-
 		$templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$templateRepositoryMock->method('deleteTemplate')->with(100, 2000);
+		$templateRepositoryMock
+			->method('deleteTemplate')
+			->with(100, 2000);
+
 		$templateRepositoryMock->method('activatePreviousCertificate')
 			->with(2000)
 			->willReturn(new ilCertificateTemplate(
@@ -69,10 +71,17 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 				true
 			));
 
+		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+			->getMock();
+
+		$utilHelper
+			->expects($this->never())
+			->method('convertImage');
+
 		$action = new ilCertificateTemplateDeleteAction(
 			$templateRepositoryMock,
-			$filesystemMock,
-			__DIR__
+			__DIR__,
+			$utilHelper
 		);
 
 		$action->delete(100, 2000);

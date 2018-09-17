@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -12,34 +14,33 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	private $templateRepository;
 
 	/**
-	 * @var \ILIAS\Filesystem\Filesystem
-	 */
-	private $fileSystem;
-
-	/**
 	 * @var string
 	 */
 	private $rootDirectory;
 
 	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
-	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
 	 * @param string $rootDirectory
+	 * @param ilCertificateUtilHelper|null $utilHelper
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
-		\ILIAS\Filesystem\Filesystem $filesystem = null,
-		string $rootDirectory = CLIENT_WEB_DIR
+		string $rootDirectory = CLIENT_WEB_DIR,
+		ilCertificateUtilHelper $utilHelper = null
 	) {
 		$this->templateRepository = $templateRepository;
 
-		if (null ===$filesystem) {
-			global $DIC;
-			$filesystem = $DIC->filesystem();
-		}
-		$this->fileSystem = $filesystem;
-
 		$this->rootDirectory = $rootDirectory;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
 	}
 
 	/**
@@ -49,6 +50,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
 	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
 	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 */
 	public function delete($templateTemplateId, $objectId)
 	{
@@ -60,20 +62,21 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
 	/**
 	 * @param $previousTemplate
-	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
-	private function overwriteBackgroundImageThumbnail($previousTemplate)
+	private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate)
 	{
 		$relativePath = $previousTemplate->getBackgroundImagePath();
-		$absoluteImagePath = $this->rootDirectory . $relativePath;
 
 		if (null !== $relativePath && '' !== $relativePath) {
-			$pathInfo = pathinfo($absoluteImagePath);
+			$pathInfo = pathinfo($relativePath);
 			$newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
 
-			$this->fileSystem->copy($absoluteImagePath, $newFilePath);
+			$this->utilHelper->convertImage(
+				$this->rootDirectory . $relativePath,
+				$this->rootDirectory . $newFilePath,
+				'JPEG',
+				100
+			);
 		}
 	}
 }
