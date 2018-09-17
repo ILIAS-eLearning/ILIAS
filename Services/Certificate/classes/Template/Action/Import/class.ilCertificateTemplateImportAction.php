@@ -40,13 +40,31 @@ class ilCertificateTemplateImportAction
 	private $filesystem;
 
 	/**
+	 * @var ilCertificateObjectHelper|null
+	 */
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateUtilHelper
+	 */
+	private $utilHelper;
+
+	/**
+	 * @var string
+	 */
+	private $installationID;
+
+	/**
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
 	 * @param ilLogger $logger
 	 * @param Filesystem|null $filesystem
 	 * @param ilCertificateTemplateRepository|null $templateRepository
-	 * @param ilCertificateTemplateImportAction|null $importAction
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilDBInterface|null $database
+	 * @param string $installationID
 	 */
 	public function __construct(
 		int $objectId,
@@ -55,28 +73,44 @@ class ilCertificateTemplateImportAction
 		ilLogger $logger,
 		Filesystem $filesystem,
 		ilCertificateTemplateRepository $templateRepository = null,
-		ilCertificateTemplateImportAction $importAction = null
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateUtilHelper $utilHelper = null,
+		ilDBInterface $database = null
 	) {
-		global $DIC;
-
 		$this->objectId = $objectId;
 		$this->certificatePath = $certificatePath;
 
 		$this->logger = $logger;
-		$database = $DIC->database();
+		if (null === $database) {
+			global $DIC;
+			$database = $DIC->database();
+		}
 
 		$this->filesystem = $filesystem;
 
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
+
 		if (null === $templateRepository) {
 			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 		}
 		$this->templateRepository = $templateRepository;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
 	}
 
 	/**
 	 * @param string $zipFile
 	 * @param string $filename
+	 * @param string $rootDir
+	 * @param string $iliasVerision
 	 * @return bool
 	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
 	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -84,25 +118,36 @@ class ilCertificateTemplateImportAction
 	 * @throws ilDatabaseException
 	 * @throws ilException
 	 */
-	public function import(string $zipFile, string $filename)
-	{
-		$importPath = $this->createArchiveDirectory();
-		if (!ilUtil::moveUploadedFile($zipFile, $filename, CLIENT_WEB_DIR . $importPath . $filename)) {
+	public function import(
+		string $zipFile,
+		string $filename,
+		string $rootDir = CLIENT_WEB_DIR,
+		string $iliasVerision = ILIAS_VERSION_NUMERIC,
+		string $installationID = IL_INST_ID
+	) {
+		$importPath = $this->createArchiveDirectory($installationID);
+
+		$result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
+
+		if (!$result) {
 			$this->filesystem->deleteDir($importPath);
 			return false;
 		}
 
-		ilUtil::unzip(CLIENT_WEB_DIR . $importPath . $filename, true);
+		$this->utilHelper->unzip(
+			$rootDir . $importPath . $filename,
+			true
+		);
 
 		$subDirectoryName = str_replace('.zip', '', strtolower($filename)) . '/';
-		$subDirectoryAbsolutePath = CLIENT_WEB_DIR . $importPath . $subDirectoryName;
+		$subDirectoryAbsolutePath = $rootDir . $importPath . $subDirectoryName;
 
 		$copyDirectory = $importPath;
 		if (is_dir($subDirectoryAbsolutePath)) {
 			$copyDirectory = $subDirectoryAbsolutePath;
 		}
 
-		$directoryInformation = ilUtil::getDir($copyDirectory);
+		$directoryInformation = $this->utilHelper->getDir($copyDirectory);
 
 		$xmlFiles = 0;
 		foreach ($directoryInformation as $file) {
@@ -131,8 +176,8 @@ class ilCertificateTemplateImportAction
 					$xsl = $this->filesystem->read($filePath);
 					// as long as we cannot make RPC calls in a given directory, we have
 					// to add the complete path to every url
-					$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
-						$basePath = rtrim(dirname($this->getBackgroundImageDirectory()), '/');
+					$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) use ($rootDir) {
+						$basePath = rtrim(dirname($this->getBackgroundImageDirectory($rootDir)), '/');
 						$fileName = basename($matches[1]);
 
 						return 'url(' . $basePath . '/' . $fileName . ')';
@@ -140,12 +185,12 @@ class ilCertificateTemplateImportAction
 
 					$template = new ilCertificateTemplate(
 						$this->objectId,
-						ilObject::_lookupType($this->objectId),
+						$this->objectHelper->lookupType($this->objectId),
 						$xsl,
 						md5($xsl),
 						json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
 						$newVersion,
-						ILIAS_VERSION_NUMERIC,
+						$iliasVerision,
 						time(),
 						true,
 						$backgroundImagePath
@@ -156,16 +201,17 @@ class ilCertificateTemplateImportAction
 				else if (strpos($file['entry'], '.jpg') !== false) {
 					$newVersion = $currentVersion + 1;
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-					$newPath = $this->certificatePath . $newBackgroundImageName;
+					$newPath = $rootDir . $this->certificatePath . $newBackgroundImageName;
 					$this->filesystem->copy($filePath, $newPath);
 
 					$backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
 					// upload of the background image, create a thumbnail
 
 					$backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
-					ilUtil::convertImage(
-						CLIENT_WEB_DIR . $newPath,
-						CLIENT_WEB_DIR . $backgroundImageThumbPath,
+
+					$this->utilHelper->convertImage(
+						$newPath,
+						$rootDir . $backgroundImageThumbPath,
 						'JPEG',
 						100
 					);
@@ -173,22 +219,24 @@ class ilCertificateTemplateImportAction
 			}
 		}
 
-		ilUtil::delDir($importPath);
+		$this->utilHelper->delDir($importPath);
+
 		return true;
 	}
 
 	/**
 	 * Creates a directory for a zip archive containing multiple certificates
 	 *
+	 * @param string $installationID
 	 * @return string The created archive directory
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
-	private function createArchiveDirectory() : string
+	private function createArchiveDirectory(string $installationID) : string
 	{
-		$type = ilObject::_lookupType($this->objectId);
+		$type = $this->objectHelper->lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
-		$dir = $this->certificatePath . time() . '__' . IL_INST_ID . '__' . $type . '__' . $certificateId . '__certificate/';
+		$dir = $this->certificatePath . time() . '__' . $installationID . '__' . $type . '__' . $certificateId . '__certificate/';
 		$this->filesystem->createDir($dir);
 
 		return $dir;
@@ -196,14 +244,13 @@ class ilCertificateTemplateImportAction
 
 
 	/**
-	 * @param bool $asRelative
-	 * @param string $backgroundImagePath
+	 * @param string $rootDir
 	 * @return mixed|string
 	 */
-	private function getBackgroundImageDirectory() : string
+	private function getBackgroundImageDirectory(string $rootDir) : string
 	{
 		return str_replace(
-			array(CLIENT_WEB_DIR, '//'),
+			array($rootDir, '//'),
 			array('[CLIENT_WEB_DIR]', '/'),
 			''
 		);
