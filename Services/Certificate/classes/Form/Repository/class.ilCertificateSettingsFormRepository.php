@@ -204,7 +204,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		}
 		else {
 			ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-			$bgimage->setImage(ilWACSignedPath::signFile($certificateObject->getBackgroundImageThumbPathWeb()));
+			$thumbnailPath = $certificateObject->getBackgroundImageThumbPathWeb();
+			if (!file_exists($thumbnailPath)) {
+				$thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb();
+			}
+			$bgimage->setImage(ilWACSignedPath::signFile($thumbnailPath));
 		}
 
 		$form->addItem($bgimage);
