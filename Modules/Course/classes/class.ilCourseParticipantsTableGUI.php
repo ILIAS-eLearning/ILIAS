@@ -429,8 +429,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 
 		$usr_data = ilUserQuery::getUserListData(
-			$this->getOrderField(),
-			$this->getOrderDirection(),
+			'',
+			'',
 			0,
 			9999,
 			$this->current_filter['login'],
