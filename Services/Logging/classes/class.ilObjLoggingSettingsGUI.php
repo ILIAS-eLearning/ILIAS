@@ -326,8 +326,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 			ilLoggerFactory::getLogger('log')->debug($component_id);
 			ilLoggerFactory::getLogger('log')->debug($value);
 			include_once './Services/Logging/classes/class.ilLogComponentLevel.php';
-			$level = new ilLogComponentLevel($component_id);
-			$level->setLevel($value);
+			$level = new ilLogComponentLevel($component_id, $value);
 			$level->update();
 		}
 		
