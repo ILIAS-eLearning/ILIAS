@@ -17,7 +17,7 @@ class ilXlsFoParser
 	private $pageFormats;
 
 	/**
-	 * @var XmlChecker
+	 * @var ilXMLChecker
 	 */
 	private $xmlChecker;
 
@@ -27,7 +27,7 @@ class ilXlsFoParser
 	private $utilHelper;
 
 	/**
-	 * @var ilCertficateXlstProcess|ilCertificateXlstProcess|null
+	 * @var ilCertificateXlstProcess|null
 	 */
 	private $xlstProcess;
 
@@ -73,7 +73,7 @@ class ilXlsFoParser
 		$this->utilHelper = $utilHelper;
 
 		if (null === $xlstProcess) {
-			$xlstProcess = new ilCertficateXlstProcess();
+			$xlstProcess = new ilCertificateXlstProcess();
 		}
 		$this->xlstProcess = $xlstProcess;
 
