@@ -104,6 +104,10 @@ class ilBadgeProfileGUI
 
 	public function listCertificates()
 	{
+		if (!$this->certificateSettings->get('active')) {
+			return $this->ctrl->redirect($this,"listBadges");
+		}
+
 		$provider = new ilUserCertificateRepository($this->database, $this->logger);
 
 		$table = new ilUserCertificateTableGUI($this, 'show');
