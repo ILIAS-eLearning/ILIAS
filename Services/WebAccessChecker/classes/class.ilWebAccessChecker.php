@@ -152,10 +152,17 @@ class ilWebAccessChecker {
 
 			return false;
 		} else {
-			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
 
-			return true;
-		}
+            if($this->getPathObject()->fileExists()) {
+                $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
+
+                return true;
+            } else {
+                $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
+
+                return false;
+            }
+        }
 	}
 
 
