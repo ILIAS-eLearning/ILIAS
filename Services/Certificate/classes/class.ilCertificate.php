@@ -316,8 +316,15 @@ class ilCertificate
 	{
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
 
-		if (file_exists(CLIENT_WEB_DIR . $template->getBackgroundImagePath())
-			&& (filesize(CLIENT_WEB_DIR . $template->getBackgroundImagePath()) > 0)
+		$backgroundImagePath = $template->getBackgroundImagePath();
+		if ($backgroundImagePath === '') {
+			return false;
+		}
+
+		$absolutePath = CLIENT_WEB_DIR . $backgroundImagePath;
+		
+		if (file_exists($absolutePath)
+			&& (filesize($absolutePath) > 0)
 		) {
 			return true;
 		}

@@ -69,11 +69,15 @@ class ilCertificateCourseLearningProgressEvaluation
 		foreach ($courseObjectIds as $courseObjectId) {
 			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
 
-			if (false === $subItems) {
+			if (false === $subItems || $subItems === null) {
 				continue;
 			}
 
 			$subItems = json_decode($subItems);
+
+			if (!is_array($subItems)) {
+				continue;
+			}
 
 			$subitem_obj_ids = array();
 			foreach($subItems as $subItemRefId) {

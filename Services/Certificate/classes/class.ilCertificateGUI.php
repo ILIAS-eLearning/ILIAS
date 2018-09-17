@@ -436,6 +436,12 @@ class ilCertificateGUI
 				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
 
 				$backgroundImagePath = $certificate->getBackgroundImagePath();
+
+				if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
+					$backgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+					$backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
+				}
+
 				if (count($_POST)) {
 					// handle the background upload
 					$temporaryFileName = $_FILES['background']['tmp_name'];
