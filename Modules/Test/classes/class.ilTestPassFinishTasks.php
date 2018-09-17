@@ -55,7 +55,7 @@ class ilTestPassFinishTasks
 		);
 		
 		$caller = $this->getCaller();
-		$lp = ilLPStatusWrapper::_determineStatus($this->obj_id, $this->testSession->getUserId());
+		$lp = ilLPStatus::_lookupStatus($this->obj_id, $this->testSession->getUserId());
 		$debug = "finPass={$this->testSession->getLastFinishedPass()} / Lp={$lp}";
 		
 		ilObjAssessmentFolder::_addLog( $this->testSession->getUserId(), $this->obj_id,
