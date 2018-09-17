@@ -19,7 +19,7 @@ of the planned features of this service.
 * Certificates can be downloaded by users(based on
   the certificate template)
 
-### v2.0.0 (01-10-2018)
+### v2.0.0 (??-10-2018)
 
 * Persist templates and certificates in the database
 * Visioning of templates and certificates
@@ -28,6 +28,8 @@ of the planned features of this service.
 * Eliminate the need for Certificate adapters
 * User Interface with list of achieved certificates
 * Elimination of unused methods and code
+* (???) Alternative concept to queuing and process via
+  cron job to avoid idle times
 
 ### v2.1.0
 
