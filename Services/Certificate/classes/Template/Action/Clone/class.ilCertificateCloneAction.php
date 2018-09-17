@@ -58,7 +58,7 @@ class ilCertificateCloneAction
 		$this->templateRepository = $templateRepository;
 
 		if (null === $logger) {
-			$logger = ilLoggerFactory::getLogger('cert');
+			$logger = $DIC->logger()->cert();
 		}
 		$this->logger = $logger;
 

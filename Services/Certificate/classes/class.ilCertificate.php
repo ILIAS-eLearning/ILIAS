@@ -138,7 +138,7 @@ class ilCertificate
 
 		$this->certificatePath = $certificatePath;
 
-		$logger = ilLoggerFactory::getLogger('cert');
+		$logger = $DIC->logger()->cert();
 
 		if ($templateRepository === null) {
 			$templateRepository = new ilCertificateTemplateRepository($DIC->database(), $logger);

@@ -35,7 +35,7 @@ class ilCertificateGUIFactory
 		$type = $object->getType();
 		$objectId = $object->getId();
 
-		$logger = ilLoggerFactory::getLogger('cert');
+		$logger = $DIC->logger()->cert();
 
 		$templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
 		$deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);

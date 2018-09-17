@@ -403,25 +403,29 @@ class ilCertificateMigrationJob extends AbstractJob
      */
     protected function logMessage(string $message, string $type = 'info')
     {
+    	global $DIC;
+
+    	$logger = $DIC->logger()->cert();
+
         $m_prefix = '[BackgroundTask][MigrationJob] ';
         switch ($type) {
             case 'critical':
-                \ilLoggerFactory::getLogger('cert')->critical($m_prefix . $message);
+				$logger->critical($m_prefix . $message);
                 break;
             case 'error':
-                \ilLoggerFactory::getLogger('cert')->error($m_prefix . $message);
+				$logger->error($m_prefix . $message);
                 break;
             case 'warning':
-                \ilLoggerFactory::getLogger('cert')->warning($m_prefix . $message);
+				$logger->warning($m_prefix . $message);
                 break;
             case 'notice':
-                \ilLoggerFactory::getLogger('cert')->notice($m_prefix . $message);
+				$logger->notice($m_prefix . $message);
                 break;
             case 'info':
-                \ilLoggerFactory::getLogger('cert')->info($m_prefix . $message);
+				$logger->info($m_prefix . $message);
                 break;
             case 'debug':
-                \ilLoggerFactory::getLogger('cert')->debug($m_prefix . $message);
+				$logger->debug($m_prefix . $message);
                 break;
         }
     }

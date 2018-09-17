@@ -80,7 +80,7 @@ class ilCertificateCron extends \ilCronJob
 		$database = $DIC->database();
 
 		if (null === $this->logger) {
-			$this->logger = ilLoggerFactory::getLogger('cert');
+			$this->logger = $DIC->logger()->cert();
 		}
 
 		if (null === $this->queueRepository) {
