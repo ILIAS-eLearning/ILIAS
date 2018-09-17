@@ -8,7 +8,10 @@ class ilCertificateCron extends \ilCronJob
 {
 	const DEFAULT_SCHEDULE_HOURS = 1;
 
-	/** @var \ilCertificateQueueRepository */
+	/** @var \ilLanguage */
+	protected $lng;
+
+	/** \@var ilCertificateQueueRepository */
 	private $queueRepository;
 
 	/** @var \ilCertificateTemplateRepository */
@@ -38,11 +41,36 @@ class ilCertificateCron extends \ilCronJob
 		ilLogger $logger = null
 	)
 	{
+		global $DIC;
+
 		$this->queueRepository = $queueRepository;
 		$this->templateRepository = $templateRepository;
 		$this->userRepository = $userRepository;
 		$this->valueReplacement = $valueReplacement;
 		$this->logger = $logger;
+
+		if ($DIC) {
+			if (isset($DIC['lng'])) {
+				$this->lng = $DIC->language();
+				$this->lng->loadLanguageModule('certificate');
+			}
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitle()
+	{
+		return $this->lng->txt('cert_cron_task_title');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDescription()
+	{
+		return $this->lng->txt('cert_cron_task_desc');
 	}
 
 	public function init()

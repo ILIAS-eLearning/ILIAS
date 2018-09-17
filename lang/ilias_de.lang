@@ -1809,6 +1809,8 @@ certificate#:#download_certificate#:#Zertifikat herunterladen
 certificate#:#cert_form_sec_availability#:#Verfügbarkeit
 certificate#:#cert_form_sec_layout#:#Layout und Text
 certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
+certificate#:#cert_cron_task_title#:#Zertifikate
+certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 common#:#chat_chatviewer#:#Chatviewer
 chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
