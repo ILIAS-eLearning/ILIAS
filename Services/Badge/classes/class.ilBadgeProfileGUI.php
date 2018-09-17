@@ -88,17 +88,17 @@ class ilBadgeProfileGUI
 		$nextClass = $ilCtrl->getNextClass();
 		switch($nextClass)
 		{
-            case "ilcertificatemigrationgui":
-                include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
-                $cert_migration_gui = new \ilCertificateMigrationGUI();
-                $ret = $ilCtrl->forwardCommand($cert_migration_gui);
-                /** @var ilTemplate $tpl */
-                $tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
-                $this->setTabs();
-                $this->listCertificates(true);
-                break;
+			case "ilcertificatemigrationgui":
+				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->setTabs();
+				$this->listCertificates(true);
+				break;
 
-            default:
+			default:
 				$this->setTabs();
 				$cmd = $ilCtrl->getCmd("listBadges");
 				$this->$cmd();
@@ -133,17 +133,17 @@ class ilBadgeProfileGUI
 			);
 		}
 
-        if (!$a_migration_started) {
-            $cert_ui_elements = new \ilCertificateMigrationUIElements();
-            $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-            $messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
-            $this->tpl->setCurrentBlock('mess');
-            $this->tpl->setVariable('MESSAGE', $messagebox);
-            $this->tpl->parseCurrentBlock('mess');
-        }
+		if (!$a_migration_started) {
+			$cert_ui_elements = new \ilCertificateMigrationUIElements();
+			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messagebox);
+			$this->tpl->parseCurrentBlock('mess');
+		}
 
 
-        $table->setData($data);
+		$table->setData($data);
 
 		$this->tpl->setContent(	$table->getHTML());
 	}
