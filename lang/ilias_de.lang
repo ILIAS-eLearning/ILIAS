@@ -14292,3 +14292,4 @@ cert#:#certificate_migration_confirm_start#:#Migration der Zertifikate starten?
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Los
+badge#:#user_certificates#:#Zertifikate
