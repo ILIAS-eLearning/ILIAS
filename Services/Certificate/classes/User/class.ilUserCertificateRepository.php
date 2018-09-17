@@ -235,8 +235,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		));
 
 		$sql = 'SELECT * FROM user_certificates
-WHERE user_id = ' . $userId . '
-AND obj_id = ' . $objId;
+WHERE user_id = ' . $this->database->quote($userId , 'integer') . '
+AND obj_id = ' . $this->database->quote($objId , 'integer');
 
 		$query = $this->database->query($sql);
 
