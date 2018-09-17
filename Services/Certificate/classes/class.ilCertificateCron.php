@@ -1,6 +1,9 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class ilCertificateCron extends ilCronJob
 {
 	const DEFAULT_SCHEDULE_HOURS = 1;
@@ -46,39 +49,44 @@ class ilCertificateCron extends ilCronJob
 		ilLogger $logger = null
 	)
 	{
+		$this->queueRepository = $queueRepository;
+		$this->templateRepository = $templateRepository;
+		$this->userRepository = $userRepository;
+		$this->valueReplacement = $valueReplacement;
+		$this->logger = $logger;
+	}
+
+	public function init()
+	{
 		global $DIC;
 
 		$database = $DIC->database();
 
-
-		if (null === $logger) {
-			$logger = ilLoggerFactory::getLogger('cert');
+		if (null === $this->logger) {
+			$this->logger = ilLoggerFactory::getLogger('cert');
 		}
-		$this->logger = $logger;
 
-		if (null === $queueRepository) {
-			$queueRepository = new ilCertificateQueueRepository($database, $logger);
+		if (null === $this->queueRepository) {
+			$this->queueRepository = new ilCertificateQueueRepository($database, $this->logger);
 		}
-		$this->queueRepository = $queueRepository;
 
-		if (null === $templateRepository) {
-			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
+		if (null === $this->templateRepository) {
+			$this->templateRepository = new ilCertificateTemplateRepository($database, $this->logger);
 		}
-		$this->templateRepository = $templateRepository;
 
-		if (null === $userRepository) {
-			$userRepository = new ilUserCertificateRepository($database, $logger);
+		if (null === $this->userRepository) {
+			$this->userRepository = new ilUserCertificateRepository($database, $this->logger);
 		}
-		$this->userRepository = $userRepository;
 
-		if (null === $valueReplacement) {
-			$valueReplacement = new ilCertificateValueReplacement();
+		if (null === $this->valueReplacement) {
+			$this->valueReplacement = new ilCertificateValueReplacement();
 		}
-		$this->valueReplacement = $valueReplacement;
 	}
 
 	public function run()
 	{
+		$this->init();
+
 		$this->logger->info('START - Begin with cron job to create user certificates from templates');
 
 		$entries = $this->queueRepository->getAllEntriesFromQueue();
