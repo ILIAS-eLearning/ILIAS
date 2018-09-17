@@ -317,8 +317,7 @@ SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND  user_id = ' . $this->database->quote($userId, 'integer');
 
-		$query = $this->database->query($sql);
-		$this->database->manipulate($query);
+		$this->database->manipulate($sql);
 
 		$this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 	}

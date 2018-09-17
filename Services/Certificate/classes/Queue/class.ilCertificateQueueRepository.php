@@ -57,9 +57,7 @@ class ilCertificateQueueRepository
 
 		$sql = 'DELETE FROM certificate_cron_queue WHERE id = ' . $this->database->quote($id, 'integer');
 
-		$query = $this->database->query($sql);
-
-		$this->database->manipulate($query);
+		$this->database->manipulate($sql);
 
 		$this->logger->info(sprintf('END - Entry(id: "%s") deleted from queue', $id));
 	}
