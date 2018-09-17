@@ -1,7 +1,9 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Collection of basic placeholder values that can be used
+ * @author  Niels Theen <ntheen@databay.de>
  */
 class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
