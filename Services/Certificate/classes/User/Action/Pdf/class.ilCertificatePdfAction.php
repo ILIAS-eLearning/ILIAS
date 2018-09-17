@@ -26,10 +26,13 @@ class ilCertificatePdfAction
 	public function __construct(
 		ilLogger $logger,
 		ilPdfGenerator $pdfGenerator,
-		ilCertificateUtilHelper $ilUtilHelper
+		ilCertificateUtilHelper $ilUtilHelper = null
 	) {
 		$this->logger       = $logger;
 		$this->pdfGenerator = $pdfGenerator;
+		if (null == $ilUtilHelper) {
+			$ilUtilHelper = new ilCertificateUtilHelper();
+		}
 		$this->ilUtilHelper = $ilUtilHelper;
 	}
 
