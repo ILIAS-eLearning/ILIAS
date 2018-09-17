@@ -206,7 +206,7 @@ class ilBadgeProfileGUI
 			$ilTabs->activateTab($a_active);
 		}
 
-		if ($this->certificateSettings->get(active)) {
+		if ($this->certificateSettings->get('active')) {
 			$ilTabs->addTab('certificate',
 				$lng->txt('certificate'),
 				$ilCtrl->getLinkTarget($this, "listCertificates")
