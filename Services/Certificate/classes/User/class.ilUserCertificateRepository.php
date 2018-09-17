@@ -318,7 +318,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND  user_id = ' . $this->database->quote($userId, 'integer');
 
 		$query = $this->database->query($sql);
-		$this->database->execute($query);
+		$this->database->manipulate($query);
 
 		$this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 	}

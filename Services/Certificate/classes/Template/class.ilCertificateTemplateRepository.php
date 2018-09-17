@@ -222,7 +222,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
 		$query = $this->database->query($sql);
 
-		$this->database->execute($query);
+		$this->database->manipulate($query);
 
 		$this->logger->info(sprintf('END - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
 	}
@@ -254,7 +254,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
 		$query = $this->database->query($sql);
 
-		$this->database->execute($query);
+		$this->database->manipulate($query);
 
 		$this->logger->info(sprintf('END - Previous certificate updated for object: "%s"', $objId));
 
@@ -328,7 +328,7 @@ SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
 		$query = $this->database->query($sql);
-		$this->database->execute($query);
+		$this->database->manipulate($query);
 
 		$this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
 	}

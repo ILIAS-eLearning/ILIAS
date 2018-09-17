@@ -59,7 +59,7 @@ class ilCertificateQueueRepository
 
 		$query = $this->database->query($sql);
 
-		$this->database->execute($query);
+		$this->database->manipulate($query);
 
 		$this->logger->info(sprintf('END - Entry(id: "%s") deleted from queue', $id));
 	}
