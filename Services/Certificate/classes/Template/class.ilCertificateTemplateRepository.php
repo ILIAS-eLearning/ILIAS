@@ -37,7 +37,8 @@ class ilCertificateTemplateRepository
 		$this->database = $database;
 
 		if (null === $logger) {
-			$logger = $logger = ilLoggerFactory::getLogger('cert');
+			global $DIC;
+			$logger = $logger = $DIC->logger()->cert();
 		}
 		$this->logger = $logger;
 

@@ -20,7 +20,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$database = $DIC->database();
 		$ilObjectDataCache = $DIC['ilObjDataCache'];
-		$logger = ilLoggerFactory::getLogger('cert');
+		$logger = $DIC->logger()->cert();
 
 		switch($a_component) {
 			case 'Services/Tracking':

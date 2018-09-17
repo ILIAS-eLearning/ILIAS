@@ -161,6 +161,7 @@ class ilCertificateGUI
 	 * @param ilCertificateTemplateExportAction|null $exportAction
 	 * @param ilCertificateBackgroundImageUpload|null $upload
 	 * @param ilCertificateTemplatePreviewAction|null $previewAction
+	 * @param ilLogger|null $logger
 	 * @access public
 	 */
 	public function __construct(
@@ -207,7 +208,7 @@ class ilCertificateGUI
 
 		$this->objectId = $objectId;
 
-		$logger = ilLoggerFactory::getLogger('cert');
+		$logger = $DIC->logger()->cert();
 
 		if (null === $settingsFormFactory) {
 			$settingsFormFactory = new ilCertificateSettingsFormRepository(

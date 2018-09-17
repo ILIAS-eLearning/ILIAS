@@ -86,7 +86,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
 		if (null === $logger) {
-			$logger = $logger = ilLoggerFactory::getLogger('cert');
+			$logger = $logger = $DIC->logger()->cert();
 		}
 
 		if (null === $pageFormats) {

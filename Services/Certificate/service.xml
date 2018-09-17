@@ -15,4 +15,5 @@
 	<crons>
 		<cron id="certificate" class="ilCertificateCron" />
 	</crons>
+	<logging />
 </service>

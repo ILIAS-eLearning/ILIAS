@@ -62,7 +62,7 @@ class ilUserCertificateGUI
 	) {
 		global $DIC;
 
-		$logger = ilLoggerFactory::getLogger('cert');
+		$logger = $DIC->logger()->cert();
 
 		if ($template === null) {
 			$template = $DIC->ui()->mainTemplate();
