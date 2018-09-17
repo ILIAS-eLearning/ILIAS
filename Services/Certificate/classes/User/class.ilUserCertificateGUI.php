@@ -1,9 +1,12 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilUserCertificateTableGUI
  *
  * @ingroup ServicesCertificate
+ *
+ * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateGUI
 {
