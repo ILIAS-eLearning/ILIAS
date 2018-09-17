@@ -25,7 +25,7 @@
  * Class ilCertificateMigrationGUI
  * @author Ralph Dittrich <dittrich@qualitus.de>
  *
- * @ilCtrl_IsCalledBy ilCertificateMigrationGUI: ilCertificateGUI, ilPersonalProfileGUI
+ * @ilCtrl_IsCalledBy ilCertificateMigrationGUI: ilCertificateGUI, ilPersonalProfileGUI, ilBadgeProfileGUI
  *
  */
 class ilCertificateMigrationGUI
