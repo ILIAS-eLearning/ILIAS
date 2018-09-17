@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilCertificateMigrationGUI
  */
 class ilPersonalProfileGUI
 {
@@ -72,6 +72,16 @@ class ilPersonalProfileGUI
 				$ilCtrl->forwardCommand($pub_profile_gui);
 				$tpl->show();
 				break;
+
+            case "ilcertificatemigrationgui":
+                include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+                $cert_migration_gui = new \ilCertificateMigrationGUI();
+                $ret = $ilCtrl->forwardCommand($cert_migration_gui);
+                /** @var ilTemplate $tpl */
+                $tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+                $this->setTabs();
+                $this->showPersonalData(false, true);
+                break;
 			
 			default:
 				$this->setTabs();
@@ -731,7 +741,7 @@ class ilPersonalProfileGUI
 	/**
 	* Personal data form.
 	*/
-	function showPersonalData($a_no_init = false)
+	function showPersonalData($a_no_init = false, $a_migration_started = false)
 	{
 		global $DIC;
 
@@ -770,9 +780,19 @@ class ilPersonalProfileGUI
 				ilUtil::sendInfo($lng->txt("profile_incomplete"));
 			}
 		}
-		$this->tpl->setContent($this->form->getHTML());
 
-		$this->tpl->show();
+		if (!$a_migration_started) {
+		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
+            $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+            $messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+            $this->tpl->setCurrentBlock('mess');
+            $this->tpl->setVariable('MESSAGE', $messagebox);
+            $this->tpl->parseCurrentBlock('mess');
+        }
+
+        $this->tpl->setContent($this->form->getHTML());
+
+        $this->tpl->show();
 	}
 
 	/**

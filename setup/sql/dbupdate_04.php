@@ -22836,3 +22836,72 @@ foreach ($directories as $type => $relativePath) {
 	}
 }
 ?>
+<#5297>
+<?php
+if(!$ilDB->tableExists('bgtask_cert_migration')) {
+    $ilDB->createTable('bgtask_cert_migration', array(
+        'id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'usr_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'lock' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'found_items' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'processed_items' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'migrated_items' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'progress' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'state' => array(
+            'type' => 'text',
+            'length' => '255',
+            'notnull' => true
+        ),
+        'started_ts' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false,
+            'default' => 0
+        ),
+        'finished_ts' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false,
+        ),
+    ));
+    $ilDB->addPrimaryKey('bgtask_cert_migration', array('id'));
+    $ilDB->createSequence('bgtask_cert_migration');
+    $ilDB->addUniqueConstraint('bgtask_cert_migration', array('id', 'usr_id'));
+}
+$ilCtrlStructureReader->getStructure();
+?>
