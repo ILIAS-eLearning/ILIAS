@@ -29,7 +29,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
 		\ILIAS\Filesystem\Filesystem $filesystem = null,
-		string $rootDirectory = CLIENT_DIR
+		string $rootDirectory = CLIENT_WEB_DIR
 	) {
 		$this->templateRepository = $templateRepository;
 
