@@ -226,7 +226,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$certificate->setRows(20);
 		$certificate->setCols(80);
 
-		// fraunhpatch start
 		$common_desc_tpl = new ilTemplate(
 			"tpl.common_desc.html",
 			true,
@@ -241,7 +240,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 			$common_desc_tpl->parseCurrentBlock();
 		}
 		$common_desc = $common_desc_tpl->get();
-		// fraunhpatch start
 
 		$certificate->setInfo($this->placeholderDescriptionObject->createPlaceholderHtmlDescription() . $common_desc);
 		$certificate->setUseRte(TRUE, '3.4.7');
