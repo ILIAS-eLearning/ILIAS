@@ -17,15 +17,26 @@ class ilCertificateTemplatePreviewAction
 	private $placeholderValuesObject;
 
 	/**
+	 * @var ilLogger
+	 */
+	private $logger;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
-		ilCertificatePlaceholderValues $placeholderValuesObject
+		ilCertificatePlaceholderValues $placeholderValuesObject,
+		ilLogger $logger = null
 	) {
 		$this->templateRepository = $templateRepository;
 		$this->placeholderValuesObject = $placeholderValuesObject;
+		if (null === $logger) {
+			global $DIC;
+			$logger = $DIC->logger()->cert();
+		}
+		$this->logger = $logger;
 	}
 
 	/**
@@ -61,7 +72,7 @@ class ilCertificateTemplatePreviewAction
 
 		}
 		catch(Exception $e) {
-			$this->log->write(__METHOD__.': '.$e->getMessage());
+			$this->logger->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
 
