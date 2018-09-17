@@ -46,7 +46,7 @@ class ilUserCertificateGUI
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
-	 * @param ilUser|null $user
+	 * @param ilObjUser $user
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 * @param \GuzzleHttp\Psr7\Request|null $request
 	 * @param ilLogger $certificateLogger
@@ -55,7 +55,7 @@ class ilUserCertificateGUI
 		ilTemplate $template = null,
 		ilCtrl $controller = null,
 		ilLanguage $language = null,
-		ilUser $user = null,
+		ilObjUser $user = null,
 		ilUserCertificateRepository $userCertificateRepository = null,
 		GuzzleHttp\Psr7\Request $request = null,
 		ilLogger $certificateLogger = null
