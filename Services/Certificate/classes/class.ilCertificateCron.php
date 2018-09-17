@@ -4,34 +4,23 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCron extends ilCronJob
+class ilCertificateCron extends \ilCronJob
 {
 	const DEFAULT_SCHEDULE_HOURS = 1;
 
-	/**
-	 * @var ilCertificateQueueRepository
-	 */
+	/** @var \ilCertificateQueueRepository */
 	private $queueRepository;
 
-	/**
-	 * @var ilCertificateTemplateRepository
-	 */
+	/** @var \ilCertificateTemplateRepository */
 	private $templateRepository;
 
-	/**
-	 * @var ilUserCertificateRepository
-	 */
+	/** @var \ilUserCertificateRepository */
 	private $userRepository;
 
-	/**
-	 * @var \ILIAS\DI\LoggingServices|ilLogger logger
-	 */
+	/** @var \ILIAS\DI\LoggingServices|ilLogger logger */
 	private $logger;
 
-
-	/**
-	 * @var
-	 */
+	/** @var \ilCertificateValueReplacement */
 	private $valueReplacement;
 
 	/**
@@ -83,6 +72,9 @@ class ilCertificateCron extends ilCronJob
 		}
 	}
 
+	/**
+	 * @ineritdoc
+	 */
 	public function run()
 	{
 		$this->init();
@@ -181,9 +173,7 @@ class ilCertificateCron extends ilCronJob
 	}
 
 	/**
-	 * Get id
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getId()
 	{
@@ -191,19 +181,15 @@ class ilCertificateCron extends ilCronJob
 	}
 
 	/**
-	 * Is to be activated on "installation"
-	 *
-	 * @return boolean
+	 * @inheritdoc
 	 */
 	public function hasAutoActivation()
 	{
-		return false;
+		return true;
 	}
 
 	/**
-	 * Can the schedule be configured?
-	 *
-	 * @return boolean
+	 * @inheritdoc
 	 */
 	public function hasFlexibleSchedule()
 	{
@@ -211,30 +197,18 @@ class ilCertificateCron extends ilCronJob
 	}
 
 	/**
-	 * Get schedule type
-	 *
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleType()
 	{
-		return self::SCHEDULE_TYPE_IN_HOURS;
+		return self::SCHEDULE_TYPE_IN_MINUTES;
 	}
 
 	/**
-	 * Get schedule value
-	 *
-	 * @return int|array
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleValue()
 	{
-		return self::DEFAULT_SCHEDULE_HOURS;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function hasScheduleValue()
-	{
-		return true;
+		return 1;
 	}
 }
