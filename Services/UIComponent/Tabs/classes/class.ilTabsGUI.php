@@ -353,7 +353,7 @@ class ilTabsGUI
 	}
 
 	/**
-	* DEPRECATED.
+	* @deprecated since version 5.2
 	*
 	* Use addTab/addSubTab and activateTab/activateSubTab.
 	*
@@ -395,19 +395,23 @@ class ilTabsGUI
 	}
 
 	/**
-	* get tabs code as html
+	 * get tabs code as html
+	 *
+	 * @param bool $a_after_tabs_anchor
+	 * @return string
 	*/
-	function getHTML($a_after_tabs_anchor = false)
+	public function getHTML($a_after_tabs_anchor = false)
 	{
-		return $this->__getHTML(false,$this->manual_activation, $a_after_tabs_anchor);
+		return $this->__getHTML(false, $a_after_tabs_anchor);
 	}
 	
 	/**
-	* get sub tabs code as html
+	 * get sub tabs code as html
+	 * @return string
 	*/
-	function getSubTabHTML()
+	public function getSubTabHTML()
 	{
-		return $this->__getHTML(true,$this->subtab_manual_activation);
+		return $this->__getHTML(true);
 	}
 
 	/**
@@ -426,11 +430,12 @@ class ilTabsGUI
 
 	/**
 	 * get tabs code as html
-	 * @param bool choose tabs or sub tabs
-	 * @param bool manual activation
+	 * @param bool $a_get_sub_tabs choose tabs or sub tabs
+	 * @param bool $a_after_tabs_anchor manual activation
+	 * @return string
 	 * @access Private
 	 */
-	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
+	private function __getHTML($a_get_sub_tabs, $a_after_tabs_anchor = false)
 	{
 		global $DIC;
 
@@ -531,7 +536,7 @@ class ilTabsGUI
 				{
 					$target["cmd"] = array($target["cmd"]);
 				}
-				if (!$a_manual &&
+				if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
 					(in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
 					(in_array($cmdClass,$target["cmdClass"]) || !$target["cmdClass"]))
 				{
@@ -542,7 +547,7 @@ class ilTabsGUI
 					$tabtype = $pre."tabinactive";
 				}
 				
-				if ($a_manual && $target["activate"])
+				if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && $target["activate"])
 				{
 					$tabtype = $pre."tabactive";
 				}
