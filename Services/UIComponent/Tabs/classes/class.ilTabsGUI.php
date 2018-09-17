@@ -431,7 +431,7 @@ class ilTabsGUI
 	/**
 	 * get tabs code as html
 	 * @param bool $a_get_sub_tabs choose tabs or sub tabs
-	 * @param bool $a_after_tabs_anchor manual activation
+	 * @param bool $a_after_tabs_anchor
 	 * @return string
 	 * @access Private
 	 */
