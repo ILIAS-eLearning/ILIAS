@@ -1528,6 +1528,8 @@ certificate#:#download_certificate#:#Download Certificate
 certificate#:#cert_form_sec_availability#:#Availability
 certificate#:#cert_form_sec_layout#:#Layout and Text
 certificate#:#cert_form_sec_add_features#:#Additional Features
+certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
 common#:#chat_chatviewer#:#Chat Viewer
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
