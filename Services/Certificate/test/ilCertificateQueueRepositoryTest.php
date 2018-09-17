@@ -72,11 +72,8 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 			->willReturn(30);
 
 		$databaseMock->expects($this->once())
-			->method('query')
+			->method('manipulate')
 			->with('DELETE FROM certificate_cron_queue WHERE id = 30');
-
-		$databaseMock->expects($this->once())
-			->method('execute');
 
 		$repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);
 
