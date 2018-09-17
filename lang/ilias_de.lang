@@ -14293,3 +14293,4 @@ cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist 
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Starte Migration
 badge#:#user_certificates#:#Zertifikate
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.

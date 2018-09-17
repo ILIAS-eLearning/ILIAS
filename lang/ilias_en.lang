@@ -14295,3 +14295,4 @@ cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates 
 cert#:#certificate_migration_confirm_started#:#The migration was started.
 cert#:#certificate_migration_go#:#Start Migration
 badge#:#user_certificates#:#Certificates
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

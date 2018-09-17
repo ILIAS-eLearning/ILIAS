@@ -24,6 +24,7 @@ class ilCertificateTemplatePreviewAction
 	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
+	 * @param ilLogger|null $logger
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
@@ -32,6 +33,7 @@ class ilCertificateTemplatePreviewAction
 	) {
 		$this->templateRepository = $templateRepository;
 		$this->placeholderValuesObject = $placeholderValuesObject;
+
 		if (null === $logger) {
 			global $DIC;
 			$logger = $DIC->logger()->cert();
@@ -43,23 +45,24 @@ class ilCertificateTemplatePreviewAction
 	 * @param int $objectId
 	 * @return bool
 	 * @throws ilException
+	 * @throws Exception
 	 */
 	public function createPreviewPdf(int $objectId)
 	{
+		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
 		$xslfo = $template->getCertificateContent();
 
-		// render tex as fo graphics
-		$xslfo = ilMathJax::getInstance()
-			->init(ilMathJax::PURPOSE_PDF)
-			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-			->insertLatexImages($xslfo);
-
 		try {
-			$xlsfo = $this->exchangeCertificateVariables($xslfo, $template);
+			// render tex as fo graphics
+			$xlsfo = ilMathJax::getInstance()
+				->init(ilMathJax::PURPOSE_PDF)
+				->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+				->insertLatexImages($xslfo);
+
 
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
 				->ilFO2PDF($xlsfo);
@@ -69,14 +72,13 @@ class ilCertificateTemplatePreviewAction
 				'Certificate.pdf',
 				'application/pdf'
 			);
-
 		}
 		catch(Exception $e) {
-			$this->logger->write(__METHOD__.': '.$e->getMessage());
-			return false;
+			ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+			throw $e;
 		}
 
-		ilDatePresentation::setUseRelativeDates(true);
+		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 	}
 
 	/**

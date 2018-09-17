@@ -200,6 +200,8 @@ class ilCertificateGUI
 		$this->access  = $DIC['ilAccess'];
 		$this->toolbar = $DIC['ilToolbar'];
 
+		$this->lng->loadLanguageModule('cert');
+
 		$this->ref_id = (int)$_GET['ref_id'];
 
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
@@ -315,7 +317,12 @@ class ilCertificateGUI
 	*/
 	public function certificatePreview()
 	{
-		$this->previewAction->createPreviewPdf($this->objectId);
+		try {
+			$this->previewAction->createPreviewPdf($this->objectId);
+		} catch (Exception $exception) {
+			ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf', true));
+			$this->certificateEditor();
+		}
 	}
 
 	/**
