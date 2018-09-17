@@ -59,7 +59,10 @@ class ilCertificateGUIFactory
 
 				$certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
 
-				$deleteAction = new ilCertificateTestTemplateDeleteAction($deleteAction);
+				$deleteAction = new ilCertificateTestTemplateDeleteAction(
+					$deleteAction,
+					new ilCertificateObjectHelper()
+				);
 
 				break;
 			case 'crs':
