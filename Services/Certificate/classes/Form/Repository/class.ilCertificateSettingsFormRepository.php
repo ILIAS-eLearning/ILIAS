@@ -196,17 +196,22 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$bgimage->setRequired(FALSE);
 		$bgimage->setUseCache(false);
 
+		$bgimage->setALlowDeletion(true);
 		if (!$certificateObject->hasBackgroundImage()) {
 			if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
 				ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 				$bgimage->setImage(ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb()));
+				$bgimage->setALlowDeletion(false);
 			}
 		}
 		else {
 			ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-			$thumbnailPath = $certificateObject->getBackgroundImageThumbPathWeb();
+
+			$thumbnailPath = $certificateObject->getBackgroundImageThumbPath();
+
 			if (!file_exists($thumbnailPath)) {
-				$thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb();
+				$thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
+				$bgimage->setALlowDeletion(false);
 			}
 			$bgimage->setImage(ilWACSignedPath::signFile($thumbnailPath));
 		}
