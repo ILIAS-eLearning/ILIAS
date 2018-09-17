@@ -30,110 +30,109 @@
  */
 class ilCertificateMigrationGUI
 {
+	/** @var \ilCtrl */
+	protected $ctrl;
 
-    /** @var \ilCtrl */
-    protected $ctrl;
+	/** @var \ilLanguage */
+	protected $lng;
 
-    /** @var \ilLanguage */
-    protected $lng;
+	/** @var ilAccessHandler */
+	protected $access;
 
-    /** @var ilAccessHandler */
-    protected $access;
+	/** @var \ilTemplate */
+	protected $tpl;
 
-    /** @var \ilTemplate */
-    protected $tpl;
+	/** @var \ilObjUser */
+	protected $user;
 
-    /** @var \ilObjUser */
-    protected $user;
+	/** @var \ILIAS\DI\BackgroundTaskServices */
+	protected $backgroundTasks;
 
-    /** @var \ILIAS\DI\BackgroundTaskServices */
-    protected $backgroundTasks;
+	/**
+	 * ilCertificateMigrationGUI constructor.
+	 * @param \ilCtrl $ctrl
+	 * @param \ilLanguage $lng
+	 * @param \ilAccessHandler $acces
+	 * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
+	 * @param \ilObjUser $user
+	 */
+	public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null, \ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
+	{
+		global $DIC;
 
-    /**
-     * ilCertificateMigrationGUI constructor.
-     * @param \ilCtrl $ctrl
-     * @param \ilLanguage $lng
-     * @param \ilAccessHandler $acces
-     * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
-     * @param \ilObjUser $user
-     */
-    public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null, \ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
-    {
-        global $DIC;
+		if (null === $ctrl) {
+			$ctrl = $DIC->ctrl();
+		}
+		if (null === $lng) {
+			$lng = $DIC->language();
+		}
+		if (null === $access) {
+			$access = $DIC->access();
+		}
 
-        if (null === $ctrl) {
-            $ctrl = $DIC->ctrl();
-        }
-        if (null === $lng) {
-            $lng = $DIC->language();
-        }
-        if (null === $access) {
-            $access = $DIC->access();
-        }
+		if (null === $backgroundTasks) {
+			$backgroundTasks = $DIC->backgroundTasks();
+		}
+		if (null === $user) {
+			$user = $DIC->user();
+		}
 
-        if (null === $backgroundTasks) {
-            $backgroundTasks = $DIC->backgroundTasks();
-        }
-        if (null === $user) {
-            $user = $DIC->user();
-        }
+		$this->ctrl = $ctrl;
+		$lng->loadLanguageModule('cert');
+		$this->lng = $lng;
+		$this->access = $access;
+		$this->user = $user;
+		$this->backgroundTasks = $backgroundTasks;
+	}
 
-        $this->ctrl = $ctrl;
-        $lng->loadLanguageModule('cert');
-        $this->lng = $lng;
-        $this->access = $access;
-        $this->user = $user;
-        $this->backgroundTasks = $backgroundTasks;
-    }
+	/**
+	 * execute command
+	 * @return mixed
+	 */
+	function executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
 
-    /**
-     * execute command
-     * @return mixed
-     */
-    function executeCommand()
-    {
-        $cmd = $this->ctrl->getCmd();
-        $next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->getCommand($cmd);
+		switch($next_class)
+		{
+			default:
+				$ret = $this->$cmd();
+				break;
+		}
+		return $ret;
+	}
 
-        $cmd = $this->getCommand($cmd);
-        switch($next_class)
-        {
-            default:
-                $ret = $this->$cmd();
-                break;
-        }
-        return $ret;
-    }
+	/**
+	 * Retrieves the ilCtrl command
+	 * @param string $cmd
+	 * @return mixed
+	 */
+	public function getCommand(string $cmd)
+	{
+		return $cmd;
+	}
 
-    /**
-     * Retrieves the ilCtrl command
-     * @param string $cmd
-     * @return mixed
-     */
-    public function getCommand(string $cmd)
-    {
-        return $cmd;
-    }
+	/**
+	 * @return string
+	 */
+	public function startMigration(): string
+	{
+		$factory = $this->backgroundTasks->taskFactory();
+		$taskManager = $this->backgroundTasks->taskManager();
 
-    /**
-     * @return string
-     */
-    public function startMigration(): string
-    {
-        $factory = $this->backgroundTasks->taskFactory();
-        $taskManager = $this->backgroundTasks->taskManager();
+		$bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
+		$bucket->setUserId($this->user->getId());
 
-        $bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
-        $bucket->setUserId($this->user->getId());
+		$task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$this->user->getId()]);
 
-        $task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$this->user->getId()]);
+		$bucket->setTask($task);
+		$bucket->setTitle('Certificate Migration');
+		$bucket->setDescription('Migrates certificates for active user');
 
-        $bucket->setTask($task);
-        $bucket->setTitle('Certificate Migration');
-        $bucket->setDescription('Migrates certificates for active user');
+		$taskManager->run($bucket);
 
-        $taskManager->run($bucket);
-
-        return $this->lng->txt('certificate_migration_confirm_started');
-    }
+		return $this->lng->txt('certificate_migration_confirm_started');
+	}
 }

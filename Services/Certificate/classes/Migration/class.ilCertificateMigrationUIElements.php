@@ -27,79 +27,79 @@
  */
 class ilCertificateMigrationUIElements
 {
-    /** @var \ilObjUser */
-    protected $user;
+	/** @var \ilObjUser */
+	protected $user;
 
-    /** @var \ILIAS\DI\UIServices */
-    protected $ui;
+	/** @var \ILIAS\DI\UIServices */
+	protected $ui;
 
-    /** @var \ilLanguage */
-    protected $lng;
+	/** @var \ilLanguage */
+	protected $lng;
 
-    /**
-     * ilCertificateMigrationUIElements constructor.
-     * @param \ilObjUser $user
-     * @param \ILIAS\DI\UIServices $ui
-     * @param \ilLanguage $lng
-     */
-    public function __construct(\ilObjUser $user = null, \ILIAS\DI\UIServices $ui = null, \ilLanguage $lng = null)
-    {
-        global $DIC;
+	/**
+	 * ilCertificateMigrationUIElements constructor.
+	 * @param \ilObjUser $user
+	 * @param \ILIAS\DI\UIServices $ui
+	 * @param \ilLanguage $lng
+	 */
+	public function __construct(\ilObjUser $user = null, \ILIAS\DI\UIServices $ui = null, \ilLanguage $lng = null)
+	{
+		global $DIC;
 
-        if (null === $user) {
-            $user = $DIC->user();
-        }
-        if (null === $ui) {
-            $ui = $DIC->ui();
-        }
-        if (null === $lng) {
-            $lng = $DIC->language();
-        }
-        $lng->loadLanguageModule('cert');
-        $this->user = $user;
-        $this->ui = $ui;
-        $this->lng = $lng;
-    }
+		if (null === $user) {
+			$user = $DIC->user();
+		}
+		if (null === $ui) {
+			$ui = $DIC->ui();
+		}
+		if (null === $lng) {
+			$lng = $DIC->language();
+		}
+		$lng->loadLanguageModule('cert');
+		$this->user = $user;
+		$this->ui = $ui;
+		$this->lng = $lng;
+	}
 
-    /**
-     * Get confirmation messagebox for manual migration start
-     *
-     * @param string $link
-     * @return string
-     */
-    public function getMigrationMessageBox(string $link): string
-    {
-        if (!\ilCertificate::isActive()) {
-            return '';
-        }
-        if ($this->user->getPref('cert_migr_finished') === 1) {
-            return '';
-        }
-        $migrationHelper = new \ilCertificateMigration($this->user->getId());
-        if (
-            $migrationHelper->isTaskRunning() ||
-            $migrationHelper->isTaskFinished()
-        ) {
-            return '';
-        }
+	/**
+	 * Get confirmation messagebox for manual migration start
+	 *
+	 * @param string $link
+	 * @return string
+	 */
+	public function getMigrationMessageBox(string $link): string
+	{
+		if (!\ilCertificate::isActive()) {
+			return '';
+		}
+		if ($this->user->getPref('cert_migr_finished') === 1) {
+			return '';
+		}
+		$migrationHelper = new \ilCertificateMigration($this->user->getId());
+		if (
+			$migrationHelper->isTaskRunning() ||
+			$migrationHelper->isTaskFinished()
+		) {
+			return '';
+		}
 
-        $ui_factory = $this->ui->factory();
-        $ui_renderer = $this->ui->renderer();
+		$ui_factory = $this->ui->factory();
+		$ui_renderer = $this->ui->renderer();
 
-        $message_buttons = [
-            $ui_factory->button()->standard($this->lng->txt("certificate_migration_go"), $link),
-        ];
+		$message_buttons = [
+			$ui_factory->button()->standard($this->lng->txt("certificate_migration_go"), $link),
+		];
 
-        if ($migrationHelper->isTaskFailed()) {
-            $messagebox = $ui_factory->messageBox()
-                ->failure($this->lng->txt('certificate_migration_lastrun_failed'))
-                ->withButtons($message_buttons);
-        } else {
-            $messagebox = $ui_factory->messageBox()
-                ->confirmation($this->lng->txt('certificate_migration_confirm_start'))
-                ->withButtons($message_buttons);
-        }
+		if ($migrationHelper->isTaskFailed()) {
+			$messagebox = $ui_factory->messageBox()
+				->failure($this->lng->txt('certificate_migration_lastrun_failed'))
+				->withButtons($message_buttons);
+		} else {
+			$messagebox = $ui_factory->messageBox()
+				->confirmation($this->lng->txt('certificate_migration_confirm_start'))
+				->withButtons($message_buttons);
+		}
 
-        return $ui_renderer->render($messagebox);
-    }
+		return $ui_renderer->render($messagebox);
+	}
 }

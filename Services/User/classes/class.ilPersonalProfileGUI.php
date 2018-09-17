@@ -11,9 +11,9 @@
  */
 class ilPersonalProfileGUI
 {
-    var $tpl;
-    var $lng;
-    var $ilias;
+	var $tpl;
+	var $lng;
+	var $ilias;
 	var $ctrl;
 
 	var $user_defined_fields = null;
@@ -22,21 +22,21 @@ class ilPersonalProfileGUI
 	/**
 	* constructor
 	*/
-    function __construct()
-    {
-        global $DIC;
+	function __construct()
+	{
+		global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
@@ -73,15 +73,15 @@ class ilPersonalProfileGUI
 				$tpl->show();
 				break;
 
-            case "ilcertificatemigrationgui":
-                include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
-                $cert_migration_gui = new \ilCertificateMigrationGUI();
-                $ret = $ilCtrl->forwardCommand($cert_migration_gui);
-                /** @var ilTemplate $tpl */
-                $tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
-                $this->setTabs();
-                $this->showPersonalData(false, true);
-                break;
+			case "ilcertificatemigrationgui":
+				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->setTabs();
+				$this->showPersonalData(false, true);
+				break;
 			
 			default:
 				$this->setTabs();
@@ -783,16 +783,16 @@ class ilPersonalProfileGUI
 
 		if (!$a_migration_started) {
 		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
-            $messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-            $messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
-            $this->tpl->setCurrentBlock('mess');
-            $this->tpl->setVariable('MESSAGE', $messagebox);
-            $this->tpl->parseCurrentBlock('mess');
-        }
+			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messagebox);
+			$this->tpl->parseCurrentBlock('mess');
+		}
 
-        $this->tpl->setContent($this->form->getHTML());
+		$this->tpl->setContent($this->form->getHTML());
 
-        $this->tpl->show();
+		$this->tpl->show();
 	}
 
 	/**
