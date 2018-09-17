@@ -111,6 +111,8 @@ class ilCertificateCron extends \ilCronJob
 
 		$entries = $this->queueRepository->getAllEntriesFromQueue();
 
+		$status = ilCronJobResult::STATUS_OK;
+
 		foreach ($entries as $entry) {
 			try {
 				$this->logger->debug('Entry found will start of processing the entry');
@@ -198,6 +200,8 @@ class ilCertificateCron extends \ilCronJob
 
 			$this->queueRepository->removeFromQueue($entry->getId());
 		}
+
+		return new ilCronJobResult($status);
 	}
 
 	/**
