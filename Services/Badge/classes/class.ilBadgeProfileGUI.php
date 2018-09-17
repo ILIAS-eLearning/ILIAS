@@ -53,6 +53,11 @@ class ilBadgeProfileGUI
 	 */
 	private $request;
 
+	/**
+	 * @var ilSetting
+	 */
+	private $certificateSettings;
+
 
 	/**
 	 * Constructor
@@ -70,6 +75,7 @@ class ilBadgeProfileGUI
 		$this->tpl = $DIC["tpl"];
 		$this->tabs = $DIC->tabs();
 		$this->user = $DIC->user();
+		$this->certificateSettings =  new ilSetting("certificate");
 	}
 
 	const BACKPACK_EMAIL = "badge_mozilla_bp";
@@ -200,11 +206,13 @@ class ilBadgeProfileGUI
 			$ilTabs->activateTab($a_active);
 		}
 
-		$ilTabs->addTab('certificate',
-			$lng->txt('certificate'),
-			$ilCtrl->getLinkTarget($this, "listCertificates")
-		);
-		$ilTabs->activateTab($a_active);
+		if ($this->certificateSettings->get(active)) {
+			$ilTabs->addTab('certificate',
+				$lng->txt('certificate'),
+				$ilCtrl->getLinkTarget($this, "listCertificates")
+			);
+			$ilTabs->activateTab($a_active);
+		}
 	}
 	
 	protected function listBadges()
