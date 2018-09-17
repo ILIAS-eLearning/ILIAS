@@ -56,6 +56,8 @@ class ilCertificateTemplatePreviewAction
 
 		$xslfo = $template->getCertificateContent();
 
+		$xslfo = $this->exchangeCertificateVariables($xslfo, $template);
+
 		try {
 			// render tex as fo graphics
 			$xlsfo = ilMathJax::getInstance()
@@ -105,9 +107,11 @@ class ilCertificateTemplatePreviewAction
 			$certificate_text
 		);
 
+		$backgroundImagePath = $template->getBackgroundImagePath();
+
 		$certificate_text = str_replace(
 			'[BACKGROUND_IMAGE]',
-			CLIENT_WEB_DIR . $template->getBackgroundImagePath(),
+			CLIENT_WEB_DIR . $backgroundImagePath,
 			$certificate_text
 		);
 

@@ -28,14 +28,28 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	private $dateFormat;
 
 	/**
+	 * @var ilLanguage|null 
+	 */
+	private $language;
+
+	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
 	 * @param ilCertificateObjectHelper $objectHelper
 	 * @param ilCertificateDateHelper $dateHelper
 	 * @param int $dateFormat
+	 * @param ilLanguage|null $language
+	 * @param ilCertificateUtilHelper|null $utilHelper
 	 */
 	public function __construct(
 		ilCertificateObjectHelper $objectHelper = null,
 		ilCertificateDateHelper $dateHelper = null,
-		int $dateFormat = null
+		int $dateFormat = null,
+		ilLanguage $language = null,
+		ilCertificateUtilHelper $utilHelper = null
 	) {
 		if (null === $objectHelper) {
 			$objectHelper = new ilCertificateObjectHelper();
@@ -51,6 +65,17 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 			$dateFormat = IL_CAL_UNIX;
 		}
 		$this->dateFormat = $dateFormat;
+
+		if (null === $language) {
+			global $DIC;
+			$language = $DIC->language();
+		}
+		$this->language = $language;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
 
 		$this->placeholder = array(
 			'USER_LOGIN'         => '',
@@ -123,6 +148,21 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValuesForPreview() : array
 	{
-		return $this->placeholder;
+		return array(
+			"USER_LOGIN"         => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
+			"USER_FULLNAME"      => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_fullname")),
+			"USER_FIRSTNAME"     => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_firstname")),
+			"USER_LASTNAME"      => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_lastname")),
+			"USER_TITLE"         => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_title")),
+			"USER_SALUTATION"    => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_salutation")),
+			"USER_BIRTHDAY"      => $this->dateHelper->formatDate($this->language->txt("certificate_var_user_birthday"), IL_CAL_DATE),
+			"USER_INSTITUTION"   => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_institution")),
+			"USER_DEPARTMENT"    => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_department")),
+			"USER_STREET"        => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_street")),
+			"USER_CITY"          => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_city")),
+			"USER_ZIPCODE"       => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_zipcode")),
+			"USER_COUNTRY"       => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_country")),
+			"USER_MATRICULATION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_matriculation"))
+		);
 	}
 }
