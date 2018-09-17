@@ -76,4 +76,55 @@ class ilCertificateUtilHelper
 	{
 		ilUtil::deliverFile($zipPath, $zipFileName, $mime);
 	}
+
+	/**
+	 * @param string $copyDirectory
+	 * @return array
+	 */
+	public function getDir(string $copyDirectory) : array
+	{
+		return ilUtil::getDir($copyDirectory);
+	}
+
+	/**
+	 * @param string $file
+	 * @param bool $overwrite
+	 */
+	public function unzip(string $file, bool $overwrite)
+	{
+		ilUtil::unzip($file, $overwrite);
+	}
+
+	/**
+	 * @param string $path
+	 */
+	public function delDir(string $path)
+	{
+		ilUtil::delDir($path);
+	}
+
+	/**
+	 * @param string $file
+	 * @param string $name
+	 * @param string $target
+	 * @param bool $raise_errors
+	 * @param string $mode
+	 * @return bool
+	 * @throws ilException
+	 */
+	public function moveUploadedFile(
+		string $file,
+		string $name,
+		string $target,
+		bool $raise_errors = true,
+		string $mode = 'move_uploaded'
+	) {
+		return ilUtil::moveUploadedFile(
+			$file,
+			$name,
+			$target,
+			$raise_errors,
+			$mode
+		);
+	}
 }
