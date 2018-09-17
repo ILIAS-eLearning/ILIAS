@@ -22,21 +22,14 @@ class ilCertificateTemplatePreviewAction
 	private $logger;
 
 	/**
-	 * @var ilLanguage|null
-	 */
-	private $language;
-
-	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param ilLogger|null $logger
-	 * @param ilLanguage|null $language
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
 		ilCertificatePlaceholderValues $placeholderValuesObject,
-		ilLogger $logger = null,
-		ilLanguage $language = null
+		ilLogger $logger = null
 	) {
 		$this->templateRepository = $templateRepository;
 		$this->placeholderValuesObject = $placeholderValuesObject;
