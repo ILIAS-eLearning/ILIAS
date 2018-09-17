@@ -14294,3 +14294,4 @@ cert#:#certificate_migration_confirm_start#:#Start certificate migration?
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
 cert#:#certificate_migration_confirm_started#:#The migration was started.
 cert#:#certificate_migration_go#:#Go
+badge#:#user_certificates#:#Certificates
