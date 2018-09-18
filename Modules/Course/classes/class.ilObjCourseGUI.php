@@ -3217,18 +3217,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $DIC;
 
 		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
-		
+		$ilUser = $DIC->user();
+		$database = $DIC->database();
+
+		$logger = $DIC->logger()->root();
+
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
 		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{							
 			// certificate
-			include_once "Services/Certificate/classes/class.ilCertificate.php";
-			if (ilCertificate::isActive() &&
-				ilCertificate::isObjectActive($this->object->getId()) && 
-				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
-			{			    
+
+			$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
+
+			try {
+				$repository->fetchActiveCertificate($ilUser->getId(), $this->object->getId());
+
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
 				
 				$this->lng->loadLanguageModule("certificate");
@@ -3240,6 +3244,8 @@ class ilObjCourseGUI extends ilContainerGUI
 						null,
 						null,
 						$cert_url);
+			} catch (ilException $exception) {
+				$logger->warning(sprintf('Invalid access to download the user "%" has no active certificate for "%s"', $ilUser->getLogin(), $this->object->getTitle));
 			}
 			
 			// notification
@@ -3298,20 +3304,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			$user_id = $ilUser->getId();
 		}
 
-		if(!ilCertificate::isActive() ||
-			!ilCertificate::isObjectActive($this->object->getId()) ||
-			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
-		{
+		$objId = (int) $this->object->getId();
+
+		$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
+
+		try {
+			$repository->fetchActiveCertificate($user_id, $objId);
+		} catch (ilException $exception) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
 
-		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+		$pdfGenerator = new ilPdfGenerator($repository, $logger);
 
 		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
 
-		$pdfAction->downloadPdf((int) $user_id, (int) $this->object->getId());
+		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}
 	
 	

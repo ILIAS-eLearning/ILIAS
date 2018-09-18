@@ -224,6 +224,31 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		throw new ilException('No certificate found for user certificate id: ' . $id);
 	}
 
+	public function fetchObjectWithCertificateForUser(int $userId, array $objectIds)
+	{
+		$this->logger->info(sprintf('START - Fetch certificate for user("%s") and ids: "%s"', $userId, json_encode($objectIds)));
+
+		$inStatementObjectIds = $this->database->in(
+			'obj_id',
+			$objectIds,
+			false,
+			'integer'
+		);
+
+		$sql = 'SELECT obj_id FROM user_certificates WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND ' . $inStatementObjectIds;
+
+		$query = $this->database->query($sql);
+
+		$result = array();
+
+		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+			$result[] = $row['obj_id'];
+		}
+
+		return $result;
+	}
+
 	/**
 	 * @param $objId
 	 * @param $userId

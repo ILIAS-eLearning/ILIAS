@@ -3351,6 +3351,7 @@ return array(
     'ilCertificateBackgroundImageUpload' => $baseDir . '/../../Services/Certificate/classes/File/Background/class.ilCertificateBackgroundImageUpload.php',
     'ilCertificateCloneAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Clone/class.ilCertificateCloneAction.php',
     'ilCertificateCourseLearningProgressEvaluation' => $baseDir . '/../../Services/Certificate/classes/LearningProgress/class.ilCertificateCourseLearningProgressEvaluation.php',
+    'ilCertificateCoursePreloader' => $baseDir . '/../../Services/Certificate/classes/Preload/ilCertificateCoursePreloader.php',
     'ilCertificateCron' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateCron.php',
     'ilCertificateDateHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateDateHelper.php',
     'ilCertificateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/ilCertificateDeleteAction.php',
