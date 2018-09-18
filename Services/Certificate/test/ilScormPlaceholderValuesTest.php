@@ -128,7 +128,7 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function getPlaceholderValuesForPreview()
+	public function testGetPlaceholderValuesForPreview()
 	{
 		$defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
 			->disableOriginalConstructor()
@@ -146,17 +146,71 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$language->method('txt')
+			->willReturnCallback(function ($variableValue) {
+				if ($variableValue === 'lang_sep_decimal') {
+					return ',';
+				} elseif ($variableValue === 'lang_sep_thousand') {
+					return '.';
+				}
+
+				return 'Some Translation: ' . $variableValue;
+			});
+
 		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
+
+		$objectMock = $this->getMockBuilder('ilObject')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$objectMock->method('getTitle')
+			->willReturn('Some Title');
 
 		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
 			->getMock();
 
+		$objectHelper->method('getInstanceByObjId')
+			->willReturn($objectMock);
+
 		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
+		$utilHelper->method('prepareFormOutput')
+			->willReturnCallback(function ($input) {
+				return $input;
+			});
+
 		$objectLPHelper = $this->getMockBuilder('ilCertificateObjectLPHelper')
 			->getMock();
+
+		$lpCollection = $this->getMockBuilder('ilLPCollection')
+			->disableOriginalConstructor()
+			->setMethods(array('getPossibleItems', 'isAssignedEntry'))
+			->getMock();
+
+		$lpCollection->method('getPossibleItems')
+			->willReturn(array(
+				array(
+					'title' => 'Some Title'
+				),
+				array(
+					'title' => 'Some Other Title'
+				)
+			));
+
+		$lpCollection->method('isAssignedEntry')
+			->willReturn(true);
+
+		$objectLPMock = $this->getMockBuilder('ilObjectLP')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$objectLPMock->method('getCollectionInstance')
+			->willReturn($lpCollection);
+
+		$objectLPHelper->method('getInstance')
+			->willReturn($objectLPMock);
 
 		$lpStatusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
 			->getMock();
@@ -175,8 +229,17 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			array(
-				'SOME_PLACEHOLDER' => 'aaa',
-				'SOME_OTHER_PLACEHOLDER' => 'bbb'
+				'SCORM_TITLE'      => 'Some Title',
+				'SCORM_POINTS'     => '80,7 %',
+				'SCORM_POINTS_MAX' => '90',
+				'SCO_T_0'          => 'Some Title',
+				'SCO_P_0'          => '30,3',
+				'SCO_PM_0'         => '90,9',
+				'SCO_PP_0'         => '33,3 %',
+				'SCO_T_1'          => 'Some Other Title',
+				'SCO_P_1'          => '30,3',
+				'SCO_PM_1'         => '90,9',
+				'SCO_PP_1'         => '33,3 %'
 			),
 			$result
 		);
