@@ -7,7 +7,7 @@ include_once "Services/Badge/classes/class.ilBadgeHandler.php";
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
- * @ilCtrl_Calls ilBadgeProfileGUI: ilUserCertificateTableGUI
+ * @ilCtrl_Calls ilBadgeProfileGUI: ilUserCertificateTableGUI, ilCertificateMigrationGUI
  *
  * @package ServicesBadge
  */
@@ -94,15 +94,25 @@ class ilBadgeProfileGUI
 		$nextClass = $ilCtrl->getNextClass();
 		switch($nextClass)
 		{
+			case "ilcertificatemigrationgui":
+				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->setTabs();
+				$this->listCertificates(true);
+				break;
+
 			default:
 				$this->setTabs();
-				$cmd = $ilCtrl->getCmd("listBadges");							
+				$cmd = $ilCtrl->getCmd("listBadges");
 				$this->$cmd();
 				break;
 		}
 	}
 
-	public function listCertificates()
+	public function listCertificates($a_migration_started = false)
 	{
 		if (!$this->certificateSettings->get('active')) {
 			return $this->ctrl->redirect($this,"listBadges");
@@ -132,6 +142,16 @@ class ilBadgeProfileGUI
 				'action' => $this->ctrl->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
 			);
 		}
+
+		if (!$a_migration_started) {
+			$cert_ui_elements = new \ilCertificateMigrationUIElements();
+			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messagebox);
+			$this->tpl->parseCurrentBlock('mess');
+		}
+
 
 		$table->setData($data);
 
