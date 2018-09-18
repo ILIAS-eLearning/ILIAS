@@ -22905,3 +22905,8 @@ if(!$ilDB->tableExists('bgtask_cert_migration')) {
 }
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5297>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
