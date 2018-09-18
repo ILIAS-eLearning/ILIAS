@@ -9,9 +9,9 @@ class ilCertificateLPMarksHelper
 	/**
 	 * @param int $userId
 	 * @param int $objectId
-	 * @return string
+	 * @return mixed
 	 */
-	public function lookUpMark(int $userId, int $objectId) : string
+	public function lookUpMark(int $userId, int $objectId)
 	{
 		return ilLPMarks::_lookupMark($userId, $objectId);
 	}
