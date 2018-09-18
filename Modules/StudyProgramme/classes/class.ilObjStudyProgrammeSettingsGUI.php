@@ -266,8 +266,8 @@ class ilObjStudyProgrammeSettingsGUI {
 		)
 		->withAdditionalTransformation($tf->custom(function($values) {
 			// values now contains the results of the single sections,
-			// i.e. a list of arrays according that each contains keys
-			// according to the section they originated from.
+			// i.e. a list of arrays that each contains keys according
+			// to the section they originated from.
 			return call_user_func_array("array_merge", $values);
 		}));
 	}
