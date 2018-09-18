@@ -105,11 +105,27 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->method('formatDateTime')
 			->willReturn('2018-09-10 12:01:33');
 
+		$language = $this->getMockBuilder('ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$language->method('txt')
+			->willReturn('Something');
+
+		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+			->getMock();
+
+		$utilHelper->method('prepareFormOutput')
+			->willReturnCallback(function ($input) {
+				return $input;
+			});
 
 		$placeHolderObject = new ilDefaultPlaceholderValues(
 			$objectHelper,
 			$dateHelper,
-			1
+			1,
+			$language,
+			$utilHelper
 		);
 
 		$result = $placeHolderObject->getPlaceholderValues(100, 200);
@@ -150,35 +166,56 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
 
+		$dateHelper->method('formatDate')
+			->willReturn('2018-09-09');
+
+		$language = $this->getMockBuilder('ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$language->method('txt')
+			->willReturn('Something');
+
+		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+			->getMock();
+
+		$utilHelper->method('prepareFormOutput')
+			->willReturnCallback(function ($input) {
+				return $input;
+			});
+
 		$placeHolderObject = new ilDefaultPlaceholderValues(
 			$objectHelper,
 			$dateHelper,
-			1
+			1,
+			$language,
+			$utilHelper
 		);
 
-		$result = $placeHolderObject->getPlaceholderValuesForPreview();
+		$result = $placeHolderObject->getPlaceholderValuesForPreview(
+			100,
+			10,
+			2
+		);
 
 		$this->assertEquals(
 			array(
-				'USER_LOGIN'         => '',
-				'USER_FULLNAME'      => '',
-				'USER_FIRSTNAME'     => '',
-				'USER_LASTNAME'      => '',
-				'USER_TITLE'         => '',
-				'USER_SALUTATION'    => '',
-				'USER_BIRTHDAY'      => '',
-				'USER_INSTITUTION'   => '',
-				'USER_DEPARTMENT'    => '',
-				'USER_STREET'        => '',
-				'USER_CITY'          => '',
-				'USER_ZIPCODE'       => '',
-				'USER_COUNTRY'       => '',
-				'USER_MATRICULATION' => '',
-				'DATE'               => '',
-				'DATETIME'           => '',
-				'DATE_COMPLETED'     => '',
-				'DATETIME_COMPLETED' => '',
-				'CLIENT_WEB_DIR'     => ''
+				'USER_LOGIN'         => 'Something',
+				'USER_FULLNAME'      => 'Something',
+				'USER_FIRSTNAME'     => 'Something',
+				'USER_LASTNAME'      => 'Something',
+				'USER_TITLE'         => 'Something',
+				'USER_SALUTATION'    => 'Something',
+				'USER_BIRTHDAY'      => '2018-09-09',
+				'USER_INSTITUTION'   => 'Something',
+				'USER_DEPARTMENT'    => 'Something',
+				'USER_STREET'        => 'Something',
+				'USER_CITY'          => 'Something',
+				'USER_ZIPCODE'       => 'Something',
+				'USER_COUNTRY'       => 'Something',
+				'USER_MATRICULATION' => 'Something',
+				'DATE'               => '2018-09-09',
+				'DATETIME'           => '2018-09-09'
 			),
 			$result
 		);

@@ -19,6 +19,9 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$language->method('txt')
+			->willReturn('Something');
+
 		$objectMock = $this->getMockBuilder('ilObject')
 			->disableOriginalConstructor()
 			->getMock();
@@ -88,29 +91,48 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$language->method('txt')
+			->willReturn('Something');
+
+		$objectMock = $this->getMockBuilder('ilObject')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$objectMock->method('getTitle')
+			->willReturn('SomeTitle');
+
 		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
 			->getMock();
+
+		$objectHelper->method('getInstanceByObjId')
+			->willReturn($objectMock);
 
 		$participantsHelper = $this->getMockBuilder('ilCertificateParticipantsHelper')
 			->getMock();
 
-		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
+
+		$utilHelper->method('prepareFormOutput')
+			->willReturnCallback(function ($input) {
+				return $input;
+			});
 
 		$valuesObject = new ilCoursePlaceholderValues(
 			$defaultPlaceholderValues,
 			$language,
 			$objectHelper,
 			$participantsHelper,
-			$ilUtilHelper
+			$utilHelper
 		);
 
-		$placeholderValues = $valuesObject->getPlaceholderValuesForPreview();
+		$placeholderValues = $valuesObject->getPlaceholderValuesForPreview(100, 10);
 
 		$this->assertEquals(
 			array(
 				'SOME_PLACEHOLDER'        => 'ANYTHING',
 				'SOME_OTHER_PLACEHOLDER'  => '2018-09-10',
+				'COURSE_TITLE'            => 'SomeTitle'
 			),
 			$placeholderValues
 		);

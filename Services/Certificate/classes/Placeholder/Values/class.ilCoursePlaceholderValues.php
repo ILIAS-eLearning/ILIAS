@@ -103,10 +103,18 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	 * method is used to create a placeholder value array containing dummy values
 	 * that is used to create a preview certificate.
 	 *
+	 * @param int $userId
+	 * @param int $objId
 	 * @return mixed
 	 */
-	public function getPlaceholderValuesForPreview()
+	public function getPlaceholderValuesForPreview(int $userId, int $objId)
 	{
-		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
+		$placeholders =  $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+		$object = $this->objectHelper->getInstanceByObjId($objId);
+
+		$placeholders['COURSE_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
+
+		return $placeholders;
 	}
 }

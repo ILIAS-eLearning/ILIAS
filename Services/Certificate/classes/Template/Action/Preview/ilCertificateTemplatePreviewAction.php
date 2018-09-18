@@ -22,14 +22,21 @@ class ilCertificateTemplatePreviewAction
 	private $logger;
 
 	/**
+	 * @var ilObjUser|null
+	 */
+	private $user;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param ilLogger|null $logger
+	 * @param ilObjUser|null $user
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
 		ilCertificatePlaceholderValues $placeholderValuesObject,
-		ilLogger $logger = null
+		ilLogger $logger = null,
+		ilObjUser $user = null
 	) {
 		$this->templateRepository = $templateRepository;
 		$this->placeholderValuesObject = $placeholderValuesObject;
@@ -39,6 +46,12 @@ class ilCertificateTemplatePreviewAction
 			$logger = $DIC->logger()->cert();
 		}
 		$this->logger = $logger;
+
+		if (null === $user) {
+			global $DIC;
+			$user = $DIC->user();
+		}
+		$this->user = $user;
 	}
 
 	/**
@@ -55,6 +68,8 @@ class ilCertificateTemplatePreviewAction
 		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
 		$xslfo = $template->getCertificateContent();
+
+		$xslfo = $this->exchangeCertificateVariables($xslfo, $template, $objectId);
 
 		try {
 			// render tex as fo graphics
@@ -85,12 +100,17 @@ class ilCertificateTemplatePreviewAction
 	 * Exchanges the variables in the certificate text with given values
 	 *
 	 * @param string $certificate_text The XSL-FO certificate text
-	 * @param $template
+	 * @param ilCertificateTemplate $template
+	 * @param int $objectId
 	 * @return string XSL-FO code
 	 */
-	private function exchangeCertificateVariables(string $certificate_text, ilCertificateTemplate $template)
-	{
-		$insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview();
+	private function exchangeCertificateVariables(
+		string $certificate_text,
+		ilCertificateTemplate $template,
+		int $objectId
+	) {
+		$insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview($this->user->getId(), $objectId);
+
 		foreach ($this->getCustomCertificateFields() as $key => $value) {
 			$insert_tags[$value["ph"]] = ilUtil::prepareFormOutput($value["name"]);
 		}
@@ -105,9 +125,11 @@ class ilCertificateTemplatePreviewAction
 			$certificate_text
 		);
 
+		$backgroundImagePath = $template->getBackgroundImagePath();
+
 		$certificate_text = str_replace(
 			'[BACKGROUND_IMAGE]',
-			CLIENT_WEB_DIR . $template->getBackgroundImagePath(),
+			CLIENT_WEB_DIR . $backgroundImagePath,
 			$certificate_text
 		);
 
