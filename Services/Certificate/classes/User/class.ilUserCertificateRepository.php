@@ -70,7 +70,7 @@ class ilUserCertificateRepository
 	 * @param $userId
 	 * @return array
 	 */
-	public function fetchActiveCertificates($userId)
+	public function fetchActiveCertificates(int $userId) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
@@ -104,7 +104,7 @@ class ilUserCertificateRepository
 		return $result;
 	}
 
-	public function fetchActiveCertificate($userId, $objectId)
+	public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and object: "%s"', $userId, $objectId));
 
@@ -144,11 +144,11 @@ AND currently_active = 1';
 	}
 
 	/**
-	 * @param $userId
-	 * @param $type
+	 * @param int $userId
+	 * @param string $type
 	 * @return array
 	 */
-	public function fetchActiveCertificatesByType($userId, $type)
+	public function fetchActiveCertificatesByType(int $userId, string $type) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));
 
@@ -186,11 +186,11 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return ilUserCertificate
 	 * @throws ilException
 	 */
-	public function fetchCertificate($id)
+	public function fetchCertificate(int $id) : ilUserCertificate
 	{
 		$this->logger->info(sprintf('START - Fetch certificate by id: "%s"', $id));
 
@@ -225,11 +225,11 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	}
 
 	/**
-	 * @param $objId
-	 * @param $userId
+	 * @param int $objId
+	 * @param int $userId
 	 * @return array
 	 */
-	private function fetchCertificatesOfObject($objId, $userId)
+	private function fetchCertificatesOfObject(int $objId, int $userId) : array
 	{
 		$this->logger->info(sprintf(
 			'START -  fetching all certificates of object(user id: "%s", object id: "%s")',
@@ -279,7 +279,12 @@ AND obj_id = ' . $this->database->quote($objId , 'integer');
 		return $result;
 	}
 
-	private function fetchLatestVersion($objId, $userId)
+	/**
+	 * @param int $objId
+	 * @param int $userId
+	 * @return string
+	 */
+	private function fetchLatestVersion(int $objId, int $userId) : string
 	{
 		$this->logger->info(sprintf(
 			'START -  fetching of latest certificates of object(user id: "%s", object id: "%s")',
@@ -302,6 +307,7 @@ AND obj_id = ' . $this->database->quote($objId , 'integer');
 			$objId,
 			$version
 		));
+
 		return $version;
 	}
 
@@ -310,7 +316,7 @@ AND obj_id = ' . $this->database->quote($objId , 'integer');
 	 * @param $userId
 	 * @throws ilDatabaseException
 	 */
-	private function deactivatePreviousCertificates($objId, $userId)
+	private function deactivatePreviousCertificates(int $objId, int $userId)
 	{
 		$this->logger->info(sprintf('START - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 

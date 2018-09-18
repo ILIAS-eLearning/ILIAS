@@ -76,7 +76,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 * @param ilTemplate|null $template
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
 	{
 		if (null === $template) {
 			$template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
@@ -140,7 +140,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 *
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function getPlaceholderDescriptions()
+	public function getPlaceholderDescriptions() : array
 	{
 		return $this->placeholder;
 	}

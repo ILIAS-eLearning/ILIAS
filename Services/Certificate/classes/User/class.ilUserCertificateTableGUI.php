@@ -44,12 +44,9 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('title'), '', '');
 		$this->addColumn($this->lng->txt('date'), '', '');
 		$this->addColumn($this->lng->txt('action'), '', '');
-
-//		$this->addMultiCommand('saveAttachments', $this->lng->txt('adopt'));
-//		$this->addMultiCommand('deleteAttachments', $this->lng->txt('delete'));
 	}
 
-	protected function fillRow($dataSet)
+	protected function fillRow(array $dataSet)
 	{
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('conditions');
@@ -72,10 +69,5 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$text = $this->lng->txt('download');
 		$this->tpl->setVariable('LINK_TEXT', $text);
 		$this->tpl->parseCurrentBlock();
-	}
-
-	public function download()
-	{
-		echo "hello";
 	}
 }

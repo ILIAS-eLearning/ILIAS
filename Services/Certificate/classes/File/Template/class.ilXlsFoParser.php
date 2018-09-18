@@ -157,9 +157,9 @@ class ilXlsFoParser
 
 	/**
 	 * @param string $a_number
-	 * @return float
+	 * @return string
 	 */
-	private function formatNumberString($a_number)
+	private function formatNumberString($a_number) : string
 	{
 		return str_replace(',', '.', $a_number);
 	}

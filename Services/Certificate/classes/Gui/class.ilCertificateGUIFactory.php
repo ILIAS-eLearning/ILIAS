@@ -28,7 +28,7 @@ class ilCertificateGUIFactory
 	 * @return ilCertificateGUI
 	 * @throws ilException
 	 */
-	public function create(\ilObject $object)
+	public function create(\ilObject $object) : ilCertificateGUI
 	{
 		global $DIC;
 

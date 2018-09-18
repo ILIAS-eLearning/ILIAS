@@ -53,7 +53,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 	 * @param null $template
 	 * @return array|mixed
 	 */
-	public function createPlaceholderHtmlDescription(ilTemplate $template = null)
+	public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
 	{
 		if (null === $template) {
 			$template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
@@ -78,7 +78,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 	 *
 	 * @return mixed - [PLACEHOLDER] => 'description'
 	 */
-	public function getPlaceholderDescriptions()
+	public function getPlaceholderDescriptions() : array
 	{
 		return $this->placeholder;
 	}
