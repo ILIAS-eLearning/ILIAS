@@ -20,6 +20,7 @@ use ilIniFile;
 use ilLanguage;
 use ilLocatorGUI;
 use ilMailMimeSenderFactory;
+use ilMailMimeTransportFactory;
 use ilMainMenuGUI;
 use ilNavigationHistory;
 use ilObjectDataCache;
@@ -330,6 +331,16 @@ class Container extends PimpleContainer {
 	 */
 	public function mailMimeSenderFactory() {
 		return $this["mail.mime.sender.factory"];
+	}
+
+
+	/**
+	 * @return ilMailMimeTransportFactory
+	 *
+	 * @since  5.3
+	 */
+	public function mailMimeTransportFactory() {
+		return $this["mail.mime.transport.factory"];
 	}
 
 
