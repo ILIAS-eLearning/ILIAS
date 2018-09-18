@@ -1324,9 +1324,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserPassDetails') );
 			$this->ctrl->setParameter($this, 'pdf', '');
 
-			include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-			if( $this->object->canShowCertificate($testSession, $user_id, $active_id) )
-			{
+			$validator = new ilCertificateDownloadValidator();
+			if($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
 				$toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
 			}
 
@@ -1450,9 +1449,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
 		$this->ctrl->setParameter($this, 'pdf', '');
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if( $this->object->canShowCertificate($testSession, $user_id, $active_id) )
-		{
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
 			$toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
 		}
 
