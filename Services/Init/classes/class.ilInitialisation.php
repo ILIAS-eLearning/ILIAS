@@ -1649,6 +1649,8 @@ class ilInitialisation
 			{
 				$_GET['offset'] = (int) $_GET['offset'];		// old code
 			}
+
+			self::initKioskMode($GLOBALS["DIC"]);
 		}
 		else
 		{
@@ -1978,4 +1980,17 @@ class ilInitialisation
 			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
 		};
 	}
+
+
+	private static function initKioskMode(\ILIAS\DI\Container $c) {
+		$c["service.kiosk_mode"] = function ($c) {
+			return new ilKioskModeService(
+				$c->ctrl(),
+				$c->language(),
+				$c->access(),
+				$c['objDefinition']
+			);
+		};
+	}
+
 }
