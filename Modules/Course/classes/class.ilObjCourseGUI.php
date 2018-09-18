@@ -3228,26 +3228,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		{							
 			// certificate
 
-			$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
-
-			try {
-				$repository->fetchActiveCertificate($ilUser->getId(), $this->object->getId());
-
+			$validator = new ilCertificateDownloadValidator();
+			if (true === $validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
-				
+
 				$this->lng->loadLanguageModule("certificate");
 				$lg->addCustomCommand($cert_url, "download_certificate");
-				
+
 				$lg->addHeaderIcon("cert_icon",
-						ilUtil::getImagePath("icon_cert.svg"),
-						$this->lng->txt("download_certificate"),
-						null,
-						null,
-						$cert_url);
-			} catch (ilException $exception) {
-				$logger->warning(sprintf('Invalid access to download the user "%" has no active certificate for "%s"', $ilUser->getLogin(), $this->object->getTitle));
+					ilUtil::getImagePath("icon_cert.svg"),
+					$this->lng->txt("download_certificate"),
+					null,
+					null,
+					$cert_url);
 			}
-			
+
 			// notification
 			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
 			if(ilMembershipNotifications::isActive())
@@ -3306,14 +3301,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$objId = (int) $this->object->getId();
 
-		$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
+		$validator = new ilCertificateDownloadValidator();
 
-		try {
-			$repository->fetchActiveCertificate($user_id, $objId);
-		} catch (ilException $exception) {
+		if (false === $validator->isCertificateDownloadable($user_id, $objId)) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
+
+		$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
 
 		$pdfGenerator = new ilPdfGenerator($repository, $logger);
 

@@ -3599,6 +3599,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateCron' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificateCron.php',
         'ilCertificateDateHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateDateHelper.php',
         'ilCertificateDeleteAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Delete/ilCertificateDeleteAction.php',
+        'ilCertificateDownloadValidator' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificateDownloadValidator.php',
         'ilCertificateExerciseMembersHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateExerciseMembersHelper.php',
         'ilCertificateFactory' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Gui/class.ilCertificateFactory.php',
         'ilCertificateFileUtilsHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateFileUtilsHelper.php',

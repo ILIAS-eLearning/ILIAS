@@ -3355,6 +3355,7 @@ return array(
     'ilCertificateCron' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateCron.php',
     'ilCertificateDateHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateDateHelper.php',
     'ilCertificateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/ilCertificateDeleteAction.php',
+    'ilCertificateDownloadValidator' => $baseDir . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificateDownloadValidator.php',
     'ilCertificateExerciseMembersHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateExerciseMembersHelper.php',
     'ilCertificateFactory' => $baseDir . '/../../Services/Certificate/classes/Gui/class.ilCertificateFactory.php',
     'ilCertificateFileUtilsHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateFileUtilsHelper.php',
