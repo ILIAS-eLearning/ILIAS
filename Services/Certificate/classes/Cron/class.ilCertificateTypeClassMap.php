@@ -10,7 +10,7 @@ class ilCertificateTypeClassMap
 		'crs'  => array('placeholder' => 'ilCoursePlaceholderValues'),
 		'tst'  => array('placeholder' => 'ilTestPlaceHolderValues'),
 		'exc'  => array('placeholder' => 'ilExercisePlaceHolderValues'),
-		'sahs' => array('placeholder' => 'ilDefaultPlaceholderValues'),
+		'sahs' => array('placeholder' => 'ilScormPlaceholderValues'),
 	);
 
 	/**
