@@ -802,19 +802,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
 		
-		// show certificate?
-		if($this->object->hasUserCertificate($ilUser->getId()))
-		{
-			$factory = new ilCertificateFactory();
-
-			$certificate = $factory->create($this->object);
-
-			if($certificate->isComplete()) {
-				$ilToolbar->addButton($this->lng->txt("certificate"),
-				$this->ctrl->getLinkTarget($this, "outCertificate"));
-			}
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
+			$ilToolbar->addButton($this->lng->txt("certificate"),
+			$this->ctrl->getLinkTarget($this, "outCertificate"));
 		}
-		
+
 		include_once("./Modules/Exercise/classes/class.ilExAssignmentGUI.php");
 		$ass_gui = new ilExAssignmentGUI($this->object);
 				
