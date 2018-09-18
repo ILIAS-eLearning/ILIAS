@@ -65,6 +65,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'cert';
 		$this->lng->loadLanguageModule("certificate");
+		$this->lng->loadLanguageModule("trac");
 
 		$this->access              = $DIC['rbacsystem'];
 		$this->error               = $DIC['ilErr'];

@@ -88,7 +88,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
 			$formSection = new \ilFormSectionHeaderGUI();
-			$formSection->setTitle($this->language->txt('course_certificate_options'));
+			$formSection->setTitle($this->language->txt('cert_form_sec_add_features'));
 			$form->addItem($formSection);
 
 			$exp = $subitems->getExplorerGUI();
