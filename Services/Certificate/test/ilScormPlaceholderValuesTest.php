@@ -171,7 +171,7 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			$lpStatusHelper
 		);
 
-		$result = $scormPlaceholderValues->getPlaceholderValuesForPreview();
+		$result = $scormPlaceholderValues->getPlaceholderValuesForPreview(100, 10);
 
 		$this->assertEquals(
 			array(

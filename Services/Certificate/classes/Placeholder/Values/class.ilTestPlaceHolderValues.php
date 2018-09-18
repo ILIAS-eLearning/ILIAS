@@ -173,10 +173,24 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 	 * method is used to create a placeholder value array containing dummy values
 	 * that is used to create a preview certificate.
 	 *
+	 * @param int $userId
+	 * @param int $objId
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview() : array
+	public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
 	{
-		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
+		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+		$object = $this->objectHelper->getInstanceByObjId($objId);
+
+		$placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_passed'));
+		$placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_points'));
+		$placeholders['RESULT_PERCENT'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_percent'));
+		$placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_max_points'));
+		$placeholders['RESULT_MARK_SHORT'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+		$placeholders['RESULT_MARK_LONG'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
+		$placeholders['TEST_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
+
+		return $placeholders;
 	}
 }

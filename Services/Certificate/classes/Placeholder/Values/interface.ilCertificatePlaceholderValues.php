@@ -26,7 +26,9 @@ interface ilCertificatePlaceholderValues
 	 * method is used to create a placeholder value array containing dummy values
 	 * that is used to create a preview certificate.
 	 *
+	 * @param int $userId
+	 * @param int $objId
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview();
+	public function getPlaceholderValuesForPreview(int $userId, int $objId);
 }

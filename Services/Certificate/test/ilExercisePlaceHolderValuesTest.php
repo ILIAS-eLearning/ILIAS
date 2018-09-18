@@ -105,8 +105,21 @@ class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$language->method('txt')
+			->willReturn('Something');
+
+		$objectMock = $this->getMockBuilder('ilObject')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$objectMock->method('getTitle')
+			->willReturn('SomeTitle');
+
 		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
 			->getMock();
+
+		$objectHelper->method('getInstanceByObjId')
+			->willReturn($objectMock);
 
 		$lpMarksHelper = $this->getMockBuilder('ilCertificateLPMarksHelper')
 			->getMock();
@@ -119,6 +132,11 @@ class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
 
 		$utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
+
+		$utilHelper->method('prepareFormOutput')
+			->willReturnCallback(function ($input) {
+				return $input;
+			});
 
 		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
@@ -139,10 +157,15 @@ class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
 			$dateHelper
 		);
 
-		$result = $placeHolderObject->getPlaceholderValuesForPreview();
+		$result = $placeHolderObject->getPlaceholderValuesForPreview(100, 10);
 
 		$this->assertEquals(
-			array('SOME_PLACEHOLDER' => 'something'),
+			array(
+				'SOME_PLACEHOLDER' => 'something',
+				'RESULT_PASSED'    => 'Something',
+				'EXERCISE_TITLE'   => 'SomeTitle',
+				'RESULT_MARK'      => 'Something'
+			),
 			$result
 		);
 	}

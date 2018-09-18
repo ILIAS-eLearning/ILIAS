@@ -31,6 +31,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
 
 		if (null === $language) {
 			$language = $DIC->language();
+			$language->loadLanguageModule('certificate');
 		}
 		$this->language = $language;
 
@@ -47,7 +48,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
 		$this->placeholder['MAX_POINTS']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
 		$this->placeholder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
 		$this->placeholder['RESULT_MARK_LONG']  = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
-		$this->placeholder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_var_title'));
+		$this->placeholder['TEST_TITLE']        = ilUtil::prepareFormOutput($this->language->txt('certificate_ph_testtitle'));
 	}
 
 

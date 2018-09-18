@@ -147,10 +147,20 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 	 * method is used to create a placeholder value array containing dummy values
 	 * that is used to create a preview certificate.
 	 *
+	 * @param int $userId
+	 * @param int $objId
 	 * @return array
 	 */
-	public function getPlaceholderValuesForPreview() : array
+	public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
 	{
-		return $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview();
+		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+		$object = $this->objectHelper->getInstanceByObjId($objId);
+
+		$placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_passed'));
+		$placeholders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+		$placeholders['EXERCISE_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
+
+		return $placeholders;
 	}
 }
