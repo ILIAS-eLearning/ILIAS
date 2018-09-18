@@ -30,6 +30,7 @@ include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
 * @version	$Id: class.ilTestCertificateAdapter.php 30898 2011-09-29 12:47:24Z jluetzen $
 * @ingroup ModulesTest
 */
+
 class ilCourseCertificateAdapter extends ilCertificateAdapter
 {
 	protected $object;
