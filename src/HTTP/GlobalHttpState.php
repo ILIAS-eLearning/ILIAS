@@ -16,6 +16,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * request and response back into the service. The save functionality is only provided due to
  * the current architectural state of ILIAS.
  *
+ * @package ILIAS\HTTP
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since   5.3

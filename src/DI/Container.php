@@ -3,119 +3,165 @@
 
 namespace ILIAS\DI;
 
+use Collator;
+use ilAccessHandler;
+use ilAppEventHandler;
+use ilAuthSession;
+use ilBrowser;
+use ilCtrl;
+use ilCtrlStructureReader;
+use ilDBInterface;
+use ilErrorHandling;
+use ilHelpGUI;
+use ILIAS;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ilIniFile;
+use ilLanguage;
+use ilLocatorGUI;
+use ilMailMimeSenderFactory;
+use ilMailMimeTransportFactory;
+use ilMainMenuGUI;
+use ilNavigationHistory;
+use ilObjectDataCache;
+use ilObjectDefinition;
+use ilObjUser;
+use ilPluginAdmin;
+use ilSetting;
+use ilStyleDefinition;
+use ilTabsGUI;
+use ilToolbarGUI;
+use ilTree;
+use InvalidArgumentException;
+use Pimple\Container as PimpleContainer;
+use Session;
 
 /**
+ * Class Container
+ *
  * Customizing of pimple-DIC for ILIAS.
  *
  * This just exposes some of the services in the container as plain methods
  * to help IDEs when using ILIAS.
+ *
+ * @package ILIAS\DI
  */
-class Container extends \Pimple\Container {
+class Container extends PimpleContainer {
+
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDBInterface
+	 * @return ilDBInterface
 	 */
 	public function database() {
 		return $this["ilDB"];
 	}
 
+
 	/**
 	 * Get interface to get interfaces to all things rbac.
 	 *
-	 * @return	RBACServices
+	 * @return RBACServices
 	 */
 	public function rbac() {
 		return new RBACServices($this);
 	}
 
+
 	/**
 	 * Get the interface to the control structure.
 	 *
-	 * @return	\ilCtrl
+	 * @return ilCtrl
 	 */
 	public function ctrl() {
 		return $this["ilCtrl"];
 	}
 
+
 	/**
 	 * Get the current user.
 	 *
-	 * @return	\ilObjUser
+	 * @return ilObjUser
 	 */
 	public function user() {
 		return $this["ilUser"];
 	}
 
+
 	/**
 	 * Get interface for access checks.
 	 *
-	 * @return	\ilAccessHandler
+	 * @return ilAccessHandler
 	 */
 	public function access() {
 		return $this["ilAccess"];
 	}
 
+
 	/**
 	 * Get interface to the repository tree.
 	 *
-	 * @return	\ilTree
+	 * @return ilTree
 	 */
 	public function repositoryTree() {
 		return $this["tree"];
 	}
 
+
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return ilLanguage
 	 */
 	public function language() {
 		return $this["lng"];
 	}
 
+
 	/**
 	 * Get interface to get interfaces to different loggers.
 	 *
-	 * @return	LoggingServices
+	 * @return LoggingServices
 	 */
 	public function logger() {
 		return new LoggingServices($this);
 	}
 
+
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilToolbarGUI
+	 * @return ilToolbarGUI
 	 */
 	public function toolbar() {
 		return $this["ilToolbar"];
 	}
 
+
 	/**
 	 * Get interface to the tabs
 	 *
-	 * @return	\ilTabsGUI
+	 * @return ilTabsGUI
 	 */
 	public function tabs() {
 		return $this["ilTabs"];
 	}
 
+
 	/**
 	 * Get the interface to get services from UI framework.
 	 *
-	 * @return	UIServices
+	 * @return UIServices
 	 */
 	public function ui() {
 		return new UIServices($this);
 	}
 
+
 	/**
 	 * Get the interface to the settings
 	 *
-	 * @return \ilSetting
+	 * @return ilSetting
 	 */
 	public function settings() {
 		return $this["ilSetting"];
@@ -126,6 +172,8 @@ class Container extends \Pimple\Container {
 	 * Get the Filesystem service interface.
 	 *
 	 * @return Filesystems
+	 *
+	 * @since  5.3
 	 */
 	public function filesystem() {
 		return $this['filesystem'];
@@ -136,6 +184,8 @@ class Container extends \Pimple\Container {
 	 * Gets the file upload interface.
 	 *
 	 * @return FileUpload
+	 *
+	 * @since  5.3
 	 */
 	public function upload() {
 		return $this['upload'];
@@ -144,6 +194,8 @@ class Container extends \Pimple\Container {
 
 	/**
 	 * @return BackgroundTaskServices
+	 *
+	 * @since  5.3
 	 */
 	public function backgroundTasks() {
 		return new BackgroundTaskServices($this);
@@ -152,45 +204,185 @@ class Container extends \Pimple\Container {
 
 	/**
 	 * @return HTTPServices
+	 *
+	 * @since  5.3
 	 */
 	public function http() {
 		return $this['http'];
 	}
 
+
 	/**
-	 * @return \ilAppEventHandler
+	 * @return ilAppEventHandler
 	 */
 	public function event() {
 		return $this['ilAppEventHandler'];
 	}
 
+
 	/**
-	 * @return \ilIniFile
+	 * @return ilIniFile
 	 */
 	public function iliasIni() {
 		return $this['ilIliasIniFile'];
 	}
 
+
 	/**
-	 * @return \ilIniFile
+	 * @return ilIniFile
 	 */
 	public function clientIni() {
 		return $this['ilClientIniFile'];
 	}
 
+
 	/**
-	 *  @return \ilStyleDefinition
+	 * @return ilStyleDefinition
 	 */
-	public function systemStyle(){
+	public function systemStyle() {
 		return $this['styleDefinition'];
 	}
 
+
 	/**
-	 *  @return \ilHelpGUI
+	 * @return ilHelpGUI
 	 */
-	public function help(){
+	public function help() {
 		return $this['ilHelp'];
 	}
+
+
+	/**
+	 * @return ilAuthSession
+	 */
+	public function authSession() {
+		return $this["ilAuthSession"];
+	}
+
+
+	/**
+	 * return ilBenchmark
+	 */
+	public function benchmark() {
+		return $this["ilBench"];
+	}
+
+
+	/**
+	 * @return ilBrowser
+	 */
+	public function browser() {
+		return $this["ilBrowser"];
+	}
+
+
+	/**
+	 * @return Collator
+	 */
+	public function collator() {
+		return $this["ilCollator"];
+	}
+
+
+	/**
+	 * @return ilCtrlStructureReader
+	 */
+	public function ctrlStructureReader() {
+		return $this["ilCtrlStructureReader"];
+	}
+
+
+	/**
+	 * @return ilErrorHandling
+	 */
+	public function error() {
+		return $this["ilErr"];
+	}
+
+
+	/**
+	 * @return ilNavigationHistory
+	 */
+	public function history() {
+		return $this["ilNavigationHistory"];
+	}
+
+
+	/**
+	 * @return ILIAS
+	 */
+	public function ilias() {
+		return $this["ilias"];
+	}
+
+
+	/**
+	 * @return ilLocatorGUI
+	 */
+	public function locator() {
+		return $this["ilLocator"];
+	}
+
+
+	/**
+	 * @return ilMailMimeSenderFactory
+	 *
+	 * @since  5.3
+	 */
+	public function mailMimeSenderFactory() {
+		return $this["mail.mime.sender.factory"];
+	}
+
+
+	/**
+	 * @return ilMailMimeTransportFactory
+	 *
+	 * @since  5.3
+	 */
+	public function mailMimeTransportFactory() {
+		return $this["mail.mime.transport.factory"];
+	}
+
+
+	/**
+	 * @return ilMainMenuGUI
+	 */
+	public function mainMenu() {
+		return $this["ilMainMenu"];
+	}
+
+
+	/**
+	 * @return ilObjectDataCache
+	 */
+	public function objDataCache() {
+		return $this["ilObjDataCache"];
+	}
+
+
+	/**
+	 * @return ilObjectDefinition
+	 */
+	public function objDefinition() {
+		return $this["objDefinition"];
+	}
+
+
+	/**
+	 * @return ilPluginAdmin
+	 */
+	public function pluginAdmin() {
+		return $this["ilPluginAdmin"];
+	}
+
+
+	/**
+	 * @return Session
+	 */
+	public function session() {
+		return $this["sess"];
+	}
+
 
 	/**
 	 * Note: Only use isDependencyAvailable if strictly required. The need for this,
@@ -209,15 +401,17 @@ class Container extends \Pimple\Container {
 	 * //interface of the component
 	 * $DIC->isDependencyAvailable("systemStyle")
 	 *
-	 * @param $name
+	 * @param string $name
+	 *
 	 * @return bool
 	 */
-	public function isDependencyAvailable($name){
-		try{
+	public function isDependencyAvailable($name) {
+		try {
 			$this->$name();
-		}catch(\InvalidArgumentException $e){
+		} catch (InvalidArgumentException $e) {
 			return false;
 		}
+
 		return true;
 	}
 }
