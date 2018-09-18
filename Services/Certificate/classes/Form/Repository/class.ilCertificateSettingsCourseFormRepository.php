@@ -144,13 +144,13 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 * @param int $a_parent_ref_id
 	 * @return array
 	 */
-	private function getLPTypes(int $a_parent_ref_id)
+	private function getLPTypes(int $a_parent_ref_id) : array
 	{
 		global $DIC;
 
 		$tree = $DIC['tree'];
 
-		$res = array();
+		$result = array();
 
 		$root = $tree->getNodeData($a_parent_ref_id);
 		$sub_items = $tree->getSubTree($root);
@@ -162,12 +162,12 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 				$modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
 
 				if(sizeof($modes) > 1) {
-					$res[] = $node['type'];
+					$result[] = $node['type'];
 				}
 			}
 		}
 
-		return $res;
+		return $result;
 	}
 
 }

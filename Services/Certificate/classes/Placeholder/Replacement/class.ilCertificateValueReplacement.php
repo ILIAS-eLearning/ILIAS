@@ -15,7 +15,7 @@ class ilCertificateValueReplacement
 	 * @param string $backgroundPath
 	 * @return string
 	 */
-	public function replace(array $placeholderValues, string $certificateContent, string $backgroundPath)
+	public function replace(array $placeholderValues, string $certificateContent, string $backgroundPath) : string
 	{
 		foreach ($placeholderValues as $placeholder => $value) {
 			$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);

@@ -21,7 +21,7 @@ class ilPageFormats
 	 *
 	 * @return array Associative array containing available page formats
 	 */
-	public function fetchPageFormats()
+	public function fetchPageFormats() : array
 	{
 		return array(
 			'a4' => array(

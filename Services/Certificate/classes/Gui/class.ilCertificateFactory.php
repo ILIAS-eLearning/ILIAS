@@ -11,7 +11,7 @@ class ilCertificateFactory
 	 * @return ilCertificate
 	 * @throws ilException
 	 */
-	public function create(ilObject $object)
+	public function create(ilObject $object) : ilCertificate
 	{
 		$type = $object->getType();
 
