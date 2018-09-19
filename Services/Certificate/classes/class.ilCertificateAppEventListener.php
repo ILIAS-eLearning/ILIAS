@@ -92,13 +92,17 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 					$certificateQueueRepository->addToQueue($entry);
 				}
+			}
 
-				foreach (ilObject::_getAllReferences($objectId) as $refId) {
-					$templateRepository = new ilCertificateTemplateRepository($database, $logger);
-					$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
+			foreach (ilObject::_getAllReferences($objectId) as $refId) {
+				$templateRepository = new ilCertificateTemplateRepository($database, $logger);
+				$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
-					$completedCourses = $progressEvaluation->evaluate($refId, $userId);
-					foreach ($completedCourses as $courseObjId) {
+				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
+				foreach ($completedCourses as $courseObjId) {
+					$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
+
+					if (true === $courseTemplate->isCurrentlyActive()) {
 						$type = $ilObjectDataCache->lookupType($courseObjId);
 
 						$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
