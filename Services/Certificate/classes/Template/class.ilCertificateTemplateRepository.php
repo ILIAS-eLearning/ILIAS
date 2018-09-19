@@ -127,7 +127,7 @@ ORDER BY version ASC';
 	 * @param int $objId
 	 * @return \ilCertificateTemplate
 	 */
-	public function fetchCurrentlyActiveCertificate(int $objId): \ilCertificateTemplate
+	public function fetchCurrentlyUsedCertificate(int $objId): \ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
@@ -135,7 +135,8 @@ ORDER BY version ASC';
 SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND deleted = 0
-AND currently_active = 1
+ORDER BY id DESC
+LIMIT 1
 ';
 
 		$query = $this->database->query($sql);

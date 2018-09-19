@@ -361,7 +361,7 @@ class ilCertificateGUI
 	*/
 	public function certificateDeleteConfirm()
 	{
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 		$templateId = $template->getId();
 
 		$this->deleteAction->delete($templateId, $this->objectId);
@@ -404,7 +404,7 @@ class ilCertificateGUI
 	*/
 	public function certificateEditor()
 	{
-		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 		$content = $certificate->getCertificateContent();
 
 		$form = $this->settingsFormFactory->createForm(
@@ -413,7 +413,7 @@ class ilCertificateGUI
 		);
 
 		$form_fields = $this->settingsFormFactory->fetchFormFieldData($content);
-		$form_fields['active'] = $this->certifcateObject->readActive();
+		$form_fields['active'] = $certificate->isCurrentlyActive();
 
 		$form->setValuesByArray($form_fields);
 
@@ -471,14 +471,12 @@ class ilCertificateGUI
 					$nextVersion,
 					ILIAS_VERSION_NUMERIC,
 					time(),
-					true,
+					(bool) $form_fields['active'],
 					$backgroundImagePath,
 					$form_fields['active']
 				);
 
 				$this->templateRepository->save($certificateTemplate);
-
-				$this->certifcateObject->writeActive($form_fields['active']);
 
 				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), TRUE);
 				$this->ctrl->redirect($this, "certificateEditor");

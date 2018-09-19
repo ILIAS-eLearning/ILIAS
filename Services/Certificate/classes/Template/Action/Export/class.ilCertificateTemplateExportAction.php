@@ -89,7 +89,7 @@ class ilCertificateTemplateExportAction
 
 		$this->filesystem->createDir($exportPath, \ILIAS\Filesystem\Visibility::PUBLIC_ACCESS);
 
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
 		$xslContent = $template->getCertificateContent();
 

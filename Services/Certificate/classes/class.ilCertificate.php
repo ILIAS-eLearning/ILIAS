@@ -314,7 +314,7 @@ class ilCertificate
 	 */
 	public function hasBackgroundImage()
 	{
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
 		$backgroundImagePath = $template->getBackgroundImagePath();
 		if ($backgroundImagePath === '') {
