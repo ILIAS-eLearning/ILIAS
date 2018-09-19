@@ -103,24 +103,30 @@ class ilUserCertificateGUI
 		$this->certificateLogger = $certificateLogger;
 	}
 
+	/**
+	 * @return string
+	 */
+	private function getDefaultCommand(): string 
+	{
+		return 'show';
+	}
+
+	/**
+	 * @return bool
+	 * @throws ilDateTimeException
+	 * @throws ilException
+	 */
 	public function executeCommand()
 	{
-		$next_class = $this->controller->getNextClass($this);
+		$nextClass = $this->controller->getNextClass($this);
 		$cmd = $this->controller->getCmd();
 
-		switch ($cmd) {
-			case 'download':
-				$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
-				$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
-
-				ilUtil::deliverData(
-					$pdfScalar,
-					'Certificate.pdf',
-					"application/pdf"
-				);
+		switch ($nextClass) {
 			default:
-				$this->show();
-				break;
+				if (!method_exists($this, $cmd)) {
+					$cmd = $this->getDefaultCommand();
+				}
+				$this->{$cmd}();
 		}
 
 		$this->show();
@@ -129,6 +135,24 @@ class ilUserCertificateGUI
 		return true;
 	}
 
+	/**
+	 * @throws ilException
+	 */
+	private function download()
+	{
+		$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
+		$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
+
+		ilUtil::deliverData(
+			$pdfScalar,
+			'Certificate.pdf',
+			"application/pdf"
+		);
+	}
+
+	/**
+	 * @throws ilDateTimeException
+	 */
 	private function show()
 	{
 		$certificates = $this->userCertificateRepository->fetchActiveCertificates($this->user->getId());
