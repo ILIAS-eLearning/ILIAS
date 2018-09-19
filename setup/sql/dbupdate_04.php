@@ -22628,6 +22628,12 @@ if(!$ilDB->tableExists('certificate_template')) {
 			'notnull' => true,
 			'default' => 0
 		),
+		'deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
 	));
 
 	$ilDB->addPrimaryKey('certificate_template', array('id'));

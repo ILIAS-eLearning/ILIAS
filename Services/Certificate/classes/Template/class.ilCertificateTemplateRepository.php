@@ -75,6 +75,7 @@ class ilCertificateTemplateRepository
 			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
 			'currently_active'      => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
 			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
+			'deleted'               => array('integer', (integer) $certificateTemplate->isDeleted())
 		);
 
 		$this->database->insert('certificate_template', $columns);
@@ -214,16 +215,17 @@ AND currently_active = 1
 	 */
 	public function deleteTemplate(int $templateId, int $objectId)
 	{
-		$this->logger->info(sprintf('START - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
+		$this->logger->info(sprintf('START - Set deleted flag for certificate template("%s") for object: "%s"', $templateId, $objectId));
 
 		$sql = '
-DELETE FROM certificate_template
+UPDATE certificate_template
+SET deleted = 1
 WHERE id = ' . $this->database->quote($templateId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
 		$this->database->manipulate($sql);
 
-		$this->logger->info(sprintf('END - Delete certificate template("%s") for object: "%s"', $templateId, $objectId));
+		$this->logger->info(sprintf('END - Deleted flag set fo certificate template("%s") for object: "%s"', $templateId, $objectId));
 	}
 
 	/**
