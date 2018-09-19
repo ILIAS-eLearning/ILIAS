@@ -242,7 +242,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		}
 
 		$objId = $this->parameters['obj_id'] ?? 0;
-		$userId = $this->parameters['user_id'] ?? ß;
+		$userId = $this->parameters['user_id'] ?? 0;
 		$backgroundImagePath = $this->parameters['background_image_path'] ?? '';
 		$acquiredTimestamp = $this->parameters['acquired_timestamp'] ?? '';
 		$iliasVersion = $this->parameters['ilias_version'] ?? '';
