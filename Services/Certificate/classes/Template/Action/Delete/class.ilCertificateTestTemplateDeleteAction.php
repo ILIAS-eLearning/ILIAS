@@ -6,8 +6,6 @@
  */
 class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
-	const CERTIFICATE_VISIBILITY_DEFAULT_VALUE = 0;
-
 	/**
 	 * @var ilCertificateDeleteAction
 	 */
@@ -34,9 +32,5 @@ class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 	public function delete($templateId, $objectId)
 	{
 		$this->deleteAction->delete($templateId, $objectId);
-
-		/** @var ilObjTest $object */
-		$object = $this->objectHelper->getInstanceByObjId($objectId);
-		$object->saveCertificateVisibility(self::CERTIFICATE_VISIBILITY_DEFAULT_VALUE);
 	}
 }

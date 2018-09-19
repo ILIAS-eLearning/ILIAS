@@ -69,14 +69,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$visibility = new ilRadioGroupInputGUI($this->language->txt('certificate_visibility'), 'certificate_visibility');
-		$visibility->addOption(new ilRadioOption($this->language->txt('certificate_visibility_always'), 0));
-		$visibility->addOption(new ilRadioOption($this->language->txt('certificate_visibility_passed'), 1));
-		$visibility->addOption(new ilRadioOption($this->language->txt('certificate_visibility_never'), 2));
-		$visibility->setInfo($this->language->txt('certificate_visibility_introduction'));
-
-		$form->addItem($visibility);
-
 		return $form;
 	}
 
@@ -85,7 +77,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 */
 	public function save(array $formFields)
 	{
-		$this->testObject->saveCertificateVisibility($formFields['certificate_visibility']);
 	}
 
 	/**
@@ -95,7 +86,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	public function fetchFormFieldData(string $content)
 	{
 		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
-		$formFields['certificate_visibility'] = $this->testObject->getCertificateVisibility();
 
 		return $formFields;
 	}
