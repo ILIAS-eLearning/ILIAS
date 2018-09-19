@@ -854,10 +854,12 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			$ilUserCertificateRepository = new ilUserCertificateRepository();
-			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+			$certificateLogger = $DIC->logger()->cert();
 
-			$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+			$ilUserCertificateRepository = new ilUserCertificateRepository();
+			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $certificateLogger);
+
+			$pdfAction = new ilCertificatePdfAction($certificateLogger, $pdfGenerator);
 
 			$pdfAction->downloadPdf($ilUser->getId(), $this->object->getid());
 			exit;
