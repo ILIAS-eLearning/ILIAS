@@ -19,25 +19,25 @@ interface ilAsqQuestionPresentation
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getQuestionPresentation(ilAsqQuestionSolution $solution);
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getSolutionPresentation(ilAsqQuestionSolution $solution);
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getGenericFeedbackOutput(ilAsqQuestionSolution $solution);
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getSpecificFeedbackOutput(ilAsqQuestionSolution $solution);
 	

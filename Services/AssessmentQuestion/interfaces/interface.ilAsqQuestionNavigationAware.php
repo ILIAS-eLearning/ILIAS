@@ -13,12 +13,12 @@
 interface ilAsqQuestionNavigationAware
 {
 	/**
-	 * @return \ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getQuestionButtonsHTML();
 	
 	/**
-	 * @return \ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getQuestionPlayerActionsHTML();
 	

@@ -105,7 +105,7 @@ interface ilAsqQuestion
 	public function getBestSolution();
 	
 	/**
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public function getSuggestedSolutionOutput();
 	
@@ -126,13 +126,13 @@ interface ilAsqQuestion
 	
 	/**
 	 * @param integer $questionId
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public static function _getSuggestedSolutionOutput($questionId);
 	
 	/**
 	 * @param integer $questionId
-	 * @return ILIAS\UI\Component\Legacy\Legacy
+	 * @return \ILIAS\UI\Component\Component
 	 */
 	public static function _getQuestionInfo($questionId);
 	
