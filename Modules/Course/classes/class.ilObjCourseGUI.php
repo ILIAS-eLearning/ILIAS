@@ -3216,11 +3216,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
 		$ilUser = $DIC->user();
-		$database = $DIC->database();
-
-		$logger = $DIC->logger()->root();
 
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
@@ -3286,8 +3282,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-		$logger   = $DIC->logger()->root();
-		$database = $DIC->database();
 
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
@@ -3308,11 +3302,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->redirect($this);
 		}
 
-		$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
+		$repository = new ilUserCertificateRepository();
 
-		$pdfGenerator = new ilPdfGenerator($repository, $logger);
+		$certLogger = $DIC->logger()->cert();
+		$pdfGenerator = new ilPdfGenerator($repository, $certLogger);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction($certLogger, $pdfGenerator);
 
 		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}
