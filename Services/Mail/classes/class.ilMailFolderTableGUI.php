@@ -570,15 +570,17 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
 
-			$mail['attachment_indicator'] = '';
-			if (is_array($mail['attachments'])) {
-				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
-				$mail['attachment_indicator'] = $this->uiRenderer->render(
-					$this->uiFactory->glyph()->attachment(
-						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
-					)
-				);
-				$this->ctrl->clearParametersByClass('ilmailformgui');
+			if (!$this->isDraftFolder()) {
+				$mail['attachment_indicator'] = '';
+				if (is_array($mail['attachments'])) {
+					$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+					$mail['attachment_indicator'] = $this->uiRenderer->render(
+						$this->uiFactory->glyph()->attachment(
+							$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
+						)
+					);
+					$this->ctrl->clearParametersByClass('ilmailformgui');
+				}
 			}
 
 			$data['set'][$key] = $mail;
