@@ -464,6 +464,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				unset(ilMailBoxQuery::$filter['mail_filter_only_unread']);
 			}
 
+			if ($this->isDraftFolder() && isset(ilMailBoxQuery::$filter['mail_filter_only_with_attachments'])) {
+				unset(ilMailBoxQuery::$filter['mail_filter_only_with_attachments']);
+			}
+
 			$this->determineOffsetAndOrder();
 
 			ilMailBoxQuery::$folderId = $this->_currentFolderId;
@@ -717,14 +721,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$this->filter['mail_filter_only_unread'] = (int)$onlyUnread->getChecked();
 		}
 
-		$onlyWithAttachments = new ilCheckboxInputGUI(
-			$this->lng->txt('mail_filter_only_with_attachments'),
-			'mail_filter_only_with_attachments'
-		);
-		$onlyWithAttachments->setValue(1);
-		$this->addFilterItem($onlyWithAttachments);
-		$onlyWithAttachments->readFromSession();
-		$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
+		if (!$this->isDraftFolder()) {
+			$onlyWithAttachments = new ilCheckboxInputGUI(
+				$this->lng->txt('mail_filter_only_with_attachments'),
+				'mail_filter_only_with_attachments'
+			);
+			$onlyWithAttachments->setValue(1);
+			$this->addFilterItem($onlyWithAttachments);
+			$onlyWithAttachments->readFromSession();
+			$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
+		}
 
 		$duration = new \ilDateDurationInputGUI($this->lng->txt('mail_filter_period'), 'period');
 		$duration->setStartText($this->lng->txt('mail_filter_period_from'));
