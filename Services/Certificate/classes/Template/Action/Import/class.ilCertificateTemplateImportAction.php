@@ -163,7 +163,7 @@ class ilCertificateTemplateImportAction
 			return false;
 		}
 
-		$certificate = $this->templateRepository->fetchCurrentlyActiveCertificate($this->objectId);
+		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
 		$currentVersion = (int) $certificate->getVersion();
 		$newVersion = $currentVersion;

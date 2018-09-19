@@ -207,6 +207,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 				$this->object->deleteBackgroundImage();
 			}
 		}
+
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_LP,
+			$form,
+			$this
+		);
 	}
 	
 	public function save()

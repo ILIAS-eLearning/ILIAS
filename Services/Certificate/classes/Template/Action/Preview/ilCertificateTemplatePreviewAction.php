@@ -65,7 +65,7 @@ class ilCertificateTemplatePreviewAction
 		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
+		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
 		$xslfo = $template->getCertificateContent();
 
