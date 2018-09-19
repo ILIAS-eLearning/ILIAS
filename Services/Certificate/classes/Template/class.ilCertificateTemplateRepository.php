@@ -97,6 +97,7 @@ class ilCertificateTemplateRepository
 SELECT * FROM
 certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+AND deleted = 0
 ORDER BY version ASC';
 
 		$query = $this->database->query($sql);
@@ -133,6 +134,7 @@ ORDER BY version ASC';
 		$sql = '
 SELECT * FROM certificate_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+AND deleted = 0
 AND currently_active = 1
 ';
 
@@ -173,6 +175,8 @@ AND currently_active = 1
 	}
 
 	/**
+	 * Fetch latest created certificate EVEN IF it is deleted
+	 *
 	 * @param int $objId
 	 * @return \ilCertificateTemplate
 	 */
@@ -219,7 +223,7 @@ AND currently_active = 1
 
 		$sql = '
 UPDATE certificate_template
-SET deleted = 1
+SET deleted = 1, currently_active = 0
 WHERE id = ' . $this->database->quote($templateId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
