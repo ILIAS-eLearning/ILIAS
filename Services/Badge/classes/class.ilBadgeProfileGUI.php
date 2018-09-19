@@ -180,7 +180,8 @@ class ilBadgeProfileGUI
 			}
 		} catch (ilException $exception) {
 			ilUtil::sendFailure('error_no_access');
-			return $this->listCertificates();
+			$this->listCertificates();
+			return;
 		}
 
 		$pdfScalar = $pdfGenerator->generate($userCertificateId);
