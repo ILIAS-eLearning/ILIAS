@@ -30,7 +30,7 @@ Additionally the consuming component has an opportunity to provide any command l
 
 For any use case other developers need to handle within their component when integrating the assessment questions, the `ilAsqFactoy` provides neccessary factory methods. Since the different interfaces of the assessment questions need to be used together, this factory is to be used in the consuming components multiple times.
 
-Open Question: Should this factory get integrated into the global DIC?
+The factory is integrated into the global DIC. Use `$DIC->question()` to get an instance of ilAsqFactory.
 
 # Service Class
 
@@ -84,7 +84,6 @@ Die eigentliche, notwendige Entkopplung findet in diesem Schritten statt: Verlet
 
 # Open Questions
 
-* Should the Assessment Question Factory get integrated into the global DIC?
 * Should ilTable(2) be changed to support the Assessment Question Service?
     * ilTable(2) does not support list iterators
     * ilTable(2) does not support row objects
