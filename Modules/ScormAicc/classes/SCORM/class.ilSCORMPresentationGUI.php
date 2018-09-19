@@ -861,7 +861,7 @@ class ilSCORMPresentationGUI
 
 			$pdfAction = new ilCertificatePdfAction($certificateLogger, $pdfGenerator);
 
-			$pdfAction->downloadPdf($ilUser->getId(), $this->object->getid());
+			$pdfAction->downloadPdf($ilUser->getId(), $obj_id);
 			exit;
 		}
 		// redirect to parent category if certificate is not accessible
