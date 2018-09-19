@@ -3216,32 +3216,29 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
-		
+		$ilUser = $DIC->user();
+
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
 		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{							
 			// certificate
-			include_once "Services/Certificate/classes/class.ilCertificate.php";
-			if (ilCertificate::isActive() &&
-				ilCertificate::isObjectActive($this->object->getId()) && 
-				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
-			{			    
+
+			$validator = new ilCertificateDownloadValidator();
+			if (true === $validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
-				
+
 				$this->lng->loadLanguageModule("certificate");
 				$lg->addCustomCommand($cert_url, "download_certificate");
-				
+
 				$lg->addHeaderIcon("cert_icon",
-						ilUtil::getImagePath("icon_cert.svg"),
-						$this->lng->txt("download_certificate"),
-						null,
-						null,
-						$cert_url);
+					ilUtil::getImagePath("icon_cert.svg"),
+					$this->lng->txt("download_certificate"),
+					null,
+					null,
+					$cert_url);
 			}
-			
+
 			// notification
 			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
 			if(ilMembershipNotifications::isActive())
@@ -3285,8 +3282,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-		$logger   = $DIC->logger()->root();
-		$database = $DIC->database();
 
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
@@ -3298,20 +3293,23 @@ class ilObjCourseGUI extends ilContainerGUI
 			$user_id = $ilUser->getId();
 		}
 
-		if(!ilCertificate::isActive() ||
-			!ilCertificate::isObjectActive($this->object->getId()) ||
-			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
-		{
+		$objId = (int) $this->object->getId();
+
+		$validator = new ilCertificateDownloadValidator();
+
+		if (false === $validator->isCertificateDownloadable($user_id, $objId)) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
 
-		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+		$repository = new ilUserCertificateRepository();
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$certLogger = $DIC->logger()->cert();
+		$pdfGenerator = new ilPdfGenerator($repository, $certLogger);
 
-		$pdfAction->downloadPdf((int) $user_id, (int) $this->object->getId());
+		$pdfAction = new ilCertificatePdfAction($certLogger, $pdfGenerator);
+
+		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}
 	
 	
