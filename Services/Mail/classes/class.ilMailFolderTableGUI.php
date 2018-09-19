@@ -197,23 +197,27 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			'width' => '1%'
 		];
 
-		$columns[++$i] = [
-			'field' => 'attachments',
-			'txt' => $this->lng->txt('attachments'),
-			'default' => false,
-			'optional' => true,
-			'sortable' => false,
-			'width' => '10%'
-		];
+		if (!$this->isDraftFolder()) {
+			$columns[++$i] = [
+				'field' => 'attachments',
+				'txt' => $this->lng->txt('attachments'),
+				'default' => false,
+				'optional' => true,
+				'sortable' => false,
+				'width' => '10%'
+			];
+		}
 
-		$columns[++$i] = [
-			'field' => 'personal_picture',
-			'txt' => $this->lng->txt('personal_picture'),
-			'default' => true,
-			'optional' => true,
-			'sortable' => false,
-			'width' => '10%'
-		];
+		if (!$this->isDraftFolder() && !$this->isSentFolder()) {
+			$columns[++$i] = [
+				'field' => 'personal_picture',
+				'txt' => $this->lng->txt('personal_picture'),
+				'default' => true,
+				'optional' => true,
+				'sortable' => false,
+				'width' => '10%'
+			];
+		}
 
 		if($this->isDraftFolder() || $this->isSentFolder()) {
 			$columns[++$i] = [
@@ -480,6 +484,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				unset(ilMailBoxQuery::$filter['mail_filter_only_unread']);
 			}
 
+			if ($this->isDraftFolder() && isset(ilMailBoxQuery::$filter['mail_filter_only_with_attachments'])) {
+				unset(ilMailBoxQuery::$filter['mail_filter_only_with_attachments']);
+			}
+
 			$this->determineOffsetAndOrder();
 
 			ilMailBoxQuery::$folderId = $this->_currentFolderId;
@@ -586,15 +594,17 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
 
-			$mail['attachment_indicator'] = '';
-			if (is_array($mail['attachments'])) {
-				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
-				$mail['attachment_indicator'] = $this->uiRenderer->render(
-					$this->uiFactory->glyph()->attachment(
-						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
-					)
-				);
-				$this->ctrl->clearParametersByClass('ilmailformgui');
+			if (!$this->isDraftFolder()) {
+				$mail['attachment_indicator'] = '';
+				if (is_array($mail['attachments'])) {
+					$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+					$mail['attachment_indicator'] = $this->uiRenderer->render(
+						$this->uiFactory->glyph()->attachment(
+							$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
+						)
+					);
+					$this->ctrl->clearParametersByClass('ilmailformgui');
+				}
 			}
 
 			$mail['actions'] = $this->formatActionsDropDown($mail);
@@ -733,14 +743,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$this->filter['mail_filter_only_unread'] = (int)$onlyUnread->getChecked();
 		}
 
-		$onlyWithAttachments = new ilCheckboxInputGUI(
-			$this->lng->txt('mail_filter_only_with_attachments'),
-			'mail_filter_only_with_attachments'
-		);
-		$onlyWithAttachments->setValue(1);
-		$this->addFilterItem($onlyWithAttachments);
-		$onlyWithAttachments->readFromSession();
-		$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
+		if (!$this->isDraftFolder()) {
+			$onlyWithAttachments = new ilCheckboxInputGUI(
+				$this->lng->txt('mail_filter_only_with_attachments'),
+				'mail_filter_only_with_attachments'
+			);
+			$onlyWithAttachments->setValue(1);
+			$this->addFilterItem($onlyWithAttachments);
+			$onlyWithAttachments->readFromSession();
+			$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
+		}
 
 		$duration = new \ilDateDurationInputGUI($this->lng->txt('mail_filter_period'), 'period');
 		$duration->setEmptyBoundaries(true);
