@@ -35,7 +35,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
 			$ts = new ilDateTime($c["status_changed"], IL_CAL_DATETIME);
 			$entries[] = $this->getFactory()->entry($lng->txt("trac_lhist_obj_completed"),
 				$lng->txt("trac_lhist_obj_completed_in"),
-				ilUtil::getImagePath("scorm/completed.svg"),
+				ilObject::_getIcon($c["obj_id"]),
 				$ts->get(IL_CAL_UNIX),
 				$c["obj_id"]);
 		}

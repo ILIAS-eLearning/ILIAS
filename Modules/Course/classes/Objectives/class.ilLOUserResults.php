@@ -584,6 +584,39 @@ class ilLOUserResults
 		}
 		return false;
 	}
+
+	/**
+	 * Get completed learning objectives for user and time frame
+	 * @param int $a_user_id
+	 * @param int $a_from_ts
+	 * @param int $a_to_ts
+	 * @return array
+	 */
+	public static function getCompletionsOfUser($a_user_id, $a_from_ts, $a_to_ts)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$res = array();
+
+		$sql =  "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final, lor.tstamp, lor.course_id, cobj.title".
+			" FROM loc_user_results lor".
+			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".
+			" WHERE lor.user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
+			" AND lor.tstamp >= ".$ilDB->quote($a_from_ts, "integer").
+			" AND lor.tstamp <= ".$ilDB->quote($a_to_ts, "integer").
+			" AND lor.status = ".$ilDB->quote(self::STATUS_COMPLETED, "integer");
+
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["objective_id"]] = $row;
+		}
+		return $res;
+	}
+
 }
 
 ?>

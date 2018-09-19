@@ -14,6 +14,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+skll#:#skll_lhist_skill_achieved#:#Skill '$3$' level '$4$' was achieved in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge '$3$' was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge '$3$' was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered '$3$' in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
