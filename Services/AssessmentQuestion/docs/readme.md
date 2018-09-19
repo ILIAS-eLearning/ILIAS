@@ -34,7 +34,11 @@ The factory is integrated into the global DIC. Use `$DIC->question()` to get an 
 
 # Service Class
 
-There are two requirements that cannot be handled by any concrete and question type specific implementation of any assessment question interfaces. Therefore the `ilAsqService` class provides a container for static methods handling this requirements.
+There are four requirements up to now that cannot be handled by any concrete and question type specific implementation of any assessment question interfaces. Therefore the `ilAsqService` class provides a container for methods handling this requirements. An instance of the service class can be requested using `$DIC->question()->service()`.
+
+* When integrating questions to any component for authoring purposes, a forwarding needs to be implemented in the component's `executeCommand()` method. To check wether any concrete question type authoring implementation is indeed the current next class in the control flow, a suitable method is provided in the `ilAsqService` class.
+* Due to the use of the QTI service during imports of QTI xmls a determination of the question type based on the QTI item is required, because an empty object instance needs to be requested. Currently the question type is provided by the QTI item, but this may get changed in the future. `ilAsqService` provides a suitable method for this purpose.
+* When question managing components need to copy questions within the same consumer instance a method is required to check for existing question titles. `ilAsqService` provides this message.
 
 # Usage of the Service
 

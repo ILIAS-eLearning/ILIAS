@@ -63,25 +63,4 @@ class ilAsqService
 		
 		return $row['cnt'] > 0;
 	}
-	
-	/**
-	 * @param integer $questionId
-	 * @return integer
-	 */
-	public function lookupParentObjId($questionId)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$res = $DIC->database()->queryF(
-			"SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-			array('integer'), array($questionId)
-		);
-		
-		while( $row = $DIC->database()->fetchAssoc($res) )
-		{
-			$row['obj_fi'];
-		}
-		
-		throw new InvalidArgumentException();
-	}
 }
