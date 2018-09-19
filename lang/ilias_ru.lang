@@ -1513,7 +1513,7 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Фоновое изображение
-certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to set this certificate template as deleted? User certificates that are currently processing and still rely on this template, will still be built based on this template. This certificate template will be not longer be used for new user certificates after deletion. The previous created certificate template will be used for new user certificates instead.
 certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
 certificate#:#certificate_enabled_scorm#:#Enabled

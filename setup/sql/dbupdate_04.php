@@ -22909,4 +22909,17 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#5298>
+<?php
+if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
+	$ilDB->addTableColumn(
+		'certificate_template',
+			'deleted', array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			)
+	);
+}
+?>

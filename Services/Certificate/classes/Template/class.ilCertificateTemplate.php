@@ -62,6 +62,11 @@ class ilCertificateTemplate
 	private $obj_type;
 
 	/**
+	 * @var bool
+	 */
+	private $deleted;
+
+	/**
 	 * @param integer $obj_id
 	 * @param $obj_type
 	 * @param string $certificateContent
@@ -73,6 +78,7 @@ class ilCertificateTemplate
 	 * @param boolean $currentlyActive
 	 * @param null $backgroundImagePath
 	 * @param integer|null $id
+	 * @param bool $deleted
 	 */
 	public function __construct(
 		$obj_id,
@@ -85,7 +91,8 @@ class ilCertificateTemplate
 		$createdTimestamp,
 		$currentlyActive,
 		$backgroundImagePath = null,
-		$id = null
+		$id = null,
+		bool $deleted = false
 	) {
 		$this->obj_id = $obj_id;
 		$this->obj_type = $obj_type;
@@ -98,6 +105,7 @@ class ilCertificateTemplate
 		$this->currentlyActive = $currentlyActive;
 		$this->backgroundImagePath = $backgroundImagePath;
 		$this->id = $id;
+		$this->deleted = $deleted;
 	}
 
 	/**
@@ -186,5 +194,13 @@ class ilCertificateTemplate
 	public function getObjType(): string
 	{
 		return $this->obj_type;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isDeleted(): bool
+	{
+		return $this->deleted;
 	}
 }
