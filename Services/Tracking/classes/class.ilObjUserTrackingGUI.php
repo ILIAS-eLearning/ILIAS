@@ -487,6 +487,21 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->editLPDefaultsObject($form);
 		return false;
 	}
+
+	/**
+	 * @param string $a_form_id
+	 * @return array
+	 */
+	public function addToExternalSettingsForm($a_form_id)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_CERTIFICATE:
+				$fields = array();
+
+				return array('obj_trac' => array('editLPDefaults', $fields));
+		}
+	}
 } 
 
 ?>

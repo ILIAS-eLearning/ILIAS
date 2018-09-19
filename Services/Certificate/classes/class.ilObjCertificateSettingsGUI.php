@@ -198,6 +198,19 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 			$form->addCommandButton('save',$this->lng->txt('save'));
 		}
 
+		$learningProgressObject = ilObjectLP::getInstance($this->object->getId());
+
+		$learningProgressMode = $learningProgressObject->getCurrentMode();
+
+		if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+			ilAdministrationSettingsFormHandler::addFieldsToForm(
+				ilAdministrationSettingsFormHandler::FORM_CERTIFICATE,
+				$form,
+				$this
+			);
+		}
+
+
 		$this->tpl->setContent($form->getHTML());
 
 		if (strcmp($this->ctrl->getCmd(), "save") == 0)
