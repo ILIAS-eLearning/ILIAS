@@ -128,12 +128,6 @@ interface ilAsqQuestion
 	 * @param integer $questionId
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public static function _getSuggestedSolutionOutput($questionId);
-	
-	/**
-	 * @param integer $questionId
-	 * @return \ILIAS\UI\Component\Component
-	 */
 	public static function _getQuestionInfo($questionId);
 	
 	/**
