@@ -176,6 +176,57 @@ LIMIT 1
 	}
 
 	/**
+	 * @param int $objId
+	 * @return \ilCertificateTemplate
+	 */
+	public function fetchCurrentlyActiveCertificate(int $objId): \ilCertificateTemplate
+	{
+		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
+
+		$sql = '
+SELECT * FROM certificate_template
+WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+AND deleted = 0
+AND currently_active = 1
+';
+
+		$query = $this->database->query($sql);
+
+		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->info(sprintf('END - Found active certificate for: "%s"', $objId));
+
+			return new ilCertificateTemplate(
+				$row['obj_id'],
+				$row['obj_type'],
+				$row['certificate_content'],
+				$row['certificate_hash'],
+				$row['template_values'],
+				$row['version'],
+				$row['ilias_version'],
+				$row['created_timestamp'],
+				(boolean) $row['currently_active'],
+				$row['background_image_path'],
+				$row['id']
+			);
+		}
+
+		$this->logger->info(sprintf('END - Found NO active certificate for: "%s"', $objId));
+
+		return new ilCertificateTemplate(
+			$objId,
+			$this->objectDataCache->lookUpType($objId),
+			'',
+			'',
+			'',
+			0,
+			0,
+			0,
+			true,
+			''
+		);
+	}
+
+	/**
 	 * Fetch latest created certificate EVEN IF it is deleted
 	 *
 	 * @param int $objId

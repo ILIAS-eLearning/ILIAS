@@ -135,7 +135,7 @@ class ilCertificateCron extends \ilCronJob
 					$objId
 				));
 
-				$template = $this->templateRepository->fetchCurrentlyUsedCertificate($objId);
+				$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objId);
 
 				$object = ilObjectFactory::getInstanceByObjId($objId, false);
 				$type = $object->getType();
