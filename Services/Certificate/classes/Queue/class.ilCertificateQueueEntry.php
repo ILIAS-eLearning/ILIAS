@@ -37,25 +37,33 @@ class ilCertificateQueueEntry
 	private $id;
 
 	/**
+	 * @var int
+	 */
+	private $templateId;
+
+	/**
 	 * @param integer $objId
 	 * @param integer $userId
 	 * @param string $adapterClass
 	 * @param string $state
+	 * @param $templateId
 	 * @param integer|null $startedTimestamp
 	 * @param integer|null $id
 	 */
 	public function __construct(
-		$objId,
-		$userId,
-		$adapterClass,
-		$state,
-		$startedTimestamp = null,
-		$id = null
+		int $objId,
+		int $userId,
+		string $adapterClass,
+		string $state,
+		int $templateId,
+		int $startedTimestamp = null,
+		int $id = null
 	) {
 		$this->objId = $objId;
 		$this->userId = $userId;
 		$this->adapterClass = $adapterClass;
 		$this->state = $state;
+		$this->templateId = $templateId;
 		$this->startedTimestamp = $startedTimestamp;
 		$this->id = $id;
 	}
@@ -106,5 +114,13 @@ class ilCertificateQueueEntry
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTemplateId(): int
+	{
+		return $this->templateId;
 	}
 }

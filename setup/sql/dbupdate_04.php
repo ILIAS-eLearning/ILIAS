@@ -22923,3 +22923,17 @@ if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
 	);
 }
 ?>
+<#5299>
+<?php
+if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
+	$ilDB->addTableColumn(
+		'certificate_cron_queue',
+		'template_id', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>

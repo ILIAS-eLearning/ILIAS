@@ -68,25 +68,30 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 			$certificateQueueRepository = new ilCertificateQueueRepository($database, $logger);
 			$certificateClassMap = new ilCertificateTypeClassMap();
-			$activeAction = new ilCertificateActiveAction($database);
+			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
 
 			$objectId = $a_params['obj_id'];
 			$userId = $a_params['usr_id'];
 
 			$type = $ilObjectDataCache->lookupType($objectId);
 
-			if ($certificateClassMap->typeExistsInMap($type) && $activeAction->isObjectActive($objectId)) {
-				$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+			$template = $templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
-				$entry = new ilCertificateQueueEntry(
-					$objectId,
-					$userId,
-					$className,
-					ilCronConstants::IN_PROGRESS,
-					time()
-				);
+			if (true === $template->isCurrentlyActive()) {
+				if ($certificateClassMap->typeExistsInMap($type)) {
+					$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
 
-				$certificateQueueRepository->addToQueue($entry);
+					$entry = new ilCertificateQueueEntry(
+						$objectId,
+						$userId,
+						$className,
+						ilCronConstants::IN_PROGRESS,
+						$template->getId(),
+						time()
+					);
+
+					$certificateQueueRepository->addToQueue($entry);
+				}
 			}
 
 			foreach (ilObject::_getAllReferences($objectId) as $refId) {
@@ -95,22 +100,25 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
 				foreach ($completedCourses as $courseObjId) {
-					$type = $ilObjectDataCache->lookupType($courseObjId);
+					$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
 
-					$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+					if (true === $courseTemplate->isCurrentlyActive()) {
+						$type = $ilObjectDataCache->lookupType($courseObjId);
 
-					$entry = new ilCertificateQueueEntry(
-						$courseObjId,
-						$userId,
-						$className,
-						ilCronConstants::IN_PROGRESS,
-						time()
-					);
+						$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
 
-					$certificateQueueRepository->addToQueue($entry);
+						$entry = new ilCertificateQueueEntry(
+							$courseObjId,
+							$userId,
+							$className,
+							ilCronConstants::IN_PROGRESS,
+							time()
+						);
+
+						$certificateQueueRepository->addToQueue($entry);
+					}
 				}
 			}
-
 		}
 	}
 

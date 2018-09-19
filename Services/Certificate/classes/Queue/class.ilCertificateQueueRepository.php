@@ -41,7 +41,9 @@ class ilCertificateQueueRepository
 			'usr_id'            => array('integer', $certificateQueueEntry->getUserId()),
 			'adapter_class'     => array('clob', $certificateQueueEntry->getAdapterClass()),
 			'state'             => array('clob', $certificateQueueEntry->getState()),
-			'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp())
+			'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp()),
+			'template_id'       => array('integer', $certificateQueueEntry->getTemplateId()),
+
 		);
 
 		$this->logger->debug(sprintf('Save queue entry with following values: %s', json_encode($row, JSON_PRETTY_PRINT)));
@@ -84,6 +86,7 @@ class ilCertificateQueueRepository
 				$row['usr_id'],
 				$row['adapter_class'],
 				$row['state'],
+				$row['template_id'],
 				$row['started_timestamp'],
 				$row['id']
 			);
