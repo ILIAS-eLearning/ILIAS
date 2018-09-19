@@ -163,4 +163,18 @@ class Container extends \Pimple\Container {
 	public function event() {
 		return $this['ilAppEventHandler'];
 	}
+
+	/**
+	 * @return \ilLearningHistoryService
+	 */
+	public function learningHistory() {
+		return new \ilLearningHistoryService(
+			$this->user(),
+			$this->language(),
+			$this->ui(),
+			$this->access(),
+			$this->repositoryTree()
+		);
+	}
+
 }

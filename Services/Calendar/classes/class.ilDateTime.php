@@ -509,6 +509,7 @@ class ilDateTime
 	 * @param int format type
 	 * @param string format string
 	 * @param string a specific timezone
+	 * @return string|int
 	 */
 	public function get($a_format,$a_format_str = '',$a_tz = '')
 	{

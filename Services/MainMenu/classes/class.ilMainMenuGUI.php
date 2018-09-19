@@ -664,7 +664,14 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+			$lng->loadLanguageModule("lhist");
+			$gl->addEntry($lng->txt("lhist_learning_history"), $this->ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilLearningHistoryGUI"]),
+				"_top", "", "", "mm_pd_lhist", ilHelp::getMainMenuTooltip("mm_pd_lhist"),
+				"left center", "right center", false);
+
+			$separator = true;
+
 			// skills
 			$skmg_set = new ilSetting("skmg");
 			if ($skmg_set->get("enable_skmg"))

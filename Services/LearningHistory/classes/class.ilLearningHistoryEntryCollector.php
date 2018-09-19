@@ -11,29 +11,43 @@
 class ilLearningHistoryEntryCollector
 {
 	/**
-	 * Constructor
-	 * @param int $from
-	 * @param int $to
+	 * @var ilLearningHistoryService
 	 */
-	public function __construct($from = null, $to = null)
+	protected $service;
+
+	/**
+	 * Constructor
+	 * @param ilLearningHistoryService $service
+	 */
+	public function __construct(ilLearningHistoryService $service)
 	{
-		$this->to = (is_null($to))
-			? time()
-			: $to;
-		$this->from = (is_null($from))
-			? time() - (365 * 24 * 60 * 60)
-			: $from;
+		$this->service = $service;
 	}
 	
 	/**
 	 * Get entries
 	 *
-	 * @param
-	 * @return
+	 * @return ilLearningHistoryEntry[]
 	 */
-	protected function getEntries()
+	public function getEntries($from = null, $to = null, $user_id = null)
 	{
-		
+		$entries = array();
+
+		$to = (is_null($to))
+			? time()
+			: $to;
+		$from = (is_null($from))
+			? time() - (365 * 24 * 60 * 60)
+			: $from;
+
+		foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider)
+		{
+			foreach ($provider->getEntries($from, $to) as $e)
+			{
+				$entries[] = $e;
+			}
+		}
+		return $entries;
 	}
 	
 
