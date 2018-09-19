@@ -13,44 +13,41 @@ interface ilAsqQuestionSolution
 {
 	/**
 	 * @param integer $solutionId
-	 * @return void
 	 */
-	public function setSolutionId($solutionId);
+	public function setSolutionId($solutionId) : void;
 	
 	/**
 	 * @return integer
 	 */
-	public function getSolutionId();
+	public function getSolutionId() : int;
 	
 	/**
 	 * @param integer $questionId
-	 * @return void
 	 */
-	public function setQuestionId($questionId);
+	public function setQuestionId($questionId) : void;
 	
 	/**
 	 * @return integer
 	 */
-	public function getQuestionId();
+	public function getQuestionId() : int;
 	
 	/**
-	 * @return void
+	 * Loads soluton data
 	 */
-	public function load();
+	public function load() : void;
 	
 	/**
-	 * @return void
+	 * Saves solution data
 	 */
-	public function save();
+	public function save() : void;
 	
 	/**
 	 * @param \Psr\Http\Message\ServerRequestInterface $request
-	 * @return void
 	 */
-	public function initFromServerRequest(\Psr\Http\Message\ServerRequestInterface $request);
+	public function initFromServerRequest(\Psr\Http\Message\ServerRequestInterface $request) : void;
 	
 	/**
 	 * @return bool
 	 */
-	public function isEmpty();
+	public function isEmpty() : bool;
 }

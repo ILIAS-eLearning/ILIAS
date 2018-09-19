@@ -13,48 +13,47 @@ interface ilAsqQuestionPresentation
 {
 	/**
 	 * @param ilAsqQuestion $question
-	 * @return void
 	 */
-	public function setQuestion(ilAsqQuestion $question);
+	public function setQuestion(ilAsqQuestion $question) : void;
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function getQuestionPresentation(ilAsqQuestionSolution $solution);
+	public function getQuestionPresentation(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function getSolutionPresentation(ilAsqQuestionSolution $solution);
+	public function getSolutionPresentation(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function getGenericFeedbackOutput(ilAsqQuestionSolution $solution);
+	public function getGenericFeedbackOutput(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function getSpecificFeedbackOutput(ilAsqQuestionSolution $solution);
+	public function getSpecificFeedbackOutput(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
 	
 	/**
 	 * @return bool
 	 */
-	public function hasInlineFeedback();
+	public function hasInlineFeedback() : bool;
 	
 	/**
 	 * @return bool
 	 */
-	public function isAutosaveable();
+	public function isAutosaveable() : bool;
 	
 	/**
-	 * @return mixed
+	 * @param ilAsqQuestionNavigationAware
 	 */
-	public function setQuestionNavigation(ilAsqQuestionNavigationAware $questionNavigationAware);
+	public function setQuestionNavigation(ilAsqQuestionNavigationAware $questionNavigationAware) : void;
 	
 	/**
 	 * render purpose constants that are required for using desired presentation renderer
@@ -68,5 +67,5 @@ interface ilAsqQuestionPresentation
 	/**
 	 * @param $renderPurpose
 	 */
-	public function setRenderPurpose($renderPurpose);
+	public function setRenderPurpose($renderPurpose) : void;
 }

@@ -12,115 +12,112 @@
 interface ilAsqQuestion
 {
 	/**
-	 * @param int $parentId
-	 * @return void
+	 * @param $parentId
 	 */
-	public function setParentId($parentId);
+	public function setParentId($parentId) : void;
 	
 	/**
 	 * @return int
 	 */
-	public function getParentId();
+	public function getParentId() : int;
 	
 	/**
 	 * @param int $questionId
-	 * @return void
 	 */
-	public function setId($questionId);
+	public function setId($questionId) : void;
 	
 	/**
-	 * @return int $questionId
+	 * @return int
 	 */
-	public function getId();
-	
-	/**
-	 * @return string
-	 */
-	public function getTitle();
+	public function getId() : int;
 	
 	/**
 	 * @return string
 	 */
-	public function getComment();
+	public function getTitle() : string;
 	
 	/**
 	 * @return string
 	 */
-	public function getOwner();
-	
-	/**
-	 * @return string $questionType
-	 */
-	public function getQuestionType();
+	public function getComment() : string;
 	
 	/**
 	 * @return string
 	 */
-	public function getQuestionText();
+	public function getOwner() : string;
 	
 	/**
 	 * @return string
 	 */
-	public function getPoints();
+	public function getQuestionType() : string;
 	
 	/**
 	 * @return string
 	 */
-	public function getEstimatedWorkingTime();
+	public function getQuestionText() : string;
 	
 	/**
-	 * @return void
+	 * @return float
 	 */
-	public function load();
+	public function getPoints() : float;
 	
 	/**
-	 * @return void
+	 * @return string
 	 */
-	public function save();
+	public function getEstimatedWorkingTime() : string;
 	
 	/**
-	 * @return void
+	 * Loads question data
 	 */
-	public function delete();
+	public function load() : void;
+	
+	/**
+	 * Save question data
+	 */
+	public function save() : void;
+	
+	/**
+	 * Delete question
+	 */
+	public function delete() : void;
 	
 	/**
 	 * @param ilQTIItem $qtiItem
-	 * @return void
 	 */
-	public function fromQtiItem(ilQTIItem $qtiItem);
+	public function fromQtiItem(ilQTIItem $qtiItem) : void;
 	
 	/**
 	 * @return string
 	 */
-	public function toQtiXML();
+	public function toQtiXML() : string;
 	
 	/**
 	 * @return bool
 	 */
-	public function isComplete();
+	public function isComplete() : bool;
 	
 	/**
 	 * @return ilAsqQuestionSolution
 	 */
-	public function getBestSolution();
+	public function getBestSolution() : ilAsqQuestionSolution;
 	
 	/**
 	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function getSuggestedSolutionOutput();
+	public function getSuggestedSolutionOutput() : \ILIAS\UI\Component\Component;
 	
 	/**
 	 * @return string
 	 */
-	public function toJSON();
+	public function toJSON() : string;
 	
 	/**
 	 * @param string $offlineExportImagePath
 	 */
-	public function setOfflineExportImagePath($offlineExportImagePath = null);
+	public function setOfflineExportImagePath($offlineExportImagePath = null) : void;
 	
 	/**
 	 * @param string $offlineExportPagePresentationMode
 	 */
-	public function setOfflineExportPagePresentationMode($offlineExportPagePresentationMode = 'presentation');
+	public function setOfflineExportPagePresentationMode($offlineExportPagePresentationMode = 'presentation') : void;
 }

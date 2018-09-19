@@ -15,7 +15,7 @@ class ilAsqFactory
 	/**
 	 * @return ilAsqService
 	 */
-	public function service()
+	public function service() : ilAsqService
 	{
 		return new ilAsqService();
 	}
@@ -24,7 +24,7 @@ class ilAsqFactory
 	 * @param integer $parentObjectId
 	 * @return array
 	 */
-	public function getQuestionDataArray($parentObjectId)
+	public function getQuestionDataArray($parentObjectId) : array
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		global $ilPluginAdmin; /* @var ilPluginAdmin $ilPluginAdmin */
@@ -45,7 +45,7 @@ class ilAsqFactory
 	 * @param integer $parentObjectId
 	 * @return ilAsqQuestion[]
 	 */
-	public function getQuestionInstances($parentObjectId)
+	public function getQuestionInstances($parentObjectId) : array
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		global $ilPluginAdmin; /* @var ilPluginAdmin $ilPluginAdmin */
@@ -68,7 +68,7 @@ class ilAsqFactory
 	 * @param ilAsqQuestion $questionInstance
 	 * @return ilAsqQuestionAuthoring
 	 */
-	public function getAuthoringCommandInstance($questionInstance)
+	public function getAuthoringCommandInstance($questionInstance) : ilAsqQuestionAuthoring
 	{
 		$authoringGUI; /* @var ilAsqQuestionAuthoring $authoringGUI */
 		
@@ -86,7 +86,7 @@ class ilAsqFactory
 	 * @param ilAsqQuestion $questionInstance
 	 * @return ilAsqQuestionPresentation
 	 */
-	public function getQuestionPresentationInstance($questionInstance)
+	public function getQuestionPresentationInstance($questionInstance) : ilAsqQuestionPresentation
 	{
 		$presentationGUI; /* @var ilAsqQuestionPresentation $presentationGUI */
 		
@@ -104,7 +104,7 @@ class ilAsqFactory
 	 * @param integer $questionId
 	 * @return ilAsqQuestion
 	 */
-	public function getQuestionInstance($questionId)
+	public function getQuestionInstance($questionId) : ilAsqQuestion
 	{
 		$questionInstance; /* @var ilAsqQuestion $questionInstance */
 		
@@ -123,7 +123,7 @@ class ilAsqFactory
 	 * @param string $questionId
 	 * @return ilAsqQuestion
 	 */
-	public function getEmptyQuestionInstance($questionType)
+	public function getEmptyQuestionInstance($questionType) : ilAsqQuestion
 	{
 		$questionInstance; /* @var ilAsqQuestion $questionInstance */
 		
@@ -139,7 +139,7 @@ class ilAsqFactory
 	 * @param integer $questionId
 	 * @return ilAsqQuestion
 	 */
-	public function getOfflineExportableQuestionInstance($questionId, $a_image_path = null, $a_output_mode = 'presentation')
+	public function getOfflineExportableQuestionInstance($questionId, $a_image_path = null, $a_output_mode = 'presentation') : ilAsqQuestion
 	{
 		$questionInstance; /* @var ilAsqQuestion $questionInstance */
 		
@@ -162,7 +162,7 @@ class ilAsqFactory
 	 * @param integer $solutionId
 	 * @return ilAsqQuestionSolution
 	 */
-	public function getQuestionSolutionInstance($questionId, $solutionId)
+	public function getQuestionSolutionInstance($questionId, $solutionId) : ilAsqQuestionSolution
 	{
 		$questionSolutionInstance; /* @var ilAsqQuestionSolution $questionSolutionInstance */
 		
@@ -181,7 +181,7 @@ class ilAsqFactory
 	 * @param integer $questionId
 	 * @return ilAsqQuestionSolution
 	 */
-	public function getEmptyQuestionSolutionInstance($questionId)
+	public function getEmptyQuestionSolutionInstance($questionId) : ilAsqQuestionSolution
 	{
 		$emptySolutionInstance; /* @var ilAsqQuestionSolution $questionSolutionInstance */
 		
@@ -200,7 +200,7 @@ class ilAsqFactory
 	 * @param ilAsqQuestionSolution $solutionInstance
 	 * @return ilAsqResultCalculator
 	 */
-	public function getResultCalculator(ilAsqQuestion $questionInstance, ilAsqQuestionSolution $solutionInstance)
+	public function getResultCalculator(ilAsqQuestion $questionInstance, ilAsqQuestionSolution $solutionInstance) : ilAsqResultCalculator
 	{
 		$resultCalculator; /* @var ilAsqResultCalculator $resultCalculator */
 		

@@ -16,26 +16,16 @@ interface ilAsqResultCalculator
 	 * @param ilAsqQuestion $question
 	 * @return void
 	 */
-	public function setQuestion(ilAsqQuestion $question);
+	public function setQuestion(ilAsqQuestion $question) : void;
 	
 	/**
 	 * @param ilAsqQuestionSolution $question
 	 * @return void
 	 */
-	public function setSolution(ilAsqQuestionSolution $question);
+	public function setSolution(ilAsqQuestionSolution $question) : void;
 	
 	/**
-	 * @return void
+	 * @return ilAsqQuestionResult
 	 */
-	public function calculate();
-	
-	/**
-	 * @return integer
-	 */
-	public function getPoints();
-	
-	/**
-	 * @return bool
-	 */
-	public function isCorrect();
+	public function calculate() : ilAsqQuestionResult;
 }

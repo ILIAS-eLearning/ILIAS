@@ -15,7 +15,7 @@ class ilAsqService
 	 * @param ilCtrl $ctrl
 	 * @return string
 	 */
-	public function fetchNextAuthoringCommandClass($nextClass)
+	public function fetchNextAuthoringCommandClass($nextClass) : string
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -40,7 +40,7 @@ class ilAsqService
 	 * @param ilQTIItem $qtiItem
 	 * @return string
 	 */
-	public function determineQuestionTypeByQtiItem(ilQTIItem $qtiItem)
+	public function determineQuestionTypeByQtiItem(ilQTIItem $qtiItem) : string
 	{
 		// the qti service parses ILIAS question types, so use it
 		// although this may get changed in the future 
@@ -52,7 +52,7 @@ class ilAsqService
 	 * @param string $questionTitle
 	 * @return bool
 	 */
-	public function questionTitleExists($parentObjectId, $questionTitle)
+	public function questionTitleExists($parentObjectId, $questionTitle) : bool
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
