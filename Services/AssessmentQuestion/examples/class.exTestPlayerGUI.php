@@ -155,17 +155,17 @@ class exTestPlayerGUI
 		$solutionInstance = $this->getParticipantSolution($questionId);
 		$resultCalculator = $DIC->question()->getResultCalculator($questionInstance, $solutionInstance);
 		
-		$resultCalculator->calculate();
+		$resultInstance = $resultCalculator->calculate();
 		
 		/**
 		 * handle the calculated result in any kind
 		 */
 		
 		// can be stored in any ilTestResult object managed by the test
-		$reachedPoints = $resultCalculator->getPoints();
+		$reachedPoints = $resultInstance->getPoints();
 		
 		// can be used to differ answer status in CTM's test sequence
-		$isCorrect = $resultCalculator->isCorrect();
+		$isCorrect = $resultInstance->isCorrect();
 	}
 	
 	/**
