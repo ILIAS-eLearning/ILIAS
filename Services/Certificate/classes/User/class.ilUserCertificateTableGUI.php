@@ -44,21 +44,22 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('title'), '', '');
 		$this->addColumn($this->lng->txt('date'), '', '');
 		$this->addColumn($this->lng->txt('action'), '', '');
+
+		$this->enable('select_all');
 	}
 
-	protected function fillRow(array $dataSet)
+	protected function fillRow($a_set)
 	{
-		$this->enable('select_all');
 		$this->setSelectAllCheckbox('conditions');
 
 		$this->tpl->setCurrentBlock('row');
 
-		$this->tpl->setVariable('ID',  $dataSet['id']);
-		$this->tpl->setVariable('TITLE', $dataSet['title']);
-		$this->tpl->setVariable('DATE', $dataSet['date']);
+		$this->tpl->setVariable('ID',  $a_set['id']);
+		$this->tpl->setVariable('TITLE', $a_set['title']);
+		$this->tpl->setVariable('DATE', $a_set['date']);
 
-		$guiClass = get_class($this); //'ilUserCertificateGUI';
-		$this->controller->setParameterByClass($guiClass, 'certificate_id', $dataSet['id']);
+		$guiClass = get_class($this);
+		$this->controller->setParameterByClass($guiClass, 'certificate_id', $a_set['id']);
 
 		$link = $this->controller->getLinkTargetByClass($guiClass, 'download');
 
