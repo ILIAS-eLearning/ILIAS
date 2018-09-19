@@ -195,14 +195,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			'width' => '10%'
 		];
 
-		$columns[++$i] = [
-			'field' => 'personal_picture',
-			'txt' => $this->lng->txt('personal_picture'),
-			'default' => true,
-			'optional' => true,
-			'sortable' => false,
-			'width' => '10%'
-		];
+		if (!$this->isDraftFolder() && !$this->isSentFolder()) {
+			$columns[++$i] = [
+				'field' => 'personal_picture',
+				'txt' => $this->lng->txt('personal_picture'),
+				'default' => true,
+				'optional' => true,
+				'sortable' => false,
+				'width' => '10%'
+			];
+		}
 
 		if($this->isDraftFolder() || $this->isSentFolder()) {
 			$columns[++$i] = [
