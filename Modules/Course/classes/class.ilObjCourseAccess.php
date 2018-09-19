@@ -544,13 +544,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
 
-		$database = $DIC->database();
-
 		$lng->loadLanguageModule("crs");
 		
 		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
 		
-		$repository = new ilUserCertificateRepository($database, $DIC->logger()->cert());
+		$repository = new ilUserCertificateRepository();
 		$coursePreload = new ilCertificateCoursePreloader($repository);
 		$coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
 	}

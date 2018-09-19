@@ -20,9 +20,18 @@ class ilUserCertificateRepository
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
 	 */
-	public function __construct(\ilDBInterface $database, ilLogger $logger)
+	public function __construct(\ilDBInterface $database = null, ilLogger $logger = null)
 	{
+		if (null === $database) {
+			global $DIC;
+			$database = $DIC->database();
+		}
 		$this->database = $database;
+
+		if (null === $logger)  {
+			global $DIC;
+			$logger = $DIC->logger()->cert();
+		}
 		$this->logger = $logger;
 	}
 

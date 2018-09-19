@@ -45,10 +45,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		// general commands array
 		$this->commands = ilObjCourseAccess::_getCommands();
 
-		$database = $DIC->database();
-		$certificateLogger = $DIC->logger()->cert();
-
-		$repository = new ilUserCertificateRepository($database, $certificateLogger);
+		$repository = new ilUserCertificateRepository();
 		$this->preloader = new ilCertificateCoursePreloader($repository);
 	}
 	
