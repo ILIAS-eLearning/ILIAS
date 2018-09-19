@@ -18,9 +18,10 @@ class exObjQuestionPoolGUI
 	 *
 	 * Since the consumer MUST not know about any concrete question type's ilAsqQuestionAuthoring implementation
 	 * a dynamic switch-case expression is neccessary. The ilAsqService class provides such an expression
-	 * in form of a static method. It returns the lowercase class name for the corresponding
+	 * with a corresponding method. It returns the lowercase class name for the corresponding
 	 * question type authoring class or the interface name when the current next class in the control flow
 	 * does not relate to any question type authoring class.
+	 * An instance of the service class can be requested using $DIC->question()->service().
 	 */
 	public function executeCommand()
 	{
@@ -74,7 +75,8 @@ class exObjQuestionPoolGUI
 	 * fromQtiItem can be used. To retrieve an empty ilAsqQuestion instance, the question type of the
 	 * QtiItem needs to be determined.
 	 * 
-	 * For the question type determination the ilAsqService class provides a corresponding static method.
+	 * For the question type determination the ilAsqService class provides a corresponding method.
+	 * An instance of the service class can be requested using $DIC->question()->service().
 	 */
 	public function importQuestions()
 	{

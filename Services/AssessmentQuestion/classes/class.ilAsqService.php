@@ -46,4 +46,42 @@ class ilAsqService
 		// although this may get changed in the future 
 		return $qtiItem->getQuestiontype();
 	}
+	
+	/**
+	 * @param integer $parentObjectId
+	 * @param string $questionTitle
+	 * @return bool
+	 */
+	public function questionTitleExists($parentObjectId, $questionTitle)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$row = $DIC->database()->fetchAssoc($DIC->database()->queryF(
+			"SELECT COUNT(question_id) cnt FROM qpl_questions WHERE obj_fi = %s AND title = %s",
+			array('integer', 'text'), array($parentObjectId, $questionTitle)
+		));
+		
+		return $row['cnt'] > 0;
+	}
+	
+	/**
+	 * @param integer $questionId
+	 * @return integer
+	 */
+	public function lookupParentObjId($questionId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$res = $DIC->database()->queryF(
+			"SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
+			array('integer'), array($questionId)
+		);
+		
+		while( $row = $DIC->database()->fetchAssoc($res) )
+		{
+			$row['obj_fi'];
+		}
+		
+		throw new InvalidArgumentException();
+	}
 }

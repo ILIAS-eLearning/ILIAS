@@ -123,21 +123,4 @@ interface ilAsqQuestion
 	 * @param string $offlineExportPagePresentationMode
 	 */
 	public function setOfflineExportPagePresentationMode($offlineExportPagePresentationMode = 'presentation');
-	
-	/**
-	 * @param integer $questionId
-	 * @return \ILIAS\UI\Component\Component
-	 */
-	public static function _getQuestionInfo($questionId);
-	
-	/**
-	 * @param integer $questionId
-	 * @return integer
-	 */
-	public static function _getMaximumPoints($questionId);
-	
-	/**
-	 * @return bool
-	 */
-	public static function questionTitleExists($questionTitle);
 }
