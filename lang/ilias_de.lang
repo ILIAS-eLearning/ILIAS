@@ -1716,7 +1716,7 @@ certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Hintergrundbild
-certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
+certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikatsvorlage und alle zugehörigen Daten als gelöscht markieren? Benutzerzertifikate die auf Basis dieser Vorlage erstellt werden, werden weiterhin anhand dieser Vorlage angelegt. Diese Vorlage wird nach dem Löschen nicht weiter für neue Benutzerzertifikate genutzt, stattdessen wird die vorherige Zertifikatsvorlage genutzt.
 certificate#:#certificate_custom#:#Eigenes Format...
 certificate#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
 certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
