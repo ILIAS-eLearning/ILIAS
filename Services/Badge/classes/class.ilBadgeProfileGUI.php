@@ -183,7 +183,7 @@ class ilBadgeProfileGUI
 			}
 		} catch (ilException $exception) {
 			$this->logger->warning($exception->getMessage());
-			ilUtil::sendFailure($language->txt('cert_error_no_access');
+			ilUtil::sendFailure($language->txt('cert_error_no_access'));
 			$this->listCertificates();
 			return;
 		}
