@@ -166,9 +166,24 @@ class ilBadgeProfileGUI
 
 		$logger = $DIC->logger()->cert();
 
-		$pdfGenerator = new ilPdfGenerator(new ilUserCertificateRepository($database, $logger), $logger);
+		$user = $DIC->user();
 
-		$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['certificate_id']);
+		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $logger);
+
+		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
+
+		try {
+			$userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
+			if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
+				throw new ilException('Invalid user tried to access certificate');
+			}
+		} catch (ilException $exception) {
+			ilUtil::sendFailure('error_no_access');
+			return $this->listCertificates();
+		}
+
+		$pdfScalar = $pdfGenerator->generate($userCertificateId);
 
 		ilUtil::deliverData(
 			$pdfScalar,
