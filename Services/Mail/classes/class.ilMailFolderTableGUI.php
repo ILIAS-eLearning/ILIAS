@@ -743,6 +743,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->filter['mail_filter_only_with_attachments'] = (int)$onlyWithAttachments->getChecked();
 
 		$duration = new \ilDateDurationInputGUI($this->lng->txt('mail_filter_period'), 'period');
+		$duration->setEmptyBoundaries(true);
 		$duration->setStartText($this->lng->txt('mail_filter_period_from'));
 		$duration->setEndText($this->lng->txt('mail_filter_period_until'));
 		$duration->setStart(new ilDateTime(null, IL_CAL_UNIX));
