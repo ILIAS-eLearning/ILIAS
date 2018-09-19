@@ -826,8 +826,6 @@ class ilSCORMPresentationGUI
 		$ilUser = $DIC->user();
 		$tree = $DIC['tree'];
 		$ilCtrl = $DIC->ctrl();
-		$database = $DIC->database();
-		$logger = $DIC->logger();
 
 		$allowed = false;
 		$last_access = 0;
@@ -856,7 +854,7 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+			$ilUserCertificateRepository = new ilUserCertificateRepository();
 			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
 			$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
