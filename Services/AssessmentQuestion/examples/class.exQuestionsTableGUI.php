@@ -16,28 +16,12 @@
 class exQuestionsTableGUI extends ilTable2GUI
 {
 	/**
-	 * @var ilAsqFactory
-	 */
-	protected $asqFactory;
-	
-	/**
-	 * exQuestionsTableGUI constructor.
-	 * @param object $a_parent_obj
-	 * @param string $a_parent_cmd
-	 * @param string $a_template_context
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
-	{
-		$this->asqFactory = new ilAsqFactory();
-
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-	}
-	
-	/**
 	 * @param array $questionData
 	 */
 	public function fillRow($questionData)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		/**
 		 * use the associative array containing the question data
 		 * for filling any table column with title, comment, points, etc.
@@ -50,8 +34,8 @@ class exQuestionsTableGUI extends ilTable2GUI
 		 * that provides interface methods to get neccessary links related to the question
 		 */
 		
-		$questionInstance = $this->asqFactory->getQuestionInstance( $questionData['questionId'] );
-		$questionAuthoringGUI = $this->asqFactory->getAuthoringCommandInstance($questionInstance);
+		$questionInstance = $DIC->question()->getQuestionInstance( $questionData['questionId'] );
+		$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
 		
 		$previewLinkComponent = $questionAuthoringGUI->getPreviewLink();
 		

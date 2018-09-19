@@ -13,6 +13,14 @@
 class ilAsqFactory
 {
 	/**
+	 * @return ilAsqService
+	 */
+	public function service()
+	{
+		return new ilAsqService();
+	}
+	
+	/**
 	 * @param integer $parentObjectId
 	 * @return array
 	 */

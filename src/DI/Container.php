@@ -191,6 +191,13 @@ class Container extends \Pimple\Container {
 	public function help(){
 		return $this['ilHelp'];
 	}
+	
+	/**
+	 * @return \ilAsqFactory
+	 */
+	public function question(){
+		return new \ilAsqFactory();
+	}
 
 	/**
 	 * Note: Only use isDependencyAvailable if strictly required. The need for this,

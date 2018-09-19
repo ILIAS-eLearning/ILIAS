@@ -35,8 +35,8 @@ class exTestPlayerGUI
 	 * - best solution can be shown if required
 	 */
 	public function showQuestion()
-	{		
-		$factory = new ilAsqFactory();
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		$questionId = 0; // initialise with id of question to be shown
 		
@@ -50,8 +50,8 @@ class exTestPlayerGUI
 		 * question presentation to be answered by the examine
 		 */
 		
-		$questionInstance = $factory->getQuestionInstance($questionId);
-		$questionPresentationGUI = $factory->getQuestionPresentationInstance($questionInstance);
+		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
+		$questionPresentationGUI = $DIC->question()->getQuestionPresentationInstance($questionInstance);
 		
 		$questionNavigationAware; /* @var ilAsqQuestionNavigationAware $questionNavigationAware */
 		$questionPresentationGUI->setQuestionNavigation($questionNavigationAware);
@@ -127,10 +127,10 @@ class exTestPlayerGUI
 	 */
 	public function submitSolution()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		// this can also be $_REQUEST or any other future ilias post-request handler
 		$serverRequestObject; /* @var \Psr\Http\Message\ServerRequestInterface $serverRequestObject */
-		
-		$factory = new ilAsqFactory();
 		
 		$questionId = 0; // initialise with id of question that just submits
 		
@@ -151,9 +151,9 @@ class exTestPlayerGUI
 		 * that can be stored in a test result storage managed by the test object
 		 */
 		
-		$questionInstance = $factory->getQuestionInstance($questionId);
+		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
 		$solutionInstance = $this->getParticipantSolution($questionId);
-		$resultCalculator = $factory->getResultCalculator($questionInstance, $solutionInstance);
+		$resultCalculator = $DIC->question()->getResultCalculator($questionInstance, $solutionInstance);
 		
 		$resultCalculator->calculate();
 		
@@ -177,7 +177,7 @@ class exTestPlayerGUI
 	 */
 	public function getParticipantSolution($questionId)
 	{
-		$factory = new ilAsqFactory();
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		/**
 		 * when the test has any test result based on an existing participant solution,
@@ -188,9 +188,9 @@ class exTestPlayerGUI
 		
 		if( $solutionId )
 		{
-			return $factory->getQuestionSolutionInstance($questionId, $solutionId);
+			return $DIC->question()->getQuestionSolutionInstance($questionId, $solutionId);
 		}
 		
-		return $factory->getEmptyQuestionSolutionInstance($questionId);
+		return $DIC->question()->getEmptyQuestionSolutionInstance($questionId);
 	}
 }

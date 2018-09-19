@@ -23,7 +23,7 @@ class exOfflinePresentationQuestionExporter
 	 */
 	public function exportQuestion($a_qst_ref_id, $a_image_path = null, $a_output_mode = "presentation")
 	{
-		$factory = new ilAsqFactory();
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		$questionId = 0; // extract $questionId from $a_qst_ref_id
 		
@@ -31,7 +31,7 @@ class exOfflinePresentationQuestionExporter
 		 * get question instance suitable for getting exported as offline presentation
 		 */
 		
-		$questionInstance = $factory->getOfflineExportableQuestionInstance(
+		$questionInstance = $DIC->question()->getOfflineExportableQuestionInstance(
 			$questionId, $a_image_path, $a_output_mode
 		);
 		

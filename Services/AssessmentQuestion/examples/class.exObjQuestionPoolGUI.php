@@ -28,15 +28,13 @@ class exObjQuestionPoolGUI
 		
 		switch( $DIC->ctrl()->getNextClass($this) )
 		{
-			case ilAsqService::fetchNextAuthoringCommandClass($DIC->ctrl()):
+			case $DIC->question()->service()->fetchNextAuthoringCommandClass($DIC->ctrl()->getNextClass()):
 				
 				$questionId = 0; // Fetch questionId from Request Parameters
 				$backLink = ''; // Initialise with Back Link to Consumers Back-Landing Page
 				
-				$factory = new ilAsqFactory();
-				
-				$questionInstance = $factory->getQuestionInstance($questionId);
-				$questionAuthoringGUI = $factory->getAuthoringCommandInstance($questionInstance);
+				$questionInstance = $DIC->question()->getQuestionInstance($questionId);
+				$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
 				
 				$questionAuthoringGUI->setBackLink($backLink);
 				
@@ -51,11 +49,11 @@ class exObjQuestionPoolGUI
 	 */
 	public function showQuestions()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$parentObjectId = 0; // init with question pool object id
 		
-		$factory = new ilAsqFactory();
-		
-		$questionDataArray = $factory->getQuestionDataArray($parentObjectId);
+		$questionDataArray = $DIC->question()->getQuestionDataArray($parentObjectId);
 		
 		/**
 		 * initialise any ilTable2GUI with this data array
@@ -80,10 +78,10 @@ class exObjQuestionPoolGUI
 	 */
 	public function importQuestions()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$parentObjectId = 0; // init with question pool object id
 		
-		$factory = new ilAsqFactory();
-
 		/**
 		 * parse any qti import xml using the QTI Service and retrieve
 		 * an array containing ilQTIItem instances
@@ -92,8 +90,8 @@ class exObjQuestionPoolGUI
 		
 		foreach($qtiItems as $qtiItem)
 		{
-			$questionType = ilAsqService::determineQuestionTypeByQtiItem($qtiItem);
-			$questionInstance = $factory->getEmptyQuestionInstance($questionType);
+			$questionType = $DIC->question()->service()->determineQuestionTypeByQtiItem($qtiItem);
+			$questionInstance = $DIC->question()->getEmptyQuestionInstance($questionType);
 			
 			$questionInstance->fromQtiItem($qtiItem);
 			$questionInstance->setParentId($parentObjectId);
@@ -112,14 +110,14 @@ class exObjQuestionPoolGUI
 	 */
 	public function exportQuestions()
 	{
-		$parentObjectId = 0; // init with question pool object id
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$factory = new ilAsqFactory();
+		$parentObjectId = 0; // init with question pool object id
 		
 		/**
 		 * get questions managed by this parent object
 		 */
-		$questions = $factory->getQuestionInstances($parentObjectId);
+		$questions = $DIC->question()->getQuestionInstances($parentObjectId);
 		
 		/**
 		 * build QTI xml string that will be used for any kind of export
@@ -140,16 +138,16 @@ class exObjQuestionPoolGUI
 	 */
 	public function deleteQuestion()
 	{
-		$questionId = 0; // init from GET parameters
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$factory = new ilAsqFactory();
+		$questionId = 0; // init from GET parameters
 		
 		/**
 		 * use the ilAsqFactory to get an ilAsqQuestion instance
 		 * that supports the deletion process
 		 */
 		
-		$questionInstance = $factory->getQuestionInstance($questionId);
+		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
 		$questionInstance->delete();
 	}
 }
