@@ -15,7 +15,7 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjCourseListGUI extends ilObjectListGUI
 {
 	/**
-	 * @var ilCertificateCoursePreloader
+	 * @var ilCertificateObjectsForUserPreloader
 	 */
 	private $preloader;
 
@@ -46,7 +46,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->commands = ilObjCourseAccess::_getCommands();
 
 		$repository = new ilUserCertificateRepository();
-		$this->preloader = new ilCertificateCoursePreloader($repository);
+		$this->preloader = new ilCertificateObjectsForUserPreloader($repository);
 	}
 	
 	/**

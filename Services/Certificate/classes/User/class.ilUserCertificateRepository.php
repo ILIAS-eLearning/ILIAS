@@ -258,6 +258,24 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		return $result;
 	}
 
+	public function fetchUserIdsWithCertificateForObject(int $objectId)
+	{
+		$this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
+
+		$sql = 'SELECT user_id FROM user_certificates WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+
+		$query = $this->database->query($sql);
+
+		$result = array();
+
+		while ($row = $this->database->fetchAssoc($query)) {
+			$this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+			$result[] = $row['user_id'];
+		}
+
+		return $result;
+	}
+
 	/**
 	 * @param int $objId
 	 * @param int $userId
