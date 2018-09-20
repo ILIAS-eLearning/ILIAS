@@ -44,9 +44,10 @@ class ilObjExerciseVerification extends ilVerificationObject
 		$lng = $DIC->language();
 		$database = $DIC->database();
 		$logger = $DIC->logger()->root();
-		
+
 		$lng->loadLanguageModule("exercise");
-		
+		$lng->loadLanguageModule('cert');
+
 		$newObj = new self();
 		$newObj->setTitle($a_exercise->getTitle());
 		$newObj->setDescription($a_exercise->getDescription());
@@ -61,7 +62,12 @@ class ilObjExerciseVerification extends ilVerificationObject
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
 
 		$certificate = $pdfAction->createPDF($a_user_id, $a_exercise->getId());
 		

@@ -41,7 +41,8 @@ class ilObjCourseVerification extends ilVerificationObject
 		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("crs");
-		
+		$lng->loadLanguageModule("cert");
+
 		$newObj = new self();
 		$newObj->setTitle($a_course->getTitle());
 		$newObj->setDescription($a_course->getDescription());
@@ -54,9 +55,15 @@ class ilObjCourseVerification extends ilVerificationObject
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
 
-		$certificate = $pdfAction->createPDF($a_user_id, $a_course->getid());
+		$certificate = $pdfAction->createPDF(
+			$a_user_id, $a_course->getid());
 
 		// save pdf file
 		if($certificate)

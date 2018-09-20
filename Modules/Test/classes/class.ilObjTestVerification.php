@@ -46,7 +46,8 @@ class ilObjTestVerification extends ilVerificationObject
 		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("wsp");
-		
+		$lng->loadLanguageModule('cert');
+
 		$newObj = new self();
 		$newObj->setTitle($a_test->getTitle());
 		$newObj->setDescription($a_test->getDescription());
@@ -60,7 +61,12 @@ class ilObjTestVerification extends ilVerificationObject
 		// create certificate
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
 
 		$certificate = $pdfAction->createPDF($a_user_id, $a_test->getid());
 		

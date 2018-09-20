@@ -49,6 +49,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('cert');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -3282,6 +3283,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
+		$request = $DIC->http()->request();
 
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
@@ -3307,7 +3309,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$certLogger = $DIC->logger()->cert();
 		$pdfGenerator = new ilPdfGenerator($repository, $certLogger);
 
-		$pdfAction = new ilCertificatePdfAction($certLogger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$certLogger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
 
 		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}

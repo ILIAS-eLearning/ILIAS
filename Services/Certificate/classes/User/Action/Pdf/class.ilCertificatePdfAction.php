@@ -22,14 +22,28 @@ class ilCertificatePdfAction
 	private $ilUtilHelper;
 
 	/**
+	 * @var ilErrorHandling
+	 */
+	private $errorHandler;
+
+	/**
+	 * @var string
+	 */
+	private $translatedErrorText;
+
+	/**
 	 * @param ilLogger $logger
 	 * @param ilPdfGenerator $pdfGenerator
 	 * @param ilCertificateUtilHelper $ilUtilHelper
+	 * @param ilErrorHandling|null $errorHandling
+	 * @param string $translatedErrorText
 	 */
 	public function __construct(
 		ilLogger $logger,
 		ilPdfGenerator $pdfGenerator,
-		ilCertificateUtilHelper $ilUtilHelper = null
+		ilCertificateUtilHelper $ilUtilHelper = null,
+		string $translatedErrorText = '',
+		ilErrorHandling $errorHandling = null
 	) {
 		$this->logger       = $logger;
 		$this->pdfGenerator = $pdfGenerator;
@@ -37,6 +51,13 @@ class ilCertificatePdfAction
 			$ilUtilHelper = new ilCertificateUtilHelper();
 		}
 		$this->ilUtilHelper = $ilUtilHelper;
+
+		if (null === $errorHandling) {
+			global $DIC;
+			$this->errorHandler = $DIC['ilErr'];
+		}
+
+		$this->translatedErrorText = $translatedErrorText;
 	}
 
 	/**
@@ -61,13 +82,18 @@ class ilCertificatePdfAction
 	 */
 	public function downloadPdf(int $userId, int $objectId) : string
 	{
-		$pdfScalar = $this->createPDF($userId, $objectId);
+		try {
+			$pdfScalar = $this->createPDF($userId, $objectId);
 
-		$this->ilUtilHelper->deliverData(
-			$pdfScalar,
-			'Certificate.pdf',
-			'application/pdf'
-		);
+			$this->ilUtilHelper->deliverData(
+				$pdfScalar,
+				'Certificate.pdf',
+				'application/pdf'
+			);
+		} catch (ilRpcClientException $clientException) {
+			$this->errorHandler->raiseError($this->translatedErrorText, $this->errorHandler->MESSAGE);
+			return '';
+		}
 
 		return $pdfScalar;
 	}

@@ -49,6 +49,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl = $DIC["tpl"];
 		$this->toolbar = $DIC->toolbar();
 		$lng = $DIC->language();
+
+		$this->lng->loadLanguageModule('cert');
 		
 		$this->type = "exc";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -877,7 +879,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
 
 		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
 	}
