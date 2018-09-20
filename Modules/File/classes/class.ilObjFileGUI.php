@@ -1104,14 +1104,14 @@ class ilObjFileGUI extends ilObject2GUI
 		// send response object (don't use 'application/json' as IE wants to download it!)
 		header('Vary: Accept');
 		header('Content-type: text/plain');
-		echo ilJsonUtil::encode($response);
-		$uploaded_result = $DIC->upload()->getResults();
-		$uploaded_result_key = key($uploaded_result);
-		if(!in_array($DIC->upload()->getResults()[$uploaded_result_key]->getName(),ilFileUtils::getValidExtensions())) {
-			$this->lng->loadLanguageModule('file');
-			//ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+
+		foreach ($DIC->upload()->getResults() as $result) {
+			if (!ilFileUtils::hasValidExtension($result->getName())) {
+				$this->lng->loadLanguageModule('file');
+				ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+			}
 		}
-		
+		echo json_encode($response);
 		// no further processing!
 		exit;
 	}	
