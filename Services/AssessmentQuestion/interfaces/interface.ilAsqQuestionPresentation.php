@@ -54,18 +54,4 @@ interface ilAsqQuestionPresentation
 	 * @param ilAsqQuestionNavigationAware
 	 */
 	public function setQuestionNavigation(ilAsqQuestionNavigationAware $questionNavigationAware) : void;
-	
-	/**
-	 * render purpose constants that are required for using desired presentation renderer
-	 */
-	const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback'; // e.g. Test Player
-	const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay'; // e.g. Page Editing View in Test
-	const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview'; // e.g. Preview Player
-	const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf'; // When used for PDF rendering
-	const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue'; // When used as RTE Input Content
-	
-	/**
-	 * @param $renderPurpose
-	 */
-	public function setRenderPurpose($renderPurpose) : void;
 }

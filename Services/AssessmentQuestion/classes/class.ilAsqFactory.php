@@ -83,16 +83,26 @@ class ilAsqFactory
 	}
 	
 	/**
+	 * render purpose constants that are required to get corresponding presentation renderer
+	 */
+	const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback'; // e.g. Test Player
+	const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay'; // e.g. Page Editing View in Test
+	const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview'; // e.g. Preview Player
+	const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf'; // When used for PDF rendering
+	const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue'; // When used as RTE Input Content
+	
+	/**
 	 * @param ilAsqQuestion $questionInstance
 	 * @return ilAsqQuestionPresentation
 	 */
-	public function getQuestionPresentationInstance($questionInstance) : ilAsqQuestionPresentation
+	public function getQuestionPresentationInstance($questionInstance, $renderPurpose) : ilAsqQuestionPresentation
 	{
 		$presentationGUI; /* @var ilAsqQuestionPresentation $presentationGUI */
 		
 		/**
 		 * initialise $presentationGUI as an instance of the question type corresponding presentation class
 		 * that implements ilAsqQuestionPresentation depending on the given $questionInstance
+		 * and depending on the given render purpose.
 		 */
 		
 		$presentationGUI->setQuestion($questionInstance);
