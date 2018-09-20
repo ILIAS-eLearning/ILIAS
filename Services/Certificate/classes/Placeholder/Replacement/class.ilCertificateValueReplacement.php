@@ -17,11 +17,17 @@ class ilCertificateValueReplacement
 	 */
 	public function replace(array $placeholderValues, string $certificateContent, string $backgroundPath) : string
 	{
+
 		foreach ($placeholderValues as $placeholder => $value) {
 			$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
 		}
 
 		$certificateContent = str_replace('[BACKGROUND_IMAGE]',  $backgroundPath, $certificateContent);
+
+
+		$certificateContent = preg_replace("/<\?xml[^>]+?>/", "", $certificateContent);
+		$certificateContent = str_replace("&#xA0;", "<br />", $certificateContent);
+		$certificateContent = str_replace("&#160;", "<br />", $certificateContent);
 
 		return $certificateContent;
 	}

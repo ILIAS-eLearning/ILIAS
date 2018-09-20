@@ -116,22 +116,22 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
 		$placeholder = $this->placeholder;
 
-		$placeholder['USER_LOGIN']         = $user->getLogin();
-		$placeholder['USER_FULLNAME']      = $user->getFullname();
-		$placeholder['USER_FIRSTNAME']     = $user->getFirstname();
-		$placeholder['USER_LASTNAME']      = $user->getLastname();
-		$placeholder['USER_TITLE']         = $user->getTitle();
-		$placeholder['USER_SALUTATION']    = $user->getGender();
-		$placeholder['USER_BIRTHDAY']      = $user->getBirthday();
-		$placeholder['USER_INSTITUTION']   = $user->getInstitution();
-		$placeholder['USER_DEPARTMENT']    = $user->getDepartment();
-		$placeholder['USER_STREET']        = $user->getStreet();
-		$placeholder['USER_CITY']          = $user->getCity();
-		$placeholder['USER_ZIPCODE']       = $user->getZipcode();
-		$placeholder['USER_COUNTRY']       = $user->getCountry();
-		$placeholder['USER_MATRICULATION'] = $user->getMatriculation();
-		$placeholder['DATE']               = $this->dateHelper->formatDate(time(), $this->dateFormat);
-		$placeholder['DATETIME']           = $this->dateHelper->formatDatetime(time(), $this->dateFormat);
+		$placeholder['USER_LOGIN']         = $this->utilHelper->prepareFormOutput((trim($user->getLogin())));
+		$placeholder['USER_FULLNAME']      = $this->utilHelper->prepareFormOutput((trim($user->getFullname())));
+		$placeholder['USER_FIRSTNAME']     = $this->utilHelper->prepareFormOutput((trim($user->getFirstname())));
+		$placeholder['USER_LASTNAME']      = $this->utilHelper->prepareFormOutput((trim($user->getLastname())));
+		$placeholder['USER_TITLE']         = $this->utilHelper->prepareFormOutput((trim($user->getTitle())));
+		$placeholder['USER_SALUTATION']    = $this->utilHelper->prepareFormOutput((trim($user->getGender())));
+		$placeholder['USER_BIRTHDAY']      = $this->utilHelper->prepareFormOutput((trim($user->getBirthday())));
+		$placeholder['USER_INSTITUTION']   = $this->utilHelper->prepareFormOutput((trim($user->getInstitution())));
+		$placeholder['USER_DEPARTMENT']    = $this->utilHelper->prepareFormOutput((trim($user->getDepartment())));
+		$placeholder['USER_STREET']        = $this->utilHelper->prepareFormOutput((trim($user->getStreet())));
+		$placeholder['USER_CITY']          = $this->utilHelper->prepareFormOutput((trim($user->getCity())));
+		$placeholder['USER_ZIPCODE']       = $this->utilHelper->prepareFormOutput((trim($user->getZipcode())));
+		$placeholder['USER_COUNTRY']       = $this->utilHelper->prepareFormOutput((trim($user->getCountry())));
+		$placeholder['USER_MATRICULATION'] = $this->utilHelper->prepareFormOutput((trim($user->getMatriculation())));
+		$placeholder['DATE']               = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat))));
+		$placeholder['DATETIME']           = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(time(), $this->dateFormat))));
 
 		return $placeholder;
 	}
