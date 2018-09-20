@@ -1,20 +1,28 @@
+# History
+
+Assessment questions were once embeded in a large component called Test and Assessment. The Test Question Pool object and the Test object of ILIAS were not strictly separated and the assessment question integartion was done within both components. This lead to a strong depency between the Test and the Test Question Pool object in the past. The codebase for the two modules was fully mixed up with the code for the questions.
+
+Today, this failure in architecture got fixed by fully separating the components and by extracting a new service AssessmentQuestion.
+
+Furthermore the database got decoupled since the supposed separation in two different table spaces within the former Test and Assessment component did not reflect a neccessary strict distinction. All information in the database about the assessment questions were migrated to the new table space of the AssessmentQuestion service.
+
 # Introduction
 
-The implementation of assessment questions needs to be decoupled from the large component Test and Assessment. The codebase is to be extracted to its own service AssessmentQuestion.
+This documentation describes the interfaces the AssessmentQuestion service comes with and how they are to be used by developers who want to integrate assessment questions to their components.
 
-This concept describes the interfaces that will be introduced and how they are to be used by developers who want to integrate assessment questions to their components. Furthermore it describes how the database gets decoupled since the supposed separation in two different table spaces within the current state does not reflect a neccessary strict distinction.
+The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. This means, that most of any business logic around assessment questions needs to be implemented in the consumer's code.
 
-The AssessmentQuestion service is designed as a component that offers complex functionality but it keeps stupid for itself. The way other components can integrate assessment questions keeps as most flixible as possible. This strategy makes it possible to define most of the assessment logic within a consumer.
+The AssessmentQuestion service itself does not contain any complex logic about the handling of assessment items. This is reflected in the simple interface structure.
 
-This concept keeps focus on the decoupling, not on fullfilling future requirements.
+The implementation of authoring processes is the only complex part. But this implementation can be easily adressed from consumers by simply forwarding to corresponding control structure classes.
 
 # Service Interfaces
 
-The AssessmentQuestion service will come with the following interfaces that can be used by other developers that want to integrate assessment questions to their component. The current obect structure consisting of a GUI class and an Object class gets overhauled.
+The AssessmentQuestion service has the following interfaces that can be used by other developers that want to integrate assessment questions to their component.
 
-Objects implementing `ilAsqQuestion` represents what was also formaly known as the Object class while objects implementing `ilAsqQuestionAuthoring` are about the `executeCommand` structure that was formly knwon as the GUI classes. All other aspects have been extracted from these interfaces.
+Objects implementing `ilAsqQuestion` represents the question entity itself while objects implementing `ilAsqQuestionAuthoring` are about the authoring that can be integrated with the `executeCommand` control structure of ILIAS.
 
-The interface `ilAsqPresentation` provides all functionality to output a question and its additional contents. These parts are fully extracted from the former GUI class. Solutions now get injected to keep the presentation as modular as possible.
+The interface `ilAsqPresentation` provides all functionality to output a question and its additional contents. Solutions get injected to keep the presentation as modular as possible.
 
 The interface `ilAsqResultCalculator` provides all functionality of calculating right/wrong for a given solution as well as reached points. Having this functionality in an own object following implementing this interface makes it possible for consumers to surround this kind calculators with an own proxy calculator implementing the same interface (e.g.for any score cutting options).
 
@@ -99,7 +107,7 @@ Die eigentliche, notwendige Entkopplung findet in diesem Schritten statt: Verlet
 
 # Open Questions
 
-* Should ilTable(2) be changed to support the Assessment Question Service?
+* Should ilTable(2) be changed to support the Assessment Question service?
     * ilTable(2) does not support list iterators
     * ilTable(2) does not support row objects
 
