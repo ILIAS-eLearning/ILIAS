@@ -23,7 +23,6 @@ class ilLangDeprecated
 	public function __construct()
 	{
 		global $DIC;
-
 		$this->db = $DIC->database();
 	}
 

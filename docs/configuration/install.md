@@ -271,6 +271,7 @@ session.gc_divisor = 100
 session.gc_maxlifetime = 14400
 session.hash_function = 0
 session.cookie_httponly = On
+session.save_handler = files ; for ILIAS setup, ILIAS installations override this
 ; If you installation is served via HTTPS also use:
 session.cookie_secure = On
  

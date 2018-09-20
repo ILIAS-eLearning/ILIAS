@@ -22566,6 +22566,173 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5294>
 <?php
+$setting = new ilSetting();
+
+if( !$setting->get('tst_score_rep_consts_cleaned', 0) )
+{
+	$ilDB->queryF(
+		"UPDATE tst_tests SET score_reporting = %s WHERE score_reporting = %s",
+		array('integer', 'integer'), array(0, 4)
+	);
+	
+	$setting->set('tst_score_rep_consts_cleaned', 1);
+}
+?>
+<#5295>
+<?php
+if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
+{
+	$ilDB->addTableColumn('tst_result_cache', 'passed_once', array(
+		'type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0
+	));
+}
+?>
+<#5296>
+<?php
+if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
+	$ilDB->addTableColumn('exc_assignment', 'fb_date_custom', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableExists('exc_ass_reminders'))
+{
+	$ilDB->createTable('exc_ass_reminders', array(
+		'type' => array(
+			'type'     => 'text',
+			'length'   => 32,
+		),
+		'ass_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'exc_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'status' => array(
+			"type"    => "integer",
+			"length"  => 1,
+			"default" => NULL
+		),
+		'start' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'end' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'freq' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'last_send' => array (
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'template_id' => array (
+			"type" => "integer",
+			"length" => 4,
+			"default" => NULL
+		)
+	));
+	$ilDB->addPrimaryKey("exc_ass_reminders", array("ass_id", "exc_id", "type"));
+}
+?>
+<#5297>
+<?php
 if (!$ilDB->tableExists('tos_documents')) {
 	$fields = [
 		'id' => [
@@ -22617,7 +22784,7 @@ if (!$ilDB->tableExists('tos_documents')) {
 	$ilDB->createSequence('tos_documents');
 }
 ?>
-<#5295>
+<#5298>
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	$ilDB->addTableColumn('tos_documents', 'text', [
@@ -22627,7 +22794,7 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	]);
 }
 ?>
-<#5296>
+<#5299>
 <?php
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$fields = [
@@ -22685,7 +22852,7 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$ilDB->createSequence('tos_criterion_to_doc');
 }
 ?>
-<#5297>
+<#5300>
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 	$ilDB->addTableColumn('tos_versions', 'doc_id',[
@@ -22712,19 +22879,19 @@ if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
 	]);
 }
 ?>
-<#5298>
+<#5301>
 <?php
 if ($ilDB->indexExistsByFields('tos_versions',['hash', 'lng'])) {
 	$ilDB->dropIndexByFields('tos_versions', ['hash', 'lng']);
 }
 ?>
-<#5299>
+<#5302>
 <?php
 if (!$ilDB->indexExistsByFields('tos_versions', ['hash', 'doc_id'])) {
 	$ilDB->addIndex('tos_versions', ['hash', 'doc_id'], 'i1');
 }
 ?>
-<#5300>
+<#5303>
 <?php
 $dbStep = $nr;
 $globalAgreementPath = './Customizing/global/agreement';
@@ -22934,7 +23101,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
-<#5301>
+<#5304>
 <?php
 // Migrate accepted criteria for missing documents (file did not exists during migration)
 $ilDB->manipulateF("
@@ -22964,7 +23131,7 @@ $ilDB->manipulateF("
 	['usr_language', '[{"id":"usr_language","value":', '}]']
 );
 ?>
-<#5302>
+<#5305>
 <?php
 if ($ilDB->tableColumnExists('tos_versions', 'lng')) {
 	$ilDB->dropTableColumn('tos_versions', 'lng');
@@ -22978,7 +23145,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 	$ilDB->dropTableColumn('tos_versions', 'src');
 }
 ?>
-<#5303>
+<#5306>
 <?php
 if ($ilDB->tableExists('agreement_migr')) {
 	$ilDB->dropTable('agreement_migr');
@@ -22987,7 +23154,7 @@ if ($ilDB->tableExists('agreement_migr')) {
 	));
 }
 ?>
-<#5304>
+<#5307>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

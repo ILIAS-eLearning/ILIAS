@@ -13,6 +13,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - exc_crit_cat: criteria category
  * - exc_crit: criteria
  * - exc_ass_file_order: Order of instruction files
+ * - exc_ass_reminders: Assingment reminder data
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -219,6 +220,7 @@ class ilExerciseDataSet extends ilDataSet
 						,"FeedbackCron" => "integer"
 						,"FeedbackDate" => "integer"
 						,"FeedbackDir" => "directory"
+						,"FbDateCustom" => "integer"
 					);
 			}
 		}
@@ -269,6 +271,25 @@ class ilExerciseDataSet extends ilDataSet
 					, "AssignmentId" => "integer"
 					, "Filename" => "text"
 					, "OrderNr" => "integer"
+					);
+			}
+		}
+
+		if ($a_entity == "exc_ass_reminders")
+		{
+			switch($a_version)
+			{
+				case "5.3.0":
+					return array(
+						"Type" => "text",
+						"AssignmentId" => "integer",
+						"ExerciseId" => "integer",
+						"Status" => "integer",
+						"Start" => "integer",
+						"End" => "integer",
+						"Frequency" => "integer",
+						"LastSend" => "integer",
+						"TemplateId" => "integer"
 					);
 			}
 		}
@@ -353,7 +374,8 @@ class ilExerciseDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
-						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date,".
+						" fb_date_custom".
 						" FROM exc_assignment".
 						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
@@ -401,6 +423,18 @@ class ilExerciseDataSet extends ilDataSet
 			}
 
 		}
+
+		if($a_entity == "exc_ass_reminders")
+		{
+			switch ($a_version)
+			{
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT type, ass_id, exc_id, status, start, end, freq, last_send, template_id".
+						" FROM exc_ass_reminders".
+						" WHERE ".$ilDB->in("ass_id", $a_ids, false, "integer"));
+					break;
+			}
+		}
 	}
 
 	/**
@@ -444,6 +478,22 @@ class ilExerciseDataSet extends ilDataSet
 			$a_set['WebDataDir'] = $fswebstorage->getPath();
 		}
 
+		//Discuss if necessary when working with timestamps.
+		if($a_entity == "exc_ass_reminders")
+		{
+
+			if($a_set["End"] != "")
+			{
+				$end = new ilDateTime($a_set["End"], IL_CAL_UNIX);
+				$a_set["End"] = $end->get(IL_CAL_DATETIME,'','UTC');
+			}
+			if($a_set["LastSend"] != "")
+			{
+				$last = new ilDateTime($a_set["LastSend"], IL_CAL_UNIX);
+				$a_set["LastSend"] = $last->get(IL_CAL_DATETIME,'','UTC');
+			}
+		}
+
 		return $a_set;
 	}
 
@@ -485,7 +535,8 @@ class ilExerciseDataSet extends ilDataSet
 				{
 					case "5.3.0":
 						return array(
-							"exc_ass_file_order" => array("ids" => $a_rec["Id"])
+							"exc_ass_file_order" => array("ids" => $a_rec["Id"]),
+							"exc_ass_reminders" => array("ids" => $a_rec["Id"])
 						);
 
 				}
@@ -600,6 +651,9 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setPeerReviewValid($a_rec["PeerValid"]);
 					$ass->setPeerReviewText($a_rec["PeerText"]);
 					$ass->setPeerReviewRating($a_rec["PeerRating"]);
+
+					// 5.3
+					$ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
 					
 					// criteria catalogue
 					if($a_rec["PeerCritCat"])
@@ -688,6 +742,22 @@ class ilExerciseDataSet extends ilDataSet
 					ilExAssignment::instructionFileInsertOrder($a_rec["Filename"], $ass_id, $a_rec["OrderNr"]);
 				}
 				break;
+
+			case "exc_ass_reminders":
+				// (5.3) reminders
+				include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
+				$new_ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssId"]);
+				$new_exc_id = $a_mapping->getMapping('Modules/Exercise','exc',$a_rec['ExcId']);
+				//always UTC timestamp in db.
+				$end = new ilDateTime($a_rec["End"], IL_CAL_DATETIME, "UTC");
+				$rmd = new ilExAssignmentReminder($new_exc_id, $new_ass_id,$a_rec["Type"]);
+				$rmd->setReminderStatus($a_rec["Status"]);
+				$rmd->setReminderStart($a_rec["Start"]);
+				$rmd->setReminderEnd($end->get(IL_CAL_UNIX));
+				$rmd->setReminderFrequency($a_rec["Freq"]);
+				$rmd->setReminderLastSend($a_rec["LastSend"]);
+				$rmd->setReminderMailTemplate($a_rec["TemplateId"]);
+				$rmd->save();
 		}
 	}
 }

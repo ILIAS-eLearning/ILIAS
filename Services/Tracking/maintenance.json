@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "suittenpointner(3458)",
     "testcase_writer": "bromberger(198)",
     "path": "Services/Tracking",

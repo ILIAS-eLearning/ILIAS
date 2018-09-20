@@ -1660,67 +1660,76 @@ div.ilSideBarContent{
 	margin: 0;
 	display: block;
 	float: left;
-	background-color: white;
+	background-color: @dropdown-bg;
 	border: 1px solid #e0e0e0;
 	font-size: 90%;
     .box-shadow(2px 2px 4px #c0c0c0);
+	.ui-menu-item {
+		margin: 0;
+		padding: 0;
+		zoom: 1;
+		float: left;
+		clear: left;
+		width: 100%;
+		> * {
+			text-decoration: none;
+			display: block;
+			padding: 2px 4px;
+			line-height: 1.5;
+			color: @dropdown-link-color;
+			background-color: @dropdown-link-bg;
+			&:hover, &.ui-state-hover, &.ui-state-active {
+				background-color: @dropdown-link-hover-bg;//@il-highlight-bg;
+				color: @dropdown-link-color;
+			}
+		}
+		a {
+			color: @dropdown-link-color;
+			&:hover {
+				color: @dropdown-link-hover-color;
+			}
+		}
+	}
+	.ui-menu-category {
+		margin: 0;
+		padding: 2px;
+		zoom: 1;
+		float: left;
+		clear: left;
+		width: 100%;
+		font-weight: bold;
+	}
+	.ui-menu-more {
+		display: block;
+		zoom: 1;
+		color: #03a;
+		cursor: pointer;
+		float: left;
+		clear: left;
+		width: 100%;
+		span {
+			padding: 2px;
+		}
+		&:hover {
+			background-color: white;
+		}
+	}
 }
 
 [dir="rtl"] .ui-menu {
 	float: right;
-}
-
-.ui-menu .ui-menu-item {
-	margin: 0;
-	padding: 0;
-	zoom: 1;
-	float: left;
-	clear: left;
-	width: 100%;
-}
-
-[dir="rtl"] .ui-menu .ui-menu-item {
-	float: right;
-	clear: right;
-}
-
-.ui-menu .ui-menu-category {
-	margin: 0;
-	padding: 2px;
-	zoom: 1;
-	float: left;
-	clear: left;
-	width: 100%;
-	font-weight: bold;
-}
-
-[dir="rtl"] .ui-menu .ui-menu-category {
-	float: right;
-	clear: right;
-}
-
-.ui-menu .ui-menu-more {
-	display: block;
-	zoom: 1;
-	color: #03a;
-	cursor: pointer;
-	float: left;
-	clear: left;
-	width: 100%;
-}
-
-
-[dir="rtl"] .ui-menu .ui-menu-more {
-	float: right;
-	clear: right;
-}
-
-.ui-menu .ui-menu-more span {
-	padding: 2px;
-}
-
-.ui-menu .ui-menu-more:hover {
-	background-color: white;
+	.ui-menu-item {
+		float: right;
+		clear: right;
+	}
+	.ui-menu-category {
+		float: right;
+		clear: right;
+	}
+	.ui-menu-more {
+		float: right;
+		clear: right;
+	}
 }
 
 .ui-autocomplete {
@@ -1728,19 +1737,6 @@ div.ilSideBarContent{
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
-}
-
-.ui-menu .ui-menu-item a {
-	text-decoration: none;
-	display: block;
-	padding: 2px 4px;
-	line-height: 1.5;
-	zoom: 1;
-	color: #03a;
-}
-.ui-menu .ui-menu-item a.ui-state-hover,
-.ui-menu .ui-menu-item a.ui-state-active {
-	background-color: #ff9;
 }
 
 /* Icon Default */
@@ -2146,4 +2142,41 @@ div.ilGoogleMap {
 	a[href]:after {
 		content: "";
 	}
+}
+
+// show more text
+.read-more-state {
+	display: none;
+}
+
+.read-more-target {
+	opacity: 0;
+	max-height: 0;
+	font-size: 0;
+	transition: .25s ease;
+}
+
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+	opacity: 1;
+	font-size: inherit;
+	max-height: 999em;
+}
+
+.read-more-state ~ .read-more-trigger:before {
+	content: 'Show more';
+}
+
+.read-more-state:checked ~ .read-more-trigger:before {
+	content: 'Show less';
+}
+
+.read-more-trigger {
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 .5em;
+	color: #666;
+	font-size: .9em;
+	line-height: 2;
+	border: 1px solid #ddd;
+	border-radius: .25em;
 }

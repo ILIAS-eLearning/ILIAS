@@ -218,7 +218,7 @@ class ilTinyMCE extends ilRTE
 			$tpl->setVariable("OBJ_ID", $obj_id);                   
 			$tpl->setVariable("OBJ_TYPE", $obj_type);
 			$tpl->setVariable("CLIENT_ID", CLIENT_ID);
-			$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
+			$tpl->setVariable("SESSION_ID", $_COOKIE[session_name()]);
 			$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 			$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
 
@@ -274,7 +274,7 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("OBJ_ID", $obj_id);
 		$tpl->setVariable("OBJ_TYPE", $obj_type);
 		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
-		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
+		$tpl->setVariable("SESSION_ID", $_COOKIE[session_name()]);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
 		

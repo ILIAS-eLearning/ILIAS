@@ -2204,7 +2204,7 @@ class ilStartUpGUI
 				'deleteExpiredDualOptInUserObjects',
 				array
 				(
-					$_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
+					$_COOKIE[session_name()].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
 					$exception->getCode() // user id
 				)
 			);

@@ -114,11 +114,13 @@ class ilObjBibliographic extends ilObject2 {
 
 		$DIC->database()->insert(
 			"il_bibl_data", [
-			"id" => ["integer", $this->getId()], "filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->determineFileTypeByFileName($this->getFilename())],
+			"id" => ["integer", $this->getId()], "filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
 		]
 		);
-
-		$this->parseFileToDatabase();
+		//in case the bibliographic list item was copied the filename is empty
+		if(!empty($this->getFilename())) {
+			$this->parseFileToDatabase();
+		}
 	}
 
 
@@ -336,6 +338,8 @@ class ilObjBibliographic extends ilObject2 {
 		}
 
 		$new_obj->cloneStructure($this->getId());
+
+		$new_obj->parseFileToDatabase();
 
 		return $new_obj;
 	}

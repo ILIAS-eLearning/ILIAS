@@ -552,4 +552,24 @@ class ilExPeerReview
 				return (($min-$no_of_feedbacks) < 1);				
 		}			
 	}
+
+	static function lookupGiversWithPendingFeedback($a_ass_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$user_ids = array();
+
+		$set = $ilDB->query("SELECT DISTINCT(giver_id) FROM exc_assignment_peer ".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND tstamp is NULL"
+		);
+
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			array_push($user_ids, $row["giver_id"]);
+		}
+
+		return $user_ids;
+	}
 }

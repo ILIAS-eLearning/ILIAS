@@ -709,7 +709,7 @@ class ilInitialisation
 	 */
 	protected static function initStyle()
 	{
-		global $styleDefinition, $ilPluginAdmin;
+		global $DIC, $ilPluginAdmin;
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
@@ -721,7 +721,7 @@ class ilInitialisation
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
+			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
 		}
 	}
 
