@@ -30,11 +30,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	protected $parameters = [];
 
 	/**
-	 * @var ilObjectLP
-	 */
-	private $learningProgressObject;
-
-	/**
 	 * @var ilCertificateQueueRepository
 	 */
 	private $certificateQueueRepository;
@@ -43,6 +38,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	 * @var ilCertificateTypeClassMap
 	 */
 	private $certificateClassMap;
+
+	/**
+	 * @var ilCertificateTemplateRepository
+	 */
 	private $templateRepository;
 
 	/**
