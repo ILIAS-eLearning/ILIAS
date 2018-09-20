@@ -105,4 +105,18 @@ class Toggle extends Button implements C\Button\Toggle {
 		return $this->getTriggeredSignalsFor("toggle_on");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withAdditionalToggleOnSignal(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, "toggle_on");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAdditionalToggleOffSignal(Signal $signal)  {
+		return $this->appendTriggeredSignal($signal, "toggle_off");
+	}
+
 }
