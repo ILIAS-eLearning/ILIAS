@@ -71,7 +71,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	 * @param $a_certificate Icon
 	 * @return RepositoryObject
 	 */
-	public function withCertificate($a_certificate):RepositoryObject
+	public function withCertificateIcon($a_certificate):RepositoryObject
 	{
 		$clone = clone $this;
 		$clone->certificate = $a_certificate;
@@ -82,7 +82,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	 * Get the certificated icon
 	 * @return Icon
 	 */
-	public function getCertificate()
+	public function getCertificateIcon()
 	{
 		return $this->certificate;
 	}

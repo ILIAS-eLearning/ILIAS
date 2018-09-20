@@ -28,7 +28,7 @@ function with_object_icon_and_certificate() {
 		$image
 	)->withObjectIcon(
 		$icon
-	)->withCertificate(
+	)->withCertificateIcon(
 		$certificate_icon
 	)->withSections(
 		array(
