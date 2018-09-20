@@ -104,18 +104,17 @@ class ilSystemStyleDocumentationGUI
 
 	protected function resetForReadOnly(){
 		/**
-		 * @var ilHelpGUI $ilHelp
 		 * @var ILIAS\DI\Container $DIC
 		 */
-		global $ilHelp, $DIC, $ilLocator;
+		global $DIC;
 
 		$DIC->tabs()->clearTargets();
 
 		/**
 		 * Since clearTargets also clears the help screen ids
 		 */
-		$ilHelp->setScreenIdComponent("sty");
-		$ilHelp->setScreenId("system_styles");
+		$DIC->help()->setScreenIdComponent("sty");
+		$DIC->help()->setScreenId("system_styles");
 
 		$skin_id = $_GET["skin_id"];
 		$style_id = $_GET["style_id"];
@@ -138,7 +137,7 @@ class ilSystemStyleDocumentationGUI
 			);
 		}
 
-		$ilLocator->clearItems();
+		$DIC["ilLocator"]->clearItems();
 		$DIC["tpl"]->setLocator();
 
 

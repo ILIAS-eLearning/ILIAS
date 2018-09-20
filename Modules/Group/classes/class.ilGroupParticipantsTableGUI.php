@@ -331,8 +331,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		}
 
         $usr_data = ilUserQuery::getUserListData(
-			$this->getOrderField(),
-			$this->getOrderDirection(),
+        	'',
+			'',
 			0,
 			9999,
 			$this->current_filter['login'],
@@ -392,7 +392,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		if($udf_ids)
 		{
 			include_once './Services/User/classes/class.ilUserDefinedData.php';
-			$data = ilUserDefinedData::lookupData($part, $udf_ids);
+			$data = ilUserDefinedData::lookupData($filtered_user_ids, $udf_ids);
 			foreach($data as $usr_id => $fields)
 			{
 	            if(!$this->checkAcceptance($usr_id))

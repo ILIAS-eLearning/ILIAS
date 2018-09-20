@@ -2553,9 +2553,12 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	public function sanitizeMB4StringIfNotSupported($query)
 	{
 		if (!$this->doesCollationSupportMB4Strings()) {
-			$query = preg_replace(
+			$query_replaced = preg_replace(
 				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
 			);
+			if (!empty($query_replaced)) {
+				return $query_replaced;
+			}
 		}
 
 		return $query;

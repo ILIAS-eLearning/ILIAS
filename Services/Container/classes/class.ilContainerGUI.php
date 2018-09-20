@@ -775,24 +775,34 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else if ($this->isMultiDownloadEnabled())
 			{
-				// #11843
-				$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
+				// bugfix mantis 0021272
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
+				{
+					// #11843
+					$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-				include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-				$toolbar = new ilToolbarGUI();
-				$this->ctrl->setParameter($this, "type", "");
-				$this->ctrl->setParameter($this, "item_ref_id", "");
+					$toolbar = new ilToolbarGUI();
+					$this->ctrl->setParameter($this, "type", "");
+					$this->ctrl->setParameter($this, "item_ref_id", "");
 
-				$toolbar->addFormButton(
-					$this->lng->txt('download_selected_items'),
-					'download'
-				);
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
 
-				$main_tpl->addAdminPanelToolbar(
-					$toolbar,
-					$this->object->gotItems() ? true : false,
-					$this->object->gotItems() ? true : false
-				);
+					$main_tpl->addAdminPanelToolbar(
+						$toolbar,
+						$this->object->gotItems() ? true : false,
+						$this->object->gotItems() ? true : false
+					);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
+				}
 			}		
 		}
 	}
@@ -2869,7 +2879,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		$orig = ilObjectFactory::getInstanceByRefId($clone_source);
-		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
+		$result = $orig->cloneAllObject($_COOKIE[session_name()], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
 		
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
@@ -3390,7 +3400,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$tpl = new ilTemplate('tpl.fm_launch_ws.html',false,false,'Services/WebServices/FileManager');
 		$tpl->setVariable('JNLP_URL',ILIAS_HTTP_PATH.'/Services/WebServices/FileManager/lib/dist/FileManager.jnlp');
-		$tpl->setVariable('SESSION_ID', $_COOKIE['PHPSESSID'].'::'.CLIENT_ID);
+		$tpl->setVariable('SESSION_ID', $_COOKIE[session_name()].'::'.CLIENT_ID);
 		$tpl->setVariable('UID',$ilUser->getId());
 		$tpl->setVariable('REF_ID', $this->object->getRefId());
 		$tpl->setVariable('WSDL_URI', ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl');

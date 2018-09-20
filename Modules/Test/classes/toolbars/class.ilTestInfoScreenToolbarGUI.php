@@ -362,7 +362,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 	private function buildSessionLockString()
 	{
-		return md5($_COOKIE['PHPSESSID'] . time());
+		return md5($_COOKIE[session_name()] . time());
 	}
 
 	/**

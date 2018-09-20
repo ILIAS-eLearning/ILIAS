@@ -957,6 +957,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 					"",
 					"block_" . $this->getBlockType() . "_" . $this->block_id,
 					false, false);
+
+				$ilCtrl->setParameter($this, "add_mode", "");
+				$this->addFooterLink($lng->txt("add_appointment"),
+					$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI", "add"),
+					"",
+					"block_" . $this->getBlockType() . "_" . $this->block_id,
+					false, false);
+				$ilCtrl->setParameter($this, "add_mode", "");
 			}
 		}
 	}

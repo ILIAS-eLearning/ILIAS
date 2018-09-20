@@ -4346,7 +4346,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width in pixels
+content#:#cont_width#:#Width
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
@@ -11718,6 +11718,7 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
+cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
@@ -13135,7 +13136,7 @@ content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main
 content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
 content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
 content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
-content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+w_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
@@ -14271,7 +14272,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
 rbac#:#copa_visible#:#Content Page is visible
@@ -14295,3 +14296,47 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
+ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
+exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#feedback_given#:#Feedback given
+exc#:#feedback#:#Feedback
+exc#:#feedback_received#:#Feedback received
+exc#:#feedback_from#:#Feedback from
+exc#:#text_assignment#:#Text Assignment
+exc#:#not_yet#:#not yet
+exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#submissions_feedback#:#Submissions and Feedback
+exc#:#submissions_only#:#Submissions Only
+exc#:#filter#:#Filter
+exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
+exc#:#exc_reminder_start#:#Start Reminders before Deadline
+exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
+exc#:#exc_reminder_frequency#:#Frequency
+exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
+exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
+exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
+exc#:#exc_reminders_cron#:#Reminders for Assignments
+exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminder_end#:#Reminder ends
+exc#:#exc_reminder_mail_template#:#Mail Template
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
+exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
+exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
+exc#:#exc_reminder_link#:#URL
+exc#:#exc_reminder_cron_ok#:#Reminders sent:
