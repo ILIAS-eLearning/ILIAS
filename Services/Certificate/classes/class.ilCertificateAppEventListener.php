@@ -30,6 +30,21 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	protected $parameters = [];
 
 	/**
+	 * @var ilCertificateQueueRepository
+	 */
+	private $certificateQueueRepository;
+
+	/**
+	 * @var ilCertificateTypeClassMap
+	 */
+	private $certificateClassMap;
+
+	/**
+	 * @var ilCertificateTemplateRepository
+	 */
+	private $templateRepository;
+
+	/**
 	 * ilCertificateAppEventListener constructor.
 	 * @param \ilDBInterface $db
 	 * @param \ilObjectDataCache $objectDataCache
@@ -43,6 +58,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->db = $db;
 		$this->objectDataCache = $objectDataCache;
 		$this->logger = $logger;
+		$this->certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
+		$this->certificateClassMap = new \ilCertificateTypeClassMap();
+		$this->templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 	}
 
 	/**
@@ -152,56 +170,64 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
 		if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-			$certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
-			$certificateClassMap = new \ilCertificateTypeClassMap();
-			$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-
 			$objectId = $this->parameters['obj_id'] ?? 0;
 			$userId = $this->parameters['usr_id'] ?? 0;
 
 			$type  = $this->objectDataCache->lookupType($objectId);
 
-			if ($certificateClassMap->typeExistsInMap($type)) {
-				$template = $templateRepository->fetchCurrentlyActiveCertificate($objectId);
-				if (true === $template->isCurrentlyActive()) {
-					$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+			if ($this->certificateClassMap->typeExistsInMap($type)) {
+				try {
+					$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
-					$entry = new \ilCertificateQueueEntry(
-						$objectId,
-						$userId,
-						$className,
-						\ilCronConstants::IN_PROGRESS,
-						$template->getId(),
-						time()
-					);
-
-					$certificateQueueRepository->addToQueue($entry);
-				}
-			}
-
-			foreach (\ilObject::_getAllReferences($objectId) as $refId) {
-				$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-				$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
-
-				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
-				foreach ($completedCourses as $courseObjId) {
-					// We do not check if we support the type anymore, because the type 'crs' is always supported
-					$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
-
-					if (true === $courseTemplate->isCurrentlyActive()) {
-						$type = $this->objectDataCache->lookupType($courseObjId);
-
-						$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+					if (true === $template->isCurrentlyActive()) {
+						$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
 						$entry = new \ilCertificateQueueEntry(
-							$courseObjId,
+							$objectId,
 							$userId,
 							$className,
 							\ilCronConstants::IN_PROGRESS,
+							$template->getId(),
 							time()
 						);
 
-						$certificateQueueRepository->addToQueue($entry);
+						$this->certificateQueueRepository->addToQueue($entry);
+					}
+				} catch (ilException $exception) {
+					$this->logger->warning($exception->getMessage());
+				}
+			}
+
+			if(!\ilObjUserTracking::_enabledLearningProgress()) {
+				foreach (\ilObject::_getAllReferences($objectId) as $refId) {
+					$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
+					$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
+
+					$completedCourses = $progressEvaluation->evaluate($refId, $userId);
+					foreach ($completedCourses as $courseObjId) {
+						// We do not check if we support the type anymore, because the type 'crs' is always supported
+						try {
+							$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
+
+							if (true === $courseTemplate->isCurrentlyActive()) {
+								$type = $this->objectDataCache->lookupType($courseObjId);
+
+								$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
+
+								$entry = new \ilCertificateQueueEntry(
+									$courseObjId,
+									$userId,
+									$className,
+									\ilCronConstants::IN_PROGRESS,
+									time()
+								);
+
+								$this->certificateQueueRepository->addToQueue($entry);
+							}
+						} catch (ilException $exception) {
+							$this->logger->warning($exception->getMessage());
+							continue;
+						}
 					}
 				}
 			}
