@@ -41,7 +41,9 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("sahs");
-		
+		$lng->loadLanguageModule("cert");
+
+
 		$newObj = new self();
 		$newObj->setTitle($a_lm->getTitle());
 		$newObj->setDescription($a_lm->getDescription());
@@ -68,7 +70,12 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
 
 		$certificate = $pdfAction->createPDF($a_user_id, $a_lm->getid());
 

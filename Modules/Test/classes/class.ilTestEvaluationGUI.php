@@ -877,7 +877,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
-				$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+				$pdfAction = new ilCertificatePdfAction(
+					$logger,
+					$pdfGenerator,
+					new ilCertificateUtilHelper(),
+					$this->lng->txt('error_creating_certificate_pdf')
+				);
 
 				$pdf = $pdfAction->createPDF($user_id, $this->object->getid());
 				if (strlen($pdf))
@@ -1791,11 +1796,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
 
 		$pdfAction->downloadPdf((int) $user->getId(), (int) $this->object->getId());
 	}
-	
+
 	public function confirmDeletePass()
 	{
 		if( isset($_GET['context']) && strlen($_GET['context']) )

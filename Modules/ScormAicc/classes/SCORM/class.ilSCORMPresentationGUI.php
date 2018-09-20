@@ -26,6 +26,8 @@ class ilSCORMPresentationGUI
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
+		$this->lng->loadLanguageModule('cert');
+
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -859,7 +861,12 @@ class ilSCORMPresentationGUI
 			$ilUserCertificateRepository = new ilUserCertificateRepository();
 			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $certificateLogger);
 
-			$pdfAction = new ilCertificatePdfAction($certificateLogger, $pdfGenerator);
+			$pdfAction = new ilCertificatePdfAction(
+				$certificateLogger,
+				$pdfGenerator,
+				new ilCertificateUtilHelper(),
+				$this->lng->txt('error_creating_certificate_pdf')
+			);
 
 			$pdfAction->downloadPdf($ilUser->getId(), $obj_id);
 			exit;
