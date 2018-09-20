@@ -11,81 +11,166 @@
  */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
+	/** @var \ilDBInterface */
+	protected $db;
+
+	/** @var ilObjectDataCache */
+	private $objectDataCache;
+
+	/** @var ilLogger */
+	private $logger;
+
+	/** @var string */
+	protected $component = '';
+
+	/** @var string */
+	protected $event = '';
+
+	/** @var array */
+	protected $parameters = [];
+
 	/**
-	 * @inheritdoc
+	 * ilCertificateAppEventListener constructor.
+	 * @param \ilDBInterface $db
+	 * @param \ilObjectDataCache $objectDataCache
+	 * @param \ilLogger $logger
 	 */
-	public static function handleEvent($a_component, $a_event, $a_params)
+	public function __construct(
+		\ilDBInterface $db,
+		\ilObjectDataCache $objectDataCache,
+		\ilLogger $logger
+	) {
+		$this->db = $db;
+		$this->objectDataCache = $objectDataCache;
+		$this->logger = $logger;
+	}
+
+	/**
+	 * @param string $component
+	 * @return \ilCertificateAppEventListener
+	 */
+	public function withComponent(string $component): self
 	{
-		global $DIC;
+		$clone = clone $this;
 
-		$database = $DIC->database();
-		$ilObjectDataCache = $DIC['ilObjDataCache'];
-		$logger = $DIC->logger()->cert();
+		$clone->component = $component;
 
-		switch($a_component) {
-			case 'Services/Tracking':
-				switch($a_event) {
-					case 'updateStatus':
-						self::handleLPUpdate(
-							$a_params,
-							$DIC->database(),
-							$ilObjectDataCache,
-							$logger
-						);
-						break;
+		return $clone;
+	}
+
+	/**
+	 * @param string $event
+	 * @return \ilCertificateAppEventListener
+	 */
+	public function withEvent(string $event): self
+	{
+		$clone = clone $this;
+
+		$clone->event = $event;
+
+		return $clone;
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return \ilCertificateAppEventListener
+	 */
+	public function withParameters(array $parameters): self
+	{
+		$clone = clone $this;
+
+		$clone->parameters = $parameters;
+
+		return $clone;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isLearningAchievementEvent(): bool
+	{
+		return (
+			'Services/Tracking' === $this->component &&
+			'updateStatus' === $this->event
+		);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isMigratingCertificateEvent(): bool
+	{
+		return (
+			'Services/Certificate' === $this->component &&
+			'migrateUserCertificate' === $this->event
+		);
+	}
+
+	/**
+	 *
+	 */
+	public function handle()
+	{
+		try {
+			if ($this->isLearningAchievementEvent()) {
+				$this->handleLPUpdate();
+			} else {
+				if ($this->isMigratingCertificateEvent()) {
+					$this->handleNewUserCertificate();
 				}
-			break;
-
-			case 'Services/Certificate':
-				switch($a_event) {
-					case 'migrateUserCertificate':
-						try {
-							self::handleNewUserCertificate($a_params, $database, $logger);
-						} catch (ilException $exception) {
-							$logger->error($exception->getMessage());
-						}
-						break;
-				}
-				break;
+			}
+		} catch (\ilException $e) {
+			$this->logger->error($e->getMessage());
 		}
 	}
 
 	/**
-	 * @param $a_params
-	 * @param ilDBInterface $database
-	 * @param ilObjectDataCache $ilObjectDataCache
-	 * @param ilLogger $logger
-	 * @throws ilException
+	 * @inheritdoc
 	 */
-	private static function handleLPUpdate(
-		$a_params,
-		ilDBInterface $database,
-		ilObjectDataCache $ilObjectDataCache,
-		ilLogger $logger
-	) {
-		if ($a_params['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-			/** @var ilObjectDataCache $ilObjectDataCache */
+	public static function handleEvent($a_component, $a_event, $a_parameter)
+	{
+		global $DIC;
 
-			$certificateQueueRepository = new ilCertificateQueueRepository($database, $logger);
-			$certificateClassMap = new ilCertificateTypeClassMap();
-			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
+		$listener = new static(
+			$DIC->database(),
+			$DIC['ilObjDataCache'],
+			$DIC->logger()->cert()
+		);
 
-			$objectId = $a_params['obj_id'];
-			$userId = $a_params['usr_id'];
+		$listener
+			->withComponent($a_component)
+			->withEvent($a_event)
+			->withParameters($a_parameter)
+			->handle();
+	}
 
-			$type = $ilObjectDataCache->lookupType($objectId);
+	/**
+	 * @throws \ilException
+	 */
+	private function handleLPUpdate()
+	{
+		$status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
-			$template = $templateRepository->fetchCurrentlyActiveCertificate($objectId);
+		if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+			$certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
+			$certificateClassMap = new \ilCertificateTypeClassMap();
+			$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 
-			if (true === $template->isCurrentlyActive()) {
-				if ($certificateClassMap->typeExistsInMap($type)) {
+			$objectId = $this->parameters['obj_id'] ?? 0;
+			$userId = $this->parameters['usr_id'] ?? 0;
+
+			$type  = $this->objectDataCache->lookupType($objectId);
+
+			if ($certificateClassMap->typeExistsInMap($type)) {
+				$template = $templateRepository->fetchCurrentlyActiveCertificate($objectId);
+				if (true === $template->isCurrentlyActive()) {
 					$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
 
-					$entry = new ilCertificateQueueEntry(
+					$entry = new \ilCertificateQueueEntry(
 						$objectId,
 						$userId,
 						$className,
-						ilCronConstants::IN_PROGRESS,
+						\ilCronConstants::IN_PROGRESS,
 						$template->getId(),
 						time()
 					);
@@ -94,24 +179,25 @@ class ilCertificateAppEventListener implements ilAppEventListener
 				}
 			}
 
-			foreach (ilObject::_getAllReferences($objectId) as $refId) {
-				$templateRepository = new ilCertificateTemplateRepository($database, $logger);
-				$progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
+			foreach (\ilObject::_getAllReferences($objectId) as $refId) {
+				$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
+				$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
 				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
 				foreach ($completedCourses as $courseObjId) {
+					// We do not check if we support the type anymore, because the type 'crs' is always supported
 					$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
 
 					if (true === $courseTemplate->isCurrentlyActive()) {
-						$type = $ilObjectDataCache->lookupType($courseObjId);
+						$type = $this->objectDataCache->lookupType($courseObjId);
 
 						$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
 
-						$entry = new ilCertificateQueueEntry(
+						$entry = new \ilCertificateQueueEntry(
 							$courseObjId,
 							$userId,
 							$className,
-							ilCronConstants::IN_PROGRESS,
+							\ilCronConstants::IN_PROGRESS,
 							time()
 						);
 
@@ -123,73 +209,76 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	}
 
 	/**
-	 * @param $a_params
-	 * @param ilDBInterface $database
-	 * @param ilLogger $logger
-	 * @return void
-	 * @throws ilDatabaseException
-	 * @throws ilException
+	 * @throws \ilDatabaseException
+	 * @throws \ilException
 	 */
-	private static function handleNewUserCertificate($a_params, ilDBInterface $database, ilLogger $logger)
+	private function handleNewUserCertificate()
 	{
-		$logger->info('Try to create new certificates based on event');
+		$this->logger->info('Try to create new certificates based on event');
 
-		if (false === array_key_exists('obj_id', $a_params)) {
-			return $logger->error('Object ID is not added to the event. Abort.');
+		if (false === array_key_exists('obj_id', $this->parameters)) {
+			$this->logger->error('Object ID is not added to the event. Abort.');
+			return;
 		}
 
-		if (false === array_key_exists('user_id', $a_params)) {
-			return $logger->error('User ID is not added to the event. Abort.');
+		if (false === array_key_exists('user_id', $this->parameters)) {
+			$this->logger->error('User ID is not added to the event. Abort.');
+			return;
 		}
 
-		if (false === array_key_exists('background_image_path', $a_params)) {
-			return $logger->error('Background Image Path is not added to the event. Abort.');
+		if (false === array_key_exists('background_image_path', $this->parameters)) {
+			$this->logger->error('Background Image Path is not added to the event. Abort.');
+			return; 
 		}
 
-		if (false === array_key_exists('acquired_timestamp', $a_params)) {
-			return $logger->error('Acquired Timestamp is not added to the event. Abort.');
+		if (false === array_key_exists('acquired_timestamp', $this->parameters)) {
+			$this->logger->error('Acquired Timestamp is not added to the event. Abort.');
+			return;
 		}
 
-		if (false === array_key_exists('ilias_version', $a_params)) {
-			return $logger->error('ILIAS version is not added to the event. Abort.');
+		if (false === array_key_exists('ilias_version', $this->parameters)) {
+			$this->logger->error('ILIAS version is not added to the event. Abort.');
+			return;
 		}
 
-		$objectId = $a_params['obj_id'];
-		$userId = $a_params['user_id'];
-		$backgroundImagePath = $a_params['background_image_path'];
-		$acquiredTimestamp = $a_params['acquired_timestamp'];
-		$iliasVersion = $a_params['ilias_version'];
+		$objId = $this->parameters['obj_id'] ?? 0;
+		$userId = $this->parameters['user_id'] ?? 0;
+		$backgroundImagePath = $this->parameters['background_image_path'] ?? '';
+		$acquiredTimestamp = $this->parameters['acquired_timestamp'] ?? '';
+		$iliasVersion = $this->parameters['ilias_version'] ?? '';
 
-		$templateRepository = new ilCertificateTemplateRepository($database, $logger);
-		$template = $templateRepository->fetchFirstCreatedTemplate($objectId);
+		$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
+		$template = $templateRepository->fetchFirstCreatedTemplate($objId);
 
-		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
 
-		$type = ilObject::_lookupType($objectId);
+		$type = $this->objectDataCache->lookupType($objId);
 
 		$classMap = new ilCertificateTypeClassMap();
+		if (!$classMap->typeExistsInMap($type)) {
+			$this->logger->error(sprintf('Migrations for type "%s" not supported. Abort.', $type));
+			return;
+		}
+
 		$className = $classMap->getPlaceHolderClassNameByType($type);
-
 		$placeholderValuesObject = new $className();
-		$placeholderValues = $placeholderValuesObject->getPlaceholderValues($userId, $objectId);
+		$placeholderValues = $placeholderValuesObject->getPlaceholderValues($userId, $objId);
 
-		$replacementService = new ilCertificateValueReplacement();
+		$replacementService = new \ilCertificateValueReplacement();
 		$certificateContent = $replacementService->replace(
 			$placeholderValues,
 			$template->getCertificateContent(),
 			$backgroundImagePath
 		);
 
-
-		$user = ilObjectFactory::getInstanceByObjId($userId, false);
-
+		$user = \ilObjectFactory::getInstanceByObjId($userId, false);
 		if (!$user || !($user instanceof \ilObjUser)) {
-			throw new ilException(sprintf('The given user ID("%s") is not a user', $userId));
+			throw new \ilException(sprintf('The given user ID("%s") is not a user', $userId));
 		}
 
-		$userCertificate = new ilUserCertificate(
+		$userCertificate = new \ilUserCertificate(
 			$template->getId(),
-			$objectId,
+			$objId,
 			$type,
 			$userId,
 			$user->getFullname(),
