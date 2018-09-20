@@ -1108,7 +1108,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$uploaded_result_key = key($uploaded_result);
 		if (!in_array($DIC->upload()->getResults()[$uploaded_result_key]->getName(), ilFileUtils::getValidExtensions())) {
 			$this->lng->loadLanguageModule('file');
-			ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+			//ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
 		}
 
 		// no further processing!
