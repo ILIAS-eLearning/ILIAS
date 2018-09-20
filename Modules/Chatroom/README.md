@@ -5,25 +5,25 @@
 
   - [Requirement](#requirement)
   - [ILIAS configuration](#ilias-configuration)
-    - [Chat Server Settings](#chat server settings)
+    - [Chat Server Settings](#chat-server-settings)
       - [IP Address / FQDN](#ip-addressfqdn)
         - [port](#port)
-        - [relative path](#relative path)
+        - [relative path](#relative-path)
         - [protocol](#protocol)
         - [Logging](#logging)
         - [Connection ILIAS to server](#connection-ilias-to-server)
         - [connection client to server](#connection-client-to-server)
         - [Delete old messages](#delete-old-messages)
-      - [General Settings](#General Settings)
+      - [General Settings](#general-settings)
         - [Enable chat](#chat-enable)
-        - [Magazine Chat: Enable on-screen notifications](#enable magazine-chat-on-screen notifications)
+        - [Repository Chat: Enable on-screen notifications](#repository-chat-enable-on-screen-notifications)
         - [Name and Authentication](#name-and-authentication)
-  - [Server Configuration](#server configuration)
+  - [Server Configuration](#server-configuration)
       - [Single ILIAS client:](#single-ilias-client)
       - [Multiple ILIAS client:](#multiple-ilias-client)
   - [Start chat server automatically](#chat-server-automatically-start)
       - [systemd (ubuntu)](#systemd-ubuntu)
-  - [Proxy Configuration](#proxy configuration)
+  - [Proxy Configuration](#proxy-configuration)
       - [Proxy configuration via nginx](#proxy-configuration-by-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-per-apache2)
 
@@ -122,7 +122,7 @@ See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connec
 
 #### Delete old messages
 
-The deletion of old messages can be activated by selecting a ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the magazine chat and from the on-screen chats are deleted.
+The deletion of old messages can be activated by selecting a ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the repository chat and from the on-screen chats are deleted.
 
 ![](./docu/images/view-serversettings_deletion_mode_en.PNG)
 
@@ -135,9 +135,9 @@ The deletion of old messages can be activated by selecting a ***Interval***. Aft
 
 The chat can be activated or deactivated via the selection field.
 
-#### Magazine Chat: Enable on-screen notifications
+#### Repository Chat: Enable on-screen notifications
 
-If enabled, users will be informed by a pop-up about new invitations in magazine chats.
+If enabled, users will be informed by a pop-up about new invitations in repository chats.
 
 ![](./docu/images/view-clientsettings_enable_osd_en.PNG)
 
