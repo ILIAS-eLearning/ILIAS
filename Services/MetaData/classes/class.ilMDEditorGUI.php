@@ -585,7 +585,7 @@ class ilMDEditorGUI
 				// block harvesting
 				$blocked = new ilCheckboxInputGUI(
 					$this->lng->txt('meta_oer_blocked'),
-					'copyright_oer_blocked'
+					'copyright_oer_blocked_'.$copyright_entry->getEntryId()
 				);
 				$blocked->setInfo($this->lng->txt('meta_oer_blocked_info'));
 				$blocked->setValue(1);
@@ -742,8 +742,10 @@ class ilMDEditorGUI
 			$oer_settings = ilOerHarvesterSettings::getInstance();
 			if($oer_settings->supportsHarvesting($this->md_obj->getObjType()))
 			{
+				$chosen_copyright = (int) $_POST['copyright'];
+
 				$status = new ilOerHarvesterObjectStatus($this->md_obj->getRBACId());
-				$status->setBlocked((int) $_POST['copyright_oer_blocked'] ? true : false);
+				$status->setBlocked((int) $_POST['copyright_oer_blocked_' . $chosen_copyright] ? true : false);
 				$status->save();
 			}
 		}
