@@ -198,10 +198,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 				}
 			}
 
-			$learningProgressObject = ilObjectLP::getInstance($objectId);
-			$learningProgressMode = $learningProgressObject->getCurrentMode();
-
-			if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+			if(!\ilObjUserTracking::_enabledLearningProgress()) {
 				foreach (\ilObject::_getAllReferences($objectId) as $refId) {
 					$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 					$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
