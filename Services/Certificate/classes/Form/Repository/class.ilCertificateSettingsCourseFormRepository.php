@@ -82,9 +82,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		$learningProgressMode = $this->learningProgressObject->getCurrentMode();
-
-		if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+		if (!\ilObjUserTracking::_enabledLearningProgress()) {
 			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
 			$formSection = new \ilFormSectionHeaderGUI();
