@@ -209,6 +209,7 @@ LIMIT 1
 	/**
 	 * @param int $objId
 	 * @return \ilCertificateTemplate
+	 * @throws ilException
 	 */
 	public function fetchCurrentlyActiveCertificate(int $objId): \ilCertificateTemplate
 	{
@@ -241,20 +242,7 @@ AND currently_active = 1
 			);
 		}
 
-		$this->logger->info(sprintf('END - Found NO active certificate for: "%s"', $objId));
-
-		return new ilCertificateTemplate(
-			$objId,
-			$this->objectDataCache->lookUpType($objId),
-			'',
-			'',
-			'',
-			0,
-			0,
-			0,
-			true,
-			''
-		);
+		throw new ilException((sprintf('NO active certificate template found for: "%s"', $objId)));
 	}
 
 	/**
