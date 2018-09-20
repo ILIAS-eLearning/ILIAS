@@ -9,7 +9,7 @@
  *
  * @package    Services/AssessmentQuestion
  */
-interface ilAsqQuestionResult
+class ilAsqQuestionResult
 {
 	/**
 	 * @return integer
