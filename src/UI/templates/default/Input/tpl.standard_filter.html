@@ -1,40 +1,24 @@
-<div class="il-standard-form form-horizontal">
+<form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="{URL}" method="get" novalidate="novalidate">
     <div class="il-filter-bar">
-        <span class="il-filter-bar-opener collapsed" style="font-size:1.4em" data-toggle="collapse" data-target="#inputs" aria-expanded="false"> Filter
+        <span class="il-filter-bar-opener collapsed" data-toggle="collapse" data-target="#inputs" aria-expanded="false"> {DESCRIPTION}
             <span class="il-filter-bar-opener-collapse"> {OPENER} </span>
         </span>
-        <span class="il-filter-bar-controls" style="font-size:1.4em"> {APPLY} {RESET} {TOGGLE} </span>
+        <span class="il-filter-bar-controls"> {APPLY} {RESET} {TOGGLE} </span>
     </div>
-    <div>To do: Aktive Filter Labels und Values bei geschlossenem Zustand</div>
+    <div class="il-filter-inputs-active">To do here: Active Filter Labels and Values when Filter is collapsed</div>
     <div id="inputs" class="form-group row collapse"> {INPUTS} </div>
-</div>
+</form>
 
 
 <script>
-    $(document).ready(function() {
-        $('.il-filter-bar-opener-collapse').find('.glyph:first').hide();
-        $('.il-filter-bar-opener').click(function() {
-            $('.il-filter-bar-opener-collapse .glyph').toggle();
-        });
-        // Does not work
-        //if ($('.il-toggle-button.on')) {
-            //$('.form-group.row.collapse').addClass('in');
-        //}
+
+$(document).ready(function() {
+    $('.il-filter-bar-opener-collapse').find('.glyph:first').hide();
+    $('.il-filter-bar-opener').click(function() {
+        $('.il-filter-bar-opener-collapse .glyph').toggle();
     });
 
-
-    /*
-    function myFunction(x) {
-        if (x.matches) {
-
-        } else {
-            //$('.il-filter-bar-opener').click();
-        }
-    }
-
-    var x = window.matchMedia("(max-width: 800px)")
-    myFunction(x) // Call listener function at run time
-    x.addListener(myFunction) // Attach listener function on state changes
-    */
+    $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
+});
 
 </script>

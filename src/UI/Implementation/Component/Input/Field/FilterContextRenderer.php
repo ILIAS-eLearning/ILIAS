@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -47,12 +48,14 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$input_tpl = null;
 
 		if ($input instanceof Component\Input\Field\Text) {
-			$input_tpl = $this->getTemplate("tpl.text_filter.html", true, true);
+			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
-		return $this->renderInputFieldWithContext($input_tpl, $input, $default_renderer);
+		return $this->renderProxyFieldWithContext($input_tpl, $input, $default_renderer);
 	}
 
 
@@ -82,7 +85,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, RendererInterface $default_renderer) {
+	protected function renderProxyFieldWithContext(Template $input_tpl, Input $input, RendererInterface $default_renderer) {
 
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -91,7 +94,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("input");
-		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $default_renderer));
+		$tpl->setVariable("INPUT", $this->renderProxyField($input_tpl, $input, $default_renderer));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("addon_right");
 		$tpl->setVariable("DELETE", $default_renderer->render($f->glyph()->remove()));
@@ -108,16 +111,72 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderInputField(Template $tpl, Input $input, RendererInterface $default_renderer) {
+	protected function renderProxyField(Template $input_tpl, Input $input, RendererInterface $default_renderer) {
 
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.text_filter.html", true, true);
 
-		//$input1 = $f->input()->field()->text("Text 1", "Das ist Text1");
-		$list1 = $f->listing()->unordered([$f->button()->shy("Label 8", "#"), $f->button()->shy("Label 9", "#"), $f->button()->shy("Label 10", "#")]);
-		$popover = $f->popover()->standard($list1)->withVerticalPosition();
+		$content = $this->renderInputFieldWithContext($input_tpl, $input);
+		$popover = $f->popover()->standard($f->legacy($content))->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
-		$input = $input->withOnClick($popover->getShowSignal());
+
+		$prox = new ProxyFilterField();
+		$prox = $prox->withOnClick($popover->getShowSignal());
+
+		$this->maybeRenderId($prox, $tpl);
+		return $tpl->get();
+	}
+
+
+	/**
+	 * @param Template $input_tpl
+	 * @param Input    $input
+	 *
+	 * @return string
+	 */
+	protected function renderInputFieldWithContext(Template $input_tpl, Input $input) {
+
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		/**
+		 * TODO: should we through an error in case for no name or render without name?
+		 *
+		 * if(!$input->getName()){
+		 * throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
+		 * Is there a name source attached (is this input packed into a container attaching
+		 * a name source)?");
+		 * } */
+		if ($input->getName()) {
+			$tpl->setVariable("NAME", $input->getName());
+		} else {
+			$tpl->setVariable("NAME", "");
+		}
+
+		$tpl->setVariable("LABEL", $input->getLabel());
+		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input));
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+
+
+		return $tpl->get();
+	}
+
+
+	/**
+	 * @param Template $tpl
+	 * @param Input    $input
+	 * @param RendererInterface    $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderInputField(Template $tpl, Input $input) {
 
 		$tpl->setVariable("NAME", $input->getName());
 
@@ -127,7 +186,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-		$this->maybeRenderId($input, $tpl);
 		return $tpl->get();
 	}
 
@@ -139,25 +197,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 */
 	protected function renderAddField(RendererInterface $default_renderer) {
 
-		/*
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
-		$input = $f->input()->field()->text("Add");
-		$input_tpl = $this->getTemplate("tpl.text_filter.html", true, true);
 
-		$tpl->setVariable("LABEL", $input->getLabel());
-		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input));
-		$tpl->setVariable("DELETE", $default_renderer->render($f->glyph()->add()));
-		*/
-
-		$f = $this->getUIFactory();
-		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
-		$input1 = $f->input()->field()->text("Text 1", "Das ist Text1")->withValue("Value 1");
-		//$input2 = $f->input()->field()->numeric("Text 2", "Das ist Text2");
-		//$form = $f->input()->container()->form()->standard("#", [$input1, $input2]);
-		//$section = $f->input()->field()->section([$input1, $input2], "AAA");
-		//$list = $f->listing()->unordered([$f->button()->shy("Label 8", "#"), $f->button()->shy("Label 9", "#"), $f->button()->shy("Label 10", "#")]);
-		$popover = $f->popover()->standard($input1)->withVerticalPosition();
+		$list = $f->listing()->unordered([$f->button()->shy("Label 8", "#"), $f->button()->shy("Label 9", "#"), $f->button()->shy("Label 10", "#")]);
+		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 		$add = $f->button()->bulky($f->glyph()->add(), "", "#")->withOnClick($popover->getShowSignal());
 
@@ -185,6 +229,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [
 			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
 			Component\Input\Field\Group::class
 		];
 	}

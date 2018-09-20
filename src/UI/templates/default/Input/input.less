@@ -64,21 +64,26 @@
   }
 
   .il-filter-bar-opener {
+    font-size: 1.4em;
     cursor: pointer;
   }
 
   .il-filter-bar-controls {
+    font-size: 1.4em;
     float: right;
     .btn-bulky {
+      display: inline-flex;
       width: auto;
       background-color: initial;
-      font-size: 0.75em;
+      font-size: 0.9em;
     }
     .glyph {
-      //margin-right: 15px;
-      //padding-right: 15px;
-      //border-right: 1.5px solid lightgrey;
+      padding-right: 0.3em;
     }
+    .il-toggle-button {
+      vertical-align: middle;
+    }
+
   }
 
   .il-filter-bar-opener-collapse .glyph {
@@ -123,6 +128,12 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 10%;
+  }
+
+  @media (max-width: @screen-sm){
+    .bulky-label {
+      display: none;
+    }
   }
 
 }
