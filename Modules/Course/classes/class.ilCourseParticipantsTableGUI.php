@@ -17,6 +17,9 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	protected $show_lp_status_sync = false;
 
 
+	/**
+	 * @var ilCertificateUserForObjectPreloader|null
+	 */
 	private $preLoader;
 
 	/**
@@ -50,7 +53,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 
 		if (null === $preloader) {
-			$preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository());
+			$preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(), new ilCertificateActiveValidator());
 		}
 		$this->preLoader = $preloader;
 		
@@ -142,8 +145,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		
 		$this->setShowRowsSelector(true);
 			
-		$preloader->preLoad($this->getRepositoryObject()->getId());
-		$this->enable_certificates = true;
+		$preloader->preLoadDownloadableCertificates($this->getRepositoryObject()->getId());
+
 		$lng->loadLanguageModule('certificate');
 
 		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));

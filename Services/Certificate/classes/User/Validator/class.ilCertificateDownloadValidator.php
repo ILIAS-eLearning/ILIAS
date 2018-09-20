@@ -16,9 +16,15 @@ class ilCertificateDownloadValidator
 	private $userCertificateRepository;
 
 	/**
-	 * @param ilUserCertificateRepository $userCertificateRepository
+	 * @var ilCertificateActiveValidator|null
 	 */
-	public function __construct(ilUserCertificateRepository $userCertificateRepository = null)
+	private $activeValidator;
+
+	/**
+	 * @param ilUserCertificateRepository $userCertificateRepository
+	 * @param ilCertificateActiveValidator|null $activeValidator
+	 */
+	public function __construct(ilUserCertificateRepository $userCertificateRepository = null, ilCertificateActiveValidator $activeValidator = null)
 	{
 		if (null === $userCertificateRepository) {
 			global $DIC;
@@ -28,10 +34,24 @@ class ilCertificateDownloadValidator
 			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		}
 		$this->userCertificateRepository = $userCertificateRepository;
+
+		if (null === $activeValidator) {
+			$activeValidator = new ilCertificateActiveValidator();
+		}
+		$this->activeValidator = $activeValidator;
 	}
 
+	/**
+	 * @param int $userId
+	 * @param int $objId
+	 * @return bool
+	 */
 	public function isCertificateDownloadable(int $userId, int $objId)
 	{
+		if (false === $this->activeValidator->validate()) {
+			return false;
+		}
+
 		try {
 			$this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
 		} catch (ilException $exception) {

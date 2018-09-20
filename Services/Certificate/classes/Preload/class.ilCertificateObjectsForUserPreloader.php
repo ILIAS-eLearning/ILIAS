@@ -28,7 +28,7 @@ class ilCertificateObjectsForUserPreloader
 	public function preLoad(int $userId, array $objIds)
 	{
 		$objectIdsWithUserCertificate = $this->userCertificateRepository->fetchObjectWithCertificateForUser($userId, $objIds);
-		ilCertificateObjectsForUserPreloader::$certificates[$userId] = $objectIdsWithUserCertificate;
+		self::$certificates[$userId] = $objectIdsWithUserCertificate;
 	}
 
 	/**
@@ -38,11 +38,11 @@ class ilCertificateObjectsForUserPreloader
 	 */
 	public function isPreloaded(int $userId, int $objId)
 	{
-		if (false === array_key_exists($userId, ilCertificateObjectsForUserPreloader::$certificates)) {
+		if (false === array_key_exists($userId, self::$certificates)) {
 			return false;
 		}
 
-		if (true === in_array($objId, ilCertificateObjectsForUserPreloader::$certificates[$userId])) {
+		if (true === in_array($objId, self::$certificates[$userId])) {
 			return true;
 		}
 		return false;
