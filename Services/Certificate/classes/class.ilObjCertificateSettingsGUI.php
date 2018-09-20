@@ -198,7 +198,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 			$form->addCommandButton('save',$this->lng->txt('save'));
 		}
 
-		if(!\ilObjUserTracking::_enabledLearningProgress()) {
+		if (!\ilObjUserTracking::_enabledLearningProgress()) {
 			ilAdministrationSettingsFormHandler::addFieldsToForm(
 				ilAdministrationSettingsFormHandler::FORM_CERTIFICATE,
 				$form,
