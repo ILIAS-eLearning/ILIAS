@@ -34,7 +34,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $toggle_fulltime_txt = '';
 	protected $toggle_fulltime_checked = false;
 
-	protected $empty_boundaries = false;
+	protected $allowOpenIntervals = false;
 
 	/**
 	* Constructor
@@ -249,7 +249,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$format = $incoming['tgl'] ? 0 : $this->getDatePickerTimeFormat();
 			$this->toggle_fulltime_checked = (bool)$incoming['tgl'];
 
-			if ($this->emptyBoundariesAllowed()) {
+			if ($this->openIntervalsAllowed()) {
 				if (is_string($incoming['start']) && trim($incoming['start']) !== '') {
 					$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
 				} else {
@@ -304,39 +304,39 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		// always done to make sure there are no obsolete values left
 		$this->setStart(null);
 		$this->setEnd(null);
-		
+
 		$valid_start = false;
-		if(trim($start))
-		{
+		if (trim($start)) {
 			$parsed = ilCalendarUtil::parseIncomingDate($start, $format);
-			if($parsed)
-			{									
+			if ($parsed) {
 				$this->setStart($parsed);
 				$valid_start = true;
-			}						
-		}
-		else if(!$this->getRequired() && !trim($end))
-		{
-			$valid_start = true;			
-		} else if($this->emptyBoundariesAllowed() && !strlen(trim($start))) {
-			$valid_start = true;
+			}
+		} else {
+			if (!$this->getRequired() && !trim($end)) {
+				$valid_start = true;
+			} else {
+				if ($this->openIntervalsAllowed() && !strlen(trim($start))) {
+					$valid_start = true;
+				}
+			}
 		}
 
 		$valid_end = false;
-		if(trim($end))
-		{			
-			$parsed = ilCalendarUtil::parseIncomingDate($end, $format);		
-			if($parsed)
-			{
+		if (trim($end)) {
+			$parsed = ilCalendarUtil::parseIncomingDate($end, $format);
+			if ($parsed) {
 				$this->setEnd($parsed);
 				$valid_end = true;
-			}					
-		}
-		else if(!$this->getRequired() && !trim($start))
-		{					
-			$valid_end = true;			
-		} else if($this->emptyBoundariesAllowed() && !strlen(trim($end))) {
-			$valid_end = true;
+			}
+		} else {
+			if (!$this->getRequired() && !trim($start)) {
+				$valid_end = true;
+			} else {
+				if ($this->openIntervalsAllowed() && !strlen(trim($end))) {
+					$valid_end = true;
+				}
+			}
 		}
 
 		if($this->getStartYear())
@@ -363,7 +363,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$valid = false;			
 		}
 
-		if ($this->emptyBoundariesAllowed()) {
+		if ($this->openIntervalsAllowed()) {
 			if (!$this->getStart()) {
 				$_POST[$this->getPostVar()]["start"] = null;
 			}
@@ -375,24 +375,21 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		} elseif (!$valid) {
 			$this->invalid_input_start = $start;
 			$this->invalid_input_end = $end;
-			
+
 			$_POST[$this->getPostVar()]["start"] = null;
 			$_POST[$this->getPostVar()]["end"] = null;
-			
+
 			$this->setAlert($lng->txt("form_msg_wrong_date"));
-		}	
-		else
-		{
-			if(
+		} else {
+			if (
 				!$this->getStart() ||
 				!$this->getEnd()
-			)
-			{
+			) {
 				$_POST[$this->getPostVar()]["start"] = null;
 				$_POST[$this->getPostVar()]["end"] = null;
 			}
 		}
-		
+
 		if($valid)
 		{
 			$valid = $this->checkSubItemsInput();
@@ -604,16 +601,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	/**
 	 * @return bool
 	 */
-	public function emptyBoundariesAllowed(): bool 
+	public function openIntervalsAllowed(): bool 
 	{
-		return $this->empty_boundaries;
+		return $this->allowOpenIntervals;
 	}
 
 	/**
-	 * @param bool $empty_boundaries
+	 * @param bool $allowOpenInterval
 	 */
-	public function setEmptyBoundaries(bool $empty_boundaries)
+	public function setAllowOpenIntervals(bool $allowOpenInterval)
 	{
-		$this->empty_boundaries = $empty_boundaries;
+		$this->allowOpenIntervals = $allowOpenInterval;
 	}
 }
