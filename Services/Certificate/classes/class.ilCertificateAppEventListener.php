@@ -30,6 +30,22 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	protected $parameters = [];
 
 	/**
+	 * @var ilObjectLP
+	 */
+	private $learningProgressObject;
+
+	/**
+	 * @var ilCertificateQueueRepository
+	 */
+	private $certificateQueueRepository;
+
+	/**
+	 * @var ilCertificateTypeClassMap
+	 */
+	private $certificateClassMap;
+	private $templateRepository;
+
+	/**
 	 * ilCertificateAppEventListener constructor.
 	 * @param \ilDBInterface $db
 	 * @param \ilObjectDataCache $objectDataCache
@@ -43,6 +59,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->db = $db;
 		$this->objectDataCache = $objectDataCache;
 		$this->logger = $logger;
+		$this->certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
+		$this->certificateClassMap = new \ilCertificateTypeClassMap();
+		$this->templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 	}
 
 	/**
@@ -152,21 +171,17 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
 		if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-			$certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
-			$certificateClassMap = new \ilCertificateTypeClassMap();
-			$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-
 			$objectId = $this->parameters['obj_id'] ?? 0;
 			$userId = $this->parameters['usr_id'] ?? 0;
 
 			$type  = $this->objectDataCache->lookupType($objectId);
 
-			if ($certificateClassMap->typeExistsInMap($type)) {
+			if ($this->certificateClassMap->typeExistsInMap($type)) {
 				try {
-					$template = $templateRepository->fetchCurrentlyActiveCertificate($objectId);
+					$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
 					if (true === $template->isCurrentlyActive()) {
-						$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+						$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
 						$entry = new \ilCertificateQueueEntry(
 							$objectId,
@@ -177,14 +192,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 							time()
 						);
 
-						$certificateQueueRepository->addToQueue($entry);
+						$this->certificateQueueRepository->addToQueue($entry);
 					}
 				} catch (ilException $exception) {
 					$this->logger->warning($exception->getMessage());
 				}
 			}
 
-			$learningProgressObject = ilObjectLP::getInstance($this->object->getId());
+			$learningProgressObject = ilObjectLP::getInstance($objectId);
 			$learningProgressMode = $learningProgressObject->getCurrentMode();
 
 			if($learningProgressMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
@@ -201,7 +216,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 							if (true === $courseTemplate->isCurrentlyActive()) {
 								$type = $this->objectDataCache->lookupType($courseObjId);
 
-								$className = $certificateClassMap->getPlaceHolderClassNameByType($type);
+								$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
 								$entry = new \ilCertificateQueueEntry(
 									$courseObjId,
@@ -211,7 +226,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 									time()
 								);
 
-								$certificateQueueRepository->addToQueue($entry);
+								$this->certificateQueueRepository->addToQueue($entry);
 							}
 						} catch (ilException $exception) {
 							$this->logger->warning($exception->getMessage());
