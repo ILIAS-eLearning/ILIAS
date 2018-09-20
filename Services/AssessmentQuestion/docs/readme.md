@@ -26,7 +26,7 @@ The interface `ilAsqPresentation` provides all functionality to output a questio
 
 The interface `ilAsqResultCalculator` provides all functionality of calculating right/wrong for a given solution as well as reached points. Having this functionality in an own object following implementing this interface makes it possible for consumers to surround this kind calculators with an own proxy calculator implementing the same interface (e.g.for any score cutting options).
 
-The handling of solutions is defined by the interface `ilAsqSolution` so the future implementation is fully getting rid of dealing with solution values stored in row array structures that were queried from the database.
+The handling of solutions is defined by the interface `ilAsqQuestionSolution` so the future implementation is fully getting rid of dealing with solution values stored in row array structures that were queried from the database.
 
 # Consumer Interface
 
@@ -92,17 +92,17 @@ Die eigentliche, notwendige Entkopplung findet in diesem Schritten statt: Verlet
     * Eigentliche Entkopplung durch Umstrukturieren der IDs und Referenzen
         * Die Tabelle tst_test_result wird mit einer neuen Spalte für die Lösungs-ID aktualisiert
 * Abstraktion einer neuen Objektschicht zur Repräsentierung von eingereichten Lösungen
-    * Eine ilAsqSolution Objektinstanz repräsentiert eine Zeile in asq_solutions
-    * Ein ilAsqSolutionValue Objekt repräsentiert eine Zeile in asq_solution_values
+    * Eine ilAsqQuestionSolution Objektinstanz repräsentiert eine Zeile in asq_solutions
+    * Ein ilAsqQuestionSolutionValue Objekt repräsentiert eine Zeile in asq_solution_values
 * Refactoring der bestehenden Fragenklassen durch Einbindung der Lösungsobjekte
     * Entfernen aller Parameter Übergaben betreffend Teilnehmer ID und Testdurchlauf
-    * Umstellung aller betroffenen Methoden auf Verwendung eines Ersatzparameters vom Typ ilAsqSolution
+    * Umstellung aller betroffenen Methoden auf Verwendung eines Ersatzparameters vom Typ ilAsqQuestionSolution
 * Abstraktion einer neuen Objektschicht zur Repräsentierung von Test Results
     * Eine Objekt Instanz vom Typ ilTestResult gewährt Zugriff auf ein Ergebnis eines Teilnehmers zu einer Frage
     * Gleichzeitig wird über ilTestResult eine zugehörige Lösungs ID verwaltet
     * Das Handling von Fragen im Test Player wird umgestellt
-        * Für die Anzeige einer Frage mit Lösung wird über ilTestResult die zugehörige ilAsqSolution und bestückt die GUI Klasse der Frage damit
-        * Rückwärts wird weiterhin die Fragen GUI die vom Teilnehmer übertragene Lösung aus den POST Parametern auslesen, dann aber eigenständig über ilAsqSolution abspeichern
+        * Für die Anzeige einer Frage mit Lösung wird über ilTestResult die zugehörige ilAsqQuestionSolution und bestückt die GUI Klasse der Frage damit
+        * Rückwärts wird weiterhin die Fragen GUI die vom Teilnehmer übertragene Lösung aus den POST Parametern auslesen, dann aber eigenständig über ilAsqQuestionSolution abspeichern
         * Die dabei verwendete Lösungs ID wird dem Player zur Erstellung/Aktualisierung eines Ergebnis mittels ilTestResult zurückgereicht
 
 # Open Questions
