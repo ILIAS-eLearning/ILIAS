@@ -42,9 +42,9 @@ interface ilAsqQuestion
 	public function getComment() : string;
 	
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getOwner() : string;
+	public function getOwner() : int;
 	
 	/**
 	 * @return string
