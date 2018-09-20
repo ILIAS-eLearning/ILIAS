@@ -69,16 +69,16 @@ class ilMailBoxQuery
 		if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
 			$dateFilterParts = [];
 
-			if (null !== $filter['period']['start']) {
+			if (null !== self::$filter['period']['start']) {
 				$dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
-					date('Y-m-d H:i:s', self::$filter['period']['start']),
+					(new \DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
 					'timestamp'
 				);
 			}
 
-			if (null !== $filter['period']['end']) {
+			if (null !== self::$filter['period']['end']) {
 				$dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
-					date('Y-m-d H:i:s', self::$filter['period']['end']),
+					(new \DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
 					'timestamp'
 				);
 			}

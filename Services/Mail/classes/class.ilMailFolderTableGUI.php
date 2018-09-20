@@ -755,6 +755,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		}
 
 		$duration = new \ilDateDurationInputGUI($this->lng->txt('mail_filter_period'), 'period');
+		$duration->setAllowOpenIntervals(true);
 		$duration->setStartText($this->lng->txt('mail_filter_period_from'));
 		$duration->setEndText($this->lng->txt('mail_filter_period_until'));
 		$duration->setStart(new ilDateTime(null, IL_CAL_UNIX));
