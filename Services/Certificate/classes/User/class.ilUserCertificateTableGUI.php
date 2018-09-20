@@ -58,7 +58,7 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TITLE', $a_set['title']);
 		$this->tpl->setVariable('DATE', $a_set['date']);
 
-		$this->controller->setParameter($this->getParentObject(), 'certificate_id', $dataSet['id']);
+		$this->controller->setParameter($this->getParentObject(), 'certificate_id', $a_set['id']);
 		$link = $this->controller->getLinkTarget($this->getParentObject(), 'download');
 		$this->controller->clearParameters($this->getParentObject());
 
