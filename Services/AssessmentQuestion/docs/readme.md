@@ -32,6 +32,16 @@ For any use case other developers need to handle within their component when int
 
 The factory is integrated into the global DIC. Use `$DIC->question()` to get an instance of ilAsqFactory.
 
+# Export / Import
+
+The assessment question service has two classes for the export and import. For the export `ilAssessmentQuestionExporter` extends `ilXmlExporter` and for the import `ilAssessmentQuestionImporter` extends `ilXmlImporter`. With these classes the assessment questions docks to the common export/import structure of ILIAS.
+
+Consumers of the assessment question service can declare questions as a tail depency within their `il<Module>Exporter` class. The export architecture of ILIAS will address the assessment question service and imports the questions. Consumers also need to finally process question id mappings within their `il<Module>Importer` class.
+
+When consumers want to export the assessment questions as a single QTI xml file, they can simply use `ilAsqQuestion::toQTIXml()` interface methods. It is to be used for each question that needs to get exported. An overall QTI xml file can be created by simply concatinating the xml pieces got from the question instance.
+
+For importing assessment questions from any single QTI xml file, the QTI service is to be used to retieve a list of `QTIitem` instances. These items can be provided to an empty `ilAsqQuestion` instance to save the question to the database.
+
 # Service Class
 
 There are three requirements up to now that cannot be handled by any concrete and question type specific implementation of any assessment question interfaces. Therefore the `ilAsqService` class provides a container for methods handling this requirements. An instance of the service class can be requested using `$DIC->question()->service()`.
@@ -47,6 +57,7 @@ There are three requirements up to now that cannot be handled by any concrete an
 Usage examples can be viewed within the file:  
 * Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php
 * Services/AssessmentQuestion/examples/class.exQuestionsTableGUI.php
+* Services/AssessmentQuestion/examples/class.exQuestionPoolExporter.php
 
 ## Presentation Consume
 
