@@ -515,7 +515,7 @@ class ilAdvancedMDValues
 	 * @param
 	 * @return
 	 */
-	static public function queryForRecords($a_obj_id, $a_subtype, $a_records, $a_obj_id_key, $a_obj_subid_key, array $a_amet_filter = null)
+	static public function queryForRecords($adv_rec_obj_ref_id, $adv_rec_obj_type, $adv_rec_obj_subtype, $a_obj_id, $a_subtype, $a_records, $a_obj_id_key, $a_obj_subid_key, array $a_amet_filter = null)
 	{	
 		$results = array();
 		
@@ -546,9 +546,9 @@ class ilAdvancedMDValues
 			$obj_id = $rec[$a_obj_id_key];
 			$sub_id = $rec[$a_obj_subid_key];
 						
-			// only active amet records for glossary 
-			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject(ilObject::_lookupType($obj_id), $obj_id, $a_subtype) as $adv_record)
-			{									
+			// only active amet records for glossary
+			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_rec_obj_type, $adv_rec_obj_ref_id, $adv_rec_obj_subtype) as $adv_record)
+			{
 				$record_id = $adv_record->getRecordId();
 				
 				if(!isset($record_groups[$record_id]))
@@ -596,7 +596,6 @@ class ilAdvancedMDValues
 						}
 					}
 				}
-				
 				// add amet values to glossary term record
 				foreach($adt_group->getElements() as $element_id => $element)
 				{
