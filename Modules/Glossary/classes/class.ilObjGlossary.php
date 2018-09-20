@@ -493,13 +493,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	{
 		if ($a_omit_virtual)
 		{
-			$glo_ids[] = $this->getId();
+			$glo_ref_ids[] = $this->getRefId();
 		}
 		else
 		{
-			$glo_ids = $this->getAllGlossaryIds($a_include_offline_childs);
+			$glo_ref_ids = $this->getAllGlossaryIds($a_include_offline_childs, true);
 		}
-		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def, $a_tax_node,
+		$list = ilGlossaryTerm::getTermList($glo_ref_ids, $searchterm, $a_letter, $a_def, $a_tax_node,
 			$a_add_amet_fields, $a_amet_filter, $a_include_references);
 		return $list;
 	}
@@ -520,7 +520,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 * @param
 	 * @return
 	 */
-	function getAllGlossaryIds($a_include_offline_childs = false)
+	function getAllGlossaryIds($a_include_offline_childs = false, $ids_are_ref_ids = false)
 	{
 		global $DIC;
 
@@ -535,22 +535,18 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			{
 				case "level":
 					$glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()),"glo");
-					$glo_ids[] = $this->getId();
 					foreach ($glo_arr as $glo)
 					{
 						{
-							$glo_ids[] = $glo['obj_id'];
+							if ($ids_are_ref_ids)
+							{
+								$glo_ids[] = $glo['child'];
+							}
+							else
+							{
+								$glo_ids[] = $glo['obj_id'];
+							}
 						}
-					}
-					if (!$a_include_offline_childs)
-					{
-						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
-					}
-					// always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
-					// see bug #14477
-					if (!in_array($this->getId(), $glo_ids))
-					{
-						$glo_ids[] = $this->getId();
 					}
 					break;
 
@@ -561,30 +557,49 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 					{
 						if ($node['type'] == 'glo')
 						{
-							$glo_ids[] = $node['obj_id'];
+							if ($ids_are_ref_ids)
+							{
+								$glo_ids[] = $node['child'];
+							}
+							else
+							{
+								$glo_ids[] = $node['obj_id'];
+							}
 						}
 					}
-					if (!$a_include_offline_childs)
-					{
-						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
-					}
-					// always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
-					// see bug #14477
-					if (!in_array($this->getId(), $glo_ids))
-					{
-						$glo_ids[] = $this->getId();
-					}
 					break;
-				
-				// fallback to none virtual mode in case of error
-				default:
+			}
+			if (!$a_include_offline_childs)
+			{
+				$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids, $ids_are_ref_ids);
+			}
+			// always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
+			// see bug #14477
+			if ($ids_are_ref_ids)
+			{
+				if (!in_array($this->getRefId(), $glo_ids))
+				{
+					$glo_ids[] = $this->getRefId();
+				}
+			}
+			else
+			{
+				if (!in_array($this->getId(), $glo_ids))
+				{
 					$glo_ids[] = $this->getId();
-					break;
+				}
 			}
 		}
 		else
 		{
-			$glo_ids = $this->getId();
+			if ($ids_are_ref_ids)
+			{
+				$glo_ids = $this->getRefId();
+			}
+			else
+			{
+				$glo_ids = $this->getId();
+			}
 		}
 		
 		return $glo_ids;
@@ -1276,7 +1291,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		
 		// copy terms
 		$term_mappings = array();
-		foreach (ilGlossaryTerm::getTermList($this->getId()) as $term)
+		foreach (ilGlossaryTerm::getTermList($this->getRefId()) as $term)
 		{
 			$new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
 			$term_mappings[$term["id"]] = $new_term_id;
@@ -1311,18 +1326,37 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 * @param
 	 * @return
 	 */
-	function removeOfflineGlossaries($a_glo_ids)
+	function removeOfflineGlossaries($a_glo_ids, $ids_are_ref_ids = false)
 	{
+		$glo_ids = $a_glo_ids;
+		if ($ids_are_ref_ids)
+		{
+			$glo_ids = array_map(function($id) {
+				return ilObject::_lookupObjectId($id);
+			}, $a_glo_ids);
+		}
+
 		$set = $this->db->query("SELECT id FROM glossary ".
-			" WHERE ".$this->db->in("id", $a_glo_ids, false, "integer").
+			" WHERE ".$this->db->in("id", $glo_ids, false, "integer").
 			" AND is_online = ".$this->db->quote("y", "text")
 			);
-		$glo_ids = array();
+		$online_glo_ids = array();
 		while ($rec = $this->db->fetchAssoc($set))
 		{
-			$glo_ids[] = $rec["id"];
+			$online_glo_ids[] = $rec["id"];
 		}
-		return $glo_ids;
+
+		if (!$ids_are_ref_ids)
+		{
+			return $online_glo_ids;
+		}
+
+		$online_ref_ids = array_filter($a_glo_ids, function($ref_id) use ($online_glo_ids) {
+			return in_array(ilObject::_lookupObjectId($ref_id), $online_glo_ids);
+		});
+
+
+		return $online_ref_ids;
 	}
 	
 	public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
@@ -1346,14 +1380,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 * @param
 	 * @return
 	 */
-	function autoLinkGlossaryTerms($a_glo_id)
+	function autoLinkGlossaryTerms($a_glo_ref_id)
 	{
 		// get terms of target glossary
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$terms = ilGlossaryTerm::getTermList($a_glo_id);
+		$terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
 		// for each get page: get content
-		$source_terms = ilGlossaryTerm::getTermList($this->getId());
+		$source_terms = ilGlossaryTerm::getTermList($this->getRefId());
 		$found_pages = array();
 		foreach($source_terms as $source_term)
 		{
