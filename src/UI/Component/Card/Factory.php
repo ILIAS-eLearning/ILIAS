@@ -56,8 +56,8 @@ interface Factory {
 	 *      repository objects and display specific icons to identify about what object type is the card related.
 	 *      Cards are often used in so-called Decks which are a gallery of Cards.
 	 *   composition: >
-	 *      RepositoryObject Cards use as a basis the same structure as Standard Cards.
-	 *      RepositoryObject Cards add icons on a darkened layer over the image. This Darkened layer is divided into
+	 *      repositoryObject cards use as a basis the same structure as Standard Cards.
+	 *      repositoryObject cards add icons on a darkened layer over the image. This Darkened layer is divided into
 	 *      4 horizontal cells where the icons can be located.
 	 *      Starting from the left, the icons have the following order:
 	 *          Cell 1: Object type (UI Icon)
@@ -66,7 +66,7 @@ interface Factory {
 	 *          Cell 4: Actions (UI Dropdown)
 	 *      Cells and its content are responsively adapted if the size of the screen is changed.
 	 *   effect: >
-	 *      RepositoryObject Cards MUST contain a UI Icon displaying the object type.
+	 *      RepositoryObject Cards MAY contain a UI Icon displaying the object type.
 	 *      RepositoryObject Cards MAY contain a UI ProgressMeter displaying the learning progress of the user.
 	 *      RepositoryObject Cards MAY contain a UI Icon displaying a certificate icon if the user finished the task.
 	 *      RepositoryObject Cards MAY contain a UI ProgressMeter OR UI Icon certificate, NOT both.
