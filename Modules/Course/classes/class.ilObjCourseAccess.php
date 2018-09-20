@@ -549,7 +549,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
 		
 		$repository = new ilUserCertificateRepository();
-		$coursePreload = new ilCertificateCoursePreloader($repository);
+		$coursePreload = new ilCertificateObjectsForUserPreloader($repository);
 		$coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
 	}
 

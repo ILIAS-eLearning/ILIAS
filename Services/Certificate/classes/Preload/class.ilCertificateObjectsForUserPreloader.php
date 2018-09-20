@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCoursePreloader
+class ilCertificateObjectsForUserPreloader
 {
 	/**
 	 * @var array
@@ -21,19 +21,28 @@ class ilCertificateCoursePreloader
 		$this->userCertificateRepository = $userCertificateRepository;
 	}
 
+	/**
+	 * @param int $userId
+	 * @param array $objIds
+	 */
 	public function preLoad(int $userId, array $objIds)
 	{
 		$objectIdsWithUserCertificate = $this->userCertificateRepository->fetchObjectWithCertificateForUser($userId, $objIds);
-		ilCertificateCoursePreloader::$certificates[$userId] = $objectIdsWithUserCertificate;
+		self::$certificates[$userId] = $objectIdsWithUserCertificate;
 	}
 
+	/**
+	 * @param int $userId
+	 * @param int $objId
+	 * @return bool
+	 */
 	public function isPreloaded(int $userId, int $objId)
 	{
-		if (false === array_key_exists($userId, ilCertificateCoursePreloader::$certificates)) {
+		if (false === array_key_exists($userId, self::$certificates)) {
 			return false;
 		}
 
-		if (true === in_array($objId, ilCertificateCoursePreloader::$certificates[$userId])) {
+		if (true === in_array($objId, self::$certificates[$userId])) {
 			return true;
 		}
 		return false;
