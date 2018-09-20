@@ -75,7 +75,7 @@ trait Triggerer {
 	 * Get signals that are triggered for a certain event.
 	 *
 	 * @param	string
-	 * @return \ILIAS\UI\Component\Signal
+	 * @return \ILIAS\UI\Component\Signal[]
 	 */
 	public function getTriggeredSignalsFor($event) {
 		if (!isset($this->triggered_signals[$event])) {

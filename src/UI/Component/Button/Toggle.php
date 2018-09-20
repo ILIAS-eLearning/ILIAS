@@ -20,12 +20,17 @@ interface Toggle extends Button {
 	public function isOn();
 
 	/**
+	 * Get the action of the Toggle Button when it is on.
+	 *
+	 * @return	string|ToggleOnSignal[]
+	 */
+	public function getActionOn();
+
+	/**
 	 * Get the action of the Toggle Button when it is off.
 	 *
-	 * @return	string|TriggeredSignal
+	 * @return	string|ToggleOffSignal[]
 	 */
 	public function getActionOff();
-
-	//public function withOnClickOff(Signal $signal);
 
 }

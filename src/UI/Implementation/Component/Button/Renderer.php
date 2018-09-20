@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
+use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -127,52 +128,40 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderToggle(Component\Button\Toggle $component) {
 		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
-		$on_action = $component->getAction();
+		$on_action = $component->getActionOn();
 		$off_action = $component->getActionOff();
 
+		$on_url = (is_string($on_action))
+			? $on_action
+			: "";
 
-		if (is_string($on_action))
-		{
-			$on_url = $on_action;
-			$on_options = "{}";
-		}
-		else
-		{
-			$on_url = "";
-			$on_signal = $on_action->getSignal();
-			$on_event = $on_action->getEvent();
-			$on_options = json_encode($on_signal->getOptions());
-		}
+		$off_url = (is_string($off_action))
+			? $off_action
+			: "";
 
-		if (is_string($off_action))
+		$signals = [];
+
+		foreach ($component->getTriggeredSignals() as $s)
 		{
-			$off_url = $off_action;
-			$off_options = "{}";
-		}
-		else
-		{
-			$off_url = "";
-			$off_signal = $off_action->getSignal();
-			$off_event = $off_action->getEvent();
-			$off_options = json_encode($off_signal->getOptions());
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+
 		}
 
+		$signals = json_encode($signals);
 
 		if ($component->isActive()) {
 			$component = $component->withAdditionalOnLoadCode(function ($id)
-				use ($on_url, $on_signal, $on_event, $on_options,
-					$off_url, $off_signal, $off_event, $off_options) {
-				return "$('#$id').on('click', function(event) {
-						il.UI.button.handleToggleClick(event, '$id', '$on_url', {
-								'id' : '{$on_signal}', 'event' : '{$on_event}',
-								'triggerer' : $('#{$id}'),
-								'options' : JSON.parse('{$on_options}')}, '$off_url', {
-								'id' : '{$off_signal}', 'event' : '{$off_event}',
-								'triggerer' : $('#{$id}'),
-								'options' : JSON.parse('{$off_options}')
-							});
+				use ($on_url, $off_url, $signals) {
+				$code = "$('#$id').on('click', function(event) {
+						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});";
+				//var_dump($code); exit;
+				return $code;
 			});
 		} else {
 			$tpl->touchBlock("disabled");
