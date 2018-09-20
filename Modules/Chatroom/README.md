@@ -1,5 +1,12 @@
 # Chat Server Setup
 
+ILIAS provides several classes to create and
+send Emails/Messages for different purposes.
+
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
+“SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
+interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 **Table of Contents**
 <!-- TOC -->
 
@@ -42,11 +49,11 @@ The latest version can be downloaded at the following URL: https://github.com/no
 In addition, [here](https://github.com/nodesource/distributions#deb "here") is an installation guide for the respective Unix-based operating system.
 
 
-The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files must be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
+The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files MUST be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
 
 ![](./docu/images/view-clientsettings_en.PNG)
 
-*** Note: *** On all changes to the settings, the chat server ** must ** be restarted!
+**Note:** On all changes to the settings, the chat server MUST be restarted!
 
 ## ILIAS Configuration
 
@@ -73,7 +80,7 @@ Example:
 
 #### Relative Path
 
-This configuration section is only needed if the chat server is not running directly below the ILIAS document root directory and the chat server URL looks like this: `http (s): // [IP / DOMAIN] / [PATH] / [TO] / [CHAT] `. For some technical requirements it may be necessary to use the relative path.
+This configuration section is only needed if the chat server is not running directly below the ILIAS document root directory and the chat server URL looks like this: `http (s): // [IP / DOMAIN] / [PATH] / [TO] / [CHAT] `. For some technical requirements it MAY be necessary to use the relative path.
 
 Examples:
 
@@ -99,7 +106,7 @@ Examples:
 ![](./docu/images/view-serversettings_log_en.PNG)
 
 
-Optionally, the paths for the Chat Server Log and the Log error can be specified.
+The paths for the chat server log and the error log can be specified OPTIONALLY.
 
 *  Chat server log file: Absolute server path to the log file (eg `/var/www/ilias/data/chat.log`), into which the chat server logs general events.
 *  Chat server error log file: Absolute server path to the error log file (for example, `/var/www/ilias/data/chat_errors.log`), into which the chat server logs errors.
@@ -108,7 +115,7 @@ If no paths are defined, the chat server creates the log file in the chat server
 
 #### Connection ILIAS to the server
 
-By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL must be specified, via which the client can connect to the chat server.
+By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL MUST be specified, via which the client can connect to the chat server.
 
 ![](./docu/images/view-serversettings_ilias_proxy_en.PNG)
 
@@ -116,7 +123,7 @@ By default, ILIAS uses the IP address or FQDN set in the server configuration. I
 
 #### Connection client to the server
 
-See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connection the browser (client) uses to the chat server. The URL must be reachable by all browser clients.
+See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connection the browser (client) uses to the chat server. The URL MUST be reachable by all browser clients.
 
 ![](./docu/images/view-serversettings_client_proxy_en.PNG)
 
@@ -141,14 +148,14 @@ If enabled, users will be informed by a pop-up about new invitations in reposito
 
 ![](./docu/images/view-clientsettings_enable_osd_en.PNG)
 
-***Note***: Less time allows more timely notifications, but increases server load.
+**Note**: Less time allows more timely notifications, but increases server load.
 
 #### Name and Authentication
 
 To establish a connection between an ILIAS client and a chat server,
-a unique name must be defined in the ILIAS client. It is imperative that each name is unique within a chat server instance.
+a unique name MUST be defined in the ILIAS client. It is imperative that each name is unique within a chat server instance.
 
-In order to protect the chat server against unauthorized access, a key pair for the ***authentication*** must be generated for each client.
+In order to protect the chat server against unauthorized access, a key pair for the ***authentication*** MUST be generated for each client.
 
 Example:
 
@@ -157,9 +164,9 @@ Example:
 
 ## Server configuration
 
-If the chat server is to be run in a different directory, the entire ILIAS chat directory (`ILIAS / Modules / Chatroom / chat`) must be copied to the desired directory.
+If the chat server is to be run in a different directory, the entire ILIAS chat directory (`ILIAS / Modules / Chatroom / chat`) MUST be copied to the desired directory.
 
-***Note***: The following configuration files are generated in ILIAS (see - [ILIAS Configuration](#ilias configuration)). These **must** be copied again when changing the configuration in ILIAS!
+**Note**: The following configuration files are generated in ILIAS (see - [ILIAS Configuration](#ilias configuration)). These MUST be copied again when changing the configuration in ILIAS!
 
 The two configuration files `server.cfg` and` client.cfg` can be found in the path `[PATH_TO_EXTERNAL_DATA_DIRECTORY] / [ANY_CLIENT_ID] / chatroom`.
 
@@ -226,7 +233,7 @@ The following shows the command that can be used to start a multi-client chat se
 cd [ILIAS_ROOT_DIRECTORY]
 node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ... &
 ```
-Whether the chat server is running can be checked with the command ***netstat***. In the output, the service should be displayed with the specified ip:port.
+Whether the chat server is running can be checked with the command ***netstat***. In the output, the service SHOULD be displayed with the specified ip:port.
 
 ```bash
 netstat -tlpn
@@ -250,7 +257,7 @@ On Unix-based operating systems, there are various systems for managing services
 
 To automatically start the chat server with systemd, a file is stored in `/ etc / systemd / system`. chat.myilias.service created with the following content.
 
-***Note:*** The paths must be adjusted accordingly. For multiple clients, unique names must be assigned to the client.cfg, e.g. a_client.cfg, b_client.cfg, etc.
+**Note:** The paths MUST be adjusted accordingly. For multiple clients, unique names MUST be assigned to the client.cfg, e.g. a_client.cfg, b_client.cfg, etc.
 
 ```ini
 [Unit]
@@ -314,7 +321,7 @@ Example:
 
 ### Proxy configuration via apache2
 
-The configuration takes place in the Apache default configuration or in the corresponding vHost. In addition, the following Apache modules are required:
+The configuration takes place in the Apache default configuration or in the corresponding vHost. In addition, the following Apache modules are REQUIRED:
 proxy, proxy_connect, proxy_html, proxy_http, proxy_wstunnel, xml2enc
 
     ProxyPassMatch backend/(.*)$ http://127.0.0.1:8888/$0
