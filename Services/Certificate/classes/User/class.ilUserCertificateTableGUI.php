@@ -89,9 +89,7 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('date'), 'date', '');
 		$this->addColumn($this->lng->txt('action'), '', '');
 
-		$this->enable('select_all');
-
-		$this->setFormAction($this->controller->getFormAction($parentObject, 'applyCertificatesFilter'));
+		$this->setFormAction($this->controller->getFormAction($parentObject, $parentCommand));
 
 		$this->initFilter();
 		$this->setFilterCommand('applyCertificatesFilter');
@@ -101,15 +99,6 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 
 	protected function fillRow($row)
 	{
-		if ($this->getExternalSegmentation() && $this->getExternalSorting()) {
-			$this->determineOffsetAndOrder();
-		} elseif (!$this->getExternalSegmentation() && $this->getExternalSorting()) {
-			$this->determineOffsetAndOrder(true);
-		}
-
-		$this->setSelectAllCheckbox('conditions');
-
-
 		$this->tpl->setVariable('TITLE', $row['title']);
 		$this->tpl->setVariable('DATE', $row['date']);
 
@@ -122,21 +111,16 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$text = $this->lng->txt('download');
 		$this->tpl->setVariable('LINK_TEXT', $text);
 
-		foreach($this->optionalColumns as $index => $definition)
-		{
-			if(!$this->isColumnVisible($index))
-			{
+		foreach ($this->optionalColumns as $index => $definition) {
+			if (!$this->isColumnVisible($index)) {
 				continue;
 			}
 
 			$this->tpl->setCurrentBlock('optional_column');
 			$value = $row[$index];
-			if((string)$value === '')
-			{
+			if ((string)$value === '') {
 				$this->tpl->touchBlock('optional_column');
-			}
-			else
-			{
+			} else {
 				$this->tpl->setVariable('OPTIONAL_COLUMN_VAL', $value);
 			}
 
@@ -162,29 +146,30 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 
 	public function populate()
 	{
-		if(!$this->getExternalSegmentation() && $this->getExternalSorting()) {
+		if (!$this->getExternalSegmentation() && $this->getExternalSorting()) {
 			$this->determineOffsetAndOrder(true);
-		}
-		else if($this->getExternalSegmentation() || $this->getExternalSorting()) {
-			$this->determineOffsetAndOrder();
+		} else {
+			if ($this->getExternalSegmentation() || $this->getExternalSorting()) {
+				$this->determineOffsetAndOrder();
+			}
 		}
 
 		$params = array();
-		if($this->getExternalSegmentation()) {
-			$params['limit']  = $this->getLimit();
+		if ($this->getExternalSegmentation()) {
+			$params['limit'] = $this->getLimit();
 			$params['offset'] = $this->getOffset();
 		}
 
-		if($this->getExternalSorting()) {
-			$params['order_field']     = $this->getOrderField();
+		if ($this->getExternalSorting()) {
+			$params['order_field'] = $this->getOrderField();
 			$params['order_direction'] = $this->getOrderDirection();
 		}
 
 		$this->determineSelectedFilters();
 		$filter = array();
 
-		foreach($this->optionalFilter as $key => $value) {
-			if($this->isFilterSelected($key)) {
+		foreach ($this->optionalFilter as $key => $value) {
+			if ($this->isFilterSelected($key)) {
 				$filter[$key] = $value;
 			}
 		}
@@ -195,17 +180,15 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 			$filter
 		);
 
-		if(!count($data) && $this->getOffset() > 0 && $this->getExternalSegmentation())
-		{
+		if (!count($data) && $this->getOffset() > 0 && $this->getExternalSegmentation()) {
 			$this->resetOffset();
-			$params['limit']  = $this->getLimit();
+			$params['limit'] = $this->getLimit();
 			$params['offset'] = $this->getOffset();
-			$data             = $this->getProvider()->getList($params, $filter);
+			$data = $this->getProvider()->getList($params, $filter);
 		}
 
 		$this->setData($data['items']);
-		if($this->getExternalSegmentation())
-		{
+		if ($this->getExternalSegmentation()) {
 			$this->setMaxCount($data['cnt']);
 		}
 	}
