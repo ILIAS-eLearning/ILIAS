@@ -36,6 +36,9 @@ class Toggle extends Button implements C\Button\Toggle {
 	 */
 	protected $action_on = null;
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __construct($label, $action_on, $action_off, $is_on, Signal $click = null)
 	{
 		$this->checkStringArg("label", $label);
