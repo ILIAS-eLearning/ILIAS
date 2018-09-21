@@ -73,6 +73,7 @@ interface Factory {
 	 *   rivals:
 	 *      Heading Panel: Heading Panels fill up the complete available width in the Center Content Section. Multiple Heading Panels are stacked vertically.
 	 *      Block Panels: Block Panels are used in Sidebars
+	 *      Item: Items are used in lists or similar contexts.
 	 *
 	 * featurewiki:
 	 *       - https://docu.ilias.de/goto_docu_wiki_wpage_4921_1357.html
