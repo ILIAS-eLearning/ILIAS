@@ -214,21 +214,28 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		$lng = $this->lng;
 		
-		$_POST[$this->getPostVar()]["top"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["top"]);
-		$_POST[$this->getPostVar()]["right"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["right"]);
-		$_POST[$this->getPostVar()]["bottom"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["bottom"]);
-		$_POST[$this->getPostVar()]["left"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["left"]);
-		if ($this->getRequired() && ((trim($_POST[$this->getPostVar()]["top"]) == "") || (trim($_POST[$this->getPostVar()]["bottom"]) == "") || (trim($_POST[$this->getPostVar()]["left"]) == "") || (trim($_POST[$this->getPostVar()]["right"]) == "")))
-		{
+		$_POST[$this->getPostVar() . '_top'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['top']);
+		$_POST[$this->getPostVar() . '_right'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['right']);
+		$_POST[$this->getPostVar() . '_bottom'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['bottom']);
+		$_POST[$this->getPostVar() . '_left'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['left']);
+
+		if (
+			$this->getRequired() &&
+			((trim($_POST[$this->getPostVar() . '_top'] == ""))
+				|| (trim($_POST[$this->getPostVar() . '_bottom']) == "")
+				|| (trim($_POST[$this->getPostVar() . '_left']) == "")
+				|| (trim($_POST[$this->getPostVar() . '_right']) == "")
+			)
+		) {
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return false;
 		}
-		if ($this->useUnits())
-		{
-			if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["left"])) ||
-			 	(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["right"])) ||
-				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["bottom"])) ||
-				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["top"])))
+
+		if ($this->useUnits()) {
+			if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_top'])) ||
+			 	(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_right'])) ||
+				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_bottom'])) ||
+				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_left'])))
 			{
 				$this->setAlert($lng->txt("msg_unit_is_required"));
 				return false;

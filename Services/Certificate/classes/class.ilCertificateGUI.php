@@ -411,7 +411,12 @@ class ilCertificateGUI
 			$this->certifcateObject
 		);
 
-		$this->setTemplateContent($certificate, $form);
+		$form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
+		$form_fields['active'] = $certificate->isCurrentlyActive();
+
+		$form->setValuesByArray($form_fields);
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 
 	/**
@@ -494,10 +499,9 @@ class ilCertificateGUI
 			}
 		}
 
-		$this->setTemplateContent(
-			$previousCertificateTemplate,
-			$form
-		);
+		$form->setValuesByPost();
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 
 	/**
