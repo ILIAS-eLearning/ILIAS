@@ -44,7 +44,7 @@ class ilUserCertificateTableProvider
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
-		$sql = 'SELECT id, acquired_timestamp, obj_id FROM user_certificates WHERE user_id = ' . $this->database->quote($userId,
+		$sql = 'SELECT id, acquired_timestamp, obj_id FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId,
 				'integer') . ' AND currently_active = 1';
 
 
@@ -86,7 +86,7 @@ class ilUserCertificateTableProvider
 		}
 
 		if (isset($params['limit'])) {
-			$cnt_sql = 'SELECT COUNT(*) cnt FROM user_certificates WHERE user_id = ' . $this->database->quote($userId,
+			$cnt_sql = 'SELECT COUNT(*) cnt FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId,
 					'integer') . ' AND currently_active = 1';
 			$row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 			$data['cnt'] = $row_cnt['cnt'];

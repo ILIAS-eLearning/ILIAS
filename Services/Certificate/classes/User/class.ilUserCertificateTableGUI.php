@@ -56,7 +56,7 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		$templateContext = '',
 		ilCtrl $controller = null
 	) {
-		$this->setId('user_certificates_table');
+		$this->setId('il_cert_user_cert_table');
 
 		$this->setDefaultOrderDirection('DESC');
 		$this->setDefaultOrderField('date');
