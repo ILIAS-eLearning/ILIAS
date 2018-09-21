@@ -28,7 +28,7 @@
 class ilCertificateMigrationJobDefinitions
 {
 	// table name for ilCertificateMigrationJob
-	const CERT_MIGRATION_JOB_TABLE = 'bgtask_cert_migration';
+	const CERT_MIGRATION_JOB_TABLE = 'il_cert_bgtask_migr';
 	// task was not started yet
 	const CERT_MIGRATION_STATE_INIT = 'not started';
 	// task was started but is not running yet, maybe this will never be seen
