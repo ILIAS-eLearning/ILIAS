@@ -155,25 +155,5 @@ class ilUserCertificateGUI
 	 */
 	private function show()
 	{
-		$certificates = $this->userCertificateRepository->fetchActiveCertificates($this->user->getId());
-
-		$data = array();
-		/** @var ilUserCertificate $certificate */
-		foreach ($certificates as $certificate) {
-			$result['id'] = $certificate->getId();
-
-			$objectId = $certificate->getObjId();
-			$object = ilObjectFactory::getInstanceByObjId($objectId);
-			$result['title'] = $object->getTitle();
-
-			$result['date'] = ilDatePresentation::formatDate(new ilDateTime($certificate->getAcquiredTimestamp(), IL_CAL_UNIX));
-			$data[] = $result;
-		}
-
-		$table = new ilUserCertificateTableGUI($this, 'show');
-		$table->setData($data);
-
-		$html = $table->getHTML();
-		$this->template->setContent($html);
 	}
 }

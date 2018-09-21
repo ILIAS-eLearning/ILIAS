@@ -118,30 +118,7 @@ class ilBadgeProfileGUI
 			return $this->ctrl->redirect($this,"listBadges");
 		}
 
-		$provider = new ilUserCertificateRepository($this->database, $this->logger);
-
-		$table = new ilUserCertificateTableGUI($this, 'show');
-		$certificates = $provider->fetchActiveCertificates($this->user->getId());
-
 		$this->getSubTabs('certificate');
-		$data = array();
-
-		/** @var ilUserCertificate $certificate */
-		foreach ($certificates as $certificate) {
-			/** @var ilObject $object */
-			$object = ilObjectFactory::getInstanceByObjId($certificate->getObjId());
-
-			$acquiredTimestamp = $certificate->getAcquiredTimestamp();
-
-			$ilDateTime = new ilDateTime($acquiredTimestamp, IL_CAL_UNIX);
-
-			$data[] = array(
-				'id'     => $certificate->getId(),
-				'title'  => $object->getTitle(),
-				'date'   => ilDatePresentation::formatDate($ilDateTime),
-				'action' => $this->ctrl->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
-			);
-		}
 
 		if (!$a_migration_started) {
 			$cert_ui_elements = new \ilCertificateMigrationUIElements();
@@ -152,10 +129,30 @@ class ilBadgeProfileGUI
 			$this->tpl->parseCurrentBlock('mess');
 		}
 
+		$provider = new ilUserCertificateTableProvider($this->database, $this->logger, $this->ctrl);
 
-		$table->setData($data);
+		$table = new ilUserCertificateTableGUI($provider, $this->user, $this, 'listCertificates');
+		$table->populate();
 
 		$this->tpl->setContent(	$table->getHTML());
+	}
+
+	protected function applyCertificatesFilter()
+	{
+		$table = new ilUserCertificateTableProvider($this, 'listCertificates');
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->listCertificates();
+	}
+
+	protected function resetCertificatesFilter()
+	{
+		$table = new ilUserCertificateTableProvider($this, 'listCertificates');
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->listCertificates();
 	}
 
 	public function download()
