@@ -427,8 +427,8 @@ class ilCertificateGUI
 	 */
 	private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId)
 	{
-		$certificate = $this->templateRepository->fetchPreviousCertificate($objId);
-		$currentVersion = $certificate->getVersion();
+		$previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
+		$currentVersion = $previousCertificateTemplate->getVersion();
 		$nextVersion = $currentVersion + 1;
 
 		if ($_POST["background_delete"]) {
@@ -441,7 +441,7 @@ class ilCertificateGUI
 
 				$templateValues = $this->placeholderDescriptionObject->getPlaceholderDescriptions();
 
-				$backgroundImagePath = $certificate->getBackgroundImagePath();
+				$backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
 
 				if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
 					$backgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
@@ -460,25 +460,40 @@ class ilCertificateGUI
 					}
 				}
 
+				$jsonEncodedTemplateValues = json_encode($templateValues);
+
 				$xslfo = $this->xlsFoParser->parse($form_fields);
 
-				$certificateTemplate = new ilCertificateTemplate(
-					$objId,
-					ilObject::_lookupType($objId),
-					$xslfo,
-					md5($xslfo),
-					json_encode($templateValues),
-					$nextVersion,
-					ILIAS_VERSION_NUMERIC,
-					time(),
-					(bool) $form_fields['active'],
-					$backgroundImagePath,
-					$form_fields['active']
+				$newHashValue = hash(
+					'sha256',
+					implode('', array(
+						$xslfo,
+						$backgroundImagePath,
+						$jsonEncodedTemplateValues
+					))
 				);
 
-				$this->templateRepository->save($certificateTemplate);
+				if ($newHashValue !== $previousCertificateTemplate->getCertificateHash()) {
+					$certificateTemplate = new ilCertificateTemplate(
+						$objId,
+						ilObject::_lookupType($objId),
+						$xslfo,
+						$newHashValue,
+						$jsonEncodedTemplateValues,
+						$nextVersion,
+						ILIAS_VERSION_NUMERIC,
+						time(),
+						(bool) $form_fields['active'],
+						$backgroundImagePath,
+						$form_fields['active']
+					);
 
-				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), TRUE);
+					$this->templateRepository->save($certificateTemplate);
+					ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+					$this->ctrl->redirect($this, "certificateEditor");
+				}
+
+				ilUtil::sendInfo($this->lng->txt('certificate_same_not_saved'), true);
 				$this->ctrl->redirect($this, "certificateEditor");
 			} catch (Exception $e) {
 				ilUtil::sendFailure($e->getMessage());

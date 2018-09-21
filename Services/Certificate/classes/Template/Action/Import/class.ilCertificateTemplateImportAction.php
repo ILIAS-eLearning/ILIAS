@@ -183,12 +183,23 @@ class ilCertificateTemplateImportAction
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
 
+					$jsonEncodedTemplateValues = json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions());
+
+					$newHashValue = hash(
+						'sha256',
+						implode('', array(
+							$xsl,
+							$backgroundImagePath,
+							$jsonEncodedTemplateValues
+						))
+					);
+
 					$template = new ilCertificateTemplate(
 						$this->objectId,
 						$this->objectHelper->lookupType($this->objectId),
 						$xsl,
-						md5($xsl),
-						json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions()),
+						$newHashValue,
+						$jsonEncodedTemplateValues,
 						$newVersion,
 						$iliasVerision,
 						time(),
