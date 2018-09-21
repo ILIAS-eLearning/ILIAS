@@ -193,10 +193,13 @@ class ilUserCertificateTableGUI extends ilTable2GUI
 		}
 	}
 
-	private function isColumnVisible($column)
+	/**
+	 * @param string $column
+	 * @return bool
+	 */
+	private function isColumnVisible(string $column): bool 
 	{
-		if(array_key_exists($column, $this->optionalColumns) && !isset($this->visibleOptionalColumns[$column]))
-		{
+		if (array_key_exists($column, $this->optionalColumns) && !isset($this->visibleOptionalColumns[$column])) {
 			return false;
 		}
 
