@@ -283,7 +283,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 			$form->addItem($formSection);
 		}
 
-		if($this->access->checkAccess("writewrite", "", $_GET["ref_id"])) {
+		if($this->access->checkAccess("write", "", $_GET["ref_id"])) {
 			if ($certificateObject->isComplete() || $certificateObject->hasBackgroundImage()) {
 				$this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 
