@@ -99,7 +99,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 
 		if ($readable_ref_id > 0)
 		{
-			$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs");
+			$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs", true);
 		}
 
 		if ($parent_ref_id > 0)
