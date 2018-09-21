@@ -30,7 +30,7 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 		$databaseMock->expects($this->once())
 			->method('insert')
 			->with(
-				'certificate_cron_queue',
+				'il_cert_cron_queue',
 				array(
 					'id'                => array('integer', 20),
 					'obj_id'            => array('integer', 10),
@@ -73,7 +73,7 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$databaseMock->expects($this->once())
 			->method('manipulate')
-			->with('DELETE FROM certificate_cron_queue WHERE id = 30');
+			->with('DELETE FROM il_cert_cron_queue WHERE id = 30');
 
 		$repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);
 
