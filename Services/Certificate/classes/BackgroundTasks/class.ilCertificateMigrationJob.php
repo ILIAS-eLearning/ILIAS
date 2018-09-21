@@ -26,6 +26,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 
 /**
  * Class ilCertificateMigrationJob
@@ -47,6 +48,8 @@ class ilCertificateMigrationJob extends AbstractJob
 
 	/** @var ilAppEventHandler $ilAppEventHandler */
 	protected $event_handler;
+	/** @var \ILIAS\BackgroundTasks\Task\TaskFactory */
+	protected $task_factory;
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
@@ -64,6 +67,7 @@ class ilCertificateMigrationJob extends AbstractJob
 		$this->db = $DIC->database();
 		$this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
 		$this->event_handler = $DIC['ilAppEventHandler'];
+		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
 
 		$certificates = [];
 		$output = new IntegerValue();
@@ -250,6 +254,27 @@ class ilCertificateMigrationJob extends AbstractJob
 		]);
 
 		$DIC->user()->writePref('cert_migr_finished', 1);
+
+		$bucket = new BasicBucket();
+		$bucket->setUserId($this->user_id);
+
+		$task_progress = intval($this->measureProgress($found_items, $processed_items, $migrated_items));
+		$certificates_interaction = $this->task_factory->createTask(ilCertificateMigrationInteraction::class, [
+			$task_progress,
+			$this->user_id
+		]);
+
+		// last task to bucket
+		$bucket->setTask($certificates_interaction);
+
+		$lng = $DIC->language();
+		$lng->loadLanguageModule("cert");
+		$bucket->setTitle(trim($lng->txt('certificate_migration'), '-'));
+		// @TODO: how set percentage to 100% for progress bar?
+//		$bucket->setPercentage($certificates_interaction, $task_progress);
+
+		$task_manager = $DIC->backgroundTasks()->taskManager();
+		$task_manager->run($bucket);
 
 		return $output;
 	}
