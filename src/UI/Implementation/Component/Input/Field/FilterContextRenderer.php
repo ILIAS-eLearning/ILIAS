@@ -93,8 +93,8 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setCurrentBlock("addon_left");
 		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("input");
-		$tpl->setVariable("INPUT", $this->renderProxyField($input_tpl, $input, $default_renderer));
+		$tpl->setCurrentBlock("filter_field");
+		$tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_tpl, $input, $default_renderer));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("addon_right");
 		$tpl->setVariable("DELETE", $default_renderer->render($f->glyph()->remove()));
@@ -114,7 +114,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function renderProxyField(Template $input_tpl, Input $input, RendererInterface $default_renderer) {
 
 		$f = $this->getUIFactory();
-		$tpl = $this->getTemplate("tpl.text_filter.html", true, true);
+		$tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
 		$content = $this->renderInputFieldWithContext($input_tpl, $input);
 		$popover = $f->popover()->standard($f->legacy($content))->withVerticalPosition();
@@ -205,14 +205,18 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 		$add = $f->button()->bulky($f->glyph()->add(), "", "#")->withOnClick($popover->getShowSignal());
 
-		$tpl->setCurrentBlock("input");
-		$tpl->setVariable("INPUT", $default_renderer->render($add));
+		$tpl->setCurrentBlock("filter_field");
+		$tpl->setVariable("FILTER_FIELD", $default_renderer->render($add));
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
 	}
 
 
+	/**
+	 * @param Component\JavascriptBindable $component
+	 * @param Template                     $tpl
+	 */
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
