@@ -71,7 +71,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 			$objectId,
 			$this->objectHelper->lookupType($objectId),
 			'',
-			md5(''),
+			hash('sha256', ''),
 			'',
 			$template->getVersion() + 1,
 			$iliasVerion,
