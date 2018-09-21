@@ -162,8 +162,16 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 		$placeholders['RESULT_MARK_SHORT']  = $this->utilHelper->prepareFormOutput($mark_obj->getShortName());
 		$placeholders['RESULT_MARK_LONG']   = $this->utilHelper->prepareFormOutput($mark_obj->getOfficialName());
 		$placeholders['TEST_TITLE']         = $this->utilHelper->prepareFormOutput($testObject->getTitle());
-		$placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
-		$placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+		$placeholders['DATE_COMPLETED']     = '';
+		$placeholders['DATETIME_COMPLETED'] = '';
+
+		if ($completionDate !== false &&
+			$completionDate !== null &&
+			$completionDate !== ''
+		) {
+			$placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+			$placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+		}
 
 		return $placeholders;
 	}
