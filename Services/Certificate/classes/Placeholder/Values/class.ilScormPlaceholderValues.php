@@ -136,8 +136,17 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 		$placeHolders['SCORM_TITLE']        = $this->utilHelper->prepareFormOutput($object->getTitle());
 		$placeHolders['SCORM_POINTS']       = $txtPoints;
 		$placeHolders['SCORM_POINTS_MAX']   = $txtMaxPoints;
-		$placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
-		$placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
+
+		$placeHolders['DATE_COMPLETED']     = '';
+		$placeHolders['DATETIME_COMPLETED'] = '';
+
+		if ($completionDate !== false &&
+			$completionDate !== null &&
+			$completionDate !== ''
+		) {
+			$placeHolders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+			$placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+		}
 
 		$olp = $this->objectLPHelper->getInstance($object->getId());
 		$collection = $olp->getCollectionInstance();
