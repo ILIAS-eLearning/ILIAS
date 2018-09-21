@@ -7,6 +7,11 @@
 class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
 	/**
+	 * @var int
+	 */
+	private $objectId;
+
+	/**
 	 * @var ilLanguage
 	 */
 	private $language;
@@ -52,6 +57,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $importAction;
 
 	/**
+	 * @var ilCertificateTemplateRepository
+	 */
+	private $templateRepository;
+
+	/**
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
@@ -64,6 +74,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilFormFieldParser|null $formFieldParser
 	 * @param ilCertificateTemplateImportAction|null $importAction
 	 * @param ilLogger|null $logger
+	 * @param ilCertificateTemplateRepository|null $templateRepository
 	 */
 	public function __construct(
 		int $objectId,
@@ -77,16 +88,21 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		ilPageFormats $pageFormats = null,
 		ilFormFieldParser $formFieldParser = null,
 		ilCertificateTemplateImportAction $importAction = null,
-		ilLogger $logger = null
+		ilLogger $logger = null,
+		ilCertificateTemplateRepository $templateRepository = null
 	) {
 		global $DIC;
 
+		$this->objectId                     = $objectId;
 		$this->language                     = $language;
 		$this->template                     = $template;
 		$this->controller                   = $controller;
 		$this->access                       = $access;
 		$this->toolbar                      = $toolbar;
 		$this->placeholderDescriptionObject = $placeholderDescriptionObject;
+
+		$database                           = $DIC->database();
+
 
 		if (null === $logger) {
 			$logger = $logger = $DIC->logger()->cert();
@@ -112,6 +128,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 			);
 		}
 		$this->importAction = $importAction;
+
+		if (null === $templateRepository) {
+			$templateRepository = new ilCertificateTemplateRepository($database, $logger);
+		}
+		$this->templateRepository = $templateRepository;
 	}
 
 	/**
@@ -284,7 +305,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		}
 
 		if($this->access->checkAccess("write", "", $_GET["ref_id"])) {
-			if ($certificateObject->isComplete() || $certificateObject->hasBackgroundImage()) {
+			$certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
+			if ($certificateTemplate->isCurrentlyActive()) {
 				$this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 
 				$preview = ilSubmitButton::getInstance();
