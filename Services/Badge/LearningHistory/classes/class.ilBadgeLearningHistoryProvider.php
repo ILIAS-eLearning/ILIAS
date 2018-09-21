@@ -31,8 +31,8 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 		$entries = [];
 		foreach ($completions as $c)
 		{
-			$text1 = str_replace("$3$", $c["title"], $lng->txt("badge_lhist_badge_completed"));
-			$text2 = str_replace("$3$", $c["title"], $lng->txt("badge_lhist_badge_completed_in"));
+			$text1 = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("badge_lhist_badge_completed"));
+			$text2 = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("badge_lhist_badge_completed_in"));
 			$entries[] = $this->getFactory()->entry($text1, $text2,
 				ilUtil::getImagePath("icon_bdga.svg"),
 				$c["tstamp"],

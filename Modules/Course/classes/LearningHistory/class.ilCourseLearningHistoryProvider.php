@@ -31,7 +31,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
 		$entries = [];
 		foreach ($completions as $c)
 		{
-			$text = str_replace("$3$", $c["title"], $lng->txt("crs_lhist_objective_completed"));
+			$text = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("crs_lhist_objective_completed"));
 			$entries[] = $this->getFactory()->entry($text, $text,
 				ilUtil::getImagePath("icon_obj.svg"),
 				$c["tstamp"],

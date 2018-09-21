@@ -71,6 +71,18 @@ abstract class ilAbstractLearningHistoryProvider
 		return $this->lng;
 	}
 
+	/**
+	 * Get emphasized title
+	 *
+	 * @param string
+	 * @return string
+	 */
+	protected function getEmphasizedTitle($title)
+	{
+		$tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
+		$tpl->setVariable("TITLE", $title);;
+		return $tpl->get();
+	}
 
 
 }

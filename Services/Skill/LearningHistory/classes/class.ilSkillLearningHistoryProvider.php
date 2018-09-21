@@ -38,8 +38,8 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 			{
 
 				$ts = new ilDateTime($c["status_date"], IL_CAL_DATETIME);
-				$text = str_replace("$3$", ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"]), $lng->txt("skll_lhist_skill_achieved"));
-				$text = str_replace("$4$", ilBasicSkill::lookupLevelTitle($c["level_id"]), $text);
+				$text = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $lng->txt("skll_lhist_skill_achieved"));
+				$text = str_replace("$4$", $this->getEmphasizedTitle(ilBasicSkill::lookupLevelTitle($c["level_id"])), $text);
 				$entries[] = $this->getFactory()->entry($text, $text,
 					ilUtil::getImagePath("icon_skmg.svg"),
 					$ts->get(IL_CAL_UNIX),
