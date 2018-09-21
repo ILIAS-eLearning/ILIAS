@@ -259,7 +259,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->record_gui->parse();
 			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-			$data = ilAdvancedMDValues::queryForRecords($this->pool_id, "bobj", $data, "pool_id", "booking_object_id", $this->record_gui->getFilterElements());
+			$data = ilAdvancedMDValues::queryForRecords(
+				$this->ref_id, "book", "bobj",
+				$this->pool_id, "bobj", $data, "pool_id", "booking_object_id", $this->record_gui->getFilterElements());
 		}
 		
 		$this->setMaxCount(sizeof($data));

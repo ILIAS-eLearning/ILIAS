@@ -823,9 +823,8 @@ class ilFileUtils
 	 */
 	public static function getValidFilename($a_filename)
 	{
-		$pi = pathinfo($a_filename);
-		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
-
+		if (!self::hasValidExtension($a_filename)) {
+			$pi = pathinfo($a_filename);
 			// if extension is not in white list, remove all "." and add ".sec" extension
 			$basename = str_replace(".", "", $pi["basename"]);
 			if (trim($basename) == "")
@@ -844,6 +843,18 @@ class ilFileUtils
 			}
 		}
 		return $a_filename;
+	}
+
+
+	/**
+	 * @param string $a_filename
+	 *
+	 * @return bool
+	 */
+	public static function hasValidExtension($a_filename) {
+		$pi = pathinfo($a_filename);
+
+		return (in_array(strtolower($pi["extension"]), self::getValidExtensions()));
 	}
 
 

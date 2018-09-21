@@ -18,13 +18,18 @@ class ilPersonalProfileGUI
 
 	var $user_defined_fields = null;
 
+	/**
+	 * @var \ilTabsGUI
+	 */
+	protected $tabs;
+
 
 	/**
 	* constructor
 	*/
     function __construct()
     {
-        global $ilias, $tpl, $lng, $ilCtrl;
+        global $ilias, $tpl, $lng, $ilCtrl, $ilTabs;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -33,6 +38,7 @@ class ilPersonalProfileGUI
         $this->lng = $lng;
         $this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
+		$this->tabs = $ilTabs;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
 		$lng->loadLanguageModule("pd");
@@ -506,6 +512,37 @@ class ilPersonalProfileGUI
 	function showProfile()
 	{
 		$this->showPersonalData();
+	}
+
+	/**
+	 * 
+	 */
+	protected function showUserAgreement()
+	{
+		$this->tabs->clearTargets();
+		$this->tabs->clearSubTabs();
+
+		$this->tpl->setTitle($this->lng->txt('usr_agreement'));
+
+		$tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($this->lng);
+		if ($document->exists()) {
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
+		} else {
+			$tpl->setVariable(
+				'TERMS_OF_SERVICE_CONTENT',
+				sprintf(
+					$this->lng->txt('no_agreement_description'), 
+					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+				)
+			);
+		}
+
+		$this->tpl->setContent($tpl->get());
+
+		$this->tpl->setPermanentLink('usr', null, 'agreement');
+		$this->tpl->show();
 	}
 	
 	/**

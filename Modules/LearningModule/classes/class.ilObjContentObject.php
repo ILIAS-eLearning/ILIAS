@@ -3498,11 +3498,11 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function autoLinkGlossaryTerms($a_glo_id)
+	function autoLinkGlossaryTerms($a_glo_ref_id)
 	{
 		// get terms
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$terms = ilGlossaryTerm::getTermList($a_glo_id);
+		$terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
 		// each get page: get content
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");

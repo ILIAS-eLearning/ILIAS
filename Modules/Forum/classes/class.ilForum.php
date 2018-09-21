@@ -792,10 +792,10 @@ class ilForum
 
 		// delete drafts_history
 		$obj_history = new ilForumDraftsHistory();
-		$draft_ids = $obj_history->deleteHistoryByPostIds($del_id);
+		$obj_history->deleteHistoryByPostIds($del_id);
 		// delete all drafts
 		$obj_draft = new ilForumPostDraft();
-		$obj_draft->deleteDraftsByDraftIds($draft_ids);
+		$obj_draft->deleteDraftsByPostIds($del_id);
 
 		// Delete User read entries
 		foreach($del_id as $post_id)
