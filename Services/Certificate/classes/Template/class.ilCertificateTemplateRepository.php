@@ -59,7 +59,7 @@ class ilCertificateTemplateRepository
 
 		$objId = $certificateTemplate->getObjId();
 
-		$id = $this->database->nextId('certificate_template');
+		$id = $this->database->nextId('il_cert_template');
 
 		$this->deactivatePreviousTemplates($objId);
 
@@ -78,7 +78,7 @@ class ilCertificateTemplateRepository
 			'deleted'               => array('integer', (integer) $certificateTemplate->isDeleted())
 		);
 
-		$this->database->insert('certificate_template', $columns);
+		$this->database->insert('il_cert_template', $columns);
 
 		$this->logger->info('END - certificate template saved with columns: ', json_encode($columns));
 	}
@@ -89,7 +89,7 @@ class ilCertificateTemplateRepository
 
 		$sql = '
 SELECT * FROM
-certificate_template
+il_cert_template
 WHERE id = ' . $this->database->quote($templateId, 'integer') . '
 ORDER BY version ASC';
 
@@ -126,7 +126,7 @@ ORDER BY version ASC';
 
 		$sql = '
 SELECT * FROM
-certificate_template
+il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND deleted = 0
 ORDER BY version ASC';
@@ -163,7 +163,7 @@ ORDER BY version ASC';
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
 		$sql = '
-SELECT * FROM certificate_template
+SELECT * FROM il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND deleted = 0
 ORDER BY id DESC
@@ -216,7 +216,7 @@ LIMIT 1
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
 		$sql = '
-SELECT * FROM certificate_template
+SELECT * FROM il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND deleted = 0
 AND currently_active = 1
@@ -293,7 +293,7 @@ AND currently_active = 1
 		$this->logger->info(sprintf('START - Set deleted flag for certificate template("%s") for object: "%s"', $templateId, $objectId));
 
 		$sql = '
-UPDATE certificate_template
+UPDATE il_cert_template
 SET deleted = 1, currently_active = 0
 WHERE id = ' . $this->database->quote($templateId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer');
@@ -324,7 +324,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 			}
 		}
 
-		$sql = 'UPDATE certificate_template
+		$sql = 'UPDATE il_cert_template
 SET currently_active = 1
 WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
@@ -339,7 +339,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	{
 		$this->logger->info(sprintf('START - Fetch all object ids for object type: "%s"', $type));
 
-		$sql = 'SELECT DISTINCT obj_id FROM certificate_template WHERE obj_type = ' . $this->database->quote($type, 'text');
+		$sql = 'SELECT DISTINCT obj_id FROM il_cert_template WHERE obj_type = ' . $this->database->quote($type, 'text');
 		$query = $this->database->query($sql);
 
 		$result = array();
@@ -361,7 +361,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	{
 		$this->logger->info(sprintf('START - Fetch first create certificate template for object: "%s"', $objId));
 
-		$sql = 'SELECT * FROM certificate_template
+		$sql = 'SELECT * FROM il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 ORDER BY id ASC LIMIT 1 ';
 
@@ -397,7 +397,7 @@ ORDER BY id ASC LIMIT 1 ';
 		$this->logger->info(sprintf('START - Deactivate previous certificate template for object: "%s"', $objId));
 
 		$sql = '
-UPDATE certificate_template
+UPDATE il_cert_template
 SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
