@@ -13142,7 +13142,7 @@ content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main
 content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
 content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
 content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
-w_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
