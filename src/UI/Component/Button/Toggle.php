@@ -20,14 +20,14 @@ interface Toggle extends Button {
 	public function isOn();
 
 	/**
-	 * Get the action of the Toggle Button when it is on.
+	 * Get the action of the Toggle Button when it is set from off to on.
 	 *
 	 * @return	string|Signal[]
 	 */
 	public function getActionOn();
 
 	/**
-	 * Get the action of the Toggle Button when it is off.
+	 * Get the action of the Toggle Button when it is set from on to off.
 	 *
 	 * @return	string|Signal[]
 	 */

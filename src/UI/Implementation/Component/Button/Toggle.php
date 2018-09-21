@@ -101,8 +101,8 @@ class Toggle extends Button implements C\Button\Toggle {
 	 */
 	public function getActionOn()
 	{
-		if ($this->action !== null) {
-			return $this->action;
+		if ($this->action_on !== null) {
+			return $this->action_on;
 		}
 
 		return $this->getTriggeredSignalsFor("toggle_on");
