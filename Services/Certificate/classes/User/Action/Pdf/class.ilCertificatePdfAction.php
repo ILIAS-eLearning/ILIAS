@@ -35,7 +35,7 @@ class ilCertificatePdfAction
 	 * @param ilLogger $logger
 	 * @param ilPdfGenerator $pdfGenerator
 	 * @param ilCertificateUtilHelper $ilUtilHelper
-	 * @param ilErrorHandling|null $errorHandling
+	 * @param ilErrorHandling|null $errorHandler
 	 * @param string $translatedErrorText
 	 */
 	public function __construct(
@@ -43,7 +43,7 @@ class ilCertificatePdfAction
 		ilPdfGenerator $pdfGenerator,
 		ilCertificateUtilHelper $ilUtilHelper = null,
 		string $translatedErrorText = '',
-		ilErrorHandling $errorHandling = null
+		ilErrorHandling $errorHandler = null
 	) {
 		$this->logger       = $logger;
 		$this->pdfGenerator = $pdfGenerator;
@@ -52,10 +52,11 @@ class ilCertificatePdfAction
 		}
 		$this->ilUtilHelper = $ilUtilHelper;
 
-		if (null === $errorHandling) {
+		if (null === $errorHandler) {
 			global $DIC;
-			$this->errorHandler = $DIC['ilErr'];
+			$errorHandler = $DIC['ilErr'];
 		}
+		$this->errorHandler = $errorHandler;
 
 		$this->translatedErrorText = $translatedErrorText;
 	}
@@ -78,7 +79,6 @@ class ilCertificatePdfAction
 	 * @param $userId
 	 * @return string
 	 * @throws ilException
-	 * @throws ilInvalidCertificateException
 	 */
 	public function downloadPdf(int $userId, int $objectId) : string
 	{
@@ -90,7 +90,7 @@ class ilCertificatePdfAction
 				'Certificate.pdf',
 				'application/pdf'
 			);
-		} catch (ilRpcClientException $clientException) {
+		} catch (ilException $clientException) {
 			$this->errorHandler->raiseError($this->translatedErrorText, $this->errorHandler->MESSAGE);
 			return '';
 		}
