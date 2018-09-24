@@ -16,11 +16,14 @@ class ilExercisePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$templateMock->method('get')
+			->willReturn('');
+
 		$placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-		$this->assertEquals(null, $html);
+		$this->assertEquals('', $html);
 	}
 
 	public function testPlaceholderDescriptions()

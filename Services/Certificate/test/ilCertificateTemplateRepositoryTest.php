@@ -40,6 +40,7 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'created_timestamp'     => array('integer', 123456789),
 					'currently_active'      => array('integer', true),
 					'background_image_path' => array('clob', '/some/where/background.jpg'),
+					'deleted'               => array('integer', 0)
 				)
 			);
 
@@ -57,6 +58,7 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 			123456789,
 			true,
 			$backgroundImagePath = '/some/where/background.jpg'
+
 		);
 
 		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);

@@ -27,10 +27,11 @@ class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 	/**
 	 * @param $templateId
 	 * @param $objectId
+	 * @param string $iliasVersion
 	 * @return mixed
 	 */
-	public function delete($templateId, $objectId)
+	public function delete($templateId, $objectId, $iliasVersion = ILIAS_VERSION_NUMERIC)
 	{
-		$this->deleteAction->delete($templateId, $objectId);
+		$this->deleteAction->delete($templateId, $objectId, $iliasVersion);
 	}
 }

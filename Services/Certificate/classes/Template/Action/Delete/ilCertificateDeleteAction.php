@@ -9,6 +9,7 @@ interface ilCertificateDeleteAction
 	/**
 	 * @param $templateId
 	 * @param $objectId
+	 * @param $iliasVersion
 	 * @return mixed
 	 */
 	public function delete($templateId, $objectId);

@@ -23,7 +23,7 @@ class ilCertificateTestTemplateDeleteActionTest extends PHPUnit_Framework_TestCa
 			->getMock();
 
 		$object
-			->expects($this->once())
+			->expects($this->never())
 			->method('saveCertificateVisibility');
 
 		$objectHelper->method('getInstanceByObjId')
@@ -34,6 +34,6 @@ class ilCertificateTestTemplateDeleteActionTest extends PHPUnit_Framework_TestCa
 			$objectHelper
 		);
 
-		$action->delete(100, 200);
+		$action->delete(100, 200, 'v5.4.0');
 	}
 }

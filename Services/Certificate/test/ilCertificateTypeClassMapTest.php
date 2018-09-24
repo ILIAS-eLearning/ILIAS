@@ -43,7 +43,7 @@ class ilCertificateTypeClassMapTest extends \PHPUnit_Framework_TestCase
 	{
 		$class = $this->classMap->getPlaceHolderClassNameByType('sahs');
 
-		$this->assertEquals('ilDefaultPlaceholderValues', $class);
+		$this->assertEquals('ilScormPlaceholderValues', $class);
 	}
 
 	/**

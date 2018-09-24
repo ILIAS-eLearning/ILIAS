@@ -37,7 +37,8 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 					'usr_id'            => array('integer', 500),
 					'adapter_class'     => array('clob', 'SomeClass'),
 					'state'             => array('clob', 'SomeState'),
-					'started_timestamp' => array('integer', $timestamp)
+					'started_timestamp' => array('integer', $timestamp),
+					'template_id'       => array('integer', 10000)
 				)
 			);
 
@@ -48,6 +49,7 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 			500,
 			'SomeClass',
 			'SomeState',
+			10000,
 			$timestamp
 		);
 
@@ -107,6 +109,7 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 					'usr_id'            => 5000,
 					'adapter_class'     => 'SomeClass',
 					'state'             => 'SomeState',
+					'template_id'       => 1000,
 					'started_timestamp' => 123456789
 				),
 				array(
@@ -115,6 +118,7 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 					'usr_id'            => 5000,
 					'adapter_class'     => 'SomeClass',
 					'state'             => 'SomeState',
+					'template_id'       => 1000,
 					'started_timestamp' => 123456789
 				)
 			);

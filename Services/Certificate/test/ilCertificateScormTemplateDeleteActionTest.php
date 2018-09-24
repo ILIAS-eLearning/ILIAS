@@ -10,22 +10,18 @@ class ilCertificateScormTemplateDeleteActionTest extends \PHPUnit_Framework_Test
 	{
 		$deleteMock = $this->getMockBuilder('ilCertificateTemplateDeleteAction')
 			->disableOriginalConstructor()
+			->setMethods(array('delete'))
 			->getMock();
 
-		$deleteMock->expects($this->atLeastOnce())
-			->method('delete')
-			->with(10, 200);
+		$deleteMock->expects($this->once())
+			->method('delete');
 
 		$settingMock = $this->getMockBuilder('ilSetting')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$settingMock->expects($this->atLeastOnce())
-			->method('delete')
-			->with('certificate_200');
-
 		$action = new ilCertificateScormTemplateDeleteAction($deleteMock, $settingMock);
 
-		$action->delete(10, 200);
+		$action->delete(10, 200, 'v5.4.0');
 	}
 }

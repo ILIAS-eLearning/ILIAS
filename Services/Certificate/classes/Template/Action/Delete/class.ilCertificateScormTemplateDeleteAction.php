@@ -33,14 +33,13 @@ class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteActio
 	/**
 	 * @param $templateId
 	 * @param $objectId
+	 * @param $iliasVersion
 	 * @return mixed
-	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 */
-	public function delete($templateId, $objectId)
+	public function delete($templateId, $objectId, $iliasVersion = ILIAS_VERSION_NUMERIC)
 	{
-		$this->deleteAction->delete($templateId, $objectId);
+		$this->deleteAction->delete($templateId, $objectId, $iliasVersion);
 
 		$this->setting->delete('certificate_' . $objectId);
 	}

@@ -21,6 +21,9 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$templateMock->method('get')
+			->willReturn('');
+
 		$collectionInstance = $this->getMockBuilder('ilLPCollection')
 			->disableOriginalConstructor()
 			->setMethods(array('getPossibleItems'))
@@ -46,7 +49,7 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-		$this->assertEquals(null, $html);
+		$this->assertEquals('', $html);
 	}
 
 	public function testPlaceholderDescriptions()

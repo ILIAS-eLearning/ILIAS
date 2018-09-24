@@ -136,18 +136,13 @@ class ilXlsFoParser
 		}
 
 		$params = array(
-			'pageheight'      => $pageheight,
-			'pagewidth'       => $pagewidth,
-			'backgroundimage' => '[BACKGROUND_IMAGE]',
-			'marginbody'      => implode(
-				' ',
-				array(
-					$this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['top'])),
-					$this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['right'])),
-					$this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['bottom'])),
-					$this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['left']))
-				)
-			)
+			'pageheight'         => $pageheight,
+			'pagewidth'          => $pagewidth,
+			'backgroundimage'    => '[BACKGROUND_IMAGE]',
+			'margin_body_top'    => $this->utilHelper->stripSlashes($formData['margin_body']['top']),
+			'margin_body_right'  => $this->utilHelper->stripSlashes($formData['margin_body']['right']),
+			'margin_body_bottom' => $this->utilHelper->stripSlashes($formData['margin_body']['bottom']),
+			'margin_body_left'   => $this->utilHelper->stripSlashes($formData['margin_body']['left']),
 		);
 
 		$output = $this->xlstProcess->process($args, $params);
