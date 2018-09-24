@@ -12,31 +12,41 @@ class ilCertificateActiveValidator
 	private $setting;
 
 	/**
-	 * @param ilSetting|null $setting
+	 * @var ilRPCServerSettings|null|object
 	 */
-	public function __construct(ilSetting $setting = null)
+	private $rpcSettings;
+
+	/**
+	 * @param ilSetting|null $setting
+	 * @param ilRPCServerSettings|null $rpcSettings
+	 */
+	public function __construct(ilSetting $setting = null, ilRPCServerSettings $rpcSettings = null)
 	{
 		if (null === $setting) {
 			$setting = new ilSetting("certificate");
 		}
 		$this->setting = $setting;
+
+		if (null == $rpcSettings) {
+			$rpcSettings = ilRPCServerSettings::getInstance();
+		}
+		$this->rpcSettings = $rpcSettings;
 	}
 
 	public function validate()
 	{
-		$globalCertificateActive = (bool)$this->setting->get("active");
+		$globalCertificateActive = (bool)$this->setting->get('active');
 
 		if (false === $globalCertificateActive) {
 			return false;
 		}
 
-		$serverActive = (bool) ilRPCServerSettings::getInstance()->isEnabled();
+		$serverActive = (bool) $this->rpcSettings->isEnabled();
 
 		if (false === $serverActive) {
 			return false;
 		}
 
 		return true;
-
 	}
 }
