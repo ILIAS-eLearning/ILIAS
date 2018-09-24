@@ -676,6 +676,7 @@ class ilFileUtils
 			'm',     // MATLAB
 			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
+			'mdl'				// Vensim files
 			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
