@@ -255,27 +255,6 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		$DIC->user()->writePref('cert_migr_finished', 1);
 
-		$bucket = new BasicBucket();
-		$bucket->setUserId($this->user_id);
-
-		$task_progress = intval($this->measureProgress($found_items, $processed_items, $migrated_items));
-		$certificates_interaction = $this->task_factory->createTask(ilCertificateMigrationInteraction::class, [
-			$task_progress,
-			$this->user_id
-		]);
-
-		// last task to bucket
-		$bucket->setTask($certificates_interaction);
-
-		$lng = $DIC->language();
-		$lng->loadLanguageModule("cert");
-		$bucket->setTitle(trim($lng->txt('certificate_migration'), '-'));
-		// @TODO: how set percentage to 100% for progress bar?
-//		$bucket->setPercentage($certificates_interaction, $task_progress);
-
-		$task_manager = $DIC->backgroundTasks()->taskManager();
-		$task_manager->run($bucket);
-
 		return $output;
 	}
 

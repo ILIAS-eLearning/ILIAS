@@ -127,7 +127,12 @@ class ilCertificateMigrationGUI
 
 		$task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$this->user->getId()]);
 
-		$bucket->setTask($task);
+		$certificates_interaction = $factory->createTask(ilCertificateMigrationInteraction::class, [
+			$task,
+			(int)$this->user->getId()
+		]);
+
+		$bucket->setTask($certificates_interaction);
 		$bucket->setTitle('Certificate Migration');
 		$bucket->setDescription('Migrates certificates for active user');
 

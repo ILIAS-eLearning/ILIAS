@@ -27,6 +27,7 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 /**
  * Class ilCertificateMigrationInteraction
@@ -89,6 +90,8 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 		$logger = $DIC->logger()->cert();
 
 		$logger->debug('User interaction certificate migration for user with id: ' . $user_id);
+//		$bucket->setState(State::FINISHED);
+		$logger->debug('User interaction certificate migration State: '. $bucket->getState());
 		if ($user_selected_option->getValue() != self::OPTION_GOTO_LIST) {
 			$logger->info('User interaction certificate migration canceled for user with id: ' . $user_id);
 			return $input;
