@@ -48,6 +48,12 @@ class ilItemGroupExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
+			"5.3.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/ItemGroup/itgr/5_3",
+				"xsd_file" => "ilias_itgr_5_3.xsd",
+				"uses_dataset" => true,
+				"min" => "5.3.0",
+				"max" => ""),
 			"4.3.0" => array(
 				"namespace" => "http://www.ilias.de/Modules/ItemGroup/itgr/4_3",
 				"xsd_file" => "ilias_itgr_4_3.xsd",
