@@ -405,14 +405,13 @@ class ilCertificateGUI
 	public function certificateEditor()
 	{
 		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
-		$content = $certificate->getCertificateContent();
 
 		$form = $this->settingsFormFactory->createForm(
 			$this,
 			$this->certifcateObject
 		);
 
-		$form_fields = $this->settingsFormFactory->fetchFormFieldData($content);
+		$form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
 		$form_fields['active'] = $certificate->isCurrentlyActive();
 
 		$form->setValuesByArray($form_fields);
@@ -499,5 +498,25 @@ class ilCertificateGUI
 				ilUtil::sendFailure($e->getMessage());
 			}
 		}
+
+		$form->setValuesByPost();
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
+
+	/**
+	 * @param $content
+	 * @param $certificate
+	 * @param $form
+	 */
+	private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form)
+	{
+		$form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
+		$form_fields['active'] = $certificate->isCurrentlyActive();
+
+		$form->setValuesByArray($form_fields);
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+
 }
