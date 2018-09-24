@@ -14,13 +14,27 @@ for 'Certificates' to their component.
 * [Settings](#settings)
   * [Java Server](#java-server)
   * [Certificate Settings](#certificate-settings)
-* [Implementation for new Services/Module](#implementation-for-new-services/module)
+* [Implementation for new Services/Module](#implementation-for-new-services-module)
   * [Placeholder Description](#placeholder-description)
+    * [Methods](#methods)
   * [Placeholder Values](#placeholder-values)
-* [Queue](#queue)
+    * [Methods](#methods-1)
 * [Cron Job](#cron-job)
-* [GUI](#gui)
-* [Events](#events)
+  * [GUI](#gui)
+    * [Custom Certificate Settings GUI](#custom-certificate-settings-gui)
+  * [User Certificates Classes](#user-certificates-classes)
+  * [Template Certificate Classes](#template-certificate-classes)
+  * [Cron Queue Classes](#cron-queue-classes)
+  * [Actions](#actions)
+    * [Copy](#copy)
+    * [Delete](#delete)
+    * [Preview](#preview)
+  * [Events](#events)
+    * [updateStatus](#updatestatus)
+    * [migrateUserCertificate](#migrateusercertificate)
+* [Migration](#migration)
+  * [Certificate Templates](#certificate-templates)
+  * [User Certificates](#user-certificates)
 
 ## General
 
@@ -36,6 +50,10 @@ status, which means that it MUST not be altered afterwards.
 E.g. the name change of a user after achieving the certificate will **not**
 automatically be **updated**.
 
+If the ILIAS system will be upgraded from a ILIAS version <=5.3.0
+a migration MUST be executed.
+See the [migration](#migration) chapter for more information.
+
 ## Settings
 
 The feature to create certificate templates and therefore creating
@@ -44,8 +62,8 @@ certificates MUST be activated via `Administration -> Certificates`.
 A default background image can be added that will be used as default
 image for every certificate authority.
 
-Additionally the `Learning Progress` MUST be activated to
-create new user certificates.
+Additionally the `Learning Progress` MUST be activated for the Module/Service
+to create new user certificates.
 
 ### Java Server
 
@@ -78,6 +96,7 @@ How to add these components will be described in the following chapters.
 
 A save of the template will be versioned in the database.
 The newest version of the template that was recently saved
+and has been set to `Active`
 will be used to create the user certificate.
 
 A change to a previous version is currently not supported.
@@ -142,7 +161,11 @@ ilCertificatePlaceholderValues::getPlaceholderValues($userId: integer, $objId: i
 
 This method will return an associative with the placeholder as key and the actual
 data as value.
-The value data will be calculated on a method call.
+The value data will be calculated on the method call.
+If the values can't be calculated or the user is not permitted to have certificate,
+please throw an `ilInvalidCertificateException`.
+The [cron job](#cron-job) won't create a user certificate if
+this exception is thrown.
 
 ```php
 ilCertificatePlaceholderValues::getPlaceholderValuesForPreview()
@@ -177,7 +200,6 @@ for a default certificate settings interface.
 If a custom certificate settings GUI is needed, a new Repository
 class can be created.
 This class MUST implement the interface `ilCertificateFormRepository`
-
 
 ### User Certificates Classes
 
@@ -261,6 +283,7 @@ Example:
 ```php
 
 $objId                = 200;
+$obj_type             = 'crs';
 $certificateContent   = '<xls-fo>...</xls-fo>'
 $certificateHash      = md5($certificateHash);
 $templateValues       = json_encode(array('ID' => 'DESCRIPTION'));
@@ -272,6 +295,7 @@ $backgroundImagePath  = '/data/somone/certifcates/course/200/background_2.jpg';
 
 $template = new ilCertificateTemplate(
 	$obj_id,
+	$obj_type,
 	$certificateContent,
 	$certificateHash,
 	$templateValues,
@@ -342,8 +366,6 @@ This default values of this action are defined in the
 implementations of the
 [Placeholder Values Classes](#placeholder-values).
 
-The class `ilCertificateTemplatePreviewAction` 
-
 ### Events
 
 The certificates using the ILIAS Event System to add new
@@ -370,6 +392,8 @@ The certificates that come via this event will use the first
 certificate template as reference in the database.
 The reason for this is that this event is supposed to be used
 by the migration service.
+The template for this event will always be the first template
+in the database.
 
 Example to use this event:
 
@@ -397,3 +421,24 @@ $ilAppEventHandler->raise(
 //                       could be creation date of the file
 // ilias_version - ILIAS version at the time this event will be emitted
 ```
+
+## Migration
+
+Because persisting certificates where not available until
+ILIAS 5.4.0 the old user certificates and templates MUST
+be migrated to the above described behaviour.
+
+### Certificate Templates
+
+Certificate templates will be imported to the database
+during an database update step.
+
+This step **MUST** be executed before a user migrates
+the achieved certificates.
+
+### User Certificates
+
+User certificates will be imported per user via background
+task.
+This background task, will be executed by the user via the
+GUI.
