@@ -22,15 +22,51 @@ class ilUserCertificateTableProvider
 	private $controller;
 
 	/**
+	 * @var ilCertificateObjectHelper|null
+	 */
+	private $objectHelper;
+
+	/**
+	 * @var ilCertificateDateHelper|null
+	 */
+	private $dateHelper;
+
+	/**
+	 * @var int
+	 */
+	private $dateFormat;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
 	 * @param ilCtrl $controller
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateDateHelper|null $dateHelper
+	 * @param int $dateFormat
 	 */
-	public function __construct(ilDBInterface $database, ilLogger $logger, ilCtrl $controller)
-	{
+	public function __construct(
+		ilDBInterface $database,
+		ilLogger $logger,
+		ilCtrl $controller,
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateDateHelper $dateHelper = null,
+		$dateFormat = IL_CAL_UNIX
+	) {
 		$this->database = $database;
 		$this->logger = $logger;
 		$this->controller = $controller;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
+
+		if (null === $dateHelper) {
+			$dateHelper = new ilCertificateDateHelper();
+		}
+		$this->dateHelper = $dateHelper;
+
+		$this->dateFormat = $dateFormat;
 	}
 
 	/**
@@ -72,15 +108,14 @@ class ilUserCertificateTableProvider
 
 		$data = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$object = ilObjectFactory::getInstanceByObjId($row['obj_id']);
+			$object = $this->objectHelper->getInstanceByObjId($row['obj_id']);
 			$title = $object->getTitle();
 
-			$ilDateTime = new ilDateTime($row['acquired_timestamp'], IL_CAL_UNIX);
 
 			$data['items'][] = array(
 				'id' => $row['obj_id'],
 				'title' => $title,
-				'date' => ilDatePresentation::formatDate($ilDateTime),
+				'date' => $this->dateHelper->formatDate($row['acquired_timestamp'], $this->dateFormat),
 				'action' => $this->controller->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
 			);
 		}
@@ -88,13 +123,16 @@ class ilUserCertificateTableProvider
 		if (isset($params['limit'])) {
 			$cnt_sql = 'SELECT COUNT(*) cnt FROM user_certificates WHERE user_id = ' . $this->database->quote($userId,
 					'integer') . ' AND currently_active = 1';
+
 			$row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
+
 			$data['cnt'] = $row_cnt['cnt'];
+
+			$this->logger->info(sprintf('All active certificates for user: "%s" total: "%s"', $userId,
+				count($data['cnt'])));
 		}
 
-		$this->logger->debug(sprintf('Actual results:', json_encode($data)));
-		$this->logger->info(sprintf('END - All active certificates for user: "%s" total: "%s"', $userId,
-			count($data['cnt'])));
+		$this->logger->debug(sprintf('END - Actual results:', json_encode($data)));
 
 		return $data;
 	}
