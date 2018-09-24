@@ -25,6 +25,7 @@ interface RepositoryObject extends Card {
 	 * @return string|null
 	 */
 	public function getObjectIcon();
+
 	/**
 	 *
 	 * Get a Custom card like this, but with an additional UI Progressmeter object

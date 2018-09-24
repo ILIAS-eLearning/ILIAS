@@ -63,7 +63,7 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($progress));
 			}
 
-			$certificate = $component->getCertificate();
+			$certificate = $component->getCertificateIcon();
 			if($certificate !== null) {
 				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate));
 			}
