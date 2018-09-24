@@ -30,7 +30,7 @@ interface Factory {
 	 * @param \ILIAS\UI\Component\Image\Image $image
 	 * @return \ILIAS\UI\Component\Card\Standard
 	 */
-	public function standard($labelled_actions, $aria_label);
+	public function standard($title, $image);
 
 
 	/**
