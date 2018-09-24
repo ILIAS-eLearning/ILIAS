@@ -37,30 +37,30 @@ interface Factory {
 	 *      Filters are used to let the user limit content within a table, list or any other collection of items
 	 *      presented on the screen.
 	 *   composition: >
-	 *      Filters are composed of two visually separated entities:
+	 *      Filters are composed of two visually separated areas:
 	 *      First, there is the Filter Bar at the top. It contains an Expand/Collapse Glyph on the left side
 	 *      On the right, an "Apply" Bulky Button, a "Reset" Bulky Button and a Toggle Button are placed. An additional
 	 *      row with set filter settings will be shown at the bottom of the Filter Bar, when the Filter Bar is collapsed
 	 *      and the Filter is activated at the same time.
 	 *      Second, there is an area where so-called Filter Fields are displayed. Every Filter Field holds a Label on the left
-	 *      and a "Remove" Glyph on the right. Every Filter Field stores an Input Field. After the last Filter Field,
-	 *      an "Add" Bulky Button is always shown.
+	 *      and a "Remove" Glyph on the right. Every Filter Field holds an Input Field. After the last Filter Field,
+	 *      an "Add" Bulky Button is shown if additional Filter Fields can be added.
 	 *   effect: >
 	 *      In the Filter Bar:
-	 *      Clicking on the Expand/Collapse Glyph expands/collapses the second entity of the Filter,
+	 *      Clicking on the Expand/Collapse Glyph expands/collapses the second area of the Filter,
 	 *      where the Filter Fields are placed. When the Filter Bar is expanded, the row with set filter settings
-	 *      at the bottom will be hidden.
+	 *      at the bottom of the Filter Bar will be hidden.
 	 *      Clicking on the "Apply" Bulky Button applies the settings which the user has made for the Filter and
 	 *      reloads the page immediately.
 	 *      Clicking on the "Reset" Bulky Button resets the Filter to the initial state and reloads the page immediately.
-	 *      Clicking on the Toggle Button imitates a click on the "Apply" Bulky Button, activates/deactivates the Filter
+	 *      Clicking on the "Toggle" Button imitates a click on the "Apply" Bulky Button, activates/deactivates the Filter
 	 *      and reloads the page immediately.
 	 *      In the Filter Fields Area:
 	 *      Clicking on a Filter Field between its Label and its "Remove" Glyph shows up a Popover where an Input Field
-	 *      is stored. Writing down a value into the Input Field synchronizes the value in the Input Field
+	 *      is presented. Writing down a value into the Input Field synchronizes the value in the Input Field
 	 *      with the value in the Filter Field.
-	 *      Clicking on the "Remove" Glyph in a Filter Field makes a Filter Field being no part of the Filter anymore.
-	 *      Clicking on the "Add" Bulky Button shows up a Popover where a list of Filter Fields are stored which are not
+	 *      Clicking on the "Remove" Glyph in a Filter Field makes a Filter Field disappear from the Filter.
+	 *      Clicking on the "Add" Bulky Button shows up a Popover with a list of all possible Filter Fields which are not
 	 *      part of the Filter yet. Clicking on one specific Filter Field in this list adds the selected Filter Field
 	 *      to the Filter and imitates a click on it.
 	 *   rivals:
@@ -69,7 +69,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Filters MUST be used on the same page as tables.
+	 *     1: Filters MUST be used on the same page as tables or other collections of items.
 	 *   interaction:
 	 *     1: Filter Fields MUST NOT be editable, just clickable.
 	 *   wording:
@@ -80,7 +80,7 @@ interface Factory {
 	 *     2: The Toggle Button MUST NOT contain a Label.
 	 *     3: The Popovers SHOULD be shown below the Filter Field or the "Add" Bulky Button.
 	 *   ordering:
-	 *     1: A Filter MUST be placed above the table it filters.
+	 *     1: A Filter MUST be placed above the item collection it acts upon.
 	 *   responsiveness:
 	 *     1: >
 	 *        On screens larger than medium size, there MUST be three Filter Fields per row. On medium-sized screens
