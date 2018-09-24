@@ -14,7 +14,7 @@ function with_object_icon_and_actions() {
 		$f->button()->shy("Go to Course", "#"),
 		$f->button()->shy("Go to Portfolio", "#"),
 		$f->divider()->horizontal(),
-		$f->button()->shy("github.com", "http://www.github.com")
+		$f->button()->shy("ilias.de", "http://www.ilias.de")
 	);
 
 	$dropdown = $f->dropdown()->standard($items);
