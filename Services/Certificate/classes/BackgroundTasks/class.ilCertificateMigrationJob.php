@@ -26,6 +26,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 
 /**
  * Class ilCertificateMigrationJob
@@ -47,6 +48,8 @@ class ilCertificateMigrationJob extends AbstractJob
 
 	/** @var ilAppEventHandler $ilAppEventHandler */
 	protected $event_handler;
+	/** @var \ILIAS\BackgroundTasks\Task\TaskFactory */
+	protected $task_factory;
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
@@ -64,6 +67,7 @@ class ilCertificateMigrationJob extends AbstractJob
 		$this->db = $DIC->database();
 		$this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
 		$this->event_handler = $DIC['ilAppEventHandler'];
+		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
 
 		$certificates = [];
 		$output = new IntegerValue();
