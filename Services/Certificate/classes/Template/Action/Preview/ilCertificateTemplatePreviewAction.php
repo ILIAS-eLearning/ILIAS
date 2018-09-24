@@ -27,16 +27,51 @@ class ilCertificateTemplatePreviewAction
 	private $user;
 
 	/**
+	 * @var ilCertificateUtilHelper|null
+	 */
+	private $utilHelper;
+
+	/**
+	 * @var ilCertificateMathJaxHelper|null
+	 */
+	private $mathJaxHelper;
+
+	/**
+	 * @var ilCertificateUserDefinedFieldsHelper|null 
+	 */
+	private $userDefinedFieldsHelper;
+
+	/**
+	 * @var ilCertificateRpcClientFactoryHelper|null
+	 */
+	private $rpcClientFactoryHelper;
+
+	/**
+	 * @var string
+	 */
+	private $rootDirectory;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilCertificatePlaceholderValues $placeholderValuesObject
 	 * @param ilLogger|null $logger
 	 * @param ilObjUser|null $user
+	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilCertificateMathJaxHelper|null $mathJaxHelper
+	 * @param ilCertificateUserDefinedFieldsHelper|null $userDefinedFieldsHelper
+	 * @param ilCertificateRpcClientFactoryHelper|null $rpcClientFactoryHelper
+	 * @param string $rootDirectory
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
 		ilCertificatePlaceholderValues $placeholderValuesObject,
 		ilLogger $logger = null,
-		ilObjUser $user = null
+		ilObjUser $user = null,
+		ilCertificateUtilHelper $utilHelper = null,
+		ilCertificateMathJaxHelper $mathJaxHelper = null,
+		ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
+		ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
+		string $rootDirectory = CLIENT_WEB_DIR
 	) {
 		$this->templateRepository = $templateRepository;
 		$this->placeholderValuesObject = $placeholderValuesObject;
@@ -52,6 +87,28 @@ class ilCertificateTemplatePreviewAction
 			$user = $DIC->user();
 		}
 		$this->user = $user;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
+
+		if (null === $mathJaxHelper) {
+			$mathJaxHelper = new ilCertificateMathJaxHelper();
+		}
+		$this->mathJaxHelper = $mathJaxHelper;
+
+		if (null === $userDefinedFieldsHelper) {
+			$userDefinedFieldsHelper = new ilCertificateUserDefinedFieldsHelper();
+		}
+		$this->userDefinedFieldsHelper = $userDefinedFieldsHelper;
+
+		if (null === $rpcClientFactoryHelper) {
+			$rpcClientFactoryHelper = new ilCertificateRpcClientFactoryHelper();
+		}
+		$this->rpcClientFactoryHelper = $rpcClientFactoryHelper;
+
+		$this->rootDirectory = $rootDirectory;
 	}
 
 	/**
@@ -62,9 +119,6 @@ class ilCertificateTemplatePreviewAction
 	 */
 	public function createPreviewPdf(int $objectId)
 	{
-		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
-
 		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
 		$xslfo = $template->getCertificateContent();
@@ -73,27 +127,20 @@ class ilCertificateTemplatePreviewAction
 
 		try {
 			// render tex as fo graphics
-			$xlsfo = ilMathJax::getInstance()
-				->init(ilMathJax::PURPOSE_PDF)
-				->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-				->insertLatexImages($xslfo);
+			$xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
 
+			$pdf_base64 = $this->rpcClientFactoryHelper
+				->ilFO2PDF('RPCTransformationHandler', $xlsfo);
 
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')
-				->ilFO2PDF($xlsfo);
-
-			ilUtil::deliverData(
+			$this->utilHelper->deliverData(
 				$pdf_base64->scalar,
 				'Certificate.pdf',
 				'application/pdf'
 			);
 		}
 		catch(Exception $e) {
-			ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 			throw $e;
 		}
-
-		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 	}
 
 	/**
@@ -112,7 +159,7 @@ class ilCertificateTemplatePreviewAction
 		$insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview($this->user->getId(), $objectId);
 
 		foreach ($this->getCustomCertificateFields() as $key => $value) {
-			$insert_tags[$value["ph"]] = ilUtil::prepareFormOutput($value["name"]);
+			$insert_tags[$value['ph']] = $this->utilHelper->prepareFormOutput($value['name']);
 		}
 
 		foreach ($insert_tags as $var => $value) {
@@ -121,7 +168,7 @@ class ilCertificateTemplatePreviewAction
 
 		$certificate_text = str_replace(
 			'[CLIENT_WEB_DIR]',
-			CLIENT_WEB_DIR,
+			$this->rootDirectory,
 			$certificate_text
 		);
 
@@ -129,7 +176,7 @@ class ilCertificateTemplatePreviewAction
 
 		$certificate_text = str_replace(
 			'[BACKGROUND_IMAGE]',
-			CLIENT_WEB_DIR . $backgroundImagePath,
+			$this->rootDirectory . $backgroundImagePath,
 			$certificate_text
 		);
 
@@ -143,15 +190,15 @@ class ilCertificateTemplatePreviewAction
 	 */
 	private function getCustomCertificateFields()
 	{
-		$user_field_definitions = ilUserDefinedFields::_getInstance();
+		$user_field_definitions = $this->userDefinedFieldsHelper->createInstance();
 		$fds = $user_field_definitions->getDefinitions();
 
 		$fields = array();
 		foreach ($fds as $f) {
-			if ($f["certificate"]) {
-				$fields[$f["field_id"]] = array(
-					"name" => $f["field_name"],
-					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
+			if ($f['certificate']) {
+				$fields[$f['field_id']] = array(
+					'name' => $f['field_name'],
+					'ph' => '[#' . str_replace(' ', '_', strtoupper($f['field_name'])) . ']');
 			}
 		}
 
