@@ -38,10 +38,18 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 			->expects($this->once())
 			->method('convertImage');
 
+		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+			->getMock();
+
+		$objectHelper->method('lookUpType')
+			->willReturn('crs');
+
 		$action = new ilCertificateTemplateDeleteAction(
 			$templateRepositoryMock,
 			__DIR__,
-			$utilHelper
+			$utilHelper,
+			$objectHelper,
+			'v5.4.0'
 		);
 
 		$action->delete(100, 2000);
@@ -75,13 +83,21 @@ class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
 			->getMock();
 
 		$utilHelper
-			->expects($this->never())
+			->expects($this->once())
 			->method('convertImage');
+
+		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+			->getMock();
+
+		$objectHelper->method('lookUpType')
+			->willReturn('crs');
 
 		$action = new ilCertificateTemplateDeleteAction(
 			$templateRepositoryMock,
 			__DIR__,
-			$utilHelper
+			$utilHelper,
+			$objectHelper,
+			'v5.4.0'
 		);
 
 		$action->delete(100, 2000);

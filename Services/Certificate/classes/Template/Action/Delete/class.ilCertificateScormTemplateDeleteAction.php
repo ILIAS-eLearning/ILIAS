@@ -34,9 +34,7 @@ class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteActio
 	 * @param $templateId
 	 * @param $objectId
 	 * @return mixed
-	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 */
 	public function delete($templateId, $objectId)
 	{

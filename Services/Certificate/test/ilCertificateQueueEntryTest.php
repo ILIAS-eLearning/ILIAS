@@ -15,6 +15,7 @@ class ilCertificateQueueEntryTest extends \PHPUnit_Framework_TestCase
 			500,
 			'SomeClass',
 			'SomeState',
+			'1000',
 			$timestamp,
 			20
 		);
@@ -22,6 +23,7 @@ class ilCertificateQueueEntryTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(20, $queueEntry->getId());
 		$this->assertEquals(10, $queueEntry->getObjId());
 		$this->assertEquals(500, $queueEntry->getUserId());
+		$this->assertEquals(1000, $queueEntry->getTemplateId());
 		$this->assertEquals('SomeClass', $queueEntry->getAdapterClass());
 		$this->assertEquals('SomeState', $queueEntry->getState());
 		$this->assertEquals($timestamp, $queueEntry->getStartedTimestamp());

@@ -27,16 +27,23 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 	private $objectHelper;
 
 	/**
+	 * @var string
+	 */
+	private $iliasVersion;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param string $rootDirectory
 	 * @param ilCertificateUtilHelper|null $utilHelper
 	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param string $iliasVersion
 	 */
 	public function __construct(
 		ilCertificateTemplateRepository $templateRepository,
 		string $rootDirectory = CLIENT_WEB_DIR,
 		ilCertificateUtilHelper $utilHelper = null,
-		ilCertificateObjectHelper $objectHelper = null
+		ilCertificateObjectHelper $objectHelper = null,
+		$iliasVersion = ILIAS_VERSION_NUMERIC
 	) {
 		$this->templateRepository = $templateRepository;
 
@@ -51,21 +58,22 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 			$objectHelper = new ilCertificateObjectHelper();
 		}
 		$this->objectHelper = $objectHelper;
+
+		$this->iliasVersion = $iliasVersion;
 	}
 
 	/**
 	 * @param $templateTemplateId
 	 * @param $objectId
-	 * @param string $iliasVerion
+	 * @param string $iliasVersion
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	public function delete($templateTemplateId, $objectId, $iliasVerion = ILIAS_VERSION_NUMERIC)
+	public function delete($templateTemplateId, $objectId)
 	{
 		$template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
 		$this->templateRepository->deleteTemplate($templateTemplateId, $objectId);
-//		$previousTemplate = $this->templateRepository->activatePreviousCertificate($objectId);
 
 		$certificateTemplate = new ilCertificateTemplate(
 			$objectId,
@@ -74,7 +82,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 			hash('sha256', ''),
 			'',
 			$template->getVersion() + 1,
-			$iliasVerion,
+			$this->iliasVersion,
 			time(),
 			false,
 			''
