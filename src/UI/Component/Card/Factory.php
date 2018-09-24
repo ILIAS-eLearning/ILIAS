@@ -13,33 +13,18 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      A card is a flexible content container for small chunks of structured data.
-	 *      Cards are often used in so-called Decks which are a gallery of Cards.
-	 *   composition: >
-	 *      Standard cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
-	 *      Default Buttons and 0 to n sections that may contain further textual descriptions, links and buttons.
-	 *      The size of the cards in decks may be set to extra small (12 cards per row),
-	 *      small (6 cards per row, default), medium (4 cards per row), large (3 cards per row),
-	 *      extra large (2 cards per row) and full (1 card per row). The number of cards
-	 *      per row is responsively adapted, if the size of the screen is changed.
-	 *   effect: >
-	 *      Cards may contain Interaction Triggers.
-	 *   rivals:
-	 *      Heading Panel: Heading Panels fill up the complete available width in the Center Content Section. Multiple Heading Panels are stacked vertically.
-	 *      Block Panels: Block Panels are used in Sidebars
+	 *       The Standard Card is the default Card to be used in ILIAS. If
+	 *       there is no good reason using another Card instance in ILIAS, this
+	 *       is the one that should be used.
 	 *
 	 * featurewiki:
 	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_3208_1357.html
 	 *
 	 * rules:
-	 *   composition:
-	 *      1: Standard Cards MUST contain a title.
-	 *      2: Standard Cards SHOULD contain an Image or Icon in the header section.
-	 *      3: Standard Cards MAY contain Interaction Triggers.
-	 *   style:
-	 *      1: Sections of Cards MUST be separated by Dividers.
-	 *   accessibility:
-	 *      1: If multiple Cards are used, they MUST be contained in a Deck.
+	 *   usage:
+	 *       1: >
+	 *          Standard Card MUST be used if there is no good reason using
+	 *          another instance.
 	 * ---
 	 * @param string $title
 	 * @param \ILIAS\UI\Component\Image\Image $image
