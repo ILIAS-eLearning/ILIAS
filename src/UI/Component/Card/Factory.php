@@ -37,9 +37,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      A Repository Object card is a flexible content container for small chunks of structured data based on
-	 *      repository objects and display specific icons to identify about what object type is the card related.
-	 *      Cards are often used in so-called Decks which are a gallery of Cards.
+	 *      Repository Object cards are used in contexts that more visual information about the repository object
+	 *      type is needed.
 	 *   composition: >
 	 *      Repository Object cards add icons on a darkened layer over the image. This Darkened layer is divided into
 	 *      4 horizontal cells where the icons can be located.
