@@ -15,7 +15,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 			->willReturn(141);
 
 		$database->method('insert')->with(
-			'user_certificates',
+			'il_cert_user_cert',
 			array(
 				'id'                     => array('integer', 141),
 				'pattern_certificate_id' => array('integer', 1),

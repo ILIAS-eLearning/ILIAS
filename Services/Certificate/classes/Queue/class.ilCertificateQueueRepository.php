@@ -33,7 +33,7 @@ class ilCertificateQueueRepository
 	{
 		$this->logger->info('START - Add new entry to certificate cron job queue');
 
-		$id = $this->database->nextId('certificate_cron_queue');
+		$id = $this->database->nextId('il_cert_cron_queue');
 
 		$row = array(
 			'id'                => array('integer', $id),
@@ -49,7 +49,7 @@ class ilCertificateQueueRepository
 		$this->logger->debug(sprintf('Save queue entry with following values: %s', json_encode($row, JSON_PRETTY_PRINT)));
 		$this->logger->info(sprintf('END - Added entry to queue'));
 
-		$this->database->insert('certificate_cron_queue', $row);
+		$this->database->insert('il_cert_cron_queue', $row);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class ilCertificateQueueRepository
 	{
 		$this->logger->info(sprintf('START - Remove entry(id: "%s") from queue', $id));
 
-		$sql = 'DELETE FROM certificate_cron_queue WHERE id = ' . $this->database->quote($id, 'integer');
+		$sql = 'DELETE FROM il_cert_cron_queue WHERE id = ' . $this->database->quote($id, 'integer');
 
 		$this->database->manipulate($sql);
 
@@ -74,7 +74,7 @@ class ilCertificateQueueRepository
 	{
 		$this->logger->info('START - Fetch all entries from queue');
 
-		$sql = 'SELECT * FROM certificate_cron_queue';
+		$sql = 'SELECT * FROM il_cert_cron_queue';
 		$query = $this->database->query($sql);
 
 		$result = array();

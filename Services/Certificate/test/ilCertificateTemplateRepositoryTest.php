@@ -27,7 +27,7 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$database->method('insert')
 			->with(
-				'certificate_template',
+				'il_cert_template',
 				array(
 					'id'                    => array('integer', 10),
 					'obj_id'                => array('integer', 100),
@@ -242,7 +242,7 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$database->method('query')
 			->with('
-DELETE FROM certificate_template
+DELETE FROM il_cert_template
 WHERE id = 10
 AND obj_id = 200');
 
@@ -303,7 +303,7 @@ AND obj_id = 200');
 		$database->method('query')
 			->withConsecutive(
 				array($this->anything()),
-				array('UPDATE certificate_template
+				array('UPDATE il_cert_template
 SET currently_active = 1
 WHERE id = 30')
 			);

@@ -61,7 +61,7 @@ class ilCertificateMigration
 	public function getTaskInformations(): array
 	{
 		$result = $this->db->queryF(
-			'SELECT * FROM bgtask_cert_migration WHERE usr_id = %s',
+			'SELECT * FROM il_cert_bgtask_migr WHERE usr_id = %s',
 			['integer'],
 			[$this->user_id]
 		);

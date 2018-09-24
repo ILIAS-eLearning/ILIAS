@@ -46,7 +46,7 @@ class ilUserCertificateRepository
 		$version = $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
 		$version += 1;
 
-		$id = $this->database->nextId('user_certificates');
+		$id = $this->database->nextId('il_cert_user_cert');
 
 		$objId = $userCertificate->getObjId();
 		$userId = $userCertificate->getUserId();
@@ -72,7 +72,7 @@ class ilUserCertificateRepository
 
 		$this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
 
-		$this->database->insert('user_certificates', $columns);
+		$this->database->insert('il_cert_user_cert', $columns);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class ilUserCertificateRepository
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
-		$sql = 'SELECT * FROM user_certificates WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+		$sql = 'SELECT * FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
 
 		if (array() !== $params) {
@@ -143,7 +143,7 @@ class ilUserCertificateRepository
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and object: "%s"', $userId, $objectId));
 
 		$sql = 'SELECT *
-FROM user_certificates
+FROM il_cert_user_cert
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND currently_active = 1';
@@ -187,7 +187,7 @@ AND currently_active = 1';
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));
 
 		$sql = 'SELECT *
-FROM user_certificates
+FROM il_cert_user_cert
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
  AND obj_type = ' . $this->database->quote($type, 'string') . '
  AND currently_active = 1';
@@ -228,7 +228,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	{
 		$this->logger->info(sprintf('START - Fetch certificate by id: "%s"', $id));
 
-		$sql = 'SELECT * FROM user_certificates WHERE id = ' . $this->database->quote($id, 'integer');
+		$sql = 'SELECT * FROM il_cert_user_cert WHERE id = ' . $this->database->quote($id, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -269,7 +269,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			'integer'
 		);
 
-		$sql = 'SELECT obj_id FROM user_certificates WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND ' . $inStatementObjectIds;
+		$sql = 'SELECT obj_id FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND ' . $inStatementObjectIds;
 
 		$query = $this->database->query($sql);
 
@@ -287,7 +287,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
-		$sql = 'SELECT user_id FROM user_certificates WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+		$sql = 'SELECT user_id FROM il_cert_user_cert WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -314,7 +314,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			$objId
 		));
 
-		$sql = 'SELECT * FROM user_certificates
+		$sql = 'SELECT * FROM il_cert_user_cert
 WHERE user_id = ' . $this->database->quote($userId , 'integer') . '
 AND obj_id = ' . $this->database->quote($objId , 'integer');
 
@@ -398,7 +398,7 @@ AND obj_id = ' . $this->database->quote($objId , 'integer');
 		$this->logger->info(sprintf('START - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 
 		$sql = '
-UPDATE user_certificates
+UPDATE il_cert_user_cert
 SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND  user_id = ' . $this->database->quote($userId, 'integer');

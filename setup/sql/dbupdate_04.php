@@ -22937,3 +22937,60 @@ if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
 	);
 }
 ?>
+<#5300>
+<?php
+/** @var \ilDBInterface $ilDB */
+if ($ilDB->tableExists('certificate_cron_queue') && !$ilDB->tableExists('il_cert_cron_queue')) {
+	$ilDB->renameTable('certificate_cron_queue', 'il_cert_cron_queue');
+}
+if ($ilDB->sequenceExists('certificate_cron_queue')) {
+	$ilDB->dropSequence('certificate_cron_queue');
+}
+if (!$ilDB->sequenceExists('il_cert_cron_queue')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_cron_queue";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_cron_queue', (int)$row['max_id'] + 1);
+}
+?>
+<#5301>
+<?php
+if ($ilDB->tableExists('certificate_template') && !$ilDB->tableExists('il_cert_template')) {
+	$ilDB->renameTable('certificate_template', 'il_cert_template');
+}
+if ($ilDB->sequenceExists('certificate_template')) {
+	$ilDB->dropSequence('certificate_template');
+}
+if (!$ilDB->sequenceExists('il_cert_template')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_template";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_template', (int)$row['max_id'] + 1);
+}
+?>
+<#5302>
+<?php
+if ($ilDB->tableExists('user_certificates') && !$ilDB->tableExists('il_cert_user_cert')) {
+	$ilDB->renameTable('user_certificates', 'il_cert_user_cert');
+}
+if ($ilDB->sequenceExists('user_certificates')) {
+	$ilDB->dropSequence('user_certificates');
+}
+if (!$ilDB->sequenceExists('il_cert_user_cert')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_user_cert";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_user_cert', (int)$row['max_id'] + 1);
+}
+?>
+<#5303>
+<?php
+if ($ilDB->tableExists('bgtask_cert_migration') && !$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->renameTable('bgtask_cert_migration', 'il_cert_bgtask_migr');
+}
+if ($ilDB->sequenceExists('bgtask_cert_migration')) {
+	$ilDB->dropSequence('bgtask_cert_migration');
+}
+if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_bgtask_migr";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_bgtask_migr', (int)$row['max_id'] + 1);
+}
+?>
