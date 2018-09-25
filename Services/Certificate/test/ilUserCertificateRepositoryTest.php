@@ -330,4 +330,83 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$this->fail('Should never happen. Certificate Found?');
 	}
+
+	public function testFetchObjectWithCertificateForUser()
+	{
+		$database = $this->getMockBuilder('ilDBInterface')
+			->getMock();
+
+		$database
+			->expects($this->once())
+			->method('query');
+
+		$database
+			->expects($this->once())
+			->method('in');
+
+		$database
+			->expects($this->exactly(3))
+			->method('fetchAssoc')
+			->willReturnOnConsecutiveCalls(
+				array('obj_id' => 100),
+				array('obj_id' => 300),
+				array()
+			);
+
+		$database->method('fetchAssoc')
+			->willReturn(array());
+
+		$logger = $this->getMockBuilder('ilLogger')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$logger->expects($this->atLeastOnce())
+			->method('info');
+
+		$repository = new ilUserCertificateRepository($database, $logger);
+
+		$userId = 10;
+		$objectIds = array(200, 300, 400);
+
+		$results = $repository->fetchObjectWithCertificateForUser($userId, $objectIds);
+
+		$this->assertEquals(array(100, 300), $results);
+	}
+
+	public function testFetchUserIdsWithCertificateForObject()
+	{
+		$database = $this->getMockBuilder('ilDBInterface')
+			->getMock();
+
+		$database
+			->expects($this->once())
+			->method('query');
+
+		$database
+			->expects($this->exactly(3))
+			->method('fetchAssoc')
+			->willReturnOnConsecutiveCalls(
+				array('user_id' => 100),
+				array('user_id' => 300),
+				array()
+			);
+
+		$database->method('fetchAssoc')
+			->willReturn(array());
+
+		$logger = $this->getMockBuilder('ilLogger')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$logger->expects($this->atLeastOnce())
+			->method('info');
+
+		$repository = new ilUserCertificateRepository($database, $logger);
+
+		$objectId = 10;
+
+		$results = $repository->fetchUserIdsWithCertificateForObject($objectId);
+
+		$this->assertEquals(array(100, 300), $results);
+	}
 }
