@@ -113,7 +113,7 @@ class ilUserCertificateTableProvider
 
 
 			$data['items'][] = array(
-				'id' => $row['obj_id'],
+				'id' => $row['id'],
 				'title' => $title,
 				'date' => $this->dateHelper->formatDate($row['acquired_timestamp'], $this->dateFormat),
 				'action' => $this->controller->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
