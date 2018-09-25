@@ -2490,9 +2490,8 @@ abstract class ilPageObject
 
 	/**
 	 * Handle repository links on copy process
-	 *
-	 * @param
-	 * @return
+	 * @param array $a_mapping
+	 * @param int $a_source_ref_id
 	 */
 	function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
 	{
