@@ -52,12 +52,22 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 		$this->tpl = $DIC['tpl'];
 		$this->tree = $DIC['tree'];
 		$this->rbacsystem = $DIC['rbacsystem'];
-		// $this->ilLocator = $DIC['ilLocator'];
-		// $this->ilToolbar = $DIC['ilToolbar'];
-		// $this->dic = $DIC;
 
 		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();
+	}
+
+
+	private function dispatchCommand($cmd) {
+		switch ($cmd) {
+			case self::SUBTAB_SLATES:
+				$this->initTabs(self::TAB_MAIN, $cmd);
+				return "CONTENT";
+			case self::SUBTAB_ENTRIES:
+				$this->initTabs(self::TAB_MAIN, $cmd);
+				return "CONTENT";
+		}
+
 	}
 
 
@@ -88,7 +98,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	/**
 	 * @return void
 	 */
-	public function prepareAdminOutput() {
+	private function prepareAdminOutput() {
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_mme.svg'));
 		$this->tpl->setTitle($this->object->getPresentationTitle());
@@ -101,7 +111,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	 * @param string      $tab
 	 * @param string|null $subtab
 	 */
-	public function initTabs(string $tab, string $subtab = null) {
+	private function initTabs(string $tab, string $subtab = null) {
 		if ($this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
 			$this->tabs->addTab(
 				self::TAB_MAIN,
@@ -134,7 +144,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	/**
 	 * @return void
 	 */
-	public function initLocator() {
+	private function initLocator() {
 		$path = $this->tree->getPathFull((int)$_GET["ref_id"]);
 		foreach ((array)$path as $key => $row) {
 			if ($row["title"] == "Main Menu") {
@@ -161,19 +171,5 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	 */
 	public function getType() {
 		return null;
-	}
-
-
-	protected function dispatchCommand($cmd) {
-		switch ($cmd) {
-			case self::SUBTAB_SLATES:
-				$this->initTabs(self::TAB_MAIN, $cmd);
-				break;
-			case self::SUBTAB_ENTRIES:
-				$this->initTabs(self::TAB_MAIN, $cmd);
-				break;
-		}
-
-		return "CONTENT";
 	}
 }
