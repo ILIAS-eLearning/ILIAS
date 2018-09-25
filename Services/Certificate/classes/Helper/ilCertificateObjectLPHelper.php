@@ -14,4 +14,22 @@ class ilCertificateObjectLPHelper
 	{
 		return ilObjectLP::getInstance($objId);
 	}
+
+	/**
+	 * @param $type
+	 * @return string
+	 */
+	public function getTypeClass($type)
+	{
+		return ilObjectLP::getTypeClass($type);
+	}
+
+	/**
+	 * @param $type
+	 * @return bool
+	 */
+	public function isSupportedObjectType($type)
+	{
+		return ilObjectLP::isSupportedObjectType($type);
+	}
 }

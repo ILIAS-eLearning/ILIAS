@@ -131,7 +131,13 @@ class ilBadgeProfileGUI
 
 		$provider = new ilUserCertificateTableProvider($this->database, $this->logger, $this->ctrl);
 
-		$table = new ilUserCertificateTableGUI($provider, $this->user, $this, 'listCertificates');
+		$table = new ilUserCertificateTableGUI(
+			$provider,
+			$this->user,
+			$this,
+			'listCertificates'
+		);
+
 		$table->populate();
 
 		$this->tpl->setContent(	$table->getHTML());
