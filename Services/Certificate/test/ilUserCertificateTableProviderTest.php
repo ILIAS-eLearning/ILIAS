@@ -19,6 +19,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -74,7 +75,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected = array();
 
 		$expected['items'][] = array(
-			'id' => 100,
+			'id' => 600,
 			'title' => 'CourseTest',
 			'date' => '2018-09-21',
 			'action' => 'something'
@@ -96,6 +97,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -155,7 +157,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected = array();
 
 		$expected['items'][] = array(
-			'id' => 100,
+			'id' => 600,
 			'title' => 'CourseTest',
 			'date' => '2018-09-21',
 			'action' => 'something'
@@ -179,6 +181,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -238,7 +241,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected = array();
 
 		$expected['items'][] = array(
-			'id' => 100,
+			'id' => 600,
 			'title' => 'CourseTest',
 			'date' => '2018-09-21',
 			'action' => 'something'
@@ -265,6 +268,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -340,6 +344,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -415,6 +420,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -470,7 +476,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		);
 
 		$dataSet = $provider->fetchDataSet(
-			100,
+			600,
 			array(
 				'limit' => 2,
 				'order_field' => 'date',
@@ -498,6 +504,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -553,7 +560,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		);
 
 		$dataSet = $provider->fetchDataSet(
-			100,
+			600,
 			array(
 				'limit' => 'something',
 				'order_field' => 'date',
@@ -581,6 +588,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$database->method('fetchAssoc')
 			->willReturnOnConsecutiveCalls(
 				array(
+					'id' => 600,
 					'obj_id' => 100,
 					'acquired_timestamp' => 1234567890
 				),
@@ -636,7 +644,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		);
 
 		$dataSet = $provider->fetchDataSet(
-			100,
+			600,
 			array(
 				'limit' => 3,
 				'order_field' => 'date',
