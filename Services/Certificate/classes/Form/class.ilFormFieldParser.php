@@ -7,6 +7,22 @@
 class ilFormFieldParser
 {
 	/**
+	 * @var ilCertificateXlstProcess
+	 */
+	private $xlstProcess;
+
+	/**
+	 * @param ilCertificateXlstProcess|null $xlstProcess
+	 */
+	public function __construct(ilCertificateXlstProcess $xlstProcess = null)
+	{
+		if (null === $xlstProcess) {
+			$xlstProcess = new ilCertificateXlstProcess();
+		}
+		$this->xlstProcess = $xlstProcess;
+	}
+
+	/**
 	 * @param string $content
 	 * @return array
 	 */
@@ -78,11 +94,12 @@ class ilFormFieldParser
 
 		$xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
 		if ((strlen($content)) && (strlen($xsl))) {
-			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-			$xh = xslt_create();
-			$content = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
-			xslt_error($xh);
-			xslt_free($xh);
+			$args = array(
+				'/_xml' => $content,
+				'/_xsl' => $xsl
+			);
+
+			$this->xlstProcess->process($args, array());
 		}
 
 		$content = preg_replace("/<\?xml[^>]+?>/", "", $content);
