@@ -626,7 +626,13 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	static function _lookupFileName($a_id) {
+	/**
+	 * @param $a_id
+	 *
+	 * @return string
+	 * @deprecated Static methods will be removed in a future version of ILIAS
+	 */
+	public static function _lookupFileName($a_id) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -634,7 +640,9 @@ class ilObjFile extends ilObject2 {
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-		return ilUtil::stripSlashes($row->file_name);
+		$strip_slashes = ilUtil::stripSlashes($row->file_name);
+
+		return $strip_slashes;
 	}
 
 
@@ -1094,20 +1102,29 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * return absolute path for version
+	 * @param  int $obj_id
+	 * @param int  $a_version
 	 *
+	 * @return string
+	 * @throws ilFileUtilsException
 	 */
 	public static function _lookupAbsolutePath($obj_id, $a_version = null) {
-		$file_storage = new ilFSStorageFile($obj_id);
-		$filename = ilObjFile::_lookupFileName($obj_id);
-		$version_subdir = "";
+		global $DIC;
 
-		if (!is_numeric($a_version)) {
-			$a_version = ilObjFile::_lookupVersion($obj_id);
+		$fs = $DIC->filesystem()->storage();
+
+		$file_object = new self($obj_id, false);
+		$file_path = $file_object->getFile($a_version);
+		$valid_file_path = ilFileUtils::getValidFilename($file_path);
+		if ($valid_file_path !== $file_path) {
+			if (!$fs->has(LegacyPathHelper::createRelativePath($file_path)) && $fs->has(LegacyPathHelper::createRelativePath($valid_file_path))) {
+				$file_object->setFileName(ilFileUtils::getValidFilename($file_object->getFileName()));
+				$file_object->update();
+				$file_path = $valid_file_path;
+			}
 		}
-		$version_subdir = DIRECTORY_SEPARATOR . sprintf("%03d", $a_version);
 
-		return $file_storage->getAbsolutePath() . $version_subdir . DIRECTORY_SEPARATOR . $filename;
+		return $file_path;
 	}
 
 
