@@ -695,9 +695,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						}
 						else
 						{
+
+							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
 							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
 							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-							
+							$main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
+
 							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 							$button = ilSubmitButton::getInstance();
 							$button->setCaption("download_selected_items");
