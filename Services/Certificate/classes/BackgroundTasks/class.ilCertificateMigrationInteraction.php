@@ -85,12 +85,11 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 	{
 		global $DIC;
 
-		$progress = $input[0];
-		$user_id = $input[1];
+		$progress = $input[0]->getValue();
+		$user_id = $input[1]->getValue();
 		$logger = $DIC->logger()->cert();
 
 		$logger->debug('User interaction certificate migration for user with id: ' . $user_id);
-//		$bucket->setState(State::FINISHED);
 		$logger->debug('User interaction certificate migration State: '. $bucket->getState());
 		if ($user_selected_option->getValue() != self::OPTION_GOTO_LIST) {
 			$logger->info('User interaction certificate migration canceled for user with id: ' . $user_id);
