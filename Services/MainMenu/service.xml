@@ -1,8 +1,13 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$" id="mob">
+<service xmlns="http://www.w3.org" version="$Id$" id="mme">
 	<baseclasses />
 	<uxproviders>
-		<mainmenu class_name="ilMainMenuProvider"/>
+		<mainmenu class_name="ilMainMenuProvider" />
 	</uxproviders>
 	<logging />
+	<objects>
+		<object id="mme" class_name="MainMenu" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
 </service>

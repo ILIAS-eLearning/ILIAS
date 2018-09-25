@@ -211,7 +211,7 @@ class ilTree
 		$ilDB = $DIC['ilDB'];
 		
 		
-		if(!is_object($GLOBALS['DIC']['ilSetting']) or $GLOBALS['DIC']['ilSetting']->getModule() != 'common')
+		if(!is_object($GLOBALS['DIC']['ilSetting']) || $GLOBALS['DIC']['ilSetting']->getModule() != 'common')
 		{
 			include_once './Services/Administration/classes/class.ilSetting.php';
 			$setting = new ilSetting('common');
