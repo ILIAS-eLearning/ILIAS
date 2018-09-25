@@ -108,6 +108,32 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	protected function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getParentObjType()
+	{
+		return 'meta';
+	}
+
+
+	/**
+	 * @return int
+	 */
+	protected function getAdministrationFormId()
+	{
+		return ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT;
+	}
+
+
+	/**
 	 * Get tabs
 	 *
 	 * @access public
@@ -240,7 +266,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$table_gui = new ilMDCopyrightTableGUI($this,'showCopyrightSettings', $has_write);
 		$table_gui->setTitle($this->lng->txt("md_copyright_selection"));
 		$table_gui->parseSelections();
-		
+
 		if($has_write)
 		{
 	//		$table_gui->addCommandButton("updateCopyrightSelection", $this->lng->txt("save"));
@@ -446,7 +472,13 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('md_copyright_settings'));
-		
+
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			$this->getAdministrationFormId(),
+			$this->form,
+			$this
+		);
+
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$this->form->addCommandButton('saveCopyrightSettings',$this->lng->txt('save'));

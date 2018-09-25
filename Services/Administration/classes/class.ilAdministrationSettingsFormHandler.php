@@ -24,6 +24,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_ACCESSIBILITY = 11;
 	const FORM_WSP = 12;
 	const FORM_TAGGING = 13;
+	const FORM_META_COPYRIGHT = 14;
 
 	const SETTINGS_USER             = "usrf";
 	const SETTINGS_GENERAL          = "adm";

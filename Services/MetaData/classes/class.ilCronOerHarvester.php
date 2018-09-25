@@ -193,4 +193,26 @@ class ilCronOerHarvester extends ilCronJob
 
 		return $res;
 	}
+
+	/**
+	 * Provide external settings for presentation in MD settings
+	 *
+	 * @param int $a_form_id
+	 * @param array $a_fields
+	 * @param bool $a_is_active
+	 */
+	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT:
+
+				$a_fields['meta_oer_harvester'] =
+					($a_is_active ?
+						$this->lng->txt('enabled') :
+						$this->lng->txt('disabled')
+					);
+				break;
+		}
+	}
 }
