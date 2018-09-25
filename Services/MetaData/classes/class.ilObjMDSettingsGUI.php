@@ -473,11 +473,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('md_copyright_settings'));
 
-		ilAdministrationSettingsFormHandler::addFieldsToForm(
-			$this->getAdministrationFormId(),
-			$this->form,
-			$this
-		);
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -490,6 +485,12 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$check->setValue(1);
 		$check->setInfo($this->lng->txt('md_copyright_enable_info'));
 		$this->form->addItem($check);
+
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			$this->getAdministrationFormId(),
+			$this->form,
+			$this
+		);
 	}
 	
 	/**
