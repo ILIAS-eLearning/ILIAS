@@ -384,6 +384,13 @@ listening to:
 On an update status event (performed by the Learning Progress)
 a possible new user certificate will be added directly to the queue.
 
+If the Learning Progress is globally deactivated, the administrator
+can enter particular Modules/Services for Learning Progress.
+The course is NOT supported for this behaviour, but Modules/Services
+can be added via the certificates template settings UI.
+Completing all of the selected events will add the user
+into the [queue](#cron-queue-classes).
+
 #### migrateUserCertificate
 
 The `migrateUserCertificate` event can be used to add a complete
