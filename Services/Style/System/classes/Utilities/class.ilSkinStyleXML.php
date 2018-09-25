@@ -54,16 +54,17 @@ class ilSkinStyleXML
 	 */
 	protected $substyle_of = "";
 
-	/**
-	 * ilSkinStyleXML constructor.
-	 * @param $id
-	 * @param $name
-	 * @param string $css_file
-	 * @param string $image_directory
-	 * @param string $font_directory
-	 * @param string $sound_directory
-	 * @param string $parent_style
-	 */
+    /**
+     * ilSkinStyleXML constructor.
+     * @param $id
+     * @param $name
+     * @param string $css_file
+     * @param string $image_directory
+     * @param string $font_directory
+     * @param string $sound_directory
+     * @param string $parent_style
+     * @throws ilSystemStyleException
+     */
 	public function __construct($id, $name, $css_file = "", $image_directory = "", $font_directory = "", $sound_directory = "",$parent_style = "")
 	{
 		$this->setId($id);
@@ -92,10 +93,11 @@ class ilSkinStyleXML
 		$this->setSubstyleOf($parent_style);
 	}
 
-	/**
-	 * @param SimpleXMLElement $xml_element
-	 * @return ilSkinStyleXML
-	 */
+    /**
+     * @param SimpleXMLElement $xml_element
+     * @return ilSkinStyleXML
+     * @throws ilSystemStyleException
+     */
 	static function parseFromXMLElement(SimpleXMLElement $xml_element){
 		$style = new self((string)$xml_element->attributes()["id"],
 			(string)$xml_element->attributes()["name"],

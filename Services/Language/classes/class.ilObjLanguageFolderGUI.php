@@ -350,6 +350,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function setUserLanguageObject()
 	{
+		global $DIC;
+		$ilUser = $DIC->user();
+
 		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
@@ -379,10 +382,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("meta_l_".$newUserLangObj->getKey())." ".$this->lng->txt("language_not_installed")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$curUser = new ilObjUser($GLOBALS['DIC']['ilUser']->getId());
+
+		$curUser = new ilObjUser($ilUser->getId());
 		$curUser->setLanguage($newUserLangObj->getKey());
 		$curUser->update();
-		//$this->setUserLanguage($new_lang_key);
 
 		$this->data = $this->lng->txt("user_language")." ".$this->lng->txt("changed_to")." ".$this->lng->txt("meta_l_".$newUserLangObj->getKey()).".";
 

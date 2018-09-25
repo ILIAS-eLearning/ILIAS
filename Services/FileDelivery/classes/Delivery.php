@@ -109,6 +109,7 @@ final class Delivery {
 	 */
 	public function __construct($path_to_file, GlobalHttpState $httpState) {
 		assert(is_string($path_to_file));
+		$this->httpService = $httpState;
 		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
@@ -120,7 +121,6 @@ final class Delivery {
 			$this->determineDownloadFileName();
 		}
 		$this->setHasContext(\ilContext::getType() !== null);
-		$this->httpService = $httpState;
 		$this->fileDeliveryTypeFactory = new FileDeliveryTypeFactory($httpState);
 	}
 
@@ -139,8 +139,13 @@ final class Delivery {
 
 
 	public function deliver() {
-
 		$response = $this->httpService->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
+		if (!$this->delivery()->doesFileExists($this->path_to_file)) {
+			$response = $this->httpService->response()->withStatus(404);
+			$this->httpService->saveResponse($response);
+			$this->httpService->sendResponse();
+			$this->close();
+		}
 		$this->httpService->saveResponse($response);
 
 		$this->clearBuffer();
@@ -173,7 +178,7 @@ final class Delivery {
 		$response = $this->httpService->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
 		$this->httpService->saveResponse($response);
 		if ($this->getDeliveryType() == DeliveryMethod::PHP
-		    && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+			&& $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
 		) {
 			$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string)filesize($this->getPathToFile()));
 			$this->httpService->saveResponse($response);
@@ -248,7 +253,7 @@ final class Delivery {
 		}
 
 		if (function_exists('apache_get_modules')
-		    && in_array('mod_xsendfile', apache_get_modules())
+			&& in_array('mod_xsendfile', apache_get_modules())
 		) {
 			$this->setDeliveryType(DeliveryMethod::XSENDFILE);
 		}
@@ -264,13 +269,13 @@ final class Delivery {
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = \ilRuntime::getInstance();
 		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM())
-		    && $this->getDeliveryType() == DeliveryMethod::XACCEL
+			&& $this->getDeliveryType() == DeliveryMethod::XACCEL
 		) {
 			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
 
 		if ($this->getDeliveryType() == DeliveryMethod::XACCEL
-		    && strpos($this->getPathToFile(), './data') !== 0
+			&& strpos($this->getPathToFile(), './data') !== 0
 		) {
 			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
@@ -499,8 +504,10 @@ final class Delivery {
 
 	private function sendLastModified() {
 		if ($this->getShowLastModified()) {
-			$response = $this->httpService->response()->withHeader('Last-Modified', date("D, j M Y H:i:s", filemtime($this->getPathToFile()))
-			                                                                        . " GMT");
+			$response = $this->httpService->response()->withHeader(
+				'Last-Modified', date("D, j M Y H:i:s", filemtime($this->getPathToFile()))
+				               . " GMT"
+			);
 			$this->httpService->saveResponse($response);
 		}
 	}
@@ -566,8 +573,8 @@ final class Delivery {
 	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
-//			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
-//			                                . $ob_get_contents);
+			//			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
+			//			                                . $ob_get_contents);
 		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
@@ -578,7 +585,7 @@ final class Delivery {
 	 */
 	private function checkExisting() {
 		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT
-		    && !file_exists($this->getPathToFile())
+			&& !file_exists($this->getPathToFile())
 		) {
 			$this->close();
 		}
@@ -669,10 +676,12 @@ final class Delivery {
 
 	private function setDispositionHeaders() {
 		$response = $this->httpService->response();
-		$response = $response->withHeader(ResponseHeader::CONTENT_DISPOSITION, $this->getDisposition()
-		                                                                       . '; filename="'
-		                                                                       . $this->getDownloadFileName()
-		                                                                       . '"');
+		$response = $response->withHeader(
+			ResponseHeader::CONTENT_DISPOSITION, $this->getDisposition()
+			                                   . '; filename="'
+			                                   . $this->getDownloadFileName()
+			                                   . '"'
+		);
 		$response = $response->withHeader('Content-Description', $this->getDownloadFileName());
 		$this->httpService->saveResponse($response);
 	}
