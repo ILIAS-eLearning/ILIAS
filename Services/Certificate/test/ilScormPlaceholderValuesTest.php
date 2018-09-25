@@ -122,7 +122,9 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'SCO_T_0' => 'Some Title',
 				'SCO_P_0' => '100,0',
 				'SCO_PM_0' => '300,0',
-				'SCO_PP_0' => '200,0 %'
+				'SCO_PP_0' => '200,0 %',
+				'DATE_COMPLETED' => '',
+				'DATETIME_COMPLETED' => ''
 			),
 			$result
 		);
