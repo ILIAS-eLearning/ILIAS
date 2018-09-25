@@ -478,19 +478,21 @@ class ilCertificateMigrationJob extends AbstractJob
 							{
 								$cert_path = $adapter->getCertificatePath();
 								$xsl_path = $cert_path . "certificate.xml";
+
 								if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
 								{
 									$this->logMessage('Found scorm certificate with id: ' . $obj_id, 'debug');
 									$webdir = $cert_path . "background.jpg";
+
 									$background_image_path = str_replace(
-										\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-										\ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+										\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+										'',
 										$webdir
 									);
+
 									$data[] = array(
 										"obj_id" => $obj_id,
 										"user_id" => $this->user_id,
-										"certificate_path" => $cert_path,
 										"certificate_type" => 'sahs',
 										"background_image_path" => $background_image_path,
 										"acquired_timestamp" => null,
@@ -541,8 +543,8 @@ class ilCertificateMigrationJob extends AbstractJob
 							$this->logMessage('Found test certificate with id: ' . $test_id, 'debug');
 							$webdir = $cert_path . "background.jpg";
 							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-								\ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+								'',
 								$webdir
 							);
 							$data[] = array(
@@ -595,8 +597,8 @@ class ilCertificateMigrationJob extends AbstractJob
 							$this->logMessage('Found exercise certificate with id: ' . $obj_id, 'debug');
 							$webdir = $cert_path . "background.jpg";
 							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-								\ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+								'',
 								$webdir
 							);
 							$data[] = array(
@@ -653,8 +655,8 @@ class ilCertificateMigrationJob extends AbstractJob
 								$this->logMessage('Found course certificate with id: ' . $crs_id, 'debug');
 								$webdir = $cert_path . "background.jpg";
 								$background_image_path = str_replace(
-									\ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-									\ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+									\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+									'',
 									$webdir
 								);
 								$data[] = array(
