@@ -4400,7 +4400,7 @@ $this->doCaptchaCheck();
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
 					}
-					else
+					else if(!$frm_notificiation_enabled)
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
 					}
@@ -4475,7 +4475,7 @@ $this->doCaptchaCheck();
 			$frm_noti->setUserId($this->user->getId());
 			
 			$user_toggle = (int)$frm_noti->isUserToggleNotification();
-			if($user_toggle == 0) 
+			if($user_toggle == 0 && $this->objProperties->isUserToggleNoti() == 0) 
 			{	
 				return true;
 			}

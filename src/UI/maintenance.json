@@ -3,10 +3,12 @@
     "first_maintainer": "",
     "second_maintainer": "",
     "implicit_maintainers": [
-        "rklees(34047)",
         "fschmid(21087)"
     ],
-    "coordinator": "amstutz(26468)",
+    "coordinator": [
+        "amstutz(26468)",
+        "rklees(34047)"
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "src/UI",

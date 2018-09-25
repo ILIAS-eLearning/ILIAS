@@ -3,7 +3,9 @@
     "first_maintainer": "bheyser(14300)",
     "second_maintainer": "mbecker(27266)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "SIG EA",
     "testcase_writer": "Fabian(27631)",
     "path": "Modules/TestQuestionPool",

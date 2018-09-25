@@ -457,12 +457,29 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$ecs = new ilECSTestSettings($this->testOBJ);
 		$ecs->addSettingsToForm($form, 'tst');
 		
-		$otherHead = new ilFormSectionHeaderGUI();
-		$otherHead->setTitle($this->lng->txt('obj_features'));
-		$form->addItem($otherHead);
+		// additional features
+		
+		$orgunitServiceActive = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+			$this->testOBJ->getType()
+		)->isActive();
 
+		$skillServiceActive = ilObjTest::isSkillManagementGloballyActivated();
+		
+		
+		if( $orgunitServiceActive || $skillServiceActive )
+		{
+			$otherHead = new ilFormSectionHeaderGUI();
+			$otherHead->setTitle($this->lng->txt('obj_features'));
+			$form->addItem($otherHead);
+		}
+		
+		require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm($this->testOBJ->getId(), $form, array(
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+		));
+		
 		// skill service activation for FIXED tests only
-		if( ilObjTest::isSkillManagementGloballyActivated() )
+		if( $skillServiceActive )
 		{
 			$skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
 			$skillService->setInfo($this->lng->txt('tst_activate_skill_service_desc'));
@@ -470,11 +487,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			if($this->testOBJ->participantDataExist()) $skillService->setDisabled(true);
 			$form->addItem($skillService);
 		}
-		
-		require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-		ilObjectServiceSettingsGUI::initServiceSettingsForm($this->testOBJ->getId(), $form, array(
-				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
-		));
 
 		// remove items when using template
 		$this->removeHiddenItems($form);

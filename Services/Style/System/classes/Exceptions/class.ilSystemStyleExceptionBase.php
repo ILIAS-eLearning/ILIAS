@@ -36,8 +36,6 @@ abstract class ilSystemStyleExceptionBase extends ilException
 	 */
 	public function __construct($exception_code = -1, $exception_info = "")
 	{
-
-
 		$this->code = $exception_code;
 		$this->add_info = $exception_info;
 		$this->assignMessageToCode();

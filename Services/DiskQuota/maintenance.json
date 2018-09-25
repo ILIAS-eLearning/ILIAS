@@ -1,11 +1,11 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": null,
-    "second_maintainer": null,
+    "first_maintainer": "",
+    "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": null,
-    "tester": null,
-    "testcase_writer": null,
+    "coordinator": [],
+    "tester": "",
+    "testcase_writer": "",
     "path": "Services/DiskQuota",
     "belong_to_component": "None",
     "used_in_components": []

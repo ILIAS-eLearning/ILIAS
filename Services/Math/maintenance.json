@@ -7,7 +7,9 @@
         "gvollbach(25234)",
         "mjansen(8784)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Math",

@@ -29,10 +29,8 @@ class ilLanguageDetection
 	 */
 	public function detect()
 	{
-		/**
-		 * @var $ilLog ilLog
-		 */
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC->logger()->root();
 
 		$installed_languages = ilLanguage::_getInstalledLanguages();
 		$detected_language   = $installed_languages[0];
@@ -49,7 +47,7 @@ class ilLanguageDetection
 			}
 			catch(ilLanguageException $e)
 			{
-				$ilLog->write(__METHOD__ . ' ' . $e->getMessage());
+				$ilLog->info(__METHOD__ . ' ' . $e->getMessage());
 			}
 		}
 

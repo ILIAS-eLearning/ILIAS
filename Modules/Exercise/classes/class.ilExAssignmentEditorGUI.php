@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
 
 /**
 * Class ilExAssignmentEditorGUI
@@ -331,6 +332,51 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
+		// submit reminder
+		$rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
+
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
+		$rmd_submit_start->setInfo($this->lng->txt("exc_reminder_start_info"));
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_submit_freq");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_frequency);
+
+		$rmd_submit_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_submit_end");
+		$rmd_submit_end->setRequired(true);
+		$rmd_submit->addSubItem($rmd_submit_end);
+
+		$rmd_submit->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::SUBMIT_REMINDER));
+
+		// grade reminder
+		$rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
+
+		$rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
+		$rmd_grade_frequency->setSize(3);
+		$rmd_grade_frequency->setMaxLength(3);
+		$rmd_grade_frequency->setSuffix($lng->txt('days'));
+		$rmd_grade_frequency->setRequired(true);
+		$rmd_grade_frequency->setMinValue(1);
+		$rmd_grade->addSubItem($rmd_grade_frequency);
+
+		$rmd_grade_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_grade_end");
+		$rmd_grade_end->setRequired(true);
+		$rmd_grade->addSubItem($rmd_grade_end);
+
+		$rmd_grade->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::GRADE_REMINDER));
+
+		$form->addItem($rmd_submit);
+		$form->addItem($rmd_grade);
 
 		// max number of files
 		if($a_type == ilExAssignment::TYPE_UPLOAD ||
@@ -394,7 +440,17 @@ class ilExAssignmentEditorGUI
 			$fb_date->setRequired(true);
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
-			$fb->addSubItem($fb_date);
+
+			//Extra radio option with date selection
+			$fb_date_custom_date = new ilDateTimeInputGUI($lng->txt("date"),"fb_date_custom");
+			$fb_date_custom_date->setRequired(true);
+			$fb_date_custom_date->setShowTime(true);
+			$fb_date_custom_option = new ilRadioOption($lng->txt("exc_global_feedback_file_after_date"), ilExAssignment::FEEDBACK_DATE_CUSTOM);
+			$fb_date_custom_option->addSubItem($fb_date_custom_date);
+			$fb_date->addOption($fb_date_custom_option);
+
+
+		$fb->addSubItem($fb_date);
 
 			$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 			$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
@@ -413,6 +469,43 @@ class ilExAssignmentEditorGUI
 		}
 		
 		return $form;
+	}
+
+	public function addMailTemplatesRadio($a_reminder_type)
+	{
+		$post_var = "rmd_".$a_reminder_type."_template_id";
+
+		$r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
+		$r_group->setRequired(true);
+		$r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+
+		switch ($a_reminder_type)
+		{
+			case ilExAssignmentReminder::SUBMIT_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplateSubmitReminderContext.php";
+				$context = new ilExcMailTemplateSubmitReminderContext();
+				break;
+			case ilExAssignmentReminder::GRADE_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplateGradeReminderContext.php";
+				$context = new ilExcMailTemplateGradeReminderContext();
+				break;
+			case ilExAssignmentReminder::FEEDBACK_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplatePeerReminderContext.php";
+				$context = new ilExcMailTemplatePeerReminderContext();
+				break;
+			default:
+				exit();
+		}
+
+		$template_data = new ilMailTemplateDataProvider();
+		$templates = $template_data->getTemplateByContextId($context->getId());
+
+		foreach($templates as $template)
+		{
+			$r_group->addOption(new ilRadioOption($template->getTitle(),$template->getTplId()));
+		}
+
+		return $r_group;
 	}
 
 	/**
@@ -469,8 +562,22 @@ class ilExAssignmentEditorGUI
 			$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
 			$time_deadline_ext = $time_deadline_ext
 				? $time_deadline_ext->get(IL_CAL_UNIX)
-				: null;			
-			
+				: null;
+			$time_fb_custom_date = $a_form->getItemByPostVar("fb_date_custom")->getDate();
+			$time_fb_custom_date = $time_fb_custom_date
+				? $time_fb_custom_date->get(IL_CAL_UNIX)
+				: null;
+
+			$reminder_submit_end_date = $a_form->getItemByPostVar("rmd_submit_end")->getDate();
+			$reminder_submit_end_date = $reminder_submit_end_date
+				? $reminder_submit_end_date->get(IL_CAL_UNIX)
+				: null;
+
+			$reminder_grade_end_date = $a_form->getItemByPostVar("rmd_grade_end")->getDate();
+			$reminder_grade_end_date = $reminder_grade_end_date
+				? $reminder_grade_end_date->get(IL_CAL_UNIX)
+				: null;
+
 			// handle disabled elements
 			if($protected_peer_review_groups)
 			{									
@@ -596,11 +703,28 @@ class ilExAssignmentEditorGUI
 				{
 					$res["fb"] = true;
 					$res["fb_cron"] = $a_form->getInput("fb_cron");
-					$res["fb_date"] = $a_form->getInput("fb_date");	
+					$res["fb_date"] = $a_form->getInput("fb_date");
+					$res["fb_date_custom"] = $time_fb_custom_date;
+
 					if($_FILES["fb_file"]["tmp_name"])
 					{
 						$res["fb_file"] = $_FILES["fb_file"];
 					}						
+				}
+				if($a_form->getInput("rmd_submit_status"))
+				{
+					$res["rmd_submit_status"] = true;
+					$res["rmd_submit_start"] = $a_form->getInput("rmd_submit_start");
+					$res["rmd_submit_freq"] = $a_form->getInput("rmd_submit_freq");
+					$res["rmd_submit_end"] = $reminder_submit_end_date;
+					$res["rmd_submit_template_id"] = $a_form->getInput("rmd_submit_template_id");
+				}
+				if($a_form->getInput("rmd_grade_status"))
+				{
+					$res["rmd_grade_status"] = true;
+					$res["rmd_grade_freq"] = $a_form->getInput("rmd_grade_freq");
+					$res["rmd_grade_end"] = $reminder_grade_end_date;
+					$res["rmd_grade_template_id"] = $a_form->getInput("rmd_grade_template_id");
 				}
 				
 				return $res;
@@ -619,7 +743,7 @@ class ilExAssignmentEditorGUI
 	 * @param array $a_input
 	 */
 	protected function importFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{			
+	{
 		$is_create = !(bool)$a_ass->getId();
 		
 		$a_ass->setTitle($a_input["title"]);
@@ -656,6 +780,7 @@ class ilExAssignmentEditorGUI
 		{
 			$a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
 			$a_ass->setFeedbackDate($a_input["fb_date"]);
+			$a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
 		}
 		
 		// id needed for file handling
@@ -689,7 +814,41 @@ class ilExAssignmentEditorGUI
 				$a_ass->handleGlobalFeedbackFileUpload($a_input["fb_file"]);
 				$a_ass->update();
 			}	
-		}		
+		}
+		$this->importFormToAssignmentReminders($a_input, $a_ass->getId());
+	}
+
+	protected function importFormToAssignmentReminders($a_input, $a_ass_id)
+	{
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::GRADE_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+
+	}
+
+	//todo maybe we can refactor this method to use only one importFormToReminders
+	protected function importPeerReviewFormToAssignmentReminders($a_input, $a_ass_id)
+	{
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::FEEDBACK_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+	}
+
+	protected function saveReminderData(ilExAssignmentReminder $reminder, $a_input)
+	{
+		if($reminder->getReminderStatus() == NULL) {
+			$action = "save";
+		} else {
+			$action = "update";
+		}
+		$type = $reminder->getReminderType();
+		$reminder->setReminderStatus((bool)$a_input["rmd_".$type."_status"]);
+		$reminder->setReminderStart((int)$a_input["rmd_".$type."_start"]);
+		$reminder->setReminderEnd((int)$a_input["rmd_".$type."_end"]);
+		$reminder->setReminderFrequency((int)$a_input["rmd_".$type."_freq"]);
+		$reminder->setReminderMailTemplate((int)$a_input["rmd_".$type."_template_id"]);
+		$reminder->{$action}();
 	}
 	
 	/**
@@ -804,8 +963,33 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{		
 			$values["team_tutor"] = $this->assignment->getTeamTutor();
-		}		
-		
+		}
+
+		if ($this->assignment->getFeedbackDateCustom())
+		{
+			$values["fb_date_custom"] = new ilDateTime($this->assignment->getFeedbackDateCustom(), IL_CAL_UNIX);
+		}
+
+		//Reminders
+		$rmd_sub = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::SUBMIT_REMINDER);
+		if($rmd_sub->getReminderStatus())
+		{
+			$values["rmd_submit_status"] = $rmd_sub->getReminderStatus();
+			$values["rmd_submit_start"] = $rmd_sub->getReminderStart();
+			$values["rmd_submit_end"] = new ilDateTime($rmd_sub->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_submit_freq"] = $rmd_sub->getReminderFrequency();
+			$values["rmd_submit_template_id"] = $rmd_sub->getReminderMailTemplate();
+		}
+
+		$rmd_grade = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::GRADE_REMINDER);
+		if($rmd_grade->getReminderStatus())
+		{
+			$values["rmd_grade_status"] = $rmd_grade->getReminderStatus();
+			$values["rmd_grade_end"] = new ilDateTime($rmd_grade->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_grade_freq"] = $rmd_grade->getReminderFrequency();
+			$values["rmd_grade_template_id"] = $rmd_grade->getReminderMailTemplate();
+		}
+
 		$a_form->setValuesByArray($values);
 		
 		// global feedback		
@@ -1114,8 +1298,34 @@ class ilExAssignmentEditorGUI
 		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
 		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 		$form->addItem($peer_prsl);
-		
-		
+
+		//feedback reminders
+		$rmd_feedback = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_feedback_setting"), "rmd_peer_status");
+
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "rmd_peer_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_peer_freq");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_frequency);
+
+		$rmd_submit_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_peer_end");
+		$rmd_submit_end->setRequired(true);
+		$rmd_feedback->addSubItem($rmd_submit_end);
+
+		$rmd_feedback->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::FEEDBACK_REMINDER));
+
+		$form->addItem($rmd_feedback);
+
 		// criteria
 		
 		$cats = new ilRadioGroupInputGUI($lng->txt("exc_criteria_catalogues"), "crit_cat");
@@ -1178,7 +1388,7 @@ class ilExAssignmentEditorGUI
 		
 		$form->addCommandButton("updatePeerReview", $lng->txt("save"));
 		$form->addCommandButton("editAssignment", $lng->txt("cancel"));
-		
+
 		return $form;
 	}
 			
@@ -1206,7 +1416,19 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getPeerReviewDeadline() > 0)
 		{
 			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
-		}				
+		}
+
+		$this->assignment->getId();
+		$this->exercise_id;
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::FEEDBACK_REMINDER);
+		if($reminder->getReminderStatus())
+		{
+			$values["rmd_peer_status"] = $reminder->getReminderStatus();
+			$values["rmd_peer_start"] = $reminder->getReminderStart();
+			$values["rmd_peer_end"] = 	new ilDateTime($reminder->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_peer_freq"] = $reminder->getReminderFrequency();
+			$values["rmd_peer_template_id"] = $reminder->getReminderMailTemplate();
+		}
 
 		$a_form->setValuesByArray($values);
 		
@@ -1302,7 +1524,12 @@ class ilExAssignmentEditorGUI
 			$date = $a_form->getItemByPostVar("peer_dl")->getDate();
 			$time_peer = $date
 				? $date->get(IL_CAL_UNIX)
-				: null;		
+				: null;
+
+			$reminder_date = $a_form->getItemByPostVar("rmd_peer_end")->getDate();
+			$reminder_date = $reminder_date
+				? $reminder_date->get(IL_CAL_UNIX)
+				: null;
 			
 			// peer < any deadline?							
 			if($time_peer && $time_deadline_max && $time_peer < $time_deadline_max)
@@ -1360,6 +1587,14 @@ class ilExAssignmentEditorGUI
 					$res["peer_char"] = $a_form->getInput("peer_char");
 					$res["crit_cat"] = $a_form->getInput("crit_cat");	
 				}
+				if($a_form->getInput("rmd_peer_status"))
+				{
+					$res["rmd_peer_status"] = $a_form->getInput("rmd_peer_status");
+					$res["rmd_peer_start"] = $a_form->getInput("rmd_peer_start");
+					$res["rmd_peer_end"] = $reminder_date;
+					$res["rmd_peer_freq"] = $a_form->getInput("rmd_peer_freq");
+					$res["rmd_peer_template_id"] = $a_form->getInput("rmd_peer_template_id");
+				}
 
 				return $res;
 			}
@@ -1371,7 +1606,7 @@ class ilExAssignmentEditorGUI
 	}
 	
 	protected function importPeerReviewFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{					
+	{
 		$a_ass->setPeerReviewMin($a_input["peer_min"]);
 		$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);			
 		$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);		
@@ -1381,7 +1616,7 @@ class ilExAssignmentEditorGUI
 		$a_ass->setPeerReviewValid($a_input["peer_valid"]
 			? $a_input["peer_valid"]
 			: ilExAssignment::PEER_REVIEW_VALID_NONE);
-		
+
 		$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
 		$a_ass->setPeerReviewChars($a_input["peer_char"]);
 		$a_ass->setPeerReviewText($a_input["peer_text"]);
@@ -1390,7 +1625,9 @@ class ilExAssignmentEditorGUI
 			? $a_input["crit_cat"]
 			: null);
 	
-		$a_ass->update();				
+		$a_ass->update();
+
+		$this->importPeerReviewFormToAssignmentReminders($a_input, $a_ass->getId());
 	}
 	
 	protected function updatePeerReviewObject()
@@ -1405,7 +1642,6 @@ class ilExAssignmentEditorGUI
 		if(is_array($input))
 		{										
 			$this->importPeerReviewFormToAssignment($this->assignment, $input);
-						
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editPeerReview");
 		}
