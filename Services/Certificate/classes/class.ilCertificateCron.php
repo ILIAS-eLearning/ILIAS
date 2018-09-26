@@ -32,16 +32,21 @@ class ilCertificateCron extends \ilCronJob
 	 * @param ilUserCertificateRepository $userRepository
 	 * @param ilCertificateValueReplacement|null $valueReplacement
 	 * @param ilLogger|null $logger
+	 * @param \ILIAS\DI\Container|null $dic
 	 */
 	public function __construct(
 		ilCertificateQueueRepository $queueRepository = null,
 		ilCertificateTemplateRepository $templateRepository = null,
 		ilUserCertificateRepository $userRepository = null,
 		ilCertificateValueReplacement $valueReplacement = null,
-		ilLogger $logger = null
+		ilLogger $logger = null,
+		\ILIAS\DI\Container $dic = null
 	)
 	{
-		global $DIC;
+		if (null === $dic) {
+			global $DIC;
+			$dic = $DIC;
+		}
 
 		$this->queueRepository = $queueRepository;
 		$this->templateRepository = $templateRepository;
@@ -49,9 +54,9 @@ class ilCertificateCron extends \ilCronJob
 		$this->valueReplacement = $valueReplacement;
 		$this->logger = $logger;
 
-		if ($DIC) {
-			if (isset($DIC['lng'])) {
-				$this->lng = $DIC->language();
+		if ($dic) {
+			if (isset($dic['lng'])) {
+				$this->lng = $dic->language();
 				$this->lng->loadLanguageModule('certificate');
 			}
 		}
