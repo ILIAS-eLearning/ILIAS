@@ -80,35 +80,11 @@ class ilUserCertificateRepository
 	 * @param string $orderBy
 	 * @return array
 	 */
-	public function fetchActiveCertificates(int $userId, $params = array(), $filter = array()) : array
+	public function fetchActiveCertificates(int $userId) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
 		$sql = 'SELECT * FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
-
-
-		if (array() !== $params) {
-			$sql .= $this->getOrderByPart($params, $filter);
-		}
-
-		if(isset($params['limit']))
-		{
-			if(!is_numeric($params['limit']))
-			{
-				throw new InvalidArgumentException('Please provide a valid numerical limit.');
-			}
-
-			if(!isset($params['offset']))
-			{
-				$params['offset'] = 0;
-			}
-			else if(!is_numeric($params['offset']))
-			{
-				throw new InvalidArgumentException('Please provide a valid numerical offset.');
-			}
-
-			$this->database->setLimit($params['limit'], $params['offset']);
-		}
 
 		$query = $this->database->query($sql);
 
