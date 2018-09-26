@@ -175,6 +175,8 @@ class ilCOPageImporter extends ilXmlImporter
 					if (ilPageObject::_exists($id[0], $id[1], $id[2], true))
 					{
 						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+
+						/** @var ilPageObject $new_page */
 						$new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
 						$new_page->buildDom();
 						$med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
