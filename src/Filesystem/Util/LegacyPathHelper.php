@@ -53,7 +53,7 @@ final class LegacyPathHelper {
 			case strpos($absolutePath, realpath(ILIAS_ABSOLUTE_PATH . '/Customizing')) === 0:
 				return self::filesystems()->customizing();
 			default:
-				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
+				throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: {$absolutePath}");
 		}
 	}
 
@@ -123,7 +123,7 @@ final class LegacyPathHelper {
 			case strpos($absolutePath, realpath($customizing)) === 0:
 				return substr($absolutePath, strlen(realpath($customizing)) + 1);                             //also remove the trailing slash
 			default:
-				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
+				throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: {$absolutePath}");
 		}
 	}
 
