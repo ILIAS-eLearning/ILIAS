@@ -359,6 +359,8 @@ assessment#:#add_questionpool#:#Fragenpool hinzufügen###deprecated
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#add_solution#:#Hinweis auf Inhalte zur Wiederholung hinzufügen###deprecated
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
+assessment#:#tst_answer_aggr_answer_header#:#Antwort
+assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
@@ -6927,8 +6929,8 @@ crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift###deprecated
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
 crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
-crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
-crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
+crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen (ab morgen)
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen (bis einschließlich gestern)
 crs#:#sess_print_attendance_list#:#Liste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
@@ -12255,12 +12257,12 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_view#:#Seitenvorlage löschen
+dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
-dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
@@ -12425,7 +12427,6 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
@@ -13766,6 +13767,7 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
+cntr#:#msg_no_downloadable_objects#:#Keine herunterladbaren Objekte gefunden.
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
@@ -15971,3 +15973,4 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable

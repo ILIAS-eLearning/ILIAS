@@ -886,6 +886,7 @@ class ilAccountRegistrationGUI
 			true,
 			ilSession::get('registered_user')
 		);
+		ilInitialisation::initUserAccount();
 		return ilInitialisation::redirectToStartingPage();
 	}
 

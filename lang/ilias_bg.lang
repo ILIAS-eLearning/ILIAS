@@ -11497,10 +11497,10 @@ common#:#il_blog_contributor#:#Blog Contributor###28 09 2012 new variable
 rbac#:#blog_contribute#:#User can contribute###28 09 2012 new variable
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###28 09 2012 new variable
-dcl#:#dcl_empty_view#:#Delete this View###28 09 2012 new variable
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?###28 09 2012 new variable
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
-dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
+dcl#:#dcl_empty_detailed_view#:#Delete this View###28 09 2012 new variable
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this view?###28 09 2012 new variable
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
+dcl#:#dcl_empty_detailed_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
 rating#:#rating_number_votes#:#%s Ratings###28 09 2012 new variable
 administration#:#system_check_no_owner#:#Ownerless Objects###28 09 2012 new variable
 blog#:#blog_import#:#Import Blog###28 09 2012 new variable
@@ -15969,3 +15969,5 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on an
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
 chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable

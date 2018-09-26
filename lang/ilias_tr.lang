@@ -6725,8 +6725,8 @@ dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Eğer gerçekten bu alanda silmek istiyor musunuz?
 dcl#:#dcl_confirm_delete_record#:#Bu kayıt silinsin mi?
 dcl#:#dcl_confirm_delete_table#:#Eğer gerçekten içerik ve yapısı ile bu tabloyu silmek istediğinizden emin misiniz?
-dcl#:#dcl_confirm_delete_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
-dcl#:#dcl_confirm_delete_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Bu tablonun kayıtları Viewdefinition geri dönülmez silinecektir, kayıtlar ve alanlar kendileri değişmeyecektir.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Eğer gerçekten bu görünümü silmek istediğinizden emin misiniz?
 dcl#:#dcl_copy#:#Kopya Veri Toplama
 dcl#:#dcl_create_field#:#Oluştur Alan
 dcl#:#dcl_datatype#:#Datatipi
@@ -6752,8 +6752,8 @@ dcl#:#dcl_edit_type_non_info#:#Yeni Kayıt Oluşturma ayarları düzenle izniniz
 dcl#:#dcl_edit_type_unlim#:#Sınırsız###deprecated 
 dcl#:#dcl_edit_type_unlim_info#:#Düzenleme / ekleme izni olan Kullanıcıları girdilerini eklemek / düzenlemek###deprecated 
 dcl#:#dcl_editable_in_table_gui#:#tablo görünümünde oy lütfen.
-dcl#:#dcl_empty_view#:#Bu Görünümü sil
-dcl#:#dcl_empty_view_success#:#Viewdefinition başarıyla silindi.
+dcl#:#dcl_empty_detailed_view#:#Bu Görünümü sil
+dcl#:#dcl_empty_detailed_view_success#:#Viewdefinition başarıyla silindi.
 dcl#:#dcl_export#:#Dışa Aktar###deprecated 
 dcl#:#dcl_export_table_excel#:#.xls Dışa Aktar###deprecated 
 dcl#:#dcl_field_datatype#:#Alan Datatipi
@@ -15969,3 +15969,5 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on an
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
 chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
 chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable
