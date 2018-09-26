@@ -41,6 +41,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
@@ -56,7 +57,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/** @var ilObjTest $object */
 	public $object = null;
-
+	
 	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
 	private $testQuestionSetConfigFactory = null;
 	
@@ -654,6 +655,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				require_once './Modules/Test/classes/class.ilScoringAdjustmentGUI.php';
 				$gui = new ilScoringAdjustmentGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case 'iltestcorrectionsgui':
+				$this->prepareOutput();
+				require_once './Modules/Test/classes/class.ilTestCorrectionsGUI.php';
+				$gui = new ilTestCorrectionsGUI($DIC, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			

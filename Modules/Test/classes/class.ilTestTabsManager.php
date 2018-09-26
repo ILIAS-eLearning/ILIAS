@@ -653,6 +653,11 @@ class ilTestTabsManager
 			);
 		}
 		
+		// NEW CORRECTIONS TAB
+		$this->tabs->addTab(self::TAB_ID_CORRECTION."2", self::TAB_ID_CORRECTION."2",
+			$DIC->ctrl()->getLinkTargetByClass('ilTestCorrectionsGUI')
+		);
+		
 		if ($this->checkStatisticsTabAccess()  && !$this->isHiddenTab(self::TAB_ID_STATISTICS))
 		{
 			// statistics tab
