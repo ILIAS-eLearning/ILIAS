@@ -26,6 +26,12 @@ class ilCertificateCron extends \ilCronJob
 	/** @var \ilCertificateValueReplacement */
 	private $valueReplacement;
 
+	/** @var ilCertificateObjectHelper|null */
+	private $objectHelper;
+
+	/** @var \ILIAS\DI\Container */
+	private $dic;
+
 	/**
 	 * @param ilCertificateQueueRepository $queueRepository
 	 * @param ilCertificateTemplateRepository $templateRepository
@@ -33,6 +39,8 @@ class ilCertificateCron extends \ilCronJob
 	 * @param ilCertificateValueReplacement|null $valueReplacement
 	 * @param ilLogger|null $logger
 	 * @param \ILIAS\DI\Container|null $dic
+	 * @param ilLanguage|null $language
+	 * @param ilCertificateObjectHelper|null $objectHelper
 	 */
 	public function __construct(
 		ilCertificateQueueRepository $queueRepository = null,
@@ -40,26 +48,31 @@ class ilCertificateCron extends \ilCronJob
 		ilUserCertificateRepository $userRepository = null,
 		ilCertificateValueReplacement $valueReplacement = null,
 		ilLogger $logger = null,
-		\ILIAS\DI\Container $dic = null
-	)
-	{
+		\ILIAS\DI\Container $dic = null,
+		ilLanguage $language = null,
+		ilCertificateObjectHelper $objectHelper = null
+	) {
 		if (null === $dic) {
 			global $DIC;
 			$dic = $DIC;
 		}
+		$this->dic = $dic;
 
 		$this->queueRepository = $queueRepository;
 		$this->templateRepository = $templateRepository;
 		$this->userRepository = $userRepository;
 		$this->valueReplacement = $valueReplacement;
 		$this->logger = $logger;
+		$this->objectHelper = $objectHelper;
 
 		if ($dic) {
 			if (isset($dic['lng'])) {
-				$this->lng = $dic->language();
-				$this->lng->loadLanguageModule('certificate');
+				$language = $dic->language();
+				$language->loadLanguageModule('certificate');
 			}
 		}
+
+		$this->lng = $language;
 	}
 
 	/**
@@ -80,12 +93,15 @@ class ilCertificateCron extends \ilCronJob
 
 	public function init()
 	{
-		global $DIC;
+		if (null === $this->dic) {
+			global $DIC;
+			$this->dic = $DIC;
+		}
 
-		$database = $DIC->database();
+		$database = $this->dic->database();
 
 		if (null === $this->logger) {
-			$this->logger = $DIC->logger()->cert();
+			$this->logger = $this->dic->logger()->cert();
 		}
 
 		if (null === $this->queueRepository) {
@@ -102,6 +118,10 @@ class ilCertificateCron extends \ilCronJob
 
 		if (null === $this->valueReplacement) {
 			$this->valueReplacement = new ilCertificateValueReplacement();
+		}
+
+		if (null === $this->objectHelper) {
+			$this->objectHelper = new ilCertificateObjectHelper();
 		}
 	}
 
@@ -144,10 +164,10 @@ class ilCertificateCron extends \ilCronJob
 
 				$template = $this->templateRepository->fetchTemplate($templateId);
 
-				$object = ilObjectFactory::getInstanceByObjId($objId, false);
+				$object = $this->objectHelper->getInstanceByObjId($objId, false);
 				$type = $object->getType();
 
-				$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
+				$userObject = $this->objectHelper->getInstanceByObjId($userId, false);
 				if (!$userObject || !($userObject instanceof \ilObjUser)) {
 					throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
 				}
