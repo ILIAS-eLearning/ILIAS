@@ -31,6 +31,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+	 * @param ilCertificateSettingsFormRepository|null $settingsFormRepository
 	 */
 	public function __construct(
 		int $objectId,
@@ -41,21 +42,25 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject
+		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+		ilCertificateSettingsFormRepository $settingsFormRepository = null
 	) {
 		$this->testObject = $testObject;
 		$this->language = $language;
 
-		$this->settingsFromFactory = new ilCertificateSettingsFormRepository(
-			$objectId,
-			$certificatePath,
-			$language,
-			$template,
-			$controller,
-			$access,
-			$toolbar,
-			$placeholderDescriptionObject
-		);
+		if (null === $settingsFormRepository) {
+			$settingsFormRepository = new ilCertificateSettingsFormRepository(
+				$objectId,
+				$certificatePath,
+				$language,
+				$template,
+				$controller,
+				$access,
+				$toolbar,
+				$placeholderDescriptionObject
+			);
+		}
+		$this->settingsFromFactory = $settingsFormRepository;
 	}
 
 	/**
