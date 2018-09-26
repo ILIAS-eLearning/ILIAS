@@ -2438,7 +2438,7 @@
 	<xsl:param name="inline"/>
 	<img border="0">
 		<!-- see 0020796 -->
-		<xsl:if test = "name(..) != 'Paragraph' and name(..) != 'InteractiveImage'">
+		<xsl:if test = "count(ancestor-or-self::Paragraph) = 0 and name(..) != 'InteractiveImage'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "name(..) = 'InteractiveImage'">
