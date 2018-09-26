@@ -12,12 +12,13 @@ use ILIAS\Filesystem\FilesystemsAware;
  * This class should be deprecated with ILIAS 5.5 or earlier.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
  */
 final class LegacyPathHelper {
 
 	use FilesystemsAware;
+
 
 	/**
 	 * Tries to fetch the filesystem responsible for the absolute path.
@@ -26,33 +27,39 @@ final class LegacyPathHelper {
 	 * Relative paths are also detected for the ILIAS web storage like './data/default'
 	 *
 	 *
-	 * @param string $absolutePath          The absolute used for the filesystem search.
+	 * @param string $absolute_path The absolute used for the filesystem search.
+	 *
 	 * @return Filesystem                   The responsible filesystem for the given path.
 	 *
 	 * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
 	 */
-	public static function deriveFilesystemFrom($absolutePath) {
+	public static function deriveFilesystemFrom($absolute_path): Filesystem {
+		list(
+			$web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp
+			)
+			= self::listPaths();
 
 		switch (true) {
-			case strpos($absolutePath, CLIENT_DATA_DIR . "/temp") === 0:
-			case strpos($absolutePath, realpath(CLIENT_DATA_DIR . "/temp")) === 0:
+			case self::checkPossiblePath($temp, $absolute_path):
 				return self::filesystems()->temp();
-
-			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
-			case strpos($absolutePath, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($absolutePath, realpath(ILIAS_WEB_DIR . '/' . CLIENT_ID)) === 0:
-			case strpos($absolutePath, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($absolutePath, CLIENT_WEB_DIR) === 0:
-			case strpos($absolutePath, realpath(CLIENT_WEB_DIR)) === 0:
+			case self::checkPossiblePath($web, $absolute_path):
 				return self::filesystems()->web();
-			case strpos($absolutePath, CLIENT_DATA_DIR) === 0:
-			case strpos($absolutePath, realpath(CLIENT_DATA_DIR)) === 0:
+			case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
+				return self::filesystems()->web();
+			case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
+				return self::filesystems()->web();
+			case self::checkPossiblePath($storage, $absolute_path):
 				return self::filesystems()->storage();
-			case strpos($absolutePath, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-			case strpos($absolutePath, realpath(ILIAS_ABSOLUTE_PATH . '/Customizing')) === 0:
+			case self::checkPossiblePath($customizing, $absolute_path):
 				return self::filesystems()->customizing();
+			case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
+				return self::filesystems()->customizing();
+			case self::checkPossiblePath($libs, $absolute_path):
+				return self::filesystems()->libs();
+			case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
+				return self::filesystems()->libs();
 			default:
-				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
+				throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
 		}
 	}
 
@@ -61,70 +68,108 @@ final class LegacyPathHelper {
 	 * Creates a relative path from an absolute path which starts with a valid storage location.
 	 * The primary use case for this method is to trim the path after the filesystem was fetch via the deriveFilesystemFrom method.
 	 *
-	 * @param string $absolutePath          The path which should be trimmed.
+	 * @param string $absolute_path The path which should be trimmed.
+	 *
 	 * @return string                       The trimmed relative path.
 	 *
 	 * @throws \InvalidArgumentException    Thrown if the path does not start with a valid storage location.
 	 *
 	 * @see LegacyPathHelper::deriveFilesystemFrom()
 	 */
-	public static function createRelativePath($absolutePath) {
+	public static function createRelativePath($absolute_path) {
+		list(
+			$web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp
+			)
+			= self::listPaths();
 
+		switch (true) {
+			// web without ./
+			case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
+				return self::resolveRelativePath($webRelativeWithoutLeadingDot, $absolute_path);
+			// web with ./
+			case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
+				return self::resolveRelativePath($webRelativeWithLeadingDot, $absolute_path);
+			// web/
+			case self::checkPossiblePath($web, $absolute_path):
+				return self::resolveRelativePath($web, $absolute_path);
+			// temp/
+			case self::checkPossiblePath($temp, $absolute_path):
+				return self::resolveRelativePath($temp, $absolute_path);
+			// iliasdata/
+			case self::checkPossiblePath($storage, $absolute_path):
+				return self::resolveRelativePath($storage, $absolute_path);
+			// Customizing/
+			case self::checkPossiblePath($customizing, $absolute_path):
+				return self::resolveRelativePath($customizing, $absolute_path);
+			// ./Customizing/
+			case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
+				return self::resolveRelativePath($customizingRelativeWithLeadingDot, $absolute_path);
+			// libs/
+			case self::checkPossiblePath($libs, $absolute_path):
+				// ./libs
+			case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
+				return self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path);
+			default:
+				throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
+		}
+	}
+
+
+	private static function resolveRelativePath($possible_path, $absolute_path) {
+		$real_possible_path = realpath($possible_path);
+
+		switch (true) {
+			case $possible_path === $absolute_path:
+			case $real_possible_path === $absolute_path:
+				return "";
+			case strpos($absolute_path, $possible_path) === 0:
+				return substr($absolute_path, strlen($possible_path) + 1);                             //also remove the trailing slash
+			case strpos($absolute_path, $real_possible_path) === 0:
+				return substr($absolute_path, strlen($real_possible_path) + 1);                             //also remove the trailing slash
+			default:
+				throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
+		}
+	}
+
+
+	/**
+	 * @param string $possible_path
+	 * @param string $absolute_path
+	 *
+	 * @return bool
+	 */
+	private static function checkPossiblePath($possible_path, $absolute_path) {
+		$real_possible_path = realpath($possible_path);
+
+		switch (true) {
+			case $possible_path === $absolute_path:
+				return true;
+			case $real_possible_path === $absolute_path:
+				return true;
+			case strpos($absolute_path, $possible_path) === 0:
+				return true;
+			case strpos($absolute_path, $real_possible_path) === 0:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private static function listPaths() {
 		$web = CLIENT_WEB_DIR;
 		$webRelativeWithLeadingDot = './' . ILIAS_WEB_DIR . '/' . CLIENT_ID;
 		$webRelativeWithoutLeadingDot = ILIAS_WEB_DIR . '/' . CLIENT_ID;
 		$storage = CLIENT_DATA_DIR;
 		$customizing = ILIAS_ABSOLUTE_PATH . '/Customizing';
+		$customizingRelativeWithLeadingDot = './Customizing';
+		$libs = ILIAS_ABSOLUTE_PATH . '/libs';
+		$libsRelativeWithLeadingDot = "./libs";
 		$temp = CLIENT_DATA_DIR . "/temp";
 
-		switch (true) {
-			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
-			case $webRelativeWithoutLeadingDot === $absolutePath:
-			case realpath($webRelativeWithoutLeadingDot) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $webRelativeWithoutLeadingDot) === 0:
-				return substr($absolutePath, strlen($webRelativeWithoutLeadingDot)  + 1);           //also remove the trailing slash
-			case strpos($absolutePath, realpath($webRelativeWithoutLeadingDot)) === 0:
-				return substr($absolutePath, strlen(realpath($webRelativeWithoutLeadingDot))  + 1);           //also remove the trailing slash
-			case $webRelativeWithLeadingDot === $absolutePath:
-			case realpath($webRelativeWithLeadingDot) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $webRelativeWithLeadingDot) === 0:
-				return substr($absolutePath, strlen($webRelativeWithLeadingDot)  + 1);              //also remove the trailing slash
-			case strpos($absolutePath, realpath($webRelativeWithLeadingDot)) === 0:
-				return substr($absolutePath, strlen(realpath($webRelativeWithLeadingDot))  + 1);              //also remove the trailing slash
-			case $web === $absolutePath:
-			case realpath($web) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $web) === 0:
-				return substr($absolutePath, strlen($web)  + 1);                                    //also remove the trailing slash
-			case strpos($absolutePath, realpath($web)) === 0:
-				return substr($absolutePath, strlen(realpath($web))  + 1);                                    //also remove the trailing slash
-			case $temp === $absolutePath:
-			case realpath($temp) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $temp) === 0:
-				return substr($absolutePath, strlen($temp) + 1);                                    //also remove the trailing slash
-			case strpos($absolutePath, realpath($temp)) === 0:
-				return substr($absolutePath, strlen(realpath($temp)) + 1);                                    //also remove the trailing slash
-			case $storage === $absolutePath:
-			case realpath($storage) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $storage) === 0:
-				return substr($absolutePath, strlen($storage) + 1);                                 //also remove the trailing slash
-			case strpos($absolutePath, realpath($storage)) === 0:
-				return substr($absolutePath, strlen(realpath($storage)) + 1);                                 //also remove the trailing slash
-			case $customizing === $absolutePath:
-			case realpath($customizing) === $absolutePath:
-				return "";
-			case strpos($absolutePath, $customizing) === 0:
-				return substr($absolutePath, strlen($customizing) + 1);                             //also remove the trailing slash
-			case strpos($absolutePath, realpath($customizing)) === 0:
-				return substr($absolutePath, strlen(realpath($customizing)) + 1);                             //also remove the trailing slash
-			default:
-				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
-		}
+		return array($web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp);
 	}
-
-
 }
