@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Visibility;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @version 1.0.0
- * @since 5.3.4
+ * @since   5.3.4
  */
 final class FilesystemWhitelistDecorator implements Filesystem {
 
@@ -92,7 +92,7 @@ final class FilesystemWhitelistDecorator implements Filesystem {
 		foreach ($contentList as $content) {
 
 			//ignore the directories and only copy the files
-			if($content->isFile()) {
+			if ($content->isFile()) {
 
 				//create destination path
 				$position = strpos($content->getPath(), $source);
@@ -268,6 +268,7 @@ final class FilesystemWhitelistDecorator implements Filesystem {
 		);
 	}
 
+
 	/**
 	 * Ensures that the given path does not exist or is empty.
 	 *
@@ -280,11 +281,10 @@ final class FilesystemWhitelistDecorator implements Filesystem {
 		//check if destination dir is empty
 		try {
 			$destinationContent = $this->listContents($path, true);
-			if(count($destinationContent) !== 0)
+			if (count($destinationContent) !== 0) {
 				throw new IOException("Destination \"$path\" is not empty can not copy files.");
-		}
-		catch (DirectoryNotFoundException $ex)
-		{
+			}
+		} catch (DirectoryNotFoundException $ex) {
 			//nothing needs to be done the destination was not found
 		}
 	}
@@ -300,8 +300,8 @@ final class FilesystemWhitelistDecorator implements Filesystem {
 	 */
 	private function ensureDirectoryExistence(string $path) {
 
-		if(!$this->hasDir($path))
+		if (!$this->hasDir($path)) {
 			throw new DirectoryNotFoundException("Directory \"$path\" not found.");
-
+		}
 	}
 }
