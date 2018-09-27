@@ -164,6 +164,9 @@ class ilCOPageImporter extends ilXmlImporter
 		$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
 		$media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
 		$file_objects = $a_mapping->getMappingsOfEntity("Modules/File", "file");
+
+		$ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');
+
 		//if (count($media_objects) > 0 || count($file_objects) > 0)
 		//{
 			foreach ($pages as $p)
@@ -181,6 +184,7 @@ class ilCOPageImporter extends ilXmlImporter
 						$new_page->buildDom();
 						$med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
 						$fil = $new_page->resolveFileItems($file_objects);
+						$new_page->resolveResources($ref_mapping);
 						$il = false;
 						if (!$this->config->getSkipInternalLinkResolve())
 						{
