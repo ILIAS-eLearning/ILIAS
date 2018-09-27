@@ -25,6 +25,3 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 ```
 
 If you additionally want to emphasize certain words (mostly titles) in your text, please use the method `$this->getEmphasizedTitle($string)`.
-
-
-
