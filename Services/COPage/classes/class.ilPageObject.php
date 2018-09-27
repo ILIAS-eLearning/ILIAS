@@ -5328,7 +5328,16 @@ abstract class ilPageObject
 		return $file_obj_ids;
 	}
 
-
+	/**
+	 * Resolve resources
+	 * @todo: move this into proper "afterImport" routine that calls all PC components
+	 */
+	public function resolveResources($ref_mapping)
+	{
+		include_once("./Services/COPage/classes/class.ilPCResources.php");
+		ilPCResources::resolveResources($this, $ref_mapping);
+	}
+	
 
 
 }
