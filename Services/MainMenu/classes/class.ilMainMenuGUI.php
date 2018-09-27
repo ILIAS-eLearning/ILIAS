@@ -83,6 +83,11 @@ class ilMainMenuGUI
 	protected $mode; // [int]
 	protected $topbar_back_url; // [stringt]
 	protected $topbar_back_caption; // [string]
+
+	/**
+	 * @var ilLearningHistoryService
+	 */
+	protected $learing_history;
 	
 	const MODE_FULL = 1;
 	const MODE_TOPBAR_ONLY = 2;
@@ -118,6 +123,8 @@ class ilMainMenuGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->help = $DIC["ilHelp"];
 		$this->ui = $DIC->ui();
+		$this->learing_history = $DIC->learningHistory();
+
 		$rbacsystem = $DIC->rbac()->system();
 		$ilUser = $DIC->user();
 		
@@ -665,12 +672,16 @@ class ilMainMenuGUI
 				$separator = true;
 			}
 
-			$lng->loadLanguageModule("lhist");
-			$gl->addEntry($lng->txt("lhist_learning_history"), $this->ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilLearningHistoryGUI"]),
-				"_top", "", "", "mm_pd_lhist", ilHelp::getMainMenuTooltip("mm_pd_lhist"),
-				"left center", "right center", false);
+			// learning history
+			if ($this->learing_history->isActive())
+			{
+				$lng->loadLanguageModule("lhist");
+				$gl->addEntry($lng->txt("lhist_learning_history"), $this->ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilLearningHistoryGUI"]),
+					"_top", "", "", "mm_pd_lhist", ilHelp::getMainMenuTooltip("mm_pd_lhist"),
+					"left center", "right center", false);
 
-			$separator = true;
+				$separator = true;
+			}
 
 			// skills
 			$skmg_set = new ilSetting("skmg");
