@@ -156,16 +156,18 @@ abstract class ilDataSet
 	/**
 	 * Get data from query.This is a standard procedure,
 	 * all db field names are directly mapped to abstract fields.
-	 * 
-	 * @param
-	 * @return
+	 * @param string $a_query
+	 * @param bool $a_convert_to_leading_upper
+	 * @param bool $a_set should internal data array already be set?
+	 * @return array
 	 */
-	function getDirectDataFromQuery($a_query, $a_convert_to_leading_upper = true)
+	function getDirectDataFromQuery($a_query, $a_convert_to_leading_upper = true, $a_set = true)
 	{
 		global $ilDB;
 		
 		$set = $ilDB->query($a_query);
 		$this->data = array();
+		$ret = [];
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
 			if ($a_convert_to_leading_upper)
@@ -179,8 +181,13 @@ abstract class ilDataSet
 				$rec = $tmp;
 			}
 
-			$this->data[] = $rec;
+			if ($a_set)
+			{
+				$this->data[] = $rec;
+			}
+			$ret[] = $rec;
 		}
+		return $ret;
 	}
 
 	/**
