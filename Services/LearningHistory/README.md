@@ -20,8 +20,8 @@ The learning history service will try to determine a parent course using the opt
 
 E.g. the learning progress uses these language variables:
 ```
-trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 ```
 
 If you additionally want to emphasize certain words (mostly titles) in your text, please use the method `$this->getEmphasizedTitle($string)`.
