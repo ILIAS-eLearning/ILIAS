@@ -834,6 +834,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
+		global $DIC;
+
 		$form = $this->initEditForm();
 
 		if(!$form->checkInput())
@@ -943,7 +945,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-		
+
+		// custom icon
+		$DIC->object()->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1096,6 +1101,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function initEditForm()
 	{
+		global $DIC;
+
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
@@ -1336,9 +1343,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
-		
-		$form->addItem($pres);		
-		
+
+		$form->addItem($pres);
+
+		// custom icon
+		$form = $DIC->object()->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
