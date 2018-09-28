@@ -23,13 +23,20 @@ class ilObjectService
 	protected $settings;
 
 	/**
+	 * @var \ILIAS\Filesystem\Filesystems
+	 */
+	protected $filesystem;
+
+	/**
 	 * Constructor
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(ilLanguage $lng, ilSetting $settings)
+	public function __construct(ilLanguage $lng, ilSetting $settings, \ILIAS\Filesystem\Filesystems $filesystem, \ILIAS\FileUpload\FileUpload $upload)
 	{
 		$this->lng = $lng;
 		$this->settings = $settings;
+		$this->filesystem = $filesystem;
+		$this->upload = $upload;
 	}
 
 	/**
@@ -51,6 +58,25 @@ class ilObjectService
 	{
 		return $this->settings;
 	}
+
+	/**
+	 * Get filesystems
+	 * @return \ILIAS\Filesystem\Filesystems
+	 */
+	public function filesystem()
+	{
+		return $this->filesystem;
+	}
+
+	/**
+	 * Get filesystems
+	 * @return \ILIAS\FileUpload\FileUpload
+	 */
+	public function upload()
+	{
+		return $this->upload;
+	}
+
 
 	/**
 	 * Factory for learning history entries

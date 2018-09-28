@@ -3549,7 +3549,45 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $form;
 	}
-	
+
+	/**
+	 * Add list presentation settings to form
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initListPresentationForm(ilPropertyFormGUI $form)
+	{
+		$lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
+
+		$item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
+		//$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+		$lpres->addOption($item_list);
+
+		$tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
+		//$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+		$lpres->addOption($tile_view);
+
+		$lpres->setValue(
+			ilContainer::_lookupContainerSetting($this->object->getId(), "list_presentation"));
+
+		$form->addItem($lpres);
+
+		return $form;
+	}
+
+	/**
+	 * Save list presentation setting
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function saveListPresentation(ilPropertyFormGUI $form)
+	{
+		$val = ($form->getInput('list_presentation') == "tile")
+			? "tile"
+			: "";
+		ilContainer::_writeContainerSetting($this->object->getId(), "list_presentation", $val);
+	}
+
+
 	/**
 	 * Add sorting direction
 	 * @param ilFormPropertyGUI $element

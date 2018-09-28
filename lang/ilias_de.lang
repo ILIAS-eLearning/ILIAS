@@ -14,7 +14,12 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+cont#:#cont_list_presentation#:#Anzeige der Objekte
+cont#:#cont_item_list#:#Liste
+cont#:#cont_tile_view#:#Kacheln
 fold#:#fold_presentation#:#Präsentation
+obj#:#obj_tile_image#:#Kachelbild
+obj#:#obj_tile_image_info#:#Das Kachebild wird genutzt, wenn der übergeordnete Container (Kurs, Gruppe, Ordner) die Kachelansicht aktiviert.
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt

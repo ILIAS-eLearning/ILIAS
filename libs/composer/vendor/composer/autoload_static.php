@@ -5672,6 +5672,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectServiceSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
         'ilObjectSubItemListGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectSubItemListGUI.php',
         'ilObjectTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTableGUI.php',
+        'ilObjectTileImage' => __DIR__ . '/../..' . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImage.php',
+        'ilObjectTileImageFactory' => __DIR__ . '/../..' . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImageFactory.php',
         'ilObjectTranslation' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslation.php',
         'ilObjectTranslation2TableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslation2TableGUI.php',
         'ilObjectTranslationGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslationGUI.php',

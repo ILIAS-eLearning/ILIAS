@@ -77,6 +77,61 @@ class ilObjectCommonSettingFormAdapter
 
 	}
 	
-	
+	/**
+	 * Add tile image
+	 *
+	 * @return null|ilPropertyFormGUI
+	 */
+	public function addTileImage()
+	{
+		$lng = $this->service->language();
+		$tile_image_fac = $this->service->commonSettings()->tileImage();
+
+		if (!is_null($this->legacy_form))
+		{
+			$this->legacy_form = clone $this->legacy_form;
+
+			$tile_image = $tile_image_fac->getByObjId($this->object->getId());
+
+			$timg = new \ilImageFileInputGUI($lng->txt('obj_tile_image'), 'tile_image');
+			$timg->setInfo($lng->txt('obj_tile_image_info'));
+			$timg->setSuffixes($tile_image_fac->getSupportedFileExtensions());
+			$timg->setUseCache(false);
+			if ($tile_image->exists()) {
+				$timg->setImage($tile_image->getFullPath());
+			} else {
+				$timg->setImage('');
+			}
+			$this->legacy_form->addItem($timg);
+		}
+
+		return $this->legacy_form;
+	}
+
+	/**
+	 * Save tile image
+	 */
+	public function saveTileImage()
+	{
+		$tile_image_fac = $this->service->commonSettings()->tileImage();
+
+		if (!is_null($this->legacy_form))
+		{
+			$tile_image = $tile_image_fac->getByObjId($this->object->getId());
+
+			/** @var \ilImageFileInputGUI $item */
+			$item = $this->legacy_form->getItemByPostVar('tile_image');
+			if ($item->getDeletionFlag()) {
+				$tile_image->remove();
+			}
+
+			$file_data = (array)$this->legacy_form->getInput('tile_image');
+			if ($file_data['tmp_name']) {
+				$tile_image->saveFromHttpRequest();
+			}
+		}
+	}
+
+
 
 }

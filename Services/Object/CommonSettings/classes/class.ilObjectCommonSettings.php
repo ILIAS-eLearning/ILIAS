@@ -24,6 +24,16 @@ class ilObjectCommonSettings
 	}
 
 	/**
+	 * Tile image subservice. Tile images are used in deck of cards view of repository containers.
+	 *
+	 * @return ilObjectTileImageFactory
+	 */
+	public function tileImage()
+	{
+		return new ilObjectTileImageFactory($this->service);
+	}
+
+	/**
 	 * Get form adapter (currently only for legacy form using ilPropertyFormGUI).
 	 * @todo In the future a method form() should act on new ui form containers.
 	 *

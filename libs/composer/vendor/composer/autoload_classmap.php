@@ -5428,6 +5428,8 @@ return array(
     'ilObjectServiceSettingsGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
     'ilObjectSubItemListGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectSubItemListGUI.php',
     'ilObjectTableGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTableGUI.php',
+    'ilObjectTileImage' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImage.php',
+    'ilObjectTileImageFactory' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImageFactory.php',
     'ilObjectTranslation' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslation.php',
     'ilObjectTranslation2TableGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslation2TableGUI.php',
     'ilObjectTranslationGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslationGUI.php',

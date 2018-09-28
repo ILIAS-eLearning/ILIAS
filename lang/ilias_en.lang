@@ -14,6 +14,11 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+cont#:#cont_list_presentation#:#Item Presentation
+cont#:#cont_item_list#:#List
+cont#:#cont_tile_view#:#Tiles
+obj#:#obj_tile_image#:#Tile Image
+obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.
 fold#:#fold_presentation#:#Folder Presentation
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability

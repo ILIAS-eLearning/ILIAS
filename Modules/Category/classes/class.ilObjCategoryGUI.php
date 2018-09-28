@@ -767,9 +767,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('obj_presentation'));
 		$form->addItem($pres);
 
+
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
+		// sorting
 		$form = $this->initSortingForm(
 				$form,
 				array(
@@ -844,11 +849,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->object->setTitle($title);
 				$this->object->setDescription($desc);
 				$this->object->update();
-				
+
 				$this->saveSortingSettings($form);
 
 				// custom icon
 				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+				// list presentation
+				$this->saveListPresentation($form);
 
 				// BEGIN ChangeEvent: Record update
 				require_once('Services/Tracking/classes/class.ilChangeEvent.php');

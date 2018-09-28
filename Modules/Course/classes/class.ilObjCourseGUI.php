@@ -949,6 +949,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		// custom icon
 		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1349,6 +1353,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
