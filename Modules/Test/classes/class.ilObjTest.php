@@ -7285,7 +7285,12 @@ function getAnswerFeedbackPoints()
 	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+
+		$certificateLogger = $DIC->logger()->cert();
+		$tree = $DIC['tree'];
+		$ilDB = $DIC->database();
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$this->loadFromDb();
 
@@ -7384,10 +7389,12 @@ function getAnswerFeedbackPoints()
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
-			$ilLog,
 			$ilDB,
 			$factory,
-			$templateRepository
+			$templateRepository,
+			$DIC->filesystem()->web(),
+			$certificateLogger,
+			new ilCertificateObjectHelper()
 		);
 
 		$cloneAction->cloneCertificate($this, $newObj);

@@ -53,6 +53,11 @@ class ilObjExercise extends ilObject
 	protected $completion_by_submission = false;
 
 	/**
+	 * @var \ILIAS\Filesystem\Filesystem
+	 */
+	private $webFilesystem;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -68,6 +73,8 @@ class ilObjExercise extends ilObject
 		$this->user = $DIC->user();
 		$this->setPassMode("all");
 		$this->type = "exc";
+		$this->webFilesystem = $DIC->filesystem()->web();
+
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
@@ -267,10 +274,12 @@ class ilObjExercise extends ilObject
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
-			$ilLog,
 			$ilDB,
 			$factory,
-			$templateRepository
+			$templateRepository,
+			$this->webFilesystem,
+			$this->log,
+			new ilCertificateObjectHelper()
 		);
 
 		$cloneAction->cloneCertificate($this, $new_obj);

@@ -58,6 +58,7 @@ class ilCertificateCloneAction
 		$this->templateRepository = $templateRepository;
 
 		if (null === $logger) {
+			global $DIC;
 			$logger = $DIC->logger()->cert();
 		}
 		$this->logger = $logger;

@@ -139,6 +139,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param ilCertificateGUI $certificateGUI
 	 * @param ilCertificate $certificateObject
 	 * @return ilPropertyFormGUI
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 * @throws ilException
 	 * @throws ilWACException
 	 */
