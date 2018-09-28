@@ -361,10 +361,14 @@ copy process of an Service/Module.
 #### Delete
 
 The delete action will activated via a button
-in the form.
+in the template form.
 
 Custom delete action can be created by implementing
-the Interface `ilCertificateDeleteAction`.
+the Interface `ilCertificateDeleteAction`,
+but every template form SHOULD use at least
+an Implementation of `ilCertificateTemplateDeleteAction`.
+
+The actions will be added via `ilCertificateGUIFactory`
 
 #### Preview
 
