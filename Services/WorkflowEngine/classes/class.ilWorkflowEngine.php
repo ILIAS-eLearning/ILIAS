@@ -74,6 +74,11 @@ class ilWorkflowEngine
 			foreach ($workflows as $workflow_id)
 			{
 				$wf_instance = ilWorkflowDbHelper::wakeupWorkflow($workflow_id);
+				if($wf_instance == null)
+				{
+					continue;
+				}
+
 				$wf_instance->handleEvent(
 					array(
 						$type,
