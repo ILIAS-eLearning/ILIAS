@@ -75,7 +75,7 @@ A configuration file must be created in the menu
 Start the server with the configuration file and enter
 the required values into the form.
 
-After being started the server is ready to be uesed
+After being started the server is ready to be used
 to create PDF files.
 
 ### Certificate Settings
@@ -100,6 +100,14 @@ and has been set to `Active`
 will be used to create the user certificate.
 
 A change to a previous version is currently not supported.
+
+## GUI
+
+The table with persisted user certificates will be displayed
+in a separated tab in `Personal Desktop -> Badges`.
+
+The subtab `Certificate` is only visible when certificates
+are activates via the [certificate settings](#certificate-settings).
 
 ## Implementation for new Services/Module
 
@@ -445,7 +453,7 @@ the achieved certificates.
 
 ### User Certificates
 
-User certificates will be imported per user via background
+User certificates will be imported per user via a background
 task.
 This background task, will be executed by the user via the
-GUI.
+[GUI](#gui).
