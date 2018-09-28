@@ -336,13 +336,9 @@ overview#:#Übersicht
 pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein.
 passwd_not_match#:#Die eingebenen Passwörter stimmen nicht überein! Bitte geben Sie ihr neues Passwort erneut ein.
 password_changed#:#Das Passwort wurde geändert.
-password_empty#:#Kein Passwort angegeben!
-password_enter_old#:#Bitte geben Sie zuerst Ihr altes Passwort ein!
+password_old_wrong#:#Falsches Passwort
 password_info#:#Um das Setup-Programm vor unbefugtem Zugriff durch Dritte zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um später diese Einstellungen zu ändern oder neue Mandanten anzulegen.
 password_new_master#:#Administrator-Passwort ändern
-password_not_match#:#Passworteingaben stimmen nicht überein.
-password_old_wrong#:#Falsches Passwort
-password_retype#:#Passwort wiederholen
 password_same#:#Altes und neues Passwort sind gleich.
 password_set#:#Das Passwort wurde gespeichert.
 password#:#Passwort

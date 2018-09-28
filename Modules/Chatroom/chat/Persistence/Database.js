@@ -448,7 +448,9 @@ var Database = function Database(config) {
 		if (typeof Object.values === "function") {
 			return Object.values(participantsJson);
 		} else {
-			return Object.keys(participantsJson).map((k) => participantsJson[k]);
+			return Object.keys(participantsJson).map(function(k) {
+				return participantsJson[k]
+			});
 		}
 	}
 

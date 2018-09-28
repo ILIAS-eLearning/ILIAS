@@ -420,30 +420,20 @@ class ilPersonalSettingsGUI
 	/**
 	* Check, whether password change is allowed for user
 	*/
-	function allowPasswordChange()
+	protected function allowPasswordChange()
 	{
-		global $ilUser, $ilSetting;
-		
-		
-		return ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
-		
-		// Moved to ilAuthUtils
-		
-		// do nothing if auth mode is not local database
-		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
-			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
-			)
-		{
+		global $ilUser;
+
+		if (\ilSession::get('used_external_auth')) {
 			return false;
 		}
-		if (!$this->userSettingVisible('password') ||
-			$this->ilias->getSetting('usr_settings_disable_password'))
-		{
-			return false;
-		}		
-		return true;
+
+		$status = ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
+		if ($status) {
+			return true;
+		}
+
+		return \ilAuthUtils::isPasswordModificationHidden() && ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired());
 	}
 	
 	/**

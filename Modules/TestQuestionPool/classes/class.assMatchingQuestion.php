@@ -1470,8 +1470,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getTerms() as $term)
 		{
 			$terms[] = array(
-				"text" => $term->text,
-				"id" =>(int)$term->identifier
+				"text" => $this->formatSAQuestion($term->text),
+				"id" =>(int)$this->getId().$term->identifier
 			);
 		}
 		$result['terms'] = $terms;
@@ -1487,7 +1487,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->getDefinitions() as $def)
 		{
 			$definitions[] = array(
-				"text" => (string) $def->text,
+				"text" => $this->formatSAQuestion((string) $def->text),
 				"id" => (int) $this->getId().$def->identifier
 			);
 		}
@@ -1496,7 +1496,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// #10353
 		$matchings = array();
 		foreach ($this->getMatchingPairs() as $pair)
-		{			
+		{
+// fau: fixLmMatchingPoints - ignore matching pairs with 0 or negative points
+			if ($pair->points <= 0)
+			{
+				continue;
+			}
+// fau.
+
 			$pid = $pair->definition->identifier;
 			if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
 			{
@@ -1506,7 +1513,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if( !isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points )
 			{
 				$matchings[$pid] = array(
-					"term_id" => (int) $pair->term->identifier,
+					"term_id" => (int) $this->getId().$pair->term->identifier,
 					"def_id" => (int) $this->getId().$pair->definition->identifier,
 					"points" => (int) $pair->points
 				);

@@ -1049,7 +1049,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$parts = pathinfo($file_name);
 		$full_path = $import_dir."/".$file_name;
-		//move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
 		ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"], $file_name, $full_path);
 
 		// unzip file

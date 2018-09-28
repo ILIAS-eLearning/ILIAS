@@ -11491,10 +11491,10 @@ common#:#il_blog_contributor#:#博客贡献者
 rbac#:#blog_contribute#:#用户可以贡献
 blog#:#blog_contribute_other_roles#:#以下角色给予一个活跃的"贡献"权限：%s 。
 dcl#:#dcl_no_content_warning#:#注意，数据收集是在线的，但还没有内容！
-dcl#:#dcl_empty_view#:#删除这个视图
-dcl#:#dcl_confirm_delete_view_title#:#您确定要删除这个视图？
-dcl#:#dcl_confirm_delete_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
-dcl#:#dcl_empty_view_success#:#视图定义成功被删除。
+dcl#:#dcl_empty_detailed_view#:#删除这个视图
+dcl#:#dcl_confirm_delete_detailed_view_title#:#您确定要删除这个视图？
+dcl#:#dcl_confirm_delete_detailed_view_text#:#这个表的记录的视图定义将被不可逆转的删除，记录和字段自己将不会改变。
+dcl#:#dcl_empty_detailed_view_success#:#视图定义成功被删除。
 rating#:#rating_number_votes#:#%s 评级
 administration#:#system_check_no_owner#:#无主的对象
 blog#:#blog_import#:#导入博客
@@ -15951,3 +15951,22 @@ wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the defin
 wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
 wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
 wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
+dateplaner#:#crs_start#:#Course starts###25 04 2018 new variable
+dateplaner#:#crs_end#:#Course ends###25 04 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.###28 06 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###28 06 2018 new variable
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###28 06 2018 new variable
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable
+ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###08 08 2018 new variable
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new variable

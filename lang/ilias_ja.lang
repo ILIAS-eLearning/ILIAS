@@ -13,7 +13,6 @@
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-acc#:#acc_access_key#:#アクセスキー
 acc#:#acc_access_keys#:#アクセスキー
 acc#:#acc_comp_frm#:#掲示板
 acc#:#acc_comp_global#:#グローバル
@@ -397,6 +396,7 @@ adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
 adve#:#char_selector_user#:#テスト中の特殊文字(Unicode)選択用メニュー
 assessment#:#0_unlimited#:#(0=制限なし)
 assessment#:#action#:#アクション
+assessment#:#question_browse_area_info#:#インポートしたい質問からオブジェクトを選択してください。
 assessment#:#add_answer#:#解答を追加
 assessment#:#add_answer_tf#:#正誤解答
 assessment#:#add_answer_yn#:#はい/いいえ解答
@@ -498,6 +498,7 @@ assessment#:#ass_process_lock_mode_file_desc#:#このロックメカニズムは
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#ass_skl_import_fails_remove_btn#:#このヒントを削除
+assessment#:#ass_txt_char_lim_exhausted_hint#:#回答には%s文字があり文字数上限%sを超えています。
 assessment#:#assClozeTest#:#穴埋め問題
 assessment#:#assErrorText#:#エラーテキスト
 assessment#:#assessment_eval_settings#:#全ユーザの評価結果を次の欄に表示
@@ -636,6 +637,13 @@ assessment#:#ects_fill_out_all_values#:#各ECTS成績の値を入力してくだ
 assessment#:#ects_fx_threshold#:#しきい値
 assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
 assessment#:#ects_grade#:#ECTS成績
+assessment#:#ects_grade_a_desc#:#マイナーなエラーはあるが優秀な成績
+assessment#:#ects_grade_b_desc#:#エラーはあるが平均標準以上
+assessment#:#ects_grade_c_desc#:#著名なエラーはるものの全般的に良さそう
+assessment#:#ects_grade_d_desc#:#かなり欠点ありの良
+assessment#:#ects_grade_e_desc#:#最低基準適合の出来栄え
+assessment#:#ects_grade_f_desc#:#かなりの努力が必要
+assessment#:#ects_grade_fx_desc#:#クレジット受領するには少し努力が必要
 assessment#:#ects_output_of_ects_grades#:#ECTS成績の出力
 assessment#:#ects_range_error_a#:#ECTS成績Aの0～100の値を入力してください!
 assessment#:#ects_range_error_b#:#ECTS成績Bの0～100の値を入力してください!
@@ -1025,7 +1033,7 @@ assessment#:#passed_official#:#合格です
 assessment#:#passed_only#:#テストのみ合格です
 assessment#:#passed_short#:#合格
 assessment#:#passed_status#:#受験状況
-assessment#:#passes_finished#:#合格者数%s
+assessment#:#passes_finished#:#合格数%s
 assessment#:#percentage#:#パーセント
 assessment#:#percentage_solved#:#この問題の %.2f パーセントに解答しました。
 assessment#:#percentile#:#パーセンタイル(百分位数)
@@ -1457,8 +1465,8 @@ assessment#:#tst_ending_time#:#終了時間
 assessment#:#tst_ending_time_desc#:#テスト終了時点の点数: 受験者はこれ以降回答できません、ILIASはテストを終了します。
 assessment#:#tst_enter_questionpool#:#新規問題の保存場所の問題集名
 assessment#:#tst_eval_no_anonymous_aggregation#:#このテストにはだれも入力していません。利用可能な匿名集計テスト結果がありません。
-assessment#:#tst_eval_question_points#:#合格者%sの答案結果
-assessment#:#tst_eval_results_by_pass#:#合格者%sの答案一覧
+assessment#:#tst_eval_question_points#:#完了%sの答案結果
+assessment#:#tst_eval_results_by_pass#:#完了%sの答案一覧
 assessment#:#tst_eval_results_by_pass_lo#:#試み%sの回答リスト
 assessment#:#tst_eval_results_lo#:#回答リスト
 assessment#:#tst_eval_show_answer#:#答案を表示
@@ -1680,7 +1688,7 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#次のテストには�
 assessment#:#tst_nr_of_passes#:#試験数
 assessment#:#tst_nr_of_tries#:#最大受験回数
 assessment#:#tst_nr_of_tries_desc#:#受験者が可能な最大受験回数
-assessment#:#tst_nr_of_tries_of_user#:#完了済み合格者
+assessment#:#tst_nr_of_tries_of_user#:#完了している合格
 assessment#:#tst_num_all_questions#:#全問題数
 assessment#:#tst_num_correct_answered_questions#:#正解問題
 assessment#:#tst_num_marked_questions#:#マーク済問題
@@ -1749,6 +1757,8 @@ assessment#:#tst_processing_time_duration#:#最長テスト時間
 assessment#:#tst_processing_time_duration_desc#:#テスト受験最延長時間
 assessment#:#tst_properties#:#テストプロパティ
 assessment#:#tst_qbt_filter_question_title#:#問題タイトル
+assessment#:#tst_qst_added_to_pool_p#:#選択した問題集へ質問を正しく追加しました。
+assessment#:#tst_qst_added_to_pool_s#:#選択した問題集へ質問を正しく追加しました。
 assessment#:#tst_qst_order#:#順番
 assessment#:#tst_qst_resetsolved#:#未解答設定
 assessment#:#tst_qst_result_sheet#:#結果シートを表示
@@ -1967,6 +1977,7 @@ assessment#:#tst_single_answer_details#:#単一解答を表示
 assessment#:#tst_single_results#:#問題別の結果
 assessment#:#tst_skill_triggerings_num_req_answers#:#能力トリガー用の回答数が必須です。
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#この前に能力はトリガーされなく、問題回答数は能力レベルの計算へ寄与します。
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#このテストによる能力対象の一つは最低必須問題数によるトリガーとはなりません。<br />必須問題数: %s
 assessment#:#tst_skl_level_thresholds_link#:#能力-スレッショールドを構成
 assessment#:#tst_skl_level_thresholds_missing#:#関連する能力のスレッショールドがありません!
 assessment#:#tst_skl_res_interpretation_hint_msg#:#単一テストの能力結果は限定的な意味であることを考慮してください。詳細は能力別に収集されます。何もエントリーのない単一能力は価値のない情報収集になります。
@@ -2043,7 +2054,7 @@ assessment#:#tst_unchanged_order_is_correct#:#プリセット順番は正しい
 assessment#:#tst_use_javascript#:#ドラッグとドロップ操作にJavascriptを使用
 assessment#:#tst_use_previous_answers#:#前回の解答を使用
 assessment#:#tst_use_previous_answers_description#:#受験者には以前のテスト解答が表示されます。このオプションはテスト開始前に受験者個々によりInfoタブを有効する必要があります。
-assessment#:#tst_use_previous_answers_user#:#今後の試験の初期設定値に前回の解答を使用
+assessment#:#tst_use_previous_answers_user#:#回答を続ける際の初期値に前の回答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
 assessment#:#tst_view_competence_assign#:#割り当てプロパティを表示
 assessment#:#tst_virtual_pass_header_lo_initial#:#学習目標に対する最初のテスト結果<br />%s
@@ -2131,7 +2142,7 @@ auth#:#auth_account_migration_name#:#移行
 auth#:#auth_account_migration_new#:#新規ユーザアカウントを作成します。
 auth#:#auth_activation_code_success#:#アカウントは再アクティブにされました。ILIASへログインできます。
 auth#:#auth_auth_settings#:#設定
-auth#:#auth_err_expired#:#使用されていないのでセッションは非アクティブ化されました。
+auth#:#auth_err_expired#:#使用されていないのでセッションは解除されました。
 auth#:#auth_err_invalid_user_account#:#内部不良により認証は失敗しました。
 auth#:#auth_err_ldap_exception#:#内部認証不良(LDAP)により認証は失敗しました。
 auth#:#auth_err_login_attempts_deactivation#:#間違ったログイン操作のためにこのユーザアカウントは無効化されました。
@@ -2289,21 +2300,21 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_urldate#:#URL訪問日
 bibl#:#bib_default_volume#:#Volume
 bibl#:#bib_default_year#:#年
-bibl#:#bibl_add#:#著者目録を追加
+bibl#:#bibl_add#:#文献目録を追加
 bibl#:#bibl_admin_settings#:#設定
-bibl#:#bibl_copy#:#著者目録をコピー
-bibl#:#bibl_edit#:#著者目録を編集
+bibl#:#bibl_copy#:#文献目録をコピー
+bibl#:#bibl_edit#:#文献目録を編集
 bibl#:#bibl_import#:#目録をインポート
 bibl#:#bibl_library_img#:#Image-URL
 bibl#:#bibl_library_name#:#名前
 bibl#:#bibl_library_show_in_list#:#リストのリンクを表示
 bibl#:#bibl_library_url#:#Base-URL
 bibl#:#bibl_link_online#:#目録を参照
-bibl#:#bibl_new#:#新規著者目録
+bibl#:#bibl_new#:#新規文献目録
 bibl#:#bibl_settings_edit#:#ライブラリーを編集
 bibl#:#bibl_settings_libraries#:#ライブラリー
 bibl#:#bibl_settings_new#:#ライブラリーを追加
-bibl#:#bibliography file#:#著者目録ファイル
+bibl#:#bibliography file#:#文献目録ファイル
 bibl#:#detail_view#:#詳細ビュー
 bibl#:#download_original_file#:#オリジナルファイルをダウンロード
 bibl#:#libraries#:#ライブラリ
@@ -2311,7 +2322,7 @@ bibl#:#news_content_created#:#新しい文献リストが追加されました�
 bibl#:#news_content_updated#:#文献リストが変更されました。アイテムへのリンクをクリッックすると新しいエントリーを閲覧できます。
 bibl#:#news_title_created#:#新しい文献リストを追加しました
 bibl#:#news_title_updated#:#文献リストを更新しました。
-bibl#:#obj_bibl_duplicate#:#著者目録を複製
+bibl#:#obj_bibl_duplicate#:#文献目録を複製
 bibl#:#override_entries#:#エントリを上書き
 bibl#:#ris_default_a1#:#第1著者
 bibl#:#ris_default_a2#:#第2著者
@@ -2615,26 +2626,26 @@ buddysystem#:#buddy_bs_action_already_requested#:#すでにユーザ'%s'を要�
 buddysystem#:#buddy_bs_action_already_unlinked#:#ユーザ'%s'のコンタクト状態はすでにリンク解除されています。
 buddysystem#:#buddy_bs_action_not_possible#:#アクションは不可
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#コンタクトを要求
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#要求を無視しました
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#要求を無視
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#リンク済み
 buddysystem#:#buddy_bs_btn_txt_linked_p#:#リンク済み
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#要求したコンタクト
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#要求済みのコンタクト
 buddysystem#:#buddy_bs_btn_txt_requested_p#:#要求
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#コンタクトを要求
 buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#コンタクトを要求
 buddysystem#:#buddy_bs_no_new_requests#:#新規要求なし
-buddysystem#:#buddy_bs_state_ignored_request_a#:#要求しました
-buddysystem#:#buddy_bs_state_ignored_request_p#:#無視しました
-buddysystem#:#buddy_bs_state_ignoredrequest#:#無視しました
-buddysystem#:#buddy_bs_state_linked#:#リンクしました
-buddysystem#:#buddy_bs_state_linked_a#:#リンクしました
-buddysystem#:#buddy_bs_state_linked_p#:#リンクしました
-buddysystem#:#buddy_bs_state_requested#:#要求しました
-buddysystem#:#buddy_bs_state_requested_a#:#要求しました
-buddysystem#:#buddy_bs_state_requested_p#:#要求しました
-buddysystem#:#buddy_bs_state_unlinked#:#リンクが切れました
-buddysystem#:#buddy_bs_state_unlinked_a#:#リンクが切れました
-buddysystem#:#buddy_bs_state_unlinked_p#:#リンクが切れました
+buddysystem#:#buddy_bs_state_ignored_request_a#:#要求済み
+buddysystem#:#buddy_bs_state_ignored_request_p#:#無視
+buddysystem#:#buddy_bs_state_ignoredrequest#:#無視
+buddysystem#:#buddy_bs_state_linked#:#リンク済み
+buddysystem#:#buddy_bs_state_linked_a#:#リンク済み
+buddysystem#:#buddy_bs_state_linked_p#:#リンク済み
+buddysystem#:#buddy_bs_state_requested#:#要求済み
+buddysystem#:#buddy_bs_state_requested_a#:#要求済み
+buddysystem#:#buddy_bs_state_requested_p#:#要求済み
+buddysystem#:#buddy_bs_state_unlinked#:#リンクなし
+buddysystem#:#buddy_bs_state_unlinked_a#:#リンクなし
+buddysystem#:#buddy_bs_state_unlinked_p#:#リンクなし
 buddysystem#:#buddy_enable#:#‘コンタクト’を有効化
 buddysystem#:#buddy_enable_info#:#有効にするとコンタクト要求開始により互いにユーザがコンタクト許可されるようになります。さらに、コンタクトをする準備または許可するパーソナル設定があります。
 buddysystem#:#buddy_handle_contact_request#:#コンタクト要求
@@ -2815,8 +2826,11 @@ chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#チャットサーバは"http(s)://[IP/Domain]/[PATH]"のようなURL付きのサブディレクトリ経由でしかつながらない場合、このチャットサーバには[PATH]の挿入が必要です。
 chatroom#:#chat_osc_no_usr_found#:#検索に合致するユーザを見つけることができませんでした。
 chatroom#:#chat_osc_section_head_other_rooms#:#パブリックチャットルーム
+chatroom#:#chat_osc_self_rej_msgs#:#あなたは設定内の受信メッセージを抑制しているので、この会話に現在加わることはできません。
 chatroom#:#chat_osc_send#:#Send
 chatroom#:#chat_osc_start_conversation#:#会話を開始
+chatroom#:#chat_osc_subs_rej_msgs#:#現在この会話を継続できません。チャットパートナーはチャット設定内のチャットを有効にする必要があります。
+chatroom#:#chat_osc_subs_rej_msgs_p#:#会話中の次のチャットパートナーはこれ以上のメッセージの受信を希望しません: %s
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#グループ会話から本当に外れますか?
 chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_user_left_grp_conv#:#ユーザ '%s'はグループ会話から外れました。
@@ -2922,7 +2936,7 @@ chatroom#:#user_kicked#:#ユーザ<b>#user#</b>はキックされました。
 chatroom#:#users#:#ユーザ
 chatroom#:#welcome_to_chat#:#チャットルームへようこそ
 chatroom#:#whisper_to#:#<b>#user#</b>へささやく。
-chatroom_adm#:#chat_cannot_connect_to_server#:#ILIASはチャットサーバーへIソケット接続できませんでした。
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIASはチャットサーバーへソケット接続できませんでした。
 chatroom_adm#:#chat_enabled#:#チャットを有効にする
 chatroom_adm#:#chat_smilies_dir_not_exists#:#スマイルディレクトリがありません。
 chatroom_adm#:#chat_smilies_initialized#:#チャットスマイルの初期化
@@ -3135,7 +3149,7 @@ common#:#accesscount_registered_users#:#ILIAS登録済ユーザ読込み数
 common#:#accessFree#:#アクセス制限を解除
 common#:#accessRestrict#:#アクセス制限を設定
 common#:#account_expires_body#:#アカウントは制限されています。期限が切れる時間
-common#:#account_expires_subject#:#[ILIAS]はアカウントを破棄
+common#:#account_expires_subject#:#アカウントは期限が切れています
 common#:#action#:#アクション
 common#:#action_aborted#:#失敗したアクション
 common#:#actions#:#アクション
@@ -3580,7 +3594,7 @@ common#:#copy#:#コピー
 common#:#copy_all#:#全てコピー
 common#:#copy_n_of_suffix#:#- コピー (%1$s)
 common#:#copy_of#:#コピー
-common#:#copy_of_suffix#:##NAME?
+common#:#copy_of_suffix#:#- Copy
 common#:#copy_selected_items#:#コピー
 common#:#copy_to#:#to
 common#:#copyChapter#:#コピー
@@ -4811,7 +4825,7 @@ common#:#msg_obj_no_download#:#ダウンロードできません
 common#:#msg_obj_no_link#:#リンクを許可されていません
 common#:#msg_obj_perm_download#:#以下のオブジェクトをダウンロードする適切な権限がありません。
 common#:#msg_paste_object_not_in_itself#:#オブジェクト%s自身を貼付けできません。
-common#:#msg_perm_adopted_from_itself#:#現在の役割/役割テンプレート自体からアクセス権限設定を採用できません。
+common#:#msg_perm_adopted_from_itself#:#現在の役割/役割テンプレート自身からアクセス権限設定を適合できません。
 common#:#msg_perm_adopted_from1#:#からアクセス権限設定を採用
 common#:#msg_perm_adopted_from2#:#(設定は保存されました!)
 common#:#msg_removed#:#オブジェクトはシステムから削除されました。
@@ -4937,9 +4951,9 @@ common#:#obj_awra#:#`誰がオンラインですか？'ツール
 common#:#obj_awra_desc#:#`誰がオンラインですか？’ツールを管理
 common#:#obj_bdga#:#バッジ
 common#:#obj_bdga_desc#:#タイプ、イメージ、テンプレート、アクティビティバッジを管理
-common#:#obj_bibl#:#著者目録
-common#:#obj_bibs#:#著者
-common#:#obj_bibs_desc#:#著者管理
+common#:#obj_bibl#:#文献目録
+common#:#obj_bibs#:#文献目録
+common#:#obj_bibs_desc#:#文献目録管理
 common#:#obj_blog#:#ブログ
 common#:#obj_blog_duplicate#:#ブログをコピー
 common#:#obj_book#:#予約集
@@ -5172,7 +5186,7 @@ common#:#objf_read#:#オブジェクト定義を読み込む
 common#:#objf_visible#:#オブジェクト定義を表示
 common#:#objf_write#:#オブジェクト定義を編集
 common#:#objs_alm#:#AICCラーニングモジュール
-common#:#objs_bibl#:#著者目録
+common#:#objs_bibl#:#文献目録
 common#:#objs_blog#:#ブログ
 common#:#objs_book#:#予約集
 common#:#objs_cat#:#カテゴリ
@@ -6321,8 +6335,8 @@ content#:#cont_back_to_page#:#ページへ戻る
 content#:#cont_base_image#:#ベース画像
 content#:#cont_bb_tip#:#ヒント。 スタイルは選択されたテキストにすぐに適用可能です。
 content#:#cont_behavior#:#動作
-content#:#cont_biblio#:#著者データ
-content#:#cont_biblio_info#:#著者データ機能を有効にする
+content#:#cont_biblio#:#文献目録データ
+content#:#cont_biblio_info#:#文献目録データ機能を有効にする
 content#:#cont_blist#:#中黒(・）リスト
 content#:#cont_Block#:#ブロック
 content#:#cont_blocked_users#:#ブロックされたユーザ
@@ -7283,6 +7297,7 @@ content#:#cont_tracking_data#:#追跡データ
 content#:#cont_tracking_items#:#追跡アイテム
 content#:#cont_tracking_modify#:#データ修正
 content#:#cont_trans_import_info#:#他のインストールの翻訳用XML/マスター言語としてこのモジュールをエクスポートするとこの2番目のインストールから翻訳済エクスポートファイルを再インポートできます。
+content#:#cont_transl_master_language_not_allowed#:#翻訳をインポートするには設定>>多言語化内に追加言語を一つは有効にする必要があります。
 content#:#cont_translations#:#翻訳数
 content#:#cont_translations_assigned#:#翻訳は割当てられました
 content#:#cont_tree_fixed#:#ツリー構造が固定されました。
@@ -7813,7 +7828,7 @@ crs#:#crs_mail_all#:#全受験者
 crs#:#crs_mail_all_info#:#メンバと管理者と指導教員が"メンバ"タブ内の"メンバへメール"機能を使用できます。
 crs#:#crs_mail_context_member_info#:#コースのinfo画面上のコンタクトemail用
 crs#:#crs_mail_context_member_title#:#コースページInfo
-crs#:#crs_mail_context_tutor_info#:#メンバーの受講者emailとコースの学習進捗画面用
+crs#:#crs_mail_context_tutor_info#:#メンバーとコースの学習進捗画面の参加者email用
 crs#:#crs_mail_context_tutor_title#:#コースメンバーへメール
 crs#:#crs_mail_permanent_link#:#リンクをクリックするとコースに関する必要な情報が得られます。
 crs#:#crs_mail_tutors_only#:#指導教員と管理者専用
@@ -8780,8 +8795,8 @@ dcl#:#dcl_confirm_delete_fields#:#本当にこのフィールドを削除しま�
 dcl#:#dcl_confirm_delete_record#:#このレコードを削除しますか?
 dcl#:#dcl_confirm_delete_records#:#このレコードを本当に削除しますか?
 dcl#:#dcl_confirm_delete_table#:#内容や階層の含まれるこのテーブルを本当に削除しますか?
-dcl#:#dcl_confirm_delete_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
-dcl#:#dcl_confirm_delete_view_title#:#このビューを本当に削除しますか?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
+dcl#:#dcl_confirm_delete_detailed_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_confirm_storing_records#:#有効にして入力を確認して下さい。
 dcl#:#dcl_confirm_storing_records_no_permission#:#以降は記録を変更する権利がありません。
 dcl#:#dcl_copy#:#データ収集を作成
@@ -8830,8 +8845,8 @@ dcl#:#dcl_edit_type_non_info#:#新規レコード作成にはアクセス権設�
 dcl#:#dcl_edit_type_unlim#:#無制限
 dcl#:#dcl_edit_type_unlim_info#:#追加・編集アクセス権を持つユーザはエントリーの追加・編集ができます
 dcl#:#dcl_editable_in_table_gui#:#テーブルビューへ投票してください。
-dcl#:#dcl_empty_view#:#このビューを削除
-dcl#:#dcl_empty_view_success#:#ビュー定義は正しく削除されました。
+dcl#:#dcl_empty_detailed_view#:#このビューを削除
+dcl#:#dcl_empty_detailed_view_success#:#ビュー定義は正しく削除されました。
 dcl#:#dcl_err_formula_field_not_found#:#タイトル'%s'のフィールドが見つかりませんでした
 dcl#:#dcl_error_parsing_expression#:#構文解析式エラー
 dcl#:#dcl_export#:#エクスポート
@@ -8867,7 +8882,7 @@ dcl#:#dcl_ILIAS_reference_link_desc#:#そのオブジェクトへの読み込み
 dcl#:#dcl_import#:#データ収集をインポート
 dcl#:#dcl_import_enabled#:#全てのユーザへインポート機能を許可
 dcl#:#dcl_import_enabled_desc#:#書き込みアクセスを要求している限りは全てのユーザはテーブルへデータをインポートできます。
-dcl#:#dcl_import_records .xls#:#.xlsをインポート
+dcl#:#dcl_import_records .xls#:#Excelインポート
 dcl#:#dcl_import_terminated#:#インポートが完了しました。エントリが追加されました。
 dcl#:#dcl_in_export#:#エクスポート中
 dcl#:#dcl_inconsistent_at#:#データ収集が矛盾しています。レファレンスが存在しません。
@@ -8892,7 +8907,7 @@ dcl#:#dcl_locked#:#ロック中
 dcl#:#dcl_locked_tooltip#:#ユーザ編集用のこのフィールドを無効にします。'編集設定'のアクセス権役割は含みません。
 dcl#:#dcl_manage#:#管理
 dcl#:#dcl_max_digits#:#最大桁数
-dcl#:#dcl_max_import#:#最大インポートエントリ数を超えます。
+dcl#:#dcl_max_import#:#最大インポートエントリ数になります。
 dcl#:#dcl_max_text_length#:#Max長
 dcl#:#dcl_mob#:#メディアオブジェクト
 dcl#:#dcl_mob_desc#:#イメージ、オーディオ、ビデオファイルアップロード用のフィールド。データ収集の際に直接表示されます。表示するデータタイプ: %s
@@ -8917,7 +8932,9 @@ dcl#:#dcl_new_field#:#新規フィールド
 dcl#:#dcl_new_table#:#新規テーブル
 dcl#:#dcl_next_record#:#次のレコード
 dcl#:#dcl_no_content_warning#:#注意、データ収集はオンラインですがまだ内容がありません!
+dcl#:#dcl_no_export_content_available#:#エクスポート可能なデータがありません。
 dcl#:#dcl_no_export_data_available#:#エクスポート用のデータまたはフィールドがありません
+dcl#:#dcl_no_export_fields_available#:#エクスポート用の有効なフィールドがありません。<a href="%s">表設定</a>内にエクスポート可能なフィールドを一つはマークします。
 dcl#:#dcl_no_exportable_fields_or_no_data#:#エクスポート可能な定義フィールドも利用可能なデータもありません
 dcl#:#dcl_no_fields_yet#:#このテーブルに定義されるフィールドがないのでまだ何もエントリを作成できません。
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
@@ -8946,18 +8963,18 @@ dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#データ収集Field-Plugins
 dcl#:#dcl_plugin_hooks#:#利用可能なPlugin
 dcl#:#dcl_plugin_no_hooks_available#:#有効なフィールドタイププラグインが見つかりませんでした
-dcl#:#dcl_prev_record#:#前のレコード
+dcl#:#dcl_prev_record#:#前のエントリー
 dcl#:#dcl_prop_expression#:#式
 dcl#:#dcl_prop_expression_info#:#サポートオペレーター: <b>%s</b><br>サポート機能: <b>%s</b><br>ブラケットを使用 <b>"(", ")"</b> グループ計算へ<br>連結ストリングとプレースフォルダー &: <b>"結果は" & [[Int 1]] * [[Int2]]</b><br>使用機能: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>代替フィールド(内部の式をコピーするにはタイトルをクリック:<br>%s
 dcl#:#dcl_public_comments#:#レコードのパブリックコメントを利用可にする
 dcl#:#dcl_public_comments_desc#:#ユーザは表のエントリーにコメントできます。
 dcl#:#dcl_rating#:#星評価
 dcl#:#dcl_rating_desc#:#ユーザは5つ星までのエントリを評価できます。
-dcl#:#dcl_record#:#記録
-dcl#:#dcl_record_deleted#:#レコードを削除しました
+dcl#:#dcl_record#:#エントリー
+dcl#:#dcl_record_deleted#:#エントリーを削除しました
 dcl#:#dcl_record_edit_viewdefinition#:#ビュー定義を編集
 dcl#:#dcl_record_from_total#:#%d 中 %d
-dcl#:#dcl_record_id#:#レコードID
+dcl#:#dcl_record_id#:#エントリーID
 dcl#:#dcl_record_list_viewdefinition#:#ビュー定義を一覧表示
 dcl#:#dcl_record_view_viewdefinition#:#ビュー定義を表示
 dcl#:#dcl_reference#:#参考
@@ -9797,7 +9814,7 @@ forum#:#forums_no_posts_available#:#このトピックにはまだ未投稿か�
 forum#:#forums_notification_disabled#:#通知しない
 forum#:#forums_notification_enabled#:#通知する
 forum#:#forums_notification_intro#:#このメールはILIASシステム%sから自動的に送信されたものです。
-forum#:#forums_notification_show_frm#:#掲示板を表示:%s
+forum#:#forums_notification_show_frm#:#掲示板:%sを表示
 forum#:#forums_notification_show_post#:#投稿:%sを表示
 forum#:#forums_post_activation_mail#:#次の投稿がアクティブにならないとフォーラムのユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。
 forum#:#forums_post_deleted#:#記事が削除されました。
@@ -9962,7 +9979,7 @@ grp#:#grp_agree#:#承諾
 grp#:#grp_agreement_header#:#使用許諾書
 grp#:#grp_agreement_required#:#グループコンテンツにアクセスしたい場合は利用条件への承諾が必要です。
 grp#:#grp_already_assigned#:#既に、このグループのメンバーシップリクエストをしています。
-grp#:#grp_at_least_one_admin#:#一つグループ管理者である必要があります。
+grp#:#grp_at_least_one_admin#:#少なくともグループ管理者が一人は必要です。
 grp#:#grp_cancel_subscr_request#:#メンバーシップリクエストを削除
 grp#:#grp_cancellation_end#:#キャンセル期限
 grp#:#grp_cancellation_end_info#:#この日付以降受講者はもう登録を取り消しできなくなります。
@@ -10147,6 +10164,7 @@ iass#:#iass_contact#:#名前
 iass#:#iass_contact_info#:#コンタクト情報
 iass#:#iass_content#:#アセスメントコンテンツ説明
 iass#:#iass_content_explanation#:#関連のトピックスのようなアセスメントのコンテンツ
+iass#:#iass_copy#:#個別アセスメントをコピー
 iass#:#iass_edit#:#設定
 iass#:#iass_edit_info#:#設定情報
 iass#:#iass_edit_record#:#ユーザ記録
@@ -10576,7 +10594,7 @@ mail#:#mail_select_group#:#グループを一つは選んでください。
 mail#:#mail_select_one_entry#:#エントリーを一つ選択しなければなりません
 mail#:#mail_select_one_file#:#ファイルを一つ選択しなければなりません
 mail#:#mail_send_html#:#外部email用のHTMLフレーム
-mail#:#mail_send_html_info#:#有効にすると外部emailのボディーがHTMLフレーム内へ埋め込まれます。対応するテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' の'./Services/Mail/templates/default/tpl.html_mail_template.html' をコピーして作成しカスタマイズすることができます。
+mail#:#mail_send_html_info#:#有効にすると外部emailのボディーがHTMLフレーム内へ埋め込まれます。対応するテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' へ'./Services/Mail/templates/default/tpl.html_mail_template.html' をコピーしてカスタマイズすることができます。
 mail#:#mail_serial_letter_placeholders#:#シリアルレタープレースフォルダ
 mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザの受信emaiタイプを修正可能です。
 mail#:#mail_subject_prefix#:#メール件名
@@ -10855,14 +10873,14 @@ meta#:#md_copyright_edit#:#著作権のプリセットを編集
 meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
 meta#:#md_copyright_preview#:#著作権(プレビュー)
-meta#:#md_copyright_selection#:#著作権プリセット
+meta#:#md_copyright_selection#:#著作権初期値
 meta#:#md_copyright_settings#:#著作権設定
 meta#:#md_copyright_value#:#著作権
 meta#:#md_copyrights_deleted#:#著作権が削除されました
 meta#:#md_days#:#日数:
 meta#:#md_delete_cp_sure#:#本当に次のエントリーを削除しますか ?
 meta#:#md_delimiter#:#区切り記号
-meta#:#md_delimiter_info#:#区切り記号はキーワードと作者の分離用のクイック編集画面で使用されます。初期設定は'
+meta#:#md_delimiter_info#:#区切り記号はキーワードと作者の分離用のクイック編集画面で使用されます。初期設定は ‘,’。
 meta#:#md_fields#:#フィールド
 meta#:#md_general_settings#:#全般設定
 meta#:#md_months#:#月
@@ -11537,7 +11555,7 @@ news#:#news_period_x_weeks#:#過去 %s週間
 news#:#news_public_feed#:#外部RSSフィード
 news#:#news_public_feed_info#:#このオプションを有効にすると、別のRSS フィードがこのメディアキャスト用に提供されます。
 news#:#news_really_delete_news#:#この新しいアイテムを本当に削除しますか?
-news#:#news_related_to#:#関連します
+news#:#news_related_to#:#関連
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS間隔
 news#:#news_rss_title_format#:#RSSエントリーのタイトル形式
@@ -12220,12 +12238,12 @@ rbac#:#bdga_edit_permission#:#ユーザはアクセス権設定の変更がで�
 rbac#:#bdga_read#:#ユーザはバッジ管理コンテンツを読み込む事ができます。
 rbac#:#bdga_visible#:#バッジ管理を表示します
 rbac#:#bdga_write#:#ユーザはバッジ管理設定を読み込む事ができます
-rbac#:#bibl_copy#:#著者目録をコピー
-rbac#:#bibl_delete#:#ユーザは著者目録を移動または削除できます。
+rbac#:#bibl_copy#:#文献目録をコピー
+rbac#:#bibl_delete#:#ユーザは文献目録を移動または削除できます。
 rbac#:#bibl_edit_permission#:#ユーザはアクセス権設定を変更できます
-rbac#:#bibl_read#:#ユーザは著者目録内容を読込みできます
-rbac#:#bibl_visible#:#著者目録を表示
-rbac#:#bibl_write#:#ユーザは著者目録設定を編集できます
+rbac#:#bibl_read#:#ユーザは文献目録内容を読込みできます
+rbac#:#bibl_visible#:#文献目録を表示
+rbac#:#bibl_write#:#ユーザは文献目録設定を編集できます
 rbac#:#bibs_copy#:#ユーザは目録をコピーできます
 rbac#:#bibs_delete#:#ユーザはライブラリエントリーを削除できます
 rbac#:#bibs_edit_permission#:#ユーザはアクセス権設定を変更できます
@@ -12279,9 +12297,9 @@ rbac#:#cert_read#:#ユーザは証明書管理への読込アクセス権があ�
 rbac#:#cert_visible#:#証明書管理を表示
 rbac#:#cert_write#:#ユーザは証明書管理の設定を編集できます
 rbac#:#change_existing_object_type_desc#:#そのタイプの既存オブジェクトアクセス権の変更も行います
-rbac#:#change_existing_objects#:#既存オブジェクトを変更
-rbac#:#change_existing_objects_desc#:#この割当てのアクセス権設定は全ての既存オブジェクトへ適用されます。特定オブジェクトのみのアクセス権設定を変更するには、該当するオブジェクトタイプの右のチェックボックスをクリックしてください。
-rbac#:#change_existing_prefix#:#既存を変更
+rbac#:#change_existing_objects#:#現在のオブジェクトを変更
+rbac#:#change_existing_objects_desc#:#この割当てのアクセス権設定は全ての現在のオブジェクトへ適用されます。特定オブジェクトのみのアクセス権設定を変更するには、該当するオブジェクトタイプの右のチェックボックスをクリックしてください。
+rbac#:#change_existing_prefix#:#現状を変更する
 rbac#:#change_existing_prefix_single#:#変更
 rbac#:#change_existing_suffix#:#&nbsp;
 rbac#:#change_existing_suffix_single#:#&nbsp;
@@ -12386,6 +12404,7 @@ rbac#:#file_copy#:#ユーザはファイルをコピーできます
 rbac#:#file_delete#:#ユーザはファイルを移動または削除できます
 rbac#:#file_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#file_read#:#ユーザはファイルをダウンロードできます
+rbac#:#file_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます
 rbac#:#file_visible#:#ファイルを表示
 rbac#:#file_write#:#ユーザはファイル設定の編集と新しいバージョンのファイルをアップロードできます
 rbac#:#files_visible#:#ファイル表示
@@ -12515,6 +12534,7 @@ rbac#:#mcst_copy#:#ユーザはメディアキャストをコピーできます
 rbac#:#mcst_delete#:#ユーザはメディアキャストを移動または削除できます
 rbac#:#mcst_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#mcst_read#:#ユーザはメディアキャストを読込む事ができます
+rbac#:#mcst_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます
 rbac#:#mcst_visible#:#メディアキャストを表示
 rbac#:#mcst_write#:#ユーザはメディアキャストの設定と内容を編集できます
 rbac#:#mcts_edit_permission#:#アクセス権限設定を変更
@@ -12632,10 +12652,10 @@ rbac#:#rbac_auto_local#:#ローカル役割の自動生成
 rbac#:#rbac_auto_rolt#:#役割テンプレートの自動生成
 rbac#:#rbac_back_to_overview#:#役割リストへ戻る
 rbac#:#rbac_cant_import_role_wrong_type#:#アイテム%s からアイテム%sへ役割をインポートできません。
-rbac#:#rbac_change_existing_confirm_tbl#:#既存のオブジェクトを変更の設定
-rbac#:#rbac_change_existing_objects_desc_new_role#:#この役割のアクセス権設定は全ての既存オブジェクトに対して適用されます。
+rbac#:#rbac_change_existing_confirm_tbl#:#現在のオブジェクトを変更の設定
+rbac#:#rbac_change_existing_objects_desc_new_role#:#この役割のアクセス権設定は全ての現在のオブジェクトに対して適用されます。
 rbac#:#rbac_changes#:#変更
-rbac#:#rbac_choose_copy_targets#:#選択しているターゲット役割用の四角を入力してください。
+rbac#:#rbac_choose_copy_targets#:#選択しているターゲット役割名を入力してください。
 rbac#:#rbac_condition_delete_sure#:#次の前提条件を本当に削除しますか?
 rbac#:#rbac_context_global#:#グローバル
 rbac#:#rbac_copy_behaviour#:#コピー設定の役割
@@ -12644,7 +12664,7 @@ rbac#:#rbac_copy_role#:#役割をコピー
 rbac#:#rbac_copy_role_add_perm#:#アクセス権を追加
 rbac#:#rbac_copy_role_copy#:#アクセス権をコピー
 rbac#:#rbac_copy_role_remove_perm#:#アクセス権を削除
-rbac#:#rbac_create_bibl#:#著者目録を作成
+rbac#:#rbac_create_bibl#:#文献目録を作成
 rbac#:#rbac_create_blog#:#ブログ作成
 rbac#:#rbac_create_book#:#予約集を作成
 rbac#:#rbac_create_cat#:#カテゴリを表示作成
@@ -12701,7 +12721,7 @@ rbac#:#rbac_log_copy_object#:#オブジェクトをコピー
 rbac#:#rbac_log_create_object#:#オブジェクトを作成
 rbac#:#rbac_log_edit_permissions#:#権利を編集
 rbac#:#rbac_log_edit_template#:#役割テンプレートを編集
-rbac#:#rbac_log_edit_template_existing#:#既存オブジェクト用の役割テンプレートを使用
+rbac#:#rbac_log_edit_template_existing#:#現在のオブジェクト用の役割テンプレートを使用
 rbac#:#rbac_log_inheritance_add#:#%sの継承を停止しました
 rbac#:#rbac_log_inheritance_rmv#:#%sの継承を許可しました
 rbac#:#rbac_log_link_object#:#オブジェクトをリンク
@@ -12710,7 +12730,7 @@ rbac#:#rbac_log_operation_add#:#%sの操作時間を追加しました
 rbac#:#rbac_log_operation_rmv#:#%sの操作時間を削除しました
 rbac#:#rbac_log_source_object#:#ソースオブジェクト
 rbac#:#rbac_msg_user_already_assigned#:#選択したユーザは既にこの役割に割当済みです。
-rbac#:#rbac_not_change_existing_objects#:#既存のオブジェクトを変更してはいけません
+rbac#:#rbac_not_change_existing_objects#:#現在のオブジェクトを変更しない
 rbac#:#rbac_permissions#:#アクセス権
 rbac#:#rbac_precondition_hide#:#オブジェクトを非表示
 rbac#:#rbac_precondition_hide_info#:# このオプションは前提条件を現在満たしていないユーザのオブジェクトを非表示できます。そのためにアクセス不可のコンテンツすべてが表示されます。
@@ -12730,8 +12750,8 @@ rbac#:#rbac_role_delete_qst#:#本当に次の役割を削除しますか?<br />�
 rbac#:#rbac_role_delete_self#:#<strong>注意</strong> この役割をアサインします。削除操作を継続するとILIAS教材へのアクセスができなくなる可能性があります。
 rbac#:#rbac_role_exists_alert#:#同じ名前を持つ役割が既にこのコンテキストの中に存在します。別の名前を選んでください。
 rbac#:#rbac_role_imported#:#ロールはインポートされました。
-rbac#:#rbac_role_rights_copy#:#コピー権
-rbac#:#rbac_role_rights_copy_change_existing#:#既存のオブジェクトを変更
+rbac#:#rbac_role_rights_copy#:#アクセス権をコピー
+rbac#:#rbac_role_rights_copy_change_existing#:#現在のオブジェクトを変更
 rbac#:#rbac_role_rights_copy_empty#:#ありません
 rbac#:#rbac_role_selection#:#役割のタイプ
 rbac#:#rbac_role_title#:#役割タイトル
@@ -13337,7 +13357,7 @@ scormtrac#:#cp_node_id#:#章・SCOのID
 scormtrac#:#credit#:#クレジット
 scormtrac#:#delivery_speed#:#学習者選択表示時間
 scormtrac#:#display_not_allowed#:#表示不可
-scormtrac#:#existingSCOs#:#既存のSCO数
+scormtrac#:#existingSCOs#:#現在のSCO数
 scormtrac#:#exportobjglobaltosystem#:#システム(シーケンスに使用される)への目標グローバル別レポート
 scormtrac#:#exportselectedcore#:#章(SCO)別基本レポート
 scormtrac#:#exportselectedinteractions#:#インタラクション別基本レポート
@@ -13600,7 +13620,7 @@ sess#:#sess_new_registrations#:#リクエストへ参加
 sess#:#sess_reg_added_to_wl#:#あなたは待ちリストへ追加されました。
 sess#:#sess_reg_direct#:#ダイレクト登録
 sess#:#sess_reg_direct_info#:#ユーザがセッションへ参加するには'参加'をクリックする必要があります。
-sess#:#sess_reg_disabled#:#自己登録不可
+sess#:#sess_reg_disabled#:#自己登録不要
 sess#:#sess_reg_disabled_info#:#このセッションのアポイントには登録不要です。
 sess#:#sess_reg_max_members#:#メンバー制限数
 sess#:#sess_reg_max_members_info#:#このセッションへ参加できる最大ユーザー数を定義
@@ -13783,7 +13803,7 @@ skmg#:#skmg_status#:#ステータス
 skmg#:#skmg_status_draft#:#Draft (オフライン)
 skmg#:#skmg_status_draft_info#:#アイテムは非表示になります。
 skmg#:#skmg_status_outdated#:#古い
-skmg#:#skmg_status_outdated_info#:#アイテムはパーソナルスキルとしてユーザが新たに選択したりリポジトリオブジェクトやスキルプロファイルへ新たに割り当てたりする事はできません。しかし、既存の割当てとデータはそのまま維持されます。
+skmg#:#skmg_status_outdated_info#:#アイテムはパーソナルスキルとしてユーザが新たに選択したりリポジトリオブジェクトやスキルプロファイルへ新たに割り当てたりする事はできません。しかし、現在の割当てとデータはそのまま維持されます。
 skmg#:#skmg_status_publish#:#公開
 skmg#:#skmg_status_publish_info#:#全ての親が公開されればアイテムを使用することもできます。一度アイテムが使用されると状態をドラフトへ戻すことも削除することもできなくなります。
 skmg#:#skmg_suggested_resources#:#推奨リソース
@@ -13909,6 +13929,8 @@ style#:#skin_id_description#:#スキンはスタイルとサブスタイル用�
 style#:#skin_id_exists#:#このIDのスキンが既に存在します。
 style#:#skin_name#:#スキン名
 style#:#skin_name_description#:#スキン名は可読形式でスキンのアプリケーションエリアへ説明するために使用することができます。スキンの選択許容全UIエレメント内に表示されます。
+style#:#skin_version#:#Skin Version
+style#:#skin_version_description#:#Skin version は変更するとスタイルの再キャッシュに使用されます。自動更新されます。
 style#:#sound_dir#:#サウンドディレクトリ
 style#:#sound_dir_description#:#スキンの中へ入れるサウンドを保存するフォルダ。このディレクトリはこのスキンのスタイルとサブスタイルを共有できます。
 style#:#sty_acopy#:#コピー
@@ -14441,7 +14463,7 @@ survey#:#evaluation_access_all#:#全登録ユーザは結果へアクセスで�
 survey#:#evaluation_access_info#:#サーベイ結果へアクセスしました
 survey#:#evaluation_access_off#:#受験者は結果へアクセスできません
 survey#:#evaluation_access_participants#:#全サーベイ受験者は結果へアクセスできます
-survey#:#existing_constraints#:#既存のルーティングルール
+survey#:#existing_constraints#:#現在のルーティングルール
 survey#:#exit#:#Exit
 survey#:#exp_type_csv#:#カンマ区切り値(CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -14643,6 +14665,7 @@ survey#:#phrase_saved#:#フレーズを正しく保存しました!
 survey#:#please_enter_mail_code#:#プレースフォルダのアクセスコード[code]を入力してください
 survey#:#please_enter_mail_message#:#メール本文を入力してください
 survey#:#please_enter_mail_subject#:#メールの件名を入力してください
+survey#:#please_enter_mail_url#:#URLプレースフォルダを入力してください。
 survey#:#please_select#:#-- 選択 --
 survey#:#predefined_users#:#選択したユーザのパーソナルデスクトップへ置く
 survey#:#preview#:#プレビュー
@@ -15010,7 +15033,7 @@ survey#:#svy_invite_action#:#パーソナルデスクトップへ置く
 survey#:#svy_mail_confirmation_subject#:#サーベイ"%s" - 参加確認
 survey#:#svy_mail_context_reminder_info#:#サーベイへの参加をユーザへ催促します
 survey#:#svy_mail_context_reminder_survey_title#:#サーベイスタイル
-survey#:#svy_mail_context_reminder_title#:#サーベイ合図
+survey#:#svy_mail_context_reminder_title#:#サーベイ催促
 survey#:#svy_mail_own_results#:#メールによる回答
 survey#:#svy_mail_own_results_body#:#以下はサーベイ参加の完了サマリーです。
 survey#:#svy_mail_own_results_subject#:#サーベイ"%s" - あなたの回答
@@ -15505,6 +15528,7 @@ trac#:#vm_times_of_day#:#日間
 tstv#:#tstv_create#:#テスト証明の作成
 tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成します
 user#:#clipboard_add_btn#:#クリップボードへ追加
+user#:#clipboard_add_from_btn#:#クリップボードから追加
 user#:#clipboard_empty_btn#:#空のクリップボード
 user#:#clipboard_remove_btn#:#クリップボードから削除
 user#:#clipboard_table_title#:#クリップボード(ユーザアカウント)
@@ -15663,6 +15687,10 @@ wfe#:#subject_id#:#サブジェクトID
 wfe#:#subject_type#:#サブジェクトタイプ
 wfe#:#upload_parse_success#:#アップロード済み、解析済み、保存済みプロセス定義
 wfe#:#upload_process#:#プロセス定義をアップロード
+wfe#:#wfe_request_missing_process_id#:#プロセスIDが見つからないので要求のアクションを実行できません。
+wfe#:#wfe_started_listening#:#プロセスを強制しました
+wfe#:#wfe_stopped_listening#:#プロセスを解除しました
+wfe#:#wfe_sure_to_delete_process_def#:#本当に定義を削除しますか?
 wfld#:#wfld_add#:#フォルダ作成
 wfld#:#wfld_edit#:#フォルダ編集
 wfld#:#wfld_new#:#新規フォルダ作成
@@ -15726,7 +15754,7 @@ wiki#:#wiki_mark#:#マーク
 wiki#:#wiki_media_list#:#メディアリスト
 wiki#:#wiki_msg_short_name_regexp#:#短いタイトルは番号で開始したり次の文字を含めてはいけません。
 wiki#:#wiki_navigation#:#Wikiナビゲーション
-wiki#:#wiki_navigation_info#:#wikiのナビゲーションブロックの既存のwikiページへ追加と削除ができます。
+wiki#:#wiki_navigation_info#:#wikiのナビゲーションブロックの現在のwikiページへ追加と削除ができます。
 wiki#:#wiki_new_page#:#新規ページ
 wiki#:#wiki_new_page_name#:#新規タイトル
 wiki#:#wiki_new_pages#:#新規ページ
@@ -15759,7 +15787,7 @@ wiki#:#wiki_page_blocked#:#Wikiページを読み込み権のみに設定しま�
 wiki#:#wiki_page_changes#:#ページ変更
 wiki#:#wiki_page_deleted#:#Wiki ページを削除しました。
 wiki#:#wiki_page_deletion_confirmation#:#このWikiページを削除しますか?
-wiki#:#wiki_page_exists#:#既存のページ
+wiki#:#wiki_page_exists#:#現在のページ
 wiki#:#wiki_page_hits#:#ページヒット
 wiki#:#wiki_page_list_form_info#:#以下のメタデータ選択するのに全て割り当てられるこのwikiのページリストを追加します。
 wiki#:#wiki_page_list_mode#:#リストのタイプ
@@ -15778,6 +15806,7 @@ wiki#:#wiki_page_unblocked#:#ユーザには書込みアクセス権がありま
 wiki#:#wiki_pages#:#ページ
 wiki#:#wiki_pages_found#:#以降のページは検索用語'$1'に一致します。
 wiki#:#wiki_passed#:#成功
+wiki#:#wiki_pg_list_no_search_fields#:#wikiのメタデータセット内に検索可能なメターデータフィールドが見つかりませんでした。
 wiki#:#wiki_please_enter_search_term#:#検索用語を入力してください。
 wiki#:#wiki_popular_pages#:#人気のあるページ
 wiki#:#wiki_print_view#:#印刷ビュー
@@ -15920,34 +15949,22 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#ass_txt_char_lim_exhausted_hint#:#Your answer has %s characters and exceeds the character limit of %s characters!###22 09 2017 new variable
-assessment#:#false#:#False###22 09 2017 new variable
-assessment#:#true#:#True###22 09 2017 new variable
-assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.###22 09 2017 new variable
-assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###22 09 2017 new variable
-user#:#clipboard_add_from_btn#:#Add from Clipboard###13 10 2017 new variable
-wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
-dcl#:#dcl_no_export_content_available#:#No data available for export.###22 11 2017 new variable
-dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###22 11 2017 new variable
-iass#:#iass_copy#:#Copy Individual Assessment###22 11 2017 new variable
-content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism###22 11 2017 new variable
-survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###10 01 2018 new variable
-style#:#skin_version#:#Skin Version###10 01 2018 new variable
-style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###10 01 2018 new variable
-chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###10 01 2018 new variable
-chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###10 01 2018 new variable
-chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###10 01 2018 new variable
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###26 01 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###26 01 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###26 01 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###26 01 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###26 01 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###26 01 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###26 01 2018 new variable
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###26 01 2018 new variable
-rbac#:#file_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
-rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
-wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###26 01 2018 new variable
-wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
-wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
-wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
+acc#:#acc_access_key#:#Access Key###15 03 2018 new variable
+assessment#:#false#:#False###15 03 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
+assessment#:#true#:#True###15 03 2018 new variable
+dateplaner#:#crs_start#:#Course starts###25 04 2018 new variable
+dateplaner#:#crs_end#:#Course ends###25 04 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###25 04 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###25 04 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###25 04 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###25 04 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###25 04 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###28 06 2018 new variable
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###28 06 2018 new variable
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###28 06 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###28 06 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###28 06 2018 new variable

@@ -1478,7 +1478,7 @@
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
 	<xsl:if test="not(name(..) = 'Section')">
-	<a class="ilc_link_ExtLink">
+	<a class="ilc_link_ExtLink" rel="noopener">
 		<xsl:call-template name="SetExtLinkAttributes" />
 		<xsl:apply-templates/>
 	</a>
@@ -2521,10 +2521,13 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-	<img border="0" style="width:100%">
+	<img border="0">
 		<!-- see 0020796 -->
-		<xsl:if test = "name(..) != 'Paragraph'">
+		<xsl:if test = "count(ancestor-or-self::Paragraph) = 0 and name(..) != 'InteractiveImage'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
+		</xsl:if>
+		<xsl:if test = "name(..) = 'InteractiveImage'">
+			<xsl:attribute name="style">max-width:none</xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>

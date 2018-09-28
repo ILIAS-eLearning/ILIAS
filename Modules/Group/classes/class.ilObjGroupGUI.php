@@ -61,7 +61,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		// if news timeline is landing page, redirect if necessary
-		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage()
+		if ($next_class == "" && $cmd == "" && $this->object->isNewsTimelineLandingPageEffective()
 			&& $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ctrl->redirectbyclass("ilnewstimelinegui");
@@ -159,7 +159,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				if ($_GET["back_url"] == "")
 				{
-					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI", 'view'));
+					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilGroupMembershipGUI", "ilUsersGalleryGUI"], 'view'));
 				}
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
@@ -1041,15 +1041,15 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
 				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
 					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}

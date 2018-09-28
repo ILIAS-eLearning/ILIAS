@@ -93,6 +93,11 @@ class ilUserRequestTargetAdjustment
 			$GLOBALS['DIC']->logger()->init()->debug('Anyonymous request. No adjustment.');
 			return false;
 		}
+		else if(ilSession::get(__CLASS__ . '_passed'))
+		{
+			$GLOBALS['DIC']->logger()->init()->debug(__CLASS__ . ' already passed in the current user session.');
+			return false;
+		}
 
 		foreach($this->cases as $case)
 		{
@@ -115,6 +120,7 @@ class ilUserRequestTargetAdjustment
 			}
 		}
 
+		ilSession::set(__CLASS__ . '_passed', 1);
 		return false;
 	}
 }

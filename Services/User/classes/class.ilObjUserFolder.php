@@ -592,31 +592,42 @@ class ilObjUserFolder extends ilObject
 		}
 	}
 
-	static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+	/**
+	 * Update account mail attachment
+	 * @param $a_lang
+	 * @param $a_tmp_name
+	 * @param $a_name
+	 * @throws ilFileUtilsException
+	 */
+	public static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
 		global $ilDB;
 		
 		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
-		$fs = new ilFSStorageUserFolder($this->getId());
+		$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 		$fs->create();
 		$path = $fs->getAbsolutePath()."/";
-		
-		move_uploaded_file($a_tmp_name, $path.$a_lang);		
+
+		ilUtil::moveUploadedFile($a_tmp_name, $a_lang, $path.$a_lang);
 		
 		$ilDB->update('mail_template',
 				array('att_file' => array('text', $a_name)),
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	static function _deleteAccountMailAttachment($a_lang)
+	/**
+	 * Delete account mail attachment
+	 * @param $a_lang
+	 */
+	public static function _deleteAccountMailAttachment($a_lang)
 	{
 		global $ilDB;
 		
 		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
-		$fs = new ilFSStorageUserFolder($this->getId());
+		$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 		$path = $fs->getAbsolutePath()."/";
 		
-		@unlink($path.$a_lang);
+		unlink($path.$a_lang);
 		
 		$ilDB->update('mail_template',
 				array('att_file' => array('text', '')),

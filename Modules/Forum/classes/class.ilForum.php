@@ -150,7 +150,6 @@ class ilForum
 	}
 	
 	/**
-	 * // @todo  this should be renamed to getObjId()
 	* get forum id
 	* @access	public
 	* @return	integer	object id of forum

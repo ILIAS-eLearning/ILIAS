@@ -22,14 +22,15 @@
         +-----------------------------------------------------------------------------+
 */
 
-require_once "Services/WebDAV/classes/Server.php";
-require_once "Services/WebDAV/classes/class.ilDAVLocks.php";
-require_once "Services/WebDAV/classes/class.ilDAVProperties.php";
+require_once 'Services/WebDAV/classes/Server.php';
+require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
+require_once 'Services/WebDAV/classes/class.ilDAVProperties.php';
 require_once 'Services/WebDAV/classes/class.ilObjectDAV.php';
 
-require_once "Services/User/classes/class.ilObjUser.php";
-require_once('include/Unicode/UtfNormal.php');
-require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+require_once 'Services/User/classes/class.ilObjUser.php';
+require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+require_once 'include/Unicode/UtfNormal.php';
+require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 
 /**
 * Class ilDAVServer
@@ -951,6 +952,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$path = $this->davDeslashify($options['path']);
 		$parent = dirname($path);
 		$name = $this->davBasename($path);
+		
+		//Check if FileType is allowed		
+		if ($name != ilFileUtils::getValidFilename($name)) {
+			return false;
+		}
 
 		// get dav object for path
 		$parentDAV =& $this->getObject($parent);

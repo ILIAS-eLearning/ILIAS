@@ -152,18 +152,22 @@ class ilWorkflowEngineDefinitionsGUI
 		$repo_dir_name = ilObjWorkflowEngine::getRepositoryDir() . '/';
 		if(!is_dir($repo_dir_name))
 		{
-			mkdir($repo_dir_name, 0777, true);
+			\ilUtil::makeDirParents($repo_dir_name);
 		}
 
 		$temp_dir_name =  ilObjWorkflowEngine::getTempDir();
 		if(!is_dir($temp_dir_name))
 		{
-			mkdir($temp_dir_name, 0777, true);
+			\ilUtil::makeDirParents($temp_dir_name);
 		}
 
 		$file_name = $_FILES['process_file']['name'];
 		$temp_name = $_FILES['process_file']['tmp_name'];
-		move_uploaded_file($temp_name, $temp_dir_name.$file_name);
+		\ilUtil::moveUploadedFile(
+			$temp_name,
+			$file_name,
+			$temp_dir_name . $file_name
+		);
 
 		$repo_base_name = 'il'.substr($file_name,0,strpos($file_name,'.'));
 		$wf_base_name = 'wfd.'.$repo_base_name.'_v';

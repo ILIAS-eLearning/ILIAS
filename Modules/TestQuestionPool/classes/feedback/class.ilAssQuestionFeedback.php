@@ -122,7 +122,7 @@ abstract class ilAssQuestionFeedback
 		{
 			$genericFeedbackTestPresentationHTML = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
 		}
-				
+		
 		return $genericFeedbackTestPresentationHTML;
 	}
 	
@@ -193,12 +193,12 @@ abstract class ilAssQuestionFeedback
 		}
 		else
 		{
-			$valueFeedbackSolutionComplete = $this->questionOBJ->prepareTextareaOutput(
-					$this->getGenericFeedbackContent($this->questionOBJ->getId(), true)
+			$valueFeedbackSolutionComplete = $this->getGenericFeedbackContent(
+				$this->questionOBJ->getId(), true
 			);
 			
-			$valueFeedbackSolutionIncomplete = $this->questionOBJ->prepareTextareaOutput(
-					$this->getGenericFeedbackContent($this->questionOBJ->getId(), false)
+			$valueFeedbackSolutionIncomplete = $this->getGenericFeedbackContent(
+				$this->questionOBJ->getId(), false
 			);
 		}
 		
@@ -291,12 +291,21 @@ abstract class ilAssQuestionFeedback
 			if( !$this->questionOBJ->getPreventRteUsage() )
 			{
 				$property->setUseRte(true);
-				$property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 				$property->addPlugin("latex");
 				$property->addButton("latex");
 				$property->addButton("pastelatex");
+
+				require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+				$property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
 			}
-			
+			else
+			{
+				require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+				$property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
+				$property->setUseTagsForRteOnly(false);
+			}
+
 			$property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
 		}
 		
@@ -1005,4 +1014,19 @@ abstract class ilAssQuestionFeedback
 	 * @param string $feedbackContent
 	 */
 	abstract public function importSpecificAnswerFeedback($questionId, $answerIndex, $feedbackContent);
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 * @param integer $questionId
+	 */
+	public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator, $questionId)
+	{
+		$this->saveGenericFeedbackContent($questionId, true, $migrator->migrateToLmContent(
+			$this->getGenericFeedbackContent($questionId, true)
+		));
+		
+		$this->saveGenericFeedbackContent($questionId, false, $migrator->migrateToLmContent(
+			$this->getGenericFeedbackContent($questionId, false)
+		));
+	}
 }

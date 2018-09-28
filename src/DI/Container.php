@@ -13,7 +13,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDB
+	 * @return	\ilDBInterface
 	 */
 	public function database() {
 		return $this["ilDB"];
@@ -85,16 +85,16 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilToolbarGUI
 	 */
 	public function toolbar() {
 		return $this["ilToolbar"];
 	}
 
 	/**
-	 * Get interface to the i18n service.
+	 * Get interface to the tabs
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilTabsGUI
 	 */
 	public function tabs() {
 		return $this["ilTabs"];

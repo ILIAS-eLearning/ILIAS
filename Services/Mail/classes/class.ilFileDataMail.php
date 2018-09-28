@@ -10,6 +10,7 @@
 * 
 */
 require_once("./Services/FileSystem/classes/class.ilFileData.php");
+require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
 /**
  * Class ilFileDataMail
@@ -346,7 +347,7 @@ class ilFileDataMail extends ilFileData
 		if(file_exists($a_path))
 		{
 			$this->rotateFiles($a_path.".old");
-			return rename($a_path,$a_path.'.old');
+			return \ilFileUtils::rename($a_path, $a_path . '.old');
 		}
 		return true;
 	}

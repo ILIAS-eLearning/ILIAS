@@ -11,7 +11,6 @@ include_once './Services/FileSystem/classes/class.ilFileSystemStorage.php';
  */
 class ilRestFileStorage extends ilFileSystemStorage
 {
-
 	const AVAILABILITY_IN_DAYS = 1;
 
 
@@ -25,6 +24,22 @@ class ilRestFileStorage extends ilFileSystemStorage
 			false,
 			0
 		);
+	}
+
+	/**
+	 * Check if soap administration is enabled
+	 */
+	protected function checkWebserviceActivation()
+	{
+		$settings = $GLOBALS['ilSetting'];
+		if(!$settings->get('soap_user_administration',0))
+		{
+			Slim::getInstance()->response()->header('Content-Type','text/html');
+			Slim::getInstance()->response()->status(403);
+			Slim::getInstance()->response()->body('Webservices not enabled.');
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -58,18 +73,49 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	public function getFile($name)
 	{
-		//$return = new stdClass();
-
-		$GLOBALS['ilLog']->write(__METHOD__.' '.$this->getPath().'/'.$name);
-		if(file_exists($this->getPath().'/'.$name))
+		if(!$this->checkWebserviceActivation())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.' file exists');
-			$return = file_get_contents($this->getPath().'/'.$name);
+			return false;
 		}
-
-		// Responce header
-		Slim::getInstance()->response()->header('Content-Type', 'application/json');
-		Slim::getInstance()->response()->body($return);
+		
+		$GLOBALS['ilLog']->write(__METHOD__.' original name: '.$this->getPath().'/'.$name);
+		
+		$real_path = realpath($this->getPath().'/'.$name);
+		if(!$real_path)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' no realpath found for: '.$this->getPath().'/'.$name);
+			$this->responeNotFound();
+			return;
+		}
+		$file_name = basename($real_path);
+		$GLOBALS['ilLog']->write(__METHOD__.' translated name: '.$this->getPath().'/'.$file_name);
+		if(
+			$file_name &&
+			is_file($this->getPath().'/'.$file_name) && 
+			file_exists($this->getPath().'/'.$file_name)
+		)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' delivering file: ' . $this->getPath().'/'.$file_name);
+			$return = file_get_contents($this->getPath().'/'.$file_name);
+			// Response header
+			Slim::getInstance()->response()->header('Content-Type', 'application/json');
+			Slim::getInstance()->response()->body($return);
+			return;
+		}
+		
+		$this->responeNotFound();
+	}
+	
+	
+	/**
+	 * Send not found response
+	 */
+	protected function responeNotFound()
+	{
+		$GLOBALS['ilLog']->write(__METHOD__.' file not found.');
+		Slim::getInstance()->response()->header('Content-Type','text/html');
+		Slim::getInstance()->response()->status(404);
+		Slim::getInstance()->response()->body('Not found');
 	}
 
 	/**
@@ -78,6 +124,11 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	public function createFile()
 	{
+		if(!$this->checkWebserviceActivation())
+		{
+			return false;
+		}
+		
 		$request = Slim::getInstance()->request();
 		$body = $request->post("content");
 

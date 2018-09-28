@@ -329,6 +329,18 @@ abstract class assQuestion
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
+	
+	protected static $forcePassResultsUpdateEnabled = false;
+	
+	public static function setForcePassResultUpdateEnabled($forcePassResultsUpdateEnabled)
+	{
+		self::$forcePassResultsUpdateEnabled = $forcePassResultsUpdateEnabled;
+	}
+	
+	public static function isForcePassResultUpdateEnabled()
+	{
+		return self::$forcePassResultsUpdateEnabled;
+	}
 
 	public static function isAllowedImageMimeType($mimeType)
 	{
@@ -1331,6 +1343,11 @@ abstract class assQuestion
 	 */
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
+		if( !$this->validateSolutionSubmit() )
+		{
+			return false;
+		}
+		
 		$this->savePreviewData($previewSession);
 	}
 	
@@ -3593,14 +3610,7 @@ abstract class assQuestion
 	*/
 	function isHTML($a_text)
 	{
-		if (preg_match("/<[^>]*?>/", $a_text))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE; 
-		}
+		return ilUtil::isHTML($a_text);
 	}
 	
 	/**
@@ -3760,7 +3770,7 @@ abstract class assQuestion
 				);
 			}
 
-			if($old_points != $points || !$rowsnum)
+			if(self::isForcePassResultUpdateEnabled() || $old_points != $points || !$rowsnum)
 			{
 				assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
 				// finally update objective result
@@ -4403,6 +4413,34 @@ abstract class assQuestion
 	function getPreventRteUsage()
 	{
 		return $this->prevent_rte_usage;
+	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->lmMigrateQuestionTypeGenericContent($migrator);
+		$this->lmMigrateQuestionTypeSpecificContent($migrator);
+		$this->saveToDb();
+		
+		$this->feedbackOBJ->migrateContentForLearningModule($migrator, $this->getId());
+	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeGenericContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setQuestion( $migrator->migrateToLmContent( $this->getQuestion() ) );
+	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		// overwrite if any question type specific content except feedback needs to be migrated
 	}
 	
 	/**
@@ -5288,6 +5326,8 @@ abstract class assQuestion
 		$this->removeExistingSolutions($activeId, $pass);
 		$this->removeResultRecord($activeId, $pass);
 
+		$this->log($activeId, "log_user_solution_willingly_deleted");
+		
 		self::_updateTestPassResults(
 			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
 		);

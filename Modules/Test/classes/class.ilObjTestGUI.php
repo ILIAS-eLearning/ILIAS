@@ -740,6 +740,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->getId(), $DIC->user()->getId()
 		);
 	}
+	
+	/**
+	 * Gateway for exports initiated from workspace, as there is a generic
+	 * forward to {objTypeMainGUI}::export()
+	 */
+	protected function exportObject()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC->ctrl()->redirectByClass('ilTestExportGUI');
+	}
 
 	private function questionsTabGatewayObject()
 	{
@@ -2607,16 +2617,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 		
-		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken($this->tree) )
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
 			ilUtil::sendFailure(
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lng)
 			);
 		}
-		elseif( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesInVulnerableState($this->tree) )
+		elseif( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesInVulnerableState() )
 		{
 			ilUtil::sendInfo(
-					$this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng)
+					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng)
 			);
 		}
 

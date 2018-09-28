@@ -30,6 +30,25 @@ var ClozeGapBuilder = (function () {
 	'use strict';
 	var pub = {}, pro = {};
 
+	pro.deferredCallbackFactory = (function() {
+		var namespaces = {};
+
+		return function (ns) {
+			if (!namespaces.hasOwnProperty(ns)) {
+				namespaces[ns] = (function () {
+					var timer = 0;
+
+					return function(callback, ms){
+						clearTimeout(timer);
+						timer = setTimeout(callback, ms);
+					};
+				})();
+			}
+
+			return namespaces[ns];
+		};
+	})();
+
 	pro.checkJSONArraysOnEntry = function () {
 		if (ClozeSettings.gaps_php === null) {
 			ClozeSettings.gaps_php = [];
@@ -177,7 +196,17 @@ var ClozeGapBuilder = (function () {
 
 	pro.bindTextareaHandlerTiny = function () {
 		var tinymce_iframe_selector = $('.mceIframeContainer iframe').eq(1).contents().find('body');
-		tinymce_iframe_selector.keydown(function () {
+
+		tinymce_iframe_selector.off([
+			"keydown",
+			"keyup",
+			"click",
+			"mouseleave",
+			"blur",
+			"paste"
+		].join(" "));
+
+		tinymce_iframe_selector.on("keydown", function () {
 			//ToDo: find out why location function breaks keyboard input
 			/*var inst = tinyMCE.activeEditor;
 			 var cursorPosition = getCursorPositionTiny(inst);
@@ -188,44 +217,55 @@ var ClozeGapBuilder = (function () {
 			 pro.focusOnFormular(pos);
 			 }*/
 		});
-		tinymce_iframe_selector.keyup(function (e) {
+		tinymce_iframe_selector.on("keyup", function (e) {
 			if (e.keyCode == 8 || e.keyCode == 46) {
+				pro.deferredCallbackFactory('TinyMceKeyup')(function () {
+					pro.checkTextAreaAgainstJson();
+				}, 200);
+			}
+		});
+		tinymce_iframe_selector.on("click", function () {
+			pro.deferredCallbackFactory('TinyMceClick')(function () {
+				var inst = tinyMCE.activeEditor;
+				var cursorPosition = pro.getCursorPositionTiny(inst, false);
+				ClozeGlobals.cursor_pos = cursorPosition;
+				var pos = pro.cursorInGap(cursorPosition);
 				pro.checkTextAreaAgainstJson();
-			}
+				if (pos[1] != -1) {
+					pro.setCursorPositionTiny(inst, pos[1]);
+					pro.focusOnFormular(pos);
+				}
+			}, 200);
 		});
-		tinymce_iframe_selector.click(function () {
-			var inst = tinyMCE.activeEditor;
-			var cursorPosition = pro.getCursorPositionTiny(inst, false);
-			ClozeGlobals.cursor_pos = cursorPosition;
-			var pos = pro.cursorInGap(cursorPosition);
-			pro.checkTextAreaAgainstJson();
-			if (pos[1] != -1) {
-				pro.setCursorPositionTiny(inst, pos[1]);
-				pro.focusOnFormular(pos);
-			}
-		});
-		tinymce_iframe_selector.blur(function () {
-			pro.checkTextAreaAgainstJson();
+		tinymce_iframe_selector.on("blur", function () {
+			pro.deferredCallbackFactory('TinyMceBlur')(function () {
+				pro.checkTextAreaAgainstJson();
+			}, 200);
 		});
 
-		tinymce_iframe_selector.mouseleave(function () {
-			var inst = tinyMCE.activeEditor;
-			var cursorPosition = pro.getCursorPositionTiny(inst, false);
-			ClozeGlobals.cursor_pos = cursorPosition;
+		tinymce_iframe_selector.on("mouseleave", function () {
+			pro.deferredCallbackFactory('TinyMceMouseLeave')(function () {
+				var inst = tinyMCE.activeEditor;
+				var cursorPosition = pro.getCursorPositionTiny(inst, false);
+				ClozeGlobals.cursor_pos = cursorPosition;
+			}, 200);
 		});
 
 		tinymce_iframe_selector.on('paste', function (event) {
-			event.preventDefault();
-			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
-			clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
-			var text = pro.getTextAreaValue();
-			var textBefore = text.substring(0, ClozeGlobals.cursor_pos);
-			var textAfter = text.substring(ClozeGlobals.cursor_pos, text.length);
-			pro.setTextAreaValue(textBefore + clipboard_text + textAfter);
-			pro.createNewGapCode('text');
-			pro.cleanGapCode();
-			ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
-			pro.correctCursorPositionInTextarea();
+			pro.deferredCallbackFactory('TinyMcePaste')(function () {
+				event.preventDefault();
+				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
+				clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
+				var text = pro.getTextAreaValue();
+				var textBefore = text.substring(0, ClozeGlobals.cursor_pos);
+				var textAfter = text.substring(ClozeGlobals.cursor_pos, text.length);
+				pro.setTextAreaValue(textBefore + clipboard_text + textAfter);
+				pro.createNewGapCode('text');
+				pro.cleanGapCode();
+				ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
+				alert('paste');
+				pro.correctCursorPositionInTextarea();
+			}, 200);
 		});
 	};
 	pro.insertGapToJson = function (index, values, gaptype) {
@@ -283,7 +323,7 @@ var ClozeGapBuilder = (function () {
 		var newText = pro.getTextAreaValue();
 		var iterator = newText.match(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g);
 		var last = 0;
-		for (var i = 0; i < iterator.length; i++) {
+		if(iterator) for (var i = 0; i < iterator.length; i++) {
 			last = i;
 			if (iterator[i].match(/\[gap\]/)) {
 				var values = iterator[i].replace(/\[gap\]/, '');
@@ -580,12 +620,12 @@ var ClozeGapBuilder = (function () {
 			}
 		});
 
-		cloze_text_selector.keyup(function (e) {
+		cloze_text_selector.on("keyup", function (e) {
 			if (e.keyCode == 8 || e.keyCode == 46) {
 				pro.checkTextAreaAgainstJson();
 			}
 		});
-		cloze_text_selector.click(function () {
+		cloze_text_selector.on("click", function () {
 			var cursorPosition = $('#cloze_text').prop('selectionStart');
 			var pos = pro.cursorInGap(cursorPosition);
 			ClozeGlobals.cursor_pos = cursorPosition;
@@ -597,7 +637,7 @@ var ClozeGapBuilder = (function () {
 		});
 		cloze_text_selector.on('paste', function (event) {
 			event.preventDefault();
-			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 			clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
 			var text = pro.getTextAreaValue();
 			var textBefore = text.substring(0, ClozeGlobals.cursor_pos);

@@ -470,9 +470,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($source)." ".$tocheck;
 		exec($unzipcmd);
 		chdir($cdir);
-		$tmp_file = $dir."/".$tocheck.".".$_GET["ref_id"];
-
-		rename($dir."/".$tocheck,$tmp_file);
+		$tmp_file = $dir."/".$_GET["ref_id"].".".$tocheck;
+		require_once('./Services/Utilities/classes/class.ilFileUtils.php');
+		ilFileUtils::rename($dir."/".$tocheck,$tmp_file);
 		$new_manifest = file_get_contents($tmp_file);
 
 		//remove temp file
@@ -506,7 +506,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
 				// move the already copied file to the lm_data directory
-				rename($source, $file_path);
+				require_once('./Services/Utilities/classes/class.ilFileUtils.php');
+				ilFileUtils::rename($source, $file_path);
 			}
 			
 			//unzip and replace old extracted files

@@ -1693,7 +1693,7 @@ class ilCtrl
 					}
 					else if (isset($_POST[$par]))
 					{
-						$params[$par] = $_POST[$par];
+						$params[$par] = ilUtil::stripSlashesRecursive($_POST[$par]);
 					}
 				}
 			}

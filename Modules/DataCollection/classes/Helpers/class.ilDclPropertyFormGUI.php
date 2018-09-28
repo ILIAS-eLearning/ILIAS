@@ -6,6 +6,7 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
+ * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 

@@ -5,109 +5,109 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
-{
-    /**
-     * @var ilDclTableView
-     */
-    protected $tableview;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilDclTableViewEditGUI
-     */
-    protected $parent_gui;
+class ilDclTableViewEditFormGUI extends ilPropertyFormGUI {
 
-    function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
-    {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        parent::__construct();
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->parent_gui = $parent_gui;
-        $this->tableview = $tableview;
-        $this->table = $table;
-        $this->ctrl->saveParameterByClass('ilDclTableViewGUI', 'tableview_id');
-        $this->initForm();
-    }
+	/**
+	 * @var ilDclTableView
+	 */
+	protected $tableview;
+	/**
+	 * @var ilDclTable
+	 */
+	protected $table;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	/**
+	 * @var ilDclTableViewEditGUI
+	 */
+	protected $parent_gui;
 
-    protected function initForm() {
-        global $DIC;
-        $rbacreview = $DIC['rbacreview'];
 
-        $this->setTitle($this->tableview->getId() ? $this->lng->txt('settings') : $this->lng->txt('dcl_tableview_add'));
+	function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null) {
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		parent::__construct();
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
+		$this->parent_gui = $parent_gui;
+		$this->tableview = $tableview;
+		$this->table = $table;
+		$this->ctrl->saveParameterByClass('ilDclTableViewGUI', 'tableview_id');
+		$this->initForm();
+	}
 
-        //title
-        $item = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $item->setValue($this->tableview->getTitle());
-        $item->setRequired(true);
-        $this->addItem($item);
 
-        //description
-        $item = new ilTextInputGUI($this->lng->txt('description'), 'description');
-        $item->setValue($this->tableview->getDescription());
-        $this->addItem($item);
+	protected function initForm() {
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
 
-        //roles
-        $item = new ilMultiSelectInputGUI($this->lng->txt('roles'), 'roles');
-        $options = array();
-        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array)
-        {
-            $options[$role_array['obj_id']] = ilObjRole::_getTranslation($role_array['title']);
-        }
-        foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id)
-        {
-            $role = new ilObjRole($role_id);
-            $options[$role_id] = ilObjRole::_getTranslation($role->getTitle());
-        }
+		$this->setTitle($this->tableview->getId() ? $this->lng->txt('settings') : $this->lng->txt('dcl_tableview_add'));
 
-        $item->setOptions($options);
-        $item->setValue($this->tableview->getRoles());
-        $this->addItem($item);
+		//title
+		$item = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$item->setValue($this->tableview->getTitle());
+		$item->setRequired(true);
+		$this->addItem($item);
 
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
-        if($this->tableview->getId()) {
-            $this->addCommandButton('update', $this->lng->txt('save'));
-        } else {
-            $this->addCommandButton('create', $this->lng->txt('create'));
-        }
-        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
-    }
+		//description
+		$item = new ilTextInputGUI($this->lng->txt('description'), 'description');
+		$item->setValue($this->tableview->getDescription());
+		$this->addItem($item);
 
-    public function updateTableView() {
-        $this->tableview->setTitle($this->getInput('title'));
-        $this->tableview->setDescription($this->getInput('description'));
-        $this->tableview->setRoles($this->getInput('roles'));
-        $this->tableview->update();
+		//roles
+		$checkbox_group_input_gui = new ilCheckboxGroupInputGUI($this->lng->txt('roles'), 'roles');
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
-    }
-    
-    public function createTableView() {
-        $this->tableview->setTitle($this->getInput('title'));
-        $this->tableview->setDescription($this->getInput('description'));
-        $this->tableview->setRoles($this->getInput('roles'));
-        $this->tableview->setTableId($this->table->getId());
-        $this->tableview->setOrder($this->table->getNewTableviewOrder());
-        $this->tableview->create();
+		foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+			$option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title'], $role_array['obj_id']));
+			$option->setValue($role_array['obj_id']);
+			$checkbox_group_input_gui->addOption($option);
+		}
+		foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id) {
+			$option = new ilCheckboxOption(ilObjRole::_getTranslation($role->getTitle(), $role_id));
+			$option->setValue($role_id);
+			$checkbox_group_input_gui->addOption($option);
+		}
 
-        $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
+		$checkbox_group_input_gui->setValue($this->tableview->getRoles());
+		$this->addItem($checkbox_group_input_gui);
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
-    }
-    
-    
-    
+		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+		if ($this->tableview->getId()) {
+			$this->addCommandButton('update', $this->lng->txt('save'));
+		} else {
+			$this->addCommandButton('create', $this->lng->txt('create'));
+		}
+		$this->addCommandButton('cancel', $this->lng->txt('cancel'));
+	}
+
+
+	public function updateTableView() {
+		$this->tableview->setTitle($this->getInput('title'));
+		$this->tableview->setDescription($this->getInput('description'));
+		$this->tableview->setRoles((array)$this->getInput('roles'));
+		$this->tableview->update();
+
+		ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+	}
+
+
+	public function createTableView() {
+		$this->tableview->setTitle($this->getInput('title'));
+		$this->tableview->setDescription($this->getInput('description'));
+		$this->tableview->setRoles((array)$this->getInput('roles'));
+		$this->tableview->setTableId($this->table->getId());
+		$this->tableview->setOrder($this->table->getNewTableviewOrder());
+		$this->tableview->create();
+
+		$this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
+
+		ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
+	}
 }

@@ -49,9 +49,6 @@ class ilAttendanceList
 		// always available
 		$this->presets['name'] = array($lng->txt('name'), true);
 		$this->presets['login'] = array($lng->txt('login'), true);
-		$this->presets['email'] = array($lng->txt('email'));
-		
-		
 		
 		// add exportable fields
 		$this->readOrderedExportableFields();
@@ -109,7 +106,6 @@ class ilAttendanceList
 				case 'username':
 				case 'firstname':
 				case 'lastname':
-				case 'email':
 					continue 2;
 			}
 			
@@ -262,7 +258,6 @@ class ilAttendanceList
 			{					
 				if($tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false))
 				{
-					$a_res[$user_id]['login'] = $tmp_obj->getLogin();
 					$a_res[$user_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();		
 					$a_res[$user_id]['email'] = $tmp_obj->getEmail();		
 
@@ -701,15 +696,7 @@ class ilAttendanceList
 									break;
 								}
 								
-							
-							case "email":
-								if(!$user_data[$id])
-								{
-									$value = ilObjUser::_lookupEmail($user_id);
-									break;
-								}
-								
-							
+
 							case "login":
 								if(!$user_data[$id])
 								{

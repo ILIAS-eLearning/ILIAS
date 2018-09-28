@@ -4603,7 +4603,7 @@ abstract class ilPageObject
 			}
 		}
 
-		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+		$set = $ilDB->queryF("SELECT count(*) as cnt, lang, page_id, user_id FROM page_history ".
 			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
 			" GROUP BY page_id, user_id, lang ",
 			array("integer", "text", "integer"),
@@ -4671,7 +4671,7 @@ abstract class ilPageObject
 			}
 		}
 
-		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+		$set = $ilDB->queryF("SELECT count(*) as cnt, lang, page_id, user_id FROM page_history ".
 			" WHERE page_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
 			" GROUP BY user_id, page_id, lang ",
 			array("integer", "text", "integer"),
@@ -5328,7 +5328,16 @@ abstract class ilPageObject
 		return $file_obj_ids;
 	}
 
-
+	/**
+	 * Resolve resources
+	 * @todo: move this into proper "afterImport" routine that calls all PC components
+	 */
+	public function resolveResources($ref_mapping)
+	{
+		include_once("./Services/COPage/classes/class.ilPCResources.php");
+		ilPCResources::resolveResources($this, $ref_mapping);
+	}
+	
 
 
 }

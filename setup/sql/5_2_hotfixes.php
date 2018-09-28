@@ -431,3 +431,23 @@ ilDBUpdateNewObjectType::addRBACTemplate('orgu', 'il_orgu_employee', "OrgUnit Em
 <?php
 	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
 ?>
+<#27>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#28>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#29>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#30>
+<?php
+$ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
+?>
+<#31>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

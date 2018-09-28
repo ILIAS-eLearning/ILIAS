@@ -39,6 +39,8 @@ when starting the NodeJs chat server.
 
 If you want to handle multiple ILIAS clients with one chat server multiple
 "client.cfg" can be passed as start parameters.
+All of these `client.cfg` files MUST have a **unique value** in the **name** property, initially set to the **client_id** when saving
+the configuration in the ILIAS chat administration.
 
 After you made changes, the chat server must be restarted.
 

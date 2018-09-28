@@ -40,7 +40,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
 				return $link;
 			}
 
-			$html = "<a target='_blank' href='" . htmlspecialchars($link, ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
+			$html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars($link, ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
 
 		} elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($_GET['tableview_id'])) {
 			$this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");

@@ -2000,15 +2000,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			// default activation
 			$this->tabs_gui->activateTab('view_content');
-			if ($this->object->getNewsTimeline())
+			if ($this->object->isNewsTimelineEffective())
 			{
-				if (!$this->object->getNewsTimelineLandingPage())
+				if (!$this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
 				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
 					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
-				if ($this->object->getNewsTimelineLandingPage())
+				if ($this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->addContentTab();
 				}
@@ -2334,7 +2334,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilCourseMembershipGUI", "ilUsersGalleryGUI"],'view'));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
@@ -2592,7 +2592,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
 				// if news timeline is landing page, redirect if necessary
-				if ($cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
+				if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective())
 				{
 					$this->ctrl->redirectbyclass("ilnewstimelinegui");
 				}

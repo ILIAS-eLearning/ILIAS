@@ -22,7 +22,7 @@ class ilSetup
 	var $ini_client_exists = false; // control flag client.ini
 
 	var $setup_defaults;			// ilias.master.ini
-	var $ilias_nic_server = "https://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
+	var $ilias_nic_server = "https://nic.ilias.de/index.php";	// URL to ilias nic server
 
 	var $preliminaries_result = array();	// preliminaries check results
 	var $preliminaries = true;				//
@@ -193,16 +193,7 @@ class ilSetup
 		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
-			// check for existing client dir
-			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
-			{
-				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
-			}
-
-			if (!$this->saveNewClient())
-			{
-				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
-			}
+			$this->saveNewClient();
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
 			ilUtil::delDir(ILIAS_DATA_DIR."/".$a_old_client_id);
@@ -1429,6 +1420,11 @@ class ilSetup
 			$dir_to_create = substr(strrchr($datadir_path, "/"), 1);
 			$dir_to_check = substr($datadir_path,0,- strlen($dir_to_create)-1);
 
+			if ($this->isDirectoryInOther($dir_to_create, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_datadir_inside_webdir";
+				return false;
+			}
+
 			if (is_writable($datadir_path))
 			{
 				$this->error = "dir_exists_create";
@@ -1443,6 +1439,11 @@ class ilSetup
 		}
 		else	// check set target dir
 		{
+			if ($this->isDirectoryInOther($datadir_path, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_datadir_inside_webdir";
+				return false;
+			}
+
 			if (!is_writable($datadir_path))
 			{
 				$this->error = "cannot_create_datadir_no_write_access";
@@ -1497,6 +1498,11 @@ class ilSetup
 			if(is_dir($log_path))
 			{
 				$this->error = 'could_not_create_logfile';
+				return false;
+			}
+
+			if ($this->isDirectoryInOther($log_path, ILIAS_ABSOLUTE_PATH)) {
+				$this->error = "cannot_create_logdir_inside_webdir";
 				return false;
 			}
 
@@ -2150,5 +2156,17 @@ class ilSetup
 		return true;
 	}
 
+	/**
+	 * Checks if directory is subdirectory of other directory.
+	 *
+	 * @param	string	$directory
+	 * @param	string	$other_directory
+	 * @return	bool
+	 */
+	protected function isDirectoryInOther($directory, $other_directory) {
+		$other_directory = $other_directory."/";
+
+		return !(strpos($directory, $other_directory) !== 0);
+	}
 }
 

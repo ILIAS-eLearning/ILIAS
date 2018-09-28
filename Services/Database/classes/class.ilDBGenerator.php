@@ -321,6 +321,10 @@ class ilDBGenerator {
 				// auto increment sequence
 				$this->buildCreateSequenceStatement($table, $file);
 
+				if (in_array($table, array('usr_session_stats', 'usr_session_raw'))) {
+					continue;
+				}
+
 				// inserts
 				if ($isDirectory) {
 					$this->buildInsertStatement($table, $path);
@@ -558,7 +562,7 @@ class ilDBGenerator {
 
 		$ilLog->write('Starting export of:' . $a_table);
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$row = 0;
 
 		umask(0000);
@@ -618,7 +622,7 @@ class ilDBGenerator {
 		$w = new ilXmlWriter();
 		$w->xmlStartTag('Table', array( 'name' => $a_table ));
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$ins_st = "";
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set)) {
@@ -658,7 +662,7 @@ class ilDBGenerator {
 			return;
 		}
 
-		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
+		$set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
 		$ins_st = "";
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set)) {

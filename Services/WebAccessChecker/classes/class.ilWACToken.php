@@ -87,7 +87,12 @@ class ilWACToken {
 
 	public function generateToken() {
 		$this->initSalt();
-		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL() ));
+		$token = implode('-', array(
+			self::getSALT(),
+			$this->getClient(),
+			$this->getTimestamp(),
+			$this->getTTL(),
+		));
 		$this->setRawToken($token);
 		$token = sha1($token);
 		$this->setToken($token);

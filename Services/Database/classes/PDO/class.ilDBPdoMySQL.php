@@ -96,5 +96,23 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 
 		return $value;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function doesCollationSupportMB4Strings()
+	{
+		// Currently ILIAS does not support utf8mb4, after that ilDB could check like this:
+		//		static $supported;
+		//		if (!isset($supported)) {
+		//			$q = "SELECT default_character_set_name FROM information_schema.SCHEMATA WHERE schema_name = %s;";
+		//			$res = $this->queryF($q, ['text'], [$this->getDbname()]);
+		//			$data = $this->fetchObject($res);
+		//			$supported = ($data->default_character_set_name === 'utf8mb4');
+		//		}
+
+		return false;
+	}
 }
 

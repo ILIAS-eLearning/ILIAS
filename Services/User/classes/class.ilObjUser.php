@@ -1456,28 +1456,6 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* check wether user has accepted user agreement
-	*/
-	function hasAcceptedUserAgreement()
-	{
-		/**
-		 * @var ilRbacReview
-		 */
-		global $rbacreview;
-
-		if(
-			null != $this->agree_date ||
-			'root' == $this->login ||
-			in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) ||
-			$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
-		)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	* set login / username
 	* @access	public
 	* @param	string	username
@@ -2307,26 +2285,41 @@ class ilObjUser extends ilObject
         return $this->profile_incomplete;
     }
 
-    public function isPasswordChangeDemanded()
-    {
-		//error_reporting(E_ALL);
-		if( $this->id == ANONYMOUS_USER_ID || $this->id == SYSTEM_USER_ID )
-		{
+	/**
+	 * @return bool
+	 */
+	public function isPasswordChangeDemanded()
+	{
+		if ($this->id == ANONYMOUS_USER_ID) {
 			return false;
 		}
 
-    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-    	$security = ilSecuritySettings::_getInstance();
-    	
-		if( !ilAuthUtils::_needsExternalAccountByAuthMode( $this->getAuthMode(true) )
-			&& $security->isPasswordChangeOnFirstLoginEnabled()
-			&& $this->getLastPasswordChangeTS() == 0
-			&& $this->is_self_registered == false
-		){
+		if ($this->id == SYSTEM_USER_ID) {
+			require_once './Services/User/classes/class.ilUserPasswordManager.php';
+			if (
+				\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
+				!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
+			) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+
+		if (
+			!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true)) &&
+			$security->isPasswordChangeOnFirstLoginEnabled() &&
+			$this->getLastPasswordChangeTS() == 0 &&
+			$this->is_self_registered == false
+		) {
 			return true;
 		}
-		else return false;
-    }
+
+		return false;
+	}
 
 	public function isPasswordExpired()
 	{
@@ -4844,13 +4837,12 @@ class ilObjUser extends ilObject
 
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 		if (ilTermsOfServiceHelper::isEnabled()) {
-			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
-			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
+			$users = array_filter($users, function($user) {
 				if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
 					return true;
 				}
 
-				return isset($adminRoleUserIds[$user['user_id']]);
+				return false;
 			});
 		}
 
@@ -5376,19 +5368,13 @@ class ilObjUser extends ilObject
 	 */
 	public function hasToAcceptTermsOfService()
 	{
-		/**
-		 * @var ilRbacReview
-		 */
-		global $rbacreview;
-
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 		if(
 			ilTermsOfServiceHelper::isEnabled() && 
 			null == $this->agree_date &&
 			'root' != $this->login &&
-			!in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) &&
-			!$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
+			!in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID))
 		)
 		{
 			return true;

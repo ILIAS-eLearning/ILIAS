@@ -275,15 +275,17 @@ class ilScoringAdjustmentGUI
 		$active_ids = array_keys($participants);
 		$results = array();
 		
-		foreach ($active_ids as $active_id)
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		foreach( $active_ids as $active_id )
 		{
-			$passes[] = ilObjTest::_getPass($active_id);
-			foreach ($passes as $key => $pass)
+			$passesSelector = new ilTestPassesSelector($db, $this->object);
+			$passesSelector->setActiveId($active_id);
+			$passesSelector->loadLastFinishedPass();
+			
+			foreach( $passesSelector->getClosedPasses() as $pass )
 			{
-				for ($i = 0; $i <= $pass; $i++)
-				{
-					$results[] = $question->object->getSolutionValues($active_id, $i);
-				}
+				$results[] = $question->object->getSolutionValues($active_id, $pass);
 			}
 		}
 
@@ -299,6 +301,7 @@ class ilScoringAdjustmentGUI
 			}
 		}
 
+		$this->tpl->addCss('Modules/Test/templates/default/ta.css');
 		$answers_view = $question->getAggregatedAnswersView($relevant_answers);
 
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';

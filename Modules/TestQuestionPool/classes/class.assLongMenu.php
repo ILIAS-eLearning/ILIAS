@@ -308,9 +308,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				foreach($values as $key => $value)
 				{
-					$file_content .= $value . '\n';
+					$file_content .= $value . "\n";
 				}
-				$file_content = rtrim($file_content, '\n'); 
+				$file_content = rtrim($file_content, "\n"); 
 				$file = fopen($this->buildFileName($gap), "w");
 				fwrite($file, $file_content);
 				fclose($file);
@@ -332,7 +332,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		foreach( $files as $file)
 		{
 			$gap					= str_replace('.txt', '', basename($file));
-			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));
+			$answers[(int) $gap] 	= explode("\n", file_get_contents($file));
 		}
 		$this->setAnswers($answers);
 		return $answers;
@@ -907,7 +907,15 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		parent::delete($original_id);
 		$this->clearFolder(false);
 	}
-
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setLongMenuTextValue( $migrator->migrateToLmContent($this->getLongMenuTextValue()) );
+	}
+	
 	/**
 	 * Returns a JSON representation of the question
 	 */

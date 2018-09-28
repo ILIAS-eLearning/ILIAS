@@ -370,6 +370,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Gateway for exports initiated from workspace, as there is a generic
+	 * forward to {objTypeMainGUI}::export()
+	 */
+	protected function exportObject()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC->ctrl()->redirectByClass('ilQuestionPoolExportGUI');
+	}
+	
+	/**
 	* download file
 	*/
 	function downloadFileObject()
@@ -550,7 +560,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$type = $this->lng->txt("assKprimChoice");
 					break;
 				case LONG_MENU_QUESTION_IDENTIFIER:
-					$type = $this->lng->txt("longMenuQuestion");
+					$type = $this->lng->txt("assLongMenu");
 					break;
 				case SINGLE_CHOICE_QUESTION_IDENTIFIER:
 					$type = $this->lng->txt("assSingleChoice");

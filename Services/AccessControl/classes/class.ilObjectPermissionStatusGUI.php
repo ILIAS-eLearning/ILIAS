@@ -402,7 +402,7 @@ class ilObjectPermissionStatusGUI
 				$result_set[$counter]["operation"] = $this->lng->txt($this->object->getType()."_".$ops['operation']);
 			}
 
-			$list_role = "";
+			$list_role = [];
 
 			// Check ownership
 			if($this->user->getId() == $ilObjDataCache->lookupOwner($this->object->getId()))

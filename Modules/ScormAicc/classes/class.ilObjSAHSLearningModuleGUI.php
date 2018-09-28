@@ -504,8 +504,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$scormFilePath = $lmTempDir . "/" . $scormFile;
 				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
 				$file_path = $targetPath;
-
-				rename ($scormFilePath, $targetPath);
+				require_once('./Services/Utilities/classes/class.ilFileUtils.php');
+				ilFileUtils::rename ($scormFilePath, $targetPath);
 			}
 			else
 			{

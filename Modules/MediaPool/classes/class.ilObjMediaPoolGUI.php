@@ -717,13 +717,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function confirmRemove()
 	{
-		global $ilAccess, $ilCtrl, $lng;
+		global $ilAccess, $ilCtrl, $lng, $ilErr;
+
 
 		$this->checkPermission("write");
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		
 		// display confirmation message

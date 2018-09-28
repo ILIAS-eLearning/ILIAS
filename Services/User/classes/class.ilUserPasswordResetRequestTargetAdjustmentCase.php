@@ -37,6 +37,11 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
 	 */
 	public function shouldAdjustRequest()
 	{
+		if(ilSession::get('used_external_auth'))
+		{
+			return false;
+		}
+
 		if(!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired()))
 		{
 			return true;
@@ -50,20 +55,8 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
 	 */
 	public function adjust()
 	{
+		$_GET['baseClass'] = 'ilpersonaldesktopgui';
 		$this->ctrl->setTargetScript('ilias.php');
 		ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ilpersonaldesktopgui', 'ilpersonalsettingsgui'), 'showPassword', '', false, false));
-		
-		
-		/*
-		if(isset($_GET['baseClass']) && strtolower($_GET['baseClass']) == 'ilpersonaldesktopgui')
-		{
-			$this->ctrl->setTargetScript('ilias.php');
-			ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ilpersonaldesktopgui', 'ilpersonalsettingsgui'), 'showPassword', '', false, false));
-		}
-		else
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-		 */
 	}
 }
