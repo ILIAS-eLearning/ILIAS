@@ -20,7 +20,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
 * 
 *
 *
@@ -81,20 +81,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('settings');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('grp_icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
-
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
@@ -537,9 +523,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		$obj_service = $this->getObjectService();
 
 		$this->checkPermission('write');
 		
@@ -616,6 +600,9 @@ class ilObjGroupGUI extends ilContainerGUI
 					$this->object->setWaitingListAutoFill(false);
 					break;
 			}
+
+			// custom icon
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
 			// update object settings
 			$this->object->update();
@@ -1440,8 +1427,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
+		$obj_service = $this->getObjectService();
+
 		$tree = $DIC['tree'];
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1638,7 +1625,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$form->addItem($pres);
-			
+
+			// custom icon
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
 			if($hasParentMembership)
@@ -1797,14 +1787,6 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'grp_icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editGroupIcons', get_class($this)
-					);
-				}
-				
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
 				{

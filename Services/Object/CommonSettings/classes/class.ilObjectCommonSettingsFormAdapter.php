@@ -44,12 +44,15 @@ class ilObjectCommonSettingFormAdapter
 	{
 		global $DIC;
 
-		if (!is_null($this->legacy_form))
+		if ($this->service->settings()->get('custom_icons'))
 		{
-			$this->legacy_form = clone $this->legacy_form;
-			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-			$gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
-			$gui->addSettingsToForm($this->legacy_form);
+			if (!is_null($this->legacy_form))
+			{
+				$this->legacy_form = clone $this->legacy_form;
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
+				$gui->addSettingsToForm($this->legacy_form);
+			}
 		}
 		return $this->legacy_form;
 	}
@@ -61,12 +64,15 @@ class ilObjectCommonSettingFormAdapter
 	{
 		global $DIC;
 
-		if (!is_null($this->legacy_form))
+		if ($this->service->settings()->get('custom_icons'))
 		{
-			$this->legacy_form = clone $this->legacy_form;
-			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-			$gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
-			$gui->saveIcon($this->legacy_form);
+			if (!is_null($this->legacy_form))
+			{
+				$this->legacy_form = clone $this->legacy_form;
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
+				$gui->saveIcon($this->legacy_form);
+			}
 		}
 
 	}

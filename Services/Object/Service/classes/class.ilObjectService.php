@@ -18,12 +18,18 @@ class ilObjectService
 	protected $lng;
 
 	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 * Constructor
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(ilLanguage $lng)
+	public function __construct(ilLanguage $lng, ilSetting $settings)
 	{
 		$this->lng = $lng;
+		$this->settings = $settings;
 	}
 
 	/**
@@ -34,6 +40,16 @@ class ilObjectService
 	public function language()
 	{
 		return $this->lng;
+	}
+
+	/**
+	 * Get settings object
+	 *
+	 * @return ilSetting
+	 */
+	public function settings()
+	{
+		return $this->settings;
 	}
 
 	/**

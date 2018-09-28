@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilObjectCustomIconConfigurationGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -247,20 +247,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();		
 				$this->tabs_gui->activateTab('meta_data');
 				$this->ctrl->forwardCommand($this->getObjectMetadataGUI());
-				break;
-
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->prepareOutput();
-
-				$this->setEditTabs('icons');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -727,20 +713,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->lng->txt("obj_multilinguality"),
 			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 
-		if ($ilSetting->get('custom_icons')) {
-			$this->tabs_gui->addSubTab(
-				'icons',
-				$this->lng->txt('icon_settings'),
-				$this->ctrl->getLinkTargetByClass('ilobjectcustomiconconfigurationgui')
-			);
-		}
-
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
 	}
 
 	function initEditForm()
 	{
+		$obj_service = $this->getObjectService();
+
 		$this->lng->loadLanguageModule($this->object->getType());
 		$this->setEditTabs();
 
@@ -786,8 +766,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('obj_presentation'));
 		$form->addItem($pres);
-		
-		
+
+		// custom icon
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
 		$form = $this->initSortingForm(
 				$form,
 				array(
@@ -842,6 +824,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		$ilErr = $this->error;
 		$ilUser = $this->user;
+		$obj_service = $this->getObjectService();
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -863,8 +846,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->object->update();
 				
 				$this->saveSortingSettings($form);
-				
-				// save custom icons
+
+				// custom icon
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
 				// BEGIN ChangeEvent: Record update
 				require_once('Services/Tracking/classes/class.ilChangeEvent.php');

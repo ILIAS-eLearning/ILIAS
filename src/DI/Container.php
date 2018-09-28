@@ -196,7 +196,7 @@ class Container extends \Pimple\Container {
 	 * @return \ilObjectService
 	 */
 	public function object() {
-		return new \ilObjectService($this->language());
+		return new \ilObjectService($this->language(), $this->settings());
 	}
 
 

@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI
  *
  * @extends ilContainerGUI
  */
@@ -834,8 +834,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
-		global $DIC;
-
+		$obj_service = $this->getObjectService();
+			
 		$form = $this->initEditForm();
 
 		if(!$form->checkInput())
@@ -947,7 +947,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// custom icon
-		$DIC->object()->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
@@ -1101,7 +1101,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function initEditForm()
 	{
-		global $DIC;
+		$obj_service = $this->getObjectService();
 
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
@@ -1347,7 +1347,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($pres);
 
 		// custom icon
-		$form = $DIC->object()->commonSettings()->legacyForm($form, $this->object)->addIcon();
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
 
 		// presentation type
@@ -1581,14 +1581,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editCourseIcons', get_class($this)
-					);
-				}
-				
 				// map settings
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
@@ -2592,20 +2584,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab('obj_tool_setting_skills');
 				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
 				$gui = new ilContainerSkillGUI($this);
-				$this->ctrl->forwardCommand($gui);
-				break;
-
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('properties');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
