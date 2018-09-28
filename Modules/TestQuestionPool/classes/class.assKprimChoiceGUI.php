@@ -929,4 +929,39 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		return $aggregate;
 	}
 
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
+		
+		$answers = array();
+		
+		foreach($agg as $ans)
+		{
+			$answers[] = array(
+				'answer' => $ans['answertext'],
+				'frequency_true' => $ans['count_true'],
+				'frequency_false' => $ans['count_false']
+			);
+		}
+		
+		return $answers;
+	}
+	
+	/**
+	 * @param $parentGui
+	 * @param $parentCmd
+	 * @param $relevantAnswers
+	 * @param $questionIndex
+	 * @return ilKprimChoiceAnswerFreqStatTableGUI
+	 */
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilKprimChoiceAnswerFreqStatTableGUI.php';
+		
+		$table = new ilKprimChoiceAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setData($this->getAnswersFrequency($relevantAnswers,$questionIndex));
+		$table->initColumns();
+		
+		return $table;
+	}
 }

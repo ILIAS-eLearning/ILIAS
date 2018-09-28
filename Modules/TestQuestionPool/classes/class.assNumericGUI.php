@@ -561,4 +561,23 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		}
 		return $tpl;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach($relevantAnswers as $ans)
+		{
+			if( !isset($answers[$ans['value1']]) )
+			{
+				$answers[$ans['value1']] = array(
+					'answer' => $ans['value1'], 'frequency' => 0
+				);
+			}
+			
+			$answers[$ans['value1']]['frequency']++;
+		}
+		
+		return $answers;
+	}
 }

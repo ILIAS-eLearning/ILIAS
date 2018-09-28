@@ -74,14 +74,19 @@ class ilTestCorrectionsGUI
 	
 	protected function showQuestion()
 	{
-		$this->setCorrectionTabsContext('question');
+		$questionGUI = $this->getQuestion();
+		
+		$this->setCorrectionTabsContext($questionGUI, 'question');
+		
+		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		$this->DIC->ui()->mainTemplate()->setContent('blubb');
 	}
 	
 	protected function showSolution()
 	{
-		$this->setCorrectionTabsContext('solution');
-		
 		$questionGUI = $this->getQuestion();
+		
+		$this->setCorrectionTabsContext($questionGUI,'solution');
 		
 		$pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
 		$pageGUI->setRenderPageContainer(false);
@@ -89,23 +94,49 @@ class ilTestCorrectionsGUI
 		$pageGUI->setEnabledTabs(false);
 		
 		$solutionHTML = $questionGUI->getSolutionOutput(
-			0, null, false, false, false,
+			0, null, false, false, true,
 			false,true, false, true
 		);
 		
 		$pageGUI->setQuestionHTML(array($questionGUI->object->getId() => $solutionHTML));
 		$pageGUI->setPresentationTitle($questionGUI->object->getTitle());
 		
+		$tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'Modules/Test');
+		$tpl->setVariable('SOLUTION_PRESENTATION', $pageGUI->preview());
+		
+		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		$this->DIC->ui()->mainTemplate()->setContent($tpl->get());
 		$this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
-		$this->DIC->ui()->mainTemplate()->setContent($pageGUI->preview());
+		
+		$this->DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
+		$stylesheet = ilObjStyleSheet::getContentStylePath(0);
+		$this->DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET", $stylesheet);
+		$this->DIC->ui()->mainTemplate()->parseCurrentBlock();
+		
+		$this->DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
+		$stylesheet = ilObjStyleSheet::getSyntaxStylePath();
+		$this->DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET", $stylesheet);
+		$this->DIC->ui()->mainTemplate()->parseCurrentBlock();
 	}
 	
 	protected function showAnswerStatistic()
 	{
-		$this->setCorrectionTabsContext('answers');
+		$questionGUI = $this->getQuestion();
+		$solutions = $this->getSolutions($questionGUI->object);
+		
+		$this->setCorrectionTabsContext($questionGUI, 'answers');
+		
+		$table = $questionGUI->getAnswerFrequencyTableGUI(
+			$this, 'showAnswerStatistic', $solutions, $this->getQuestionIndexParameter()
+		);
+		
+		$this->DIC->ui()->mainTemplate()->setContent($table->getHTML());
+		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		$this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
+		
 	}
 	
-	protected function setCorrectionTabsContext($activeTabId)
+	protected function setCorrectionTabsContext(assQuestionGUI $questionGUI, $activeTabId)
 	{
 		$this->DIC->tabs()->clearTargets();
 		$this->DIC->tabs()->clearSubTabs();
@@ -121,11 +152,32 @@ class ilTestCorrectionsGUI
 			$this->DIC->ctrl()->getLinkTarget($this, 'showSolution')
 		);
 		
-		$this->DIC->tabs()->addTab('answers', 'Answer Statistic',
-			$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
-		);
+		if($questionGUI->isAnswerFreuqencyStatisticSupported())
+		{
+			$this->DIC->ctrl()->setParameter($this, 'qindex', 0);
+			$this->DIC->tabs()->addTab('answers', 'Answer Statistic',
+				$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
+			);
+		}
 		
 		$this->DIC->tabs()->activateTab($activeTabId);
+		
+		if($questionGUI->isAnswerFreuqencyStatisticSupported() && $activeTabId == 'answers')
+		{
+			foreach($questionGUI->getSubQuestionsIndex() as $subIndex => $subQuestion)
+			{
+				$this->DIC->ctrl()->setParameter($this, 'qindex', $subIndex);
+				
+				$this->DIC->tabs()->addSubTab('subqst'.$subIndex, $subQuestion, 
+					$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
+				);
+				
+				if($subIndex == $this->getQuestionIndexParameter())
+				{
+					$this->DIC->tabs()->activateSubTab('subqst'.$subIndex);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -137,5 +189,32 @@ class ilTestCorrectionsGUI
 		$question->object->setObjId($this->testOBJ->getId());
 		
 		return $question;
+	}
+	
+	protected function getQuestionIndexParameter()
+	{
+		return (int)$_GET["qindex"];
+	}
+	
+	protected function getSolutions(assQuestion $question)
+	{
+		$solutionRows = array();
+		
+		foreach($this->testOBJ->getParticipants() as $activeId => $participantData)
+		{
+			$passesSelector = new ilTestPassesSelector($this->DIC->database(), $this->testOBJ);
+			$passesSelector->setActiveId($activeId);
+			$passesSelector->loadLastFinishedPass();
+			
+			foreach($passesSelector->getClosedPasses() as $pass)
+			{
+				foreach($question->getSolutionValues($activeId, $pass) as $row)
+				{
+					$solutionRows[] = $row;
+				}
+			}
+		}
+		
+		return $solutionRows;
 	}
 }

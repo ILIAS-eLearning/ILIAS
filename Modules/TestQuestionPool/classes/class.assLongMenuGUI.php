@@ -686,4 +686,42 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		return $tpl->get();
 	}
+	
+	public function getSubQuestionsIndex()
+	{
+		$subQuestionIndex = array();
+		
+		foreach($this->object->getAnswers() as $lmIndex => $lm)
+		{
+			$subQuestionIndex[$lmIndex] = 'Longmenu '.($lmIndex + 1);
+		}
+		
+		return $subQuestionIndex;
+	}
+	
+	public function getAnswersFrequency($relevant_answers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach ($relevant_answers as $row)
+		{
+			if( $row['value1'] != $questionIndex )
+			{
+				continue;
+			}
+			
+			if( !isset($answers[$row['value2']]) )
+			{
+				//$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
+				
+				$answers[$row['value2']] = array(
+					'answer' => $row['value2'], 'frequency' => 0
+				);
+			}
+			
+			$answers[$row['value2']]['frequency']++;
+		}
+		
+		return $answers;
+	}
 }

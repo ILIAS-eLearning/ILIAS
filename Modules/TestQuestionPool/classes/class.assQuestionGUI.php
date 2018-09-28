@@ -2363,4 +2363,37 @@ abstract class assQuestionGUI
 	{
 		return '<div id="focus"></div>';
 	}
+	
+	public function isAnswerFreuqencyStatisticSupported()
+	{
+		return true;
+	}
+	
+	public function getSubQuestionsIndex()
+	{
+		return array(0);
+	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		return array();
+	}
+	
+	/**
+	 * @param $parentGui
+	 * @param $parentCmd
+	 * @param $relevantAnswers
+	 * @param $questionIndex
+	 * @return ilAnswerFrequencyStatisticTableGUI
+	 */
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilAnswerFrequencyStatisticTableGUI.php';
+		
+		$table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
+		$table->initColumns();
+		
+		return $table;
+	}
 }

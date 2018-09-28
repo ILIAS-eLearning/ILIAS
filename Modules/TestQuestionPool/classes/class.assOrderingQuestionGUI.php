@@ -901,4 +901,115 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		return $tpl;
 	}
+	
+	protected function getAnswerStatisticOrderingElementHtml(ilAssOrderingElement $element)
+	{
+		if($this->object->isImageOrderingType())
+		{
+			$element->setImageThumbnailPrefix($this->object->getThumbPrefix());
+			$element->setImagePathWeb($this->object->getImagePathWeb());
+			$element->setImagePathFs($this->object->getImagePath());
+			
+			$src = $element->getPresentationImageUrl();
+			$alt = $element->getContent();
+			$content = "<img src='{$src}' alt='{$alt}' title='{$alt}'/>";
+		}
+		else
+		{
+			$content = $element->getContent();
+		}
+		
+		return $content;
+	}
+	
+	protected function getAnswerStatisticOrderingVariantHtml(ilAssOrderingElementList $list)
+	{
+		$html = '<ul>';
+		
+		$lastIndent = 0;
+		$firstElem = true;
+		
+		foreach($list as $elem)
+		{
+			if($elem->getIndentation() > $lastIndent)
+			{
+				$html .= '<ul><li>';
+			}
+			elseif($elem->getIndentation() < $lastIndent)
+			{
+				$html .= '</li></ul><li>';
+			}
+			elseif( !$firstElem )
+			{
+				$html .= '</li><li>';
+			}
+			else
+			{
+				$html .= '<li>';
+			}
+
+			$html .= $this->getAnswerStatisticOrderingElementHtml($elem);
+			
+			$firstElem = false;
+			$lastIndent = $elem->getIndentation();
+		}
+		
+		$html .= '</li>';
+		
+		for($i = $lastIndent; $i > 0; $i--)
+		{
+			$html .= '</ul></li>';
+		}
+		
+		$html .= '</ul>';
+		
+		return $html;
+	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answersByActiveAndPass = array();
+		
+		foreach($relevantAnswers as $row)
+		{
+			$key = $row['active_fi'].':'.$row['pass'];
+			
+			if( !isset($answersByActiveAndPass[$key]) )
+			{
+				$answersByActiveAndPass[$key] = array();
+			}
+			
+			$answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
+		}
+		
+		$solutionLists = array();
+		
+		foreach($answersByActiveAndPass as $indexedSolutions)
+		{
+			$solutionLists[] = $this->object->getSolutionOrderingElementList($indexedSolutions);
+		}
+		
+		/* @var ilAssOrderingElementList[] $answers */
+		$answers = array();
+		
+		foreach($solutionLists as $orderingElementList)
+		{
+			$hash = $orderingElementList->getHash();
+			
+			if( !isset($answers[$hash]) )
+			{
+				$variantHtml = $this->getAnswerStatisticOrderingVariantHtml(
+					$orderingElementList
+				);
+				
+				$answers[$hash] = array(
+					'answer' => $variantHtml, 'frequency' => 0
+				);
+			}
+			
+			$answers[$hash]['frequency']++;
+		}
+		
+		return array_values($answers);
+	}
 }

@@ -1687,4 +1687,133 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		
 		$gaptemplate->parseCurrentBlock();
 	}
+	
+	protected function hasAddAnswerAction($relevantAnswers, $questionIndex)
+	{
+		foreach($this->getAnswersFrequency($relevantAnswers, $questionIndex) as $answer)
+		{
+			if( isset($answer['actions']) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		$table = parent::getAnswerFrequencyTableGUI(
+			$parentGui, $parentCmd, $relevantAnswers, $questionIndex
+		);
+		
+		$table->setTitle('Answer Statistic - Gap '.($questionIndex + 1));
+		
+		if( $this->hasAddAnswerAction($relevantAnswers, $questionIndex) )
+		{
+			$table->addColumn('', '', '200');
+		}
+		
+		return $table;
+	}
+	
+	public function getSubQuestionsIndex()
+	{
+		$subQuestionIndex = array();
+		
+		foreach($this->object->getGaps() as $gapIndex => $gap)
+		{
+			$subQuestionIndex[$gapIndex] = 'Gap '.($gapIndex + 1);
+		}
+		
+		return $subQuestionIndex;
+	}
+	
+	protected function getAnswerTextLabel($gapIndex, $answer)
+	{
+		$gap = $this->object->getGap($gapIndex);
+		
+		switch($gap->type)
+		{
+			case CLOZE_NUMERIC:
+			case CLOZE_TEXT:
+				return $answer;
+				
+			case CLOZE_SELECT:
+				
+				$items = $gap->getItems(new ilArrayElementOrderKeeper());
+				return $items[$answer]->getAnswertext();
+		}
+	}
+	
+	protected function getAddActionHtml()
+	{
+		$pointsInput = '<input type="text" name="" value="" size="5" style="margin-right: 20px;">';
+		
+		$addButton = ilLinkButton::getInstance();
+		$addButton->setCaption('Add Answer', false);
+		
+		return $pointsInput.$addButton->getToolbarHTML();
+	}
+	
+	protected function completeAddAnswerAction($answers, $questionIndex)
+	{
+		$gap = $this->object->getGap($questionIndex);
+		
+		if( $gap->type != CLOZE_TEXT )
+		{
+			return $answers;
+		}
+		
+		foreach($answers as $key => $ans)
+		{
+			$found = false;
+			
+			foreach($gap->getItems(new ilArrayElementOrderKeeper()) as $item)
+			{
+				if( $ans != $item->getAnswerText() )
+				{
+					continue;
+				}
+				
+				$found = true;
+				break;
+			}
+			
+			if( !$found )
+			{
+				$answers[$key]['actions'] = $this->getAddActionHtml();
+			}
+		}
+		
+		return $answers;
+	}
+	
+	public function getAnswersFrequency($relevant_answers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach ($relevant_answers as $row)
+		{
+			if( $row['value1'] != $questionIndex )
+			{
+				continue;
+			}
+			
+			if( !isset($answers[$row['value2']]) )
+			{
+				$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
+				
+				$answers[$row['value2']] = array(
+					'answer' => $label, 'frequency' => 0
+				);
+			}
+			
+			$answers[$row['value2']]['frequency']++;
+		}
+		
+		$answers = $this->completeAddAnswerAction($answers, $questionIndex);
+		
+		return $answers;
+	}
 }

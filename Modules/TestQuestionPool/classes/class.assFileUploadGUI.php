@@ -613,4 +613,9 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	{
 		return self::FORM_ENCODING_MULTIPART;
 	}
+	
+	public function isAnswerFreuqencyStatisticSupported()
+	{
+		return false;
+	}
 }

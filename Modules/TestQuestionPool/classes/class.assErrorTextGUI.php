@@ -576,4 +576,45 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		return $html;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answersByActiveAndPass = array();
+		
+		foreach($relevantAnswers as $row)
+		{
+			$key = $row['active_fi'].':'.$row['pass'];
+			
+			if( !isset($answersByActiveAndPass[$key]) )
+			{
+				$answersByActiveAndPass[$key] = array();
+			}
+			
+			if( !isset($answersByActiveAndPass[$key][$row['value2']]) )
+			{
+				$answersByActiveAndPass[$key][$row['value2']] = array();
+			}
+			
+			$answersByActiveAndPass[$key][$row['value2']][] = $row['value1'];
+		}
+		
+		$answers = array();
+		
+		foreach($answersByActiveAndPass as $ans)
+		{
+			$errorText = $this->object->createErrorTextOutput($ans);
+			$errorMd5 = md5($errorText);
+			
+			if( !isset($answers[$errorMd5]) )
+			{
+				$answers[$errorMd5] = array(
+					'answer' => $errorText, 'frequency' => 0
+				);
+			}
+			
+			$answers[$errorMd5]['frequency']++;
+		}
+		
+		return array_values($answers);
+	}
 }

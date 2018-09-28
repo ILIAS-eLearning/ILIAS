@@ -1153,4 +1153,21 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$this->addQuestionFormCommandButtons($form);
 		return $form;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
+		
+		$answers = array();
+		
+		foreach($agg as $ans)
+		{
+			$answers[] = array(
+				'answer' => $ans['answertext'],
+				'frequency' => $ans['count_checked']
+			);
+		}
+		
+		return $answers;
+	}
 }

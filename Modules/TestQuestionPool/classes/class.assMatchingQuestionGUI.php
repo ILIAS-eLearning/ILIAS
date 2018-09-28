@@ -1140,4 +1140,94 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return true;
 	}
+	
+	protected function getAnswerStatisticImageHtml($picture)
+	{
+		$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $picture;
+		return '<img src="'.$thumbweb.'" alt="'.$picture.'" title="'.$picture.'"/>';
+	}
+	
+	protected function getAnswerStatisticMatchingElemHtml($elem)
+	{
+		$html = '';
+		
+		if( strlen($elem->text) )
+		{
+			$html .= $elem->text;
+		}
+		
+		if( strlen($elem->picture) )
+		{
+			$html .= $this->getAnswerStatisticImageHtml($elem->picture);
+		}
+
+		return $html;
+	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answersByActiveAndPass = array();
+		
+		foreach($relevantAnswers as $row)
+		{
+			$key = $row['active_fi'].':'.$row['pass'];
+			
+			if( !isset($answersByActiveAndPass[$key]) )
+			{
+				$answersByActiveAndPass[$key] = array();
+			}
+			
+			$answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
+		}
+
+		$answers = array();
+		
+		foreach($answersByActiveAndPass as $key => $matchingPairs)
+		{
+			foreach($matchingPairs as $termId => $defId)
+			{
+				$hash = md5($termId.':'.$defId);
+				
+				if( !isset($answers[$hash]) )
+				{
+					$termHtml = $this->getAnswerStatisticMatchingElemHtml(
+						$this->object->getTermWithIdentifier($termId)
+					);
+					
+					$defHtml = $this->getAnswerStatisticMatchingElemHtml(
+						$this->object->getDefinitionWithIdentifier($defId)
+					);
+					
+					$answers[$hash] = array(
+						'answer' => $termHtml.$defHtml,
+						'term' => $termHtml,
+						'definition' => $defHtml,
+						'frequency' => 0
+					);
+				}
+				
+				$answers[$hash]['frequency']++;
+			}
+		}
+		
+		return $answers;
+	}
+	
+	/**
+	 * @param $parentGui
+	 * @param $parentCmd
+	 * @param $relevantAnswers
+	 * @param $questionIndex
+	 * @return ilMatchingQuestionAnswerFreqStatTableGUI
+	 */
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php';
+		
+		$table = new ilMatchingQuestionAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setData($this->getAnswersFrequency($relevantAnswers,$questionIndex));
+		$table->initColumns();
+		
+		return $table;
+	}
 }
