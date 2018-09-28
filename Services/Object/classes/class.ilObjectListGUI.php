@@ -946,7 +946,18 @@ class ilObjectListGUI
 	{
 		$this->restrict_to_goto = (bool)$a_value;
 	}
-	
+
+
+	/**
+	 * Get default command
+	 *
+	 * @return array
+	 */
+	public function getDefaultCommand()
+	{
+		return $this->default_command;
+	}
+
 	/**
 	 * 
 	 * @param

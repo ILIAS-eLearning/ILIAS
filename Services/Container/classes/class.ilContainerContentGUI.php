@@ -68,7 +68,10 @@ abstract class ilContainerContentGUI
 	const DETAILS_DEACTIVATED = 0;
 	const DETAILS_TITLE = 1;
 	const DETAILS_ALL = 2;
-	
+
+	const VIEW_MODE_LIST = 0;
+	const VIEW_MODE_TILE = 1;
+
 	protected $details_level = self::DETAILS_DEACTIVATED;
 
 	/**
@@ -83,6 +86,11 @@ abstract class ilContainerContentGUI
 	 * @var ilLogger
 	 */
 	protected $log;
+
+	/**
+	 * @var int
+	 */
+	protected $view_mode;
 
 	/**
 	* Constructor
@@ -111,7 +119,20 @@ abstract class ilContainerContentGUI
 
 		$this->log = ilLoggerFactory::getLogger('cont');
 
+		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile")
+			? self::VIEW_MODE_TILE
+			: self::VIEW_MODE_LIST;
+
 	}
+	
+	/**
+	 * Get view mode
+	 */
+	protected function getViewMode()
+	{
+		return $this->view_mode;
+	}
+	
 	
 	/**
 	 * get details level
@@ -298,6 +319,7 @@ abstract class ilContainerContentGUI
 			,$this->getContainerGUI()->isMultiDownloadEnabled()
 			,$this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view		
 			,$sorting->getBlockPositions()
+			,$this->getViewMode()
 		);				
 	}
 	
@@ -534,12 +556,13 @@ abstract class ilContainerContentGUI
 	}
 	
 	/**
-	* Render an item
-	*
-	* @param	array		item data
-	*
-	* @return	string		item HTML
-	*/
+	 * Render an item
+	 * @param $a_item_data
+	 * @param int $a_position
+	 * @param bool $a_force_icon
+	 * @param string $a_pos_prefix
+	 * @return string
+	 */
 	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
 	{
 		$ilSetting = $this->settings;
@@ -551,6 +574,12 @@ abstract class ilContainerContentGUI
 		{
 			return '';
 		}
+
+		if ($this->getViewMode() == self::VIEW_MODE_TILE)
+		{
+			return $this->renderCard($a_item_data, $a_position, $a_force_icon, $a_pos_prefix);
+		}
+
 		$item_list_gui = $this->getItemGUI($a_item_data);
 		if ($ilSetting->get("icon_position_in_lists") == "item_rows" ||
 			$a_item_data["type"] == "sess" || $a_force_icon)
@@ -710,6 +739,47 @@ abstract class ilContainerContentGUI
 	}
 
 	/**
+	 * Render card
+	 * @param $a_item_data
+	 * @param int $a_position
+	 * @param bool $a_force_icon
+	 * @param string $a_pos_prefix
+	 * @return string
+	 */
+	function renderCard($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
+	{
+		global $DIC;
+		$f = $DIC->ui()->factory();
+
+		$item_list_gui = $this->getItemGUI($a_item_data);
+		$item_list_gui->initItem($a_item_data['ref_id'], $a_item_data['obj_id'],
+			$a_item_data['title'], $a_item_data['description']);
+		$item_list_gui->insertCommands();
+		$def_command = $item_list_gui->getDefaultCommand();
+
+		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
+
+		if ($img->exists())
+		{
+			$path = $img->getFullPath();
+		}
+		else
+		{
+			$path = ilUtil::getImagePath("empty.png");
+		}
+
+		$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+
+		// card
+		$card = $f->card(
+			$a_item_data["title"],
+			$image
+		)->withTitleAction($def_command["link"]);
+
+		return $card;
+	}
+
+		/**
 	* Insert blocks into container page
 	*/
 	function insertPageEmbeddedBlocks($a_output_html)
