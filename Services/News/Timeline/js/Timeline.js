@@ -34,7 +34,7 @@ il.Timeline = {
 					el_top = $(el).position().top;
 
 					// at least two badges lower than the last on the other side
-					mt = prev_top + (1.5 * minspace) - el_top;
+					mt = prev_top + (1 * minspace) - el_top;
 
 					// if an element exists over our element, move up to element
 					prev2 = $(prev).prev("li");
@@ -51,7 +51,7 @@ il.Timeline = {
 						prev_badge_top = $(el).prevAll("li").find(".ilTimelineBadge").first().position().top;
 						if (prev_badge_top > 0) {
 							mt3 = prev_badge_top + minspace - el_top;
-							if (mt3 > mt || mt == 0) {
+							if (mt3 > mt) {
 								mt = mt3;
 							}
 						}
