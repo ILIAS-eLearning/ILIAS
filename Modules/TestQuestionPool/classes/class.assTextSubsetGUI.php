@@ -578,4 +578,17 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// Choices
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php';
+		$choices = new ilAssAnswerCorrectionsInputGUI($this->lng->txt( "answers" ), "answers");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+		
+		return $form;
+	}
 }

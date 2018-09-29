@@ -580,4 +580,46 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals(true);
+		$points->setValue( $this->object->getPoints() > 0 ? $this->object->getPoints() : '' );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+		
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "range" ) );
+		$form->addItem( $header );
+		
+		// lower bound
+		$lower_limit = new ilFormulaInputGUI($this->lng->txt( "range_lower_limit" ), "lowerlimit");
+		$lower_limit->setSize( 25 );
+		$lower_limit->setMaxLength( 20 );
+		$lower_limit->setRequired( true );
+		$lower_limit->setValue( $this->object->getLowerLimit() );
+		$form->addItem( $lower_limit );
+		
+		// upper bound
+		$upper_limit = new ilFormulaInputGUI($this->lng->txt( "range_upper_limit" ), "upperlimit");
+		$upper_limit->setSize( 25 );
+		$upper_limit->setMaxLength( 20 );
+		$upper_limit->setRequired( true );
+		$upper_limit->setValue( $this->object->getUpperLimit() );
+		$form->addItem( $upper_limit );
+		
+		// reset input length, if max chars are set
+		if( $this->object->getMaxChars() > 0 )
+		{
+			$lower_limit->setSize( $this->object->getMaxChars() );
+			$lower_limit->setMaxLength( $this->object->getMaxChars() );
+			$upper_limit->setSize( $this->object->getMaxChars() );
+			$upper_limit->setMaxLength( $this->object->getMaxChars() );
+		}
+	}
 }

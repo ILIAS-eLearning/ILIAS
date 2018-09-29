@@ -1063,4 +1063,26 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilImagemapCorrectionsInputGUI.php';
+		$image = new ilImagemapCorrectionsInputGUI($this->lng->txt( 'image' ), 'image');
+		$image->setPointsUncheckedFieldEnabled( $this->object->getIsMultipleChoice() );
+		$image->setRequired( true );
+		
+		if (strlen( $this->object->getImageFilename() ))
+		{
+			$image->setImage( $this->object->getImagePathWeb() . $this->object->getImageFilename() );
+			$image->setValue( $this->object->getImageFilename() );
+			$image->setAreas( $this->object->getAnswers() );
+			$assessmentSetting = new ilSetting("assessment");
+			$linecolor         = (strlen( $assessmentSetting->get( "imap_line_color" )
+			)) ? "\"#" . $assessmentSetting->get( "imap_line_color" ) . "\"" : "\"#FF0000\"";
+			$image->setLineColor( $linecolor );
+			$image->setImagePath( $this->object->getImagePath() );
+			$image->setImagePathWeb( $this->object->getImagePathWeb() );
+		}
+		$form->addItem( $image );
+	}
 }

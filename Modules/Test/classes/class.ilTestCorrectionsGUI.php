@@ -61,9 +61,7 @@ class ilTestCorrectionsGUI
 			$this,'showQuestionList', true, false, 0
 		);
 		
-		$table_gui->setData(
-			$this->testOBJ->getTestQuestions()
-		);
+		$table_gui->setData($this->getQuestions());
 		
 		$table_gui->clearActionButtons();
 		$table_gui->clearCommandButtons();
@@ -74,17 +72,42 @@ class ilTestCorrectionsGUI
 	
 	protected function showQuestion()
 	{
-		$questionGUI = $this->getQuestion();
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
 		
 		$this->setCorrectionTabsContext($questionGUI, 'question');
 		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction( $this->DIC->ctrl()->getFormAction($this) );
+		$form->setId('tst_question_correction');
+		
+		$form->setTitle(
+			$questionGUI->object->getTitle().'<br /><small>('.$questionGUI->outQuestionType().')</small>'
+		);
+		
+		$hiddenQid = new ilHiddenInputGUI('qid');
+		$hiddenQid->setValue($questionGUI->object->getId());
+		$form->addItem($hiddenQid);
+		
+		$questionGUI->populateCorrectionsFormProperties($form);
+		
+		$manscoring_section = new ilFormSectionHeaderGUI();
+		$manscoring_section->setTitle($this->DIC->language()->txt('manscoring'));
+		$form->addItem($manscoring_section);
+		
+		$manscoringPreservation = new ilCheckboxInputGUI($this->DIC->language()->txt('preserve_manscoring'), 'preserve_manscoring');
+		$manscoringPreservation->setChecked(true);
+		$manscoringPreservation->setInfo($this->DIC->language()->txt('preserve_manscoring_info'));
+		$form->addItem($manscoringPreservation);
+		
+		$form->addCommandButton('saveQuestion', 'Save');
+		
+		$this->DIC->ui()->mainTemplate()->setContent($form->getHTML());
 		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
-		$this->DIC->ui()->mainTemplate()->setContent('blubb');
 	}
 	
 	protected function showSolution()
 	{
-		$questionGUI = $this->getQuestion();
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
 		
 		$this->setCorrectionTabsContext($questionGUI,'solution');
 		
@@ -121,7 +144,7 @@ class ilTestCorrectionsGUI
 	
 	protected function showAnswerStatistic()
 	{
-		$questionGUI = $this->getQuestion();
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
 		$solutions = $this->getSolutions($questionGUI->object);
 		
 		$this->setCorrectionTabsContext($questionGUI, 'answers');
@@ -183,9 +206,9 @@ class ilTestCorrectionsGUI
 	/**
 	 * @return assQuestionGUI
 	 */
-	protected function getQuestion()
+	protected function getQuestion($qId)
 	{
-		$question = assQuestion::instantiateQuestionGUI((int)$_GET["qid"]);
+		$question = assQuestion::instantiateQuestionGUI($qId);
 		$question->object->setObjId($this->testOBJ->getId());
 		
 		return $question;
@@ -216,5 +239,69 @@ class ilTestCorrectionsGUI
 		}
 		
 		return $solutionRows;
+	}
+	
+	protected function getQuestions()
+	{
+		$questions = array();
+		
+		foreach($this->testOBJ->getTestQuestions() as $questionData)
+		{
+			$questionGUI = $this->getQuestion($questionData['question_id']);
+			
+			if( !$this->supportsAdjustment($questionGUI) )
+			{
+				continue;
+			}
+			
+			if( !$this->allowedInAdjustment($questionGUI) )
+			{
+				continue;
+			}
+			
+			$questions[] = $questionData;
+		}
+		
+		return $questions;
+	}
+	
+	/**
+	 * Returns if the given question object support scoring adjustment.
+	 *
+	 * @param $question_object assQuestionGUI
+	 *
+	 * @return bool True, if relevant interfaces are implemented to support scoring adjustment.
+	 */
+	protected function supportsAdjustment(\assQuestionGUI $question_object)
+	{
+		return ($question_object instanceof ilGuiQuestionScoringAdjustable
+				|| $question_object instanceof ilGuiAnswerScoringAdjustable)
+			&& ($question_object->object instanceof ilObjQuestionScoringAdjustable
+				|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
+	}
+	
+	/**
+	 * Returns if the question type is allowed for adjustments in the global test administration.
+	 *
+	 * @param assQuestionGUI $question_object
+	 * @return bool
+	 */
+	protected function allowedInAdjustment(\assQuestionGUI $question_object)
+	{
+		$setting = new ilSetting('assessment');
+		$types = explode(',',$setting->get('assessment_scoring_adjustment'));
+		require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+		$type_def = array();
+		foreach ($types as $type)
+		{
+			$type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);
+		}
+		
+		$type = $question_object->getQuestionType();
+		if (in_array($type,$type_def))
+		{
+			return true;
+		}
+		return false;
 	}
 }

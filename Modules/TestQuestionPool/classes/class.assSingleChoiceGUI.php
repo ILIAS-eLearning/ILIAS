@@ -957,4 +957,14 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssSingleChoiceCorrectionsInputGUI.php';
+		$choices = new ilAssSingleChoiceCorrectionsInputGUI($this->lng->txt( "answers" ), "choice");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+	}
 }

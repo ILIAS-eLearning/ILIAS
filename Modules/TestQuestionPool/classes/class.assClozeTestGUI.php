@@ -1816,4 +1816,162 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		
 		return $answers;
 	}
+	
+	protected function isUsedInCombinations($gapIndex)
+	{
+		foreach($this->object->getGapCombinations() as $combination)
+		{
+			if( $combination['gap_fi'] != $gapIndex )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected function getGapCombinations()
+	{
+		$combinations = array();
+		
+		foreach($this->object->getGapCombinations() as $c)
+		{
+			if( !isset($combinations[$c['cid']]) )
+			{
+				$combinations[$c['cid']] = array();
+			}
+			
+			if( !isset($combinations[$c['cid']][$c['row_id']]) )
+			{
+				$combinations[$c['cid']][$c['row_id']] = array(
+					'gaps' => array(), 'points' => $c['points'], 
+				);
+			}
+			
+			if( !isset($combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']]) )
+			{
+				$combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']] = array();
+			}
+			
+			$combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']] = $c['answer'];
+		}
+		
+		return $combinations;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		foreach($this->object->getGaps() as $gapIndex => $gap)
+		{
+			$this->populateGapCorrectionFormProperties(
+				$form, $gap, $gapIndex, $this->isUsedInCombinations($gapIndex)
+			);
+		}
+		
+		if( $this->object->getGapCombinationsExists() )
+		{
+			foreach($this->getGapCombinations() as $combiIndex => $gapCombination)
+			{
+				$this->populateGapCombinationCorrectionFormProperty($form, $gapCombination, $combiIndex);
+			}
+		}
+	}
+	
+	protected function populateGapCombinationCorrectionFormProperty(ilPropertyFormGUI $form, $gapCombi, $combiIndex)
+	{
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( "Gap Combination " . ($combiIndex + 1) );
+		$form->addItem( $header );
+		
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssClozeTestCombinationVariantsInputGUI.php';
+		$inp = new ilAssClozeTestCombinationVariantsInputGUI('Answers', '');
+		$inp->setValue($gapCombi);
+		$form->addItem($inp);
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @param assClozeGap $gap
+	 * @param integer $gapIndex
+	 */
+	protected function populateGapCorrectionFormProperties($form, $gap, $gapIndex, $hidePoints)
+	{		
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "gap" ) . " " . ($gapIndex + 1) );
+		$form->addItem( $header );
+		
+		if ($gap->getType() == CLOZE_TEXT)
+		{
+			$this->populateTextGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints);
+		}
+		else if ($gap->getType() == CLOZE_SELECT)
+		{
+			$this->populateSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints);
+		}
+		else if ($gap->getType() == CLOZE_NUMERIC)
+		{
+			foreach ($gap->getItemsRaw() as $item)
+			{
+				$this->populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints);
+			}
+		}
+	}
+	
+	protected function populateTextGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints)
+	{
+		require_once "Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php";
+		$values = new ilAssAnswerCorrectionsInputGUI($this->lng->txt( "values" ), "gap_".$gapIndex);
+		$values->setHidePointsEnabled($hidePoints);
+		$values->setRequired( true );
+		$values->setQuestionObject( $this->object );
+		$values->setValues( $gap->getItemsRaw() );
+		$form->addItem( $values );
+	}
+	
+	protected function populateSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints)
+	{
+		require_once "Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php";
+		$values = new ilAssAnswerCorrectionsInputGUI($this->lng->txt( "values" ), "gap_".$gapIndex);
+		$values->setHidePointsEnabled($hidePoints);
+		$values->setRequired( true );
+		$values->setQuestionObject( $this->object );
+		$values->setValues( $gap->getItemsRaw() );
+		$form->addItem( $values );
+	}
+	
+	protected function populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints)
+	{
+		$value = new ilNumberInputGUI($this->lng->txt( 'value' ), "gap_" . $gapIndex . "_numeric");
+		$value->allowDecimals( true );
+		$value->setSize( 10 );
+		$value->setValue( ilUtil::prepareFormOutput( $item->getAnswertext() ) );
+		$value->setRequired( true );
+		$form->addItem( $value );
+		
+		$lowerbound = new ilNumberInputGUI($this->lng->txt( 'range_lower_limit'), "gap_" . $gapIndex . "_numeric_lower");
+		$lowerbound->allowDecimals( true );
+		$lowerbound->setSize( 10 );
+		$lowerbound->setRequired( true );
+		$lowerbound->setValue( ilUtil::prepareFormOutput( $item->getLowerBound() ) );
+		$form->addItem( $lowerbound );
+		
+		$upperbound = new ilNumberInputGUI($this->lng->txt( 'range_upper_limit'), "gap_" . $gapIndex . "_numeric_upper");
+		$upperbound->allowDecimals( true );
+		$upperbound->setSize( 10 );
+		$upperbound->setRequired( true );
+		$upperbound->setValue( ilUtil::prepareFormOutput( $item->getUpperBound() ) );
+		$form->addItem( $upperbound );
+		
+		if( !$hidePoints )
+		{
+			$points = new ilNumberInputGUI($this->lng->txt( 'points' ), "gap_" . $gapIndex . "_numeric_points");
+			$points->allowDecimals(true);
+			$points->setSize( 3 );
+			$points->setRequired( true );
+			$points->setValue( ilUtil::prepareFormOutput( $item->getPoints() ) );
+			$form->addItem( $points );
+		}
+	}
 }

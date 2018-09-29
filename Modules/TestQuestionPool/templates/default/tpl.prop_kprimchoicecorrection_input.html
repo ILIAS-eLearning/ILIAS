@@ -1,0 +1,38 @@
+<div id="{ELEMENT_ID}" class="form-inline">
+    <table class="kprimchoicewizard table table-condensed table-striped" border="0">
+        <thead>
+        <tr>
+            <th rowspan="2">{ANSWER_TEXT}</th>
+            <th colspan="2">{OPTIONS_TEXT}</th>
+        </tr>
+        <tr>
+            <th class="optionLabel true">{TRUE_TEXT}</th>
+            <th class="optionLabel false">{FALSE_TEXT}</th>
+        </tr>
+        </thead>
+        <tbody class="kcwzd">
+        <!-- BEGIN row -->
+        <tr class="kcwzd">
+            <td>
+                <div>{ANSWER}</div>
+                <!-- BEGIN addimage -->
+                <div class="imageselection">
+                    <!-- BEGIN image -->
+                    <div class="imagepresentation">
+                        <img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+                    </div>
+                    <!-- END image -->
+                </div>
+                <!-- END addimage -->
+            </td>
+            <td class="correctness">
+                <input type="radio" class="text-right" id="{CORRECTNESS_TRUE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"{CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS}/>
+            </td>
+            <td class="correctness">
+                <input type="radio" class="text-right" id="{CORRECTNESS_FALSE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"{CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS}/>
+            </td>
+        </tr>
+        <!-- END row -->
+        </tbody>
+    </table>
+</div>
