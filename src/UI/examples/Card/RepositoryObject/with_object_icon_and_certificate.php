@@ -8,8 +8,8 @@ function with_object_icon_and_certificate() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->standard('crs', 'Course', 'medium');
-	$certificate_icon = $f->icon()->standard('cert', 'Certificate', 'medium');
+	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
+	$certificate_icon = $f->icon()->custom(ilUtil::getImagePath("icon_cert.svg"), 'Certificate', 'responsive');
 
 
 	$content = $f->listing()->descriptive(

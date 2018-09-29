@@ -2,15 +2,24 @@
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-function with_object_icon_and_progressmeter_standard
-() {
+function repository() {
 	//Init Factory and Renderer
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
 	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
-	$progressmeter = $f->chart()->progressMeter()->standard(100,80);
+	$certificate_icon = $f->icon()->custom(ilUtil::getImagePath("icon_cert.svg"), 'Certificate', 'responsive');
+
+	$items = array(
+		$f->button()->shy("Go to Course", "#"),
+		$f->button()->shy("Go to Portfolio", "#"),
+		$f->divider()->horizontal(),
+		$f->button()->shy("ilias.de", "http://www.ilias.de")
+	);
+
+	$dropdown = $f->dropdown()->standard($items);
+
 
 	$content = $f->listing()->descriptive(
 		array(
@@ -28,8 +37,10 @@ function with_object_icon_and_progressmeter_standard
 		$image
 	)->withObjectIcon(
 		$icon
-	)->withProgress(
-		$progressmeter
+	)->withActions(
+		$dropdown
+	)->withCertificateIcon(
+		$certificate_icon
 	)->withSections(
 		array(
 			$content,
@@ -37,6 +48,10 @@ function with_object_icon_and_progressmeter_standard
 		)
 	);
 
+	//Define the deck
+	$deck = $f->deck(array($card,$card,$card,$card,$card,
+		$card,$card,$card,$card))->withNormalCardsSize();
+
 	//Render
-	return $renderer->render($card);
+	return $renderer->render($deck);
 }

@@ -6762,6 +6762,10 @@ button.close {
 .glyph.highlighted:hover {
   color: #d15c05;
 }
+.glyph.disabled {
+  color: #e0e0e0;
+  pointer-events: none;
+}
 .glyph:hover,
 .glyph:focus {
   color: #3a4c65;
@@ -6894,6 +6898,48 @@ button.close {
   color: #909090;
   font-size: 12px;
   padding-top: 6px;
+}
+.il-card .il-card-repository-head {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.il-card .il-card-repository-head .row {
+  padding: 0 2px;
+}
+.il-card .il-card-repository-head .row div.col-sm-3 {
+  padding: 5px 4% 2px 4%;
+  margin: 0;
+}
+.il-card .il-card-repository-head img {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) brightness(150%);
+}
+.il-card .il-card-repository-head .row div.il-card-repository-dropdown {
+  position: absolute;
+  right: 0;
+  width: 25%;
+  top: 15%;
+  bottom: 15%;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown {
+  height: 100%;
+}
+.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown > button {
+  height: 100%;
+  width: 100%;
+  background-color: inherit;
+  border: #b0b0b0 1px solid;
+}
+.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown > button span.caret {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
@@ -7491,6 +7537,18 @@ hr.il-divider-with-label {
 .icon.large img {
   width: 45px;
   height: 45px;
+}
+.icon.responsive {
+  width: 100%;
+  line-height: 35px;
+}
+.icon.responsive .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.responsive img {
+  width: 100%;
+  height: auto;
 }
 .icon.disabled {
   -webkit-filter: grayscale(100%);

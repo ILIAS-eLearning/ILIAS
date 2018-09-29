@@ -21,7 +21,7 @@ function base() {
 		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
 	//Define the card by using the content and the image
-	$card = $f->card(
+	$card = $f->card()->standard(
 		"Title",
 		$image
 	)->withSections(array(

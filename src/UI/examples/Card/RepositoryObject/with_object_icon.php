@@ -8,7 +8,7 @@ function with_object_icon() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->standard('crs', 'Course', 'medium');
+	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
 
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg",
