@@ -1230,4 +1230,15 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $table;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMatchingPairCorrectionsInputGUI.php';
+		$pairs = new ilAssMatchingPairCorrectionsInputGUI($this->lng->txt( 'matching_pairs' ), 'pairs');
+		$pairs->setRequired( true );
+		$pairs->setTerms( $this->object->getTerms() );
+		$pairs->setDefinitions( $this->object->getDefinitions() );
+		$pairs->setPairs( $this->object->getMatchingPairs() );
+		$form->addItem( $pairs );
+	}
 }

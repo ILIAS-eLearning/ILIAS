@@ -770,4 +770,17 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	{
 		return false;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->populateQuestionSpecificFormPart($form);
+		$this->populateAnswerSpecificFormPart($form);
+		
+		$form->removeItemByPostVar('maxchars');
+	}
 }

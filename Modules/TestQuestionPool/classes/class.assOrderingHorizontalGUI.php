@@ -615,4 +615,18 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		
+		$points->allowDecimals( true );
+		$points->setValue( $this->object->getPoints() );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+	}
 }

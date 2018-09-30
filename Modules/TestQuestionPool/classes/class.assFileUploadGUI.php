@@ -618,4 +618,26 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	{
 		return false;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals(true);
+		$points->setValue( is_numeric( $this->object->getPoints() ) && $this->object->getPoints(
+		) >= 0 ? $this->object->getPoints() : ''
+		);
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( false );
+		$form->addItem( $points );
+		
+		$subcompl = new ilCheckboxInputGUI($this->lng->txt( 'ass_completion_by_submission'
+		), 'completion_by_submission');
+		$subcompl->setInfo( $this->lng->txt( 'ass_completion_by_submission_info' ) );
+		$subcompl->setValue( 1 );
+		$subcompl->setChecked( $this->object->isCompletionBySubmissionEnabled() );
+		$form->addItem( $subcompl );
+	}
 }

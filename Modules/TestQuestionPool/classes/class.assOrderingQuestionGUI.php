@@ -1012,4 +1012,28 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return array_values($answers);
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals( true );
+		$points->setValue( $this->object->getPoints() );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt('oq_header_ordering_elements'));
+		$form->addItem($header);
+		
+		$orderingElementInput = $this->object->buildNestedOrderingElementInputGui();
+		
+		$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
+		
+		$orderingElementInput->setElementList( $this->object->getOrderingElementList() );
+		
+		$form->addItem($orderingElementInput);
+	}
 }

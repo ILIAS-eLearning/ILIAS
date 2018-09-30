@@ -1,0 +1,28 @@
+<div class="form-inline" id="{ELEMENT_ID}">
+    <table class="matchingpairwizard table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>{TEXT_DEFINITION}</th>
+            <th>{TEXT_TERM}</th>
+            <th>{TEXT_POINTS}</th>
+        </tr>
+        </thead>
+        <tbody class="mpwzd">
+        <!-- BEGIN row -->
+        <tr class="mpwzd">
+            <td>{DEFINITION}</td>
+            <td>{TERM}</td>
+            <td>
+                <input class="form-control text-right" type="text" size="5" name="{POST_VAR}[points][{ROW_NUMBER}]" value="{POINTS_VALUE}" />
+            </td>
+        </tr>
+        <!-- END row -->
+        </tbody>
+    </table>
+</div>
+<!-- BEGIN term_ids -->
+<input type="hidden" name="{POST_VAR}[term_id]" value="{TERM_IDS}">
+<!-- END term_ids -->
+<!-- BEGIN definition_ids -->
+<input type="hidden" name="{POST_VAR}[definition_id]" value="{DEFINITION_IDS}">
+<!-- END definition_ids -->

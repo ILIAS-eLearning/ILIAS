@@ -724,4 +724,30 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		
 		return $answers;
 	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$correctAnswers = $this->object->getCorrectAnswers();
+		
+		foreach($this->object->getAnswers() as $lmIndex => $lm)
+		{
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle('Longmenu '. ($lmIndex + 1));
+			$form->addItem($section);
+			
+			require_once("Services/Form/classes/class.ilTagInputGUI.php");
+			$tag_input = new ilTagInputGUI();
+			$tag_input->setTypeAhead(true);
+			$tag_input->setPostVar('tags_'.$lmIndex);
+			$tag_input->setJsSelfInit(true);
+			$tag_input->setTypeAheadMinLength(1);
+			$tag_input->setAnswerEditingEnabled(false);
+			$tag_input->setOptions($correctAnswers[$lmIndex][0]);
+			$form->addItem($tag_input);
+			
+			$inp = new ilNumberInputGUI('Points');
+			$inp->setValue($lm->points);
+		}
+		
+	}
 }
