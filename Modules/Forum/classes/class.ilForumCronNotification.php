@@ -55,12 +55,31 @@ class ilForumCronNotification extends ilCronJob
 	/** @var \ilForumNotificationCache|null */
 	private $notificationCache;
 
+	/** @var ilAccess|ilAccessHandler|null */
+	private $ilAccess;
+
+	/** @var ilLanguage|null  */
+	private $language;
+
+	/** @var ilSetting */
+	private $generalSettings;
+
 	/**
 	 * @param ilDBInterface|null $database
 	 * @param ilForumNotificationCache|null $notificationCache
+	 * @param ilAccess|null $ilAccess
+	 * @param ilLanguage|null $language
+	 * @param ilSetting|null $settings
+	 * @param ilLogger|null $logger
 	 */
-	public function __construct(\ilDBInterface $database = null, \ilForumNotificationCache $notificationCache = null)
-	{
+	public function __construct(
+		\ilDBInterface $database = null,
+		\ilForumNotificationCache $notificationCache = null,
+		ilAccess $ilAccess = null,
+		ilLanguage $language = null,
+		ilSetting $generalSettings = null,
+		ilLogger $logger = null
+	) {
 		$this->settings = new ilSetting('frma');
 
 		if ($database === null) {
@@ -73,6 +92,29 @@ class ilForumCronNotification extends ilCronJob
 			$notificationCache = new \ilForumNotificationCache();
 		}
 		$this->notificationCache = $notificationCache;
+
+		if ($ilAccess === null) {
+			global $DIC;
+			$ilAccess = $DIC->access();
+		}
+		$this->ilAccess = $ilAccess;
+
+		if ($language === null) {
+			global $DIC;
+			$language = $DIC->language();
+		}
+		$this->language = $language;
+
+		if ($generalSettings === null) {
+			global $DIC;
+			$generalSettings = $DIC->settings();
+		}
+		$this->generalSettings = $generalSettings;
+
+		if ($logger === null) {
+			$logger = $DIC->logger()->frm();
+		}
+		$this->logger = $logger;
 	}
 
 	public function getId()
@@ -82,16 +124,12 @@ class ilForumCronNotification extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $DIC;
-
-		return $DIC->language()->txt("cron_forum_notification");
+		return $this->language->txt("cron_forum_notification");
 	}
 	
 	public function getDescription()
 	{
-		global $DIC;
-
-		return $DIC->language()->txt("cron_forum_notification_crob_desc");
+		return $this->language->txt("cron_forum_notification_crob_desc");
 	}
 	
 	public function getDefaultScheduleType()
@@ -137,12 +175,8 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function run()
 	{
-		global $DIC;
-
-		$ilSetting = $DIC->settings();
-		$lng       = $DIC->language();
-
-		$this->logger = $DIC->logger()->frm();
+		$ilSetting = $this->generalSettings;
+		$lng       = $this->language;
 
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -222,9 +256,6 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	protected function getFirstAccessibleRefIdBUserAndObjId($a_user_id, $a_obj_id)
 	{
-		global $DIC; 
-		$ilAccess = $DIC->access();
-
 		if(!array_key_exists($a_user_id, self::$accessible_ref_ids_by_user))
 		{
 			self::$accessible_ref_ids_by_user[$a_user_id] = array();
@@ -235,7 +266,7 @@ class ilForumCronNotification extends ilCronJob
 			$accessible_ref_id = 0;
 			foreach($this->getRefIdsByObjId($a_obj_id) as $ref_id)
 			{
-				if($ilAccess->checkAccessOfUser($a_user_id, 'read', '', $ref_id))
+				if($this->ilAccess->checkAccessOfUser($a_user_id, 'read', '', $ref_id))
 				{
 					$accessible_ref_id = $ref_id;
 					break;
@@ -253,11 +284,7 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function sendCronForumNotification($res, $notification_type)
 	{
-		global $DIC; 
-		$ilDB = $DIC->database();
-
-		include_once './Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php';
-		include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+		$ilDB = $this->ilDB;
 
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -375,8 +402,7 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
 	{
-		global $DIC;
-		$lng = $DIC->language();
+		$lng = $this->language;
 
 		switch($a_form_id)
 		{
@@ -392,16 +418,14 @@ class ilForumCronNotification extends ilCronJob
 	 * @param bool $a_currently_active
 	 */
 	public function activationWasToggled($a_currently_active)
-	{		
-		global $DIC;
-
+	{
 		$value = 1;
 		// propagate cron-job setting to object setting
 		if((bool)$a_currently_active)
 		{
 			$value = 2;
 		}
-		$DIC->settings()->set('forum_notification', $value);
+		$this->generalSettings->set('forum_notification', $value);
 	}
 
 	/**
@@ -409,8 +433,7 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		global $DIC; 
-		$lng = $DIC->language();
+		$lng = $this->language;
 
 		$lng->loadLanguageModule('forum');
 
