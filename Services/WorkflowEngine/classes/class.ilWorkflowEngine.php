@@ -197,6 +197,9 @@ class ilWorkflowEngine
 				}
 			}
 
+			$workflow_instance->setInstanceVarByRole($extractedParams->getContextType(), $extractedParams->getContextId());
+			$workflow_instance->setInstanceVarByRole($extractedParams->getSubjectType(), $extractedParams->getSubjectId());
+
 			require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 			ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
 
