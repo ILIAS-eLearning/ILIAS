@@ -49,8 +49,6 @@ interface Factory {
 	 *          Cell 4: Actions (UI Dropdown)
 	 *      Cells and its content are responsively adapted if the size of the screen is changed.
 	 *   rivals:
-	 *      Heading Panel: Heading Panels fill up the complete available width in the Center Content Section. Multiple Heading Panels are stacked vertically.
-	 *      Block Panels: Block Panels are used in Sidebars
 	 *      Item: Items are used in lists or similar contexts.
 	 * rules:
 	 *   usage:
