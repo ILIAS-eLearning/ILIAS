@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Interface IFactory
@@ -66,4 +67,24 @@ interface EntryInterface {
 	 * @return bool
 	 */
 	public function isAvailable(): bool;
+
+
+	/**
+	 * If your provider or the service which provides the entry does not allow
+	 * to activate the entry (@see withAvailableCallable ), please provide the
+	 * reason why. You can pass e Legacy Component for the moment, in most cases
+	 * this will be something like in
+	 * Services/Administration/templates/default/tpl.external_settings.html
+	 *
+	 * @param Legacy $element
+	 *
+	 * @return EntryInterface
+	 */
+	public function withNonAvailableReason(Legacy $element): EntryInterface;
+
+
+	/**
+	 * @return Legacy
+	 */
+	public function getNonAvailableReason(): Legacy;
 }
