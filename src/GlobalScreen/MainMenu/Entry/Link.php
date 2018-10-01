@@ -13,6 +13,10 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
 class Link extends AbstractChildEntry implements LinkInterface {
 
 	/**
+	 * @var bool
+	 */
+	protected $is_external_action;
+	/**
 	 * @var string
 	 */
 	protected $action;
@@ -80,5 +84,24 @@ class Link extends AbstractChildEntry implements LinkInterface {
 	 */
 	public function getAction(): string {
 		return $this->action;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): LinkInterface {
+		$clone = clone $this;
+		$clone->is_external_action = $is_external;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isLinkWithExternalAction(): bool {
+		return $this->is_external_action;
 	}
 }

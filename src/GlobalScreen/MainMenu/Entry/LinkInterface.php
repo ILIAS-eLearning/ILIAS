@@ -49,4 +49,20 @@ interface LinkInterface extends ChildEntryInterface {
 	 * @return string
 	 */
 	public function getAction(): string;
+
+
+	/**
+	 * Link should be opened in an new window
+	 *
+	 * @param bool $is_external
+	 *
+	 * @return LinkInterface
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): LinkInterface;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isLinkWithExternalAction(): bool;
 }
