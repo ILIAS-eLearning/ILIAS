@@ -7,6 +7,8 @@ namespace ILIAS\UI\Implementation\Component\Card;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Icon\Custom as CustomIcon;
+use ilUtil;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -65,7 +67,8 @@ class Renderer extends AbstractComponentRenderer {
 
 			$certificate = $component->getCertificateIcon();
 			if($certificate !== null) {
-				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate));
+				$certificate_icon= new CustomIcon(ilUtil::getImagePath("icon_cert.svg"), "Certificate", "responsive",false);
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate_icon));
 			}
 
 			$dropdown = $component->getActions();

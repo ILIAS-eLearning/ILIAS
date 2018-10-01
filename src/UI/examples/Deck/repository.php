@@ -40,7 +40,7 @@ function repository() {
 	)->withActions(
 		$dropdown
 	)->withCertificateIcon(
-		$certificate_icon
+		true
 	)->withSections(
 		array(
 			$content,

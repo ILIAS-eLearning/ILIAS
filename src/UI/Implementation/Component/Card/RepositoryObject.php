@@ -22,7 +22,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	protected $progress;
 
 	/**
-	 * @var Icon
+	 * @var bool
 	 */
 	protected $certificate;
 
@@ -68,7 +68,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	}
 
 	/**
-	 * @param $a_certificate Icon
+	 * @param $a_certificate bool
 	 * @return RepositoryObject
 	 */
 	public function withCertificateIcon($a_certificate):RepositoryObject
@@ -80,7 +80,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 
 	/**
 	 * Get the certificated icon
-	 * @return Icon
+	 * @return bool
 	 */
 	public function getCertificateIcon()
 	{

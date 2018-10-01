@@ -9,8 +9,6 @@ function with_object_icon_and_certificate() {
 	$renderer = $DIC->ui()->renderer();
 
 	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
-	$certificate_icon = $f->icon()->custom(ilUtil::getImagePath("icon_cert.svg"), 'Certificate', 'responsive');
-
 
 	$content = $f->listing()->descriptive(
 		array(
@@ -29,7 +27,7 @@ function with_object_icon_and_certificate() {
 	)->withObjectIcon(
 		$icon
 	)->withCertificateIcon(
-		$certificate_icon
+		true
 	)->withSections(
 		array(
 			$content,

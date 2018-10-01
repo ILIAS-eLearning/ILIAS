@@ -42,14 +42,14 @@ interface RepositoryObject extends Card {
 
 	/**
 	 * Get a Custom card like this, but with an additional certificate outlined icon
-	 * @param Icon $certificate_icon
+	 * @param bool $certificate_icon
 	 * @return RepositoryObject
 	 */
 	public function withCertificateIcon($certificate_icon);
 
 	/**
 	 * Get the certificate icon
-	 * @return mixed
+	 * @return bool
 	 */
 	public function getCertificateIcon();
 
