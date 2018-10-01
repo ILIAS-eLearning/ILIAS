@@ -448,15 +448,8 @@ class ilWorkflowDbHelper
 		type = '".$component."' AND content = '".$event."' AND subject_type = '".$params->getSubjectType()."'
 		AND context_type = '".$params->getContextType()."' ";
 
-		if($params->getSubjectId() != 0)
-		{
-			$query .= "AND subject_id = '".$params->getSubjectId()."' ";
-		}
-
-		if($params->getContextId() != 0)
-		{
-			$query .= "AND context_id = '".$params->getContextId()."'";
-		}
+		$query .= "AND ( subject_id = '".$params->getSubjectId()."' OR subject_id ='0' ) ";
+		$query .= "AND ( context_id = '".$params->getContextId()."' OR context_id ='0' ) ";
 
 		global $DIC;
 		/** @var ilDB $ilDB */
