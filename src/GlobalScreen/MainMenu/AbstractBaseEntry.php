@@ -138,7 +138,10 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	 * @inheritDoc
 	 */
 	public function withNonAvailableReason(Legacy $element): EntryInterface {
-		$this->non_available_reason = $element;
+		$clone = clone $this;
+		$clone->non_available_reason = $element;
+
+		return $clone;
 	}
 
 
