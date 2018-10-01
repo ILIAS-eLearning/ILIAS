@@ -9,4 +9,16 @@ use ILIAS\GlobalScreen\MainMenu\ChildEntryInterface;
  */
 interface DividerInterface extends ChildEntryInterface {
 
+	/**
+	 * @param string $title
+	 *
+	 * @return DividerInterface
+	 */
+	public function withTitle(string $title): DividerInterface;
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string;
 }
