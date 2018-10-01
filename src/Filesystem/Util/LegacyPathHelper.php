@@ -33,7 +33,7 @@ final class LegacyPathHelper {
 	 *
 	 * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
 	 */
-	public static function deriveFilesystemFrom($absolute_path): Filesystem {
+	public static function deriveFilesystemFrom($absolute_path) {
 		list(
 			$web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp
 			)

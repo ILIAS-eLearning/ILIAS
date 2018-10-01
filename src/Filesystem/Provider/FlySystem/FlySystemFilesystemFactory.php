@@ -18,7 +18,7 @@ class FlySystemFilesystemFactory implements FilesystemFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLocal(LocalConfig $config, $read_only = false): Filesystem {
+	public function getLocal(LocalConfig $config, $read_only = false) {
 		$localFactory = new FlySystemLocalFilesystemFactory();
 		return $localFactory->getInstance($config);
 	}

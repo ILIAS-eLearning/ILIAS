@@ -49,7 +49,7 @@ final class DelegatingFilesystemFactory implements FilesystemFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLocal(LocalConfig $config, $read_only = false): Filesystem {
+	public function getLocal(LocalConfig $config, $read_only = false) {
 		if ($read_only) {
 			return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));
 		} else {

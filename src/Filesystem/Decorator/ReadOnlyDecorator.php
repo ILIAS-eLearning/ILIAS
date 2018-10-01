@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 namespace ILIAS\Filesystem\Decorator;
 
 use DateTime;
@@ -54,7 +52,7 @@ final class ReadOnlyDecorator implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function listContents($path = '', $recursive = false): array {
+	public function listContents($path = '', $recursive = false) {
 		return $this->filesystem->listContents($path, $recursive);
 	}
 
@@ -110,7 +108,7 @@ final class ReadOnlyDecorator implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTimestamp($path): DateTime {
+	public function getTimestamp($path) {
 		return $this->filesystem->getTimestamp($path);
 	}
 
@@ -118,7 +116,7 @@ final class ReadOnlyDecorator implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSize($path, $fileSizeUnit): DataSize {
+	public function getSize($path, $fileSizeUnit) {
 		return $this->filesystem->getSize(
 			$path,
 			$fileSizeUnit
@@ -145,7 +143,7 @@ final class ReadOnlyDecorator implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function readStream($path): FileStream {
+	public function readStream($path) {
 		return $this->filesystem->readStream($path);
 	}
 
