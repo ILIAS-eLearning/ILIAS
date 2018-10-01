@@ -52,6 +52,18 @@
 			height: @icon-size-large;
 		}
 	}
+	&.responsive {
+		width: 100%;
+		line-height: @icon-size-medium;
+		.abbreviation {
+			font-size: ceil(@icon-size-medium / 2.5);
+			width: @icon-size-medium;
+		}
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
 
 	&.disabled {
 		-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */

@@ -48,6 +48,35 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 		}
+
+		if($component instanceof Component\Card\RepositoryObject)
+		{
+			$tpl->setCurrentBlock("action");
+
+			$obj_icon = $component->getObjectIcon();
+			if($obj_icon !== null) {
+				$tpl->setVariable("OBJECT_ICON",$default_renderer->render($obj_icon,$default_renderer));
+			}
+
+			$progress = $component->getProgress();
+			if($progress !== null) {
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($progress));
+			}
+
+			$certificate = $component->getCertificateIcon();
+			if($certificate !== null) {
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate));
+			}
+
+			$dropdown = $component->getActions();
+			if($dropdown !== null)
+			{
+				$tpl->setVariable("DROPDOWN", $default_renderer->render($dropdown));
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
 

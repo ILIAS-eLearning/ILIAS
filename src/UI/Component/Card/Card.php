@@ -4,16 +4,18 @@
 
 namespace ILIAS\UI\Component\Card;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * Interface Card
  * @package ILIAS\UI\Component\Card
  */
-interface Card extends \ILIAS\UI\Component\Component {
+interface Card extends Component {
 
 	/**
 	 * Sets the title in the heading section of the card
 	 * @param $title
-	 * @return Card
+	 * @return Standard
 	 */
 	public function withTitle($title);
 
@@ -26,7 +28,7 @@ interface Card extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get a Card like this with a title action
 	 * @param string $url
-	 * @return Card
+	 * @return Standard
 	 */
 	public function withTitleAction($url);
 
@@ -39,7 +41,7 @@ interface Card extends \ILIAS\UI\Component\Component {
 	/**
 	 * Set multiple sections of the card as array
 	 * @param \ILIAS\UI\Component\Component[] $sections
-	 * @return Card
+	 * @return Standard
 	 */
 	public function withSections(array $sections);
 
@@ -52,7 +54,7 @@ interface Card extends \ILIAS\UI\Component\Component {
 	/**
 	 * Set the image of the card
 	 * @param \ILIAS\UI\Component\Image\Image $image
-	 * @return Card
+	 * @return Standard
 	 */
 	public function withImage(\ILIAS\UI\Component\Image\Image $image);
 
@@ -65,7 +67,7 @@ interface Card extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get a Card like this with a highlight
 	 * @param bool $status
-	 * @return Card
+	 * @return Standard
 	 */
 	public function withHighlight($status);
 

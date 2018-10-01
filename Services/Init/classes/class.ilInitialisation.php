@@ -1443,7 +1443,8 @@ class ilInitialisation
 				$c["ui.factory.chart"],
 				$c["ui.factory.input"],
 				$c["ui.factory.table"],
-				$c["ui.factory.messagebox"]
+				$c["ui.factory.messagebox"],
+				$c["ui.factory.card"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1509,6 +1510,9 @@ class ilInitialisation
 		};
 		$c["ui.factory.messagebox"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
+		};
+		$c["ui.factory.card"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Card\Factory();
 		};
 		$c["ui.factory.progressmeter"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();

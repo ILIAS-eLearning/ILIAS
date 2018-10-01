@@ -476,11 +476,9 @@ interface Factory {
 	 *   accessibility:
 	 *      1: If multiple Cards are used, they MUST be contained in a Deck.
 	 * ---
-	 * @param string $title
-	 * @param \ILIAS\UI\Component\Image\Image $image
-	 * @return \ILIAS\UI\Component\Card\Card
+	 * @return \ILIAS\UI\Component\Card\Factory
 	 */
-	public function card($title, \ILIAS\UI\Component\Image\Image $image = null);
+	public function card();
 
 	/**
 	 * ---

@@ -40,7 +40,8 @@ abstract class Icon implements C\Icon\Icon {
 	protected static $possible_sizes = array(
 		self::SMALL,
 		self::MEDIUM,
-		self::LARGE
+		self::LARGE,
+		self::RESPONSIVE
 	);
 
 
