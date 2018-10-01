@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class AbstractBaseEntry
@@ -9,6 +10,10 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 abstract class AbstractBaseEntry implements EntryInterface {
 
+	/**
+	 * @var Legacy
+	 */
+	protected $non_available_reason;
 	/**
 	 * @var
 	 */
@@ -126,5 +131,21 @@ abstract class AbstractBaseEntry implements EntryInterface {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withNonAvailableReason(Legacy $element): EntryInterface {
+		$this->non_available_reason = $element;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getNonAvailableReason(): Legacy {
+		return $this->non_available_reason;
 	}
 }
