@@ -11575,6 +11575,14 @@ li.ilWikiBlockItem {
   min-width: 100%;
   background-color: #fafafa;
 }
+#ilTopNav .dropdown-menu li a {
+  background-color: transparent;
+  color: #5d5d5d;
+}
+#ilTopNav .dropdown-menu li a:hover {
+  background-color: #ecf0f4;
+  color: #262626;
+}
 @media only screen and (max-width: 767px) {
   #ilTopNav .dropdown-menu {
     float: none;
