@@ -490,7 +490,7 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe", "mme"),
+					array("adm", "stys", "mme", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
 				"user_administration" =>
 					array("usrf", 'tos', "rolf", "orgu", "auth", "ps"),
 				"learning_outcomes" =>

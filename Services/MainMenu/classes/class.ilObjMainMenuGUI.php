@@ -40,34 +40,80 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	const TAB_MAIN = 'main';
 	const SUBTAB_SLATES = 'main_slates';
 	const SUBTAB_ENTRIES = 'main_entries';
+	const ADD_SLATE = 'add_slate';
+	const ADD_SUBITEM = 'add_subitem';
 
 
 	public function __construct() {
 		global $DIC;
 
+		parent::__construct((int)$_GET['ref_id']);
+
 		$this->tabs = $DIC['ilTabs'];
-		$this->lng = $DIC['lng'];
+		$this->lng = new FakeLanguage('en');
 		$this->lng->loadLanguageModule('mme');
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];
 		$this->tree = $DIC['tree'];
 		$this->rbacsystem = $DIC['rbacsystem'];
 
-		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();
 	}
 
 
 	private function dispatchCommand($cmd) {
+		if ($cmd === self::TAB_MAIN || $cmd === 'view') {
+			$cmd = self::SUBTAB_ENTRIES;
+		}
 		switch ($cmd) {
+			case 'view';
 			case self::SUBTAB_SLATES:
 				$this->initTabs(self::TAB_MAIN, $cmd);
-				return "CONTENT";
+
+				// ADD NEW
+				$b = ilLinkButton::getInstance();
+				$b->setCaption($this->lng->txt('add_slate'), false);
+				$b->setUrl($this->ctrl->getLinkTarget($this, self::ADD_SLATE));
+				$this->toolbar->addButtonInstance($b);
+
+				// TABLE
+				$table = new ilMMSlatesTableGUI($this);
+
+				return $table->getHTML();
 			case self::SUBTAB_ENTRIES:
 				$this->initTabs(self::TAB_MAIN, $cmd);
-				return "CONTENT";
-		}
 
+				// ADD NEW
+				$b = ilLinkButton::getInstance();
+				$b->setUrl($this->ctrl->getLinkTarget($this, self::ADD_SUBITEM));
+				$b->setCaption($this->lng->txt('add_subentry'), false);
+
+				$this->toolbar->addButtonInstance($b);
+
+				// TABLE
+				$table = new ilMMSubentriesTableGUI($this);
+
+				return $table->getHTML();
+			case 'translate':
+				$this->initTabs(self::TAB_MAIN, $cmd, true);
+				$this->tabs->setBackTarget("Back", $this->ctrl->getLinkTarget($this, self::SUBTAB_ENTRIES));
+				$t = new ilTemplate("tpl.dummy_translate.html", false, false, 'Services/MainMenu');
+
+				return $t->get();
+
+			case self::ADD_SLATE:
+				$this->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES, true);
+				global $DIC;
+				$f = new ilMMSlateFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
+
+				return $f->getHTML();
+			case self::ADD_SUBITEM:
+				$this->initTabs(self::TAB_MAIN, self::SUBTAB_ENTRIES, true);
+				global $DIC;
+				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
+
+				return $f->getHTML();
+		}
 	}
 
 
@@ -111,7 +157,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	 * @param string      $tab
 	 * @param string|null $subtab
 	 */
-	private function initTabs(string $tab, string $subtab = null) {
+	private function initTabs(string $tab, string $subtab = null, bool $backtab = false) {
 		if ($this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
 			$this->tabs->addTab(
 				self::TAB_MAIN,
@@ -120,8 +166,9 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 			);
 			switch ($tab) {
 				case self::TAB_MAIN:
-					$this->tabs->addSubTab(self::SUBTAB_SLATES, $this->lng->txt(self::SUBTAB_SLATES), $this->ctrl->getLinkTarget($this, self::SUBTAB_SLATES));
 					$this->tabs->addSubTab(self::SUBTAB_ENTRIES, $this->lng->txt(self::SUBTAB_ENTRIES), $this->ctrl->getLinkTarget($this, self::SUBTAB_ENTRIES));
+					$this->tabs->addSubTab(self::SUBTAB_SLATES, $this->lng->txt(self::SUBTAB_SLATES), $this->ctrl->getLinkTarget($this, self::SUBTAB_SLATES));
+					$this->tabs->activateSubTab($subtab);
 					break;
 			}
 			if ($subtab === null) {
@@ -135,6 +182,10 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 				$this->lng->txt('perm_settings'),
 				$this->ctrl->getLinkTargetByClass(array(self::class, ilPermissionGUI::class), 'perm')
 			);
+		}
+		if ($backtab) {
+			$this->tabs->clearTargets();
+			$this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTarget($this, $subtab));
 		}
 
 		$this->tabs->setTabActive($tab);
