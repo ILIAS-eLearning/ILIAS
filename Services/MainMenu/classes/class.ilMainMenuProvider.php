@@ -207,7 +207,7 @@ class ilMainMenuProvider extends \ILIAS\GlobalScreen\Provider\AbstractProvider i
 			function () {
 				return (bool)(ilBadgeHandler::getInstance()->isActive());
 			}
-		)->withNonAvailableReason(\ILIAS\UI\Implementation\Component\Legacy\Legacy);
+		);
 
 		// Learning Progress
 		$entries[] = $m->link($g->identifier('mm_pd_lp'))->withTitle($lng->txt("learning_progress"))->withAction(

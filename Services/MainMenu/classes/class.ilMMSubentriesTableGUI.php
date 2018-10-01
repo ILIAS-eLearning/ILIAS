@@ -53,7 +53,7 @@ class ilMMSubentriesTableGUI extends ilTable2GUI {
 
 		$items[] = $factory->button()->shy($this->lng->txt('edit_subentry'), '#');
 		$items[] = $factory->button()->shy($this->lng->txt('translate_subentry'), $this->ctrl->getLinkTarget($this->parent_obj, 'translate'));
-		if($a_set['provider'] === "Custom") {
+		if ($a_set['provider'] === "Custom") {
 			$items[] = $factory->button()->shy($this->lng->txt('delete_slate'), '#');
 		}
 
@@ -101,16 +101,219 @@ class ilMMSubentriesTableGUI extends ilTable2GUI {
 	 * @return array
 	 */
 	private function getFakeData(): array {
+		return array(
+			0  =>
+				array(
+					'id'       => 8,
+					'parent'   => 0,
+					'position' => 90,
+					'title'    => 'Peccetur',
+					'provider' => 'Modules/Verius',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			1  =>
+				array(
+					'id'       => 16,
+					'parent'   => 0,
+					'position' => 170,
+					'title'    => 'Extremum',
+					'provider' => 'Modules/Inquit',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+			2  =>
+				array(
+					'id'       => 14,
+					'parent'   => 0,
+					'position' => 150,
+					'title'    => 'Expectata',
+					'provider' => 'Plugin Progressionis',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			3  =>
+				array(
+					'id'       => 0,
+					'parent'   => 1,
+					'position' => 10,
+					'title'    => 'Servantem',
+					'provider' => 'Modules/Genere',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			4  =>
+				array(
+					'id'       => 18,
+					'parent'   => 1,
+					'position' => 190,
+					'title'    => 'Habent',
+					'provider' => 'Services/Quaesita',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			5  =>
+				array(
+					'id'       => 13,
+					'parent'   => 1,
+					'position' => 140,
+					'title'    => 'Igitur',
+					'provider' => 'Plugin Igitur',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			6  =>
+				array(
+					'id'       => 12,
+					'parent'   => 1,
+					'position' => 130,
+					'title'    => 'Cuiusque',
+					'provider' => 'Custom',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			7  =>
+				array(
+					'id'       => 1,
+					'parent'   => 1,
+					'position' => 20,
+					'title'    => 'Quaeritur',
+					'provider' => 'Plugin Optime',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+			8  =>
+				array(
+					'id'       => 10,
+					'parent'   => 1,
+					'position' => 110,
+					'title'    => 'Quaesita',
+					'provider' => 'Custom',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			9  =>
+				array(
+					'id'       => 7,
+					'parent'   => 1,
+					'position' => 80,
+					'title'    => 'Musicis',
+					'provider' => 'Custom',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			10 =>
+				array(
+					'id'       => 4,
+					'parent'   => 1,
+					'position' => 50,
+					'title'    => 'Igitur',
+					'provider' => 'Plugin Sextilio',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			11 =>
+				array(
+					'id'       => 2,
+					'parent'   => 1,
+					'position' => 30,
+					'title'    => 'Possit',
+					'provider' => 'Modules/Virtutem',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+			12 =>
+				array(
+					'id'       => 9,
+					'parent'   => 2,
+					'position' => 100,
+					'title'    => 'Faciam',
+					'provider' => 'Services/Amicos',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+			13 =>
+				array(
+					'id'       => 11,
+					'parent'   => 2,
+					'position' => 120,
+					'title'    => 'Diligentissime',
+					'provider' => 'Modules/Aliquando',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			14 =>
+				array(
+					'id'       => 6,
+					'parent'   => 2,
+					'position' => 70,
+					'title'    => 'Euripidesconcludam',
+					'provider' => 'Services/Improbo',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			15 =>
+				array(
+					'id'       => 5,
+					'parent'   => 2,
+					'position' => 60,
+					'title'    => 'Turpius',
+					'provider' => 'Modules/Epicurus',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			16 =>
+				array(
+					'id'       => 15,
+					'parent'   => 2,
+					'position' => 160,
+					'title'    => 'Callido',
+					'provider' => 'Services/Labores',
+					'status'   => '-',
+					'type'     => 'Link',
+				),
+			17 =>
+				array(
+					'id'       => 3,
+					'parent'   => 2,
+					'position' => 40,
+					'title'    => 'Naturam',
+					'provider' => 'Services/Videamus',
+					'status'   => '-',
+					'type'     => 'LinkList',
+				),
+			18 =>
+				array(
+					'id'       => 17,
+					'parent'   => 2,
+					'position' => 180,
+					'title'    => 'Adesse',
+					'provider' => 'Custom',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+			19 =>
+				array(
+					'id'       => 19,
+					'parent'   => 2,
+					'position' => 200,
+					'title'    => 'Adesse',
+					'provider' => 'Custom',
+					'status'   => '-',
+					'type'     => 'Widget',
+				),
+		);
+
 		$fake_data = [];
-		for ($x = 0; $x < 10; $x++) {
+		for ($x = 0; $x < 20; $x++) {
 			$f = [
 				'id'       => $x,
 				'parent'   => rand(0, 2),
 				'position' => ($x + 1) * 10,
 				'title'    => $this->getRandomString(),
 				'provider' => $this->getRandomProvider(),
-				'status'   => str_repeat("&nbsp;", 50),
-				'type'   => $this->getRandomType(),
+				'status'   => "-",//str_repeat("&nbsp;", 50),
+				'type'     => $this->getRandomType(),
 			];
 			$fake_data[] = $f;
 		}
@@ -148,5 +351,10 @@ class ilMMSubentriesTableGUI extends ilTable2GUI {
 		} else {
 			return "Services/{$this->getRandomString()}";
 		}
+	}
+
+
+	public function getFakeData2() {
+
 	}
 }
