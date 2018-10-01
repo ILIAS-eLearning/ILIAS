@@ -1764,32 +1764,31 @@ class ilObjectListGUI
 	}
 
 	/**
-	* insert properties
-	*
-	* @access	private
-	*/
-	function insertProperties()
+	 * Determine properties
+	 * @return array
+	 */
+	public function determineProperties()
 	{
 		$ilAccess = $this->access;
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		
+
 		$props = $this->getProperties();
 		$props = $this->getCustomProperties($props);
-		
-		if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
-		{						
+
+		if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
+		{
 			// add learning progress custom property		
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 			$lp = ilLPStatus::getListGUIStatus($this->obj_id);
-			if($lp)
-			{										
+			if ($lp)
+			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("learning_progress"),
 					"value" => $lp,
-					"newline" => true);	
-			}			
-			
+					"newline" => true);
+			}
+
 			// add no item access note in public section
 			// for items that are visible but not readable
 			if ($ilUser->getId() == ANONYMOUS_USER_ID)
@@ -1802,37 +1801,37 @@ class ilObjectListGUI
 				}
 			}
 		}
-		
+
 		// reference objects have translated ids, revert to originals
 		$note_ref_id = $this->ref_id;
 		$note_obj_id = $this->obj_id;
-		if($this->reference_ref_id)
+		if ($this->reference_ref_id)
 		{
 			$note_ref_id = $this->reference_ref_id;
 			$note_obj_id = $this->reference_obj_id;
 		}
-		
-		$redraw_js = "il.Object.redrawListItem(".$note_ref_id.");";
-		
+
+		$redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
+
 		// add common properties (comments, notes, tags)
 		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
-			self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 || 
-			self::$cnt_tags[$note_obj_id] > 0 ||
-			is_array(self::$tags[$note_obj_id])) &&
+				self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 ||
+				self::$cnt_tags[$note_obj_id] > 0 ||
+				is_array(self::$tags[$note_obj_id])) &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
-		{			
+		{
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-			
+
 			$nl = true;
 			if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
 				&& self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
-					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)."\">".
-						self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]."</a>",
+					"value" => "<a href='#' onclick=\"return " .
+						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js) . "\">" .
+						self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] . "</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
@@ -1841,57 +1840,65 @@ class ilObjectListGUI
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
-					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)."\">".
-						self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]."</a>",
+					"value" => "<a href='#' onclick=\"return " .
+						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js) . "\">" .
+						self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] . "</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
-			if ($this->tags_enabled && 
+			if ($this->tags_enabled &&
 				(self::$cnt_tags[$note_obj_id] > 0 ||
-				is_array(self::$tags[$note_obj_id])))
+					is_array(self::$tags[$note_obj_id])))
 			{
 				$tags_set = new ilSetting("tags");
 				if ($tags_set->get("enable"))
 				{
 					$tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
-					
+
 					// list object tags
-					if(is_array(self::$tags[$note_obj_id]))
+					if (is_array(self::$tags[$note_obj_id]))
 					{
 						$tags_tmp = array();
-						foreach(self::$tags[$note_obj_id] as $tag => $is_tag_owner)
+						foreach (self::$tags[$note_obj_id] as $tag => $is_tag_owner)
 						{
-							if($is_tag_owner)
+							if ($is_tag_owner)
 							{
-								$tags_tmp[] = "<a class=\"ilTag ilTagRelHigh\" href='#' onclick=\"return ".
-									$tags_url."\">".$tag."</a>";
-							}
-							else
+								$tags_tmp[] = "<a class=\"ilTag ilTagRelHigh\" href='#' onclick=\"return " .
+									$tags_url . "\">" . $tag . "</a>";
+							} else
 							{
-								$tags_tmp[] = "<span class=\"ilTag ilTagRelMiddle\">".$tag."</span>";
+								$tags_tmp[] = "<span class=\"ilTag ilTagRelMiddle\">" . $tag . "</span>";
 							}
 						}
 						$tags_value = implode(" ", $tags_tmp);
 						$nl = true;
 						$prop_text = "";
-					}
-					// tags counter
+					} // tags counter
 					else
 					{
-						$tags_value = "<a href='#' onclick=\"return ".$tags_url."\">".
-							self::$cnt_tags[$note_obj_id]."</a>";
+						$tags_value = "<a href='#' onclick=\"return " . $tags_url . "\">" .
+							self::$cnt_tags[$note_obj_id] . "</a>";
 						$prop_text = $lng->txt("tagging_tags");
 					}
 					$props[] = array("alert" => false,
-							"property" => $prop_text,
-							"value" => $tags_value,
-							"newline" => $nl);
+						"property" => $prop_text,
+						"value" => $tags_value,
+						"newline" => $nl);
 					$nl = false;
 				}
 			}
 		}
-		
+		return $props;
+	}
+
+	/**
+	* insert properties
+	*
+	* @access	private
+	*/
+	function insertProperties()
+	{
+		$props = $this->determineProperties();
 		$cnt = 1;
 		if (is_array($props) && count($props) > 0)
 		{

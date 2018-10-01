@@ -750,11 +750,24 @@ abstract class ilContainerContentGUI
 	{
 		global $DIC;
 		$f = $DIC->ui()->factory();
+		$user = $DIC->user();
 
 		$item_list_gui = $this->getItemGUI($a_item_data);
 		$item_list_gui->initItem($a_item_data['ref_id'], $a_item_data['obj_id'],
 			$a_item_data['title'], $a_item_data['description']);
+
+		// actions
 		$item_list_gui->insertCommands();
+		$actions = [];
+		foreach ($item_list_gui->current_selection_list->getItems() as $item)
+		{
+			//var_dump($item); exit;
+			$actions[] =
+				$f->button()->shy($item["title"], $item["link"]);
+
+		}
+		$dropdown = $f->dropdown()->standard($actions);
+
 		$def_command = $item_list_gui->getDefaultCommand();
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
@@ -771,10 +784,44 @@ abstract class ilContainerContentGUI
 		$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
 
 		// card
-		$card = $f->card(
+		$icon = $f->icon()->custom(ilUtil::getImagePath("icon_".$a_item_data["type"].".svg"), 'Course', 'responsive');
+		$card = $f->card()->repositoryObject(
 			$a_item_data["title"],
 			$image
+		)->withObjectIcon(
+			$icon
+		)->withActions($dropdown
 		)->withTitleAction($def_command["link"]);
+
+		// properties
+		$l = [];
+		foreach ($item_list_gui->determineProperties() as $p)
+		{
+			if ($p["property"] != $this->lng->txt("learning_progress"))
+			{
+				$l[$p["property"]] = $p["value"];
+			}
+		}
+		if (count($l) > 0)
+		{
+			$prop_list = $f->listing()->descriptive($l);
+			$card = $card->withSections([$prop_list]);
+		}
+
+		// learning progress
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		$lp = ilLPStatus::getListGUIStatus($a_item_data["obj_id"], false);
+		if ($lp)
+		{
+			$percentage = (int) ilLPStatus::_lookupPercentage($a_item_data["obj_id"], $user->getId());
+			if ($lp["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM)
+			{
+				$percentage = 100;
+			}
+			//var_dump(ilLPStatus::_lookupPercentage($a_item_data["obj_id"], $user->getId())); exit;
+			$progressmeter = $f->chart()->progressMeter()->mini(100, $percentage);
+			$card = $card->withProgress($progressmeter);
+		}
 
 		return $card;
 	}
