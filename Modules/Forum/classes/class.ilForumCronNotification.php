@@ -69,8 +69,9 @@ class ilForumCronNotification extends ilCronJob
 	 * @param ilForumNotificationCache|null $notificationCache
 	 * @param ilAccess|null $ilAccess
 	 * @param ilLanguage|null $language
-	 * @param ilSetting|null $settings
+	 * @param ilSetting|null $generalSettings
 	 * @param ilLogger|null $logger
+	 * @param ilSetting $settings
 	 */
 	public function __construct(
 		\ilDBInterface $database = null,
@@ -78,10 +79,9 @@ class ilForumCronNotification extends ilCronJob
 		ilAccess $ilAccess = null,
 		ilLanguage $language = null,
 		ilSetting $generalSettings = null,
-		ilLogger $logger = null
+		ilLogger $logger = null,
+		ilSetting $settings
 	) {
-		$this->settings = new ilSetting('frma');
-
 		if ($database === null) {
 			global $DIC;
 			$ilDB = $DIC->database();
@@ -112,9 +112,15 @@ class ilForumCronNotification extends ilCronJob
 		$this->generalSettings = $generalSettings;
 
 		if ($logger === null) {
+			global $DIC;
 			$logger = $DIC->logger()->frm();
 		}
 		$this->logger = $logger;
+
+		if ($settings === null) {
+			$settings = new ilSetting('frma');
+		}
+		$this->settings = $settings;
 	}
 
 	public function getId()
