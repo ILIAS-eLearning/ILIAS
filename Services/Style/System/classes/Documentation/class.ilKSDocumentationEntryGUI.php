@@ -87,6 +87,7 @@ class ilKSDocumentationEntryGUI
 				$this->f->listing()->descriptive(
 					array(
 						"Background" => $this->entry->getBackground(),
+                        "Context" => $this->f->listing()->ordered($this->entry->getContext()),
 						"Feature Wiki References" => $this->f->listing()->ordered($feature_wiki_links)
 					)
 				)

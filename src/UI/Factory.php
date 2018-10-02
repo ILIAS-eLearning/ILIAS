@@ -384,10 +384,10 @@ interface Factory {
 	 *   effect: >
 	 *     Clicking on an entry will get the user to the respective location.
 	 *
-	 * context: >
-	 *   1. Suplemental navigation under the main menu
-	 *   2. Location hint in search results
-	 *   3. Path to current location on info page
+	 * context:
+	 *   - Suplemental navigation under the main menu
+	 *   - Location hint in search results
+	 *   - Path to current location on info page
 	 *
 	 * rules:
 	 *   usage:
