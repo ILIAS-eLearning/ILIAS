@@ -585,8 +585,9 @@ class ilContainerRenderer
 
 
 					$html = $renderer->render($deck);
-
-					$a_block_tpl->setVariable("CONTAINER_ROWS", $html);
+					$a_block_tpl->setCurrentBlock("tile_rows");
+					$a_block_tpl->setVariable("TILE_ROWS", $html);
+					$a_block_tpl->parseCurrentBlock();
 
 				}
 							
@@ -607,10 +608,6 @@ class ilContainerRenderer
 		// :TODO: obsolete?
 		$this->cur_row_type = "row_type_1";
 
-		if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_TILE)
-		{
-			return new ilTemplate("tpl.container_tile_block.html", true, true, "Services/Container");
-		}
 		return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
 	}
 	

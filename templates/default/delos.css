@@ -14200,6 +14200,12 @@ div#ilContRepIntro img {
   background-color: white;
   margin-bottom: 10px;
 }
+.ilContainerTileRows {
+  margin: 10px -20px 0 -20px;
+}
+.ilContainerTileRows .card-no-highlight {
+  height: 0px;
+}
 /* Modules/LearningModule */
 .ilLMMenu {
   clear: both;
