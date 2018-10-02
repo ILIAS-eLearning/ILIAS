@@ -302,7 +302,8 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 		
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
-	{			
+	{
+		$obj_service = $this->object_service;
 		// activation/availability
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
@@ -335,8 +336,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$dur->addSubItem($visible);										
 		
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('properties'));
+		$section->setTitle($this->lng->txt('obj_presentation'));
 		$a_form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+
 	
 		parent::initEditCustomForm($a_form);
 	}
@@ -356,7 +361,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	public function updateCustom(ilPropertyFormGUI $a_form)
-	{				
+	{
+		$obj_service = $this->object_service;
+
 		$this->object->setOnline($a_form->getInput("online"));
 		
 		// activation
@@ -366,14 +373,17 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$this->object->setActivationLimited(true);								    			
 			$this->object->setActivationVisibility($a_form->getInput("access_visiblity"));															
 			$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
-			$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));										
+			$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
 		}
 		else
 		{
 			$this->object->setActivationLimited(false);
 		}
 
-		parent::updateCustom($a_form);		
+		parent::updateCustom($a_form);
+
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
 	}			
 	
 	

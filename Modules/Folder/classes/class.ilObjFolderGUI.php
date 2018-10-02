@@ -282,6 +282,12 @@ class ilObjFolderGUI extends ilContainerGUI
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
 		$this->initSortingForm(
 			$form,
 			array(
@@ -313,6 +319,12 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		// custom icon
 		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveIcon();
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
+		// list presentation
+		$this->saveListPresentation($a_form);
 
 		$this->saveSortingSettings($a_form);
 	}

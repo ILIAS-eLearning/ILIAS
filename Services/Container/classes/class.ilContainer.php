@@ -392,7 +392,7 @@ class ilContainer extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
+
 		$query = "DELETE FROM container_settings WHERE ".
 			"id = ".$ilDB->quote($a_id,'integer')." ".
 			"AND keyword = ".$ilDB->quote($a_keyword,'text');

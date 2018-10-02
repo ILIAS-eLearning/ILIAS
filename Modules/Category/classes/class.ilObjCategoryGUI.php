@@ -771,6 +771,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
 		// list presentation
 		$form = $this->initListPresentationForm($form);
 
@@ -854,6 +857,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 				// custom icon
 				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+				// tile image
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
 				// list presentation
 				$this->saveListPresentation($form);

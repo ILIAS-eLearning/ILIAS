@@ -952,6 +952,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		// tile image
 		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
+		// list presentation
+		$this->saveListPresentation($form);
+
 
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
@@ -1355,6 +1358,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// tile image
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
 
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');

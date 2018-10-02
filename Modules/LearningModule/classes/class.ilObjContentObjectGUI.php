@@ -481,6 +481,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function initPropertiesForm()
 	{
+		$obj_service = $this->object_service;
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
@@ -516,6 +518,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('cont_presentation'));
 		$this->form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
 		// default layout
 		$layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
@@ -685,6 +690,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
+		$obj_service = $this->object_service;
 
 		$valid = false;
 		$this->initPropertiesForm();
@@ -731,6 +737,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
 			$this->object->updateProperties();
 			$this->object->update();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
 
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilNotification::setNotification(ilNotification::TYPE_LM_BLOCKED_USERS,

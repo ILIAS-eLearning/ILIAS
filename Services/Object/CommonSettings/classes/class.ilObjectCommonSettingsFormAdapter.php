@@ -48,7 +48,8 @@ class ilObjectCommonSettingFormAdapter
 		{
 			if (!is_null($this->legacy_form))
 			{
-				$this->legacy_form = clone $this->legacy_form;
+				// we do not clone for legacy forms, since initEditCustomForm relies on "call by reference" behaviour
+				//$this->legacy_form = clone $this->legacy_form;
 				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
 				$gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
 				$gui->addSettingsToForm($this->legacy_form);
@@ -89,10 +90,10 @@ class ilObjectCommonSettingFormAdapter
 
 		if (!is_null($this->legacy_form))
 		{
-			$this->legacy_form = clone $this->legacy_form;
+			// we do not clone for legacy forms, since initEditCustomForm relies on "call by reference" behaviour
+			//$this->legacy_form = clone $this->legacy_form;
 
 			$tile_image = $tile_image_fac->getByObjId($this->object->getId());
-
 			$timg = new \ilImageFileInputGUI($lng->txt('obj_tile_image'), 'tile_image');
 			$timg->setInfo($lng->txt('obj_tile_image_info'));
 			$timg->setSuffixes($tile_image_fac->getSupportedFileExtensions());

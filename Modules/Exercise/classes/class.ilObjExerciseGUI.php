@@ -228,7 +228,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
 		$a_form->setTitle($this->lng->txt("exc_edit_exercise"));
+
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$a_form->addItem($pres);
+
+		// tile image
+		$a_form = $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('exc_passing_exc'));
@@ -376,6 +385,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
 		$ilUser = $this->user;
 		$this->object->setShowSubmissions($a_form->getInput("show_submissions"));
 		$this->object->setPassMode($a_form->getInput("pass_mode"));		
@@ -395,8 +406,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),
 			(bool)$a_form->getInput("notification"));
-		
-		
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
 		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 			$this->object->getId(),
 			$a_form,

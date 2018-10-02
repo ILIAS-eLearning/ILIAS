@@ -156,7 +156,6 @@ class ilObjectTileImage
 				ilUtil::execConvert($fullpath . "[0] -geometry " . $min . "x" . $min . "^ -gravity center -extent " . $min . "x" . $min . " " . $fullpath);
 			}
 		}
-
 		$this->persistImageState($file_name);
 	}
 
@@ -245,7 +244,6 @@ class ilObjectTileImage
 		if (!\ilContainer::_lookupContainerSetting($this->obj_id, 'tile_image', 0)) {
 			return false;
 		}
-
 		return $this->web->has($this->getRelativePath());
 	}
 

@@ -292,7 +292,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("repository"));
-		
+
+		// presentation
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($pres);
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
 
 		$this->initSortingForm(
 				$form,
@@ -342,6 +349,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			if($form->checkInput())
 			{
 				$this->saveSortingSettings($form);
+
+				// list presentation
+				$this->saveListPresentation($form);
 
 				if ($ilSetting->get('custom_icons')) {
 					global $DIC;

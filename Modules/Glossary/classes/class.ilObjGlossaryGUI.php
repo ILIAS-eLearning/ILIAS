@@ -582,6 +582,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	public function initSettingsForm($a_mode = "edit")
 	{
+		$obj_service = $this->getObjectService();
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
@@ -635,6 +637,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('cont_presentation'));
 		$this->form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
 		// presentation mode
 		$pres_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_presentation_mode"), "pres_mode");
@@ -728,6 +733,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function saveProperties()
 	{
+		$obj_service = $this->getObjectService();
+
 		$this->initSettingsForm();
 		if ($this->form->checkInput())
 		{
@@ -741,6 +748,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->object->setSnippetLength($_POST["snippet_length"]);
 			$this->object->setShowTaxonomy($_POST["show_tax"]);
 			$this->object->update();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
 
 			// field order of advanced metadata
 			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");

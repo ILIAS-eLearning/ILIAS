@@ -604,6 +604,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			// custom icon
 			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
+			// tile image
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+			// list presentation
+			$this->saveListPresentation($form);
+
 			// update object settings
 			$this->object->update();
 
@@ -1628,6 +1634,13 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			// custom icon
 			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+			// tile image
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+			// list presentation
+			$form = $this->initListPresentationForm($form);
+
 
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
