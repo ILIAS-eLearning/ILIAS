@@ -26,14 +26,21 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	protected $taxIds = array();
 	
 	/**
+	 * @var bool
+	 */
+	protected $questionCommentingEnabled = false;
+	
+	/**
 	 * Constructor
 	 *
 	 * @access public
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array())
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
 	{
+		$this->setQuestionCommentingEnabled($enableCommenting);
+		
 		// Bugfix: #0019539 
 		if($confirmdelete)
 		{
@@ -71,6 +78,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'points', '', false, 'ilCenterForced');
 				if (strcmp($c, 'statistics') == 0) $this->addColumn($this->lng->txt('statistics'),'', '');
 				if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
+				if( $this->isQuestionCommentingEnabled() && $c == 'comments')
+				{
+					$this->addColumn($this->lng->txt("ass_comments"),'comments', '');
+				}
 				if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
 				if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 				if (strcmp($c, 'working_time') == 0) $this->addColumn($this->lng->txt("working_time"),'working_time', '');
@@ -127,6 +138,52 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			$this->initFilter();
 		}
 		
+		if( $this->isQuestionCommentingEnabled() )
+		{
+			global $DIC; /* @var ILIAS\DI\Container $DIC */
+			
+			$notesUrl = $this->ctrl->getLinkTargetByClass(
+				array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false
+			);
+			
+			ilNoteGUI::initJavascript($notesUrl,IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+		}
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isQuestionCommentingEnabled(): bool
+	{
+		return $this->questionCommentingEnabled;
+	}
+	
+	/**
+	 * @param bool $questionCommentingEnabled
+	 */
+	public function setQuestionCommentingEnabled(bool $questionCommentingEnabled)
+	{
+		$this->questionCommentingEnabled = $questionCommentingEnabled;
+	}
+	
+	protected function isCommentsColumnSelected()
+	{
+		return in_array('comments', $this->getSelectedColumns());
+	}
+	
+	public function setQuestionData($questionData)
+	{
+		if( $this->isQuestionCommentingEnabled() && $this->isCommentsColumnSelected() )
+		{
+			foreach($questionData as $key => $data)
+			{
+				$questionData[$key]['comments'] = count(ilNote::_getNotesOfObject(
+					$this->parent_obj->object->getId(), $data['question_id'], 'quest', IL_NOTE_PUBLIC
+				));
+			}
+		}
+		
+		$this->setData($questionData);
 	}
 
 	function getSelectableColumns()
@@ -154,6 +211,13 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("author"),
 				"default" => true
 			);
+			if($this->isQuestionCommentingEnabled())
+			{
+				$cols["comments"] = array(
+					"txt" => $lng->txt("comments"),
+					"default" => true
+				);
+			}
 			$cols["created"] = array(
 				"txt" => $lng->txt("create_date"),
 				"default" => true
@@ -328,6 +392,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->parseCurrentBlock();
 				}
+				if( $c == 'comments' && $this->isQuestionCommentingEnabled() )
+				{
+					$this->tpl->setCurrentBlock('comments');
+					$this->tpl->setVariable("COMMENTS", $this->getCommentsHtml($data));
+					$this->tpl->parseCurrentBlock();
+				}
 				if(strcmp($c, 'created') == 0)
 				{
 					$this->tpl->setCurrentBlock('created');
@@ -388,6 +458,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$hintsHref =  $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
 				$this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
 				$actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+			}
+			
+			if( $this->isQuestionCommentingEnabled() )
+			{
+				$actions->addItem($this->lng->txt('ass_comments'), 'comments',
+					'', '', '', '', '', '',
+					$this->getCommentsAjaxLink($data['question_id'])
+				);
 			}
 		}
 		else
@@ -452,11 +530,31 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 */
 	public function numericOrdering($column)
 	{
-		if(in_array($column, array('points', 'created', 'tstamp')))
+		if(in_array($column, array('points', 'created', 'tstamp', 'comments')))
 		{
 			return true;
 		}
 
 		return false;
+	}
+	
+	protected function getCommentsHtml($qData)
+	{
+		if( !$qData['comments'] )
+		{
+			return '';
+		}
+		
+		$ajaxLink = $this->getCommentsAjaxLink($qData['question_id']);
+		
+		return "<a class='comment' href='#' onclick=\"return " . $ajaxLink . "\">
+                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
+			. "' alt='{$qData['comments']}'><span class='ilHActProp'>{$qData['comments']}</span></a>";
+	}
+	
+	protected function getCommentsAjaxLink($questionId)
+	{
+		$ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
+		return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 	}
 }

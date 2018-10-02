@@ -116,6 +116,8 @@ class ilAssQuestionFeedbackEditingGUI
 	 */
 	public function executeCommand()
 	{
+		$this->questionGUI->addHeaderAction();
+		
 		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 		$nextClass = $this->ctrl->getNextClass($this);
 		

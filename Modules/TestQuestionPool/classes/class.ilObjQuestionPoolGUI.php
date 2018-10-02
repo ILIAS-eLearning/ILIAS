@@ -186,6 +186,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->setTargetGuiClass(null);
 				$q_gui->setQuestionActionCmd(null);
 				
+				$q_gui->addHeaderAction();
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
@@ -1693,7 +1695,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem, $ilDB, $lng, $ilPluginAdmin;
 
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), false, $taxIds);
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), false, $taxIds, true);
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
@@ -1734,7 +1736,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$questionList->load();
 		$data = $questionList->getQuestionDataArray();
 		
-		$table_gui->setData($data);
+		$table_gui->setQuestionData($data);
 		
 		return $table_gui;
 	}
