@@ -55,15 +55,17 @@ class ilTestCorrectionsGUI
 	
 	protected function showQuestionList()
 	{
-		$this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION."2");
+		$this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
 		
 		$table_gui = new ilTestQuestionsTableGUI(
-			$this,'showQuestionList', true, false, 0
+			$this,'showQuestionList', write, false, 0
 		);
 		
 		$table_gui->setData($this->getQuestions());
 		
 		$table_gui->clearActionButtons();
+		$table_gui->multi = array();
+		$table_gui->addMultiCommand('Remove', 'Remove');
 		$table_gui->clearCommandButtons();
 		$table_gui->setRowTemplate('tpl.il_as_tst_adjust_questions_row.html', 'Modules/Test');
 		

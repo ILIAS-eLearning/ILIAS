@@ -641,7 +641,7 @@ class ilTestTabsManager
 		$setting = new ilSetting('assessment');
 		$scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', false);
 		if ($this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab('scoringadjust'))
-		{
+		{if(false)
 			// scoring tab
 			$this->tabs->addTarget(
 				self::TAB_ID_CORRECTION, $DIC->ctrl()->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
@@ -654,7 +654,7 @@ class ilTestTabsManager
 		}
 		
 		// NEW CORRECTIONS TAB
-		$this->tabs->addTab(self::TAB_ID_CORRECTION."2", self::TAB_ID_CORRECTION."2",
+		$this->tabs->addTab(self::TAB_ID_CORRECTION, $DIC->language()->txt(self::TAB_ID_CORRECTION),
 			$DIC->ctrl()->getLinkTargetByClass('ilTestCorrectionsGUI')
 		);
 		

@@ -741,7 +741,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$tag_input->setPostVar('tags_'.$lmIndex);
 			$tag_input->setJsSelfInit(true);
 			$tag_input->setTypeAheadMinLength(1);
-			$tag_input->setAnswerEditingEnabled(false);
+			//$tag_input->setAnswerEditingEnabled(false);
 			$tag_input->setOptions($correctAnswers[$lmIndex][0]);
 			$form->addItem($tag_input);
 			
