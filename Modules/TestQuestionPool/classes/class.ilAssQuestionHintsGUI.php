@@ -64,6 +64,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
+		$this->questionGUI->addHeaderAction();
+		
 		global $ilCtrl, $ilTabs, $lng;
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);

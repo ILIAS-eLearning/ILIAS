@@ -13,7 +13,7 @@
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
-
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilNoteGUI
  */
 class ilAssQuestionPreviewGUI
 {
@@ -112,6 +112,8 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);
 		
 		$this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
+		
+		$this->questionGUI->addHeaderAction();
 	}
 
 	public function initPreviewSettings($parentRefId)
@@ -175,6 +177,16 @@ class ilAssQuestionPreviewGUI
 				$forwarder->forward();
 				break;
 			
+			case 'ilnotegui':
+				
+				$notesGUI = new ilNoteGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
+				$notesGUI->enablePublicNotes(true);
+				$notesGUI->enablePublicNotesDeletion(true);
+				$notesPanelHTML = $this->ctrl->forwardCommand($notesGUI);
+				$this->showCmd($notesPanelHTML);
+				break;
+			
+			
 			default:
 
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW).'Cmd';
@@ -191,7 +203,7 @@ class ilAssQuestionPreviewGUI
 		return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
 	}
 	
-	private function showCmd()
+	private function showCmd($notesPanelHTML = '')
 	{
 		$tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
 
@@ -204,6 +216,8 @@ class ilAssQuestionPreviewGUI
 		$this->populateQuestionNavigation($tpl);
 
 		$this->handleInstantResponseRendering($tpl);
+		
+		$this->populateNotesPanel($tpl, $notesPanelHTML);
 		
 		$this->tpl->setContent($tpl->get());
 	}
@@ -501,5 +515,17 @@ class ilAssQuestionPreviewGUI
 		$shuffler->setSeed($this->previewSession->getRandomizerSeed());		
 		
 		return $shuffler;
+	}
+	
+	protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)
+	{
+		if( !strlen($notesPanelHTML) )
+		{
+			$notesPanelHTML = $this->questionGUI->getNotesHTML();
+		}
+		
+		$tpl->setCurrentBlock('notes_panel');
+		$tpl->setVariable('NOTES_PANEL', $notesPanelHTML);
+		$tpl->parseCurrentBlock();
 	}
 }
