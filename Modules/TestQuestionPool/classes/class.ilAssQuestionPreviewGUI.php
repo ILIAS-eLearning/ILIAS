@@ -205,7 +205,7 @@ class ilAssQuestionPreviewGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( !$this->previewSettings->isTestRefId() )
+		if( $this->previewSettings->isTestRefId() )
 		{
 			return false;
 		}
