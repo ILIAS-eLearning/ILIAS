@@ -15,7 +15,7 @@ interface Factory {
 	 *     By default, a fallback icon will be rendered; this is until a
 	 *     background image is defined in the icon's CSS-class.
 	 *   rivals:
-	 *     1: Custom Icons are constructed with a path to an (uploaded) image.
+	 *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
 	 * ---
 	 *
 	 * @param   string $name
@@ -36,7 +36,7 @@ interface Factory {
 	 *     Instead of setting a background image via CSS-class, an image-tag is
 	 *     contained in the icons's div.
 	 *   rivals:
-	 *     1: Standard Icons MUST be used for core-objects.
+	 *     Standard Icon: Standard Icons MUST be used for core-objects.
 	 * rules:
 	 *   usage:
 	 *     1: Custom Icons MAY still use an abbreviation.
