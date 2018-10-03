@@ -150,17 +150,9 @@ abstract class assQuestionGUI
 	public function addHeaderAction()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilObjDataCache; /* @var ilObjectDataCache $ilObjDataCache */
-		
-		$parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
-		
-		if( $parentObjType != 'qpl' )
-		{
-			return;
-		}
-		
+
 		$DIC->ui()->mainTemplate()->setVariable(
-			"HEAD_ACTION", $this->getHeaderAction($parentObjType)
+			"HEAD_ACTION", $this->getHeaderAction()
 		);
 		
 		$notesUrl = $this->ctrl->getLinkTargetByClass(
@@ -176,17 +168,16 @@ abstract class assQuestionGUI
 	public function redrawHeaderAction()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilObjDataCache; /* @var ilObjectDataCache $ilObjDataCache */
-		
-		$parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
-		
-		echo $this->getHeaderAction($parentObjType) . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
+		echo $this->getHeaderAction() . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
 		exit;
 	}
 	
-	public function getHeaderAction($parentObjType)
+	public function getHeaderAction()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		global $ilObjDataCache; /* @var ilObjectDataCache $ilObjDataCache */
+		
+		$parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
 		
 		$dispatcher = new ilCommonActionDispatcherGUI(
 			ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
@@ -215,8 +206,6 @@ abstract class assQuestionGUI
 	*/
 	function executeCommand()
 	{
-		$this->addHeaderAction();
-		
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
 

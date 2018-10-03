@@ -112,8 +112,6 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);
 		
 		$this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
-		
-		$this->questionGUI->addHeaderAction();
 	}
 
 	public function initPreviewSettings($parentRefId)
@@ -203,6 +201,18 @@ class ilAssQuestionPreviewGUI
 		return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
 	}
 	
+	protected function isCommentingRequired()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( !$this->previewSettings->isTestRefId() )
+		{
+			return false;
+		}
+		
+		return (bool)$DIC->rbac()->system()->checkAccess('write', (int)$_GET['ref_id']);
+	}
+	
 	private function showCmd($notesPanelHTML = '')
 	{
 		$tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
@@ -217,7 +227,11 @@ class ilAssQuestionPreviewGUI
 
 		$this->handleInstantResponseRendering($tpl);
 		
-		$this->populateNotesPanel($tpl, $notesPanelHTML);
+		if( $this->isCommentingRequired() )
+		{
+			$this->questionGUI->addHeaderAction();
+			$this->populateNotesPanel($tpl, $notesPanelHTML);
+		}
 		
 		$this->tpl->setContent($tpl->get());
 	}
