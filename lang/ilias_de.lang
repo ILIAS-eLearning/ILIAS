@@ -452,6 +452,7 @@ assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
 assessment#:#ass_comments#:#Kommentare
+assessment#:#ass_commented_questions_only#:#Nur kommentierte Fragen
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort

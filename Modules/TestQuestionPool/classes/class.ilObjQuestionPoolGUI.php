@@ -966,11 +966,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	function filterQuestionBrowserObject()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$enableComments = $DIC->rbac()->system()->checkAccess('write', $_GET['ref_id']);
+		
 		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-
+		
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds, $enableComments);
 		$table_gui->resetOffset();
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
@@ -1693,10 +1696,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	private function buildQuestionBrowserTableGUI($taxIds)
 	{
 		global $rbacsystem, $ilDB, $lng, $ilPluginAdmin;
+		
+		$writeAccess = (bool)$rbacsystem->checkAccess('write', $_GET['ref_id']);
+		$enableCommenting = $writeAccess;
 
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), false, $taxIds, true);
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $writeAccess, false, $taxIds, $enableCommenting);
+		$table_gui->setEditable($writeAccess);
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);

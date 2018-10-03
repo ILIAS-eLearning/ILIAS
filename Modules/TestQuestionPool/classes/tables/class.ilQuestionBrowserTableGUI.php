@@ -173,13 +173,21 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	
 	public function setQuestionData($questionData)
 	{
-		if( $this->isQuestionCommentingEnabled() && $this->isCommentsColumnSelected() )
+		if( $this->isQuestionCommentingEnabled() && ($this->isCommentsColumnSelected() || $this->filter['commented']) )
 		{
 			foreach($questionData as $key => $data)
 			{
-				$questionData[$key]['comments'] = count(ilNote::_getNotesOfObject(
+				$numComments = count(ilNote::_getNotesOfObject(
 					$this->parent_obj->object->getId(), $data['question_id'], 'quest', IL_NOTE_PUBLIC
 				));
+				
+				if( $this->filter['commented'] && !$numComments )
+				{
+					unset($questionData[$key]);
+					continue;
+				}
+				
+				$questionData[$key]['comments'] = $numComments;
 			}
 		}
 		
@@ -307,7 +315,15 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->filter[$postvar] = $inp->getValue();
 			}
 		}
-
+		
+		// comments
+		if( $this->isQuestionCommentingEnabled() )
+		{
+			$comments = new ilCheckboxInputGUI($lng->txt('ass_commented_questions_only'), 'commented');
+			$this->addFilterItem($comments);
+			$comments->readFromSession();
+			$this->filter['commented'] = $comments->getChecked();
+		}
 	}
 	
 	function fillHeader()
