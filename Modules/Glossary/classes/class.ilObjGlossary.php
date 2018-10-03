@@ -1431,10 +1431,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function supportsLongTextQuery()
 	{
-		if ($this->db->getDBType() == "oracle")
-		{
-			return false;
-		}
 		return true;
 	}
 }

@@ -76,14 +76,7 @@ class ilDclBaseRecordModel {
 	 * @return string
 	 */
 	private function fixDate($value) {
-		global $DIC;
-		if ($DIC['ilDB']->getDBType() != ilDBConstants::TYPE_ORACLE) {
-			return $value;
-		}
-
-		$date = explode(' ', $value);
-
-		return $date[0];
+		return $value;
 	}
 
 
