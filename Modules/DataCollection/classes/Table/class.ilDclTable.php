@@ -1504,7 +1504,7 @@ class ilDclTable {
 			$sql .= ', ';
 		}
 
-		$as = $ilDB->getDBType() == 'oracle' ? '' : ' AS ';
+		$as = ' AS ';
 
 		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record {$as} record ";
 		$sql .= $join_str;
