@@ -9103,7 +9103,7 @@ div.alert ul > li:before {
   padding: 0;
 }
 .il-popover i.icon-refresh {
-  background: url("../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
+  background: url("images/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {
@@ -12132,6 +12132,14 @@ table.il-cal-week tr.calstd {
   border-top-width: 2px;
   border-top-style: solid;
 }
+table.il-cal-week {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+table.il-cal-week td.calevent {
+  overflow: hidden;
+}
 tr.calstdtime {
   height: 1.2em;
   background-color: inherit;
@@ -12384,6 +12392,14 @@ li.ilWikiBlockItem {
   left: 0;
   min-width: 100%;
   background-color: #fafafa;
+}
+#ilTopNav .dropdown-menu li a {
+  background-color: transparent;
+  color: #5d5d5d;
+}
+#ilTopNav .dropdown-menu li a:hover {
+  background-color: #ecf0f4;
+  color: #262626;
 }
 @media only screen and (max-width: 767px) {
   #ilTopNav .dropdown-menu {
