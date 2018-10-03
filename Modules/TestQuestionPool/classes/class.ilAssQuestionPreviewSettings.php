@@ -37,7 +37,7 @@ class ilAssQuestionPreviewSettings
 		}
 	}
 	
-	private function isTestRefId()
+	public function isTestRefId()
 	{
 		$objectType = ilObject::_lookupType($this->contextRefId, true);
 		
