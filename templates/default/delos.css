@@ -12253,12 +12253,6 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (max-width: 767px) {
-  .table-responsive .dropdown-menu,
-  .table-responsive .dropdown-toggle {
-    position: static !important;
-  }
-}
 @media (min-width: 768px) {
   .table-responsive {
     overflow: visible;
