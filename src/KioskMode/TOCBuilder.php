@@ -19,7 +19,7 @@ interface TOCBuilder {
 	 *
 	 * @return	ControlBuilder|TOCBuilder depending on the nesting level.
 	 */
-	public function end(string $command);
+	public function end();
 
 	/**
 	 * Build a sub tree in the TOC.
