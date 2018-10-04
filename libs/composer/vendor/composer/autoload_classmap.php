@@ -1060,6 +1060,8 @@ return array(
     'Monolog\\Registry' => $vendorDir . '/monolog/monolog/src/Monolog/Registry.php',
     'OnlyIncludeReplacer' => $baseDir . '/../../Services/Utilities/classes/Parser.php',
     'PDF417' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
+    'PEAR' => $baseDir . '/../ilias/Init/PEAR/PEAR.php',
+    'PEAR_Error' => $baseDir . '/../ilias/Init/PEAR/PEAR.php',
     'PHPExcel' => $vendorDir . '/phpoffice/phpexcel/Classes/PHPExcel.php',
     'PHPExcel_Autoloader' => $vendorDir . '/phpoffice/phpexcel/Classes/PHPExcel/Autoloader.php',
     'PHPExcel_Best_Fit' => $vendorDir . '/phpoffice/phpexcel/Classes/PHPExcel/Shared/trend/bestFitClass.php',

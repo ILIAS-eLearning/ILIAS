@@ -1304,6 +1304,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
         'OnlyIncludeReplacer' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/Parser.php',
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
+        'PEAR' => __DIR__ . '/../..' . '/../ilias/Init/PEAR/PEAR.php',
+        'PEAR_Error' => __DIR__ . '/../..' . '/../ilias/Init/PEAR/PEAR.php',
         'PHPExcel' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel.php',
         'PHPExcel_Autoloader' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel/Autoloader.php',
         'PHPExcel_Best_Fit' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel/Shared/trend/bestFitClass.php',
