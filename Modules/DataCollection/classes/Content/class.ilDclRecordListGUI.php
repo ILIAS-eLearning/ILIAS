@@ -164,9 +164,6 @@ class ilDclRecordListGUI {
 			$ilToolbar->addButtonInstance($import);
 		}
 
-		// requested not to implement this way...
-		//$tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
-
 		if (count($this->table_obj->getRecordFields()) == 0) {
 			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
 				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : ""));
@@ -174,9 +171,14 @@ class ilDclRecordListGUI {
 		
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
-		// bugfix mantis 0023295
-		$desc = $this->table_obj->getDescription();
-
+		if ($desc = $this->table_obj->getDescription()) {
+			$ilSetting = new ilSetting('advanced_editing');
+			if ((bool)$ilSetting->get('advanced_editing_javascript_editor')) {
+				$desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
+			} else {
+				$desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
+			}
+		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
 
