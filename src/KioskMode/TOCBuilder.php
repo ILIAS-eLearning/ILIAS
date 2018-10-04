@@ -26,6 +26,9 @@ interface TOCBuilder {
 	 *
 	 * If a parameter is provided, the node in the TOC can be accessed itself.
 	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
+	 *
 	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
 	public function node($label, int $parameter = null, $lp = null) : TOCBuilder;
@@ -34,6 +37,9 @@ interface TOCBuilder {
 	 * Build an entry in the TOC.
 	 *
 	 * The parameter will be appended to the command when updating the state.
+	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
 	 *
 	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
