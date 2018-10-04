@@ -258,6 +258,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())
+								->withRequired(true)
 					],
 					$txt("prg_assessment"),
 					""
