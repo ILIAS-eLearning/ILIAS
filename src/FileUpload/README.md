@@ -96,6 +96,16 @@ $results = $upload->getResults();
 $result = $results[0];
 ```
 
+## Terminology
+
+### UploadResult
+The purpose of the UploadResult object is to transport data, namely the attributes
+(name, size and mimeType), metadata and upload-status of a file. The attributes are
+fetched from the uploaded file which is handed over by a ServerRequest. The metadata
+can be enriched by the processors, which also set the upload status to accepted or
+rejected.
+
+
 ## Known issues
 The http service has methods which would allow ILIAS to handle the files in a way which bypasses
 the file upload service.
