@@ -1,0 +1,66 @@
+// config.w32 for pecl/http
+// $Id$
+
+ARG_ENABLE("http", "whether to enable extended HTTP support", "no");
+
+if (PHP_HTTP != "no") {
+
+	EXTENSION("http",
+		"missing.c http.c http_functions.c http_exception_object.c "+
+		"http_util_object.c http_message_object.c http_requestpool_object.c "+
+		"http_request_object.c http_response_object.c "+
+		"http_api.c http_cache_api.c http_request_pool_api.c "+
+		"http_request_api.c http_date_api.c http_headers_api.c "+
+		"http_message_api.c http_send_api.c http_url_api.c "+
+		"http_info_api.c http_request_method_api.c http_encoding_api.c",
+		null,
+		"/I\"" + configure_module_dirname + "/phpstr\"");
+	ADD_SOURCES(configure_module_dirname + "/phpstr", "phpstr.c", "http");
+	AC_DEFINE("HAVE_HTTP", 1, "Have extended HTTP support");
+	
+	if (PHP_DEBUG != "no") {
+		ADD_FLAG("CFLAGS_HTTP", "/W3");
+	}
+	
+	if (CHECK_HEADER_ADD_INCLUDE('zlib.h', 'CFLAGS_HTTP')) {
+		AC_DEFINE('HTTP_HAVE_ZLIB', 1, "Have zlib library");
+	} else {
+		WARNING("zlib encoding functions not enabled; libraries and headers not found");
+	}
+
+	MHASH_LIB = PHP_DEBUG != "no" ? "libmhash-staticd.lib":"libmhash-static.lib";
+	if (CHECK_HEADER_ADD_INCLUDE('mhash.h', 'CFLAGS_HTTP') &&
+			(CHECK_LIB(MHASH_LIB, 'http', PHP_HTTP) ||
+				CHECK_LIB('libmhash.lib', 'http', PHP_HTTP))) {
+		AC_DEFINE('HTTP_HAVE_MHASH', 1 , "Have mhash library");
+	} else {
+		WARNING("mhash etag generator not enabled; libraries and headers not found");
+	}
+
+	CURL_LIB = PHP_DEBUG != "no" ? "libcurld.lib":"libcurl.lib";
+    if (CHECK_HEADER_ADD_INCLUDE("curl/curl.h", "CFLAGS_HTTP") &&
+    		CHECK_HEADER_ADD_INCLUDE("openssl/crypto.h", "CFLAGS_HTTP") &&
+			CHECK_LIB(CURL_LIB, "http", PHP_HTTP) &&
+			CHECK_LIB("ssleay32.lib", "http", PHP_HTTP) &&
+			CHECK_LIB("libeay32.lib", "http", PHP_HTTP) &&
+			CHECK_LIB("zlib.lib", "http", PHP_HTTP) &&
+			CHECK_LIB("winmm.lib", "http", PHP_HTTP)) {
+		AC_DEFINE("HTTP_HAVE_CURL", 1, "Have CURL library");
+		AC_DEFINE("HTTP_HAVE_SSL", 1, "Have SSL");
+		AC_DEFINE("HAVE_CURL_MULTI_STRERROR", 1, "");
+		AC_DEFINE("HAVE_CURL_EASY_STRERROR", 1, "");
+		AC_DEFINE("HAVE_CURL_EASY_RESET", 1, "");
+		AC_DEFINE("CURL_STATICLIB", 1, "");
+	} else {
+		WARNING("curl convenience functions not enabled; libraries and headers not found");
+	}
+
+	MAGIC_LIB = PHP_DEBUG != "no" ? "libmagic-staticd.lib":"libmagic-static.lib";
+	if (CHECK_HEADER_ADD_INCLUDE("magic.h", "CFLAGS_HTTP") &&
+			CHECK_LIB(MAGIC_LIB, "http", PHP_HTTP)) {
+		AC_DEFINE("HTTP_HAVE_MAGIC", 1, "Have magic library");
+		AC_DEFINE("USE_MAGIC_STATIC", "", "");
+	} else {
+		WARNING("content type guessing not enabled; libraries and headers not found");
+	}
+}

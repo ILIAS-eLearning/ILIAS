@@ -1,0 +1,162 @@
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testDeleteRef1
+Delete reference Address => Street
+
+Ref:
+PersonAddress => Person
+PersonAddress => Address
+PersonPhone => Person
+PersonPhone => Phone
+
+RefTo:
+Person <= (PersonAddress, PersonPhone)
+Address <= (PersonAddress)
+Phone <= (PersonPhone)
+
+Link:
+Person, Address : (PersonAddress)
+Person, Phone : (PersonPhone)
+Address, Person : (PersonAddress)
+Phone, Person : (PersonPhone).
+>testDeleteRef2
+Delete reference PersonAddress => Person
+
+Ref:
+PersonAddress => Address
+PersonPhone => Person
+PersonPhone => Phone
+Address => Street
+
+RefTo:
+Person <= (PersonPhone)
+Address <= (PersonAddress)
+Phone <= (PersonPhone)
+Street <= (Address)
+
+Link:
+Person, Phone : (PersonPhone)
+Phone, Person : (PersonPhone).
+>testDeleteTable1
+Delete Table Person
+
+Table: Address, Phone, PersonAddress, PersonPhone, Street
+
+Col:
+PersonID : (PersonPhone)
+AddressID : (Address, PersonAddress)
+Building : (Address)
+Street : (Address, Street)
+UnitType : (Address)
+Unit : (Address)
+City : (Address, Street)
+StateAbb : (Address, Street)
+ZipCode : (Address)
+PhoneID : (Phone, PersonPhone)
+PhoneNumber : (Phone)
+PersonID2 : (PersonAddress)
+Sunny : (Street)
+
+ForeignCol:
+AddressID : (PersonAddress)
+PhoneID : (PersonPhone)
+Street : (Address)
+City : (Address)
+StateAbb : (Address)
+
+Ref:
+PersonAddress => Address
+PersonPhone => Phone
+Address => Street
+
+RefTo:
+Address <= (PersonAddress)
+Phone <= (PersonPhone)
+Street <= (Address)
+
+Link:.
+>testDeleteTable2
+Delete Table PersonAddress
+
+Table: Person, Address, Phone, PersonPhone, Street
+
+Col:
+PersonID : (Person, PersonPhone)
+FirstName : (Person)
+MiddleName : (Person)
+LastName : (Person)
+NameSuffix : (Person)
+AddressID : (Address)
+Building : (Address)
+Street : (Address, Street)
+UnitType : (Address)
+Unit : (Address)
+City : (Address, Street)
+StateAbb : (Address, Street)
+ZipCode : (Address)
+PhoneID : (Phone, PersonPhone)
+PhoneNumber : (Phone)
+Sunny : (Street)
+
+ForeignCol:
+PersonID : (PersonPhone)
+PhoneID : (PersonPhone)
+Street : (Address)
+City : (Address)
+StateAbb : (Address)
+
+Ref:
+PersonPhone => Person
+PersonPhone => Phone
+Address => Street
+
+RefTo:
+Person <= (PersonPhone)
+Phone <= (PersonPhone)
+Street <= (Address)
+
+Link:
+Person, Phone : (PersonPhone)
+Phone, Person : (PersonPhone).
+>testDeleteTable3
+Delete Table Address
+
+Table: Person, Phone, PersonAddress, PersonPhone, Street
+
+Col:
+PersonID : (Person, PersonPhone)
+FirstName : (Person)
+MiddleName : (Person)
+LastName : (Person)
+NameSuffix : (Person)
+AddressID : (PersonAddress)
+Street : (Street)
+City : (Street)
+StateAbb : (Street)
+PhoneID : (Phone, PersonPhone)
+PhoneNumber : (Phone)
+PersonID2 : (PersonAddress)
+Sunny : (Street)
+
+ForeignCol:
+PersonID2 : (PersonAddress)
+PersonID : (PersonPhone)
+PhoneID : (PersonPhone)
+
+Ref:
+PersonAddress => Person
+PersonPhone => Person
+PersonPhone => Phone
+
+RefTo:
+Person <= (PersonAddress, PersonPhone)
+Phone <= (PersonPhone)
+
+Link:
+Person, Phone : (PersonPhone)
+Phone, Person : (PersonPhone).
+
+Time: 0.37969398498535
+
+OK (5 tests)

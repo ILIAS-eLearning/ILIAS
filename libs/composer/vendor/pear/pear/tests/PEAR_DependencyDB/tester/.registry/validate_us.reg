@@ -1,0 +1,21 @@
+a:16:{s:8:"provides";a:0:{}s:8:"filelist";a:2:{s:15:"Validate/US.php";a:3:{s:4:"role";s:3:"php";s:6:"md5sum";s:32:"459162883c9163fd05767636a80ef702";s:12:"installed_as";s:28:"C:\php5\pear\Validate\US.php";}s:22:"tests/validate_US.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"23702f1bb7bc2133f2ba4dd4c7f11aa1";s:12:"installed_as";s:53:"C:\php5\pear\tests\Validate_US\tests\validate_US.phpt";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:11:"Validate_US";s:7:"summary";s:23:"Validation class for US";s:11:"description";s:111:"Package containes locale validation for US such as:
+ * SSN
+ * Postal Code
+ * Regions (States)
+ * Phone Numbers
+";s:11:"maintainers";a:3:{i:0;a:4:{s:6:"handle";s:7:"busterb";s:4:"name";s:10:"Brent Cook";s:5:"email";s:21:"busterbcook@yahoo.com";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:6:"timmyg";s:4:"name";s:13:"Tim Gallagher";s:5:"email";s:22:"timg@sunflowerroad.com";s:4:"role";s:4:"lead";}i:2;a:4:{s:6:"handle";s:5:"dufuz";s:4:"name";s:12:"Helgi Þormar";s:5:"email";s:13:"dufuz@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"0.5.0";s:12:"release_date";s:10:"2005-05-18";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:947:"- Split from Validate into independent package
+- CS fixes
+- region() added in US (that is validation of the states)
+- phoneNumber() added. 	hasn't had a release in too long.
+- Fix Bug #4068 Always returns true if area code is required in Validate_US::phoneNumber 	 
+- BC break! 	 
+postalCode unified between countries (name wise), now all postcode validation funcs are named postalCode 	 
+- Added test cases for some of the functions 	 
+- Added a var named $high_groups which will stores result of a query to a webpage that ssnGetHighGroups 	 
+does to get list of all high groups, this will really help keeping the load down if there is a need to validate more then one ssn 	 
+in a row.
+- Fix an unassigned variable warning in SSN checks
+- Lots of updates to how SSN checks work (various contributors)
+Note, I'm releasing this because I just realized that I'm the maintainer and it
+hasn't had a release in too long. We really should stabilize it.
+";s:12:"release_deps";a:1:{i:1;a:3:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";}}s:12:"_lastversion";N;s:7:"dirtree";a:2:{s:21:"C:\php5\pear\Validate";b:1;s:36:"C:\php5\pear\tests\Validate_US\tests";b:1;}s:13:"_lastmodified";i:1127495262;}

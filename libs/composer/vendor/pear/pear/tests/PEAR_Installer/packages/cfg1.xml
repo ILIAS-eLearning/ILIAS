@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ </description>
+ <lead>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2004-09-30</date>
+ <version>
+  <release>1.4.0</release>
+  <api>1.4.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+ <notes>Installer Roles/Tasks:
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="foo.php" role="cfg"/>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

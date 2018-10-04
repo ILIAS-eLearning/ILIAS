@@ -1,0 +1,375 @@
+a:18:{s:8:"provides";a:83:{s:33:"class;MDB2_Driver_Datatype_Common";a:3:{s:4:"type";s:5:"class";s:4:"name";s:27:"MDB2_Driver_Datatype_Common";s:8:"explicit";b:1;}s:52:"function;MDB2_Driver_Datatype_Common::setResultTypes";a:3:{s:4:"type";s:8:"function";s:4:"name";s:43:"MDB2_Driver_Datatype_Common::setResultTypes";s:8:"explicit";b:1;}s:51:"function;MDB2_Driver_Datatype_Common::convertResult";a:3:{s:4:"type";s:8:"function";s:4:"name";s:42:"MDB2_Driver_Datatype_Common::convertResult";s:8:"explicit";b:1;}s:54:"function;MDB2_Driver_Datatype_Common::convertResultRow";a:3:{s:4:"type";s:8:"function";s:4:"name";s:45:"MDB2_Driver_Datatype_Common::convertResultRow";s:8:"explicit";b:1;}s:52:"function;MDB2_Driver_Datatype_Common::getDeclaration";a:3:{s:4:"type";s:8:"function";s:4:"name";s:43:"MDB2_Driver_Datatype_Common::getDeclaration";s:8:"explicit";b:1;}s:32:"class;MDB2_Driver_Manager_Common";a:3:{s:4:"type";s:5:"class";s:4:"name";s:26:"MDB2_Driver_Manager_Common";s:8:"explicit";b:1;}s:60:"function;MDB2_Driver_Manager_Common::getFieldDeclarationList";a:3:{s:4:"type";s:8:"function";s:4:"name";s:51:"MDB2_Driver_Manager_Common::getFieldDeclarationList";s:8:"explicit";b:1;}s:51:"function;MDB2_Driver_Manager_Common::createDatabase";a:3:{s:4:"type";s:8:"function";s:4:"name";s:42:"MDB2_Driver_Manager_Common::createDatabase";s:8:"explicit";b:1;}s:49:"function;MDB2_Driver_Manager_Common::dropDatabase";a:3:{s:4:"type";s:8:"function";s:4:"name";s:40:"MDB2_Driver_Manager_Common::dropDatabase";s:8:"explicit";b:1;}s:48:"function;MDB2_Driver_Manager_Common::createTable";a:3:{s:4:"type";s:8:"function";s:4:"name";s:39:"MDB2_Driver_Manager_Common::createTable";s:8:"explicit";b:1;}s:32:"class;MDB2_Driver_Reverse_Common";a:3:{s:4:"type";s:5:"class";s:4:"name";s:26:"MDB2_Driver_Reverse_Common";s:8:"explicit";b:1;}s:60:"function;MDB2_Driver_Reverse_Common::getTableFieldDefinition";a:3:{s:4:"type";s:8:"function";s:4:"name";s:51:"MDB2_Driver_Reverse_Common::getTableFieldDefinition";s:8:"explicit";b:1;}s:60:"function;MDB2_Driver_Reverse_Common::getTableIndexDefinition";a:3:{s:4:"type";s:8:"function";s:4:"name";s:51:"MDB2_Driver_Reverse_Common::getTableIndexDefinition";s:8:"explicit";b:1;}s:58:"function;MDB2_Driver_Reverse_Common::getSequenceDefinition";a:3:{s:4:"type";s:8:"function";s:4:"name";s:49:"MDB2_Driver_Reverse_Common::getSequenceDefinition";s:8:"explicit";b:1;}s:46:"function;MDB2_Driver_Reverse_Common::tableInfo";a:3:{s:4:"type";s:8:"function";s:4:"name";s:37:"MDB2_Driver_Reverse_Common::tableInfo";s:8:"explicit";b:1;}s:8:"class;DB";a:3:{s:4:"type";s:5:"class";s:4:"name";s:2:"DB";s:8:"explicit";b:1;}s:14:"class;DB_Error";a:4:{s:4:"type";s:5:"class";s:4:"name";s:8:"DB_Error";s:7:"extends";s:10:"PEAR_Error";s:8:"explicit";b:1;}s:20:"function;DB::factory";a:3:{s:4:"type";s:8:"function";s:4:"name";s:11:"DB::factory";s:8:"explicit";b:1;}s:20:"function;DB::connect";a:3:{s:4:"type";s:8:"function";s:4:"name";s:11:"DB::connect";s:8:"explicit";b:1;}s:23:"function;DB::apiVersion";a:3:{s:4:"type";s:8:"function";s:4:"name";s:14:"DB::apiVersion";s:8:"explicit";b:1;}s:20:"function;DB::isError";a:3:{s:4:"type";s:8:"function";s:4:"name";s:11:"DB::isError";s:8:"explicit";b:1;}s:20:"function;DB::isManip";a:3:{s:4:"type";s:8:"function";s:4:"name";s:11:"DB::isManip";s:8:"explicit";b:1;}s:25:"function;DB::errorMessage";a:3:{s:4:"type";s:8:"function";s:4:"name";s:16:"DB::errorMessage";s:8:"explicit";b:1;}s:21:"function;DB::parseDSN";a:3:{s:4:"type";s:8:"function";s:4:"name";s:12:"DB::parseDSN";s:8:"explicit";b:1;}s:28:"function;DB::assertExtension";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"DB::assertExtension";s:8:"explicit";b:1;}s:15:"class;MDB2_Date";a:3:{s:4:"type";s:5:"class";s:4:"name";s:9:"MDB2_Date";s:8:"explicit";b:1;}s:26:"function;MDB2_Date::mdbNow";a:3:{s:4:"type";s:8:"function";s:4:"name";s:17:"MDB2_Date::mdbNow";s:8:"explicit";b:1;}s:28:"function;MDB2_Date::mdbToday";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"MDB2_Date::mdbToday";s:8:"explicit";b:1;}s:27:"function;MDB2_Date::mdbTime";a:3:{s:4:"type";s:8:"function";s:4:"name";s:18:"MDB2_Date::mdbTime";s:8:"explicit";b:1;}s:33:"function;MDB2_Date::date2Mdbstamp";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"MDB2_Date::date2Mdbstamp";s:8:"explicit";b:1;}s:33:"function;MDB2_Date::unix2Mdbstamp";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"MDB2_Date::unix2Mdbstamp";s:8:"explicit";b:1;}s:33:"function;MDB2_Date::mdbstamp2Unix";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"MDB2_Date::mdbstamp2Unix";s:8:"explicit";b:1;}s:33:"function;MDB2_Date::mdbstamp2Date";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"MDB2_Date::mdbstamp2Date";s:8:"explicit";b:1;}s:19:"class;MDB2_Extended";a:3:{s:4:"type";s:5:"class";s:4:"name";s:13:"MDB2_Extended";s:8:"explicit";b:1;}s:35:"function;MDB2_Extended::autoPrepare";a:3:{s:4:"type";s:8:"function";s:4:"name";s:26:"MDB2_Extended::autoPrepare";s:8:"explicit";b:1;}s:35:"function;MDB2_Extended::autoExecute";a:3:{s:4:"type";s:8:"function";s:4:"name";s:26:"MDB2_Extended::autoExecute";s:8:"explicit";b:1;}s:37:"function;MDB2_Extended::buildManipSQL";a:3:{s:4:"type";s:8:"function";s:4:"name";s:28:"MDB2_Extended::buildManipSQL";s:8:"explicit";b:1;}s:34:"function;MDB2_Extended::limitQuery";a:3:{s:4:"type";s:8:"function";s:4:"name";s:25:"MDB2_Extended::limitQuery";s:8:"explicit";b:1;}s:30:"function;MDB2_Extended::getOne";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_Extended::getOne";s:8:"explicit";b:1;}s:30:"function;MDB2_Extended::getRow";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_Extended::getRow";s:8:"explicit";b:1;}s:30:"function;MDB2_Extended::getCol";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_Extended::getCol";s:8:"explicit";b:1;}s:30:"function;MDB2_Extended::getAll";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_Extended::getAll";s:8:"explicit";b:1;}s:32:"function;MDB2_Extended::getAssoc";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"MDB2_Extended::getAssoc";s:8:"explicit";b:1;}s:39:"function;MDB2_Extended::executeMultiple";a:3:{s:4:"type";s:8:"function";s:4:"name";s:30:"MDB2_Extended::executeMultiple";s:8:"explicit";b:1;}s:19:"class;MDB2_Iterator";a:3:{s:4:"type";s:5:"class";s:4:"name";s:13:"MDB2_Iterator";s:8:"explicit";b:1;}s:27:"class;MDB2_BufferedIterator";a:4:{s:4:"type";s:5:"class";s:4:"name";s:21:"MDB2_BufferedIterator";s:7:"extends";s:13:"MDB2_Iterator";s:8:"explicit";b:1;}s:28:"function;MDB2_Iterator::seek";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"MDB2_Iterator::seek";s:8:"explicit";b:1;}s:28:"function;MDB2_Iterator::next";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"MDB2_Iterator::next";s:8:"explicit";b:1;}s:31:"function;MDB2_Iterator::current";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"MDB2_Iterator::current";s:8:"explicit";b:1;}s:29:"function;MDB2_Iterator::valid";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"MDB2_Iterator::valid";s:8:"explicit";b:1;}s:28:"function;MDB2_Iterator::free";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"MDB2_Iterator::free";s:8:"explicit";b:1;}s:27:"function;MDB2_Iterator::key";a:3:{s:4:"type";s:8:"function";s:4:"name";s:18:"MDB2_Iterator::key";s:8:"explicit";b:1;}s:30:"function;MDB2_Iterator::rewind";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_Iterator::rewind";s:8:"explicit";b:1;}s:37:"function;MDB2_BufferedIterator::valid";a:3:{s:4:"type";s:8:"function";s:4:"name";s:28:"MDB2_BufferedIterator::valid";s:8:"explicit";b:1;}s:37:"function;MDB2_BufferedIterator::count";a:3:{s:4:"type";s:8:"function";s:4:"name";s:28:"MDB2_BufferedIterator::count";s:8:"explicit";b:1;}s:39:"function;MDB2_BufferedIterator::hasPrev";a:3:{s:4:"type";s:8:"function";s:4:"name";s:30:"MDB2_BufferedIterator::hasPrev";s:8:"explicit";b:1;}s:38:"function;MDB2_BufferedIterator::rewind";a:3:{s:4:"type";s:8:"function";s:4:"name";s:29:"MDB2_BufferedIterator::rewind";s:8:"explicit";b:1;}s:36:"function;MDB2_BufferedIterator::prev";a:3:{s:4:"type";s:8:"function";s:4:"name";s:27:"MDB2_BufferedIterator::prev";s:8:"explicit";b:1;}s:14:"class;MDB2_LOB";a:3:{s:4:"type";s:5:"class";s:4:"name";s:8:"MDB2_LOB";s:8:"explicit";b:1;}s:30:"function;MDB2_LOB::stream_open";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_LOB::stream_open";s:8:"explicit";b:1;}s:30:"function;MDB2_LOB::stream_read";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_LOB::stream_read";s:8:"explicit";b:1;}s:31:"function;MDB2_LOB::stream_write";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"MDB2_LOB::stream_write";s:8:"explicit";b:1;}s:30:"function;MDB2_LOB::stream_tell";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_LOB::stream_tell";s:8:"explicit";b:1;}s:29:"function;MDB2_LOB::stream_eof";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"MDB2_LOB::stream_eof";s:8:"explicit";b:1;}s:30:"function;MDB2_LOB::stream_seek";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"MDB2_LOB::stream_seek";s:8:"explicit";b:1;}s:31:"function;MDB2_LOB::stream_close";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"MDB2_LOB::stream_close";s:8:"explicit";b:1;}s:10:"class;MDB2";a:3:{s:4:"type";s:5:"class";s:4:"name";s:4:"MDB2";s:8:"explicit";b:1;}s:16:"class;MDB2_Error";a:4:{s:4:"type";s:5:"class";s:4:"name";s:10:"MDB2_Error";s:7:"extends";s:10:"PEAR_Error";s:8:"explicit";b:1;}s:25:"function;MDB2::setOptions";a:3:{s:4:"type";s:8:"function";s:4:"name";s:16:"MDB2::setOptions";s:8:"explicit";b:1;}s:22:"function;MDB2::factory";a:3:{s:4:"type";s:8:"function";s:4:"name";s:13:"MDB2::factory";s:8:"explicit";b:1;}s:22:"function;MDB2::connect";a:3:{s:4:"type";s:8:"function";s:4:"name";s:13:"MDB2::connect";s:8:"explicit";b:1;}s:24:"function;MDB2::singleton";a:3:{s:4:"type";s:8:"function";s:4:"name";s:15:"MDB2::singleton";s:8:"explicit";b:1;}s:23:"function;MDB2::loadFile";a:3:{s:4:"type";s:8:"function";s:4:"name";s:14:"MDB2::loadFile";s:8:"explicit";b:1;}s:25:"function;MDB2::apiVersion";a:3:{s:4:"type";s:8:"function";s:4:"name";s:16:"MDB2::apiVersion";s:8:"explicit";b:1;}s:25:"function;MDB2::raiseError";a:3:{s:4:"type";s:8:"function";s:4:"name";s:16:"MDB2::raiseError";s:8:"explicit";b:1;}s:22:"function;MDB2::isError";a:3:{s:4:"type";s:8:"function";s:4:"name";s:13:"MDB2::isError";s:8:"explicit";b:1;}s:27:"function;MDB2::isConnection";a:3:{s:4:"type";s:8:"function";s:4:"name";s:18:"MDB2::isConnection";s:8:"explicit";b:1;}s:23:"function;MDB2::isResult";a:3:{s:4:"type";s:8:"function";s:4:"name";s:14:"MDB2::isResult";s:8:"explicit";b:1;}s:29:"function;MDB2::isResultCommon";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"MDB2::isResultCommon";s:8:"explicit";b:1;}s:22:"function;MDB2::isManip";a:3:{s:4:"type";s:8:"function";s:4:"name";s:13:"MDB2::isManip";s:8:"explicit";b:1;}s:27:"function;MDB2::errorMessage";a:3:{s:4:"type";s:8:"function";s:4:"name";s:18:"MDB2::errorMessage";s:8:"explicit";b:1;}s:23:"function;MDB2::parseDSN";a:3:{s:4:"type";s:8:"function";s:4:"name";s:14:"MDB2::parseDSN";s:8:"explicit";b:1;}s:25:"function;MDB2::fileExists";a:3:{s:4:"type";s:8:"function";s:4:"name";s:16:"MDB2::fileExists";s:8:"explicit";b:1;}}s:8:"filelist";a:40:{s:25:"docs/examples/example.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"0e90b169d5be664dcbf4de8a3d0f3c0f";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:48:"C:\php5\pear\docs\MDB2\docs\examples\example.php";}s:37:"docs/examples/metapear_test_db.schema";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"74b2bb45de61eccbffed7d75d5268af9";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:60:"C:\php5\pear\docs\MDB2\docs\examples\metapear_test_db.schema";}s:40:"docs/examples/peardb_wrapper_example.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"735ae01f0aa509ba72d31a8add91a7e5";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:63:"C:\php5\pear\docs\MDB2\docs\examples\peardb_wrapper_example.php";}s:17:"docs/CONTRIBUTORS";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"a253b37e185622112acfef6c94b79aef";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:40:"C:\php5\pear\docs\MDB2\docs\CONTRIBUTORS";}s:19:"docs/datatypes.html";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"cc1befe78146094be02f89bbb201b4ab";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:42:"C:\php5\pear\docs\MDB2\docs\datatypes.html";}s:33:"docs/Driver_Datatype_skeleton.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"58cfee79a8e774d8c10e3a773af7fe80";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:56:"C:\php5\pear\docs\MDB2\docs\Driver_Datatype_skeleton.php";}s:32:"docs/Driver_Manager_skeleton.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"b194e5252ada4e068b40fc9c9364e957";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:55:"C:\php5\pear\docs\MDB2\docs\Driver_Manager_skeleton.php";}s:31:"docs/Driver_Native_skeleton.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"5ff94c70cae0816c90ac45e7f3c0032e";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:54:"C:\php5\pear\docs\MDB2\docs\Driver_Native_skeleton.php";}s:32:"docs/Driver_Reverse_skeleton.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"a8e3f88b940affb93e1e31c6ed32b8f1";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:55:"C:\php5\pear\docs\MDB2\docs\Driver_Reverse_skeleton.php";}s:24:"docs/Driver_skeleton.php";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"c2b4f60ac6441368ff1ccc9ec566f0a1";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:47:"C:\php5\pear\docs\MDB2\docs\Driver_skeleton.php";}s:16:"docs/MAINTAINERS";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"c1fe9863db1ef4da67e4be7c549b0290";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:39:"C:\php5\pear\docs\MDB2\docs\MAINTAINERS";}s:11:"docs/README";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"c7b68ea23aa2ae6d91913703a2246f15";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:34:"C:\php5\pear\docs\MDB2\docs\README";}s:11:"docs/STATUS";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"fefa281d64ca27963a63eeb87ee1e902";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:34:"C:\php5\pear\docs\MDB2\docs\STATUS";}s:9:"docs/TODO";a:5:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"ec0c4383ddfd3af69d577344d0d5b4dd";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:32:"C:\php5\pear\docs\MDB2\docs\TODO";}s:31:"MDB2/Driver/Datatype/Common.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"35aaaa62bea312d7c414d6eb2555ef7e";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:44:"C:\php5\pear\MDB2\Driver\Datatype\Common.php";}s:30:"MDB2/Driver/Manager/Common.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"d84fa1f42aac637834f19e553a1c1e79";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:43:"C:\php5\pear\MDB2\Driver\Manager\Common.php";}s:30:"MDB2/Driver/Reverse/Common.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"9d57c99e488119ed346165f334020d7f";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:43:"C:\php5\pear\MDB2\Driver\Reverse\Common.php";}s:23:"MDB2/Wrapper/peardb.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"815cd450293d94a0aeb247706e421b3d";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:36:"C:\php5\pear\MDB2\Wrapper\peardb.php";}s:13:"MDB2/Date.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"b5750450d89927deb5e5421065b780b0";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:26:"C:\php5\pear\MDB2\Date.php";}s:17:"MDB2/Extended.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"a9999010c22a368c72eb52853af982c3";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:30:"C:\php5\pear\MDB2\Extended.php";}s:17:"MDB2/Iterator.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"d54a136b49781ae67e578fdfd962584c";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:30:"C:\php5\pear\MDB2\Iterator.php";}s:12:"MDB2/LOB.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"c93a83d61946cffc4d7117158bf67b5b";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:25:"C:\php5\pear\MDB2\LOB.php";}s:17:"tests/clitest.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e422576d1b0cb3ee0455c2dd64ab51b9";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:41:"C:\php5\pear\tests\MDB2\tests\clitest.php";}s:30:"tests/Console_TestListener.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"2a2c534ab4afb0c05ca9d7ca47815bf5";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:54:"C:\php5\pear\tests\MDB2\tests\Console_TestListener.php";}s:24:"tests/driver_test.schema";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"533b34483b07659817b51735978a461a";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:48:"C:\php5\pear\tests\MDB2\tests\driver_test.schema";}s:27:"tests/HTML_TestListener.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"d46a8f267dbd54f0c7ff55e479d33e7e";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:51:"C:\php5\pear\tests\MDB2\tests\HTML_TestListener.php";}s:21:"tests/lob_test.schema";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"229d54dc8298b7513515cce639c83f38";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:45:"C:\php5\pear\tests\MDB2\tests\lob_test.schema";}s:27:"tests/MDB2_api_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"33eef11a81854a0a1083c819ac54e04b";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:51:"C:\php5\pear\tests\MDB2\tests\MDB2_api_testcase.php";}s:28:"tests/MDB2_bugs_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"250bcd080c1e4d0d89ae52ca63b75380";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:52:"C:\php5\pear\tests\MDB2\tests\MDB2_bugs_testcase.php";}s:31:"tests/MDB2_manager_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"7b5c271945fd59365e38793bd9d6efa9";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:55:"C:\php5\pear\tests\MDB2\tests\MDB2_manager_testcase.php";}s:30:"tests/MDB2_native_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"873185d6804884fcba22dd01f5d18b09";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:54:"C:\php5\pear\tests\MDB2\tests\MDB2_native_testcase.php";}s:31:"tests/MDB2_reverse_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"8a6580cb1e1a50c69f45732da4693432";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:55:"C:\php5\pear\tests\MDB2\tests\MDB2_reverse_testcase.php";}s:29:"tests/MDB2_usage_testcase.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"cc1db9fa87e1b8325231c5c3fef4c185";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:53:"C:\php5\pear\tests\MDB2\tests\MDB2_usage_testcase.php";}s:12:"tests/README";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"59f2441ab897a919b75acc4409597a10";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:36:"C:\php5\pear\tests\MDB2\tests\README";}s:14:"tests/test.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"585283644b2a161aedb15b6c6c379aa7";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:38:"C:\php5\pear\tests\MDB2\tests\test.php";}s:20:"tests/testchoose.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"aea7a3e5eaba197c7b7ff215d2305d61";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:44:"C:\php5\pear\tests\MDB2\tests\testchoose.php";}s:15:"tests/tests.css";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"3c4d2c9d89398c5692d36299d98f9c6e";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:39:"C:\php5\pear\tests\MDB2\tests\tests.css";}s:19:"tests/testUtils.php";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"a6970f07ba7b6785097dec2e8ec2bdac";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:43:"C:\php5\pear\tests\MDB2\tests\testUtils.php";}s:25:"tests/test_setup.php.dist";a:5:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"7494ce5eae49f6b03cc374cb61db8f08";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:49:"C:\php5\pear\tests\MDB2\tests\test_setup.php.dist";}s:8:"MDB2.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"800558c2ee7962dc2b5cfd850fdcb542";s:12:"replacements";a:1:{i:0;a:3:{s:4:"type";s:12:"package-info";s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";}}s:12:"installed_as";s:21:"C:\php5\pear\MDB2.php";}}s:10:"xsdversion";s:3:"1.0";s:15:"packagerversion";s:8:"1.4.0a12";s:7:"package";s:4:"MDB2";s:7:"summary";s:26:"database abstraction layer";s:11:"description";s:1268:"PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.
+
+Note that the API will be adapted to better fit with the new php5 only PDO
+before the first stable release.
+
+It provides a common API for all support RDBMS. The main difference to most
+other DB abstraction packages is that MDB2 goes much further to ensure
+portability. Among other things MDB2 features:
+* An OO-style query API
+* A DSN (data source name) or array format for specifying database servers
+* Datatype abstraction and on demand datatype conversion
+* Portable error codes
+* Sequential and non sequential row fetching as well as bulk fetching
+* Ability to make buffered and unbuffered queries
+* Ordered array and associative array for the fetched rows
+* Prepare/execute (bind) emulation
+* Sequence emulation
+* Replace emulation
+* Limited Subselect emulation
+* Row limit support
+* Transactions support
+* Large Object support
+* Index/Unique support
+* Module Framework to load advanced functionality on demand
+* Table information interface
+* RDBMS management methods (creating, dropping, altering)
+* RDBMS independent xml based schema definition management
+* Reverse engineering schemas from an existing DB
+* Full integration into the PEAR Framework
+* PHPDoc API documentation
+ 
+";s:11:"maintainers";a:4:{i:0;a:4:{s:6:"handle";s:6:"lsmith";s:4:"name";s:17:"Lukas Kahwe Smith";s:5:"email";s:22:"smith@backendmedia.com";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:3:"pgc";s:4:"name";s:11:"Paul Cooper";s:5:"email";s:14:"pgc@ucecom.com";s:4:"role";s:11:"contributor";}i:2;a:4:{s:6:"handle";s:5:"quipo";s:4:"name";s:16:"Lorenzo Alberton";s:5:"email";s:19:"l.alberton@quipo.it";s:4:"role";s:11:"contributor";}i:3;a:4:{s:6:"handle";s:7:"danielc";s:4:"name";s:16:"Daniel Convissor";s:5:"email";s:15:"danielc@php.net";s:4:"role";s:6:"helper";}}s:7:"version";s:10:"2.0.0beta5";s:12:"release_date";s:10:"2005-06-08";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:1234:"Warning: this release features numerous BC breaks to make the MDB2 API be as
+similar as possible as the ext/pdo API! The next release is likely to also break
+BC for the same reason. Check php.net/pdo for information on the pdo API.
+
+- refactored LOB support (BC breaks)
+- moved all drivers into separate packages MDB2_Driver_* (BC break)
+- bindParam() and bindColumn() are now 1-indexed (BC break)
+- removed special handling for day light saving time (bug #4341) (BC break)
+- ensure SQL injection protection in all _quote() methods
+  (was missing in some decimal, float, time, date and timestamp implementations)
+- renamed getRowCount() to rowCount() for PDO compliance (BC break)
+  (doesnt take into account the offset anymore)
+- added new quote() parameter to remove quotes (ugly hack will get cleaned up)
+- renamed execute() to _execute() since common provides some common functionality via execute()
+- fixed some issues regarding limit/offset in prepared statements
+- fixed bug in _assignBindColumns() when using associative fetches
+- support numeric and string keys in types array for prepared queries
+- call trigger error if __call() is unable to find a method in any of the modules
+- work around php5 bugs in the test suite
+  
+";s:12:"release_deps";a:2:{i:1;a:4:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";s:8:"optional";s:2:"no";}i:2;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.0b1";s:8:"optional";s:2:"no";s:4:"name";s:4:"PEAR";}}s:9:"changelog";a:6:{i:0;a:5:{s:7:"version";s:10:"2.0.0beta5";s:12:"release_date";s:10:"2005-06-08";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:1236:"Warning: this release features numerous BC breaks to make the MDB2 API be as
+similar as possible as the ext/pdo API! The next release is likely to also break
+BC for the same reason. Check php.net/pdo for information on the pdo API.
+
+- refactored LOB support (BC breaks)
+- moved all drivers into separate packages MDB2_Driver_* (BC break)
+- bindParam() and bindColumn() are now 1-indexed (BC break)
+- removed special handling for day light saving time (bug #4341) (BC break)
+- ensure SQL injection protection in all _quote() methods
+  (was missing in some decimal, float, time, date and timestamp implementations)
+- renamed getRowCount() to rowCount() for PDO compliance (BC break)
+  (doesnt take into account the offset anymore)
+- added new quote() parameter to remove quotes (ugly hack will get cleaned up)
+- renamed execute() to _execute() since common provides some common functionality via execute()
+- fixed some issues regarding limit/offset in prepared statements
+- fixed bug in _assignBindColumns() when using associative fetches
+- support numeric and string keys in types array for prepared queries
+- call trigger error if __call() is unable to find a method in any of the modules
+- work around php5 bugs in the test suite
+    
+";}i:1;a:5:{s:7:"version";s:10:"2.0.0beta4";s:12:"release_date";s:10:"2005-04-29";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:2808:"Warning: this release features numerous BC breaks to make the MDB2 API be as
+similar as possible as the ext/pdo API! The next release is likely to also break
+BC for the same reason. Check php.net/pdo for information on the pdo API.
+
+- fixed bugs in MDB2_Extended::buildManipSQL() introduced in latest tweaks (bug #3725)
+- mysqli has connection objects instead of resources
+- fix mssql tableInfo() so flags are returned (bug #3691)
+- fixed bug in handling of force_array when 2 or less columns are fetched in fetchAll()
+- added map error message for sqlite multi-column unique constraints.
+- added listUsers(), listViews(), listFunctions() to oracle manager
+- added listFunctions() to pgsql manager
+- updated listViews() in pgsql manager
+- added __call() support for module handling
+- mysql driver now uses mysqli implementations where feasible
+- ensure that internal calls to query dont wrap the result
+- for some reason mysqli didnt like SELECT LAST_INSERT_ID()
+- fixed bug in table alteration when only an index was added
+- updated pgsql API calls to 4.2.0 recommended names (bug #3904)
+- moved logic to compareDefinitions from the Manager into the Datatype module
+  to increase flexibility
+- extended MDB2::isError() to be able to handle an array or codes
+- added error handling into autoPrepare() and autoExecute()
+- migrade all MDB2::isError calls that dont check for specific errors codes to PEAR::isError
+- don't pass new_link to mysql_pconnect() (bug #3993)
+- use MDB2::raiseError() instead of MDB2_Driver_Common::raiseError()
+- do not disable result wrapping when doing internal calls to query() (bug #3997)
+- _wrapResult() now ensures that the result class is an instance of MDB2_Result_Common
+- unbundled the MDB2_Tools_Manager into a separate package PEAR::MDB2_Schema
+- improved getTableFieldDefinition() and moved native type mapping to the
+  datatype module mapNativeDatatype() method (mysql, sqlite, pgsql and ibase drivers)
+- fixes for listTables() in sqlite and pgsql driver
+- ensure that mysql drivers use the dummy_primary_key property
+- severely reworked how data is fetched and buffered and freed in the iterator
+- added mapNativeDatatype() to ibase driver
+- getTypeDeclaration() => _getTypeDeclaration() in ibase driver
+- cosmetic fixes and tweaks (replace(). fetchOne() ..)
+- renamed 'seqname_col_name' option to 'seqcol_name'
+- moved schema documentation, xml_reverse_engineering.php, MDB.dtd
+  and MDB.xls to MDB_Schema package
+- Mysqli: implicit sequence is named as table by default
+- Mysqli: text types now map to clob first
+- ensure that types are numerically keyed in setResultTypes()
+- added caching to getColumnNames()
+- added bindColumn() support
+- use MDB2_Schema::factory()
+- phpdoc fixes in regards to flipped fetchmode
+- remove renegate mysql code in sqlite driver
+    
+";}i:2;a:5:{s:7:"version";s:10:"2.0.0beta3";s:12:"release_date";s:10:"2005-03-06";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:7526:"Warning: this release features numerous BC breaks to make the MDB2 API be as
+similar as possible as the ext/pdo API! The next release is likely to also break
+BC for the same reason. Check php.net/pdo for information on the pdo API.
+
+Oracle NULL in LOB fields is broken.
+The fbsql and mssql drivers are likely to be broken as they are largely untested.
+
+MDB2 static class:
+- "xxx" out password on connect error in MDB2::connect()
+- MDB2::isError now also optionally accepts and error code to check for
+- added LOAD DATA (port from DB) and SET to MDB2::isManip()
+
+All drivers:
+- use __construct() (PHP4 BC hacks are provided)
+- allow null values to be set for options
+- ensure we are returning a reference in all relevant places
+
+- allow errorInfo() to be called when no connection has been established yet
+- use MDB2_ERROR_UNSUPPORTED instead of MDB2_ERROR_NOT_CAPABLE in common implementations
+- readded MDB2_Error as the baseclass for all MDB2 error objects
+- updated error mappings from DB
+
+- added MDB2_Driver_Common::getDatabase();
+- reworked dsn default handling
+- added ability to "xxx" out password in getDSN()
+
+- use _close() method in several places where they previously were not used
+- removed redundant code in _close() that dealt with transaction closing already
+  done in disconnect()
+- if the dbsyntax is set in the dsn it will be set in the dbsyntax property
+- only disconnect persistant connections if disconnect() has been explicitly
+  called by the user
+- instead of having a generic implemention of disconnect() we will rename
+  _close() to disconnect() to overwrite the generic implementation
+- added support for 'new_link' dsn option for all supported drivers (mysql, oci8, pgsql)
+
+- transaction API moved over to PDO: removed autoCommit(), added beginTransaction()
+  and refactored commit() (it doesn't start a new transaction automatically anymore)
+- reworked handling of uncommited transaction for persistant connections when
+  a given connection is no longer in use
+
+- added 'disable_query' option to be able to disable the execution of all queries
+ (this might be useful in conjuntion with a custom debug handler to be able to
+ dump all queries into a file instead of executing them)
+- removed affectedRows() method in favor of returning affectedRows() on query if relevant
+- added generic implementation of query() and moved driver specific code into _doQuery()
+- added _modifyQuery() to any driver that did not yet have it yet
+- standaloneQuery() now also supports SELECT querys
+- remove redundant call to commit() since setting autoCommit() already commits in MDB2::replace()
+- refactored standaloneQuery(), query(), _doQuery(), _wrapResult(); the most important change are:
+  result are only wrapped if it is explicitly requested
+  standaloneQuery() now works just as query() does but with its own connection
+- allowing limits of 0 in setLimit()
+
+- explicitly specify colum name in sequence emulation queries
+- added getBeforeId() and getAfterId()
+- added new supported feature 'auto_increment'
+
+- added default implementation for quoteCLOB() and quoteBLOB()
+- reworked quote handling: moved all implementation details into the extension,
+  made all quote methods private except for quote() itself, honor portability
+  MDB2_PORTABILITY_EMPTY_TO_NULL in quote(), removed MDB2_TYPE_* constants
+- reworked get*Declaration handling: moved all implementation details into the extension,
+  made all quote methods private except for quote() itself
+- placed convert methods after the portability conversions to ensure that the
+  proper type is maintained after the conversion methods
+- dont convert fetched null values in the Datatype module
+
+- removed executeParams() and moved executeMultiple() from extended module
+
+- updated tableInfo() code from DB
+
+- made LIMIT handling more robust by taking some code from DB
+
+All drivers result:
+- performance tweak in fetchCol()
+- added MDB2_FETCHMODE_OBJECT
+- added MDB2_Driver_Result_Common::getRowCounter()
+- added rownum handling to fetchRow()
+- removed fetch() and resultIsNull()
+
+All drivers prepared statements
+- moved prepare/execute API towards PDO
+- setParamsArray() can now handle non ordered arrays
+- removed requirement for LOB inserts to pass the parameters as an array
+- placeholders are now numbered starting from 0 (BC break in setParam() !)
+- queries inside the prepared_queries property now start counting at 1 (performance tweak)
+- refactored handling of filename LOB values (prefix with 'file://')
+- removed _executePrepared(), drivers need to overwrite execute() for now on
+- add support for oracle style named parameters and modified test suite accordingly
+
+MySQL driver:
+- improved handling of MDB2_PORTABILITY_LOWERCASE in all the reverse
+  methods inside the mysql driver to work coherently
+- fixed several issues in the listTablefields() method of manager drivers
+
+MSSQL driver:
+- added code in MDB2_Driver_mssql::connect() to better handle date values
+  independant of ini and locale settings inside the server
+- use comma, rather than colon, to delimit port in MDB2_driver_mssql::connect().
+  Bug 2140. (danielc)
+- unified mssql standalone query with sqlite, mysql and others (not tested on
+  mssql yet, but since mssql automatically reuses connections per dsn the old
+  way could gurantee anything different from happening)
+
+PgSQL driver:
+- use track_errors to capture error messages in MDB2_driver_pgsql::connect().
+  Bug 2011. (danielc)
+- add port to connect string when protocol is unix in MDB2_driver_pgsql::connect().
+  Bug 1919. (danielc)
+- accommodate changes made to PostgreSQL so "no such field" errors get properly
+  indicated rather than being mislabeled as "no such table." (danielc)
+- added "permission denied" to error regex in pgsql driver.
+  Bug 2417. (stewart_linux-org-au)
+
+OCI8 driver:
+- fixed typo in MDB2_Driver_Manager_oci8::listTables() (fix for bug #2434)
+- added emulate_database option (default true) to the Oracle driver that handles
+  if the database_name should be used for connections of the username
+- oci8 driver now uses native bind support for all types in prepare()/execute()
+
+Interbase driver:
+- completely revised ibase driver, now passing all tests under php5
+
+Frontbase driver:
+- fbsql: use correct error codes. Was using MySQL's codes by mistake.
+
+MySQLi driver:
+- added mysqli driver (passes all tests, but doesnt use native prepare yet)
+
+DB wrapper
+- fixed a large number of compatibility issues in the PEAR::DB wrapper
+
+Iterator
+- fixed several bugs and updated the interface to match the final php5 iterator API
+- buffered result sets now implements seekable
+- removed unnecessary returns
+- throw pear error on rewind in unbuffered result set
+- renamed size() to count() to match the upcoming Countable interface
+
+Extended module:
+- modified the signature of the auto*() methods to be compatible with DB (bug #3720)
+- tweaked buildManipSQL() to not use loops (bug #3721)
+
+MDB_Tools_Manager
+- updated raiseError method in the Manager to be compatible with
+  XML_Parser 1.1.x and return useful error message (fix bug #2055)
+- major refactoring of MDB2_Manager resulting in several new methods being available
+- fixed error in MDB2_Manager::_escapeSpecialCharacter() that would lead to
+  incorrect handling of integer values (this needs to be explored in more detail)
+- several typo fixes and minor logic errors (among others a fix for bug #2057)
+- moved xml dumping in MDB2_Tools_Manager into separate Writer class
+- fixed bugs in start value handling in create sequence (bug #3077)
+    
+";}i:3;a:5:{s:7:"version";s:10:"2.0.0beta2";s:12:"release_date";s:10:"2004-04-25";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:2607:"The core of MDB2 is now fairly stable API-wise. The modules, especially the
+manager and reverse module, might see some API refinement before the first
+stable release.
+- added listTables() and listTableFields() methods to MDB2_Driver_Manager_mssql
+  and MDB2_Driver_Manager_oci8
+- reversed parameter order of getValue(), type parameter is now optional and
+  will then be autodetected (BC break!)
+- renamed get*Value() to quote*() (BC break!)
+- fixed LOB management in MDB2_Driver_ibase
+- moved getOne, getRow, getCol, getAll back into the exteneded module (most
+  users should be able to move to the queryOne, queryRow, queryCol and queryAll
+  equivalent) (BC break!)
+- added getAssoc to the extended module
+- fixed bug in MDB2_Driver_Datatype_Common::implodeArray()
+- added sequence_col_name option to make the column name inside sequence
+  emulation tables configurable
+- fixed a bug in the MDB2_Driver_oci8 and MDB2_Driver_ibase buffering emulation
+  when using limit queries
+- removed MDB2_PORTABILITY_NULL_TO_EMPTY in favor of MDB2_PORTABILITY_EMPTY_TO_NULL
+  this means that DB and MDB2 work exactly the opposite now, but it seems more
+  efficient to do things the way Oracle does since this is the RDBMS which
+  creates the original issue to begin with (BC break!)
+- fixed a typos in getAll, getAssoc and getCol
+- test suite: moved set_time_limit() call to the setup script to be easier to customize
+- renamed hasMore() to valid() due to changes in the PHP5 iterator API (BC break!)
+- renamed toString() to __toString() in order to take advantage of new PHP5
+  goodness and made it public
+- MDB2_Driver_Datatype_Common::setResultTypes() can now handle missing elements
+  inside type arrays: array(2 => 'boolean', 4 => 'timestamp')
+- fixed potential warning due to manipulation query detection in the query*()
+  and the get*() query+fetch methods
+- added tests for fetchAll() and fetchCol()
+- performance tweaks for fetchAll() and fetchCol()
+- fixed MDB2_Driver_Manager_mysql::listTableIndexes()
+- fixed MDB2_Driver_Common::debug()
+- renamed MDB2::isResult() to MDB2::isResultCommon()
+- added base result class MDB2_Result from which all result sets should be
+  inherited and added MDB2::isResult() which checks if a given object extends from it
+- added 'result_wrap_class' option and optional parameter to query() to enable
+  wrapping of result classes into an arbitrary class
+- added $result_class param to all drivers where it was missing from the
+  query() and _executePrepared() methods
+- applied several fixes to the PEAR::DB wrapper
+- fixed a typo in MDB2_Driver_Reverse_pgsql::tableInfo()
+    
+";}i:4;a:5:{s:7:"version";s:10:"2.0.0beta1";s:12:"release_date";s:10:"2004-03-12";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:1286:"- fixed bug in MDB2::singleton
+- fixed minor bugs in prepare/execute
+- added PEAR::DB wrapper (not working yet)
+- fixed several bugs in the ibase driver
+- fixed several PHP5 related issues
+- fixed bug in sequence creation on MySQL
+- fixed issues with nextid() ondemand handling in conjunction with currId()
+- added native currId() implementation for the Oracle driver
+- fixed sqlite driver (passes all but the REPLACE test due to a conformance issue in sqlite itself)
+- removed decimal_factor property to allow changing of decimal_places option
+- using native escape string methods in sqlite and mysql driver
+- fixed minor conformance issues in tableInfo() in the oci8 and mysql driver
+- removed optimize option and added portability option instead (ported from DB)
+- added quoteIdentifier() method (ported from DB)
+- added STATUS document to make the status of the drivers more transparent
+- fixed a few bugs in querysim driver
+- fixed issue in mysql reverse engineering: ensuring the correct case is used when
+  doing assoc fetches based on portability flag setting
+- updated reverse engineering script to the new MDB2 API
+- removed broken implementations of currId() in the mssql and fbsql driver
+- fixed a few instances of MDB_Common to the new class name of MDB_Driver_Common
+    
+";}i:5;a:5:{s:7:"version";s:11:"2.0.0alpha1";s:12:"release_date";s:10:"2004-01-05";s:15:"release_license";s:11:"BSD License";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:1851:"This is the first alpha release of MDB2 2.0.
+
+MDB2 2.x breaks backwards compatibility in many ways in order to simplify
+the API for both users and drivers developers.
+
+Please note that currently only the MySQL, the PostGreSQL and the Oracle driver
+have been tested to pass the test suite.
+
+Here follows a short list of the most important changes:
+- all code that is not necessary for basic operation is now separateed
+  into separate modules which can be loaded with the loadModule() method
+- all datatype related methods have been moved to a dataype module with
+  the notable exception of getValue() and the newly introduced getDeclaration()
+- added extended module for highlevel methods
+- all manager method are no longer available in the core class and or
+  now only available in the manager module
+- all reverse engineering methods have been taken from the manager class
+  and are now available through the reverse module
+- a new module has been added to allow the addition of methods with
+  RDBMS specific functionality (like getting the last autoincrement ID)
+- LOB handling has been greatly simplified
+- several methods names have been shortend
+- the fetch.+() methods do not free the result set anymore
+- the Manager and the reverse_engineer_xml_schema have been moved into
+  a Tools directory
+- all parameters are now lowercased with underscores as separators
+- all drivers now support all of the dsn options that PEAR DB supports
+- several methods have been removed because they offered redundant functionality
+- changed prepare API type is now passed to prepare and not to setParam*()
+- results are now wrapped inside objects and all methods which operate
+  on resultsets have been moved into respecitive classes
+- there are two types of result object: buffered (default) and unbuffered
+- totally rewrote buffering and limit emulation
+    
+";}}s:12:"_lastversion";N;s:7:"dirtree";a:10:{s:36:"C:\php5\pear\docs\MDB2\docs\examples";b:1;s:27:"C:\php5\pear\docs\MDB2\docs";b:1;s:33:"C:\php5\pear\MDB2\Driver\Datatype";b:1;s:24:"C:\php5\pear\MDB2\Driver";b:1;s:17:"C:\php5\pear\MDB2";b:1;s:32:"C:\php5\pear\MDB2\Driver\Manager";b:1;s:32:"C:\php5\pear\MDB2\Driver\Reverse";b:1;s:25:"C:\php5\pear\MDB2\Wrapper";b:1;s:29:"C:\php5\pear\tests\MDB2\tests";b:1;s:12:"C:\php5\pear";b:1;}s:13:"_lastmodified";i:1127495665;}

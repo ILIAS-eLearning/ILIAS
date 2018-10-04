@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ * the PEAR installer, for creating, distributing
+ </description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2005-04-24</date>
+ <version>
+  <release>1.4.0a12</release>
+  <api>1.4.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+  This is a major milestone release for PEAR.  In addition to several killer features,
+ </notes>
+ <contents>
+  <dir name="/">
+   <file role="php" name="main-1.0.tgz"/>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0a1</min>
+   </pearinstaller>
+   <package>
+    <name>Chiara_XML_RPC5</name>
+    <channel>pear.chiaraquartet.net</channel>
+    <min>0.3.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

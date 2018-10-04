@@ -1,0 +1,534 @@
+
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testValidForeignKeys1
+Test FKs of PersonPhone row (18,2) with valid FKs.
+>testValidForeignKeys2
+Test FKs of Address with valid multi-column FK.
+>testValidForeignKeys3
+Test FKs of PersonPhone row (18,38) with invalid FK.
+>testValidForeignKeys4
+Test FKs of Address with invalid multi-column FK.
+>testInsert1
+Insert row with valid integer FKs in PersonPhone.
+>testInsert2
+Insert row with valid multi-column FK into Address.
+>testInsertForeignKeyCheck1
+Attempt insert with invalid FK integer PhoneID in PersonPhone
+DB_TABLE_DATABASE ERROR - 
+Foreign key does not reference any rows on insertion into table PersonPhone.
+>testInsertForeignKeyCheck2
+Attempt insert with invalid multi-column FK in Address
+DB_TABLE_DATABASE ERROR - 
+Foreign key does not reference any rows on insertion into table Address.
+>testDeleteCascade1
+Cascading delete with integer referenced key from Person
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+13, 11
+14, 12
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testDeleteCascade2
+Cascading delete with multi-column referenced key from Street
+16 rows remaining in Street
+Contents of Address
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE
+3, 14409, GRENIER RD, MINNETONKA
+4, 13411, MAYWOOD CURV, MINNETONKA
+5, 14408, WOODHILL CIR, MINNETONKA
+6, 6135, CHASEWOOD PKWY, MINNETONKA
+7, 16335, TEMPLE DR S, MINNETONKA
+8, 10995, MELS WAY, EDEN PRAIRIE
+9, 17168, PADONS DR, EDEN PRAIRIE
+10, 7610, SMETANA LN, EDEN PRAIRIE
+11, 16379, MANOR RD S, EDEN PRAIRIE
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE
+13, 5403, POMPANO DR, MINNETONKA
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE
+16, 5978, CHASEWOOD PKWY, MINNETONKA
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE
+19, 10721, SMETANA RD, MINNETONKA
+Contents of PersonAddress
+1, 1
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19.
+>testDeleteNullify1
+Nullifying delete with integer referenced key from Person
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+13, 11
+14, 12
+, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testDeleteNullify2
+Nullifying delete with multi-column referenced key from Street
+Contents of Street
+CARDINAL CREEK RD, EDEN PRAIRIE, MN, 
+GRENIER RD, MINNETONKA, MN, 
+MAYWOOD CURV, MINNETONKA, MN, 
+WOODHILL CIR, MINNETONKA, MN, 
+CHASEWOOD PKWY, MINNETONKA, MN, 
+TEMPLE DR S, MINNETONKA, MN, 
+MELS WAY, EDEN PRAIRIE, MN, 
+PADONS DR, EDEN PRAIRIE, MN, 
+SMETANA LN, EDEN PRAIRIE, MN, 
+MANOR RD S, EDEN PRAIRIE, MN, 
+RUSTIC HILLS DR, EDEN PRAIRIE, MN, 
+POMPANO DR, MINNETONKA, MN, 
+GRAND VIEW DR, EDEN PRAIRIE, MN, 
+CITY WEST PKWY, EDEN PRAIRIE, MN, 
+VALLEY VIEW RD, EDEN PRAIRIE, MN, 
+SMETANA RD, MINNETONKA, MN, 
+Contents of Address
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE
+2, 5037, , 
+3, 14409, GRENIER RD, MINNETONKA
+4, 13411, MAYWOOD CURV, MINNETONKA
+5, 14408, WOODHILL CIR, MINNETONKA
+6, 6135, CHASEWOOD PKWY, MINNETONKA
+7, 16335, TEMPLE DR S, MINNETONKA
+8, 10995, MELS WAY, EDEN PRAIRIE
+9, 17168, PADONS DR, EDEN PRAIRIE
+10, 7610, SMETANA LN, EDEN PRAIRIE
+11, 16379, MANOR RD S, EDEN PRAIRIE
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE
+13, 5403, POMPANO DR, MINNETONKA
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE
+16, 5978, CHASEWOOD PKWY, MINNETONKA
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE
+19, 10721, SMETANA RD, MINNETONKA
+20, 5037, , 
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testDeleteDefault1
+Nullifying delete with integer referenced key from Person
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+13, 11
+14, 12
+75, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testDeleteDefault2
+Delete multi-col key from Street with on default
+16 rows remaining in Street
+Contents of Address (ID, Building, Street, City):
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE
+2, 5037, AnyStreet, AnyCity
+3, 14409, GRENIER RD, MINNETONKA
+4, 13411, MAYWOOD CURV, MINNETONKA
+5, 14408, WOODHILL CIR, MINNETONKA
+6, 6135, CHASEWOOD PKWY, MINNETONKA
+7, 16335, TEMPLE DR S, MINNETONKA
+8, 10995, MELS WAY, EDEN PRAIRIE
+9, 17168, PADONS DR, EDEN PRAIRIE
+10, 7610, SMETANA LN, EDEN PRAIRIE
+11, 16379, MANOR RD S, EDEN PRAIRIE
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE
+13, 5403, POMPANO DR, MINNETONKA
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE
+16, 5978, CHASEWOOD PKWY, MINNETONKA
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE
+19, 10721, SMETANA RD, MINNETONKA
+20, 5037, AnyStreet, AnyCity
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+13, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testDeleteRestrict1
+Restricted delete with integer referenced key from Person
+DB_TABLE_DATABASE ERROR - 
+Referentially trigger restrict of delete from table Person.
+>testDeleteRestrict2
+Restricted delete with multi-col key from Street
+DB_TABLE_DATABASE ERROR - 
+Referentially trigger restrict of delete from table Street.
+>testUpdate
+Allowed update of integer foreign key of PersonPhone
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+13, 11
+14, 12
+15, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 9.
+>testUpdateForeignKeyCheck
+Attempt update with invalid integer foreign key
+DB_TABLE_DATABASE ERROR - 
+Foreign key does not reference any rows on update of table PersonPhone.
+>testUpdateCascade1
+Cascading update of integer primary key of PersonContents of PersonPhone:
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+38, 11
+14, 12
+15, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress:
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+38, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testUpdateCascade2
+Cascading update of multi-column referenced key from Street
+Contents of Address(ID, Building, Street, City)
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE
+2, 5037, NOX BOULEVARD, ANYTOWN
+3, 14409, GRENIER RD, MINNETONKA
+4, 13411, MAYWOOD CURV, MINNETONKA
+5, 14408, WOODHILL CIR, MINNETONKA
+6, 6135, CHASEWOOD PKWY, MINNETONKA
+7, 16335, TEMPLE DR S, MINNETONKA
+8, 10995, MELS WAY, EDEN PRAIRIE
+9, 17168, PADONS DR, EDEN PRAIRIE
+10, 7610, SMETANA LN, EDEN PRAIRIE
+11, 16379, MANOR RD S, EDEN PRAIRIE
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE
+13, 5403, POMPANO DR, MINNETONKA
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE
+16, 5978, CHASEWOOD PKWY, MINNETONKA
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE
+19, 10721, SMETANA RD, MINNETONKA
+20, 5037, NOX BOULEVARD, ANYTOWN.
+>testUpdateNullify1
+Nullifying update of integer primary key of Person
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+, 11
+14, 12
+15, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+38, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testUpdateNullify2
+Nullifying update of multi-column referenced key from Street
+Contents of Address (ID, Building, Street, City)
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE
+2, 5037, , 
+3, 14409, GRENIER RD, MINNETONKA
+4, 13411, MAYWOOD CURV, MINNETONKA
+5, 14408, WOODHILL CIR, MINNETONKA
+6, 6135, CHASEWOOD PKWY, MINNETONKA
+7, 16335, TEMPLE DR S, MINNETONKA
+8, 10995, MELS WAY, EDEN PRAIRIE
+9, 17168, PADONS DR, EDEN PRAIRIE
+10, 7610, SMETANA LN, EDEN PRAIRIE
+11, 16379, MANOR RD S, EDEN PRAIRIE
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE
+13, 5403, POMPANO DR, MINNETONKA
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE
+16, 5978, CHASEWOOD PKWY, MINNETONKA
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE
+19, 10721, SMETANA RD, MINNETONKA
+20, 5037, , .
+>testUpdateDefault1
+Set default on Update of integer primary key of Person
+Contents of PersonPhone
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+9, 8
+10, 9
+11, 10
+75, 11
+14, 12
+15, 13
+16, 14
+17, 15
+18, 16
+19, 17
+20, 18
+Contents of PersonAddress
+1, 1
+2, 2
+3, 3
+4, 4
+5, 5
+6, 6
+7, 7
+8, 8
+9, 9
+10, 10
+11, 11
+12, 12
+38, 13
+14, 14
+15, 15
+16, 16
+17, 17
+18, 18
+19, 19
+20, 20.
+>testUpdateDefault2
+Nullifying update of multi-column referenced key from Street
+Contents of Address(ID, Building, Street, City, StateAbb)
+1, 13188, CARDINAL CREEK RD, EDEN PRAIRIE, MN
+2, 5037, AnyStreet, AnyCity, 
+3, 14409, GRENIER RD, MINNETONKA, MN
+4, 13411, MAYWOOD CURV, MINNETONKA, MN
+5, 14408, WOODHILL CIR, MINNETONKA, MN
+6, 6135, CHASEWOOD PKWY, MINNETONKA, MN
+7, 16335, TEMPLE DR S, MINNETONKA, MN
+8, 10995, MELS WAY, EDEN PRAIRIE, MN
+9, 17168, PADONS DR, EDEN PRAIRIE, MN
+10, 7610, SMETANA LN, EDEN PRAIRIE, MN
+11, 16379, MANOR RD S, EDEN PRAIRIE, MN
+12, 17439, RUSTIC HILLS DR, EDEN PRAIRIE, MN
+13, 5403, POMPANO DR, MINNETONKA, MN
+14, 6415, GRAND VIEW DR, EDEN PRAIRIE, MN
+15, 6425, CITY WEST PKWY, EDEN PRAIRIE, MN
+16, 5978, CHASEWOOD PKWY, MINNETONKA, MN
+17, 13700, VALLEY VIEW RD, EDEN PRAIRIE, MN
+18, 17460, RUSTIC HILLS DR, EDEN PRAIRIE, MN
+19, 10721, SMETANA RD, MINNETONKA, MN
+20, 5037, AnyStreet, AnyCity, .
+>testUpdateRestrict1
+Restricted update of integer primary key of Person
+DB_TABLE_DATABASE ERROR - 
+Referentially trigger restrict of update of table Person.
+>testUpdateRestrict2
+Restricted update of multi-column referenced key from Street
+DB_TABLE_DATABASE ERROR - 
+Referentially trigger restrict of update of table Street.
+
+Time: 88.905245065689
+
+OK (26 tests)

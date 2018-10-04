@@ -1,0 +1,273 @@
+.TH PEAR 1 "2013" "The PEAR Group" "User commands"
+.SH NAME
+pear, pecl, peardev \- PEAR installer
+
+.SH SYNOPSIS
+.B pear
+[ options ] command [command-options] <parameters>
+.LP
+.B pecl
+[ options ] command [command-options] <parameters>
+.LP
+.B peardev
+[ options ] command [command-options] <parameters>
+.LP
+
+.SH DESCRIPTION
+\fBPEAR\fP is the PHP Extension and Application Repository, found at
+.B http://pear.php.net.
+.P
+.P
+The \fBpear\fP command is used to install PEAR extensions.
+.P
+The \fBpecl\fP command is used to install PECL extensions.
+.P
+The \fBpeardev\fP command is a wrapper for the \fBpear\fP command which
+removes the normal configured memory limit.
+
+.SH OPTIONS
+.TP 15
+.B \-v
+increase verbosity level (default 1)
+.TP
+.B \-q
+be quiet, decrease verbosity level
+.TP
+.B \-c \fIfile\fP
+find user configuration in \fBfile\fP
+.TP
+.B \-C \fIfile\fP
+find system configuration in \fBfile\fP
+.TP
+.B \-d \fIfoo=bar\fP
+set user config variable \fBfoo\fP to \fBbar\fP
+.TP
+.B \-D \fIfoo=bar\fP
+set system config variable \fBfoo\fP to \fBbar\fP
+.TP
+.B \-G
+start in graphical (Gtk) mode
+.TP
+.B \-S
+store system configuration
+.TP
+.B \-s
+store user configuration
+.TP
+.B \-y \fIfoo\fP
+unset
+.B foo
+in the user configuration
+.TP
+.B \-V
+version information
+.TP
+.PD 0
+.B \-h
+.TP
+.PD 1
+.B \-?
+display help/usage
+
+.SH COMMANDS
+.TP 15
+.B build
+Build an Extension From C Source
+.TP
+.B bundle
+Unpacks a Pecl Package
+.TP
+.B channel-add
+Add a Channel
+.TP
+.B channel-alias
+Specify an alias to a channel name
+.TP
+.B channel-delete
+Remove a Channel From the List
+.TP
+.B channel-discover
+Initialize a Channel from its server
+.TP
+.B channel-info
+Retrieve Information on a Channel
+.TP
+.TP
+.B channel-login
+Connects and authenticates to remote channel server
+.TP
+.B channel-logout
+Logs out from the remote channel server
+.TP
+.B channel-update
+Update an Existing Channel
+.TP
+.B clear-cache
+Clear Web Services Cache
+.TP
+.B config-create
+Create a Default configuration file
+.TP
+.B config-get
+Show One Setting
+.TP
+.B config-help
+Show Information About Setting
+.TP
+.B config-set
+Change Setting
+.TP
+.B config-show
+Show All Settings
+.TP
+.B convert
+Convert a package.xml 1.0 to package.xml 2.0 format
+.TP
+.B cvsdiff
+Run a "cvs diff" for all files in a package
+.TP
+.B cvstag
+Set CVS Release Tag
+.TP
+.B download
+Download Package
+.TP
+.B download-all
+Downloads each available package from the default channel
+.TP
+.B info
+Display information about a package
+.TP
+.B install
+Install Package
+.TP
+.B list
+List Installed Packages In The Default Channel
+.TP
+.B list-all
+List All Packages
+.TP
+.B list-channels
+List Available Channels
+.TP
+.B list-files
+List Files In Installed Package
+.TP
+.B list-upgrades
+List Available Upgrades
+.TP
+.B login
+Connects and authenticates to remote server [Deprecated in favor of channel-login]
+.TP
+.B logout
+Logs out from the remote server [Deprecated in favor of channel-logout]
+.TP
+.B make-rpm-spec
+Builds an RPM spec file from a PEAR package
+.TP
+.B makerpm
+Builds an RPM spec file from a PEAR package
+.TP
+.B package
+Build Package
+.TP
+.B package-dependencies
+Show package dependencies
+.TP
+.B package-validate
+Validate Package Consistency
+.TP
+.B pickle
+Build PECL Package
+.TP
+.B remote-info
+Information About Remote Packages
+.TP
+.B remote-list
+List Remote Packages
+.TP
+.B run-scripts
+Run Post-Install Scripts bundled with a package
+.TP
+.B run-tests
+Run Regression Tests
+.TP
+.B search
+Search remote package database
+.TP
+.B shell-test
+Shell Script Test
+.TP
+.B sign
+Sign a package distribution file
+.TP
+.B svntag
+Set SVN Release Tag
+.TP
+.B uninstall
+Un-install Package
+.TP
+.B update-channels
+Update the Channel List
+.TP
+.B upgrade
+Upgrade Package
+.TP
+.B upgrade-all
+Upgrade All Packages [Deprecated in favor of calling upgrade with no parameters]
+
+.SH FILES
+.TP 15
+.B /etc/pear.conf
+The system configuration file.
+.TP
+.B $HOME/.pearrc
+The user configuration.
+
+.SH SEE ALSO
+.TP
+To list all options, use
+.PS
+pear help options
+.TP
+To list all command shortcuts, use
+.PS
+pear help shortcuts
+.TP
+to get the help for the specified command, use
+.PS
+pear help \fIcommand\fP
+.TP
+Documentation for PEAR can be found at
+.PD 0
+.P
+.B http://pear.php.net/manual/
+
+.SH VERSION INFORMATION
+This manpage describes \fBPEAR\fP, version @package_version@.
+
+.SH COPYRIGHT
+Copyright \(co 1997\-2009
+Stig Bakken,
+Gregory Beaver,
+Helgi Þormar Þorbjörnsson,
+Tomas V.V.Cox,
+Martin Jansen.
+.P
+All rights reserved.
+.P
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+.P
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+.P
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+.SH BUGS
+You can view the list of known bugs or report any new bug you found at:
+.PD 0
+.P
+.B http://pear.php.net/bugs/

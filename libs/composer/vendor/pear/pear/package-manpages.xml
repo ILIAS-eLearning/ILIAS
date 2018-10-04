@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR_Manpages</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR man pages</summary>
+ <description>
+  Unix man pages for pear, pecl and peardev commands, and for pear.conf file.
+ </description>
+ <lead>
+  <name>Remi Collet</name>
+  <user>remicollet</user>
+  <email>fedora@famillecollet.com</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2015-10-07</date>
+ <version>
+  <release>1.10.0</release>
+  <api>1.10.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>
+   No changes to 1.10.0dev2.
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="man1">
+    <file role="man" name="pear.1">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file role="man" name="peardev.1" />
+    <file role="man" name="pecl.1" />
+   </dir> <!-- /man1 -->
+   <dir name="man5">
+    <file role="man" name="pear.conf.5" />
+   </dir> <!-- /man5 -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.4.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.10.0dev2</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <installconditions>
+   <os>
+    <name>windows</name>
+   </os>
+  </installconditions>
+  <filelist>
+   <ignore name="man1/pear.1" />
+   <ignore name="man1/peardev.1" />
+   <ignore name="man1/pecl.1" />
+   <ignore name="man5/pear.conf.5" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="man1/pear.1"      name="man1/pear.1" />
+   <install as="man1/peardev.1"   name="man1/peardev.1" />
+   <install as="man1/pecl.1"      name="man1/pecl.1" />
+   <install as="man5/pear.conf.5" name="man5/pear.conf.5" />
+  </filelist>
+ </phprelease>
+
+ <changelog>
+
+  <release>
+   <date>2015-07-28</date>
+   <time>10:07:42</time>
+   <version>
+    <release>1.10.0dev2</release>
+    <api>1.10.0</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <license uri="http://opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+    Initial release
+   </notes>
+  </release>
+
+  <release>
+   <date>2015-10-07</date>
+   <version>
+    <release>1.10.0</release>
+    <api>1.10.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+     No changes to 1.10.0dev2.
+   </notes>
+  </release>
+
+ </changelog>
+</package>

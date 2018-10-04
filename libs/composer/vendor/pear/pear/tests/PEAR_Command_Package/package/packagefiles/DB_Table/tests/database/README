@@ -1,0 +1,47 @@
+
+This directory contains unit tests, which use the PHPUnit2 framework
+(for PHP 5) or PHPUnit (for PHP 4). All of the Unit test classes
+extent a base class DatabaseClass. As distributed, the tests are set
+up to use PHPUnit2, but can be converted to PHPUnit 4 by changing two
+lines in the DatabaseClass.php file - the require_once line for the 
+test framework, and the class definition line, which includes the name 
+of the generic unit test class that is being extended. In both cases, 
+the line required for PHP 4 PHPUnit framework is commented out. 
+
+The tests are not yet fully automated - determination of correctness
+of some of the tests requires either inspection of the results, or 
+comparison to the results of a previous run (i.e., simple regression 
+testing). Successful outputs are thus provided with each test. Fully
+automated versions of these tests will be provided in a future 
+release.
+
+Short instructions
+------------------
+
+To run PHPUnit2 unit tests for DB_Table_Database:
+
+    1) Install PHPUnit2 or PHPUnit. If using the PHP 4 PHPUnit class
+    modify DatabaseClass as described above.
+
+    2) Copy the DB_Table/tests/config.php-dist file to
+    DB_Table/tests/databse/config.php in this directory, and edit the
+    the parts of the DSN in DB_Table/tests/database/config.php file to 
+    allow connection to your RDBMS server. If using a database other
+    than MySQL, some other changes in this file and to the setup and
+    teardown methods of the DatabaseTest class may be required (see
+    below). The verbosity of the output can be changed by changing the
+    variable $verbose in the the config.php file. 
+
+    3) cd into the DB_Table/tests/database directory (this directory).
+    For each file named TestName_Test.php in this directory, issue 
+    the command "phpunit TestName" from the command line.
+
+    4) If the tests all run successfully, diff the output against the
+    corresponding *.out file. The only difference should be the line 
+    reporting the amount of time required by the test.
+
+config.php file
+---------------
+The tests will repeatedly create and tear down a database named $db_name. 
+In the distributed version, this database in named 'Test_DB1' by default. 
+

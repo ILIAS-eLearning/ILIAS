@@ -1,0 +1,31 @@
+
+To test the DB_Table_Generator class:
+
+  1) Copy the DB_Table/tests/config.php-dist file, in the parent directory
+     to DB_Table/tests/generator/config.php, in this directory.
+
+  2) Edit the parts of the DSN string in the config.php file to connect to 
+     your server
+
+  3) Change $db_name in config.php to the name of an existing database
+
+  4) Run 'php test.php' from the command line within this directory
+
+Upon completion, you should have a new subdirectory of DB_Table/tests/generator
+for which the directory name is the name $db_name of the database. In it 
+should be a DB_Table subclass definition for each table in the database, and 
+a file named 'Database.php'. Look at the 'Database.php' file: It should contain 
+code to include all of the DB_Table subclass definitions, to connect to the 
+database server, to create one instance of each DB_Table subclass, and to 
+create a parent DB_Table_Database parent object. The creation of the DSN
+within the Database.php file must be edited so as to allow a connection
+your database server before the file can be used.  The Database.php file is 
+not included by any other auto-generated file, and so can be renamed with 
+no ill effects.  Including the Database.php file in another php script will 
+give the script access to the auto-generated DB_Table infrastructure.
+
+The generator tries guess information about foreign key references from the
+column names. The resulting calls to ->addRef should be checked for accuracy,
+and corrected as necessary. The generator does not declare linking tables,
+so these should be added, if needed, by editing the 'Database.php' file. 
+

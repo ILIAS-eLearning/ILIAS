@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PHP_Compat</name>
+ <channel>pear.php.net</channel>
+ <summary>Provides components to achieve PHP version independance</summary>
+ <description>PHP_Compat provides drop-in functions and constants for compatibility with newer versions of PHP, environment emulation, and an API to allow for version independent authoring.</description>
+ <lead>
+  <name>Aidan Lister</name>
+
+  <user>aidan</user>
+  <email>aidan@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Arpad Ray</name>
+  <user>arpad</user>
+
+  <email>arpad@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-04-15</date>
+ <time>09:11:39</time>
+ <version>
+  <release>1.6.0a1</release>
+
+  <api>1.5.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+
+ <notes>
+ Added more components:
+ * array_fill
+
+ Added more components with changed parameters:
+ * array_splice
+ * microtime
+ * mkdir
+ * range
+ * setcookie
+ * setrawcookie
+ 
+ Added new Environment module
+ * register_globals
+ * magic_quotes_gpc
+ * register_argc_argv
+ * register_long_arrays
+
+ Changed the way PHP_Compat stores functions.
+ * Function declaration is prefixed with php_compat_
+ * Dummy declaration calls php_compat_ function
+   This allows for redefinition of functions with changed parameters.
+
+ Added support for packages which modify the function tables at runtime
+ * PHP_Compat::loadFunction now tries to rename the old function on load
+   This further supports redefinition of functions with changed parameters.
+
+ * Fix Bug #1956: stripos - not returning false [aidan]
+ * Fix Bug #3190: [PATCH] md5_file() depends on possibly nonexistent file_get_contents() [aidan]
+ * Fix Bug #3572: Use of addslashes() adds too much backslashes [aidan]
+ * Fix Bug #3586: bug in str_word_count.php code [aidan]
+ * Fix Bug #4605: debug_print_backtrace - Object to string conversion [aidan]
+ * Fix Bug #4851: var_export severely broken! (new implementation attached) [aidan]
+ * Fix Bug #6293: array_intersect_key produces incorrect results with more than 2
+   arguments [arpad]
+ * Fix Bug #6560: missing &apos;Function/property_exists.php&apos; when installed with $ pear
+   install PHP_C [aidan]
+ * Fix Bug #6687: array_intersect_key() fails due to func_get_args() [arpad]
+ * Fix Bug #6758: notice errors with debug_print_backtrace and call_user_func_array
+   usage [arpad]
+ * Fix Bug #6922: Space after php close markup in Function/mime_content_type.php [arpad]
+ * Fix Bug #7520: cyclic reference cloning causes timeout [aidan]
+ * Fix Bug #8338: convert_uudecode removes spaces from line ends, causing corruption [aidan]
+ * Fix Bug #8864: magic quotes gpc emulation missing server vars [arpad]
+ * Fix Bug #9042: Various uninitialized variables [aidan]
+ * Fix Bug #9043: Various issues in str_shuffle [aidan]
+ * Fix Bug #9687: array_*_key function(s) slow [aidan]
+ * Fix Bug #9983: Function [array_udiff_uassoc()] is incorrectly implemented [arpad]
+ * Implement Feature #4372: addition of glob() function for php &lt; 4.3.0 [arpad]
+ * Implement Feature #7139: PHP 5.1.1 Datetime Constants [arpad]
+ * Implement Feature #7403: str_ireplace too slow [arpad]
+ * Implement Feature #7414: making var_export() generating correct PHP code with nested objects [arpad]
+ * Implement Feature #8208: is_callable missing in php 4.0.4, 4.0.5 [arpad]
+ * Implement Feature #9187: Adding httponly to setcookie/setrawcookie (new in php 5.2) [aidan]
+ * Implement Feature #9659: The userdata parameter isn&apos;t correctly send to the recursive call [arpad]
+ * Implement Feature #10177: add most recent UPLOAD ERR constants [arpad]
+ </notes>
+ <contents>
+ <dir name="/" baseinstalldir="PHP" role="php">     
+ <file>Compat.php</file>
+
+ <dir name="Compat">
+ <file>Components.php</file>
+ <dir name="Constant">
+ <file>DIRECTORY_SEPARATOR.php</file>
+ <file>E_STRICT.php</file>
+ <file>FILE.php</file>
+ <file>PATH_SEPARATOR.php</file>
+
+ <file>PHP_EOL.php</file>
+ <file>STD.php</file>
+ <file>T.php</file>
+ <file>UPLOAD_ERR.php</file>
+ </dir>
+ <dir name="Environment">
+ <file>magic_quotes_gpc_off.php</file>
+
+ <file>magic_quotes_gpc_on.php</file>
+ <file>register_argc_argv_off.php</file>
+ <file>register_argc_argv_on.php</file>
+ <file>register_globals_off.php</file>
+ <file>register_globals_on.php</file>
+ <file>register_long_arrays_off.php</file>
+
+ <file>register_long_arrays_on.php</file>
+ </dir>
+ <dir name="Function">
+ <file>array_change_key_case.php</file>
+ <file>array_chunk.php</file>
+ <file>array_combine.php</file>
+ <file>array_diff_assoc.php</file>
+
+ <file>array_diff_key.php</file>
+ <file>array_diff_uassoc.php</file>
+ <file>array_diff_ukey.php</file>
+ <file>array_fill.php</file>
+ <file>array_intersect_assoc.php</file>
+ <file>array_intersect_key.php</file>
+
+ <file>array_intersect_uassoc.php</file>
+ <file>array_intersect_ukey.php</file>
+ <file>array_key_exists.php</file>
+ <file>array_product.php</file>
+ <file>array_search.php</file>
+ <file>array_slice.php</file>
+
+ <file>array_udiff.php</file>
+ <file>array_udiff_assoc.php</file>
+ <file>array_udiff_uassoc.php</file>
+ <file>array_uintersect.php</file>
+ <file>array_uintersect_assoc.php</file>
+ <file>array_uintersect_uassoc.php</file>
+
+ <file>array_walk_recursive.php</file>
+ <file>bcinvert.php</file>
+ <file>bcpowmod.php</file>
+ <file>call_user_func_array.php</file>
+ <file>clone.php</file>
+ <file>constant.php</file>
+
+ <file>convert_uudecode.php</file>
+ <file>convert_uuencode.php</file>
+ <file>debug_print_backtrace.php</file>
+ <file>file_get_contents.php</file>
+ <file>file_put_contents.php</file>
+ <file>floatval.php</file>
+
+ <file>fprintf.php</file>
+ <file>fputcsv.php</file>
+ <file>get_headers.php</file>
+ <file>get_include_path.php</file>
+ <file>html_entity_decode.php</file>
+ <file>htmlspecialchars_decode.php</file>
+
+ <file>http_build_query.php</file>
+ <file>ibase_timefmt.php</file>
+ <file>idate.php</file>
+ <file>image_type_to_mime_type.php</file>
+ <file>inet_ntop.php</file>
+ <file>inet_pton.php</file>
+
+ <file>ini_get_all.php</file>
+ <file>is_a.php</file>
+ <file>is_scalar.php</file>
+ <file>md5_file.php</file>
+ <file>mhash.php</file>
+ <file>microtime.php</file>
+
+ <file>mime_content_type.php</file>
+ <file>mkdir.php</file>
+ <file>ob_clean.php</file>
+ <file>ob_flush.php</file>
+ <file>ob_get_clean.php</file>
+ <file>ob_get_flush.php</file>
+
+ <file>pg_affected_rows.php</file>
+ <file>pg_escape_bytea.php</file>
+ <file>pg_unescape_bytea.php</file>
+ <file>php_strip_whitespace.php</file>
+ <file>property_exists.php</file>
+ <file>range.php</file>
+
+ <file>restore_include_path.php</file>
+ <file>scandir.php</file>
+ <file>set_include_path.php</file>
+ <file>setcookie.php</file>
+ <file>setrawcookie.php</file>
+ <file>str_ireplace.php</file>
+
+ <file>str_rot13.php</file>
+ <file>str_shuffle.php</file>
+ <file>str_split.php</file>
+ <file>str_word_count.php</file>
+ <file>stripos.php</file>
+ <file>strpbrk.php</file>
+
+ <file>strripos.php</file>
+ <file>substr_compare.php</file>
+ <file>time_sleep_until.php</file>
+ <file>var_export.php</file>
+ <file>version_compare.php</file>
+ <file>vprintf.php</file>
+
+ <file>vsprintf.php</file>
+ </dir>
+ </dir>
+ <dir name="tests" role="test">
+ <file>loadconstant.phpt</file>
+ <file>loadfunction.phpt</file>
+ <file>loadversion.phpt</file>
+
+ <dir name="constant">
+ <file>directory_separator.phpt</file>
+ <file>e_strict.phpt</file>
+ <file>file.phpt</file>
+ <file>path_separator.phpt</file>
+ <file>php_eol.phpt</file>
+
+ <file>std.phpt</file>
+ <file>t.phpt</file>
+ <file>upload_err.phpt</file>
+ </dir>
+ <dir name="function">
+ <file>array_change_key_case.phpt</file>
+ <file>array_chunk.phpt</file>
+
+ <file>array_combine.phpt</file>
+ <file>array_diff_assoc.phpt</file>
+ <file>array_diff_key.phpt</file>
+ <file>array_diff_uassoc.phpt</file>
+ <file>array_diff_ukey.phpt</file>
+ <file>array_fill.phpt</file>
+
+ <file>array_intersect_assoc.phpt</file>
+ <file>array_intersect_key.phpt</file>
+ <file>array_intersect_uassoc.phpt</file>
+ <file>array_intersect_ukey.phpt</file>
+ <file>array_key_exists.phpt</file>
+ <file>array_product.phpt</file>
+
+ <file>array_search.phpt</file>
+ <file>array_slice.phpt</file>
+ <file>array_udiff.phpt</file>
+ <file>array_udiff_assoc.phpt</file>
+ <file>array_udiff_uassoc.phpt</file>
+ <file>array_uintersect.phpt</file>
+
+ <file>array_uintersect_assoc.phpt</file>
+ <file>array_uintersect_uassoc.phpt</file>
+ <file>array_walk_recursive.phpt</file>
+ <file>bcinvert.phpt</file>
+ <file>bcpowmod.phpt</file>
+ <file>call_user_func_array.phpt</file>
+
+ <file>clone.phpt</file>
+ <file>constant.phpt</file>
+ <file>convert_uudecode.phpt</file>
+ <file>convert_uuencode.phpt</file>
+ <file>debug_print_backtrace.phpt</file>
+ <file>file_get_contents.phpt</file>
+
+ <file>file_put_contents.phpt</file>
+ <file>floatval.phpt</file>
+ <file>fprintf.phpt</file>
+ <file>fputcsv.phpt</file>
+ <file>get_headers.phpt</file>
+ <file>get_include_path.phpt</file>
+
+ <file>html_entity_decode.phpt</file>
+ <file>htmlspecialchars_decode.phpt</file>
+ <file>http_build_query.phpt</file>
+ <file>ibase_timefmt.phpt</file>
+ <file>idate.phpt</file>
+ <file>image_type_to_mime_type.phpt</file>
+
+ <file>inet_ntop.phpt</file>
+ <file>inet_pton.phpt</file>
+ <file>ini_get_all.phpt</file>
+ <file>is_a.phpt</file>
+ <file>is_scalar.phpt</file>
+ <file>md5_file.phpt</file>
+
+ <file>mhash.phpt</file>
+ <file>microtime.phpt</file>
+ <file>mime_content_type.phpt</file>
+ <file>mkdir.phpt</file>
+ <file>ob_clean.phpt</file>
+ <file>ob_flush.phpt</file>
+
+ <file>ob_get_clean.phpt</file>
+ <file>ob_get_flush.phpt</file>
+ <file>pg_affected_rows.phpt</file>
+ <file>pg_escape_bytea.phpt</file>
+ <file>pg_unescape_bytea.phpt</file>
+ <file>php_strip_whitespace.phpt</file>
+
+ <file>property_exists.phpt</file>
+ <file>range.phpt</file>
+ <file>restore_include_path.phpt</file>
+ <file>scandir.phpt</file>
+ <file>set_include_path.phpt</file>
+ <file>setcookie.phpt</file>
+
+ <file>setrawcookie.phpt</file>
+ <file>str_ireplace.phpt</file>
+ <file>str_rot13.phpt</file>
+ <file>str_shuffle.phpt</file>
+ <file>str_split.phpt</file>
+ <file>str_word_count.phpt</file>
+
+ <file>stripos.phpt</file>
+ <file>strpbrk.phpt</file>
+ <file>strripos.phpt</file>
+ <file>substr_compare.phpt</file>
+ <file>time_sleep_until.phpt</file>
+ <file>var_export.phpt</file>
+
+ <file>version_compare.phpt</file>
+ <file>vprintf.phpt</file>
+ <file>vsprintf.phpt</file>
+ </dir>
+ </dir>
+ </dir>
+ </contents>
+
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+
+  </required>
+ </dependencies>
+ <phprelease />
+
+ <changelog>
+  <release>
+   <version>
+    <release>1.5.0</release>
+    <api>1.5.0</api>
+
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-12-15</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+
+   <notes>Added more components:
+* is_scalar
+* property_exists
+* inet_pton
+* inet_ntop
+* bcinvert
+* bcpowmod
+* mime_content_type
+* time_sleep_until
+* array_product
+* idate
+Bug fixes:
+* Fixed #4783 (PATH_SEPARATOR)
+* Fixed #4788 (version_compare)
+* Fixed #4851 (var_export)
+* Fixed #5049 (strripos)
+* Fixed #5078 (str_shuffle)
+* Fixed #5691 (fputcsv)
+* Fixed #5469 (md5_file)
+* Fixed #6082 (file_put_contents)
+RC bug fixes:
+* Fixed #6184 (idate)
+   </notes>
+  </release>
+
+  <release>
+  <version>1.5.0RC1</version>
+  <date>2005-12-06</date>
+  <license>PHP License</license>
+
+  <state>beta</state>
+  <notes>
+Added more components:
+* is_scalar
+* property_exists
+* inet_pton
+* inet_ntop
+* bcinvert
+* bcpowmod
+* mime_content_type
+* time_sleep_until
+* array_product
+* idate
+
+Bug fixes:
+* Fixed #4783 (PATH_SEPARATOR)
+* Fixed #4788 (version_compare)
+* Fixed #4851 (var_export)
+* Fixed #5049 (strripos)
+* Fixed #5078 (str_shuffle)
+* Fixed #5691 (fputcsv)
+* Fixed #5469 (md5_file)
+* Fixed #6082 (file_put_contents)
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.4.1</version>
+  <date>2004-19-05</date>
+
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+Added more components:
+* fputcsv
+* htmlspecialchars_decode
+
+Bug fixes:
+* Fixed declaration of debug_print_backtrace
+* Fixed number of bugs in strripos
+* Fixed bugs with large offsets in str_split
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.4.0</version>
+
+  <date>2004-10-05</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+Added more components:
+* DIRECTORY_SEPARATOR
+* pg_affected_rows
+* pg_unescape_bytea
+* pg_escape_bytea
+* ibase_timefmt
+* get_headers
+* debug_print_backtrace
+* mhash
+
+Bug fixes:
+* Improved loadVersion method
+* Fixed bug in clone
+  </notes>
+  </release>
+  
+  <release>
+
+  <version>1.3.1</version>
+  <date>2004-11-23</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+  Fixed problems with loadVersion
+  </notes>
+
+  </release>
+  
+  <release>
+  <version>1.3.0</version>
+  <date>2004-11-22</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+
+Added more components:
+* array_diff_key 
+* array_diff_ukey
+* array_diff_uassoc
+* array_intersect_assoc
+* array_intersect_key
+* array_intersect_uassoc
+* array_intersect_ukey
+* floatval
+* ini_get_all
+* md5_file
+* clone
+* PHP_EOL
+* UPLOAD_ERR (File upload constants)
+* T (Tokenizer constants)
+
+Added loadVersion():
+* Allows automatic loading of all components
+  or, loading all components until a given version of PHP is reached.
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.2.0</version>
+  <date>2004-09-12</date>
+  <license>PHP License</license>
+  <state>stable</state>
+
+  <notes>
+Added more components:
+* str_word_count
+* str_rot13
+* convert_uuencode
+* convert_uudecode
+* strpbrk
+* array_walk_recursive
+* array_uintersect_assoc
+* array_uintersect_uassoc
+* array_uintersect
+* array_udiff_uassoc
+* str_shuffle
+* substr_compare
+* get_include_path
+* set_include_path
+* restore_include_path
+* php_strip_whitespace
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.1.0</version>
+  <date>2004-06-26</date>
+  <license>PHP License</license>
+
+  <state>stable</state>
+  <notes>
+Added more components:
+* html_entity_decode
+* version_compare
+* image_type_to_mime_type
+* array_key_exists
+* array_search
+* call_user_func_array
+* constant
+* ob_clean
+* ob_flush
+* ob_get_clean
+* ob_get_flush
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.0.0</version>
+  <date>2004-06-02</date>
+
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+Added more components:
+* array_change_key_case
+* array_chunk
+* array_diff_assoc
+* vprintf
+* vsprintf
+* var_export
+
+Bug fixes:
+* Fixed behaviour of stripos/strripos - searches for whole needle (PHP5 behaviour).
+  </notes>
+  </release>
+  
+  <release>
+  <version>1.0.0RC2</version>
+
+  <date>2004-05-30</date>
+  <license>PHP License</license>
+  <state>beta</state>
+  <notes>
+Added more components:
+* fprintf
+* stripos
+* strripos
+* str_ireplace
+* FILE (The filesystem constants)
+* STD (The commandline constants)
+
+Other changes:
+* Removed the separate files for STDIN/STDOUT/STDERR
+* Removed the separate files for FILE_USE_INCLUDE_PATH/FILE_APPEND
+  </notes>
+  </release>
+  
+  <release>
+
+  <version>1.0.0RC1</version>
+  <date>2004-05-28</date>
+  <license>PHP License</license>
+  <state>beta</state>
+  <notes>
+Added more components:
+* http_build_query
+* array_udiff
+* array_udiff_assoc
+* FILE_APPEND
+* FILE_USE_INCLUDE_PATH
+
+Bug fixes:
+* Heavily modified file_put_contents for greater support
+* str_split
+
+Other changes:
+* Added complete unit testing!
+  </notes>
+  </release>
+
+  
+  <release>
+  <version>0.2</version>
+  <date>2004-05-27</date>
+  <license>PHP License</license>
+  <state>beta</state>
+  <notes>
+Still in beta until any last bugs are found and removed.
+
+Added more components:
+* str_split
+* STDIN
+* STDOUT
+* STDERR
+
+Bug fixes:
+* file_get_contents
+* file_put_contents
+* array_combine
+
+Other changes:
+* Added replica PHP error messages.
+  </notes>
+
+  </release>
+  
+  <release>
+  <version>0.1</version>
+  <date>2004-05-19</date>
+  <license>PHP License</license>
+  <state>beta</state>
+  <notes>
+
+This package is in beta while any bugs are ironed out.
+
+Components:
+* E_STRICT
+* array_combine
+* file_get_contents
+* file_put_contents
+* is_a
+* scandir
+  </notes>
+  </release>
+
+ </changelog>
+</package>

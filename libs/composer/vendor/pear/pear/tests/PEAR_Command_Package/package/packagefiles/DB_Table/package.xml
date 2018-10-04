@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.0RC" version="2.0" 
+xmlns="http://pear.php.net/dtd/package-2.0" 
+xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+<name>DB_Table</name>
+<channel>pear.php.net</channel>
+<summary>
+An object oriented interface to, and model of, a database. Integrates with HTML_QuickForm.
+</summary>
+<description>
+The DB_Table package provides an object oriented interface to a database. 
+
+Each instance of the core DB_Table class contains the schema for a table, defined using abstract data types. The class provides a portable api for insert, update, delete, and select SQL commands, and can validate data types upon insertion and updating. It provides methods to automatically create or verify a database table. DB_Table also provides methods (using PEAR HTML_QuickForm) to generate input forms that match the column definitions. 
+
+Each instance of the DB_Table_Database class contains a model of relationships between tables in a database, in which each table is represented by an instance of DB_Table. DB_Table_Database provides a method for automatic construction of join conditions for inner joins involving any number of tables, optional php validation of foreign key validity, and optional php emulation of actions triggered on delete or update of referenced rows, such as cascading deletes.
+
+The DB_Table_Generator class auto-generates the php code necessary to create an interface to an existing database.
+</description>
+ <lead>
+  <name>Paul M. Jones</name>
+  <user>pmjones</user>
+  <email>pmjones@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>David Morse</name>
+  <user>morse</user>
+  <email>morse@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Mark Wiesemann</name>
+  <user>wiesemann</user>
+  <email>wiesemann@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-06-14</date>
+ <time>10:10:00</time>
+ <version>
+  <release>1.5.0RC3</release>
+  <api>1.5.0</api>
+ </version>
+ <stability>
+   <release>beta</release>
+   <api>beta</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+ <notes>
+ - Added complete documentation in the PEAR manual.
+ - new DB_Table_Base class added. This is a parent class for DB_Table and DB_Table_Database that contains methods and properties common to both classes. 
+ - The DB_Table::select*() and DB_Table::buildSQL() methods, which are now inherited from the DB_Table_Base class, now accept either a query array or (as before) a key of the $sql property array as a first argument.
+ - Added DB_Table_Database::onDeleteAction() and DB_Table_Database::onUpdateAction() methods, which implement referentially triggered actions (e.g., cascading deletes). This code had previously been part of the DB_Table_Database insert() and update() methods.
+ - Changed behavior of DB_Table::insert() and DB_Table::update() method for a DB_Table object that is part of a DB_Table_Database instance: If a parent DB_Table_Database object exists, these methods can now validate foreign keys and implement ON DELETE and ON UPDATE actions, if these behaviors are enabled in the parent DB_Table_Database object. The behaviors of the DB_Table and DB_Table_Database insert and update methods are now identical. (This is a BC break with 1.5.0RC1 and 1.5.0RC2 beta releases, but not with earlier stable releases.)
+- Disable automatic foreign key validation by default (BC break with releases 1.5.0RC1 and 1.5.0RC2).
+- Added buildFilter() method to the DB_Table_Base class. This a simplified version of the DB_Table_Database::buildFilter() method of previous 1.5.0RC* releases. (BC break with 1.5.0RC1 and 1.5.0RC2)
+- Added a private DB_Table_Database::_buildForeignKeyFilter() for more specialized uses of the old buildFilter() method, which are used internally to construct queries.
+- Changed return value of DB_Table_Database::validForeignKey on failure from boolean false to PEAR_Error. Changed related error codes.
+- Changed 'autoinc' element of XML output to 'autoincrement' for consistency with MDB2 XML schema. 
+- Simplified unit tests for DB_Table_Database by adding a parent DatabaseTest unit test class.
+ </notes>
+ <contents>
+   <dir name="/">
+     <dir name="DB">
+       <file name="Table.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <dir name="Table">
+         <file name="Base.php" role="php" />
+         <file name="Database.php" role="php" />
+         <file name="Date.php" role="php" />
+         <file name="Manager.php" role="php" />
+         <file name="QuickForm.php" role="php" />
+         <file name="Valid.php" role="php" />
+         <file name="Generator.php" role="php" />
+         <file name="XML.php" role="php" />
+         <dir name="Manager">
+           <file name="ibase.php" role="php" />
+           <file name="mysql.php" role="php" />
+           <file name="mysqli.php" role="php" />
+           <file name="oci8.php" role="php" />
+           <file name="pgsql.php" role="php" />
+           <file name="sqlite.php" role="php" />
+         </dir> <!-- /DB/Table/Manager -->
+       </dir> <!-- /DB/Table -->
+     </dir> <!-- /DB -->
+     <dir name="docs">
+       <dir name="reserved_words">
+         <file name="all-words.txt" role="doc" />
+         <file name="mssql-words.txt" role="doc" />
+         <file name="mysql-words.txt" role="doc" />
+         <file name="oci8-words.txt" role="doc" />
+         <file name="pgsql-words.txt" role="doc" />
+         <file name="sql92-words.txt" role="doc" />
+         <file name="sql99-words.txt" role="doc" />
+         <file name="sqlite-words.txt" role="doc" />
+         <file name="_sources.txt" role="doc" />
+       </dir> <!-- /docs/reserved_words -->
+     </dir> <!-- /docs -->
+     <dir name="tests">
+       <file name="bogotest.php" role="test" />
+       <file name="setup.ini-dist" role="test" />
+       <file name="config.php-dist" role="test" />
+       <dir name="generator">
+         <file name="test.php" role="test" />
+         <file name="README" role="doc" />
+       </dir> <!-- /tests/generator -->
+       <dir name="database">
+         <file name="README" role="test" />
+         <file name="DatabaseTest.php" role="test" />
+         <file name="AutoJoinTest.php" role="test" />
+         <file name="DeleteTest.php" role="test" />
+         <file name="DeleteTest.php" role="test" />
+         <file name="GetTest.php" role="test" />
+         <file name="ModifyTest.php" role="test" />
+         <file name="SelectTest.php" role="test" />
+         <file name="SerialTest.php" role="test" />
+         <file name="SQLTest.php" role="test" />
+         <file name="XMLTest.php" role="test" />
+         <dir name="db1">
+           <file name="define.php" role="test" />
+           <file name="create.php" role="test" />
+           <file name="data.php" role="test" />
+           <file name="insert.php" role="test" />
+           <file name="PersonPhone_Table.php" role="test" />
+         </dir> <!-- /tests/database/db1 -->
+         <dir name="out">
+           <file name="AutoJoinTest.out" role="test" />
+           <file name="DeleteTest.out" role="test" />
+           <file name="DeleteTest.out" role="test" />
+           <file name="GetTest.out" role="test" />
+           <file name="ModifyTest.out" role="test" />
+           <file name="SelectTest.out" role="test" />
+           <file name="SerialTest.out" role="test" />
+           <file name="SQLTest.out" role="test" />
+           <file name="XMLTest.out" role="test" />
+         </dir> <!-- /tests/database/out -->
+       </dir> <!-- /tests/database -->
+     </dir> <!-- /tests -->
+   </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.5.0</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <package>
+    <name>HTML_QuickForm</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>DB</name>
+    <channel>pear.php.net</channel>
+    <min>1.7.11</min>
+   </package>
+   <package>
+    <name>MDB2</name>
+    <channel>pear.php.net</channel>
+    <min>2.4.1</min>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
+</package>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>pkg6</name>
+  <summary>required test for PEAR_Installer</summary>
+  <description>fake package</description>
+  <maintainers>
+    <maintainer>
+      <user>fakeuser</user>
+      <name>Joe Shmoe</name>
+      <email>nobody@example.com</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.1</version>
+    <date>2003-09-09</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>required dependency test</notes>
+    <filelist>
+      <file role="php" baseinstalldir="groob" name="zoorb.php"/>
+      <file role="php" baseinstalldir="groob" name="goompness\oggbrzitzkee.php"/>
+      <file role="php" baseinstalldir="groob" name="goompness\Mopreeb.php"/>
+    </filelist>
+  </release>
+</package>

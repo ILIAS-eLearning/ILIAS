@@ -1,0 +1,20 @@
+Known Issues
+============
+$Id$
+
+HttpResponse class is only available for PHP >= 5.1
+
+Not all places where files are handled check for open_basedir and/or safe_mode.
+
+Throttling with the FastCGI SAPI may behave unexpected, because libfcgi seems
+not to practically flush its buffers when calling sapi_flush().
+See also http://bugs.php.net/bug.php?id=34429
+
+If you keep getting "SSL connect error" when trying to issue requests on
+Windows, try another (newer) libeay32.dll/ssleay32.dll pair.
+
+
+Internals:
+	-	the request bodies created in http_request_pool_attach() are not 
+		destroyed in http_request_pool_detach(); may be a memory problem 
+		in long running scripts

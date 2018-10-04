@@ -1,0 +1,14 @@
+MySQL
+http://dev.mysql.com/doc/mysql/en/Reserved_words.html
+
+SQL-92/FrontBase, SQL-99, PostgreSQL
+http://www.postgresql.org/docs/7.3/static/sql-keywords-appendix.html
+
+MS-SQL
+http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tsqlref/ts_ra-rz_9oj7.asp
+
+Oci8 (really from Oracle 10.2, but list has been frozen for a long time, free reg. required)
+http://download-west.oracle.com/docs/cd/B13789_01/server.101/b10759/ap_keywd.htm#i690190
+
+SQLite
+http://www.sqlite.org/lang.html#keywords

@@ -1,0 +1,14 @@
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testGetTable1.
+>testGetPrimaryKey1.
+>testGetRef1.
+>testGetRefTo1.
+>testGetLink1.
+>testGetCol1.
+>testGetForeignCol1.
+
+Time: 0.51314806938171
+
+OK (7 tests)

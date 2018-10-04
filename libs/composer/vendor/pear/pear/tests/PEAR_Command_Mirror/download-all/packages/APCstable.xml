@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0"-->
+<package version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/package-1.0 http://pear.php.net/dtd/package-1.0.xsd">
+ <name>APC</name>
+ <summary>APC pear</summary>
+ <description>APC pear
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>cellog</user>
+   <role>lead</role>
+   <name>Greg Beaver</name>
+   <email>cellog@php.net</email>
+  </maintainer>
+ </maintainers>
+ <release>
+  <version>1.3.0</version>
+  <date>2004-09-21</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+  hi
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file name="foo.php" role="php"/>
+   </dir>
+  </filelist>
+ </release>
+</package>

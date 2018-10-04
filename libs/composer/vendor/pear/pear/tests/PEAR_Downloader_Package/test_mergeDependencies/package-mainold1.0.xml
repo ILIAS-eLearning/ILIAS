@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package version="1.0">
+ <name>mainold</name>
+ <summary>Main Package</summary>
+ <description>Main Package</description>
+ <maintainers>
+  <maintainer>
+   <name>Greg Beaver</name>
+   <role>lead</role>
+   <user>cellog</user>
+   <email>cellog@php.net</email>
+  </maintainer>
+ </maintainers>
+ <date>2004-09-30</date>
+ <release>
+  <version>1.0</version>
+  <state>stable</state>
+  <license>PHP License</license>
+  <notes>test</notes>
+  <filelist>
+   <dir name="/">
+    <file baseinstalldir="/" name="main.php" role="php" />
+   </dir> <!-- / -->
+  </filelist>
+  <deps>
+   <dep type="pkg" name="required" version="1.1" rel="ge"/>
+  </deps>
+ </release>
+</package>

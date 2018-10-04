@@ -1,0 +1,83 @@
+{
+    "authors": [
+        {
+            "email": "cellog@php.net",
+            "name": "Greg Beaver",
+            "role": "Lead"
+        },
+        {
+            "email": "pierre@php.net",
+            "name": "Pierre-Alain Joye",
+            "role": "Lead"
+        },
+        {
+            "email": "stig@php.net",
+            "name": "Stig Bakken",
+            "role": "Lead"
+        },
+        {
+            "email": "cox@idecnet.com",
+            "name": "Tomas V.V.Cox",
+            "role": "Lead"
+        },
+        {
+            "email": "dufuz@php.net",
+            "name": "Helgi Thormar",
+            "role": "Lead"
+        },
+        {
+            "email": "tias@php.net",
+            "name": "Tias Guns",
+            "role": "Developer"
+        },
+        {
+            "email": "timj@php.net",
+            "name": "Tim Jackson",
+            "role": "Helper"
+        },
+        {
+            "email": "toggg@php.net",
+            "name": "Bertrand Gugger",
+            "role": "Helper"
+        },
+        {
+            "email": "mj@php.net",
+            "name": "Martin Jansen",
+            "role": "Helper"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "./"
+        ]
+    },
+    "include-path": [
+        "./"
+    ],
+    "description": "This is the definitive source of PEAR's core files.",
+    "license": "BSD-2-Clause",
+    "name": "pear/pear",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR",
+        "source": "https://github.com/pear/PEAR"
+    },
+    "type": "library",
+    "require": {
+        "ext-pcre": "*",
+        "ext-xml": "*",
+        "pear/archive_tar": "*",
+        "pear/structures_graph": "*",
+        "pear/console_getopt": "*",
+        "pear/xml_util": "*"
+    },
+    "suggest": {
+        "pear/pear_frontend_gtk": "For GTK support",
+        "pear/pear_frontend_web": "For Web support"
+    },
+    "replace": {
+        "pear/pear-core-minimal": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}

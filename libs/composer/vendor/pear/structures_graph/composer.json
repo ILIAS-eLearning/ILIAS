@@ -1,0 +1,24 @@
+{
+    "authors": [
+        {
+            "email": "sergiosgc@gmail.com",
+            "name": "Sérgio Carvalho",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Structures": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/Structures_Graph",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/structures_graph",
+    "support": {
+        "source": "https://github.com/pear/Structures_Graph"
+    },
+    "type": "library"
+}

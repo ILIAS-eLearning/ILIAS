@@ -1,0 +1,70 @@
+a:17:{s:8:"provides";a:0:{}s:8:"filelist";a:8:{s:12:"Validate.php";a:3:{s:4:"role";s:3:"php";s:6:"md5sum";s:32:"23f538f009f6606bb21ece7e669fd436";s:12:"installed_as";s:25:"C:\php5\pear\Validate.php";}s:17:"tests/number.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"b64938d8cc8986cc38289d9d6164e2fc";s:12:"installed_as";s:45:"C:\php5\pear\tests\Validate\tests\number.phpt";}s:19:"tests/testdate.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"593f38ce2f272ec6a4bb7675d950749f";s:12:"installed_as";s:47:"C:\php5\pear\tests\Validate\tests\testdate.phpt";}s:16:"tests/email.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"c6da439c163af4a9d7ad852f421866d1";s:12:"installed_as";s:44:"C:\php5\pear\tests\Validate\tests\email.phpt";}s:19:"tests/multiple.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"ee9b364f81d90e4a72027563e707116c";s:12:"installed_as";s:47:"C:\php5\pear\tests\Validate\tests\multiple.phpt";}s:20:"tests/multicard.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"f7d10063f82361d99bc246b97c8ff270";s:12:"installed_as";s:48:"C:\php5\pear\tests\Validate\tests\multicard.phpt";}s:14:"tests/uri.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"a8c578a5d68e3d6bc664c0fdc2e40b6e";s:12:"installed_as";s:42:"C:\php5\pear\tests\Validate\tests\uri.phpt";}s:24:"docs/sample_multiple.php";a:3:{s:4:"role";s:3:"doc";s:6:"md5sum";s:32:"16476cc19b07247ff048683427d1e4ff";s:12:"installed_as";s:51:"C:\php5\pear\docs\Validate\docs\sample_multiple.php";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:8:"Validate";s:7:"summary";s:16:"Validation class";s:11:"description";s:298:"Package to validate various datas. It includes :
+ - numbers (min/max, decimal or not)
+ - email (syntax, domain check)
+ - string (predifined type alpha upper and/or lowercase, numeric,...)
+ - date (min, max)
+ - uri (RFC2396)
+ - possibility valid multiple data with a single method call (::multiple)
+";s:11:"maintainers";a:5:{i:0;a:4:{s:6:"handle";s:3:"cox";s:4:"name";s:13:"Tomas V.V.Cox";s:5:"email";s:11:"cox@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:6:"pajoye";s:4:"name";s:17:"Pierre-Alain Joye";s:5:"email";s:14:"pajoye@php.net";s:4:"role";s:4:"lead";}i:2;a:4:{s:6:"handle";s:8:"neufeind";s:4:"name";s:15:"Stefan Neufeind";s:5:"email";s:29:"pear.neufeind@speedpartner.de";s:4:"role";s:9:"developer";}i:3;a:4:{s:6:"handle";s:5:"dufuz";s:4:"name";s:12:"Helgi Þormar";s:5:"email";s:13:"dufuz@php.net";s:4:"role";s:4:"lead";}i:4;a:4:{s:6:"handle";s:5:"toggg";s:4:"name";s:15:"bertrand Gugger";s:5:"email";s:18:"bertrand@toggg.com";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"0.6.1";s:12:"release_date";s:10:"2005-09-13";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:128:"- Bug #5390 XML Package Error
+- uri was enchanced to fully comply with RFC2396 (Bertrand) (forgotten in last release changelog)
+";s:12:"release_deps";a:2:{i:1;a:3:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";}i:2;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:3:"yes";s:4:"name";s:4:"Date";}}s:9:"changelog";a:7:{i:0;a:4:{s:7:"version";s:5:"0.6.0";s:12:"release_date";s:10:"2005-09-13";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:119:"- Move to Beta state
+- Enhance again email validation and unit test it
+- modulus methods fix if bcmath is not present
+
+";}i:1;a:4:{s:7:"version";s:5:"0.5.0";s:12:"release_date";s:10:"2005-05-20";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:1083:"- Bug #2936, typo
+- Bug #2879, Issn wrong validation
+- Better email validation
+- Request #997 validate:date minium and maximum accept Date objects (By Torsten Roehr)
+- Request #4055 Making multiple() cope with new dir structure (By Torsten Roehr)
+  To use with Validate_Finance_CreditCard then do 'type' => 'Finance_CreditCard_number'
+  For Validate_US it would be 'type' => 'US_ssn'
+  This applies to all packages like that under Validate.
+- unit testing for multiple (By Torsten Roehr)
+- CS fixes
+- Split country and finance classes and credit card functions into their own sub packages of Validate
+- New lead/developer (Helgi)
+- Few more none alpha chars added
+- _check_control_number renamed to _checkControlNumber
+  _get_control_number renamed to _getControlNumber
+  _mult_weights renamed to _multWeights
+- added email test
+- Split these functions over to a new sub package called Validate_ISPN (International Standard Product Numbers)
+ * ISSN
+ * ISBN
+ * ISMN
+ * EAN8
+ * EAN13
+ * EAN14
+ * UCC12
+ * SSCC
+- splited multiple() test in with (skipif not installed) or without card,
+
+";}i:2;a:4:{s:7:"version";s:5:"0.4.1";s:12:"release_date";s:10:"2004-03-17";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:116:"- fixed issue when validating IBANs via a static call
+ - added missing test validate_UK.php to package.xml
+       
+
+";}i:3;a:4:{s:7:"version";s:5:"0.4.0";s:12:"release_date";s:10:"2004-03-16";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:299:"- pt_BR moved to ptBR required for multiple support(BC break)
+- Add CH validation (Switzerland)
+- added Euro banknotes IDs
+- Improved UK postcodes validation
+- Fixed allowed_scheme options in Validate::uri() (Torsten Roehr)
+- Fixed optional arguments in Validate::number() (Torsten Roehr)
+        
+
+";}i:4;a:4:{s:7:"version";s:5:"0.3.0";s:12:"release_date";s:10:"2003-12-05";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:465:"- Added Finance Validations for Financial related datas
+  (S. Neufeind, Piotr Klaban)
+- Add polish validation (Piotr Klaban)
+- Add German validation (Stefan Neufeind)
+- Add EAN-UCC validtatio (see http://www.ean-ucc.org) (Piotr Klaban)
+- Add International Standard Serial Number (ISSN)
+  and Music Number(ISMN) (Piotr Klaban, David Grant)
+- Drop Validate::url() in preferenc of Validate::uri() which is fully
+  RFC2396 compliant
+- Move to PHP 3.0 license
+        
+
+";}i:5;a:4:{s:7:"version";s:5:"0.2.0";s:12:"release_date";s:10:"2003-06-15";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:30:"- Add some dutch validations
+
+";}i:6;a:4:{s:7:"version";s:5:"0.1.1";s:12:"release_date";s:10:"2003-03-12";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:42:"Validate::date(); argument parsing fixed
+
+";}}s:12:"_lastversion";N;s:7:"dirtree";a:3:{s:12:"C:\php5\pear";b:1;s:33:"C:\php5\pear\tests\Validate\tests";b:1;s:31:"C:\php5\pear\docs\Validate\docs";b:1;}s:13:"_lastmodified";i:1127495038;}

@@ -1,0 +1,249 @@
+$Id$
+==CONTRIBUTING GUIDE FOR PEAR CORE DEVELOPERS==
+Author: Gregory Beaver <cellog@php.net>
+
+INTRODUCTION
+------------
+
+Thank you for assisting in development of the premiere PHP installer!
+Over the years, certain protocols have developed for handling releases,
+documenting changes to the code, and coordinating efforts with the
+PHP core development team.
+
+This document attempts to explain what it means to be a maintainer of
+the PEAR package, and how to properly do maintenance.
+
+This document assumes two things:
+
+1) you have already applied for a CVS account at http://www.php.net/cvs-php.php
+2) you have already applied for a PEAR account at http://pear.php.net/account-request.php
+
+Fear not!  PEAR is slowly but surely evolving, and this document will hopefully only
+become smaller and simpler as this takes place.  Keep your fingers crossed!
+
+Table of Contents
+-----------------
+1. Fixing bugs/Adding features
+2. Writing regression tests
+3. Releasing PEAR
+4. synchronizing PEAR with the PHP release (PHP >= 5.1.0)
+5. http://pear.php.net/go-pear and testing
+6. pear.php.net and rest
+
+1. FIXING BUGS/ADDING FEATURES
+------------------------------
+
+In most cases, bugs or features are opened at the official bug tracker
+located at:
+
+http://pear.php.net/package/PEAR/bugs
+
+When you fix a bug, or implement feature requested, please follow this checklist:
+
+1) assign the bug to yourself in the bug tracker
+2) write a .phpt-based regression test that verifies the bug, or tests the
+   new feature.  The test should be written prior to any code changes, and
+   should attempt to work properly, but fail due to the bug in PEAR or non-existing
+   feature.  Please name the test after the bug tracker number to make it easier to
+   find.  If you fix bug #12345 name the test "bug12345.phpt."  If the bug was in
+   the PEAR_Installer class, please save it in pear-core/tests/PEAR_Installer/bug12345.phpt
+3) fix the bug, or add the new feature.
+4) upgrade your local PEAR installation via "pear upgrade -f package2.xml"
+5) do a few simple tests to see if you have fixed the bug.  This should include
+   running the regression test that you wrote.  If the test is named bug12345.phpt,
+   use "pear run-tests tests/PEAR_Installer/bug12345.phpt" from the pear-core directory
+6) if the code did not fix the problem, go back to step 3 :)
+7) run the remaining regression tests to ensure that you did not break existing
+   features with your bugfix/feature addition.
+      cd tests
+      pear run-tests -rq
+   if any tests fail, examine the .out files (as in bug12345.out) to determine the cause
+   of failure.
+8) add an entry to the release notes in both package2.xml and package-PEAR.xml.
+   Please use the full bug summary as in:
+   * Fix Bug #12345: Foo failure in --packagingroot option [your pear username]
+9) Don't be afraid to ask the older developers for help or clarification!!
+
+2. WRITING REGRESSION TESTS
+---------------------------
+
+PEAR's regression tests are based on the versatile .phpt format, which is somewhat
+documented at:
+
+(official resource) http://qa.php.net/write-test.php
+(unofficial resource) http://weierophinney.net/matthew/archives/65-phpt-Tutorial.html
+
+In addition to these fine and succinct tutorials, take a quick peek at the source
+of existing unit tests, such as those in pear-core/tests/PEAR_Installer/
+
+Each test in PEAR should make use of a simple principle: only display output when
+there is an error.  This will allow simple cross-platform/cross-PHP version testing.
+In addition, use the utility PEAR_PHPTest class found in tests/phpt_test.php.inc.
+This will allow tremendous flexibility in testing.
+
+Don't be afraid to ask the older developers for help or clarification!
+
+3. RELEASING PEAR
+-----------------
+
+When releasing a new version of PEAR, follow these simple steps:
+
+1) set the release date in package2.xml and package-PEAR.xml to 1 week from the
+   current date.
+2) run this command:
+     pear package package2.xml package-PEAR.xml
+   and fix any errors
+3) upload the subsequent .tgz file (PEAR-1.4.6.tgz for PEAR version 1.4.6)
+   to a private location where others can download it
+4) post a message to the pear-qa@lists.php.net mailing list asking people to
+   install the package, and try to break it, by running all commands, and running
+   the unit tests
+5) if all goes well, release the package through http://pear.php.net/release-upload.php
+   on the release date in package2.xml.  ALWAYS RELEASE A PACKAGE THAT HAS BEEN
+   TESTED BY AT LEAST 1 INDEPENDENT SOURCE.  We've had too many broken releases
+   rushed out in the past.  If you're not sure, ask one of the older devs for help
+6) After another week, when it is clear that PEAR is working, you may need to coordinate
+   the release with PHP developers.
+
+4. SYNCHRONIZING PEAR WITH THE PHP RELEASE (PHP >= 5.1.0)
+--------------------------------------------------------
+
+PHP 5.1.0 and newer make use of a new technology, the PHP archive, or "phar".
+
+The UNIX build of PHP uses install-pear-nozlib.phar, and the windows build uses
+go-pear.phar.  To create these files, follow these simple steps:
+
+cvs -d :pserver:yourcvs@cvs.php.net:/repository login [replace yourcvs with your login]
+cvs -d :pserver:yourcvs@cvs.php.net:/repository co pear-core
+cd pear-core/PEAR
+mkdir go-pear-tarballs
+cd go-pear-tarballs
+pear download -Z PEAR-stable Archive_Tar-stable Console_Getopt-stable XML_Util-stable
+cd ../..
+pear install PHP_Archive
+php make-installpear-nozlib-phar.php
+php make-gopear-phar.php
+
+Note that PHP 5.1 is required in order to create the archives, and they can be created
+on either unix or windows.
+
+Now, these files need to reside in the document root of pear.php.net.  However, the
+files are stored in cvs at pear/installphars and are released as the package
+pearweb_phars.
+
+As such, you will need to ask someone with karma to commit them if you do not have karma,
+and to release the pearweb_phars package as well.
+
+To use these files, do the following:
+
+1) UNIX
+cp install-pear-nozlib.phar /path/to/php-src/pear
+cd /path/to/php-src
+make install-pear
+
+2) WINDOWS
+php go-pear.phar
+
+That's it!  In fact, the go-pear.bat that comes with PHP 5.1.x simply contains that line,
+so that people can simply type "go-pear" to install PEAR.  The code used to run go-pear.phar
+is located in pear-core/go-pear-phar.php.  This file ultimately loads
+pear-core/PEAR/Start.php and pear-core/PEAR/Start/CLI.php.  These files are based off
+of the code in the web-based go-pear, which is discussed in the next section.
+
+5. HTTP://PEAR.PHP.NET/GO-PEAR AND TESTING
+---------------------------------
+
+One of the most common methods used to install PEAR is http://pear.php.net/go-pear
+
+go-pear is actually a file located in CVS at cvs.php.net in pearweb/public_html/go-pear
+and it contains, in a single PHP file, all of the code necessary to download PEAR and run
+it.  Unfortunately, this also makes it difficult to debug and to maintain, as there are
+more than a few hacks to make it work within a single file.  However, it does the best
+it could under the circumstances, and contains code to install the CLI and the web-based
+frontend, as well as to download the necessary packages.
+
+Testing this code is very difficult, and it is important to test on windows, and to
+familiarize yourself with related bugs that have been encountered (a search of
+http://www.beeblex.com is a good place to start).  If you are a brave and wonderful
+person, and are willing to write ApacheTest-based tests for go-pear, we would
+enshrine you in the halls of glory for at least a year or so :).
+
+The main thing to remember is that you need to be aware of how go-pear works, so
+that you can be aware of its needs in relation to PEAR.
+
+6. PEAR.PHP.NET AND REST
+-------------------------------
+
+Perhaps the most complex aspect of maintaining the PEAR installer is the interaction
+with pear.php.net.  The PEAR installer uses one protocols to access package information,
+REST (Representative State Transfer) to represent abstract meta-data about packages,
+and to respond to specific queries about this data.
+There used to be support for XML-RPC (XML remote procedure call) in older version of PEAR
+but got removed due to XML-RPC backends being obsoleted and not used anywhere.
+
+PEAR prior to version 1.4.0 exclusively uses XML-RPC, and specifically interacts with
+http://pear.php.net/xmlrpc.php, which is located at cvs.php.net in
+pearweb/public_html/xmlrpc.php.  This file in turn accesses
+pearweb/include/pear-database.php, which contains all of the specific functions used by
+the PEAR installer.  pear-database.php contains a number of xml-rpc functions not used
+at all by the installer.  Fortunately, a complete list of functions used by the installer
+is documented in http://pear.php.net/channel.xml.
+
+REST is a description of a rather loose way of representing data, and can mean many things
+but is most commonly distilled into "Every resource has one unique URL for accessing and
+representing this resource."  PEAR implements this using static XML files, located at
+http://pear.php.net/rest.  These files are auto-generated, and for more information on
+how and what is generated, check the online manual, and the code at
+pearweb/include/pear-rest.php.
+
+What is important to understand is that pear.php.net has had tremendous load issues
+recently.  The largest URL accessed at pear.php.net is xmlrpc.php, which returns a
+tremendous amount of data.  Any changes to the PEAR installer can have a profound
+effect on the performance of pear.php.net.  REST is actually a major step forward because
+it distributes this load more effectively and eliminates all dynamic code processing,
+but until PEAR 1.3.x disappears, xmlrpc will continue to be a noticeable load on the
+server.  Consider all changes with care!
+
+To implement a new feature or fix a bug, if you need to access some information
+remotely in a different way, always attempt to do this with the existing layout first.
+Only add new REST as XML-RPC has bee phased out and the installer contains no such code.
+
+If you plan to maintain the remote access portion of PEAR, it is imperative to
+become intimately familiar with how the website works.  Check out pearweb from
+CVS and study it, set up a local copy and take a day to make it work - this is no
+small endeavor, I assure you, but it is worth it for local testing.
+
+Once you have a working local mirror, simply update your local channel.xml for PEAR
+with a mirror and select that mirror.  Save this file as "mychannel.xml":
+
+<channel version="1.0" xsi:schemaLocation="http://pear.php.net/channel-1.0 http://pear.php.net/dtd/channel-1.0.xsd">
+<name>pear.php.net</name>
+<suggestedalias>pear</suggestedalias>
+<summary>PHP Extension and Application Repository</summary>
+ <servers>
+  <primary>
+   <rest>
+    <baseurl type="REST1.0">http://pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://pear.php.net/rest/</baseurl>
+   </rest>
+  </primary>
+  <mirror host="localhost"> <!-- replace with the path to pearweb -->
+   <rest>
+    <baseurl type="REST1.0">http://localhost/rest/</baseurl>
+    <baseurl type="REST1.1">http://localhost/rest/</baseurl>
+   </rest>
+  </mirror>
+ </servers>
+</channel>
+
+Then:
+
+pear channel-update mychannel.xml
+pear config-set preferred_mirror localhost
+
+This will instruct the PEAR installer on your machine to access your local copy of pearweb
+as if it were the remote one.  This can be used to debug complex server interactions
+without requiring any internet access whatsoever.
+
+Again, as with all other tasks, consult one of the experienced developers if you need
+assistance setting up pearweb locally, or have any questions!

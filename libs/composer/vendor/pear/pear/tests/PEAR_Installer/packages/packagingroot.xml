@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0"-->
+<package version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/package-1.0 http://pear.php.net/dtd/package-1.0.xsd">
+ <name>PEAR</name>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ * the PEAR installer, for creating, distributing
+   and installing packages
+ * the alpha-quality PEAR_Exception PHP5 error handling mechanism
+ * the beta-quality PEAR_ErrorStack advanced error handling mechanism
+ * the PEAR_Error error handling mechanism
+ * the OS_Guess class for retrieving info about the OS
+   where PHP is running on
+ * the System class for quick handling of common operations
+   with files and directories
+ * the PEAR base class
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>cellog</user>
+   <role>lead</role>
+   <name>Greg Beaver</name>
+   <email>cellog@php.net</email>
+  </maintainer>
+ </maintainers>
+ <release>
+  <version>1.0.0</version>
+  <date>2006-01-01</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>
+   test packagingroot option
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file name="proot.php" role="php">
+     <replace type="pear-config" from="@test@" to="php_dir"/>
+    </file>
+   </dir>
+  </filelist>
+ </release>
+</package>

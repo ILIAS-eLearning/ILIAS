@@ -1,0 +1,43 @@
+{
+    "name": "pear/xml_util",
+    "description": "Methods to work with XML documents",
+    "homepage": "http://pear.php.net/package/XML_Util",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=XML_Util",
+        "source": "https://github.com/pear/XML_Util"
+    },
+    "type": "library",
+    "authors": [
+        {
+            "email": "ashnazg@php.net",
+            "name": "Chuck Burgess",
+            "role": "Lead"
+        },
+        {
+            "email": "schst@php-tools.net",
+            "name": "Stephan Schmidt",
+            "role": "Lead"
+        },
+        {
+            "email": "davey@php.net",
+            "name": "Davey Shafik",
+            "role": "Helper"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "XML_Util": "./"
+        }
+    },
+    "include-path": [
+        "./"
+    ],
+    "require": {
+        "php": ">=5.4",
+        "pear/pear-core-minimal": "^1.10.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    }
+}

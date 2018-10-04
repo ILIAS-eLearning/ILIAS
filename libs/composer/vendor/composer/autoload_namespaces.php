@@ -6,11 +6,15 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'XML_Util' => array($vendorDir . '/pear/xml_util'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'Structures' => array($vendorDir . '/pear/structures_graph'),
     'SAML2\\' => array($vendorDir . '/simplesamlphp/saml2/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
+    'Console' => array($vendorDir . '/pear/console_getopt'),
+    'Archive_Tar' => array($vendorDir . '/pear/archive_tar'),
 );

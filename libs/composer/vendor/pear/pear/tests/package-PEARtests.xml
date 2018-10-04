@@ -1,0 +1,1639 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.0a10">
+ <name>PEARtests</name>
+ <summary>PEAR Base System tests</summary>
+ <description>This package contains all tests for the PEAR base system
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>cellog</user>
+   <name>Greg Beaver</name>
+   <email>cellog@php.net</email>
+   <role>lead</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>1.4.0a10</version>
+  <date>2005-04-05</date>
+  <license>PHP License</license>
+  <state>alpha</state>
+  <notes>Tests for PEAR 1.4.0a10
+  </notes>
+  <deps>
+   <dep type="pkg" rel="ge" version="1.4.0a10" optional="no">PEAR</dep>
+   <dep type="pkg" rel="has" optional="yes">Text_Diff</dep>
+  </deps>
+  <filelist>
+   <dir name="/" baseinstalldir="PEAR">
+    <dir name="PEAR">
+     <file role="test" name="pear1.phpt"/>
+     <file role="test" name="pear2.phpt"/>
+    </dir> <!-- /PEAR -->
+    <dir name="PEAR_Channelfile">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_addfunction_basic.phpt"/>
+     <file role="test" name="test_addfunction_mirror.phpt"/>
+     <file role="test" name="test_addmirror.phpt"/>
+     <file role="test" name="test_parse_basic.phpt"/>
+     <file role="test" name="test_parse_basic_compatibility.phpt"/>
+     <file role="test" name="test_parse_validatepackage.phpt"/>
+     <file role="test" name="test_resetfunctions.phpt"/>
+     <file role="test" name="test_resetfunctions_basic.phpt"/>
+     <file role="test" name="test_resetfunctions_mirror.phpt"/>
+     <file role="test" name="test_resetfunctions_rest.phpt"/>
+     <file role="test" name="test_resetfunctions_soap.phpt"/>
+     <file role="test" name="test_setalias.phpt"/>
+     <file role="test" name="test_setname.phpt"/>
+     <file role="test" name="test_setsummary.phpt"/>
+     <file role="test" name="test_setvalidationpackage.phpt"/>
+    </dir> <!-- /PEAR_Channelfile -->
+    <dir name="PEAR_Command">
+     <dir name="fakecommands">
+      <file role="test" name="Foo-init.php"/>
+      <file role="test" name="Foo.php"/>
+      <file role="test" name="Grunk-init.php"/>
+      <file role="test" name="Grunk.php"/>
+     </dir> <!-- /PEAR_Command/fakecommands -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_factory.phpt"/>
+     <file role="test" name="test_getFrontendObject.phpt"/>
+     <file role="test" name="test_registerCommands.phpt"/>
+     <file role="test" name="test_registerCommands_standard.phpt"/>
+     <file role="test" name="test_setFrontendClass.phpt"/>
+    </dir> <!-- /PEAR_Command -->
+    <dir name="PEAR_Command_Auth">
+     <dir name="login">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Auth/login -->
+     <dir name="logout">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Auth/logout -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Auth -->
+    <dir name="PEAR_Command_Channels">
+     <dir name="channel-add">
+      <dir name="files">
+       <file role="test" name="remotechannel.xml"/>
+      </dir> <!-- /PEAR_Command_Channels/channel-add/files -->
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_remotefile.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-add -->
+     <dir name="channel-alias">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-alias -->
+     <dir name="channel-delete">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-delete -->
+     <dir name="channel-discover">
+      <dir name="files">
+       <file role="test" name="channel.xml"/>
+      </dir> <!-- /PEAR_Command_Channels/channel-discover/files -->
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-discover -->
+     <dir name="channel-info">
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_file.phpt"/>
+      <file role="test" name="test_file_fail.phpt"/>
+      <file role="test" name="test_installed.phpt"/>
+      <file role="test" name="test_remotefile.phpt"/>
+      <file role="test" name="test_remotefilefail.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-info -->
+     <dir name="channel-update">
+      <dir name="files">
+       <file role="test" name="invalidchannel.xml"/>
+       <file role="test" name="pearchannel.xml"/>
+       <file role="test" name="remotechannel.xml"/>
+      </dir> <!-- /PEAR_Command_Channels/channel-update/files -->
+      <file role="test" name="test_localfile.phpt"/>
+      <file role="test" name="test_remotechannel.phpt"/>
+      <file role="test" name="test_remotechannel_invalid.phpt"/>
+      <file role="test" name="test_remotechannel_uptodate.phpt"/>
+      <file role="test" name="test_remotefile.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/channel-update -->
+     <dir name="list-channels">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/list-channels -->
+     <dir name="update-channels">
+      <dir name="files">
+       <file role="test" name="hordechannel.xml"/>
+       <file role="test" name="pearchannel.xml"/>
+       <file role="test" name="zornkchannel.xml"/>
+      </dir> <!-- /PEAR_Command_Channels/update-channels/files -->
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Channels/update-channels -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Channels -->
+    <dir name="PEAR_Command_Config">
+     <dir name="config-create">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_windows.phpt"/>
+     </dir> <!-- /PEAR_Command_Config/config-create -->
+     <dir name="config-get">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_default_channel.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_opt.phpt"/>
+     </dir> <!-- /PEAR_Command_Config/config-get -->
+     <dir name="config-help">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Config/config-help -->
+     <dir name="config-set">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_setchannelval.phpt"/>
+      <file role="test" name="test_setchannelval_defaultch.phpt"/>
+     </dir> <!-- /PEAR_Command_Config/config-set -->
+     <dir name="config-show">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Config/config-show -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Config -->
+    <dir name="PEAR_Command_Install">
+     <dir name="install">
+      <dir name="packages">
+       <file role="test" name="Archive_Tar-1.2.tgz"/>
+       <file role="test" name="Bar-1.5.2.tgz"/>
+       <file role="test" name="bug3671_1.xml"/>
+       <file role="test" name="Console_Getopt-1.2.tgz"/>
+       <file role="test" name="extpkg_bin_win-1.3.0.tgz"/>
+       <file role="test" name="extpkg_bin_win.xml"/>
+       <file role="test" name="extpkg_src-1.3.0.tgz"/>
+       <file role="test" name="extpkg_src.xml"/>
+       <file role="test" name="foo.php"/>
+       <file role="test" name="Foobar-1.5.0a1.tgz"/>
+       <file role="test" name="HTML_Template_IT-1.1.tgz"/>
+       <file role="test" name="Net_UserAgent_Detect-2.0.1.tgz"/>
+       <file role="test" name="package2.xml"/>
+       <file role="test" name="PEAR-1.4.0a1.tgz"/>
+       <file role="test" name="PEAR_Frontend_Web-0.4.tgz"/>
+       <file role="test" name="simplepackage.xml"/>
+       <file role="test" name="XML_RPC-1.2.0RC6.tgz"/>
+      </dir> <!-- /PEAR_Command_Install/install/packages -->
+      <file role="test" name="test_bug3550.phpt"/>
+      <file role="test" name="test_bug3671.phpt"/>
+      <file role="test" name="test_complex.phpt"/>
+      <file role="test" name="test_extinstall.phpt"/>
+      <file role="test" name="test_simple.phpt"/>
+     </dir> <!-- /PEAR_Command_Install/install -->
+     <dir name="uninstall">
+      <dir name="packages">
+       <file role="test" name="HTTP_Request-1.2.4.tgz"/>
+       <file role="test" name="Mail_Mime-1.2.1.tgz"/>
+       <file role="test" name="Net_DIME-0.3.tgz"/>
+       <file role="test" name="Net_Socket-1.0.5.tgz"/>
+       <file role="test" name="Net_URL-1.0.14.tgz"/>
+       <file role="test" name="SOAP-0.8.1.tgz"/>
+      </dir> <!-- /PEAR_Command_Install/uninstall/packages -->
+      <file role="test" name="test_uninstallSOAP.phpt"/>
+     </dir> <!-- /PEAR_Command_Install/uninstall -->
+     <dir name="upgrade">
+      <dir name="packages">
+       <file role="test" name="Auth-1.3.0r3.tgz"/>
+       <file role="test" name="Auth_HTTP-2.1.4.tgz"/>
+       <file role="test" name="Auth_HTTP-2.1.6RC1.tgz"/>
+      </dir> <!-- /PEAR_Command_Install/upgrade/packages -->
+      <file role="test" name="test_bug4060.phpt"/>
+     </dir> <!-- /PEAR_Command_Install/upgrade -->
+     <dir name="upgrade-all">
+      <dir name="packages">
+       <file role="test" name="Archive_Tar-1.2.tgz"/>
+       <file role="test" name="Console_Getopt-1.2.tgz"/>
+       <file role="test" name="File-1.1.0RC3.tgz"/>
+       <file role="test" name="File-1.1.0RC5.tgz"/>
+       <file role="test" name="Net_Sieve-1.1.0.tgz"/>
+       <file role="test" name="Net_Sieve-1.1.1.tgz"/>
+       <file role="test" name="Net_Socket-1.0.5.tgz"/>
+       <file role="test" name="PEAR-1.3.4.tgz"/>
+       <file role="test" name="Text_Highlighter-0.6.1.tgz"/>
+       <file role="test" name="Text_Highlighter-0.6.2.tgz"/>
+       <file role="test" name="Text_Wiki-0.23.1.tgz"/>
+       <file role="test" name="Text_Wiki-0.25.0.tgz"/>
+       <file role="test" name="XML_Parser-1.2.4.tgz"/>
+       <file role="test" name="XML_RPC-1.2.0RC3.tgz"/>
+       <file role="test" name="XML_RPC-1.2.0RC6.tgz"/>
+      </dir> <!-- /PEAR_Command_Install/upgrade-all/packages -->
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Install/upgrade-all -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Install -->
+    <dir name="PEAR_Command_Mirror">
+     <dir name="download-all">
+      <dir name="packages">
+       <file role="test" name="APC-1.3.0.tgz"/>
+       <file role="test" name="APC-1.4.0a1.tgz"/>
+       <file role="test" name="APC-1.5.0a1.tgz"/>
+       <file role="test" name="APC.xml"/>
+       <file role="test" name="APCsmoog.xml"/>
+       <file role="test" name="APCstable.xml"/>
+       <file role="test" name="Archive_Tar-1.5.0a1.tgz"/>
+       <file role="test" name="Archive_Tar.xml"/>
+       <file role="test" name="foo.php"/>
+      </dir> <!-- /PEAR_Command_Mirror/download-all/packages -->
+      <file role="test" name="test_normal.phpt"/>
+      <file role="test" name="test_normal_alpha.phpt"/>
+      <file role="test" name="test_normal_channel.phpt"/>
+     </dir> <!-- /PEAR_Command_Mirror/download-all -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Mirror -->
+    <dir name="PEAR_Command_Package">
+     <dir name="convert">
+      <dir name="packagefiles">
+       <file role="test" name="invalidv1.xml"/>
+       <file role="test" name="nosummary1.xml"/>
+       <file role="test" name="v2.xml"/>
+       <file role="test" name="validv1.xml"/>
+      </dir> <!-- /PEAR_Command_Package/convert/packagefiles -->
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Package/convert -->
+     <dir name="package">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_Command_Package/package/packagefiles/sunger -->
+       <file role="test" name="equivv1.xml"/>
+       <file role="test" name="fakebar.xml"/>
+       <file role="test" name="foo.php"/>
+       <file role="test" name="foo1.php"/>
+       <file role="test" name="packageinvalidv1.xml"/>
+       <file role="test" name="packageinvalidv2.xml"/>
+       <file role="test" name="v1.xml"/>
+       <file role="test" name="validfakebar.xml"/>
+       <file role="test" name="validv1.xml"/>
+       <file role="test" name="validwarnfakebar.xml"/>
+       <file role="test" name="validwarnv1.xml"/>
+      </dir> <!-- /PEAR_Command_Package/package/packagefiles -->
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_fail_multiple.phpt"/>
+      <file role="test" name="test_v1.phpt"/>
+      <file role="test" name="test_v2.phpt"/>
+      <file role="test" name="test_v2_v1_multiple.phpt"/>
+      <file role="test" name="test_warning.phpt"/>
+     </dir> <!-- /PEAR_Command_Package/package -->
+     <dir name="package-dependencies">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_Command_Package/package-dependencies/packagefiles/sunger -->
+       <file role="test" name="packageinvalidv1.xml"/>
+       <file role="test" name="v1.xml"/>
+       <file role="test" name="v2.xml"/>
+      </dir> <!-- /PEAR_Command_Package/package-dependencies/packagefiles -->
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_v1.phpt"/>
+      <file role="test" name="test_v2.phpt"/>
+     </dir> <!-- /PEAR_Command_Package/package-dependencies -->
+     <dir name="package-validate">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_Command_Package/package-validate/packagefiles/sunger -->
+       <file role="test" name="equivv1.xml"/>
+       <file role="test" name="fakebar.xml"/>
+       <file role="test" name="foo.php"/>
+       <file role="test" name="foo1.php"/>
+       <file role="test" name="packageinvalidv1.xml"/>
+       <file role="test" name="packageinvalidv2.xml"/>
+       <file role="test" name="v1.xml"/>
+       <file role="test" name="validfakebar.xml"/>
+       <file role="test" name="validv1.xml"/>
+       <file role="test" name="validwarnfakebar.xml"/>
+       <file role="test" name="validwarnv1.xml"/>
+      </dir> <!-- /PEAR_Command_Package/package-validate/packagefiles -->
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Package/package-validate -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Package -->
+    <dir name="PEAR_Command_Registry">
+     <dir name="info">
+      <dir name="packagefiles">
+       <file role="test" name="Console_Getopt-1.2.0.tgz"/>
+       <file role="test" name="Console_Getopt-1.2.1.tgz"/>
+       <file role="test" name="package-Console_Getopt.xml"/>
+       <file role="test" name="package2.xml"/>
+      </dir> <!-- /PEAR_Command_Registry/info/packagefiles -->
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_installed1.0.phpt"/>
+      <file role="test" name="test_installed2.0.phpt"/>
+      <file role="test" name="test_notinstalled1.0.phpt"/>
+      <file role="test" name="test_notinstalled2.0.phpt"/>
+     </dir> <!-- /PEAR_Command_Registry/info -->
+     <dir name="list">
+      <dir name="packagefiles">
+       <file role="test" name="package-Console_Getopt.xml"/>
+       <file role="test" name="package.xml"/>
+       <file role="test" name="package2.xml"/>
+      </dir> <!-- /PEAR_Command_Registry/list/packagefiles -->
+      <file role="test" name="test_allchannels.phpt"/>
+      <file role="test" name="test_default_channel.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_fail_list-files.phpt"/>
+      <file role="test" name="test_installed.phpt"/>
+      <file role="test" name="test_normal.phpt"/>
+      <file role="test" name="test_notinstalled.phpt"/>
+      <file role="test" name="test_opt.phpt"/>
+     </dir> <!-- /PEAR_Command_Registry/list -->
+     <dir name="list-files">
+      <dir name="packagefiles">
+       <file role="test" name="package.xml"/>
+       <file role="test" name="package2.xml"/>
+      </dir> <!-- /PEAR_Command_Registry/list-files/packagefiles -->
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_installed.phpt"/>
+      <file role="test" name="test_notinstalled.phpt"/>
+     </dir> <!-- /PEAR_Command_Registry/list-files -->
+     <dir name="shell-test">
+      <dir name="packagefiles">
+       <file role="test" name="package2.xml"/>
+       <file role="test" name="packagegronk.xml"/>
+      </dir> <!-- /PEAR_Command_Registry/shell-test/packagefiles -->
+      <file role="test" name="test_fail_notinstalled.phpt"/>
+      <file role="test" name="test_fail_rel_eq.phpt"/>
+      <file role="test" name="test_fail_rel_ge.phpt"/>
+      <file role="test" name="test_fail_rel_gt.phpt"/>
+      <file role="test" name="test_fail_rel_le.phpt"/>
+      <file role="test" name="test_fail_rel_lt.phpt"/>
+      <file role="test" name="test_fail_rel_ne.phpt"/>
+      <file role="test" name="test_fail_versiontoolow.phpt"/>
+      <file role="test" name="test_rel_eq.phpt"/>
+      <file role="test" name="test_rel_ge.phpt"/>
+      <file role="test" name="test_rel_gt.phpt"/>
+      <file role="test" name="test_rel_le.phpt"/>
+      <file role="test" name="test_rel_lt.phpt"/>
+      <file role="test" name="test_rel_ne.phpt"/>
+     </dir> <!-- /PEAR_Command_Registry/shell-test -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Registry -->
+    <dir name="PEAR_Command_Remote">
+     <dir name="clear-cache">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/clear-cache -->
+     <dir name="download">
+      <dir name="packages">
+       <file role="test" name="test-1.0.tar"/>
+       <file role="test" name="test-1.0.tgz"/>
+      </dir> <!-- /PEAR_Command_Remote/download/packages -->
+      <file role="test" name="test_abstractpackage.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_url.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/download -->
+     <dir name="list-all">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_bug4072.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/list-all -->
+     <dir name="list-upgrades">
+      <file role="test" name="test.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/list-upgrades -->
+     <dir name="remote-info">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_installed.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/remote-info -->
+     <dir name="remote-list">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/remote-list -->
+     <dir name="search">
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_Command_Remote/search -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_Command_Remote -->
+    <dir name="PEAR_Common">
+     <dir name="download">
+      <file role="test" name="testdownload.tgz"/>
+     </dir> <!-- /PEAR_Common/download -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_analyzeSourceCode.phpt"/>
+     <file role="test" name="test_buildProvidesArray.phpt"/>
+     <file role="test" name="test_downloadHttp.phpt"/>
+     <file role="test" name="test_infoFromString_emptypackagexml.phpt"/>
+     <file role="test" name="test_infoFromString_invalidpackageversion.phpt"/>
+     <file role="test" name="test_infoFromString_invalidpackagexml.phpt"/>
+     <file role="test" name="test_infoFromString_invalidxml.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml1.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml2.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml3.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml4.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml5.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml6.phpt"/>
+     <file role="test" name="test_infoFromString_partiallyemptypackagexml7.phpt"/>
+     <file role="test" name="test_infoFromString_validpackagexml1.phpt"/>
+     <file role="test" name="test_infoFromString_validpackagexml2.phpt"/>
+     <file role="test" name="test_infoFromString_validpackagexml3.phpt"/>
+     <file role="test" name="test_infoFromString_validpackagexml4.phpt"/>
+    </dir> <!-- /PEAR_Common -->
+    <dir name="PEAR_Config">
+     <dir name="ini">
+      <file role="test" name="merge.input"/>
+      <file role="test" name="merge2.input"/>
+      <file role="test" name="system.input"/>
+      <file role="test" name="toonew.conf"/>
+      <file role="test" name="user.input"/>
+      <file role="test" name="user2.input"/>
+      <file role="test" name="user3.input"/>
+     </dir> <!-- /PEAR_Config/ini -->
+     <dir name="test_readFTPConfigFile">
+      <file role="test" name="FTP.php.inc"/>
+      <file role="test" name="novars.ini"/>
+      <file role="test" name="remote.ini"/>
+     </dir> <!-- /PEAR_Config/test_readFTPConfigFile -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_arrayMergeRecursive.phpt"/>
+     <file role="test" name="test_definedBy.phpt"/>
+     <file role="test" name="test_deleteChannel.phpt"/>
+     <file role="test" name="test_getDefaultChannel.phpt"/>
+     <file role="test" name="test_getDocs.phpt"/>
+     <file role="test" name="test_getFTP.phpt"/>
+     <file role="test" name="test_getGroup.phpt"/>
+     <file role="test" name="test_getGroupKeys.phpt"/>
+     <file role="test" name="test_getGroups.phpt"/>
+     <file role="test" name="test_getKeys.phpt"/>
+     <file role="test" name="test_getLayers.phpt"/>
+     <file role="test" name="test_getPrompt.phpt"/>
+     <file role="test" name="test_getRegistry.phpt"/>
+     <file role="test" name="test_getRemote.phpt"/>
+     <file role="test" name="test_getREST.phpt"/>
+     <file role="test" name="test_getSetValues.phpt"/>
+     <file role="test" name="test_getType.phpt"/>
+     <file role="test" name="test_isDefined.phpt"/>
+     <file role="test" name="test_isDefinedLayer.phpt"/>
+     <file role="test" name="test_mergeConfigFile.phpt"/>
+     <file role="test" name="test_readConfigFile.phpt"/>
+     <file role="test" name="test_readFTPConfigFile.phpt"/>
+     <file role="test" name="test_readFTPConfigFile_fail.phpt"/>
+     <file role="test" name="test_remove.phpt"/>
+     <file role="test" name="test_removeLayer.phpt"/>
+     <file role="test" name="test_setChannels.phpt"/>
+     <file role="test" name="test_setget.phpt"/>
+     <file role="test" name="test_setget_channelvalues.phpt"/>
+     <file role="test" name="test_setget_setvalues.phpt"/>
+     <file role="test" name="test_setInstallRoot.phpt"/>
+     <file role="test" name="test_setInstallRoot_win.phpt"/>
+     <file role="test" name="test_setRegistry.phpt"/>
+     <file role="test" name="test_set_defaultchannel_alias.phpt"/>
+     <file role="test" name="test_singleton.phpt"/>
+     <file role="test" name="test_writeConfigFile.phpt"/>
+    </dir> <!-- /PEAR_Config -->
+    <dir name="PEAR_Dependency2">
+     <dir name="packages">
+      <file role="test" name="compatpackage.xml"/>
+      <file role="test" name="extpackage.xml"/>
+      <file role="test" name="foo-1.0.tgz"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="uripackage.xml"/>
+     </dir> <!-- /PEAR_Dependency2/packages -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_checkArchDependency_fail.phpt"/>
+     <file role="test" name="test_checkArchDependency_valid.phpt"/>
+     <file role="test" name="test_checkExtensionDependency_exclude.phpt"/>
+     <file role="test" name="test_checkExtensionDependency_max.phpt"/>
+     <file role="test" name="test_checkExtensionDependency_min.phpt"/>
+     <file role="test" name="test_checkExtensionDependency_notloaded.phpt"/>
+     <file role="test" name="test_checkOSDependency_misc_fail.phpt"/>
+     <file role="test" name="test_checkOSDependency_misc_valid.phpt"/>
+     <file role="test" name="test_checkOSDependency_unix_conflicts.phpt"/>
+     <file role="test" name="test_checkOSDependency_unix_valid.phpt"/>
+     <file role="test" name="test_checkOSDependency_windows_conflicts.phpt"/>
+     <file role="test" name="test_checkOSDependency_windows_valid.phpt"/>
+     <file role="test" name="test_checkPackageDependency_ext_inmemory.phpt"/>
+     <file role="test" name="test_checkPackageDependency_ext_inmemory_and_downloaded.phpt"/>
+     <file role="test" name="test_checkPackageDependency_ext_notinmemory.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_exclude.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_exclude_downloaded.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_max.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_max_downloaded.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_min.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_min_downloaded.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_recommended.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_recommended_downloaded.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_url.phpt"/>
+     <file role="test" name="test_checkPackageDependency_PEAR_url_invalid.phpt"/>
+     <file role="test" name="test_checkPearinstallerDependency_exclude.phpt"/>
+     <file role="test" name="test_checkPearinstallerDependency_max.phpt"/>
+     <file role="test" name="test_checkPearinstallerDependency_min.phpt"/>
+     <file role="test" name="test_checkPearinstallerDependency_valid.phpt"/>
+     <file role="test" name="test_checkPHPDependency_exclude.phpt"/>
+     <file role="test" name="test_checkPHPDependency_max.phpt"/>
+     <file role="test" name="test_checkPHPDependency_min.phpt"/>
+     <file role="test" name="test_checkPHPDependency_valid.phpt"/>
+     <file role="test" name="test_validatePackage.phpt"/>
+    </dir> <!-- /PEAR_Dependency2 -->
+    <dir name="PEAR_DependencyDB">
+     <dir name="tester">
+      <file role="test" name=".depdb"/>
+      <file role="test" name=".depdblock"/>
+      <file role="test" name=".filemap"/>
+      <file role="test" name=".lock"/>
+     </dir> <!-- /PEAR_DependencyDB/tester -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_assertDepsDB.phpt"/>
+     <file role="test" name="test_assertDepsDB_fail.phpt"/>
+     <file role="test" name="test_dependsOn.phpt"/>
+     <file role="test" name="test_getDependencies.phpt"/>
+     <file role="test" name="test_getDependentPackageDependencies.phpt"/>
+     <file role="test" name="test_getDependentPackages.phpt"/>
+     <file role="test" name="test_installPackage.phpt"/>
+     <file role="test" name="test_rebuildDB.phpt"/>
+     <file role="test" name="test_setConfig.phpt"/>
+     <file role="test" name="test_singleton.phpt"/>
+     <file role="test" name="test_uninstallPackage.phpt"/>
+    </dir> <!-- /PEAR_DependencyDB -->
+    <dir name="PEAR_Downloader">
+     <dir name="analyzeDependencies">
+      <dir name="packages">
+       <file role="test" name="main-1.0.tgz"/>
+       <file role="test" name="mainold-1.1.tgz"/>
+       <file role="test" name="required-1.1.tgz"/>
+       <file role="test" name="sub1-1.1.tgz"/>
+       <file role="test" name="sub2-1.1.tgz"/>
+      </dir> <!-- /PEAR_Downloader/analyzeDependencies/packages -->
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_force.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_forcesoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_ignore-errors.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_ignore-errorssoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_nodeps.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_nodepssoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_1.0_soft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_force.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_forcesoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_ignore-errors.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_ignore-errorssoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_nodeps.phpt"/>
+      <file role="test" name="test_analyzeDependencies_fail_2.0_nodepssoft.phpt"/>
+      <file role="test" name="test_analyzeDependencies_valid_1.0.phpt"/>
+      <file role="test" name="test_analyzeDependencies_valid_2.0.phpt"/>
+     </dir> <!-- /PEAR_Downloader/analyzeDependencies -->
+     <dir name="packages">
+      <file role="test" name="Bar-1.4.0a1.tgz"/>
+      <file role="test" name="Bar-1.5.0.tgz"/>
+      <file role="test" name="Bar-1.5.1.tgz"/>
+      <file role="test" name="complexbar.xml"/>
+      <file role="test" name="depspackage.xml"/>
+      <file role="test" name="Foo-1.4.0a1.tgz"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="foo.xml"/>
+      <file role="test" name="foo1.php"/>
+      <file role="test" name="foo12.php"/>
+      <file role="test" name="Foobar-1.4.0a1.tgz"/>
+      <file role="test" name="foobar.xml"/>
+      <file role="test" name="optionalbar.xml"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="PEAR-1.4.0a1.tar"/>
+      <file role="test" name="PEAR-1.4.0a1.tgz"/>
+      <file role="test" name="PEAR1-1.4.0a1.tgz"/>
+      <file role="test" name="pkg1-1.1.tgz"/>
+      <file role="test" name="pkg2-1.1.tgz"/>
+      <file role="test" name="pkg3-1.1.tgz"/>
+      <file role="test" name="pkg4-1.1.tgz"/>
+      <file role="test" name="pkg5-1.1.tgz"/>
+      <file role="test" name="pkg6-1.1.tgz"/>
+      <file role="test" name="simplebar.xml"/>
+      <file role="test" name="simplepackage.xml"/>
+      <file role="test" name="test-1.0.tgz"/>
+     </dir> <!-- /PEAR_Downloader/packages -->
+     <dir name="test_upgrade_pecl">
+      <dir name="libsqlite">
+       <dir name="src">
+        <file role="test" name="attach.c"/>
+        <file role="test" name="auth.c"/>
+        <file role="test" name="btree.c"/>
+        <file role="test" name="btree.h"/>
+        <file role="test" name="btree_rb.c"/>
+        <file role="test" name="build.c"/>
+        <file role="test" name="copy.c"/>
+        <file role="test" name="date.c"/>
+        <file role="test" name="delete.c"/>
+        <file role="test" name="encode.c"/>
+        <file role="test" name="expr.c"/>
+        <file role="test" name="func.c"/>
+        <file role="test" name="hash.c"/>
+        <file role="test" name="hash.h"/>
+        <file role="test" name="insert.c"/>
+        <file role="test" name="main.c"/>
+        <file role="test" name="opcodes.c"/>
+        <file role="test" name="opcodes.h"/>
+        <file role="test" name="os.c"/>
+        <file role="test" name="os.h"/>
+        <file role="test" name="pager.c"/>
+        <file role="test" name="pager.h"/>
+        <file role="test" name="parse.c"/>
+        <file role="test" name="parse.h"/>
+        <file role="test" name="parse.y"/>
+        <file role="test" name="pragma.c"/>
+        <file role="test" name="printf.c"/>
+        <file role="test" name="random.c"/>
+        <file role="test" name="select.c"/>
+        <file role="test" name="sqlite.h.in"/>
+        <file role="test" name="sqlite.w32.h"/>
+        <file role="test" name="sqliteInt.h"/>
+        <file role="test" name="sqlite_config.w32.h"/>
+        <file role="test" name="table.c"/>
+        <file role="test" name="tokenize.c"/>
+        <file role="test" name="trigger.c"/>
+        <file role="test" name="update.c"/>
+        <file role="test" name="util.c"/>
+        <file role="test" name="vacuum.c"/>
+        <file role="test" name="vdbe.c"/>
+        <file role="test" name="vdbe.h"/>
+        <file role="test" name="vdbeaux.c"/>
+        <file role="test" name="vdbeInt.h"/>
+        <file role="test" name="where.c"/>
+       </dir> <!-- /PEAR_Downloader/test_upgrade_pecl/libsqlite/src -->
+       <file role="test" name="README"/>
+       <file role="test" name="VERSION"/>
+      </dir> <!-- /PEAR_Downloader/test_upgrade_pecl/libsqlite -->
+      <file role="test" name="config.m4"/>
+      <file role="test" name="CREDITS"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="php_sqlite.def"/>
+      <file role="test" name="php_sqlite.h"/>
+      <file role="test" name="README"/>
+      <file role="test" name="SQLite-1.0.4.tgz"/>
+      <file role="test" name="sqlite.c"/>
+      <file role="test" name="sqlite.dsp"/>
+      <file role="test" name="sqlite.php"/>
+      <file role="test" name="TODO"/>
+     </dir> <!-- /PEAR_Downloader/test_upgrade_pecl -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_download_abstractpackage.phpt"/>
+     <file role="test" name="test_download_alreadyinstalled.phpt"/>
+     <file role="test" name="test_download_complexabstractpackage.phpt"/>
+     <file role="test" name="test_download_complexabstractpackage_alphapostfix.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_force.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_ignore-errors.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_ignore-errorssoft.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_nodeps.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_onlyreqdeps.phpt"/>
+     <file role="test" name="test_download_complexlocalpackage_optional.phpt"/>
+     <file role="test" name="test_download_complexlocaltgz.phpt"/>
+     <file role="test" name="test_download_complexremotetgz.phpt"/>
+     <file role="test" name="test_download_extremecomplexity.phpt"/>
+     <file role="test" name="test_download_simplelocalpackage.phpt"/>
+     <file role="test" name="test_download_simplelocaltar.phpt"/>
+     <file role="test" name="test_download_simplelocaltgz.phpt"/>
+     <file role="test" name="test_sortPackagesForInstall.phpt"/>
+     <file role="test" name="test_sortPackagesForInstall_recursion1.phpt"/>
+     <file role="test" name="test_sortPackagesForInstall_recursion2.phpt"/>
+     <file role="test" name="test_upgrade_pear_to_pecl.phpt"/>
+    </dir> <!-- /PEAR_Downloader -->
+    <dir name="PEAR_Downloader_Package">
+     <dir name="test_initialize_abstractpackage_discover">
+      <file role="test" name="channel.xml"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_initialize_abstractpackage_discover -->
+     <dir name="test_initialize_downloadurl">
+      <file role="test" name="test-1.0.tgz"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_initialize_downloadurl -->
+     <dir name="test_initialize_invaliddownloadurl">
+      <file role="test" name="test-1.0.tgz"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_initialize_invaliddownloadurl -->
+     <dir name="test_initialize_invalidpackagexml">
+      <file role="test" name="invalid.xml"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="test-1.0.tgz"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_initialize_invalidpackagexml -->
+     <dir name="test_initialize_packagexml">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_initialize_packagexml -->
+     <dir name="test_mergeDependencies">
+      <file role="test" name="foo-1.0.tgz"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="main-1.0.tgz"/>
+      <file role="test" name="main-1.1.tgz"/>
+      <file role="test" name="main.php"/>
+      <file role="test" name="mainold-1.0.tgz"/>
+      <file role="test" name="mainold-1.1.tgz"/>
+      <file role="test" name="package-main.xml"/>
+      <file role="test" name="package-mainold1.0.xml"/>
+      <file role="test" name="package-mainold1.0optional.xml"/>
+      <file role="test" name="package-mainoptional.xml"/>
+      <file role="test" name="package-required.xml"/>
+      <file role="test" name="package-sub1.xml"/>
+      <file role="test" name="package-sub2.xml"/>
+      <file role="test" name="required-1.1.tgz"/>
+      <file role="test" name="required.php"/>
+      <file role="test" name="sub1-1.1.tgz"/>
+      <file role="test" name="sub1.php"/>
+      <file role="test" name="sub2-1.1.tgz"/>
+      <file role="test" name="sub2.php"/>
+      <file role="test" name="uripackage.xml"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_mergeDependencies -->
+     <dir name="test_removeDuplicates">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_Downloader_Package/test_removeDuplicates -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_initialize_abstractpackage.phpt"/>
+     <file role="test" name="test_initialize_abstractpackage_discover.phpt"/>
+     <file role="test" name="test_initialize_abstractpackage_offline.phpt"/>
+     <file role="test" name="test_initialize_downloadurl.phpt"/>
+     <file role="test" name="test_initialize_downloadurl_offline.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage1.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage2.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage3.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage4.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage5.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage6.phpt"/>
+     <file role="test" name="test_initialize_invalidabstractpackage_discover.phpt"/>
+     <file role="test" name="test_initialize_invaliddownloadurl.phpt"/>
+     <file role="test" name="test_initialize_invalidpackagexml.phpt"/>
+     <file role="test" name="test_initialize_packagexml.phpt"/>
+     <file role="test" name="test_initialize_packagexml_offline.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_groupdefault2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_groupnotspecified_2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_groupspecified2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_groupspecified_notfound2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_1.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_1.0_alldeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_1.0_onlyreqdeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_2.0_alldeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_optional_2.0_onlyreqdeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_1.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_1.0_alldeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_1.0_onlyreqdeps.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_1.0_onlyreqdeps_installed.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_2.0.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_2.0_installed.phpt"/>
+     <file role="test" name="test_mergeDependencies_basic_required_uri.phpt"/>
+     <file role="test" name="test_removeDuplicates.phpt"/>
+    </dir> <!-- /PEAR_Downloader_Package -->
+    <dir name="PEAR_Error">
+     <file role="test" name="pear_error.phpt"/>
+     <file role="test" name="pear_error2.phpt"/>
+     <file role="test" name="pear_error3.phpt"/>
+     <file role="test" name="pear_error4.phpt"/>
+    </dir> <!-- /PEAR_Error -->
+    <dir name="PEAR_ErrorStack">
+     <dir name="getErrorMessage">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_basic.phpt"/>
+      <file role="test" name="test_basic_params.phpt"/>
+      <file role="test" name="test_basic_params_withtemplate.phpt"/>
+      <file role="test" name="test_basic_template.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/getErrorMessage -->
+     <dir name="getErrorMessageTemplate">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_normal.phpt"/>
+      <file role="test" name="test_normal_hascode.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/getErrorMessageTemplate -->
+     <dir name="getErrors">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_none.phpt"/>
+      <file role="test" name="test_normal.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/getErrors -->
+     <dir name="pushpop">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_valid_basic.phpt"/>
+      <file role="test" name="test_valid_contextcallback_constructor.phpt"/>
+      <file role="test" name="test_valid_contextcallback_singleton.phpt"/>
+      <file role="test" name="test_valid_context_setcontext.phpt"/>
+      <file role="test" name="test_valid_msgcallback_constructor.phpt"/>
+      <file role="test" name="test_valid_msgcallback_setMsgCallback.phpt"/>
+      <file role="test" name="test_valid_msgcallback_singleton.phpt"/>
+      <file role="test" name="test_valid_params.phpt"/>
+      <file role="test" name="test_valid_params_compat.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/pushpop -->
+     <dir name="pushpopcallback">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_returns_die.phpt"/>
+      <file role="test" name="test_returns_ignore.phpt"/>
+      <file role="test" name="test_returns_log.phpt"/>
+      <file role="test" name="test_returns_nothing.phpt"/>
+      <file role="test" name="test_returns_push.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/pushpopcallback -->
+     <dir name="pushpopstatic">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_valid_basic.phpt"/>
+      <file role="test" name="test_valid_contextcallback_singleton.phpt"/>
+      <file role="test" name="test_valid_context_setcontext.phpt"/>
+      <file role="test" name="test_valid_msgcallback_setMsgCallback.phpt"/>
+      <file role="test" name="test_valid_msgcallback_singleton.phpt"/>
+      <file role="test" name="test_valid_params.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/pushpopstatic -->
+     <dir name="staticGetErrors">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_merge.phpt"/>
+      <file role="test" name="test_merge_sortfunc.phpt"/>
+      <file role="test" name="test_none.phpt"/>
+      <file role="test" name="test_normal.phpt"/>
+     </dir> <!-- /PEAR_ErrorStack/staticGetErrors -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_global_context.phpt"/>
+     <file role="test" name="test_global_context_createfunction.phpt"/>
+     <file role="test" name="test_global_context_createfunction_staticPush.phpt"/>
+     <file role="test" name="test_global_context_eval.phpt"/>
+     <file role="test" name="test_global_context_eval_staticPush.phpt"/>
+     <file role="test" name="test_global_context_staticPush.phpt"/>
+     <file role="test" name="test_infunction_context.phpt"/>
+     <file role="test" name="test_infunction_context_createfunction.phpt"/>
+     <file role="test" name="test_infunction_context_createfunction_staticPush.phpt"/>
+     <file role="test" name="test_infunction_context_eval.phpt"/>
+     <file role="test" name="test_infunction_context_eval_staticPush.phpt"/>
+     <file role="test" name="test_infunction_context_staticPush.phpt"/>
+     <file role="test" name="test_inmethod_context.phpt"/>
+     <file role="test" name="test_inmethod_context_createfunction.phpt"/>
+     <file role="test" name="test_inmethod_context_createfunction_staticPush.phpt"/>
+     <file role="test" name="test_inmethod_context_eval.phpt"/>
+     <file role="test" name="test_inmethod_context_eval_staticPush.phpt"/>
+     <file role="test" name="test_inmethod_context_staticPush.phpt"/>
+     <file role="test" name="test_instaticmethod_context.phpt"/>
+     <file role="test" name="test_instaticmethod_context_createfunction.phpt"/>
+     <file role="test" name="test_instaticmethod_context_createfunction_staticPush.phpt"/>
+     <file role="test" name="test_instaticmethod_context_eval.phpt"/>
+     <file role="test" name="test_instaticmethod_context_eval_staticPush.phpt"/>
+     <file role="test" name="test_instaticmethod_context_staticPush.phpt"/>
+     <file role="test" name="test_invalid_singleton.phpt"/>
+     <file role="test" name="test_valid_singleton.phpt"/>
+    </dir> <!-- /PEAR_ErrorStack -->
+    <dir name="PEAR_Installer">
+     <dir name="ftp_test_files">
+      <file role="test" name="FTP.php.inc"/>
+      <file role="test" name="remote.ini"/>
+     </dir> <!-- /PEAR_Installer/ftp_test_files -->
+     <dir name="packages">
+      <file role="test" name="Bar-1.4.0a1.tgz"/>
+      <file role="test" name="Bar-1.5.0.tgz"/>
+      <file role="test" name="Bar-1.5.2.tgz"/>
+      <file role="test" name="bug3808_1.xml"/>
+      <file role="test" name="bug3808_2.xml"/>
+      <file role="test" name="bundlepackage.xml"/>
+      <file role="test" name="complexbar.xml"/>
+      <file role="test" name="complexbar2.xml"/>
+      <file role="test" name="depspackage.xml"/>
+      <file role="test" name="Foo-1.4.0a1.tgz"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="foo.xml"/>
+      <file role="test" name="foo1.php"/>
+      <file role="test" name="foo12.php"/>
+      <file role="test" name="Foobar-1.4.0a1.tgz"/>
+      <file role="test" name="Foobar-1.5.0a1.tgz"/>
+      <file role="test" name="foobar.xml"/>
+      <file role="test" name="foobar2.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="PEAR-1.4.0a1.tar"/>
+      <file role="test" name="PEAR-1.4.0a1.tgz"/>
+      <file role="test" name="PEAR1-1.4.0a1.tgz"/>
+      <file role="test" name="PEAR1-1.5.0a1.tgz"/>
+      <file role="test" name="PEARbundle-1.4.0a1.tgz"/>
+      <file role="test" name="simplebar.xml"/>
+      <file role="test" name="simplepackage.xml"/>
+      <file role="test" name="simplepackage2.xml"/>
+      <file role="test" name="simplepackage2upgrade.xml"/>
+      <file role="test" name="simplepackageupgrade.xml"/>
+      <file role="test" name="test-1.0.tgz"/>
+     </dir> <!-- /PEAR_Installer/packages -->
+     <dir name="test_install_binary">
+      <file role="test" name="foo.dll"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="test-1.1.0.tgz"/>
+      <file role="test" name="testpackage.xml"/>
+     </dir> <!-- /PEAR_Installer/test_install_binary -->
+     <dir name="test_install_subpackage">
+      <file role="test" name="bar.php"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="subpackage.xml"/>
+     </dir> <!-- /PEAR_Installer/test_install_subpackage -->
+     <dir name="test_sortPackagesForUninstall">
+      <file role="test" name="HTTP_Request-1.2.4.tgz"/>
+      <file role="test" name="Mail_Mime-1.2.1.tgz"/>
+      <file role="test" name="Net_DIME-0.3.tgz"/>
+      <file role="test" name="Net_Socket-1.0.5.tgz"/>
+      <file role="test" name="Net_URL-1.0.14.tgz"/>
+      <file role="test" name="SOAP-0.8.1.tgz"/>
+     </dir> <!-- /PEAR_Installer/test_sortPackagesForUninstall -->
+     <dir name="test_upgrade_pecl">
+      <dir name="libsqlite">
+       <dir name="src">
+        <file role="test" name="attach.c"/>
+        <file role="test" name="auth.c"/>
+        <file role="test" name="btree.c"/>
+        <file role="test" name="btree.h"/>
+        <file role="test" name="btree_rb.c"/>
+        <file role="test" name="build.c"/>
+        <file role="test" name="copy.c"/>
+        <file role="test" name="date.c"/>
+        <file role="test" name="delete.c"/>
+        <file role="test" name="encode.c"/>
+        <file role="test" name="expr.c"/>
+        <file role="test" name="func.c"/>
+        <file role="test" name="hash.c"/>
+        <file role="test" name="hash.h"/>
+        <file role="test" name="insert.c"/>
+        <file role="test" name="main.c"/>
+        <file role="test" name="opcodes.c"/>
+        <file role="test" name="opcodes.h"/>
+        <file role="test" name="os.c"/>
+        <file role="test" name="os.h"/>
+        <file role="test" name="pager.c"/>
+        <file role="test" name="pager.h"/>
+        <file role="test" name="parse.c"/>
+        <file role="test" name="parse.h"/>
+        <file role="test" name="parse.y"/>
+        <file role="test" name="pragma.c"/>
+        <file role="test" name="printf.c"/>
+        <file role="test" name="random.c"/>
+        <file role="test" name="select.c"/>
+        <file role="test" name="sqlite.h.in"/>
+        <file role="test" name="sqlite.w32.h"/>
+        <file role="test" name="sqliteInt.h"/>
+        <file role="test" name="sqlite_config.w32.h"/>
+        <file role="test" name="table.c"/>
+        <file role="test" name="tokenize.c"/>
+        <file role="test" name="trigger.c"/>
+        <file role="test" name="update.c"/>
+        <file role="test" name="util.c"/>
+        <file role="test" name="vacuum.c"/>
+        <file role="test" name="vdbe.c"/>
+        <file role="test" name="vdbe.h"/>
+        <file role="test" name="vdbeaux.c"/>
+        <file role="test" name="vdbeInt.h"/>
+        <file role="test" name="where.c"/>
+       </dir> <!-- /PEAR_Installer/test_upgrade_pecl/libsqlite/src -->
+       <file role="test" name="README"/>
+       <file role="test" name="VERSION"/>
+      </dir> <!-- /PEAR_Installer/test_upgrade_pecl/libsqlite -->
+      <file role="test" name="config.m4"/>
+      <file role="test" name="CREDITS"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="php_sqlite.def"/>
+      <file role="test" name="php_sqlite.h"/>
+      <file role="test" name="README"/>
+      <file role="test" name="sqlite.c"/>
+      <file role="test" name="sqlite.dsp"/>
+      <file role="test" name="sqlite.php"/>
+      <file role="test" name="TODO"/>
+     </dir> <!-- /PEAR_Installer/test_upgrade_pecl -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_install_binary.phpt"/>
+     <file role="test" name="test_install_bundle.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_depinstalled.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_force.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_forceoffline.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_ignore-errors.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_ignore-errorssoft.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage2_nodeps.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage_force.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage_ignore-errors.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage_ignore-errorssoft.phpt"/>
+     <file role="test" name="test_install_complexlocalpackage_nodeps.phpt"/>
+     <file role="test" name="test_install_multiple2.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage2.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage_BC.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage_ftp.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage_installroot.phpt"/>
+     <file role="test" name="test_install_simplelocalpackage_register-only.phpt"/>
+     <file role="test" name="test_install_subpackage.phpt"/>
+     <file role="test" name="test_install_subpackage_fail.phpt"/>
+     <file role="test" name="test_sortPackagesForUninstall.phpt"/>
+     <file role="test" name="test_sortPackagesForUninstall_recursion1.phpt"/>
+     <file role="test" name="test_sortPackagesForUninstall_recursion2.phpt"/>
+     <file role="test" name="test_sortPackagesForUninstall_SOAPpackage.phpt"/>
+     <file role="test" name="test_uninstall_complex_params_invalid1.phpt"/>
+     <file role="test" name="test_uninstall_complex_params_invalid2.phpt"/>
+     <file role="test" name="test_uninstall_complex_params_ok.phpt"/>
+     <file role="test" name="test_uninstall_optionaldep.phpt"/>
+     <file role="test" name="test_uninstall_simple.phpt"/>
+     <file role="test" name="test_uninstall_simplelocalpackage_ftp.phpt"/>
+     <file role="test" name="test_uninstall_simple_params_invalid.phpt"/>
+     <file role="test" name="test_uninstall_simple_params_ok.phpt"/>
+     <file role="test" name="test_upgrade_bug3808.phpt"/>
+     <file role="test" name="test_upgrade_complexlocalpackage2.phpt"/>
+     <file role="test" name="test_upgrade_pear_to_pecl.phpt"/>
+     <file role="test" name="test_upgrade_simplelocalpackage.phpt"/>
+     <file role="test" name="test_upgrade_simplelocalpackage2.phpt"/>
+     <file role="test" name="test_upgrade_simplelocalpackage2_notinstalled.phpt"/>
+     <file role="test" name="test_upgrade_simplelocalpackage_notinstalled.phpt"/>
+     <file role="test" name="test_upgrade_subpackage.phpt"/>
+    </dir> <!-- /PEAR_Installer -->
+    <dir name="PEAR_Installer_Role">
+     <dir name="roles">
+      <file role="test" name="Common.php"/>
+      <file role="test" name="Dataf.php"/>
+      <file role="test" name="Docf.php"/>
+      <file role="test" name="Extf.php"/>
+      <file role="test" name="Phpf.php"/>
+      <file role="test" name="Scriptf.php"/>
+      <file role="test" name="Srcf.php"/>
+      <file role="test" name="Testf.php"/>
+     </dir> <!-- /PEAR_Installer_Role/roles -->
+     <dir name="sophisticated">
+      <file role="test" name="Honorsbaseinstall.php"/>
+      <file role="test" name="Isphp.php"/>
+      <file role="test" name="Noextbin.php"/>
+      <file role="test" name="Noextsrc.php"/>
+      <file role="test" name="Nohonorsbaseinstall.php"/>
+      <file role="test" name="Nophp.php"/>
+      <file role="test" name="Notphp.php"/>
+     </dir> <!-- /PEAR_Installer_Role/sophisticated -->
+     <dir name="test_initializeConfig">
+      <file role="test" name="Funky.php"/>
+     </dir> <!-- /PEAR_Installer_Role/test_initializeConfig -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_factory.phpt"/>
+     <file role="test" name="test_getBaseinstallRoles.phpt"/>
+     <file role="test" name="test_getInstallableRoles.phpt"/>
+     <file role="test" name="test_getPhpRoles.phpt"/>
+     <file role="test" name="test_getValidRoles.phpt"/>
+     <file role="test" name="test_initializeConfig.phpt"/>
+     <file role="test" name="test_registerRoles.phpt"/>
+    </dir> <!-- /PEAR_Installer_Role -->
+    <dir name="PEAR_Installer_Role_Common">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_processInstallation.phpt"/>
+    </dir> <!-- /PEAR_Installer_Role_Common -->
+    <dir name="PEAR_PackageFile">
+     <dir name="v1">
+      <dir name="Parser">
+       <dir name="test_basicparse">
+        <dir name="test">
+         <file role="test" name="test.php"/>
+         <file role="test" name="test2.php"/>
+         <file role="test" name="test3.php"/>
+         <file role="test" name="test4.php"/>
+        </dir> <!-- /PEAR_PackageFile/v1/Parser/test_basicparse/test -->
+        <file role="test" name="package.xml"/>
+        <file role="test" name="test-1.0.tgz"/>
+       </dir> <!-- /PEAR_PackageFile/v1/Parser/test_basicparse -->
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test_basicparse.phpt"/>
+       <file role="test" name="test_invalidxmlparse.phpt"/>
+      </dir> <!-- /PEAR_PackageFile/v1/Parser -->
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_addConfigureoption.phpt"/>
+      <file role="test" name="test_addConfigureoption_invalid.phpt"/>
+      <file role="test" name="test_analyzeSourceCode.phpt"/>
+      <file role="test" name="test_basicparse.phpt"/>
+      <file role="test" name="test_dependencies.phpt"/>
+      <file role="test" name="test_dependencies_invalid.phpt"/>
+      <file role="test" name="test_dependsOn.phpt"/>
+      <file role="test" name="test_invalidfilerole.phpt"/>
+      <file role="test" name="test_maintainers.phpt"/>
+      <file role="test" name="test_maintainers_invalid.phpt"/>
+      <file role="test" name="test_setDate.phpt"/>
+      <file role="test" name="test_setDate_invalid.phpt"/>
+      <file role="test" name="test_setDescription.phpt"/>
+      <file role="test" name="test_setDescription_invalid.phpt"/>
+      <file role="test" name="test_setLicense.phpt"/>
+      <file role="test" name="test_setLicense_invalid.phpt"/>
+      <file role="test" name="test_setNotes.phpt"/>
+      <file role="test" name="test_setNotes_invalid.phpt"/>
+      <file role="test" name="test_setPackage.phpt"/>
+      <file role="test" name="test_setState.phpt"/>
+      <file role="test" name="test_setState_invalid.phpt"/>
+      <file role="test" name="test_setSummary.phpt"/>
+      <file role="test" name="test_setSummary_invalid.phpt"/>
+      <file role="test" name="test_setVersion.phpt"/>
+      <file role="test" name="test_setVersion_invalid.phpt"/>
+      <file role="test" name="test_validate_emptypackagexml.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage1.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage2.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage3.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage4.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage5.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage6.phpt"/>
+      <file role="test" name="test_validate_partiallyemptypackage7.phpt"/>
+      <file role="test" name="test_validate_validpackagexml1.phpt"/>
+      <file role="test" name="test_validate_validpackagexml2.phpt"/>
+      <file role="test" name="test_validate_validpackagexml3.phpt"/>
+      <file role="test" name="test_validate_validpackagexml4.phpt"/>
+     </dir> <!-- /PEAR_PackageFile/v1 -->
+     <dir name="v2">
+      <dir name="Parser">
+       <dir name="test_basicparse">
+        <dir name="test">
+         <file role="test" name="test.php"/>
+         <file role="test" name="test2.php"/>
+         <file role="test" name="test3.php"/>
+         <file role="test" name="test4.php"/>
+        </dir> <!-- /PEAR_PackageFile/v2/Parser/test_basicparse/test -->
+        <file role="test" name="package.xml"/>
+        <file role="test" name="package2.xml"/>
+        <file role="test" name="test-1.0.tgz"/>
+       </dir> <!-- /PEAR_PackageFile/v2/Parser/test_basicparse -->
+      </dir> <!-- /PEAR_PackageFile/v2/Parser -->
+      <dir name="test_getFileContents">
+       <file role="test" name="package2.xml"/>
+       <file role="test" name="template.spec"/>
+       <file role="test" name="test-1.4.0a1.tgz"/>
+       <file role="test" name="test.php"/>
+      </dir> <!-- /PEAR_PackageFile/v2/test_getFileContents -->
+      <dir name="test_getFileList">
+       <file role="test" name="package2.xml"/>
+      </dir> <!-- /PEAR_PackageFile/v2/test_getFileList -->
+      <dir name="test_getTask">
+       <dir name="PEAR">
+        <dir name="Task">
+         <dir name="Foo">
+          <file role="test" name="Gronk.php"/>
+         </dir> <!-- /PEAR_PackageFile/v2/test_getTask/PEAR/Task/Foo -->
+         <file role="test" name="Gronk.php"/>
+        </dir> <!-- /PEAR_PackageFile/v2/test_getTask/PEAR/Task -->
+       </dir> <!-- /PEAR_PackageFile/v2/test_getTask/PEAR -->
+      </dir> <!-- /PEAR_PackageFile/v2/test_getTask -->
+      <dir name="test_installBinary">
+       <file role="test" name="foo.dll"/>
+       <file role="test" name="foo.so"/>
+       <file role="test" name="foo_linux-1.1.0.tgz"/>
+       <file role="test" name="foo_linuxpackage.xml"/>
+       <file role="test" name="foo_win-1.1.0.tgz"/>
+       <file role="test" name="foo_winpackage.xml"/>
+       <file role="test" name="grobchannel.xml"/>
+       <file role="test" name="package.xml"/>
+      </dir> <!-- /PEAR_PackageFile/v2/test_installBinary -->
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_addArchDep.phpt"/>
+      <file role="test" name="test_addCompatiblePackage.phpt"/>
+      <file role="test" name="test_addConfigureOption.phpt"/>
+      <file role="test" name="test_addConflictingPackageDepWithChannel.phpt"/>
+      <file role="test" name="test_addConflictingPackageDepWithURI.phpt"/>
+      <file role="test" name="test_addExtensionDep.phpt"/>
+      <file role="test" name="test_addExtensionInstallCondition.phpt"/>
+      <file role="test" name="test_addFile.phpt"/>
+      <file role="test" name="test_addGroupExtensionDep.phpt"/>
+      <file role="test" name="test_addGroupPackageDepWithChannel.phpt"/>
+      <file role="test" name="test_addGroupPackageDepWithURI.phpt"/>
+      <file role="test" name="test_addOsDep.phpt"/>
+      <file role="test" name="test_addPackageDepWithChannel.phpt"/>
+      <file role="test" name="test_addPackageDepWithURI.phpt"/>
+      <file role="test" name="test_addSubpackageDepWithChannel.phpt"/>
+      <file role="test" name="test_addSubpackageDepWithURI.phpt"/>
+      <file role="test" name="test_analyzePHPFiles.phpt"/>
+      <file role="test" name="test_analyzeSourceCode.phpt"/>
+      <file role="test" name="test_dependsOn.phpt"/>
+      <file role="test" name="test_file.phpt"/>
+      <file role="test" name="test_flattenFilelist.phpt"/>
+      <file role="test" name="test_getDeps.phpt"/>
+      <file role="test" name="test_getFileContents.phpt"/>
+      <file role="test" name="test_getFilelist.phpt"/>
+      <file role="test" name="test_getInstallationFilelist.phpt"/>
+      <file role="test" name="test_getTask.phpt"/>
+      <file role="test" name="test_installBinary_linux.phpt"/>
+      <file role="test" name="test_installBinary_win.phpt"/>
+      <file role="test" name="test_isCompatible.phpt"/>
+      <file role="test" name="test_isEquivalent.phpt"/>
+      <file role="test" name="test_isExtension.phpt"/>
+      <file role="test" name="test_maintainers.phpt"/>
+      <file role="test" name="test_packagetype.phpt"/>
+      <file role="test" name="test_setArchInstallCondition.phpt"/>
+      <file role="test" name="test_setChannel.phpt"/>
+      <file role="test" name="test_setDate.phpt"/>
+      <file role="test" name="test_setDescription.phpt"/>
+      <file role="test" name="test_setExtends.phpt"/>
+      <file role="test" name="test_setFileAttribute.phpt"/>
+      <file role="test" name="test_setLicense.phpt"/>
+      <file role="test" name="test_setNotes.phpt"/>
+      <file role="test" name="test_setOsInstallCondition.phpt"/>
+      <file role="test" name="test_setPackage.phpt"/>
+      <file role="test" name="test_setPearinstallerDep.phpt"/>
+      <file role="test" name="test_setPhpDep.phpt"/>
+      <file role="test" name="test_setPhpInstallCondition.phpt"/>
+      <file role="test" name="test_setState.phpt"/>
+      <file role="test" name="test_setSummary.phpt"/>
+      <file role="test" name="test_setTime.phpt"/>
+      <file role="test" name="test_setURI.phpt"/>
+      <file role="test" name="test_setVersion.phpt"/>
+      <file role="test" name="test_subpackage.phpt"/>
+     </dir> <!-- /PEAR_PackageFile/v2 -->
+    </dir> <!-- /PEAR_PackageFile -->
+    <dir name="PEAR_PackageFile_Generator_v1">
+     <dir name="toPackageFile">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_PackageFile_Generator_v1/toPackageFile/packagefiles/sunger -->
+       <file role="test" name="foo.php"/>
+       <file role="test" name="theworks.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v1/toPackageFile/packagefiles -->
+      <file role="test" name="test_barebones.phpt"/>
+      <file role="test" name="test_barebones_packaging.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_theworks.phpt"/>
+      <file role="test" name="test_theworks_packaging.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v1/toPackageFile -->
+     <dir name="toTgz">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_PackageFile_Generator_v1/toTgz/packagefiles/sunger -->
+       <file role="test" name="foo.php"/>
+       <file role="test" name="theworks.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v1/toTgz/packagefiles -->
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v1/toTgz -->
+     <dir name="toV2">
+      <dir name="packagefiles">
+       <file role="test" name="test1.xml"/>
+       <file role="test" name="test_2leads.xml"/>
+       <file role="test" name="test_extension.xml"/>
+       <file role="test" name="test_filelist.xml"/>
+       <file role="test" name="test_multipledeps.xml"/>
+       <file role="test" name="test_nodeps.xml"/>
+       <file role="test" name="test_nolead.xml"/>
+       <file role="test" name="test_othermaintainers.xml"/>
+       <file role="test" name="test_othermaintainersmultiple.xml"/>
+       <file role="test" name="test_singledeps.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v1/toV2/packagefiles -->
+      <file role="test" name="test1.phpt"/>
+      <file role="test" name="test_2leads.phpt"/>
+      <file role="test" name="test_extension.phpt"/>
+      <file role="test" name="test_extension1.phpt"/>
+      <file role="test" name="test_filelist1.phpt"/>
+      <file role="test" name="test_multipledeps.phpt"/>
+      <file role="test" name="test_nodeps.phpt"/>
+      <file role="test" name="test_nolead.phpt"/>
+      <file role="test" name="test_otherleads.phpt"/>
+      <file role="test" name="test_singledeps.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v1/toV2 -->
+     <dir name="toXml">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_PackageFile_Generator_v1/toXml/packagefiles/sunger -->
+       <file role="test" name="foo.php"/>
+       <file role="test" name="theworks.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v1/toXml/packagefiles -->
+      <file role="test" name="test_barebones.phpt"/>
+      <file role="test" name="test_barebones_packaging.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_theworks.phpt"/>
+      <file role="test" name="test_theworks_packaging.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v1/toXml -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_PackageFile_Generator_v1 -->
+    <dir name="PEAR_PackageFile_Generator_v2">
+     <dir name="toPackageFile">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_PackageFile_Generator_v2/toPackageFile/packagefiles/sunger -->
+       <file role="test" name="bundle.xml"/>
+       <file role="test" name="bundlefail1.xml"/>
+       <file role="test" name="bundlefail2.xml"/>
+       <file role="test" name="extbinrelease1.xml"/>
+       <file role="test" name="extbinrelease2.xml"/>
+       <file role="test" name="extsrcrelease1.xml"/>
+       <file role="test" name="extsrcrelease2.xml"/>
+       <file role="test" name="fakebar-1.9.0.tgz"/>
+       <file role="test" name="fakebar.xml"/>
+       <file role="test" name="fakefoo-1.9.0.tgz"/>
+       <file role="test" name="fakefoo.xml"/>
+       <file role="test" name="foo.php"/>
+       <file role="test" name="invalid-1.9.0.tgz"/>
+       <file role="test" name="phprelease1.xml"/>
+       <file role="test" name="phprelease2.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v2/toPackageFile/packagefiles -->
+      <file role="test" name="test_barebones.phpt"/>
+      <file role="test" name="test_barebones_packaging.phpt"/>
+      <file role="test" name="test_bundle.phpt"/>
+      <file role="test" name="test_extbinrelease1.phpt"/>
+      <file role="test" name="test_extbinrelease2.phpt"/>
+      <file role="test" name="test_extsrcrelease1.phpt"/>
+      <file role="test" name="test_extsrcrelease2.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_phprelease1.phpt"/>
+      <file role="test" name="test_phprelease2.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v2/toPackageFile -->
+     <dir name="toTgz2">
+      <dir name="packagefiles">
+       <dir name="sunger">
+        <file role="test" name="foo.dat"/>
+       </dir> <!-- /PEAR_PackageFile_Generator_v2/toTgz2/packagefiles/sunger -->
+       <file role="test" name="bundle.xml"/>
+       <file role="test" name="bundlefail1.xml"/>
+       <file role="test" name="bundlefail2.xml"/>
+       <file role="test" name="extbinrelease1.xml"/>
+       <file role="test" name="extbinrelease2.xml"/>
+       <file role="test" name="extsrcrelease1.xml"/>
+       <file role="test" name="extsrcrelease2.xml"/>
+       <file role="test" name="fakebar-1.9.0.tgz"/>
+       <file role="test" name="fakebar.xml"/>
+       <file role="test" name="fakefoo-1.9.0.tgz"/>
+       <file role="test" name="fakefoo.xml"/>
+       <file role="test" name="foo.php"/>
+       <file role="test" name="invalid-1.9.0.tgz"/>
+       <file role="test" name="invalidv1.xml"/>
+       <file role="test" name="phprelease1.xml"/>
+       <file role="test" name="phprelease2.xml"/>
+       <file role="test" name="validv1.xml"/>
+      </dir> <!-- /PEAR_PackageFile_Generator_v2/toTgz2/packagefiles -->
+      <file role="test" name="test_bundle.phpt"/>
+      <file role="test" name="test_dual_packagexml.phpt"/>
+      <file role="test" name="test_dual_packagexml_fail.phpt"/>
+      <file role="test" name="test_extbin.phpt"/>
+      <file role="test" name="test_extsrc.phpt"/>
+      <file role="test" name="test_fail.phpt"/>
+      <file role="test" name="test_php.phpt"/>
+     </dir> <!-- /PEAR_PackageFile_Generator_v2/toTgz2 -->
+     <file role="test" name="setup.php.inc"/>
+    </dir> <!-- /PEAR_PackageFile_Generator_v2 -->
+    <dir name="PEAR_PackageFile_v2_Validator">
+     <dir name="test_compatible">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_compatible -->
+     <dir name="test_contents">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_contents -->
+     <dir name="test_dependencies">
+      <file role="test" name="package-ind.xml"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+      <file role="test" name="package4.xml"/>
+      <file role="test" name="package5.xml"/>
+      <file role="test" name="package6.xml"/>
+      <file role="test" name="package7.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_dependencies -->
+     <dir name="test_filelist">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+      <file role="test" name="package4.xml"/>
+      <file role="test" name="package5.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_filelist -->
+     <dir name="test_groupdependencies">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_groupdependencies -->
+     <dir name="test_installconditions">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_installconditions -->
+     <dir name="test_maintainersoutoforder">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_maintainersoutoforder -->
+     <dir name="test_nochanneloruri">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nochanneloruri -->
+     <dir name="test_nocontents">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nocontents -->
+     <dir name="test_nodate">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nodate -->
+     <dir name="test_nodependencies">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nodependencies -->
+     <dir name="test_nodescription">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nodescription -->
+     <dir name="test_nolead">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nolead -->
+     <dir name="test_nolicense">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nolicense -->
+     <dir name="test_noname">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_noname -->
+     <dir name="test_nonotes">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nonotes -->
+     <dir name="test_norelease">
+      <file role="test" name="package.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_norelease -->
+     <dir name="test_nostability">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nostability -->
+     <dir name="test_nosummary">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_nosummary -->
+     <dir name="test_noversion">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_noversion -->
+     <dir name="test_optionaldependencies">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+      <file role="test" name="package4.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_optionaldependencies -->
+     <dir name="test_release">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+      <file role="test" name="package3.xml"/>
+      <file role="test" name="package4.xml"/>
+      <file role="test" name="package5.xml"/>
+      <file role="test" name="package6.xml"/>
+      <file role="test" name="package7.xml"/>
+      <file role="test" name="package8.xml"/>
+      <file role="test" name="package9.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_release -->
+     <dir name="test_releasefilelist">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+     </dir> <!-- /PEAR_PackageFile_v2_Validator/test_releasefilelist -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_compatible.phpt"/>
+     <file role="test" name="test_contents.phpt"/>
+     <file role="test" name="test_contents_bundle.phpt"/>
+     <file role="test" name="test_contents_has_fileroot.phpt"/>
+     <file role="test" name="test_emptytime.phpt"/>
+     <file role="test" name="test_extbinrelease.phpt"/>
+     <file role="test" name="test_extsrcrelease.phpt"/>
+     <file role="test" name="test_filelist.phpt"/>
+     <file role="test" name="test_group_deps.phpt"/>
+     <file role="test" name="test_individual_deps.phpt"/>
+     <file role="test" name="test_installconditions.phpt"/>
+     <file role="test" name="test_maintainersoutoforder1.phpt"/>
+     <file role="test" name="test_maintainersoutoforder2.phpt"/>
+     <file role="test" name="test_nochanneloruri.phpt"/>
+     <file role="test" name="test_nocontents.phpt"/>
+     <file role="test" name="test_nodate.phpt"/>
+     <file role="test" name="test_nodependencies.phpt"/>
+     <file role="test" name="test_nodescription.phpt"/>
+     <file role="test" name="test_nolead.phpt"/>
+     <file role="test" name="test_nolicense.phpt"/>
+     <file role="test" name="test_noname.phpt"/>
+     <file role="test" name="test_nonotes.phpt"/>
+     <file role="test" name="test_norelease.phpt"/>
+     <file role="test" name="test_nostability.phpt"/>
+     <file role="test" name="test_nostability2.phpt"/>
+     <file role="test" name="test_nostability3.phpt"/>
+     <file role="test" name="test_nosummary.phpt"/>
+     <file role="test" name="test_noversion.phpt"/>
+     <file role="test" name="test_noversion2.phpt"/>
+     <file role="test" name="test_noversion3.phpt"/>
+     <file role="test" name="test_optional_deps.phpt"/>
+     <file role="test" name="test_phprelease.phpt"/>
+     <file role="test" name="test_required_deps.phpt"/>
+    </dir> <!-- /PEAR_PackageFile_v2_Validator -->
+    <dir name="PEAR_Packager">
+     <dir name="packagefiles">
+      <dir name="sunger">
+       <file role="test" name="foo.dat"/>
+      </dir> <!-- /PEAR_Packager/packagefiles/sunger -->
+      <file role="test" name="equivv1.xml"/>
+      <file role="test" name="fakebar.xml"/>
+      <file role="test" name="foo.php"/>
+      <file role="test" name="foo1.php"/>
+      <file role="test" name="packageinvalidv1.xml"/>
+      <file role="test" name="packageinvalidv2.xml"/>
+      <file role="test" name="v1.xml"/>
+      <file role="test" name="validfakebar.xml"/>
+      <file role="test" name="validv1.xml"/>
+      <file role="test" name="validwarnfakebar.xml"/>
+      <file role="test" name="validwarnv1.xml"/>
+     </dir> <!-- /PEAR_Packager/packagefiles -->
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_fail.phpt"/>
+     <file role="test" name="test_fail_multiple.phpt"/>
+     <file role="test" name="test_v1.phpt"/>
+     <file role="test" name="test_v2.phpt"/>
+     <file role="test" name="test_v2_v1_multiple.phpt"/>
+     <file role="test" name="test_warning.phpt"/>
+    </dir> <!-- /PEAR_Packager -->
+    <dir name="PEAR_Registry">
+     <dir name="api1_0">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_addpackage.phpt"/>
+      <file role="test" name="test_checkFilemap.phpt"/>
+      <file role="test" name="test_deletePackage.phpt"/>
+      <file role="test" name="test_listPackages.phpt"/>
+      <file role="test" name="test_packageExists.phpt"/>
+      <file role="test" name="test_packageInfo.phpt"/>
+      <file role="test" name="test_updatePackage.phpt"/>
+     </dir> <!-- /PEAR_Registry/api1_0 -->
+     <dir name="api1_1">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test_addChannel.phpt"/>
+      <file role="test" name="test_addPackage.phpt"/>
+      <file role="test" name="test_addPackage2.phpt"/>
+      <file role="test" name="test_channelExists.phpt"/>
+      <file role="test" name="test_channelInfo.phpt"/>
+      <file role="test" name="test_channelName.phpt"/>
+      <file role="test" name="test_checkFilemap.phpt"/>
+      <file role="test" name="test_deleteChannel.phpt"/>
+      <file role="test" name="test_deletePackage.phpt"/>
+      <file role="test" name="test_deletePackage_pfv2.phpt"/>
+      <file role="test" name="test_getChannel.phpt"/>
+      <file role="test" name="test_getChannels.phpt"/>
+      <file role="test" name="test_getChannelValidator.phpt"/>
+      <file role="test" name="test_getInstalledGroup.phpt"/>
+      <file role="test" name="test_getPackage.phpt"/>
+      <file role="test" name="test_getPackage_fail.phpt"/>
+      <file role="test" name="test_getPackage_pfv2.phpt"/>
+      <file role="test" name="test_isAlias.phpt"/>
+      <file role="test" name="test_listAllPackages.phpt"/>
+      <file role="test" name="test_listChannels.phpt"/>
+      <file role="test" name="test_listPackages.phpt"/>
+      <file role="test" name="test_packageExists.phpt"/>
+      <file role="test" name="test_packageInfo.phpt"/>
+      <file role="test" name="test_parsedPackageNameToString.phpt"/>
+      <file role="test" name="test_parsePackageName.phpt"/>
+      <file role="test" name="test_parsePackageName_fail.phpt"/>
+      <file role="test" name="test_updateChannel.phpt"/>
+      <file role="test" name="test_updatePackage.phpt"/>
+      <file role="test" name="test_updatePackage2.phpt"/>
+     </dir> <!-- /PEAR_Registry/api1_1 -->
+     <file role="test" name="pear_registry_inc.php.inc"/>
+    </dir> <!-- /PEAR_Registry -->
+    <dir name="PEAR_Validate">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_validate_date.phpt"/>
+     <file role="test" name="test_validate_packagename.phpt"/>
+     <file role="test" name="test_validate_stability.phpt"/>
+     <file role="test" name="test_validate_state.phpt"/>
+     <file role="test" name="test_validate_time.phpt"/>
+     <file role="test" name="test_validate_versionbasic.phpt"/>
+     <file role="test" name="test_validate_versionbasic_alpha.phpt"/>
+     <file role="test" name="test_validate_versionbasic_beta.phpt"/>
+     <file role="test" name="test_validate_versionbasic_stable.phpt"/>
+     <file role="test" name="test_validate_versionextends_alpha.phpt"/>
+     <file role="test" name="test_validate_versionextends_beta.phpt"/>
+     <file role="test" name="test_validate_versionextends_stable.phpt"/>
+     <file role="test" name="test_validate_version_devel.phpt"/>
+     <file role="test" name="test_validGroupName.phpt"/>
+     <file role="test" name="test_validPackageName.phpt"/>
+     <file role="test" name="test_validVersion.phpt"/>
+    </dir> <!-- /PEAR_Validate -->
+    <dir name="System">
+     <file role="test" name="test.phpt"/>
+    </dir> <!-- /System -->
+    <file role="test" name="download_test_classes.php.inc"/>
+    <file role="test" name="pear_autoloader.phpt"/>
+    <file role="test" name="PEAR_test_mock_pearweb.php.inc"/>
+    <file role="test" name="phpt_test.php.inc"/>
+    <file role="test" name="php_dump.php.inc"/>
+    <file role="test" name="_test_validate.php.inc"/>
+   </dir> <!-- / -->
+  </filelist>
+ </release>
+ <changelog>
+   <release>
+    <version>1.0</version>
+    <date>2004-03-21</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>Installation package.xml for PEAR package tests
+    </notes>
+   </release>
+   <release>
+    <version>2.0</version>
+    <date>2004-06-01</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>Installation package.xml for PEAR package tests
+    </notes>
+   </release>
+   <release>
+    <version>2.4.0</version>
+    <date>2004-08-23</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>Installation package.xml for PEAR package tests
+    </notes>
+   </release>
+   <release>
+    <version>1.4.0a1</version>
+    <date>2005-02-22</date>
+    <license>PHP License</license>
+    <state>alpha</state>
+    <notes>Tests for PEAR 1.4.0a1
+    </notes>
+   </release>
+   <release>
+    <version>1.4.0a9</version>
+    <date>2005-03-21</date>
+    <license>PHP License</license>
+    <state>alpha</state>
+    <notes>Tests for PEAR 1.4.0a9
+    </notes>
+   </release>
+   <release>
+    <version>1.4.0a10</version>
+    <date>2005-04-05</date>
+    <license>PHP License</license>
+    <state>alpha</state>
+    <notes>Tests for PEAR 1.4.0a10
+    </notes>
+   </release>
+ </changelog>
+</package>

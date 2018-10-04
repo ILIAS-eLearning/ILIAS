@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+ xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="
+  http://pear.php.net/dtd/tasks-1.0
+  http://pear.php.net/dtd/tasks-1.0.xsd
+  http://pear.php.net/dtd/package-2.0
+  http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pecl_http</name>
+ <channel>pecl.php.net</channel>
+ <summary>Extended HTTP Support</summary>
+ <description><![CDATA[
+* Building absolute URIs
+* RFC compliant HTTP redirects
+* RFC compliant HTTP date handling
+* Parsing of HTTP headers and messages
+* Caching by "Last-Modified" and/or ETag
+  (with 'on the fly' option for ETag generation from buffered output)
+* Sending data/files/streams with (multiple) ranges support
+* Negotiating user preferred language/charset
+* Convenient request functionality built upon libcurl
+* PHP5 classes: HttpUtil, HttpResponse (PHP-5.1), HttpRequest, HttpRequestPool, HttpMessage
+]]></description>
+ <lead>
+  <name>Michael Wallner</name>
+  <user>mike</user>
+  <email>mike@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2005-01-01</date>
+ <version>
+  <release>0.16.0</release>
+  <api>0.16.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license>BSD, revised</license>
+ <notes><![CDATA[
++ Added ext/zlib independent GZIP support
++ Added HttpRequestPool::getAttachedRequests() and getFinishedRequests()
++ Added experimental thread safety for builds linking against libcurl-gnutls
++ Improved the chunked decoder
+
+- License change!
+
+* Fixed a bug where HttpRequest warnings were hidden within the HttpRequestPool
+]]></notes>
+ <contents>
+  <dir name="/">
+   <file role="doc" name="LICENSE"/>
+   <file role="doc" name="CREDITS"/>
+   <file role="doc" name="EXPERIMENTAL"/>
+   <file role="doc" name="KnownIssues.txt"/>
+   <file role="doc" name="docs/functions.html"/>
+   <file role="doc" name="docs/examples/Bandwidth_Throttling.php"/>
+   <file role="doc" name="docs/examples/Cached_Responses.php"/>
+   <file role="doc" name="docs/examples/GET_Queries.php"/>
+   <file role="doc" name="docs/examples/KISS_XMLRPC_Client.php"/>
+   <file role="doc" name="docs/examples/Multipart_Posts.php"/>
+   <file role="doc" name="docs/examples/Parallel_Requests.php"/>
+   <file role="doc" name="docs/examples/Parallel_Requests_.php"/>
+   <file role="doc" name="docs/examples/Simple_Feed_Aggregator.php"/>
+   <file role="doc" name="docs/examples/extract.php"/>
+   <file role="doc" name="docs/examples/tutorial.txt"/>
+
+   <file role="src" name="http.dsp"/>
+   <file role="src" name="config.w32"/>
+   <file role="src" name="config.m4"/>
+   <file role="src" name="Makefile.frag"/>
+
+   <dir name="phpstr">
+    <file role="src" name="phpstr.h"/>
+    <file role="src" name="phpstr.c"/>
+   </dir>
+
+   <file role="src" name="missing.h"/>
+   <file role="src" name="missing.c"/>
+
+   <file role="src" name="php_http.h"/>
+   <file role="src" name="php_http_std_defs.h"/>
+   <file role="src" name="php_http_api.h"/>
+   <file role="src" name="php_http_cache_api.h"/>
+   <file role="src" name="php_http_date_api.h"/>
+   <file role="src" name="php_http_encoding_api.h"/>
+   <file role="src" name="php_http_headers_api.h"/>
+   <file role="src" name="php_http_info_api.h"/>
+   <file role="src" name="php_http_message_api.h"/>
+   <file role="src" name="php_http_request_api.h"/>
+   <file role="src" name="php_http_request_method_api.h"/>
+   <file role="src" name="php_http_request_pool_api.h"/>
+   <file role="src" name="php_http_send_api.h"/>
+   <file role="src" name="php_http_url_api.h"/>
+   <file role="src" name="php_http_util_object.h"/>
+   <file role="src" name="php_http_message_object.h"/>
+   <file role="src" name="php_http_request_object.h"/>
+   <file role="src" name="php_http_requestpool_object.h"/>
+   <file role="src" name="php_http_response_object.h"/>
+   <file role="src" name="php_http_exception_object.h"/>
+
+   <file role="src" name="http.c"/>
+   <file role="src" name="http_functions.c"/>
+   <file role="src" name="http_api.c"/>
+   <file role="src" name="http_cache_api.c"/>
+   <file role="src" name="http_date_api.c"/>
+   <file role="src" name="http_encoding_api.c"/>
+   <file role="src" name="http_headers_api.c"/>
+   <file role="src" name="http_info_api.c"/>
+   <file role="src" name="http_message_api.c"/>
+   <file role="src" name="http_request_api.c"/>
+   <file role="src" name="http_request_method_api.c"/>
+   <file role="src" name="http_request_pool_api.c"/>
+   <file role="src" name="http_send_api.c"/>
+   <file role="src" name="http_url_api.c"/>
+   <file role="src" name="http_util_object.c"/>
+   <file role="src" name="http_message_object.c"/>
+   <file role="src" name="http_request_object.c"/>
+   <file role="src" name="http_requestpool_object.c"/>
+   <file role="src" name="http_response_object.c"/>
+   <file role="src" name="http_exception_object.c"/>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3</min>
+    <max>6.0.0</max>
+    <exclude>6.0.0</exclude>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <extension>
+    <name>session</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <providesextension>http</providesextension>
+ <extsrcrelease>
+  <configureoption
+   name="with-http-curl-requests"
+   prompt="whether to enable cURL HTTP requests; specify libcurl directory"
+   default="yes"
+  />
+  <configureoption
+   name="with-http-mhash-etags"
+   prompt="whether to enable mhash ETag generator; specify libmhash directory"
+   default="yes"
+  />
+  <configureoption
+   name="with-http-magic-mime"
+   prompt="whether to enable response content type guessing; specify libmagic directory"
+   default="no"
+  />
+  <configureoption
+   name="with-zlib-compression"
+   prompt="whether to enable support for gzencoded/deflated message bodies"
+   default="yes"
+  />
+  <filelist>
+   <install as="functions.html" name="docs/functions.html"/>
+   <install as="examples/Bandwidth_Throttling.php" name="docs/examples/Bandwidth_Throttling.php"/>
+   <install as="examples/Cached_Responses.php" name="docs/examples/Cached_Responses.php"/>
+   <install as="examples/GET_Queries.php" name="docs/examples/GET_Queries.php"/>
+   <install as="examples/KISS_XMLRPC_Client.php" name="docs/examples/KISS_XMLRPC_Client.php"/>
+   <install as="examples/Multipart_Posts.php" name="docs/examples/Multipart_Posts.php"/>
+   <install as="examples/Parallel_Requests.php" name="docs/examples/Parallel_Requests.php"/>
+   <install as="examples/Parallel_Requests_.php" name="docs/examples/Parallel_Requests_.php"/>
+   <install as="examples/Simple_Feed_Aggregator.php" name="docs/examples/Simple_Feed_Aggregator.php"/>
+   <install as="examples/extract.php" name="docs/examples/extract.php"/>
+   <install as="examples/tutorial.txt" name="docs/examples/tutorial.txt"/>
+  </filelist>
+ </extsrcrelease>
+ <changelog />
+</package>

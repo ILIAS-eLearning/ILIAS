@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0"-->
+<package version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/package-1.0 http://pear.php.net/dtd/package-1.0.xsd">
+ <name>Bar</name>
+ <summary>PEAR Base System</summary>
+ <description>small
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>cellog</user>
+   <role>lead</role>
+   <name>Greg Beaver</name>
+   <email>cellog@php.net</email>
+  </maintainer>
+ </maintainers>
+ <release>
+  <version>1.5.1</version>
+  <date>2004-10-21</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>hi
+  </notes>
+  <provides type="class" name="OS_Guess"/>
+  <provides type="class" name="System"/>
+  <provides type="function" name="md5_file"/>
+  <deps>
+   <dep type="pkg" rel="has" optional="yes">Foobar</dep>
+  </deps>
+  <filelist>
+   <dir name="/">
+    <file name="foo1.php" role="php"/>
+   </dir>
+  </filelist>
+ </release>
+</package>

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<package packagerversion="1.4.0a1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Console_Getopt</name>
+ <channel>pear.php.net</channel>
+ <summary>Command-line option parser</summary>
+ <description>This is a PHP implementation of &quot;getopt&quot; supporting both
+short and long options.
+ </description>
+ <lead>
+  <name>Andrei Zmievski</name>
+  <user>andrei</user>
+  <email>andrei@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>yes</active>
+ </developer>
+ <helper>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </helper>
+ <date>2004-12-06</date>
+ <time>11:51:01</time>
+ <version>
+  <release>1.2.1</release>
+  <api>1.2.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+ <notes>Fix to preserve BC with 1.0 and allow correct behaviour for new users
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="Console">
+    <file name="Getopt.php" role="php" />
+   </dir> <!-- //Console -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.6</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <usesrole>
+  <role>test</role>
+  <package>Blah</package>
+  <channel>pear.php.net</channel>
+ </usesrole>
+ <usesrole>
+  <role>test</role>
+  <uri>http://example.com/Blah</uri>
+ </usesrole>
+ <usestask>
+  <task>test</task>
+  <package>Blah</package>
+  <channel>pear.php.net</channel>
+ </usestask>
+ <usestask>
+  <task>test</task>
+  <uri>http://example.com/Blah</uri>
+ </usestask>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-09-13</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+   <notes>Stable release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.11</release>
+    <api>0.11</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2002-05-26</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+   <notes>POSIX getopt compatibility fix: treat first element of args
+        array as command name
+      
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.10</release>
+    <api>0.10</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2002-05-12</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+   <notes>Packaging fix
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9</release>
+    <api>0.9</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2002-05-12</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+   <notes>Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

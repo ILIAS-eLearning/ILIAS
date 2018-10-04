@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ * the PEAR installer, for creating, distributing
+   and installing packages
+ * the alpha-quality PEAR_Exception PHP5 error handling mechanism
+ * the beta-quality PEAR_ErrorStack advanced error handling mechanism
+ * the PEAR_Error error handling mechanism
+ * the OS_Guess class for retrieving info about the OS
+   where PHP is running on
+ * the System class for quick handling of common operations
+   with files and directories
+ * the PEAR base class
+ </description>
+ <lead>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pajoye@pearfr.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2005-03-12</date>
+ <version>
+  <release>1.4.0a5</release>
+  <api>1.4.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+  This is a major milestone release for PEAR.  In addition to several killer features,
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="foo.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2</min>
+    <max>6.0.0</max>
+   </php>
+   <pearinstaller>
+    <min>1.4.0dev13</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <package>
+    <name>PEAR_Frontend_Web</name>
+    <channel>pear.php.net</channel>
+    <min>0.5.0</min>
+   </package>
+   <package>
+    <name>PEAR_Frontend_Gtk</name>
+    <channel>pear.php.net</channel>
+    <min>0.4.0</min>
+   </package>
+  </optional>
+  <group name="webinstaller" hint="PEAR's web-based installer">
+   <package>
+    <name>PEAR_Frontend_Web</name>
+    <channel>pear.php.net</channel>
+    <min>0.5.0</min>
+   </package>
+  </group>
+  <group name="gtkinstaller" hint="PEAR's PHP-GTK-based installer">
+   <package>
+    <name>PEAR_Frontend_Gtk</name>
+    <channel>pear.php.net</channel>
+    <min>0.4.0</min>
+   </package>
+  </group>
+ </dependencies>
+ <phprelease/>
+</package>
