@@ -6,14 +6,29 @@
  */
 final class ilKioskModeService {
 
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $language;
+
+	/**
+	 * @var ilAccess
+	 */
 	protected $access;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
 	protected $obj_definition;
 
 	public function __construct(
 		ilCtrl $ctrl,
-		illanguage $language,
+		ilLanguage $language,
 		ilAccess $access,
 		ilObjectDefinition $obj_definition
 	) {
@@ -50,11 +65,7 @@ final class ilKioskModeService {
 	 */
 	public function hasKioskMode(string $object_type) : bool {
 		list($location, $class_name) = $this->getClassLocationForType($object_type);
-		$class_path = sprintf(
-			'%s/../../../%s/class.%s.php',
-			__DIR__, $location, $class_name
-		);
-		return file_exists($class_path);
+		return class_exists($class_name);
 	}
 
 	/**

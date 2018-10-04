@@ -1985,9 +1985,9 @@ class ilInitialisation
 	private static function initKioskMode(\ILIAS\DI\Container $c) {
 		$c["service.kiosk_mode"] = function ($c) {
 			return new ilKioskModeService(
-				$c->ctrl(),
-				$c->language(),
-				$c->access(),
+				$c['ilCtrl'],
+				$c['lng'],
+				$c['ilAccess'],
 				$c['objDefinition']
 			);
 		};
