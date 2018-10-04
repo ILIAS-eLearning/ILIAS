@@ -52,7 +52,7 @@ class Select extends Input implements C\Input\Field\Select {
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return is_string($value);
+		return in_array($value, array_keys($this->options));
 	}
 
 	/**
