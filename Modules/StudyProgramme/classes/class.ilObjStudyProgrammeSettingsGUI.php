@@ -229,7 +229,7 @@ class ilObjStudyProgrammeSettingsGUI {
 								->withValue($prg->getTitle())
 								->withRequired(true),
 						self::PROP_DESC =>
-							$ff->text($txt("description")) // TODO: change this to textarea once available
+							$ff->textarea($txt("description"))
 								->withValue($prg->getDescription())
 					],
 					$txt("prg_edit"),
