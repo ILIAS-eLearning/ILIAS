@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Slate;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractParentEntry;
+use ILIAS\GlobalScreen\MainMenu\isTopNode;
 use ILIAS\GlobalScreen\MainMenu\Tool\ToolInterfaceInterface;
 
 /**
@@ -8,7 +9,7 @@ use ILIAS\GlobalScreen\MainMenu\Tool\ToolInterfaceInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentEntry {
+class Tool extends AbstractParentEntry implements isTopNode {
 
 	/**
 	 * @var string

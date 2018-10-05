@@ -1,15 +1,16 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Slate;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractParentEntry;
-use ILIAS\GlobalScreen\MainMenu\EntryInterface;
-use ILIAS\GlobalScreen\MainMenu\IconEntryInterface;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
+use ILIAS\GlobalScreen\MainMenu\hasIcon;
+use ILIAS\GlobalScreen\MainMenu\isTopNode;
 
 /**
  * Class Slate
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Slate extends AbstractParentEntry {
+class Slate extends AbstractParentEntry implements isTopNode, hasTitle, hasIcon {
 
 	/**
 	 * @var bool
@@ -30,7 +31,7 @@ class Slate extends AbstractParentEntry {
 	 *
 	 * @return Slate
 	 */
-	public function withTitle(string $title): Slate {
+	public function withTitle(string $title): hasTitle {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -72,7 +73,7 @@ class Slate extends AbstractParentEntry {
 	 *
 	 * @return Slate
 	 */
-	public function withIconPath(string $path_to_svg_icon): IconEntryInterface {
+	public function withIconPath(string $path_to_svg_icon): hasIcon {
 		$clone = clone($this);
 		$clone->icon_path = $path_to_svg_icon;
 

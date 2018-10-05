@@ -1,19 +1,25 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
-use ILIAS\GlobalScreen\MainMenu\AsyncContentEntryInterface;
+use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
+use ILIAS\GlobalScreen\MainMenu\hasContent;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class Divider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildEntry implements AsyncContentEntryInterface {
+class Complex extends AbstractChildEntry implements hasAsyncContent, hasContent {
 
+	/**
+	 * @var
+	 */
+	private $content;
 	/**
 	 * @var string
 	 */
-	protected $async_content_url = '';
+	private $async_content_url = '';
 
 
 	/**
@@ -25,12 +31,32 @@ class Complex extends AbstractChildEntry implements AsyncContentEntryInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $async_content_url
+	 *
+	 * @return Complex
 	 */
-	public function withAsyncContentURL(string $async_content_url): AsyncContentEntryInterface {
+	public function withAsyncContentURL(string $async_content_url): hasAsyncContent {
 		$clone = clone($this);
 		$clone->async_content_url = $async_content_url;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @param Component $ui_component
+	 *
+	 * @return Complex
+	 */
+	public function withContent(Component $ui_component): hasContent {
+		$this->content = $ui_component;
+	}
+
+
+	/**
+	 * @return Component
+	 */
+	public function getContent(): hasContent {
+		return $this->content;
 	}
 }

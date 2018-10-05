@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
-use ILIAS\GlobalScreen\MainMenu\EntryInterface;
+use ILIAS\GlobalScreen\MainMenu\isEntry;
 use ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface;
 use ILIAS\GlobalScreen\Provider\StaticProvider;
 
@@ -20,7 +20,7 @@ interface StaticMainMenuProvider extends StaticProvider {
 
 
 	/**
-	 * @return EntryInterface[] These are Entries which will be available for
+	 * @return isEntry[] These are Entries which will be available for
 	 * configuration and will be collected once during a StructureReload
 	 */
 	public function getStaticEntries(): array;
