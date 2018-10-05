@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Services;
 
 /**
@@ -20,4 +21,16 @@ interface Provider {
 	 * @param Services $services
 	 */
 	public function inject(Services $services);
+
+
+	/**
+	 * @return string
+	 */
+	public function getFullyQualifiedClassName(): string;
+
+
+	/**
+	 * @return IdentificationInterface[]
+	 */
+	public function getAllIdentifications(): array;
 }

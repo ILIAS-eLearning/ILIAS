@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="mme">
 	<baseclasses />
-	<uxproviders>
-		<mainmenu class_name="ilMainMenuProvider" />
-	</uxproviders>
+	<gsproviders>
+		<gsprovider purpose="mainmenu" class_name="ilMMProvider" />
+	</gsproviders>
 	<logging />
 	<objects>
 		<object id="mme" class_name="MainMenu" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">

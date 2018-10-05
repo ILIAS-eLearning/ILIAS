@@ -13,7 +13,7 @@ class Services {
 	/**
 	 * @var bool
 	 */
-	private static $constructed = false;
+	protected static $constructed = false;
 
 
 	/**

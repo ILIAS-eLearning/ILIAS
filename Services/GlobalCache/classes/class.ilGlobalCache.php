@@ -30,6 +30,7 @@ class ilGlobalCache {
 	const COMP_EVENTS = 'events';
 	const COMP_TPL_BLOCKS = 'tpl_blocks';
 	const COMP_TPL_VARIABLES = 'tpl_variables';
+	const COMP_GLOBAL_SCREEN = 'global_screen';
 	/**
 	 * @var array
 	 */
@@ -64,6 +65,7 @@ class ilGlobalCache {
 		self::COMP_TPL_BLOCKS,
 		self::COMP_TPL_VARIABLES,
 		self::COMP_EVENTS,
+		self::COMP_GLOBAL_SCREEN,
 	);
 	/**
 	 * @var array

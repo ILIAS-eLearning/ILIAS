@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
+use ILIAS\GlobalScreen\MainMenu\Entry\LinkList;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
@@ -17,35 +18,13 @@ class ilMMEntryRendererGUI {
 	 */
 	public function getHTML(): string {
 		global $DIC;
-		$provider = new ilMainMenuProvider($DIC);
-		$provider->inject(new \ILIAS\GlobalScreen\Services());
-
-		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
-		/**
-		 * @var $slate \ILIAS\GlobalScreen\MainMenu\Slate\Slate
-		 * @var $entry \ILIAS\GlobalScreen\MainMenu\ChildEntryInterface
-		 */
-		$slates = [];
-		foreach ($provider->getStaticSlates() as $slate) {
-			$id = $slate->getProviderIdentification()->serialize();
-			$slates[$id] = $slate;
-		}
-
 		$time = microtime(true);
-
-		foreach ($provider->getStaticEntries() as $entry) {
-			if ($entry->hasParent()) {
-				$parent_id = $entry->getParent()->serialize();
-				$slates[$parent_id]->appendChild($entry);
-			}
-		}
+		$slates = (new ilMainMenuCollector($DIC->database(), ilGlobalCache::getInstance('ux')))->getStackedSlates();
+		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 
 		$time = microtime(true) - $time;
 
 		foreach ($slates as $slate) {
-			if (!$slate->isVisible()) {
-				continue;
-			}
 			$tpl->setCurrentBlock('mmentry');
 			$tpl->setVariable("TITLE", $slate->getTitle());
 
@@ -60,6 +39,12 @@ class ilMMEntryRendererGUI {
 				}
 				$i = $child->getProviderIdentification()->getInternalIdentifier();
 				switch (true) {
+					case ($child instanceof LinkList):
+						$gl->addGroupHeader($child->getTitle());
+						foreach ($child->getLinks() as $link) {
+							$this->addEntry($gl, $link, $i);
+						}
+						break;
 					case ($child instanceof Divider):
 						$gl->addSeparator();
 						break;
