@@ -1,6 +1,9 @@
 <?php
 
+use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
+use ILIAS\GlobalScreen\MainMenu\hasAction;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
 /**
  * Class ilMMEntryRendererGUI
@@ -57,10 +60,10 @@ class ilMMEntryRendererGUI {
 				}
 				$i = $child->getProviderIdentification()->getInternalIdentifier();
 				switch (true) {
-					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\Divider):
+					case ($child instanceof Divider):
 						$gl->addSeparator();
 						break;
-					case ($child instanceof Link):
+					case ($child instanceof hasAction && $child instanceof hasTitle):
 						$this->addEntry($gl, $child, $i);
 						break;
 				}
@@ -80,9 +83,9 @@ class ilMMEntryRendererGUI {
 	 * @param Link             $child
 	 * @param string           $identifier
 	 */
-	protected function addEntry(ilGroupedListGUI $gl, Link $child, string $identifier) {
+	protected function addEntry(ilGroupedListGUI $gl, hasTitle $child, string $identifier) {
 		$gl->addEntry(
-			$child->getTitle(), $child->getAction(), "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+			$child->getTitle(), ($child instanceof hasAction) ? $child->getAction() : "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
 	}
 }
