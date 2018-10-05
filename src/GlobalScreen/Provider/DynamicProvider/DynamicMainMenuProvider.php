@@ -12,7 +12,7 @@ interface DynamicMainMenuProvider extends DynamicProvider {
 	/**
 	 * @see DynamicProvider
 	 *
-	 * @return \ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface[] These Slates
+	 * @return \ILIAS\GlobalScreen\MainMenu\Slate\Slate[] These Slates
 	 * can be passed to the MainMenu dynamicly for a specific location/context.
 	 *
 	 * This is currently not used for Core components but plugins may use it.
