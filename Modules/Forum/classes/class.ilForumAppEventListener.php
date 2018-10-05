@@ -46,8 +46,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
 						break;
 					case 'createdPost':
-						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
 						require_once 'Services/Cron/classes/class.ilCronManager.php';
 
 						$post              = $a_parameter['post'];
@@ -93,8 +91,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'activatedPost':
-						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
 						require_once 'Services/Cron/classes/class.ilCronManager.php';
 						
 						$post = $a_parameter['post'];
@@ -110,9 +106,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'updatedPost':
-						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
-						
 						if(!$a_parameter['old_status_was_active'])
 						{
 							return;
@@ -143,9 +136,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'censoredPost':
-						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
-
 						$post = $a_parameter['post'];
 
 						if($immediate_notifications_enabled)
@@ -171,8 +161,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'deletedPost':
-						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
-						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
 						require_once 'Services/Cron/classes/class.ilCronManager.php';
 						
 						$post = $a_parameter['post'];
@@ -185,7 +173,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						{
 							if(ilCronManager::isJobActive('frm_notification'))
 							{
-								require_once 'Modules/Forum/classes/class.ilForumPostsDeleted.php';
 								$delObj = new ilForumPostsDeleted($provider);
 								$delObj->setThreadDeleted($thread_deleted);
 								$delObj->insert();
@@ -209,8 +196,6 @@ class ilForumAppEventListener implements ilAppEventListener
 					case 'savedAsDraft':
 					case 'updatedDraft':
 					case 'deletedDraft':
-						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
-						
 						/**
 						 * var $draftObj ilForumPostDraft
 						 */
@@ -221,8 +206,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						
 						break;
 					case 'publishedDraft':
-						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
-						require_once './Modules/Forum/classes/class.ilForumPostDraft.php';
 						/**
 						 * var $draftObj ilForumPostDraft
 						 */

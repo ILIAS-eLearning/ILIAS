@@ -379,7 +379,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
 			

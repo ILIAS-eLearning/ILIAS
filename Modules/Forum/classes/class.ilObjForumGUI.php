@@ -1,22 +1,12 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilForumSettingsGUI.php';
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Modules/Forum/classes/class.ilForumPost.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
-require_once 'Modules/Forum/classes/class.ilForumTopic.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
 require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
-require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
-require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-require_once './Modules/Forum/classes/class.ilFileDataForumDrafts.php';
-require_once './Modules/Forum/classes/class.ilForumUtil.php';
-require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
 require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 
 /**
@@ -296,14 +286,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 
 			case 'ilforumexportgui':
-				require_once 'Modules/Forum/classes/class.ilForumExportGUI.php';
 				$fex_gui = new ilForumExportGUI();
 				$this->ctrl->forwardCommand($fex_gui);
 				exit();
 				break;
 			
 			case 'ilforummoderatorsgui':
-				require_once 'Modules/Forum/classes/class.ilForumModeratorsGUI.php';
 				$fm_gui = new ilForumModeratorsGUI();
 				$this->ctrl->forwardCommand($fm_gui);
 				break;
@@ -723,7 +711,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 				$this->ctrl->setParameter($this, 'user', $draft->getPostDisplayUserId());
 				
-				require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 				$authorinfo = new ilForumAuthorInformation(
 					$draft->getPostAuthorId(),
 					$draft->getPostDisplayUserId(),
@@ -780,7 +767,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 					$this->ctrl->setParameter($this, 'user', $node->getUpdateUserId());
 					$this->ctrl->setParameter($this, 'draft_id', $draft->getDraftId());
-					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+
 					$authorinfo = new ilForumAuthorInformation(
 						$draft->getPostAuthorId(),
 						$draft->getUpdateUserId(),
@@ -974,7 +961,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 		$this->ctrl->setParameter($this, 'user', $node->getDisplayUserId());
 		
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
 			$node->getPosAuthorId(),
 			$node->getDisplayUserId(),
@@ -1035,8 +1021,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			&& $node->getDisplayUserId() == 0)
 			{
 				$update_user_id = $node->getDisplayUserId();
-			}	
-			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+			}
+
 			$authorinfo = new ilForumAuthorInformation(
 				$node->getPosAuthorId(),
 				$update_user_id,
@@ -1292,9 +1278,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$this->object->Forum->setForumId($this->object->getId());
-		
-		require_once 'Modules/Forum/classes/class.ilForumStatisticsTableGUI.php';
-		
+
 		$tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
 		$tbl->setId('il_frm_statistic_table_'.(int) $_GET['ref_id']);
 		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr.svg', $this->lng->txt('obj_'.$this->object->getType()));
@@ -1394,8 +1378,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 		ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
 	 		return $this->showThreadsObject();
 	 	}	
-
-		require_once 'Modules/Forum/classes/class.ilObjForum.php';
 
 		$forumObj = new ilObjForum($_GET['ref_id']);
 		
@@ -2569,7 +2551,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 */
 		$frm = $oForumObjects['frm'];
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
 			$this->objCurrentPost->getPosAuthorId(),
 			$this->objCurrentPost->getDisplayUserId(),
@@ -2705,7 +2686,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if($this->isHierarchicalView())
 		{
-			require_once 'Modules/Forum/classes/class.ilForumExplorerGUI.php';
 			$exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
 			$exp->setThread($this->objCurrentTopic);
 			if(!$exp->handleCommand())
@@ -2714,9 +2694,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 
-		require_once './Modules/Forum/classes/class.ilObjForum.php';
-		require_once './Modules/Forum/classes/class.ilFileDataForum.php';		
-		
 		$this->lng->loadLanguageModule('forum');
 
 		// add entry to navigation history
@@ -3041,7 +3018,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										}										
 										else if($this->ctrl->getCmd() == 'quotePost')
 										{
-											require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 											$authorinfo = new ilForumAuthorInformation(
 												$node->getPosAuthorId(),
 												$node->getDisplayUserId(),
@@ -3188,7 +3164,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 				else if($this->ctrl->getCmd() == 'quoteTopLevelPost')
 				{
-					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 					$authorinfo = new ilForumAuthorInformation(
 						$first_node->getPosAuthorId(),
 						$first_node->getDisplayUserId(),
@@ -3585,7 +3560,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ctrl->redirect($this, 'showThreads');
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumMoveTopicsExplorer.php';
 		$exp = new ilForumMoveTopicsExplorer($this, 'moveThreads');
 		$exp->setPathOpen($this->object->getRefId());
 		$exp->setNodeSelected(isset($_POST['frm_ref_id']) && (int)$_POST['frm_ref_id'] ? (int)$_POST['frm_ref_id'] : 0);

@@ -164,7 +164,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 				ilObjForumAccess::prepareMessageForLists($last_post['pos_message']) . "</a> " .
 				strtolower($this->lng->txt('from')) . "&nbsp;";
 
-			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
 				$last_post['pos_author_id'],
 				$last_post['pos_display_user_id'],

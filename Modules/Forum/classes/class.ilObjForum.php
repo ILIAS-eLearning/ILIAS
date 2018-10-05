@@ -2,9 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObject.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
-require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 
 /** @defgroup ModulesForum Modules/Forum
  */
@@ -97,7 +94,6 @@ class ilObjForum extends ilObject
 	{
 		$id = parent::create();
 
-		require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 		$properties = ilForumProperties::getInstance($this->getId());
 		$properties->setDefaultView(1);
 		$properties->setAnonymisation(0);
@@ -668,11 +664,9 @@ class ilObjForum extends ilObject
 
 		if(count($draft_ids) > 0)
 		{
-			require_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
 			$historyObj = new ilForumDraftsHistory();
 			$historyObj->deleteHistoryByDraftIds($draft_ids);
 			
-			require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
 			$draftObj = new ilForumPostDraft();
 			$draftObj->deleteDraftsByDraftIds($draft_ids);
 		}

@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Forum Administration Settings.

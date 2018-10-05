@@ -169,7 +169,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		$tpl->setVariable('TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($a_node)));
 		$tpl->parseCurrentBlock();
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
 			$a_node['pos_author_id'],
 			$a_node['pos_display_user_id'],

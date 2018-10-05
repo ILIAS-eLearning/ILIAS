@@ -1,10 +1,7 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
-require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
 
 /**
 * Forum export to HTML and Print.
@@ -342,7 +339,6 @@ class ilForumExportGUI
 
 			$post->setChangeDate($post->getChangeDate());
 
-			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
 				$post->getPosAuthorId(),
 				$post->getDisplayUserId(),

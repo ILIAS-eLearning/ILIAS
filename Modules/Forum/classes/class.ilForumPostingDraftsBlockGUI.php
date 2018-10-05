@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Block/classes/class.ilBlockGUI.php';
-require_once './Modules/Forum/classes/class.ilForum.php';
 
 /**
  * Class ilForumPostingDraftsBlockGUI
@@ -101,8 +100,6 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	public function fillDataSection()
 	{
-		require_once './Modules/Forum/classes/class.ilForumPostDraft.php';
-		require_once './Modules/Forum/classes/class.ilForumUtil.php';
 		require_once './Services/Link/classes/class.ilLink.php';
 		
 		$drafts_instances = ilForumPostDraft::getDraftInstancesByUserId($this->user->getId());

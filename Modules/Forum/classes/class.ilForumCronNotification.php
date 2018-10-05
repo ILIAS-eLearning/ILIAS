@@ -303,7 +303,6 @@ class ilForumCronNotification extends ilCronJob
 			}
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usrIdsToPreload));
 
 		$i = 0;

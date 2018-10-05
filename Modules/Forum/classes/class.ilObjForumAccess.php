@@ -108,8 +108,6 @@ class ilObjForumAccess extends ilObjectAccess
 		global $DIC;
 		$ilDB = $DIC->database();
 
-		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
-
 		$res = $ilDB->queryf(
 			'SELECT top_frm_fk, pos_pk FROM frm_posts p
 			JOIN frm_data d ON d.top_pk = p.pos_top_fk

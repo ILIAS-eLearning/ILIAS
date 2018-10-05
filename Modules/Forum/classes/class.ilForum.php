@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilForumProperties.php';
-require_once './Modules/Forum/classes/class.ilObjForum.php';
-require_once './Modules/Forum/classes/class.ilForumTopic.php';
-require_once './Modules/Forum/classes/class.ilForumPost.php';
-
 /**
 * Class Forum
 * core functions for forum
@@ -752,7 +747,6 @@ class ilForum
 			}
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumPost.php';
 		$GLOBALS['ilAppEventHandler']->raise(
 			'Modules/Forum',
 			'censoredPost',

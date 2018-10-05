@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once './Modules/Forum/classes/class.ilFileDataForumDrafts.php';
 /**
  * Class ilForumPostDraft
  * @author Nadia Matuschek <nmatuschek@databay.de>

@@ -186,7 +186,6 @@ class ilForumModeratorsGUI
 			)
 		);
 
-		require_once 'Modules/Forum/classes/class.ilForumModeratorsTableGUI.php';
 		$tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int)$_GET['ref_id']);
 
 		$entries = $this->oForumModerators->getCurrentModerators();

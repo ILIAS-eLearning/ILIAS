@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilObjForum.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
-
 /**
 * Class ilForumNotification
 *
