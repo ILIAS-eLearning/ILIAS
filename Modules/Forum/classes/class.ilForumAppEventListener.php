@@ -37,7 +37,6 @@ class ilForumAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case 'mergedThreads':
-						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
 						ilForumPostDraft::moveDraftsByMergedThreads($a_parameter['source_thread_id'], $a_parameter['target_thread_id']);
 						break;
 					case 'movedThreads':
@@ -225,7 +224,6 @@ class ilForumAppEventListener implements ilAppEventListener
 				switch ($a_event)
 				{
 					case "moveTree":
-						include_once './Modules/Forum/classes/class.ilForumNotification.php';
 						ilForumNotification::_clearForcedForumNotifications($a_parameter);
 						break;
 				}
@@ -235,8 +233,6 @@ class ilForumAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case "addParticipant":
-						include_once './Modules/Forum/classes/class.ilForumNotification.php';
-						
 						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
@@ -247,8 +243,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						
 						break;
 					case 'deleteParticipant':
-						include_once './Modules/Forum/classes/class.ilForumNotification.php';
-
 						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
@@ -263,8 +257,6 @@ class ilForumAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case "addParticipant":
-						include_once './Modules/Forum/classes/class.ilForumNotification.php';
-
 						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
@@ -275,8 +267,6 @@ class ilForumAppEventListener implements ilAppEventListener
 
 						break;
 					case 'deleteParticipant':
-						include_once './Modules/Forum/classes/class.ilForumNotification.php';
-
 						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
@@ -291,7 +281,6 @@ class ilForumAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case 'deleteUser':  
-						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
 						ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
 						break;
 				}

@@ -392,7 +392,6 @@ class ilForumExportGUI
 	 */
 	protected function prepare()
 	{
-		include_once './Services/MathJax/classes/class.ilMathJax.php';
 		ilMathJax::getInstance()
 			->init(ilMathJax::PURPOSE_EXPORT)
 			->setZoomFactor(10);

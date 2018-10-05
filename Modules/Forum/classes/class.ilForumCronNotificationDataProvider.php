@@ -209,7 +209,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
 			// get attachments
-			include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
 

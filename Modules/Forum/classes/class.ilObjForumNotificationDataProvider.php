@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
-include_once './Modules/Forum/classes/class.ilForumProperties.php';
-
 /**
  * Class ilObjForumNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -462,7 +459,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForumPost.php';
 			$parent_objPost = new ilForumPost($this->objPost->getParentId());
 
 			$this->notificationCache->store($cacheKey, $parent_objPost);
@@ -486,7 +482,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForum.php';
 			// get moderators to notify about needed activation
 			$rcps = ilForum::_getModerators($this->getRefId());
 			$this->notificationCache->store($cacheKey, $rcps);

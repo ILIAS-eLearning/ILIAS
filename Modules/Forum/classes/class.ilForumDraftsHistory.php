@@ -238,7 +238,6 @@ class ilForumDraftsHistory
 	public function addMobsToDraftsHistory($message)
 	{
 		// copy temporary media objects (frm~)
-		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$mediaObjects = ilRTE::_getMediaObjects($this->getPostMessage(), 0);
 		
 		$myMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html', $this->getHistoryId());

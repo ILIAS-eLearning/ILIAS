@@ -203,9 +203,7 @@ class ilForumNotification
 	{
 		global $DIC; 
 		$ilUser = $DIC->user();
-			
-		include_once 'Modules/Forum/classes/class.ilForumProperties.php';
-		
+
 		$node_data = self::getCachedNodeData($ref_id);
 		
 		foreach($node_data as $data)
@@ -242,9 +240,7 @@ class ilForumNotification
 		$ilUser = $DIC->user();
 
 		$node_data = self::getCachedNodeData($ref_id);
-		
-		include_once 'Modules/Forum/classes/class.ilForumModerators.php';
-		
+
 		foreach($node_data as $data)
 		{
 			//check frm_properties if frm_noti is enabled
@@ -341,12 +337,10 @@ class ilForumNotification
 
 		if($parent_obj->getType() == 'crs')
 		{
-			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());				
+			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
 		}
 		else if($parent_obj->getType() == 'grp')
 		{
-			include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 			$oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
 		}
 		

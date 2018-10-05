@@ -262,7 +262,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->setSideBlocks();
 				$this->tabs->activateTab("forums_threads");
 				$this->ctrl->setReturn($this,'view');
-				include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
 				$search_gui = new ilRepositoryObjectSearchGUI(
 					$this->object->getRefId(),
 					$this,
@@ -296,7 +295,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 
 			case 'ilpublicuserprofilegui':				
-				include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
 				$profile_gui = new ilPublicUserProfileGUI((int)$_GET['user']);
 				$add = $this->getUserProfileAdditional((int)$_GET['ref_id'], (int)$_GET['user']);
 				$profile_gui->setAdditional($add);
@@ -305,7 +303,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 				
 			case 'ilobjectcopygui':
-				include_once 'Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('frm');
 				$this->ctrl->forwardCommand($cp);
@@ -313,7 +310,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			case 'ilexportgui':
 				$this->tabs->activateTab('export');
-				include_once 'Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
@@ -558,7 +554,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// Mark all topics as read button
-		include_once 'Services/Accessibility/classes/class.ilAccessKeyGUI.php';
 		if($this->user->getId() != ANONYMOUS_USER_ID && !(int)strlen($this->confirmation_gui_html))
 		{
 			$this->toolbar->addButton(
@@ -572,7 +567,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(ilForumPostDraft::isSavePostDraftAllowed())
 		{
-			include_once './Modules/Forum/classes/class.ilForumDraftsTableGUI.php';
 			$drafts_tbl = new ilForumDraftsTableGUI($this, $cmd, '');
 			$draft_instances = ilForumPostDraft::getThreadDraftData($this->user->getId(), ilObjForum::lookupForumIdByObjId($this->object->getId()));
 			if(count($draft_instances)> 0)
@@ -595,7 +589,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));
 			$frm->updateVisits($topicData['top_pk']);
 
-			include_once 'Modules/Forum/classes/class.ilForumTopicTableGUI.php';
 			if(!in_array($cmd, array('showThreads', 'sortThreads') ))
 			{
 				$cmd = 'showThreads';
@@ -608,7 +601,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// Permanent link
-		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId());
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 	}
@@ -663,7 +655,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						
 						$this->tpl->setCurrentBlock('attachments');
 						$this->tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD', $this->lng->txt('forums_attachments'));
-						include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 						$this->tpl->setVariable('DOWNLOAD_IMG', ilGlyphGUI::get(ilGlyphGUI::ATTACHMENT, $this->lng->txt('forums_download_attachment')));
 						if(count($filesOfDraft) > 1)
 						{
@@ -862,7 +853,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 				$this->tpl->setCurrentBlock('attachments');
 				$this->tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD', $this->lng->txt('forums_attachments'));
-				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$this->tpl->setVariable('DOWNLOAD_IMG', ilGlyphGUI::get(ilGlyphGUI::ATTACHMENT, $this->lng->txt('forums_download_attachment')));
 				if(count($filesOfPost) > 1)
 				{
@@ -1328,14 +1318,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_GET['cmd'] = 'viewThread';
 				$_GET['baseClass'] = 'ilRepositoryGUI';
 
-				include_once('ilias.php');
 				exit();
 			}
 			else
 			{
 				$_GET['ref_id'] = $a_target;
 				$_GET['baseClass'] = 'ilRepositoryGUI';
-				include_once('ilias.php');
 				exit();
 			}
 		}
@@ -1346,7 +1334,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			$_GET['baseClass'] = 'ilRepositoryGUI';
-			include('ilias.php');
 			exit();
 		}
 
@@ -1417,7 +1404,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return $this->showThreadsObject();
 		}
 	 	
-	 	include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$c_gui = new ilConfirmationGUI();
 		
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteThreads'));
@@ -1445,7 +1431,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return $this->showThreadsObject();
 		}
 		
-		include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$c_gui = new ilConfirmationGUI();
 		
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, 'deleteThreadDrafts'));
@@ -1848,7 +1833,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->replyEditForm->addItem($oPostGUI);
 
 		// notification only if gen. notification is disabled and forum isn't anonymous
-		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($this->user->getId());
 		if($this->rbac->system()->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&
 		   !$frm->isThreadNotificationEnabled($this->user->getId(), $this->objCurrentPost->getThreadId()) &&
@@ -1947,7 +1931,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' || $_GET['action'] == 'editdraft')
 		{
-			include_once 'Services/RTE/classes/class.ilRTE.php';
 			$rtestring = ilRTE::_getRTEClassname();
 			
 			if(array_key_exists('show_rte', $_POST))
@@ -2364,7 +2347,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}				
 
 				// remove usage of deleted media objects
-				include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm:html', $this->objCurrentPost->getId());
 				$curMediaObjects = ilRTE::_getMediaObjects($oReplyEditForm->getInput('message'), 0);
 				foreach($oldMediaObjects as $oldMob)
@@ -2422,7 +2404,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->objCurrentPost->reload();
 					
 					// Change news item accordingly
-					include_once 'Services/News/classes/class.ilNewsItem.php';
 					// note: $this->objCurrentPost->getForumId() does not give us the forum ID here (why?)
 					$news_id = ilNewsItem::getFirstNewsIdForContext($forumObj->getId(),
 						'frm', $this->objCurrentPost->getId(), 'pos');
@@ -2650,7 +2631,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			try
 			{
-				include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$mobs = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
 				foreach($mobs as $mob)
 				{					
@@ -2733,8 +2713,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			/** @var $menutpl ilTemplate */
 			$menutpl = new ilTemplate('tpl.forums_threads_menu.html', true, true, 'Modules/Forum');
 
-			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-			
 			// mark all as read
 			if($this->user->getId() != ANONYMOUS_USER_ID &&
 				$forumObj->getCountUnread($this->user->getId(), (int) $this->objCurrentTopic->getId())
@@ -3209,8 +3187,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$bottom_toolbar->addButtonInstance($to_top_button);
 		$this->tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
 
-		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
-		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
+		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 
 		$this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
@@ -3283,7 +3260,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	public function showUserObject()
 	{
-		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
 		$profile_gui = new ilPublicUserProfileGUI($_GET['user']);
 		$add = $this->getUserProfileAdditional($_GET['ref_id'], $_GET['user']);
 		$profile_gui->setAdditional($add);
@@ -3708,8 +3684,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 		}
-		
-		include_once 'Services/Mail/classes/class.ilMail.php';
+
 		$umail = new ilMail($this->user->getId());
 		// catch hack attempts
 		if($this->rbac->system()->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&
@@ -4055,7 +4030,6 @@ $this->doCaptchaCheck();
 										array('integer', 'text'), array($topicData['top_pk'], $this->create_topic_form_gui->getInput('subject')));
 			
 			// copy temporary media objects (frm~)
-			include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 			$mediaObjects = ilRTE::_getMediaObjects($this->create_topic_form_gui->getInput('message'), 0);
 			foreach($mediaObjects as $mob)
 			{
@@ -4288,7 +4262,6 @@ $this->doCaptchaCheck();
 			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
-		include_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 		$info = new ilInfoScreenGUI($this);
 
 		$info->enablePrivateNotes();
@@ -4421,9 +4394,7 @@ $this->doCaptchaCheck();
 		}
 		
 		if($this->isParentObjectCrsOrGrp())
-		{	
-
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+		{
 
 			$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
 			$frm_noti->setUserId($this->user->getId());
@@ -4462,7 +4433,6 @@ $this->doCaptchaCheck();
 			return;
 		}
 
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 		ilDesktopItemGUI::addToDesktop();
 		ilUtil::sendSuccess($this->lng->txt("added_to_desktop"));
 		$this->showThreadsObject();
@@ -4479,7 +4449,6 @@ $this->doCaptchaCheck();
 			return;
 		}
 
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 		ilDesktopItemGUI::removeFromDesktop();
 		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"));
 		$this->showThreadsObject();
@@ -4548,7 +4517,6 @@ $this->doCaptchaCheck();
 			$topicData = $frm->getOneTopic();
 			if($topicData)
 			{
-				include_once 'Modules/Forum/classes/class.ilForumTopicTableGUI.php';
 				$this->ctrl->setParameter($this, 'merge_thread_id', $selected_thread_id);
 				$tbl = new ilForumTopicTableGUI($this, 'mergeThreads', '', (int)$_GET['ref_id'], $topicData, $this->is_moderator, $this->forum_overview_setting);
 				$tbl->setSelectedThread($selected_thread_obj);
@@ -4603,9 +4571,8 @@ $this->doCaptchaCheck();
 		if(ilForumTopic::_lookupDate($source_thread_id) < ilForumTopic::_lookupDate($target_thread_id))
 		{
 			ilUtil::sendInfo($this->lng->txt('switch_threads_for_merge'));
-		}	
-		
-		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		}
+
 		$c_gui = new ilConfirmationGUI();
 
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, 'performMergeThreads'));
@@ -5190,7 +5157,6 @@ $this->doCaptchaCheck();
 	protected function deleteMobsOfDraft($draft_id, $message)
 	{
 		// remove usage of deleted media objects
-		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draft_id);
 		$curMediaObjects = ilRTE::_getMediaObjects($message, 0);
 		foreach($oldMediaObjects as $oldMob)
@@ -5830,7 +5796,6 @@ $this->doCaptchaCheck();
 				$modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
 				$modal->setId('frm_autosave_restore');
 				$form_tpl = new ilTemplate('tpl.restore_thread_draft.html', true, true, 'Modules/Forum');
-				include_once  './Services/Accordion/classes/class.ilAccordionGUI.php';
 
 				foreach($history_instances as $key => $history_instance)
 				{

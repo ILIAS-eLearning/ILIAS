@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Object/classes/class.ilObjectAccess.php';
-include_once 'Modules/Forum/classes/class.ilObjForum.php';
-
 /**
  * Class ilObjForumAccess
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -140,8 +137,6 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function prepareMessageForLists($text)
 	{
-		include_once 'Services/Utilities/classes/class.ilStr.php';
-
 		$text = strip_tags($text);
 		$text = preg_replace('/\[(\/)?quote\]/', '', $text);
 		if(ilStr::strLen($text) > 40)

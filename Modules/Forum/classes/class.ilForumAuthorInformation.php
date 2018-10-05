@@ -200,8 +200,6 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
-
 		$translationLanguage = $this->globalLng;
 		if ($this->lng instanceof \ilLanguage) {
 			$translationLanguage = $this->lng;

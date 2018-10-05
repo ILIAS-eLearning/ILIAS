@@ -494,16 +494,12 @@ class ilObjForum extends ilObject
 		));
 
 		// read options
-		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-
 		$cwo     = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$options = $cwo->getOptions($this->getRefId());
 
 		$options['threads'] = $this->Forum->_getThreads($this->getId());
 
 		// Generate starting threads
-		include_once('Modules/Forum/classes/class.ilFileDataForum.php');
-
 		$new_frm = $new_obj->Forum;
 		$new_frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($new_obj->getId()));
 
@@ -561,7 +557,6 @@ class ilObjForum extends ilObject
 		$this->rbac->admin()->copyRolePermissions($moderator, $this->getRefId(), $new_obj->getRefId(), $new_moderator, true);
 		$this->logger->write(__METHOD__ . ' : Finished copying of role il_frm_moderator.');
 
-		include_once './Modules/Forum/classes/class.ilForumModerators.php';
 		$obj_mods = new ilForumModerators($this->getRefId());
 
 		$old_mods = $obj_mods->getCurrentModerators();
@@ -676,7 +671,6 @@ class ilObjForum extends ilObject
 	 */
 	public function initDefaultRoles()
 	{
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role = ilObjRole::createDefaultRole(
 				'il_frm_moderator_'.$this->getRefId(),
 				"Moderator of forum obj_no.".$this->getId(),
@@ -715,7 +709,6 @@ class ilObjForum extends ilObject
 	public function createSettings()
 	{
 		// news settings (public notifications yes/no)
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
 		if($default_visibility == "public")
 		{

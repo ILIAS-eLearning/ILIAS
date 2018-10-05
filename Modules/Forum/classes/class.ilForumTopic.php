@@ -608,7 +608,6 @@ class ilForumTopic
 
 			while($post = $posts->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{ 
-				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,
 					"frm", $post["pos_pk"], "pos");
 				$news_item = new ilNewsItem($news_id);

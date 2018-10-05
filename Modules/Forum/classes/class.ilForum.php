@@ -698,7 +698,6 @@ class ilForum
 			array($message, $cens_date, $cens, $GLOBALS['DIC']['ilUser']->getId(), $pos_pk));
 		
 		// Change news item accordingly
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
 			"frm", $pos_pk, "pos");
 		if ($news_id > 0)
@@ -765,8 +764,6 @@ class ilForum
 	*/
 	public function deletePost($post)
 	{
-		include_once "./Modules/Forum/classes/class.ilObjForum.php";
-
 		$p_node = $this->getPostNode($post);
 
 		$GLOBALS['ilAppEventHandler']->raise(
@@ -805,8 +802,6 @@ class ilForum
 		if ($p_node["parent"] == 0)
 		{
 			// delete thread access data
-			include_once './Modules/Forum/classes/class.ilObjForum.php';
-
 			ilObjForum::_deleteAccessEntries($p_node['tree']);
 
 			// delete thread
@@ -832,7 +827,6 @@ class ilForum
 			
 			while ($posrec = $this->db->fetchAssoc($posset))
 			{
-				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
 					"frm", $posrec["pos_pk"], "pos");
 				if ($news_id > 0)
@@ -843,7 +837,6 @@ class ilForum
 				
 				try
 				{
-					include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 					$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $posrec['pos_pk']);
 					foreach($mobs as $mob)
 					{						
@@ -877,7 +870,6 @@ class ilForum
 					array('integer'), array($del_id[$i]));
 				
 				// delete related news item
-				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
 					"frm", $del_id[$i], "pos");
 				if ($news_id > 0)
@@ -888,7 +880,6 @@ class ilForum
 				
 				try
 				{
-					include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 					$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $del_id[$i]);
 					foreach($mobs as $mob)
 					{						
@@ -1825,7 +1816,6 @@ class ilForum
 		{
 			if($edit == 0)
 			{
-				include_once './Services/MathJax/classes/class.ilMathJax.php';
 				$text = ilMathJax::getInstance()->insertLatexImages($text, "\<span class\=\"latex\">", "\<\/span>");
 				$text = ilMathJax::getInstance()->insertLatexImages($text, "\[tex\]", "\[\/tex\]");
 			}
@@ -1846,8 +1836,7 @@ class ilForum
 		{
 			return false;
 		}
-		include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
-		
+
 		$tmp_file_obj = new ilFileDataForum($this->getForumId());
 		foreach($a_ids as $pos_id)
 		{
@@ -2175,8 +2164,6 @@ class ilForum
 		$add_difference = $target_root_node->getRgt();
 
 // update target root node rgt
-		include_once 'Modules/Forum/classes/class.ilForumPostsTree.php';
-//		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt() + 1);
 		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt());
 		ilForumPostsTree::updateTargetRootRgt($target_root_node->getId(), $new_target_rgt);
 
@@ -2221,15 +2208,12 @@ class ilForum
 		}
 
 // update frm_posts pos_thr_fk = target_thr_id
-		include_once 'Modules/Forum/classes/class.ilForumPost.php';
 		ilForumPost::mergePosts($merge_thread_source->getId(), $merge_thread_target->getId());
 
 // check notifications
-		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 		ilForumNotification::mergeThreadNotificiations($merge_thread_source->getId(), $merge_thread_target->getId());
 
 // delete frm_thread_access entries
-		include_once './Modules/Forum/classes/class.ilObjForum.php';
 		ilObjForum::_deleteAccessEntries($merge_thread_source->getId());
 
 // update frm_user_read  

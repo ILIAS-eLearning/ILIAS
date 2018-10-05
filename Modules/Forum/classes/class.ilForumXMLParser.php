@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-
 class ilForumXMLParser extends ilSaxParser
 {
 	/**
