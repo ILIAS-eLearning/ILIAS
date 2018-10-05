@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
 use ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface;
+use ILIAS\GlobalScreen\MainMenu\Entry\LinkList;
 use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLink;
 use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLinkInterface;
 use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
@@ -84,5 +85,17 @@ class MainMenuEntryFactory {
 	 */
 	public function repositoryLink(IdentificationInterface $identification): RepositoryLink {
 		return new RepositoryLink($identification);
+	}
+
+
+	/**
+	 * Returns you a GlobalScreen LinkList Entry which is used to group multiple Links
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return LinkList
+	 */
+	public function linkList(IdentificationInterface $identification): LinkList {
+		return new LinkList($identification);
 	}
 }
