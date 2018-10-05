@@ -46,6 +46,9 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI {
 
 	protected function initForm() {
 		global $DIC;
+		/**
+		 * @var $rbacreview ilRbacReview
+		 */
 		$rbacreview = $DIC['rbacreview'];
 
 		$this->setTitle($this->tableview->getId() ? $this->lng->txt('settings') : $this->lng->txt('dcl_tableview_add'));
@@ -67,11 +70,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI {
 		foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
 			$option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title'], $role_array['obj_id']));
 			$option->setValue($role_array['obj_id']);
-			$checkbox_group_input_gui->addOption($option);
-		}
-		foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id) {
-			$option = new ilCheckboxOption(ilObjRole::_getTranslation($role->getTitle(), $role_id));
-			$option->setValue($role_id);
 			$checkbox_group_input_gui->addOption($option);
 		}
 
