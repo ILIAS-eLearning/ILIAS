@@ -28,6 +28,9 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
 
+	/** @var ILIAS\UI\Component\Component[] */
+	protected $uiComponents = [];
+
 	/**
 	 * ilTermsOfServiceDocumentTableGUI constructor.
 	 * @param \ilTermsOfServiceControllerEnabled $a_parent_obj
@@ -287,7 +290,7 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 			$items[implode(' ', [
 				$typeGui->getIdentPresentation(),
-				($this->isEditable ? $this->uiRenderer->render([$dropDown, $deleteModal]) : '')
+				($this->isEditable ? $this->uiRenderer->render($dropDown) : '')
 			])] = 
 				$this->uiFactory->legacy(
 					$this->uiRenderer->render(
@@ -297,6 +300,10 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 						)
 					)
 				);
+
+			if ($this->isEditable) {
+				$this->uiComponents[] = $deleteModal;
+			}
 
 			$this->ctrl->setParameter($this->getParentObject(), 'tos_id', null);
 			$this->ctrl->setParameter($this->getParentObject(), 'crit_id', null);
@@ -347,5 +354,13 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 		$sortingField->setSize(2);
 
 		return $sortingField->render('toolbar');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getHTML()
+	{
+		return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
 	}
 }
