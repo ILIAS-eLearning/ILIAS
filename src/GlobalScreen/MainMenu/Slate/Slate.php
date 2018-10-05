@@ -9,7 +9,7 @@ use ILIAS\GlobalScreen\MainMenu\IconEntryInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
+class Slate extends AbstractParentEntry {
 
 	/**
 	 * @var bool
@@ -28,9 +28,9 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 	/**
 	 * @param string $title
 	 *
-	 * @return SlateInterfaceInterface
+	 * @return Slate
 	 */
-	public function withTitle(string $title): SlateInterfaceInterface {
+	public function withTitle(string $title): Slate {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -47,9 +47,11 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param bool $is_sticky
+	 *
+	 * @return Slate
 	 */
-	public function withSticky(bool $is_sticky): SlateInterfaceInterface {
+	public function withSticky(bool $is_sticky): Slate {
 		$clone = clone($this);
 		$clone->sticky = $is_sticky;
 
@@ -58,7 +60,7 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return bool
 	 */
 	public function isSticky(): bool {
 		return $this->sticky;
@@ -66,7 +68,9 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $path_to_svg_icon
+	 *
+	 * @return Slate
 	 */
 	public function withIconPath(string $path_to_svg_icon): IconEntryInterface {
 		$clone = clone($this);
@@ -77,7 +81,7 @@ class Slate extends AbstractParentEntry implements SlateInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getIconPath(): string {
 		return $this->icon_path;

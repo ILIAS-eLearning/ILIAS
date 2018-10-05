@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Divider extends AbstractChildEntry implements DividerInterface {
+class Divider extends AbstractChildEntry {
 
 	/**
 	 * @var string
@@ -16,9 +16,11 @@ class Divider extends AbstractChildEntry implements DividerInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $title
+	 *
+	 * @return Divider
 	 */
-	public function withTitle(string $title): DividerInterface {
+	public function withTitle(string $title): Divider {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -27,7 +29,7 @@ class Divider extends AbstractChildEntry implements DividerInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;

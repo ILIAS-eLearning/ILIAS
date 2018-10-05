@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ilLink;
 
 /**
  * Class Link
@@ -10,16 +11,12 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildEntry {
+class RepositoryLink extends AbstractChildEntry {
 
 	/**
-	 * @var bool
+	 * @var int
 	 */
-	protected $is_external_action;
-	/**
-	 * @var string
-	 */
-	protected $action;
+	protected $ref_id = 0;
 	/**
 	 * @var string
 	 */
@@ -33,9 +30,9 @@ class Link extends AbstractChildEntry {
 	/**
 	 * @param string $title
 	 *
-	 * @return Link
+	 * @return RepositoryLink
 	 */
-	public function withTitle(string $title): Link {
+	public function withTitle(string $title): RepositoryLink {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -54,9 +51,9 @@ class Link extends AbstractChildEntry {
 	/**
 	 * @param string $alt_text
 	 *
-	 * @return Link
+	 * @return RepositoryLink
 	 */
-	public function withAltText(string $alt_text): Link {
+	public function withAltText(string $alt_text): RepositoryLink {
 		$clone = clone($this);
 		$clone->alt_text = $alt_text;
 
@@ -73,43 +70,27 @@ class Link extends AbstractChildEntry {
 
 
 	/**
-	 * @param string $action
-	 *
-	 * @return Link
-	 */
-	public function withAction(string $action): Link {
-		$clone = clone($this);
-		$clone->action = $action;
-
-		return $clone;
-	}
-
-
-	/**
 	 * @return string
 	 */
 	public function getAction(): string {
-		return $this->action;
+		return ilLink::_getLink($this->ref_id);
 	}
 
 
 	/**
-	 * @param bool $is_external
+	 * @param int $ref_id
 	 *
-	 * @return Link
+	 * @return RepositoryLink
 	 */
-	public function withIsLinkToExternalAction(bool $is_external): Link {
-		$clone = clone $this;
-		$clone->is_external_action = $is_external;
-
-		return $clone;
+	public function withRefId(int $ref_id): RepositoryLink {
+		$this->ref_id = $ref_id;
 	}
 
 
 	/**
-	 * @return bool
+	 * @return int
 	 */
-	public function isLinkWithExternalAction(): bool {
-		return $this->is_external_action;
+	public function getRefId(): int {
+		return $this->ref_id;
 	}
 }

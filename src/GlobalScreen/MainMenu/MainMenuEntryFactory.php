@@ -6,6 +6,8 @@ use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
 use ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface;
+use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLink;
+use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLinkInterface;
 use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
 use ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -28,9 +30,9 @@ class MainMenuEntryFactory {
 	 *
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return SlateInterfaceInterface
+	 * @return Slate
 	 */
-	public function slate(IdentificationInterface $identification): SlateInterfaceInterface {
+	public function slate(IdentificationInterface $identification): Slate {
 		return new Slate($identification);
 	}
 
@@ -40,9 +42,9 @@ class MainMenuEntryFactory {
 	 *
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return LinkInterface
+	 * @return Link
 	 */
-	public function link(IdentificationInterface $identification): LinkInterface {
+	public function link(IdentificationInterface $identification): Link {
 		return new Link($identification);
 	}
 
@@ -53,9 +55,9 @@ class MainMenuEntryFactory {
 	 *
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return DividerInterface
+	 * @return Divider
 	 */
-	public function divider(IdentificationInterface $identification): DividerInterface {
+	public function divider(IdentificationInterface $identification): Divider {
 		return new Divider($identification);
 	}
 
@@ -66,9 +68,21 @@ class MainMenuEntryFactory {
 	 *
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return ComplexInterface
+	 * @return Complex
 	 */
-	public function complex(IdentificationInterface $identification): ComplexInterface {
+	public function complex(IdentificationInterface $identification): Complex {
 		return new Complex($identification);
+	}
+
+
+	/**
+	 * Returns you a GlobalScreen RepositoryLink Entry which is used to generate URLs to Ref-IDs
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return RepositoryLink
+	 */
+	public function repositoryLink(IdentificationInterface $identification): RepositoryLink {
+		return new RepositoryLink($identification);
 	}
 }

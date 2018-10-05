@@ -1,7 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
-use ILIAS\GlobalScreen\MainMenu\Entry\EntryI;
-use ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface;
+use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
 
 /**
  * Interface StorageAdapterInterface
@@ -15,7 +14,7 @@ interface StorageAdapterInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function storeEntry(EntryI $entry): EntryI;
+	public function storeEntry(EntryInterface $entry): EntryInterface;
 
 
 	/**
@@ -23,7 +22,7 @@ interface StorageAdapterInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function readEntry(EntryI $entry): EntryI;
+	public function readEntry(EntryInterface $entry): EntryInterface;
 
 
 	/**
@@ -31,23 +30,23 @@ interface StorageAdapterInterface {
 	 *
 	 * @return EntryInterface
 	 */
-	public function updateEntry(EntryI $entry): EntryI;
+	public function updateEntry(EntryInterface $entry): EntryInterface;
 
 
 	/**
-	 * @param ISlate $slate
+	 * @param Slate $slate
 	 */
-	public function storeSlate(SlateInterfaceInterface $slate);
+	public function storeSlate(Slate $slate);
 
 
 	/**
-	 * @param ISlate $slate
+	 * @param Slate $slate
 	 */
-	public function readSlate(SlateInterfaceInterface $slate);
+	public function readSlate(Slate $slate);
 
 
 	/**
-	 * @param ISlate $slate
+	 * @param Slate $slate
 	 */
-	public function updateSlate(SlateInterfaceInterface $slate);
+	public function updateSlate(Slate $slate);
 }

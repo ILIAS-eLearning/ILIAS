@@ -8,7 +8,7 @@ use ILIAS\GlobalScreen\MainMenu\Tool\ToolInterfaceInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentEntry implements ToolInterfaceInterface {
+class Tool extends AbstractParentEntry {
 
 	/**
 	 * @var string
@@ -23,9 +23,9 @@ class Tool extends AbstractParentEntry implements ToolInterfaceInterface {
 	/**
 	 * @param string $title
 	 *
-	 * @return ToolInterfaceInterface
+	 * @return Tool
 	 */
-	public function withTitle(string $title): ToolInterfaceInterface {
+	public function withTitle(string $title): Tool {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -34,7 +34,7 @@ class Tool extends AbstractParentEntry implements ToolInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;
@@ -42,9 +42,11 @@ class Tool extends AbstractParentEntry implements ToolInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $path_to_svg_icon
+	 *
+	 * @return Tool
 	 */
-	public function withIconPath(string $path_to_svg_icon): ToolInterfaceInterface {
+	public function withIconPath(string $path_to_svg_icon): Tool {
 		$clone = clone($this);
 		$clone->icon_path = $path_to_svg_icon;
 
@@ -53,7 +55,7 @@ class Tool extends AbstractParentEntry implements ToolInterfaceInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getIconPath(): string {
 		return $this->icon_path;

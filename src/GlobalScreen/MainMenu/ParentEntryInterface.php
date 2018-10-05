@@ -16,7 +16,7 @@ interface ParentEntryInterface extends EntryInterface {
 	/**
 	 * @param EntryInterface[] $children
 	 *
-	 * @return EntryInterface
+	 * @return ParentEntryInterface
 	 */
 	public function withChildren(array $children): ParentEntryInterface;
 
@@ -26,7 +26,7 @@ interface ParentEntryInterface extends EntryInterface {
 	 *
 	 * @param ChildEntryInterface $child
 	 *
-	 * @return EntryInterface
+	 * @return ParentEntryInterface
 	 */
 	public function appendChild(ChildEntryInterface $child): ParentEntryInterface;
 }
