@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/exceptions/class.ilMailException.php';
-
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -83,9 +80,6 @@ class ilMail
 		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
-
-		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
 
 		if ($mailAddressTypeFactory === null) {
 			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
@@ -168,7 +162,6 @@ class ilMail
 		{
 			if(is_object($DIC->user()))
 			{
-				require_once 'Services/Contact/classes/class.ilMailingLists.php';
 				$this->properties[$name] = new ilMailingLists($DIC->user());
 				return $this->properties[$name];
 			}
@@ -262,7 +255,6 @@ class ilMail
 	 */
 	protected function readMailObjectReferenceId()
 	{
-		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		$this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
 	}
 
@@ -756,9 +748,6 @@ class ilMail
 	 */
 	protected function distributeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_subject, $a_message, $a_attachments, $sent_mail_id, $a_type, $a_action, $a_use_placeholders = 0)
 	{
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-		require_once 'Services/User/classes/class.ilObjUser.php';
-
 		$mbox = new ilMailbox();
 		if(!$a_use_placeholders)
 		{
@@ -1284,8 +1273,6 @@ class ilMail
 	 */
 	protected function saveInSentbox($a_attachment, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_type, $a_m_subject, $a_m_message)
 	{
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-
 		$mbox           = new ilMailbox($this->user_id);
 		$sent_folder_id = $mbox->getSentFolder();
 
@@ -1310,14 +1297,11 @@ class ilMail
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
 	{
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
-
 		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
 
 		// #10854
 		if($this->isSOAPEnabled() && !$a_no_soap)
 		{
-			require_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 			$soap_client = new ilSoapClient();
 			$soap_client->setResponseTimeout(5);
 			$soap_client->enableWSDL(true);
@@ -1519,7 +1503,6 @@ class ilMail
 
 		if(!($lang instanceof ilLanguage))
 		{
-			require_once 'Services/Language/classes/class.ilLanguageFactory.php';
 			$lang = ilLanguageFactory::_getLanguage();
 		}
 

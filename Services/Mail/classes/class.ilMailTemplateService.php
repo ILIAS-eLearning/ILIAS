@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
-
 /**
  * Class ilMailTemplateService
  * @author  Michael Jansen <mjansen@databay.de>
@@ -87,7 +85,6 @@ class ilMailTemplateService
 		$first_context = current($contexts);
 		if(!($first_context instanceof ilMailTemplateContext)  || $first_context->getId() != $a_id)
 		{
-			require_once 'Services/Mail/exceptions/class.ilMailException.php';
 			throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
 		}
 		return $first_context;

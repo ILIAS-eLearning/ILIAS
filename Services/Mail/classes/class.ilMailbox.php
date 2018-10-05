@@ -9,8 +9,6 @@
 * @version $Id$
 *
 */
-require_once("Services/Mail/classes/class.ilMail.php");
-
 class ilMailbox
 {
 	/**
@@ -343,7 +341,6 @@ class ilMailbox
 			return false;
 		}
 
-		require_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($this->user_id);
 
 		$subtree = $this->mtree->getSubtree($this->mtree->getNodeData($a_folder_id));
@@ -504,7 +501,6 @@ class ilMailbox
 		);
 
 		// Delete the user's files from filesystem: This has to be done before deleting the database entries in table 'mail'
-		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 		$fdm = new ilFileDataMail($this->user_id);
 		$fdm->onUserDelete();
 		

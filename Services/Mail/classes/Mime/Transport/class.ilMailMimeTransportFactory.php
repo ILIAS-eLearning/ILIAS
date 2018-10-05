@@ -24,18 +24,15 @@ class ilMailMimeTransportFactory
 	{
 		if(!(bool)$this->settings->get('mail_allow_external'))
 		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportNull.php';
 			return new ilMailMimeTransportNull();
 		}
 
 		if((bool)$this->settings->get('mail_smtp_status'))
 		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportSmtp.php';
 			return new ilMailMimeTransportSmtp($this->settings);
 		}
 		else
 		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportSendmail.php';
 			return new ilMailMimeTransportSendmail($this->settings);
 		}
 	}

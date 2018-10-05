@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-
 /**
 * Class Mail Explorer 
 * class for explorer view for mailboxes

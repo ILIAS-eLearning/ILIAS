@@ -50,7 +50,6 @@ class ilMailLuceneSearcher
 
 		try
 		{
-			include_once 'Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 			$xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
 				CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
 				(int)$user_id,
@@ -60,12 +59,10 @@ class ilMailLuceneSearcher
 		}
 		catch(Exception $e)
 		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
 			throw $e;
 		}
 
-		include_once 'Services/Mail/classes/class.ilMailSearchLuceneResultParser.php';
 		$parser = new ilMailSearchLuceneResultParser($this->result, $xml);
 		$parser->parse();
 	}

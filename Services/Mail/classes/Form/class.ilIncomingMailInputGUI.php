@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-require_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
-require_once 'Services/Form/classes/class.ilRadioOption.php';
-
 /**
  * Class ilIncomingMailInputGUI
  * @author Nadia Matuschek <nmatuschek@databay.de>

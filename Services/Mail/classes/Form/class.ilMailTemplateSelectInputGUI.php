@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-require_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
 /**
  * Class ilMailTemplateSelectInputGUI

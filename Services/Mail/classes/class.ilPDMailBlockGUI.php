@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Block/classes/class.ilBlockGUI.php';
-include_once 'Services/Mail/classes/class.ilMailUserCache.php';
-
 /**
  * BlockGUI class for Personal Desktop Mail block
  * @author			Alex Killing <alex.killing@gmx.de>
@@ -61,10 +58,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->ctrl       = $DIC->ctrl();
 		$this->setting    = $DIC->settings();
 		$this->rbacsystem = $DIC->rbac()->system();
-
-		include_once 'Services/User/classes/class.ilObjUser.php';
-		include_once 'Services/Mail/classes/class.ilMailbox.php';
-		include_once 'Services/Mail/classes/class.ilMail.php';
 
 		parent::__construct();
 
@@ -143,8 +136,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function getMails()
 	{
-		require_once 'Services/Mail/classes/class.ilObjMail.php';
-
 		$umail       = new ilMail($this->user->getId());
 		$mbox        = new ilMailBox($this->user->getId());
 		$this->inbox = $mbox->getInboxFolder();
@@ -256,10 +247,8 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function showMail()
 	{
-		include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
 		$mail_gui = new ilPDMailGUI();
 
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
 			$_GET["mobj_id"]));

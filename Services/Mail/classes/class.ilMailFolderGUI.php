@@ -2,12 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/classes/class.ilMailbox.php';
-require_once 'Services/Mail/classes/class.ilMail.php';
-require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
-include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
-
 /**
 * @author Jens Conze
 * @version $Id$
@@ -141,19 +135,16 @@ class ilMailFolderGUI
 		switch($forward_class)
 		{
 			case 'ilcontactgui':
-				require_once 'Services/Contact/classes/class.ilContactGUI.php';
 				$this->ctrl->forwardCommand(new ilContactGUI());
 				break;
 
 			case 'ilmailoptionsgui':
 				$this->tpl->setTitle($this->lng->txt('mail'));
-				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
 				break;
 
 			case 'ilpublicuserprofilegui':
-				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$this->tpl->setTitle($this->lng->txt("mail"));
 				$this->ctrl->saveParameter($this, "mail_id");
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
@@ -221,7 +212,6 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.svg"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT", $this->lng->txt("public_profile"));
 		
-		include_once './Services/User/classes/class.ilPublicUserProfileGUI.php';		
 		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 		$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, "showMail"));
 		$this->tpl->setContent($this->ctrl->getHTML($profile_gui));
@@ -367,7 +357,6 @@ class ilMailFolderGUI
 			if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 			{
 				$this->toolbar->addText($this->lng->txt('mail_change_to_folder'));
-				include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 				$si = new ilSelectInputGUI("", "mobj_id");
 				$si->setOptions($folder_options);
 				$si->setValue($_GET['mobj_id']);
@@ -403,7 +392,6 @@ class ilMailFolderGUI
 	{
 		if($a_show_confirm)
 		{
-			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 			$oConfirmationGUI = new ilConfirmationGUI();
 
 			// set confirm/cancel commands
@@ -463,8 +451,6 @@ class ilMailFolderGUI
 
 	public function addSubFolder()
 	{
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -489,8 +475,6 @@ class ilMailFolderGUI
 
 	public function renameSubFolder()
 	{
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -700,8 +684,6 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail_mails_of'));
 
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
 		$form = new ilPropertyFormGUI();
 		$form->setPreventDoubleSubmission(false);
 		$form->setTableWidth('100%');
@@ -714,8 +696,6 @@ class ilMailFolderGUI
 		{
 			$this->tpl->setVariable('FORM_TARGET', ilFrameTargetInfo::_getFrame('MainContent'));
 		}
-
-		include_once 'Services/Accessibility/classes/class.ilAccessKeyGUI.php';
 
 		/**
 		 * @var $sender ilObjUser
@@ -874,7 +854,6 @@ class ilMailFolderGUI
 
 		if(is_array($selectOptions) && count($selectOptions))
 		{
-			include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 			$actions = new ilSelectInputGUI('', 'selected_cmd');
 			$actions->setOptions($selectOptions);
 			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
@@ -986,8 +965,6 @@ class ilMailFolderGUI
 
 		if ($filename != "")
 		{
-			require_once "./Services/Mail/classes/class.ilFileDataMail.php";
-			
 			// secure filename
 			$filename = str_replace("..", "", $filename);
 			

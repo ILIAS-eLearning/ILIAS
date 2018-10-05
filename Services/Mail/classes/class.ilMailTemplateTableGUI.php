@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-
 /**
  * Class ilMailTemplateTableGUI
  * @author Nadia Ahmad <nahmad@databay.de>

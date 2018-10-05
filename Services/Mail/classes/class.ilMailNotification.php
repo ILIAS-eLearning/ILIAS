@@ -2,9 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Services/Language/classes/class.ilLanguageFactory.php';
-include_once './Services/Mail/classes/class.ilMail.php';
-
 /**
  * Base class for course/group mail notifications
  * 
@@ -54,9 +51,7 @@ abstract class ilMailNotification
 		$this->language = ilLanguageFactory::_getLanguage($DIC->language()->getDefaultLanguage());
 		
 		if($this->is_in_wsp)
-		{			
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
+		{
 			$this->wsp_tree = new ilWorkspaceTree($DIC->user()->getId()); // owner of tree is irrelevant
 			$this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree); 					
 		}
@@ -379,9 +374,7 @@ abstract class ilMailNotification
 		// smeyer: 19.5.16 fixed strlen warning, since $error is of type array
 		if($error)
 		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getLogger('mail')->dump($error, ilLogLevel::ERROR);
-			//ilLoggerFactory::getLogger('mail')->error($error);
 		}
 	}
 
@@ -408,8 +401,6 @@ abstract class ilMailNotification
 	 */
 	protected function createPermanentLink($a_params = array(),$a_append = '')
 	{
-		include_once './Services/Link/classes/class.ilLink.php';
-		
 		if($this->getRefId())
 		{
 			if(!$this->is_in_wsp)

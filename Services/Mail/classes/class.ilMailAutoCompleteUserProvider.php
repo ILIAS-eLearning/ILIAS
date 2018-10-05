@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/User/classes/class.ilUserAutoComplete.php';
-require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.php';
-
 /**
  * Class ilMailAutoCompleteUserProvider
  */
@@ -167,10 +164,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		// We handled the general condition for 'anonymous' context above: profile = 'g' 
 		$field_conditions[] = $this->getQueryConditionByFieldAndValue('login', $search_query);
 
-		include_once 'Services/User/classes/class.ilUserAccountSettings.php';
 		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 		{
-			include_once './Services/User/classes/class.ilUserFilter.php';
 			$outer_conditions[] = $this->db->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
 		}
 
@@ -209,7 +204,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		$available_fields = array();
 		foreach(array('login', 'firstname', 'lastname') as $field)
 		{
-			include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 			if(ilUserSearchOptions::_isEnabled($field))
 			{
 				$available_fields[] = $field;

@@ -10,7 +10,6 @@
 * @version $Id$
 * 
 */
-include_once "Services/Mail/classes/class.ilMail.php";
 
 class ilFormatMail extends ilMail
 {
@@ -109,8 +108,6 @@ class ilFormatMail extends ilMail
 		{
 			return false;
 		}
-
-		require_once './Services/User/classes/class.ilObjUser.php';
 
 		$user = new ilObjUser($this->mail_data["sender_id"]);
 		return $this->mail_data["rcp_to"] = $user->getLogin();

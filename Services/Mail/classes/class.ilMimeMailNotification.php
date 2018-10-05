@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Mail/classes/class.ilMimeMail.php';
-include_once 'Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * Base class for mime mail notifications
  * @version $Id$
@@ -71,8 +68,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
 	 */
 	protected function handleCurrentRecipient($rcp)
 	{
-		require_once 'Services/Mail/exceptions/class.ilMailException.php';
-		
 		if(is_numeric($rcp))
 		{
 			/**

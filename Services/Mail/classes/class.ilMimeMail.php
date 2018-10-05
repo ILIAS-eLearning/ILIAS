@@ -125,7 +125,6 @@ class ilMimeMail
 		if($a_add_prefix)
 		{
 			// #9096
-			require_once 'Services/Mail/classes/class.ilMail.php';
 			$prefix = ilMail::getSubjectPrefix();
 			if(trim($prefix))
 			{

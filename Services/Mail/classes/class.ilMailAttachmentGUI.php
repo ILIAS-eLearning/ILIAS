@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilFileDataMail.php";
-
 /**
  * @author  Jens Conze
  * @version $Id$
@@ -130,7 +127,6 @@ class ilMailAttachmentGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
-		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteAttachments'));
 		$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteAttachments');
@@ -192,7 +188,6 @@ class ilMailAttachmentGUI
 	 */
 	protected function getToolbarForm()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$attachment = new ilFileInputGUI($this->lng->txt('upload'), 'userfile');
 		$attachment->setRequired(true);
@@ -235,7 +230,6 @@ class ilMailAttachmentGUI
 	{
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
-		require_once 'Services/Form/classes/class.ilFileInputGUI.php';
 		$attachment = new ilFileInputGUI($this->lng->txt('upload'), 'userfile');
 		$attachment->setRequired(true);
 		$attachment->setSize(20);
@@ -243,7 +237,6 @@ class ilMailAttachmentGUI
 		$this->toolbar->addInputItem($attachment);
 		$this->toolbar->addFormButton($this->lng->txt('upload'), 'uploadFile');
 
-		require_once 'Services/Mail/classes/class.ilMailAttachmentTableGUI.php';
 		$table = new ilMailAttachmentTableGUI($this, 'showAttachments');
 
 		$mailData = $this->umail->getSavedData();

@@ -9,8 +9,6 @@
 * @version $Id$
 * 
 */
-require_once("./Services/FileSystem/classes/class.ilFileData.php");
-require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
 /**
  * Class ilFileDataMail
@@ -419,7 +417,6 @@ class ilFileDataMail extends ilFileData
 		
 		if(!is_object($fsstorage_cache[$a_mail_id][$a_usr_id]))
 		{
-			include_once 'Services/Mail/classes/class.ilFSStorageMail.php';
 			$fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
 		} 
 		
