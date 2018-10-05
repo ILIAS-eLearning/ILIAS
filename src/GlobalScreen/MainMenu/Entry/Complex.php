@@ -8,7 +8,7 @@ use ILIAS\GlobalScreen\MainMenu\AsyncContentEntryInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildEntry implements ComplexInterface {
+class Complex extends AbstractChildEntry implements AsyncContentEntryInterface {
 
 	/**
 	 * @var string

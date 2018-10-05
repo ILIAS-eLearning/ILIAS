@@ -10,7 +10,7 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildEntry implements LinkInterface {
+class Link extends AbstractChildEntry {
 
 	/**
 	 * @var bool
@@ -31,9 +31,11 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $title
+	 *
+	 * @return Link
 	 */
-	public function withTitle(string $title): LinkInterface {
+	public function withTitle(string $title): Link {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -42,7 +44,7 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;
@@ -50,9 +52,11 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $alt_text
+	 *
+	 * @return Link
 	 */
-	public function withAltText(string $alt_text): LinkInterface {
+	public function withAltText(string $alt_text): Link {
 		$clone = clone($this);
 		$clone->alt_text = $alt_text;
 
@@ -61,7 +65,7 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getAltText(): string {
 		return $this->alt_text;
@@ -69,9 +73,11 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $action
+	 *
+	 * @return Link
 	 */
-	public function withAction(string $action): LinkInterface {
+	public function withAction(string $action): Link {
 		$clone = clone($this);
 		$clone->action = $action;
 
@@ -80,7 +86,7 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getAction(): string {
 		return $this->action;
@@ -88,9 +94,11 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @param bool $is_external
+	 *
+	 * @return Link
 	 */
-	public function withIsLinkToExternalAction(bool $is_external): LinkInterface {
+	public function withIsLinkToExternalAction(bool $is_external): Link {
 		$clone = clone $this;
 		$clone->is_external_action = $is_external;
 
@@ -99,7 +107,7 @@ class Link extends AbstractChildEntry implements LinkInterface {
 
 
 	/**
-	 * @inheritDoc
+	 * @return bool
 	 */
 	public function isLinkWithExternalAction(): bool {
 		return $this->is_external_action;

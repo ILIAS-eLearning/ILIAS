@@ -11,7 +11,7 @@ use ilLink;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterface {
+class RepositoryLink extends AbstractChildEntry {
 
 	/**
 	 * @var int
@@ -28,7 +28,9 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $title
+	 *
+	 * @return RepositoryLink
 	 */
 	public function withTitle(string $title): RepositoryLink {
 		$clone = clone($this);
@@ -39,7 +41,7 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;
@@ -47,7 +49,9 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @param string $alt_text
+	 *
+	 * @return RepositoryLink
 	 */
 	public function withAltText(string $alt_text): RepositoryLink {
 		$clone = clone($this);
@@ -58,7 +62,7 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getAltText(): string {
 		return $this->alt_text;
@@ -66,7 +70,7 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @return string
 	 */
 	public function getAction(): string {
 		return ilLink::_getLink($this->ref_id);
@@ -74,7 +78,9 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @param int $ref_id
+	 *
+	 * @return RepositoryLink
 	 */
 	public function withRefId(int $ref_id): RepositoryLink {
 		$this->ref_id = $ref_id;
@@ -82,7 +88,7 @@ class RepositoryLink extends AbstractChildEntry implements RepositoryLinkInterfa
 
 
 	/**
-	 * @inheritDoc
+	 * @return int
 	 */
 	public function getRefId(): int {
 		return $this->ref_id;
