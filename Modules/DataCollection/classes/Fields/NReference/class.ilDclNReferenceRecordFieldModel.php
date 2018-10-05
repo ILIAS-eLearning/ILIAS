@@ -29,15 +29,13 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	}
 
 
-
-
 	public function doUpdate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		$values = $this->getValue();
 		if (!is_array($values)) {
-			$values = array( $values );
+			$values = array($values);
 		}
 		$datatype = $this->getField()->getDatatype();
 
@@ -55,7 +53,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 			$query .= " (" . $ilDB->quote($value, $datatype->getDbType()) . ", " . $ilDB->quote($this->getId(), "integer") . ", "
 				. $ilDB->quote($next_id, "integer") . "),";
 		}
-		$query = substr($query, 0, - 1);
+		$query = substr($query, 0, -1);
 		$ilDB->manipulate($query);
 	}
 
@@ -71,7 +69,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 
 
 	protected function loadValueSorted() {
-		if ($this->value === NULL) {
+		if ($this->value === null) {
 
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
@@ -84,11 +82,13 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 				ilDclDatatype::INPUTFORMAT_FILE,
 			);
 
-			$supported_types = array_merge(array(
-				ilDclDatatype::INPUTFORMAT_TEXT,
-				ilDclDatatype::INPUTFORMAT_NUMBER,
-				ilDclDatatype::INPUTFORMAT_BOOLEAN,
-			), $supported_internal_types);
+			$supported_types = array_merge(
+				array(
+					ilDclDatatype::INPUTFORMAT_TEXT,
+					ilDclDatatype::INPUTFORMAT_NUMBER,
+					ilDclDatatype::INPUTFORMAT_BOOLEAN,
+				), $supported_internal_types
+			);
 			$datatypeId = $refField->getDatatypeId();
 			if (in_array($datatypeId, $supported_types)) {
 				if (in_array($datatypeId, $supported_internal_types)) {
@@ -133,7 +133,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 
 
 	protected function loadValue() {
-		if ($this->value === NULL) {
+		if ($this->value === null) {
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
 			$datatype = $this->getField()->getDatatype();
@@ -153,11 +153,11 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	 *
 	 * @return mixed
 	 */
-	public function getSingleHTML($options = NULL) {
+	public function getSingleHTML($options = null) {
 		$ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
+
 		return $ilDataCollectionNReferenceFieldGUI->getSingleHTML($options);
 	}
-
 
 
 	/**
@@ -168,7 +168,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	 */
 	public function getLinkHTML($link, $value) {
 		if ($link == "[" . $this->getField()->getTitle() . "]") {
-			$link = NULL;
+			$link = null;
 		}
 
 		return parent::getLinkHTML($link, $value);
@@ -180,23 +180,27 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	 */
 	public function getHTML() {
 		$ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
+
 		return $ilDataCollectionNReferenceFieldGUI->getHTML();
 	}
 
-	public function getValueFromExcel($excel, $row, $col){
+
+	public function getValueFromExcel($excel, $row, $col) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$stringValue = parent::getValueFromExcel($excel, $row, $col);
 		$this->getReferencesFromString($stringValue);
 		$referenceIds = $this->getReferencesFromString($stringValue);
 		if (!count($referenceIds) && $stringValue) {
-			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $stringValue;
+
 			return array('warning' => $warning);
 		}
 
 		return $referenceIds;
 	}
+
 
 	/**
 	 * @return int|string
@@ -217,27 +221,30 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 		if (!count($names)) {
 			return "";
 		}
-		$string = substr($string, 0, - 2);
+		$string = substr($string, 0, -2);
 
 		return $string;
 	}
+
 
 	/**
 	 * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
 	 * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
 	 * Will mess with it.
+	 *
 	 * @param $stringValues string
+	 *
 	 * @return int[]
 	 */
 	protected function getReferencesFromString($stringValues) {
 		$slicedStrings = explode(", ", $stringValues);
 		$slicedReferences = array();
 		$resolved = 0;
-		for($i = 0; $i < count($slicedStrings); $i++) {
+		for ($i = 0; $i < count($slicedStrings); $i++) {
 			//try to find a reference since the last resolved value separated by a comma.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
 			$searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
-			if($ref = $this->getReferenceFromValue($searchString)){
+			if ($ref = $this->getReferenceFromValue($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
@@ -246,12 +253,13 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 			//try to find a reference with the current index.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
 			$searchString = $slicedStrings[$i];
-			if($ref = $this->getReferenceFromValue($searchString)){
+			if ($ref = $this->getReferenceFromValue($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
 			}
 		}
+
 		return $slicedReferences;
 	}
 }

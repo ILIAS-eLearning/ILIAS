@@ -73,6 +73,7 @@ class ilDclBaseRecordModel {
 
 	/**
 	 * @param $value
+	 *
 	 * @return string
 	 */
 	private function fixDate($value) {
@@ -90,27 +91,29 @@ class ilDclBaseRecordModel {
 		$values = array(
 			"table_id"     => array(
 				"integer",
-				$this->getTableId()
+				$this->getTableId(),
 			),
 			"last_update"  => array(
 				"date",
-				$this->fixDate($this->getLastUpdate())
+				$this->fixDate($this->getLastUpdate()),
 			),
 			"owner"        => array(
 				"text",
-				$this->getOwner()
+				$this->getOwner(),
 			),
 			"last_edit_by" => array(
 				"text",
-				$this->getLastEditBy()
-			)
+				$this->getLastEditBy(),
+			),
 		);
-		$ilDB->update("il_dcl_record", $values, array(
+		$ilDB->update(
+			"il_dcl_record", $values, array(
 			"id" => array(
 				"integer",
-				$this->id
-			)
-		));
+				$this->id,
+			),
+		)
+		);
 
 		foreach ($this->getRecordFields() as $recordfield) {
 			$recordfield->doUpdate();
@@ -150,13 +153,14 @@ class ilDclBaseRecordModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		if (! ilDclTable::_tableExists($this->getTableId())) {
+		if (!ilDclTable::_tableExists($this->getTableId())) {
 			throw new ilException("The field does not have a related table!");
 		}
 
 		$id = $ilDB->nextId("il_dcl_record");
 		$this->setId($id);
-		$query = "INSERT INTO il_dcl_record (
+		$query
+			= "INSERT INTO il_dcl_record (
 			id,
 			table_id,
 			create_date,
@@ -309,7 +313,7 @@ class ilDclBaseRecordModel {
 	/**
 	 * Set a field value
 	 *
-	 * @param int $field_id
+	 * @param int    $field_id
 	 * @param string $value
 	 */
 	public function setRecordFieldValue($field_id, $value) {
@@ -320,10 +324,10 @@ class ilDclBaseRecordModel {
 			$this->loadTable();
 			$record_field = $this->recordfields[$field_id];
 
-		
 			$this->recordfields[$field_id]->setValue($value);
 		}
 	}
+
 
 	/**
 	 * Set a field value
@@ -341,15 +345,18 @@ class ilDclBaseRecordModel {
 		}
 	}
 
+
 	/**
 	 * @param $excel ilExcel
 	 * @param $row
 	 * @param $col
 	 * @param $field ilDclBaseFieldModel
+	 *
 	 * @return array|string
 	 */
 	public function getRecordFieldValueFromExcel($excel, $row, $col, $field) {
 		$this->loadRecordFields();
+
 		return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
 	}
 
@@ -367,6 +374,7 @@ class ilDclBaseRecordModel {
 		}
 	}
 
+
 	/**
 	 * @deprecated
 	 * @return array
@@ -381,6 +389,7 @@ class ilDclBaseRecordModel {
 		return $return;
 	}
 
+
 	/**
 	 * Get Field Value
 	 *
@@ -389,8 +398,8 @@ class ilDclBaseRecordModel {
 	 * @return array
 	 */
 	public function getRecordFieldValue($field_id) {
-		if ($field_id === NULL) {
-			return NULL;
+		if ($field_id === null) {
+			return null;
 		}
 		$this->loadRecordFields();
 		if (ilDclStandardField::_isStandardField($field_id)) {
@@ -409,8 +418,8 @@ class ilDclBaseRecordModel {
 	 * @return array|int|null|string
 	 */
 	public function getRecordFieldRepresentationValue($field_id) {
-		if ($field_id === NULL) {
-			return NULL;
+		if ($field_id === null) {
+			return null;
 		}
 		$this->loadRecordFields();
 		if (ilDclStandardField::_isStandardField($field_id)) {
@@ -437,6 +446,7 @@ class ilDclBaseRecordModel {
 		}
 	}
 
+
 	/**
 	 * Get Field Export Value
 	 *
@@ -452,6 +462,7 @@ class ilDclBaseRecordModel {
 			return $this->recordfields[$field_id]->getPlainText();
 		}
 	}
+
 
 	/**
 	 * @param $worksheet
@@ -476,6 +487,7 @@ class ilDclBaseRecordModel {
 			$this->recordfields[$field_id]->fillExcelExport($worksheet, $row, $col);
 		}
 	}
+
 
 	/**
 	 * @param       $field_id
@@ -530,6 +542,7 @@ class ilDclBaseRecordModel {
 		return $html;
 	}
 
+
 	/**
 	 * @param       $field_id
 	 * @param array $options
@@ -551,11 +564,12 @@ class ilDclBaseRecordModel {
 		}
 		// This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
 		// SW 14.10.2015 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
-//		$html = str_ireplace("{", "&#123;", $html);
-//		$html = str_ireplace("}", "&#125;", $html);
+		//		$html = str_ireplace("{", "&#123;", $html);
+		//		$html = str_ireplace("}", "&#125;", $html);
 
 		return $html;
 	}
+
 
 	/**
 	 * @param $field_id
@@ -572,14 +586,15 @@ class ilDclBaseRecordModel {
 
 
 	/**
-	 * @param $field_id
+	 * @param                   $field_id
 	 * @param ilPropertyFormGUI $form
 	 */
 	protected function setStandardFieldFromForm($field_id, &$form) {
-		if ($item = $form->getItemByPostVar("field_".$field_id)) {
+		if ($item = $form->getItemByPostVar("field_" . $field_id)) {
 			$this->setStandardField($item->getValue());
 		}
 	}
+
 
 	/**
 	 * @param $field_id
@@ -594,6 +609,7 @@ class ilDclBaseRecordModel {
 		}
 		$this->$field_id = $value;
 	}
+
 
 	/**
 	 * @param $field_id
@@ -647,13 +663,15 @@ class ilDclBaseRecordModel {
 				return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
 			case 'comments':
 				$nComments = count($this->getComments());
-				$ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()
-					->getId(), 'dcl', $this->getId());
+				$ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
+					1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()
+					->getId(), 'dcl', $this->getId()
+				);
 				$ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 
 				return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-				. "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+					. "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
 		}
 	}
 
@@ -662,11 +680,11 @@ class ilDclBaseRecordModel {
 	 * Load record fields
 	 */
 	private function loadRecordFields() {
-		if ($this->recordfields == NULL) {
+		if ($this->recordfields == null) {
 			$this->loadTable();
 			$recordfields = array();
 			foreach ($this->table->getRecordFields() as $field) {
-				if ($recordfields[$field->getId()] == NULL) {
+				if ($recordfields[$field->getId()] == null) {
 					$recordfields[$field->getId()] = ilDclCache::getRecordFieldCache($this, $field);
 				}
 			}
@@ -680,7 +698,7 @@ class ilDclBaseRecordModel {
 	 * Load table
 	 */
 	private function loadTable() {
-		if ($this->table == NULL) {
+		if ($this->table == null) {
 			$this->table = ilDclCache::getTableCache($this->getTableId());
 		}
 	}
@@ -730,32 +748,35 @@ class ilDclBaseRecordModel {
 		if (!$omit_notification) {
 			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 
-			$ilAppEventHandler->raise('Modules/DataCollection',
+			$ilAppEventHandler->raise(
+				'Modules/DataCollection',
 				'deleteRecord',
 				array(
-					'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
-					'table_id' => $this->table_id,
+					'dcl'       => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+					'table_id'  => $this->table_id,
 					'record_id' => $this->getId(),
-					'record' => $this,
-				));
+					'record'    => $this,
+				)
+			);
 		}
-
 	}
 
 
 	// TODO: Find better way to copy data (including all references)
+
+
 	/**
 	 * @param $original_id integer
 	 * @param $new_fields  array($old_field_id => $new_field)
 	 */
-	public function cloneStructure($original_id, $new_fields){
+	public function cloneStructure($original_id, $new_fields) {
 		$original = ilDclCache::getRecordCache($original_id);
 		$this->setCreateDate($original->getCreateDate());
 		$this->setLastEditBy($original->getLastEditBy());
 		$this->setLastUpdate($original->getLastUpdate());
 		$this->setOwner($original->getOwner());
 		$this->doCreate();
-		foreach($new_fields as $old => $new){
+		foreach ($new_fields as $old => $new) {
 			$old_rec_field = $original->getRecordField($old);
 			$new_rec_field = ilDclCache::getRecordFieldCache($this, $new);
 			$new_rec_field->cloneStructure($old_rec_field);
@@ -765,6 +786,7 @@ class ilDclBaseRecordModel {
 		// mandatory for all cloning functions
 		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
 	}
+
 
 	/**
 	 * Delete a file
@@ -801,10 +823,10 @@ class ilDclBaseRecordModel {
 		$this->loadTable();
 		// If one field returns false, the whole record does not pass the filter #performance-improvements
 		foreach ($this->table->getFilterableFields() as $field) {
-			if (! isset($filter["filter_" . $field->getId()]) || ! $filter["filter_" . $field->getId()]) {
+			if (!isset($filter["filter_" . $field->getId()]) || !$filter["filter_" . $field->getId()]) {
 				continue;
 			}
-			if (! ilDclCache::getFieldRepresentation($field)->passThroughFilter($this, $filter["filter_" . $field->getId()])) {
+			if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter($this, $filter["filter_" . $field->getId()])) {
 				return false;
 			}
 		}
@@ -869,7 +891,7 @@ class ilDclBaseRecordModel {
 	 * @return array ilNote[]
 	 */
 	public function getComments() {
-		if ($this->comments === NULL) {
+		if ($this->comments === null) {
 			$this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', IL_NOTE_PUBLIC);
 		}
 

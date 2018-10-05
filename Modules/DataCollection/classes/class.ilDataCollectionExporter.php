@@ -35,12 +35,12 @@ class ilDataCollectionExporter extends ilXmlExporter {
 	public function getValidSchemaVersions($a_entity) {
 		return array(
 			'4.5.0' => array(
-				'namespace' => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
+				'namespace'    => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
 				'xsd_file" => "ilias_dcl_4_5.xsd',
 				'uses_dataset' => true,
-				'min' => '4.5.0',
-				'max' => ''
-			)
+				'min'          => '4.5.0',
+				'max'          => '',
+			),
 		);
 	}
 
@@ -67,13 +67,13 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		$dependencies = array(
 			ilDclDatatype::INPUTFORMAT_FILE => array(
 				'component' => 'Modules/File',
-				'entity' => 'file',
-				'ids' => array(),
+				'entity'    => 'file',
+				'ids'       => array(),
 			),
-			ilDclDatatype::INPUTFORMAT_MOB => array(
+			ilDclDatatype::INPUTFORMAT_MOB  => array(
 				'component' => 'Services/MediaObjects',
-				'entity' => 'mob',
-				'ids' => array(),
+				'entity'    => 'mob',
+				'ids'       => array(),
 			),
 		);
 
@@ -81,7 +81,8 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		foreach ($a_ids as $dcl_obj_id) {
 			$sql = "SELECT stloc2.value AS ext_id, f." . $this->db->quoteIdentifier('datatype_id') . " FROM il_dcl_stloc2_value AS stloc2 "
 				. "INNER JOIN il_dcl_record_field AS rf ON (rf." . $this->db->quoteIdentifier('id') . " = stloc2." . $this->db->quoteIdentifier('record_field_id') . ") "
-				. "INNER JOIN il_dcl_field AS f ON (rf." . $this->db->quoteIdentifier('field_id') . " = f." . $this->db->quoteIdentifier('id') . ") " . "INNER JOIN il_dcl_table AS t ON (t." . $this->db->quoteIdentifier('id') . " = f." . $this->db->quoteIdentifier('table_id') . ") "
+				. "INNER JOIN il_dcl_field AS f ON (rf." . $this->db->quoteIdentifier('field_id') . " = f." . $this->db->quoteIdentifier('id') . ") " . "INNER JOIN il_dcl_table AS t ON (t."
+				. $this->db->quoteIdentifier('id') . " = f." . $this->db->quoteIdentifier('table_id') . ") "
 				. "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
 				. implode(',', array_keys($dependencies)) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
 			$set = $this->db->query($sql);
@@ -125,15 +126,14 @@ class ilDataCollectionExporter extends ilXmlExporter {
 			return array(
 				array(
 					'component' => 'Services/COPage',
-					'entity' => 'pg',
-					'ids' => $page_object_ids,
-				)
+					'entity'    => 'pg',
+					'ids'       => $page_object_ids,
+				),
 			);
 		}
 
 		return array();
 	}
-	
 }
 
 ?>

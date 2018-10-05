@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  *
  * @author       Martin Studer <ms@studer-raimann.ch>
@@ -119,13 +118,13 @@ class ilDclDetailedViewGUI {
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 		$ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
 
-		if (!$this->checkAccess())
-		{
+		if (!$this->checkAccess()) {
 			if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
 				$this->offerAlternativeViews();
 			} else {
 				ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			}
+
 			return;
 		}
 
@@ -159,6 +158,7 @@ class ilDclDetailedViewGUI {
 		}
 	}
 
+
 	protected function offerAlternativeViews() {
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -166,6 +166,7 @@ class ilDclDetailedViewGUI {
 		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
 		$tpl->setContent($table_gui->getHTML());
 	}
+
 
 	/**
 	 * @param bool $editComments
@@ -205,13 +206,13 @@ class ilDclDetailedViewGUI {
 			$pattern = '/\[dclrefln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dclrefln\]/';
 			if (preg_match($pattern, $html)) {
 				$this->currentField = $field;
-				$html = preg_replace_callback($pattern, array( $this, "doReplace" ), $html);
+				$html = preg_replace_callback($pattern, array($this, "doReplace"), $html);
 			}
 
 			$pattern = '/\[ext tableOf="' . preg_quote($field->getTitle(), "/") . '" field="(.*?)"\]/';
 			if (preg_match($pattern, $html)) {
 				$this->currentField = $field;
-				$html = preg_replace_callback($pattern, array( $this, "doExtReplace" ), $html);
+				$html = preg_replace_callback($pattern, array($this, "doExtReplace"), $html);
 			}
 
 			$html = str_ireplace("[" . $field->getTitle() . "]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
@@ -250,8 +251,7 @@ class ilDclDetailedViewGUI {
 			$rctpl->setVariable('EDIT_RECORD_BUTTON', $button->render());
 		}
 
-
-        // Comments
+		// Comments
 		if ($this->table->getPublicCommentsEnabled()) {
 			$rctpl->setVariable('COMMENTS', $this->renderComments($editComments));
 		}
@@ -278,7 +278,7 @@ class ilDclDetailedViewGUI {
 	public function doExtReplace($found) {
 		$ref_rec_ids = $this->record_obj->getRecordFieldValue($this->currentField->getId());
 		if (!is_array($ref_rec_ids)) {
-			$ref_rec_ids = array( $ref_rec_ids );
+			$ref_rec_ids = array($ref_rec_ids);
 		}
 		if (!count($ref_rec_ids) || !$ref_rec_ids) {
 			return;
@@ -327,9 +327,9 @@ class ilDclDetailedViewGUI {
 	 * Find the previous/next record from the current position. Also determine position of current record in whole set.
 	 */
 	protected function determineNextPrevRecords() {
-        if(!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
-            $this->loadSession();
-        }
+		if (!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
+			$this->loadSession();
+		}
 
 		if (isset($_SESSION['dcl_record_ids']) && count($_SESSION['dcl_record_ids'])) {
 			$this->record_ids = $_SESSION['dcl_record_ids'];
@@ -400,24 +400,24 @@ class ilDclDetailedViewGUI {
 		return $options;
 	}
 
-    /**
-     * If we come from a goto Link we need to build up the session data.
-     */
-    private function loadSession()
-    {
-        // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
-        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table, $this->tableview_id);
-        //we then partially load the records. note that this also fills up session data.
-        $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
-    }
+
+	/**
+	 * If we come from a goto Link we need to build up the session data.
+	 */
+	private function loadSession() {
+		// We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
+		$list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table, $this->tableview_id);
+		//we then partially load the records. note that this also fills up session data.
+		$this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+	}
+
 
 	/**
 	 * @return bool
 	 */
-	protected function checkAccess()
-	{
+	protected function checkAccess() {
 		return ((ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
-		&& ilDclDetailedViewDefinition::isActive($this->tableview_id));
+			&& ilDclDetailedViewDefinition::isActive($this->tableview_id));
 	}
 }
 

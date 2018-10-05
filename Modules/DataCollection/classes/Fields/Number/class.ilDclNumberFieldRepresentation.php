@@ -14,8 +14,10 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input->setMaxLength(9);
 		$input->setInfo($this->lng->txt('dcl_max_digits') . ": 9");
 		$this->setupInputField($input, $this->getField());
+
 		return $input;
 	}
+
 
 	public function addFilterInputFieldToTable(ilTable2GUI $table) {
 		$input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_NUMBER_RANGE, false, $this->getField()->getId());
@@ -32,6 +34,7 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation {
 		if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -41,6 +44,7 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation {
 	 */
 	protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create') {
 		$opt = parent::buildFieldCreationInput($dcl, $mode);
+
 		return $opt;
 	}
 }

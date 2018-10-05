@@ -4,7 +4,7 @@
 /**
  * Class ilDclTableListGUI
  *
- * @author  Theodor Truffer <tt@studer-raimann.ch>
+ * @author       Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
@@ -14,26 +14,23 @@ class ilDclTableListGUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
-
 	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
-
 	/**
 	 * @var ilTemplate
 	 */
 	protected $tpl;
-
 	/**
 	 * @var ilTabsGUI
 	 */
 	protected $tabs;
-
 	/**
 	 * @var ilToolbarGUI
 	 */
 	protected $toolbar;
+
 
 	/**
 	 * ilDclTableListGUI constructor.
@@ -48,7 +45,6 @@ class ilDclTableListGUI {
 		$ilTabs = $DIC['ilTabs'];
 		$ilToolbar = $DIC['ilToolbar'];
 
-
 		$this->parent_obj = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->ctrl = $ilCtrl;
@@ -57,17 +53,17 @@ class ilDclTableListGUI {
 		$this->tabs = $ilTabs;
 		$this->toolbar = $ilToolbar;
 
-		if ( ! $this->checkAccess()) {
+		if (!$this->checkAccess()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
 		}
 	}
 
+
 	/**
 	 * execute command
 	 */
-	public function executeCommand()
-	{
+	public function executeCommand() {
 		global $DIC;
 		$cmd = $this->ctrl->getCmd('listTables');
 
@@ -122,13 +118,14 @@ class ilDclTableListGUI {
 				break;
 
 			default:
-				switch($cmd) {
+				switch ($cmd) {
 					default:
 						$this->$cmd();
 						break;
 				}
 		}
 	}
+
 
 	public function listTables() {
 		$add_new = ilLinkButton::getInstance();
@@ -141,6 +138,7 @@ class ilDclTableListGUI {
 		$this->tpl->setContent($table_gui->getHTML());
 	}
 
+
 	protected function setTabs($active) {
 		$this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
 		$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
@@ -148,6 +146,7 @@ class ilDclTableListGUI {
 		$this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
 		$this->tabs->setTabActive($active);
 	}
+
 
 	/**
 	 *
@@ -158,8 +157,7 @@ class ilDclTableListGUI {
 		$orders = $_POST['order'];
 		asort($orders);
 		$order = 10;
-		foreach(array_keys($orders) as $table_id)
-		{
+		foreach (array_keys($orders) as $table_id) {
 			$table = ilDclCache::getTableCache($table_id);
 			$table->setOrder($order);
 			$table->setPublicCommentsEnabled(isset($comments[$table_id]));
@@ -170,11 +168,11 @@ class ilDclTableListGUI {
 		$this->ctrl->redirect($this);
 	}
 
+
 	/**
 	 * Confirm deletion of multiple fields
 	 */
-	public function confirmDeleteTables()
-	{
+	public function confirmDeleteTables() {
 		//at least one table must exist
 		$tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
 		$this->checkTablesLeft(count($tables));
@@ -192,11 +190,11 @@ class ilDclTableListGUI {
 		$this->tpl->setContent($conf->getHTML());
 	}
 
+
 	/**
 	 *
 	 */
-	protected function deleteTables()
-	{
+	protected function deleteTables() {
 		$tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
 		foreach ($tables as $table_id) {
 			ilDclCache::getTableCache($table_id)->doDelete();
@@ -205,26 +203,26 @@ class ilDclTableListGUI {
 		$this->ctrl->redirect($this, 'listTables');
 	}
 
+
 	/**
 	 * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
 	 *
 	 * @param $delete_count number of tableviews to delete
 	 */
-	public function checkTablesLeft($delete_count)
-	{
-		if ($delete_count >= count($this->getDataCollectionObject()->getTables()))
-		{
+	public function checkTablesLeft($delete_count) {
+		if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
 			ilUtil::sendFailure($this->lng->txt('dcl_msg_tables_delete_all'), true);
 			$this->ctrl->redirect($this, 'listTables');
 		}
 	}
 
+
 	/**
 	 * @return bool
 	 */
-	protected function checkAccess()
-	{
+	protected function checkAccess() {
 		$ref_id = $this->getDataCollectionObject()->getRefId();
+
 		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
 	}
 
@@ -235,6 +233,4 @@ class ilDclTableListGUI {
 	public function getDataCollectionObject() {
 		return $this->parent_obj->getDataCollectionObject();
 	}
-
-
 }
