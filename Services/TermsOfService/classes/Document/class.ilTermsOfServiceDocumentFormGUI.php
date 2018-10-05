@@ -127,7 +127,7 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 		}
 		$document->setDisabled(!$this->isEditable);
 		$document->setMaxFiles(1);
-		$document->setSuffixes(['html']);
+		$document->setSuffixes(['html', 'txt']);
 		$this->addItem($document);
 
 		if ($this->isEditable) {
