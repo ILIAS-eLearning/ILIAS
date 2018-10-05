@@ -1,10 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 /**
- * Interface TopEntryInterface
+ * Interface TopIs
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface TopEntryInterface extends ParentEntryInterface {
+interface isTopNode extends isParent {
 
 }

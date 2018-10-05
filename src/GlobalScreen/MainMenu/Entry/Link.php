@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\hasAction;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
 /**
  * Class Link
@@ -10,7 +12,7 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildEntry {
+class Link extends AbstractChildEntry implements hasTitle, hasAction {
 
 	/**
 	 * @var bool
@@ -35,7 +37,7 @@ class Link extends AbstractChildEntry {
 	 *
 	 * @return Link
 	 */
-	public function withTitle(string $title): Link {
+	public function withTitle(string $title): hasTitle {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -77,7 +79,7 @@ class Link extends AbstractChildEntry {
 	 *
 	 * @return Link
 	 */
-	public function withAction(string $action): Link {
+	public function withAction(string $action): hasAction {
 		$clone = clone($this);
 		$clone->action = $action;
 

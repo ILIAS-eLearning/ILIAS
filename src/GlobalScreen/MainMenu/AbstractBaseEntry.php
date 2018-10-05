@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Component\Legacy\Legacy;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractBaseEntry implements EntryInterface {
+abstract class AbstractBaseEntry implements isEntry {
 
 	/**
 	 * @var Legacy
@@ -53,7 +53,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withVisibilityCallable(callable $is_visible): EntryInterface {
+	public function withVisibilityCallable(callable $is_visible): isEntry {
 		$clone = clone($this);
 		$clone->visiblility_callable = $is_visible;
 
@@ -83,7 +83,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withActiveCallable(callable $is_active): EntryInterface {
+	public function withActiveCallable(callable $is_active): isEntry {
 		$clone = clone($this);
 		$clone->active_callable = $is_active;
 
@@ -110,7 +110,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAvailableCallable(callable $is_available): EntryInterface {
+	public function withAvailableCallable(callable $is_available): isEntry {
 		$clone = clone($this);
 		$clone->available_callable = $is_available;
 
@@ -137,7 +137,7 @@ abstract class AbstractBaseEntry implements EntryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withNonAvailableReason(Legacy $element): EntryInterface {
+	public function withNonAvailableReason(Legacy $element): isEntry {
 		$clone = clone $this;
 		$clone->non_available_reason = $element;
 

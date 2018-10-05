@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\hasAction;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ilLink;
 
 /**
@@ -11,7 +13,7 @@ use ilLink;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildEntry {
+class RepositoryLink extends AbstractChildEntry implements hasTitle, hasAction {
 
 	/**
 	 * @var int
@@ -32,7 +34,7 @@ class RepositoryLink extends AbstractChildEntry {
 	 *
 	 * @return RepositoryLink
 	 */
-	public function withTitle(string $title): RepositoryLink {
+	public function withTitle(string $title): hasTitle {
 		$clone = clone($this);
 		$clone->title = $title;
 
@@ -74,6 +76,16 @@ class RepositoryLink extends AbstractChildEntry {
 	 */
 	public function getAction(): string {
 		return ilLink::_getLink($this->ref_id);
+	}
+
+
+	/**
+	 * @param string $action
+	 *
+	 * @return hasAction
+	 */
+	public function withAction(string $action): hasAction {
+		throw new \LogicException("Please use withRefId() instead");
 	}
 
 

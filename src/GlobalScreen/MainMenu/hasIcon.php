@@ -1,20 +1,20 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 /**
- * Interface IconEntryInterface
+ * Interface hasIcon
  *
  * Methods for Entries with Icons
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface IconEntryInterface {
+interface hasIcon {
 
 	/**
 	 * @param string $path_to_svg_icon
 	 *
-	 * @return IconEntryInterface
+	 * @return hasIcon
 	 */
-	public function withIconPath(string $path_to_svg_icon): IconEntryInterface;
+	public function withIconPath(string $path_to_svg_icon): hasIcon;
 
 
 	/**

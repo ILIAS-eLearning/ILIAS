@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractChildEntry extends AbstractBaseEntry implements ChildEntryInterface {
+abstract class AbstractChildEntry extends AbstractBaseEntry implements isChild {
 
 	/**
 	 * @var IdentificationInterface
@@ -18,7 +18,7 @@ abstract class AbstractChildEntry extends AbstractBaseEntry implements ChildEntr
 	/**
 	 * @inheritDoc
 	 */
-	public function withParent(IdentificationInterface $identification): EntryInterface {
+	public function withParent(IdentificationInterface $identification): isEntry {
 		$clone = clone($this);
 		$clone->parent = $identification;
 

@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Component\Legacy\Legacy;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface EntryInterface {
+interface isEntry {
 
 	/**
 	 * @return IdentificationInterface
@@ -22,9 +22,9 @@ interface EntryInterface {
 	 *
 	 * @param callable $is_visible
 	 *
-	 * @return EntryInterface|ChildEntryInterface
+	 * @return isEntry|isChild
 	 */
-	public function withVisibilityCallable(callable $is_visible): EntryInterface;
+	public function withVisibilityCallable(callable $is_visible): isEntry;
 
 
 	/**
@@ -40,9 +40,9 @@ interface EntryInterface {
 	 *
 	 * @param callable $is_active
 	 *
-	 * @return EntryInterface|ChildEntryInterface
+	 * @return isEntry|isChild
 	 */
-	public function withActiveCallable(callable $is_active): EntryInterface;
+	public function withActiveCallable(callable $is_active): isEntry;
 
 
 	/**
@@ -58,9 +58,9 @@ interface EntryInterface {
 	 *
 	 * @param callable $is_avaiable
 	 *
-	 * @return EntryInterface|ChildEntryInterface
+	 * @return isEntry|isChild
 	 */
-	public function withAvailableCallable(callable $is_avaiable): EntryInterface;
+	public function withAvailableCallable(callable $is_avaiable): isEntry;
 
 
 	/**
@@ -78,9 +78,9 @@ interface EntryInterface {
 	 *
 	 * @param Legacy $element
 	 *
-	 * @return EntryInterface
+	 * @return isEntry
 	 */
-	public function withNonAvailableReason(Legacy $element): EntryInterface;
+	public function withNonAvailableReason(Legacy $element): isEntry;
 
 
 	/**

@@ -1,11 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 /**
- * Interface AsyncContentEntryInterface
+ * Interface hasAsyncContent
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface AsyncContentEntryInterface {
+interface hasAsyncContent {
 
 	/**
 	 * @return string
@@ -16,7 +16,7 @@ interface AsyncContentEntryInterface {
 	/**
 	 * @param string $async_content_url
 	 *
-	 * @return AsyncContentEntryInterface
+	 * @return hasAsyncContent
 	 */
-	public function withAsyncContentURL(string $async_content_url): AsyncContentEntryInterface;
+	public function withAsyncContentURL(string $async_content_url): hasAsyncContent;
 }
