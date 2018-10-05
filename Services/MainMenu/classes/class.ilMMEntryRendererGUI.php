@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\MainMenu\Entry\Link;
+
 /**
  * Class ilMMEntryRendererGUI
  *
@@ -17,7 +19,7 @@ class ilMMEntryRendererGUI {
 
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 		/**
-		 * @var $slate \ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface
+		 * @var $slate \ILIAS\GlobalScreen\MainMenu\Slate\Slate
 		 * @var $entry \ILIAS\GlobalScreen\MainMenu\ChildEntryInterface
 		 */
 		$slates = [];
@@ -47,7 +49,7 @@ class ilMMEntryRendererGUI {
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
 			/**
-			 * @var $child \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface
+			 * @var $child Link
 			 */
 			foreach ($slate->getChildren() as $child) {
 				if (!$child->isVisible()) {
@@ -55,10 +57,10 @@ class ilMMEntryRendererGUI {
 				}
 				$i = $child->getProviderIdentification()->getInternalIdentifier();
 				switch (true) {
-					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface):
+					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\Divider):
 						$gl->addSeparator();
 						break;
-					case ($child instanceof \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface):
+					case ($child instanceof Link):
 						$this->addEntry($gl, $child, $i);
 						break;
 				}
@@ -74,11 +76,11 @@ class ilMMEntryRendererGUI {
 
 
 	/**
-	 * @param ilGroupedListGUI                       $gl
-	 * @param \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface $child
-	 * @param string                                 $identifier
+	 * @param ilGroupedListGUI $gl
+	 * @param Link             $child
+	 * @param string           $identifier
 	 */
-	protected function addEntry(ilGroupedListGUI $gl, \ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface $child, string $identifier) {
+	protected function addEntry(ilGroupedListGUI $gl, Link $child, string $identifier) {
 		$gl->addEntry(
 			$child->getTitle(), $child->getAction(), "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
