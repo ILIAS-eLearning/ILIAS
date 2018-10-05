@@ -382,7 +382,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
 			
-			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 			$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
 			
 			foreach($filesOfPost as $attachment)

@@ -515,7 +515,6 @@ class ilForumPostDraft
 	 */
 	public static function deleteMobsOfDraft($draft_id)
 	{
-		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		// delete mobs of draft
 		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draft_id);
 		foreach($oldMediaObjects as $oldMob)

@@ -512,8 +512,6 @@ class ilForum
 		// Add Notification to news
 		if($status)
 		{
-			require_once 'Services/RTE/classes/class.ilRTE.php';
-			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$news_item = new ilNewsItem();
 			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
 			$news_item->setPriority(NEWS_NOTICE);
@@ -1616,8 +1614,6 @@ class ilForum
 	*/
 	public function fetchPostNodeData($a_row)
 	{
-		require_once('./Services/User/classes/class.ilObjUser.php');
-		
 		if (ilObject::_exists($a_row->pos_display_user_id))
 		{
 			$tmp_user = new ilObjUser($a_row->pos_display_user_id);

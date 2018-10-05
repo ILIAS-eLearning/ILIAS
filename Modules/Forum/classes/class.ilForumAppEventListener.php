@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-
 /**
 * Forum listener. Listens to events of other components.
 *
@@ -46,8 +44,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
 						break;
 					case 'createdPost':
-						require_once 'Services/Cron/classes/class.ilCronManager.php';
-
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
@@ -91,8 +87,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'activatedPost':
-						require_once 'Services/Cron/classes/class.ilCronManager.php';
-						
 						$post = $a_parameter['post'];
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
@@ -161,8 +155,6 @@ class ilForumAppEventListener implements ilAppEventListener
 						break;
 
 					case 'deletedPost':
-						require_once 'Services/Cron/classes/class.ilCronManager.php';
-						
 						$post = $a_parameter['post'];
 
 						$thread_deleted = $a_parameter['thread_deleted'];

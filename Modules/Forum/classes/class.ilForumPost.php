@@ -248,7 +248,6 @@ class ilForumPost
 	{
 		if ($row['pos_display_user_id'] && $row['pos_pk'])
 		{
-			require_once 'Services/User/classes/class.ilObjUser.php';
 			$tmp_user = new ilObjUser();
 			$tmp_user->setFirstname($row['firstname']);
 			$tmp_user->setLastname($row['lastname']);

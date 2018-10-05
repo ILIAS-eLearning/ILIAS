@@ -259,7 +259,6 @@ class ilForumDraftsHistory
 	
 	public function deleteMobs()
 	{
-		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		// delete mobs of draft history
 		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html',  $this->getHistoryId());
 		foreach($oldMediaObjects as $oldMob)

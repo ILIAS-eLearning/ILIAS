@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/RTE/classes/class.ilRTE.php';
-require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
-require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
-require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-
 /**
  * Class ilObjForumGUI
  *
@@ -280,7 +272,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 
 			case 'ilpermissiongui':
-				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -334,7 +325,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 				}
 
-				require_once 'Services/Rating/classes/class.ilRatingGUI.php';
 				$rating_gui = new ilRatingGUI();
 				$rating_gui->setObject($this->object->getId(), $this->object->getType(), $this->objCurrentTopic->getId(), 'thread');
 
@@ -349,7 +339,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 			
 			case 'ilcommonactiondispatchergui':
-				include_once 'Services/Object/classes/class.ilCommonActionDispatcherGUI.php';
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -562,7 +551,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Create topic button
 		if($this->access->checkAccess('add_thread', '', $this->object->getRefId()) && !$this->hideToolbar())
 		{
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 			$btn = ilLinkButton::getInstance();
 			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createThread'));
 			$btn->setCaption('forums_new_thread');
@@ -1738,7 +1726,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$frm = $oForumObjects['frm'];
 		$oFDForum = $oForumObjects['file_obj'];
 
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->replyEditForm = new ilPropertyFormGUI();
 		$this->replyEditForm->setId('id_showreply');
 		$this->replyEditForm->setTableWidth('100%');
@@ -1856,8 +1843,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
 		}
 		// purifier
-		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
-		$oPostGUI->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));		
+		$oPostGUI->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 
 		$this->replyEditForm->addItem($oPostGUI);
 
@@ -1881,14 +1867,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->replyEditForm->addItem($oFileUploadGUI);
 		}
 
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if(
 			$this->user->isAnonymous() &&
 			!$this->user->isCaptchaVerified() &&
 			ilCaptchaUtil::isActiveForForum()
 		)
 		{
-			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
 			$captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
 			$captcha->setRequired(true);		
 			$this->replyEditForm->addItem($captcha);
@@ -2586,7 +2570,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$bottom_toolbar                    = clone $this->toolbar;
 		$bottom_toolbar_split_button_items = array();
 		
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		$this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
 		{
@@ -3693,7 +3676,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		));
 		
 		// purifier
-		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		$this->create_topic_form_gui->addItem($post_gui);
 		
@@ -3741,14 +3723,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->create_topic_form_gui->addItem($dir_notification_gui);
 		}
 		
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if(
 			$this->user->isAnonymous() &&
 			!$this->user->isCaptchaVerified() &&
 			ilCaptchaUtil::isActiveForForum()
 		)
 		{
-			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
 			$captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
 			$captcha->setRequired(true);
 			$this->create_topic_form_gui->addItem($captcha);
@@ -4692,7 +4672,6 @@ $this->doCaptchaCheck();
 		$rgt_content = '';
 		if(!$GLOBALS['ilCtrl']->isAsynch())
 		{
-			require_once 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
 			$rgt_content = ilRepositoryObjectSearchGUI::getSearchBlockHTML($this->lng->txt('frm_search'));
 		}
 		$this->tpl->setRightContent($rgt_content . $this->getRightColumnHTML());
@@ -5778,7 +5757,6 @@ $this->doCaptchaCheck();
 		$this->tpl->setCurrentBlock('posts_row');
 		if(count($actions) > 0)
 		{
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 			$action_button = ilSplitButtonGUI::getInstance();
 			
 			$i = 0;
@@ -5840,7 +5818,6 @@ $this->doCaptchaCheck();
 	public function doHistoryCheck($draft_id)
 	{
 	
-		require_once './Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 		
 		$modal = '';
@@ -5849,7 +5826,6 @@ $this->doCaptchaCheck();
 			$history_instances = ilForumDraftsHistory::getInstancesByDraftId($draft_id);
 			if(is_array($history_instances) && sizeof($history_instances) > 0)
 			{
-				require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 				$modal = ilModalGUI::getInstance();
 				$modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
 				$modal->setId('frm_autosave_restore');
@@ -5891,8 +5867,7 @@ $this->doCaptchaCheck();
 	
 	public function doCaptchaCheck()
 	{
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-		if($this->user->isAnonymous() 
+		if($this->user->isAnonymous()
 			&& !$this->user->isCaptchaVerified() 
 			&& ilCaptchaUtil::isActiveForForum())
 		{

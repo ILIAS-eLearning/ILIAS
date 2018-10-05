@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObject.php';
-
 /** @defgroup ModulesForum Modules/Forum
  */
 
@@ -137,7 +135,6 @@ class ilObjForum extends ilObject
 	 */
 	function getDiskUsage()
 	{
-		require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjForumAccess::_lookupDiskUsage($this->id);
 	}
 

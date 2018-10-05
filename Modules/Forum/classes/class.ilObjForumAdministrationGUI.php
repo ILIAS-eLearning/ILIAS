@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
 
 /**
  * Forum Administration Settings.
@@ -43,7 +42,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
-				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
 				break;
 
@@ -117,13 +115,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$this->settings->set('enable_fora_statistics', (int)$form->getInput('fora_statistics'));
 		$this->settings->set('enable_anonymous_fora', (int)$form->getInput('anonymous_fora'));
 
-		require_once 'Services/Cron/classes/class.ilCronManager.php';
 		if(!ilCronManager::isJobActive('frm_notification'))
 		{
 			$this->settings->set('forum_notification', (int)$form->getInput('forum_notification'));
 		}
 
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		ilCaptchaUtil::setActiveForForum((bool)$form->getInput('activate_captcha_anonym'));
 
 		$this->settings->set('save_post_drafts', (int)$form->getInput('save_post_drafts'));
@@ -140,8 +136,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	protected function populateForm(ilPropertyFormGUI $form)
 	{
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-
 		$frma_set = new ilSetting('frma');
 
 		$form->setValuesByArray(array(
@@ -163,7 +157,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	protected function getSettingsForm()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
 		$form->setTitle($this->lng->txt('settings'));
@@ -188,10 +181,8 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
 		$form->addItem($file_upload);
 
-		require_once 'Services/Cron/classes/class.ilCronManager.php';
 		if(ilCronManager::isJobActive('frm_notification'))
 		{
-			require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
 			ilAdministrationSettingsFormHandler::addFieldsToForm(
 				ilAdministrationSettingsFormHandler::FORM_FORUM,
 				$form,
@@ -211,7 +202,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$check->setValue(1);
 		$form->addItem($check);
 
-		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
 		$cap->setInfo($this->lng->txt('adm_captcha_anonymous_frm'));
 		$cap->setValue(1);
@@ -264,7 +254,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 				return array(array("editSettings", $fields));
 
 			case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 				$fields = array(
 					'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForForum(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
 				);

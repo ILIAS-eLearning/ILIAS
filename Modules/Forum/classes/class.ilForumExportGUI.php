@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/RTE/classes/class.ilRTE.php';
-
 /**
 * Forum export to HTML and Print.
 *
@@ -89,7 +87,6 @@ class ilForumExportGUI
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['thr_top_fk']));
@@ -134,7 +131,6 @@ class ilForumExportGUI
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['top_pk']));
