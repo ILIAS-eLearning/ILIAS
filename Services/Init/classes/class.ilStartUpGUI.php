@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -1280,6 +1278,8 @@ class ilStartUpGUI
 	 */
 	protected function showTermsOfServiceLink(string $page_editor_html): string
 	{
+		$this->user->setId(ANONYMOUS_USER_ID);
+
 		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
 			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
 			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $this->lng->txt('usr_agreement'));
@@ -1818,6 +1818,8 @@ class ilStartUpGUI
 	protected function showTermsOfService()
 	{
 		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
+
+		$this->user->setId(ANONYMOUS_USER_ID);
 
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$this->mainTemplate->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));

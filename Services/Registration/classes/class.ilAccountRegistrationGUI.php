@@ -117,6 +117,7 @@ class ilAccountRegistrationGUI
 		$ilUser = $DIC['ilUser'];
 
 		$ilUser->setLanguage($lng->getLangKey());
+		$ilUser->setId(ANONYMOUS_USER_ID);
 
 		// needed for multi-text-fields (interests)
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
