@@ -6,6 +6,8 @@ use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
 use ILIAS\GlobalScreen\MainMenu\Entry\DividerInterface;
 use ILIAS\GlobalScreen\MainMenu\Entry\Link;
 use ILIAS\GlobalScreen\MainMenu\Entry\LinkInterface;
+use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLink;
+use ILIAS\GlobalScreen\MainMenu\Entry\RepositoryLinkInterface;
 use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
 use ILIAS\GlobalScreen\MainMenu\Slate\SlateInterfaceInterface;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -70,5 +72,17 @@ class MainMenuEntryFactory {
 	 */
 	public function complex(IdentificationInterface $identification): ComplexInterface {
 		return new Complex($identification);
+	}
+
+
+	/**
+	 * Returns you a GlobalScreen RepositoryLink Entry which is used to generate URLs to Ref-IDs
+	 *
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return RepositoryLinkInterface
+	 */
+	public function repositoryLink(IdentificationInterface $identification): RepositoryLinkInterface {
+		return new RepositoryLink($identification);
 	}
 }
