@@ -56,7 +56,7 @@ class Complex extends AbstractChildEntry implements hasAsyncContent, hasContent 
 	/**
 	 * @return Component
 	 */
-	public function getContent(): hasContent {
+	public function getContent(): Component {
 		return $this->content;
 	}
 }
