@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Modules/Forum/classes/class.ilForumModerators.php';
-include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-include_once 'Services/Table/classes/class.ilTable2GUI.php';
-include_once 'Services/Search/classes/class.ilQueryParser.php';
-include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-
 /**
  * Class ilForumModeratorsGUI
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -65,7 +59,6 @@ class ilForumModeratorsGUI
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
-				include_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this, 'addModerator');
 				$this->ctrl->setReturn($this, 'showModerators');
@@ -93,9 +86,7 @@ class ilForumModeratorsGUI
 			return;
 		}
 
-		include_once "Modules/Forum/classes/class.ilForumNotification.php";
 		$isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
-		include_once "Modules/Forum/classes/class.ilForumProperties.php";
 		$objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
 		$frm_noti_type = $objFrmProps->getNotificationType();
 		
@@ -136,15 +127,8 @@ class ilForumModeratorsGUI
 			return $this->showModerators();
 		}
 
-		include_once "Modules/Forum/classes/class.ilForumNotification.php";
 		$isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
 
-		if($isCrsGrp)
-		{
-			include_once "Services/Membership/classes/class.ilParticipants.php";
-		}
-
-		include_once "Modules/Forum/classes/class.ilForumProperties.php";
 		$objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
 		$frm_noti_type = $objFrmProps->getNotificationType();
 		
@@ -174,7 +158,6 @@ class ilForumModeratorsGUI
 	 */
 	public function showModerators()
 	{
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$this->toolbar,
@@ -186,7 +169,6 @@ class ilForumModeratorsGUI
 			)
 		);
 
-		require_once 'Modules/Forum/classes/class.ilForumModeratorsTableGUI.php';
 		$tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int)$_GET['ref_id']);
 
 		$entries = $this->oForumModerators->getCurrentModerators();

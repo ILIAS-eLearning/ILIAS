@@ -237,7 +237,7 @@ class TextareaTest extends ILIAS_UI_TestBase {
 			."<div id=\"textarea_feedback_\" data-maxchars=\"\"></div>"
 			."<div class=\"help-block\">$byline</div>"
 			."<div class=\"help-block alert alert-danger\" role=\"alert\">"
-			."<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">"
+			."<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />"
 			."$error</div></div></div>";
 
 		$html = $this->normalizeHTML($r->render($textarea));

@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Object/classes/class.ilObjectListGUI.php';
-
 /**
  * Class ilObjForumListGUI
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -59,7 +57,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$this->gui_class_name      = 'ilobjforumgui';
 
 		// general commands array
-		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
 		$this->commands = ilObjForumAccess::_getCommands();
 	}
 
@@ -77,12 +74,10 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
 		$properties       = ilObjForumAccess::getStatisticsByRefId($this->ref_id);
 		$num_posts_total  = $properties['num_posts'];
 		$num_unread_total = $properties['num_unread_posts'];
 
-		include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
 		$num_drafts_total = 0;
 		if(ilForumPostDraft::isSavePostDraftAllowed())
 		{
@@ -140,7 +135,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 			);
 		}
 
-		include_once 'Modules/Forum/classes/class.ilForumProperties.php';
 		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
 		{
 			if(ilForumProperties::getInstance($this->obj_id)->isAnonymized())
@@ -164,7 +158,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 				ilObjForumAccess::prepareMessageForLists($last_post['pos_message']) . "</a> " .
 				strtolower($this->lng->txt('from')) . "&nbsp;";
 
-			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
 				$last_post['pos_author_id'],
 				$last_post['pos_display_user_id'],

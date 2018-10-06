@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-
 /** 
 * Show forum threads
 * 
@@ -37,7 +35,6 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 			$this->getItemListGUI()->setChildId($sub_item);
 			$this->tpl->setVariable('LINK',$this->getItemListGUI()->getCommandLink('thread'));
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			include_once './Modules/Forum/classes/class.ilObjForum.php';
 			$this->tpl->setVariable('TITLE',ilObjForum::_lookupThreadSubject($sub_item));
 			
 			// begin-patch mime_filter

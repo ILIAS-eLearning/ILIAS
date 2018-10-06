@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilDclSelectionFieldRepresentation
  *
@@ -27,16 +28,22 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 		$selection_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_selection_type'), 'prop_' . static::PROP_SELECTION_TYPE);
 		$selection_type->setRequired(true);
 
-		$option_1 = new ilRadioOption($this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE),
-			ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE);
+		$option_1 = new ilRadioOption(
+			$this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE),
+			ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE
+		);
 		$selection_type->addOption($option_1);
 
-		$option_2 = new ilRadioOption($this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_MULTI),
-			ilDclSelectionFieldModel::SELECTION_TYPE_MULTI);
+		$option_2 = new ilRadioOption(
+			$this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_MULTI),
+			ilDclSelectionFieldModel::SELECTION_TYPE_MULTI
+		);
 		$selection_type->addOption($option_2);
 
-		$option_3 = new ilRadioOption($this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX),
-			ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX);
+		$option_3 = new ilRadioOption(
+			$this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX),
+			ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX
+		);
 		$selection_type->addOption($option_3);
 
 		$opt->addSubItem($selection_type);
@@ -54,7 +61,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
 		/** @var ilDclSelectionOption[] $options */
 		$options = ilDclSelectionOption::getAllForField($this->getField()->getId());
-		switch($this->getField()->getProperty(static::PROP_SELECTION_TYPE)) {
+		switch ($this->getField()->getProperty(static::PROP_SELECTION_TYPE)) {
 			case ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE:
 				$input = new ilRadioGroupInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 				foreach ($options as $opt) {
@@ -63,10 +70,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 				$input->setValue(array_keys($options)[0]);
 				break;
 			case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
-//				global $DIC;
-//				$DIC->ui()->mainTemplate()->addOnLoadCode('$("#field_' . $this->getField()->getId() . '").removeClass("input")');
+				//				global $DIC;
+				//				$DIC->ui()->mainTemplate()->addOnLoadCode('$("#field_' . $this->getField()->getId() . '").removeClass("input")');
 				$input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-
 
 				$input->setHeight(100);
 				$input->setHeightUnit('%; max-height: 150px');
@@ -89,6 +95,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 				break;
 		}
 		$this->setupInputField($input, $this->getField());
+
 		return $input;
 	}
 
@@ -113,7 +120,6 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 
 		return $this->getFilterInputFieldValue($input);
 	}
-
 
 
 	/**

@@ -2,11 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
-include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
-include_once "Services/RTE/classes/class.ilRTE.php";
-
 /**
 * XML writer class
 *
