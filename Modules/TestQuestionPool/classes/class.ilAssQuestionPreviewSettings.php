@@ -12,6 +12,11 @@ class ilAssQuestionPreviewSettings
 {
 	private $contextRefId = null;
 	
+	/**
+	 * @var bool
+	 */
+	protected $reachedPointsEnabled = false;
+	
 	private $genericFeedbackEnabled = false;
 	
 	private $specificFeedbackEnabled = false;
@@ -46,6 +51,7 @@ class ilAssQuestionPreviewSettings
 	
 	private function initSettingsWithTestObject()
 	{
+		/* @var ilObjTest $testOBJ */
 		$testOBJ = ilObjectFactory::getInstanceByRefId($this->contextRefId);
 		$testOBJ->loadFromDb();
 		
@@ -53,6 +59,7 @@ class ilAssQuestionPreviewSettings
 		$this->setSpecificFeedbackEnabled($testOBJ->getSpecificAnswerFeedback());
 		$this->setHintProvidingEnabled($testOBJ->isOfferingQuestionHintsEnabled());
 		$this->setBestSolutionEnabled($testOBJ->getInstantFeedbackSolution());
+		$this->setReachedPointsEnabled($testOBJ->getAnswerFeedbackPoints());
 	}
 
 	private function initSettingsFromPostParameters()
@@ -63,6 +70,7 @@ class ilAssQuestionPreviewSettings
 		$this->setSpecificFeedbackEnabled(true);
 		$this->setHintProvidingEnabled(true);
 		$this->setBestSolutionEnabled(true);
+		$this->setReachedPointsEnabled(true);
 	}
 
 	public function setContextRefId($contextRefId)
@@ -73,6 +81,22 @@ class ilAssQuestionPreviewSettings
 	public function getContextRefId()
 	{
 		return $this->contextRefId;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReachedPointsEnabled(): bool
+	{
+		return $this->reachedPointsEnabled;
+	}
+	
+	/**
+	 * @param bool $reachedPointsEnabled
+	 */
+	public function setReachedPointsEnabled(bool $reachedPointsEnabled)
+	{
+		$this->reachedPointsEnabled = $reachedPointsEnabled;
 	}
 
 	public function setGenericFeedbackEnabled($genericFeedbackEnabled)

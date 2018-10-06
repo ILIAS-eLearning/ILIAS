@@ -223,8 +223,6 @@ class ilAssQuestionPreviewGUI
 		
 		$this->populateQuestionOutput($tpl);
 		
-		$this->populateQuestionNavigation($tpl);
-
 		$this->handleInstantResponseRendering($tpl);
 		
 		if( $this->isCommentingRequired() )
@@ -241,10 +239,18 @@ class ilAssQuestionPreviewGUI
 		$renderHeader = false;
 		$renderAnchor = false;
 		
+		if( $this->isShowReachedPointsRequired() )
+		{
+			$this->populateReachedPointsOutput($tpl);
+			$renderAnchor = true;
+			$renderHeader = true;
+		}
+		
 		if( $this->isShowBestSolutionRequired() )
 		{
 			$this->populateSolutionOutput($tpl);
 			$renderAnchor = true;
+			$renderHeader = true;
 		}
 		
 		if( $this->isShowGenericQuestionFeedbackRequired() )
@@ -343,6 +349,8 @@ class ilAssQuestionPreviewGUI
 			$questionHtml = $this->questionGUI->buildFocusAnchorHtml() . $questionHtml;
 		}
 		
+		$questionHtml .= $this->getQuestionNavigationHtml();
+		
 		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
 
 		//$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
@@ -352,6 +360,19 @@ class ilAssQuestionPreviewGUI
 
 		$tpl->setVariable('QUESTION_OUTPUT', $pageGUI->preview());
 	}
+	
+	protected function populateReachedPointsOutput(ilTemplate $tpl)
+	{
+		$reachedPoints = $this->questionOBJ->calculateReachedPointsFromPreviewSession($this->previewSession);
+		$maxPoints = $this->questionOBJ->getMaximumPoints();
+		
+		$scoreInformation = sprintf(
+			$this->lng->txt( "you_received_a_of_b_points" ), $reachedPoints, $maxPoints
+		);
+		
+		$tpl->setCurrentBlock( "reached_points_feedback" );
+		$tpl->setVariable("REACHED_POINTS_FEEDBACK", $scoreInformation);
+		$tpl->parseCurrentBlock();	}
 
 	private function populateSolutionOutput(ilTemplate $tpl)
 	{
@@ -391,7 +412,7 @@ class ilAssQuestionPreviewGUI
 		$tpl->parseCurrentBlock();
 	}
 
-	private function populateQuestionNavigation(ilTemplate $tpl)
+	private function getQuestionNavigationHtml()
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
 		$navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
@@ -406,7 +427,7 @@ class ilAssQuestionPreviewGUI
 		$navGUI->setHintRequestsPossible($this->hintTracking->requestsPossible());
 		$navGUI->setHintRequestsExist($this->hintTracking->requestsExist());
 		
-		$tpl->setVariable('QUESTION_NAVIGATION', $this->ctrl->getHTML($navGUI));
+		return $this->ctrl->getHTML($navGUI);
 	}
 	
 	private function populateGenericQuestionFeedback(ilTemplate $tpl)
@@ -479,6 +500,16 @@ class ilAssQuestionPreviewGUI
 	private function isShowSpecificQuestionFeedbackRequired()
 	{
 		if( !$this->previewSettings->isSpecificFeedbackEnabled() )
+		{
+			return false;
+		}
+
+		return $this->previewSession->isInstantResponseActive();
+	}
+
+	private function isShowReachedPointsRequired()
+	{
+		if( !$this->previewSettings->isReachedPointsEnabled() )
 		{
 			return false;
 		}
