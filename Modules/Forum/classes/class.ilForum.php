@@ -70,12 +70,15 @@ class ilForum
 
 	// object id
 	private $id;
-	
+
+	/** @var ilErrorHandling|mixed  */
+	private $errorHandler;
+
 	/**
 	* Constructor
 	* @access	public
 	*/
-	public function __construct()
+	public function __construct(ilErrorHandling $errorHandler = null)
 	{
 		global $DIC;
 
@@ -84,6 +87,11 @@ class ilForum
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->settings = $DIC->settings();
+
+		if (null === $errorHandler) {
+			$errorHandler = $DIC['ilErr'];
+		}
+		$this->errorHandler = $errorHandler;
 	}
 
 	// no usage?
@@ -609,9 +617,22 @@ class ilForum
 				$visits = 0;
 				foreach ($thread_ids as $id)
 				{
-					$objTmpThread = new ilForumTopic($id);					
+					$objTmpThread = new ilForumTopic($id);
 
-					$numPosts = $objTmpThread->movePosts($src_top_frm_fk, $oldFrmData['top_pk'], $dest_top_frm_fk, $newFrmData['top_pk']);					
+					try {
+						$numPosts = $objTmpThread->movePosts(
+							$src_top_frm_fk,
+							$oldFrmData['top_pk'],
+							$dest_top_frm_fk,
+							$newFrmData['top_pk']
+						);
+					} catch (\ilFileUtilsException $exception) {
+						$this->errorHandler->raiseError(
+							sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject()),
+							$this->errorHandler->MESSAGE
+						);
+					}
+
 					if (($last_post_string = $objTmpThread->getLastPostString()) != '')
 					{
 						$last_post_string = explode('#', $last_post_string);
