@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="test/bootstrap.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite>
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./classes/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

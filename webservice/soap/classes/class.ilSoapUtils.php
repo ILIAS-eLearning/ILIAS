@@ -67,7 +67,6 @@ class ilSoapUtils extends ilSoapAdministration
 			$sender = $senderFactory->userByEmailAddress($sender);
 		}
 
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
 		$mmail->From($sender);
 		$mmail->To(explode(',',$to));
@@ -132,7 +131,6 @@ class ilSoapUtils extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		
-		include_once 'Services/Mail/classes/class.ilMail.php';
 		include_once 'webservice/soap/classes/class.ilSoapMailXmlParser.php';
 		
 		$parser = new ilSoapMailXmlParser($a_mail_xml);

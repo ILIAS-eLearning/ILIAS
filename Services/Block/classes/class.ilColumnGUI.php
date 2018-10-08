@@ -1126,7 +1126,6 @@ class ilColumnGUI
 			}
 			else if($a_type == 'pdsysmess')
 			{
-				require_once 'Services/Mail/classes/class.ilObjMail.php';
 				return ((int)$ilSetting->get('pd_sys_msg_mode')) == ilObjMail::PD_SYS_MSG_OWN_BLOCK;
 			}
 			else if ($ilSetting->get("block_activated_".$a_type))

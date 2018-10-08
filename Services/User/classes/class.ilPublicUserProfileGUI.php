@@ -357,7 +357,6 @@ class ilPublicUserProfileGUI
 			
 			$tpl->setCurrentBlock("mail");
 			$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			$tpl->setVariable(
 				'HREF_MAIL',
 				ilMailFormCall::getLinkTarget(

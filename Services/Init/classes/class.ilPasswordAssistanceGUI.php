@@ -667,9 +667,6 @@ class ilPasswordAssistanceGUI
 	{
 		global $DIC;
 
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-		require_once 'Services/Mail/classes/class.ilMail.php';
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		require_once 'include/inc.pwassist_session_handler.php';
 
 		$login_url = $this->buildUrl(

@@ -2139,7 +2139,6 @@ class ilStartUpGUI
 			}
 			else	// do default mail
 			{				
-				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
 	
 				// mail subject

@@ -184,8 +184,7 @@ class ilMailSearchCoursesGUI
 		}
 
 		require_once './Services/Object/classes/class.ilObject.php';
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs']; 
+		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs'];
 		
 		foreach ($ids as $crs_id)
 		{

@@ -781,7 +781,6 @@ class ilBookmarkAdministrationGUI
 			'',
 			'', 0);
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, '', array(), array('type' => 'attach')));
 	}
 

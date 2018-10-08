@@ -2579,7 +2579,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$rcps[] = $login;
 			}
 		}
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'listBlockedUsers',
 			array(),
 			array(

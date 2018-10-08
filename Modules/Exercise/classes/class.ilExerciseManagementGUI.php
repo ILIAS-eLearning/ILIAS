@@ -994,8 +994,7 @@ class ilExerciseManagementGUI
 			include_once './Services/Link/classes/class.ilLink.php';
 			$sig .= ilLink::_getLink($this->exercise->getRefId());
 			$sig = rawurlencode(base64_encode($sig));
-						
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+
 			ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 				$this, 
 				$this->getViewBack(), 

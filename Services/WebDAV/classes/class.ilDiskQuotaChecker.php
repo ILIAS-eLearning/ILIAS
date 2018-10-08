@@ -357,7 +357,6 @@ class ilDiskQuotaChecker
 		require_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php';
 		self::__updateDiskUsageReportOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
 
-		require_once 'Services/Mail/classes/class.ilObjMailAccess.php';
 		self::__updateDiskUsageReportOfUsers(new ilObjMailAccess(), 'mail_attachment');
 
 		// insert the sum of the disk usage of each user
@@ -550,7 +549,6 @@ class ilDiskQuotaChecker
 		{
 			$ilSetting->set('last_cronjob_disk_quota_sum_start_ts', time());
 			
-			include_once 'Services/Mail/classes/class.ilDiskQuotaSummaryNotification.php';
 			$dqsn = new ilDiskQuotaSummaryNotification();
 			$dqsn->send();
 		}
@@ -566,7 +564,6 @@ class ilDiskQuotaChecker
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
 		$mail = new ilDiskQuotaReminderMail();
 
 		$res = $ilDB->queryf(
@@ -669,7 +666,6 @@ class ilDiskQuotaChecker
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
 		$mail = new ilDiskQuotaReminderMail();
 
 		$res = $ilDB->query("SELECT MAX(value) last_update ".

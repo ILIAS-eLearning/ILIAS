@@ -169,7 +169,6 @@ class ilMailMemberSearchGUI
 						$role_mail_boxes[] = $mailbox;
 					}
 
-					require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 					$_SESSION['mail_roles'] = $role_mail_boxes;
 
 					ilUtil::redirect(ilMailFormCall::getRedirectTarget(
@@ -262,7 +261,6 @@ class ilMailMemberSearchGUI
 			return false;
 		}
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilMailFormCall::setRecipients($rcps);
 
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(

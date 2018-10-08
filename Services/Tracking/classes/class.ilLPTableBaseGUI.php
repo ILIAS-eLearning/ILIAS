@@ -127,9 +127,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	protected function sendMail(array $a_user_ids, $a_parent_obj, $a_parent_cmd)
 	{	
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
-		
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		
+
 		$rcps = array();
 		foreach($a_user_ids as $usr_id)
 		{

@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/User/classes/class.ilObjUser.php';
-include_once "Services/Mail/classes/class.ilMail.php";
-include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**

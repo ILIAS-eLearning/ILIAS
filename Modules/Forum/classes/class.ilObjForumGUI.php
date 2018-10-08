@@ -1880,7 +1880,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->replyEditForm->addItem($oPostGUI);
 
 		// notification only if gen. notification is disabled and forum isn't anonymous
-		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($this->user->getId());
 		if($this->rbac->system()->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&
 		   !$frm->isThreadNotificationEnabled($this->user->getId(), $this->objCurrentPost->getThreadId()) &&
@@ -3752,8 +3751,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 		}
-		
-		include_once 'Services/Mail/classes/class.ilMail.php';
+
 		$umail = new ilMail($this->user->getId());
 		// catch hack attempts
 		if($this->rbac->system()->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&

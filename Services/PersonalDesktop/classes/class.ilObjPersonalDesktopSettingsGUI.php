@@ -199,7 +199,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
 
-		require_once 'Services/Mail/classes/class.ilObjMail.php';
 		$pd_sys_msg = new ilRadioGroupInputGUI($lng->txt('show_system_messages'), 'pd_sys_msg_mode');
 
 		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_own_block'), ilObjMail::PD_SYS_MSG_OWN_BLOCK);

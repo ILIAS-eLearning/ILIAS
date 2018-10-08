@@ -1210,7 +1210,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					// local roles and may contains thousands of roles on large ILIAS
 					// installations.
 					$loc_roles = array();
-					require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 					foreach($roles as $role_id => $role)
 					{
 						if ($role["type"] == "Local")
@@ -1234,7 +1233,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				// create a search array with  .
 				$l_roles_mailbox_searcharray = array();
-				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach ($loc_roles as $key => $loc_role)
 				{
 					// fetch context path of role
@@ -1297,7 +1295,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$l_roles[""] = ""; 
 				natcasesort($l_roles);
 				$l_roles[""] = $this->lng->txt("usrimport_ignore_role");
-				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach($roles as $role_id => $role)
 				{
 					if ($role["type"] == "Local")
@@ -2972,7 +2969,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$mail_data['tpl_ctx_params']
 		);		
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilUtil::redirect(
 			ilMailFormCall::getRedirectTarget(
 				$this,

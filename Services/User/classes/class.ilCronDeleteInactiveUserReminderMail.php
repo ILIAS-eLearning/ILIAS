@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * This checks if a mail has to be send after a certain INACTIVITY period
  * @author  Guido Vollbach <gvollbach@databay.de>

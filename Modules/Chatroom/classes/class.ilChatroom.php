@@ -1059,7 +1059,6 @@ class ilChatroom
 
 			$userLang   = ilLanguageFactory::_getLanguageOfUser($recipient_id);
 			$userLang->loadLanguageModule('mail');
-			require_once 'Services/Mail/classes/class.ilMail.php';
 			$bodyParams = array(
 				'link'         => $invitationLink,
 				'inviter_name' => $public_name,
