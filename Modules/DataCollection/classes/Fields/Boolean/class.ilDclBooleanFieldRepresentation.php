@@ -15,13 +15,16 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation {
 		return $input;
 	}
 
+
 	public function addFilterInputFieldToTable(ilTable2GUI $table) {
 		$input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
-		$input->setOptions(array(
-			"" => $this->lng->txt("dcl_any"),
-			"not_checked" => $this->lng->txt("dcl_not_checked"),
-			"checked" => $this->lng->txt("dcl_checked")
-		));
+		$input->setOptions(
+			array(
+				""            => $this->lng->txt("dcl_any"),
+				"not_checked" => $this->lng->txt("dcl_not_checked"),
+				"checked"     => $this->lng->txt("dcl_checked"),
+			)
+		);
 
 		$this->setupFilterInputField($input);
 
@@ -34,9 +37,7 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation {
 		if ((($filter == "checked" && $value == 1) || ($filter == "not_checked" && $value == 0)) || $filter == '' || !$filter) {
 			return true;
 		}
+
 		return false;
 	}
-
-
-
 }

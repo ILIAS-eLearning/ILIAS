@@ -145,7 +145,7 @@ class Factory implements \ILIAS\UI\Factory
 		$this->viewcontrol_factory = $viewcontrol_factory;
 		$this->chart_factory = $chart_factory;
 		$this->input_factory = $input_factory;
-		$this->table_factor = $table_factory;
+		$this->table_factory = $table_factory;
 		$this->messagebox_factory = $messagebox_factory;
 	}
 

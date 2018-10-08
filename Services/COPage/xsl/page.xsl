@@ -2438,8 +2438,11 @@
 	<xsl:param name="inline"/>
 	<img border="0">
 		<!-- see 0020796 -->
-		<xsl:if test = "name(..) != 'Paragraph'">
+		<xsl:if test = "count(ancestor-or-self::Paragraph) = 0 and name(..) != 'InteractiveImage'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
+		</xsl:if>
+		<xsl:if test = "name(..) = 'InteractiveImage'">
+			<xsl:attribute name="style">max-width:none</xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
@@ -3442,25 +3445,26 @@
 				<xsl:attribute name="style">clear:both; float:right;</xsl:attribute>
 			</xsl:if>
 		</xsl:if>
-		<table class="ilc_media_cont_MediaContainer" width="1">
+		<div class="ilc_media_cont_MediaContainer">
 			<xsl:if test="(./Layout[1]/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style">margin-left: 0px; style="float:left;"</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="./Layout[1]/@HorizontalAlign = 'RightFloat'">
 				<xsl:attribute name="style">margin-right: 0px; style="float:right;</xsl:attribute>
 			</xsl:if>
-			<tr><td class="ilc_Mob">
-				<div>
+			<figure>
+				<xsl:attribute name="style">width: <xsl:value-of select="./Layout[1]/@Width"/>px</xsl:attribute>
+				<div class="ilc_Mob">
 					[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>;<xsl:value-of select="./Layout[1]/@Width"/>;<xsl:value-of select="./Layout[1]/@Height"/>]]]]]
 					<xsl:call-template name="EditReturnAnchors"/>
 				</div>
-			</td></tr>
 			<xsl:if test="count(./MapCaption[1]) != 0">
-				<tr><td><div class="ilc_media_caption_MediaCaption">
+				<figcaption class="ilc_media_caption_MediaCaption">
 				<xsl:value-of select="./MapCaption[1]"/>
-				</div></td></tr>
+				</figcaption>
 			</xsl:if>
-		</table>
+			</figure>
+		</div>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">

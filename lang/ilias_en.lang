@@ -360,6 +360,8 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#ass_comments#:#Comments
+assessment#:#ass_commented_questions_only#:#Only Commented Questions
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
@@ -13039,7 +13041,7 @@ log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
+forum#:#frm_search#:#Search
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
@@ -13182,7 +13184,7 @@ content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main
 content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
 content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
 content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
-w_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
@@ -14386,3 +14388,9 @@ exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by 
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
+survey#:#svy_participant#:#Participant

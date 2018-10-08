@@ -18615,7 +18615,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
 		global $ilCtrl;
 		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
-		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data), $prefix);
 	}
 
 	include_once("./Services/Component/classes/class.ilModule.php");
@@ -18626,7 +18626,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 			include_once("./Services/Component/classes/class.ilPluginSlot.php");
 			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -18639,7 +18640,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 		foreach ($plugin_slots as $ps) {
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -22380,7 +22382,6 @@ while($data = $ilDB->fetchAssoc($res)) {
 }
 ?>
 <#5285>
-<?php
 if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 {
 	// add new table column for indexing different question gaps in assClozeTest
@@ -22733,6 +22734,49 @@ if(!$ilDB->tableExists('exc_ass_reminders'))
 ?>
 <#5297>
 <?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360', 'mode');
+}
+?>
+<#5298>
+<?php
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_self_eval_results'))
+{
+	$ilDB->addTableColumn(
+		'svy_svy',
+		'mode_self_eval_results',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5299>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
+}
+?>
+<#5300>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5301>
+<?php
+if(!$ilDB->tableColumnExists('file_data', 'max_version'))
+{
+	$ilDB->addTableColumn('file_data', 'max_version', array(
+		'type'    => 'integer',
+		'length'  => 4
+	));
+}
+?>
+<#5302>
+<?php
 if (!$ilDB->tableExists('tos_documents')) {
 	$fields = [
 		'id' => [
@@ -22784,7 +22828,7 @@ if (!$ilDB->tableExists('tos_documents')) {
 	$ilDB->createSequence('tos_documents');
 }
 ?>
-<#5298>
+<#5303>
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	$ilDB->addTableColumn('tos_documents', 'text', [
@@ -22794,7 +22838,7 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	]);
 }
 ?>
-<#5299>
+<#5304>
 <?php
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$fields = [
@@ -22852,7 +22896,7 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$ilDB->createSequence('tos_criterion_to_doc');
 }
 ?>
-<#5300>
+<#5305>
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 	$ilDB->addTableColumn('tos_versions', 'doc_id',[
@@ -22879,19 +22923,19 @@ if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
 	]);
 }
 ?>
-<#5301>
+<#5306>
 <?php
 if ($ilDB->indexExistsByFields('tos_versions',['hash', 'lng'])) {
 	$ilDB->dropIndexByFields('tos_versions', ['hash', 'lng']);
 }
 ?>
-<#5302>
+<#5307>
 <?php
 if (!$ilDB->indexExistsByFields('tos_versions', ['hash', 'doc_id'])) {
 	$ilDB->addIndex('tos_versions', ['hash', 'doc_id'], 'i1');
 }
 ?>
-<#5303>
+<#5308>
 <?php
 $dbStep = $nr;
 $globalAgreementPath = './Customizing/global/agreement';
@@ -23101,7 +23145,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
-<#5304>
+<#5309>
 <?php
 // Migrate accepted criteria for missing documents (file did not exists during migration)
 $ilDB->manipulateF("
@@ -23131,7 +23175,7 @@ $ilDB->manipulateF("
 	['usr_language', '[{"id":"usr_language","value":', '}]']
 );
 ?>
-<#5305>
+<#5310>
 <?php
 if ($ilDB->tableColumnExists('tos_versions', 'lng')) {
 	$ilDB->dropTableColumn('tos_versions', 'lng');
@@ -23145,7 +23189,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 	$ilDB->dropTableColumn('tos_versions', 'src');
 }
 ?>
-<#5306>
+<#5311>
 <?php
 if ($ilDB->tableExists('agreement_migr')) {
 	$ilDB->dropTable('agreement_migr');
@@ -23154,7 +23198,7 @@ if ($ilDB->tableExists('agreement_migr')) {
 	));
 }
 ?>
-<#5307>
+<#5312>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

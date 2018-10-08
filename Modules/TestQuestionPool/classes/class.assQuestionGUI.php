@@ -146,6 +146,60 @@ abstract class assQuestionGUI
 	{
 		return false;
 	}
+	
+	public function addHeaderAction()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+		$DIC->ui()->mainTemplate()->setVariable(
+			"HEAD_ACTION", $this->getHeaderAction()
+		);
+		
+		$notesUrl = $this->ctrl->getLinkTargetByClass(
+			array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false
+		);
+		
+		ilNoteGUI::initJavascript($notesUrl,IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+		
+		$redrawActionsUrl = $DIC->ctrl()->getLinkTarget($this, 'redrawHeaderAction', '', true);
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
+	}
+	
+	public function redrawHeaderAction()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		echo $this->getHeaderAction() . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
+		exit;
+	}
+	
+	public function getHeaderAction()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		global $ilObjDataCache; /* @var ilObjectDataCache $ilObjDataCache */
+		
+		$parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
+		
+		$dispatcher = new ilCommonActionDispatcherGUI(
+			ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+			$DIC->access(), $parentObjType, $_GET["ref_id"], $this->object->getObjId()
+		);
+		
+		$dispatcher->setSubObject("quest", $this->object->getId());
+		
+		$ha = $dispatcher->initHeaderAction();
+		$ha->enableComments(true, false);
+		
+		return $ha->getHeaderAction($DIC->ui()->mainTemplate());
+	}
+	
+	public function getNotesHTML()
+	{
+		$notesGUI = new ilNoteGUI($this->object->getObjId(), $this->object->getId(), 'quest');
+		$notesGUI->enablePublicNotes(true);
+		$notesGUI->enablePublicNotesDeletion(true);
+		
+		return $notesGUI->getNotesHTML();
+	}
 
 	/**
 	* execute command

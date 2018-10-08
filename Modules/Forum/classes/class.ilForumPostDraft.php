@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once './Modules/Forum/classes/class.ilFileDataForumDrafts.php';
 /**
  * Class ilForumPostDraft
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -516,7 +515,6 @@ class ilForumPostDraft
 	 */
 	public static function deleteMobsOfDraft($draft_id)
 	{
-		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		// delete mobs of draft
 		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draft_id);
 		foreach($oldMediaObjects as $oldMob)
@@ -528,6 +526,30 @@ class ilForumPostDraft
 				$mob_obj->delete();
 			}
 		}
+	}
+
+	/**
+	 * @param array $post_ids
+	 */
+	public function deleteDraftsByPostIds(array $post_ids = array())
+	{
+		$draft_ids = array();
+		$res = $this->db->query('SELECT draft_id FROM frm_posts_drafts WHERE '. $this->db->in('post_id', $post_ids, false, 'integer'));
+		while($row = $this->db->fetchAssoc($res))
+		{
+			$draft_ids[] = $row['draft_id'];
+		}	
+		
+		foreach($draft_ids as $draft_id)
+		{
+			self::deleteMobsOfDraft($draft_id);
+
+			// delete attachments of draft 
+			$objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
+			$objFileDataForumDrafts->delete();
+		}
+		$this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
+		$this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
 	}
 	
 	/**

@@ -168,7 +168,7 @@ class ilWebAccessCheckerDelivery {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
 
-		$ilFileDelivery = new Delivery($this->ilWebAccessChecker->getPathObject()->getPath(), $this->http);
+		$ilFileDelivery = new Delivery($this->ilWebAccessChecker->getPathObject()->getCleanURLdecodedPath(), $this->http);
 		$ilFileDelivery->setCache(true);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		if ($this->ilWebAccessChecker->getPathObject()->isStreamable()) { // fixed 0016468
