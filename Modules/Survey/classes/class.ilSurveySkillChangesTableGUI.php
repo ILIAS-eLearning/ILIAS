@@ -63,7 +63,16 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 	function getSkillLevelsForAppraisee()
 	{
 		$sskill = new ilSurveySkill($this->survey);
-		$new_levels = $sskill->determineSkillLevelsForAppraisee($this->appraisee["user_id"]);
+
+		if($this->survey->get360Mode())
+		{
+			$new_levels = $sskill->determineSkillLevelsForAppraisee($this->appraisee["user_id"]);
+		}
+		else			//Svy self evaluation mode.
+		{
+			$new_levels = $sskill->determineSkillLevelsForAppraisee(ilObjUser::getUserIdByLogin($this->appraisee["login"]), true);
+		}
+
 		$this->setData($new_levels);
 	}
 	

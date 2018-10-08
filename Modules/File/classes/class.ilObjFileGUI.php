@@ -1041,6 +1041,8 @@ class ilObjFileGUI extends ilObject2GUI
 	 */
 	public function uploadFiles()
 	{
+		global $DIC;
+
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		
 		$response = new stdClass();	
@@ -1102,8 +1104,14 @@ class ilObjFileGUI extends ilObject2GUI
 		// send response object (don't use 'application/json' as IE wants to download it!)
 		header('Vary: Accept');
 		header('Content-type: text/plain');
-		echo ilJsonUtil::encode($response);
-		
+
+		foreach ($DIC->upload()->getResults() as $result) {
+			if (!ilFileUtils::hasValidExtension($result->getName())) {
+				$this->lng->loadLanguageModule('file');
+				ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+			}
+		}
+		echo json_encode($response);
 		// no further processing!
 		exit;
 	}	

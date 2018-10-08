@@ -68,6 +68,18 @@ class ilObjFile extends ilObject2 {
 	 * @var int
 	 */
 	protected $version = 1;
+	/**
+	 * @var string
+	 */
+	protected $action = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_version = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_user_id = null;
 
 
 	/**
@@ -550,6 +562,30 @@ class ilObjFile extends ilObject2 {
 		return $this->filesize;
 	}
 
+	function setAction($a_action) {
+		$this->action = $a_action;
+	}
+
+	function getAction() {
+		return $this->action;
+	}
+
+	function setRollbackVersion($a_rollback_version) {
+		$this->rollback_version = $a_rollback_version;
+	}
+
+	function getRollbackVersion() {
+		return $this->rollback_version;
+	}
+
+	function setRollbackUserId($a_rollback_user_id) {
+		$this->rollback_user_id = $a_rollback_user_id;
+	}
+
+	function getRollbackUserId() {
+		return $this->rollback_user_id;
+	}
+
 
 	/**
 	 * Gets the disk usage of the object in bytes.
@@ -626,7 +662,13 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	static function _lookupFileName($a_id) {
+	/**
+	 * @param $a_id
+	 *
+	 * @return string
+	 * @deprecated Static methods will be removed in a future version of ILIAS
+	 */
+	public static function _lookupFileName($a_id) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -634,7 +676,9 @@ class ilObjFile extends ilObject2 {
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-		return ilUtil::stripSlashes($row->file_name);
+		$strip_slashes = ilUtil::stripSlashes($row->file_name);
+
+		return $strip_slashes;
 	}
 
 
@@ -1094,20 +1138,29 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * return absolute path for version
+	 * @param  int $obj_id
+	 * @param int  $a_version
 	 *
+	 * @return string
+	 * @throws ilFileUtilsException
 	 */
 	public static function _lookupAbsolutePath($obj_id, $a_version = null) {
-		$file_storage = new ilFSStorageFile($obj_id);
-		$filename = ilObjFile::_lookupFileName($obj_id);
-		$version_subdir = "";
+		global $DIC;
 
-		if (!is_numeric($a_version)) {
-			$a_version = ilObjFile::_lookupVersion($obj_id);
+		$fs = $DIC->filesystem()->storage();
+
+		$file_object = new self($obj_id, false);
+		$file_path = $file_object->getFile($a_version);
+		$valid_file_path = ilFileUtils::getValidFilename($file_path);
+		if ($valid_file_path !== $file_path) {
+			if (!$fs->has(LegacyPathHelper::createRelativePath($file_path)) && $fs->has(LegacyPathHelper::createRelativePath($valid_file_path))) {
+				$file_object->setFileName(ilFileUtils::getValidFilename($file_object->getFileName()));
+				$file_object->update();
+				$file_path = $valid_file_path;
+			}
 		}
-		$version_subdir = DIRECTORY_SEPARATOR . sprintf("%03d", $a_version);
 
-		return $file_storage->getAbsolutePath() . $version_subdir . DIRECTORY_SEPARATOR . $filename;
+		return $file_path;
 	}
 
 
@@ -1234,7 +1287,16 @@ class ilObjFile extends ilObject2 {
 		                                                    . $ilUser->getId());
 
 		// get id of newest entry
-		$new_version = $this->getSpecificVersion($ilDB->getLastInsertId());
+		$entries = ilHistory::_getEntriesForObject($this->getId());
+		$newest_entry_id = 0;
+		foreach($entries as $entry)
+		{
+			if($entry["action"] == "rollback")
+			{
+				$newest_entry_id = $entry["hist_entry_id"];
+			}
+		}
+		$new_version = $this->getSpecificVersion($newest_entry_id);
 
 		// change user back to the original uploader
 		ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);

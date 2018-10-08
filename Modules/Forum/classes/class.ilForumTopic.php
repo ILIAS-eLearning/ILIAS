@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilForumPost.php';
-
 /**
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id:$
@@ -525,7 +523,6 @@ class ilForumTopic
 			unset($tmp_object);
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
 
 		return $posts;
@@ -611,7 +608,6 @@ class ilForumTopic
 
 			while($post = $posts->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{ 
-				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,
 					"frm", $post["pos_pk"], "pos");
 				$news_item = new ilNewsItem($news_id);
@@ -760,7 +756,6 @@ class ilForumTopic
 			$children[] = $row;
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
 
 		return $children;

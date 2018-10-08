@@ -19,7 +19,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
 		$join_str .= "LEFT JOIN object_data AS sort_object_data_{$this->getId()} ON (sort_object_data_{$this->getId()}.obj_id = sort_stloc_{$this->getId()}.value) ";
@@ -28,15 +29,15 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		$sql_obj = new ilDclRecordQueryObject();
 		$sql_obj->setSelectStatement($select_str);
 		$sql_obj->setJoinStatement($join_str);
-		$sql_obj->setOrderStatement("field_{$this->getId()} ".$direction);
+		$sql_obj->setOrderStatement("field_{$this->getId()} " . $direction);
 
 		return $sql_obj;
-
 	}
 
 
 	/**
 	 * Returns a query-object for building the record-loader-sql-query
+	 *
 	 * @param string $filter_value
 	 *
 	 * @return null|ilDclRecordQueryObject
@@ -45,12 +46,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$join_str =
-			"INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id) ";
-		$join_str .=
-			"INNER JOIN object_data AS filter_object_data_{$this->getId()} ON (filter_object_data_{$this->getId()}.obj_id = filter_stloc_{$this->getId()}.value AND filter_object_data_{$this->getId()}.title LIKE "
+		$join_str .= "INNER JOIN object_data AS filter_object_data_{$this->getId()} ON (filter_object_data_{$this->getId()}.obj_id = filter_stloc_{$this->getId()}.value AND filter_object_data_{$this->getId()}.title LIKE "
 			. $ilDB->quote("%$filter_value%", 'text') . ") ";
 
 		$sql_obj = new ilDclRecordQueryObject();
@@ -62,28 +62,31 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 
 	/**
 	 * Returns supported file-extensions
-	 * 
+	 *
 	 * @return array|string
 	 */
 	public function getSupportedExtensions() {
 
-		if(!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
+		if (!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
 			return "*";
 		}
 
 		$file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+
 		return $this->parseSupportedExtensions($file_types);
 	}
-	
+
+
 	protected function parseSupportedExtensions($input_value) {
 		$supported_extensions = explode(",", $input_value);
 
-		$trim_function = function($value) {
+		$trim_function = function ($value) {
 			return trim(trim(strtolower($value)), ".");
 		};
 
 		return array_map($trim_function, $supported_extensions);
 	}
+
 
 	/**
 	 * @inheritDoc
@@ -92,11 +95,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
 	}
 
+
 	/**
 	 * @return bool
 	 */
 	public function allowFilterInListView() {
 		return false;
 	}
-
 }

@@ -44,6 +44,16 @@
 		left: 0;
 		min-width: 100%;
 		background-color: @il-main-menu-dropdown-bg;
+		li {
+			a{
+				background-color: @il-main-menu-dropdown-link-bg;
+				color: @il-main-menu-dropdown-link-color;
+				&:hover{
+						background-color: @il-main-menu-dropdown-link-hover-bg;
+						color: @il-main-menu-dropdown-link-hover-color;
+				}
+			}
+		}
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			float: none;
 			left: auto;
@@ -71,7 +81,7 @@
 					margin: 0 10px 0 0;
 					padding: 5px 10px 6px;
 					border-top: 0;
-					color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+					color: @il-main-menu-link-color;//darken(@ilMainMenuColor, 30%);
 				}
 				&:hover,
 				&:active,

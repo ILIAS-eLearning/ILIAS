@@ -12,9 +12,8 @@
  *     Rival 1: What other controls are similar, what is their distinction
  *
  * background: Relevant academic information
- * Context: >
- *     The context states: where this control is used specifically
- *     (this list might not be complete) and how common is this control used
+ * context:
+ *     - The context states where this control is used specifically (this list might not be complete) and how common is this control used
  *
  * rules:
  *   usage:

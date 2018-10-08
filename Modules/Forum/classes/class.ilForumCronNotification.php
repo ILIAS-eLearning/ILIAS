@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-include_once "./Modules/Forum/classes/class.ilForumMailNotification.php";
-
 /**
  * Forum notifications
  *
@@ -256,9 +253,6 @@ class ilForumCronNotification extends ilCronJob
 		global $DIC; 
 		$ilDB = $DIC->database();
 
-		include_once './Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php';
-		include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
-
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			if($notification_type == ilForumMailNotification::TYPE_POST_DELETED
@@ -303,7 +297,6 @@ class ilForumCronNotification extends ilCronJob
 			}
 		}
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usrIdsToPreload));
 
 		$i = 0;

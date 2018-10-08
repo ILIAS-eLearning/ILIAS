@@ -7,8 +7,10 @@
  * @version 1.0.0
  */
 class ilDclDatetimeFieldModel extends ilDclBaseFieldModel {
+
 	/**
 	 * Returns a query-object for building the record-loader-sql-query
+	 *
 	 * @param string $filter_value
 	 *
 	 * @return null|ilDclRecordQueryObject
@@ -17,10 +19,11 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : NULL;
-		$date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : NULL;
+		$date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
+		$date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
 
-		$join_str = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id ";
 		if ($date_from) {
@@ -38,8 +41,8 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel {
 	}
 
 
-	public function checkValidity($value, $record_id = NULL) {
-		if ($value == NULL) {
+	public function checkValidity($value, $record_id = null) {
+		if ($value == null) {
 			return true;
 		}
 
