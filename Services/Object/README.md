@@ -51,3 +51,7 @@ Saving the setting:
 ```
 $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 ```
+Get `ilObjectTileImage` instance for an object id:
+```
+$tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($obj_id);
+```

@@ -8,7 +8,7 @@
  * @author killing@leifos.de
  * @ingroup ServicesObject
  */
-class ilObjectTileImageFactory
+class ilObjectTileImageFactory implements ilObjectTileImageFactoryInterface
 {
 	/**
 	 * @var ilObjectService
@@ -25,20 +25,17 @@ class ilObjectTileImageFactory
 	}
 
 	/**
-	 * Get supported file extensions
-	 *
-	 * @return string[]
+	 * @inheritdoc
 	 */
-	public function getSupportedFileExtensions()
+	public function getSupportedFileExtensions(): array
 	{
 		return ["png", "jpg", "jpeg"];
 	}
 
 	/**
-	 * @param int $objId
-	 * @return ilObjectTileImage
+	 * @inheritdoc
 	 */
-	public function getByObjId(int $obj_id)
+	public function getByObjId(int $obj_id): ilObjectTileImage
 	{
 		return new \ilObjectTileImage($this->service, $obj_id);
 	}

@@ -8,7 +8,7 @@
  * @author killing@leifos.de
  * @ingroup ServicesObject
  */
-class ilObjectCommonSettingFormAdapter
+class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapterInterface
 {
 	/**
 	 * @var ilObjectService
@@ -36,11 +36,9 @@ class ilObjectCommonSettingFormAdapter
 	}
 
 	/**
-	 * Add icon
-	 *
-	 * @return null|ilPropertyFormGUI
+	 * @inheritdoc
 	 */
-	public function addIcon()
+	public function addIcon(): ilPropertyFormGUI
 	{
 		global $DIC;
 
@@ -57,9 +55,9 @@ class ilObjectCommonSettingFormAdapter
 		}
 		return $this->legacy_form;
 	}
-	
+
 	/**
-	 * Save icon
+	 * @inheritdoc
 	 */
 	public function saveIcon()
 	{
@@ -77,13 +75,11 @@ class ilObjectCommonSettingFormAdapter
 		}
 
 	}
-	
+
 	/**
-	 * Add tile image
-	 *
-	 * @return null|ilPropertyFormGUI
+	 * @inheritdoc
 	 */
-	public function addTileImage()
+	public function addTileImage(): ilPropertyFormGUI
 	{
 		$lng = $this->service->language();
 		$tile_image_fac = $this->service->commonSettings()->tileImage();
@@ -110,7 +106,7 @@ class ilObjectCommonSettingFormAdapter
 	}
 
 	/**
-	 * Save tile image
+	 * @inheritdoc
 	 */
 	public function saveTileImage()
 	{

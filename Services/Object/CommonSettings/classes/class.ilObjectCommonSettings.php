@@ -8,7 +8,7 @@
  * @author @leifos.de
  * @ingroup 
  */
-class ilObjectCommonSettings
+class ilObjectCommonSettings implements ilObjectCommonSettingsInterface
 {
 	/**
 	 * @var ilObjectService
@@ -24,22 +24,17 @@ class ilObjectCommonSettings
 	}
 
 	/**
-	 * Tile image subservice. Tile images are used in deck of cards view of repository containers.
-	 *
-	 * @return ilObjectTileImageFactory
+	 * @inheritdoc
 	 */
-	public function tileImage()
+	public function tileImage(): ilObjectTileImageFactory
 	{
 		return new ilObjectTileImageFactory($this->service);
 	}
 
 	/**
-	 * Get form adapter (currently only for legacy form using ilPropertyFormGUI).
-	 * @todo In the future a method form() should act on new ui form containers.
-	 *
-	 * @return ilObjectCommonSettingFormAdapter
+	 * @inheritdoc
 	 */
-	public function legacyForm(ilPropertyFormGUI $form, ilObject $object)
+	public function legacyForm(ilPropertyFormGUI $form, ilObject $object): ilObjectCommonSettingFormAdapter
 	{
 		return new ilObjectCommonSettingFormAdapter($this->service, $object, $form);
 	}
