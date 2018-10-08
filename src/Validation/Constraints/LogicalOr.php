@@ -19,11 +19,6 @@ class LogicalOr extends Custom implements Constraint
 	protected $other = [];
 
 	/**
-	 * @var Constraint[]
-	 */
-	protected $failedOthers = [];
-
-	/**
 	 * LogicalOr constructor.
 	 * @param Constraint[] $other
 	 * @param Data\Factory $data_factory
@@ -34,22 +29,18 @@ class LogicalOr extends Custom implements Constraint
 
 		parent::__construct(
 			function ($value) {
-				$return = false;
-
 				foreach ($this->other as $constraint) {
 					if ($constraint->accepts($value)) {
-						$return = true;
-					} else {
-						$this->failedOthers[] = $constraint;
+						return true;
 					}
 				}
 
-				return $return;
+				return false;
 			},
 			function ($value) {
 				$problems = [];
 
-				foreach ($this->failedOthers as $constraint) {
+				foreach ($this->other as $constraint) {
 					$problems[] = (string)$constraint->problemWith($value);
 				}
 
