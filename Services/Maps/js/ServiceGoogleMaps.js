@@ -31,7 +31,7 @@ function ilInitMaps()
 	var obj;
 
 	// get all spans
-	obj = document.getElementsByTagName('div')
+	obj = document.getElementsByTagName('div');
 	
 	// run through them
 	for (var i=0;i<obj.length;i++)

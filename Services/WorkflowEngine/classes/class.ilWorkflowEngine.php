@@ -74,6 +74,11 @@ class ilWorkflowEngine
 			foreach ($workflows as $workflow_id)
 			{
 				$wf_instance = ilWorkflowDbHelper::wakeupWorkflow($workflow_id);
+				if($wf_instance == null)
+				{
+					continue;
+				}
+
 				$wf_instance->handleEvent(
 					array(
 						$type,
@@ -176,6 +181,11 @@ class ilWorkflowEngine
 			/** @noinspection PhpIncludeInspection */
 			require_once './Services/WorkflowEngine/classes/class.ilObjWorkflowEngine.php';
 
+			if(!file_exists(ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php'))
+			{
+				continue;
+			}
+
 			require_once ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php';
 			$class = substr($workflow['workflow'],4);
 			/** @var ilBaseWorkflow $workflow_instance */
@@ -191,6 +201,9 @@ class ilWorkflowEngine
 					$workflow_instance->setInstanceVarById($input_var['name'], $data[ $input_var['name'] ]);
 				}
 			}
+
+			$workflow_instance->setInstanceVarByRole($extractedParams->getContextType(), $extractedParams->getContextId());
+			$workflow_instance->setInstanceVarByRole($extractedParams->getSubjectType(), $extractedParams->getSubjectId());
 
 			require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 			ilWorkflowDbHelper::writeWorkflow( $workflow_instance );

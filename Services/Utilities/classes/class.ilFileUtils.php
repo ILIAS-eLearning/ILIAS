@@ -676,6 +676,7 @@ class ilFileUtils
 			'm',     // MATLAB
 			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
+			'mdl',				// Vensim files
 			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
@@ -779,6 +780,7 @@ class ilFileUtils
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
 			'swz', // scorm wbts
+			'tar',				// application/x-tar
 			'tex',   // APPLICATION__X_TEX,
 			'texi',   // APPLICATION__X_TEXINFO,
 			'texinfo',   // APPLICATION__X_TEXINFO,

@@ -1586,53 +1586,52 @@ class ilUtil
 		return $attribs;
 	}
 
+
 	/**
 	 * Copies content of a directory $a_sdir recursively to a directory $a_tdir
-	 * @param	string	$a_sdir		source directory
-	 * @param	string	$a_tdir		target directory
-	 * @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
 	 *
-	 * @return	boolean	TRUE for sucess, FALSE otherwise
-	 * @access	public
+	 * @param    string  $a_sdir                 source directory
+	 * @param    string  $a_tdir                 target directory
+	 * @param    boolean $preserveTimeAttributes if true, ctime will be kept.
+	 *
+	 * @return    boolean    TRUE for sucess, FALSE otherwise
+	 * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @access     public
 	 * @static
 	 *
 	 * @deprecated in favour of Filesystem::copyDir() located at the filesystem service.
-	 * @see Filesystem::copyDir()
-	 *
+	 * @see        Filesystem::copyDir()
 	 */
-	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
-	{
-		$a_sdir = realpath($a_sdir); // See https://www.ilias.de/mantis/view.php?id=23056
-		$a_tdir = realpath($a_tdir); // See https://www.ilias.de/mantis/view.php?id=23056
-		try {
-			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
-			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
+	public static function rCopy($a_sdir, $a_tdir, $preserveTimeAttributes = false) {
+		$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
+		$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
 
-			$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
-			$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
+		$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
+		$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
 
-			// check if arguments are directories
-			if (!$sourceFS->hasDir($sourceDir))
-			{
-				return false;
+		// check if arguments are directories
+		if (!$sourceFS->hasDir($sourceDir)) {
+			return false;
+		}
+
+		$sourceList = $sourceFS->listContents($sourceDir, true);
+
+		foreach ($sourceList as $item) {
+			if ($item->isDir()) {
+				continue;
 			}
-
-			$sourceList = $sourceFS->listContents($sourceDir, true);
-
-			foreach($sourceList as $item)
-			{
-				if($item->isDir())
-					continue;
-
+			try {
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
 				$stream = $sourceFS->readStream($item->getPath());
 				$targetFS->writeStream($itemPath, $stream);
+			} catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+				// Do nothing with that type of exception
 			}
-			return true;
 		}
-		catch (\Exception $exception) {
-			return false;
-		}
+
+		return true;
 	}
 
 
