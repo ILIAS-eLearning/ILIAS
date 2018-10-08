@@ -535,11 +535,9 @@ class ilObjUser extends ilObject
 		$this->updateUserDefinedFields();
 
 		// CREATE ENTRIES FOR MAIL BOX
-		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		$mbox = new ilMailbox($this->id);
 		$mbox->createDefaultFolder();
 
-		include_once "Services/Mail/classes/class.ilMailOptions.php";
 		$mail_options = new ilMailOptions($this->id);
 		$mail_options->createMailOptionsEntry();
 

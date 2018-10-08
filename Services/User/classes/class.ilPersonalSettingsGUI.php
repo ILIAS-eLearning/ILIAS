@@ -57,7 +57,6 @@ class ilPersonalSettingsGUI
 		switch($next_class)
 		{
 			case 'ilmailoptionsgui':
-				require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 				if(!$DIC->rbac()->system()->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 				{
 					$this->ilias->raiseError($DIC->language()->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
@@ -67,7 +66,6 @@ class ilPersonalSettingsGUI
 				$DIC->tabs()->activateTab('mail_settings');
 				$this->setHeader();
 
-				require_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
 				break;
 
@@ -120,7 +118,6 @@ class ilPersonalSettingsGUI
 				"", "", "", $showPassword);
 		}
 
-		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) && $ilSetting->get('show_mail_settings'))
 		{
 			$this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
@@ -1056,7 +1053,6 @@ class ilPersonalSettingsGUI
 		
 		// send notification
 		
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		
 		$user_email = $ilUser->getEmail();		

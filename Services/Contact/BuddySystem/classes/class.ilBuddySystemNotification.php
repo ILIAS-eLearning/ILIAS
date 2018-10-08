@@ -46,7 +46,6 @@ class ilBuddySystemNotification
 	 */
 	public function send()
 	{
-		require_once 'Services/Mail/classes/class.ilMail.php';
 		foreach($this->getRecipientIds() as $usr_id)
 		{
 			$user = new ilObjUser((int)$usr_id);

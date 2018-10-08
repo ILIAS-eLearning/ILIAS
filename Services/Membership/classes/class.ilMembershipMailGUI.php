@@ -89,8 +89,7 @@ class ilMembershipMailGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this->getCurrentObject(), 
 			'members',

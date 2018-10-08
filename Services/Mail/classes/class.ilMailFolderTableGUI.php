@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Mail/classes/class.ilMailUserCache.php';
-require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
-
 /**
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
@@ -274,7 +270,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	protected function isLuceneSearchEnabled()
 	{
-		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 		if(ilSearchSettings::getInstance()->enabledLucene() && strlen($this->filter['mail_filter']))
 		{
 			return true;
@@ -302,7 +297,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		{
 			if($this->isLuceneSearchEnabled())
 			{
-				include_once 'Services/Mail/classes/class.ilMailLuceneQueryParser.php';
 				$query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
 				$query_parser->setFields(array(
 					'title'       => (bool)$this->filter['mail_filter_subject'],
@@ -313,8 +307,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				));
 				$query_parser->parse();
 				
-				require_once 'Services/Mail/classes/class.ilMailLuceneSearcher.php';
-				require_once 'Services/Mail/classes/class.ilMailSearchResult.php';
 				$result = new ilMailSearchResult();
 				$searcher = new ilMailLuceneSearcher($query_parser, $result);
 				$searcher->search($this->user->getId(), $this->_currentFolderId);
@@ -548,14 +540,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	{
 		$this->filter = array();
 		
-		include_once 'Services/Mail/classes/Form/class.ilMailQuickFilterInputGUI.php';
 		$ti = new ilMailQuickFilterInputGUI($this->lng->txt('mail_filter'), 'mail_filter');
 		$ti->setSubmitFormOnEnter(false);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter['mail_filter'] = $ti->getValue();
-
-		include_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 
 		if($this->isDraftFolder() || $this->isSentFolder())
 		{

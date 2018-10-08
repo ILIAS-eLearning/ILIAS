@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 // mjansen@databay.de essential for mail constants, do not remove this include
-include_once 'Services/Mail/classes/class.ilMailOptions.php';
 
 /**
  * Class ilUserProfile

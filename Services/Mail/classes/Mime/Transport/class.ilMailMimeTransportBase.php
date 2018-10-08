@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Mime/Transport/interface.ilMailMimeTransport.php';
-require_once 'Services/Logging/classes/public/class.ilLoggerFactory.php';
-
 /**
  * Class ilMailMimeTransportBase
  */
@@ -27,7 +24,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 	{
 		$this->settings = $settings;
 
-		require_once 'libs/composer/vendor/autoload.php';
 		$mail = new PHPMailer();
 		$this->setMailer($mail);
 	}

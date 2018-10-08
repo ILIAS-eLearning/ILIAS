@@ -139,7 +139,6 @@ class ilAccountMail
 	{
 		if (!is_array($this->amail[$a_lang]))
 		{
-			include_once('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->amail[$a_lang] = ilObjUserFolder::_lookupNewAccountMail($a_lang);
 			$amail["body"] = trim($amail["body"]);
 			$amail["subject"] = trim($amail["subject"]);
@@ -224,7 +223,6 @@ class ilAccountMail
 		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 		// send the mail
-		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
 		$mmail->Subject($mail_subject);
@@ -322,7 +320,6 @@ return true;*/
 						
 					// this looks complicated, but we may have no initilised $lng object here
 					// if mail is send during user creation in authentication
-					include_once("./Services/Language/classes/class.ilLanguage.php");
 					$a_string  = str_replace("[TARGET_TYPE]",
 						ilLanguage::_lookupEntry($a_lang, "common", "obj_".$tarr[0]),
 						$a_string);

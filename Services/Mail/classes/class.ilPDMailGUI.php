@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilMail.php';
-
 /**
  * Mail User Interface class. (only a start, mail scripts code should go here)
  *

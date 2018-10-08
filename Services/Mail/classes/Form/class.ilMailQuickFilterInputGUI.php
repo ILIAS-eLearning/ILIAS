@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Form/classes/class.ilTextInputGUI.php';
-
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
@@ -26,7 +24,6 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 			return false;
 		}
 
-		include_once 'Services/Mail/classes/class.ilMailLuceneQueryParser.php';
 		try
 		{
 			ilMailLuceneQueryParser::validateQuery($query);

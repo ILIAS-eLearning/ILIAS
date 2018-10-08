@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
-require_once 'Services/Mail/classes/class.ilMailTemplate.php';
-require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
-
 /**
  * Class ilMailTemplateGUI
  * @author            Nadia Ahmad <nahmad@databay.de>
@@ -108,9 +102,6 @@ class ilMailTemplateGUI
 	 */
 	protected function showTemplates()
 	{
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-		require_once 'Services/Mail/classes/class.ilMailTemplateTableGUI.php';
-
 		$contexts = ilMailTemplateService::getTemplateContexts();
 		if (count($contexts) <= 1) {
 			ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'));
@@ -309,7 +300,6 @@ class ilMailTemplateGUI
 			return;
 		}
 
-		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this, 'deleteTemplate'));
 		$confirm->setHeaderText($this->lng->txt('mail_sure_delete_entry'));
@@ -358,7 +348,6 @@ class ilMailTemplateGUI
 	public function getAjaxPlaceholdersById()
 	{
 		$context_id = ilUtil::stripSlashes($_GET['triggerValue']);
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new ilManualPlaceholderInputGUI('m_message');
 		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
 		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
@@ -434,7 +423,6 @@ class ilMailTemplateGUI
 		$message->setRows(10);
 		$form->addItem($message);
 
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new ilManualPlaceholderInputGUI('m_message');
 		$placeholders->setDisabled(!$this->isEditingAllowed());
 		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));

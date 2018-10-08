@@ -83,7 +83,6 @@ class ilMailCronOrphanedMailsNotifier
 	 */
 	private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj)
 	{
-		include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotification.php';
 		$mail = new ilMailCronOrphanedMailsNotification();
 
 		$mail->setRecipients(array($collection_obj->getUserId()));

@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Services/Mail/test/ilMailBaseTest.php';
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-
 class ilMailTransportSettingsTest extends ilMailBaseTest
 {
 	public function testSystemAsIncomingTypeWontUpdate()

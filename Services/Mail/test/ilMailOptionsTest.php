@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Services/Mail/test/ilMailBaseTest.php';
-
 class ilMailOptionsTest extends \ilMailBaseTest
 {
 	public function testConstructor()

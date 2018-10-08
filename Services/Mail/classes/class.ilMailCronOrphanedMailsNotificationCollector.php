@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollectionObj.php';
-include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderObject.php';
-include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderMailObject.php';
 
 /**
  * ilMailCronOrphanedMailsNotificationCollector

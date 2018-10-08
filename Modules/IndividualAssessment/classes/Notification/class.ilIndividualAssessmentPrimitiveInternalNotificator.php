@@ -1,5 +1,4 @@
 <?php
-require_once 'Services/Mail/classes/class.ilMailNotification.php';
 require_once 'Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php';
 /**
  * Notificate user using internal mail system.

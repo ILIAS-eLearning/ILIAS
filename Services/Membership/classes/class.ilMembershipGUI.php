@@ -238,8 +238,7 @@ class ilMembershipGUI
 					$this->lng->txt('btn_back'),
 					$this->ctrl->getLinkTarget($this,'')
 				);
-				
-				include_once 'Services/Mail/classes/class.ilMail.php';
+
 				$mail = new ilMail($ilUser->getId());
 				include_once 'Modules/Course/classes/class.ilCourseConstants.php';
 				if(
@@ -781,7 +780,6 @@ class ilMembershipGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
 		
 		$context_options = [];
@@ -954,7 +952,6 @@ class ilMembershipGUI
 		$ilUser = $DIC['ilUser'];
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilAccess = $DIC['ilAccess'];
-		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($ilUser->getId());
 
 		if(

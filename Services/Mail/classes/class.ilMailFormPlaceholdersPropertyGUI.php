@@ -9,8 +9,6 @@
 * 
 * @ingroup ServicesMail
 */
-include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
-
 class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 {
 	/**

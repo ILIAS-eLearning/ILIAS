@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
-
 /**
 * BlockGUI class for System Messages block on personal desktop
 *

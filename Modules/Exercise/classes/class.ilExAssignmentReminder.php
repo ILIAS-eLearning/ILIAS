@@ -563,7 +563,6 @@ class ilExAssignmentReminder
 		// see ilMail::replacePlaceholders()
 		try
 		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 
 			switch($a_reminder_type)
 			{
@@ -584,8 +583,6 @@ class ilExAssignmentReminder
 			}
 
 			$user = new ilObjUser($a_reminder_data["member_id"]);
-
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
 
 			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
 			$a_message = $processor->resolve($user, $a_reminder_data);

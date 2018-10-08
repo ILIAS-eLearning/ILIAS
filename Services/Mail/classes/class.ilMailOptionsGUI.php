@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-require_once 'Services/Mail/classes/class.ilMailOptionsFormGUI.php';
-
 /**
  * @author Jens Conze
  * @version $Id$

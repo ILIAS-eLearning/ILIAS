@@ -1210,7 +1210,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					// local roles and may contains thousands of roles on large ILIAS
 					// installations.
 					$loc_roles = array();
-					require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 					foreach($roles as $role_id => $role)
 					{
 						if ($role["type"] == "Local")
@@ -1234,7 +1233,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				// create a search array with  .
 				$l_roles_mailbox_searcharray = array();
-				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach ($loc_roles as $key => $loc_role)
 				{
 					// fetch context path of role
@@ -1297,7 +1295,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$l_roles[""] = ""; 
 				natcasesort($l_roles);
 				$l_roles[""] = $this->lng->txt("usrimport_ignore_role");
-				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach($roles as $role_id => $role)
 				{
 					if ($role["type"] == "Local")
@@ -2863,7 +2860,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($ilUser->getId());
 		if($rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()))
 		{			
@@ -2945,8 +2941,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$list->assignUser($user_id);
 		}
 		
-		include_once "Services/Mail/classes/class.ilFormatMail.php";
-		$umail = new ilFormatMail($ilUser->getId());		
+		$umail = new ilFormatMail($ilUser->getId());
 		$mail_data = $umail->getSavedData();		
 		
 		if(!is_array($mail_data))
@@ -2972,7 +2967,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$mail_data['tpl_ctx_params']
 		);		
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilUtil::redirect(
 			ilMailFormCall::getRedirectTarget(
 				$this,

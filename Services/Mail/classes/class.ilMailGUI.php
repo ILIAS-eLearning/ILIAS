@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Mail/classes/class.ilMail.php";
-require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-
 /**
 * @author Jens Conze
 * @version $Id$
@@ -161,26 +158,20 @@ class ilMailGUI
 		switch($this->forwardClass)
 		{			
 			case 'ilmailformgui':
-				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
-
 				$this->ctrl->forwardCommand(new ilMailFormGUI());
 				break;
 
 			case 'ilcontactgui':
-				require_once 'Services/Contact/classes/class.ilContactGUI.php';
 				$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 				$this->ctrl->forwardCommand(new ilContactGUI());
 				break;
 
 			case 'ilmailoptionsgui':
 				$this->tpl->setTitle($this->lng->txt('mail'));
-				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
-
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
 				break;
 
 			case 'ilmailfoldergui':
-				include_once 'Services/Mail/classes/class.ilMailFolderGUI.php';
 				$this->ctrl->forwardCommand(new ilMailFolderGUI());
 				break;
 
@@ -310,8 +301,7 @@ class ilMailGUI
 	{
 		global $DIC;
 
-		require_once "Services/Mail/classes/class.ilMailExplorer.php";
-		$exp = new ilMailExplorer($this, "showExplorer", $DIC->user()->getId());		
+		$exp = new ilMailExplorer($this, "showExplorer", $DIC->user()->getId());
 		if(!$exp->handleCommand())
 		{
 			$this->tpl->setLeftNavContent($exp->getHTML());

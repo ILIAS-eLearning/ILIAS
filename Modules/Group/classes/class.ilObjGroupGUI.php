@@ -254,7 +254,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 			
 			case 'ilmailmembersearchgui':
-				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
 				if(!($ilAccess->checkAccess('manage_members','',$this->object->getRefId()) ||

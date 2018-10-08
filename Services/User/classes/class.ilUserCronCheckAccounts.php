@@ -89,8 +89,6 @@ class ilUserCronCheckAccounts extends ilCronJob
 
 		while($row = $ilDB->fetchObject($res))
 		{
-			include_once 'Services/Mail/classes/class.ilMimeMail.php';
-
 			$data['expires'] = $row->time_limit_until;
 			$data['email'] = $row->email;
 			$data['login'] = $row->login;

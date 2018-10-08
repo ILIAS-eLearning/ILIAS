@@ -2,12 +2,6 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/test/ilMailBaseTest.php';
-require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
-require_once 'Services/Mail/classes/Mime/Transport/interface.ilMailMimeTransport.php';
-require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
-require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 /**
  * @author Michael Jansen <mjansen@databay.de>

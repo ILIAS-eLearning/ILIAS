@@ -337,8 +337,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getContactEmail())
 		{
 			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
-            require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			
+
 			$emails = explode(",",$this->object->getContactEmail());
 			foreach ($emails as $email) {
 				$email = trim($email);
@@ -2520,7 +2519,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilmailmembersearchgui':
-				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
 				if(

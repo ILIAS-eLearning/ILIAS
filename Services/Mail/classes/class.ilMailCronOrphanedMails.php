@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Cron/classes/class.ilCronJob.php";
-include_once "./Services/Cron/classes/class.ilCronJobResult.php";
-require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-
 /**
  * Delete orphaned mails
  *
@@ -239,10 +235,8 @@ class ilMailCronOrphanedMails extends ilCronJob
 	private function processNotification()
 	{
 		$this->init();
-		include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php';
 		$collector = new ilMailCronOrphanedMailsNotificationCollector();
 
-		include_once'./Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php';
 		$notifier = new ilMailCronOrphanedMailsNotifier(
 			$collector,
 			(int)$this->settings->get('mail_threshold'),
@@ -254,10 +248,8 @@ class ilMailCronOrphanedMails extends ilCronJob
 	private function processDeletion()
 	{
 		$this->init();
-		include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionCollector.php';
 		$collector = new ilMailCronOrphanedMailsDeletionCollector();
 
-		include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionProcessor.php';
 		$processor = new ilMailCronOrphanedMailsDeletionProcessor($collector);
 		$processor->processDeletion();
 	}

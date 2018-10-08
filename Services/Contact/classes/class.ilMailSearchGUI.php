@@ -22,8 +22,6 @@
 */
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/classes/class.ilMailbox.php';
-require_once 'Services/Mail/classes/class.ilFormatMail.php';
 include_once 'Services/Table/classes/class.ilTable2GUI.php';
 include_once 'Services/Search/classes/class.ilQueryParser.php';
 include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -213,7 +211,6 @@ class ilMailSearchGUI
 	public function lookupRecipientAsync()
 	{
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		include_once 'Services/Mail/classes/class.ilMailForm.php';
 
 		$search = $_REQUEST["term"];
 		$result = array();

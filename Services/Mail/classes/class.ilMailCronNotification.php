@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
 /**
  * Mail notifications
  *
@@ -86,7 +84,6 @@ class ilMailCronNotification extends ilCronJob
 
 	public function run()
 	{	
-		require_once 'Services/Mail/classes/class.ilMailSummaryNotification.php';
 		$msn = new ilMailSummaryNotification();
 		$msn->send();
 

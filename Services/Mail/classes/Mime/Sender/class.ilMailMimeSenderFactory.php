@@ -66,7 +66,6 @@ class ilMailMimeSenderFactory
 	 */
 	public function system()
 	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderSystem.php';
 		return new ilMailMimeSenderSystem($this->settings);
 	}
 
@@ -76,7 +75,6 @@ class ilMailMimeSenderFactory
 	 */
 	public function user($usrId)
 	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
 		return ilMailMimeSenderUser::byUsrId($this->settings, $usrId);
 	}
 
@@ -86,7 +84,6 @@ class ilMailMimeSenderFactory
 	 */
 	public function userByEmailAddress($emailAddress)
 	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
 		return ilMailMimeSenderUser::byEmailAddress($this->settings, $emailAddress);
 	}
 }

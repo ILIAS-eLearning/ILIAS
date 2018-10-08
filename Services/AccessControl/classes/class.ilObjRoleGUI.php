@@ -1639,11 +1639,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 			$_SESSION['mail_roles'][] = ilMailRoleAddressType::getRoleMailboxAddress($this->object->getId());
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
         $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
 		ilUtil::redirect($script);
 	}

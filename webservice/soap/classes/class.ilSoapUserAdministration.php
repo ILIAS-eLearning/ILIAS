@@ -1114,7 +1114,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$ilUser = $DIC['ilUser'];
 
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if(ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId()) > 0)
 		{
 			return true;

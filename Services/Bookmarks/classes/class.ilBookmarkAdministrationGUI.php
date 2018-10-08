@@ -764,8 +764,6 @@ class ilBookmarkAdministrationGUI
 	function sendmail()
 	{
 		$ilUser = $this->user;
-		include_once './Services/Mail/classes/class.ilFileDataMail.php';
-		require_once "Services/Mail/classes/class.ilFormatMail.php";
 		$mfile = new ilFileDataMail($ilUser->getId());
 		$umail = new ilFormatMail($ilUser->getId());
 
@@ -781,7 +779,6 @@ class ilBookmarkAdministrationGUI
 			'',
 			'', 0);
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, '', array(), array('type' => 'attach')));
 	}
 

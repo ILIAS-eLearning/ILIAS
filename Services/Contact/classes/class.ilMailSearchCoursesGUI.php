@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
@@ -89,7 +87,6 @@ class ilMailSearchCoursesGUI
 		$this->wsp_node_id = $wsp_node_id;
 
 		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($this->user->getId());
 		$this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 
@@ -184,8 +181,7 @@ class ilMailSearchCoursesGUI
 		}
 
 		require_once './Services/Object/classes/class.ilObject.php';
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs']; 
+		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs'];
 		
 		foreach ($ids as $crs_id)
 		{

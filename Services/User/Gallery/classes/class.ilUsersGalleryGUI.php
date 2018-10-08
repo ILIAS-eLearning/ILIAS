@@ -7,7 +7,6 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
-require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
  * @ilCtrl_Calls      ilUsersGalleryGUI: ilPublicUserProfileGUI

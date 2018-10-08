@@ -73,7 +73,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		if(!$this->getPrintMode())
 		{
 			// see ilObjCourseGUI::addMailToMemberButton()
-			include_once "Services/Mail/classes/class.ilMail.php";
 			$mail = new ilMail($ilUser->getId());
 			if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))
 			{							

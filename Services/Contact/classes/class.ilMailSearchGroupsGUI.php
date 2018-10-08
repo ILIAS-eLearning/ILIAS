@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/classes/class.ilMailbox.php';
-require_once 'Services/Mail/classes/class.ilFormatMail.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
@@ -91,7 +89,6 @@ class ilMailSearchGroupsGUI
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->ctrl->saveParameter($this, "ref");
 
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($this->user->getId());
 		$this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
@@ -182,7 +179,6 @@ class ilMailSearchGroupsGUI
 		}
 		
 		require_once './Services/Object/classes/class.ilObject.php';
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 
 		$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
 		foreach ($ids as $grp_id)

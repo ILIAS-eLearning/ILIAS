@@ -6624,8 +6624,7 @@ class ilObjSurvey extends ilObject
 	{	
 		$res = array();
 		
-		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
+		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";
 		$mprov = new ilMailTemplateDataProvider();
 		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
 		{
@@ -6642,13 +6641,10 @@ class ilObjSurvey extends ilObject
 				
 		try
 		{			
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
 
 			$user = new ilObjUser($a_user_id);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
 			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
 			

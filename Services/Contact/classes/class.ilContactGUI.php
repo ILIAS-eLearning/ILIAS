@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilFormatMail.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
@@ -107,7 +106,6 @@ class ilContactGUI
 		switch($forward_class)
 		{
 			case 'ilmailformgui':
-				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
 				$this->ctrl->forwardCommand(new ilMailFormGUI());
 				break;
 

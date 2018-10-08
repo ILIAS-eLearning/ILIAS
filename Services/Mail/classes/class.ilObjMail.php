@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
 * Class ilObjMail
 * contains all functions to manage mail settings of ILIAS3

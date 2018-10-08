@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
-
 /**
  * Class ilMailTemplateService
  * @author  Michael Jansen <mjansen@databay.de>
@@ -87,7 +85,6 @@ class ilMailTemplateService
 		$first_context = current($contexts);
 		if(!($first_context instanceof ilMailTemplateContext)  || $first_context->getId() != $a_id)
 		{
-			require_once 'Services/Mail/exceptions/class.ilMailException.php';
 			throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
 		}
 		return $first_context;
@@ -147,45 +144,31 @@ class ilMailTemplateService
 
 		$mess = '';
 
-		if(!$a_path)
+		if(class_exists($a_class))
 		{
-			$a_path = $a_component . '/classes/';
-		}
-		$class_file = $a_path . 'class.' . $a_class . '.php';
-
-		if(file_exists($class_file))
-		{
-			require_once $class_file;
-			if(class_exists($a_class))
+			$context = new $a_class();
+			if($context instanceof ilMailTemplateContext)
 			{
-				$context = new $a_class();
-				if($context instanceof ilMailTemplateContext)
+				if($context->getId() == $a_id)
 				{
-					if($context->getId() == $a_id)
-					{
-						return $context;
-					}
-					else
-					{
-						$mess .= " - context id mismatch";
-					}
+					return $context;
 				}
 				else
 				{
-					$mess .= " - does not extend ilMailTemplateContext";
+					$mess .= " - context id mismatch";
 				}
 			}
 			else
 			{
-				$mess = "- class not found in file";
+				$mess .= " - does not extend ilMailTemplateContext";
 			}
 		}
 		else
 		{
-			$mess = " - class file not found";
+			$mess = "- class not found in file";
 		}
 
-		$DIC['ilLog']->debug("Mail Template XML - Context " . $a_id . " in class " . $a_class . " (" . $class_file . ") is invalid." . $mess);
+		$DIC['ilLog']->debug("Mail Template XML - Context " . $a_id . " in class " . $a_class . " is invalid." . $mess);
 	}
 
 	/**

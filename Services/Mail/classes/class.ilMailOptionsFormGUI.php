@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-
 /**
  * Class ilMailOptionsFormGUI
  */
@@ -87,7 +84,6 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
 
 		if($this->settings->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{
-			require_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
 			$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type', false);
 			$this->addItem($incoming_mail_gui);
 		}

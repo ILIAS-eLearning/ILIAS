@@ -6,8 +6,6 @@ use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
 
-include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-
 /**
 * Handles display of the main menu
 *
