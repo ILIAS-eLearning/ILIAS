@@ -74,7 +74,7 @@ class ilMDSaxParser extends ilSaxParser
 		$lng = $DIC['lng'];
 		$tree = $DIC['tree'];
 
-		$this->meta_log = $DIC->logger()->meta();
+		$this->meta_log = ilLoggerFactory::getLogger("meta");
 
 
 		// Enable parsing. E.g qpl' s will set this value to false
@@ -126,7 +126,7 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
 
 		if(!$this->getMDParsingStatus())
 		{
@@ -686,14 +686,14 @@ class ilMDSaxParser extends ilSaxParser
 		#echo '<br />';
 		foreach($this->md_parent as $class)
 		{
-			$this->meta_log->debug(get_class($class));
+			#echo get_class($class).' -> ';
 		}
 	}
 	function &__popParent()
 	{
 		$class = array_pop($this->md_parent);
 		unset($class);
-		$this->meta_log->debug(get_class($class));
+		#echo '<br />DELETE '.get_class($class);
 	}
 	function &__getParent()
 	{

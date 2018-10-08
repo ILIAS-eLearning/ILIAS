@@ -271,7 +271,8 @@ class ilObjectMetaDataGUI
 		
 		return (($this->obj_id || !$this->obj_type) &&
 			in_array($type, array(
-				"crs", 
+				"crs",
+				'grp',
 				"file", 
 				"glo", "glo:gdf", 
 				"svy", "spl", 
@@ -328,7 +329,13 @@ class ilObjectMetaDataGUI
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Get tab link if available
+	 *
+	 * @param null $a_base_class
+	 * @return null|string
+	 */
 	public function getTab($a_base_class = null)
 	{
 		$ilCtrl = $this->ctrl;
