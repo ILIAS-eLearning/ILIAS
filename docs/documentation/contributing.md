@@ -87,7 +87,7 @@ be assigned by the Technical Board or Maintainers:
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | bugfix          | PRs with the label `bugfix` propose a solution for a reported bug in the official Bugtracker https://mantis.ilias.de                                                      |
 | improvement     | The label `improvement` is used for PRs which propose a general improvement of code or documentation which is not related to a bug.                                       |
-| roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions regarding the future of a component.                                              |
+| roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
 | jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
 | kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |

@@ -74,7 +74,8 @@ a collaborative development of the vision for such a key aspect.
 ## What can be expected of a coordinator?
 * The coordinator MUST moderate the discussion on finding a vision on 
 the development of the component. The coordinator SHOULD document that
-vision publicly and close to the code.
+vision publicly in a file called `ROADMAP.md` in the root of the
+components directory.
 * The coordinator MUST give recommendations to the JF whether to accept 
 or decline changes.
 * The coordinator MUST accept decisions of the Technical Board on change 
