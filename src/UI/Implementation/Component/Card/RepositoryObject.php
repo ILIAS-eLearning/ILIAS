@@ -59,7 +59,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	}
 
 	/**
-	 * Get the progressmeter for this couse.
+	 * Get the progressmeter
 	 * @return ProgressMeter
 	 */
 	public function getProgress()

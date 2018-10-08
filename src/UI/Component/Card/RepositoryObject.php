@@ -14,21 +14,20 @@ use ILIAS\UI\Component\Icon\Icon;
 interface RepositoryObject extends Card {
 
 	/**
-	 * Get a repositoryCard like this, but with an additional UI Icon showing the object type.
+	 * Get a RepositoryObject card like this, but with an additional UI Icon representing the repository object type.
 	 * @param Icon $icon
 	 * @return RepositoryObject
 	 */
 	public function withObjectIcon(Icon $icon);
 
 	/**
-	 * Returns an UI Icon
+	 * Returns an UI Icon which represents the repository object type
 	 * @return string|null
 	 */
 	public function getObjectIcon();
 
 	/**
-	 *
-	 * Get a Custom card like this, but with an additional UI Progressmeter object
+	 * Get a RepositoryObject card like this, but with an additional UI Progressmeter object
 	 * @param ProgressMeter $progressmeter
 	 * @return RepositoryObject
 	 */
@@ -41,7 +40,7 @@ interface RepositoryObject extends Card {
 	public function getProgress();
 
 	/**
-	 * Get a Custom card like this, but with an additional certificate outlined icon
+	 * Get a RepositoryObject card like this, but with an additional certificate outlined icon
 	 * @param bool $certificate_icon
 	 * @return RepositoryObject
 	 */
@@ -54,7 +53,7 @@ interface RepositoryObject extends Card {
 	public function getCertificateIcon();
 
 	/**
-	 * Get a Custom card like this, but with an additional UI Dropdown object
+	 * Get a RepositoryObject card like this, but with an additional UI Dropdown object
 	 * @param $dropdown Dropdown
 	 * @return RepositoryObject
 	 */

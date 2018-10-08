@@ -20,7 +20,7 @@ interface Card extends Component {
 	public function withTitle($title);
 
 	/**
-	 * Gets the title in the heading section of the card
+	 * Get the title in the heading section of the card
 	 * @return string
 	 */
 	public function getTitle();

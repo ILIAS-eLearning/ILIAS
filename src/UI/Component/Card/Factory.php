@@ -44,7 +44,7 @@ interface Factory {
 	 *      4 horizontal cells where the icons can be located.
 	 *      Starting from the left, the icons have the following order:
 	 *          Cell 1: Object type (UI Icon)
-	 *          Cell 2: Learning Progress (UI ProgressMeter) or Certificate (UI Icon)
+	 *          Cell 2: Learning Progress (UI ProgressMeter in the mini version) or Certificate (UI Icon)
 	 *          Cell 3: Empty
 	 *          Cell 4: Actions (UI Dropdown)
 	 *      Cells and its content are responsively adapted if the size of the screen is changed.
