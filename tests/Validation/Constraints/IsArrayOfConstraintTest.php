@@ -89,7 +89,7 @@ class IsArrayOfConstraintTest extends PHPUnit_Framework_TestCase {
 		$this->lng
 			->expects($this->exactly(1))
 			->method("txt")
-			->withConsecutive(["is_no_array_of"])
+			->withConsecutive(["not_an_array_of"])
 			->willReturn("-%s-");
 
 		$this->assertEquals("-2 3-", $this->c->problemWith([1,2,3]));
@@ -99,7 +99,7 @@ class IsArrayOfConstraintTest extends PHPUnit_Framework_TestCase {
 		$this->lng
 			->expects($this->exactly(1))
 			->method("txt")
-			->withConsecutive(["is_no_array"])
+			->withConsecutive(["not_an_array"])
 			->willReturn("-%s-");
 
 		$this->assertEquals("-integer-", $this->c->problemWith(1));

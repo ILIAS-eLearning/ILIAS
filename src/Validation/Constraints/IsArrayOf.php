@@ -37,7 +37,7 @@ class IsArrayOf extends Custom implements Constraint {
 			},
 			function ($txt, $value) use ($on_element) {
 				if (!is_array($value)) {
-					return $txt("is_no_array", gettype($value));
+					return $txt("not_an_array", gettype($value));
 				}
 				$sub_problems = [];
 				foreach ($value as $item) {
@@ -46,7 +46,7 @@ class IsArrayOf extends Custom implements Constraint {
 						$sub_problems[] = $sub_problem;
 					}
 				}
-				return $txt("is_no_array_of", implode(" ", $sub_problems));
+				return $txt("not_an_array_of", implode(" ", $sub_problems));
 			},
 			$data_factory,
 			$lng
