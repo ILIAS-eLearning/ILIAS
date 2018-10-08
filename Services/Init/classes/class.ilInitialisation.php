@@ -239,12 +239,24 @@ class ilInitialisation
 			return $delegatingFactory->getLocal($customizingConfiguration);
 		};
 
+		$DIC['filesystem.libs'] = function ($c) {
+			//customizing
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
+			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'libs');
+			return $delegatingFactory->getLocal($customizingConfiguration, true);
+		};
+
 		$DIC['filesystem'] = function($c) {
 			return new \ILIAS\Filesystem\FilesystemsImpl(
 				$c['filesystem.storage'],
 				$c['filesystem.web'],
 				$c['filesystem.temp'],
-				$c['filesystem.customizing']
+				$c['filesystem.customizing'],
+				$c['filesystem.libs']
 			);
 		};
 	}
@@ -689,7 +701,7 @@ class ilInitialisation
 	 */
 	protected static function initStyle()
 	{
-		global $styleDefinition, $ilPluginAdmin;
+		global $DIC, $ilPluginAdmin;
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
@@ -701,7 +713,7 @@ class ilInitialisation
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
+			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
 		}
 	}
 

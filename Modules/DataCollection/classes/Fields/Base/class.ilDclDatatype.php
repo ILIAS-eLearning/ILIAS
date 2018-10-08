@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclDatatype
  *
@@ -32,9 +31,6 @@ class ilDclDatatype {
 	const INPUTFORMAT_NON_EDITABLE_VALUE = 13;
 	const INPUTFORMAT_TEXT_SELECTION = 14;
 	const INPUTFORMAT_DATE_SELECTION = 15;
-
-
-
 	//public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
 	/**
 	 * @var int
@@ -156,7 +152,7 @@ class ilDclDatatype {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		if(self::$datatype_cache == NULL) {
+		if (self::$datatype_cache == null) {
 			self::$datatype_cache = array();
 
 			$query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
@@ -172,6 +168,7 @@ class ilDclDatatype {
 
 		return self::$datatype_cache;
 	}
+
 
 	protected function loadDatatype($rec) {
 		$this->id = $rec['id'];

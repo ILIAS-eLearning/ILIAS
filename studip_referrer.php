@@ -23,8 +23,8 @@ if(file_exists("./ilias.ini.php")){
 	
 	if (isset($_GET['sess_id']))
 	{	
-		setcookie('PHPSESSID',$_GET['sess_id']);
-		$_COOKIE['PHPSESSID'] = $_GET['sess_id'];
+		setcookie(session_name(),$_GET['sess_id']);
+		$_COOKIE[session_name()] = $_GET['sess_id'];
 	}
 	
 	if (isset($_GET['client_id']))

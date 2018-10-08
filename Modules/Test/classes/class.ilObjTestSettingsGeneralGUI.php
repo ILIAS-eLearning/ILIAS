@@ -456,14 +456,31 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
 		$ecs = new ilECSTestSettings($this->testOBJ);
 		$ecs->addSettingsToForm($form, 'tst');
+		
+		// additional features
+		
+		$orgunitServiceActive = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+			$this->testOBJ->getType()
+		)->isActive();
 
-		// skill service activation for FIXED tests only
-		if( ilObjTest::isSkillManagementGloballyActivated() )
+		$skillServiceActive = ilObjTest::isSkillManagementGloballyActivated();
+		
+		
+		if( $orgunitServiceActive || $skillServiceActive )
 		{
 			$otherHead = new ilFormSectionHeaderGUI();
-			$otherHead->setTitle($this->lng->txt('other'));
+			$otherHead->setTitle($this->lng->txt('obj_features'));
 			$form->addItem($otherHead);
-
+		}
+		
+		require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm($this->testOBJ->getId(), $form, array(
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+		));
+		
+		// skill service activation for FIXED tests only
+		if( $skillServiceActive )
+		{
 			$skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
 			$skillService->setInfo($this->lng->txt('tst_activate_skill_service_desc'));
 			$skillService->setChecked($this->testOBJ->isSkillServiceEnabled());
@@ -496,6 +513,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				$this->testOBJ->setSkillServiceEnabled($form->getItemByPostVar('skill_service')->getChecked());
 			}
 		}
+		
+		require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm($this->testOBJ->getId(), $form, array(
+			ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+		));
 
 		// store settings to db
 		$this->testOBJ->saveToDb(true);

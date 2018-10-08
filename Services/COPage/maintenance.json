@@ -3,7 +3,9 @@
     "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "FH Aachen",
     "testcase_writer": "atoedt(3139)",
     "path": "Services/COPage",

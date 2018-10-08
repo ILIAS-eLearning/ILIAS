@@ -16,9 +16,9 @@ use ILIAS\UI\Component;
 trait Triggerer {
 
 	/**
-	 * @var \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
+	 * @var \ILIAS\UI\Implementation\Component\TriggeredSignal[]
 	 */
-	protected $triggered_signals = array();
+	private $triggered_signals = array();
 
 	/**
 	 * Append a triggered signal to other signals of the same event
@@ -43,7 +43,7 @@ trait Triggerer {
 	 * @param string $event
 	 * @return $this
 	 */
-	protected function addTriggeredSignal(Component\Signal $signal, $event) {
+	protected function withTriggeredSignal(Component\Signal $signal, $event) {
 		$clone = clone $this;
 		$clone->setTriggeredSignal($signal, $event);
 		return $clone;
@@ -65,10 +65,26 @@ trait Triggerer {
 	}
 
 	/**
-	 * @return \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
+	 * @return \ILIAS\UI\Implementation\Component\TriggeredSignal[]
 	 */
 	public function getTriggeredSignals() {
 		return $this->flattenArray($this->triggered_signals);
+	}
+
+	/**
+	 * Get signals that are triggered for a certain event.
+	 *
+	 * @param	string
+	 * @return \ILIAS\UI\Component\Signal
+	 */
+	public function getTriggeredSignalsFor($event) {
+		if (!isset($this->triggered_signals[$event])) {
+			return [];
+		}
+		return array_map(
+			function($ts) { return $ts->getSignal(); },
+			$this->triggered_signals[$event]
+		);
 	}
 
 	/**

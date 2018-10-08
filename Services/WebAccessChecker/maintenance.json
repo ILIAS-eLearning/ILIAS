@@ -3,7 +3,9 @@
     "first_maintainer": "fschmid(21087)",
     "second_maintainer": "ukohnle(21855)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "iLUB Universität Bern",
     "testcase_writer": "ttruffer(42894)",
     "path": "Services/WebAccessChecker",

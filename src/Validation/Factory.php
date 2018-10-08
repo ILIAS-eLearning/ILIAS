@@ -152,6 +152,16 @@ class Factory {
 	}
 
 	/**
+	 * Get the constraint that limits the maximum length of the string.
+	 *
+	 * @param	int	$max_length
+	 * @return	Constraint
+	 */
+	public function hasMaxLength($max_length) {
+		return new Constraints\HasMaxLength($max_length, $this->data_factory);
+	}
+
+	/**
 	 * Get a custom constraint.
 	 *
 	 * If the provided value !$is_ok will either use the $error (if it is a string)

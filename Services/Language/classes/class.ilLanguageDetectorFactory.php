@@ -31,15 +31,11 @@ class ilLanguageDetectorFactory
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 * @var $ilSetting       ilSetting
-		 */
-		global $ilClientIniFile, $ilSetting;
+		global $DIC;
 
-		$this->client_ini          = $ilClientIniFile;
+		$this->client_ini          = $DIC->clientIni();
 		$this->request_information = $_SERVER;
-		$this->settings            = $ilSetting;
+		$this->settings            = $DIC->settings();
 	}
 
 	/**

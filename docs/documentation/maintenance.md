@@ -34,7 +34,6 @@ Responsibilities of a component maintainer:
 
 The code base is deviced in several components:
 <!-- REMOVE -->
-
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -215,12 +214,6 @@ The code base is deviced in several components:
 	* Testcases: iLUB Universität Bern
 	* Tester: iLUB Universität Bern
 
-* **HTTP**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-
 * **HTTP-Request**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -250,6 +243,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: MISSING
 	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
+
+* **LTI**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
 * **Language Handling**
 	* 1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
@@ -286,12 +285,6 @@ The code base is deviced in several components:
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-
-* **LTI**
-	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
-	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
 * **Mail**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
@@ -572,16 +565,17 @@ The code base is deviced in several components:
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 * **UI-Service**
-	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) 
+	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI, 
 
 
 The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
 * src/UI
- (Coordinator: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 
 
 The following directories are currently unmaintained:
+* Services/DiskQuota
+* Modules/ContentPage
 * Services/License
 * Services/Membership
 * Services/QTI

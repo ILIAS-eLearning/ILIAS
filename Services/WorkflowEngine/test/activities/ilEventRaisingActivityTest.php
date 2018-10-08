@@ -168,32 +168,4 @@ class ilEventRaisingActivityTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $params);
 	}
 
-	public function testExecute()
-	{
-		$this->markTestIncomplete('Needs further investigation. $ilDB->quote vs. mock.');
-		// Arrange
-		$activity = new ilEventRaisingActivity($this->node);
-		$activity->setEventName('EVTName');
-		$activity->setEventType('EVTType');
-		$key = 'Key';
-		$value = 123;
-		$expected[] = array('key' => $key, 'value' => $value);
-		$expected[] = array('key' => 'context', 'value' => $activity);
-
-		$activity->addFixedParam($key, $value);
-
-		$appHandlerMock = $this->getMockBuilder('ilAppEventHandler', 'getParamsArray')
-						   ->setMethods(array('raise'))
-						   ->getMock();
-		
-		$appHandlerMock->expects($this->once())
-					   ->method('raise')
-					   ->with(
-							$this->equalTo('EVTType'),
-							$this->equalTo('EVTName'),
-							$this->equalTo($expected)
-						);
-		$GLOBALS['ilAppEventHandler'] = $appHandlerMock;
-		$activity->execute();
-	}
 }

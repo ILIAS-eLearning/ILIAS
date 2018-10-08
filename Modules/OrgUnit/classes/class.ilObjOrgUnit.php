@@ -509,7 +509,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		// Delete all position assignments to this object.
 		$assignments = ilOrgUnitUserAssignment::where(array(
-			'orgu_id'     => $this->getId(),
+			'orgu_id'     => $this->getRefId(),
 		))->get();
 		foreach ($assignments as $assignment) {
 			$assignment->delete();

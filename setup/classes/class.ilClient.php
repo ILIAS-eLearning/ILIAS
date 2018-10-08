@@ -26,7 +26,7 @@ class ilClient
 	 */
 	public $error = '';
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	public $db;
 	/**
@@ -261,26 +261,6 @@ class ilClient
 	{
 		switch($this->getDbType())
 		{
-			case "oracle":
-				//$this->dsn_host = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
-				$this->dsn_host = array(
-                                                'phptype' => 'oci8',
-                                                'hostspec' => $this->getdbHost(),
-                                                'username' => $this->getdbUser(),
-												'port' => $this->getdbPort(),
-                                                'password' => $this->getdbPass(),
-                                                );
-				//$this->dsn = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/?service=".$this->getdbName();
-				$this->dsn = $this->dsn = array(
-					'phptype' => 'oci8',
-					'hostspec' => $this->getdbHost(),
-					'username' => $this->getdbUser(),
-					'port' => $this->getdbPort(),
-					'password' => $this->getdbPass(),
-					'service' => $this->getdbName()
-					);
-				break;
-
 			case "postgres":
 				$db_port_str = "";
 				if (trim($this->getdbPort()) != "")

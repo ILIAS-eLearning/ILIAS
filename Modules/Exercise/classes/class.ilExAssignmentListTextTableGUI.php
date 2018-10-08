@@ -68,8 +68,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		if(!$a_disable_peer_review &&
 			$this->ass->getPeerReview() && 
 			!$a_show_peer_review)
-		{								
-			$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));			
+		{
+			$this->addCommandButton("listTextAssignment", $lng->txt("exc_show_peer_review"));
 		}					
 
 		$this->parse();

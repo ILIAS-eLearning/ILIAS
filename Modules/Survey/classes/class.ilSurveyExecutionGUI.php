@@ -207,8 +207,14 @@ class ilSurveyExecutionGUI
 			{
 				ilUtil::sendFailure($this->lng->txt("survey_360_execution_invalid_appraisee"), true);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-			}									
+			}
 		}
+		//Self evaluation mode
+		#23575 in self eval the appraisee is the current user.
+		if($this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
+			$appr_id = $ilUser->getId();
+		}
+		
 		$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
 					
 		if(!$a_ignore_status)

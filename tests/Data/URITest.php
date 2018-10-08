@@ -271,7 +271,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_no_schema()
 	{
@@ -280,7 +280,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_no_authority()
 	{
@@ -289,7 +289,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_wrong_char_in_schema()
 	{
@@ -452,17 +452,17 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_port
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_with_port_invalid_1()
 	{
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
-		$uri->withPort('111');
+		$uri->withPort('a111');
 	}
 
 	/**
 	 * @depends test_with_port
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_with_port_invalid_2()
 	{
@@ -505,7 +505,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_host
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_with_host_invalid_2()
 	{
@@ -624,7 +624,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \TypeError
 	 */
 	public function test_with_authority_invalid_2()
 	{

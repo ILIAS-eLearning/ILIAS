@@ -18615,7 +18615,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
 		global $ilCtrl;
 		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
-		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data), $prefix);
 	}
 
 	include_once("./Services/Component/classes/class.ilModule.php");
@@ -18626,7 +18626,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 			include_once("./Services/Component/classes/class.ilPluginSlot.php");
 			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -18639,7 +18640,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 		foreach ($plugin_slots as $ps) {
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -22380,7 +22382,6 @@ while($data = $ilDB->fetchAssoc($res)) {
 }
 ?>
 <#5285>
-<?php
 if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 {
 	// add new table column for indexing different question gaps in assClozeTest
@@ -22564,3 +22565,214 @@ catch(ilException $e)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5294>
+<?php
+$setting = new ilSetting();
+
+if( !$setting->get('tst_score_rep_consts_cleaned', 0) )
+{
+	$ilDB->queryF(
+		"UPDATE tst_tests SET score_reporting = %s WHERE score_reporting = %s",
+		array('integer', 'integer'), array(0, 4)
+	);
+	
+	$setting->set('tst_score_rep_consts_cleaned', 1);
+}
+?>
+<#5295>
+<?php
+if( !$ilDB->tableColumnExists('tst_result_cache', 'passed_once') )
+{
+	$ilDB->addTableColumn('tst_result_cache', 'passed_once', array(
+		'type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0
+	));
+}
+?>
+<#5296>
+<?php
+if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
+	$ilDB->addTableColumn('exc_assignment', 'fb_date_custom', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_submit_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'rmd_grade_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_status')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_status', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_start', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_end')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_end', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_freq')) {
+	$ilDB->addTableColumn('exc_assignment', 'peer_rmd_freq', [
+		"type"    => "integer",
+		"length"  => 4,
+		"default" => NULL,
+	]);
+}
+if(!$ilDB->tableExists('exc_ass_reminders'))
+{
+	$ilDB->createTable('exc_ass_reminders', array(
+		'type' => array(
+			'type'     => 'text',
+			'length'   => 32,
+		),
+		'ass_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'exc_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'status' => array(
+			"type"    => "integer",
+			"length"  => 1,
+			"default" => NULL
+		),
+		'start' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'end' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'freq' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'last_send' => array (
+			"type"    => "integer",
+			"length"  => 4,
+			"default" => NULL
+		),
+		'template_id' => array (
+			"type" => "integer",
+			"length" => 4,
+			"default" => NULL
+		)
+	));
+	$ilDB->addPrimaryKey("exc_ass_reminders", array("ass_id", "exc_id", "type"));
+}
+?>
+<#5297>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360', 'mode');
+}
+?>
+<#5298>
+<?php
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_self_eval_results'))
+{
+	$ilDB->addTableColumn(
+		'svy_svy',
+		'mode_self_eval_results',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5299>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
+}
+?>
+<#5300>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5301>
+<?php
+if(!$ilDB->tableColumnExists('file_data', 'max_version'))
+{
+	$ilDB->addTableColumn('file_data', 'max_version', array(
+		'type'    => 'integer',
+		'length'  => 4
+	));
+}
+?>
+
