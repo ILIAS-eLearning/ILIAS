@@ -65,6 +65,19 @@ interface Card extends Component {
 	public function getImage();
 
 	/**
+	 * Get a Card like this with an image action
+	 * @param string $url
+	 * @return Standard
+	 */
+	public function withImageAction($url);
+
+	/**
+	 * Returns the image action if given, otherwise null
+	 * @return string|null
+	 */
+	public function getImageAction();
+
+	/**
 	 * Get a Card like this with a highlight
 	 * @param bool $status
 	 * @return Standard

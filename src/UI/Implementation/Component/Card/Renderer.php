@@ -21,8 +21,20 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
-		if($component->getImage()){
+		if($component->getImage())
+		{
+			if($component->getImageAction())
+			{
+				$tpl->setCurrentBlock("image_action_begin");
+				$tpl->setVariable("IMG_HREF",$component->getImageAction());
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
+
+			if($component->getImageAction()) {
+				$tpl->touchBlock("image_action_end");
+			}
 		}
 
 		if($component->isHighlighted()) {
