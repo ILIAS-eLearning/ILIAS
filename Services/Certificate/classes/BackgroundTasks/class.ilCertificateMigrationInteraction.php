@@ -61,7 +61,7 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 	 * @inheritDoc
 	 */
 	public function getRemoveOption() {
-		return new UserInteractionOption('cancel', self::OPTION_CANCEL);
+		return new UserInteractionOption('remove', self::OPTION_CANCEL);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 	public function getOptions(array $input): array
 	{
 		return [
-			new UserInteractionOption('certificate', self::OPTION_GOTO_LIST),
+			new UserInteractionOption('my_certificates', self::OPTION_GOTO_LIST),
 		];
 	}
 
