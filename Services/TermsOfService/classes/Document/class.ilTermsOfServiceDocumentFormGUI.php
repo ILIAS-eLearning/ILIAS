@@ -204,36 +204,38 @@ class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
 					throw new \ilException($this->lng->txt('form_input_not_valid'));
 				}
 
-				if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
-					$this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
-					throw new \ilException($this->lng->txt('form_input_not_valid'));
+				if (!$this->document->getId() || $uploadResult->getName() !== '') {
+					if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+						$this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
+						throw new \ilException($this->lng->txt('form_input_not_valid'));
+					}
+
+					$this->fileUpload->moveOneFileTo(
+						$uploadResult, '/agreements', Location::TEMPORARY, '', true
+					);
+
+					$pathToFile = '/agreements/' . $uploadResult->getName();
+					if (!$this->tmpFileSystem->has($pathToFile)) {
+						$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
+						throw new \ilException($this->lng->txt('form_input_not_valid'));
+					}
+
+					$originalContent = $content = $this->tmpFileSystem->read($pathToFile);
+
+					$purifiedHtmlContent = $this->documentPurifier->purify($content);
+
+					$htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator($purifiedHtmlContent);
+					if (!$htmlValidator->isValid()) {
+						$purifiedHtmlContent = nl2br($purifiedHtmlContent);
+					}
+
+					if (trim($purifiedHtmlContent) !== trim($originalContent)) {
+						$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
+					}
+
+					$this->document->setText($purifiedHtmlContent);
+					$this->tmpFileSystem->delete($pathToFile);
 				}
-
-				$this->fileUpload->moveOneFileTo(
-					$uploadResult, '/agreements', Location::TEMPORARY, '', true
-				);
-
-				$pathToFile = '/agreements/' . $uploadResult->getName();
-				if (!$this->tmpFileSystem->has($pathToFile)) {
-					$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
-					throw new \ilException($this->lng->txt('form_input_not_valid'));
-				}
-
-				$originalContent = $content = $this->tmpFileSystem->read($pathToFile);
-
-				$purifiedHtmlContent = $this->documentPurifier->purify($content);
-
-				$htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator($purifiedHtmlContent);
-				if (!$htmlValidator->isValid()) {
-					$purifiedHtmlContent = nl2br($purifiedHtmlContent);
-				}
-
-				if (trim($purifiedHtmlContent) !== trim($originalContent)) {
-					$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
-				}
-
-				$this->document->setText($purifiedHtmlContent);
-				$this->tmpFileSystem->delete($pathToFile);
 			} catch (Exception $e) {
 				$this->translatedError = $e->getMessage();
 				return false;
