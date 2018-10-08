@@ -22382,6 +22382,7 @@ while($data = $ilDB->fetchAssoc($res)) {
 }
 ?>
 <#5285>
+<?php
 if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 {
 	// add new table column for indexing different question gaps in assClozeTest
