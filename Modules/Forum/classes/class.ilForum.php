@@ -71,14 +71,14 @@ class ilForum
 	// object id
 	private $id;
 
-	/** @var ilErrorHandling|mixed  */
-	private $errorHandler;
+	/** @var ilCtrl */
+	private $ctrl;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	public function __construct(ilErrorHandling $errorHandler = null)
+	public function __construct()
 	{
 		global $DIC;
 
@@ -87,11 +87,8 @@ class ilForum
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
 
-		if (null === $errorHandler) {
-			$errorHandler = $DIC['ilErr'];
-		}
-		$this->errorHandler = $errorHandler;
 	}
 
 	// no usage?
@@ -609,7 +606,9 @@ class ilForum
 			$this->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($dest_top_frm_fk));	
 					
 			$newFrmData = $this->getOneTopic();
-			
+
+			$errorMessages = array();
+
 			if ($oldFrmData['top_pk'] && $newFrmData['top_pk'])
 			{
 				$moved_posts = 0;
@@ -627,10 +626,8 @@ class ilForum
 							$newFrmData['top_pk']
 						);
 					} catch (\ilFileUtilsException $exception) {
-						$this->errorHandler->raiseError(
-							sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject()),
-							$this->errorHandler->MESSAGE
-						);
+						$errorMessages[] = sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject());
+						continue;
 					}
 
 					if (($last_post_string = $objTmpThread->getLastPostString()) != '')
@@ -650,7 +647,15 @@ class ilForum
 					$objTmpThread->update();
 					
 					unset($objTmpThread);
-				}				
+				}
+
+				if (array() !== $errorMessages) {
+					\ilUtil::sendFailure(
+						implode("<br><br>", $errorMessages),
+						true
+					);
+					$this->ctrl->redirectByClass('ilObjForumGUI', 'showThreads');
+				}
 				
 				// update frm_data source forum
 				$this->db->setLimit(1);
