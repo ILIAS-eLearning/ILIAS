@@ -22382,17 +22382,6 @@ while($data = $ilDB->fetchAssoc($res)) {
 }
 ?>
 <#5285>
-<?php
-<<<<<<< HEAD
-if(!$ilDB->tableColumnExists('file_data', 'max_version'))
-{
-	$ilDB->addTableColumn('file_data', 'max_version', array(
-		'type'    => 'integer',
-		'length'  => 4
-	));
-}
-?>
-=======
 if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 {
 	// add new table column for indexing different question gaps in assClozeTest
@@ -22776,4 +22765,14 @@ if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
->>>>>>> trunk
+<#5301>
+<?php
+if(!$ilDB->tableColumnExists('file_data', 'max_version'))
+{
+	$ilDB->addTableColumn('file_data', 'max_version', array(
+		'type'    => 'integer',
+		'length'  => 4
+	));
+}
+?>
+
