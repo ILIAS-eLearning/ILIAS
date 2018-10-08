@@ -22802,3 +22802,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	$md_creator->create();
 }
 ?>
+<#5303>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
