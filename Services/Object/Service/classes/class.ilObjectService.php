@@ -8,7 +8,7 @@
  * @author killing@leifos.de
  * @ingroup ServiceObject
  */
-class ilObjectService
+class ilObjectService implements ilObjectServiceInterface
 {
 	/**
 
@@ -77,13 +77,10 @@ class ilObjectService
 		return $this->upload;
 	}
 
-
 	/**
-	 * Factory for learning history entries
-	 *
-	 * @return ilObjectCommonSettings
+	 * @inheritdoc
 	 */
-	public function commonSettings()
+	public function commonSettings(): ilObjectCommonSettings
 	{
 		return new ilObjectCommonSettings($this);
 	}

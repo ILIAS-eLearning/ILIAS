@@ -5433,6 +5433,7 @@ return array(
     'ilObjectSearch' => $baseDir . '/../../Services/Search/classes/class.ilObjectSearch.php',
     'ilObjectSearchFactory' => $baseDir . '/../../Services/Search/classes/class.ilObjectSearchFactory.php',
     'ilObjectService' => $baseDir . '/../../Services/Object/Service/classes/class.ilObjectService.php',
+    'ilObjectServiceInterface' => $baseDir . '/../../Services/Object/Service/interfaces/interface.ilObjectServiceInterface.php',
     'ilObjectServiceSettingsGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
     'ilObjectSubItemListGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectSubItemListGUI.php',
     'ilObjectTableGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTableGUI.php',

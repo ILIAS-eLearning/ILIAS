@@ -5677,6 +5677,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilObjectSearch.php',
         'ilObjectSearchFactory' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilObjectSearchFactory.php',
         'ilObjectService' => __DIR__ . '/../..' . '/../../Services/Object/Service/classes/class.ilObjectService.php',
+        'ilObjectServiceInterface' => __DIR__ . '/../..' . '/../../Services/Object/Service/interfaces/interface.ilObjectServiceInterface.php',
         'ilObjectServiceSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
         'ilObjectSubItemListGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectSubItemListGUI.php',
         'ilObjectTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTableGUI.php',
