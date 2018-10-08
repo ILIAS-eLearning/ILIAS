@@ -274,6 +274,44 @@ class ilContainer extends ilObject
 	}
 
 	/**
+	 * Is news timeline effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Is news timeline landing page effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineLandingPageEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				if ($this->getNewsTimelineLandingPage())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	/**
 	 * Set news block activated
 	 *
 	 * @param bool $a_val news block activated	
@@ -986,6 +1024,11 @@ class ilContainer extends ilObject
 	 */
 	protected static function fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $a_source_ref_id)
 	{
+		global $DIC;
+
+		/** @var ilObjectDefinition $obj_definition */
+		$obj_definition = $DIC["objDefinition"];
+
 		$obj_id = ilObject::_lookupObjId($a_target_id);
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		if (ilContainerPage::_exists("cont", $obj_id))
@@ -996,6 +1039,29 @@ class ilContainer extends ilObject
 			$pg = new ilContainerPage($obj_id);
 			$pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
 			$pg->update(true, true);
+			foreach ($mapping as $old_ref_id => $new_ref_id)
+			{
+				$type = ilObject::_lookupType($new_ref_id, true);
+				$class = "il".$obj_definition->getClassName($type)."PageCollector";
+				$loc = $obj_definition->getLocation($type);
+				$file = $loc."/class.".$class.".php";
+				if (is_file($file))
+				{
+					include_once($file);
+					/** @var ilCOPageCollectorInterface $coll */
+					$coll = new $class();
+					foreach ($coll->getAllPageIds(ilObject::_lookupObjId($new_ref_id)) as $page_id)
+					{
+						if (ilPageObject::_exists($page_id["parent_type"], $page_id["id"], $page_id["lang"]))
+						{
+							/** @var ilPageObject $page */
+							$page = ilPageObjectFactory::getInstance($page_id["parent_type"], $page_id["id"], 0, $page_id["lang"]);
+							$page->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
+							$page->update(true, true);
+						}
+					}
+				}
+			}
 		}
 	}
 	

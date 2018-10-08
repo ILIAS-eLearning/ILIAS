@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -35,7 +36,7 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
 
-		return $this->renderNoneGroupInput($component);
+		return $this->renderNoneGroupInput($component, $default_renderer);
 	}
 
 
@@ -49,6 +50,8 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
+		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 	}
 
 
@@ -57,24 +60,42 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderNoneGroupInput(Component\Input\Field\Input $input) {
+	protected function renderNoneGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer) {
 		$input_tpl = null;
+		$id = null;
+		$dependant_group_html = null;
+
+		if($input instanceof Component\Input\Field\DependantGroupProviding) {
+			if ($input->getDependantGroup()) {
+				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
+				$id = $this->bindJavaScript($input);
+			}
+		}
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Checkbox) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Password) {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($input instanceof Component\Input\Field\Textarea) {
+			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Radio) {
+			return $this->renderRadioField($input, $default_renderer);
+		} else if ($input instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
 
-		return $this->renderInputFieldWithContext($input_tpl, $input);
+		$html = $this->renderInputFieldWithContext($input_tpl, $input, $id, $dependant_group_html);
+		return $html;
 	}
 
 
@@ -90,26 +111,14 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var $group DependantGroup
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
-		} elseif ($group instanceof Component\Input\Field\Checkbox) {
-			/**
-			 * @var $group Checkbox
-			 */
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group_html = "";
-			$id = "";
-			if ($group->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
-				$id = $this->bindJavaScript($group);
+
+		} else {
+			if ($group instanceof Component\Input\Field\Section) {
+				/**
+				 * @var $group Section
+				 */
+				return $this->renderSection($group, $default_renderer);
 			}
-
-			$html = $this->renderInputFieldWithContext($input_tpl, $group, $id, $dependant_group_html);
-
-			return $html;
-		} elseif ($group instanceof Component\Input\Field\Section) {
-			/**
-			 * @var $group Section
-			 */
-			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
@@ -118,7 +127,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $inputs;
 	}
-
 
 	/**
 	 * @param Component\JavascriptBindable $component
@@ -214,7 +222,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
-		 * TODO: should we through an error in case for no name or render without name?
+		 * TODO: should we throw an error in case for no name or render without name?
 		 *
 		 * if(!$input->getName()){
 		 * throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
@@ -250,6 +258,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
 		}
 
+
 		return $tpl->get();
 	}
 
@@ -262,11 +271,23 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
+
+		if($input instanceof Component\Input\Field\Password) {
+			$id = $this->additionalRenderPassword($tpl, $input);
+		}
+
+		if($input instanceof Textarea){
+			$tpl = $this->renderTextareaField($tpl, $input);
+		}
+
+		$tpl->setVariable("NAME", $input->getName());
+
 		switch (true) {
 			case ($input instanceof Text):
 			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
+			case ($input instanceof Textarea):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -283,6 +304,10 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Select):
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
 			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(
@@ -317,7 +342,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
-		global $DIC;
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -346,19 +370,182 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl;
 	}
 
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+
+	/*
+	 * Render revelation-glyphs for password and register signals/functions
+	 * @param Template $tpl
+	 * @param Password $input
+	 *
+	 * @return string | false
+	 */
+	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
+		$id = false;
+		if($input->getRevelation()) {
+			global $DIC;
+			$f = $this->getUIFactory();
+			$renderer = $DIC->ui()->renderer();
+
+			$input = $input->withResetSignals();
+			$sig_reveal = $input->getRevealSignal();
+			$sig_mask = $input->getMaskSignal();
+
+			$input = $input->withAdditionalOnLoadCode(function($id) use ($sig_reveal, $sig_mask) {
+				return
+					"$(document).on('{$sig_reveal}', function() {
+						$('#{$id}').addClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='text';
+					});".
+					"$(document).on('{$sig_mask}', function() {
+						$('#{$id}').removeClass('revealed');
+						$('#{$id}')[0].getElementsByTagName('input')[0].type='password';
+					});"
+					;
+				});
+			$id = $this->bindJavaScript($input);
+
+			$glyph_reveal = $f->glyph()->eyeopen("#")
+				->withOnClick($sig_reveal);
+			$glyph_mask = $f->glyph()->eyeclosed("#")
+				->withOnClick($sig_mask);
+			$tpl->setCurrentBlock('revelation');
+			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
+			$tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
+			$tpl->parseCurrentBlock();
+		}
+		return $id;
+	}
+
+	protected function renderTextareaField(Template $tpl, Textarea $input)
+	{
+		if($input->isLimited())
+		{
+			$this->toJS("ui_chars_remaining");
+			$this->toJS("ui_chars_min");
+			$this->toJS("ui_chars_max");
+
+			$counter_id_prefix = "textarea_feedback_";
+			$min = $input->getMinLimit();
+			$max = $input->getMaxLimit();
+
+			$input = $input->withOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
+				return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
+			});
+
+			$textarea_id = $this->bindJavaScript($input);
+			$tpl->setVariable("ID", $textarea_id);
+			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
+		}
+
+		return $tpl;
+	}
+
+
+	/**
+	 * @param Radio $input
+	 * @param RendererInterface    $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderRadioField(Component\Input\Field\Radio $input, RendererInterface $default_renderer) {
+		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
+
+		//monitor change-events
+		$input = $input->withAdditionalOnLoadCode(function ($id) {
+			return "il.UI.Input.radio.init('$id');";
+		});
+		$id = $this->bindJavaScript($input);
+		$input_tpl->setVariable("ID", $id);
+
+		foreach ($input->getOptions() as $value=>$label) {
+			$group_id = $id .'_' .$value .'_group';
+			$opt_id = $id .'_' .$value .'_opt';
+
+			$input_tpl->setCurrentBlock('optionblock');
+			$input_tpl->setVariable("NAME", $input->getName());
+			$input_tpl->setVariable("OPTIONID", $opt_id);
+			$input_tpl->setVariable("VALUE", $value);
+			$input_tpl->setVariable("LABEL", $label);
+
+			if ($input->getValue() !== null && $input->getValue()===$value) {
+				$input_tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+
+			//dependant fields
+			$dependant_group_html = '';
+			$dep_fields = $input->getDependantFieldsFor($value);
+			if(! is_null($dep_fields)) {
+				$inputs_html = '';
+				$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
+				foreach ($dep_fields as $key => $inpt) {
+					$inputs_html .= $default_renderer->render($inpt);
+				}
+				$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
+				$dependant_group_tpl->setVariable("ID", $group_id);
+				$dependant_group_html = $dependant_group_tpl->get();
+			}
+			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+
+			$input_tpl->parseCurrentBlock();
+		}
+		$options_html = $input_tpl->get();
+
+		//render with context:
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl->setVariable("LABEL", $input->getLabel());
+		$tpl->setVariable("INPUT", $options_html);
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\Input\Field\Text::class,
-		        Component\Input\Field\Numeric::class,
-		        Component\Input\Field\Group::class,
-		        Component\Input\Field\Section::class,
-		        Component\Input\Field\Checkbox::class,
-		        Component\Input\Field\Tag::class,
-		        Component\Input\Field\DependantGroup::class,
-		        Component\Input\Field\Password::class,
-		        Component\Input\Field\Select::class];
+		return [
+			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
+			Component\Input\Field\Section::class,
+			Component\Input\Field\Checkbox::class,
+			Component\Input\Field\Tag::class,
+			Component\Input\Field\DependantGroup::class,
+			Component\Input\Field\Password::class,
+			Component\Input\Field\Select::class,
+			Component\Input\Field\Radio::class,
+			Component\Input\Field\Textarea::class,
+			Component\Input\Field\MultiSelect::class
+		];
 	}
 }

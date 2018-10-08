@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjDataCollection
  *
@@ -14,7 +13,7 @@
  * @extends ilObject2
  */
 class ilObjDataCollection extends ilObject2 {
-	
+
 	public function initType() {
 		$this->type = "dcl";
 	}
@@ -57,15 +56,16 @@ class ilObjDataCollection extends ilObject2 {
 			$main_table->doCreate();
 		}
 
-
-		$ilDB->insert("il_dcl_data", array(
-			"id" => array( "integer", $this->getId() ),
-			"is_online" => array( "integer", (int)$this->getOnline() ),
-			"rating" => array( "integer", (int)$this->getRating() ),
-			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
-			"approval" => array( "integer", (int)$this->getApproval() ),
-			"notification" => array( "integer", (int)$this->getNotification() ),
-		));
+		$ilDB->insert(
+			"il_dcl_data", array(
+			"id"           => array("integer", $this->getId()),
+			"is_online"    => array("integer", (int)$this->getOnline()),
+			"rating"       => array("integer", (int)$this->getRating()),
+			"public_notes" => array("integer", (int)$this->getPublicNotes()),
+			"approval"     => array("integer", (int)$this->getApproval()),
+			"notification" => array("integer", (int)$this->getNotification()),
+		)
+		);
 	}
 
 
@@ -94,16 +94,18 @@ class ilObjDataCollection extends ilObject2 {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$ilDB->update("il_dcl_data", array(
-			"id" => array( "integer", $this->getId() ),
-			"is_online" => array( "integer", (int)$this->getOnline() ),
-			"rating" => array( "integer", (int)$this->getRating() ),
-			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
-			"approval" => array( "integer", (int)$this->getApproval() ),
-			"notification" => array( "integer", (int)$this->getNotification() ),
+		$ilDB->update(
+			"il_dcl_data", array(
+			"id"           => array("integer", $this->getId()),
+			"is_online"    => array("integer", (int)$this->getOnline()),
+			"rating"       => array("integer", (int)$this->getRating()),
+			"public_notes" => array("integer", (int)$this->getPublicNotes()),
+			"approval"     => array("integer", (int)$this->getApproval()),
+			"notification" => array("integer", (int)$this->getNotification()),
 		), array(
-			"id" => array( "integer", $this->getId() )
-		));
+				"id" => array("integer", $this->getId()),
+			)
+		);
 	}
 
 
@@ -112,7 +114,7 @@ class ilObjDataCollection extends ilObject2 {
 	 * @param      $a_table_id
 	 * @param null $a_record_id
 	 */
-	public static function sendNotification($a_action, $a_table_id, $a_record_id = NULL) {
+	public static function sendNotification($a_action, $a_table_id, $a_record_id = null) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
@@ -131,21 +133,21 @@ class ilObjDataCollection extends ilObject2 {
 		$obj_dcl = $obj_table->getCollectionObject();
 
 		// recipients
-				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
-		if (! sizeof($users)) {
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
+		if (!sizeof($users)) {
 			return;
 		}
 
 		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
 		//FIXME  $_GET['ref_id]
-				$link = ilLink::_getLink($_GET['ref_id']);
+		$link = ilLink::_getLink($_GET['ref_id']);
 
 		// prepare mail content
 		// use language of recipient to compose message
 
 		// send mails
-										foreach (array_unique($users) as $idx => $user_id) {
+		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
 			if ($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id'])) {
@@ -163,7 +165,7 @@ class ilObjDataCollection extends ilObject2 {
 				$message .= "------------------------------------\n";
 				if ($a_record_id) {
 					$record = ilDclCache::getRecordCache($a_record_id);
-					if (! $record->getTableId()) {
+					if (!$record->getTableId()) {
 						$record->setTableId($a_table_id);
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
@@ -197,13 +199,14 @@ class ilObjDataCollection extends ilObject2 {
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array(), array( "system" ));
+				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array(), array("system"));
 			} else {
 				unset($users[$idx]);
 			}
 		}
 	}
-	
+
+
 	/**
 	 * for users with write access, return id of table with the lowest sorting
 	 * for users with no write access, return id of table with the lowest sorting, which is visible
@@ -216,29 +219,35 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 		$ilDB->setLimit(1);
 		$only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
-		$result = $ilDB->query('SELECT id 
+		$result = $ilDB->query(
+			'SELECT id 
 									FROM il_dcl_table 
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
-									$only_visible . '
-									ORDER BY -table_order DESC '); //"-table_order DESC" is ASC with NULL last
+			$only_visible . '
+									ORDER BY -table_order DESC '
+		); //"-table_order DESC" is ASC with NULL last
 
 		// if there's no visible table, fetch first one not visible
 		// this is to avoid confusion, since the default of a table after creation is not visible
 		if (!$result->numRows() && $only_visible) {
 			$ilDB->setLimit(1);
-			$result = $ilDB->query('SELECT id 
+			$result = $ilDB->query(
+				'SELECT id 
 									FROM il_dcl_table 
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . '
-									ORDER BY -table_order DESC ');
+									ORDER BY -table_order DESC '
+			);
 		}
-		return $ilDB->fetchObject($result)->id;	
+
+		return $ilDB->fetchObject($result)->id;
 	}
+
 
 	/**
 	 * @param $table_order
 	 */
 	public function reorderTables($table_order) {
-		if($table_order){
+		if ($table_order) {
 			$order = 10;
 			foreach ($table_order as $title) {
 				$table_id = ilDclTable::_getTableIdByTitle($title, $this->getId());
@@ -248,7 +257,6 @@ class ilObjDataCollection extends ilObject2 {
 				$order += 10;
 			}
 		}
-
 	}
 
 
@@ -261,13 +269,12 @@ class ilObjDataCollection extends ilObject2 {
 	 *
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL, $a_omit_tree = false) {
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) {
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
-		if(!$cp_options->isRootNode($this->getRefId()))
-		{
+		if (!$cp_options->isRootNode($this->getRefId())) {
 			$new_obj->setOnline($this->getOnline());
 		}
 
@@ -334,7 +341,7 @@ class ilObjDataCollection extends ilObject2 {
 
 		// mandatory for all cloning functions
 		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_DATACOLLECTION);
-		
+
 		foreach ($this->getTables() as $table) {
 			$table->afterClone();
 		}
@@ -451,7 +458,7 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
-					" ORDER BY -table_order DESC";
+			" ORDER BY -table_order DESC";
 		$set = $ilDB->query($query);
 		$tables = array();
 
@@ -462,9 +469,11 @@ class ilObjDataCollection extends ilObject2 {
 		return $tables;
 	}
 
+
 	public function getTableById($table_id) {
 		return ilDclCache::getTableCache($table_id);
 	}
+
 
 	/**
 	 * @return array
@@ -492,8 +501,10 @@ class ilObjDataCollection extends ilObject2 {
 	public static function _hasTableByTitle($title, $obj_id) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
-			. $ilDB->quote($title, 'text'));
+		$result = $ilDB->query(
+			'SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
+			. $ilDB->quote($title, 'text')
+		);
 
 		return ($ilDB->numRows($result)) ? true : false;
 	}

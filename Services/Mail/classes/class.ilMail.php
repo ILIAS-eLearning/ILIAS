@@ -5,61 +5,6 @@ require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/exceptions/class.ilMailException.php';
 
 /**
- * This class handles base functions for mail handling.
- *
- * RFC 822 compliant email addresses
- * ----------------------------------
- * ILIAS is enabled to use standards compliant email addresses. The
- * class supports RFC 822 compliant address lists as specified in
- * http://www.ietf.org/rfc/rfc0822.txt
- *
- * Examples:
- *   The following mailbox addresses work for sending an email to the user with the
- *   login john.doe and email address jd@mail.com. The user is member of the course
- *   "French Course". The member role of the course object has the name "il_crs_member_998"
- *   and the object ID "1000".
- *
- *      john.doe
- *      John Doe <john.doe>
- *      john.doe@ilias
- *      #member@[French Course]
- *      #il_crs_member_998
- *      #il_role_1000
- *      jd@mail.com
- *      John Doe <jd@mail.com>
- *
- * Syntax Rules:
- *   The following excerpt from chapter 6.1 "Syntax" of RFC 822 is relevant for
- *   the semantics described below:
- *
- *     addr-spec = local-part [ "@", domain ]
- *
- * Semantics:
- *   User account mailbox address:
- *   - The local-part denotes the login of an ILIAS user account.
- *   - The domain denotes the current ILIAS client.
- *   - The local-part must not start with a "#" character
- *   - The domain must be omitted or must have the value "ilias"
- *
- *   Role object mailbox address:
- *   - The local part denotes the title of an ILIAS role.
- *   - The domain denotes the title of an ILIAS object.
- *   - The local-part must start with a "#" character.
- *   - If the domain is omitted, the title "ilias" is assumed.
- *   - If the local-part starts with "#il_role_" its remaining characters
- *     directly specify the object id of the role.
- *     For example "#il_role_1234 identifies the role with object id "1234".
- *   - If the object title identifies an object that is an ILIAS role, then
- *     the local-part is ignored.
- *   - If the object title identifies an object that is not an ILIAS role, then
- *     the local-part is used to identify a local role for that object.
- *   - The local-part can be a substring of the role name.
- *     For example, "#member" can be used instead of "#il_crs_member_1234".
- *
- *   External Email address:
- *   - The local-part must not start with a "#" character
- *   - The domain must be specified and it must not have the value "ilias"
- *
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  */

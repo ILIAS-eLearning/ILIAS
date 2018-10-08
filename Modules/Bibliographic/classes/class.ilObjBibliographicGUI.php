@@ -36,6 +36,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	const CMD_EDIT = "edit";
 	const SUBTAB_SETTINGS = "settings";
 	const CMD_EDIT_OBJECT = 'editObject';
+	const CMD_UPDATE_OBJECT = 'updateObject';
 	/**
 	 * @var ilObjBibliographic
 	 */
@@ -164,7 +165,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_CONTENT);
 				switch ($cmd) {
+					case 'edit':
+					case 'update':
 					case self::CMD_EDIT_OBJECT:
+					case self::CMD_UPDATE_OBJECT:
 						$this->initSubTabs();
 						$this->tabs_gui->activateSubTab(self::SUBTAB_SETTINGS);
 						$this->{$cmd}();

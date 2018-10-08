@@ -66,7 +66,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse {
                      AND a.attnum > 0
                      AND a.attname = " . $db->quote($field_name, 'text') . "
                 ORDER BY a.attnum";
-		$column = $db->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
+		$column = $db->queryRow($query, null, ilDBConstants::FETCHMODE_ASSOC);
 
 		if (empty($column)) {
 			throw new ilDatabaseException('it was not specified an existing table column');
@@ -285,81 +285,6 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse {
 			'trigger_enabled' => 'boolean',
 		);
 
-		return $db->queryRow($query, $types, MDB2_FETCHMODE_ASSOC);
-	}
-
-	// }}}
-	// {{{ tableInfo()
-
-	/**
-	 * Returns information about a table or a result set
-	 *
-	 * NOTE: only supports 'table' and 'flags' if <var>$result</var>
-	 * is a table name.
-	 *
-	 * @param object|string $result    MDB2_result object from a query or a
-	 *                                 string containing the name of a table.
-	 *                                 While this also accepts a query result
-	 *                                 resource identifier, this behavior is
-	 *                                 deprecated.
-	 * @param int $mode                a valid tableInfo mode
-	 *
-	 * @return array  an associative array with the information requested.
-	 *                 A MDB2_Error object on failure.
-	 *
-	 * @see MDB2_Driver_Common::tableInfo()
-	 */
-	function tableInfo($result, $mode = null) {
-		if (is_string($result)) {
-			return parent::tableInfo($result, $mode);
-		}
-
-		$db = $this->db_instance;
-
-		$resource = MDB2::isResultCommon($result) ? $result->getResource() : $result;
-		if (!is_resource($resource)) {
-			return $db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null, 'Could not generate result resource', __FUNCTION__);
-		}
-
-		if ($db->options['portability']) {
-			if ($db->options['field_case'] == CASE_LOWER) {
-				$case_func = 'strtolower';
-			} else {
-				$case_func = 'strtoupper';
-			}
-		} else {
-			$case_func = 'strval';
-		}
-
-		$count = @pg_num_fields($resource);
-		$res = array();
-
-		if ($mode) {
-			$res['num_fields'] = $count;
-		}
-
-		$db->loadModule('Datatype', null, true);
-		for ($i = 0; $i < $count; $i ++) {
-			$res[$i] = array(
-				'table'  => function_exists('pg_field_table') ? @pg_field_table($resource, $i) : '',
-				'name'   => $case_func(@pg_field_name($resource, $i)),
-				'type'   => @pg_field_type($resource, $i),
-				'length' => @pg_field_size($resource, $i),
-				'flags'  => '',
-			);
-			$mdb2type_info = $db->datatype->mapNativeDatatype($res[$i]);
-			if (PEAR::isError($mdb2type_info)) {
-				return $mdb2type_info;
-			}
-			$res[$i]['mdb2type'] = $mdb2type_info[0][0];
-			if ($mode & MDB2_TABLEINFO_ORDER) {
-				$res['order'][$res[$i]['name']] = $i;
-			}
-			if ($mode & MDB2_TABLEINFO_ORDERTABLE) {
-				$res['ordertable'][$res[$i]['table']][$res[$i]['name']] = $i;
-			}
-		}
-
-		return $res;
+		return $db->queryRow($query, $types, ilDBConstants::FETCHMODE_ASSOC);
 	}
 }

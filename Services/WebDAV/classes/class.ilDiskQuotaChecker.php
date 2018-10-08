@@ -345,7 +345,6 @@ class ilDiskQuotaChecker
 		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 		self::__updateDiskUsageReportOfType(new ilObjFileAccess(), 'file');
 
-		require_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
 		self::__updateDiskUsageReportOfType(new ilObjForumAccess(), 'frm');
 
 		require_once 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php';

@@ -55,7 +55,7 @@ class ilMDIdentifier extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_identifier',
 								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
+								  ilDBConstants::AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -72,7 +72,7 @@ class ilMDIdentifier extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_identifier',
 									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
+									  ilDBConstants::AUTOQUERY_UPDATE,
 									  "meta_identifier_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

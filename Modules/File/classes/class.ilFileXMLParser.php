@@ -425,6 +425,7 @@ class ilFileXMLParser extends ilSaxParser {
 			if($version["rollback_version"] != "" AND $version["rollback_version"] != NULL
 			AND $version["rollback_user_id"] != "" AND $version["rollback_user_id"] != NULL)
 			{
+
 				ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . "," . $version["version"] . "," . $version["max_version"]
 					. "|" . $version["rollback_version"] . "|" . $version["rollback_user_id"]);
 			}

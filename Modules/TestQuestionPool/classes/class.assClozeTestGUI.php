@@ -1200,7 +1200,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$fb = $this->getSpecificFeedbackOutput(
+				$this->object->fetchIndexedValuesFromValuePairs($user_solution)
+			);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -1235,9 +1237,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	protected function getBestSolutionText($gap, $gap_index, $gap_combinations)
 	{
 		$combination = null;
-		if(is_array($gap_combinations) && array_key_exists($gap_index, $gap_combinations))
+		foreach((array)$gap_combinations as $combiGapSolRow)
 		{
-			$combination = $gap_combinations[$gap_index];
+			if($combiGapSolRow['gap_fi'] == $gap_index && $combiGapSolRow['best_solution'])
+			{
+				$combination = $combiGapSolRow;
+				break;
+			}			
 		}
 		$best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
 			$this->object->getShuffler(), $combination
@@ -1467,27 +1473,27 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->addBackTab($ilTabs);
 	}
 	
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->gaps)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
-
+				
 		global $lng;
 
 		$feedback = '<table class="test_specific_feedback"><tbody>';
 
-		foreach ($this->object->gaps as $index => $answer)
+		foreach ($this->object->gaps as $gapIndex => $gap)
 		{
-			$caption = $lng->txt('gap').' '.($index+1) .': ';
-
+			$answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
+			$answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
+			$fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
+			
+			$caption = $lng->txt('gap').' '.($gapIndex+1) .': ';
 			$feedback .= '<tr><td>';
-
 			$feedback .= $caption .'</td><td>';
-			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $index
-			) . '</td> </tr>';
+			$feedback .= $fb . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';
 

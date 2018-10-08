@@ -269,13 +269,33 @@ class ilMediaObjectDataSet extends ilDataSet
 				case "4.1.0":
 				case "4.3.0":
 				case "5.1.0":
-					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
+					foreach ($this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
 						" ,shape, coords, link_type, title, href, target, type, target_frame, ".
 						" highlight_mode, highlight_class".
 						" FROM map_area ".
 						" WHERE ".
 						$ilDB->in("item_id", $a_ids, false, "integer").
-						" ORDER BY nr");
+						" ORDER BY nr", true, false) as $r)
+					{
+						$r["Target"] = ilUtil::insertInstIntoID($r["Target"]);
+
+						// see ilPageObject::insertInstIntoIDs
+						if ($r["Type"] == "RepositoryItem")
+						{
+							$id_arr = explode("_", $r["Target"]);
+							$ref_id = $id_arr[3];
+							$obj_id = ilObject::_lookupObjId($id_arr[3]);
+
+							$otype = ilObject::_lookupType($obj_id);
+							if ($obj_id > 0)
+							{
+								$id = $otype."_".$obj_id."_".$ref_id;
+								$r["Target"] = "il_".$id_arr[1]."_".$id;
+							}
+						}
+
+						$this->data[] = $r;
+					}
 					break;
 			}
 		}			

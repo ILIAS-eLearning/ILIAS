@@ -45,7 +45,10 @@ class ilDateTime
 	
 	protected $timezone = null;
 	protected $default_timezone = null;
-	
+
+	/**
+	 * @var DateTime
+	 */
 	protected $dt_obj; // [DateTime]
 	
 	
@@ -408,11 +411,13 @@ class ilDateTime
 	}
 	
 	/**
-	 * set date
+	 * Set date
 	 *
 	 * @access public
 	 * @param mixed date
 	 * @param int format
+	 *
+	 * @throws ilDateTimeException
 	 * 
 	 */
 	public function setDate($a_date,$a_format)
@@ -430,11 +435,13 @@ class ilDateTime
 				try 
 				{
 					$this->dt_obj = new DateTime('@'.$a_date);
+					$this->dt_obj->setTimezone(new DateTimeZone($this->getTimeZoneIdentifier()));
 				} 
 				catch (Exception $ex) 
 				{
-					$this->log->warning('Cannot parse date: '.$a_date);
-					throw new ilDateTimeException('Cannot parse date.');
+					$message = 'Cannot parse date: ' . $a_date . ' with format ' . $a_format;
+					$this->log->warning($message);
+					throw new ilDateTimeException($message);
 				}						
 				break;
 				
@@ -445,13 +452,14 @@ class ilDateTime
 					$this->log->warning('Cannot parse date: '.$a_date);
 					$this->log->warning(print_r($matches,true));
 					$this->log->logStack(ilLogLevel::WARNING);
-					throw new ilDateTimeException('Cannot parse date.');
+					throw new ilDateTimeException('Cannot parse date: ' . $a_date);
 				}
 				
 				$tz_id = ($d_parts[9] == 'Z')
 					? 'UTC'
-					: null;								
-				$this->dt_obj = $this->parsePartsToDate($d_parts[1], $d_parts[2], $d_parts[3], 
+					: $this->getTimeZoneIdentifier();
+				$this->dt_obj = $this->parsePartsToDate(
+					$d_parts[1], $d_parts[2], $d_parts[3],
 					$d_parts[5], $d_parts[6], $d_parts[7], $tz_id);				
 				break;
 
@@ -464,14 +472,17 @@ class ilDateTime
 				catch (Exception $ex) 
 				{
 					$this->log->warning('Cannot parse date : '.$a_date);
-					return false;			
+					throw new ilDateTimeException('Cannot parse date: '.$a_date);
 				}												
 				break;
 				
 			case IL_CAL_FKT_GETDATE:									
 				// Format like getdate parameters
-				$this->dt_obj = $this->parsePartsToDate($a_date['year'], $a_date['mon'], $a_date['mday'], 
-					$a_date['hours'], $a_date['minutes'], $a_date['seconds']);							
+				$this->dt_obj = $this->parsePartsToDate(
+					$a_date['year'], $a_date['mon'], $a_date['mday'],
+					$a_date['hours'], $a_date['minutes'], $a_date['seconds'],
+					$this->getTimeZoneIdentifier()
+				);
 				break;
 				
 			case IL_CAL_TIMESTAMP:
@@ -480,25 +491,24 @@ class ilDateTime
 					$this->log->warning('Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
 				}				
-				$this->dt_obj = $this->parsePartsToDate($d_parts[1], $d_parts[2], $d_parts[3], 
-					$d_parts[4], $d_parts[5], $d_parts[6]);
+				$this->dt_obj = $this->parsePartsToDate(
+					$d_parts[1], $d_parts[2], $d_parts[3],
+					$d_parts[4], $d_parts[5], $d_parts[6],
+					$this->getTimeZoneIdentifier()
+				);
 				break;
 				
 			case IL_CAL_ISO_8601:
-				$this->dt_obj = DateTime::createFromFormat(DateTime::ISO8601, $a_date);
-				break;				
+				$this->dt_obj = DateTime::createFromFormat(
+					DateTime::ISO8601,
+					$a_date,
+					$this->getTimeZoneIdentifier()
+					);
+				break;
 	 	}
-	
-		// internally we always use the default timezone
-		if($this->dt_obj)
-		{
-			#21553
-			if($this->dt_obj->getTimezone() === FALSE) {
-				$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));
-			}
 
-		}
-		
+	 	// remove set timezone since it does not influence the internal date.
+		// the tz must be passed in the moment of the creation of the date object.
 	 	return true;
 	}
 	
@@ -533,9 +543,9 @@ class ilDateTime
 			$timezone = $this->default_timezone; 
 		}
 			
-		$out_date = clone($this->dt_obj);		
-		$out_date->setTimeZone(new DateTimeZone($timezone->getIdentifier()));			
-		
+		$out_date = clone($this->dt_obj);
+		$out_date->setTimezone(new DateTimeZone($timezone->getIdentifier()));
+
 	 	switch($a_format)
 	 	{
 	 		case IL_CAL_UNIX:

@@ -44,14 +44,14 @@ interface Factory {
 	 *       the table.
 	 *
 	 *   rivals:
-	 *     1: >
-	 *       Data Table: A data-table shows some dataset and offers tools to explore it
+	 *     Data Table: >
+	 *       A data-table shows some dataset and offers tools to explore it
 	 *       in a user defined way. Instead of aiming at simplicity the Presentation
 	 *       Table aims at maximum explorability. Datasets that contain long content fields,
 	 *       e.g. free text or images, are hard to fit into a Data Table but can indeed
 	 *       be displayed in a Presentation Table.
-	 *     2: >
-	 *       Listing Panel: Listing Panels list items, where an item is a unique entity
+	 *     Listing Panel: >
+	 *       Listing Panels list items, where an item is a unique entity
 	 *       in the system, i.e. an identifyable, persistently stored object. This is
 	 *       not necessarily the case for Presentation Tables, where records can be composed
 	 *       of any data from any source in the system.

@@ -22,7 +22,7 @@ class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface {
 	 */
 	public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, $object_id) {
 		global $DIC;
-		$q = "SELECT DISTINCT(a.value) FROM ilias.il_bibl_data AS d
+		$q = "SELECT DISTINCT(a.value) FROM il_bibl_data AS d
 JOIN il_bibl_entry AS e ON e.data_id = d.id
 JOIN il_bibl_attribute AS a on a.entry_id = e.id
 WHERE a.name = %s AND d.id = %s";

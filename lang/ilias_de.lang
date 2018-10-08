@@ -401,6 +401,8 @@ assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
+assessment#:#tst_answer_aggr_answer_header#:#Antwort
+assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
@@ -449,6 +451,14 @@ assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
+assessment#:#ass_comments#:#Kommentare
+assessment#:#ass_commented_questions_only#:#Nur kommentierte Fragen
+assessment#:#tst_proceed#:#Fortfahren
+assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Sie haben keine Antwort eingegeben. Eine leere Lösung wird als Antwort zur aktuellen Frage gespeichert und festgeschrieben. Die Antwort kann nicht mehr verändert werden.
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten Frage
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
@@ -516,6 +526,22 @@ assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
 assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hinereinander
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
+assessment#:#ass_cloze_fb_mode#:#Modus der Rückmeldung
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Rückmeldungen je Lücke
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#Für jede Lücke kann eine Rückmeldung hinterlegt werden.
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Antwortspezifische Rückmeldungen
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#Für jede Lücke können unterschiedliche Rückmeldung je Antwort hinterlegt werden.
+assessment#:#ass_cloze_gap_fb_gap_label#:#Lücke %s: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Lücke %s - Keine Eingabe
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Lücke %s - Falsche Eingabe
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Lücke %s - Angegebene Antwort: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Lücke %s - Keine Auswahl
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Lücke %s - Auswahloption: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Lücke %s - Keine Eingabe
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Lücke %s - Genauer Wert
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Lücke %s - Wertebereich
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Lücke %s - Wert zu niedrig
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Lücke %s - Wert zu hoch
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
@@ -576,9 +602,8 @@ assessment#:#edit_test_questions#:#Listenansicht
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
 assessment#:#end_tag#:#Endmarkierung
-assessment#:#tst_conflict_fbh_oblig_quest#:#Die Kombination der Verwendung von verpflichtenden Fragen und dem Festschreiben von Antworten ist nicht erlaubt.
-assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Antworten nicht festschreiben" angepasst. 
-assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Automatische Rückmeldung, aber Antwort nicht festschreiben" angepasst.
+assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
+assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
@@ -1017,15 +1042,20 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
-assessment#:#tst_instant_feedback_handling#:#Antworten nach Rückmeldung festschreiben
-assessment#:#tst_instant_feedback_handling_none#:#Antworten nicht festschreiben
-assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können über einen Button "Rückmeldung anfordern" nach Bedarf eine Rückmeldung anzeigen lassen. Rückmeldungen werden in der Option "Direkte Rückmeldung" konfiguriert. Danach können sie Ihre Antwort im Rahmen der erlaubten Testdurchläufe ändern.
-assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Teilnehmer können über einen Button "Antwort festschreiben und prüfen" ihre Antwort festschreiben und eine Rückmeldung anzeigen lassen. Danach kann die Antwort nicht mehr geändert werden.
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort speichern und Rückmeldung anfordern oder speichern Sie Ihre Antwort beim Wechsel zu einer anderen Frage, so können Sie Ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.
-assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
-assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf "Rückmeldung anfordern", oder speichern sie Ihre Antwort beim Wechsel zu einer anderen Frage, so präsentiert ILIAS sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
+assessment#:#tst_answer_fixation_handling#:#Teilnehmerantworten
+assessment#:#tst_answer_fixation_none#:#Antworten während des Testdurchlaufs nicht festschreiben
+assessment#:#tst_answer_fixation_none_desc#:#Solange ein Testdurchlauf nicht beendet ist, können Teilnehmer ihre Antworten beliebig verändern.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Antworten bei Anzeige der Rückmeldung festschreiben
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#Wenn die Rückmeldung zu einer Frage gezeigt wird, können Teilnehmer ihre Antworten nicht mehr verändern.
+assessment#:#tst_answer_fixation_on_followup_question#:#Antworten bei Anzeige der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#Nach dem Anzeigen der Folgefrage können Teilnehmer die Antwort auf die vorherige Frage nicht mehr verändern.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Antworten mit der Anzeige von Rückmeldungen oder der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Teilnehmer können Antworten nicht mehr verändern, nachdem die Rückmeldung zur Frage oder die Folgefrage gezeigt wurde.
+assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
+assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
+assessment#:#tst_instant_feedback_trigger_forced#:#Die Rückmeldung wird bei Beantwortung von Fragen gezeigt
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus.
@@ -1161,6 +1191,8 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Direkte Rückmeldung
+assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
+assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_answer_specific#:#Unterschiedliche Rückmeldungen pro gegebener Antwort
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS zu jeder abgegebenen Antwort die jeweils hinterlegte  Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen. Die Rückmeldungen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen Lösung
@@ -1266,7 +1298,13 @@ assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
+assessment#:#tst_report_after_passed#:#Testergebnisse erst anzeigen wenn der Test bestanden wurde
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#Wenn Sie den Test durchgeführt haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#Wenn Sie den Test abgeschlossen haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#Wenn Sie den Test bestanden haben werden Ihnen hier die Testergebnisse präsentiert.
+assessment#:#tst_res_tab_msg_res_after_date#:#Die Testergebnisse werden Ihnen hier zu folgendem Datum präsentiert: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Wenn Sie den Test durchführen werden Ihnen hier zu folgendem Datum die Testergebnisse präsentiert: %s
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_reset_processing_time_desc#:#Die maximale Bearbeitungsdauer steht für jeden Testdurchlauf zur Verfügung.
@@ -1284,6 +1322,8 @@ assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer Ihre Ergebnisse im 'Ergebnis'-Reiter einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Ergebnisse'-Reiter einsehen.
+assessment#:#tst_results_access_passed#:#Nach Bestehen des Tests
+assessment#:#tst_results_access_passed_desc#:#Teilnehmer sehen ihre Ergebnisse nachdem sie den Test bestanden haben. Sie können ihre Ergebnisse dann jederzeit im 'Ergebnisse'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
 assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über den Reiter 'Ergebnisse' einsehen.
@@ -2234,7 +2274,7 @@ common#:#by#:#durch
 pd#:#pd_sort_by_location#:#Nach Ort sortieren
 pd#:#pd_sort_by_type#:#Nach Typ sortieren
 pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
-pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
+pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
 pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_ended#:#Beendet
@@ -4421,7 +4461,7 @@ content#:#cont_current_style#:#Style
 content#:#cont_current_usages#:#Aktuelle Nutzung
 content#:#cont_current_version#:#Aktuelle Version
 content#:#cont_custom#:#Angepasst
-content#:#cont_custom_size#:#Angepasste Größe
+content#:#cont_custom_size#:#Feste Größe
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_html#:#HTML-Rendering deaktivieren
@@ -4862,7 +4902,8 @@ content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Medienobje
 content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_resize_img#:#Bildgröße anpassen
 content#:#cont_resource#:#Ressource
-content#:#cont_resource_size#:#Originalgröße der Ressource
+content#:#cont_resource_size#:#Originalgröße der Ressource / Keine Größenangabe
+content#:#cont_resource_size_info#:#Wird die Größenangabe weggelassen, kann die Größe durch den Content-Style beeinflusst werden. Ohne jegliche Regelung der Größe werden nur Bilddateien in ihrer Normalgröße angezeigt.
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_revision#:#Änderung
@@ -5030,7 +5071,7 @@ content#:#cont_version#:#Version
 content#:#cont_versions#:#Versionen
 content#:#cont_whole_glossary#:#Gesamtes Glossar
 content#:#cont_WholePicture#:#Ganzes Bild
-content#:#cont_width#:#Breite in Pixel
+content#:#cont_width#:#Breite
 content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
 content#:#cont_wrong_answers#:#Anzahl Fehler
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
@@ -5462,8 +5503,8 @@ crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
 crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
-crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
-crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
+crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen (ab morgen)
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen (bis einschließlich gestern)
 crs#:#sess_print_attendance_list#:#Liste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
@@ -6593,12 +6634,14 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
 mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_usr_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen. Die E-Mail-Adresse jenes Benutzerkontos, das eine manuell erstellte Nachricht versendet, wird automatisch in den 'Reply-To'-Header übernommen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
 mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten des Absenders der E-Mail ersetzt.
 mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
 mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
 mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_sys_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
@@ -10157,12 +10200,12 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_view#:#Seitenvorlage löschen
+dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
-dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
@@ -10411,7 +10454,10 @@ cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
 cron#:#cron_result_status_no_action#:#Ok, keine Bearbeitung
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Abbruch
-cron#:#cron_result_status_reset#:#Reset
+cron#:#cron_result_status_reset#:#Zurücksetzen
+cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von einem Administrator reaktiviert
+cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
 cron#:#cron_action_reset#:#Zurücksetzen
@@ -10442,8 +10488,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
-cron#:#cro_job_rc_job_manual_reset#:#MANUELL ZURÜCKGESETZT
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#WAHRSCHEINLICH ABGESTÜRZT
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -11061,6 +11105,12 @@ orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
 orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
+orgu#:#org_op_access_results#:#Zugriff auf Ergebnisse
+rbac#:#org_op_access_results#:#Zugriff auf Ergebnisse untergeordneter Benutzer
+orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
+rbac#:#org_op_manage_participants#:#Untergeordnete Teilnehmer verwalten
+orgu#:#org_op_score_participants#:#Teilnehmer bewerten
+rbac#:#org_op_score_participants#:#Untergeordnete Teilnehmer bewerten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
@@ -11619,6 +11669,7 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
+cntr#:#msg_no_downloadable_objects#:#Keine herunterladbaren Objekte gefunden.
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
@@ -12460,6 +12511,7 @@ dcl#:#dcl_selection_type#:#Typ
 dcl#:#dcl_selection_type_single#:#Einfachauswahl
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard-Ansicht
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
 content#:#cont_auto_time#:#Wartezeit Animation
@@ -13388,7 +13440,6 @@ assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
@@ -14227,6 +14278,7 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
@@ -14249,3 +14301,46 @@ adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
+mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
+common#:#presentation_table_more#:#mehr
+exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#feedback_given#:#Feedback given
+exc#:#feedback#:#Feedback
+exc#:#feedback_received#:#Feedback received
+exc#:#feedback_from#:#Feedback from
+exc#:#text_assignment#:#Text Assignment
+exc#:#not_yet#:#not yet
+exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#submissions_feedback#:#Submissions and Feedback
+exc#:#submissions_only#:#Submissions Only
+exc#:#filter#:#Filter
+exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
+exc#:#exc_reminder_start#:#Start Reminders before Deadline
+exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
+exc#:#exc_reminder_frequency#:#Frequency
+exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
+exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
+exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
+exc#:#exc_reminders_cron#:#Reminders for Assignments
+exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminder_end#:#Reminder ends
+exc#:#exc_reminder_mail_template#:#Mail Template
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
+exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
+exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
+exc#:#exc_reminder_link#:#URL
+exc#:#exc_reminder_cron_ok#:#Reminders sent:

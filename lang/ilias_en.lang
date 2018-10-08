@@ -313,6 +313,8 @@ assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
+assessment#:#tst_answer_aggr_answer_header#:#Answer
+assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
@@ -358,6 +360,14 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#ass_comments#:#Comments
+assessment#:#ass_commented_questions_only#:#Only Commented Questions
+assessment#:#tst_proceed#:#Proceed
+assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
@@ -420,6 +430,22 @@ assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
 assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
 assessment#:#out_of_range#:#Out of range
+assessment#:#ass_cloze_fb_mode#:#Feedback Mode
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Feedback per Gap
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#For every gap a single feedback can be configured.
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Answer specific Feedback
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#For every gap separate feedbacks can be configured for different answers.
+assessment#:#ass_cloze_gap_fb_gap_label#:#Gap %s: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Gap %s - Wrong Answer
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Gap %s - Given Answer: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Gap %s - No Selection
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Gap %s - Select Option: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Gap %s - Value Hit
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Gap %s - Range Hit
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Gap %s - Value too Low
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Gap %s - Value too High
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -476,9 +502,8 @@ assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#element_height#:#Minimum Height
 assessment#:#end_tag#:#End Tag
-assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
-assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
-assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
+assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
+assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
@@ -905,15 +930,20 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#Lock Answers
-assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
-assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
+assessment#:#tst_answer_fixation_handling#:#Participant Answers
+assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
+assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
+assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
+assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
@@ -1034,6 +1064,8 @@ assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-but
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
@@ -1118,7 +1150,13 @@ assessment#:#tst_remove_questions#:#Are you sure you want to remove the followin
 assessment#:#tst_report_after_date#:#After a fixed score reporting date
 assessment#:#tst_report_after_first_question#:#Offer test results when the test has been started
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
+assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
 assessment#:#tst_report_never#:#No test results available
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
 assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
 assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
@@ -1130,6 +1168,8 @@ assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
 assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_passed#:#After Test has been Passed
+assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
@@ -3842,7 +3882,7 @@ content#:#cont_current_chapter#:#Current Chapter
 content#:#cont_current_page#:#Current Page
 content#:#cont_current_style#:#Current Style
 content#:#cont_current_version#:#Current Version
-content#:#cont_custom_size#:#Custom Size
+content#:#cont_custom_size#:#Fixed Size
 content#:#cont_custom#:#Custom
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
@@ -4175,7 +4215,8 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows you to
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_resize_img#:#Resize Image File
-content#:#cont_resource_size#:#Original Resource Size
+content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
+content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
 content#:#cont_resource#:#Resource
 content#:#cont_resources#:#Resources
@@ -4307,7 +4348,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width in pixels
+content#:#cont_width#:#Width
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
@@ -4686,8 +4727,8 @@ crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_num_next#:#Number of Future Sessions
-crs#:#sess_num_prev#:#Number of Past Sessions
+crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
+crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -7655,12 +7696,14 @@ mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
+mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
+mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
@@ -10165,14 +10208,14 @@ rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
-dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_empty_detailed_view#:#Delete this detailed view
 dcl#:#dcl_activate_view#:#Activate this view
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
-dcl#:#dcl_confirm_delete_view_text#:#The View Definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
-dcl#:#dcl_empty_view_success#:#The View Definition has been deleted successfully.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this detailed view?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The detailed view definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
+dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
@@ -10387,6 +10430,9 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Crashed
 cron#:#cron_result_status_reset#:#Reset
+cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
+cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated because it has been inactive for 3 hours
 cron#:#cron_action_activate#:#Activate
 cron#:#cron_action_deactivate#:#Deactivate
 cron#:#cron_action_reset#:#Reset
@@ -10417,8 +10463,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -11082,6 +11126,12 @@ orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#org_op_access_results#:#Access Results
+rbac#:#org_op_access_results#:#Access Results of Subordinated Users
+orgu#:#org_op_manage_participants#:#Manage Participants
+rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
+orgu#:#org_op_score_participants#:#Score Participants
+rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
@@ -11670,6 +11720,7 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
+cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
@@ -12448,6 +12499,7 @@ dcl#:#dcl_selection_type#:#Type
 dcl#:#dcl_selection_type_single#:#Single Selection
 dcl#:#dcl_selection_type_multi#:#Multiple Selection
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard Views
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -12943,7 +12995,7 @@ log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
+forum#:#frm_search#:#Search
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
@@ -13366,7 +13418,6 @@ assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again in my current session.
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
@@ -14223,7 +14274,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
 rbac#:#copa_visible#:#Content Page is visible
@@ -14245,3 +14296,55 @@ adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
+mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
+common#:#presentation_table_more#:#more
+ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
+exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#feedback_given#:#Feedback given
+exc#:#feedback#:#Feedback
+exc#:#feedback_received#:#Feedback received
+exc#:#feedback_from#:#Feedback from
+exc#:#text_assignment#:#Text Assignment
+exc#:#not_yet#:#not yet
+exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#submissions_feedback#:#Submissions and Feedback
+exc#:#submissions_only#:#Submissions Only
+exc#:#filter#:#Filter
+exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
+exc#:#exc_reminder_start#:#Start Reminders before Deadline
+exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
+exc#:#exc_reminder_frequency#:#Frequency
+exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
+exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
+exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
+exc#:#exc_reminders_cron#:#Reminders for Assignments
+exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminder_end#:#Reminder ends
+exc#:#exc_reminder_mail_template#:#Mail Template
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
+exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
+exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
+exc#:#exc_reminder_link#:#URL
+exc#:#exc_reminder_cron_ok#:#Reminders sent:
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
+survey#:#svy_participant#:#Participant

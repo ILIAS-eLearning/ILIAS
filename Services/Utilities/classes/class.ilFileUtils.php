@@ -676,6 +676,7 @@ class ilFileUtils
 			'm',     // MATLAB
 			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
+			'mdl',				// Vensim files
 			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
@@ -779,6 +780,7 @@ class ilFileUtils
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
 			'swz', // scorm wbts
+			'tar',				// application/x-tar
 			'tex',   // APPLICATION__X_TEX,
 			'texi',   // APPLICATION__X_TEXINFO,
 			'texinfo',   // APPLICATION__X_TEXINFO,
@@ -795,7 +797,8 @@ class ilFileUtils
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
 			'vrml',   // APPLICATION__X_VRML,
-			'wav',		// wav
+			'vsdx',   // viseo
+			'wav',        // wav
 			'webm',   // VIDEO__WEBM,
 			'wmv',   // VIDEO__X_MS_WMV,
 			'wmx',   // VIDEO__X_MS_WMX,
@@ -823,9 +826,8 @@ class ilFileUtils
 	 */
 	public static function getValidFilename($a_filename)
 	{
-		$pi = pathinfo($a_filename);
-		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
-
+		if (!self::hasValidExtension($a_filename)) {
+			$pi = pathinfo($a_filename);
 			// if extension is not in white list, remove all "." and add ".sec" extension
 			$basename = str_replace(".", "", $pi["basename"]);
 			if (trim($basename) == "")
@@ -844,6 +846,18 @@ class ilFileUtils
 			}
 		}
 		return $a_filename;
+	}
+
+
+	/**
+	 * @param string $a_filename
+	 *
+	 * @return bool
+	 */
+	public static function hasValidExtension($a_filename) {
+		$pi = pathinfo($a_filename);
+
+		return (in_array(strtolower($pi["extension"]), self::getValidExtensions()));
 	}
 
 

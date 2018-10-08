@@ -1607,6 +1607,10 @@ class ilObjContentObject extends ilObject
 				}
 			}
 		}
+
+		// missing check: no lm_tree entry but lm_data entry and no page_object entry (for lang "-")
+		// these pages are visible in the all pages list (as free pages), clicking them leads to error
+
 	}
 
 
@@ -3379,8 +3383,12 @@ class ilObjContentObject extends ilObject
 			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
-			$new_obj->update();
 		}
+		else	// or just set the same standard style
+		{
+			$new_obj->setStyleSheetId($style_id);
+		}
+		$new_obj->update();
 		
 		// copy content
 		$copied_nodes = $this->copyAllPagesAndChapters($new_obj, $a_copy_id);
@@ -3494,11 +3502,11 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function autoLinkGlossaryTerms($a_glo_id)
+	function autoLinkGlossaryTerms($a_glo_ref_id)
 	{
 		// get terms
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$terms = ilGlossaryTerm::getTermList($a_glo_id);
+		$terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
 		// each get page: get content
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");

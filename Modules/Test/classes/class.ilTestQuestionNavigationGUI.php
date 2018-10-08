@@ -10,6 +10,8 @@
  */
 class ilTestQuestionNavigationGUI
 {
+	const SHOW_DISABLED_COMMANDS = false;
+	
 	const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
 	
 	/**
@@ -415,7 +417,7 @@ class ilTestQuestionNavigationGUI
 			$actions->addEntry($this->lng->txt('postpone_question'), $this->getSkipQuestionLinkTarget(),
 				'','','ilTestQuestionAction','tst_skip_question_action');
 		}
-		else
+		elseif( self::SHOW_DISABLED_COMMANDS )
 		{
 			$actions->addEntry($this->lng->txt('postpone_question'), '#',
 				'','','ilTestQuestionAction disabled','tst_skip_question_action');

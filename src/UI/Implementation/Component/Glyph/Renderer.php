@@ -34,6 +34,14 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("highlighted");
 		}
 
+		if (!$component->isActive()) {
+			$tpl->touchBlock("disabled");
+
+			$tpl->setCurrentBlock("with_aria_disabled");
+			$tpl->setVariable("ARIA_DISABLED", "true");
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
 
 		$id = $this->bindJavaScript($component);

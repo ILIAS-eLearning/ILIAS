@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilForumTopic.php';
-
 /**
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
@@ -250,7 +248,6 @@ class ilForumPost
 	{
 		if ($row['pos_display_user_id'] && $row['pos_pk'])
 		{
-			require_once 'Services/User/classes/class.ilObjUser.php';
 			$tmp_user = new ilObjUser();
 			$tmp_user->setFirstname($row['firstname']);
 			$tmp_user->setLastname($row['lastname']);

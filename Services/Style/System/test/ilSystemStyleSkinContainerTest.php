@@ -237,6 +237,8 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 			if(file_exists("ilias.ini.php")){
 				$ini = parse_ini_file("ilias.ini.php",true);
 				define('PATH_TO_ZIP', $ini['tools']['zip']);
+			} else if (is_executable("/usr/bin/zip")) {
+				define('PATH_TO_ZIP', "/usr/bin/zip");
 			}else{
 				define('PATH_TO_ZIP', "");
 			}
@@ -246,6 +248,8 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 			if(file_exists("ilias.ini.php")) {
 				$ini = parse_ini_file("ilias.ini.php",true);
 				define('PATH_TO_UNZIP', $ini['tools']['unzip']);
+			} else if (is_executable("/usr/bin/unzip")) {
+				define('PATH_TO_UNZIP', "/usr/bin/unzip");
 			}else{
 				define('PATH_TO_UNZIP', "");
 			}

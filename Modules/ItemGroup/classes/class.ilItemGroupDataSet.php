@@ -20,7 +20,7 @@ class ilItemGroupDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0");
+		return array("4.3.0", "5.3.0");
 	}
 	
 	/**
@@ -51,6 +51,13 @@ class ilItemGroupDataSet extends ilDataSet
 						"Id" => "integer",
 						"Title" => "text",
 						"Description" => "text");
+				case "5.3.0":
+					return array(
+						"Id" => "integer",
+						"HideTitle" => "integer",
+						"Behaviour" => "integer",
+						"Title" => "text",
+						"Description" => "text");
 			}
 		}
 
@@ -59,6 +66,7 @@ class ilItemGroupDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "5.3.0":
 					return array(
 						"ItemGroupId" => "integer",
 						"ItemId" => "text"
@@ -93,6 +101,13 @@ class ilItemGroupDataSet extends ilDataSet
 						"WHERE ".
 						$ilDB->in("obj_id", $a_ids, false, "integer"));
 					break;
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT obj_id id, title, description, hide_title, behaviour ".
+						" FROM object_data JOIN itgr_data ON (object_data.obj_id = itgr_data.id)".
+						"WHERE ".
+						$ilDB->in("obj_id", $a_ids, false, "integer"));
+					break;
+
 			}
 		}
 
@@ -101,6 +116,7 @@ class ilItemGroupDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery($q = "SELECT item_group_id itgr_id, item_ref_id item_id".
 						" FROM item_group_item ".
 						"WHERE ".
@@ -170,6 +186,8 @@ class ilItemGroupDataSet extends ilDataSet
 				
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
+				$newObj->setBehaviour($a_rec["Behaviour"]);
+				$newObj->setHideTitle($a_rec["HideTitle"]);
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());

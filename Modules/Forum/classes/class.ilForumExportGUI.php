@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
-require_once 'Services/RTE/classes/class.ilRTE.php';
-require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
-require_once 'Modules/Forum/classes/class.ilForum.php';
-
 /**
 * Forum export to HTML and Print.
 *
@@ -92,7 +87,6 @@ class ilForumExportGUI
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['thr_top_fk']));
@@ -137,7 +131,6 @@ class ilForumExportGUI
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['top_pk']));
@@ -342,7 +335,6 @@ class ilForumExportGUI
 
 			$post->setChangeDate($post->getChangeDate());
 
-			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
 				$post->getPosAuthorId(),
 				$post->getDisplayUserId(),
@@ -400,7 +392,6 @@ class ilForumExportGUI
 	 */
 	protected function prepare()
 	{
-		include_once './Services/MathJax/classes/class.ilMathJax.php';
 		ilMathJax::getInstance()
 			->init(ilMathJax::PURPOSE_EXPORT)
 			->setZoomFactor(10);
