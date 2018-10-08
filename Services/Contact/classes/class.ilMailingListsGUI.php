@@ -4,7 +4,6 @@
 
 require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once "Services/Contact/classes/class.ilMailingLists.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
 
 /**
 * @author Michael Jansen <mjansen@databay.de>
@@ -161,7 +160,6 @@ class ilMailingListsGUI
 	public function mailToList()
 	{
 		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($this->user->getId());
 		$mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 	
@@ -225,7 +223,6 @@ class ilMailingListsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 
 		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($this->user->getId());
 		$mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 

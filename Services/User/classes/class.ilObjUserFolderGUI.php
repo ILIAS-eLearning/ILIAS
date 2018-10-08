@@ -2860,7 +2860,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($ilUser->getId());
 		if($rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()))
 		{			
@@ -2942,8 +2941,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$list->assignUser($user_id);
 		}
 		
-		include_once "Services/Mail/classes/class.ilFormatMail.php";
-		$umail = new ilFormatMail($ilUser->getId());		
+		$umail = new ilFormatMail($ilUser->getId());
 		$mail_data = $umail->getSavedData();		
 		
 		if(!is_array($mail_data))

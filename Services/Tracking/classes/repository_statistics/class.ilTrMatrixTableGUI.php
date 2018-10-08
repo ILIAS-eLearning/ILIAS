@@ -71,7 +71,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->setShowTemplates(true);
 
 		// see ilObjCourseGUI::addMailToMemberButton()
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($ilUser->getId());
 		if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))		
 		{							

@@ -1053,7 +1053,6 @@ class ilPersonalSettingsGUI
 		
 		// send notification
 		
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		
 		$user_email = $ilUser->getEmail();		

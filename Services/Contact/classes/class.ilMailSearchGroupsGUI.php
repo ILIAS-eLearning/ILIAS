@@ -89,7 +89,6 @@ class ilMailSearchGroupsGUI
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->ctrl->saveParameter($this, "ref");
 
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($this->user->getId());
 		$this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 

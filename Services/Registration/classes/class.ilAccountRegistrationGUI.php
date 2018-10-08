@@ -734,7 +734,6 @@ class ilAccountRegistrationGUI
 
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
-		include_once "Services/Mail/classes/class.ilFormatMail.php";
 		include_once './Services/Registration/classes/class.ilRegistrationMailNotification.php';
 
 		// Always send mail to approvers
@@ -807,8 +806,6 @@ class ilAccountRegistrationGUI
 			}
 			else	// do default mail
 			{
-				include_once "Services/Mail/classes/class.ilMimeMail.php";
-
 				/** @var ilMailMimeSenderFactory $senderFactory */
 				$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
