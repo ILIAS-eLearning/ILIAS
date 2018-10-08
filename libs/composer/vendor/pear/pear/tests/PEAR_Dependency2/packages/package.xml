@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.0dev13">
+ <name>foo</name>
+ <summary>foo</summary>
+ <description>foo
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>cellog</user>
+   <name>Greg Beaver</name>
+   <email>cellog@php.net</email>
+   <role>lead</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>1.0</version>
+  <date>2004-10-01</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>foo
+  </notes>
+  <filelist>
+   <dir name="\">
+    <file role="php" name="foo.php"/>
+   </dir> <!-- /\ -->
+  </filelist>
+ </release>
+</package>

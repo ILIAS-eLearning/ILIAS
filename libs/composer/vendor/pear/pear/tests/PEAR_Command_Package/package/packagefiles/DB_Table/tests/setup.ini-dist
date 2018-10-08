@@ -1,0 +1,12 @@
+[dsn]
+phptype = mysql
+username = USERNAME
+password = PASSWORD
+hostspec = localhost
+database = test
+
+[example]
+table = example
+create = drop
+display = 0
+fetch = 0

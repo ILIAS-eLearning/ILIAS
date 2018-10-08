@@ -1,0 +1,46 @@
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testGetTable1.
+>testGetTable2.
+>testGetTable3
+DB_TABLE_DATABASE ERROR - 
+Table does not exist in database. Method, Table = getTable, Thwack.
+>testGetPrimaryKey1.
+>testGetPrimaryKey2.
+>testGetPrimaryKey3
+DB_TABLE_DATABASE ERROR - 
+Table does not exist in database. Method, Table = getPrimaryKey, Thwack.
+>testGetTableSubclass1.
+>testGetRef1.
+>testGetRef2.
+>testGetRef3.
+>testGetRef4.
+>testGetRefTo1.
+>testGetRefTo2.
+>testGetRefTo3.
+>testGetLink1.
+>testGetLink2.
+>testGetLink3.
+>testGetLink4.
+>testGetCol1.
+>testGetCol2.
+>testGetForeignCol1.
+>testGetForeignCol2.
+>testValidCol1.
+>testValidCol1b.
+>testValidCol2.
+>testValidCol2b.
+>testValidCol3.
+>testValidCol4.
+>testValidCol5
+DB_TABLE_DATABASE ERROR - 
+In validCol, column does not exist in specified table. Column Person.Thingy.
+>testValidCol6
+DB_TABLE_DATABASE ERROR - 
+Table does not exist in database. Method, Table = validCol, Thwack.
+>testValidCol7.
+
+Time: 1.3387479782104
+
+OK (31 tests)

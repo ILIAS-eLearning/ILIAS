@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>SQLite</name>
+  <summary>SQLite database bindings</summary>
+  <description>SQLite is a C library that implements an embeddable SQL database engine.
+Programs that link with the SQLite library can have SQL database access
+without running a separate RDBMS process.
+This extension allows you to access SQLite databases from within PHP.
+Windows binary for PHP 4.3 is available from:
+http://snaps.php.net/win32/PECL_4_3/php_sqlite.dll
+**Note that this extension is built into PHP 5 by default**</description>
+  <maintainers>
+    <maintainer>
+      <user>wez</user>
+      <name>Wez Furlong</name>
+      <email>wez@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>tal</user>
+      <name>Tal Peer</name>
+      <email>tal@php.net</email>
+      <role>developer</role>
+    </maintainer>
+    <maintainer>
+      <user>helly</user>
+      <name>Marcus Brger</name>
+      <email>helly@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>iliaa</user>
+      <name>Ilia Alshanetsky</name>
+      <email>ilia@php.net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.0.3</version>
+    <date>2004-07-18</date>
+    <license>PHP</license>
+    <state>stable</state>
+    <notes>Upgraded libsqlite to version 2.8.14
+
+&quot;Fixed&quot; the bug where calling sqlite_query() with multiple SQL statements in a
+single string would not work if you looked at the return value.  The fix for
+this case is to use the new sqlite_exec() function instead. (Stas)</notes>
+    <filelist>
+      <file role="php" name="config.m4"/>
+      <file role="php" name="sqlite.c"/>
+      <file role="php" name="sqlite.dsp"/>
+      <file role="php" name="php_sqlite.h"/>
+      <file role="php" name="php_sqlite.def"/>
+      <file role="doc" name="CREDITS"/>
+      <file role="doc" name="README"/>
+      <file role="doc" name="TODO"/>
+      <file role="doc" name="sqlite.php"/>
+      <file role="doc" name="libsqlite/README"/>
+      <file role="php" name="libsqlite/VERSION"/>
+      <file role="php" name="libsqlite/src/attach.c"/>
+      <file role="php" name="libsqlite/src/auth.c"/>
+      <file role="php" name="libsqlite/src/btree.c"/>
+      <file role="php" name="libsqlite/src/btree_rb.c"/>
+      <file role="php" name="libsqlite/src/build.c"/>
+      <file role="php" name="libsqlite/src/copy.c"/>
+      <file role="php" name="libsqlite/src/date.c"/>
+      <file role="php" name="libsqlite/src/delete.c"/>
+      <file role="php" name="libsqlite/src/encode.c"/>
+      <file role="php" name="libsqlite/src/expr.c"/>
+      <file role="php" name="libsqlite/src/func.c"/>
+      <file role="php" name="libsqlite/src/hash.c"/>
+      <file role="php" name="libsqlite/src/insert.c"/>
+      <file role="php" name="libsqlite/src/main.c"/>
+      <file role="php" name="libsqlite/src/opcodes.c"/>
+      <file role="php" name="libsqlite/src/os.c"/>
+      <file role="php" name="libsqlite/src/pager.c"/>
+      <file role="php" name="libsqlite/src/parse.c"/>
+      <file role="php" name="libsqlite/src/parse.y"/>
+      <file role="php" name="libsqlite/src/pragma.c"/>
+      <file role="php" name="libsqlite/src/printf.c"/>
+      <file role="php" name="libsqlite/src/random.c"/>
+      <file role="php" name="libsqlite/src/select.c"/>
+      <file role="php" name="libsqlite/src/table.c"/>
+      <file role="php" name="libsqlite/src/tokenize.c"/>
+      <file role="php" name="libsqlite/src/trigger.c"/>
+      <file role="php" name="libsqlite/src/update.c"/>
+      <file role="php" name="libsqlite/src/util.c"/>
+      <file role="php" name="libsqlite/src/vacuum.c"/>
+      <file role="php" name="libsqlite/src/vdbe.c"/>
+      <file role="php" name="libsqlite/src/vdbeaux.c"/>
+      <file role="php" name="libsqlite/src/where.c"/>
+      <file role="php" name="libsqlite/src/btree.h"/>
+      <file role="php" name="libsqlite/src/hash.h"/>
+      <file role="php" name="libsqlite/src/opcodes.h"/>
+      <file role="php" name="libsqlite/src/os.h"/>
+      <file role="php" name="libsqlite/src/pager.h"/>
+      <file role="php" name="libsqlite/src/parse.h"/>
+      <file role="php" name="libsqlite/src/sqlite_config.w32.h"/>
+      <file role="php" name="libsqlite/src/sqlite.h.in"/>
+      <file role="php" name="libsqlite/src/sqliteInt.h"/>
+      <file role="php" name="libsqlite/src/sqlite.w32.h"/>
+      <file role="php" name="libsqlite/src/vdbe.h"/>
+      <file role="php" name="libsqlite/src/vdbeInt.h"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.0.2</version>
+      <date>2004-01-17</date>
+      <state>stable</state>
+      <notes>Upgraded libsqlite to version 2.8.11
+Fixed crash bug in module shutdown
+Fixed crash with empty queries
+Fixed column name mangling bug
+
+</notes>
+    </release>
+    <release>
+      <version>1.0</version>
+      <date>2003-06-21</date>
+      <state>stable</state>
+      <notes>Added:
+	sqlite_udf_encode_binary() and sqlite_udf_decode_binary() for
+	handling binary data in UDF callbacks.
+	sqlite_popen() for persistent db connections.
+	sqlite_unbuffered_query() for high performance queries.
+	sqlite_last_error() returns error code from last operation.
+	sqlite_error_string() returns description of error.
+	sqlite_create_aggregate() for registering aggregating SQL functions.
+	sqlite_create_function() for registering regular SQL functions.
+	sqlite_fetch_string() for speedy access to first column of result sets.
+	sqlite_fetch_all() to receive all rowsets from a query as an array.
+	iteration interface
+	sqlite_query() functions accept resource/query string in either order,
+	for compatibility with mysql and postgresql extensions.
+Fixed some build issues for thread-safe builds.
+Increase the default busy timeout interval to 60 seconds.
+</notes>
+    </release>
+  </changelog>
+</package>

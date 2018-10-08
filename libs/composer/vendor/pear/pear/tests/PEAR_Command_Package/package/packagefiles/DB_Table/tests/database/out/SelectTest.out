@@ -1,0 +1,325 @@
+
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testSelect1
+Table Person:
+
+Query:
+SELECT *
+FROM Person
+
+PersonID => 1, FirstName => ANTOINETTE, MiddleName => MARIE, LastName => ARLAND, NameSuffix => 
+PersonID => 2, FirstName => MACHEL, MiddleName => KAY, LastName => WHITMORE, NameSuffix => 
+PersonID => 3, FirstName => ANTHONY, MiddleName => DAVID, LastName => WESTVEER, NameSuffix => 
+PersonID => 4, FirstName => JODY, MiddleName => JEAN, LastName => LARSON, NameSuffix => 
+PersonID => 5, FirstName => JOSEPH, MiddleName => FRANCISCO, LastName => CRUZ, NameSuffix => 
+PersonID => 6, FirstName => CHRISTINE, MiddleName => MICHELLE, LastName => KAPSNER, NameSuffix => 
+PersonID => 7, FirstName => JEVENY, MiddleName => , LastName => HAMMER, NameSuffix => 
+PersonID => 8, FirstName => JOHNNIE, MiddleName => ESPINOZA, LastName => MARTINEZ, NameSuffix => 
+PersonID => 9, FirstName => STEWART, MiddleName => CHARLES, LastName => SCHENCK, NameSuffix => 
+PersonID => 10, FirstName => ANN, MiddleName => , LastName => GOLDBERG, NameSuffix => 
+PersonID => 11, FirstName => CHAD, MiddleName => GERALD, LastName => FLIES, NameSuffix => 
+PersonID => 12, FirstName => STEPHANIE, MiddleName => ANN, LastName => WRIGHT, NameSuffix => 
+PersonID => 13, FirstName => JEAN, MiddleName => ADELE, LastName => KALIL, NameSuffix => 
+PersonID => 14, FirstName => JEFFREY, MiddleName => DAVID, LastName => KUTSCHEID, NameSuffix => 
+PersonID => 15, FirstName => JENNIFER, MiddleName => JEAN, LastName => MACKENTHUN, NameSuffix => 
+PersonID => 16, FirstName => MICHAEL, MiddleName => JOHN, LastName => SELANDER, NameSuffix => 
+PersonID => 17, FirstName => SARAH, MiddleName => JANE, LastName => TENNES, NameSuffix => 
+PersonID => 18, FirstName => ANDREW, MiddleName => PAUL, LastName => WUKMIR, NameSuffix => 
+PersonID => 19, FirstName => SHERRY, MiddleName => MARIE, LastName => CHAPMAN, NameSuffix => 
+PersonID => 20, FirstName => JEFFREY, MiddleName => LEE, LastName => WHITMORE, NameSuffix => 
+
+Count 20, 20 
+
+Table Address:
+
+Query:
+SELECT *
+FROM Address
+
+AddressID => 1, Building => 13188, Street => CARDINAL CREEK RD, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 2, Building => 5037, Street => NORMAN DR, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+AddressID => 3, Building => 14409, Street => GRENIER RD, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+AddressID => 4, Building => 13411, Street => MAYWOOD CURV, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+AddressID => 5, Building => 14408, Street => WOODHILL CIR, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+AddressID => 6, Building => 6135, Street => CHASEWOOD PKWY, UnitType => APT, Unit => 204, City => MINNETONKA, StateAbb => MN, ZipCode => 55343
+AddressID => 7, Building => 16335, Street => TEMPLE DR S, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+AddressID => 8, Building => 10995, Street => MELS WAY, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55344
+AddressID => 9, Building => 17168, Street => PADONS DR, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 10, Building => 7610, Street => SMETANA LN, UnitType => UNIT, Unit => 103, City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55344
+AddressID => 11, Building => 16379, Street => MANOR RD S, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 12, Building => 17439, Street => RUSTIC HILLS DR, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 13, Building => 5403, Street => POMPANO DR, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55343
+AddressID => 14, Building => 6415, Street => GRAND VIEW DR, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 15, Building => 6425, Street => CITY WEST PKWY, UnitType => APT, Unit => 3314, City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55344
+AddressID => 16, Building => 5978, Street => CHASEWOOD PKWY, UnitType => APT, Unit => 003, City => MINNETONKA, StateAbb => MN, ZipCode => 55343
+AddressID => 17, Building => 13700, Street => VALLEY VIEW RD, UnitType => APT, Unit => 107, City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55344
+AddressID => 18, Building => 17460, Street => RUSTIC HILLS DR, UnitType => , Unit => , City => EDEN PRAIRIE, StateAbb => MN, ZipCode => 55346
+AddressID => 19, Building => 10721, Street => SMETANA RD, UnitType => APT, Unit => 103, City => MINNETONKA, StateAbb => MN, ZipCode => 55343
+AddressID => 20, Building => 5037, Street => NORMAN DR, UnitType => , Unit => , City => MINNETONKA, StateAbb => MN, ZipCode => 55345
+
+Count 20, 20 
+
+Table Phone:
+
+Query:
+SELECT *
+FROM Phone
+
+PhoneID => 1, PhoneNumber => 9528940424
+PhoneID => 2, PhoneNumber => 9529745279
+PhoneID => 3, PhoneNumber => 9529499236
+PhoneID => 4, PhoneNumber => 6513346195
+PhoneID => 5, PhoneNumber => 9529450055
+PhoneID => 6, PhoneNumber => 9529310051
+PhoneID => 7, PhoneNumber => 9529300438
+PhoneID => 8, PhoneNumber => 9529349246
+PhoneID => 9, PhoneNumber => 9528942288
+PhoneID => 10, PhoneNumber => 9529496790
+PhoneID => 11, PhoneNumber => 9529385751
+PhoneID => 12, PhoneNumber => 9529755977
+PhoneID => 13, PhoneNumber => 9529743785
+PhoneID => 14, PhoneNumber => 9529331534
+PhoneID => 15, PhoneNumber => 9529492390
+PhoneID => 16, PhoneNumber => 9529344367
+PhoneID => 17, PhoneNumber => 9529350387
+PhoneID => 18, PhoneNumber => 9529745079
+
+Count 18, 18 
+
+Table PersonAddress:
+
+Query:
+SELECT *
+FROM PersonAddress
+
+PersonID2 => 1, AddressID => 1
+PersonID2 => 2, AddressID => 2
+PersonID2 => 3, AddressID => 3
+PersonID2 => 4, AddressID => 4
+PersonID2 => 5, AddressID => 5
+PersonID2 => 6, AddressID => 6
+PersonID2 => 7, AddressID => 7
+PersonID2 => 8, AddressID => 8
+PersonID2 => 9, AddressID => 9
+PersonID2 => 10, AddressID => 10
+PersonID2 => 11, AddressID => 11
+PersonID2 => 12, AddressID => 12
+PersonID2 => 13, AddressID => 13
+PersonID2 => 14, AddressID => 14
+PersonID2 => 15, AddressID => 15
+PersonID2 => 16, AddressID => 16
+PersonID2 => 17, AddressID => 17
+PersonID2 => 18, AddressID => 18
+PersonID2 => 19, AddressID => 19
+PersonID2 => 20, AddressID => 20
+
+Count 20, 20 
+
+Table PersonPhone:
+
+Query:
+SELECT *
+FROM PersonPhone
+
+PersonID => 1, PhoneID => 1
+PersonID => 2, PhoneID => 2
+PersonID => 3, PhoneID => 3
+PersonID => 4, PhoneID => 4
+PersonID => 5, PhoneID => 5
+PersonID => 6, PhoneID => 6
+PersonID => 7, PhoneID => 7
+PersonID => 9, PhoneID => 8
+PersonID => 10, PhoneID => 9
+PersonID => 11, PhoneID => 10
+PersonID => 13, PhoneID => 11
+PersonID => 14, PhoneID => 12
+PersonID => 15, PhoneID => 13
+PersonID => 16, PhoneID => 14
+PersonID => 17, PhoneID => 15
+PersonID => 18, PhoneID => 16
+PersonID => 19, PhoneID => 17
+PersonID => 20, PhoneID => 18
+
+Count 18, 18 
+
+Table Street:
+
+Query:
+SELECT *
+FROM Street
+
+Street => CARDINAL CREEK RD, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => NORMAN DR, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => GRENIER RD, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => MAYWOOD CURV, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => WOODHILL CIR, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => CHASEWOOD PKWY, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => TEMPLE DR S, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => MELS WAY, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => PADONS DR, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => SMETANA LN, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => MANOR RD S, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => RUSTIC HILLS DR, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => POMPANO DR, City => MINNETONKA, StateAbb => MN, Sunny => 
+Street => GRAND VIEW DR, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => CITY WEST PKWY, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => VALLEY VIEW RD, City => EDEN PRAIRIE, StateAbb => MN, Sunny => 
+Street => SMETANA RD, City => MINNETONKA, StateAbb => MN, Sunny => 
+
+Count 17, 17 
+.
+>testSelect2
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'MINNETONKA' )
+ORDER BY LastName
+
+CHAPMAN,SHERRY,9529350387,10721,SMETANA RD,MINNETONKA,55343
+CRUZ,JOSEPH,9529450055,14408,WOODHILL CIR,MINNETONKA,55345
+HAMMER,JEVENY,9529300438,16335,TEMPLE DR S,MINNETONKA,55345
+KALIL,JEAN,9529385751,5403,POMPANO DR,MINNETONKA,55343
+KAPSNER,CHRISTINE,9529310051,6135,CHASEWOOD PKWY,MINNETONKA,55343
+LARSON,JODY,6513346195,13411,MAYWOOD CURV,MINNETONKA,55345
+SELANDER,MICHAEL,9529331534,5978,CHASEWOOD PKWY,MINNETONKA,55343
+WESTVEER,ANTHONY,9529499236,14409,GRENIER RD,MINNETONKA,55345
+WHITMORE,JEFFREY,9529745079,5037,NORMAN DR,MINNETONKA,55345
+WHITMORE,MACHEL,9529745279,5037,NORMAN DR,MINNETONKA,55345
+.
+>testSelect3
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'MINNETONKA' )
+ORDER BY FirstName
+
+WESTVEER,ANTHONY,9529499236,14409,GRENIER RD,MINNETONKA,55345
+KAPSNER,CHRISTINE,9529310051,6135,CHASEWOOD PKWY,MINNETONKA,55343
+KALIL,JEAN,9529385751,5403,POMPANO DR,MINNETONKA,55343
+WHITMORE,JEFFREY,9529745079,5037,NORMAN DR,MINNETONKA,55345
+HAMMER,JEVENY,9529300438,16335,TEMPLE DR S,MINNETONKA,55345
+LARSON,JODY,6513346195,13411,MAYWOOD CURV,MINNETONKA,55345
+CRUZ,JOSEPH,9529450055,14408,WOODHILL CIR,MINNETONKA,55345
+WHITMORE,MACHEL,9529745279,5037,NORMAN DR,MINNETONKA,55345
+SELANDER,MICHAEL,9529331534,5978,CHASEWOOD PKWY,MINNETONKA,55343
+CHAPMAN,SHERRY,9529350387,10721,SMETANA RD,MINNETONKA,55343
+.
+>testSelect4
+DB_TABLE_DATABASE Error - 
+Query is neither an array nor a string.
+>testSelect5
+DB_TABLE_DATABASE Error - 
+Query string is not a key of $sql property array. Key is not_a_key.
+>testSelectResult1
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'MINNETONKA' )
+ORDER BY LastName
+
+CHAPMAN,SHERRY,9529350387,10721,SMETANA RD,MINNETONKA,55343
+CRUZ,JOSEPH,9529450055,14408,WOODHILL CIR,MINNETONKA,55345
+HAMMER,JEVENY,9529300438,16335,TEMPLE DR S,MINNETONKA,55345
+KALIL,JEAN,9529385751,5403,POMPANO DR,MINNETONKA,55343
+KAPSNER,CHRISTINE,9529310051,6135,CHASEWOOD PKWY,MINNETONKA,55343
+LARSON,JODY,6513346195,13411,MAYWOOD CURV,MINNETONKA,55345
+SELANDER,MICHAEL,9529331534,5978,CHASEWOOD PKWY,MINNETONKA,55343
+WESTVEER,ANTHONY,9529499236,14409,GRENIER RD,MINNETONKA,55345
+WHITMORE,JEFFREY,9529745079,5037,NORMAN DR,MINNETONKA,55345
+WHITMORE,MACHEL,9529745279,5037,NORMAN DR,MINNETONKA,55345
+.
+>testSelectResult2
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'MINNETONKA' )
+ORDER BY LastName
+
+CHAPMAN,SHERRY,9529350387,10721,SMETANA RD,MINNETONKA,55343
+CRUZ,JOSEPH,9529450055,14408,WOODHILL CIR,MINNETONKA,55345
+HAMMER,JEVENY,9529300438,16335,TEMPLE DR S,MINNETONKA,55345
+KALIL,JEAN,9529385751,5403,POMPANO DR,MINNETONKA,55343
+KAPSNER,CHRISTINE,9529310051,6135,CHASEWOOD PKWY,MINNETONKA,55343
+LARSON,JODY,6513346195,13411,MAYWOOD CURV,MINNETONKA,55345
+SELANDER,MICHAEL,9529331534,5978,CHASEWOOD PKWY,MINNETONKA,55343
+WESTVEER,ANTHONY,9529499236,14409,GRENIER RD,MINNETONKA,55345
+WHITMORE,JEFFREY,9529745079,5037,NORMAN DR,MINNETONKA,55345
+WHITMORE,MACHEL,9529745279,5037,NORMAN DR,MINNETONKA,55345
+.
+>testSelectResult3
+DB_TABLE_DATABASE Error - 
+Query is neither an array nor a string.
+>testSelectResult4
+DB_TABLE_DATABASE Error - 
+Query string is not a key of $sql property array. Key is not_a_key.
+>testSelectCount1
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'MINNETONKA' )
+ORDER BY LastName
+
+Count = 10
+.
+>testSelectCount2
+
+Query:
+SELECT Person.LastName, Person.FirstName, Phone.PhoneNumber, Address.Building, Street.Street, Street.City, Address.ZipCode
+FROM Person, Phone, Address, Street, PersonPhone, PersonAddress
+WHERE ( PersonPhone.PhoneID = Phone.PhoneID
+  AND PersonPhone.PersonID = Person.PersonID
+  AND PersonAddress.AddressID = Address.AddressID
+  AND PersonAddress.PersonID2 = Person.PersonID
+  AND Address.Street = Street.Street
+  AND Address.City = Street.City
+  AND Address.StateAbb = Street.StateAbb )
+  AND ( Street.City = 'EDEN PRAIRIE' )
+
+Count = 8
+.
+
+Time: 61.179705142975
+
+OK (11 tests)

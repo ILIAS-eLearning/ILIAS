@@ -1,0 +1,12 @@
+a:17:{s:8:"provides";a:0:{}s:8:"filelist";a:2:{s:31:"Validate/Finance/CreditCard.php";a:3:{s:4:"role";s:3:"php";s:6:"md5sum";s:32:"76f5f6658e9bc99068085e92094d7528";s:12:"installed_as";s:44:"C:\php5\pear\Validate\Finance\CreditCard.php";}s:22:"tests/credit_card.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"9d53db8649bd96a3e427a051b57fc34b";s:12:"installed_as";s:69:"C:\php5\pear\tests\Validate_Finance_CreditCard\tests\credit_card.phpt";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:27:"Validate_Finance_CreditCard";s:7:"summary";s:33:"Validation class for Credit Cards";s:11:"description";s:51:"Package to validate Credit Card numbers and types.
+";s:11:"maintainers";a:1:{i:0;a:4:{s:6:"handle";s:8:"jausions";s:4:"name";s:17:"Philippe Jausions";s:5:"email";s:30:"Philippe.Jausions@11abacus.com";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"0.5.1";s:12:"release_date";s:10:"2005-07-20";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:117:"- Added support for Eurocard/Mastercard. Can be referenced by "EuroCard" or "EuroCard/MasterCard" (case-insensitive)
+";s:12:"release_deps";a:2:{i:1;a:3:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";}i:2;a:3:{s:4:"type";s:3:"ext";s:3:"rel";s:3:"has";s:4:"name";s:4:"pcre";}}s:9:"changelog";a:2:{i:0;a:4:{s:7:"version";s:5:"0.5.1";s:12:"release_date";s:10:"2005-07-20";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:123:"- Added support for Eurocard/Mastercard. Can be referenced by "EuroCard" or "EuroCard/MasterCard" (case-insensitive)
+    
+
+";}i:1;a:4:{s:7:"version";s:5:"0.5.0";s:12:"release_date";s:10:"2005-05-20";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:332:"- Split from Validate into independent package
+- BC break: creditCard() method now named number() and creditCardType() method is now named type()
+- Request #2194 Improved CreditCard validation with CreditCard Type check, patch by Philippe
+- Added a cvv() method to check card verification value (aka CVV2, CVC, CID, CSC, CIN)
+    
+
+";}}s:12:"_lastversion";N;s:7:"dirtree";a:3:{s:29:"C:\php5\pear\Validate\Finance";b:1;s:21:"C:\php5\pear\Validate";b:1;s:52:"C:\php5\pear\tests\Validate_Finance_CreditCard\tests";b:1;}s:13:"_lastmodified";i:1127495263;}

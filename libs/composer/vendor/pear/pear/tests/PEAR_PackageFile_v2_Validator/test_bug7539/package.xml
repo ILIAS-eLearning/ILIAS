@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>test the buggie
+ </description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2006-05-01</date>
+ <version>
+  <release>1.5.0a1</release>
+  <api>1.5.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+ hi
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="template.spec" role="data" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="pear.bat" name="template.spec" />
+   <ignore name="template.spec" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.4.9</release>
+    <api>1.4.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-03-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+  CRITICAL BUGFIX RELEASE
+  users upgrading from PEAR 1.3.x cannot upgrade to 1.4.8
+  users who use --packagingroot may find that installation fails
+  * fix Bug #7093: if pear channel does not exist, it cannot be retrieved
+  * fix Bug #7165: warnings in pear
+  * fix Bug #7075: PEAR_PackageFile_v2 :: setLogger failed on autodetection
+   </notes>
+  </release>
+ </changelog>
+</package>

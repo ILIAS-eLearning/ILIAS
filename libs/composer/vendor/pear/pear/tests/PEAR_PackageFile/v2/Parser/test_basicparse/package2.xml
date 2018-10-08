@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>test</name>
+ <channel>pear.php.net</channel>
+ <summary>test</summary>
+ <description>test
+</description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2004-10-10</date>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+ <notes>test
+</notes>
+ <contents>
+  <dir name="/">
+   <dir name="test">
+    <file baseinstalldir="test" name="test.php" role="php" />
+    <file baseinstalldir="test" name="test2.php" role="php" />
+    <file baseinstalldir="test" name="test3.php" role="php" />
+    <file baseinstalldir="test" name="test4.php" role="data">
+     <tasks:replace from="@1@" to="version" type="package-info" />
+     <tasks:replace from="@2@" to="data_dir" type="pear-config" />
+    </file>
+   </dir> <!-- //test -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.6</min>
+    <max>6.0.0</max>
+   </php>
+   <pearinstaller>
+    <min>1.4.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <installconditions>
+   <os>
+    <name>windows</name>
+   </os>
+  </installconditions>
+  <filelist>
+   <install as="another.php" name="test/test3.php" />
+   <install as="hi.php" name="test/test2.php" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="hi.php" name="test/test2.php" />
+   <ignore name="test/test3.php" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2004-10-10</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+   <notes>test
+</notes>
+  </release>
+ </changelog>
+</package>

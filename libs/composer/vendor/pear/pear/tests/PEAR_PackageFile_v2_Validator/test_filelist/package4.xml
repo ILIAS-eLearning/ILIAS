@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ * the PEAR installer, for creating, distributing
+   and installing packages
+ * the alpha-quality PEAR_Exception PHP5 error handling mechanism
+ * the beta-quality PEAR_ErrorStack advanced error handling mechanism
+ * the PEAR_Error error handling mechanism
+ * the OS_Guess class for retrieving info about the OS
+   where PHP is running on
+ * the System class for quick handling of common operations
+   with files and directories
+ * the PEAR base class
+ </description>
+ <lead>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2004-12-05</date>
+ <version>
+  <release>1.4.0a1</release>
+  <api>1.4.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
+ <notes>Installer Roles/Tasks:
+
+ * package.xml 2.0 uses a command pattern, allowing extensibility
+ * implement the replace, postinstallscript, and preinstallscript tasks
+
+Installer Dependency Support:
+
+ * package.xml 2.0 has continued to improve and evolve
+ * Downloader/Package.php is now used to coordinate downloading.  Old code
+   has not yet been deleted, as error handling is crappy right now.  Uninstall
+   ordering is broken, and needs to be redone.
+ * Pre-download dependency resolution works, mostly.
+ * There is no way to disable dependency resolution at the moment, this will be done.
+ * Dependency2.php is used by the new PEAR_Downloader_Channel to resolve dependencies
+   and include downloaded files in the calculations.
+ * DependencyDB.php is used to resolve complex dependencies between installed packages
+   and any dependencies installed later (a conflicts/not dependency cannot be honored
+   without this DB)
+
+Installer Channel Support:
+
+ * channel XSD is available on pearweb
+ * add channel.listAll and channel.update to default PEAR protocols
+ * add ability to &quot;pear channel-update channelname&quot; to
+   retrieve updates manually for individual channels
+ * fix channel.xml generation to use a valid schema declaration
+
+Installer:
+
+ * with --remoteconfig option, it is possible to remotely install and uninstall packages
+   to an FTP server.  It works by mirroring a local installation, and requires a
+   special, separate local install.
+ * Channels implemented
+ * Bug #1242: array-to-string conversion
+ * fix Bug #2189 upgrade-all stops if dependancy fails
+ * fix Bug #1637 The use of interface causes warnings when packaging with PEAR
+ * fix Bug #1420 Parser bug for T_DOUBLE_COLON
+ * fix Request #2220 pear5 build fails on dual php4/php5 system
+ * Major bug in Registry - false file conflicts on data/doc/test role
+   was possible (and would happen if HTML_Template_IT was installed
+   and HTML_Template_Flexy installation was attempted)
+ </notes>
+ <contents/>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2</min>
+    <max>6.0.0</max>
+   </php>
+   <pearinstaller>
+    <min>1.4.0dev13</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <bundle/>
+</package>

@@ -1,0 +1,49 @@
+PHPUnit 2.3.6 by Sebastian Bergmann.
+
+
+>testQuoteString
+'This is not a number'.
+>testQuoteInteger
+256.
+>testQuoteFloat
+2.56.
+>testQuoteBooleanFalse
+0.
+>testQuoteNull
+NULL.
+>testBuildFilter1
+col1 = 1 AND col2 = 0 AND col3 = 'anyold string'.
+>testBuildFilter2
+col3 = 'anyold string'.
+>testBuildFilter3
+col1 = 1 AND col3 = 'anyold string'.
+>testBuildFilter4
+COL3 = 'anyold string'.
+>testBuildFilter5
+COL1 = 1 AND COL3 = 'anyold string'.
+>testBuildFilter6
+.
+>testBuildFilter7
+col1 = 1 AND col2 = 0 AND col3 = 'anyold string'.
+>testBuildFilter9
+.
+>testBuildFilter10
+.
+>testBuildFilter11
+.
+>testBuildSQL1
+SELECT FirstName, LastName, Building, Street, City
+FROM Person, Address
+WHERE Person.PersonID = Address.PersonID2
+  AND City = 'MINNETONKA'
+ORDER BY City.
+>testBuildSQL2
+SELECT Street, count(Building)
+FROM Address
+GROUP BY Street
+HAVING City = 'MINNETONKA'
+ORDER BY Street.
+
+Time: 0.80171084403992
+
+OK (17 tests)

@@ -1,0 +1,36 @@
+<commands version="1.0">
+ <smong>
+  <summary>Connects and authenticates to remote server</summary>
+  <shortcut>sm</shortcut>
+  <function>doLogin</function>
+  <options>
+   <channel>
+    <shortopt>c</shortopt>
+    <doc>list installed packages from this channel</doc>
+    <arg>CHAN</arg>
+   </channel>
+  </options>
+  <doc>
+Log in to the remote server.  To use remote functions in the installer
+that require any kind of privileges, you need to log in first.  The
+username and password you enter here will be stored in your per-user
+PEAR configuration (~/.pearrc on Unix-like systems).  After logging
+in, your username and password will be sent along in subsequent
+operations on the remote server.</doc>
+ </smong>
+ <yertl>
+  <summary>Logs out from the remote server</summary>
+  <shortcut>ye</shortcut>
+  <function>doLogout</function>
+  <options>
+   <channel>
+    <shortopt>c</shortopt>
+    <doc>list installed packages from this channel</doc>
+   </channel>
+  </options>
+  <doc>
+Logs out from the remote server.  This command does not actually
+connect to the remote server, it only deletes the stored username and
+password from your user configuration.</doc>
+ </yertl>
+</commands>

@@ -1,0 +1,16 @@
+a:16:{s:8:"provides";a:0:{}s:8:"filelist";a:2:{s:15:"Validate/UK.php";a:3:{s:4:"role";s:3:"php";s:6:"md5sum";s:32:"11f2cfb3bfbcba90ac5878cefd34d3fa";s:12:"installed_as";s:28:"C:\php5\pear\Validate\UK.php";}s:22:"tests/validate_UK.phpt";a:3:{s:4:"role";s:4:"test";s:6:"md5sum";s:32:"984a6c3f4f823487ae731e1d17aeaa9e";s:12:"installed_as";s:53:"C:\php5\pear\tests\Validate_UK\tests\validate_UK.phpt";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:11:"Validate_UK";s:7:"summary";s:23:"Validation class for UK";s:11:"description";s:183:"Package containes locale validation for UK such as:
+ * SSN (NI)
+ * Postal Code
+ * Sort Code
+ * Bank AC
+ * Telephone numbers
+ * Car registration numbers
+ * Passports
+ * Driver license
+";s:11:"maintainers";a:2:{i:0;a:4:{s:6:"handle";s:6:"pajoye";s:4:"name";s:17:"Pierre-Alain Joye";s:5:"email";s:14:"pajoye@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:5:"dufuz";s:4:"name";s:12:"Helgi Þormar";s:5:"email";s:13:"dufuz@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"0.5.0";s:12:"release_date";s:10:"2004-03-17";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:257:"- Split from Validate into independent package
+- CS fixes
+- BC break! 
+postalCode unified between countries (name wise), now all postcode validation funcs are named postalCode
+ni was renamed to ssn to keep it the same in all classes
+- getZipValFunc removed
+";s:12:"release_deps";a:1:{i:1;a:3:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";}}s:12:"_lastversion";N;s:7:"dirtree";a:2:{s:21:"C:\php5\pear\Validate";b:1;s:36:"C:\php5\pear\tests\Validate_UK\tests";b:1;}s:13:"_lastmodified";i:1127495262;}

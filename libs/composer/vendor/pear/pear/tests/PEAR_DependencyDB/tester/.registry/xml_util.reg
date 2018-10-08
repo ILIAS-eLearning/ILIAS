@@ -1,0 +1,48 @@
+a:17:{s:8:"provides";a:0:{}s:8:"filelist";a:3:{s:20:"examples/example.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:3:"XML";s:6:"md5sum";s:32:"1633c0298423ae777a46a87a9312b95a";s:12:"installed_as";s:47:"C:\php5\pear\docs\XML_Util\examples\example.php";}s:21:"examples/example2.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:3:"XML";s:6:"md5sum";s:32:"6e3cee592743f5abdfef8a1e6361a7a8";s:12:"installed_as";s:48:"C:\php5\pear\docs\XML_Util\examples\example2.php";}s:8:"Util.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:3:"XML";s:6:"md5sum";s:32:"78881435bb19af253d7e2631a98bc1ae";s:12:"installed_as";s:25:"C:\php5\pear\XML\Util.php";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:8:"XML_Util";s:7:"summary";s:18:"XML utility class.";s:11:"description";s:192:"Selection of methods that are often needed when working with XML documents. Functionality includes creating of attribute lists from arrays, creation of tags, validation of XML names and more.
+";s:11:"maintainers";a:2:{i:0;a:4:{s:6:"handle";s:5:"schst";s:4:"name";s:15:"Stephan Schmidt";s:5:"email";s:19:"schst@php-tools.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:5:"davey";s:4:"name";s:12:"Davey Shafik";s:5:"email";s:13:"davey@php.net";s:4:"role";s:6:"helper";}}s:7:"version";s:5:"1.1.1";s:12:"release_date";s:10:"2004-12-23";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:307:"- fixed bug in replaceEntities() and reverseEntities() in conjunction with XML_UTIL_ENTITIES_HTML
+- createTag() and createTagFromArray() now accept XML_UTIL_ENTITIES_XML, XML_UTIL_ENTITIES_XML_REQUIRED, XML_UTIL_ENTITIES_HTML, XML_UTIL_ENTITIES_NONE and XML_UTIL_CDATA_SECTION as $replaceEntities parameter
+";s:12:"release_deps";a:3:{i:1;a:4:{s:4:"type";s:3:"ext";s:3:"rel";s:3:"has";s:8:"optional";s:2:"no";s:4:"name";s:4:"pcre";}i:2;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:2:"no";s:4:"name";s:4:"PEAR";}i:3;a:4:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";s:8:"optional";s:2:"no";}}s:9:"changelog";a:15:{i:0;a:4:{s:7:"version";s:3:"0.1";s:12:"release_date";s:10:"2003-08-01";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:16:"inital release
+
+";}i:1;a:4:{s:7:"version";s:5:"0.1.1";s:12:"release_date";s:10:"2003-08-02";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:43:"bugfix: removed bug in createTagFromArray
+
+";}i:2;a:5:{s:7:"version";s:3:"0.2";s:12:"release_date";s:10:"2003-08-12";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:41:"added XML_Util::getDocTypeDeclaration()
+
+";}i:3;a:5:{s:7:"version";s:5:"0.2.1";s:12:"release_date";s:10:"2003-09-05";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:72:"fixed bug with zero as tag content in createTagFromArray and createTag
+
+";}i:4;a:5:{s:7:"version";s:3:"0.3";s:12:"release_date";s:10:"2003-09-12";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:51:"added createStartElement() and createEndElement()
+
+";}i:5;a:5:{s:7:"version";s:3:"0.4";s:12:"release_date";s:10:"2003-09-21";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:134:"added createCDataSection(),
+added support for CData sections in createTag* methods,
+fixed bug #23,
+fixed bug in splitQualifiedName()
+
+";}i:6;a:5:{s:7:"version";s:3:"0.5";s:12:"release_date";s:10:"2003-09-23";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:172:"added support for multiline attributes in attributesToString(), createTag*() and createStartElement (requested by Yavor Shahpasov for XML_Serializer),
+added createComment
+
+";}i:7;a:5:{s:7:"version";s:5:"0.5.1";s:12:"release_date";s:10:"2003-09-26";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:104:"added default namespace parameter (optional) in splitQualifiedName() (requested by Sebastian Bergmann)
+
+";}i:8;a:5:{s:7:"version";s:5:"0.5.2";s:12:"release_date";s:10:"2003-11-22";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:80:"now creates XHTML compliant empty tags (Davey),
+minor whitespace fixes (Davey)
+
+";}i:9;a:5:{s:7:"version";s:10:"0.6.0beta1";s:12:"release_date";s:10:"2004-05-24";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:569:"- Fixed bug 1438 (namespaces not accepted for isValidName()) (thanks to davey)
+- added optional parameter to replaceEntities() to define the set of entities to replace
+- added optional parameter to attributesToString() to define, whether entities should be replaced (requested by Sebastian Bergmann)
+- allowed second parameter to XML_Util::attributesToString() to be an array containing options (easier to use, if you only need to set the last parameter)
+- introduced XML_Util::raiseError() to avoid the necessity of including PEAR.php, will only be included on error
+
+";}i:10;a:5:{s:7:"version";s:5:"0.6.0";s:12:"release_date";s:10:"2004-06-07";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:569:"- Fixed bug 1438 (namespaces not accepted for isValidName()) (thanks to davey)
+- added optional parameter to replaceEntities() to define the set of entities to replace
+- added optional parameter to attributesToString() to define, whether entities should be replaced (requested by Sebastian Bergmann)
+- allowed second parameter to XML_Util::attributesToString() to be an array containing options (easier to use, if you only need to set the last parameter)
+- introduced XML_Util::raiseError() to avoid the necessity of including PEAR.php, will only be included on error
+
+";}i:11;a:5:{s:7:"version";s:5:"0.6.1";s:12:"release_date";s:10:"2004-10-28";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:105:"- Added check for tag name (either as local part or qualified name) in createTagFromArray() (bug #1083)
+
+";}i:12;a:5:{s:7:"version";s:5:"1.0.0";s:12:"release_date";s:10:"2004-10-28";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:43:"- Added reverseEntities() (request #2639)
+
+";}i:13;a:5:{s:7:"version";s:5:"1.1.0";s:12:"release_date";s:10:"2004-11-19";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:75:"- Added collapseEmptyTags (patch by Sebastian Bergmann and Thomas Duffey)
+
+";}i:14;a:5:{s:7:"version";s:5:"1.1.1";s:12:"release_date";s:10:"2004-12-23";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:308:"- fixed bug in replaceEntities() and reverseEntities() in conjunction with XML_UTIL_ENTITIES_HTML
+- createTag() and createTagFromArray() now accept XML_UTIL_ENTITIES_XML, XML_UTIL_ENTITIES_XML_REQUIRED, XML_UTIL_ENTITIES_HTML, XML_UTIL_ENTITIES_NONE and XML_UTIL_CDATA_SECTION as $replaceEntities parameter
+
+";}}s:12:"_lastversion";s:5:"1.1.1";s:7:"dirtree";a:2:{s:35:"C:\php5\pear\docs\XML_Util\examples";b:1;s:16:"C:\php5\pear\XML";b:1;}s:13:"_lastmodified";i:1127495155;}

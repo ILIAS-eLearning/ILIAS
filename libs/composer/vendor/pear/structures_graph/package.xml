@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Structures_Graph</name>
+ <channel>pear.php.net</channel>
+ <summary>Graph datastructure manipulation library</summary>
+ <description>Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed
+and undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing
+as well as for characteristic extraction from the graph topology.</description>
+ <lead>
+  <name>Sérgio Carvalho</name>
+  <user>sergiosgc</user>
+  <email>sergio.carvalho@portugalmail.com</email>
+  <active>yes</active>
+ </lead>
+ <helper>
+  <name>Brett Bieber</name>
+  <user>saltybeagle</user>
+  <email>brett.bieber@gmail.com</email>
+  <active>yes</active>
+ </helper>
+ <date>2015-07-20</date>
+ <time>22:04:18</time>
+ <version>
+  <release>1.1.1</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license>LGPL-3.0+</license>
+ <notes>
+* Fix deprecated constructor warning on PHP 7 [cweiske]
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="docs">
+    <dir name="tutorials">
+     <dir name="Structures_Graph">
+      <file name="Structures_Graph.pkg" role="doc" />
+     </dir> <!-- /docs/tutorials/Structures_Graph -->
+    </dir> <!-- /docs/tutorials -->
+   </dir> <!-- /docs -->
+   <dir name="Structures">
+    <dir name="Graph">
+     <dir name="Manipulator">
+      <file name="AcyclicTest.php" role="php" />
+      <file name="TopologicalSorter.php" role="php" />
+     </dir> <!-- /Structures/Graph/Manipulator -->
+     <file name="Node.php" role="php" />
+    </dir> <!-- /Structures/Graph -->
+    <file name="Graph.php" role="php" />
+   </dir> <!-- /Structures -->
+   <dir name="tests">
+    <file name="AllTests.php" role="test" />
+    <file name="BasicGraphTest.php" role="test" />
+    <file name="TopologicalSorterTest.php" role="test" />
+    <file name="AcyclicTestTest.php" role="test" />
+    <file name="BasicGraphTest.php" role="test" />
+    <file name="helper.inc" role="test">
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+    </file>
+   </dir> <!-- /tests -->
+   <file name="LICENSE" role="doc" />
+  </dir> <!-- / -->
+ </contents>
+
+ <compatible>
+  <name>PEAR</name>
+  <channel>pear.php.net</channel>
+  <min>1.5.0RC3</min>
+  <max>1.9.1</max>
+ </compatible>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+
+ <phprelease />
+
+ <changelog>
+
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-07</date>
+   <license uri="http://opensource.org/licenses/lgpl-license.php">LGPL</license>
+   <notes>
+- Bug #9682 only variables can be returned by reference
+- fix Bug #9661 notice in Structures_Graph_Manipulator_Topological::sort()
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-10-11</date>
+   <license>LGPL License</license>
+   <notes>
+Bugfix Release:
+Version 1.0.3 is functionally equivalent to 1.0.2 but with an updated package.xml file.
+* Correct invalid md5 sum preventing installation with pyrus [saltybeagle]
+* Add compatible tag for PEAR 1.5.0RC3-1.9.0 [saltybeagle]
+* Update package.xml
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-10-25</date>
+   <license>LGPL License</license>
+   <notes>
+Bugfix Release:
+* Bug #17108 BasicGraph::test_directed_degree fails on PHP 5 [clockwerx]
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-02-26</date>
+   <license>LGPL-3.0+</license>
+   <notes>
+* Set minimum PHP version to 5.3
+* Fix bug #19367: Incorrect FSF address in LICENSE
+* Change license from LGPL-2.1+ to LGPL-3.0+
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-07-20</date>
+   <license>LGPL-3.0+</license>
+   <notes>
+    * Fix deprecated constructor warning on PHP 7 [cweiske]
+   </notes>
+  </release>
+
+ </changelog>
+</package>

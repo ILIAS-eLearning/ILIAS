@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<phpunit>
+ <php>
+  <includePath>../</includePath>
+ </php>
+ <filter>
+  <whitelist addUncoveredFilesFromWhitelist="true">
+   <directory suffix=".php">../Structures</directory>
+  </whitelist>
+ </filter>
+</phpunit>

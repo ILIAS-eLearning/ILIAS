@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
+http://pear.php.net/dtd/channel-1.0.xsd">
+ <name>pear.foo.com</name>
+ <suggestedalias>foo</suggestedalias>
+ <summary>Auto-discovered channel</summary>
+ <servers>
+  <primary host="pear.foo.com">
+    <rest>
+    <baseurl type="REST1.0">http://pear.foo.com/rest/</baseurl>
+    <baseurl type="REST1.1">http://pear.foo.com/rest/</baseurl>
+    <baseurl type="REST1.2">http://pear.foo.com/rest/</baseurl>
+    <baseurl type="REST1.3">http://pear.foo.com/rest/</baseurl>
+    </rest>
+  </primary>
+ </servers>
+</channel>

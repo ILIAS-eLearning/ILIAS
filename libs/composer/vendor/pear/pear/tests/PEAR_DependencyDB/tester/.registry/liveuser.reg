@@ -1,0 +1,136 @@
+a:17:{s:8:"provides";a:0:{}s:8:"filelist";a:66:{s:15:"Auth/Common.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"fb5dd62f88b5d5c098261e9bdeb909be";s:12:"installed_as";s:37:"C:\php5\pear\LiveUser\Auth\Common.php";}s:11:"Auth/DB.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"7b78d7c8dfe0d27dd4a599da74d44642";s:12:"installed_as";s:33:"C:\php5\pear\LiveUser\Auth\DB.php";}s:12:"Auth/MDB.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"1c281ce02c4724838e4cbf58281391d4";s:12:"installed_as";s:34:"C:\php5\pear\LiveUser\Auth\MDB.php";}s:13:"Auth/MDB2.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"b10efc1c18d79cb3166b9c55e9020564";s:12:"installed_as";s:35:"C:\php5\pear\LiveUser\Auth\MDB2.php";}s:17:"Auth/PEARAuth.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"3b5c4c583f4c61a89e911743624df4d9";s:12:"installed_as";s:39:"C:\php5\pear\LiveUser\Auth\PEARAuth.php";}s:16:"Auth/Session.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"721ab81e88cab52fb1da5b435dcff5f0";s:12:"installed_as";s:38:"C:\php5\pear\LiveUser\Auth\Session.php";}s:12:"Auth/XML.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"c1746285c8519e9a2b9880a614a9e0c6";s:12:"installed_as";s:34:"C:\php5\pear\LiveUser\Auth\XML.php";}s:24:"Auth/Storage/Globals.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6739021057f2a984774ac835bb3093cf";s:12:"installed_as";s:46:"C:\php5\pear\LiveUser\Auth\Storage\Globals.php";}s:26:"docs/examples/demodata.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"fef6fb133c540cdacc4a32e99e1a48f7";s:12:"installed_as";s:53:"C:\php5\pear\docs\LiveUser\docs\examples\demodata.php";}s:20:"docs/examples/README";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"319a733329fe3348e5d01f97b78fd8af";s:12:"installed_as";s:47:"C:\php5\pear\docs\LiveUser\docs\examples\README";}s:35:"docs/examples/example1/Auth_XML.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"26d64c805f08080546b7332d9c53eac1";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example1\Auth_XML.xml";}s:31:"docs/examples/example1/conf.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"e0523439e919d302732fd14325b53292";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example1\conf.php";}s:34:"docs/examples/example1/example.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"41618f588e3cb95eb79223ddc3340d34";s:12:"installed_as";s:61:"C:\php5\pear\docs\LiveUser\docs\examples\example1\example.php";}s:33:"docs/examples/example1/index.html";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"b01d0f3c21d50545d38b643d7474be31";s:12:"installed_as";s:60:"C:\php5\pear\docs\LiveUser\docs\examples\example1\index.html";}s:29:"docs/examples/example1/README";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"2aefe87155aefdc065bbee14b36c3cea";s:12:"installed_as";s:56:"C:\php5\pear\docs\LiveUser\docs\examples\example1\README";}s:35:"docs/examples/example2/Auth_XML.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"2fae8164e7f16eb22648ee5eb2b8d194";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example2\Auth_XML.xml";}s:31:"docs/examples/example2/conf.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"d6c968d1aeb6e2078be7c9e9771613c5";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example2\conf.php";}s:34:"docs/examples/example2/example.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6274a92762a6ad5bdf70304e26f3eb77";s:12:"installed_as";s:61:"C:\php5\pear\docs\LiveUser\docs\examples\example2\example.php";}s:33:"docs/examples/example2/index.html";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"60a4e6186a17837014e95284dd441517";s:12:"installed_as";s:60:"C:\php5\pear\docs\LiveUser\docs\examples\example2\index.html";}s:35:"docs/examples/example2/Perm_XML.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"9ad961f0f18979795ae4584182807795";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example2\Perm_XML.xml";}s:29:"docs/examples/example2/README";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"bd2bfa7bf3c79950e5f1358900aa970a";s:12:"installed_as";s:56:"C:\php5\pear\docs\LiveUser\docs\examples\example2\README";}s:35:"docs/examples/example4/Auth_XML.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"93cce9983f16cbdee1b051334160fd88";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example4\Auth_XML.xml";}s:31:"docs/examples/example4/conf.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"627370d5f5043d18618f893929b3bef5";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example4\conf.php";}s:35:"docs/examples/example4/demodata.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"5a928f4c3128ebece38ec7cd73eb1903";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example4\demodata.xml";}s:41:"docs/examples/example4/error-page.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"c58e50ba55e3e678b78b6fa0547e9ad6";s:12:"installed_as";s:68:"C:\php5\pear\docs\LiveUser\docs\examples\example4\error-page.tpl.php";}s:37:"docs/examples/example4/finish.inc.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"25dc4000be394c3cfc5077fd1ee785f4";s:12:"installed_as";s:64:"C:\php5\pear\docs\LiveUser\docs\examples\example4\finish.inc.php";}s:35:"docs/examples/example4/functions.js";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"d1aaf7549a9ec94cf41d608e472abef8";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example4\functions.js";}s:33:"docs/examples/example4/index.html";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6f40a37b7431822b1cbd304214d901df";s:12:"installed_as";s:60:"C:\php5\pear\docs\LiveUser\docs\examples\example4\index.html";}s:40:"docs/examples/example4/loginform.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"91a451396c8af18c5582c657671de8a6";s:12:"installed_as";s:67:"C:\php5\pear\docs\LiveUser\docs\examples\example4\loginform.tpl.php";}s:38:"docs/examples/example4/news_change.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"a2b799e614c527f0f1072f3acc88f014";s:12:"installed_as";s:65:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_change.php";}s:42:"docs/examples/example4/news_change.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"9e4f8911d079b378253e38d444d8dcd0";s:12:"installed_as";s:69:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_change.tpl.php";}s:35:"docs/examples/example4/news_new.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"5f4ac1bf33f48faa2ed4daba1aaf4280";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_new.php";}s:39:"docs/examples/example4/news_new.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"62815cf48eafd2547e17f31a81e4b2b4";s:12:"installed_as";s:66:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_new.tpl.php";}s:46:"docs/examples/example4/news_notallowed.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"f6b4ad119e44909300ba7ce378059ca9";s:12:"installed_as";s:73:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_notallowed.tpl.php";}s:36:"docs/examples/example4/news_view.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"9742902a845041baac8a4c33db990244";s:12:"installed_as";s:63:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_view.php";}s:40:"docs/examples/example4/news_view.tpl.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"49bceda320dd90c542ea97239b469e2f";s:12:"installed_as";s:67:"C:\php5\pear\docs\LiveUser\docs\examples\example4\news_view.tpl.php";}s:32:"docs/examples/example4/style.css";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6428974df775f54e30acc08fd5067f4c";s:12:"installed_as";s:59:"C:\php5\pear\docs\LiveUser\docs\examples\example4\style.css";}s:32:"docs/examples/example5/admin.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"bf58c2d49841ee752a1bc2ac45d854f8";s:12:"installed_as";s:59:"C:\php5\pear\docs\LiveUser\docs\examples\example5\admin.php";}s:32:"docs/examples/example5/admin.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"37e240fe09d41fc8547c26ef0944ab5b";s:12:"installed_as";s:59:"C:\php5\pear\docs\LiveUser\docs\examples\example5\admin.tpl";}s:31:"docs/examples/example5/conf.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"47d4165dcf72b476e072064c05532240";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example5\conf.php";}s:35:"docs/examples/example5/demodata.xml";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"85d4ee39904da49cc20a120fbb3db9fc";s:12:"installed_as";s:62:"C:\php5\pear\docs\LiveUser\docs\examples\example5\demodata.xml";}s:31:"docs/examples/example5/home.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"b89b1bafcc9be58c530b518288fef754";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example5\home.php";}s:31:"docs/examples/example5/home.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6863c5b16d0d39a931e7177771bc8629";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example5\home.tpl";}s:32:"docs/examples/example5/index.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"4586f272e03d4508e323f889e57b3673";s:12:"installed_as";s:59:"C:\php5\pear\docs\LiveUser\docs\examples\example5\index.php";}s:42:"docs/examples/example5/liveuser_rights.php";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"d4615b81f2328be80c975ee120f2fb8f";s:12:"installed_as";s:69:"C:\php5\pear\docs\LiveUser\docs\examples\example5\liveuser_rights.php";}s:37:"docs/examples/example5/login_form.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"35c30c6ebb72d15ae87453b94ebd7dba";s:12:"installed_as";s:64:"C:\php5\pear\docs\LiveUser\docs\examples\example5\login_form.tpl";}s:31:"docs/examples/example5/news.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"cd8dda55050bcfd359d4b3dea2b2036f";s:12:"installed_as";s:58:"C:\php5\pear\docs\LiveUser\docs\examples\example5\news.tpl";}s:36:"docs/examples/example5/news_edit.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"b9f7a2de1be9cab65cf9fc248d4b4789";s:12:"installed_as";s:63:"C:\php5\pear\docs\LiveUser\docs\examples\example5\news_edit.tpl";}s:36:"docs/examples/example5/news_list.tpl";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"76baab96d5fac1862c661d83f19dac80";s:12:"installed_as";s:63:"C:\php5\pear\docs\LiveUser\docs\examples\example5\news_list.tpl";}s:16:"Perm/Complex.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"7180f94acaa1e50b54d3b679653cb6fb";s:12:"installed_as";s:38:"C:\php5\pear\LiveUser\Perm\Complex.php";}s:15:"Perm/Medium.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"9d0489a81026ab6dc7e51367a2a878cd";s:12:"installed_as";s:37:"C:\php5\pear\LiveUser\Perm\Medium.php";}s:15:"Perm/Simple.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"e8103e091f393cd660fb2a429c56c68c";s:12:"installed_as";s:37:"C:\php5\pear\LiveUser\Perm\Simple.php";}s:16:"Perm/Storage.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"1aeb0111933af8e1e964ca6b0f9d098f";s:12:"installed_as";s:38:"C:\php5\pear\LiveUser\Perm\Storage.php";}s:22:"Perm/Storage/Cache.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"0185d925bff5c2628c3203576ce96ba8";s:12:"installed_as";s:44:"C:\php5\pear\LiveUser\Perm\Storage\Cache.php";}s:19:"Perm/Storage/DB.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"8e68df321998f413c5f915b9db641b11";s:12:"installed_as";s:41:"C:\php5\pear\LiveUser\Perm\Storage\DB.php";}s:24:"Perm/Storage/Globals.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"cce365ecb9188aaa2e6a3a763aeb563b";s:12:"installed_as";s:46:"C:\php5\pear\LiveUser\Perm\Storage\Globals.php";}s:20:"Perm/Storage/MDB.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6b960d7c005cef00559d07700635f154";s:12:"installed_as";s:42:"C:\php5\pear\LiveUser\Perm\Storage\MDB.php";}s:21:"Perm/Storage/MDB2.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"39d5b7133520a595214417df4235429c";s:12:"installed_as";s:43:"C:\php5\pear\LiveUser\Perm\Storage\MDB2.php";}s:20:"Perm/Storage/SQL.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"6b9b2808495512b33e2550c10f568e85";s:12:"installed_as";s:42:"C:\php5\pear\LiveUser\Perm\Storage\SQL.php";}s:20:"Perm/Storage/XML.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"18b2ddede6dfbb80cb84abaa43710dd8";s:12:"installed_as";s:42:"C:\php5\pear\LiveUser\Perm\Storage\XML.php";}s:16:"sql/Auth_XML.xml";a:5:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"3c61734f5f467042abc04937ffdf03be";s:10:"install-as";s:17:"misc/Auth_XML.xml";s:12:"installed_as";s:44:"C:\php5\pear\data\LiveUser\misc\Auth_XML.xml";}s:15:"sql/install.php";a:5:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"208e5597b57a96e4f2f006898e99e379";s:10:"install-as";s:23:"misc/schema/install.php";s:12:"installed_as";s:50:"C:\php5\pear\data\LiveUser\misc\schema\install.php";}s:16:"sql/Perm_XML.xml";a:5:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"3d13a02e4da4ba43a59f71821420b361";s:10:"install-as";s:17:"misc/Perm_XML.xml";s:12:"installed_as";s:44:"C:\php5\pear\data\LiveUser\misc\Perm_XML.xml";}s:10:"sql/README";a:5:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"9fa09c3bff7e38913c14fe96fb9399d6";s:10:"install-as";s:18:"misc/schema/README";s:12:"installed_as";s:45:"C:\php5\pear\data\LiveUser\misc\schema\README";}s:8:"lgpl.txt";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:9:"/LiveUser";s:6:"md5sum";s:32:"03fb004783f456bfd292dde36ab5c489";s:12:"installed_as";s:35:"C:\php5\pear\docs\LiveUser\lgpl.txt";}s:12:"LiveUser.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"348deb96c9074f756f23443685d59245";s:12:"installed_as";s:25:"C:\php5\pear\LiveUser.php";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:8:"LiveUser";s:7:"summary";s:55:"User authentication and permission management framework";s:11:"description";s:1457:"LiveUser is a set of classes for dealing with user authentication
+and permission management. Basically, there are three main elements that
+make up this package:
+* The LiveUser class
+* The Auth containers
+* The Perm containers
+The LiveUser class takes care of the login process and can be configured
+to use a certain permission container and one or more different auth containers.
+That means, you can have your users' data scattered amongst many data containers
+and have the LiveUser class try each defined container until the user is found.
+For example, you can have all website users who can apply for a new account online
+on the webserver's local database. Also, you want to enable all your company's
+employees to login to the site without the need to create new accounts for all of
+them. To achieve that, a second container can be defined to be used by the LiveUser class.
+You can also define a permission container of your choice that will manage the rights for
+each user. Depending on the container, you can implement any kind of permission schemes
+for your application while having one consistent API.
+Using different permission and auth containers, it's easily possible to integrate
+newly written applications with older ones that have their own ways of storing permissions
+and user data. Just make a new container type and you're ready to go!
+Currently available are containers using:
+PEAR::DB, PEAR::MDB, PEAR::MDB2, PEAR::XML_Tree and PEAR::Auth.
+";s:11:"maintainers";a:5:{i:0;a:4:{s:6:"handle";s:6:"mw21st";s:4:"name";s:12:"Markus Wolff";s:5:"email";s:14:"mw21st@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:6:"arnaud";s:4:"name";s:15:"Arnaud Limbourg";s:5:"email";s:14:"arnaud@php.net";s:4:"role";s:4:"lead";}i:2;a:4:{s:6:"handle";s:6:"lsmith";s:4:"name";s:17:"Lukas Kahwe Smith";s:5:"email";s:20:"smith@pooteeweet.org";s:4:"role";s:4:"lead";}i:3;a:4:{s:6:"handle";s:7:"krausbn";s:4:"name";s:12:"Bjoern Kraus";s:5:"email";s:15:"krausbn@php.net";s:4:"role";s:9:"developer";}i:4;a:4:{s:6:"handle";s:5:"dufuz";s:4:"name";s:12:"Helgi Þormar";s:5:"email";s:13:"dufuz@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:6:"0.16.6";s:12:"release_date";s:10:"2005-09-02";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:376:"- various fixes to the Session auth container
+- various fixes to the PEARAuth auth container
+- added error handler and more comments to the install.php
+- removed updateLastLogin option
+- delete remember me cookie in all error cases while reading the remember me cookie
+- cosmetic fixes to the examples in demodata.php
+- (re-)added example5 (more or less the same as example4)
+";s:12:"release_deps";a:10:{i:1;a:4:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.2.0";s:8:"optional";s:2:"no";}i:2;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.3.3";s:8:"optional";s:2:"no";s:4:"name";s:4:"PEAR";}i:3;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:2:"no";s:4:"name";s:16:"Event_Dispatcher";}i:4;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.7.0";s:8:"optional";s:3:"yes";s:4:"name";s:3:"Log";}i:5;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.6.0";s:8:"optional";s:3:"yes";s:4:"name";s:2:"DB";}i:6;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.1.4";s:8:"optional";s:3:"yes";s:4:"name";s:3:"MDB";}i:7;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:10:"2.0.0beta4";s:8:"optional";s:3:"yes";s:4:"name";s:4:"MDB2";}i:8;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:3:"yes";s:4:"name";s:11:"MDB2_Schema";}i:9;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:3:"yes";s:4:"name";s:8:"XML_Tree";}i:10;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:3:"has";s:8:"optional";s:3:"yes";s:4:"name";s:9:"Crypt_RC4";}}s:9:"changelog";a:7:{i:0;a:5:{s:7:"version";s:6:"0.16.6";s:12:"release_date";s:10:"2005-09-02";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:377:"- various fixes to the Session auth container
+- various fixes to the PEARAuth auth container
+- added error handler and more comments to the install.php
+- removed updateLastLogin option
+- delete remember me cookie in all error cases while reading the remember me cookie
+- cosmetic fixes to the examples in demodata.php
+- (re-)added example5 (more or less the same as example4)
+
+";}i:1;a:5:{s:7:"version";s:6:"0.16.5";s:12:"release_date";s:10:"2005-09-02";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:377:"- various fixes to the Session auth container
+- various fixes to the PEARAuth auth container
+- added error handler and more comments to the install.php
+- removed updateLastLogin option
+- delete remember me cookie in all error cases while reading the remember me cookie
+- cosmetic fixes to the examples in demodata.php
+- (re-)added example5 (more or less the same as example4)
+
+";}i:2;a:5:{s:7:"version";s:6:"0.16.4";s:12:"release_date";s:10:"2005-08-15";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:606:"- writeSchema returns error objects and not false on error
+- added error handling around call to parent::init()
+- assign _storage property by ref in the permission container
+- moved area admin code from the medium into the complex container
+- tweaked error handling in login()/readUserData()
+- only assign the perm instance to _perm if mapUser/unfreeze succeeded
+- fixed bug in the auth container common class that made is_active a required
+  and not optional feature as intended
+- fixed bug in MDB/MDB2 perm storage layer that could lead to incorrect
+  datatype being used when the alias feature is used
+
+";}i:3;a:5:{s:7:"version";s:6:"0.16.3";s:12:"release_date";s:10:"2005-08-09";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:685:"- added new custom user field "name" to example1
+- added missing config entries to example1 and example2
+- all user related container properties now use lower case with underscores
+  instead of lower bumby camel to better match the storage layer naming.
+  this allows for a much simplified readUserData() method (BC break!)
+- copy storage config before passing it to the storageFactory() since this
+  method messes with the values which causes the original to be modified due to
+  using pass by reference
+- use getProperty() to read properties of the auth container
+- use static calls for all factory method calls
+- disconnect on logout() (bug #4928)
+- fixed bugs in storageFactory()
+
+";}i:4;a:5:{s:7:"version";s:6:"0.16.2";s:12:"release_date";s:10:"2005-07-19";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:379:"- time() call prevented the rememberMe cookie from being set under IE
+- dont use serialize() for the cookie data due to security concerns
+  Note: this breaks all remember me cookies currently set!
+- fixed parse error in PEARAuth container (bug #4797)
+- cleaned up lastlogin handling (bug #4843)
+- nuke error due to disconnecting on logout()
+- php 4.4 reference assignment fixes
+
+";}i:5;a:5:{s:7:"version";s:6:"0.16.1";s:12:"release_date";s:10:"2005-07-04";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:219:"- fixed typo in cookie lifetime computation (and introduced LIVEUSER_DAY_SECONDS)
+- fixed bug that would lead to dropping all user assigned rigts for area admins
+- cosmetic fixes to error messages (username => handle)
+
+";}i:6;a:5:{s:7:"version";s:6:"0.16.0";s:12:"release_date";s:10:"2005-06-21";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:2767:"- updated MDB2 dependency
+- made readConfig() public
+- use LIVEUSER_STATUS_AUTHINITERROR and LIVEUSER_STATUS_PERMINITERROR
+- removed 'ids' from GLOBALS.php array since this is no longer used in the admin
+- added support for table name aliasing
+- added updateProperty() method
+- dont raise an error when login() was not able to authenticate the user
+- storageFactory() is no longer permission specific
+- only return false in init() method if an error occured
+- always overwrite status with auth failed in login() when the current status is UNKNOWN
+- updated a few status message with clearer messages
+- delay storing of the auth container instance in a property until its clear that
+  the perm container will not produce errors
+- kill _auth and _perm property values at the beginning of login()
+- added new event "onFailedMapping" when an auth user cannot be mapped to a perm user
+
+authentication
+- reworked _readUserData() in the auth containers to optionally read by auth
+  user id instead of by handle/passwd (fairly untested)
+- made _readUserData() public (and renamed it to readUserData()
+- made auth fields dynamic (thx dan)
+- updated to use the new auth config layout due to using admin storage
+- tweaked disconnect to only disconnect when a new connection was made
+- updated Globals.php file (removed all optional fields, added users table alias)
+
+permission
+- cleaned up _readImpliedRights()
+- fixed bug in readUserRights() that would lead to overwriting the proper right keys
+- tweaked disconnect to only disconnect when a new connection was made
+
+installer
+- generate auth and perm schema on the fly (removed pre generated ones from cvs)
+- separated schema generation and schema writing in two methods in the installer
+- forgot to pass 'create' param to installSchema() in installPermSchema()
+- use MDB2_Schema as an optional dependency for the schema installer
+- improved handling of defaults in the installer
+- improved DB seq support in the installer
+- options can now be passed to the installer
+- severely reworked the install API
+- added more infos into the old file names
+- updated code with the new auth config layout and as a result removed
+  generateAuthSchema() and renamed generatePermSchema() to generateSchema()
+- added table name prefix to all indexes, since some rdbms (notably pgsql)
+  dont like it if the same index name is used (bug #4593)
+
+examples
+- example5 was added again
+- demo data for examples 4 and 5 was converted to MDB2_Schema format
+- a script to install database based examples can be found under
+  docs/examples/demodata.php. Type php demodata.php -h for usage.
+- updated examples to use the new auth config layout due to using admin storage
+- tweaked error handling on init() call
+- use MDB2 in the examples instead of DB
+
+";}}s:12:"_lastversion";N;s:7:"dirtree";a:15:{s:26:"C:\php5\pear\LiveUser\Auth";b:1;s:21:"C:\php5\pear\LiveUser";b:1;s:34:"C:\php5\pear\LiveUser\Auth\Storage";b:1;s:40:"C:\php5\pear\docs\LiveUser\docs\examples";b:1;s:31:"C:\php5\pear\docs\LiveUser\docs";b:1;s:49:"C:\php5\pear\docs\LiveUser\docs\examples\example1";b:1;s:49:"C:\php5\pear\docs\LiveUser\docs\examples\example2";b:1;s:49:"C:\php5\pear\docs\LiveUser\docs\examples\example4";b:1;s:49:"C:\php5\pear\docs\LiveUser\docs\examples\example5";b:1;s:26:"C:\php5\pear\LiveUser\Perm";b:1;s:34:"C:\php5\pear\LiveUser\Perm\Storage";b:1;s:31:"C:\php5\pear\data\LiveUser\misc";b:1;s:38:"C:\php5\pear\data\LiveUser\misc\schema";b:1;s:26:"C:\php5\pear\docs\LiveUser";b:1;s:12:"C:\php5\pear";b:1;}s:13:"_lastmodified";i:1127495752;}

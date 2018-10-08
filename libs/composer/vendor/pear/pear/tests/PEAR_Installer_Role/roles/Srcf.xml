@@ -1,0 +1,10 @@
+<role version="1.0">
+ <releasetypes>extsrc</releasetypes>
+ <installable />
+ <locationconfig />
+ <honorsbaseinstall />
+ <unusualbaseinstall />
+ <phpfile />
+ <executable />
+ <config_vars />
+</role>

@@ -1,0 +1,11 @@
+go-pear-tarballs/
+go-pear.phar
+/README.html
+/install-pear-nozlib.phar
+/*.tgz
+/dist/
+
+# eclipse
+.buildpath
+.project
+.settings

@@ -1,0 +1,32 @@
+#!/bin/bash
+rm -f warnings
+
+echo -n "executing phpize... "
+phpize 2>&1 >/dev/null
+if test $? -ne 0 ; then
+    echo "FAILED!"
+    exit 1
+fi
+echo "DONE"
+
+echo -n "configuring... "
+CFLAGS="-W -Wchar-subscripts -Wformat=2 -Wno-format-y2k -Wimplicit -Wmissing-braces -Wunused-variable  -Wbad-function-cast -Wpointer-arith -Wsign-compare -Winline" \
+    ./configure $@ >/dev/null
+if test $? -ne 0 ; then
+    echo "FAILED!"
+    exit 1
+fi
+echo "DONE"
+
+echo -n "building... "
+make clean install 2>warnings >/dev/null
+if test $? -ne 0 ; then
+    echo "FAILED!"
+else
+    echo "DONE"
+fi
+
+if test -s warnings; then
+    cat warnings
+fi
+

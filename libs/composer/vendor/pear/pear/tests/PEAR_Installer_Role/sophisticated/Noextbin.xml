@@ -1,0 +1,19 @@
+<role version="1.0">
+ <releasetypes>php</releasetypes>
+ <releasetypes>extsrc</releasetypes>
+ <installable>1</installable>
+ <locationconfig>data_dir</locationconfig>
+ <honorsbaseinstall />
+ <phpfile />
+ <executable />
+ <phpextension />
+ <config_vars>
+  <smonk>
+   <type>string</type>
+   <default>hey baby</default>
+   <doc>there&apos;s some smonk on your frock</doc>
+   <prompt>None more smonk</prompt>
+   <group>File Locations (Advanced)</group>
+  </smonk>
+ </config_vars>
+</role>
