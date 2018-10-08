@@ -119,7 +119,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 			/** @var \ilImageFileInputGUI $item */
 			$item = $this->legacy_form->getItemByPostVar('tile_image');
 			if ($item->getDeletionFlag()) {
-				$tile_image->remove();
+				$tile_image->delete();
 			}
 
 			$file_data = (array)$this->legacy_form->getInput('tile_image');

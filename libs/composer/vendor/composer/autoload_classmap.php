@@ -5440,6 +5440,7 @@ return array(
     'ilObjectTileImage' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImage.php',
     'ilObjectTileImageFactory' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/classes/class.ilObjectTileImageFactory.php',
     'ilObjectTileImageFactoryInterface' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/interfaces/interface.ilObjectTileImageFactoryInterface.php',
+    'ilObjectTileImageInterface' => $baseDir . '/../../Services/Object/CommonSettings/TileImage/interfaces/interface.ilObjectTileImageInterface.php',
     'ilObjectTranslation' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslation.php',
     'ilObjectTranslation2TableGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslation2TableGUI.php',
     'ilObjectTranslationGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectTranslationGUI.php',

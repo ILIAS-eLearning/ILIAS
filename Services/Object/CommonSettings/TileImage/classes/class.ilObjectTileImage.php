@@ -8,7 +8,7 @@
  * @author killing@leifos.de
  * @ingroup ServicesObject
  */
-class ilObjectTileImage
+class ilObjectTileImage implements ilObjectTileImageInterface
 {
 	/**
 	 * @var ilObjectService
@@ -48,11 +48,9 @@ class ilObjectTileImage
 	}
 
 	/**
-	 * Get extenstion
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
-	public function getExtension()
+	public function getExtension(): string
 	{
 		return $this->ext;
 	}
@@ -60,7 +58,7 @@ class ilObjectTileImage
 	/**
 	 * @inheritdoc
 	 */
-	public function copy($target_obj_id)
+	public function copy(int $target_obj_id)
 	{
 		if (!$this->exists()) {
 			ilContainer::_deleteContainerSettings($target_obj_id, 'tile_image');
@@ -96,28 +94,6 @@ class ilObjectTileImage
 		}
 
 		ilContainer::_deleteContainerSettings($this->obj_id, 'tile_image');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function saveFromSourceFile($source_file_path)
-	{
-		$this->createDirectory();
-
-		// delete old file
-		$file_name = $this->getRelativePath();
-		if ($this->web->has($file_name)) {
-			$this->web->delete($file_name);
-		}
-
-		// save new file
-		$this->ext = pathinfo($source_file_path, PATHINFO_EXTENSION);
-		$file_name = $this->getRelativePath();
-
-		$this->web->copy($source_file_path, $file_name);
-
-		$this->persistImageState($file_name);
 	}
 
 	/**
@@ -174,18 +150,6 @@ class ilObjectTileImage
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function remove()
-	{
-		$filename = $this->getRelativePath();
-		if ($this->web->has($filename)) {
-			$this->web->delete($filename);
-		}
-		ilContainer::_deleteContainerSettings($this->obj_id, 'tile_image');
-	}
-
-	/**
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	protected function createDirectory()
@@ -239,7 +203,7 @@ class ilObjectTileImage
 	/**
 	 * @inheritdoc
 	 */
-	public function exists()
+	public function exists(): bool
 	{
 		if (!\ilContainer::_lookupContainerSetting($this->obj_id, 'tile_image', 0)) {
 			return false;
@@ -250,7 +214,7 @@ class ilObjectTileImage
 	/**
 	 * @inheritdoc
 	 */
-	public function getFullPath()
+	public function getFullPath(): string
 	{
 		// TODO: Currently there is no option to get the relative base directory of a filesystem
 		return implode(DIRECTORY_SEPARATOR, [
