@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/test/ilMailBaseTest.php';
+require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
+
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
