@@ -1,4 +1,4 @@
-**Learning History**
+#Learning History Service
 
 Welcome to the history of learning.
 
@@ -25,3 +25,10 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 ```
 
 If you additionally want to emphasize certain words (mostly titles) in your text, please use the method `$this->getEmphasizedTitle($string)`.
+
+# JF Decisions
+
+8 Oct 2018
+
+- General introduction of the service
+- https://github.com/ILIAS-eLearning/ILIAS/pull/1210
