@@ -8478,6 +8478,72 @@ ul.breadcrumb li:hover {
 .il-standard-form input[type="checkbox"] {
   margin: 0;
 }
+.il-standard-form .il-filter-bar {
+  padding: 10px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid black;
+}
+.il-standard-form .il-filter-bar-opener {
+  font-size: 1.4em;
+  cursor: pointer;
+}
+.il-standard-form .il-filter-bar-controls {
+  font-size: 1.4em;
+  float: right;
+}
+.il-standard-form .il-filter-bar-controls .btn-bulky {
+  display: inline-flex;
+  width: auto;
+  background-color: initial;
+  font-size: 0.9em;
+}
+.il-standard-form .il-filter-bar-controls .glyph {
+  padding-right: 0.3em;
+}
+.il-standard-form .il-filter-bar-controls .il-toggle-button {
+  vertical-align: middle;
+}
+.il-standard-form .il-filter-bar-opener-collapse .glyph {
+  margin-left: 8px;
+}
+.il-standard-form .col-md-4 {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.il-standard-form .glyphicon-ok {
+  font-size: unset;
+  text-align: unset;
+}
+.il-standard-form input {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-standard-form .input-group {
+  width: 100%;
+  height: 25px;
+  table-layout: fixed;
+}
+.il-standard-form #leftaddon {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 30%;
+}
+.il-standard-form #rightaddon {
+  overflow: visible;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 10%;
+}
+.il-standard-form .il-filter-field {
+  cursor: text;
+}
+@media (max-width: 768px) {
+  .il-standard-form .bulky-label {
+    display: none;
+  }
+}
 .il-table-presentation-viewcontrols {
   height: 40px;
 }

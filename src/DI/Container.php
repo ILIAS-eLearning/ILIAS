@@ -163,4 +163,12 @@ class Container extends \Pimple\Container {
 	public function event() {
 		return $this['ilAppEventHandler'];
 	}
+
+	/**
+	 * @return \ilUIService
+	 */
+	public function uiService() {
+		return new \ilUIService($this->language());
+	}
+
 }
