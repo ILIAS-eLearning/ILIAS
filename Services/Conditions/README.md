@@ -1,4 +1,6 @@
-**Container as Condition Controller**
+# Condition Service
+
+##Container as Condition Controller
 
 If a component `Modules/[Container]` wants to take over the control of conditions for its children elements it needs to implement `ilConditionControllerInterface` in a class `il[Container]ConditionController` located under `Modules/[Container]/classes/class.il[Container]ConditionController.php`.
 
@@ -28,3 +30,10 @@ function getConditionSetForRepositoryObject($child_ref_id) {
 	return $condition_set;
 }
 ```
+
+# JF Decisions
+
+24 Sep 2018
+
+- General introduction of the service, including _Container as Condition Controller_ concept
+- https://docu.ilias.de/goto_docu_wiki_wpage_5130_1357.html
