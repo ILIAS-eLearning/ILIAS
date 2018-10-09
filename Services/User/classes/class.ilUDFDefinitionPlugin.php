@@ -51,6 +51,18 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
 	 * @return ilFormPropertyGUI
 	 */
 	abstract public function getFormPropertyForDefinition($definition, $a_default_value = null);
+
+
+	/**
+	 * If user data data is not stored in table udf_text, return an array with user data for each
+	 * udf field
+	 * [
+	 *    USER_ID => ['FIELD_ID' => custom_value]
+	 * ]
+	 *
+	 * @return array
+	 */
+	abstract public function lookupUserData($a_user_ids, $a_field_ids);
 	
 	
 	/**
