@@ -150,7 +150,9 @@ class ilObjDataCollection extends ilObject2 {
 		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
-			if ($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id'])) {
+			$ilDclTable = new ilDclTable();
+			$record = ilDclCache::getRecordCache($a_record_id);
+			if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(INPUT_GET, 'ref_id'), $record, $user_id)) {
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('dcl');
@@ -164,7 +166,6 @@ class ilObjDataCollection extends ilObject2 {
 				$message .= $ulng->txt('dcl_record') . ":\n";
 				$message .= "------------------------------------\n";
 				if ($a_record_id) {
-					$record = ilDclCache::getRecordCache($a_record_id);
 					if (!$record->getTableId()) {
 						$record->setTableId($a_table_id);
 					}
