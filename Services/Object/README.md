@@ -16,7 +16,12 @@ $obj_service = $this->getObjectService();
 
 ```
 
-## Common Settings
+**Subservices**
+
+- [Common Settings](##Common-Settings)
+
+
+##Common Settings
 
 The object service provides methods to include common settings into your settings forms and save them.
 
@@ -26,7 +31,7 @@ In ILIAS 5.4 all settings forms are still legacy forms. The following examples s
 
 Custom icons used in almost all views that represent repository objects, e.g. lists or explorer trees.
 
-Adding the setting to a form:
+Adding the setting to a form (SHOULD be placed in **Presentation** section):
 
 ```
 $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
@@ -41,7 +46,7 @@ $obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
 Tile images are used in tile views of containers (starting with ILIAS 5.4).
 
-Adding the setting to a form:
+Adding the setting to a form (SHOULD be placed in **Presentation** section):
 
 ```
 $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
@@ -55,3 +60,10 @@ Get `ilObjectTileImage` instance for an object id:
 ```
 $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($obj_id);
 ```
+
+# JF Decisions
+
+8 Oct 2018
+
+- General introduction of the service, including Common Settings subservice
+- https://github.com/ILIAS-eLearning/ILIAS/pull/1211
