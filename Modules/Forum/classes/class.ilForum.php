@@ -66,9 +66,6 @@ class ilForum
 	// object id
 	private $id;
 
-	/** @var ilCtrl */
-	private $ctrl;
-
 	/**
 	* Constructor
 	* @access	public
@@ -82,8 +79,6 @@ class ilForum
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->settings = $DIC->settings();
-		$this->ctrl = $DIC->ctrl();
-
 	}
 
 	// no usage?
@@ -444,7 +439,7 @@ class ilForum
 		
 		$frm_settings = ilForumProperties::getInstance($this->getForumId());
 		
-		if($frm_settings->getMarkModeratorPosts() == 1)
+		if($frm_settings->getMarkModegratorPosts() == 1)
 		{
 			self::_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false;
 		}
@@ -589,19 +584,22 @@ class ilForum
 			0
 		);
 	}
-	
+
 	/**
-	* Moves all chosen threads and their posts to a new forum
-	* 
-	* @param    array	chosen thread pks
-	* @param    integer	object id of src forum
-	* @param    integer	object id of dest forum
-	* @access	public
-	*/
+	 * Moves all chosen threads and their posts to a new forum
+	 *
+	 * @param    array    chosen thread pks
+	 * @param    integer    object id of src forum
+	 * @param    integer    object id of dest forum
+	 * @access    public
+	 * @return array
+	 */
 	public function moveThreads($thread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
-	{	
-		$src_top_frm_fk = ilObject::_lookupObjectId($src_ref_id);		
-		
+	{
+		$src_top_frm_fk = ilObject::_lookupObjectId($src_ref_id);
+
+		$errorMessages = array();
+
 		if (is_numeric($src_top_frm_fk) && $src_top_frm_fk > 0 && is_numeric($dest_top_frm_fk) && $dest_top_frm_fk > 0)
 		{	
 			$this->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($src_top_frm_fk));
@@ -611,8 +609,6 @@ class ilForum
 			$this->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($dest_top_frm_fk));	
 					
 			$newFrmData = $this->getOneTopic();
-
-			$errorMessages = array();
 
 			if ($oldFrmData['top_pk'] && $newFrmData['top_pk'])
 			{
@@ -655,11 +651,7 @@ class ilForum
 				}
 
 				if (array() !== $errorMessages) {
-					\ilUtil::sendFailure(
-						implode("<br><br>", $errorMessages),
-						true
-					);
-					$this->ctrl->redirectByClass('ilObjForumGUI', 'showThreads');
+					return $errorMessages;
 				}
 				
 				// update frm_data source forum
@@ -710,6 +702,8 @@ class ilForum
 					array('integer', 'integer', 'integer', 'text', 'integer'),
 					array($moved_posts, $moved_threads, $visits, $last_post_dest, $newFrmData['top_pk']));
 			}
+
+			return $errorMessages;
 		}
 	}
 	
