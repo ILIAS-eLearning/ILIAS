@@ -81,7 +81,7 @@ class ilMailFolderGUI
 		$this->tabs     = $DIC->tabs();
 
 		$this->umail = new ilMail($this->user->getId());
-		$this->mbox  = new ilMailBox($this->user->getId());
+		$this->mbox  = new ilMailbox($this->user->getId());
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{

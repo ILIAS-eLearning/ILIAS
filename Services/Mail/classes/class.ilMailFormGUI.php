@@ -80,7 +80,7 @@ class ilMailFormGUI
 
 		$this->umail = new ilFormatMail($this->user->getId());
 		$this->mfile = new ilFileDataMail($this->user->getId());
-		$this->mbox  = new ilMailBox($this->user->getId());
+		$this->mbox  = new ilMailbox($this->user->getId());
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
