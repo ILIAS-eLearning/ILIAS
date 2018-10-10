@@ -9,7 +9,6 @@
 * @version $Id$
 *
 */
-require_once("Services/Mail/classes/class.ilMail.php");
 
 class ilMailbox
 {
