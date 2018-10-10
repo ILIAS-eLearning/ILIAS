@@ -1172,7 +1172,8 @@ class ilObjectDefinition// extends ilSaxParser
 					'repository' => '1',
 					'workspace' => '0',
 					'administration' => $isInAdministration?'1':'0',
-					"sideblock" => "0"
+					"sideblock" => "0",
+					'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name)
 				);
 				$parent_types = $pl->getParentTypes();
 				foreach($parent_types as $parent_type) {
