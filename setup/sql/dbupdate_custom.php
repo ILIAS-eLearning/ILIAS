@@ -5,3 +5,10 @@ ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');
 
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2>
+<?php
+// TODO cretae proper updatesteps
+ilGSProviderStorage::installDB();
+ilGSIdentificationStorage::installDB();
+?>
+
