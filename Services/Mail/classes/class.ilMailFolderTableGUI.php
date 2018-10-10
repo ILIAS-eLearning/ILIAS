@@ -105,8 +105,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 		$this->setFilterCommand('applyFilter');
 		$this->setResetCommand('resetFilter');
-		$this->uiFactory = $uiFactory;
-		$this->uiRenderer = $uiRenderer;
 	}
 
 	/**
