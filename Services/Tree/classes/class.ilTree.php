@@ -208,17 +208,14 @@ class ilTree
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
-		
-		if(!is_object($GLOBALS['DIC']['ilSetting']) || $GLOBALS['DIC']['ilSetting']->getModule() != 'common')
+		if(!$DIC->isDependencyAvailable('settings') || $DIC->settings()->getModule() != 'common')
 		{
 			include_once './Services/Administration/classes/class.ilSetting.php';
 			$setting = new ilSetting('common');
 		}
 		else
 		{
-			$setting = $GLOBALS['DIC']['ilSetting'];
+			$setting = $DIC->settings();
 		}
 		
 		if($this->__isMainTree())
