@@ -11,7 +11,8 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
- * An internal class for the clickable Filter Fields. It reuses the framework concepts JSBindable and Clickable.
+ * An internal class for the clickable, non-editable Input Fields within Filters.
+ * It reuses the framework concepts JSBindable and Clickable.
  */
 class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable {
 
