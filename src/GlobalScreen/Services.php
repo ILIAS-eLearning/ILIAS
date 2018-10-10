@@ -21,7 +21,7 @@ class Services {
 	 */
 	public function __construct() {
 		if (self::$constructed === true) {
-			throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
+			// throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
 		}
 		self::$constructed = true;
 	}
