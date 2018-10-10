@@ -38,31 +38,33 @@ interface Factory {
 	 *      presented on the screen.
 	 *   composition: >
 	 *      Filters are composed of two visually separated areas:
-	 *      First, there is the Filter Bar at the top. It contains an Expand/Collapse Glyph on the left side
-	 *      On the right, an "Apply" Bulky Button, a "Reset" Bulky Button and a Toggle Button are placed. An additional
-	 *      row with set filter settings will be shown at the bottom of the Filter Bar, when the Filter Bar is collapsed
-	 *      and the Filter is activated at the same time.
-	 *      Second, there is an area where so-called Filter Fields are displayed. Every Filter Field holds a Label on the left
-	 *      and a "Remove" Glyph on the right. Every Filter Field holds an Input Field. After the last Filter Field,
-	 *      an "Add" Bulky Button is shown if additional Filter Fields can be added.
+	 *      First, there is the Filter Bar at the top. It contains an Expand/Collapse Glyph on the left side.
+	 *      On the right, an "Apply" Bulky Button, a "Reset" Bulky Button and a Toggle Button for activating/deactivating
+	 *      the Filter are placed. An additional row with set filter settings will be shown at the bottom of the Filter Bar,
+	 *      when the Filter Bar is collapsed and the Filter is activated at the same time.
+	 *      Second, there is an area where the Input Fields are displayed. Every Input Field is rendered with a Label
+	 *      on the left and a "Remove" Glyph on the right. The values, that are currently entered in the Input Fields,
+	 *      are displayed as non-editable text and will get editable when the user focuses an Input Field (see effect).
+	 *      After the last Input Field, an "Add" Bulky Button is shown if additional Input Fields can be added.
 	 *   effect: >
 	 *      In the Filter Bar:
 	 *      Clicking on the Expand/Collapse Glyph expands/collapses the second area of the Filter,
-	 *      where the Filter Fields are placed. When the Filter Bar is expanded, the row with set filter settings
+	 *      where the Input Fields are placed. When the Filter Bar is expanded, the row with set filter settings
 	 *      at the bottom of the Filter Bar will be hidden.
 	 *      Clicking on the "Apply" Bulky Button applies the settings which the user has made for the Filter and
-	 *      reloads the page immediately.
-	 *      Clicking on the "Reset" Bulky Button resets the Filter to the initial state and reloads the page immediately.
+	 *      reloads the content of the item collection (e.g. Table) immediately.
+	 *      Clicking on the "Reset" Bulky Button resets the Filter to the initial state and reloads the content
+	 *      of the item collection immediately.
 	 *      Clicking on the "Toggle" Button imitates a click on the "Apply" Bulky Button, activates/deactivates the Filter
-	 *      and reloads the page immediately.
-	 *      In the Filter Fields Area:
-	 *      Clicking on a Filter Field between its Label and its "Remove" Glyph shows up a Popover where an Input Field
-	 *      is presented. Writing down a value into the Input Field synchronizes the value in the Input Field
-	 *      with the value in the Filter Field.
-	 *      Clicking on the "Remove" Glyph in a Filter Field makes a Filter Field disappear from the Filter.
-	 *      Clicking on the "Add" Bulky Button shows up a Popover with a list of all possible Filter Fields which are not
-	 *      part of the Filter yet. Clicking on one specific Filter Field in this list adds the selected Filter Field
-	 *      to the Filter and imitates a click on it.
+	 *      and reloads the content of the item collection immediately.
+	 *      In the Input Fields Area:
+	 *      Clicking on an Input Field between its Label and its "Remove" Glyph shows up a Popover where the Input Field
+	 *      is presented. Writing down a value into the Input Field in the Popover synchronizes the values
+	 *      in both Input Fields.
+	 *      Clicking on the "Remove" Glyph next to an Input Field makes this Input Field disappear from the Filter.
+	 *      Clicking on the "Add" Bulky Button shows up a list with Labels of all possible Input Fields, which are
+	 *      not part of the Filter yet, in a Popover. Clicking on one specific Input Field Label in this list adds
+	 *      the selected Input Field to the Filter and imitates a click on it.
 	 *   rivals:
 	 *      forms: >
 	 *          Unlike Filters, Forms are used to enter or modify data in the system.
@@ -71,25 +73,22 @@ interface Factory {
 	 *   usage:
 	 *     1: Filters MUST be used on the same page as tables or other collections of items.
 	 *   interaction:
-	 *     1: Filter Fields MUST NOT be editable, just clickable.
+	 *     1: Input Fields outside of Popovers MUST NOT be editable, just clickable.
 	 *   wording:
-	 *     1: Labels of Filter Fields MUST be shown shortened (with three dots at the end) when space is scarce.
+	 *     1: Labels of Input Fields MUST be shown shortened (with three dots at the end) when space is scarce.
 	 *     2: The set filter settings in the bottom row of the Filter Bar MUST be shown shortened when space is scarce.
 	 *   style:
-	 *     1: The Filter Bar and the Filter Fields Area SHOULD be separated visually, e.g. with a border-line.
+	 *     1: The Filter Bar and the Input Fields Area SHOULD be separated visually, e.g. with a border-line.
 	 *     2: The Toggle Button MUST NOT contain a Label.
-	 *     3: The Popovers SHOULD be shown below the Filter Field or the "Add" Bulky Button.
+	 *     3: The Popovers SHOULD be shown below the Input Field or the "Add" Bulky Button.
 	 *   ordering:
 	 *     1: A Filter MUST be placed above the item collection it acts upon.
 	 *   responsiveness:
 	 *     1: >
-	 *        On screens larger than medium size, there MUST be three Filter Fields per row. On medium-sized screens
-	 *        or below, only one Filter Field MUST be shown per row.
-	 *     2: >
-	 *        On screens larger than small size, the "Apply" and "Reset" Bulky Buttons MUST contain a glyph plus text.
-	 *        On small-sized screens, these Bulky Buttons MUST contain only a glyph.
+	 *        On screens larger than medium size, there MUST be three Input Fields per row. On medium-sized screens
+	 *        or below, only one Input Field MUST be shown per row.
 	 *   accessibility:
-	 *     1: Filter Fields MUST be accessible by keyboard by using the "Tab"-Key and clickable by using the "Return"-Key.
+	 *     1: Input Fields MUST be accessible by keyboard by using the "Tab"-Key and clickable by using the "Return"-Key.
 	 *
 	 *
 	 * ---

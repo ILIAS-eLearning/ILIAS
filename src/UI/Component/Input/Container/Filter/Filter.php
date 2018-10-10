@@ -62,13 +62,6 @@ interface Filter extends Component {
 	public function getInputs();
 
 	/**
-	 * Get an array with boolean values to get to know if the Inputs for the Filter are rendered initially
-	 *
-	 * @return array
-	 */
-	public function isInputRendered();
-
-	/**
 	 * Get to know if the Filter is activated or deactivated
 	 *
 	 * @return bool
@@ -83,6 +76,13 @@ interface Filter extends Component {
 	public function withActivated();
 
 	/**
+	 * Get a Filter like this, but deactivated.
+	 *
+	 * @return Filter
+	 */
+	public function withDeactivated();
+
+	/**
 	 * Get to know if the Filter is expanded or collapsed
 	 *
 	 * @return bool
@@ -95,4 +95,11 @@ interface Filter extends Component {
 	 * @return Filter
 	 */
 	public function withExpanded();
+
+	/**
+	 * Get a Filter like this, but collapsed.
+	 *
+	 * @return Filter
+	 */
+	public function withCollapsed();
 }
