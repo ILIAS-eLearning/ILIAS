@@ -34,6 +34,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$lng = $DIC->language();
 		$ilUser = $DIC->user();
 		$ilAccess = $DIC->access();
+		$this->obj_definition = $DIC["objDefinition"];
 
 		// NOT ilNewsForContextBlockGUI::__construct() !
 		ilBlockGUI::__construct();

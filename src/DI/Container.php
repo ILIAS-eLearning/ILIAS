@@ -196,7 +196,7 @@ class Container extends \Pimple\Container {
 	 * @return \ilNewsService
 	 */
 	public function news() {
-		return new \ilNewsService($this->language(), $this->settings());
+		return new \ilNewsService($this->language(), $this->settings(), $this->user());
 	}
 
 	/**

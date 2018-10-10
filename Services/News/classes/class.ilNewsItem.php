@@ -21,7 +21,8 @@ define("NEWS_PUBLIC", "public");
  * learning module is announced.
  *
  * Please note that this class contains a lot of deprectated functions that
- * will be move to other classes in the future. Please avoid to use these functions.
+ * will be move to other classes in the future. Please avoid to use these functions. This class should
+ * be a pure data class without persistence in the future.
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -581,6 +582,7 @@ class ilNewsItem
 	
 	/**
 	 * Read item from database.
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 */
 	public function read()
 	{
@@ -617,6 +619,7 @@ class ilNewsItem
 
 	/**
 	 * Create
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 */
 	function create()
 	{
@@ -696,6 +699,7 @@ class ilNewsItem
 	/**
 	 * Update item in database
 	 *
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 * @param boolean $a_as_new If true, creation date is set "now"
 	 */
 	public function update($a_as_new = false)
@@ -1672,10 +1676,10 @@ class ilNewsItem
 	}
 	
 	/**
-	 * Delete all news of a context
+	 * Get all news of a context
 	 * @deprecated will move to ilNewsData
 	 */
-	static public function deleteNewsOfContext($a_context_obj_id,
+	static public function getNewsOfContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
 	{
 		global $DIC;
@@ -1700,11 +1704,26 @@ class ilNewsItem
 			$and;
 
 		$news_set = $ilDB->query($query);
-		
+
+		$news_arr = [];
 		while ($news = $ilDB->fetchAssoc($news_set))
 		{
-			$news_obj = new ilNewsItem($news["id"]);
-			$news_obj->delete();
+			$news_arr[] = new ilNewsItem($news["id"]);
+		}
+		return $news_arr;
+	}
+
+	/**
+	 * Delete all news of a context
+	 * @deprecated will move to ilNewsData
+	 */
+	static public function deleteNewsOfContext($a_context_obj_id,
+		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
+	{
+		foreach (self::getNewsOfContext($a_context_obj_id,
+			$a_context_obj_type, $a_context_sub_obj_id, $a_context_sub_obj_type) as $n)
+		{
+			$n->delete();
 		}
 	}
 
@@ -1806,6 +1825,7 @@ class ilNewsItem
 		global $DIC;
 
 		$lng = $DIC->language();
+		$obj_definition = $DIC["objDefinition"];
 
 		if ($a_agg_ref_id > 0)
 		{
@@ -1863,6 +1883,10 @@ class ilNewsItem
 		{
 			if ($a_content_is_lang_var)
 			{
+				if($obj_definition->isPlugin($a_context_obj_type))
+				{
+					return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
+				}
 				return $lng->txt($a_title);
 			}
 			else
@@ -1883,9 +1907,14 @@ class ilNewsItem
 		global $DIC;
 
 		$lng = $DIC->language();
+		$obj_definition = $DIC["objDefinition"];
 
 		if ($a_is_lang_var)
 		{
+			if($obj_definition->isPlugin($a_context_obj_type))
+			{
+				return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_content);
+			}
 			$lng->loadLanguageModule($a_context_obj_type);
 			return $lng->txt($a_content);
 		}
