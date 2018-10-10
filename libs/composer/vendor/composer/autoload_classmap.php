@@ -3362,6 +3362,7 @@ return array(
     'ilCertificate' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificate.php',
     'ilCertificateAdapter' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateAdapter.php',
     'ilCertificateGUI' => $baseDir . '/../../Services/Certificate/classes/class.ilCertificateGUI.php',
+    'ilCertificateLearningHistoryProvider' => $baseDir . '/../../Services/Certificate/classes/History/ilCertificateLearningHistoryProvider.php',
     'ilChangeEvent' => $baseDir . '/../../Services/Tracking/classes/class.ilChangeEvent.php',
     'ilChapterHierarchyFormGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php',
     'ilCharSelectorConfig' => $baseDir . '/../../Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.php',

@@ -3606,6 +3606,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificate' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificate.php',
         'ilCertificateAdapter' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificateAdapter.php',
         'ilCertificateGUI' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/class.ilCertificateGUI.php',
+        'ilCertificateLearningHistoryProvider' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/History/ilCertificateLearningHistoryProvider.php',
         'ilChangeEvent' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilChangeEvent.php',
         'ilChapterHierarchyFormGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php',
         'ilCharSelectorConfig' => __DIR__ . '/../..' . '/../../Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.php',
