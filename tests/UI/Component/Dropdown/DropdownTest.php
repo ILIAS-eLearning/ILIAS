@@ -44,7 +44,7 @@ class DropdownTest extends ILIAS_UI_TestBase {
 
 		$this->assertTrue(is_array($items));
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Shy", $items[0]);
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Divider\\Horizontal", $items[2]);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Separator\\Horizontal", $items[2]);
 	}
 
 	public function test_render_empty() {
