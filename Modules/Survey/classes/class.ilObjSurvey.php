@@ -6626,7 +6626,7 @@ class ilObjSurvey extends ilObject
 
 		$repository = new \ilMailTemplateRepository();
 
-		foreach ($repository->getTemplatesByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
+		foreach ($repository->findByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
 		}
 

@@ -764,7 +764,7 @@ class ilMailFormGUI
 				$context = \ilMailTemplateService::getTemplateContextById($context_id);
 
 				$templateRepository = new \ilMailTemplateRepository();
-				$templates = $templateRepository->getTemplatesByContextId($context->getId());
+				$templates = $templateRepository->findByContextId($context->getId());
 
 				if(count($templates))
 				{

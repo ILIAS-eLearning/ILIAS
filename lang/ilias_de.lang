@@ -12800,6 +12800,8 @@ mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
 mail#:#mail_template_unset_as_default#:#Als Standard entfernen
 mail#:#mail_template_default#:# (Standard)
+mail#:#mail_tpl_sure_delete_entry#:#Sind Sie sicher, dass die Textvorlage gelöscht werden sollen?
+mail#:#mail_tpl_sure_delete_entries#:#Sind Sie sicher, dass die markierten Textvorlagen gelöscht werden sollen?
 mail#:#mail_template_title#:#Name der Textvorlage
 mail#:#mail_template_context#:#Kontext
 mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich.

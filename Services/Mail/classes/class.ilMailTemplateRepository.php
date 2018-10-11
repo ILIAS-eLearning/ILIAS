@@ -77,7 +77,7 @@ class ilMailTemplateRepository
 	 * @param string $contextId
 	 * @return \ilMailTemplate[]
 	 */
-	public function getTemplatesByContextId(string $contextId): array
+	public function findByContextId(string $contextId): array
 	{
 		return array_filter($this->getAll(), function(\ilMailTemplate $template) use ($contextId) {
 			return $contextId === $template->getContext();

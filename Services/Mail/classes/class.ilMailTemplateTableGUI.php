@@ -22,6 +22,9 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	/** @var Renderer */
 	protected $uiRenderer;
 
+	/** @var ILIAS\UI\Component\Component[] */
+	protected $uiComponents = [];
+
 	/**
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
@@ -143,12 +146,22 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		}
 
 		if (!$this->readOnly) {
+			$deleteModal = $this->uiFactory
+				->modal()
+				->interruptive(
+					$this->lng->txt('delete'),
+					$this->lng->txt('mail_tpl_sure_delete_entry'),
+					$this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
+				);
+
+			$this->uiComponents[] = $deleteModal;
+
 			$buttons[] = $this->uiFactory
 				->button()
 				->shy(
 					$this->lng->txt('delete'),
 					$this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteTemplate')
-				);
+				)->withOnClick($deleteModal->getShowSignal());
 
 			if ($row['is_default']) {
 				$buttons[] = $this->uiFactory
@@ -175,5 +188,13 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 			->withLabel($this->lng->txt('actions'));
 
 		return $this->uiRenderer->render([$dropDown]);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getHTML()
+	{
+		return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
 	}
 }

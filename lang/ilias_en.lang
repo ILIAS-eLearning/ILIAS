@@ -12789,6 +12789,8 @@ mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
 mail#:#mail_template_default#:# (Default)
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
 mail#:#mail_template_title#:#Name
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.

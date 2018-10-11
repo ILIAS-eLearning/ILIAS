@@ -377,7 +377,12 @@ class ilMailTemplateGUI
 
 		$confirm = new \ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this, 'deleteTemplate'));
-		$confirm->setHeaderText($this->lng->txt('mail_sure_delete_entry'));
+
+		$confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entry'));
+		if (1 === count($templateIds)) {
+			$confirm->setHeaderText($this->lng->txt('mail_tpl_sure_delete_entries'));
+		}
+
 		$confirm->setConfirm($this->lng->txt('confirm'), 'deleteTemplate');
 		$confirm->setCancel($this->lng->txt('cancel'), 'showTemplates');
 
@@ -385,6 +390,7 @@ class ilMailTemplateGUI
 			$template = $this->repository->findById((int)$templateId);
 			$confirm->addItem('tpl_id[]', $templateId, $template->getTitle());
 		}
+
 		$this->tpl->setContent($confirm->getHTML());
 	}
 
@@ -400,12 +406,16 @@ class ilMailTemplateGUI
 		$templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? array();
 		if (is_array($templateIds) && count($templateIds) > 0) {
 			$templateIds = array_filter(array_map('intval', $templateIds));
-			if (0 === count($templateIds)) {
-				\ilUtil::sendFailure($this->lng->txt('select_one'));
-				$this->showTemplates();
-				return;
-			}
 		} else {
+			$templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? '';
+			if (is_numeric($templateId) && $templateId > 0) {
+				$templateIds = array_filter(array((int)$templateId));
+			} else {
+				$templateIds = array();
+			}
+		}
+
+		if (0 === count($templateIds)) {
 			\ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showTemplates();
 			return;
@@ -567,7 +577,15 @@ class ilMailTemplateGUI
 			return;
 		}
 
-		// TODO
+		try {
+			$template = $this->repository->findById((int)$templateId);
+			$template->setAsDefault(false);
+			$this->repository->store($template);
+		} catch (Exception $e) {
+			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+			$this->showTemplates();
+			return;
+		}
 
 		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this, 'showTemplates');
@@ -590,7 +608,24 @@ class ilMailTemplateGUI
 			return;
 		}
 
-		// TODO
+		try {
+			$template = $this->repository->findById((int)$templateId);
+
+			$all = $this->repository->findByContextId($template->getContext());
+			foreach ($all as $otherTemplate) {
+				$otherTemplate->setAsDefault(false);
+
+				if ($template->getTplId() == $otherTemplate->getTplId()) {
+					$otherTemplate->setAsDefault(true);
+				}
+
+				$this->repository->store($otherTemplate);
+			} 
+		} catch (Exception $e) {
+			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+			$this->showTemplates();
+			return;
+		}
 
 		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this, 'showTemplates');
