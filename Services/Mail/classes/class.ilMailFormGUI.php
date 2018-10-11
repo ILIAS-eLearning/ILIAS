@@ -465,7 +465,7 @@ class ilMailFormGUI
 			$templateRepository = new \ilMailTemplateRepository();
 			$template = $templateRepository->findById($temlateId);
 
-			$context = ilMailTemplateService::getTemplateContextById($template->getContext());
+			$context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
 			echo json_encode([
 				'm_subject' => $template->getSubject(),
 				'm_message' => $template->getMessage(),
@@ -759,7 +759,7 @@ class ilMailFormGUI
 			$mailData['use_placeholders'] = true;
 
 			try {
-				$context = \ilMailTemplateService::getTemplateContextById($context_id);
+				$context = \ilMailTemplateContextService::getTemplateContextById($context_id);
 
 				$templateRepository = new \ilMailTemplateRepository();
 				$templates = $templateRepository->findByContextId($context->getId());

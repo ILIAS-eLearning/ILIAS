@@ -239,8 +239,7 @@ class ilObjDefReader extends ilSaxParser
 						$component = $this->current_component;
 					}
 
-					require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-					ilMailTemplateService::insertFromXML(
+					ilMailTemplateContextService::insertFromXML(
 						$component,
 						$a_attribs['id'],
 						$a_attribs['class'],
@@ -326,10 +325,9 @@ class ilObjDefReader extends ilSaxParser
 			{
 				include_once "Services/Cron/classes/class.ilCronManager.php";
 				ilCronManager::clearFromXML($this->current_component, 
-					(array)$this->has_cron[$this->current_component]);				
+					(array)$this->has_cron[$this->current_component]);
 
-				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
+				ilMailTemplateContextService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
 				
 				if(!in_array($this->getComponentId(), (array)$this->has_badges))
 				{

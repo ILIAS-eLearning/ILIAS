@@ -6636,27 +6636,17 @@ class ilObjSurvey extends ilObject
 	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
 	{
 		// see ilMail::replacePlaceholders()
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-				
-		try
-		{			
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+		try {
+			$context = \ilMailTemplateContextService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
 
-			$user = new ilObjUser($a_user_id);
+			$user = new \ilObjUser($a_user_id);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
-			
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			$processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+		} catch (\Exception $e) {
 			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
-		
+
 		return $a_message;
 	}
 

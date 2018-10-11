@@ -160,7 +160,7 @@ class ilMailTemplateGUI
 	 */
 	protected function showTemplates()
 	{
-		$contexts = \ilMailTemplateService::getTemplateContexts();
+		$contexts = \ilMailTemplateContextService::getTemplateContexts();
 		if (count($contexts) <= 1) {
 			\ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'));
 		} else if ($this->isEditingAllowed()) {
@@ -208,7 +208,7 @@ class ilMailTemplateGUI
 		}
 
 		try {
-			$context  = \ilMailTemplateService::getTemplateContextById($form->getInput('context'));
+			$context  = \ilMailTemplateContextService::getTemplateContextById($form->getInput('context'));
 			$template = new \ilMailTemplate();
 			$template->setTitle((string)$form->getInput('title'));
 			$template->setContext((string)$context->getId());
@@ -278,7 +278,7 @@ class ilMailTemplateGUI
 			}
 
 			try {
-				$context = \ilMailTemplateService::getTemplateContextById($form->getInput('context'));
+				$context = \ilMailTemplateContextService::getTemplateContextById($form->getInput('context'));
 
 				$template->setTitle((string)$form->getInput('title'));
 				$template->setContext((string)$context->getId());
@@ -443,7 +443,7 @@ class ilMailTemplateGUI
 		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
 		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 
-		$context = \ilMailTemplateService::getTemplateContextById($contextId);
+		$context = \ilMailTemplateContextService::getTemplateContextById($contextId);
 		foreach ($context->getPlaceholders() as $key => $value) {
 			$placeholders->addPlaceholder($value['placeholder'], $value['label']);
 		}
@@ -468,7 +468,7 @@ class ilMailTemplateGUI
 
 		$context  = new \ilRadioGroupInputGUI($this->lng->txt('mail_template_context'), 'context');
 		$context->setDisabled(!$this->isEditingAllowed());
-		$contexts = \ilMailTemplateService::getTemplateContexts();
+		$contexts = \ilMailTemplateContextService::getTemplateContexts();
 
 		if (count($contexts) <= 1) {
 			ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'), true);
@@ -527,7 +527,7 @@ class ilMailTemplateGUI
 		} else {
 			$context_id = $template->getContext();
 		}
-		$context = \ilMailTemplateService::getTemplateContextById($context_id);
+		$context = \ilMailTemplateContextService::getTemplateContextById($context_id);
 		foreach ($context->getPlaceholders() as $key => $value) {
 			$placeholders->addPlaceholder($value['placeholder'], $value['label']);
 		}

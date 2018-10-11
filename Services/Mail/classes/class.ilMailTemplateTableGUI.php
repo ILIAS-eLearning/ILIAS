@@ -63,7 +63,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.mail_template_row.html', 'Services/Mail');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->contexts = \ilMailTemplateService::getTemplateContexts();
+		$this->contexts = \ilMailTemplateContextService::getTemplateContexts();
 	}
 
 	/**

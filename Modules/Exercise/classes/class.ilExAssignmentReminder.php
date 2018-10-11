@@ -559,39 +559,27 @@ class ilExAssignmentReminder
 	protected function sentReminderPlaceholders($a_message, $a_reminder_data, $a_reminder_type)
 	{
 		// see ilMail::replacePlaceholders()
-		try
-		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-
-			switch($a_reminder_type)
-			{
-				case ilExAssignmentReminder::SUBMIT_REMINDER:
-					include_once "Modules/Exercise/classes/class.ilExcMailTemplateSubmitReminderContext.php";
-					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplateSubmitReminderContext::ID);
+		try {
+			switch ($a_reminder_type) {
+				case \ilExAssignmentReminder::SUBMIT_REMINDER:
+					$context = \ilMailTemplateContextService::getTemplateContextById(ilExcMailTemplateSubmitReminderContext::ID);
 					break;
-				case ilExAssignmentReminder::GRADE_REMINDER:
-					include_once "Modules/Exercise/classes/class.ilExcMailTemplateGradeReminderContext.php";
-					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplateGradeReminderContext::ID);
+				case \ilExAssignmentReminder::GRADE_REMINDER:
+					$context = \ilMailTemplateContextService::getTemplateContextById(ilExcMailTemplateGradeReminderContext::ID);
 					break;
-				case ilExAssignmentReminder::FEEDBACK_REMINDER:
-					include_once "Modules/Exercise/classes/class.ilExcMailTemplatePeerReminderContext.php";
-					$context = ilMailTemplateService::getTemplateContextById(ilExcMailTemplatePeerReminderContext::ID);
+				case \ilExAssignmentReminder::FEEDBACK_REMINDER:
+					$context = \ilMailTemplateContextService::getTemplateContextById(ilExcMailTemplatePeerReminderContext::ID);
 					break;
 				default:
 					exit();
 			}
 
-			$user = new ilObjUser($a_reminder_data["member_id"]);
+			$user = new \ilObjUser($a_reminder_data["member_id"]);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
 			$a_message = $processor->resolve($user, $a_reminder_data);
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
+		} catch (\Exception $e) {
+			\ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
 
 		return $a_message;
