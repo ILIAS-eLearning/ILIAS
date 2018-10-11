@@ -12798,6 +12798,7 @@ sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
+mail#:#mail_template_unset_as_default#:#Als Standard entfernen
 mail#:#mail_template_default#:# (Standard)
 mail#:#mail_template_title#:#Name der Textvorlage
 mail#:#mail_template_context#:#Kontext
