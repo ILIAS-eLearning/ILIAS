@@ -753,11 +753,9 @@ class ilMailFormGUI
 			$form_gui->addItem($chb);
 		}
 
-		if(ilMailFormCall::getContextId())
-		{
-			$context_id = ilMailFormCall::getContextId();
+		if (\ilMailFormCall::getContextId()) {
+			$context_id = \ilMailFormCall::getContextId();
 
-			// Activate placeholders
 			$mailData['use_placeholders'] = true;
 
 			try {
@@ -766,37 +764,40 @@ class ilMailFormGUI
 				$templateRepository = new \ilMailTemplateRepository();
 				$templates = $templateRepository->findByContextId($context->getId());
 
-				if(count($templates))
-				{
+				if (count($templates) > 0) {
 					$options = array();
-					foreach($templates as $template)
-					{
-						$options[$template->getTplId()] = $template->getTitle();
-					}
-					asort($options);
 
-					require_once 'Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php';
-					$template_chb = new ilMailTemplateSelectInputGUI(
+					$template_chb = new \ilMailTemplateSelectInputGUI(
 						$this->lng->txt('mail_template_client'),
 						'template_id',
 						$this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
 						array('m_subject', 'm_message')
 					);
+
+					foreach ($templates as $template) {
+						$options[$template->getTplId()] = $template->getTitle();
+
+						if (!isset($mailData['template_id']) && $template->isDefault()) {
+							$template_chb->setValue($template->getTplId());
+						}
+					}
+					if (isset($mailData['template_id'])) {
+						$template_chb->setValue((int)$mailData['template_id']);
+					}
+					asort($options);
+
 					$template_chb->setInfo($this->lng->txt('mail_template_client_info'));
 					$template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
 					$form_gui->addItem($template_chb);
 				}
+			} catch (\Exception $e) {
+				\ilLoggerFactory::getLogger('mail')->error(sprintf(
+					'%s has been called with invalid context id: %s.',
+					__METHOD__, $context_id
+				));
 			}
-			catch(Exception $e)
-			{
-				require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-				ilLoggerFactory::getLogger('mail')->error(sprintf('%s has been called with invalid context id: %s.', __METHOD__, $context_id));
-			}
-		}
-		else
-		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
-			$context = new ilMailTemplateGenericContext();
+		} else {
+			$context = new \ilMailTemplateGenericContext();
 		}
 
 		// MESSAGE
