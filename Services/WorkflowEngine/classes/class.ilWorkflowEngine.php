@@ -181,6 +181,11 @@ class ilWorkflowEngine
 			/** @noinspection PhpIncludeInspection */
 			require_once './Services/WorkflowEngine/classes/class.ilObjWorkflowEngine.php';
 
+			if(!file_exists(ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php'))
+			{
+				continue;
+			}
+
 			require_once ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php';
 			$class = substr($workflow['workflow'],4);
 			/** @var ilBaseWorkflow $workflow_instance */

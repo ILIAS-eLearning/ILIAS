@@ -69,7 +69,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($text));
 
 		$expected
-			= "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>		<div class=\"help-block\">byline</div>		<div class=\"help-block alert alert-danger\" role=\"alert\">			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">			an_error		</div>	</div></div>";
+			= "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>		<div class=\"help-block\">byline</div>		<div class=\"help-block alert alert-danger\" role=\"alert\">			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />			an_error		</div>	</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 

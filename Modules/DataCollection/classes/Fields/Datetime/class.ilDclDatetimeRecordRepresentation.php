@@ -10,7 +10,8 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -23,8 +24,10 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if ($value == '0000-00-00 00:00:00' OR !$value) {
 			return $this->lng->txt('no_date');
 		}
+
 		return $this->formatDate($value, $ilUser->getDateFormat());
 	}
+
 
 	/**
 	 * @param $value
@@ -34,8 +37,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 */
 	protected function formatDate($value, $format) {
 		$timestamp = strtotime($value);
-		switch($format)
-		{
+		switch ($format) {
 			case ilCalendarSettings::DATE_FORMAT_DMY:
 				return date("d.m.Y", $timestamp);
 			case ilCalendarSettings::DATE_FORMAT_YMD:
@@ -43,6 +45,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 			case ilCalendarSettings::DATE_FORMAT_MDY:
 				return date("m/d/Y", $timestamp);
 		}
+
 		return $this->lng->txt('no_date');
 	}
 
@@ -56,8 +59,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 */
 	public function parseFormInput($value) {
 		if (!$value || $value == "-") {
-			return NULL;
+			return null;
 		}
-		return substr($value, 0, - 9);
+
+		return substr($value, 0, -9);
 	}
 }

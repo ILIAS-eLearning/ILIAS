@@ -262,15 +262,4 @@ class ilDBPdoReverse implements ilDBReverse {
 	public function getTriggerDefinition($trigger) {
 		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
 	}
-
-
-	/**
-	 * @param $result
-	 * @param null $mode
-	 * @return array|void
-	 * @throws \ilDatabaseException
-	 */
-	public function tableInfo($result, $mode = null) {
-		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
-	}
 }

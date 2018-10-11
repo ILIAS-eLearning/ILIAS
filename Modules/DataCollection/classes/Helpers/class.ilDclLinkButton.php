@@ -1,80 +1,90 @@
 <?php
+
 /**
- * 
+ *
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclLinkButton extends ilLinkButton {
-    const TYPE_DATACOLLECTION_LINK = 99;
 
-    protected $attributes;
+	const TYPE_DATACOLLECTION_LINK = 99;
+	protected $attributes;
+	protected $useWrapper = false;
 
-    protected $useWrapper = false;
 
-    /**
-     * @return boolean
-     */
-    public function isUseWrapper()
-    {
-        return $this->useWrapper;
-    }
+	/**
+	 * @return boolean
+	 */
+	public function isUseWrapper() {
+		return $this->useWrapper;
+	}
 
-    /**
-     * @param boolean $useWrapper
-     */
-    public function setUseWrapper($useWrapper)
-    {
-        $this->useWrapper = $useWrapper;
-    }
 
-    public static function getInstance()
-    {
-        return new self(self::TYPE_DATACOLLECTION_LINK);
-    }
+	/**
+	 * @param boolean $useWrapper
+	 */
+	public function setUseWrapper($useWrapper) {
+		$this->useWrapper = $useWrapper;
+	}
 
-    public function prepareRender() {
-        parent::prepareRender();
 
-        $this->addAttribute('href', ($this->getUrl() ? $this->getUrl() : "#"));
-        $this->addAttribute('target', $this->getTarget());
-    }
+	public static function getInstance() {
+		return new self(self::TYPE_DATACOLLECTION_LINK);
+	}
 
-    public function render() {
-        $this->prepareRender();
 
-        $output = '';
-        if($this->useWrapper) {
-            $output .= '<div'.$this->renderAttributesHelper($this->attributes['wrapper']).'>';
-        }
+	public function prepareRender() {
+		parent::prepareRender();
 
-        $output .= '<a'.$this->renderAttributes($this->attributes['default']).'>'.$this->renderCaption().'</a>';
+		$this->addAttribute('href', ($this->getUrl() ? $this->getUrl() : "#"));
+		$this->addAttribute('target', $this->getTarget());
+	}
 
-        if($this->useWrapper) {
-            $output .= '</div>';
-        }
-        return $output;
-    }
 
-    public function addAttribute($key, $value, $wrapper = false) {
-            $this->attributes[$this->getGroupKey($wrapper)][$key] = $value;
-    }
+	public function render() {
+		$this->prepareRender();
 
-    public function removeAttribute($key, $wrapper = false) {
-        if(isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
-            unset($this->attributes[$this->getGroupKey($wrapper)][$key]);
-            return true;
-        }
-        return false;
-    }
+		$output = '';
+		if ($this->useWrapper) {
+			$output .= '<div' . $this->renderAttributesHelper($this->attributes['wrapper']) . '>';
+		}
 
-    public function getAttribute($key, $wrapper = false) {
-        if(isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
-            return $this->attributes[$this->getGroupKey($wrapper)][$key];
-        }
-        return null;
-    }
+		$output .= '<a' . $this->renderAttributes($this->attributes['default']) . '>' . $this->renderCaption() . '</a>';
 
-    protected function getGroupKey($wrapper) {
-        return ($wrapper)? 'wrapper' : 'default';
-    }
+		if ($this->useWrapper) {
+			$output .= '</div>';
+		}
+
+		return $output;
+	}
+
+
+	public function addAttribute($key, $value, $wrapper = false) {
+		$this->attributes[$this->getGroupKey($wrapper)][$key] = $value;
+	}
+
+
+	public function removeAttribute($key, $wrapper = false) {
+		if (isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
+			unset($this->attributes[$this->getGroupKey($wrapper)][$key]);
+
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public function getAttribute($key, $wrapper = false) {
+		if (isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
+			return $this->attributes[$this->getGroupKey($wrapper)][$key];
+		}
+
+		return null;
+	}
+
+
+	protected function getGroupKey($wrapper) {
+		return ($wrapper) ? 'wrapper' : 'default';
+	}
 }

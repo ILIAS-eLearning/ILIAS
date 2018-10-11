@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * This class gives all kind of DB information using the MDB2 manager
+ * This class gives all kind of DB information using the database manager
  * and reverse module.
  *
  * @author     Alex Killing <alex.killing@gmx.de>
