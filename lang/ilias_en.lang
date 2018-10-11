@@ -10401,7 +10401,6 @@ ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -12588,8 +12587,6 @@ forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
 forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
 forum#:#selected_threads_closed#:#The selected threads has been closed
 forum#:#selected_threads_reopened#:#The selected threads has been reopened
-blog#:#blog_keywords_other#:#Other Keywords
-blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
 content#:#cont_cc_sub#:#Subscript
 content#:#cont_cc_sup#:#Superscript
 style#:#sty_type_sub#:#Subscript
@@ -14348,3 +14345,4 @@ survey#:#svy_self_ev_access_results_none#:#No Access to Results
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
 survey#:#svy_participant#:#Participant
+blog#:#blog_keyword_enter#:#Write a keyword and press Enter.

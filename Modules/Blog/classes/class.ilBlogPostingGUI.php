@@ -662,6 +662,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function editKeywords(ilPropertyFormGUI $a_form = null)
 	{
+		global $DIC;
+
+		$renderer = $DIC->ui()->renderer();
+
 		$ilTabs = $this->tabs;
 		$tpl = $this->tpl;
 		
@@ -676,48 +680,37 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		{
 			$a_form = $this->initKeywordsForm();
 		}
-		
-		$tpl->setContent($a_form->getHTML());
+
+		$tpl->setContent($renderer->render($a_form));
 	}
 	
 	protected function initKeywordsForm()
 	{
-		$ilUser = $this->user;
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();		
-		$form->setFormAction($this->ctrl->getFormAction($this, "saveKeywordsForm"));
-		$form->setTitle($this->lng->txt("blog_edit_keywords"));
-		
-		$txt = new ilTextInputGUI($this->lng->txt("blog_keywords"), "keywords");
-		// $txt->setRequired(true); #10504
-		$txt->setMulti(true);
-		$txt->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
-		$txt->setMaxLength(200);
-		$txt->setSize(50);
-		$txt->setInfo($this->lng->txt("blog_keywords_info"));
-		$form->addItem($txt);
-				
+		global $DIC;
+
+		$ui_factory = $DIC->ui()->factory();
+		//$ilUser = $this->user;
+
 		$md_section = $this->getBlogPosting()->getMDSection();
-		
+
 		$keywords = array();
 		foreach($ids = $md_section->getKeywordIds() as $id)
 		{
 			$md_key = $md_section->getKeyword($id);
 			if (trim($md_key->getKeyword()) != "")
 			{
-				$keywords[$md_key->getKeywordLanguageCode()][]
-					= $md_key->getKeyword();
+				//$keywords[$md_key->getKeywordLanguageCode()][]
+				//	= $md_key->getKeyword();
+				$keywords[] = $md_key->getKeyword();
 			}
 		}
 										
 		// language is not "used" anywhere
-		$ulang = $ilUser->getLanguage();
+		/*$ulang = $ilUser->getLanguage();
 		if($keywords[$ulang])
 		{
 			asort($keywords[$ulang]);
-			$txt->setValue($keywords[$ulang]);
-		}
+		}*/
 		
 		// other keywords in blog
 		$other = array();
@@ -735,23 +728,22 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		{			
 			$other = array_diff($other, $keywords[$ulang]);
 		}
-		if(sizeof($other))
-		{
-			$html = "";
-			foreach($other as $item)
-			{
-				$html .= '<span class="ilTag">'.$item.'</span>';
-			}
-			$info = new ilNonEditableValueGUI($this->lng->txt("blog_keywords_other"), "", true);
-			$info->setInfo($this->lng->txt("blog_keywords_other_info"));
-			$info->setValue($html);
-			$form->addItem($info);
-		}
-		
-		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
-		$form->addCommandButton("preview", $this->lng->txt("cancel"));
 
-		return $form;				
+		$input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"));
+		$input_tag = $input_tag->withValue($keywords);
+
+		$DIC->ctrl()->setParameter(
+			$this,
+			'tags',
+			'tags_processing'
+		);
+
+		//TODO form title?  $form->setTitle($this->lng->txt("blog_edit_keywords"));
+		$form_action = $DIC->ctrl()->getFormAction($this, "saveKeywordsForm");
+		$form = $ui_factory->input()->container()->form()->standard($form_action, [$input_tag]);
+
+		//TODO cancel button
+		return $form;
 	}
 	
 	protected function getParentObjId()
@@ -770,55 +762,29 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	}
 	
 	function saveKeywordsForm()
-	{		
+	{
+		global $DIC;
+
+		$request = $DIC->http()->request();
 		$form = $this->initKeywordsForm();
-		if($form->checkInput())
-		{			
-			$keywords = $form->getInput("keywords");
+
+		if($request->getMethod() == "POST"
+			&& $request->getQueryParams()['tags'] == 'tags_processing')
+		{
+			$form = $form->withRequest($request);
+			$result = $form->getData();
+			//TODO identify the input instead of use 0
+			$keywords = $result[0];
+
 			if(is_array($keywords))
 			{
 				$this->getBlogPosting()->updateKeywords($keywords);
 			}
-			
+
 			$this->ctrl->redirect($this, "preview");
 		}
-		
-		$form->setValuesByPost();
-		$this->editKeywords($form);
 	}
-	
-	function keywordAutocomplete()
-	{				
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
-		$res = ilMDKeyword::_getMatchingKeywords($this->term,
-			"blp", $this->getParentObjId());
-		
-		include_once("./Services/Search/classes/class.ilSearchSettings.php");
-		$cut = (int)ilSearchSettings::getInstance()->getAutoCompleteLength();		
-		
-		$has_more = false;		
-		$result = array();		
-		foreach ($res as $r)
-		{
-			if(!$this->fetchall &&
-				sizeof($result["items"]) >= $cut)
-			{
-				$has_more = true;
-				break;
-			}			
-			$entry = new stdClass();
-			$entry->value = $r;
-			$entry->label = $r;
-			$result["items"][] = $entry;
-		}
-		
-		$result["hasMoreResults"] = $has_more;
 
-		include_once './Services/JSON/classes/class.ilJsonUtil.php';
-		echo ilJsonUtil::encode($result);
-		exit;
-	}
-	
 	/**
 	 * Get first text paragraph of page
 	 * 
