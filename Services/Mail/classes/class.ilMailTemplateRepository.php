@@ -70,7 +70,7 @@ class ilMailTemplateRepository
 			return new \ilMailTemplate($row);
 		}
 
-		throw new \OutOfBoundsException(sprintf("Could not findy template by id: %s", $templateId));
+		throw new \OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
 	}
 
 	/**

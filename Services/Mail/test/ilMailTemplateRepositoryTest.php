@@ -75,4 +75,22 @@ class ilMailTemplateRepositoryTest extends \ilMailBaseTest
 
 		$repository->deleteByIds([$template->getTplId()]);
 	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function testExceptionIsRaisedIfNoTemplateCanBeFoundById()
+	{
+		$this->assertException(\OutOfBoundsException::class);
+
+		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
+		$statement = $this->getMockbuilder(\ilDBStatement::class)->getMock();
+
+		$db->expects($this->once())->method('queryF')->willReturn($statement);
+		$db->expects($this->once())->method('numRows')->willReturn(0);
+		$db->expects($this->never())->method('fetchAssoc');
+
+		$repository = new \ilMailTemplateRepository($db);
+		$repository->findById(4711);
+	}
 }
