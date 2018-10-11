@@ -71,8 +71,8 @@ class ilMailTemplateRepositoryTest extends \ilMailBaseTest
 
 		$repository = new \ilMailTemplateRepository($db);
 
-		$repository->deleteByIds([$template->getTplId()]);
-
 		$db->expects($this->once())->method('manipulate');
+
+		$repository->deleteByIds([$template->getTplId()]);
 	}
 }
