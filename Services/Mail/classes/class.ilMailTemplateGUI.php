@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\HTTPServices;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilMailTemplateGUI
@@ -41,6 +43,12 @@ class ilMailTemplateGUI
 	/** @var HTTPServices */
 	protected $http;
 
+	/** @var Factory */
+	protected $uiFactory;
+	
+	/** @var Renderer */
+	protected $uiRenderer;
+
 	/**
 	 * ilMailTemplateGUI constructor.
 	 * @param \ilObject $parentObject
@@ -51,6 +59,8 @@ class ilMailTemplateGUI
 	 * @param ilRbacSystem|null $rbacsystem
 	 * @param ilErrorHandling|null $error
 	 * @param HTTPServices|null $http
+	 * @param Factory|null $uiFactory
+	 * @param Renderer|null $uiRenderer
 	 */
 	public function __construct(
 		\ilObject $parentObject,
@@ -60,7 +70,9 @@ class ilMailTemplateGUI
 		\ilToolbarGUI $toolbar = null,
 		\ilRbacSystem $rbacsystem = null,
 		\ilErrorHandling $error = null,
-		HTTPServices $http = null
+		HTTPServices $http = null,
+		Factory $uiFactory = null,
+		Renderer $uiRenderer = null
 	) {
 		global $DIC;
 
@@ -100,6 +112,16 @@ class ilMailTemplateGUI
 			$http = $DIC->http();
 		}
 		$this->http = $http;
+
+		if ($uiFactory === null) {
+			$uiFactory = $DIC->ui()->factory();
+		}
+		$this->uiFactory = $uiFactory;
+
+		if ($uiRenderer === null) {
+			$uiRenderer = $DIC->ui()->renderer();
+		}
+		$this->uiRenderer = $uiRenderer;
 
 		$this->lng->loadLanguageModule('meta');
 
@@ -148,7 +170,13 @@ class ilMailTemplateGUI
 			$this->toolbar->addButtonInstance($create_tpl_button);
 		}
 
-		$tbl = new \ilMailTemplateTableGUI($this, 'showTemplates', !$this->isEditingAllowed());
+		$tbl = new \ilMailTemplateTableGUI(
+			$this,
+			'showTemplates',
+			$this->uiFactory,
+			$this->uiRenderer,
+			!$this->isEditingAllowed()
+		);
 		$tbl->setData($this->repository->getAllAsArray());
 
 		$this->tpl->setContent($tbl->getHTML());

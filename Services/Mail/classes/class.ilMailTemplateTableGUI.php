@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * Class ilMailTemplateTableGUI
  * @author Nadia Ahmad <nahmad@databay.de>
@@ -13,13 +16,28 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	/** @var bool */
 	protected $readOnly = false;
 
+	/** @var Factory */
+	protected $uiFactory;
+
+	/** @var Renderer */
+	protected $uiRenderer;
+
 	/**
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
-	 * @param bool   $readOnly
+	 * @param Factory $uiFactory
+	 * @param Renderer $uiRenderer
+	 * @param bool $readOnly
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $readOnly = false)
-	{
+	public function __construct(
+		$a_parent_obj,
+		$a_parent_cmd,
+		Factory $uiFactory,
+		Renderer $uiRenderer,
+		$readOnly = false
+	) {
+		$this->uiFactory = $uiFactory;
+		$this->uiRenderer = $uiRenderer;
 		$this->readOnly = $readOnly;
 
 		$this->setId('mail_man_tpl');
@@ -44,8 +62,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
 		$this->contexts = \ilMailTemplateService::getTemplateContexts();
 	}
-	
-	
 
 	/**
 	 * @param  string $column
@@ -95,42 +111,69 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_' . strtoupper($column), $value);
 		}
 
+		$this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($row));
+	}
+
+	/**
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatActionsDropDown(array $row): string
+	{
 		$this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
 
-		$actions = new \ilAdvancedSelectionListGUI();
-		$actions->setListTitle($this->lng->txt('actions'));
-		$actions->setId('act_' . $row['tpl_id']);
+		$buttons = [];
 
 		if (count($this->contexts) > 0) {
 			if (!$this->readOnly) {
-				$actions->addItem($this->lng->txt('edit'), '',
-					$this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+				$buttons[] = $this->uiFactory
+					->button()
+					->shy(
+						$this->lng->txt('edit'),
+						$this->ctrl->getLinkTarget($this->getParentObject(), 'showEditTemplateForm')
+					);
 			} else {
-				$actions->addItem($this->lng->txt('view'), '',
-					$this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+				$buttons[] = $this->uiFactory
+					->button()
+					->shy(
+						$this->lng->txt('view'),
+						$this->ctrl->getLinkTarget($this->getParentObject(), 'showEditTemplateForm')
+					);
 			}
 		}
 
 		if (!$this->readOnly) {
-			$actions->addItem(
-				$this->lng->txt('delete'), '',
-				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate')
-			);
+			$buttons[] = $this->uiFactory
+				->button()
+				->shy(
+					$this->lng->txt('delete'),
+					$this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteTemplate')
+				);
 
 			if ($row['is_default']) {
-				$actions->addItem(
-					$this->lng->txt('mail_template_unset_as_default'), '',
-					$this->ctrl->getLinkTarget($this->parent_obj, 'unsetAsContextDefault')
-				);
+				$buttons[] = $this->uiFactory
+					->button()
+					->shy(
+						$this->lng->txt('mail_template_unset_as_default'),
+						$this->ctrl->getLinkTarget($this->getParentObject(), 'unsetAsContextDefault')
+					);
 			} else {
-				$actions->addItem(
-					$this->lng->txt('mail_template_set_as_default'), '',
-					$this->ctrl->getLinkTarget($this->parent_obj, 'setAsContextDefault')
-				);
+				$buttons[] = $this->uiFactory
+					->button()
+					->shy(
+						$this->lng->txt('mail_template_set_as_default'),
+						$this->ctrl->getLinkTarget($this->getParentObject(), 'setAsContextDefault')
+					);
 			}
 		}
 
-		$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
-		$this->ctrl->clearParameters($this->getParentObject());
+		$this->ctrl->setParameter($this->getParentObject(), 'tpl_id', null);
+
+		$dropDown = $this->uiFactory
+			->dropdown()
+			->standard($buttons)
+			->withLabel($this->lng->txt('actions'));
+
+		return $this->uiRenderer->render([$dropDown]);
 	}
 }
