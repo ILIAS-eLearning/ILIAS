@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isChild extends isEntry {
+interface isChild extends isItem {
 
 	/**
 	 * As a developer, you provide the standard-parent Entry while creating yout entry.
@@ -15,9 +15,9 @@ interface isChild extends isEntry {
 	 *
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return isEntry
+	 * @return isItem
 	 */
-	public function withParent(IdentificationInterface $identification): isEntry;
+	public function withParent(IdentificationInterface $identification): isItem;
 
 
 	/**

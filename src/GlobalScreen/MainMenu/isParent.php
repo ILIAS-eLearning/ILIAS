@@ -5,16 +5,16 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isParent extends isEntry {
+interface isParent extends isItem {
 
 	/**
-	 * @return isEntry[]
+	 * @return isItem[]
 	 */
 	public function getChildren(): array;
 
 
 	/**
-	 * @param isEntry[] $children
+	 * @param isItem[] $children
 	 *
 	 * @return isParent
 	 */

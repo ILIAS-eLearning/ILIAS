@@ -1,24 +1,31 @@
-<?php namespace ILIAS\GlobalScreen\MainMenu\Slate;
+<?php namespace ILIAS\GlobalScreen\MainMenu\TopItem;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractParentEntry;
-use ILIAS\GlobalScreen\MainMenu\isTopNode;
+use ILIAS\GlobalScreen\MainMenu\AbstractParentItem;
+use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
+use ILIAS\GlobalScreen\MainMenu\hasContent;
+use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\MainMenu\Tool\ToolInterfaceInterface;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class Tool
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentEntry implements isTopNode {
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent {
 
+	/**
+	 * @var Component
+	 */
+	protected $content;
+	/**
+	 * @var string
+	 */
+	protected $async_content_url;
 	/**
 	 * @var string
 	 */
 	protected $title;
-	/**
-	 * @var string
-	 */
-	protected $icon_path = "";
 
 
 	/**
@@ -43,22 +50,39 @@ class Tool extends AbstractParentEntry implements isTopNode {
 
 
 	/**
-	 * @param string $path_to_svg_icon
-	 *
-	 * @return Tool
+	 * @inheritDoc
 	 */
-	public function withIconPath(string $path_to_svg_icon): Tool {
+	public function getAsyncContentURL(): string {
+		return $this->async_content_url;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withAsyncContentURL(string $async_content_url): hasAsyncContent {
 		$clone = clone($this);
-		$clone->icon_path = $path_to_svg_icon;
+		$clone->async_content_url = $async_content_url;
 
 		return $clone;
 	}
 
 
 	/**
-	 * @return string
+	 * @inheritDoc
 	 */
-	public function getIconPath(): string {
-		return $this->icon_path;
+	public function withContent(Component $ui_component): hasContent {
+		$clone = clone($this);
+		$clone->content = $ui_component;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getContent(): Component {
+		return $this->content;
 	}
 }

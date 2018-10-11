@@ -1,7 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Adapter;
 
-use ILIAS\GlobalScreen\MainMenu\isEntry;
-use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
+use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
  * Interface StorageAdapter
@@ -11,43 +12,43 @@ use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
 interface StorageAdapter {
 
 	/**
-	 * @param isEntry $entry
+	 * @param isItem $entry
 	 *
-	 * @return isEntry
+	 * @return isItem
 	 */
-	public function storeEntry(isEntry $entry): isEntry;
+	public function storeEntry(isItem $entry): isItem;
 
 
 	/**
-	 * @param isEntry $entry
+	 * @param isItem $entry
 	 *
-	 * @return isEntry
+	 * @return isItem
 	 */
-	public function readEntry(isEntry $entry): isEntry;
+	public function readEntry(isItem $entry): isItem;
 
 
 	/**
-	 * @param isEntry $entry
+	 * @param isItem $entry
 	 *
-	 * @return isEntry
+	 * @return isItem
 	 */
-	public function updateEntry(isEntry $entry): isEntry;
+	public function updateEntry(isItem $entry): isItem;
 
 
 	/**
-	 * @param Slate $slate
+	 * @param isTopItem $top_item
 	 */
-	public function storeSlate(Slate $slate);
+	public function storeTopItem(isTopItem $top_item);
 
 
 	/**
-	 * @param Slate $slate
+	 * @param isTopItem $top_item
 	 */
-	public function readSlate(Slate $slate);
+	public function readTopItem(isTopItem $top_item);
 
 
 	/**
-	 * @param Slate $slate
+	 * @param isTopItem $top_item
 	 */
-	public function updateSlate(Slate $slate);
+	public function updateTopItem(isTopItem $top_item);
 }

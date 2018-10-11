@@ -23,4 +23,12 @@ interface IdentificationProviderInterface {
 	 *                                 GlobalScreen-elements.
 	 */
 	public function identifier(string $identifier_string): IdentificationInterface;
+
+
+	/**
+	 * @param string $serialized_string
+	 *
+	 * @return IdentificationInterface
+	 */
+	public function fromSerializedString(string $serialized_string): IdentificationInterface;
 }

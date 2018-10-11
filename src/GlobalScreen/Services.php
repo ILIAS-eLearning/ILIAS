@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\MainMenu\MainMenuEntryFactory;
+use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 
 /**
  * Class Services
@@ -21,19 +21,19 @@ class Services {
 	 */
 	public function __construct() {
 		if (self::$constructed === true) {
-			throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
+			// throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
 		}
 		self::$constructed = true;
 	}
 
 
 	/**
-	 * @see MainMenuEntryFactory
+	 * @see MainMenuItemFactory
 	 *
-	 * @return MainMenuEntryFactory
+	 * @return MainMenuItemFactory
 	 */
-	public function mainmenu(): MainMenuEntryFactory {
-		return new MainMenuEntryFactory();
+	public function mainmenu(): MainMenuItemFactory {
+		return new MainMenuItemFactory();
 	}
 
 
