@@ -488,8 +488,8 @@ class ilExAssignmentReminder
 			//if the template exists (can be deleted via Administration/Mail)
 			if($template_id)
 			{
-				$templateRepository = new \ilMailTemplateRepository();
-				$tpl = $templateRepository->findById($template_id);
+				$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+				$tpl = $templateService->loadTemplateForId((int)$template_id);
 			}
 
 			if($tpl)

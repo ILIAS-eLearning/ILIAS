@@ -40,21 +40,8 @@ class ilMailTemplateRepository
 	}
 
 	/**
-	 * @return \array[]
-	 */
-	public function getAllAsArray(): array
-	{
-		$templates = $this->getAll();
-
-		$templates = array_map(function(\ilMailTemplate $template) {
-			return $template->toArray();
-		}, $templates);
-		
-		return $templates;
-	}
-
-	/**
 	 * @param int $templateId
+	 * @return \ilMailTemplate
 	 * @throws \OutOfBoundsException
 	 */
 	public function findById(int $templateId): \ilMailTemplate
@@ -87,7 +74,7 @@ class ilMailTemplateRepository
 	/**
 	 * @param int[] $templateIds
 	 */
-	public function deleteByIds($templateIds = array())
+	public function deleteByIds(array $templateIds)
 	{
 		if (count($templateIds) > 0) {
 			$this->db->manipulate('

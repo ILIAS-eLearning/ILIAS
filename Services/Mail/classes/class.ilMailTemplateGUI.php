@@ -37,8 +37,8 @@ class ilMailTemplateGUI
 	/** @var \ilErrorHandling */
 	protected $error;
 	
-	/** @var \ilMailTemplateRepository */
-	protected $repository;
+	/** @var \ilMailTemplateService */
+	protected $service;
 	
 	/** @var HTTPServices */
 	protected $http;
@@ -61,6 +61,7 @@ class ilMailTemplateGUI
 	 * @param HTTPServices|null $http
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
+	 * @param ilMailTemplateService|null $templateService
 	 */
 	public function __construct(
 		\ilObject $parentObject,
@@ -72,7 +73,8 @@ class ilMailTemplateGUI
 		\ilErrorHandling $error = null,
 		HTTPServices $http = null,
 		Factory $uiFactory = null,
-		Renderer $uiRenderer = null
+		Renderer $uiRenderer = null,
+		\ilMailTemplateService $templateService = null
 	) {
 		global $DIC;
 
@@ -123,9 +125,12 @@ class ilMailTemplateGUI
 		}
 		$this->uiRenderer = $uiRenderer;
 
-		$this->lng->loadLanguageModule('meta');
+		if (null === $templateService) {
+			$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+		}
+		$this->service = $templateService;
 
-		$this->repository = new \ilMailTemplateRepository();
+		$this->lng->loadLanguageModule('meta');
 	}
 
 	/**
@@ -177,7 +182,7 @@ class ilMailTemplateGUI
 			$this->uiRenderer,
 			!$this->isEditingAllowed()
 		);
-		$tbl->setData($this->repository->getAllAsArray());
+		$tbl->setData($this->service->listAllTemplatesAsArray());
 
 		$this->tpl->setContent($tbl->getHTML());
 	}
@@ -208,15 +213,13 @@ class ilMailTemplateGUI
 		}
 
 		try {
-			$context  = \ilMailTemplateContextService::getTemplateContextById($form->getInput('context'));
-			$template = new \ilMailTemplate();
-			$template->setTitle((string)$form->getInput('title'));
-			$template->setContext((string)$context->getId());
-			$template->setLang((string)$form->getInput('lang'));
-			$template->setSubject((string)$form->getInput('m_subject'));
-			$template->setMessage((string)$form->getInput('m_message'));
-
-			$this->repository->store($template);
+			$this->service->createNewTemplate(
+				(string)\ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
+				(string)$form->getInput('title'),
+				(string)$form->getInput('m_subject'),
+				(string)$form->getInput('m_message'),
+				(string)$form->getInput('lang')
+			);
 
 			\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 			$this->ctrl->redirect($this, 'showTemplates');
@@ -260,8 +263,6 @@ class ilMailTemplateGUI
 		}
 
 		try {
-			$template = $this->repository->findById((int)$templateId);
-
 			$form = $this->getTemplateForm();
 			if (!$form->checkInput()) {
 				$form->setValuesByPost();
@@ -278,18 +279,19 @@ class ilMailTemplateGUI
 			}
 
 			try {
-				$context = \ilMailTemplateContextService::getTemplateContextById($form->getInput('context'));
-
-				$template->setTitle((string)$form->getInput('title'));
-				$template->setContext((string)$context->getId());
-				$template->setLang((string)$form->getInput('lang'));
-				$template->setSubject((string)$form->getInput('m_subject'));
-				$template->setMessage((string)$form->getInput('m_message'));
-
-				$this->repository->store($template);
+				$this->service->modifyExistingTemplate(
+					(int)$templateId,
+					(string)\ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
+					(string)$form->getInput('title'),
+					(string)$form->getInput('m_subject'),
+					(string)$form->getInput('m_message'),
+					(string)$form->getInput('lang')
+				);
 
 				\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 				$this->ctrl->redirect($this, 'showTemplates');
+			} catch (\OutOfBoundsException $e) {
+				\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
 			} catch (\Exception $e) {
 				$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
 				\ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
@@ -319,7 +321,7 @@ class ilMailTemplateGUI
 			}
 
 			try {
-				$template = $this->repository->findById((int)$templateId);
+				$template = $this->service->loadTemplateForId((int)$templateId);
 				$form = $this->getTemplateForm($template);
 				$this->populateFormWithTemplate($form, $template);
 			} catch (\Exception $e) {
@@ -387,7 +389,7 @@ class ilMailTemplateGUI
 		$confirm->setCancel($this->lng->txt('cancel'), 'showTemplates');
 
 		foreach ($templateIds as $templateId) {
-			$template = $this->repository->findById((int)$templateId);
+			$template = $this->service->loadTemplateForId((int)$templateId);
 			$confirm->addItem('tpl_id[]', $templateId, $template->getTitle());
 		}
 
@@ -421,7 +423,7 @@ class ilMailTemplateGUI
 			return;
 		}
 
-		$this->repository->deleteByIds($templateIds);
+		$this->service->deleteTemplatesByIds($templateIds);
 
 		if (1 === count($templateIds)) {
 			\ilUtil::sendSuccess($this->lng->txt('mail_tpl_deleted_s'), true);
@@ -578,10 +580,9 @@ class ilMailTemplateGUI
 		}
 
 		try {
-			$template = $this->repository->findById((int)$templateId);
-			$template->setAsDefault(false);
-			$this->repository->store($template);
-		} catch (Exception $e) {
+			$template = $this->service->loadTemplateForId((int)$templateId);
+			$this->service->unsetAsContextDefault($template);
+		} catch (\Exception $e) {
 			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
 			$this->showTemplates();
 			return;
@@ -609,19 +610,9 @@ class ilMailTemplateGUI
 		}
 
 		try {
-			$template = $this->repository->findById((int)$templateId);
-
-			$all = $this->repository->findByContextId($template->getContext());
-			foreach ($all as $otherTemplate) {
-				$otherTemplate->setAsDefault(false);
-
-				if ($template->getTplId() == $otherTemplate->getTplId()) {
-					$otherTemplate->setAsDefault(true);
-				}
-
-				$this->repository->store($otherTemplate);
-			} 
-		} catch (Exception $e) {
+			$template = $this->service->loadTemplateForId((int)$templateId);
+			$this->service->setAsContextDefault($template);
+		} catch (\Exception $e) {
 			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
 			$this->showTemplates();
 			return;

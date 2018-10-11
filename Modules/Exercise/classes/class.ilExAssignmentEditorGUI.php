@@ -497,10 +497,8 @@ class ilExAssignmentEditorGUI
 				exit();
 		}
 
-		$repository = new \ilMailTemplateRepository();
-		$templates = $repository->findByContextId($context->getId());
-
-		foreach ($templates as $template) {
+		$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+		foreach ($templateService->loadTemplatesForContextId((string)$context->getId()) as $template) {
 			$r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
 		}
 

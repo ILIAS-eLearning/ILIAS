@@ -66,9 +66,21 @@ class ilMailFormGUI
 	 */
 	private $mfile;
 
-	public function __construct()
+	/** @var ilMailTemplateService */
+	protected $templateService;
+
+	/**
+	 * ilMailFormGUI constructor.
+	 * @param ilMailTemplateService|null $templateService
+	 */
+	public function __construct(\ilMailTemplateService $templateService = null)
 	{
 		global $DIC;
+
+		if (null === $templateService) {
+			$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+		}
+		$this->templateService = $templateService;
 
 		$this->tpl        = $DIC->ui()->mainTemplate();
 		$this->ctrl       = $DIC->ctrl();
@@ -460,18 +472,14 @@ class ilMailFormGUI
 		}
 
 		try {
-			$temlateId = (int)$_GET['template_id'];
+			$template = $this->templateService->loadTemplateForId((int)$_GET['template_id']);
+			$context = ilMailTemplateContextService::getTemplateContextById((string)$template->getContext());
 
-			$templateRepository = new \ilMailTemplateRepository();
-			$template = $templateRepository->findById($temlateId);
-
-			$context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
 			echo json_encode([
 				'm_subject' => $template->getSubject(),
 				'm_message' => $template->getMessage(),
 			]);
-		} catch (Exception $e) {
-		}
+		} catch (Exception $e) {}
 		exit();
 	}
 
@@ -761,9 +769,7 @@ class ilMailFormGUI
 			try {
 				$context = \ilMailTemplateContextService::getTemplateContextById($context_id);
 
-				$templateRepository = new \ilMailTemplateRepository();
-				$templates = $templateRepository->findByContextId($context->getId());
-
+				$templates = $this->templateService->loadTemplatesForContextId($context->getId());
 				if (count($templates) > 0) {
 					$options = array();
 
