@@ -12797,6 +12797,8 @@ crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
+mail#:#mail_template_set_as_default#:#Als Standard setzen
+mail#:#mail_template_default#:# (Standard)
 mail#:#mail_template_title#:#Name der Textvorlage
 mail#:#mail_template_context#:#Kontext
 mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich.
