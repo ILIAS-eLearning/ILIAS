@@ -417,13 +417,12 @@ class ilMailTemplateGUI
 		$context->setRequired(true);
 		$form->addItem($context);
 
-		$hidde_language = new ilHiddenInputGUI('lang');
-		$hidde_language->setValue($this->lng->getLangKey());
-		$form->addItem($hidde_language);
+		$hidden = new ilHiddenInputGUI('lang');
+		$hidden->setValue($this->lng->getLangKey());
+		$form->addItem($hidden);
 
 		$subject = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
 		$subject->setDisabled(!$this->isEditingAllowed());
-		$subject->setRequired(true);
 		$subject->setSize(50);
 		$form->addItem($subject);
 
