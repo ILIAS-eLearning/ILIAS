@@ -127,24 +127,24 @@ class ilExSubmissionTeamGUI
 			}						
 			$team = implode(", ", $team);
 			
-			// any team member upload?
-			if(!$a_submission->getLastSubmission())
-			{
-				$button = ilLinkButton::getInstance();							
-				$button->setCaption("exc_delete_team");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam"));							
-				$team .= " ".$button->render();	
-			}
-
-			$button = ilLinkButton::getInstance();							
-			
 			if(!$a_submission->getAssignment()->getTeamTutor())
 			{
+				#23685
+				// any team member upload?
+				if(!$a_submission->getLastSubmission())
+				{
+					$button = ilLinkButton::getInstance();
+					$button->setCaption("exc_delete_team");
+					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam"));
+					$team .= " ".$button->render();
+				}
+				$button = ilLinkButton::getInstance();
 				$button->setCaption("exc_manage_team");
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
 			}			
 			else
 			{
+				$button = ilLinkButton::getInstance();
 				$button->setCaption("exc_team_log");
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog"));						
 			}

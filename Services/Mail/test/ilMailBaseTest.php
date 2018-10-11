@@ -1,15 +1,14 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'libs/composer/vendor/autoload.php';
-
 /**
+ * Class ilMailBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
 abstract class ilMailBaseTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * 
+	 * @inheritdoc
 	 */
 	protected function setUp()
 	{
