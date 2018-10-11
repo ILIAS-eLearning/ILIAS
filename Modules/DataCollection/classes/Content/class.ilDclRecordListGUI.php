@@ -21,7 +21,6 @@ class ilDclRecordListGUI {
 	 * @var int
 	 */
 	protected $mode = self::MODE_VIEW;
-
 	/**
 	 * @var ilDclTable
 	 */
@@ -34,23 +33,21 @@ class ilDclRecordListGUI {
 	 * @var ilLanguage
 	 */
 	protected $lng;
-
 	/**
 	 * @var integer
 	 */
 	protected $tableview_id;
-
 	/**
 	 * @var array
 	 */
-	protected static $available_modes = array( self::MODE_VIEW, self::MODE_MANAGE );
+	protected static $available_modes = array(self::MODE_VIEW, self::MODE_MANAGE);
 
 
 	/**
 	 * @param ilObjDataCollectionGUI $a_parent_obj
 	 * @param                        $table_id
 	 */
-	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id) {
+	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
@@ -58,7 +55,7 @@ class ilDclRecordListGUI {
 		$this->lng = $lng;
 
 		$this->table_id = $table_id;
-		if ($this->table_id == NULL) {
+		if ($this->table_id == null) {
 			$this->table_id = $_GET["table_id"];
 		}
 
@@ -75,7 +72,7 @@ class ilDclRecordListGUI {
 			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
 
 		}
-		
+
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview_id);
 		$this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview_id);
@@ -90,8 +87,9 @@ class ilDclRecordListGUI {
 		global $DIC;
 		$ilTabs = $DIC['ilTabs'];
 
-		if (!$this->checkAccess()){
+		if (!$this->checkAccess()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+
 			return;
 		}
 
@@ -130,6 +128,7 @@ class ilDclRecordListGUI {
 		}
 	}
 
+
 	public function listRecords($use_tableview_filter = false) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -146,7 +145,7 @@ class ilDclRecordListGUI {
 
 		$permission_to_add_or_import = $this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) AND $this->table_obj->hasCustomFields();
 		if ($permission_to_add_or_import) {
-			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", NULL);
+			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
 			$add_new = ilLinkButton::getInstance();
 			$add_new->setPrimary(true);
@@ -156,7 +155,7 @@ class ilDclRecordListGUI {
 		}
 
 		if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
-			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", NULL);
+			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
 			$import = ilLinkButton::getInstance();
 			$import->setCaption("dcl_import_records .xls");
@@ -164,23 +163,28 @@ class ilDclRecordListGUI {
 			$ilToolbar->addButtonInstance($import);
 		}
 
-		// requested not to implement this way...
-		//$tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
-
 		if (count($this->table_obj->getRecordFields()) == 0) {
-			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
-				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : ""));
+			ilUtil::sendInfo(
+				$this->lng->txt("dcl_no_fields_yet") . " "
+				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : "")
+			);
 		}
-		
+
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
-		// bugfix mantis 0023295
-		$desc = $this->table_obj->getDescription();
-
+		if ($desc = $this->table_obj->getDescription()) {
+			$ilSetting = new ilSetting('advanced_editing');
+			if ((bool)$ilSetting->get('advanced_editing_javascript_editor')) {
+				$desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
+			} else {
+				$desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
+			}
+		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
 
-	public function showImportExcel($form = NULL) {
+
+	public function showImportExcel($form = null) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		if (!$form) {
@@ -188,6 +192,7 @@ class ilDclRecordListGUI {
 		}
 		$tpl->setContent($form->getHTML());
 	}
+
 
 	/**
 	 * Init form
@@ -286,6 +291,7 @@ class ilDclRecordListGUI {
 		$this->ctrl->redirect($this, "show");
 	}
 
+
 	/**
 	 * doTableViewSwitch
 	 */
@@ -293,6 +299,7 @@ class ilDclRecordListGUI {
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
 		$this->ctrl->redirect($this, "show");
 	}
+
 
 	/**
 	 *
@@ -304,6 +311,7 @@ class ilDclRecordListGUI {
 		$table->writeFilterToSession();
 		$this->ctrl->redirect($this, 'listRecords');
 	}
+
 
 	/**
 	 *
@@ -328,13 +336,13 @@ class ilDclRecordListGUI {
 		if ($ilAccess->checkAccess("read", "", $this->parent_obj->ref_id)) {
 
 			// deliver temp-files
-			if(isset($_GET['ilfilehash'])) {
+			if (isset($_GET['ilfilehash'])) {
 				$filehash = $_GET['ilfilehash'];
 				$field_id = $_GET['field_id'];
 				$file = ilDclPropertyFormGUI::getTempFileByHash($filehash, $ilUser->getId());
 
-				$filepath = $file["field_".$field_id]['tmp_name'];
-				$filetitle = $file["field_".$field_id]['name'];
+				$filepath = $file["field_" . $field_id]['tmp_name'];
+				$filetitle = $file["field_" . $field_id]['name'];
 			} else {
 				$rec_id = $_GET['record_id'];
 				$record = ilDclCache::getRecordCache($rec_id);
@@ -373,12 +381,12 @@ class ilDclRecordListGUI {
 			$record = ilDclCache::getRecordCache($record_id);
 			if ($record) {
 				$record_data = "";
-				foreach($all_fields as $key=>$field) {
+				foreach ($all_fields as $key => $field) {
 					$field_record = ilDclCache::getRecordFieldCache($record, $field);
-					
+
 					$record_representation = ilDclCache::getRecordRepresentation($field_record);
-					if($record_representation->getConfirmationHTML() !== false) {
-						$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
+					if ($record_representation->getConfirmationHTML() !== false) {
+						$record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
 					}
 				}
 				$conf->addItem('record_ids[]', $record->getId(), $record_data);
@@ -409,7 +417,7 @@ class ilDclRecordListGUI {
 				if ($record->hasPermissionToDelete((int)$_GET['ref_id'])) {
 					$record->doDelete();
 				} else {
-					$n_skipped ++;
+					$n_skipped++;
 				}
 			}
 		}
@@ -451,20 +459,20 @@ class ilDclRecordListGUI {
 		$this->ctrl->setParameter($this, 'mode', self::MODE_VIEW);
 		$ilTabs->addSubTab('mode_1', $this->lng->txt('view'), $this->ctrl->getLinkTarget($this, 'listRecords'));
 		$this->ctrl->clearParameters($this);
-		
+
 		if ($this->table_obj->hasPermissionToDeleteRecords((int)$_GET['ref_id'])) {
 			$this->ctrl->setParameter($this, 'mode', self::MODE_MANAGE);
 			$ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'), $this->ctrl->getLinkTarget($this, 'listRecords'));
 			$this->ctrl->clearParameters($this);
 		}
 
-		if($active_id == 'mode') {
+		if ($active_id == 'mode') {
 			$active_id = 'mode_' . $this->mode;
 		}
 
 		$ilTabs->setSubTabActive($active_id);
-
 	}
+
 
 	/**
 	 * @return array
@@ -486,6 +494,7 @@ class ilDclRecordListGUI {
 
 	/**
 	 * @param $use_tableview_filter
+	 *
 	 * @return array
 	 */
 	protected function getRecordListTableGUI($use_tableview_filter) {
@@ -508,22 +517,22 @@ class ilDclRecordListGUI {
 		$data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter());
 		$records = $data['records'];
 		$total = $data['total'];
-		
+
 		$list->setMaxCount($total);
 		$list->setRecordData($records);
-		
+
 		$list->determineOffsetAndOrder();
 		$list->determineLimit();
-		
+
 		return $list;
 	}
+
 
 	/**
 	 * @internal param $options
 	 * @internal param $ilToolbar
 	 */
-	protected function createSwitchers()
-	{
+	protected function createSwitchers() {
 		global $DIC;
 		$ilToolbar = $DIC['ilToolbar'];
 		$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
@@ -568,15 +577,14 @@ class ilDclRecordListGUI {
 		}
 	}
 
+
 	/**
 	 * @return bool
 	 */
-	protected function checkAccess()
-	{
-		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) ||
-		(ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
+	protected function checkAccess() {
+		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)
+			|| (ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
 	}
-
 }
 
 ?>

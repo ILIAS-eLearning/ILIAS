@@ -21,7 +21,7 @@ class DividerTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
 
-		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Separator\\Horizontal", $f->horizontal());
+		$this->assertInstanceOf( "ILIAS\\UI\\Component\\Divider\\Horizontal", $f->horizontal());
 	}
 
 	public function test_with_label() {

@@ -24,16 +24,6 @@ abstract class arStatement {
 
 
 	/**
-	 * @param \ActiveRecord $ar
-	 *
-	 * @return string
-	 */
-	public function asORACLEStatement(ActiveRecord $ar){
-		return self::asSQLStatement($ar);
-	}
-
-
-	/**
 	 * @return string
 	 */
 	public function getTableNameAs() {

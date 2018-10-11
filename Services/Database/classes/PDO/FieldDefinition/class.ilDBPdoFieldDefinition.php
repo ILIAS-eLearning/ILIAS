@@ -808,120 +808,6 @@ abstract class ilDBPdoFieldDefinition {
 		"WITH",
 	);
 	/**
-	 * @var array
-	 */
-	protected $reserved_oracle = array(
-		"ACCESS",
-		"ADD",
-		"ALL",
-		"ALTER",
-		"AND",
-		"ANY",
-		"AS",
-		"ASC",
-		"AUDIT",
-		"BETWEEN",
-		"BY",
-		"CHAR",
-		"CHECK",
-		"CLUSTER",
-		"COLUMN",
-		"COMMENT",
-		"COMPRESS",
-		"CONNECT",
-		"CREATE",
-		"CURRENT",
-		"DATE",
-		"DECIMAL",
-		"DEFAULT",
-		"DELETE",
-		"DESC",
-		"DISTINCT",
-		"DROP",
-		"ELSE",
-		"EXCLUSIVE",
-		"EXISTS",
-		"FILE",
-		"FLOAT",
-		"FOR",
-		"FROM",
-		"GRANT",
-		"GROUP",
-		"HAVING",
-		"IDENTIFIED",
-		"IMMEDIATE",
-		"IN",
-		"INCREMENT",
-		"INDEX",
-		"INITIAL",
-		"INSERT",
-		"INTEGER",
-		"INTERSECT",
-		"INTO",
-		"IS",
-		"LEVEL",
-		"LIKE",
-		"LOCK",
-		"LONG",
-		"MAXEXTENTS",
-		"MINUS",
-		"MLSLABEL",
-		"MODE",
-		"MODIFY",
-		"NOAUDIT",
-		"NOCOMPRESS",
-		"NOT",
-		"NOWAIT",
-		"NULL",
-		"NUMBER",
-		"OF",
-		"OFFLINE",
-		"ON",
-		"ONLINE",
-		"OPTION",
-		"OR",
-		"ORDER",
-		"PCTFREE",
-		"PRIOR",
-		"PRIVILEGES",
-		"PUBLIC",
-		"RAW",
-		"RENAME",
-		"RESOURCE",
-		"REVOKE",
-		"ROW",
-		"ROWID",
-		"ROWNUM",
-		"ROWS",
-		"SELECT",
-		"SESSION",
-		"SET",
-		"SHARE",
-		"SIZE",
-		"SMALLINT",
-		"START",
-		"SUCCESSFUL",
-		"SYNONYM",
-		"SYSDATE",
-		"TABLE",
-		"THEN",
-		"TO",
-		"TRIGGER",
-		"UID",
-		"UNION",
-		"UNIQUE",
-		"UPDATE",
-		"USER",
-		"VALIDATE",
-		"VALUES",
-		"VARCHAR",
-		"VARCHAR2",
-		"VIEW",
-		"WHENEVER",
-		"WHERE",
-		"WITH",
-	);
-	/**
 	 * @var
 	 */
 	protected $query_utils;
@@ -1005,7 +891,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return array
 	 */
 	public function getAllReserved() {
-		return array_merge($this->getReservedMysql(), $this->getReservedOracle(), $this->getReservedPostgres());
+		return array_merge($this->getReservedMysql(), $this->getReservedPostgres());
 	}
 
 
@@ -1038,22 +924,6 @@ abstract class ilDBPdoFieldDefinition {
 	 */
 	public function setReservedPostgres($reserved_postgres) {
 		$this->reserved_postgres = $reserved_postgres;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getReservedOracle() {
-		return $this->reserved_oracle;
-	}
-
-
-	/**
-	 * @param array $reserved_oracle
-	 */
-	public function setReservedOracle($reserved_oracle) {
-		$this->reserved_oracle = $reserved_oracle;
 	}
 
 
@@ -1283,6 +1153,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @throws \ilDatabaseException
 	 */
 	protected function baseConvertResult($value, $type, $rtrim = true) {
+		throw new ilDatabaseException("deprecated");
 		switch ($type) {
 			case 'text':
 				if ($rtrim) {
@@ -1334,6 +1205,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @throws \ilDatabaseException
 	 */
 	public function convertResult($value, $type, $rtrim = true) {
+		throw new ilDatabaseException("deprecated");
 		if (is_null($value)) {
 			return null;
 		}
@@ -1359,6 +1231,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return bool|float|int|mixed|null|resource|string
 	 */
 	public function convertResultRow($types, $row, $rtrim = true) {
+		throw new ilDatabaseException("deprecated");
 		$types = $this->sortResultFieldTypes(array_keys($row), $types);
 		foreach ($row as $key => $value) {
 			if (empty($types[$key])) {
@@ -1860,7 +1733,7 @@ abstract class ilDBPdoFieldDefinition {
 		return $db->quote($value, $type);
 
 		if (is_null($value)
-		    || ($value === '' && $db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL)
+		    || ($value === '' && $db->options['portability'])
 		) {
 			if (!$quote) {
 				return null;
@@ -2054,6 +1927,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return \ilDBPdo|string
 	 */
 	protected function quoteTimestamp($value, $quote, $escape_wildcards) {
+		throw new ilDatabaseException("deprecated");
 		if ($value === 'CURRENT_TIMESTAMP') {
 			$db = $this->getDBInstance();
 
@@ -2075,6 +1949,7 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return \ilDBPdo|string
 	 */
 	protected function quoteTime($value, $quote, $escape_wildcards) {
+		throw new ilDatabaseException("deprecated");
 		if ($value === 'CURRENT_TIME') {
 			$db = $this->getDBInstance();
 
@@ -2167,7 +2042,7 @@ abstract class ilDBPdoFieldDefinition {
 		}
 		@fclose($fp);
 
-		return MDB2_OK;
+		return true;
 	}
 
 
@@ -2181,7 +2056,7 @@ abstract class ilDBPdoFieldDefinition {
 		}
 		$lob['loaded'] = true;
 
-		return MDB2_OK;
+		return true;
 	}
 
 

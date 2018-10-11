@@ -5,8 +5,7 @@
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  */
-class ilDclPluginFieldModel extends ilDclBaseFieldModel
-{
+class ilDclPluginFieldModel extends ilDclBaseFieldModel {
 
 	/**
 	 * @inheritDoc
@@ -18,11 +17,13 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
 
 	/**
 	 * Method for adding custom fields to plugins
+	 *
 	 * @return array
 	 */
 	public function getCustomValidFieldProperties() {
 		return array();
 	}
+
 
 	/**
 	 * @return bool

@@ -8,10 +8,12 @@
  * @version 1.0.0
  */
 class ilDclBaseRecordRepresentation {
+
 	protected $record_field;
 	protected $lng;
 	protected $access;
 	protected $ctrl;
+
 
 	public function __construct(ilDclBaseRecordFieldModel $record_field) {
 		global $DIC;
@@ -25,6 +27,7 @@ class ilDclBaseRecordRepresentation {
 
 		$this->record_field = $record_field;
 	}
+
 
 	public function getFormGUI(ilPropertyFormGUI $formGUI) {
 		// Apply form-elements to record-entry-gui
@@ -45,19 +48,21 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Fills the form with the value of a record
+	 *
 	 * @param $form
 	 */
 	public function fillFormInput($form) {
-		$input_field = $form->getItemByPostVar('field_'.$this->getRecordField()->getField()->getId());
-		if($input_field) {
+		$input_field = $form->getItemByPostVar('field_' . $this->getRecordField()->getField()->getId());
+		if ($input_field) {
 			$value = $this->getFormInput();
-			$input_field->setValueByArray(array("field_".$this->getRecordField()->getField()->getId() => $value));
+			$input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
 		}
 	}
 
 
 	/**
 	 * Gets the value from from the record field
+	 *
 	 * @return mixed
 	 */
 	protected function getFormInput() {
@@ -67,7 +72,8 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -79,6 +85,7 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Returns data for single record view
+	 *
 	 * @param array|NULL $options
 	 * @param bool       $link
 	 *
@@ -92,14 +99,17 @@ class ilDclBaseRecordRepresentation {
 	/**
 	 * Returns data for confirmation list
 	 * When returning false, attribute is ignored in list
+	 *
 	 * @return string
 	 */
 	public function getConfirmationHTML() {
 		return $this->getHTML();
 	}
 
+
 	/**
 	 * Fills row with record data
+	 *
 	 * @param ilTemplate $tpl
 	 */
 	public function fillRow(ilTemplate $tpl) {
@@ -109,6 +119,7 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Get Record Field
+	 *
 	 * @return ilDclBaseRecordFieldModel
 	 */
 	public function getRecordField() {
@@ -118,14 +129,17 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Getter shortcut for field
+	 *
 	 * @return ilDclBaseFieldModel
 	 */
 	public function getField() {
 		return $this->record_field->getField();
 	}
 
+
 	/**
 	 * Getter shortcut for record
+	 *
 	 * @return ilDclBaseRecordModel
 	 */
 	public function getRecord() {

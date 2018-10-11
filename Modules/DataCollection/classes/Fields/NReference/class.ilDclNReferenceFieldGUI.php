@@ -27,10 +27,10 @@ class ilDclNReferenceFieldGUI {
 	 *
 	 * @return string
 	 */
-	public function getSingleHTML($options = NULL) {
+	public function getSingleHTML($options = null) {
 		$values = $this->field->getValue();
 
-		if (! $values || ! count($values)) {
+		if (!$values || !count($values)) {
 			return "";
 		}
 
@@ -52,13 +52,13 @@ class ilDclNReferenceFieldGUI {
 		$tpl->setCurrentBlock("reference_list");
 		foreach ($values as $value) {
 			$ref_record = ilDclCache::getRecordCache($value);
-			if (! $ref_record->getTableId() || ! $record_field->getField() || ! $record_field->getField()->getTableId()) {
+			if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
 				//the referenced record_field does not seem to exist.
 				$record_field->setValue(0);
 				$record_field->doUpdate();
 			} else {
 				$tpl->setCurrentBlock("reference");
-				if (! $options) {
+				if (!$options) {
 					$tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef()));
 				} else {
 					$tpl->setVariable("CONTENT", $record_field->getLinkHTML($options['link']['name'], $value));
@@ -92,12 +92,11 @@ class ilDclNReferenceFieldGUI {
 			$ref_record = ilDclCache::getRecordCache($value);
 			if (!$ref_record->getTableId() OR !$record_field->getField() OR !$record_field->getField()->getTableId()) {
 				//the referenced record_field does not seem to exist.
-				$record_field->setValue(NULL);
+				$record_field->setValue(null);
 				$record_field->doUpdate();
 			} else {
 				$elements[] = array('value' => $ref_record->getRecordFieldHTML($this->field->getField()->getFieldRef()),
-									'sort' => $ref_record->getRecordFieldSortingValue($this->field->getField()->getFieldRef()));
-
+				                    'sort'  => $ref_record->getRecordFieldSortingValue($this->field->getField()->getFieldRef()));
 			}
 		}
 		//sort fetched elements
@@ -112,7 +111,7 @@ class ilDclNReferenceFieldGUI {
 		$elements = ilUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
 
 		//concat
-		foreach($elements as $element) {
+		foreach ($elements as $element) {
 			if ((strlen($html) < $record_field->getMaxReferenceLength())) {
 				$html .= $element['value'] . ", ";
 			} else {
@@ -123,7 +122,7 @@ class ilDclNReferenceFieldGUI {
 			$tpl->parseCurrentBlock();
 		}
 
-		$html = substr($html, 0, - 2);
+		$html = substr($html, 0, -2);
 		if ($cut) {
 			$html .= "...";
 		}

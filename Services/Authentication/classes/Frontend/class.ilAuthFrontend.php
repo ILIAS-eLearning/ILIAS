@@ -333,7 +333,6 @@ class ilAuthFrontend
 		ilOnlineTracking::addUser($user->getId());
 
 		// @todo move to event handling
-		include_once 'Modules/Forum/classes/class.ilObjForum.php';
 		ilObjForum::_updateOldAccess($user->getId());
 
 		require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';

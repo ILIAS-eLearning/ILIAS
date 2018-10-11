@@ -22,6 +22,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation {
 		return $input;
 	}
 
+
 	protected function requiredWorkaroundForInputField($input, $record_id) {
 		if ($record_id) {
 			$record = ilDclCache::getRecordCache($record_id);
@@ -76,13 +77,14 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation {
 		return $pass;
 	}
 
+
 	/**
 	 * @inheritDoc
 	 */
 	public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create') {
 		$opt = parent::buildFieldCreationInput($dcl, $mode);
 
-		$prop_filetype = new ilTextInputGUI($this->lng->txt('dcl_supported_filetypes'), 'prop_'.ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+		$prop_filetype = new ilTextInputGUI($this->lng->txt('dcl_supported_filetypes'), 'prop_' . ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
 		$prop_filetype->setInfo($this->lng->txt('dcl_supported_filetypes_desc'));
 
 		$opt->addSubItem($prop_filetype);
