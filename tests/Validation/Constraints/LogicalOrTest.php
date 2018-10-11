@@ -21,8 +21,8 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testAccept(LogicalOr $constraint, $okValue, $errorValue)
 	{
-		$this->assertFalse($constraint->accepts($okValue));
-		$this->assertTrue($constraint->accepts($errorValue));
+		$this->assertTrue($constraint->accepts($okValue));
+		$this->assertFalse($constraint->accepts($errorValue));
 	}
 
 	/**
@@ -36,7 +36,7 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 		$raised = false;
 
 		try {
-			$constraint->check($okValue);
+			$constraint->check($errorValue);
 		} catch (\UnexpectedValueException $e) {
 			$raised = true;
 		}
@@ -44,7 +44,7 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($raised);
 
 		try {
-			$constraint->check($errorValue);
+			$constraint->check($okValue);
 			$raised = false;
 		} catch (\UnexpectedValueException $e) {
 			$raised = true;
@@ -61,8 +61,8 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue)
 	{
-		$this->assertNull($constraint->problemWith($errorValue));
-		$this->assertInternalType('string', $constraint->problemWith($okValue));
+		$this->assertNull($constraint->problemWith($okValue));
+		$this->assertInternalType('string', $constraint->problemWith($errorValue));
 	}
 
 	/**
@@ -74,8 +74,8 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 	public function testRestrict(LogicalOr $constraint, $okValue, $errorValue)
 	{
 		$rf    = new Data\Factory();
-		$ok    = $rf->ok($errorValue);
-		$ok2   = $rf->ok($okValue);
+		$ok    = $rf->ok($okValue);
+		$ok2   = $rf->ok($errorValue);
 		$error = $rf->error('text');
 
 		$result = $constraint->restrict($ok);
@@ -99,7 +99,7 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 		$new_constraint = $constraint->withProblemBuilder(function () {
 			return "This was a vault";
 		});
-		$this->assertEquals("This was a vault", $new_constraint->problemWith($okValue));
+		$this->assertEquals("This was a vault", $new_constraint->problemWith($errorValue));
 	}
 
 	/**
@@ -111,7 +111,7 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 
 		return [
 			[$f->or([$f->isInt(), $f->isString()]), '5', []],
-			[$f->or([$f->greaterThan(5), $f->lessThan(2)]), 3, 7]
+			[$f->or([$f->greaterThan(5), $f->lessThan(2)]), 7, 3]
 		];
 	}
 }
