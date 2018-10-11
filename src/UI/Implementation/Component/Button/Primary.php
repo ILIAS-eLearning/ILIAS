@@ -6,5 +6,5 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
 
-class Primary extends Button implements C\Button\Primary {
+class Primary extends Standard implements C\Button\Primary {
 }

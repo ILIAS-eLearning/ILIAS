@@ -7165,6 +7165,23 @@ fieldset[disabled] .btn.active {
   border-color: #e0e0e0;
   color: white;
 }
+button.btn.btn-default > div.il-spinner > div.icon {
+  position: relative;
+  margin: 0 2px;
+  top: -2px;
+  width: 10px;
+  height: 10px;
+}
+button.btn.btn-default > div.il-spinner > div.icon > img {
+  width: 16px;
+  height: 16px;
+}
+button.btn.btn-default > div.il-spinner {
+  display: inline-block;
+}
+button.btn.btn-default > div.il-spinner.no-show {
+  display: none;
+}
 button > .glyphicon {
   pointer-events: none;
 }

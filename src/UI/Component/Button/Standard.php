@@ -10,4 +10,21 @@ use \ILIAS\UI\Component\Counter\Counter;
  * This describes a standard button. 
  */
 interface Standard extends Button {
+	/**
+	 * If clicked the button will display a spinner
+	 * wheel to show that a request is being processed
+	 * in the background.
+	 *
+	 * @param 	bool 	$anim
+	 * @return 	self
+	 */
+	public function withLoadingAnimation($anim);
+
+	/**
+	 * Return whether loading animation has been activated
+	 *
+	 * @return 	bool
+	 */
+	public function hasLoadingAnimation();
+
 }
