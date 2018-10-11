@@ -22775,4 +22775,18 @@ if(!$ilDB->tableColumnExists('file_data', 'max_version'))
 	));
 }
 ?>
-
+<#5302>
+<?php
+if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
+	$ilDB->addTableColumn(
+		'mail_man_tpl',
+		'is_default',
+		[
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0,
+		]
+	);
+}
+?>
