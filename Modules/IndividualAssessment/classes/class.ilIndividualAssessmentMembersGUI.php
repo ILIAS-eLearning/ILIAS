@@ -46,6 +46,11 @@ class ilIndividualAssessmentMembersGUI {
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,"addUsersFromSearch");
+				$rep_search->addUserAccessFilterCallable(function ($a_user_ids)
+					{
+						return $a_user_ids;
+					}
+				);
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			case "ilindividualassessmentmembergui":
