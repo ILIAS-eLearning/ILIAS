@@ -44,7 +44,7 @@ class LogicalOr extends Custom implements Constraint
 					$problems[] = (string)$constraint->problemWith($value);
 				}
 
-				return implode('', array_filter($problems));
+				return 'Please fix one of these: ' . implode(', ', array_filter($problems));
 			},
 			$data_factory
 		);
