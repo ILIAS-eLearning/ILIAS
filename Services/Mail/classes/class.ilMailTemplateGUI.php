@@ -521,4 +521,50 @@ class ilMailTemplateGUI
 
 		return $form;
 	}
+
+	/**
+	 * 
+	 */
+	public function unsetAsContextDefault()
+	{
+		if (!$this->isEditingAllowed()) {
+			$this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
+		}
+
+		$templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? 0;
+
+		if (!is_numeric($templateId) || $templateId < 1) {
+			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+			$this->showTemplates();
+			return;
+		}
+
+		// TODO
+
+		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		$this->ctrl->redirect($this, 'showTemplates');
+	}
+
+	/**
+	 *
+	 */
+	public function setAsContextDefault()
+	{
+		if (!$this->isEditingAllowed()) {
+			$this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
+		}
+
+		$templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? 0;
+
+		if (!is_numeric($templateId) || $templateId < 1) {
+			\ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+			$this->showTemplates();
+			return;
+		}
+
+		// TODO
+
+		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		$this->ctrl->redirect($this, 'showTemplates');
+	}
 }

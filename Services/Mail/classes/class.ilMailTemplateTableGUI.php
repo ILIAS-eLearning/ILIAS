@@ -54,15 +54,23 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	 */
 	protected function formatCellValue($column, array $row)
 	{
-		if ($column == 'tpl_id') {
+		if ('tpl_id' === $column) {
 			return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
 		} else {
-			if ($column == 'lang') {
+			if ('lang' === $column) {
 				return $this->lng->txt('meta_l_' . $row[$column]);
 			} else {
 				if ($column == 'context') {
 					if (isset($this->contexts[$row[$column]])) {
-						return $this->contexts[$row[$column]]->getTitle();
+						$isDefaultSuffix = '';
+						if ($row['is_default']) {
+							$isDefaultSuffix = $this->lng->txt('mail_template_default');
+						}
+
+						return implode('', [
+							$this->contexts[$row[$column]]->getTitle(),
+							$isDefaultSuffix
+						]);
 					} else {
 						return $this->lng->txt('mail_template_orphaned_context');
 					}
@@ -104,8 +112,22 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		}
 
 		if (!$this->readOnly) {
-			$actions->addItem($this->lng->txt('delete'), '',
-				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
+			$actions->addItem(
+				$this->lng->txt('delete'), '',
+				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate')
+			);
+
+			if ($row['is_default']) {
+				$actions->addItem(
+					$this->lng->txt('mail_template_unset_as_default'), '',
+					$this->ctrl->getLinkTarget($this->parent_obj, 'unsetAsContextDefault')
+				);
+			} else {
+				$actions->addItem(
+					$this->lng->txt('mail_template_set_as_default'), '',
+					$this->ctrl->getLinkTarget($this->parent_obj, 'setAsContextDefault')
+				);
+			}
 		}
 
 		$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
