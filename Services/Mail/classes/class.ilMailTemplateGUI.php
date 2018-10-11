@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\HTTPServices;
+
 /**
  * Class ilMailTemplateGUI
  * @author            Nadia Ahmad <nahmad@databay.de>
@@ -36,26 +38,68 @@ class ilMailTemplateGUI
 	/** @var \ilMailTemplateRepository */
 	protected $repository;
 	
-	/** @var \ILIAS\DI\HTTPServices */
+	/** @var HTTPServices */
 	protected $http;
 
 	/**
 	 * ilMailTemplateGUI constructor.
 	 * @param \ilObject $parentObject
+	 * @param ilTemplate|null $tpl
+	 * @param ilCtrl|null $ctrl
+	 * @param ilLanguage|null $lng
+	 * @param ilToolbarGUI|null $toolbar
+	 * @param ilRbacSystem|null $rbacsystem
+	 * @param ilErrorHandling|null $error
+	 * @param HTTPServices|null $http
 	 */
-	public function __construct(\ilObject $parentObject)
-	{
+	public function __construct(
+		\ilObject $parentObject,
+		\ilTemplate $tpl = null,
+		\ilCtrl $ctrl = null,
+		\ilLanguage $lng = null,
+		\ilToolbarGUI $toolbar = null,
+		\ilRbacSystem $rbacsystem = null,
+		\ilErrorHandling $error = null,
+		HTTPServices $http = null
+	) {
 		global $DIC;
 
 		$this->parentObject = $parentObject;
 
-		$this->tpl        = $DIC->ui()->mainTemplate();
-		$this->ctrl       = $DIC->ctrl();
-		$this->lng        = $DIC->language();
-		$this->toolbar    = $DIC->toolbar();
-		$this->rbacsystem = $DIC->rbac()->system();
-		$this->error      = $DIC['ilErr'];
-		$this->http       = $DIC->http();
+		if ($tpl === null) {
+			$tpl = $DIC->ui()->mainTemplate();
+		}
+		$this->tpl = $tpl;
+
+		if ($ctrl === null) {
+			$ctrl = $DIC->ctrl();
+		}
+		$this->ctrl = $ctrl;
+
+		if ($lng === null) {
+			$lng = $DIC->language();
+		}
+		$this->lng = $lng;
+
+		if ($toolbar === null) {
+			$toolbar = $DIC->toolbar();
+		}
+		$this->toolbar = $toolbar;
+
+		if ($rbacsystem === null) {
+			$rbacsystem = $DIC->rbac()->system();
+		}
+		$this->rbacsystem = $rbacsystem;
+
+		if ($error === null) {
+			$error = $DIC['ilErr'];
+		}
+		$this->error = $error;
+
+		if ($http === null) {
+			$http = $DIC->http();
+		}
+		$this->http = $http;
 
 		$this->lng->loadLanguageModule('meta');
 
@@ -94,9 +138,6 @@ class ilMailTemplateGUI
 	 */
 	protected function showTemplates()
 	{
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-		require_once 'Services/Mail/classes/class.ilMailTemplateTableGUI.php';
-
 		$contexts = \ilMailTemplateService::getTemplateContexts();
 		if (count($contexts) <= 1) {
 			\ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'));
@@ -108,7 +149,7 @@ class ilMailTemplateGUI
 		}
 
 		$tbl = new \ilMailTemplateTableGUI($this, 'showTemplates', !$this->isEditingAllowed());
-		$tbl->setData($this->repository->getAll());
+		$tbl->setData($this->repository->getAllAsArray());
 
 		$this->tpl->setContent($tbl->getHTML());
 	}
@@ -141,11 +182,11 @@ class ilMailTemplateGUI
 		try {
 			$context  = \ilMailTemplateService::getTemplateContextById($form->getInput('context'));
 			$template = new \ilMailTemplate();
-			$template->setTitle($form->getInput('title'));
-			$template->setContext($context->getId());
-			$template->setLang($form->getInput('lang'));
-			$template->setSubject($form->getInput('m_subject'));
-			$template->setMessage($form->getInput('m_message'));
+			$template->setTitle((string)$form->getInput('title'));
+			$template->setContext((string)$context->getId());
+			$template->setLang((string)$form->getInput('lang'));
+			$template->setSubject((string)$form->getInput('m_subject'));
+			$template->setMessage((string)$form->getInput('m_message'));
 
 			$this->repository->store($template);
 
@@ -211,11 +252,11 @@ class ilMailTemplateGUI
 			try {
 				$context = \ilMailTemplateService::getTemplateContextById($form->getInput('context'));
 
-				$template->setTitle($form->getInput('title'));
-				$template->setContext($context->getId());
-				$template->setLang($form->getInput('lang'));
-				$template->setSubject($form->getInput('m_subject'));
-				$template->setMessage($form->getInput('m_message'));
+				$template->setTitle((string)$form->getInput('title'));
+				$template->setContext((string)$context->getId());
+				$template->setLang((string)$form->getInput('lang'));
+				$template->setSubject((string)$form->getInput('m_subject'));
+				$template->setMessage((string)$form->getInput('m_message'));
 
 				$this->repository->store($template);
 
@@ -437,7 +478,6 @@ class ilMailTemplateGUI
 		$message->setRows(10);
 		$form->addItem($message);
 
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new \ilManualPlaceholderInputGUI('m_message');
 		$placeholders->setDisabled(!$this->isEditingAllowed());
 		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));

@@ -31,9 +31,9 @@ class ilMailTemplate
 	/**
 	 * @param array $data
 	 */
-	public function __construct($data = NULL)
+	public function __construct(array $data = null)
 	{
-		if ($data) {
+		if (is_array($data)) {
 			$this->setTplId($data['tpl_id']);
 			$this->setTitle($data['title']);
 			$this->setContext($data['context']);
@@ -42,6 +42,22 @@ class ilMailTemplate
 			$this->setMessage($data['m_message']);
 			$this->setAsDefault((bool)$data['is_default']);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray(): array 
+	{
+		return [
+			'tpl_id' => $this->getTplId(),
+			'title' => $this->getTitle(),
+			'context' => $this->getContext(),
+			'lang' => $this->getLang(),
+			'm_subject' => $this->getSubject(),
+			'm_message' => $this->getMessage(),
+			'is_default' => $this->isDefault(),
+		];
 	}
 
 	/**

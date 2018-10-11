@@ -40,6 +40,20 @@ class ilMailTemplateRepository
 	}
 
 	/**
+	 * @return \array[]
+	 */
+	public function getAllAsArray(): array
+	{
+		$templates = $this->getAll();
+
+		$templates = array_map(function(\ilMailTemplate $template) {
+			return $template->toArray();
+		}, $templates);
+		
+		return $templates;
+	}
+
+	/**
 	 * @param int $templateId
 	 * @throws \OutOfBoundsException
 	 */
