@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
-use ILIAS\GlobalScreen\MainMenu\MainMenuEntryFactory;
+use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 
 /**
@@ -16,7 +16,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	 */
 	protected $if;
 	/**
-	 * @var MainMenuEntryFactory
+	 * @var MainMenuItemFactory
 	 */
 	protected $mainmenu;
 

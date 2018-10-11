@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Component\Legacy\Legacy;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isEntry {
+interface isItem {
 
 	/**
 	 * @return IdentificationInterface
@@ -22,9 +22,9 @@ interface isEntry {
 	 *
 	 * @param callable $is_visible
 	 *
-	 * @return isEntry|isChild
+	 * @return isItem|isChild
 	 */
-	public function withVisibilityCallable(callable $is_visible): isEntry;
+	public function withVisibilityCallable(callable $is_visible): isItem;
 
 
 	/**
@@ -35,14 +35,14 @@ interface isEntry {
 
 	/**
 	 * Pass a callable which can decide whether your element is in a active
-	 * state (e.g. the Repository-Slate is active whenever a user is in the
+	 * state (e.g. the Repository-TopParentItem is active whenever a user is in the
 	 * repository)
 	 *
 	 * @param callable $is_active
 	 *
-	 * @return isEntry|isChild
+	 * @return isItem|isChild
 	 */
-	public function withActiveCallable(callable $is_active): isEntry;
+	public function withActiveCallable(callable $is_active): isItem;
 
 
 	/**
@@ -58,9 +58,9 @@ interface isEntry {
 	 *
 	 * @param callable $is_avaiable
 	 *
-	 * @return isEntry|isChild
+	 * @return isItem|isChild
 	 */
-	public function withAvailableCallable(callable $is_avaiable): isEntry;
+	public function withAvailableCallable(callable $is_avaiable): isItem;
 
 
 	/**
@@ -78,9 +78,9 @@ interface isEntry {
 	 *
 	 * @param Legacy $element
 	 *
-	 * @return isEntry
+	 * @return isItem
 	 */
-	public function withNonAvailableReason(Legacy $element): isEntry;
+	public function withNonAvailableReason(Legacy $element): isItem;
 
 
 	/**

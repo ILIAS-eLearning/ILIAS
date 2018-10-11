@@ -1,14 +1,14 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 /**
- * Class AbstractParentEntry
+ * Class AbstractParentItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractParentEntry extends AbstractBaseEntry implements isParent {
+abstract class AbstractParentItem extends AbstractBaseItem implements isParent {
 
 	/**
-	 * @var isEntry[]
+	 * @var isItem[]
 	 */
 	protected $children = [];
 

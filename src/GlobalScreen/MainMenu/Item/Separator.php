@@ -1,14 +1,14 @@
-<?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
+<?php namespace ILIAS\GlobalScreen\MainMenu\Item;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
 /**
- * Class Divider
+ * Class Separator
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Divider extends AbstractChildEntry implements hasTitle {
+class Separator extends AbstractChildItem implements hasTitle {
 
 	/**
 	 * @var string
@@ -19,7 +19,7 @@ class Divider extends AbstractChildEntry implements hasTitle {
 	/**
 	 * @param string $title
 	 *
-	 * @return Divider
+	 * @return Separator
 	 */
 	public function withTitle(string $title): hasTitle {
 		$clone = clone($this);

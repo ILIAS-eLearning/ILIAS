@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\MainMenu\MainMenuEntryFactory;
+use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 
 /**
  * Class Services
@@ -28,12 +28,12 @@ class Services {
 
 
 	/**
-	 * @see MainMenuEntryFactory
+	 * @see MainMenuItemFactory
 	 *
-	 * @return MainMenuEntryFactory
+	 * @return MainMenuItemFactory
 	 */
-	public function mainmenu(): MainMenuEntryFactory {
-		return new MainMenuEntryFactory();
+	public function mainmenu(): MainMenuItemFactory {
+		return new MainMenuItemFactory();
 	}
 
 

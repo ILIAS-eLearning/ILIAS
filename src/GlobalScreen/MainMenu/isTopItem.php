@@ -5,6 +5,6 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isTopNode extends isParent {
+interface isTopItem extends isParent {
 
 }

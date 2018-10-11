@@ -1,6 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
+<?php namespace ILIAS\GlobalScreen\MainMenu\Item;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\MainMenu\hasTitle;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildEntry implements hasTitle, hasAction {
+class Link extends AbstractChildItem implements hasTitle, hasAction {
 
 	/**
 	 * @var bool

@@ -4,11 +4,11 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
- * Class AbstractBaseEntry
+ * Class AbstractBaseItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractBaseEntry implements isEntry {
+abstract class AbstractBaseItem implements isItem {
 
 	/**
 	 * @var Legacy
@@ -33,7 +33,7 @@ abstract class AbstractBaseEntry implements isEntry {
 
 
 	/**
-	 * AbstractBaseEntry constructor.
+	 * AbstractBaseItem constructor.
 	 *
 	 * @param IdentificationInterface $provider_identification
 	 */
@@ -53,7 +53,7 @@ abstract class AbstractBaseEntry implements isEntry {
 	/**
 	 * @inheritDoc
 	 */
-	public function withVisibilityCallable(callable $is_visible): isEntry {
+	public function withVisibilityCallable(callable $is_visible): isItem {
 		$clone = clone($this);
 		$clone->visiblility_callable = $is_visible;
 
@@ -83,7 +83,7 @@ abstract class AbstractBaseEntry implements isEntry {
 	/**
 	 * @inheritDoc
 	 */
-	public function withActiveCallable(callable $is_active): isEntry {
+	public function withActiveCallable(callable $is_active): isItem {
 		$clone = clone($this);
 		$clone->active_callable = $is_active;
 
@@ -110,7 +110,7 @@ abstract class AbstractBaseEntry implements isEntry {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAvailableCallable(callable $is_available): isEntry {
+	public function withAvailableCallable(callable $is_available): isItem {
 		$clone = clone($this);
 		$clone->available_callable = $is_available;
 
@@ -137,7 +137,7 @@ abstract class AbstractBaseEntry implements isEntry {
 	/**
 	 * @inheritDoc
 	 */
-	public function withNonAvailableReason(Legacy $element): isEntry {
+	public function withNonAvailableReason(Legacy $element): isItem {
 		$clone = clone $this;
 		$clone->non_available_reason = $element;
 

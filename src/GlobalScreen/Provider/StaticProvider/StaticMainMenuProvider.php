@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
-use ILIAS\GlobalScreen\MainMenu\isEntry;
-use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
+use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Provider\StaticProvider;
 
 /**
@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\Provider\StaticProvider;
 interface StaticMainMenuProvider extends StaticProvider {
 
 	/**
-	 * @return Slate[] These are Slates which will be
+	 * @return TopParentItem[] These are Slates which will be
 	 * available for configuration and will be collected once during a
 	 * StructureReload.
 	 */
@@ -20,7 +20,7 @@ interface StaticMainMenuProvider extends StaticProvider {
 
 
 	/**
-	 * @return isEntry[] These are Entries which will be available for
+	 * @return isItem[] These are Entries which will be available for
 	 * configuration and will be collected once during a StructureReload
 	 */
 	public function getStaticEntries(): array;

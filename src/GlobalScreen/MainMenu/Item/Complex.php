@@ -1,16 +1,16 @@
-<?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
+<?php namespace ILIAS\GlobalScreen\MainMenu\Item;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
 use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
 use ILIAS\GlobalScreen\MainMenu\hasContent;
 use ILIAS\UI\Component\Component;
 
 /**
- * Class Divider
+ * Class Complex
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildEntry implements hasAsyncContent, hasContent {
+class Complex extends AbstractChildItem implements hasAsyncContent, hasContent {
 
 	/**
 	 * @var

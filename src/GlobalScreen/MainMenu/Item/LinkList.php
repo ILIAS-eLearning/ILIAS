@@ -1,6 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\MainMenu\Entry;
+<?php namespace ILIAS\GlobalScreen\MainMenu\Item;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractChildEntry;
+use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use InvalidArgumentException;
@@ -10,7 +10,7 @@ use InvalidArgumentException;
  *
  * @package ILIAS\GlobalScreen\MainMenu\Entry
  */
-class LinkList extends AbstractChildEntry implements hasTitle {
+class LinkList extends AbstractChildItem implements hasTitle {
 
 	/**
 	 * @var string
