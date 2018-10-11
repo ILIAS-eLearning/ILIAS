@@ -497,12 +497,11 @@ class ilExAssignmentEditorGUI
 				exit();
 		}
 
-		$template_data = new ilMailTemplateDataProvider();
-		$templates = $template_data->getTemplateByContextId($context->getId());
+		$repository = new \ilMailTemplateRepository();
+		$templates = $repository->getTemplateByContextId($context->getId());
 
-		foreach($templates as $template)
-		{
-			$r_group->addOption(new ilRadioOption($template->getTitle(),$template->getTplId()));
+		foreach ($templates as $template) {
+			$r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
 		}
 
 		return $r_group;

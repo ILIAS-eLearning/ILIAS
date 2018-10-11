@@ -480,8 +480,6 @@ class ilExAssignmentReminder
 
 		foreach ($reminders as $reminder)
 		{
-			include_once "./Services/Mail/classes/class.ilMail.php";
-
 			$template_id = $reminder['template_id'];
 
 			$rmd_type = $reminder["reminder_type"];
@@ -490,8 +488,8 @@ class ilExAssignmentReminder
 			//if the template exists (can be deleted via Administration/Mail)
 			if($template_id)
 			{
-				$prov = new ilMailTemplateDataProvider();
-				$tpl = $prov->getTemplateById($template_id);
+				$templateRepository = new \ilMailTemplateRepository();
+				$tpl = $templateRepository->findById($template_id);
 			}
 
 			if($tpl)

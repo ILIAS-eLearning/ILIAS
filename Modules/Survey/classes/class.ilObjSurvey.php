@@ -6493,8 +6493,8 @@ class ilObjSurvey extends ilObject
 		if($this->getReminderTemplate() &&
 			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
 		{
-			$prov = new ilMailTemplateDataProvider();
-			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+			$templateRepository = new \ilMailTemplateRepository();
+			$tmpl = $templateRepository->findById($this->getReminderTemplate());
 
 			$tmpl_params = array(				
 				"ref_id" => $this->getRefId(),
@@ -6621,17 +6621,15 @@ class ilObjSurvey extends ilObject
 	}
 	
 	public function getReminderMailTemplates()
-	{	
+	{
 		$res = array();
-		
-		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
-		{
+
+		$repository = new \ilMailTemplateRepository();
+
+		foreach ($repository->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
 		}
-		
+
 		return $res;
 	}
 		

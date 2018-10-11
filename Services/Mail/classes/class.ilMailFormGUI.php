@@ -455,28 +455,22 @@ class ilMailFormGUI
 	 */
 	protected function getTemplateDataById()
 	{
-		require_once 'Services/JSON/classes/class.ilJsonUtil.php';
-
-		if(!isset($_GET['template_id']))
-		{
+		if (!isset($_GET['template_id'])) {
 			exit();
 		}
 
-		try
-		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
-			$template_id = (int)$_GET['template_id'];
-			$template_provider = new ilMailTemplateDataProvider();
-			$template = $template_provider->getTemplateById($template_id);
+		try {
+			$temlateId = (int)$_GET['template_id'];
+
+			$templateRepository = new \ilMailTemplateRepository();
+			$template = $templateRepository->findById($temlateId);
+
 			$context = ilMailTemplateService::getTemplateContextById($template->getContext());
-			echo json_encode(array(
+			echo json_encode([
 				'm_subject' => $template->getSubject(),
-				'm_message' => $template->getMessage()
-			));
-		}
-		catch(Exception $e)
-		{
+				'm_message' => $template->getMessage(),
+			]);
+		} catch (Exception $e) {
 		}
 		exit();
 	}
@@ -767,12 +761,10 @@ class ilMailFormGUI
 			$mailData['use_placeholders'] = true;
 
 			try {
-				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-				$context = ilMailTemplateService::getTemplateContextById($context_id);
+				$context = \ilMailTemplateService::getTemplateContextById($context_id);
 
-				require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
-				$template_provider = new ilMailTemplateDataProvider();
-				$templates = $template_provider->getTemplateByContextId($context->getId());
+				$templateRepository = new \ilMailTemplateRepository();
+				$templates = $templateRepository->getTemplateByContextId($context->getId());
 
 				if(count($templates))
 				{
