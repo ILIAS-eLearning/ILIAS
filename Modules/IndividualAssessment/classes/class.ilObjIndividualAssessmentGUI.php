@@ -15,6 +15,7 @@
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilIndividualAssessmentMembersGUI
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilLearningProgressGUI
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilExportGUI
+ * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
@@ -29,6 +30,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 	const TAB_MEMBERS = 'members';
 	const TAB_LP = 'learning_progress';
 	const TAB_EXPORT = 'export';
+	const TAB_META_DATA = "meta_data";
 
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
@@ -106,6 +108,13 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$exp_gui = new ilExportGUI($this); // $this is the ilObj...GUI class of the resource
 				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
+				break;
+			case 'ilobjectmetadatagui';
+				$this->checkPermissionBool("write");
+				$this->tabs_gui->activateTab(self::TAB_META_DATA);
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);
+				$this->ctrl->forwardCommand($md_gui);
 				break;
 			default:
 				if(!$cmd) {
@@ -238,6 +247,15 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 									, $this->lng->txt('settings')
 									, $this->getLinkTarget('settings')
 									);
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$this->tabs_gui->addTab(self::TAB_META_DATA,
+					$this->lng->txt("meta_data"),
+					$mdtab);
+			}
 		}
 		if($this->object->accessHandler()->mayEditMembers()
 			|| $this->object->accessHandler()->mayGradeUser()
