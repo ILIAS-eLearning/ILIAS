@@ -1,10 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\TopItem;
 
-use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
-use ILIAS\GlobalScreen\MainMenu\AbstractParentItem;
+use ILIAS\GlobalScreen\MainMenu\AbstractBaseItem;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\hasIcon;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 
 /**
@@ -12,7 +10,7 @@ use ILIAS\GlobalScreen\MainMenu\isTopItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction {
+class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem {
 
 	/**
 	 * @var string
