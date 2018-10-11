@@ -1,8 +1,8 @@
 <?php
 
-use ILIAS\GlobalScreen\MainMenu\Entry\Divider;
-use ILIAS\GlobalScreen\MainMenu\Entry\Link;
-use ILIAS\GlobalScreen\MainMenu\Entry\LinkList;
+use ILIAS\GlobalScreen\MainMenu\Item\Separator;
+use ILIAS\GlobalScreen\MainMenu\Item\Link;
+use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 
@@ -45,7 +45,7 @@ class ilMMEntryRendererGUI {
 							$this->addEntry($gl, $link, $i);
 						}
 						break;
-					case ($child instanceof Divider):
+					case ($child instanceof Separator):
 						$gl->addSeparator();
 						break;
 					case ($child instanceof hasAction && $child instanceof hasTitle):

@@ -49,7 +49,7 @@ class ilMMProvider extends AbstractStaticMainMenuProvider implements StaticMainM
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\Slate\Slate[]
+	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem[]
 	 */
 	public function getStaticSlates(): array {
 		$slates = [];
@@ -58,20 +58,20 @@ class ilMMProvider extends AbstractStaticMainMenuProvider implements StaticMainM
 		$m = $this->mainmenu;
 		$dic = $this->dic;
 
-		// Personal Desktop Slate
-		$slates[] = $m->slate($this->getDesktop())->withTitle($lng->txt("personal_desktop"))->withVisibilityCallable(
+		// Personal Desktop TopParentItem
+		$slates[] = $m->topParentItem($this->getDesktop())->withTitle($lng->txt("personal_desktop"))->withVisibilityCallable(
 			function () use ($dic) {
 				return (bool)($dic->user()->getId() != ANONYMOUS_USER_ID);
 			}
 		);
 
 		// Repository
-		$slates[] = $this->mainmenu->slate($this->getRepository())->withTitle(
+		$slates[] = $this->mainmenu->topParentItem($this->getRepository())->withTitle(
 			$this->dic->language()->txt("repository")
 		)->withVisibilityCallable(function () use ($dic) { return (bool)($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID)); });
 
 		// Administration
-		$slates[] = $this->mainmenu->slate($this->getAdministration())->withTitle(
+		$slates[] = $this->mainmenu->topParentItem($this->getAdministration())->withTitle(
 			$this->dic->language()->txt("administration")
 		)->withVisibilityCallable(function () use ($dic) { return (bool)($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); });
 
@@ -80,7 +80,7 @@ class ilMMProvider extends AbstractStaticMainMenuProvider implements StaticMainM
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\isEntry[]
+	 * @return \ILIAS\GlobalScreen\MainMenu\isItem[]
 	 */
 	public function getStaticEntries(): array {
 		$lng = $this->dic->language();
@@ -159,7 +159,7 @@ class ilMMProvider extends AbstractStaticMainMenuProvider implements StaticMainM
 		)->withParent($this->getDesktop());
 
 		// overview is always active
-		$entries[] = $m->divider($g->identifier('sep_1'));
+		$entries[] = $m->separator($g->identifier('sep_1'));
 
 		// MyStaff
 		$entries[] = $m->link($g->identifier('mm_pd_mst'))->withTitle($lng->txt("my_staff"))->withAction(

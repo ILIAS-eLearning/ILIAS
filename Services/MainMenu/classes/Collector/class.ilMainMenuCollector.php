@@ -1,7 +1,7 @@
 <?php
 
 use ilGlobalCache;
-use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
  * Class ilMainMenuCollector
@@ -42,13 +42,13 @@ class ilMainMenuCollector {
 	 * Additionally this will filter sequent Dividers to avoid double Dividers
 	 * in the UI.
 	 *
-	 * @return Slate[]
+	 * @return TopParentItem[]
 	 */
 	public function getStackedSlates(): array {
 		/**
 		 * @var $provider_storage ilGSProviderStorage
 		 * @var $provider         \ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider
-		 * @var $slate            \ILIAS\GlobalScreen\MainMenu\Slate\Slate
+		 * @var $slate            \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
 		 * @var $entry            \ILIAS\GlobalScreen\MainMenu\isChild
 		 */
 		$slates = [];
