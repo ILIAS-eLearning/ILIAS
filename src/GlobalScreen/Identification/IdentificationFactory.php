@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
+use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
+
 /**
  * Class IdentificationFactory
  *
@@ -29,6 +31,20 @@
 class IdentificationFactory {
 
 	/**
+	 * @var SerializerFactory
+	 */
+	protected $serializer_factory;
+
+
+	/**
+	 * IdentificationFactory constructor.
+	 */
+	public final function __construct() {
+		$this->serializer_factory = new SerializerFactory();
+	}
+
+
+	/**
 	 * Returns a IndentificationProvider for core components, only a Provider
 	 * is needed.
 	 *
@@ -36,8 +52,8 @@ class IdentificationFactory {
 	 *
 	 * @return IdentificationProviderInterface
 	 */
-	public function core(\ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new CoreIdentificationProvider(get_class($provider));
+	public final function core(\ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
+		return new CoreIdentificationProvider(get_class($provider), $this->serializer_factory->core());
 	}
 
 
@@ -52,8 +68,18 @@ class IdentificationFactory {
 	 *
 	 * @return IdentificationProviderInterface
 	 */
-	public function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new PluginIdentificationProvider(get_class($provider), $plugin->getId());
+	public final function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
+		return new PluginIdentificationProvider(get_class($provider), $plugin->getId(), $this->serializer_factory->plugin());
+	}
+
+
+	/**
+	 * @param $serialized_string
+	 *
+	 * @return IdentificationInterface
+	 */
+	public final function fromSerializedIdentification($serialized_string): IdentificationInterface {
+		return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string);
 	}
 }
 
