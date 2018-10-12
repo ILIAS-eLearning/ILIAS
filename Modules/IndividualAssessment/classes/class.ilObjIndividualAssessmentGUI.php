@@ -153,6 +153,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 	protected function buildInfoScreen() {
 		$info = new ilInfoScreenGUI($this);
 		if($this->object) {
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'iass', $this->object->getId());
+			$record_gui->setInfoObject($info);
+			$record_gui->parse();
+
 			$info = $this->addGeneralDataToInfo($info);
 			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {
 				$info = $this->addMemberDataToInfo($info);
