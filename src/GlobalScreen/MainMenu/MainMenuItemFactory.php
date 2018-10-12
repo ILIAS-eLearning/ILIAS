@@ -77,7 +77,7 @@ class MainMenuItemFactory {
 
 
 	/**
-	 * Returns you a GlobalScreen Complex Entry which is used to generate complex
+	 * Returns you a GlobalScreen Complex Item which is used to generate complex
 	 * content from a Async-URL
 	 *
 	 * @param IdentificationInterface $identification
@@ -90,7 +90,7 @@ class MainMenuItemFactory {
 
 
 	/**
-	 * Returns you a GlobalScreen RepositoryLink Entry which is used to generate URLs to Ref-IDs
+	 * Returns you a GlobalScreen RepositoryLink Item which is used to generate URLs to Ref-IDs
 	 *
 	 * @param IdentificationInterface $identification
 	 *
@@ -102,7 +102,7 @@ class MainMenuItemFactory {
 
 
 	/**
-	 * Returns you a GlobalScreen LinkList Entry which is used to group multiple Links
+	 * Returns you a GlobalScreen LinkList Item which is used to group multiple Links
 	 *
 	 * @param IdentificationInterface $identification
 	 *

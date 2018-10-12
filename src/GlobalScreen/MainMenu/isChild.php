@@ -10,7 +10,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 interface isChild extends isItem {
 
 	/**
-	 * As a developer, you provide the standard-parent Entry while creating yout entry.
+	 * As a developer, you provide the standard-parent Item while creating your items.
 	 * Please note that the effective parent can be changed by configuration.
 	 *
 	 * @param IdentificationInterface $identification

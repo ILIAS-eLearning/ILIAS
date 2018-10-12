@@ -8,7 +8,7 @@ use InvalidArgumentException;
 /**
  * Class LinkList
  *
- * @package ILIAS\GlobalScreen\MainMenu\Entry
+ * @package ILIAS\GlobalScreen\MainMenu\Item
  */
 class LinkList extends AbstractChildItem implements hasTitle {
 

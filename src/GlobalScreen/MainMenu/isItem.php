@@ -53,7 +53,7 @@ interface isItem {
 
 	/**
 	 * Pass a callable which can decide wheter your element is available in
-	 * general, e.g. return false for the Badges entry when the Badges-Service
+	 * general, e.g. return false for the Badges Item when the Badges-Service
 	 * is disabled.
 	 *
 	 * @param callable $is_avaiable
@@ -70,8 +70,8 @@ interface isItem {
 
 
 	/**
-	 * If your provider or the service which provides the entry does not allow
-	 * to activate the entry (@see withAvailableCallable ), please provide the
+	 * If your provider or the service which provides the Item does not allow
+	 * to activate the item (@see withAvailableCallable ), please provide the
 	 * reason why. You can pass e Legacy Component for the moment, in most cases
 	 * this will be something like in
 	 * Services/Administration/templates/default/tpl.external_settings.html
