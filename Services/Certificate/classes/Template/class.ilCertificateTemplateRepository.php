@@ -361,9 +361,11 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 	{
 		$this->logger->info(sprintf('START - Fetch first create certificate template for object: "%s"', $objId));
 
+		$this->database->setLimit(1);
+
 		$sql = 'SELECT * FROM il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-ORDER BY id ASC LIMIT 1 ';
+ORDER BY id ASC ';
 
 		$query = $this->database->query($sql);
 
