@@ -43,7 +43,7 @@ class Main {
 	 *
 	 * @return Slate[]
 	 */
-	public function getStackedSlates(): array {
-		return array(); // TODO implement
+	public function getStackedTopItems(): array {
+		return array(); // TODO implementation will be done separately
 	}
 }
