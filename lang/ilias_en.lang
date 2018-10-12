@@ -14027,6 +14027,7 @@ content#:#cont_grid_width_l_info#:#E.g. desktop
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_add_cell#:#Add Column
+content#:#cont_added_cell#:#Column added
 content#:#cont_ed_delete_cell#:#Delete Column
 content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
