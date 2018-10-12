@@ -49,7 +49,7 @@ final class ilKioskModeService {
 			return null;
 		}
 
-		list($location, $class_name) = $this->getClassLocationForType($object_type);
+		$class_name = $this->getClassNameForType($object_type);
 		return new $class_name(
 			$object,
 			$this->ctrl,
@@ -59,23 +59,22 @@ final class ilKioskModeService {
 	}
 
 	/**
-	 * Check if objects of a certain type provide kiosk modes in general.
+	 * Check if objects of a certain type provides kiosk mode in general.
 	 *
 	 * @param	string	$object_type	needs to be a valid object type
 	 */
 	public function hasKioskMode(string $object_type) : bool {
-		list($location, $class_name) = $this->getClassLocationForType($object_type);
+		$class_name = $this->getClassNameForType($object_type);
 		return class_exists($class_name);
 	}
 
 	/**
-	 * @return string[] with [0] => path and [1] => class name
+	 * @return classname of type-specific kiosk view.
 	 */
-	protected function getClassLocationForType(string $object_type): array
+	protected function getClassNameForType(string $object_type): string
 	{
 		$class = $this->obj_definition->getClassName($object_type);
-		$location = $this->obj_definition->getLocation($object_type);
 		$full_class = "il".$class."KioskModeView";
-		return [$location, $full_class];
+		return $full_class;
 	}
 }
