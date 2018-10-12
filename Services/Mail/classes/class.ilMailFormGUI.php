@@ -78,7 +78,7 @@ class ilMailFormGUI
 		global $DIC;
 
 		if (null === $templateService) {
-			$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+			$templateService = $DIC['mail.texttemplates.service'];
 		}
 		$this->templateService = $templateService;
 

@@ -6487,13 +6487,14 @@ class ilObjSurvey extends ilObject
 	
 	protected function sentReminder(array $a_recipient_ids)
 	{
-		include_once "./Services/Mail/classes/class.ilMail.php";
-			
+		global $DIC;
+
 		// use mail template		
 		if($this->getReminderTemplate() &&
 			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
 		{
-			$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+			/** @var \ilMailTemplateService $templateService */
+			$templateService = $DIC['mail.texttemplates.service'];
 			$tmpl = $templateService->loadTemplateForId((int)$this->getReminderTemplate());
 
 			$tmpl_params = array(				
@@ -6622,9 +6623,12 @@ class ilObjSurvey extends ilObject
 	
 	public function getReminderMailTemplates()
 	{
+		global $DIC;
+
 		$res = array();
 
-		$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
 		foreach ($templateService->loadTemplatesForContextId((string)ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
 		}

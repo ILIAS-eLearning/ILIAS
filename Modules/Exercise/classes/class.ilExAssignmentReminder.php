@@ -476,6 +476,8 @@ class ilExAssignmentReminder
 	 */
 	protected function sendReminders($reminders)
 	{
+		global $DIC;
+
 		$tpl = null;
 
 		foreach ($reminders as $reminder)
@@ -488,7 +490,8 @@ class ilExAssignmentReminder
 			//if the template exists (can be deleted via Administration/Mail)
 			if($template_id)
 			{
-				$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+				/** @var \ilMailTemplateService $templateService */
+				$templateService = $DIC['mail.texttemplates.service'];
 				$tpl = $templateService->loadTemplateForId((int)$template_id);
 			}
 

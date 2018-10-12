@@ -126,7 +126,7 @@ class ilMailTemplateGUI
 		$this->uiRenderer = $uiRenderer;
 
 		if (null === $templateService) {
-			$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+			$templateService = $DIC['mail.texttemplates.service'];
 		}
 		$this->service = $templateService;
 

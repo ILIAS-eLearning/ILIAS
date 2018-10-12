@@ -473,6 +473,8 @@ class ilExAssignmentEditorGUI
 
 	public function addMailTemplatesRadio($a_reminder_type)
 	{
+		global $DIC;
+
 		$post_var = "rmd_".$a_reminder_type."_template_id";
 
 		$r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
@@ -497,7 +499,8 @@ class ilExAssignmentEditorGUI
 				exit();
 		}
 
-		$templateService = new \ilMailTemplateService(new \ilMailTemplateRepository());
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
 		foreach ($templateService->loadTemplatesForContextId((string)$context->getId()) as $template) {
 			$r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
 		}
