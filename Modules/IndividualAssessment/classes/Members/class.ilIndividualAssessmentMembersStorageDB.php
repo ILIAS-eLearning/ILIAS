@@ -37,30 +37,28 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	/**
 	 * @inheritdoc
 	 */
+	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj)
+	{
+		$members = [];
+		$sql = $this->loadMemberQuery();
+		$sql .= "	WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
+		$res = $this->db->query($sql);
+		while($rec = $this->db->fetchAssoc($res)) {
+			$usr = new ilObjUser($rec["usr_id"]);
+			$members[] = new ilIndividualAssessmentMember($obj, $usr, $rec);
+		}
+		return $members;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr) {
 		$obj_id = $obj->getId();
 		$usr_id = $usr->getId();
-		$sql = "SELECT "
-				."iassme.obj_id,"
-				."iassme.usr_id,"
-				."iassme.examiner_id,"
-				."iassme.record,"
-				."iassme.internal_note,"
-				."iassme.notify,"
-				."iassme.notification_ts,"
-				."iassme.learning_progress,"
-				."iassme.finalized,"
-				."iassme.place,"
-				."iassme.event_time,"
-				."iassme.user_view_file,"
-				."iassme.file_name,"
-				."iassme.changer_id,"
-				."iassme.change_time"
-				." FROM ".self::MEMBERS_TABLE." iassme\n"
-				."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
-				."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
-				."	WHERE obj_id = ".$this->db->quote($obj_id, 'integer')."\n"
-				."		AND iassme.usr_id = ".$this->db->quote($usr_id,'integer');
+		$sql = $this->loadMemberQuery();
+		$sql .= "	WHERE obj_id = ".$this->db->quote($obj_id, 'integer')."\n"
+			."		AND iassme.usr_id = ".$this->db->quote($usr_id,'integer');
 
 		$rec = $this->db->fetchAssoc($this->db->query($sql));
 		if($rec) {
@@ -103,6 +101,30 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	public function deleteMembers(ilObjIndividualAssessment $obj) {
 		$sql = "DELETE FROM ".self::MEMBERS_TABLE." WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
 		$this->db->manipulate($sql);
+	}
+
+	protected function loadMemberQuery()
+	{
+		return "SELECT "
+			."iassme.obj_id,"
+			."iassme.usr_id,"
+			."iassme.examiner_id,"
+			."iassme.record,"
+			."iassme.internal_note,"
+			."iassme.notify,"
+			."iassme.notification_ts,"
+			."iassme.learning_progress,"
+			."iassme.finalized,"
+			."iassme.place,"
+			."iassme.event_time,"
+			."iassme.user_view_file,"
+			."iassme.file_name,"
+			."iassme.changer_id,"
+			."iassme.change_time"
+			." FROM ".self::MEMBERS_TABLE." iassme\n"
+			."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
+			."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
+		;
 	}
 
 	/**

@@ -28,6 +28,7 @@ class ilIndividualAssessmentMembersGUI {
 		$this->tpl =  $DIC['tpl'];
 		$this->lng = $DIC['lng'];
 		$this->toolbar = $DIC['ilToolbar'];
+		$this->user = $DIC["ilUser"];
 		$this->iass_access = $this->object->accessHandler();
 	}
 
@@ -105,8 +106,13 @@ class ilIndividualAssessmentMembersGUI {
 				);
 			}
 		}
-		$table = new ilIndividualAssessmentMembersTableGUI($this);
-		$this->tpl->setContent($table->getHTML());
+		$table = new ilIndividualAssessmentMembersTableGUI(
+			$this->lng,
+			$this->object->accessHandler(),
+			$this->user->getId()
+		);
+		$table->setData($this->object->loadMembersAsSingleObjects());
+		$this->tpl->setContent($table->render(array()));
 	}
 
 	public function addUsersFromSearch($user_ids) {
