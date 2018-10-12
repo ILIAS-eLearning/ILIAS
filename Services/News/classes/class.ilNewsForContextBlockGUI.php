@@ -337,8 +337,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		if ($this->getProperty("settings") == true)
 		{
+			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $_GET["ref_id"]);
+			$parent_gui = $_GET["cmdClass"];
 			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "editSettings"),
+				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui",$parent_gui,"ilcontainernewssettingsgui"), "show"),
 				$lng->txt("settings"));
 		}
 		
