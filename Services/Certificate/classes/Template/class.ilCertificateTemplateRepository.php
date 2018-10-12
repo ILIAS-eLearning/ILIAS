@@ -162,12 +162,13 @@ ORDER BY version ASC';
 	{
 		$this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
-		$sql = '
+        $this->database->setLimit(1);
+
+        $sql = '
 SELECT * FROM il_cert_template
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
 AND deleted = 0
 ORDER BY id DESC
-LIMIT 1
 ';
 
 		$query = $this->database->query($sql);
