@@ -50,6 +50,7 @@ class ilContainerNewsSettingsGUI
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("news");
 		$this->tpl = $DIC["tpl"];
 		$this->setting = $DIC["ilSetting"];
 		$this->parent_gui = $a_parent_gui;
@@ -98,18 +99,14 @@ class ilContainerNewsSettingsGUI
 		if($this->setting->get('block_activated_news'))
 		{
 			// Container tools (calendar, news, ... activation)
-			$news = new ilCheckboxInputGUI($this->lng->txt('obj_tool_setting_news'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
+			$news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
 			$news->setValue(1);
 			$news->setChecked($this->object->getNewsBlockActivated());
 			$news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
-			$form->addItem($news);
 
-			if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
-			{
-				$ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
-				include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
-				ilMembershipNotifications::addToSettingsForm($ref_id, null, $news);
-			}
+			ilNewsForContextBlockGUI::addToSettingsForm($news);
+
+			$form->addItem($news);
 		}
 
 		// timeline
@@ -133,6 +130,14 @@ class ilContainerNewsSettingsGUI
 		// save and cancel commands
 		$form->addCommandButton("save", $this->lng->txt("save"));
 
+		// Cron Notifications
+		if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
+		{
+			$ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
+			include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
+			ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
+		}
+
 		$form->setTitle($this->lng->txt("cont_news_settings"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -153,9 +158,15 @@ class ilContainerNewsSettingsGUI
 			$this->object->setNewsTimelineAutoEntries($form->getInput("news_timeline_auto_entries"));
 			$this->object->setNewsTimelineLandingPage($form->getInput("news_timeline_landing_page"));
 
-
 			if($this->setting->get('block_activated_news'))
 			{
+				//save contextblock settings
+				$context_block_settings = array(
+					"public_feed" => $_POST["notifications_public_feed"],
+					"default_visibility" => $_POST["default_visibility"]
+				);
+				ilNewsForContextBlockGUI::writeSettings($context_block_settings);
+
 				if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
 				{
 					$ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));

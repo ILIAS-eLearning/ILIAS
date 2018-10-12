@@ -1158,7 +1158,65 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->settings_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
 		$this->settings_form->setFormAction($ilCtrl->getFormaction($this));
 	}
-	
+
+	/**
+	 * Add inputs to the container news settings form to configure also the contextBlock options.
+	 * @param ilFormPropertyGUI $a_input
+	 */
+	static function addToSettingsForm(ilFormPropertyGUI $a_input)
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$block_id = $DIC->ctrl()->getContextObjId();
+
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+		//$public_notification = ilBlockSetting::_lookup(self::$block_type, "public_notifications",0, $block_id);
+		$public_feed = ilBlockSetting::_lookup(self::$block_type, "public_feed",
+			0, $block_id);
+
+		$default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility_option", 0, $block_id);
+		if ($default_visibility == "")
+		{
+			$default_visibility =
+				ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+		}
+
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue($default_visibility);
+		$a_input->addSubItem($radio_group);
+
+		// extra rss feed
+		if ($enable_internal_rss)
+		{
+			$radio_rss = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+				"notifications_public_feed");
+			$radio_rss->setInfo($lng->txt("news_public_feed_info"));
+			$radio_rss->setChecked($public_feed);
+			$a_input->addSubItem($radio_rss);
+		}
+	}
+
+	static function writeSettings($a_values)
+	{
+		global $DIC;
+
+		$block_id = $DIC->ctrl()->getContextObjId();
+
+		foreach($a_values as $key=>$value)
+		{
+			ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
+		}
+	}
+
 	/**
 	* Cancel settings.
 	*/
