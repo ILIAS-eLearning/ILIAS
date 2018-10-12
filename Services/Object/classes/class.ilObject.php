@@ -2013,16 +2013,19 @@ class ilObject
 		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
 		return true;	 	
 	}
-	
+
 	/**
-	* Get icon for repository item.
-	*
-	* @param	int			object id
-	* @param	string		size (big, small, tiny)
-	* @param	string		object type
-	* @param	boolean		true: offline, false: online
-	*/
-	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
+	 * Get icon for repository item.
+	 *
+	 * @param    int            object id
+	 * @param    string        size (big, small, tiny)
+	 * @param    string        object type
+	 * @param    boolean        true: offline, false: online
+	 */
+	public static function _getIcon(
+		$a_obj_id = "",
+		$a_size = "big",
+		$a_type = "",
 		$a_offline = false)
 	{
 		global $DIC;
@@ -2045,10 +2048,13 @@ class ilObject
 			$a_size = "big";
 		}
 
-		if ($ilSetting->get('custom_icons')) {
+		if(
+			$a_obj_id &&
+			$ilSetting->get('custom_icons')
+		) {
 			/** @var \ilObjectCustomIconFactory  $customIconFactory */
 			$customIconFactory = $DIC['object.customicons.factory'];
-			$customIcon        = $customIconFactory->getByObjId($a_obj_id, $a_type);
+			$customIcon = $customIconFactory->getPresenterByObjId($a_obj_id, $a_type);
 			if ($customIcon->exists()) {
 				$filename = $customIcon->getFullPath();
 				return $filename . '?tmp=' . filemtime($filename);
