@@ -15,39 +15,39 @@ interface ilAsqQuestionAuthoring
 	/**
 	 * Execute Command
 	 */
-	public function executeCommand() : void;
+	public function executeCommand();
 	
 	/**
 	 * @param ilAsqQuestion $question
 	 */
-	public function setQuestion(ilAsqQuestion $question) : void;
+	public function setQuestion(ilAsqQuestion $question);
 
 	/**
 	 * @param ilQuestionChangeListener $listener
 	 */
-	public function addQuestionChangeListener(ilQuestionChangeListener $listener) : void;
+	public function addQuestionChangeListener(ilQuestionChangeListener $listener);
 	
 	/**
 	 * @param object $a_object
 	 * @param string $a_method
 	 * @param mixed $a_parameters
 	 */
-	public function addNewIdListener($a_object, $a_method, $a_parameters = "") : void;
+	public function addNewIdListener($a_object, $a_method, $a_parameters = "");
 	
 	/**
 	 * @param int $a_new_question_id
 	 */
-	public function callNewIdListeners($a_new_question_id) : void;
+	public function callNewIdListeners($a_new_question_id);
 	
 	/**
 	 * @param array $taxonomies - an array of taxonomy ids
 	 */
-	public function setTaxonomies($taxonomies) : void;
+	public function setTaxonomies($taxonomies);
 	
 	/**
 	 * @param string $backLinkTarget - an http link
 	 */
-	public function setBackLink($backLinkTarget) : void;
+	public function setBackLink($backLinkTarget);
 	
 	/**
 	 * @return \ILIAS\UI\Component\Link\Link

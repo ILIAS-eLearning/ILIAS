@@ -16,13 +16,13 @@ interface ilAsqResultCalculator
 	 * @param ilAsqQuestion $question
 	 * @return void
 	 */
-	public function setQuestion(ilAsqQuestion $question) : void;
+	public function setQuestion(ilAsqQuestion $question);
 	
 	/**
 	 * @param ilAsqQuestionSolution $question
 	 * @return void
 	 */
-	public function setSolution(ilAsqQuestionSolution $question) : void;
+	public function setSolution(ilAsqQuestionSolution $question);
 	
 	/**
 	 * @return ilAsqQuestionResult

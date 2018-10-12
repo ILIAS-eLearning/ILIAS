@@ -14,7 +14,7 @@ interface ilAsqQuestionPresentation
 	/**
 	 * @param ilAsqQuestion $question
 	 */
-	public function setQuestion(ilAsqQuestion $question) : void;
+	public function setQuestion(ilAsqQuestion $question);
 	
 	/**
 	 * @param ilAsqQuestionSolution $solution
@@ -53,5 +53,5 @@ interface ilAsqQuestionPresentation
 	/**
 	 * @param ilAsqQuestionNavigationAware
 	 */
-	public function setQuestionNavigation(ilAsqQuestionNavigationAware $questionNavigationAware) : void;
+	public function setQuestionNavigation(ilAsqQuestionNavigationAware $questionNavigationAware);
 }

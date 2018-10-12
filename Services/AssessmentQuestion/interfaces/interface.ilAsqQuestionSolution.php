@@ -14,7 +14,7 @@ interface ilAsqQuestionSolution
 	/**
 	 * @param integer $solutionId
 	 */
-	public function setSolutionId($solutionId) : void;
+	public function setSolutionId($solutionId);
 	
 	/**
 	 * @return integer
@@ -24,7 +24,7 @@ interface ilAsqQuestionSolution
 	/**
 	 * @param integer $questionId
 	 */
-	public function setQuestionId($questionId) : void;
+	public function setQuestionId($questionId);
 	
 	/**
 	 * @return integer
@@ -34,17 +34,17 @@ interface ilAsqQuestionSolution
 	/**
 	 * Loads soluton data
 	 */
-	public function load() : void;
+	public function load();
 	
 	/**
 	 * Saves solution data
 	 */
-	public function save() : void;
+	public function save();
 	
 	/**
 	 * @param \Psr\Http\Message\ServerRequestInterface $request
 	 */
-	public function initFromServerRequest(\Psr\Http\Message\ServerRequestInterface $request) : void;
+	public function initFromServerRequest(\Psr\Http\Message\ServerRequestInterface $request);
 	
 	/**
 	 * @return bool

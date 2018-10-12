@@ -14,7 +14,7 @@ interface ilAsqQuestion
 	/**
 	 * @param $parentId
 	 */
-	public function setParentId($parentId) : void;
+	public function setParentId($parentId);
 	
 	/**
 	 * @return int
@@ -24,7 +24,7 @@ interface ilAsqQuestion
 	/**
 	 * @param int $questionId
 	 */
-	public function setId($questionId) : void;
+	public function setId($questionId);
 	
 	/**
 	 * @return int
@@ -69,22 +69,22 @@ interface ilAsqQuestion
 	/**
 	 * Loads question data
 	 */
-	public function load() : void;
+	public function load();
 	
 	/**
 	 * Save question data
 	 */
-	public function save() : void;
+	public function save();
 	
 	/**
 	 * Delete question
 	 */
-	public function delete() : void;
+	public function delete();
 	
 	/**
 	 * @param ilQTIItem $qtiItem
 	 */
-	public function fromQtiItem(ilQTIItem $qtiItem) : void;
+	public function fromQtiItem(ilQTIItem $qtiItem);
 	
 	/**
 	 * @return string
@@ -114,10 +114,10 @@ interface ilAsqQuestion
 	/**
 	 * @param string $offlineExportImagePath
 	 */
-	public function setOfflineExportImagePath($offlineExportImagePath = null) : void;
+	public function setOfflineExportImagePath($offlineExportImagePath = null);
 	
 	/**
 	 * @param string $offlineExportPagePresentationMode
 	 */
-	public function setOfflineExportPagePresentationMode($offlineExportPagePresentationMode = 'presentation') : void;
+	public function setOfflineExportPagePresentationMode($offlineExportPagePresentationMode = 'presentation');
 }
