@@ -22806,3 +22806,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5304>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
