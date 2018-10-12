@@ -1169,7 +1169,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				global $DIC;
 				/** @var \ilObjectCustomIconFactory $customIconFactory */
 				$customIconFactory = $DIC['object.customicons.factory'];
-				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+				$customIcon = $customIconFactory->getPresenterByObjId($a_item_obj_id, $a_image_type);
 
 				if ($customIcon->exists()) {
 					$icon = $customIcon->getFullPath();

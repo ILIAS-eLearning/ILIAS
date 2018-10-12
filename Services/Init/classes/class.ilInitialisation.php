@@ -640,7 +640,12 @@ class ilInitialisation
 	{
 		$c["object.customicons.factory"] = function ($c) {
 			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
-			return new ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
+			return new ilObjectCustomIconFactory(
+				$c->filesystem()->web(),
+				$c->upload(),
+				$c['ilObjDataCache'],
+				$c->database()
+			);
 		};
 	}
 

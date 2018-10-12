@@ -20,17 +20,30 @@ class ilObjectCustomIconFactory
 	 * @var \ilObjectDataCache
 	 */
 	protected $objectCache;
+
+
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $dbInterface;
 	
 	/**
 	 * ilObjectCustomIconFactory constructor.
 	 * @param \ILIAS\Filesystem\Filesystem $webDirectory
 	 * @param \ILIAS\FileUpload\FileUpload $uploadService
 	 */
-	public function __construct(\ILIAS\Filesystem\Filesystem $webDirectory, \ILIAS\FileUpload\FileUpload $uploadService, \ilObjectDataCache $objectCache)
+	public function __construct(
+		\ILIAS\Filesystem\Filesystem $webDirectory,
+		\ILIAS\FileUpload\FileUpload $uploadService,
+		\ilObjectDataCache $objectCache,
+		\ilDBInterface $db
+	)
 	{
 		$this->webDirectory  = $webDirectory;
 		$this->uploadService = $uploadService;
 		$this->objectCache   = $objectCache;
+		$this->dbInterface   = $db;
+
 	}
 
 	/**
@@ -77,5 +90,37 @@ class ilObjectCustomIconFactory
 			$this->getConfigurationByType($objType),
 			$objId
 		);
+	}
+
+	/**
+	 * Get custom icon presenter
+	 *
+	 * @param $objId
+	 * @param $objType
+	 *
+	 * @return \ilObjectCustomIconPresenter
+	 */
+	public function getPresenterByObjId($objId, $objType)
+	{
+		if (0 === strlen($objType)) {
+			$objType = $this->objectCache->lookupType($objId);
+		}
+
+		$presenter = null;
+		switch($objType)
+		{
+			case 'catr':
+			case 'grpr':
+			case 'crsr':
+				$target_obj_id = \ilObjectReferenceCustomIconPresenter::lookupTargetId($objId, $this->dbInterface);
+				$presenter = new \ilObjectReferenceCustomIconPresenter($this->getByObjId($target_obj_id));
+				break;
+
+			default:
+				$presenter = new \ilObjectCustomIconPresenterImpl($this->getByObjId($objId));
+				break;
+
+		}
+		return $presenter;
 	}
 }
