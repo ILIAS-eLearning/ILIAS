@@ -12,27 +12,27 @@ use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 interface StorageAdapter {
 
 	/**
-	 * @param isItem $entry
+	 * @param isItem $item
 	 *
 	 * @return isItem
 	 */
-	public function storeEntry(isItem $entry): isItem;
+	public function storeItem(isItem $item): isItem;
 
 
 	/**
-	 * @param isItem $entry
+	 * @param isItem $item
 	 *
 	 * @return isItem
 	 */
-	public function readEntry(isItem $entry): isItem;
+	public function readItem(isItem $item): isItem;
 
 
 	/**
-	 * @param isItem $entry
+	 * @param isItem $item
 	 *
 	 * @return isItem
 	 */
-	public function updateEntry(isItem $entry): isItem;
+	public function updateItem(isItem $item): isItem;
 
 
 	/**

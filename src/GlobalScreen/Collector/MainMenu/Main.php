@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
+use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\MainMenu\Slate\Slate;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
  * Class Main
@@ -36,14 +38,14 @@ class Main {
 
 
 	/**
-	 * This will return all available slates, stacked based on the configuration
+	 * This will return all available topitems, stacked based on the configuration
 	 * in "Administration" and for the visibility of the currently user.
-	 * Additionally this will filter sequent Dividers to avoid double Dividers
+	 * Additionally this will filter sequent Separators to avoid double Separators
 	 * in the UI.
 	 *
-	 * @return Slate[]
+	 * @return isTopItem[]
 	 */
-	public function getStackedSlates(): array {
-		return array(); // TODO implement
+	public function getStackedTopItems(): array {
+		return array(); // TODO implementation will be done separately
 	}
 }
