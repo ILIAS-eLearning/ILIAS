@@ -5335,7 +5335,7 @@ abstract class ilPageObject
 	public function resolveResources($ref_mapping)
 	{
 		include_once("./Services/COPage/classes/class.ilPCResources.php");
-		ilPCResources::resolveResources($this, $ref_mapping);
+		return ilPCResources::resolveResources($this, $ref_mapping);
 	}
 	
 

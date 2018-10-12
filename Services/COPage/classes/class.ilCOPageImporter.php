@@ -159,14 +159,14 @@ class ilCOPageImporter extends ilXmlImporter
 						$new_page->buildDom();
 						$med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
 						$fil = $new_page->resolveFileItems($file_objects);
-						$new_page->resolveResources($ref_mapping);
+						$res = $new_page->resolveResources($ref_mapping);
 						$il = false;
 						if (!$this->config->getSkipInternalLinkResolve())
 						{
 							$il = $new_page->resolveIntLinks();
 							$this->log->debug("resolve internal link for page ".$id[0]."-".$id[1]."-".$id[2]);
 						}
-						if ($med || $fil || $il)
+						if ($med || $fil || $il || $res)
 						{
 							$new_page->update(false, true);
 						}
