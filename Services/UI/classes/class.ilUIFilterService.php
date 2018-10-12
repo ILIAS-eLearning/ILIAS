@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * News service
+ * Filter service
  *
  * @author killing@leifos.de
  * @ingroup ServiceUI
@@ -38,7 +38,7 @@ class ilUIFilterService
 	 * @param
 	 * @return
 	 */
-	protected function standard($filter_id, $base_action, array $inputs, array $is_input_initially_rendered,
+	public function standard($filter_id, $base_action, array $inputs, array $is_input_initially_rendered,
 								$is_initially_activated = false, $is_initially_expanded = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
 		global $DIC;
@@ -90,8 +90,14 @@ class ilUIFilterService
 
 		// get data from session
 
-		$is_activated = ilSession::get("ui_service_filter_activated_".$filter_id);
-		$is_expanded = ilSession::get("ui_service_filter_expanded_".$filter_id);
+		if (isset($_SESSION["ui_service_filter_activated_".$filter_id]) && !empty("ui_service_filter_activated_".$filter_id)) {
+			$is_activated = ilSession::get("ui_service_filter_activated_".$filter_id);
+		}
+
+		if (isset($_SESSION["ui_service_filter_expanded_".$filter_id]) && !empty("ui_service_filter_expanded_".$filter_id)) {
+			$is_expanded = ilSession::get("ui_service_filter_expanded_".$filter_id);
+		}
+
 
 		//compose a new array because rendering of inputs has eventually changed
 		if (ilSession::get("ui_service_filter_is_input_rendered_0" . "_" . $filter_id) != null) {
