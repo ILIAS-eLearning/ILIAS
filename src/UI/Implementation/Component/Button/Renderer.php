@@ -68,7 +68,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component->isActive()) {
 			// The actions might also be a list of signals, these will be appended by
 			// bindJavascript in maybeRenderId.
-			if (is_string($action)) {
+			if (is_string($action) && $action != "") {
 				$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 					$action = str_replace("&amp;", "&", $action);
 

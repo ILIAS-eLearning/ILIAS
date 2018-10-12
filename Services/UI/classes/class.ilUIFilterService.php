@@ -69,7 +69,7 @@ class ilUIFilterService
 
 		$input_id = 0;
 
-		if ($_REQUEST["cmdFilter"] == "apply") {
+		/*if ($_REQUEST["cmdFilter"] == "apply") {
 			foreach ($is_input_rendered as $i) {
 				if ($i == true) {
 					ilSession::set("ui_service_filter_is_input_rendered_" . $input_id . "_" . $filter_id, true);
@@ -78,7 +78,7 @@ class ilUIFilterService
 				}
 				$input_id++;
 			}
-		}
+		}*/
 
 		if ($_REQUEST["cmdFilter"] == "reset") {
 			foreach ($is_input_rendered as $i) {
@@ -127,11 +127,22 @@ class ilUIFilterService
 
 		// wenn request + apply, dann
 		// 1. daten aus request in form setzen
+		$request = $DIC->http()->request();
+		//if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
+		if ($request->getMethod() == "POST") {
+			//var_dump($_POST); exit;
+			$filter = $filter->withRequest($request);
+			$result = $filter->getData();
+			var_dump($result); exit;
+		}
+		else {
+			$result = "No result yet.";
+		}
 
 		// 2. eingabe werte in session speichern
 		foreach ($filter->getInputs() as $i)
 		{
-			$_SESSION["ui"]["filter"][$input_id]["value"] = serialize($i->getValue());
+			//$_SESSION["ui"]["filter"][$input_id]["value"] = serialize($i->getValue());
 		}
 
 		// ansonsten (wenn nicht reset gedrückt)
@@ -139,7 +150,7 @@ class ilUIFilterService
 		{
 			if (isset($_SESSION["ui"]["filter"][$input_id]["value"]))
 			{
-				$i->setValue(unserialize($_SESSION["ui"]["filter"][$input_id]["value"]));
+				//$i->setValue(unserialize($_SESSION["ui"]["filter"][$input_id]["value"]));
 			}
 		}
 
