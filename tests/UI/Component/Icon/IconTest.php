@@ -34,7 +34,9 @@ class IconTest extends ILIAS_UI_TestBase {
 		$this->assertEquals('course', $ico->getName());
 		$this->assertEquals('small', $ico->getSize());
 		$this->assertEquals(false, $ico->isDisabled());
-		$this->assertNull($ico->getAbbreviation());
+        $this->assertEquals(false, $ico->isOutlined());
+
+        $this->assertNull($ico->getAbbreviation());
 
 		$ico = $ico->withAbbreviation('K');
 		$this->assertEquals('K', $ico->getAbbreviation());
@@ -89,6 +91,17 @@ class IconTest extends ILIAS_UI_TestBase {
 		}
 	}
 
+    public function testOutlinedModification() {
+        $f = $this->getIconFactory();
+        $ico = $f->standard('course', 'Kurs', 'small');
+
+        $ico = $ico->withIsOutlined(true);
+        $this->assertEquals(true, $ico->isOutlined());
+
+        $ico = $ico->withIsOutlined(false);
+        $this->assertEquals(false, $ico->isOutlined());
+    }
+
 	public function testCustomPath() {
 		$f = $this->getIconFactory();
 
@@ -119,6 +132,30 @@ class IconTest extends ILIAS_UI_TestBase {
 					.'</div>';
 		$this->assertEquals($expected, $html);
 	}
+
+    public function testRenderingStandardOutlined() {
+        $f = $this->getIconFactory();
+        $r = $this->getDefaultRenderer();
+
+        $ico = $ico = $f->standard('crs', 'Course', 'medium')->withIsOutlined(true);
+        $html = $this->normalizeHTML($r->render($ico));
+        $expected = '<div class="icon crs medium outlined" aria-label="Course"></div>';
+        $this->assertEquals($expected, $html);
+
+        //with disabled
+        $ico = $ico->withDisabled(true);
+        $html = $this->normalizeHTML($r->render($ico));
+        $expected = '<div class="icon crs medium disabled outlined" aria-label="Course"></div>';
+        $this->assertEquals($expected, $html);
+
+        //with abbreviation
+        $ico = $ico->withAbbreviation('CRS');
+        $html = $this->normalizeHTML($r->render($ico));
+        $expected = '<div class="icon crs medium disabled outlined" aria-label="Course">'
+            .'	<div class="abbreviation">CRS</div>'
+            .'</div>';
+        $this->assertEquals($expected, $html);
+    }
 
 	public function testRenderingCustom() {
 		$f = $this->getIconFactory();

@@ -54,8 +54,8 @@
 	}
 
 	&.disabled {
-		-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-		filter: grayscale(100%);
+		-webkit-filter: @il-standard-disabled-icon-filter; /* Safari 6.0 - 9.0 */
+		filter: @il-standard-disabled-icon-filter;
 	}
 
 	/* the custom-icon is rendered with an image contained in the div */
@@ -179,321 +179,648 @@
 
 
 	&.grp{
-		background-image: url("@{background-images-path}icon_grp.svg");
+		background-image: url("@{il-standard-icon-path}icon_grp.svg");
 	}
 	&.cat{
-		background-image: url("@{background-images-path}icon_cat.svg");
+		background-image: url("@{il-standard-icon-path}icon_cat.svg");
 	}
 	&.crs{
-		background-image: url("@{background-images-path}icon_crs.svg");
+		background-image: url("@{il-standard-icon-path}icon_crs.svg");
 	}
 	&.mob {
-		background-image: url("@{background-images-path}icon_mob.svg");
+		background-image: url("@{il-standard-icon-path}icon_mob.svg");
 	}
 	&.mail {
-		background-image: url("@{background-images-path}icon_mail.svg");
+		background-image: url("@{il-standard-icon-path}icon_mail.svg");
 	}
 	&.sahs{
-		background-image: url("@{background-images-path}icon_sahs.svg");
+		background-image: url("@{il-standard-icon-path}icon_sahs.svg");
 	}
 	&.adm {
-		background-image: url("@{background-images-path}icon_adm.svg");
+		background-image: url("@{il-standard-icon-path}icon_adm.svg");
 	}
 	&.usrf{
-		background-image: url("@{background-images-path}icon_usrf.svg");
+		background-image: url("@{il-standard-icon-path}icon_usrf.svg");
 	}
 	&.rolf{
-		background-image: url("@{background-images-path}icon_rolf.svg");
+		background-image: url("@{il-standard-icon-path}icon_rolf.svg");
 	}
 	&.objf{
-		background-image: url("@{background-images-path}icon_objf.svg");
+		background-image: url("@{il-standard-icon-path}icon_objf.svg");
 	}
 	&.usr{
-		background-image: url("@{background-images-path}icon_usr.svg");
+		background-image: url("@{il-standard-icon-path}icon_usr.svg");
 	}
 	&.rolt{
-		background-image: url("@{background-images-path}icon_rolt.svg");
+		background-image: url("@{il-standard-icon-path}icon_rolt.svg");
 	}
 	&.lngf{
-		background-image: url("@{background-images-path}icon_lngf.svg");
+		background-image: url("@{il-standard-icon-path}icon_lngf.svg");
 	}
 	&.lng{
-		background-image: url("@{background-images-path}icon_lng.svg");
+		background-image: url("@{il-standard-icon-path}icon_lng.svg");
 	}
 	&.role{
-		background-image: url("@{background-images-path}icon_role.svg");
+		background-image: url("@{il-standard-icon-path}icon_role.svg");
 	}
 	&.dbk{
-		background-image: url("@{background-images-path}icon_dbk.svg");
+		background-image: url("@{il-standard-icon-path}icon_dbk.svg");
 	}
 	&.glo{
-		background-image: url("@{background-images-path}icon_glo.svg");
+		background-image: url("@{il-standard-icon-path}icon_glo.svg");
 	}
 	&.root{
-		background-image: url("@{background-images-path}icon_root.svg");
+		background-image: url("@{il-standard-icon-path}icon_root.svg");
 	}
 	&.lm{
-		background-image: url("@{background-images-path}icon_lm.svg");
+		background-image: url("@{il-standard-icon-path}icon_lm.svg");
 	}
 	&.notf{
-		background-image: url("@{background-images-path}icon_notf.svg");
+		background-image: url("@{il-standard-icon-path}icon_notf.svg");
 	}
 	&.note{
-		background-image: url("@{background-images-path}icon_note.svg");
+		background-image: url("@{il-standard-icon-path}icon_note.svg");
 	}
 	&.frm{
-		background-image: url("@{background-images-path}icon_frm.svg");
+		background-image: url("@{il-standard-icon-path}icon_frm.svg");
 	}
 	&.exc{
-		background-image: url("@{background-images-path}icon_exc.svg");
+		background-image: url("@{il-standard-icon-path}icon_exc.svg");
 	}
 	&.auth{
-		background-image: url("@{background-images-path}icon_auth.svg");
+		background-image: url("@{il-standard-icon-path}icon_auth.svg");
 	}
 	&.fold{
-		background-image: url("@{background-images-path}icon_fold.svg");
+		background-image: url("@{il-standard-icon-path}icon_fold.svg");
 	}
 	&.file{
-		background-image: url("@{background-images-path}icon_file.svg");
+		background-image: url("@{il-standard-icon-path}icon_file.svg");
 	}
 	&.tst{
-		background-image: url("@{background-images-path}icon_tst.svg");
+		background-image: url("@{il-standard-icon-path}icon_tst.svg");
 	}
 	&.qpl{
-		background-image: url("@{background-images-path}icon_qpl.svg");
+		background-image: url("@{il-standard-icon-path}icon_qpl.svg");
 	}
 	&.recf{
-		background-image: url("@{background-images-path}icon_recf.svg");
+		background-image: url("@{il-standard-icon-path}icon_recf.svg");
 	}
 	&.mep{
-		background-image: url("@{background-images-path}icon_mep.svg");
+		background-image: url("@{il-standard-icon-path}icon_mep.svg");
 	}
 	&.htlm{
-		background-image: url("@{background-images-path}icon_htlm.svg");
+		background-image: url("@{il-standard-icon-path}icon_htlm.svg");
 	}
 	&.svy{
-		background-image: url("@{background-images-path}icon_svy.svg");
+		background-image: url("@{il-standard-icon-path}icon_svy.svg");
 	}
 	&.spl{
-		background-image: url("@{background-images-path}icon_spl.svg");
+		background-image: url("@{il-standard-icon-path}icon_spl.svg");
 	}
 	&.cals{
-		background-image: url("@{background-images-path}icon_cals.svg");
+		background-image: url("@{il-standard-icon-path}icon_cals.svg");
 	}
 	&.trac{
-		background-image: url("@{background-images-path}icon_trac.svg");
+		background-image: url("@{il-standard-icon-path}icon_trac.svg");
 	}
 	&.assf{
-		background-image: url("@{background-images-path}icon_assf.svg");
+		background-image: url("@{il-standard-icon-path}icon_assf.svg");
 	}
 	&.stys{
-		background-image: url("@{background-images-path}icon_stys.svg");
+		background-image: url("@{il-standard-icon-path}icon_stys.svg");
 	}
 	&.crsg{
-		background-image: url("@{background-images-path}icon_crsg.svg");
+		background-image: url("@{il-standard-icon-path}icon_crsg.svg");
 	}
 	&.webr{
-		background-image: url("@{background-images-path}icon_webr.svg");
+		background-image: url("@{il-standard-icon-path}icon_webr.svg");
 	}
 	&.seas{
-		background-image: url("@{background-images-path}icon_seas.svg");
+		background-image: url("@{il-standard-icon-path}icon_seas.svg");
 	}
 	&.extt{
-		background-image: url("@{background-images-path}icon_extt.svg");
+		background-image: url("@{il-standard-icon-path}icon_extt.svg");
 	}
 	&.adve{
-		background-image: url("@{background-images-path}icon_adve.svg");
+		background-image: url("@{il-standard-icon-path}icon_adve.svg");
 	}
 	&.ps{
-		background-image: url("@{background-images-path}icon_ps.svg");
+		background-image: url("@{il-standard-icon-path}icon_ps.svg");
 	}
 	&.nwss{
-		background-image: url("@{background-images-path}icon_nwss.svg");
+		background-image: url("@{il-standard-icon-path}icon_nwss.svg");
 	}
 	&.feed{
-		background-image: url("@{background-images-path}icon_feed.svg");
+		background-image: url("@{il-standard-icon-path}icon_feed.svg");
 	}
 	&.mcst{
-		background-image: url("@{background-images-path}icon_mcst.svg");
+		background-image: url("@{il-standard-icon-path}icon_mcst.svg");
 	}
 	&.pdts{
-		background-image: url("@{background-images-path}icon_pdts.svg");
+		background-image: url("@{il-standard-icon-path}icon_pdts.svg");
 	}
 	&.rcrs{
-		background-image: url("@{background-images-path}icon_rcrs.svg");
+		background-image: url("@{il-standard-icon-path}icon_rcrs.svg");
 	}
 	&.mds{
-		background-image: url("@{background-images-path}icon_mds.svg");
+		background-image: url("@{il-standard-icon-path}icon_mds.svg");
 	}
 	&.cmps{
-		background-image: url("@{background-images-path}icon_cmps.svg");
+		background-image: url("@{il-standard-icon-path}icon_cmps.svg");
 	}
 	&.facs{
-		background-image: url("@{background-images-path}icon_facs.svg");
+		background-image: url("@{il-standard-icon-path}icon_facs.svg");
 	}
 	&.svyf{
-		background-image: url("@{background-images-path}icon_svyf.svg");
+		background-image: url("@{il-standard-icon-path}icon_svyf.svg");
 	}
 	&.sess{
-		background-image: url("@{background-images-path}icon_sess.svg");
+		background-image: url("@{il-standard-icon-path}icon_sess.svg");
 	}
 	&.mcts{
-		background-image: url("@{background-images-path}icon_mcts.svg");
+		background-image: url("@{il-standard-icon-path}icon_mcts.svg");
 	}
 	&.wiki{
-		background-image: url("@{background-images-path}icon_wiki.svg");
+		background-image: url("@{il-standard-icon-path}icon_wiki.svg");
 	}
 	&.crsr{
-		background-image: url("@{background-images-path}icon_crsr.svg");
+		background-image: url("@{il-standard-icon-path}icon_crsr.svg");
 	}
 	&.catr{
-		background-image: url("@{background-images-path}icon_catr.svg");
+		background-image: url("@{il-standard-icon-path}icon_catr.svg");
 	}
 	&.tags{
-		background-image: url("@{background-images-path}icon_tags.svg");
+		background-image: url("@{il-standard-icon-path}icon_tags.svg");
 	}
 	&.cert{
-		background-image: url("@{background-images-path}icon_cert.svg");
+		background-image: url("@{il-standard-icon-path}icon_cert.svg");
 	}
 	&.lrss{
-		background-image: url("@{background-images-path}icon_lrss.svg");
+		background-image: url("@{il-standard-icon-path}icon_lrss.svg");
 	}
 	&.accs{
-		background-image: url("@{background-images-path}icon_accs.svg");
+		background-image: url("@{il-standard-icon-path}icon_accs.svg");
 	}
 	&.mobs{
-		background-image: url("@{background-images-path}icon_mobs.svg");
+		background-image: url("@{il-standard-icon-path}icon_mobs.svg");
 	}
 	&.frma{
-		background-image: url("@{background-images-path}icon_frma.svg");
+		background-image: url("@{il-standard-icon-path}icon_frma.svg");
 	}
 	&.book{
-		background-image: url("@{background-images-path}icon_book.svg");
+		background-image: url("@{il-standard-icon-path}icon_book.svg");
 	}
 	&.skmg{
-		background-image: url("@{background-images-path}icon_skmg.svg");
+		background-image: url("@{il-standard-icon-path}icon_skmg.svg");
 	}
 	&.blga{
-		background-image: url("@{background-images-path}icon_blga.svg");
+		background-image: url("@{il-standard-icon-path}icon_blga.svg");
 	}
 	&.prfa{
-		background-image: url("@{background-images-path}icon_prfa.svg");
+		background-image: url("@{il-standard-icon-path}icon_prfa.svg");
 	}
 	&.chtr{
-		background-image: url("@{background-images-path}icon_chtr.svg");
+		background-image: url("@{il-standard-icon-path}icon_chtr.svg");
 	}
 	&.chta{
-		background-image: url("@{background-images-path}icon_chta.svg");
+		background-image: url("@{il-standard-icon-path}icon_chta.svg");
 	}
 	&.otpl{
-		background-image: url("@{background-images-path}icon_otpl.svg");
+		background-image: url("@{il-standard-icon-path}icon_otpl.svg");
 	}
 	&.blog{
-		background-image: url("@{background-images-path}icon_blog.svg");
+		background-image: url("@{il-standard-icon-path}icon_blog.svg");
 	}
 	&.dcl{
-		background-image: url("@{background-images-path}icon_dcl.svg");
+		background-image: url("@{il-standard-icon-path}icon_dcl.svg");
 	}
 	&.poll{
-		background-image: url("@{background-images-path}icon_poll.svg");
+		background-image: url("@{il-standard-icon-path}icon_poll.svg");
 	}
 	&.hlps{
-		background-image: url("@{background-images-path}icon_hlps.svg");
+		background-image: url("@{il-standard-icon-path}icon_hlps.svg");
 	}
 	&.itgr{
-		background-image: url("@{background-images-path}icon_itgr.svg");
+		background-image: url("@{il-standard-icon-path}icon_itgr.svg");
 	}
 	&.rcat{
-		background-image: url("@{background-images-path}icon_rcat.svg");
+		background-image: url("@{il-standard-icon-path}icon_rcat.svg");
 	}
 	&.rwik{
-		background-image: url("@{background-images-path}icon_rwik.svg");
+		background-image: url("@{il-standard-icon-path}icon_rwik.svg");
 	}
 	&.rlm{
-		background-image: url("@{background-images-path}icon_rlm.svg");
+		background-image: url("@{il-standard-icon-path}icon_rlm.svg");
 	}
 	&.rglo{
-		background-image: url("@{background-images-path}icon_rglo.svg");
+		background-image: url("@{il-standard-icon-path}icon_rglo.svg");
 	}
 	&.rfil{
-		background-image: url("@{background-images-path}icon_rfil.svg");
+		background-image: url("@{il-standard-icon-path}icon_rfil.svg");
 	}
 	&.rgrp{
-		background-image: url("@{background-images-path}icon_rgrp.svg");
+		background-image: url("@{il-standard-icon-path}icon_rgrp.svg");
 	}
 	&.rtst{
-		background-image: url("@{background-images-path}icon_rtst.svg");
+		background-image: url("@{il-standard-icon-path}icon_rtst.svg");
 	}
 	&.ecss{
-		background-image: url("@{background-images-path}icon_ecss.svg");
+		background-image: url("@{il-standard-icon-path}icon_ecss.svg");
 	}
 	&.tos{
-		background-image: url("@{background-images-path}icon_tos.svg");
+		background-image: url("@{il-standard-icon-path}icon_tos.svg");
 	}
 	&.bibl{
-		background-image: url("@{background-images-path}icon_bibl.svg");
+		background-image: url("@{il-standard-icon-path}icon_bibl.svg");
 	}
 	&.sysc{
-		background-image: url("@{background-images-path}icon_sysc.svg");
+		background-image: url("@{il-standard-icon-path}icon_sysc.svg");
 	}
 	&.cld{
-		background-image: url("@{background-images-path}icon_cld.svg");
+		background-image: url("@{il-standard-icon-path}icon_cld.svg");
 	}
 	&.reps{
-		background-image: url("@{background-images-path}icon_reps.svg");
+		background-image: url("@{il-standard-icon-path}icon_reps.svg");
 	}
 	&.crss{
-		background-image: url("@{background-images-path}icon_crss.svg");
+		background-image: url("@{il-standard-icon-path}icon_crss.svg");
 	}
 	&.grps{
-		background-image: url("@{background-images-path}icon_grps.svg");
+		background-image: url("@{il-standard-icon-path}icon_grps.svg");
 	}
 	&.wbrs{
-		background-image: url("@{background-images-path}icon_wbrs.svg");
+		background-image: url("@{il-standard-icon-path}icon_wbrs.svg");
 	}
 	&.prtt{
-		background-image: url("@{background-images-path}icon_prtt.svg");
+		background-image: url("@{il-standard-icon-path}icon_prtt.svg");
 	}
 	&.orgu{
-		background-image: url("@{background-images-path}icon_orgu.svg");
+		background-image: url("@{il-standard-icon-path}icon_orgu.svg");
 	}
 	&.wiks{
-		background-image: url("@{background-images-path}icon_wiks.svg");
+		background-image: url("@{il-standard-icon-path}icon_wiks.svg");
 	}
 	&.excs{
-		background-image: url("@{background-images-path}icon_excs.svg");
+		background-image: url("@{il-standard-icon-path}icon_excs.svg");
 	}
 	&.taxs{
-		background-image: url("@{background-images-path}icon_taxs.svg");
+		background-image: url("@{il-standard-icon-path}icon_taxs.svg");
 	}
 	&.bibs{
-		background-image: url("@{background-images-path}icon_bibs.svg");
+		background-image: url("@{il-standard-icon-path}icon_bibs.svg");
 	}
 	&.awra{
-		background-image: url("@{background-images-path}icon_awra.svg");
+		background-image: url("@{il-standard-icon-path}icon_awra.svg");
 	}
 	&.logs{
-		background-image: url("@{background-images-path}icon_logs.svg");
+		background-image: url("@{il-standard-icon-path}icon_logs.svg");
 	}
 	&.prg{
-		background-image: url("@{background-images-path}icon_prg.svg");
+		background-image: url("@{il-standard-icon-path}icon_prg.svg");
 	}
 	&.prgs{
-		background-image: url("@{background-images-path}icon_prgs.svg");
+		background-image: url("@{il-standard-icon-path}icon_prgs.svg");
 	}
 	&.cadm{
-		background-image: url("@{background-images-path}icon_cadm.svg");
+		background-image: url("@{il-standard-icon-path}icon_cadm.svg");
 	}
 	&.grpr{
-		background-image: url("@{background-images-path}icon_grpr.svg");
+		background-image: url("@{il-standard-icon-path}icon_grpr.svg");
 	}
 	&.bdga{
-		background-image: url("@{background-images-path}icon_bdga.svg");
+		background-image: url("@{il-standard-icon-path}icon_bdga.svg");
 	}
 	&.wfe{
-		background-image: url("@{background-images-path}icon_wfe.svg");
+		background-image: url("@{il-standard-icon-path}icon_wfe.svg");
 	}
 	&.iass{
-		background-image: url("@{background-images-path}icon_iass.svg");
+		background-image: url("@{il-standard-icon-path}icon_iass.svg");
+	}
+
+	&.outlined{
+		filter: @il-standard-outlined-icon-filter;
+
+		&.disabled {
+			filter: @il-standard-outlined-disabled-icon-filter;
+		}
+
+		&.grp{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grp.svg");
+		}
+		&.cat{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cat.svg");
+		}
+		&.crs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crs.svg");
+		}
+		&.mob {
+			background-image: url("@{il-standard-outlined-icon-path}icon_mob.svg");
+		}
+		&.mail {
+			background-image: url("@{il-standard-outlined-icon-path}icon_mail.svg");
+		}
+		&.sahs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sahs.svg");
+		}
+		&.adm {
+			background-image: url("@{il-standard-outlined-icon-path}icon_adm.svg");
+		}
+		&.usrf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_usrf.svg");
+		}
+		&.rolf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rolf.svg");
+		}
+		&.objf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_objf.svg");
+		}
+		&.usr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_usr.svg");
+		}
+		&.rolt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rolt.svg");
+		}
+		&.lngf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lngf.svg");
+		}
+		&.lng{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lng.svg");
+		}
+		&.role{
+			background-image: url("@{il-standard-outlined-icon-path}icon_role.svg");
+		}
+		&.dbk{
+			background-image: url("@{il-standard-outlined-icon-path}icon_dbk.svg");
+		}
+		&.glo{
+			background-image: url("@{il-standard-outlined-icon-path}icon_glo.svg");
+		}
+		&.root{
+			background-image: url("@{il-standard-outlined-icon-path}icon_root.svg");
+		}
+		&.lm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lm.svg");
+		}
+		&.notf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_notf.svg");
+		}
+		&.note{
+			background-image: url("@{il-standard-outlined-icon-path}icon_note.svg");
+		}
+		&.frm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_frm.svg");
+		}
+		&.exc{
+			background-image: url("@{il-standard-outlined-icon-path}icon_exc.svg");
+		}
+		&.auth{
+			background-image: url("@{il-standard-outlined-icon-path}icon_auth.svg");
+		}
+		&.fold{
+			background-image: url("@{il-standard-outlined-icon-path}icon_fold.svg");
+		}
+		&.file{
+			background-image: url("@{il-standard-outlined-icon-path}icon_file.svg");
+		}
+		&.tst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tst.svg");
+		}
+		&.qpl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_qpl.svg");
+		}
+		&.recf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_recf.svg");
+		}
+		&.mep{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mep.svg");
+		}
+		&.htlm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_htlm.svg");
+		}
+		&.svy{
+			background-image: url("@{il-standard-outlined-icon-path}icon_svy.svg");
+		}
+		&.spl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_spl.svg");
+		}
+		&.cals{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cals.svg");
+		}
+		&.trac{
+			background-image: url("@{il-standard-outlined-icon-path}icon_trac.svg");
+		}
+		&.assf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_assf.svg");
+		}
+		&.stys{
+			background-image: url("@{il-standard-outlined-icon-path}icon_stys.svg");
+		}
+		&.crsg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crsg.svg");
+		}
+		&.webr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_webr.svg");
+		}
+		&.seas{
+			background-image: url("@{il-standard-outlined-icon-path}icon_seas.svg");
+		}
+		&.extt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_extt.svg");
+		}
+		&.adve{
+			background-image: url("@{il-standard-outlined-icon-path}icon_adve.svg");
+		}
+		&.ps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_ps.svg");
+		}
+		&.nwss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_nwss.svg");
+		}
+		&.feed{
+			background-image: url("@{il-standard-outlined-icon-path}icon_feed.svg");
+		}
+		&.mcst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mcst.svg");
+		}
+		&.pdts{
+			background-image: url("@{il-standard-outlined-icon-path}icon_pdts.svg");
+		}
+		&.rcrs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rcrs.svg");
+		}
+		&.mds{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mds.svg");
+		}
+		&.cmps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cmps.svg");
+		}
+		&.facs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_facs.svg");
+		}
+		&.svyf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_svyf.svg");
+		}
+		&.sess{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sess.svg");
+		}
+		&.mcts{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mcts.svg");
+		}
+		&.wiki{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wiki.svg");
+		}
+		&.crsr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crsr.svg");
+		}
+		&.catr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_catr.svg");
+		}
+		&.tags{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tags.svg");
+		}
+		&.cert{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cert.svg");
+		}
+		&.lrss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lrss.svg");
+		}
+		&.accs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_accs.svg");
+		}
+		&.mobs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mobs.svg");
+		}
+		&.frma{
+			background-image: url("@{il-standard-outlined-icon-path}icon_frma.svg");
+		}
+		&.book{
+			background-image: url("@{il-standard-outlined-icon-path}icon_book.svg");
+		}
+		&.skmg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_skmg.svg");
+		}
+		&.blga{
+			background-image: url("@{il-standard-outlined-icon-path}icon_blga.svg");
+		}
+		&.prfa{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prfa.svg");
+		}
+		&.chtr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_chtr.svg");
+		}
+		&.chta{
+			background-image: url("@{il-standard-outlined-icon-path}icon_chta.svg");
+		}
+		&.otpl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_otpl.svg");
+		}
+		&.blog{
+			background-image: url("@{il-standard-outlined-icon-path}icon_blog.svg");
+		}
+		&.dcl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_dcl.svg");
+		}
+		&.poll{
+			background-image: url("@{il-standard-outlined-icon-path}icon_poll.svg");
+		}
+		&.hlps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_hlps.svg");
+		}
+		&.itgr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_itgr.svg");
+		}
+		&.rcat{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rcat.svg");
+		}
+		&.rwik{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rwik.svg");
+		}
+		&.rlm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rlm.svg");
+		}
+		&.rglo{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rglo.svg");
+		}
+		&.rfil{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rfil.svg");
+		}
+		&.rgrp{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rgrp.svg");
+		}
+		&.rtst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rtst.svg");
+		}
+		&.ecss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_ecss.svg");
+		}
+		&.tos{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tos.svg");
+		}
+		&.bibl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bibl.svg");
+		}
+		&.sysc{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sysc.svg");
+		}
+		&.cld{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cld.svg");
+		}
+		&.reps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_reps.svg");
+		}
+		&.crss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crss.svg");
+		}
+		&.grps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grps.svg");
+		}
+		&.wbrs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wbrs.svg");
+		}
+		&.prtt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prtt.svg");
+		}
+		&.orgu{
+			background-image: url("@{il-standard-outlined-icon-path}icon_orgu.svg");
+		}
+		&.wiks{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wiks.svg");
+		}
+		&.excs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_excs.svg");
+		}
+		&.taxs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_taxs.svg");
+		}
+		&.bibs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bibs.svg");
+		}
+		&.awra{
+			background-image: url("@{il-standard-outlined-icon-path}icon_awra.svg");
+		}
+		&.logs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_logs.svg");
+		}
+		&.prg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prg.svg");
+		}
+		&.prgs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prgs.svg");
+		}
+		&.cadm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cadm.svg");
+		}
+		&.grpr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grpr.svg");
+		}
+		&.bdga{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bdga.svg");
+		}
+		&.wfe{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wfe.svg");
+		}
+		&.iass{
+			background-image: url("@{il-standard-outlined-icon-path}icon_iass.svg");
+		}
 	}
 }

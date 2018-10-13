@@ -25,6 +25,10 @@ class Renderer extends AbstractComponentRenderer {
 
         if ($component instanceof Component\Icon\Custom) {
                 $tpl->setVariable("CUSTOMIMAGE",$component->getIconPath());
+        }else{
+            if($component->isOutlined()){
+                $tpl->setVariable("OUTLINED", " outlined");
+            }
         }
 
         $ab = $component->getAbbreviation();
