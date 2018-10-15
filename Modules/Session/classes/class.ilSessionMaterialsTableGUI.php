@@ -14,6 +14,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 	protected $container_ref_id;
 	protected $material_items;
+	protected $filter; // [array]
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
@@ -28,6 +29,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parent_ref_id = $tree->getParentId($a_parent_obj->object->getRefId());
+		$this->parent_object_id = $a_parent_obj->object->getId();
 
 		//$this->setEnableNumInfo(false);
 		//$this->setLimit(100);
@@ -35,12 +37,16 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 		$this->setFormName('materials');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj,$a_parent_cmd));
-		$this->addCommandButton("saveMaterials", $lng->txt("save"));
 
 		$this->addColumn("", "f", 1);
 		$this->addColumn($lng->txt("crs_materials"), "object", "90%" );
 		$this->addColumn($lng->txt("status"), "active", 5);
 		$this->setSelectAllCheckbox('items');
+
+		$this->setFilterCommand($this->getParentCmd()."Apply");
+		$this->setResetCommand($this->getParentCmd()."Reset");
+
+		$this->initFilter();
 	}
 
 	/**
@@ -77,7 +83,14 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		}
 
 		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
-		$this->setData($materials);
+
+		return $materials;
+		//$this->setData($materials);
+	}
+
+	function setMaterials($a_materials)
+	{
+		$this->setData($a_materials);
 	}
 
 	/**
@@ -145,4 +158,60 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		return $this->container_ref_id;
 	}
 
+	function typesAllowed($a_items)
+	{
+		//TODO ban the poll etc. All the sideblocks
+	}
+
+	// Return all obj types from the obj container.
+	function typesAvailable($a_items)
+	{
+		$all_types = array();
+		foreach($a_items as $item)
+		{
+			array_push($all_types, ilObject::_lookupType($item,true));
+		}
+		return array_values(array_unique($all_types));
+	}
+
+	function initFilter()
+	{
+		$items = new ilEventItems($this->parent_object_id);
+		$items_ref = $items->getItems();
+
+		$filter_types = $this->typesAvailable($items_ref);
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();	// get currenty value from session (always after addFilterItem())
+		$this->filter["title"] = $ti->getValue();
+
+		// types
+		//todo remove banned types
+		$types = array();
+		foreach($filter_types as $type)
+		{
+			$types["$type"] = $type;
+		}
+
+		$select = new ilSelectInputGUI("type", "type");
+
+		$select->setOptions($types);
+		$this->addFilterItem($select);
+		$this->filter["type"] = $select->getValue();
+
+		// status
+		$status = array(
+			"notassigned" => $this->lng->txt("not_assigned"),
+			"assigned" => $this->lng->txt("assigned"),
+			"all" => $this->lng->txt("both")
+		);
+		$select = new ilSelectInputGUI("status", "status");
+		$select->setOptions($status);
+		$this->addFilterItem($select);
+		$this->filter['status'] = $select->getValue();
+	}
 }

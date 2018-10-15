@@ -1170,6 +1170,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
 		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
 
+		$tbl->setDisableFilterHiding(true);
+
 		$tbl->addMultiCommand('saveMaterials', $this->lng->txt("assign"));
 		$tbl->addMultiCommand("removeMaterials",$this->lng->txt("remove"));
 
@@ -1178,9 +1180,36 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$tbl->setMaterialItems($this->event_items->getItems());
 		$tbl->setContainerRefId($this->getContainerRefId());
-		$tbl->getDataFromDb();
+		//todo may this method be removed from this table class?
+		$data = $tbl->getDataFromDb();
+		$tbl->setMaterials($data);
+		//$tbl->getDataFromDb($data);
 
 		$this->tpl->setContent($tbl->getHTML());
+	}
+
+	/**
+	 * Apply filter
+	 */
+	function applyFilter()
+	{
+		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
+		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+		$tbl->writeFilterToSession();	// writes filter to session
+		$tbl->resetOffset();		// sets record offest to 0 (first page)
+		die("apply filter");
+	}
+
+	/**
+	 * Reset filter
+	 */
+	function resetFilter()
+	{
+		include_once("./.../classes/class.ilMyTableGUI.php");
+		$table_gui = new ilMyTableGUI($this, "showSomeDataList");
+		$table_gui->resetOffset();		// sets record offest to 0 (first page)
+		$table_gui->resetFilter();		// clears filter
+		die("removed filter, show all data");
 	}
 
 	/**
