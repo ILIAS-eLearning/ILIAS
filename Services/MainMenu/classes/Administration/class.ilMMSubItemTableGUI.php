@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class ilMMSubentriesTableGUI
+ * Class ilMMSubItemTableGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMSubentriesTableGUI extends ilTable2GUI {
+class ilMMSubItemTableGUI extends ilTable2GUI {
 
 	/**
 	 * @inheritDoc

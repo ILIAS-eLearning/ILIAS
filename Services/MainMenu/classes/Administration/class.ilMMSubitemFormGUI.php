@@ -26,7 +26,7 @@ class ilMMSubitemFormGUI {
 
 
 	/**
-	 * ilMMSlateFormGUI constructor.
+	 * ilMMTopItemFormGUI constructor.
 	 *
 	 * @param ilCtrl             $ctrl
 	 * @param \ILIAS\UI\Factory  $ui_fa

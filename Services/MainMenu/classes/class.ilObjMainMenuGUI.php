@@ -77,7 +77,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 				$this->toolbar->addButtonInstance($b);
 
 				// TABLE
-				$table = new ilMMSlatesTableGUI($this);
+				$table = new ilMMTopItemTableGUI($this);
 
 				return $table->getHTML();
 			case self::SUBTAB_ENTRIES:
@@ -91,7 +91,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 				$this->toolbar->addButtonInstance($b);
 
 				// TABLE
-				$table = new ilMMSubentriesTableGUI($this);
+				$table = new ilMMSubItemTableGUI($this);
 
 				return $table->getHTML();
 			case 'translate':
@@ -104,7 +104,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 			case self::ADD_SLATE:
 				$this->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES, true);
 				global $DIC;
-				$f = new ilMMSlateFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
 
 				return $f->getHTML();
 			case self::ADD_SUBITEM:

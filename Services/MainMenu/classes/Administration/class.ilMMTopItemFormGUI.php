@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class ilMMSlateFormGUI
+ * Class ilMMTopItemFormGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMSlateFormGUI {
+class ilMMTopItemFormGUI {
 
 	/**
 	 * @var ilLanguage
@@ -26,7 +26,7 @@ class ilMMSlateFormGUI {
 
 
 	/**
-	 * ilMMSlateFormGUI constructor.
+	 * ilMMTopItemFormGUI constructor.
 	 *
 	 * @param ilCtrl             $ctrl
 	 * @param \ILIAS\UI\Factory  $ui_fa
