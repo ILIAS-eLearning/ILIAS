@@ -168,6 +168,38 @@ class ilAsqFactory
 	}
 	
 	/**
+	 * @param ilAsqQuestion $offlineExportableQuestionInstance
+	 * @return ilAsqQuestionOfflinePresentationExporter
+	 */
+	public function getQuestionOfflinePresentationExporter(ilAsqQuestion $offlineExportableQuestionInstance)
+	{
+		$qstOffPresentationExporter; /* @var ilAsqQuestionOfflinePresentationExporter $qstOffPresentationExporter */
+		
+		/**
+		 * initialise $qstOffPresentationExporter as an instance of the question type corresponding
+		 * object class that implements ilAsqQuestionOfflinePresentationExporter
+		 * depending on the given $offlineExportableQuestionInstance
+		 */
+		
+		$qstOffPresentationExporter->setQuestion($offlineExportableQuestionInstance);
+		
+		return $qstOffPresentationExporter;
+	}
+	
+	/**
+	 * @return ilAsqQuestionResourcesCollector
+	 */
+	public function getQuestionResourcesCollector()
+	{
+		/**
+		 * this collector is able to manage all kind resources that aredepencies
+		 * for the offline presentation of a question (like js/css, media files, mobs).
+		 */
+		
+		return new ilAsqQuestionResourcesCollector();
+	}
+	
+	/**
 	 * @param integer $questionId
 	 * @param integer $solutionId
 	 * @return ilAsqQuestionSolution
