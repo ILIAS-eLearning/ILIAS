@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
 use ILIAS\GlobalScreen\MainMenu\Item\Separator;
 use ILIAS\GlobalScreen\MainMenu\Item\Link;
 use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
@@ -39,6 +40,14 @@ class ilMMEntryRendererGUI {
 				}
 				$i = $child->getProviderIdentification()->getInternalIdentifier();
 				switch (true) {
+					case ($child instanceof hasAsyncContent):
+						$identifier = $child->getProviderIdentification()->getInternalIdentifier();
+						$atpl = new ilTemplate("tpl.self_loading_item.html", false, false, 'Services/MainMenu');
+						$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
+						$gl->addEntry(
+							$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+						);
+						break;
 					case ($child instanceof LinkList):
 						$gl->addGroupHeader($child->getTitle());
 						foreach ($child->getLinks() as $link) {
@@ -51,6 +60,7 @@ class ilMMEntryRendererGUI {
 					case ($child instanceof hasAction && $child instanceof hasTitle):
 						$this->addEntry($gl, $child, $i);
 						break;
+
 				}
 			}
 

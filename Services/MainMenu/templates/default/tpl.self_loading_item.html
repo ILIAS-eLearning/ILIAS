@@ -1,0 +1,17 @@
+<script>
+    $(document).ready(function () {
+        $('.il-mm-selfloading').each(function () {
+            var item = $(this);
+            var url = item.data("asyncUrl");
+            //$(this).html(url);
+            $.get(url, function (data) {
+                console.log(data);
+                var element = $.parseHTML(data);
+                item.closest("a").replaceWith(element);
+                $(element).show();
+            });
+        });
+    });
+</script><span class="il-mm-selfloading" data-async-url="{ASYNC_URL}">
+
+</span>

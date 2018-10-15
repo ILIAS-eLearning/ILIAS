@@ -338,15 +338,19 @@ class ilMMProvider extends AbstractStaticMainMenuProvider implements StaticMainM
 			->mainmenu()
 			->complex($this->if->identifier('adm_content'))
 			->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
+			->withParent($this->getAdministration())
 			->withVisibilityCallable(
 				function () use ($dic) {
 					return (bool)($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
 				}
 			)->withAvailableCallable(
 				function () use ($dic) {
-					return ($dic->user()->getId() == ANONYMOUS_USER_ID);
+					return ($dic->user()->getId() != ANONYMOUS_USER_ID);
 				}
 			);
+
+		$entries[] = $this->globalScreen()
+			->mainmenu()->link($this->if->identifier('adm_dummy'))->withTitle("Dummy")->withAction("#")->withParent($this->getAdministration());
 
 		return $entries;
 	}
