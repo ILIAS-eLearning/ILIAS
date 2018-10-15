@@ -6593,7 +6593,7 @@ mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
-mail#:#mail_nacc_salutation#:#Anrede
+mail#:#mail_nacc_salutation#:#Begrüßung
 mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Kurs, auf den von außerhalb von ILIAS verlinkt wird.
 mail#:#mail_nacc_target_block#:#Dieser Textblock wird nur eingefügt, wenn ein Zielobjekt angeboten wird.
 mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Kurstitel

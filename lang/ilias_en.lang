@@ -5627,7 +5627,7 @@ mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation
+mail#:#mail_nacc_salutation#:#Greeting
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
