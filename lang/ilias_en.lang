@@ -3330,6 +3330,7 @@ rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
 common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
+common#:#salutation_n#:#No salutation desired
 common#:#salutation#:#Salutation
 common#:#save_and_back#:#Save And Back
 common#:#save_message#:#Save as Draft
@@ -5221,6 +5222,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator successfully.
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
@@ -5635,7 +5637,7 @@ mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation
+mail#:#mail_nacc_salutation#:#Greeting
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
