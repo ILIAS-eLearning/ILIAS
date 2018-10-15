@@ -42,10 +42,10 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	 */
 	public function getAllIdentifications(): array {
 		$ids = [];
-		foreach ($this->getStaticSlates() as $slate) {
+		foreach ($this->getStaticTopItems() as $slate) {
 			$ids[] = $slate->getProviderIdentification();
 		}
-		foreach ($this->getStaticEntries() as $entry) {
+		foreach ($this->getStaticSubItems() as $entry) {
 			$ids[] = $entry->getProviderIdentification();
 		}
 

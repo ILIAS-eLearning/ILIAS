@@ -16,12 +16,12 @@ interface StaticMainMenuProvider extends StaticProvider {
 	 * available for configuration and will be collected once during a
 	 * StructureReload.
 	 */
-	public function getStaticSlates(): array;
+	public function getStaticTopItems(): array;
 
 
 	/**
 	 * @return isItem[] These are Entries which will be available for
 	 * configuration and will be collected once during a StructureReload
 	 */
-	public function getStaticEntries(): array;
+	public function getStaticSubItems(): array;
 }

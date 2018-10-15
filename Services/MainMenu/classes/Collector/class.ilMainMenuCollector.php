@@ -43,7 +43,7 @@ class ilMainMenuCollector {
 	 *
 	 * @return TopParentItem[]
 	 */
-	public function getStackedSlates(): array {
+	public function getStackedTopItems(): array {
 		/**
 		 * @var $provider_storage ilGSProviderStorage
 		 * @var $provider         \ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider
@@ -54,14 +54,14 @@ class ilMainMenuCollector {
 		$providers = ilGSProviderStorage::get();
 		foreach ($providers as $provider_storage) {
 			$provider = $provider_storage->getInstance();
-			foreach ($provider->getStaticSlates() as $slate) {
+			foreach ($provider->getStaticTopItems() as $slate) {
 				$id = $slate->getProviderIdentification()->serialize();
 				$slates[$id] = $slate;
 			}
 		}
 		foreach ($providers as $provider_storage) {
 			$provider = $provider_storage->getInstance();
-			foreach ($provider->getStaticEntries() as $entry) {
+			foreach ($provider->getStaticSubItems() as $entry) {
 				if (!$entry->isVisible()) {
 					continue;
 				}
