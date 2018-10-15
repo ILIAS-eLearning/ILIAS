@@ -9490,6 +9490,11 @@ footer.ilFooter .ilPermalinkContainer > label {
   margin-top: 25px;
 }
 @media only screen and (max-width: 767px) {
+  #devmodeBlock {
+    position: absolute;
+  }
+}
+@media only screen and (max-width: 767px) {
   #devmodeBlock table {
     table-layout: fixed;
     width: 100%;
@@ -11617,7 +11622,7 @@ li.ilWikiBlockItem {
     margin: 0 10px 0 0;
     padding: 5px 10px 6px;
     border-top: 0;
-    color: #5d5d5d;
+    color: #808080;
   }
 }
 #ilTopNav .navbar-nav > li > a:hover,
