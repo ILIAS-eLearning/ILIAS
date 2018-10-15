@@ -1142,13 +1142,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 	}
-	
+
 	/**
 	 * show material assignment
-	 *
-	 * @access protected
-	 * @param
-	 * @return
 	 */
 	public function materialsObject()
 	{
@@ -1173,6 +1169,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
 		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+
+		$tbl->addMultiCommand('saveMaterials', $this->lng->txt("assign"));
+		$tbl->addMultiCommand("removeMaterials",$this->lng->txt("remove"));
+
 		$tbl->setTitle($this->lng->txt("event_assign_materials_table"));
 		$tbl->setDescription($this->lng->txt('event_assign_materials_info'));
 
@@ -1182,13 +1182,26 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl->setContent($tbl->getHTML());
 	}
-	
+
+	/**
+	 * Remove materials from the current object.
+	 */
+	public function removeMaterialsObject()
+	{
+		$items_checked = is_array($_POST['items']) ? $_POST['items'] : array();
+
+		$this->event_items = new ilEventItems($this->object->getId());
+		$this->event_items->removeItems($items_checked);
+
+		$this->postUpdateMaterials();
+
+	}
+
+
 	/**
 	 * save material assignment
 	 *
 	 * @access public
-	 * @param
-	 * @return
 	 */
 	public function saveMaterialsObject()
 	{
@@ -1205,7 +1218,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->event_items->setItems($checked);
 		$this->event_items->update();
+		$this->postUpdateMaterials();
+	}
 
+	/**
+	 * redirect to list of materials without offset/page.
+	 */
+	public function postUpdateMaterials()
+	{
 		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
 		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
 		$tbl->setOffset(0);
@@ -1215,8 +1235,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->redirect($this,'materials');
 	}
 	
-	
-	
+
 	/**
 	 * show attendance list selection
 	 *
