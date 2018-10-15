@@ -37,8 +37,9 @@ class Text extends Input implements C\Input\Field\Text {
 	{
 		return function ($id) {
 			$code = "$('#$id').on('input', function(event) {
-				il.UI.filter.handleChange(event, '$id', $('#$id').val());
-			});";
+				il.UI.filter.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.filter.onFieldUpdate(event, '$id', $('#$id').val());";
 			return $code;
 		};
 	}

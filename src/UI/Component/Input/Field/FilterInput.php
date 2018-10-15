@@ -20,7 +20,7 @@ interface FilterInput extends Input {
 	 * Get update code
 	 *
 	 * This method has to return JS code that calls
-	 * il.UI.filter.handleChange(event, '$id', string_value);
+	 * il.UI.filter.onFieldUpdate(event, '$id', string_value);
 	 * - initially "onload" and
 	 * - on every input change.
 	 * It must pass a readable string representation of its value in parameter 'string_value'.

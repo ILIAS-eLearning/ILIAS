@@ -154,7 +154,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 				if ($input->getValue() !== null) {
 					$tpl->setCurrentBlock("value");
-					$tpl->setVariable("VALUE", $input->getValue()."::");
+					$tpl->setVariable("VALUE", $input->getValue());
 					$tpl->parseCurrentBlock();
 				}
 
