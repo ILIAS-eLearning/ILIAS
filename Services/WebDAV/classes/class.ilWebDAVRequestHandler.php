@@ -10,6 +10,7 @@ include_once "Services/WebDAV/classes/auth/class.ilWebDAVAuthentication.php";
 include_once "Services/WebDAV/classes/db/class.ilWebDAVDBManager.php";
 include_once "Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php";
 include_once "Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php";
+include_once "Services/WebDAV/classes/browser/class.ilWebDAVSabreBrowserPlugin.php";
 include_once "Services/WebDAV/classes/dav/class.ilObjectDAV.php";
 include_once "Services/WebDAV/classes/dav/class.ilObjContainerDAV.php";
 include_once "Services/WebDAV/classes/dav/class.ilObjFileDAV.php";
@@ -70,8 +71,9 @@ class ilWebDAVRequestHandler
         $lock_plugin = new Sabre\DAV\Locks\Plugin($lock_backend);
         $server->addPlugin($lock_plugin);
 
-        // Set Browser Plugin
-        $browser_plugin =  new Sabre\DAV\Browser\Plugin();
+        /* Set Browser Plugin
+         * This plugin is used to redirect GET-Requests from browsers on collections to the mount instruction page */
+        $browser_plugin =  new ilWebDAVSabreBrowserPlugin($DIC->ctrl());
         $server->addPlugin($browser_plugin);
          
     }
