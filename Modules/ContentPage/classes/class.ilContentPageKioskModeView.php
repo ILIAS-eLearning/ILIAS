@@ -125,10 +125,10 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		);
 		$forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
-		$DIC->ctrl()->setParameterByClass(ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
+		$DIC->ctrl()->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
 		return $factory->legacy($forwarder->forward($DIC->ctrl()->getLinkTargetByClass([
-			ilRepositoryGUI::class, ilObjContentPageGUI::class, ilContentPagePageGUI::class
+			\ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
 		])));
 	}
 }
