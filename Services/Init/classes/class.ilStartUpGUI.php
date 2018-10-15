@@ -1278,7 +1278,9 @@ class ilStartUpGUI
 	 */
 	protected function showTermsOfServiceLink(string $page_editor_html): string
 	{
-		$this->user->setId(ANONYMOUS_USER_ID);
+		if (!$this->user->getId()) {
+			$this->user->setId(ANONYMOUS_USER_ID);
+		}
 
 		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
 			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
@@ -1819,7 +1821,9 @@ class ilStartUpGUI
 	{
 		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
-		$this->user->setId(ANONYMOUS_USER_ID);
+		if (!$this->user->getId()) {
+			$this->user->setId(ANONYMOUS_USER_ID);
+		}
 
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$this->mainTemplate->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));
