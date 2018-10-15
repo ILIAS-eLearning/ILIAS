@@ -90,13 +90,11 @@ this for ILIAS-objects.
 
 ## Implementing a Player
 
-TODO: finish me!
-
 * The player SHOULD respect the order in which the view build controls.
 * The player MUST respect the order in which the view builds locator entries and TOC
   entries.
 * The player MUST use the commands and parameters provided by the view via
   `View::buildControls` when updating the View.
-* The player MUST call updateGet on GET-Requests and updatePost on POST-requests.
+* The player MUST call `updateGet` on GET-Requests and `updatePost` on POST-requests.
 * The player MUST ensure that a given `State` is unique per instance of View, i.e.
   keys and values MUST NOT leak to other instances of View.

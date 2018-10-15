@@ -14010,6 +14010,7 @@ content#:#cont_grid_width_l_info#:#z.B. Desktop
 content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
 content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
 content#:#cont_add_cell#:#Spalte hinzufügen
+content#:#cont_added_cell#:#Spalte hinzugefügt
 content#:#cont_ed_delete_cell#:#Spalte löschen
 content#:#cont_ed_cell_left#:#Nach links verschieben
 content#:#cont_ed_cell_right#:#Nach rechts verschieben

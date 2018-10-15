@@ -1357,7 +1357,9 @@ class ilObjMediaObject extends ilObject
 					case "frm":		
 						// Forum
 						$post_pk = $a_usage['id'];
-						$oPost = new ilForumPost($post_pk);
+						include_once 'Modules/Forum/classes/class.ilForumPost.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oPost = new ilForumPost($post_pk);					
 						$frm_pk =  $oPost->getForumId();
 						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
 						break;
@@ -1365,6 +1367,8 @@ class ilObjMediaObject extends ilObject
 					
 					case "frm~d":
 						$draft_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
 						$oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
 						
 						$frm_pk =  $oDraft->getForumId();
@@ -1372,6 +1376,9 @@ class ilObjMediaObject extends ilObject
 						break;
 					case "frm~h":
 						$history_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
 						$oHistoryDraft = new ilForumDraftsHistory($history_id);
 						$oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
 						
