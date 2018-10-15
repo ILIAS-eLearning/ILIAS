@@ -134,7 +134,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 			case 'frm~d:html':
 				$draft_id = $usage['id'];
 				
-				include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
 				$oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
 				if($user_id == $oDraft->getPostAuthorId())
 				{
@@ -143,9 +142,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 				break;
 			case 'frm~h:html':
 				$history_id = $usage['id'];
-				include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
-				include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-				
+
 				$oHistoryDraft = new ilForumDraftsHistory($history_id);
 				$oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
 				if($user_id == $oDraft->getPostAuthorId())

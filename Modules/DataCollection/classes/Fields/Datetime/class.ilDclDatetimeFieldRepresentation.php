@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class ilDclDateTimeREpresentation
  *
@@ -11,8 +12,10 @@ class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input = new ilDateTimeInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		$input->setStartYear(date("Y") - 100);
 		$this->setupInputField($input, $this->getField());
+
 		return $input;
 	}
+
 
 	public function addFilterInputFieldToTable(ilTable2GUI $table) {
 		$input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_DATE_RANGE, false, $this->getField()->getId());
@@ -30,6 +33,7 @@ class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation {
 		if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
 			return true;
 		}
+
 		return false;
 	}
 }

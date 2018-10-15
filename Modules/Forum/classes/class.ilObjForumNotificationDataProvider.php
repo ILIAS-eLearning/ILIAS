@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
-include_once './Modules/Forum/classes/class.ilForumProperties.php';
-
 /**
  * Class ilObjForumNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -379,11 +376,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
 			
-			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 			$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
 			
 			foreach($filesOfPost as $attachment)
@@ -464,7 +459,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForumPost.php';
 			$parent_objPost = new ilForumPost($this->objPost->getParentId());
 
 			$this->notificationCache->store($cacheKey, $parent_objPost);
@@ -488,7 +482,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForum.php';
 			// get moderators to notify about needed activation
 			$rcps = ilForum::_getModerators($this->getRefId());
 			$this->notificationCache->store($cacheKey, $rcps);

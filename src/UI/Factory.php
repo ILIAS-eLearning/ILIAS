@@ -33,10 +33,10 @@ interface Factory {
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
 	 *   rivals:
-	 *     1: >
+	 *     Glyph: >
 	 *       Glyphs are typographical characters that act as a trigger for
 	 *       some action.
-	 *     2: >
+	 *     Image: >
 	 *       Images belong to the content and can be purely decorative.
 	 *
 	 *
@@ -384,10 +384,10 @@ interface Factory {
 	 *   effect: >
 	 *     Clicking on an entry will get the user to the respective location.
 	 *
-	 * context: >
-	 *   1. Suplemental navigation under the main menu
-	 *   2. Location hint in search results
-	 *   3. Path to current location on info page
+	 * context:
+	 *   - Suplemental navigation under the main menu
+	 *   - Location hint in search results
+	 *   - Path to current location on info page
 	 *
 	 * rules:
 	 *   usage:
@@ -587,7 +587,7 @@ interface Factory {
 	 *     All controls of the original context are inaccessible until the Modal is completed.
 	 *     Upon completion the user returns to the original context.
 	 *   rivals:
-	 *     1: >
+	 *     Popover: >
 	 *       Modals have some relations to popovers. The main difference between the two is the disruptive
 	 *       nature of the Modal and the larger amount of data that might be displayed inside a modal.
 	 *       Also popovers perform mostly action to add or consult metadata of an item while

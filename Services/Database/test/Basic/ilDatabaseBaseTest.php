@@ -52,7 +52,6 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		$this->error_reporting_backup = error_reporting();
-		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING & ~E_STRICT); // Due to PEAR Lib MDB2
 
 		PHPUnit_Framework_Error_Notice::$enabled = false;
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;

@@ -19,11 +19,11 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
 	 * @var ilLanguage
 	 */
 	protected $lng;
-	
+
 	/**
-	 * @param object	parent object
+	 * @inheritdoc
 	 */
-	public function __construct($a_parent_obj)
+	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
 		global $DIC;
 
@@ -32,7 +32,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
 
 		$obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
 		$this->setId('mmsearch_'.$obj_id);
-		parent::__construct($a_parent_obj, 'showSelectableUsers');
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('grp');
 		$this->setTitle($this->lng->txt('members'));

@@ -18615,7 +18615,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
 		global $ilCtrl;
 		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
-		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data), $prefix);
 	}
 
 	include_once("./Services/Component/classes/class.ilModule.php");
@@ -18626,7 +18626,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 			include_once("./Services/Component/classes/class.ilPluginSlot.php");
 			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -18639,7 +18640,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 		foreach ($plugin_slots as $ps) {
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -22730,4 +22732,77 @@ if(!$ilDB->tableExists('exc_ass_reminders'))
 	));
 	$ilDB->addPrimaryKey("exc_ass_reminders", array("ass_id", "exc_id", "type"));
 }
+?>
+<#5297>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360', 'mode');
+}
+?>
+<#5298>
+<?php
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_self_eval_results'))
+{
+	$ilDB->addTableColumn(
+		'svy_svy',
+		'mode_self_eval_results',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5299>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
+}
+?>
+<#5300>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5301>
+<?php
+if(!$ilDB->tableColumnExists('file_data', 'max_version'))
+{
+	$ilDB->addTableColumn('file_data', 'max_version', array(
+		'type'    => 'integer',
+		'length'  => 4
+	));
+}
+?>
+
+<#5302>
+<?php
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCreator.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+
+ilMD::_deleteAllByType('grp');
+
+$group_ids = [];
+$query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
+	'JOIN object_description od on obd.obj_id = od.obj_id '.
+	'WHERE type = '.$ilDB->quote('grp','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'grp');
+	$md_creator->setTitle($row->title);
+	$md_creator->setTitleLanguage('en');
+	$md_creator->setDescription($row->description);
+	$md_creator->setDescriptionLanguage('en');
+	$md_creator->setKeywordLanguage('en');
+	$md_creator->setLanguage('en');
+
+	$md_creator->create();
+}
+?>
+<#5303>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

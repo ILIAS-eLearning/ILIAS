@@ -7,6 +7,7 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\UI\Component\Input\Field;
 
 class NumericInputTest extends ILIAS_UI_TestBase {
 
@@ -24,6 +25,9 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 		$f = $this->buildFactory();
 
 		$numeric = $f->numeric("label", "byline");
+
+        $this->assertInstanceOf(Field\Input::class, $numeric);
+        $this->assertInstanceOf(Field\Numeric::class, $numeric);
 	}
 
 
@@ -58,7 +62,7 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 		$expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 		            . "	<div class=\"col-sm-9\">" . "		<input type=\"number\" name=\"$name\" class=\"form-control form-control-sm\" />"
 		            . "		<div class=\"help-block\">$byline</div>" . "		<div class=\"help-block alert alert-danger\" role=\"alert\">"
-		            . "			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">" . "			$error"
+		            . "			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />" . "			$error"
 		            . "		</div>" . "	</div>" . "</div>";
 		$this->assertEquals($expected, $html);
 	}

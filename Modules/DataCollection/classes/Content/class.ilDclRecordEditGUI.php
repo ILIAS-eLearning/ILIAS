@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclRecordEditGUI
  *
@@ -136,8 +135,10 @@ class ilDclRecordEditGUI {
 			echo $this->form->getHTML();
 			exit();
 		} else {
-			$this->tpl->setContent( $this->getLanguageJsKeys()
-				. $this->form->getHTML());
+			$this->tpl->setContent(
+				$this->getLanguageJsKeys()
+				. $this->form->getHTML()
+			);
 		}
 	}
 
@@ -154,8 +155,10 @@ class ilDclRecordEditGUI {
 			echo $this->form->getHTML();
 			exit();
 		} else {
-			$this->tpl->setContent($this->getLanguageJsKeys()
-				. $this->form->getHTML());
+			$this->tpl->setContent(
+				$this->getLanguageJsKeys()
+				. $this->form->getHTML()
+			);
 		}
 	}
 
@@ -173,12 +176,12 @@ class ilDclRecordEditGUI {
 
 		$all_fields = $this->table->getRecordFields();
 		$record_data = "";
-		foreach($all_fields as $key=>$field) {
+		foreach ($all_fields as $key => $field) {
 			$field_record = ilDclCache::getRecordFieldCache($record, $field);
 
 			$record_representation = ilDclCache::getRecordRepresentation($field_record);
-			if($record_representation->getConfirmationHTML() !== false) {
-				$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
+			if ($record_representation->getConfirmationHTML() !== false) {
+				$record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
 			}
 		}
 		$conf->addItem('record_id', $record->getId(), $record_data);
@@ -270,7 +273,7 @@ class ilDclRecordEditGUI {
 		$inline_css = '';
 		foreach ($allFields as $field) {
 			$item = ilDclCache::getFieldRepresentation($field)->getInputField($this->form, $this->record_id);
-			if ($item === NULL) {
+			if ($item === null) {
 				continue; // Fields calculating values at runtime, e.g. ilDclFormulaFieldModel do not have input
 			}
 
@@ -288,7 +291,6 @@ class ilDclRecordEditGUI {
 			$inputfield = ilDclCache::getFieldRepresentation($ownerField)->getInputField($this->form);
 			$this->form->addItem($inputfield);
 		}
-
 
 		// save and cancel commands
 		if ($this->record_id) {
@@ -347,6 +349,7 @@ class ilDclRecordEditGUI {
 		$this->cancelUpdate();
 	}
 
+
 	public function saveConfirmation(ilDclBaseRecordModel $record_obj, $filehash) {
 
 		$permission = ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id);
@@ -364,32 +367,34 @@ class ilDclRecordEditGUI {
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this));
 		$header_text = $this->lng->txt('dcl_confirm_storing_records');
-		if(!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->ref_id)
-			&& !$this->table->getEditByOwner() && !$this->table->getEditPerm())
-		{
-			$header_text .= " ".$this->lng->txt('dcl_confirm_storing_records_no_permission');
+		if (!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->ref_id)
+			&& !$this->table->getEditByOwner()
+			&& !$this->table->getEditPerm()
+		) {
+			$header_text .= " " . $this->lng->txt('dcl_confirm_storing_records_no_permission');
 		}
 		$confirmation->setHeaderText($header_text);
 
 		$confirmation->setCancel($this->lng->txt('dcl_edit_record'), 'edit');
 		$confirmation->setConfirm($this->lng->txt('dcl_save_record'), 'save');
-		
+
 		$record_data = "";
 
 		$empty_fileuploads = array();
-		foreach($all_fields as $field) {
+		foreach ($all_fields as $field) {
 			$record_field = $record_obj->getRecordField($field->getId());
 			/** @var ilDclBaseRecordFieldModel $record_field */
 			$record_field->addHiddenItemsToConfirmation($confirmation);
 
 			if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
-				&& $record_field->getValue() == null) {
-				$empty_fileuploads['field_'.$field->getId()] = array("name" => "", "type" => "", "tmp_name" => "", "error" => 4, "size" => 0);
+				&& $record_field->getValue() == null
+			) {
+				$empty_fileuploads['field_' . $field->getId()] = array("name" => "", "type" => "", "tmp_name" => "", "error" => 4, "size" => 0);
 			}
 			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
-			if($record_representation->getConfirmationHTML() !== false) {
-				$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
+			if ($record_representation->getConfirmationHTML() !== false) {
+				$record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
 			}
 		}
 
@@ -407,6 +412,7 @@ class ilDclRecordEditGUI {
 		}
 	}
 
+
 	/**
 	 * Save record
 	 */
@@ -418,7 +424,7 @@ class ilDclRecordEditGUI {
 		$this->initForm();
 
 		// if save confirmation is enabled: Temporary file-uploads need to be handled
-		if($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
+		if ($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
 			$restore_files = ilDclPropertyFormGUI::getTempFileByHash($_POST['ilfilehash'], $ilUser->getId());
 			$_FILES = $restore_files;
 
@@ -453,7 +459,7 @@ class ilDclRecordEditGUI {
 				$field->checkValidityFromForm($this->form, $this->record_id);
 			} catch (ilDclInputException $e) {
 				$valid = false;
-				$item = $this->form->getItemByPostVar('field_'.$field->getId());
+				$item = $this->form->getItemByPostVar('field_' . $field->getId());
 				$item->setAlert($e);
 			}
 		}
@@ -461,10 +467,11 @@ class ilDclRecordEditGUI {
 		if (!$valid) {
 			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
+
 			return;
 		}
 
-		if($valid) {
+		if ($valid) {
 			if (!isset($this->record_id)) {
 				if (!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
 					$this->accessDenied();
@@ -476,34 +483,26 @@ class ilDclRecordEditGUI {
 				if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
 					// temporary store fileuploads (reuse code from ilPropertyFormGUI)
 					$hash = $_POST["ilfilehash"];
-					foreach($_FILES as $field => $data)
-					{
-						if(is_array($data["tmp_name"]))
-						{
-							foreach($data["tmp_name"] as $idx => $upload)
-							{
-								if(is_array($upload))
-								{
-									foreach($upload as $idx2 => $file)
-									{
-										if($file && is_uploaded_file($file))
-										{
+					foreach ($_FILES as $field => $data) {
+						if (is_array($data["tmp_name"])) {
+							foreach ($data["tmp_name"] as $idx => $upload) {
+								if (is_array($upload)) {
+									foreach ($upload as $idx2 => $file) {
+										if ($file && is_uploaded_file($file)) {
 											$file_name = $data["name"][$idx][$idx2];
 											$file_type = $data["type"][$idx][$idx2];
 											$this->form->keepTempFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
 										}
 									}
-								}
-								else if($upload && is_uploaded_file($upload))
-								{
-									$file_name = $data["name"][$idx];
-									$file_type = $data["type"][$idx];
-									$this->form->keepTempFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+								} else {
+									if ($upload && is_uploaded_file($upload)) {
+										$file_name = $data["name"][$idx];
+										$file_type = $data["type"][$idx];
+										$this->form->keepTempFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+									}
 								}
 							}
-						}
-						else
-						{
+						} else {
 							$this->form->keepTempFileUpload($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
 						}
 					}
@@ -514,6 +513,7 @@ class ilDclRecordEditGUI {
 					}
 
 					$this->saveConfirmation($record_obj, $hash);
+
 					return;
 				}
 
@@ -551,10 +551,10 @@ class ilDclRecordEditGUI {
 			$dispatchEvent = "update";
 
 			$dispatchEventData = array(
-				'dcl' => $this->parent_obj->getDataCollectionObject(),
-				'table_id' => $this->table_id,
+				'dcl'       => $this->parent_obj->getDataCollectionObject(),
+				'table_id'  => $this->table_id,
 				'record_id' => $record_obj->getId(),
-				'record' => $record_obj,
+				'record'    => $record_obj,
 			);
 
 			if ($create_mode) {
@@ -566,8 +566,9 @@ class ilDclRecordEditGUI {
 
 			$record_obj->doUpdate($create_mode);
 
-			$ilAppEventHandler->raise('Modules/DataCollection',
-				$dispatchEvent.'Record',
+			$ilAppEventHandler->raise(
+				'Modules/DataCollection',
+				$dispatchEvent . 'Record',
 				$dispatchEventData
 			);
 
@@ -649,9 +650,10 @@ class ilDclRecordEditGUI {
 			exit();
 		} else {
 			ilUtil::sendFailure($message, $keep);
-			$this->tpl->setContent($this->getLanguageJsKeys().$this->form->getHTML());
+			$this->tpl->setContent($this->getLanguageJsKeys() . $this->form->getHTML());
 		}
 	}
+
 
 	/**
 	 * This function is only used by the ajax request if searching for ILIAS references. It builds the html for the search results.
@@ -699,6 +701,7 @@ class ilDclRecordEditGUI {
 		exit;
 	}
 
+
 	protected function getLanguageJsKeys() {
 		return "<script>ilDataCollection.strings.add_value='" . $this->lng->txt('add_value') . "';</script>";
 	}
@@ -730,8 +733,8 @@ class ilDclRecordEditGUI {
 	 * Cleanup temp-files
 	 */
 	protected function cleanupTempFiles() {
-		$ilfilehash = (isset($_POST['ilfilehash']))? $_POST['ilfilehash'] : null;
-		if($ilfilehash != null) {
+		$ilfilehash = (isset($_POST['ilfilehash'])) ? $_POST['ilfilehash'] : null;
+		if ($ilfilehash != null) {
 			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
 		}
 	}

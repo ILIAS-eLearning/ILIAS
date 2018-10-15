@@ -360,6 +360,8 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#ass_comments#:#Comments
+assessment#:#ass_commented_questions_only#:#Only Commented Questions
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
@@ -4346,7 +4348,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width in pixels
+content#:#cont_width#:#Width
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
@@ -12993,7 +12995,7 @@ log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
+forum#:#frm_search#:#Search
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
@@ -14342,3 +14344,9 @@ exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by 
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
+survey#:#svy_participant#:#Participant

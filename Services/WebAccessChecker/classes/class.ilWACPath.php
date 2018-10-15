@@ -511,6 +511,19 @@ class ilWACPath {
 
 
 	/**
+	 * Returns a clean (everything behind ? is removed and rawurldecoded path
+	 *
+	 * @return string
+	 */
+	public function getCleanURLdecodedPath() {
+		$path = explode("?", (string)$this->path); // removing everything behind ?
+		$path_to_file = rawurldecode($path[0]);
+
+		return $path_to_file;
+	}
+
+
+	/**
 	 * @param string $path
 	 */
 	public function setPath($path) {

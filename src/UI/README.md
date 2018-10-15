@@ -123,9 +123,8 @@ If you would like to implement a new component to the framework you should perfo
     *     Rival 1: What other controls are similar, what is their distinction
     *
     * background: Relevant academic information
-    * context: >
-    *     The context states: where this control is used specifically
-    *     (this list might not be complete) and how common is this control used
+    * context: 
+    *     - The context states: where this control is used specifically with examples (this list might not be complete) and how common is this control used
     *
     * rules:
     *   usage:

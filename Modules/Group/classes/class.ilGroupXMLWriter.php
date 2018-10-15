@@ -64,8 +64,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$this->EXPORT_VERSION = "3";
 
-		$this->ilias =& $ilias;
-		$this->group_obj =& $group_obj;
+		$this->ilias = $ilias;
+		$this->group_obj = $group_obj;
 		$this->participants = ilGroupParticipants::_getInstanceByObjId($this->group_obj->getId()); 
 		
 	}
@@ -86,6 +86,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 		{
 			$this->__buildHeader();
 			$this->__buildGroup();
+			$this->__buildMetaData();
+			$this->__buildAdvancedMetaData();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
 			if ($this->attach_users) 
@@ -101,6 +103,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 		elseif($this->getMode() == self::MODE_EXPORT)
 		{
 			$this->__buildGroup();
+			$this->__buildMetaData();
+			$this->__buildAdvancedMetaData();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
 			$this->__buildPeriod();
@@ -151,6 +155,31 @@ class ilGroupXMLWriter extends ilXmlWriter
 		
 		$this->xmlStartTag("group", $attrs);
 	}
+
+	/**
+	 * write lom meta data
+	 * @return bool
+	 */
+	protected function __buildMetaData()
+	{
+		$md2xml = new ilMD2XML($this->group_obj->getId(),$this->group_obj->getId(),'grp');
+		$md2xml->startExport();
+		$this->appendXML($md2xml->getXML());
+
+		return true;
+	}
+
+	/**
+	 * Build advanced meta data
+	 *
+	 * @access private
+	 *
+	 */
+	private function __buildAdvancedMetaData()
+	{
+		ilAdvancedMDValues::_appendXMLByObjId($this,$this->group_obj->getId());
+	}
+
 
 	function __buildTitleDescription()
 	{
