@@ -6,8 +6,6 @@ use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
 
-include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-
 /**
  * Handles display of the main menu
  *
@@ -81,7 +79,7 @@ class ilMainMenuGUI {
 	 * @param    boolean $a_use_start_template        true means: target scripts should
 	 *                                                be called through start template
 	 */
-	function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null) {
+	public function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl != null) {
@@ -129,22 +127,39 @@ class ilMainMenuGUI {
 	}
 
 
-	public function setMode($a_value) {
+	/**
+	 * @param int $a_value        accepts values:
+	 *                            self::MODE_TOPBAR_ONLY:
+	 *                            self::MODE_TOPBAR_REDUCED:
+	 *                            self::MODE_TOPBAR_MEMBERVIEW:
+	 *                            case self::MODE_FULL:
+	 */
+	public function setMode(int $a_value) {
 		$this->mode = (int)$a_value;
 	}
 
 
-	public function getMode() {
+	/**
+	 * @return int
+	 */
+	public function getMode(): int {
 		return $this->mode;
 	}
 
 
+	/**
+	 * @param      $a_url
+	 * @param null $a_caption
+	 */
 	public function setTopBarBack($a_url, $a_caption = null) {
 		$this->topbar_back_url = $a_url;
 		$this->topbar_back_caption = trim($a_caption);
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function getSpacerClass() {
 		switch ($this->getMode()) {
 			case self::MODE_TOPBAR_ONLY:
@@ -159,14 +174,17 @@ class ilMainMenuGUI {
 
 
 	/**
+	 * @deprecated
+	 *
 	 * @param    string $a_active "desktop"|"repository"|"search"|"mail"|"chat_invitation"|"administration"
 	 */
-	function setActive($a_active) {
+	public function setActive($a_active) {
 		$this->active = $a_active;
 	}
 
 
 	/**
+	 * @deprecated
 	 * Set target parameter for login (public sector).
 	 * This is used by the main menu
 	 */
@@ -176,6 +194,7 @@ class ilMainMenuGUI {
 
 
 	/**
+	 * @deprecated
 	 * Get target parameter for login
 	 */
 	public function getLoginTargetPar() {
@@ -183,12 +202,16 @@ class ilMainMenuGUI {
 	}
 
 
-	static function getLanguageSelection($a_in_topbar = false) {
+	/**
+	 * @param bool $a_in_topbar
+	 *
+	 * @return string
+	 */
+	public static function getLanguageSelection($a_in_topbar = false): string {
 		global $DIC;
 
 		$lng = $DIC->language();
 
-		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gr_list = new ilGroupedListGUI();
 		$gr_list->setAsDropDown(true);
 
@@ -213,9 +236,9 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * set all template variables (images, scripts, target frames, ...)
+	 * Set all template variables (images, scripts, target frames, ...)
 	 */
-	function setTemplateVars() {
+	private function setTemplateVars() {
 		$rbacsystem = $this->rbacsystem;
 		$lng = $this->lng;
 		$ilUser = $this->user;
@@ -228,7 +251,6 @@ class ilMainMenuGUI {
 			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 
 			// #15759
-			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 			$header_top_title = ilObjSystemFolder::_getHeaderTitle();
 			if (trim($header_top_title) != "" && $this->tpl->blockExists("header_top_title")) {
 				$this->tpl->setCurrentBlock("header_top_title");
@@ -248,12 +270,10 @@ class ilMainMenuGUI {
 			// search
 			include_once 'Services/Search/classes/class.ilSearchSettings.php';
 			if ($rbacsystem->checkAccess('search', ilSearchSettings::_getSearchSettingRefId())) {
-				include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
 				$main_search = new ilMainMenuSearchGUI();
 				$html = "";
 
 				// user interface plugin slot + default rendering
-				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
 				$uip = new ilUIHookProcessor(
 					"Services/MainMenu", "main_menu_search",
 					array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
@@ -285,7 +305,6 @@ class ilMainMenuGUI {
 			$mmle_html = "";
 
 			// user interface plugin slot + default rendering
-			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
 			$uip = new ilUIHookProcessor(
 				"Services/MainMenu", "main_menu_list_entries",
 				array("main_menu_gui" => $this)
@@ -313,7 +332,6 @@ class ilMainMenuGUI {
 
 			// login stuff
 			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
-				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED) {
 					$this->tpl->setCurrentBlock("registration_link");
 					$this->tpl->setVariable("TXT_REGISTER", $lng->txt("register"));
@@ -405,9 +423,9 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * Render status box
+	 * @param ilTemplate $a_tpl
 	 */
-	public function renderStatusBox($a_tpl) {
+	private function renderStatusBox(ilTemplate $a_tpl) {
 		$ilUser = $this->user;
 		$ui_factory = $this->ui->factory();
 		$ui_renderer = $this->ui->renderer();
@@ -430,13 +448,14 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * desc
+	 * @deprecated
 	 *
-	 * @param
+	 * @param      $a_tpl
+	 * @param bool $a_call_get
 	 *
-	 * @return
+	 * @return string
 	 */
-	function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
+	private function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
 		$lng = $this->lng;
 		$tree = $this->tree;
 		$ilAccess = $this->access;
@@ -479,13 +498,13 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * Render main menu entry
-	 *
-	 * @param
-	 *
-	 * @return
+	 * @param        $a_tpl
+	 * @param        $a_id
+	 * @param        $a_txt
+	 * @param        $a_script
+	 * @param string $a_target
 	 */
-	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top") {
+	private function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top") {
 		$lng = $this->lng;
 		$ilNavigationHistory = $this->nav_history;
 		$ilSetting = $this->settings;
@@ -494,8 +513,6 @@ class ilMainMenuGUI {
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
 		$a_tpl->setCurrentBlock("entry_" . $id);
-
-		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 
 		// repository
 		if ($a_id == "repository") {
@@ -765,19 +782,10 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * generates complete script target (private)
+	 * @deprecated Please use RBAC directly
+	 * @return bool
 	 */
-	function getScriptTarget($a_script) {
-		$script = "./" . $a_script;
-		if (defined("ILIAS_MODULE")) {
-			$script = "." . $script;
-		}
-
-		return $script;
-	}
-
-
-	static function _checkAdministrationPermission() {
+	public static function _checkAdministrationPermission() {
 		global $DIC;
 
 		$rbacsystem = $DIC->rbac()->system();
@@ -791,12 +799,16 @@ class ilMainMenuGUI {
 	}
 
 
-	function getHTML() {
+	/**
+	 * @deprecated
+	 * @return string
+	 * @throws ilTemplateException
+	 */
+	public function getHTML() {
 		// this is a workaround for bugs like 14016
 		// the main menu does not need the YUI connection, but many other
 		// features since they rely on il.Util.sendAjaxGetRequestToUrl (see Services/Javascript)
 		// which still uses YUI. This should be migrated to jQuery with a future major release
-		include_once "Services/YUI/classes/class.ilYuiUtil.php";
 		ilYUIUtil::initConnection();
 
 		$this->setTemplateVars();
@@ -806,11 +818,9 @@ class ilMainMenuGUI {
 
 
 	/**
-	 * Init member view
-	 *
-	 * @global type $lng
+	 * @return bool
 	 */
-	protected function initMemberView() {
+	protected function initMemberView(): bool {
 		$lng = $this->lng;
 
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
@@ -829,21 +839,21 @@ class ilMainMenuGUI {
 
 		$this->setMode(self::MODE_TOPBAR_MEMBERVIEW);
 		$this->setTopBarBack($url, $lng->txt('mem_view_close'));
+
+		return true;
 	}
 
 
 	/**
-	 * GetDropDownHTML
-	 *
-	 * @param
+	 * @param $a_tpl
+	 * @param $a_id
 	 */
-	function renderDropDown($a_tpl, $a_id) {
+	private function renderDropDown($a_tpl, $a_id) {
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
 
 		$id = strtolower($a_id);
 		$a_tpl->setCurrentBlock("entry_" . $id);
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
 		if ($this->active == $a_id || ($this->active == "" && $a_id == "repository")) {
 			$selection->setSelectionHeaderClass("MMActive");
@@ -978,18 +988,10 @@ class ilMainMenuGUI {
 	}
 
 
-	/**
-	 * Render help button
-	 *
-	 * @param
-	 *
-	 * @return
-	 */
-	function renderHelpButtons() {
+	private function renderHelpButtons() {
 		$ilHelp = $this->help;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilUser = $this->user;
 		$main_tpl = $this->main_tpl;
@@ -1073,8 +1075,7 @@ class ilMainMenuGUI {
 	/**
 	 * Includes all buddy system/user connections related javascript code
 	 */
-	protected function populateWithBuddySystem() {
-		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+	private function populateWithBuddySystem() {
 		if (ilBuddySystem::getInstance()->isEnabled()) {
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 			ilBuddySystemGUI::initializeFrontend();
@@ -1082,17 +1083,12 @@ class ilMainMenuGUI {
 	}
 
 
-	protected function populateWithOnScreenChat() {
-		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
-		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
-
+	private function populateWithOnScreenChat() {
 		ilOnScreenChatGUI::initializeFrontend();
 	}
 
 
-	protected function renderOnScreenChatMenu() {
-		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
-
+	private function renderOnScreenChatMenu() {
 		$menu = new ilOnScreenChatMenuGUI();
 		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
 	}
@@ -1101,11 +1097,8 @@ class ilMainMenuGUI {
 	/**
 	 * Render awareness tool
 	 */
-	function renderAwareness() {
-		include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
-		$aw = ilAwarenessGUI::getInstance();
-
-		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
+	private function renderAwareness() {
+		$this->tpl->setVariable("AWARENESS", ilAwarenessGUI::getInstance()->getMainMenuHTML());
 	}
 
 
@@ -1114,11 +1107,10 @@ class ilMainMenuGUI {
 	 * @param \ilTemplate $mainTpl
 	 * @param \ilLanguage $lng
 	 */
-	protected function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng) {
+	private function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng) {
 		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
 			$this->tpl->touchBlock('osd_container');
 
-			require_once 'Services/Notifications/classes/class.ilNotificationOSDGUI.php';
 			$osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
 			$osdGui->render();
 		}
@@ -1128,17 +1120,20 @@ class ilMainMenuGUI {
 	/**
 	 * Toggle rendering of main menu, search, user info
 	 *
-	 * @see ilImprintGUI
+	 * @see        ilImprintGUI
+	 * @deprecated do not use in other contextx
 	 *
 	 * @param bool $a_value
 	 */
-	function showLogoOnly($a_value) {
+	public function showLogoOnly(bool $a_value) {
 		$this->logo_only = (bool)$a_value;
 	}
 
 
-	protected function getHeaderURL() {
-		include_once './Services/User/classes/class.ilUserUtil.php';
+	/**
+	 * @return string
+	 */
+	private function getHeaderURL(): string {
 		$url = ilUserUtil::getStartingPointAsUrl();
 
 		if (!$url) {
@@ -1149,7 +1144,7 @@ class ilMainMenuGUI {
 	}
 
 
-	protected function renderBackgroundTasks() {
+	private function renderBackgroundTasks() {
 		global $DIC;
 
 		$main_tpl = $this->main_tpl;
@@ -1207,4 +1202,3 @@ class ilMainMenuGUI {
 	}
 }
 
-?>
