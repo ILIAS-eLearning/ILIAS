@@ -10823,8 +10823,12 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-control-static {
+  display: block;
+}
 .form-horizontal .control-label {
   padding-bottom: 4px;
+  min-height: 34px;
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
