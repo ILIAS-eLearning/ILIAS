@@ -91,11 +91,6 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_POSTNAME","items");
 		$this->tpl->setVariable("VAL_ID",$a_set['ref_id']);
 
-		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
-		{
-			$this->tpl->setVariable("VAL_CHECKED","checked");
-		}
-
 		$this->tpl->setVariable("COLL_TITLE",$a_set['title']);
 
 		if(strlen($a_set['description']))
