@@ -131,12 +131,8 @@ class ilUIFilterService
 		//if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
 		if ($request->getMethod() == "POST") {
 			//var_dump($_POST); exit;
-			$filter = $filter->withRequest($request);
-			$result = $filter->getData();
-			var_dump($result); exit;
-		}
-		else {
-			$result = "No result yet.";
+			//	$filter = $filter->withRequest($request);
+		//	$result = $filter->getData();
 		}
 
 		// 2. eingabe werte in session speichern
@@ -157,5 +153,25 @@ class ilUIFilterService
 		return $filter;
 
 	}
+
+	/**
+	 * Get data
+	 *
+	 * @param
+	 * @return
+	 */
+	public function getData(\ILIAS\UI\Component\Input\Container\Filter\Standard $filter)
+	{
+		global $DIC;
+		$request = $DIC->http()->request();
+		$result = null;
+		//if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
+		if ($request->getMethod() == "POST") {
+			$filter = $filter->withRequest($request);
+			$result = $filter->getData();
+		}
+		return $result;
+	}
+
 
 }

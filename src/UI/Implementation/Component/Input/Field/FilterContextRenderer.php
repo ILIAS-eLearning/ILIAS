@@ -146,22 +146,22 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		 * a name source)?");
 		 * } */
 		if ($input->getName()) {
-			$tpl->setVariable("NAME", $input->getName());
+//			$tpl->setVariable("NAME", $input->getName());
 		} else {
-			$tpl->setVariable("NAME", "");
+//			$tpl->setVariable("NAME", "");
 		}
 
-		$tpl->setVariable("LABEL", $input->getLabel());
+//		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input));
 
 		if ($input->getByline() !== null) {
-			$tpl->setCurrentBlock("byline");
-			$tpl->setVariable("BYLINE", $input->getByline());
-			$tpl->parseCurrentBlock();
+//			$tpl->setCurrentBlock("byline");
+//			$tpl->setVariable("BYLINE", $input->getByline());
+//			$tpl->parseCurrentBlock();
 		}
 
 		if ($input->isRequired()) {
-			$tpl->touchBlock("required");
+//			$tpl->touchBlock("required");
 		}
 
 
@@ -178,12 +178,24 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInputField(Template $tpl, Input $input) {
 
-		$tpl->setVariable("NAME", $input->getName());
+		switch (true) {
+			case ($input instanceof Text):
+				$tpl->setVariable("NAME", $input->getName());
 
-		if ($input->getValue() !== null) {
-			$tpl->setCurrentBlock("value");
-			$tpl->setVariable("VALUE", $input->getValue());
-			$tpl->parseCurrentBlock();
+				if ($input->getValue() !== null) {
+					$tpl->setCurrentBlock("value");
+					$tpl->setVariable("VALUE", $input->getValue()."::");
+					$tpl->parseCurrentBlock();
+				}
+
+				$input = $input->withAdditionalOnLoadCode(function ($id) {
+					$code = "$('#$id').on('input', function(event) {
+							il.UI.filter.handleChange(event, '$id', $('#$id').val());
+						});";
+					return $code;
+				});
+				$this->maybeRenderId($input, $tpl);
+				break;
 		}
 
 		return $tpl->get();
@@ -217,13 +229,21 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 * @param Component\JavascriptBindable $component
 	 * @param Template                     $tpl
 	 */
-	protected function maybeRenderId(Component\Component $component, $tpl) {
+	protected function maybeRenderId(Component\JavascriptBindable $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
-			$tpl->setCurrentBlock("with_id");
+			$tpl->setCurrentBlock("id");
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
 	}
 
 

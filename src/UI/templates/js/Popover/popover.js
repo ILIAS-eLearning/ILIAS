@@ -93,9 +93,31 @@ il.UI = il.UI || {};
             if (WebuiPopovers.isCreated('#' + $triggerer.attr('id'))) {
                 return true;
             }
+
+            // if triggerer is within a form, make form the container (instead of window.body)
+            var form;
+			console.log(options);
+            if (form = $('#' + $triggerer.attr('id')).parents("form")[0]) {
+                //options.container = form;
+				options = $.extend({}, {container: form}, options);
+            }
+			console.log(options);
+
             options = $.extend({}, defaultOptions, options);
             // Extend options with data from the signal
             $triggerer.webuiPopover(options).webuiPopover('show');
+
+			// webui.popover does not place elements correctly in containers, since it always calculates
+            // top, left relative to the document not to the nearest positioned ancestor
+            if (form) {
+                var reg = il.Util.getRegion($(form).offsetParent());        // nearest positioned ancestor
+                var popel = $('#' + $('#' + $triggerer.attr('id')).data("target"));
+				popel.css("top",
+                    parseInt(popel.css("top"), 10) - reg.top);
+				popel.css("left",
+				    parseInt(popel.css("left"), 10) - reg.left);
+            }
+
             return false;
         };
 

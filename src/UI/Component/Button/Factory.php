@@ -304,12 +304,13 @@ interface Factory {
 	 *           The state of the Toggle Button MUST be indicated for screen readers
 	 *           by using the aria-pressed attribute.
 	 * ---
-	 * @param	string		$label
-	 * @param	string|Signal		$action
-	 * @param	string|Signal		$action_off
-	 * @param	bool		$is_on
+	 * @param	string			$label
+	 * @param	string|Signal	$toggle_on_action action performed when button changes from off to on
+	 * @param	string|Signal	$toggle_off_action action performed when button changes from on to off
+	 * @param	bool			$is_on
+	 * @param	Signal			$click_signal action performed when button is clicked
 	 * @return  \ILIAS\UI\Component\Button\Toggle
 	 */
-	public function toggle($label, $action, $action_off, $is_on = false);
+	public function toggle($label, $on_action, $off_action, $is_on = false, $click_signal = null);
 
 }
