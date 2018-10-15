@@ -16,14 +16,13 @@ class ilMMEntryRendererGUI {
 
 	/**
 	 * @return string
+	 * @throws ilTemplateException
 	 */
 	public function getHTML(): string {
 		global $DIC;
-		$time = microtime(true);
+
 		$slates = (new ilMainMenuCollector($DIC->database(), ilGlobalCache::getInstance('ux')))->getStackedSlates();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
-
-		$time = microtime(true) - $time;
 
 		foreach ($slates as $slate) {
 			$tpl->setCurrentBlock('mmentry');
@@ -60,7 +59,6 @@ class ilMMEntryRendererGUI {
 					case ($child instanceof hasAction && $child instanceof hasTitle):
 						$this->addEntry($gl, $child, $i);
 						break;
-
 				}
 			}
 
@@ -69,7 +67,7 @@ class ilMMEntryRendererGUI {
 			$tpl->parseCurrentBlock();
 		}
 
-		return $time . $tpl->get();
+		return $tpl->get();
 	}
 
 
