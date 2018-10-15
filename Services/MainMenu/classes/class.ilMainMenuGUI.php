@@ -231,6 +231,8 @@ class ilMainMenuGUI {
 
 			return $gr_list->getHTML();
 		}
+
+		return "";
 	}
 
 

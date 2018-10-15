@@ -19,6 +19,10 @@ class CoreIdentificationProvider implements IdentificationProviderInterface {
 	 * @var string
 	 */
 	protected $class_name = '';
+	/**
+	 * @var IdentificationInterface[]
+	 */
+	protected static $instances = [];
 
 
 	/**
@@ -37,7 +41,11 @@ class CoreIdentificationProvider implements IdentificationProviderInterface {
 	 * @inheritdoc
 	 */
 	public function identifier(string $identifier_string): IdentificationInterface {
-		return new CoreIdentification($identifier_string, $this->class_name, $this->serializer);
+		if (isset(self::$instances[$identifier_string])) {
+			return self::$instances[$identifier_string];
+		}
+
+		return self::$instances[$identifier_string] = new CoreIdentification($identifier_string, $this->class_name, $this->serializer);
 	}
 
 

@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\CoreIdentification;
+use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
@@ -29,7 +30,9 @@ class CoreSerializer implements SerializerInterface {
 	public function unserialize(string $serialized_string): IdentificationInterface {
 		list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		return new CoreIdentification($internal_identifier, $class_name, $this);
+		$f = new CoreIdentificationProvider($class_name, $this);
+
+		return $f->identifier($internal_identifier);
 	}
 
 

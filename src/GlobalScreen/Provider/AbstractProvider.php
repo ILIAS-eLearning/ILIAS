@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Services;
 
 /**
@@ -10,9 +11,17 @@ use ILIAS\GlobalScreen\Services;
 abstract class AbstractProvider implements Provider {
 
 	/**
-	 * @var Services
+	 * @var Container
 	 */
-	protected $gs;
+	protected $dic;
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function __construct(Container $dic) {
+		$this->dic = $dic;
+	}
 
 
 	/**
@@ -27,7 +36,7 @@ abstract class AbstractProvider implements Provider {
 	 * @return Services
 	 */
 	protected function globalScreen(): Services {
-		return $this->gs;
+		return $this->dic->globalScreen();
 	}
 
 

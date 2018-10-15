@@ -1,8 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
+use ILIAS\GlobalScreen\Services;
 
 /**
  * Interface StaticMainMenuProvider
@@ -11,6 +13,10 @@ use ILIAS\GlobalScreen\Provider\AbstractProvider;
  */
 abstract class AbstractStaticMainMenuProvider extends AbstractProvider implements StaticMainMenuProvider {
 
+	/**
+	 * @var Container
+	 */
+	protected $dic;
 	/**
 	 * @var IdentificationProviderInterface
 	 */
@@ -24,8 +30,8 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	/**
 	 * @inheritDoc
 	 */
-	public function inject(\ILIAS\GlobalScreen\Services $services) {
-		parent::inject($services);
+	public function __construct(Container $dic) {
+		parent::__construct($dic);
 		$this->mainmenu = $this->globalScreen()->mainmenu();
 		$this->if = $this->globalScreen()->identification()->core($this);
 	}

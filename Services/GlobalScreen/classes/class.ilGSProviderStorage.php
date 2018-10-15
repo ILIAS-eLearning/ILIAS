@@ -31,7 +31,7 @@ class ilGSProviderStorage extends ActiveRecord {
 
 		ilGSIdentificationStorage::installDB();
 		$instance = $gsp->getInstance();
-		$instance->inject(new \ILIAS\GlobalScreen\Services());
+		// $instance->inject(new \ILIAS\GlobalScreen\Services());
 
 		foreach ($instance->getAllIdentifications() as $identification) {
 			$gsi = ilGSIdentificationStorage::find($identification->serialize());
@@ -194,7 +194,6 @@ class ilGSProviderStorage extends ActiveRecord {
 		if (!$this->instance instanceof ILIAS\GlobalScreen\Provider\Provider) {
 			$class_name = $this->provider_class;
 			$this->instance = new $class_name($DIC);
-			$this->instance->inject(new ILIAS\GlobalScreen\Services());
 		}
 
 		return $this->instance;

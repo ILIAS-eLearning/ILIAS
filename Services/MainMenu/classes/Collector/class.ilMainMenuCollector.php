@@ -1,6 +1,5 @@
 <?php
 
-use ilGlobalCache;
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
@@ -52,13 +51,16 @@ class ilMainMenuCollector {
 		 * @var $entry            \ILIAS\GlobalScreen\MainMenu\isChild
 		 */
 		$slates = [];
-		foreach (ilGSProviderStorage::get() as $provider_storage) {
+		$providers = ilGSProviderStorage::get();
+		foreach ($providers as $provider_storage) {
 			$provider = $provider_storage->getInstance();
 			foreach ($provider->getStaticSlates() as $slate) {
 				$id = $slate->getProviderIdentification()->serialize();
 				$slates[$id] = $slate;
 			}
-
+		}
+		foreach ($providers as $provider_storage) {
+			$provider = $provider_storage->getInstance();
 			foreach ($provider->getStaticEntries() as $entry) {
 				if (!$entry->isVisible()) {
 					continue;

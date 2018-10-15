@@ -5,6 +5,7 @@ namespace ILIAS\DI;
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\GlobalScreen\Services;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -147,6 +148,14 @@ class Container extends \Pimple\Container {
 	 */
 	public function backgroundTasks() {
 		return new BackgroundTaskServices($this);
+	}
+
+
+	/**
+	 * @return Services
+	 */
+	public function globalScreen() {
+		return new Services();
 	}
 
 
