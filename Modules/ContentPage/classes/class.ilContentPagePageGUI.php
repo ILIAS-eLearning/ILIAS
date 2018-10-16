@@ -57,7 +57,7 @@ class ilContentPagePageGUI extends \ilPageObjectGUI implements \ilContentPageObj
 			if ($links->length > 0) {
 				foreach ($links as $link) {
 					/** @var $link \DOMNode */
-					$link->attributes->getNamedItem('LinkHref')->nodeValue = '_blank';
+					$link->attributes->getNamedItem('LinkTarget')->nodeValue = '_blank';
 				}
 			}
 
