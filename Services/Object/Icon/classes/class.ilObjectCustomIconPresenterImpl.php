@@ -6,9 +6,7 @@
  */
 class ilObjectCustomIconPresenterImpl implements \ilObjectCustomIconPresenter
 {
-	/**
-	 * @var \ilObjectCustomIcon
-	 */
+	/** @var \ilObjectCustomIcon */
 	private $icon = null;
 
 	/**
@@ -20,11 +18,10 @@ class ilObjectCustomIconPresenterImpl implements \ilObjectCustomIconPresenter
 		$this->icon = $icon;
 	}
 
-
 	/**
-	 * @return inheritdoc
+	 * @inheritdoc
 	 */
-	public function exists() : bool
+	public function exists(): bool
 	{
 		return $this->icon->exists();
 	}
@@ -32,7 +29,7 @@ class ilObjectCustomIconPresenterImpl implements \ilObjectCustomIconPresenter
 	/**
 	 * @inheritdoc
 	 */
-	public function getFullPath() : string
+	public function getFullPath(): string
 	{
 		return $this->icon->getFullPath();
 	}

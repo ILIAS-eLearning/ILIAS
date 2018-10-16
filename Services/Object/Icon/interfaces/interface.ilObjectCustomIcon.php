@@ -9,7 +9,7 @@ interface ilObjectCustomIcon
 	/**
 	 * @return string[]
 	 */
-	public function getSupportedFileExtensions();
+	public function getSupportedFileExtensions(): array ;
 
 	/**
 	 * @param string $sourceFilePath
@@ -17,7 +17,7 @@ interface ilObjectCustomIcon
 	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
-	public function saveFromSourceFile($sourceFilePath);
+	public function saveFromSourceFile(string $sourceFilePath);
 
 	/**
 	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
@@ -29,7 +29,7 @@ interface ilObjectCustomIcon
 	/**
 	 * @param int $targetObjId
 	 */
-	public function copy($targetObjId);
+	public function copy(int $targetObjId);
 
 	/**
 	 * Should be called if a consuming object is removed from system.
@@ -46,10 +46,10 @@ interface ilObjectCustomIcon
 	/**
 	 * @return bool
 	 */
-	public function exists();
+	public function exists(): bool ;
 
 	/**
 	 * @return string
 	 */
-	public function getFullPath();
+	public function getFullPath(): string ;
 }
