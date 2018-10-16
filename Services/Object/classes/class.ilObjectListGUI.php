@@ -3399,13 +3399,28 @@ class ilObjectListGUI
 					ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_".$this->getIconImageType()));
 			}
 
-			$this->tpl->setVariable("SRC_ICON",
-				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
+			$this->tpl->setVariable(
+				"SRC_ICON",
+				$this->getTypeIcon()
+			);
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}
 		
 		$this->tpl->touchBlock("d_".$cnt);	// indent main div
+	}
+
+	/**
+	 * Get object type specific type icon
+	 * @return string
+	 */
+	public function getTypeIcon()
+	{
+		return ilObject::_getIcon(
+			$this->obj_id,
+			'small',
+			$this->getIconImageType()
+		);
 	}
 	
 	/**
