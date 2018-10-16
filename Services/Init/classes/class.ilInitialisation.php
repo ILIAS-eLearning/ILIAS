@@ -640,7 +640,12 @@ class ilInitialisation
 	protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
 	{
 		$c["object.customicons.factory"] = function ($c) {
-			return new \ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
+			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
+			return new ilObjectCustomIconFactory(
+				$c->filesystem()->web(),
+				$c->upload(),
+				$c['ilObjDataCache']
+			);
 		};
 	}
 

@@ -22812,6 +22812,10 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5305>
 <?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5306>
+<?php
 if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
 	$ilDB->addTableColumn(
 		'mail_man_tpl',
