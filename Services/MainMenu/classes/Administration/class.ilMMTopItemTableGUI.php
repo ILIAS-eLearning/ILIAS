@@ -38,7 +38,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 	 * @inheritDoc
 	 */
 	protected function fillRow($a_set) {
-		echo '<pre>' . print_r($a_set, 1) . '</pre>';
 		global $DIC;
 		$renderer = $DIC->ui()->renderer();
 		$factory = $DIC->ui()->factory();
@@ -48,11 +47,12 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('POSITION', $a_set['position']);
 		$this->tpl->setVariable('ACTIVE', $a_set['active']);
 		$this->tpl->setVariable('STICKY', $a_set['sticky']);
-		// $this->tpl->setVariable('ICON', $renderer->render($factory->icon()->standard('copa', '')->withDisabled(true)));
 		$this->tpl->setVariable('PROVIDER', $a_set['identification']);
 
-		$items[] = $factory->button()->shy($this->lng->txt('edit_slate'), '#');
-		$items[] = $factory->button()->shy($this->lng->txt('translate_slate'), $this->ctrl->getLinkTarget($this->parent_obj, 'translate'));
+		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $a_set['identification']);
+
+		$items[] = $factory->button()->shy($this->lng->txt('edit_top_item'), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
+		$items[] = $factory->button()->shy($this->lng->txt('translate_slate'), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, 'translate'));
 		if ($a_set['provider'] === "Custom") {
 			$items[] = $factory->button()->shy($this->lng->txt('delete_slate'), '#');
 		}

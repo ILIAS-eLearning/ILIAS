@@ -2,6 +2,8 @@
 
 use ILIAS\GlobalScreen\Collector\MainMenu\Main;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
@@ -16,6 +18,14 @@ use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 class ilMainMenuCollector {
 
 	/**
+	 * @var Main
+	 */
+	private $main_collector;
+	/**
+	 * @var array
+	 */
+	private $providers;
+	/**
 	 * @var StorageFacade
 	 */
 	protected $storage;
@@ -27,7 +37,10 @@ class ilMainMenuCollector {
 	 * @param StorageFacade $storage
 	 */
 	public function __construct(StorageFacade $storage) {
+		global $DIC;
 		$this->storage = $storage;
+		$this->providers = $this->initProviders();
+		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers);
 	}
 
 
@@ -42,7 +55,24 @@ class ilMainMenuCollector {
 	 * @return TopParentItem[]
 	 */
 	public function getStackedTopItems(bool $with_invisible = false): array {
-		global $DIC;
+		return $this->main_collector->getStackedTopItems($with_invisible);
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return isItem
+	 */
+	public function getSingleItem(IdentificationInterface $identification): isItem {
+		return $this->main_collector->getSingleItem($identification);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private function initProviders(): array {
 		$providers = [];
 		foreach (ilGSProviderStorage::get() as $provider_storage) {
 			/**
@@ -51,6 +81,6 @@ class ilMainMenuCollector {
 			$providers[] = $provider_storage->getInstance();
 		}
 
-		return $DIC->globalScreen()->collector()->mainmenu($providers)->getStackedTopItems($with_invisible);
+		return $providers;
 	}
 }

@@ -11,6 +11,10 @@ class ilMMTopItemGUI {
 
 	const CMD_ADD_TOP_ITEM = 'add_slate';
 	const CMD_VIEW_TOP_ITEMS = 'main_slates';
+	const CMD_EDIT = 'edit_top_item';
+	const CMD_TRANSLATE = 'translate_top_item';
+	const CMD_UPDATE = 'update_top_item';
+	const IDENTIFIER = 'identifier';
 	/**
 	 * @var ilToolbarGUI
 	 */
@@ -43,8 +47,6 @@ class ilMMTopItemGUI {
 	 * @var ilTree
 	 */
 	public $tree;
-
-
 	/**
 	 * ilMMTopItemGUI constructor.
 	 *
@@ -67,6 +69,22 @@ class ilMMTopItemGUI {
 	}
 
 
+	/**
+	 * @return ilMMItemStorage
+	 * @throws arException
+	 */
+	private function getMMItemFromRequest(): ilMMItemStorage {
+		global $DIC;
+		$var = $DIC->http()->request()->getQueryParams()[self::IDENTIFIER];
+		$id = $var;
+		if ($id !== 0 && $id !== '' && $id != null) {
+			return ilMMItemStorage::findOrFail($id);
+		}
+
+		return new ilMMItemStorage();
+	}
+
+
 	private function dispatchCommand($cmd) {
 		switch ($cmd) {
 			case self::CMD_VIEW_TOP_ITEMS:
@@ -85,9 +103,23 @@ class ilMMTopItemGUI {
 			case self::CMD_ADD_TOP_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
 				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest());
 
 				return $f->getHTML();
+			case self::CMD_EDIT:
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				global $DIC;
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest());
+
+				return $f->getHTML();
+				break;
+			case self::CMD_UPDATE:
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				global $DIC;
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest());
+				$f->save();
+				return $f->getHTML();
+				break;
 			case self::CMD_TRANSLATE_TOP_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE_TOP_ITEM, true);
 				break;

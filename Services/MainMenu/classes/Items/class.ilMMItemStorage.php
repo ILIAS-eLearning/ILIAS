@@ -58,6 +58,22 @@ class ilMMItemStorage extends ActiveRecord {
 	/**
 	 * @return string
 	 */
+	public function getDefaultTitle() {
+		return "Default"; // FSX move to translations
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isEmpty(): bool {
+		return ($this->identification === '' && $this->identification === 0 && $this->identification === null);
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function getIdentification(): string {
 		return $this->identification;
 	}
