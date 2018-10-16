@@ -108,8 +108,8 @@ class ilMMTopItemFormGUI {
 		} else {
 
 		}
-		$this->item_facade->setDefaultTitle((string)$data[self::F_TITLE]);
-		$this->item_facade->setActiveStatus((bool)$data[self::F_ACTIVE]);
+		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
+		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
 
 		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$r->updateItem($this->item_facade);
