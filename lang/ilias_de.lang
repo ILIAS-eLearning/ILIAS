@@ -14363,3 +14363,4 @@ lhist#:#lhist_learning_history#:#Learning History
 lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
+rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten

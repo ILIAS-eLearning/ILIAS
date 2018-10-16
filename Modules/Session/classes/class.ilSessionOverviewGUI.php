@@ -152,7 +152,7 @@ class ilSessionOverviewGUI
 		foreach($tree->getSubtree($tree->getNodeData($this->course_ref_id),false,'sess') as $event_id)
 		{
 			$tmp_event = ilObjectFactory::getInstanceByRefId($event_id,false);
-			if(!is_object($tmp_event) or !$ilAccess->checkAccess('write','',$event_id)) 
+			if(!is_object($tmp_event) or !$ilAccess->checkAccess('manage_members','',$event_id))
 			{
 				continue;
 			}
