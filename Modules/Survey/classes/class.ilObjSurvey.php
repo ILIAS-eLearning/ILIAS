@@ -813,7 +813,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
-				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate(true)),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
@@ -6134,9 +6134,22 @@ class ilObjSurvey extends ilObject
 	{
 		$this->reminder_last_sent = $a_value;
 	}
-	
-	public function getReminderTemplate()
+
+	/**
+	 * @param bool $selectDefault
+	 * @return mixed
+	 */
+	public function getReminderTemplate($selectDefault = false)
 	{
+		if ($selectDefault) {
+			$defaultTemplateId = 0;
+			$this->getReminderMailTemplates($defaultTemplateId);
+
+			if ($defaultTemplateId > 0) {
+				return $defaultTemplateId;
+			}
+		}
+
 		return $this->reminder_tmpl;
 	}
 	

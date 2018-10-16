@@ -1261,8 +1261,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
 			$rmd_grp->addOption($rmd_grp_inv);
 
-			$defaultTemplateId = -1;
-			$mtmpl = $this->object->getReminderMailTemplates($defaultTemplateId);
+			$mtmpl = $this->object->getReminderMailTemplates();
 			if ($mtmpl)
 			{
 				$rmdt = new ilRadioGroupInputGUI($this->lng->txt("svy_reminder_mail_template"), "rmdt");
@@ -1273,7 +1272,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
 					$rmdt->addOption($option);
 				}
-				$reminderTemplateValue = $defaultTemplateId;
+
+				$reminderTemplateValue = -1;
 				if ($this->object->getReminderTemplate()) {
 					$reminderTemplateValue = $this->object->getReminderTemplate();
 				}
