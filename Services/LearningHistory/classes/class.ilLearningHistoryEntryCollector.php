@@ -40,13 +40,23 @@ class ilLearningHistoryEntryCollector
 			? time() - (365 * 24 * 60 * 60)
 			: $from;
 
+		$sort_array = [];
 		foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider)
 		{
 			foreach ($provider->getEntries($from, $to) as $e)
 			{
-				$entries[] = $e;
+				$sort_array[] = array("entry" => $e,"ts" => $e->getTimestamp());
 			}
 		}
+
+		$sort_array = ilUtil::sortArray($sort_array, "ts", "desc");
+
+		$entries = [];
+		foreach ($sort_array as $s)
+		{
+			$entries[] = $s["entry"];
+		}
+
 		return $entries;
 	}
 	

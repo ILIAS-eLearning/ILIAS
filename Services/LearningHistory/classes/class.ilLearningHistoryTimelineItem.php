@@ -75,7 +75,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		$f = $this->ui->factory();
 		$r = $this->ui->renderer();
 
-		$ico = $f->icon()->custom($this->lh_entry->getIconPath(), '');
+		$ico = $f->icon()->custom($this->lh_entry->getIconPath(), '')->withSize(\ILIAS\UI\Component\Icon\Custom::MEDIUM);
 
 		$obj_id = $this->lh_entry->getObjId();
 		$type = ilObject::_lookupType($obj_id);
@@ -99,13 +99,14 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 
 		if ($readable_ref_id > 0)
 		{
-			$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs");
+			$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs", true);
 		}
 
 		if ($parent_ref_id > 0)
 		{
 			$text = $this->lh_entry->getAchieveInText();
-			$obj_placeholder = "<a href='" . ilLink::_getLink($parent_ref_id) . "'>" . ilObject::_lookupTitle(ilObject::_lookupObjId($parent_ref_id)) . "</a>";
+			$obj_placeholder = "<a href='" . ilLink::_getLink($parent_ref_id) . "'>" .
+				$this->getEmphasizedTitle(ilObject::_lookupTitle(ilObject::_lookupObjId($parent_ref_id))) . "</a>";
 			$text = str_replace("$2$", $obj_placeholder, $text);
 		}
 		else
@@ -114,8 +115,8 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		}
 
 		$obj_placeholder = ($readable_ref_id > 0)
-				? "<a href='" . ilLink::_getLink($readable_ref_id) . "'>" . $title . "</a>"
-				: $title;
+				? "<a href='" . ilLink::_getLink($readable_ref_id) . "'>" . $this->getEmphasizedTitle($title) . "</a>"
+				: $this->getEmphasizedTitle($title);
 		$text = str_replace("$1$", $obj_placeholder, $text);
 
 		$tpl->setVariable("TEXT", $text);
@@ -124,6 +125,18 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		return $tpl->get();
 	}
 
+	/**
+	 * Get emphasized title
+	 *
+	 * @param string
+	 * @return string
+	 */
+	protected function getEmphasizedTitle($title)
+	{
+		$tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
+		$tpl->setVariable("TITLE", $title);;
+		return $tpl->get();
+	}
 
 
 }

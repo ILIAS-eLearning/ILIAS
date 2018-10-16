@@ -23,6 +23,21 @@ class ilLearningHistoryProviderFactory
 			"component" => "Services/Tracking",
 			"dir" => "classes/learning_history",
 			"class" => "ilTrackingLearningHistoryProvider"
+		),
+		array (
+			"component" => "Services/Badge",
+			"dir" => "LearningHistory/classes",
+			"class" => "ilBadgeLearningHistoryProvider"
+		),
+		array (
+			"component" => "Services/Skill",
+			"dir" => "LearningHistory/classes",
+			"class" => "ilSkillLearningHistoryProvider"
+		),
+		array (
+			"component" => "Modules/Course",
+			"dir" => "classes/LearningHistory",
+			"class" => "ilCourseLearningHistoryProvider"
 		)
 	);
 	
