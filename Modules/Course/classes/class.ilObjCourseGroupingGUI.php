@@ -378,7 +378,7 @@ class ilObjCourseGroupingGUI
 		}
 	
 		// delete all existing conditions
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';		
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		$condh = new ilConditionHandler();
 		$condh->deleteByObjId((int)$_GET['obj_id']);
 

@@ -14,7 +14,7 @@ interface ilConditionHandling
 	 * Returns an array with valid operators for the specific object type
 	 */
 	public static function getConditionOperators();
-	
+
 	/**
 	 * check condition for a specific user and object
 	 * @param type $a_trigger_obj_id

@@ -561,7 +561,7 @@ class ilChatroomInstaller
 		{
 			$tree->moveTree($ref_id, $chatfolder_ref_id);
 			$rbacadmin->adjustMovedObjectPermissions($ref_id, $pid);
-			include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+			include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 			ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 		}
 	}

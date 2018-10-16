@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
-include_once 'Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once 'Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjContentObjectAccess
@@ -22,7 +22,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_FINISHED,
 			ilConditionHandler::OPERATOR_FAILED

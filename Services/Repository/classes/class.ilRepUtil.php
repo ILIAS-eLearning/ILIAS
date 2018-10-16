@@ -565,7 +565,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$ref_ids_in_trash = $this->findTypeInTrash($a_type);
 			if($ref_ids_in_trash)
 			{
-				self::removeObjectsFromSystem($ref_ids_in_tree);
+				self::removeObjectsFromSystem($ref_ids_in_trash);
 			}
 		}
 		
