@@ -991,14 +991,23 @@ class ilMailFolderGUI
 			}
 
 			$mailFileData = new \ilFileDataMail($this->user->getId());
-			$mailFileData->deliverAttachmentsAsZip(
-				$mailData['m_subject'],
-				(int)$mailId,
-				$mailData['attachments']
-			);
+			if (count($mailData['attachments']) === 1) {
+				$attachment = current($mailData['attachments']);
+				if (is_array($file = $mailFileData->getAttachmentPathByMD5Filename(md5($attachment), (int)$mailId))) {
+					\ilUtil::deliverFile($file['path'], $file['filename']);
+				} else {
+					throw new \ilException('mail_error_reading_attachment');
+				}
+			} else {
+				$mailFileData->deliverAttachmentsAsZip(
+					$mailData['m_subject'],
+					(int)$mailId,
+					$mailData['attachments']
+				);
+			}
 		} catch (\ilException $e) {
 			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
-			$this->ctrl->redirect($this, '');
+			$this->ctrl->redirect($this);
 		}
 	}
 

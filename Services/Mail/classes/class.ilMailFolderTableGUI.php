@@ -195,16 +195,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			'width' => '1%'
 		];
 
-		if (!$this->isDraftFolder()) {
-			$columns[++$i] = [
-				'field' => 'attachments',
-				'txt' => $this->lng->txt('attachments'),
-				'default' => false,
-				'optional' => true,
-				'sortable' => false,
-				'width' => '10%'
-			];
-		}
+		$columns[++$i] = [
+			'field' => 'attachments',
+			'txt' => $this->lng->txt('mail_tbl_head_attachments'),
+			'default' => false,
+			'optional' => true,
+			'sortable' => false,
+			'width' => '5%'
+		];
 
 		if (!$this->isDraftFolder() && !$this->isSentFolder()) {
 			$columns[++$i] = [
@@ -213,7 +211,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				'default' => true,
 				'optional' => true,
 				'sortable' => false,
-				'width' => '10%'
+				'width' => '5%'
 			];
 		}
 
@@ -224,7 +222,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				'default' => true,
 				'optional' => false,
 				'sortable' => true,
-				'width' => '25%'
+				'width' => '35%'
 			];
 		} else {
 			$columns[++$i] = [
@@ -233,7 +231,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				'default' => true,
 				'optional' => false,
 				'sortable' => true,
-				'width' => '10%'
+				'width' => '20%'
 			];
 		}
 
@@ -592,17 +590,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
 
-			if (!$this->isDraftFolder()) {
-				$mail['attachment_indicator'] = '';
-				if (is_array($mail['attachments'])) {
-					$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
-					$mail['attachment_indicator'] = $this->uiRenderer->render(
-						$this->uiFactory->glyph()->attachment(
-							$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
-						)
-					);
-					$this->ctrl->clearParametersByClass('ilmailformgui');
-				}
+			$mail['attachment_indicator'] = '';
+			if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
+				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+				$mail['attachment_indicator'] = $this->uiRenderer->render(
+					$this->uiFactory->glyph()->attachment(
+						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachmentsAsZipFile')
+					)
+				);
+				$this->ctrl->clearParametersByClass('ilmailformgui');
 			}
 
 			$mail['actions'] = $this->formatActionsDropDown($mail);
