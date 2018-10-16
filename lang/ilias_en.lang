@@ -14351,3 +14351,4 @@ survey#:#svy_self_ev_access_results_none#:#No Access to Results
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
 survey#:#svy_participant#:#Participant
+rbac#:#sess_manage_members#:#Manage Participants of a Session

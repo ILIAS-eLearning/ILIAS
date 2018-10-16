@@ -14347,3 +14347,4 @@ exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by 
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
+rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten

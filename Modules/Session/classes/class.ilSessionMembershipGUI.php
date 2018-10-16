@@ -72,7 +72,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function updateMembers()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$part = ilParticipants::getInstance($this->getParentObject()->getRefId());
 		
@@ -156,7 +156,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function deleteParticipants()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
                 
 		$participants = (array) $_POST['participants'];
 		
@@ -254,10 +254,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function checkPermission($a_permission, $a_cmd = "")
 	{
-		if($a_permission == 'manage_members')
-		{
-			$a_permission = 'write';
-		}
 		return parent::checkPermission($a_permission, $a_cmd);
 	}
 	
@@ -267,7 +263,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function canAddOrSearchUsers()
 	{
-		return $this->checkPermissionBool('write');
+		return $this->checkPermissionBool('manage_members');
 	}
 
 

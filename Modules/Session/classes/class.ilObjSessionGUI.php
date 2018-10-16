@@ -1230,7 +1230,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl = $DIC['tpl'];
 		$ilTabs = $DIC['ilTabs'];
 		
-		$this->checkPermission('write');		
+		$this->checkPermission('manage_members');
 		$ilTabs->setTabActive('event_edit_members');	
 		
 		$list = $this->initAttendanceList();
@@ -1282,7 +1282,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function printAttendanceListObject()
 	{		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 													
 		$list = $this->initAttendanceList();		
 		$list->initFromForm();					
@@ -1339,7 +1339,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilUser = $DIC['ilUser'];
 		$tree = $DIC['tree'];
 
-		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		if(!$ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
@@ -1935,12 +1935,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->tabs_gui->addTarget('crs_materials',
 								 $this->ctrl->getLinkTarget($this,'materials'));
 			
+	 	}
+	 	if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
+		{
 			$this->tabs_gui->addTab(
 				'members',
 				$this->lng->txt('event_edit_members'),
 				$this->ctrl->getLinkTargetByClass('ilsessionmembershipgui','')
 			);
-	 	}
+		}
 		
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';

@@ -52,7 +52,7 @@ class ilObjSessionAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "unregister", "lang_var" => "event_unregister"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
 			array("permission" => "write", "cmd" => "materials", "lang_var" => "crs_objective_add_mat"),
-			array('permission' => 'write', 'cmd' => 'members', 'lang_var' => 'event_edit_members')
+			array('permission' => 'manage_members', 'cmd' => 'members', 'lang_var' => 'event_edit_members')
 		);
 		
 		return $commands;
