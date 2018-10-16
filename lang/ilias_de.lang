@@ -14,14 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
-badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
-badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
-crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
-trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
-trac#:#trac_lhist_obj_completed#:#$1$ was completed.
-lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
@@ -14228,3 +14220,13 @@ file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+pd#:#pd_enable_learning_history#:#Lernhistorie
+pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.

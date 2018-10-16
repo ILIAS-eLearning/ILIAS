@@ -14,14 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
-badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
-badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
-crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
-trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
-trac#:#trac_lhist_obj_completed#:#$1$ was completed.
-lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -14226,3 +14218,13 @@ file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+pd#:#pd_enable_learning_history#:#Learning History
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

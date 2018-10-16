@@ -129,6 +129,14 @@ class ilLearningHistoryService
 	 */
 	public function isActive(int $user_id = 0)
 	{
+		global $DIC;
+
+		$setting = $DIC->settings();
+		if ($setting->get("enable_learning_history") !== "1")
+		{
+			return false;
+		}
+
 		if ($user_id = 0)
 		{
 			$user_id = $this->user()->getId();
