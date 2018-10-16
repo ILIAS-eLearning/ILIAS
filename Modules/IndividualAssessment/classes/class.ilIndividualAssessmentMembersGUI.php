@@ -2,6 +2,8 @@
 /* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
 /* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
 
+declare(strict_types=1);
+
 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php';
 require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
 
@@ -21,7 +23,10 @@ class ilIndividualAssessmentMembersGUI {
 	protected $tpl;
 	protected $lng;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	public function __construct(
+		ilObjIndividualAssessmentGUI $a_parent_gui,
+		int $a_ref_id
+	) {
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->parent_gui = $a_parent_gui;
@@ -113,13 +118,16 @@ class ilIndividualAssessmentMembersGUI {
 			$this->lng,
 			$this->ctrl,
 			$this->object->accessHandler(),
-			$this->user->getId()
+			(int)$this->user->getId()
 		);
 		$table->setData($this->object->loadMembersAsSingleObjects());
 		$this->tpl->setContent($table->render(array()));
 	}
 
-	public function addUsersFromSearch($user_ids) {
+	/**
+	 * @param int[]
+	 */
+	public function addUsersFromSearch(array $user_ids) {
 		if($user_ids && is_array($user_ids) && !empty($user_ids)) {
 			$this->addUsers($user_ids);
 		}
@@ -158,6 +166,9 @@ class ilIndividualAssessmentMembersGUI {
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'addedUsers');
 	}
 
+	/**
+	 * Display confirmation form for user might be removed
+	 */
 	protected function removeUserConfirmation() {
 		if(!$this->iass_access->mayEditMembers()) {
 			$this->parent_gui->handleAccessViolation();
@@ -174,8 +185,6 @@ class ilIndividualAssessmentMembersGUI {
 
 	/**
 	 * Remove users from corresponding iass-object. To be used by repository search.
-	 *
-	 * @param	int|string[]	$user_ids
 	 */
 	public function removeUser() {
 		if(!$this->iass_access->mayEditMembers()) {
