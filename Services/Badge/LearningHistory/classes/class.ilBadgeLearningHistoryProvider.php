@@ -16,7 +16,12 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 	 */
 	public function isActive()
 	{
-		return true;
+		require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+		if(ilBadgeHandler::getInstance()->isActive())
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**

@@ -16,7 +16,12 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 	 */
 	public function isActive()
 	{
-		return true;
+		$skmg_set = new ilSetting("skmg");
+		if ($skmg_set->get("enable_skmg"))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**

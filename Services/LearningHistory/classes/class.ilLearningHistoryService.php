@@ -121,6 +121,34 @@ class ilLearningHistoryService
 		return new ilLearningHistoryProviderFactory($this);
 	}
 
+	/**
+	 * Is the service active? The service will be active, if any of its providers are active.
+	 *
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public function isActive(int $user_id = 0)
+	{
+		global $DIC;
+
+		$setting = $DIC->settings();
+		if ($setting->get("enable_learning_history") !== "1")
+		{
+			return false;
+		}
+
+		if ($user_id = 0)
+		{
+			$user_id = $this->user()->getId();
+		}
+		foreach ($this->provider()->getAllProviders(true, $user_id) as $p)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 
 
 }
