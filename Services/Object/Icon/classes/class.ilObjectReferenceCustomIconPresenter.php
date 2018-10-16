@@ -7,17 +7,59 @@
 class ilObjectReferenceCustomIconPresenter implements \ilObjectCustomIconPresenter
 {
 	/**
+	 * @var \ilObjectCustomIconFactory
+	 */
+	private $factory = null;
+
+
+	/**
 	 * @var \ilObjectCustomIcon
 	 */
 	private $icon = null;
 
 	/**
+	 * @var int
+	 */
+	private $obj_id = 0;
+
+
+	/**
 	 * ilObjectReferenceCustomIconPresenter constructor.
 	 *
 	 */
-	public function __construct(\ilObjectCustomIcon $icon)
+	public function __construct(int $obj_id, \ilObjectCustomIconFactory $factory)
 	{
-		$this->icon = $icon;
+		$this->factory = $factory;
+		$this->obj_id = $obj_id;
+	}
+
+	/**
+	 * Init \ilObjectCustomIconPresenter
+	 * If the target is invalid the icon instance
+	 * creation is based on the reference object obj_id
+	 */
+	public function init()
+	{
+		$target_obj_id = $this->lookupTargetId();
+		$this->icon = $this->factory->getByObjId($target_obj_id);
+	}
+
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function exists() : bool
+	{
+		return $this->icon->exists();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFullPath() : string
+	{
+		return $this->icon->getFullPath();
 	}
 
 	/**
@@ -26,37 +68,13 @@ class ilObjectReferenceCustomIconPresenter implements \ilObjectCustomIconPresent
 	 * @param $a_obj_id
 	 * @param ilDBInterface $db
 	 * @return int
-	 * @throws ilDatabaseException
 	 */
-	public static function lookupTargetId($a_obj_id, \ilDBInterface $db)
+	protected function lookupTargetId() : int
 	{
-		$query = 'select target_obj_id from container_reference '.
-			'where obj_id = ' . $db->quote($a_obj_id,'integer');
-		$res = $db->query($query);
-
-		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT))
-		{
-			return $row->target_obj_id;
-		}
-		return 0;
+		$target_obj_id = ilContainerReference::_lookupTargetId($this->obj_id);
+		return $target_obj_id;
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function exists()
-	{
-		return $this->icon->exists();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFullPath()
-	{
-		return $this->icon->getFullPath();
-	}
 
 }
 ?>

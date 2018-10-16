@@ -643,8 +643,7 @@ class ilInitialisation
 			return new ilObjectCustomIconFactory(
 				$c->filesystem()->web(),
 				$c->upload(),
-				$c['ilObjDataCache'],
-				$c->database()
+				$c['ilObjDataCache']
 			);
 		};
 	}

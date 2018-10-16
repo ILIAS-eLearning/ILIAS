@@ -9,10 +9,10 @@ interface ilObjectCustomIconPresenter
 	/**
 	 * @return bool
 	 */
-	public function exists();
+	public function exists() : bool;
 
 	/**
 	 * @return string
 	 */
-	public function getFullPath();
+	public function getFullPath() : string;
 }
