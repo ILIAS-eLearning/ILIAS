@@ -4697,7 +4697,7 @@ crs#:#event_date_time#:#Date and Time
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_digit#:#Digit
-crs#:#event_edit_members#:#Edit Participants
+crs#:#event_edit_members#:#Participants
 crs#:#event_etime_smaller_stime#:#The finish time is earlier than the start time. Please enter a valid time span.
 crs#:#event_file#:#File
 crs#:#event_files#:#Assigned Files
@@ -12352,7 +12352,7 @@ crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
 exc#:#exc_assignment_type#:#Type of Submission
-trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Edit Participants'-tab.
+trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Participants'-tab.
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
 glo#:#glo_copy#:#Copy Glossary
