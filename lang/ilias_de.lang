@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+obj#:#obj_show_title_and_icon#:#Title und Icon anzeigen
+obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
 cont#:#cont_list_presentation#:#Anzeige der Objekte
 cont#:#cont_item_list#:#Liste
 cont#:#cont_tile_view#:#Kacheln

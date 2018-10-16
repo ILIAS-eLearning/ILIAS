@@ -897,7 +897,25 @@ class ilContainer extends ilObject
 
 		return $ret;
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	function putInTree($a_parent_ref)
+	{
+		parent::putInTree($a_parent_ref);
+
+		// copy title, icon actions visibilities
+		if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_header_icon_and_title"))
+		{
+			self::_writeContainerSetting($this->getId(), "hide_header_icon_and_title", true);
+		}
+		if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_top_actions"))
+		{
+			self::_writeContainerSetting($this->getId(), "hide_top_actions", true);
+		}
+	}
+
 	/**
 	* Update
 	*/

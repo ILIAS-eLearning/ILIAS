@@ -49,6 +49,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -946,6 +947,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 		}
 
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+
 		// custom icon
 		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
 
@@ -1352,6 +1359,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 
 		$form->addItem($pres);
+
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
 
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();

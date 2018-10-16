@@ -42,6 +42,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->setting = $ilSetting;
 	}
@@ -600,6 +601,12 @@ class ilObjGroupGUI extends ilContainerGUI
 					$this->object->setWaitingListAutoFill(false);
 					break;
 			}
+
+			// title icon visibility
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+			// top actions visibility
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
 
 			// custom icon
 			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
@@ -1631,6 +1638,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$form->addItem($pres);
+
+			// title and icon visibility
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+			// top actions visibility
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
 
 			// custom icon
 			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();

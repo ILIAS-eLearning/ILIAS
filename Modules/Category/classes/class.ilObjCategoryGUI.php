@@ -63,6 +63,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		//$this->ctrl =& $ilCtrl;
 		//$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 		$GLOBALS['lng']->loadLanguageModule('cat');
+		$GLOBALS['lng']->loadLanguageModule('obj');
 
 		$this->type = "cat";
 		parent::__construct($a_data,(int) $a_id,$a_call_by_reference,false);
@@ -767,6 +768,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('obj_presentation'));
 		$form->addItem($pres);
 
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
 
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
@@ -854,6 +860,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->object->update();
 
 				$this->saveSortingSettings($form);
+
+				// title icon visibility
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+				// top actions visibility
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
 
 				// custom icon
 				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();

@@ -129,6 +129,56 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function addTitleIconVisibility(): ilPropertyFormGUI
+	{
+		$lng = $this->service->language();
+		$hide = new ilCheckboxInputGUI($lng->txt("obj_show_title_and_icon"), "show_header_icon_and_title");
+		$hide->setChecked(!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
+		$this->legacy_form->addItem($hide);
+		return $this->legacy_form;
+	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function saveTitleIconVisibility()
+	{
+		if (!is_null($this->legacy_form))
+		{
+			// hide icon/title
+			ilContainer::_writeContainerSetting($this->object->getId(),
+				"hide_header_icon_and_title",
+				!$this->legacy_form->getInput("show_header_icon_and_title"));
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function addTopActionsVisibility(): ilPropertyFormGUI
+	{
+		$lng = $this->service->language();
+		$hide = new ilCheckboxInputGUI($lng->txt("obj_show_header_actions"), "show_top_actions");
+		$hide->setChecked(!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions"));
+		$this->legacy_form->addItem($hide);
+		return $this->legacy_form;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function saveTopActionsVisibility()
+	{
+		if (!is_null($this->legacy_form))
+		{
+			// hide icon/title
+			ilContainer::_writeContainerSetting($this->object->getId(),
+				"hide_top_actions",
+				!$this->legacy_form->getInput("show_top_actions"));
+		}
+	}
 
 }
