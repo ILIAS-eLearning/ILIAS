@@ -14,6 +14,7 @@ class ilMMTopItemGUI {
 	const CMD_EDIT = 'edit_top_item';
 	const CMD_TRANSLATE = 'translate_top_item';
 	const CMD_UPDATE = 'update_top_item';
+	const CMD_SAVE_TABLE = 'save_table';
 	const IDENTIFIER = 'identifier';
 	/**
 	 * @var ilMMItemRepository
@@ -121,12 +122,28 @@ class ilMMTopItemGUI {
 
 				$this->ctrl->redirect($this);
 				break;
+			case self::CMD_SAVE_TABLE:
+				return $this->saveTable();
+				break;
 			case self::CMD_TRANSLATE_TOP_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE_TOP_ITEM, true);
 				break;
 		}
 
 		return "";
+	}
+
+
+	private function saveTable() {
+		global $DIC;
+		$r = $DIC->http()->request()->getParsedBody();
+		foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
+			$item = $this->repository->getItemFacadeForIdentificationString($identification_string);
+			$item->setPosition((int)$data['position']);
+			$item->setActiveStatus((bool)$data['active']);
+			$this->repository->updateItem($item);
+		}
+		$this->ctrl->redirect($this);
 	}
 
 

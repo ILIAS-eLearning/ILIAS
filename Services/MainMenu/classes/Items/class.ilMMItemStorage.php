@@ -5,7 +5,17 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemStorage extends ActiveRecord {
+class ilMMItemStorage extends CachedActiveRecord {
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getCache(): ilGlobalCache {
+		global $DIC;
+
+		return $DIC->globalScreen()->storage()->cache();
+	}
+
 
 	/**
 	 * @var string
@@ -53,22 +63,6 @@ class ilMMItemStorage extends ActiveRecord {
 	 * @var string
 	 */
 	protected $connector_container_name = "il_mm_items";
-
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultTitle() {
-		return "Default"; // FSX move to translations
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isEmpty(): bool {
-		return ($this->identification === '' && $this->identification === 0 && $this->identification === null);
-	}
 
 
 	/**

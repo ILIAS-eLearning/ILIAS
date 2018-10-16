@@ -48,6 +48,8 @@ class ilMMTopItemFormGUI {
 	 * @param \ILIAS\UI\Renderer $ui_re
 	 */
 	const F_ACTIVE = 'active';
+	const F_TITLE = 'title';
+	const F_TYPE = 'type';
 
 
 	public function __construct(ilCtrl $ctrl, \ILIAS\UI\Factory $ui_fa, \ILIAS\UI\Renderer $ui_re, ilLanguage $lng, ilMMItemFacade $item) {
@@ -69,7 +71,7 @@ class ilMMTopItemFormGUI {
 		if (!$this->item_facade->isEmpty()) {
 			$title = $title->withValue($this->item_facade->getDefaultTitle());
 		}
-		$items['title'] = $title;
+		$items[self::F_TITLE] = $title;
 
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('slate_type'), $this->lng->txt('slate_type_byline'))
 			->withOption(self::$type_mapping[TopParentItem::class], 'Main Menu Item with Subitems')
@@ -80,7 +82,7 @@ class ilMMTopItemFormGUI {
 				$type = $type->withValue(self::$type_mapping[$this->item_facade->getGSItemClassName()]);
 			}
 		}
-		$items['type'] = $type;
+		$items[self::F_TYPE] = $type;
 
 		$active = $this->ui_fa->input()->field()->checkbox($this->lng->txt('slate_active'), $this->lng->txt('slate_active_byline'));
 		if (!$this->item_facade->isEmpty()) {
@@ -106,8 +108,11 @@ class ilMMTopItemFormGUI {
 		} else {
 
 		}
-		$this->item_facade->setActive((bool)$data[self::F_ACTIVE]);
-		$this->item_facade->update();
+		$this->item_facade->setDefaultTitle((string)$data[self::F_TITLE]);
+		$this->item_facade->setActiveStatus((bool)$data[self::F_ACTIVE]);
+
+		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
+		$r->updateItem($this->item_facade);
 
 		return true;
 	}

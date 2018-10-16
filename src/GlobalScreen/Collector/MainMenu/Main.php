@@ -28,13 +28,9 @@ class Main {
 	 */
 	private static $items = [];
 	/**
-	 * @var ItemSorting
+	 * @var ItemInformation|null
 	 */
-	private $sorting;
-	/**
-	 * @var ItemTranslation
-	 */
-	private $translation;
+	private $information;
 	/**
 	 * @var array|Provider[]
 	 */
@@ -45,15 +41,13 @@ class Main {
 	 * Main constructor.
 	 *
 	 * @param array                $providers
-	 * @param ItemSorting|null     $sorting
-	 * @param ItemTranslation|null $translation
+	 * @param ItemInformation|null $information
 	 */
-	public function __construct(array $providers, ItemSorting $sorting = null, ItemTranslation $translation = null) {
+	public function __construct(array $providers, ItemInformation $information = null) {
 		if (self::$constructed === true) {
 			throw new \LogicException("only one Instance of Main Collector is possible");
 		}
-		$this->sorting = $sorting;
-		$this->translation = $translation;
+		$this->information = $information;
 		$this->providers = $providers;
 		self::$constructed = true;
 	}
@@ -71,11 +65,33 @@ class Main {
 		$this->load();
 		$top_items = [];
 		foreach (self::$items as $item) {
-			if ($item instanceof hasTitle && $this->translation) {
-				$item = $this->translation->translateItemForUser($item);
+			if ($item->isAvailable() && $this->information->isItemActive($item)) {
+				if ($item instanceof hasTitle && $this->information) {
+					$item = $this->information->translateItemForUser($item);
+				}
+				if ($item instanceof isTopItem && $this->information) {
+					$top_items[$this->information->getPositionOfTopItem($item)] = $item;
+				}
 			}
-			if ($item instanceof isTopItem && $this->sorting) {
-				$top_items[$this->sorting->getPositionOfTopItem($item)] = $item;
+		}
+		ksort($top_items);
+
+		return $top_items;
+	}
+
+
+	/**
+	 * @return isTopItem[]
+	 */
+	public function getStackedTopItems(): array {
+		$this->load();
+		$top_items = [];
+		foreach (self::$items as $item) {
+			if ($item instanceof hasTitle && $this->information) {
+				$item = $this->information->translateItemForUser($item);
+			}
+			if ($item instanceof isTopItem && $this->information) {
+				$top_items[$this->information->getPositionOfTopItem($item)] = $item;
 			}
 		}
 		ksort($top_items);
@@ -88,11 +104,11 @@ class Main {
 		$this->load();
 		$sub_items = [];
 		foreach (self::$items as $item) {
-			if ($item instanceof hasTitle && $this->translation) {
-				$item = $this->translation->translateItemForUser($item);
+			if ($item instanceof hasTitle && $this->information) {
+				$item = $this->information->translateItemForUser($item);
 			}
-			if ($item instanceof isChild && $this->sorting) {
-				$sub_items[$this->sorting->getPositionOfSubItem($item)] = $item;
+			if ($item instanceof isChild && $this->information) {
+				$sub_items[$this->information->getPositionOfSubItem($item)] = $item;
 			}
 		}
 

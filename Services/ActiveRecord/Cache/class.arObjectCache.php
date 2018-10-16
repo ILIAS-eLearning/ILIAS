@@ -23,6 +23,13 @@ class arObjectCache {
 	 * @return bool
 	 */
 	public static function isCached($class, $id) {
+		$instance = new $class();
+		if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+			if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
+				return true;
+			}
+		}
+
 		if (!isset(self::$cache[$class])) {
 			return false;
 		}
@@ -38,6 +45,11 @@ class arObjectCache {
 	 * @param ActiveRecord $object
 	 */
 	public static function store(ActiveRecord $object) {
+		if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() != '') {
+			if ($object->getCache()->set($object->getCacheIdentifier(), $object, $object->getTTL())) {
+				return;
+			}
+		}
 		if (!isset($object->is_new)) {
 			self::$cache[get_class($object)][$object->getPrimaryFieldValue()] = $object;
 		}
@@ -62,6 +74,12 @@ class arObjectCache {
 	 * @return ActiveRecord
 	 */
 	public static function get($class, $id) {
+		$instance = new $class();
+		if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+			if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
+				return $instance->getCache()->get($instance->getCacheIdentifier());
+			}
+		}
 		if (!self::isCached($class, $id)) {
 			throw new arException(arException::GET_UNCACHED_OBJECT, $class . ': ' . $id);
 		}
@@ -74,6 +92,9 @@ class arObjectCache {
 	 * @param ActiveRecord $object
 	 */
 	public static function purge(ActiveRecord $object) {
+		if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() != '') {
+			$object->getCache()->delete($object->getCacheIdentifier());
+		}
 		unset(self::$cache[get_class($object)][$object->getPrimaryFieldValue()]);
 	}
 
@@ -82,11 +103,14 @@ class arObjectCache {
 	 * @param $class_name
 	 */
 	public static function flush($class_name) {
+		$instance = new $class_name();
+		if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+			$instance->getCache()->flush();
+		}
+
 		if ($class_name instanceof ActiveRecord) {
 			$class_name = get_class($class_name);
 		}
 		unset(self::$cache[$class_name]);
 	}
 }
-
-?>

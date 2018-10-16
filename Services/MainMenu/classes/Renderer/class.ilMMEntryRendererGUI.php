@@ -23,7 +23,10 @@ class ilMMEntryRendererGUI {
 		$storage = $DIC->globalScreen()->storage();
 
 		if ($storage->cache()->exists('rendered_menu')) {
-			return $storage->cache()->get('rendered_menu');
+			$cached_menu = $storage->cache()->get('rendered_menu');
+			if (is_string($cached_menu)) {
+				return $cached_menu;
+			}
 		}
 
 		$top_items = (new ilMMItemRepository($storage))->getStackedTopItems();

@@ -5,7 +5,7 @@
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
-class ilGSStorageCache extends arConnector {
+class arConnectorCache extends arConnector {
 
 	/**
 	 * @var int
@@ -19,7 +19,7 @@ class ilGSStorageCache extends arConnector {
 	 * @var \ilGlobalCache
 	 */
 	private $cache;
-	const CACHE_TTL_SECONDS = 1800;
+	const CACHE_TTL_SECONDS = 180;
 
 
 	/**
@@ -30,7 +30,7 @@ class ilGSStorageCache extends arConnector {
 	 */
 	public function __construct(arConnector $arConnectorDB, int $ttl = self::CACHE_TTL_SECONDS) {
 		global $DIC;
-		$facade = $DIC->globalScreen()->storage();
+		$facade = $DIC->globalScreen()->storage(); // FSX other namespaces
 		$this->ttl = $ttl;
 		$this->arConnectorDB = $arConnectorDB;
 		$this->cache = $facade->cache();
@@ -252,7 +252,7 @@ class ilGSStorageCache extends arConnector {
 
 
 	/**
-	 * Stores an active record into the xlvoCache.
+	 * Stores an active record into the Cache.
 	 *
 	 * @param ActiveRecord $ar
 	 *

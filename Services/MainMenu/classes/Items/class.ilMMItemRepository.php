@@ -22,7 +22,7 @@ class ilMMItemRepository {
 	 */
 	private $providers = [];
 	/**
-	 * @var ilMMSortingAndTranslation
+	 * @var ilMMItemInformation
 	 */
 	private $sorting_and_translation;
 	/**
@@ -40,15 +40,15 @@ class ilMMItemRepository {
 		global $DIC;
 		$this->storage = $storage;
 		$this->gs = new ilGSRepository($storage);
-		$this->sorting_and_translation = new ilMMSortingAndTranslation($this->storage);
+		$this->sorting_and_translation = new ilMMItemInformation($this->storage);
 		$this->providers = $this->initProviders();
-		$sorting_and_translation = new ilMMSortingAndTranslation($storage);
+		$sorting_and_translation = new ilMMItemInformation($storage);
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $sorting_and_translation, $sorting_and_translation);
 	}
 
 
 	/**
-	 * @return array
+	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem|\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
 	 */
 	public function getStackedTopItems(): array {
 		return $this->main_collector->getStackedTopItemsForPresentation();
@@ -141,6 +141,12 @@ class ilMMItemRepository {
 		}
 
 		return $synced;
+	}
+
+
+	public function updateItem(ilMMItemFacade $item_facade) {
+		$item_facade->update();
+		$this->storage->cache()->flush();
 	}
 
 

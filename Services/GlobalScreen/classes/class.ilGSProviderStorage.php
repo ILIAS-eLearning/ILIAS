@@ -8,7 +8,17 @@ use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSProviderStorage extends ActiveRecord {
+class ilGSProviderStorage extends CachedActiveRecord {
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getCache(): ilGlobalCache {
+		global $DIC;
+
+		return $DIC->globalScreen()->storage()->cache();
+	}
+
 
 	/**
 	 * @param string $class_name
@@ -78,22 +88,6 @@ class ilGSProviderStorage extends ActiveRecord {
 	 * @var string
 	 */
 	protected $connector_container_name = "il_gs_providers";
-
-
-	/**
-	 * CachingActiveRecord constructor.
-	 *
-	 * @param int              $primary_key
-	 * @param arConnector|NULL $connector
-	 */
-	public function __construct($primary_key = 0, arConnector $connector = null) {
-		$arConnector = $connector;
-		if (is_null($arConnector)) {
-			$arConnector = new ilGSStorageCache(new arConnectorDB());
-		}
-
-		parent::__construct($primary_key, $arConnector);
-	}
 
 
 	/**

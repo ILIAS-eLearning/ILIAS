@@ -1,14 +1,24 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
+use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 
 /**
- * Class ItemSorting
+ * Class ItemInformation
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ItemSorting {
+interface ItemInformation {
+
+	/**
+	 * @param isItem $item
+	 *
+	 * @return bool
+	 */
+	public function isItemActive(isItem $item): bool;
+
 
 	/**
 	 * @param isChild $child
@@ -24,4 +34,12 @@ interface ItemSorting {
 	 * @return int
 	 */
 	public function getPositionOfTopItem(isTopItem $top_item): int;
+
+
+	/**
+	 * @param hasTitle $item
+	 *
+	 * @return hasTitle
+	 */
+	public function translateItemForUser(hasTitle $item): hasTitle;
 }

@@ -43,6 +43,10 @@ class ilMMItemFacade {
 
 
 	public function getAmountOfChildren(): int {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isParent) {
+			return count($this->gs_item->getChildren());
+		}
+
 		return 0;
 	}
 
@@ -73,7 +77,11 @@ class ilMMItemFacade {
 
 
 	public function getTitleForPresentation(): string {
-		throw new Exception();
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+			return $this->gs_item->getTitle();
+		}
+
+		return "No Title";
 	}
 
 
@@ -83,12 +91,11 @@ class ilMMItemFacade {
 
 
 	public function getDefaultTitle(): string {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) { //FSX
 			return $this->gs_item->getTitle();
 		}
 
 		return "No Title";
-		throw new Exception();
 	}
 
 
@@ -110,5 +117,26 @@ class ilMMItemFacade {
 	 */
 	public function getProviderNameForPresentation(): string {
 		return $this->identification->getProviderNameForPresentation();
+	}
+
+
+	// Setter
+	public function setActiveStatus(bool $status) {
+		$this->mm_item->setActive($status);
+	}
+
+
+	public function setDefaultTitle(string $default_title) {
+
+	}
+
+
+	public function setPosition(int $position) {
+		$this->mm_item->setPosition($position);
+	}
+
+
+	public function update() {
+		$this->mm_item->update();
 	}
 }

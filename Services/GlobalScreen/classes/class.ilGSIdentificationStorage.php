@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSIdentificationStorage extends ActiveRecord {
+class ilGSIdentificationStorage extends CachedActiveRecord {
 
 	/**
 	 * @var string
@@ -40,26 +40,12 @@ class ilGSIdentificationStorage extends ActiveRecord {
 
 
 	/**
-	 * CachingActiveRecord constructor.
-	 *
-	 * @param int              $primary_key
-	 * @param arConnector|NULL $connector
-	 */
-	public function __construct($primary_key = 0, arConnector $connector = null) {
-		$arConnector = $connector;
-		if (is_null($arConnector)) {
-			$arConnector = new ilGSStorageCache(new arConnectorDB());
-		}
-
-		parent::__construct($primary_key, $arConnector);
-	}
-
-
-	/**
 	 * @inheritDoc
 	 */
-	final public function getConnectorContainerName() {
-		return $this->connector_container_name;
+	public function getCache(): ilGlobalCache {
+		global $DIC;
+
+		return $DIC->globalScreen()->storage()->cache();
 	}
 
 

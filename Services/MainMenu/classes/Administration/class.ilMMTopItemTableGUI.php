@@ -22,14 +22,15 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->item_repository = $item_repository;
 		$this->lng = $this->parent_obj->lng;
 		$this->setData($this->resolveData());
-		$this->addCommandButton('#', $this->lng->txt('button_save'));
+		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
+		$this->addCommandButton(ilMMTopItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
 		$this->initColumns();
 		$this->setRowTemplate('tpl.top_items.html', 'Services/MainMenu');
 	}
 
 
 	private function initColumns() {
-		$this->addColumn($this->lng->txt('slate_position'));
+		$this->addColumn($this->lng->txt('slate_position'), '', '30px');
 		$this->addColumn($this->lng->txt('slate_title'));
 		// $this->addColumn($this->lng->txt('slate_icon'));
 		$this->addColumn($this->lng->txt('slate_active'));
@@ -45,6 +46,8 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 	 * @inheritDoc
 	 */
 	protected function fillRow($a_set) {
+		static $position;
+		$position++;
 		global $DIC;
 		$renderer = $DIC->ui()->renderer();
 		$factory = $DIC->ui()->factory();
@@ -53,9 +56,11 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		 */
 		$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
-		$this->tpl->setVariable('TITLE', $a_set['title']);
+		$this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
+		$this->tpl->setVariable('ID', $item_facade->getId());
+		$this->tpl->setVariable('TITLE', $item_facade->getTitleForPresentation());
 		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
-		$this->tpl->setVariable('POSITION', $a_set['position']);
+		$this->tpl->setVariable('POSITION', $position);
 		if ($a_set['active']) {
 			$this->tpl->touchBlock('is_active');
 		}
