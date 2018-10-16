@@ -81,7 +81,7 @@ class ilMembershipGUI
 	{
 		return $this->ctrl;
 	}
-	
+
 	/**
 	 * @return \ilLogger
 	 */
@@ -153,6 +153,38 @@ class ilMembershipGUI
 		}
 		return $this->access->checkRbacOrPositionPermissionAccess($a_rbac_perm, $a_pos_perm, $a_ref_id);
 	}
+
+	/**
+	 * Check permission
+	 * If not granted redirect to parent gui
+	 *
+	 * @param string $a_permission
+	 * @param string $a_cmd
+	 */
+	protected function checkPermission($a_permission, $a_cmd = "")
+	{
+		if(!$this->checkPermissionBool($a_permission, $a_cmd))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this->getParentGUI());
+		}
+	}
+
+	/**
+	 * check rbac or position access
+	 *
+	 * @param $a_rbac_perm
+	 * @param $a_pos_perm
+	 */
+	protected function checkRbacOrPermissionAccess($a_rbac_perm, $a_pos_perm)
+	{
+		if(!$this->checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this->getParentGUI());
+		}
+	}
+
 	
 	
 	/**
@@ -197,6 +229,8 @@ class ilMembershipGUI
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
+
+				$this->checkPermission('manage_members');
 				
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				include_once './Services/Membership/classes/class.ilParticipants.php';
@@ -236,7 +270,7 @@ class ilMembershipGUI
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget(
 					$this->lng->txt('btn_back'),
-					$this->ctrl->getLinkTarget($this,'')
+					$this->ctrl->getLinkTarget($this,$this->getDefaultCommand())
 				);
 				
 				include_once 'Services/Mail/classes/class.ilMail.php';
@@ -310,6 +344,7 @@ class ilMembershipGUI
 			case 'ilcourseparticipantsgroupsgui':
 
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->checkRbacOrPermissionAccess('manage_members','manage_members');
 				
 				
 				include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
@@ -321,9 +356,10 @@ class ilMembershipGUI
 				$this->ctrl->forwardCommand($cmg_gui);
 				break;
 				
-			case 'ilsessionoverviewgui':								
+			case 'ilsessionoverviewgui':
 
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->checkRbacOrPermissionAccess('manage_members','manage_members');
 
 				include_once './Services/Membership/classes/class.ilParticipants.php';
 				$prt = ilParticipants::getInstance($this->getParentObject()->getRefId());
@@ -336,6 +372,7 @@ class ilMembershipGUI
 			case 'ilmemberexportgui':
 
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->checkRbacOrPermissionAccess('manage_members','manage_members');
 
 				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
 				$export = new ilMemberExportGUI($this->getParentObject()->getRefId());
@@ -343,7 +380,9 @@ class ilMembershipGUI
 				break;
 
 			case 'ilobjectcustomuserfieldsgui':
+				
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->checkRbacOrPermissionAccess('manage_members','manage_members');
 				$this->activateSubTab($this->getParentObject()->getType()."_member_administration");
 				$this->ctrl->setReturn($this,'participants');
 
@@ -353,21 +392,22 @@ class ilMembershipGUI
 				break;
 				
 			default:
+
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
 
 				//exclude mailMembersBtn cmd from this check
 				if(
-					$cmd != "mailMembersBtn" &&
-					$cmd != 'membersMap'
+					$cmd == "mailMembersBtn" ||
+					$cmd == 'membersMap' ||
+					$cmd == 'printForMembersOutput' ||
+					$cmd == 'jump2UsersGallery'
 				)
 				{
-					#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
-					#$this->checkPermission('manage_members');
 					$this->checkPermission('read');
 				}
 				else
 				{
-					$this->checkPermission('read');
+					$this->checkRbacOrPermissionAccess('manage_members','manage_members');
 				}
 
 				$this->$cmd();
@@ -991,6 +1031,30 @@ class ilMembershipGUI
 	{
 		return $this->getParentGUI()->createMailSignature();
 	}
+
+	/**
+	 * Get default command
+	 * @return string
+	 */
+	protected function getDefaultCommand()
+	{
+		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
+			'manage_members',
+			'manage_members',
+			$this->getParentObject()->getRefId()
+		);
+		if($has_manage_members_permission)
+		{
+			return 'participants';
+		}
+
+		if($this->getParentObject()->getShowMembers())
+		{
+			return 'jump2UsersGallery';
+		}
+		return 'mailMembersBtn';
+	}
+
 	
 	/**
 	 * add member tab
@@ -1601,27 +1665,7 @@ class ilMembershipGUI
 		$tabs->activateSubTab($a_sub_tab);
 	}
 
-	/**
-	 * Checks Perrmission
-	 * If not granted redirect to parent gui
-	 *
-	 * @param string $a_permission
-	 * @param string $a_cmd
-	 */
-	protected function checkPermission($a_permission, $a_cmd = "")
-	{
-		/**
-		 * @var $ilAccess ilAccessHandler
-		 */
-		$ilAccess = $GLOBALS['DIC']['ilAccess'];
 
-		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentObject()->getRefId()))
-		{
-			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
-			$this->ctrl->redirect($this->getParentGUI());
-		}
-	}
-	
 	
 	
 	/**
