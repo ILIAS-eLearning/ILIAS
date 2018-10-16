@@ -18,15 +18,21 @@ interface View {
 
 	/**
 	 * Construct the controls for the view based on the current state.
+	 *
+	 * The interaction with the controls build via the ControlBuilder will always
+	 * be delegated to updateGet.
 	 */
 	public function buildControls(State $state, ControlBuilder $builder);
 
 	/**
 	 * Update the state based on the provided command.
 	 *
+	 * If the update was caused by a control with a $parameter (see ControlBuilder)
+	 * that value is passed to $parameter here.
+	 *
 	 * Commands and parameters are defined by the view in `buildControl`.
 	 */
-	public function updateGet(State $state, string $command, int $param = null) : State;
+	public function updateGet(State $state, string $command, int $parameter = null) : State;
 
 	/**
 	 * Update the state and the object based on the provided command and post-data.

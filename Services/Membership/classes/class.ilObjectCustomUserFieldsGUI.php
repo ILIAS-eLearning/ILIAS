@@ -242,7 +242,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function saveField()
 	{
-		$GLOBALS['DIC']->logger()->mmbr()->dump($_POST)
+		$GLOBALS['DIC']->logger()->mmbr()->dump($_POST);
 		$this->initFieldForm(self::MODE_CREATE);
 		if($this->form->checkInput())
 		{

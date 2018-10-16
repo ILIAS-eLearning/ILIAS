@@ -12,12 +12,12 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     /**
      * @param ilContainer $a_obj
      */
-    public function __construct(ilContainer $a_obj)
+    public function __construct(ilContainer $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
-        parent::__construct($a_obj);
+        parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
 
-    
+
     /**
      * Creates a new file in the directory
      *
@@ -41,59 +41,53 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      * @param string $name Name of the file
      * @param resource|string $data Initial payload
      * @return null|string
+     * @throws Exception\BadRequest
+     * @throws Forbidden
+     * @throws NotFound
      */
     public function createFile($name, $data = null)
     {
-        if($this->access->checkAccess("write", '', $this->obj->getRefId()))
-        {
+        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
             // Check if file has valid extension
-            include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-            if($name != ilFileUtils::getValidFilename($name))
-            {
+            if (!$this->repo_helper->isValidFileNameWithValidFileExtension($name)) {
                 // Throw forbidden if invalid exstension. As far as we know, it is sadly not
                 // possible to inform the user why this is forbidden.
                 //ilLoggerFactory::getLogger('WebDAV')->warning(get_class($this). ' ' . $this->obj->getTitle() ." -> invalid File-Extension for file '$name'");
-                //throw new Forbidden("Invalid file extension. But you won't see this anyway...");
-                $name = ilFileUtils::getValidFilename($name);
+
+                throw new Forbidden('Invalid file extension');
             }
-            
-            // Maybe getChild is more efficient. But hoping for an exception isnt that beautiful
-            if($this->childExists($name))
-            {
+
+            if ($this->childExists($name)) {
                 $file_dav = $this->getChild($name);
                 $file_dav->handleFileUpload($data);
-            }
-            else 
-            {
+            } else {
                 $file_obj = new ilObjFile();
                 $file_obj->setTitle($name);
                 $file_obj->setFileName($name);
                 $file_obj->setVersion(1);
                 $file_obj->createDirectory();
                 $file_obj->create();
-    
+
                 $file_obj->createReference();
                 $file_obj->putInTree($this->obj->getRefId());
                 $file_obj->update();
-                
-                $file_dav = new ilObjFileDAV($file_obj);
-                $file_dav->handleFileUpload($data);
-                }
-            }
 
-        else 
-        {
-            throw new Forbidden("No write access");
+                $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
+                $file_dav->handleFileUpload($data);
+            }
+        } else {
+            throw new Forbidden('No write access');
         }
 
         return $file_dav->getETag();
     }
-    
+
     /**
      * Creates a new subdirectory
      *
      * @param string $name
      * @return void
+     * @throws NotImplemented
      */
     public function createDirectory($name)
     {
@@ -134,6 +128,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      * This method must throw Sabre\DAV\Exception\NotFound if the node does not
      * exist.
      *
+     * @throws Exception\NotFound Exception\BadRequest
      * @param string $name
      * @return Sabre\DAV\INode
      */
@@ -141,22 +136,20 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     {
         $child_node = NULL;
         $child_exists = false;
-        foreach($this->tree->getChildIds($this->obj->getRefId()) as $child_ref)
+        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
             // Check if a DAV Object exists for this type
-            if(self::_isDAVableObject($child_ref, true))
+            if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names matches
-                $child_obj_id = ilObject::_lookupObjectId($child_ref);
-                $child_title = ilObject::_lookupTitle($child_obj_id);
-                if($child_title == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
                 {
                     $child_exists = true;
                     
                     // Check if user has permission to read this object
-                    if($this->access->checkAccess("read", "", $child_ref))
+                    if($this->repo_helper->checkAccess("read", $child_ref))
                     {
-                        $child_node = self::_createDAVObjectForRefId($child_ref);
+                        $child_node = $this->dav_helper->createDAVObjectForRefId($child_ref);
                     }
                 }
             }
@@ -181,20 +174,16 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     {
         
         $child_nodes = array();
-        foreach($this->tree->getChildIds($this->obj->getRefId()) as $child_ref)
+        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
             // Check if is davable object types
-            if(self::_isDAVableObject($child_ref, true))
+            if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if read permission is given
-                if($this->access->checkAccess("read", "", $child_ref))
+                if($this->repo_helper->checkAccess("read", $child_ref))
                 {
                     // Create DAV-object out of ILIAS-object
-                    $child_obj_dav = self::_createDAVObjectForRefId($child_ref);
-                    if($child_obj_dav != null)
-                    {
-                        $child_nodes[$child_ref] = $child_obj_dav;
-                    }
+                    $child_nodes[$child_ref] = $this->dav_helper->createDAVObjectForRefId($child_ref);
                 }
             }
         }
@@ -209,19 +198,26 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function childExists($name)
     {
-        foreach($this->tree->getChildIds($this->obj->getRefId()) as $child_ref)
+        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
             // Only davable object types
-            if(self::_isDAVableObject($child_ref, true))
+            if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names are the same
-                $obj_id = ilObject::_lookupObjId($child_ref);
-                if(ilObject::_lookupTitle($obj_id) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
                 {
                     // Check if read permission is given
-                    if($this->access->checkAccess("read", '', $child_ref))
+                    if($this->repo_helper->checkAccess("read", $child_ref))
                     {
                         return true;
+                    }
+                    else
+                    {
+                        /*
+                         * This is an interesting edge case. What happens if there are 2 objects with the same name
+                         * but User1 only has access to the first and user2 has only access to the second?
+                         */
+                        return false;
                     }
                 }
             }

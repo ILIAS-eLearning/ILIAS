@@ -3843,6 +3843,7 @@ rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM-Lernmoduls bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
+common#:#salutation_n#:#Keine Angabe
 common#:#save#:#Speichern
 common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Als Entwurf speichern
@@ -6176,6 +6177,7 @@ forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_edit_title#:#Titel bearbeiten
 forum#:#frm_moderator_f#:#Moderatorin
 forum#:#frm_moderator_m#:#Moderator
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#Der Benutzer wurde als Moderator hinzugefügt.
 forum#:#frm_moderators#:#Moderatoren
 forum#:#frm_moderators_detached_role_successfully#:#Für die ausgewählten Benutzer wurde die Moderatorenrolle erfolgreich entfernt.
@@ -6601,7 +6603,7 @@ mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
-mail#:#mail_nacc_salutation#:#Anrede
+mail#:#mail_nacc_salutation#:#Begrüßung
 mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Kurs, auf den von außerhalb von ILIAS verlinkt wird.
 mail#:#mail_nacc_target_block#:#Dieser Textblock wird nur eingefügt, wenn ein Zielobjekt angeboten wird.
 mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Kurstitel
@@ -14015,6 +14017,7 @@ content#:#cont_grid_width_l_info#:#z.B. Desktop
 content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
 content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
 content#:#cont_add_cell#:#Spalte hinzufügen
+content#:#cont_added_cell#:#Spalte hinzugefügt
 content#:#cont_ed_delete_cell#:#Spalte löschen
 content#:#cont_ed_cell_left#:#Nach links verschieben
 content#:#cont_ed_cell_right#:#Nach rechts verschieben
