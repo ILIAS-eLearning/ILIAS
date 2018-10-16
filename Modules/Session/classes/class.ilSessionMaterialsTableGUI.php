@@ -78,7 +78,9 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 				continue;
 			}
 
-			$node["sorthash"] = (int)(!in_array($node['ref_id'],$this->getMaterialItems())).$node["title"];
+			if(!empty($this->getMaterialItems())) {
+				$node["sorthash"] = (int)(!in_array($node['ref_id'], $this->getMaterialItems())) . $node["title"];
+			}
 			$materials[] = $node;
 		}
 
@@ -88,9 +90,13 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 			$materials = $this->filterData($materials);
 		}
 		return $materials;
-		//$this->setData($materials);
 	}
 
+	/**
+	 * Apply the filters to the data
+	 * @param $a_data
+	 * @return mixed
+	 */
 	function filterData($a_data)
 	{
 		$data_filtered = $a_data;
@@ -103,6 +109,19 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 				$title = $material["title"];
 				if(stripos($title, $this->filter["title"]) === false)
 				{
+					unset($data_filtered[$key]);
+				}
+			}
+		}
+
+		//filter by obj type
+		if($this->filter['type'])
+		{
+			foreach ($data_filtered as $key => $material)
+			{
+				$type = $material["type"];
+				//types can be: file, exc
+				if($type != $this->filter["type"]) {
 					unset($data_filtered[$key]);
 				}
 			}
@@ -180,29 +199,36 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		return $this->container_ref_id;
 	}
 
+	/**
+	 * implement if necessary. (ban side blocks etc.)
+	 * @param $a_items
+	 */
 	function typesAllowed($a_items)
 	{
 		//TODO ban the poll etc. All the sideblocks
 	}
 
-	// Return all obj types from the obj container.
-	function typesAvailable($a_items)
+	/**
+	 * Get object types available in this specific session.
+	 * @return array
+	 */
+	function typesAvailable()
 	{
+		$items = $this->getDataFromDb();
+
 		$all_types = array();
-		foreach($a_items as $item)
+		foreach($items as $item)
 		{
-			array_push($all_types, ilObject::_lookupType($item,true));
+			array_push($all_types, $item["type"]);
 		}
 		return array_values(array_unique($all_types));
 	}
 
+	/**
+	 * Filters initialization.
+	 */
 	function initFilter()
 	{
-		$items = new ilEventItems($this->parent_object_id);
-		$items_ref = $items->getItems();
-
-		$filter_types = $this->typesAvailable($items_ref);
-
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$ti->setMaxLength(64);
@@ -212,17 +238,19 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->filter["title"] = $ti->getValue();
 
 		// types
-		//todo remove banned types
+		//todo remove banned types if necessary.
+		$filter_types = $this->typesAvailable();
 		$types = array();
+		$types[0] = $this->lng->txt('all_types');
 		foreach($filter_types as $type)
 		{
 			$types["$type"] = $type;
 		}
 
 		$select = new ilSelectInputGUI("type", "type");
-
 		$select->setOptions($types);
 		$this->addFilterItem($select);
+		$select->readFromSession();
 		$this->filter["type"] = $select->getValue();
 
 		// status

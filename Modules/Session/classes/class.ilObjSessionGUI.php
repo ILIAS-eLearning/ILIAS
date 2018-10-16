@@ -1187,10 +1187,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$tbl->setMaterialItems($this->event_items->getItems());
 		$tbl->setContainerRefId($this->getContainerRefId());
-		//todo may this method be removed from this table class?
 		$data = $tbl->getDataFromDb();
 		$tbl->setMaterials($data);
-		//$tbl->getDataFromDb($data);
 
 		$this->tpl->setContent($tbl->getHTML());
 	}
