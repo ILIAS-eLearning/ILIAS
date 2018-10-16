@@ -22829,3 +22829,7 @@ if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
 	);
 }
 ?>
+<#5307>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

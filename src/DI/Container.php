@@ -202,6 +202,18 @@ class Container extends \Pimple\Container {
 		return \ilConditionService::getInstance(new \ilConditionObjectAdapter());
 	}
 
+	/**
+	 * @return \ilLearningHistoryService
+	 */
+	public function learningHistory() {
+		return new \ilLearningHistoryService(
+			$this->user(),
+			$this->language(),
+			$this->ui(),
+			$this->access(),
+			$this->repositoryTree()
+		);
+	}
 
 	/**
 	 * Note: Only use isDependencyAvailable if strictly required. The need for this,
