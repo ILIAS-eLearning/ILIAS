@@ -191,13 +191,14 @@ class ilBadgeProfileGUI
 			return;
 		}
 
-		$pdfScalar = $pdfGenerator->generate($userCertificateId);
-
-		ilUtil::deliverData(
-			$pdfScalar,
-			'Certificate.pdf',
-			"application/pdf"
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
 		);
+
+		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
 
 		$this->listCertificates();
 	}
