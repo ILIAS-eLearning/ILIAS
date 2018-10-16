@@ -10,13 +10,9 @@ use ILIAS\GlobalScreen\Collector\StorageFacade;
 abstract class ilMMAbstractRepository {
 
 	/**
-	 * @var ilDBInterface
+	 * @var StorageFacade
 	 */
-	protected $db;
-	/**
-	 * @var ilGlobalCache
-	 */
-	protected $cache;
+	protected $storage;
 
 
 	/**
@@ -25,7 +21,6 @@ abstract class ilMMAbstractRepository {
 	 * @param StorageFacade $storage
 	 */
 	public function __construct(StorageFacade $storage) {
-		$this->db = $storage->db();
-		$this->cache = $storage->cache();
+		$this->storage = $storage;
 	}
 }

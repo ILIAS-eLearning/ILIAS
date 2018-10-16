@@ -32,9 +32,10 @@ class PluginSerializer implements SerializerInterface {
 	 * @inheritdoc
 	 */
 	public function unserialize(string $serialized_string): IdentificationInterface {
+		global $DIC;
 		list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		return new PluginIdentification($internal_identifier, $class_name, $plugin_id, $this);
+		return new PluginIdentification($internal_identifier, new $class_name($DIC), $plugin_id, $this);
 	}
 
 

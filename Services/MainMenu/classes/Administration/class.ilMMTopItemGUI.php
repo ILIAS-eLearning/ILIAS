@@ -86,6 +86,7 @@ class ilMMTopItemGUI {
 
 
 	private function dispatchCommand($cmd) {
+		global $DIC;
 		switch ($cmd) {
 			case self::CMD_VIEW_TOP_ITEMS:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
@@ -94,10 +95,10 @@ class ilMMTopItemGUI {
 				$b = ilLinkButton::getInstance();
 				$b->setCaption($this->lng->txt(self::CMD_ADD_TOP_ITEM), false);
 				$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_TOP_ITEM));
-				$this->toolbar->addButtonInstance($b);
+				// $this->toolbar->addButtonInstance($b);
 
 				// TABLE
-				$table = new ilMMTopItemTableGUI($this);
+				$table = new ilMMTopItemTableGUI($this, new ilMainMenuCollector($DIC->globalScreen()->storage()));
 
 				return $table->getHTML();
 			case self::CMD_ADD_TOP_ITEM:
@@ -118,7 +119,8 @@ class ilMMTopItemGUI {
 				global $DIC;
 				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest());
 				$f->save();
-				return $f->getHTML();
+
+				$this->ctrl->redirect($this);
 				break;
 			case self::CMD_TRANSLATE_TOP_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE_TOP_ITEM, true);

@@ -20,4 +20,10 @@ interface Provider {
 	 * @return IdentificationInterface[]
 	 */
 	public function getAllIdentifications(): array;
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderNameForPresentation(): string;
 }

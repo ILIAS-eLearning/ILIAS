@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
+use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
  * Class CoreIdentificationProvider
@@ -11,6 +12,7 @@ use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
  */
 class CoreIdentificationProvider implements IdentificationProviderInterface {
 
+	protected $provider;
 	/**
 	 * @var Serializer\SerializerInterface
 	 */
@@ -28,11 +30,12 @@ class CoreIdentificationProvider implements IdentificationProviderInterface {
 	/**
 	 * CoreIdentificationProvider constructor.
 	 *
-	 * @param string              $class_name
+	 * @param Provider            $provider
 	 * @param SerializerInterface $serializer
 	 */
-	public function __construct(string $class_name, SerializerInterface $serializer) {
-		$this->class_name = $class_name;
+	public function __construct(Provider $provider, SerializerInterface $serializer) {
+		$this->provider = $provider;
+		$this->class_name = get_class($provider);
 		$this->serializer = $serializer;;
 	}
 
@@ -45,7 +48,7 @@ class CoreIdentificationProvider implements IdentificationProviderInterface {
 			return self::$instances[$identifier_string];
 		}
 
-		return self::$instances[$identifier_string] = new CoreIdentification($identifier_string, $this->class_name, $this->serializer);
+		return self::$instances[$identifier_string] = new CoreIdentification($identifier_string, $this->class_name, $this->serializer, $this->provider->getProviderNameForPresentation());
 	}
 
 

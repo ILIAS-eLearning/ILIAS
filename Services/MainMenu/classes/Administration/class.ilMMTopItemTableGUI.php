@@ -8,16 +8,23 @@
 class ilMMTopItemTableGUI extends ilTable2GUI {
 
 	/**
+	 * @var ilMMProvider
+	 */
+	private $collector;
+
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct(ilMMTopItemGUI $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "") {
+	public function __construct(ilMMTopItemGUI $a_parent_obj, ilMainMenuCollector $collector) {
 		$this->setId(self::class);
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+		parent::__construct($a_parent_obj);
+		$this->collector = $collector;
 		$this->lng = $this->parent_obj->lng;
 		$this->setData($this->resolveData());
 		$this->addCommandButton('#', $this->lng->txt('button_save'));
 		$this->initColumns();
-		$this->setRowTemplate('tpl.slate_entries.html', 'Services/MainMenu');
+		$this->setRowTemplate('tpl.top_items.html', 'Services/MainMenu');
 	}
 
 
@@ -26,7 +33,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->addColumn($this->lng->txt('slate_title'));
 		// $this->addColumn($this->lng->txt('slate_icon'));
 		$this->addColumn($this->lng->txt('slate_active'));
-		$this->addColumn($this->lng->txt('slate_sticky'));
+		// $this->addColumn($this->lng->txt('slate_sticky'));
 		// $this->addColumn($this->lng->txt('slate_mobile'));
 		$this->addColumn($this->lng->txt('slate_subentries'));
 		$this->addColumn($this->lng->txt('slate_provider'));
@@ -41,13 +48,18 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		global $DIC;
 		$renderer = $DIC->ui()->renderer();
 		$factory = $DIC->ui()->factory();
+		/**
+		 * @var $gs_item \ILIAS\GlobalScreen\MainMenu\isParent
+		 */
+		$item_facade = $this->collector->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
 		$this->tpl->setVariable('TITLE', $a_set['title']);
-		$this->tpl->setVariable('SUBENTRIES', $a_set['entries']);
+		$this->tpl->setVariable('SUBENTRIES', count($gs_item->getChildren()));
 		$this->tpl->setVariable('POSITION', $a_set['position']);
-		$this->tpl->setVariable('ACTIVE', $a_set['active']);
-		$this->tpl->setVariable('STICKY', $a_set['sticky']);
-		$this->tpl->setVariable('PROVIDER', $a_set['identification']);
+		if ($a_set['active']) {
+			$this->tpl->touchBlock('is_active');
+		}
+		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
 		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $a_set['identification']);
 
@@ -66,7 +78,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 	 */
 	private function resolveData(): array {
 		global $DIC;
-		$c = new ilMMTopItemRepository($DIC->globalScreen()->storage());
+		$c = new ilMMItemRepository($DIC->globalScreen()->storage());
 
 		return $c->getTopItems();
 	}

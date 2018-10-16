@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
+use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
  * Class AbstractIdentification
@@ -9,6 +10,10 @@ use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
  */
 abstract class AbstractIdentification implements IdentificationInterface {
 
+	/**
+	 * @var string
+	 */
+	protected $provider_presentation_name;
 	/**
 	 * @var SerializerInterface
 	 */
@@ -29,8 +34,10 @@ abstract class AbstractIdentification implements IdentificationInterface {
 	 * @param string              $internal_identifier
 	 * @param string              $classname
 	 * @param SerializerInterface $serializer
+	 * @param string              $provider_presentation_name
 	 */
-	public function __construct(string $internal_identifier, string $classname, SerializerInterface $serializer) {
+	public function __construct(string $internal_identifier, string $classname, SerializerInterface $serializer, string $provider_presentation_name) {
+		$this->provider_presentation_name = $provider_presentation_name;
 		$this->serializer = $serializer;
 		$this->internal_identifier = $internal_identifier;
 		$this->classname = $classname;
@@ -66,5 +73,19 @@ abstract class AbstractIdentification implements IdentificationInterface {
 	 */
 	public function getInternalIdentifier(): string {
 		return $this->internal_identifier;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getProviderNameForPresentation(): string {
+		global $DIC;
+		/**
+		 * @var $provider Provider
+		 */
+		$provider = new $this->classname($DIC);
+
+		return $provider->getProviderNameForPresentation();
 	}
 }

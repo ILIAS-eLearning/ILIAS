@@ -18,6 +18,10 @@ use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 class ilMainMenuCollector {
 
 	/**
+	 * @var ilMMItemRepository
+	 */
+	private $repository;
+	/**
 	 * @var Main
 	 */
 	private $main_collector;
@@ -40,22 +44,17 @@ class ilMainMenuCollector {
 		global $DIC;
 		$this->storage = $storage;
 		$this->providers = $this->initProviders();
-		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers);
+		$sorting_and_translation = new ilMMSortingAndTranslation($storage);
+		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $sorting_and_translation, $sorting_and_translation);
+		$this->repository = new ilMMItemRepository($storage);
 	}
 
 
 	/**
-	 * This will return all available slates, stacked based on the configuration
-	 * in "Administration" and for the visibility of the currently user.
-	 * Additionally this will filter sequent Dividers to avoid double Dividers
-	 * in the UI.
-	 *
-	 * @param bool $with_invisible
-	 *
-	 * @return TopParentItem[]
+	 * @return array
 	 */
-	public function getStackedTopItems(bool $with_invisible = false): array {
-		return $this->main_collector->getStackedTopItems($with_invisible);
+	public function getStackedTopItems(): array {
+		return $this->main_collector->getStackedTopItemsForPresentation();
 	}
 
 
@@ -82,5 +81,13 @@ class ilMainMenuCollector {
 		}
 
 		return $providers;
+	}
+
+
+	/**
+	 * @return ilMMItemRepository
+	 */
+	public function repository(): ilMMItemRepository {
+		return $this->repository;
 	}
 }

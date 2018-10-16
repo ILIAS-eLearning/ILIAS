@@ -53,7 +53,7 @@ class IdentificationFactory {
 	 * @return IdentificationProviderInterface
 	 */
 	public final function core(\ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new CoreIdentificationProvider(get_class($provider), $this->serializer_factory->core());
+		return new CoreIdentificationProvider($provider, $this->serializer_factory->core());
 	}
 
 

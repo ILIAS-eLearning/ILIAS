@@ -3,12 +3,20 @@
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 
 /**
- * Class ilMMTopItemRepository
+ * Class ilMMItemRepository
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTopItemRepository extends ilMMAbstractRepository {
+class ilMMItemRepository extends ilMMAbstractRepository {
 
+	/**
+	 * @var \ILIAS\GlobalScreen\Provider\Provider[]
+	 */
+	private $providers = [];
+	/**
+	 * @var ilMMSortingAndTranslation
+	 */
+	private $sorting_and_translation;
 	/**
 	 * @var ilGSRepository
 	 */
@@ -21,6 +29,14 @@ class ilMMTopItemRepository extends ilMMAbstractRepository {
 	public function __construct(StorageFacade $storage) {
 		parent::__construct($storage);
 		$this->gs = new ilGSRepository($storage);
+		$this->sorting_and_translation = new ilMMSortingAndTranslation($this->storage);
+		$this->providers = [];
+		/**
+		 * @var $provider_storage ilGSProviderStorage
+		 */
+		foreach (ilGSProviderStorage::get() as $provider_storage) {
+			$this->providers[] = $provider_storage->getInstance();
+		}
 	}
 
 
@@ -31,7 +47,25 @@ class ilMMTopItemRepository extends ilMMAbstractRepository {
 		// sync
 		$this->sync();
 
-		return ilMMItemStorage::where(['parent_identification' => ''])->getArray();
+		return ilMMItemStorage::where(['parent_identification' => ''])->orderBy('position')->getArray();
+	}
+
+
+	/**
+	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
+	 *
+	 * @return ilMMItemFacade
+	 */
+	public function getItemFacade(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): ilMMItemFacade {
+		return new ilMMItemFacade($identification, $this->providers);
+	}
+
+
+	/**
+	 * @return array in the way of identification -> position
+	 */
+	public function getPositionsOfAllItems(): array {
+		return ilMMItemStorage::getArray('identification', 'position');
 	}
 
 
@@ -63,14 +97,7 @@ class ilMMTopItemRepository extends ilMMAbstractRepository {
 
 	private function findItem(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
 		global $DIC;
-		$providers = [];
-		/**
-		 * @var $provider_storage ilGSProviderStorage
-		 */
-		foreach (ilGSProviderStorage::get() as $provider_storage) {
-			$providers[] = $provider_storage->getInstance();
-		}
 
-		return $DIC->globalScreen()->collector()->mainmenu($providers)->getSingleItem($identification);
+		return $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->sorting_and_translation, $this->sorting_and_translation)->getSingleItem($identification);
 	}
 }

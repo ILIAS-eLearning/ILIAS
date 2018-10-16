@@ -58,4 +58,12 @@ class ilPrtfGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 				        }
 			        )];
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getProviderNameForPresentation(): string {
+		return "Services/Portfolio";
+	}
 }

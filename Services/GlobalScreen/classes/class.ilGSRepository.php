@@ -41,7 +41,7 @@ class ilGSRepository extends ilMMAbstractRepository {
 		$identifications = [];
 		foreach (
 			ilGSIdentificationStorage::innerjoinAR(new ilGSProviderStorage(), 'provider_class', 'provider_class', ['purpose'])->where(
-				"il_gs_providers.purpose = " . $this->db->quote($purpose, 'text')
+				"il_gs_providers.purpose = " . $this->storage->db()->quote($purpose, 'text')
 			)->get() as $identification_storage
 		) {
 			$identifications[] = $this->getIdentificationForStorage($identification_storage);

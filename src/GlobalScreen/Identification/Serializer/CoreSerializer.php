@@ -28,9 +28,10 @@ class CoreSerializer implements SerializerInterface {
 	 * @inheritdoc
 	 */
 	public function unserialize(string $serialized_string): IdentificationInterface {
+		global $DIC;
 		list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		$f = new CoreIdentificationProvider($class_name, $this);
+		$f = new CoreIdentificationProvider(new $class_name($DIC), $this);
 
 		return $f->identifier($internal_identifier);
 	}

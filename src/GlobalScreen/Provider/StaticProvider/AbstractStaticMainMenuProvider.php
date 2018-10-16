@@ -4,7 +4,6 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\GlobalScreen\Services;
 
 /**
  * Interface StaticMainMenuProvider
@@ -50,5 +49,19 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 		}
 
 		return $ids;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderNameForPresentation(): string {
+		$reflector = new \ReflectionClass($this);
+
+		$re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
+
+		preg_match($re, $reflector->getFileName(), $matches);
+
+		return $matches[1];
 	}
 }

@@ -76,7 +76,7 @@ class ilMMTabHandling {
 			switch ($tab) {
 				case ilObjMainMenuGUI::TAB_MAIN:
 					$this->tabs->addSubTab(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS, $this->lng->txt(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS));
-					$this->tabs->addSubTab(ilObjMainMenuGUI::SUBTAB_ENTRIES, $this->lng->txt(ilObjMainMenuGUI::SUBTAB_ENTRIES), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilObjMainMenuGUI::SUBTAB_ENTRIES));
+					// $this->tabs->addSubTab(ilObjMainMenuGUI::SUBTAB_ENTRIES, $this->lng->txt(ilObjMainMenuGUI::SUBTAB_ENTRIES), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilObjMainMenuGUI::SUBTAB_ENTRIES));
 					$this->tabs->activateSubTab($subtab);
 					break;
 			}

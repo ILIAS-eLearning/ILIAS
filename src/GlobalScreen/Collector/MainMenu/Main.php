@@ -1,10 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\UI\Implementation\Component\ViewControl\Sortation;
 
 /**
  * Class Main
@@ -26,6 +28,14 @@ class Main {
 	 */
 	private static $items = [];
 	/**
+	 * @var ItemSorting
+	 */
+	private $sorting;
+	/**
+	 * @var ItemTranslation
+	 */
+	private $translation;
+	/**
 	 * @var array|Provider[]
 	 */
 	protected $providers;
@@ -34,12 +44,16 @@ class Main {
 	/**
 	 * Main constructor.
 	 *
-	 * @param array $providers
+	 * @param array                $providers
+	 * @param ItemSorting|null     $sorting
+	 * @param ItemTranslation|null $translation
 	 */
-	public function __construct(array $providers) {
+	public function __construct(array $providers, ItemSorting $sorting = null, ItemTranslation $translation = null) {
 		if (self::$constructed === true) {
 			throw new \LogicException("only one Instance of Main Collector is possible");
 		}
+		$this->sorting = $sorting;
+		$this->translation = $translation;
 		$this->providers = $providers;
 		self::$constructed = true;
 	}
@@ -51,31 +65,38 @@ class Main {
 	 * Additionally this will filter sequent Separators to avoid double Separators
 	 * in the UI.
 	 *
-	 * @param bool $with_invisible
-	 *
 	 * @return isTopItem[]
 	 */
-	public function getStackedTopItems(bool $with_invisible = false): array {
+	public function getStackedTopItemsForPresentation(): array {
 		$this->load();
 		$top_items = [];
 		foreach (self::$items as $item) {
-			if ($item instanceof isTopItem) {
-				$id = $item->getProviderIdentification()->serialize();
-				$top_items[$id] = $item;
+			if ($item instanceof hasTitle && $this->translation) {
+				$item = $this->translation->translateItemForUser($item);
+			}
+			if ($item instanceof isTopItem && $this->sorting) {
+				$top_items[$this->sorting->getPositionOfTopItem($item)] = $item;
 			}
 		}
-
-		foreach (self::$items as $item) {
-			if (!$item->isVisible()) {
-				continue;
-			}
-			if ($item instanceof isChild && $item->hasParent()) {
-				$parent_id = $item->getParent()->serialize();
-				$top_items[$parent_id]->appendChild($item);
-			}
-		}
+		ksort($top_items);
 
 		return $top_items;
+	}
+
+
+	public function getSubItems(): array {
+		$this->load();
+		$sub_items = [];
+		foreach (self::$items as $item) {
+			if ($item instanceof hasTitle && $this->translation) {
+				$item = $this->translation->translateItemForUser($item);
+			}
+			if ($item instanceof isChild && $this->sorting) {
+				$sub_items[$this->sorting->getPositionOfSubItem($item)] = $item;
+			}
+		}
+
+		return $sub_items;
 	}
 
 
@@ -110,7 +131,11 @@ class Main {
 				}
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticSubItems() as $sub_item) {
-						self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
+						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
+							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
+							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
+							self::$items[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+						}
 					}
 				}
 				$loaded = true;

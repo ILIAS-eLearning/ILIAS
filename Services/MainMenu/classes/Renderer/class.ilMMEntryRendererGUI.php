@@ -26,19 +26,19 @@ class ilMMEntryRendererGUI {
 			return $storage->cache()->get('rendered_menu');
 		}
 
-		$slates = (new ilMainMenuCollector($storage))->getStackedTopItems();
+		$top_items = (new ilMainMenuCollector($storage))->getStackedTopItems();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 
-		foreach ($slates as $slate) {
+		foreach ($top_items as $top_item) {
 			$tpl->setCurrentBlock('mmentry');
-			$tpl->setVariable("TITLE", $slate->getTitle());
+			$tpl->setVariable("TITLE", $top_item->getTitle());
 
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
 			/**
 			 * @var $child Link
 			 */
-			foreach ($slate->getChildren() as $child) {
+			foreach ($top_item->getChildren() as $child) {
 				if (!$child->isVisible()) {
 					continue;
 				}
