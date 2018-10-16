@@ -1157,7 +1157,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tree = $DIC['tree'];
 		$objDefinition = $DIC['objDefinition'];
 
-		$this->tabs_gui->setTabActive('crs_materials');
+		$this->tabs_gui->activateTab('materials');
 		
 		// #11337 - support ANY parent container (crs, grp, fld)
 		$parent_ref_id = $tree->getParentId($this->object->getRefId());
@@ -1928,13 +1928,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 
-	 	if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-	 	{
+	 	if($ilAccess->checkAccess('write','',$this->object->getRefId())) {
 			$this->tabs_gui->addTarget('settings',
-								 $this->ctrl->getLinkTarget($this,'edit'));
-			$this->tabs_gui->addTarget('crs_materials',
-								 $this->ctrl->getLinkTarget($this,'materials'));
-			
+				$this->ctrl->getLinkTarget($this, 'edit'));
+
+		}
+		if($ilAccess->checkAccess('manage_materials','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTab(
+				'materials',
+				$this->lng->txt('crs_materials'),
+				$this->ctrl->getLinkTarget($this,'materials')
+			);
 	 	}
 	 	if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 		{
