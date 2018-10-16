@@ -263,7 +263,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$types[0] = $this->lng->txt('sess_filter_all_types');
 		foreach($filter_types as $type)
 		{
-			$types["$type"] = $type;
+			$types["$type"] = $this->lng->txt($type);
 		}
 
 		$select = new ilSelectInputGUI($this->lng->txt("type"), "type");
