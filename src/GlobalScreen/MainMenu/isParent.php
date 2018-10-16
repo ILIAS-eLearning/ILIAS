@@ -29,4 +29,10 @@ interface isParent extends isItem {
 	 * @return isParent
 	 */
 	public function appendChild(isChild $child): isParent;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasChildren(): bool;
 }

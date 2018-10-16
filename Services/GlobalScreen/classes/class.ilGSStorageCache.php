@@ -29,9 +29,11 @@ class ilGSStorageCache extends arConnector {
 	 * @param int         $ttl
 	 */
 	public function __construct(arConnector $arConnectorDB, int $ttl = self::CACHE_TTL_SECONDS) {
+		global $DIC;
+		$facade = $DIC->globalScreen()->storage();
 		$this->ttl = $ttl;
 		$this->arConnectorDB = $arConnectorDB;
-		$this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+		$this->cache = $facade->cache();
 	}
 
 

@@ -29,9 +29,7 @@ class ilGSProviderStorage extends ActiveRecord {
 		$gsp->setDynamic(in_array(DynamicProvider::class, class_implements($class_name)));
 		$gsp->update();
 
-		ilGSIdentificationStorage::installDB();
 		$instance = $gsp->getInstance();
-		// $instance->inject(new \ILIAS\GlobalScreen\Services());
 
 		foreach ($instance->getAllIdentifications() as $identification) {
 			$gsi = ilGSIdentificationStorage::find($identification->serialize());

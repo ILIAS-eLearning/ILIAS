@@ -40,4 +40,12 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent {
 
 		return $this;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasChildren(): bool {
+		return (count($this->children) > 0);
+	}
 }

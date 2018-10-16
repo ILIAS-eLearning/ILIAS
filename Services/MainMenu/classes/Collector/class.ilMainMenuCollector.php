@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
@@ -14,24 +16,18 @@ use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 class ilMainMenuCollector {
 
 	/**
-	 * @var \ilDBInterface
+	 * @var StorageFacade
 	 */
-	protected $db;
-	/**
-	 * @var ilGlobalCache
-	 */
-	protected $cache;
+	protected $storage;
 
 
 	/**
 	 * ilMainMenuCollector constructor.
 	 *
-	 * @param ilDBInterface  $db
-	 * @param \ilGlobalCache $cache
+	 * @param StorageFacade $storage
 	 */
-	public function __construct(\ilDBInterface $db, ilGlobalCache $cache) {
-		$this->db = $db;
-		$this->cache = $cache;
+	public function __construct(StorageFacade $storage) {
+		$this->storage = $storage;
 	}
 
 
@@ -41,37 +37,20 @@ class ilMainMenuCollector {
 	 * Additionally this will filter sequent Dividers to avoid double Dividers
 	 * in the UI.
 	 *
+	 * @param bool $with_invisible
+	 *
 	 * @return TopParentItem[]
 	 */
-	public function getStackedTopItems(): array {
-		/**
-		 * @var $provider_storage ilGSProviderStorage
-		 * @var $provider         \ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider
-		 * @var $slate            \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
-		 * @var $entry            \ILIAS\GlobalScreen\MainMenu\isChild
-		 */
-		$slates = [];
-		$providers = ilGSProviderStorage::get();
-		foreach ($providers as $provider_storage) {
-			$provider = $provider_storage->getInstance();
-			foreach ($provider->getStaticTopItems() as $slate) {
-				$id = $slate->getProviderIdentification()->serialize();
-				$slates[$id] = $slate;
-			}
-		}
-		foreach ($providers as $provider_storage) {
-			$provider = $provider_storage->getInstance();
-			foreach ($provider->getStaticSubItems() as $entry) {
-				if (!$entry->isVisible()) {
-					continue;
-				}
-				if ($entry->hasParent()) {
-					$parent_id = $entry->getParent()->serialize();
-					$slates[$parent_id]->appendChild($entry);
-				}
-			}
+	public function getStackedTopItems(bool $with_invisible = false): array {
+		global $DIC;
+		$providers = [];
+		foreach (ilGSProviderStorage::get() as $provider_storage) {
+			/**
+			 * @var $provider_storage ilGSProviderStorage
+			 */
+			$providers[] = $provider_storage->getInstance();
 		}
 
-		return $slates;
+		return $DIC->globalScreen()->collector()->mainmenu($providers)->getStackedTopItems($with_invisible);
 	}
 }

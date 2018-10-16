@@ -25,14 +25,6 @@ abstract class AbstractProvider implements Provider {
 
 
 	/**
-	 * @inheritDoc
-	 */
-	public function inject(Services $services) {
-		$this->gs = $services;
-	}
-
-
-	/**
 	 * @return Services
 	 */
 	protected function globalScreen(): Services {

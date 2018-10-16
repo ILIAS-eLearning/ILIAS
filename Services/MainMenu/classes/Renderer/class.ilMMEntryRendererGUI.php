@@ -19,15 +19,14 @@ class ilMMEntryRendererGUI {
 	 * @throws ilTemplateException
 	 */
 	public function getHTML(): string {
-		$cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+		global $DIC;
+		$storage = $DIC->globalScreen()->storage();
 
-		if ($cache->exists('rendered_menu')) {
-			return $cache->get('rendered_menu');
+		if ($storage->cache()->exists('rendered_menu')) {
+			return $storage->cache()->get('rendered_menu');
 		}
 
-		global $DIC;
-
-		$slates = (new ilMainMenuCollector($DIC->database(), ilGlobalCache::getInstance('ux')))->getStackedTopItems();
+		$slates = (new ilMainMenuCollector($storage))->getStackedTopItems();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 
 		foreach ($slates as $slate) {
@@ -75,7 +74,7 @@ class ilMMEntryRendererGUI {
 
 		$html = $tpl->get();
 
-		$cache->set('rendered_menu', $html, 60);
+		$storage->cache()->set('rendered_menu', $html, 60);
 
 		return $html;
 	}
