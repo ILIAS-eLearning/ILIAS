@@ -99,19 +99,17 @@ class ilMMTopItemFormGUI {
 
 	public function save() {
 		global $DIC;
+		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$form = $this->form->withRequest($DIC->http()->request());
 		$data = $form->getData();
 
 		if ($this->item_facade->isEmpty()) {
 			// FSX TODO create custon item, set type etc.
-			$this->item_facade->create();
-		} else {
-
+			$r->create($this->item_facade);
 		}
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
 
-		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$r->updateItem($this->item_facade);
 
 		return true;

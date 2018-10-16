@@ -150,6 +150,12 @@ class ilMMItemRepository {
 	}
 
 
+	public function createItem(ilMMItemFacade $item_facade) {
+		$item_facade->create();
+		$this->storage->cache()->flush();
+	}
+
+
 	private function findItem(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
 		global $DIC;
 

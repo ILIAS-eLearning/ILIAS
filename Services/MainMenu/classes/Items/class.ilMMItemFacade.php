@@ -137,6 +137,13 @@ class ilMMItemFacade {
 
 
 	public function update() {
+		// FSX Translation
 		$this->mm_item->update();
+	}
+
+
+	public function create() {
+		// FSX Translation and Identification
+		$this->mm_item->create();
 	}
 }
