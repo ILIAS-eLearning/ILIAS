@@ -27,6 +27,9 @@ interface ProperEntry {
 	 *     "Some wild background with quotes"
 	 *
 	 *     and links <a href='http:test'>test</a>
+     *
+     * context:
+     *   - Some Context
 	 * featurewiki:
 	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_3208_1357.html
 	 *

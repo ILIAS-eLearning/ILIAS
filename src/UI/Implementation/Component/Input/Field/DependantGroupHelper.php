@@ -55,7 +55,7 @@ trait DependantGroupHelper {
 	 * @inheritdoc
 	 */
 	public function withOnChange(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'change');
+		return $this->withTriggeredSignal($signal, 'change');
 	}
 
 	/**
@@ -69,7 +69,7 @@ trait DependantGroupHelper {
 	 * @inheritdoc
 	 */
 	public function withOnLoad(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'load');
+		return $this->withTriggeredSignal($signal, 'load');
 	}
 
 }

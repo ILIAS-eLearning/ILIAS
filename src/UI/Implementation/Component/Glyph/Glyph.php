@@ -73,8 +73,11 @@ class Glyph implements C\Glyph\Glyph {
 		, self::ASTOUNDED
 		, self::SAD
 		, self::ANGRY
+		, self::EYEOPEN
+		, self::EYECLOSED
 		, self::ATTACHMENT
 		, self::RESET
+		, self::APPLY
 		);
 
 
@@ -169,7 +172,7 @@ class Glyph implements C\Glyph\Glyph {
 	 * @inheritdoc
 	 */
 	public function withOnClick(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'click');
+		return $this->withTriggeredSignal($signal, 'click');
 	}
 
 	/**

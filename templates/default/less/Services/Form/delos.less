@@ -41,11 +41,18 @@ select.form-control {
 	font-size: 100%;
 }
 
+.form-control-static {
+	//needed until bootstrap set min-heigth and padding...
+	//no effect without it!
+	display: block;
+}
+
 .form-horizontal {
 	.control-label {
 		//padding-top: 0;
 		//line-height: 24px;
 		padding-bottom: (@padding-base-vertical + 1);
+		min-height: (@line-height-computed + @font-size-base);
 		&.col-sm-3.il_textarea {
 			text-align: left;
 			width: 100%;

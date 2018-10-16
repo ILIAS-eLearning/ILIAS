@@ -27,22 +27,34 @@ class ilTestPassFinishTasks
 		$this->active_id	= $active_id;
 	}
 
-	public function performFinishTasksBeforeArchiving()
+	public function performFinishTasks(ilTestProcessLocker $processLocker)
 	{
-		if( !$this->testSession->isSubmitted() )
-		{
-			$this->testSession->setSubmitted();
-			$this->testSession->setSubmittedTimestamp();
-			$this->testSession->saveToDb();
-		}
-	}
-
-	public function performFinishTasksAfterArchiving()
-	{
-		$this->testSession->setLastFinishedPass($this->testSession->getPass());
-		$this->testSession->setLastStartedPass($this->testSession->getPass());
-		$this->testSession->increaseTestPass();
-
+		$testSession = $this->testSession;
+		
+		$processLocker->executeTestFinishOperation(function() use ($testSession) {
+			
+			if( !$testSession->isSubmitted() )
+			{
+				$testSession->setSubmitted();
+				$testSession->setSubmittedTimestamp();
+				$testSession->saveToDb();
+			}
+			
+			$lastStartedPass = (
+				$testSession->getLastStartedPass() === null ? -1 : $testSession->getLastStartedPass()
+			);
+			
+			$lastFinishedPass = (
+				$testSession->getLastFinishedPass() === null ? -1 : $testSession->getLastFinishedPass()
+			);
+			
+			if( $lastStartedPass > -1 && $lastFinishedPass < $lastStartedPass )
+			{
+				$testSession->setLastFinishedPass($testSession->getPass());
+				$testSession->increaseTestPass(); // saves to db
+			}
+		});
+		
 		$this->updateLearningProgressAfterPassFinishedIsWritten();
 	}
 
@@ -53,5 +65,24 @@ class ilTestPassFinishTasks
 		ilLPStatusWrapper::_updateStatus(
 			$this->obj_id, ilObjTestAccess::_getParticipantId($this->active_id)
 		);
+		
+		$caller = $this->getCaller();
+		$lp = ilLPStatus::_lookupStatus($this->obj_id, $this->testSession->getUserId());
+		$debug = "finPass={$this->testSession->getLastFinishedPass()} / Lp={$lp}";
+		
+		ilObjAssessmentFolder::_addLog( $this->testSession->getUserId(), $this->obj_id,
+			"updateLearningProgressAfterPassFinishedIsWritten has been called from {$caller} ({$debug})", true
+		);
+	}
+	
+	protected function getCaller()
+	{
+		try{
+			throw new Exception();
+		} catch(Exception $e){
+			$trace = $e->getTrace();
+		}
+		
+		return $trace[3]['class'];
 	}
 }

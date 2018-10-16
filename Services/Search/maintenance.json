@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "Future Learning",
     "testcase_writer": "FH Aachen",
     "path": "Services/Search",

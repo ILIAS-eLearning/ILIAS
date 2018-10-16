@@ -6762,6 +6762,10 @@ button.close {
 .glyph.highlighted:hover {
   color: #d15c05;
 }
+.glyph.disabled {
+  color: #e0e0e0;
+  pointer-events: none;
+}
 .glyph:hover,
 .glyph:focus {
   color: #3a4c65;
@@ -8477,7 +8481,8 @@ ul.breadcrumb li:hover {
 }
 .il-standard-form input[type="radio"],
 .il-standard-form input[type="checkbox"] {
-  margin: 0;
+  height: unset;
+  width: unset;
 }
 .il-input-tag {
   height: auto;
@@ -8530,6 +8535,15 @@ ul.breadcrumb li:hover {
 }
 .revealed.il-input-password .revelation-mask {
   display: block;
+}
+.il-input-radio .form-control.il-input-radiooption {
+  height: unset;
+  border: unset;
+  background-color: unset;
+}
+.il-input-multiselect {
+  list-style: none;
+  padding-left: 0px;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
@@ -9089,7 +9103,7 @@ div.alert ul > li:before {
   padding: 0;
 }
 .il-popover i.icon-refresh {
-  background: url("../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
+  background: url("images/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {
@@ -10303,6 +10317,11 @@ footer.ilFooter .ilPermalinkContainer > label {
   margin-top: 25px;
 }
 @media only screen and (max-width: 767px) {
+  #devmodeBlock {
+    position: absolute;
+  }
+}
+@media only screen and (max-width: 767px) {
   #devmodeBlock table {
     table-layout: fixed;
     width: 100%;
@@ -10621,9 +10640,6 @@ div.ilSideBarContent {
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
-[dir="rtl"] .ui-menu {
-  float: right;
-}
 .ui-menu .ui-menu-item {
   margin: 0;
   padding: 0;
@@ -10632,9 +10648,25 @@ div.ilSideBarContent {
   clear: left;
   width: 100%;
 }
-[dir="rtl"] .ui-menu .ui-menu-item {
-  float: right;
-  clear: right;
+.ui-menu .ui-menu-item > * {
+  text-decoration: none;
+  display: block;
+  padding: 2px 4px;
+  line-height: 1.5;
+  color: #5d5d5d;
+  background-color: transparent;
+}
+.ui-menu .ui-menu-item > *:hover,
+.ui-menu .ui-menu-item > *.ui-state-hover,
+.ui-menu .ui-menu-item > *.ui-state-active {
+  background-color: #ecf0f4;
+  color: #5d5d5d;
+}
+.ui-menu .ui-menu-item a {
+  color: #5d5d5d;
+}
+.ui-menu .ui-menu-item a:hover {
+  color: #262626;
 }
 .ui-menu .ui-menu-category {
   margin: 0;
@@ -10645,10 +10677,6 @@ div.ilSideBarContent {
   width: 100%;
   font-weight: bold;
 }
-[dir="rtl"] .ui-menu .ui-menu-category {
-  float: right;
-  clear: right;
-}
 .ui-menu .ui-menu-more {
   display: block;
   zoom: 1;
@@ -10658,33 +10686,32 @@ div.ilSideBarContent {
   clear: left;
   width: 100%;
 }
-[dir="rtl"] .ui-menu .ui-menu-more {
-  float: right;
-  clear: right;
-}
 .ui-menu .ui-menu-more span {
   padding: 2px;
 }
 .ui-menu .ui-menu-more:hover {
   background-color: white;
 }
+[dir="rtl"] .ui-menu {
+  float: right;
+}
+[dir="rtl"] .ui-menu .ui-menu-item {
+  float: right;
+  clear: right;
+}
+[dir="rtl"] .ui-menu .ui-menu-category {
+  float: right;
+  clear: right;
+}
+[dir="rtl"] .ui-menu .ui-menu-more {
+  float: right;
+  clear: right;
+}
 .ui-autocomplete {
   max-height: 400px;
   overflow-y: auto;
   /* prevent horizontal scrollbar */
   overflow-x: hidden;
-}
-.ui-menu .ui-menu-item a {
-  text-decoration: none;
-  display: block;
-  padding: 2px 4px;
-  line-height: 1.5;
-  zoom: 1;
-  color: #03a;
-}
-.ui-menu .ui-menu-item a.ui-state-hover,
-.ui-menu .ui-menu-item a.ui-state-active {
-  background-color: #ff9;
 }
 /* Icon Default */
 img.ilIcon {
@@ -10796,8 +10823,12 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-control-static {
+  display: block;
+}
 .form-horizontal .control-label {
   padding-bottom: 4px;
+  min-height: 34px;
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
@@ -12110,6 +12141,14 @@ table.il-cal-week tr.calstd {
   border-top-width: 2px;
   border-top-style: solid;
 }
+table.il-cal-week {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+table.il-cal-week td.calevent {
+  overflow: hidden;
+}
 tr.calstdtime {
   height: 1.2em;
   background-color: inherit;
@@ -12363,6 +12402,14 @@ li.ilWikiBlockItem {
   min-width: 100%;
   background-color: #fafafa;
 }
+#ilTopNav .dropdown-menu li a {
+  background-color: transparent;
+  color: #5d5d5d;
+}
+#ilTopNav .dropdown-menu li a:hover {
+  background-color: #ecf0f4;
+  color: #262626;
+}
 @media only screen and (max-width: 767px) {
   #ilTopNav .dropdown-menu {
     float: none;
@@ -12397,7 +12444,7 @@ li.ilWikiBlockItem {
     margin: 0 10px 0 0;
     padding: 5px 10px 6px;
     border-top: 0;
-    color: #5d5d5d;
+    color: #808080;
   }
 }
 #ilTopNav .navbar-nav > li > a:hover,
@@ -13032,12 +13079,6 @@ tr.tblheader {
 }
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
-}
-@media (max-width: 767px) {
-  .table-responsive .dropdown-menu,
-  .table-responsive .dropdown-toggle {
-    position: static !important;
-  }
 }
 @media (min-width: 768px) {
   .table-responsive {
@@ -14720,6 +14761,10 @@ div.ilRatingOverlay {
   display: inline-block;
   cursor: pointer;
 }
+.ilExcReportFeedback {
+  background-color: #F9F9F9;
+  padding: 9px;
+}
 .progress {
   height: 15px;
   min-width: 100px;
@@ -16299,4 +16344,34 @@ table.mceToolbar td {
   a[href]:after {
     content: "";
   }
+}
+.read-more-state {
+  display: none;
+}
+.read-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: .25s ease;
+}
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+}
+.read-more-state ~ .read-more-trigger:before {
+  content: 'Show more';
+}
+.read-more-state:checked ~ .read-more-trigger:before {
+  content: 'Show less';
+}
+.read-more-trigger {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 .5em;
+  color: #666;
+  font-size: .9em;
+  line-height: 2;
+  border: 1px solid #ddd;
+  border-radius: .25em;
 }

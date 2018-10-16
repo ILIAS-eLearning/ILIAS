@@ -1,13 +1,18 @@
 <?php
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/test/ilMailBaseTest.php';
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-
-class ilMailTransportSettingsTest extends ilMailBaseTest
+/**
+ * Class ilMailTransportSettingsTest
+ * @author Michael Jansen <mjansen@databay.de>
+ */
+class ilMailTransportSettingsTest extends \ilMailBaseTest
 {
+	/**
+	 * 
+	 */
 	public function testSystemAsIncomingTypeWontUpdate()
 	{
-		$mailOptions = $this->getMockBuilder('ilMailOptions')
+		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
 			->disableOriginalConstructor()
 			->setMethods(array('updateOptions'))
 			->getMock();
@@ -23,9 +28,12 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
 		$this->assertEquals(3, $mailOptions->getMailAddressOption());
 	}
 
+	/**
+	 * 
+	 */
 	public function testOnlyFirstMailWillResultInUpdateProcess()
 	{
-		$mailOptions = $this->getMockBuilder('ilMailOptions')
+		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
 			->disableOriginalConstructor()
 			->setMethods(array('updateOptions'))
 			->getMock();
@@ -41,9 +49,12 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
 		$this->assertEquals(3, $mailOptions->getMailAddressOption());
 	}
 
+	/**
+	 * 
+	 */
 	public function testOnlySecondMailWillResultInUpdateProcess()
 	{
-		$mailOptions = $this->getMockBuilder('ilMailOptions')
+		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
 			->disableOriginalConstructor()
 			->setMethods(array('updateOptions'))
 			->getMock();
@@ -59,9 +70,12 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
 		$this->assertEquals(4, $mailOptions->getMailAddressOption());
 	}
 
+	/**
+	 * 
+	 */
 	public function testNoMailWillResultInUpdateProcess()
 	{
-		$mailOptions = $this->getMockBuilder('ilMailOptions')
+		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
 			->disableOriginalConstructor()
 			->setMethods(array('updateOptions'))
 			->getMock();
@@ -76,9 +90,12 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
 		$this->assertEquals(0, $mailOptions->getIncomingType());
 	}
 
+	/**
+	 * 
+	 */
 	public function testNothingWillBeAdjusted()
 	{
-		$mailOptions = $this->getMockBuilder('ilMailOptions')
+		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
 			->disableOriginalConstructor()
 			->setMethods(array('updateOptions'))
 			->getMock();

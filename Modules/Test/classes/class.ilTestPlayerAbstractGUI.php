@@ -835,8 +835,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
 
 		$finishTasks = new ilTestPassFinishTasks($this->testSession->getActiveId(), $this->object->getId());
-		$finishTasks->performFinishTasksBeforeArchiving();
-		$finishTasks->performFinishTasksAfterArchiving();
+		$finishTasks->performFinishTasks($this->processLocker);
 	}
 
 	protected function afterTestPassFinishedCmd()
@@ -862,7 +861,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// redirect after test
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
-		if( $redirection_url && $redirection_mode && !$this->object->canViewResults() )
+		if( $redirection_url && $redirection_mode )
 		{
 			if( $redirection_mode == REDIRECT_KIOSK )
 			{

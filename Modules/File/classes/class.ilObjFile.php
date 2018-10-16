@@ -68,6 +68,22 @@ class ilObjFile extends ilObject2 {
 	 * @var int
 	 */
 	protected $version = 1;
+	/**
+	 * @var int
+	 */
+	protected $max_version = 1;
+	/**
+	 * @var string
+	 */
+	protected $action = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_version = null;
+	/**
+	 * @var int
+	 */
+	protected $rollback_user_id = null;
 
 
 	/**
@@ -78,6 +94,7 @@ class ilObjFile extends ilObject2 {
 	 */
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->version = 0;
+		$this->max_version = 0;
 		$this->raise_upload_error = true;
 
 		$this->log = ilLoggerFactory::getLogger('file');
@@ -124,7 +141,7 @@ class ilObjFile extends ilObject2 {
 		}
 
 		// not upload mode
-		ilHistory::_createEntry($this->getId(), "create", $this->getFileName() . ",1");
+		ilHistory::_createEntry($this->getId(), "create", $this->getFileName() . ",1" . ",1");
 		$this->addNewsNotification("file_created");
 
 		// New Item
@@ -141,6 +158,16 @@ class ilObjFile extends ilObject2 {
 		$this->log->logStack(ilLogLevel::DEBUG);
 
 		$DIC->database()->insert('file_data', $this->getArrayForDatabase());
+
+		//add metadata to database
+		$metadata = [
+			'meta_lifecycle_id' => [ 'integer', $DIC->database()->nextId('il_meta_lifecycle') ],
+			'rbac_id'    => [ 'integer', $this->getId() ],
+			'obj_id'    => [ 'integer', $this->getId() ],
+			'obj_type'  => [ 'text', "file" ],
+			'meta_version'    => [ 'integer', (int)$this->getVersion() ],
+		];
+		$DIC->database()->insert('il_meta_lifecycle', $metadata);
 
 		// no meta data handling for file list files
 		if ($this->getMode() != self::MODE_FILELIST) {
@@ -295,7 +322,8 @@ class ilObjFile extends ilObject2 {
 				$a_name = $result->getName();
 				$this->setFileName($a_name);
 
-				$this->setVersion($this->getVersion() + 1);
+				$this->setVersion($this->getMaxVersion() + 1);
+				$this->setMaxVersion($this->getMaxVersion() + 1);
 
 				if (!is_dir($this->getDirectory($this->getVersion()))) {
 					ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
@@ -330,7 +358,7 @@ class ilObjFile extends ilObject2 {
 	 */
 	public function replaceFile($a_upload_file, $a_filename) {
 		if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
-			ilHistory::_createEntry($this->getId(), "replace", $a_filename . "," . $this->getVersion());
+			ilHistory::_createEntry($this->getId(), "replace", $a_filename . "," . $this->getVersion() . "," . $this->getMaxVersion());
 			$this->addNewsNotification("file_updated");
 
 			// create preview
@@ -343,7 +371,7 @@ class ilObjFile extends ilObject2 {
 
 	public function addFileVersion($a_upload_file, $a_filename) {
 		if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
-			ilHistory::_createEntry($this->getId(), "new_version", $result->getName() . "," . $this->getVersion());
+			ilHistory::_createEntry($this->getId(), "new_version", $result->getName() . "," . $this->getVersion() . "," . $this->getMaxVersion());
 			$this->addNewsNotification("file_updated");
 
 			// create preview
@@ -377,13 +405,8 @@ class ilObjFile extends ilObject2 {
 	 * @param array $a_hist_entry_ids The ids of the entries to delete or null to delete all entries
 	 */
 	public function deleteVersions($a_hist_entry_ids = null) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
 		if ($a_hist_entry_ids == null || count($a_hist_entry_ids) < 1) {
-			$ilDB->manipulate("UPDATE file_data SET version = 1 WHERE file_id = "
-			                  . $ilDB->quote($this->getId(), 'integer'));
-			$this->setVersion(0);
 			$this->clearDataDirectory();
 
 			ilHistory::_removeEntriesForObject($this->getId());
@@ -423,8 +446,9 @@ class ilObjFile extends ilObject2 {
 
 			// update actual version if it was deleted before
 			if ($actualVersionDeleted) {
-				// get newest version (already sorted by getVersions) 
+				// get newest version (already sorted by getVersions)
 				$version = reset($versions);
+				$version['max_version'] = $this->getMaxVersion();
 				$this->updateWithVersion($version);
 			} else {
 				// updateWithVersion() will trigger quota, too
@@ -445,6 +469,7 @@ class ilObjFile extends ilObject2 {
 		$this->setFileType($row->file_type);
 		$this->setFileSize($row->file_size);
 		$this->setVersion($row->version ? $row->version : 1);
+		$this->setMaxVersion($row->max_version ? $row->max_version : 1);
 		$this->setMode($row->f_mode);
 		$this->setRating($row->rating);
 		$this->setPageCount($row->page_count);
@@ -469,6 +494,15 @@ class ilObjFile extends ilObject2 {
 		$a_columns = $this->getArrayForDatabase();
 		$DIC->database()->update('file_data', $a_columns, [
 			'file_id' => [
+				'integer',
+				$this->getId(),
+			],
+		]);
+
+		// update metadata with the current file version
+		$meta_version_column = ['meta_version'    => [ 'integer', (int)$this->getVersion() ]];
+		$DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
+			'obj_id' => [
 				'integer',
 				$this->getId(),
 			],
@@ -550,6 +584,30 @@ class ilObjFile extends ilObject2 {
 		return $this->filesize;
 	}
 
+	function setAction($a_action) {
+		$this->action = $a_action;
+	}
+
+	function getAction() {
+		return $this->action;
+	}
+
+	function setRollbackVersion($a_rollback_version) {
+		$this->rollback_version = $a_rollback_version;
+	}
+
+	function getRollbackVersion() {
+		return $this->rollback_version;
+	}
+
+	function setRollbackUserId($a_rollback_user_id) {
+		$this->rollback_user_id = $a_rollback_user_id;
+	}
+
+	function getRollbackUserId() {
+		return $this->rollback_user_id;
+	}
+
 
 	/**
 	 * Gets the disk usage of the object in bytes.
@@ -596,6 +654,16 @@ class ilObjFile extends ilObject2 {
 	}
 
 
+	function setMaxVersion($a_max_version) {
+		$this->max_version = $a_max_version;
+	}
+
+
+	function getMaxVersion() {
+		return $this->max_version;
+	}
+
+
 	/**
 	 * mode is object or filelist
 	 *
@@ -626,7 +694,13 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	static function _lookupFileName($a_id) {
+	/**
+	 * @param $a_id
+	 *
+	 * @return string
+	 * @deprecated Static methods will be removed in a future version of ILIAS
+	 */
+	public static function _lookupFileName($a_id) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -634,7 +708,9 @@ class ilObjFile extends ilObject2 {
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-		return ilUtil::stripSlashes($row->file_name);
+		$strip_slashes = ilUtil::stripSlashes($row->file_name);
+
+		return $strip_slashes;
 	}
 
 
@@ -1094,20 +1170,29 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * return absolute path for version
+	 * @param  int $obj_id
+	 * @param int  $a_version
 	 *
+	 * @return string
+	 * @throws ilFileUtilsException
 	 */
 	public static function _lookupAbsolutePath($obj_id, $a_version = null) {
-		$file_storage = new ilFSStorageFile($obj_id);
-		$filename = ilObjFile::_lookupFileName($obj_id);
-		$version_subdir = "";
+		global $DIC;
 
-		if (!is_numeric($a_version)) {
-			$a_version = ilObjFile::_lookupVersion($obj_id);
+		$fs = $DIC->filesystem()->storage();
+
+		$file_object = new self($obj_id, false);
+		$file_path = $file_object->getFile($a_version);
+		$valid_file_path = ilFileUtils::getValidFilename($file_path);
+		if ($valid_file_path !== $file_path) {
+			if (!$fs->has(LegacyPathHelper::createRelativePath($file_path)) && $fs->has(LegacyPathHelper::createRelativePath($valid_file_path))) {
+				$file_object->setFileName(ilFileUtils::getValidFilename($file_object->getFileName()));
+				$file_object->update();
+				$file_path = $valid_file_path;
+			}
 		}
-		$version_subdir = DIRECTORY_SEPARATOR . sprintf("%03d", $a_version);
 
-		return $file_storage->getAbsolutePath() . $version_subdir . DIRECTORY_SEPARATOR . $filename;
+		return $file_path;
 	}
 
 
@@ -1215,7 +1300,8 @@ class ilObjFile extends ilObject2 {
 		}
 
 		// get the new version number
-		$new_version_nr = $this->getVersion() + 1;
+		$new_version_nr = $this->getMaxVersion() + 1;
+		$this->setMaxVersion($new_version_nr);
 
 		// copy file 
 		$source_path = $this->getDirectory($source["version"]) . "/" . $source["filename"];
@@ -1229,12 +1315,24 @@ class ilObjFile extends ilObject2 {
 		// create new history entry based on the old one
 		include_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "rollback", $source["filename"] . ","
-		                                                    . $new_version_nr . "|"
+		                                                    . $new_version_nr . ","
+															. $this->getMaxVersion() . "|"
 		                                                    . $source["version"] . "|"
 		                                                    . $ilUser->getId());
 
 		// get id of newest entry
-		$new_version = $this->getSpecificVersion($ilDB->getLastInsertId());
+		$entries = ilHistory::_getEntriesForObject($this->getId());
+		$newest_entry_id = 0;
+		foreach($entries as $entry)
+		{
+			if($entry["action"] == "rollback")
+			{
+				$newest_entry_id = $entry["hist_entry_id"];
+			}
+		}
+		$new_version = $this->getSpecificVersion($newest_entry_id);
+		$new_version['version'] = $new_version_nr;
+		$new_version['max_version'] = $new_version_nr;
 
 		// change user back to the original uploader
 		ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);
@@ -1258,6 +1356,7 @@ class ilObjFile extends ilObject2 {
 		$this->setTitle($this->checkFileExtension($version["filename"], $this->getTitle()));
 
 		$this->setVersion($version["version"]);
+		$this->setMaxVersion($version["max_version"]);
 		$this->setFileName($version["filename"]);
 
 		// evaluate mime type (reset file type before)
@@ -1299,8 +1398,8 @@ class ilObjFile extends ilObject2 {
 	 *               "info_params".
 	 */
 	function parseInfoParams($entry) {
-		$data = preg_split("/(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
-		                                                            | PREG_SPLIT_NO_EMPTY);
+		$data = preg_split("/(.*),(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
+			| PREG_SPLIT_NO_EMPTY);
 
 		// bugfix: first created file had no version number
 		// this is a workaround for all files created before the bug was fixed
@@ -1311,15 +1410,16 @@ class ilObjFile extends ilObject2 {
 		$result = array(
 			"filename"         => $data[0],
 			"version"          => $data[1],
+			"max_version"      => $data[2],
 			"rollback_version" => "",
 			"rollback_user_id" => "",
 		);
 
 		// if rollback, the version contains the rollback version as well
 		if ($entry["action"] == "rollback") {
-			$tokens = explode("|", $result["version"]);
+			$tokens = explode("|", $result["max_version"]);
 			if (count($tokens) > 1) {
-				$result["version"] = $tokens[0];
+				$result["max_version"] = $tokens[0];
 				$result["rollback_version"] = $tokens[1];
 
 				if (count($tokens) > 2) {
@@ -1425,6 +1525,7 @@ class ilObjFile extends ilObject2 {
 			'file_type'  => [ 'text', $this->getFileType() ],
 			'file_size'  => [ 'integer', (int)$this->getFileSize() ],
 			'version'    => [ 'integer', (int)$this->getVersion() ],
+			'max_version'=> [ 'integer', (int)$this->getMaxVersion()],
 			'f_mode'     => [ 'text', $this->getMode() ],
 			'page_count' => [ 'text', $this->getPageCount() ],
 			'rating'     => [ 'integer', $this->hasRating()],

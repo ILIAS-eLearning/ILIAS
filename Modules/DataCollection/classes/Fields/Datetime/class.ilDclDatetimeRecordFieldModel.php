@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -47,7 +46,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 *
 	 * @param                           $value
 	 * @param ilDclBaseRecordFieldModel $record_field
-	 * @param bool|true $link
+	 * @param bool|true                 $link
 	 *
 	 * @return int|string
 	 */

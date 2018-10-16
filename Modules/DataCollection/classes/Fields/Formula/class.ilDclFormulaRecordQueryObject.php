@@ -22,6 +22,7 @@ class ilDclFormulaRecordQueryObject extends ilDclRecordQueryObject {
 				arsort($sort_array);
 				break;
 		}
+
 		return array_keys($sort_array);
 	}
 }

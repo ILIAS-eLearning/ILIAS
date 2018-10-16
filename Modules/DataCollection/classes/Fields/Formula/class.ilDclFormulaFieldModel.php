@@ -16,8 +16,10 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel {
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
 		// use custom record query object for adding custom sorting
 		$sql_obj = new ilDclFormulaRecordQueryObject();
+
 		return $sql_obj;
 	}
+
 
 	/**
 	 * @inheritDoc
@@ -25,6 +27,7 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel {
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
 	}
+
 
 	/**
 	 * @return bool

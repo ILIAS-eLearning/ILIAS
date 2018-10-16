@@ -40,6 +40,11 @@ class ilFileImporter extends ilXmlImporter
 		$parser->setImportDirectory($this->getImportDirectory());
 		$parser->startParsing();
 
+		if($newObj instanceof ilObjFile)
+		{
+			$newObj->setMaxVersion($newObj->getVersion());
+		}
+
 		$newObj->createProperties();
 		
 		$parser->setFileContents();

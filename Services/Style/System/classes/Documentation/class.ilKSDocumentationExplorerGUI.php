@@ -44,9 +44,9 @@ class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function __construct(ilSystemStyleDocumentationGUI $a_parent_obj, $a_parent_cmd, Entry\ComponentEntries $entries, $current_opened_node_id)
 	{
+		global $DIC;
+		$this->ctrl = $DIC->ctrl();
 
-		global $ilCtrl;
-		$this->ctrl = $ilCtrl;
 		parent::__construct($this->id, $a_parent_obj, $a_parent_cmd);
 
 		$this->setParentLink($this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd));

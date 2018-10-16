@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+
 require_once "./Services/Container/classes/class.ilContainer.php";
 
 /**
@@ -122,60 +125,62 @@ class ilObjFolder extends ilContainer
 		
 	 	return true;
 	}
-	
+
+
 	/**
-	 * private functions which iterates through all folders and files 
-	 * and create an according file structure in a temporary directory. This function works recursive. 
+	 * private functions which iterates through all folders and files
+	 * and create an according file structure in a temporary directory. This function works recursive.
 	 *
-	 * @param integer $refid reference it
-	 * @param tmpdictory $tmpdir
-	 * @return returns first created directory
+	 * @param int       $ref_id Reference-ID of Folder
+	 * @param string    $title  of Folder
+	 * @param    string $tmpdir (MUST be already relative due to filesystem-service)
+	 *
+	 * @return string returns first created directory
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilFileException
+	 * @throws ilFileUtilsException
 	 */
-	private static function recurseFolder ($refid, $title, $tmpdir) {
+	private static function recurseFolder($ref_id, $title, $tmpdir) {
 		global $DIC;
 
-		$rbacsystem = $DIC->rbac()->system();
 		$tree = $DIC->repositoryTree();
 		$ilAccess = $DIC->access();
-				
-		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
-		ilUtil::makeDir($tmpdir);
-		
-		$subtree = $tree->getChildsByTypeFilter($refid, array("fold","file"));
-		
-		foreach ($subtree as $child) 
-		{
-			if (!$ilAccess->checkAccess("read", "", $child["ref_id"]))
-			{
-				continue;			
-			}
-			if (ilObject::_isInTrash($child["ref_id"]))
-			{
+
+		$tmpdir = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
+
+		$temp_fs = $DIC->filesystem()->temp();
+		$storage_fs = $DIC->filesystem()->storage();
+		$temp_fs->createDir($tmpdir);
+
+		$subtree = $tree->getChildsByTypeFilter($ref_id, array("fold", "file"));
+
+		foreach ($subtree as $child) {
+			if (!$ilAccess->checkAccess("read", "", $child["ref_id"])) {
 				continue;
 			}
-			if ($child["type"] == "fold")
-			{
-				ilObjFolder::recurseFolder ($child["ref_id"], $child["title"], $tmpdir);
+			if (ilObject::_isInTrash($child["ref_id"])) {
+				continue;
+			}
+			if ($child["type"] == "fold") {
+				ilObjFolder::recurseFolder($child["ref_id"], $child["title"], $tmpdir);
 			} else {
-				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($child["title"]);
+				$newFilename = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($child["title"]);
 				// copy to temporal directory
-				$oldFilename = ilObjFile::_lookupAbsolutePath($child["obj_id"]);
-				if (!copy ($oldFilename, $newFilename))
-				{
-					throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
-				}	
-				touch($newFilename, filectime($oldFilename));								
+				$relative_path_of_file = LegacyPathHelper::createRelativePath(ilObjFile::_lookupAbsolutePath($child["obj_id"]));
+				if ($storage_fs->has($relative_path_of_file)) {
+					$s = $storage_fs->readStream($relative_path_of_file);
+				}  else {
+					throw new ilFileException("Could not copy " . $relative_path_of_file . " to " . $newFilename);
+				}
+				$temp_fs->writeStream($newFilename, $s);
 			}
 		}
-		
 	}
 	
 	public function downloadFolder() {
-		$lng = $this->lng;
-		$rbacsystem = $this->rbacsystem;
 		$ilAccess = $this->access;
-		include_once 'Modules/File/classes/class.ilObjFile.php';
-		include_once 'Modules/File/classes/class.ilFileException.php';
+
 		if (!$ilAccess->checkAccess("read", "", $this->getRefId()))
 		{
 			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): missing read permission!",$this->ilErr->WARNING);
@@ -184,9 +189,8 @@ class ilObjFolder extends ilContainer
 		{
 			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): object is trashed!",$this->ilErr->WARNING);
 		}
-		
-		$zip = PATH_TO_ZIP;
-		$tmpdir = ilUtil::ilTempnam();		
+
+		$tmpdir = ilUtil::ilTempnam();
 		ilUtil::makeDir($tmpdir);
 		$basename = ilUtil::getAsciiFilename($this->getTitle());
 		$deliverFilename = $basename.".zip";
@@ -194,7 +198,7 @@ class ilObjFolder extends ilContainer
 		$tmpzipfile = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename;
 		
 		try {
-			ilObjFolder::recurseFolder ($this->getRefId(), $this->getTitle(), $tmpdir);
+			ilObjFolder::recurseFolder ($this->getRefId(), $this->getTitle(), LegacyPathHelper::createRelativePath($tmpdir));
 			ilUtil::zip($zipbasedir, $tmpzipfile);
 			rename($tmpzipfile,$zipfile = ilUtil::ilTempnam());
 			ilUtil::delDir($tmpdir);
