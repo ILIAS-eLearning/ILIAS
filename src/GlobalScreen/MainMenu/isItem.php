@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Interface IFactory

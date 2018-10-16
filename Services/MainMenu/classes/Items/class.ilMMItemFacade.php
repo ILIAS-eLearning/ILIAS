@@ -120,6 +120,31 @@ class ilMMItemFacade {
 	}
 
 
+	public function getStatus(): string {
+		global $DIC;
+
+		return $DIC->ui()->renderer()->render($this->gs_item->getNonAvailableReason());
+	}
+
+
+	public function getTypeForPresentation(): string {
+		$reflect = new ReflectionClass($this->gs_item);
+
+		return $reflect->getShortName();
+	}
+
+
+	public function getParentIdentificationString(): string {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+			$provider_name_for_presentation = $this->gs_item->getParent()->serialize();
+
+			return $provider_name_for_presentation;
+		}
+
+		return "";
+	}
+
+
 	// Setter
 	public function setActiveStatus(bool $status) {
 		$this->mm_item->setActive($status);

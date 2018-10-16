@@ -4953,6 +4953,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMMItemStorage' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Items/class.ilMMItemStorage.php',
         'ilMMItemTranslationStorage' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Items/class.ilMMItemTranslationStorage.php',
         'ilMMProvider' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Provider/class.ilMMProvider.php',
+        'ilMMSubItemGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
         'ilMMSubItemTableGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',
         'ilMMSubitemFormGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubitemFormGUI.php',
         'ilMMTabHandling' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMTabHandling.php',

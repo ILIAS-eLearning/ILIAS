@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Class AbstractBaseItem
@@ -149,6 +149,8 @@ abstract class AbstractBaseItem implements isItem {
 	 * @inheritDoc
 	 */
 	public function getNonAvailableReason(): Legacy {
-		return $this->non_available_reason;
+		global $DIC;
+
+		return $this->non_available_reason instanceof Legacy ? $this->non_available_reason : $DIC->ui()->factory()->legacy("");
 	}
 }

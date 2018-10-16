@@ -29,7 +29,7 @@ class ilMMEntryRendererGUI {
 			}
 		}
 
-		$top_items = (new ilMMItemRepository($storage))->getStackedTopItems();
+		$top_items = (new ilMMItemRepository($storage))->getStackedTopItemsForPresentation();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 
 		foreach ($top_items as $top_item) {

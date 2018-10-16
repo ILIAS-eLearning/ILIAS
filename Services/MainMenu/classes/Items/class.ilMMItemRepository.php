@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\StorageFacade;
+use ILIAS\GlobalScreen\MainMenu\isChild;
 
 /**
  * Class ilMMItemRepository
@@ -50,7 +51,7 @@ class ilMMItemRepository {
 	/**
 	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem|\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
 	 */
-	public function getStackedTopItems(): array {
+	public function getStackedTopItemsForPresentation(): array {
 		return $this->main_collector->getStackedTopItemsForPresentation();
 	}
 
@@ -101,6 +102,17 @@ class ilMMItemRepository {
 
 
 	/**
+	 * @return array
+	 */
+	public function getSubItems(): array {
+		// sync
+		$this->sync();
+
+		return ilMMItemStorage::orderBy('position')->getArray();
+	}
+
+
+	/**
 	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
 	 *
 	 * @return ilMMItemFacade
@@ -124,7 +136,7 @@ class ilMMItemRepository {
 			foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
 				$item_storage = ilMMItemStorage::find($identification->serialize());
 				/**
-				 * @var $item \ILIAS\GlobalScreen\MainMenu\isChild|\ILIAS\GlobalScreen\MainMenu\isParent
+				 * @var $item isChild|\ILIAS\GlobalScreen\MainMenu\isParent
 				 */
 				$item = $this->findItem($identification);
 				if ($item_storage === null) {
@@ -132,7 +144,7 @@ class ilMMItemRepository {
 					$item_storage->setIdentification($identification->serialize());
 					$item_storage->create();
 				}
-				if ($item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+				if ($item instanceof isChild) {
 					$item_storage->setParentIdentification($item->getParent()->serialize());
 				}
 				$item_storage->update();

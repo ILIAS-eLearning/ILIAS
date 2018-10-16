@@ -51,9 +51,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		global $DIC;
 		$renderer = $DIC->ui()->renderer();
 		$factory = $DIC->ui()->factory();
-		/**
-		 * @var $gs_item \ILIAS\GlobalScreen\MainMenu\isParent
-		 */
+
 		$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
 		$this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
@@ -82,9 +80,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 	 * @return array
 	 */
 	private function resolveData(): array {
-		global $DIC;
-		$c = new ilMMItemRepository($DIC->globalScreen()->storage());
-
-		return $c->getTopItems();
+		return $this->item_repository->getTopItems();
 	}
 }

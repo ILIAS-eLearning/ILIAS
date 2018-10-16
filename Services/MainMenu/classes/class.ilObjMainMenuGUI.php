@@ -40,8 +40,6 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	public $tree;
 	const TAB_PERMISSIONS = 'perm_settings';
 	const TAB_MAIN = 'main';
-	const SUBTAB_ENTRIES = 'main_entries';
-	const ADD_SUBITEM = 'add_subitem';
 
 
 	/**
@@ -66,42 +64,6 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	}
 
 
-	private function dispatchCommand($cmd) {
-		if ($cmd === self::TAB_MAIN || $cmd === 'view') {
-			$cmd = self::SUBTAB_ENTRIES;
-		}
-		switch ($cmd) {
-			case self::SUBTAB_ENTRIES:
-				$this->tab_handling->initTabs(self::TAB_MAIN, $cmd);
-
-				// ADD NEW
-				$b = ilLinkButton::getInstance();
-				$b->setUrl($this->ctrl->getLinkTarget($this, self::ADD_SUBITEM));
-				$b->setCaption($this->lng->txt('add_subentry'), false);
-
-				$this->toolbar->addButtonInstance($b);
-
-				// TABLE
-				$table = new ilMMSubItemTableGUI($this);
-
-				return $table->getHTML();
-			case 'translate':
-				$this->tab_handling->initTabs(self::TAB_MAIN, $cmd, true);
-				// $this->tabs->setBackTarget("Back", $this->ctrl->getLinkTarget($this, self::SUBTAB_ENTRIES));
-				$t = new ilTemplate("tpl.dummy_translate.html", false, false, 'Services/MainMenu');
-
-				return $t->get();
-
-			case self::ADD_SUBITEM:
-				$this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_ENTRIES, true);
-				global $DIC;
-				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
-
-				return $f->getHTML();
-		}
-	}
-
-
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass();
 
@@ -123,6 +85,12 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 				$this->prepareAdminOutput();
 				// $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
 				$g = new ilMMTopItemGUI($this->tab_handling);
+				$this->ctrl->forwardCommand($g);
+				break;
+			case strtolower(ilMMSubItemGUI::class):
+				$this->prepareAdminOutput();
+				// $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
+				$g = new ilMMSubItemGUI($this->tab_handling);
 				$this->ctrl->forwardCommand($g);
 				break;
 			default:

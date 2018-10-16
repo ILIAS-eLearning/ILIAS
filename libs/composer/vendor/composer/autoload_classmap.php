@@ -4709,6 +4709,7 @@ return array(
     'ilMMItemStorage' => $baseDir . '/../../Services/MainMenu/classes/Items/class.ilMMItemStorage.php',
     'ilMMItemTranslationStorage' => $baseDir . '/../../Services/MainMenu/classes/Items/class.ilMMItemTranslationStorage.php',
     'ilMMProvider' => $baseDir . '/../../Services/MainMenu/classes/Provider/class.ilMMProvider.php',
+    'ilMMSubItemGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
     'ilMMSubItemTableGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',
     'ilMMSubitemFormGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubitemFormGUI.php',
     'ilMMTabHandling' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMTabHandling.php',
