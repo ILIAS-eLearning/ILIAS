@@ -114,7 +114,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 			}
 		}
 
-		//filter by obj type
+		//Filter by obj type
 		if($this->filter['type'])
 		{
 			foreach ($data_filtered as $key => $material)
@@ -126,6 +126,34 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 				}
 			}
 		}
+
+		//Filter by status
+		if($this->filter["status"])
+		{
+			//items_ref = materials already assigned.
+			$assigned_items = new ilEventItems($this->parent_object_id);
+			$assigned_items = $assigned_items->getItems();
+
+			if($this->filter["status"]== "assigned")
+			{
+				foreach ($data_filtered as $key => $material)
+				{
+					if(!in_array($material["ref_id"], $assigned_items)) {
+						unset($data_filtered[$key]);
+					}
+				}
+			}
+			elseif ($this->filter["status"] == "notassigned")
+			{
+				foreach ($data_filtered as $key => $material)
+				{
+					if(in_array($material["ref_id"], $assigned_items)) {
+						unset($data_filtered[$key]);
+					}
+				}
+			}
+		}
+
 		return $data_filtered;
 	}
 
@@ -200,15 +228,6 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * implement if necessary. (ban side blocks etc.)
-	 * @param $a_items
-	 */
-	function typesAllowed($a_items)
-	{
-		//TODO ban the poll etc. All the sideblocks
-	}
-
-	/**
 	 * Get object types available in this specific session.
 	 * @return array
 	 */
@@ -241,27 +260,29 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		//todo remove banned types if necessary.
 		$filter_types = $this->typesAvailable();
 		$types = array();
-		$types[0] = $this->lng->txt('all_types');
+		$types[0] = $this->lng->txt('sess_filter_all_types');
+		$x = ilObjectDefinition::getRepositoryObjectTypesForComponent()
 		foreach($filter_types as $type)
 		{
 			$types["$type"] = $type;
 		}
 
-		$select = new ilSelectInputGUI("type", "type");
+		$select = new ilSelectInputGUI($this->lng->txt("type"), "type");
 		$select->setOptions($types);
 		$this->addFilterItem($select);
 		$select->readFromSession();
 		$this->filter["type"] = $select->getValue();
 
 		// status
-		$status = array(
-			"notassigned" => $this->lng->txt("not_assigned"),
-			"assigned" => $this->lng->txt("assigned"),
-			"all" => $this->lng->txt("both")
-		);
-		$select = new ilSelectInputGUI("status", "status");
-		$select->setOptions($status);
-		$this->addFilterItem($select);
-		$this->filter['status'] = $select->getValue();
+		$status = array();
+		$status[0] = $this->lng->txt("sess_filter_all_status");
+		$status["notassigned"] = $this->lng->txt("sess_filter_not_assigned");
+		$status["assigned"] = $this->lng->txt("assigned");
+
+		$select_status = new ilSelectInputGUI($this->lng->txt("status"), "status");
+		$select_status->setOptions($status);
+		$this->addFilterItem($select_status);
+		$select_status->readFromSession();
+		$this->filter['status'] = $select_status->getValue();
 	}
 }

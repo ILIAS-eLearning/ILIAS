@@ -14347,3 +14347,6 @@ exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
+sess#:#sess_filter_all_status#:#All status
+sess#:#sess_filter_all_types#:#All types
+sess#:#sess_filter_not_assigned#:#Not Assigned
