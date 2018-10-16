@@ -314,6 +314,33 @@ class ilBadgeAssignment
 		}
 	}
 	
+	/**
+	 * Get badges for user
+	 * @param int $a_user_id
+	 * @param int $a_ts_from
+	 * @param int $a_ts_to
+	 * @return array
+	 */
+	public static function getBadgesForUser($a_user_id, $a_ts_from, $a_ts_to)
+	{
+		global $DIC;
+		
+		$db = $DIC->database();
+		
+		$set = $db->queryF("SELECT bdg.parent_id, ub.tstamp, bdg.title FROM badge_user_badge ub JOIN badge_badge bdg".
+			" ON (ub.badge_id = bdg.id) ".
+			" WHERE ub.user_id = %s AND ub.tstamp >= %s AND ub.tstamp <= %s",
+			array("integer","integer","integer"),
+			array($a_user_id, $a_ts_from, $a_ts_to)
+			);
+		$res = [];
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$res[] = $rec;
+		}
+		return $res;
+	}
+	
 	
 	//
 	// PUBLISHING

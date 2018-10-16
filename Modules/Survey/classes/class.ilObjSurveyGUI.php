@@ -1272,9 +1272,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
 					$rmdt->addOption($option);
 				}
-				$rmdt->setValue($this->object->getReminderTemplate()
-					? $this->object->getReminderTemplate()
-					: -1);
+
+				$reminderTemplateValue = -1;
+				if ($this->object->getReminderTemplate()) {
+					$reminderTemplateValue = $this->object->getReminderTemplate();
+				}
+				$rmdt->setValue($reminderTemplateValue);
 				$rmd->addSubItem($rmdt);
 			}
 		}

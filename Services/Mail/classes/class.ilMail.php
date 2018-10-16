@@ -725,7 +725,7 @@ class ilMail
 	{
 		try {
 			if ($this->contextId) {
-				$context = ilMailTemplateService::getTemplateContextById($this->contextId);
+				$context = ilMailTemplateContextService::getTemplateContextById($this->contextId);
 			} else {
 				$context = new ilMailTemplateGenericContext();
 			}

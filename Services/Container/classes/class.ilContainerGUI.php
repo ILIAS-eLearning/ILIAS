@@ -1169,7 +1169,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				global $DIC;
 				/** @var \ilObjectCustomIconFactory $customIconFactory */
 				$customIconFactory = $DIC['object.customicons.factory'];
-				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+				$customIcon = $customIconFactory->getPresenterByObjId($a_item_obj_id, $a_image_type);
 
 				if ($customIcon->exists()) {
 					$icon = $customIcon->getFullPath();
@@ -2083,7 +2083,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tree->moveTree($ref_id, $folder_ref_id);
 					$rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 					
-					include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+					include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 					ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 	
 					// BEGIN ChangeEvent: Record cut event.
@@ -2494,7 +2494,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->tree->moveTree($ref_id,$this->object->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
 				
-				include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+				include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
 				// BEGIN ChangeEvent: Record cut event.

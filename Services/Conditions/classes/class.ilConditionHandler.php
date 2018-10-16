@@ -3,6 +3,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+ *
+ * INTERNAL CLASS: Please do not use in consumer code.
+ *
+ *
+ *
 * Handles conditions for accesses to different ILIAS objects
 *
 * A condition consists of four elements:
@@ -20,12 +25,20 @@
 * (Note: This table must not be accessed directly from other classes.
 * The data should be accessed via the interface of class ilCondition.)
 *   cond_id					INT			condition id
-*   trigger_obj_type		VARCHAR(10)	"crs" | "tst" | "qst", ...
-*   trigger_id				INT			obj id of trigger object
+*   trigger_obj_type		VARCHAR(10)	"crs" | "tst" | ...
+*   trigger_ref_id			INT			obj id of trigger object	(only exception where this is 0 are currently (5.3) course groupings this might be refactored
+*   trigger_obj_id			INT			obj id of trigger object
 *   operator				varchar(10  "=", "<", ">", ">=", "<=", "passed", "contains", ...
 *   value					VARCHAR(10) optional value
-*   target_obj_type			VARCHAR(10)	"lm" | "frm" | "st" | "pg", ...
-*   target_id				object or reference id of target object
+*   target_obj_type			VARCHAR(10)	"lm" | "frm" | "st", "lobj", ...
+*   target_obj_id			object id of target object
+*   target_ref_id			reference id of target object
+ *
+ * Special current targets (5.3)
+ * - learning objectives: type: "lobj"; obj_id: objective id; ref_id: ref id of course
+ * - lm chapters: type: "st"; obj_id: chapter id, ref_id: ref id of learning module
+ *
+ *
 *
 * Trigger objects are always stored with their object id (if a test has been
 * passed by a user, he doesn't need to repeat it in other contexts. But
@@ -74,7 +87,8 @@ class ilConditionHandler
 	const OPERATOR_ACCREDITED_OR_PASSED = 'accredited_or_passed';
 	
 	const UNIQUE_CONDITIONS = 1;
-	const SHARED_CONDITIONS = 0;
+	const SHARED_CONDITIONS = 0;			// conditions are used for all tree references of the target object
+											// this is currently only used for lm chapters and likely to be abandonded in the future
 	
 	var $db;
 	var $lng;
@@ -136,13 +150,49 @@ class ilConditionHandler
 				return false;
 		}
 	}
-	
+
 	/**
-	 * Lookup hidden status
-	 * @global type $ilDB
-	 * @param type $a_target_ref_id
+	 * Lookup hidden status (also take container control into account)
+	 * @param int $a_target_ref_id
+	 * @return bool
 	 */
-	public static function lookupHiddenStatusByTarget($a_target_ref_id)
+	public static function lookupEffectiveHiddenStatusByTarget($a_target_ref_id)
+	{
+		global $DIC;
+
+		$obj_definition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
+
+		// check if parent takes over control of condition
+		$parent_ref_id = $tree->getParentId($a_target_ref_id);
+		$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+		$parent_type = ilObject::_lookupType($parent_obj_id);
+
+		$class = $obj_definition->getClassName($parent_type);
+		$class_name = "il".$class."ConditionController";
+		$location = $obj_definition->getLocation($parent_type);
+
+		// if yes, get from parent
+		if ($class != "" && is_file($location."/class.".$class_name.".php"))
+		{
+			/** @var ilConditionControllerInterface $controller */
+			$controller = new $class_name();
+			if ($controller->isContainerConditionController($parent_ref_id))
+			{
+				$set = $controller->getConditionSetForRepositoryObject($a_target_ref_id);
+				return $set->getHiddenStatus();
+			}
+		}
+
+		return self::lookupPersistedHiddenStatusByTarget($a_target_ref_id);
+	}
+
+	/**
+	 * Lookup persistedhidden status
+	 * @param int $a_target_ref_id
+	 * @return bool
+	 */
+	public static function lookupPersistedHiddenStatusByTarget($a_target_ref_id)
 	{
 		global $DIC;
 
@@ -171,6 +221,8 @@ class ilConditionHandler
 	public static function _adjustMovedObjectConditions($a_ref_id)
 	{
 		global $DIC;
+
+		return true;
 
 		$tree = $DIC['tree'];
 		
@@ -201,7 +253,7 @@ class ilConditionHandler
 	 * @static
 	 *
 	 */
-	public static function _getDistinctTargetRefIds()
+	protected static function _getDistinctTargetRefIds()
 	{
 		global $DIC;
 
@@ -226,7 +278,7 @@ class ilConditionHandler
 	 *
 	 * @param int ref id of target
 	 */
-	public static function _deleteTargetConditionsByRefId($a_target_ref_id)
+	protected static function _deleteTargetConditionsByRefId($a_target_ref_id)
 	{
 		global $DIC;
 
@@ -454,7 +506,7 @@ class ilConditionHandler
 		{
 			if(@include_once $p_info['location'].'/class.ilObj'.$p_info['class_name'].'Access.php')
 			{
-				include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+				include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 				$name = 'ilObj'.$p_info['class_name'].'Access';
 				$reflection = new ReflectionClass($name);
 				if($reflection->implementsInterface('ilConditionHandling'))
@@ -468,7 +520,7 @@ class ilConditionHandler
 		$active_triggers = array();
 		foreach($trigger_types as $type)
 		{
-			if(count($this->getOperatorsByTargetType($type)))
+			if(count($this->getOperatorsByTriggerType($type)))
 			{
 				$active_triggers[] = $type;
 			}
@@ -482,11 +534,11 @@ class ilConditionHandler
 
 
 	/**
-	 * Get operators by target type
+	 * Get operators by trigger type
 	 * @param string $a_type
-	 * @return type
+	 * @return string[]
 	 */
-	public function getOperatorsByTargetType($a_type)
+	public function getOperatorsByTriggerType($a_type)
 	{
 		global $DIC;
 
@@ -503,7 +555,7 @@ class ilConditionHandler
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 		
-		include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+		include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 		
 		$reflection = new ReflectionClass($full_class);
 		if(!$reflection->implementsInterface('ilConditionHandling'))
@@ -533,8 +585,6 @@ class ilConditionHandler
 
 	/**
 	* store new condition in database
-	* NOT STATIC
-	* @access	public
 	*/
 	function storeCondition()
 	{
@@ -698,12 +748,13 @@ class ilConditionHandler
 
 		return true;
 	}
-	
+
+
 	/**
-	* get all conditions of trigger object
-	* @static
-	*/
-	static function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
+	 * Get all persisted conditions of trigger object
+	 * Note: This only gets persisted conditions NOT (dynamic) conditions send by the parent container logic.
+	 */
+	static function _getPersistedConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
 		global $DIC;
 
@@ -737,21 +788,89 @@ class ilConditionHandler
 	}
 
 	/**
-	* get all conditions of target object
-	* @param    $a_target_ref_id    target reference id
-	* @param	$a_target_obj_id	target object id
-	* @param	$a_target_type		target object type (must be provided only
-	*								if object is not derived from ilObject
-	*								and therefore stored in object_data; this
-	*								is e.g. the case for chapters (type = "st"))
-	* @static
-	*/
-	public static function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
+	 * get all conditions of target object (also take container control into account)
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 * @param string $a_target_type
+	 * @return array
+	 */
+	public static function _getEffectiveConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
+	{
+		global $DIC;
+
+		$obj_definition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
+
+		// get type if no type given
+		if ($a_target_type == "")
+		{
+			$a_target_type = ilObject::_lookupType($a_target_obj_id);
+		}
+
+		// check if parent takes over control of condition
+		$parent_ref_id = $tree->getParentId($a_target_ref_id);
+		$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+		$parent_type = ilObject::_lookupType($parent_obj_id);
+
+		$class = $obj_definition->getClassName($parent_type);
+		$class_name = "il".$class."ConditionController";
+		$location = $obj_definition->getLocation($parent_type);
+
+		// if yes, get from parent
+		if ($class != "" && is_file($location."/class.".$class_name.".php")
+			&& $a_target_type == ilObject::_lookupType($a_target_ref_id, true))
+		{
+			/** @var ilConditionControllerInterface $controller */
+			$controller = new $class_name();
+			if ($controller->isContainerConditionController($parent_ref_id))
+			{
+				/** @var ilConditionSet $set */
+				$set = $controller->getConditionSetForRepositoryObject($a_target_ref_id);
+
+				// convert to old structure
+				$cond = array();
+				foreach ($set->getConditions() as $c)
+				{
+					$obligatory = $set->getAllObligatory()
+						? true
+						: $c->getObligatory();
+					$trigger = $c->getTrigger();
+					$cond[] = array(
+						"target_ref_id" => $a_target_ref_id,
+						"target_obj_id" => $a_target_obj_id,
+						"target_type" => $a_target_type,
+						"trigger_ref_id" => $trigger->getRefId(),
+						"trigger_obj_id" => $trigger->getObjId(),
+						"trigger_type" => $trigger->getType(),
+						"operator" => $c->getOperator(),
+						"value" => $c->getValue(),
+						"ref_handling" => 1,
+						"obligatory" => (int) $obligatory,
+						"num_obligatory" => $set->getNumObligatory(),
+						"hidden_status" => (int) $set->getHiddenStatus()
+					);
+
+				}
+				return $cond;
+
+			}
+		}
+
+		return self::_getPersistedConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type);
+	}
+
+	/**
+	 * get all persisted conditions of target object
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 * @param string $a_target_type
+	 * @return array
+	 */
+	public static function _getPersistedConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilBench = $DIC['ilBench'];
 
 		// get type if no type given
 		if ($a_target_type == "")
@@ -816,7 +935,7 @@ class ilConditionHandler
 	 * @param
 	 * @return
 	 */
-	static function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
+	static function preloadPersistedConditionsForTargetRecords($a_type, $a_obj_ids)
 	{
 		global $DIC;
 
@@ -881,16 +1000,16 @@ class ilConditionHandler
 	* every trigger object type must implement a static method
 	* _checkCondition($a_operator, $a_value)
 	*/
-	static function _checkCondition($a_id,$a_usr_id = 0)
+	static function _checkCondition($condition, $a_usr_id = 0)
 	{
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
 		$objDefinition = $DIC['objDefinition'];
-		
+
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
-		$condition = ilConditionHandler::_getCondition($a_id);
+		//$condition = ilConditionHandler::_getCondition($a_id);
 		
 		// check lp 
 		if($condition['operator'] == self::OPERATOR_LP)
@@ -925,10 +1044,12 @@ class ilConditionHandler
 	 * Get optional conditions
 	 * @param int $a_target_ref_id
 	 * @param int $a_target_obj_id
+	 * @param string $a_obj_type
+	 * @return array
 	 */
-	public static function getOptionalConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_obj_type = '')
+	public static function getEffectiveOptionalConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_obj_type = '')
 	{
-		$conditions = self::_getConditionsOfTarget($a_target_ref_id,$a_target_obj_id);
+		$conditions = self::_getEffectiveConditionsOfTarget($a_target_ref_id,$a_target_obj_id);
 		
 		$opt = array();
 		foreach($conditions as $con)
@@ -943,6 +1064,31 @@ class ilConditionHandler
 		return $opt;
 	}
 	
+	/**
+	 * Get optional conditions
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 * @param string $a_obj_type
+	 * @return array
+	 */
+	public static function getPersistedOptionalConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_obj_type = '')
+	{
+		$conditions = self::_getPersistedConditionsOfTarget($a_target_ref_id,$a_target_obj_id);
+
+		$opt = array();
+		foreach($conditions as $con)
+		{
+			if($con['obligatory'])
+			{
+				continue;
+			}
+
+			$opt[] = $con;
+		}
+		return $opt;
+	}
+
+
 	/**
 	 * Lookup obligatory conditions of target
 	 * @param type $a_target_ref_id
@@ -974,15 +1120,56 @@ class ilConditionHandler
 	 * @param int $a_target_obj_id
 	 * @return int
 	 */
-	public static function calculateRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '', $a_force_update = false)
+	public static function calculateEffectiveRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '')
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
 		// Get all conditions
-		$all = self::_getConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_target_obj_type);
-		$opt = self::getOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id,$a_target_obj_type);
+		$all = self::_getEffectiveConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_target_obj_type);
+		$opt = self::getEffectiveOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id,$a_target_obj_type);
+
+		$set_obl = 0;
+		if(isset($all[0]))
+		{
+			$set_obl = $all[0]['num_obligatory'];
+		}
+
+		// existing value is valid
+		if($set_obl > 0 and
+			$set_obl < count($all) and
+			$set_obl > (count($all) - count($opt)  + 1))
+		{
+			return $set_obl;
+		}
+
+		if(count($opt))
+		{
+			$result = count($all) - count($opt) + 1;
+		}
+		else
+		{
+			$result = count($all);
+		}
+		return $result;
+	}
+
+	/**
+	 * calculate number of obligatory items
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 * @return int
+	 */
+	public static function calculatePersistedRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '', $a_force_update = false)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		// Get all conditions
+		$all = self::_getPersistedConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_target_obj_type);
+		$opt = self::getPersistedOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id,$a_target_obj_type);
 
 		$set_obl = 0;
 		if(isset($all[0]))
@@ -1039,13 +1226,12 @@ class ilConditionHandler
 	{
 		global $DIC;
 
-		$ilBench = $DIC['ilBench'];
 		$ilUser = $DIC['ilUser'];
 		$tree = $DIC['tree'];
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
-		$conditions = ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type);
+		$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type);
 
 		if(!count($conditions))
 		{
@@ -1060,8 +1246,8 @@ class ilConditionHandler
 		}
 
 		// First check obligatory conditions
-		$optional = self::getOptionalConditionsOfTarget($a_target_ref_id, $a_target_id, $a_target_type);
-		$num_required = self::calculateRequiredTriggers($a_target_ref_id, $a_target_id, $a_target_type);
+		$optional = self::getEffectiveOptionalConditionsOfTarget($a_target_ref_id, $a_target_id, $a_target_type);
+		$num_required = self::calculateEffectiveRequiredTriggers($a_target_ref_id, $a_target_id, $a_target_type);
 		$passed = 0;
 		foreach($conditions as $condition)
 		{
@@ -1069,7 +1255,7 @@ class ilConditionHandler
 			{
 				continue;
 			}
-			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
+			$check = ilConditionHandler::_checkCondition($condition,$a_usr_id);
 
 			if($check)
 			{
@@ -1092,7 +1278,7 @@ class ilConditionHandler
 	}
 
 	// PRIVATE
-	function validate()
+	protected function validate()
 	{
 		global $DIC;
 
@@ -1130,9 +1316,9 @@ class ilConditionHandler
 		return true;
 	}
 
-	function checkCircle($a_ref_id,$a_obj_id)
+	protected function checkCircle($a_ref_id,$a_obj_id)
 	{
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_ref_id,$a_obj_id) as $condition)
+		foreach(ilConditionHandler::_getPersistedConditionsOfTarget($a_ref_id,$a_obj_id) as $condition)
 		{
 			if($condition['trigger_obj_id'] == $this->target_obj_id and $condition['operator'] == $this->getOperator())
 			{
@@ -1154,7 +1340,7 @@ class ilConditionHandler
 		$mappings = $cwo->getMappings();
 
 		$valid = 0;
-		$conditions = ilConditionHandler::_getConditionsOfTarget($a_src_ref_id, ilObject::_lookupObjId($a_src_ref_id));
+		$conditions = ilConditionHandler::_getPersistedConditionsOfTarget($a_src_ref_id, ilObject::_lookupObjId($a_src_ref_id));
 		foreach($conditions as $con)
 		{
 			if($mappings[$con['trigger_ref_id']])
@@ -1181,7 +1367,7 @@ class ilConditionHandler
 				$newCondition->setObligatory($con['obligatory']);
 				
 				// :TODO: not sure about this
-				$newCondition->setHiddenStatus(self::lookupHiddenStatusByTarget($a_src_ref_id));
+				$newCondition->setHiddenStatus(self::lookupPersistedHiddenStatusByTarget($a_src_ref_id));
 				
 				if($newCondition->storeCondition())
 				{
@@ -1194,7 +1380,7 @@ class ilConditionHandler
 			$tgt_obj_id = ilObject::_lookupObjId($a_target_ref_id);
 			
 			// num_obligatory
-			self::calculateRequiredTriggers($a_target_ref_id, $tgt_obj_id, ilObject::_lookupType($tgt_obj_id), true);
+			self::calculatePersistedRequiredTriggers($a_target_ref_id, $tgt_obj_id, ilObject::_lookupType($tgt_obj_id), true);
 		}
 	}
 }
