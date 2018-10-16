@@ -183,6 +183,7 @@ abstract class ilAuthBase
 				include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
 				ilOnlineTracking::addUser($user_id);
 
+				include_once 'Modules/Forum/classes/class.ilObjForum.php';
 				ilObjForum::_updateOldAccess($user_id);
 
 				require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';

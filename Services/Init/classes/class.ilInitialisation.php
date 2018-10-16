@@ -924,7 +924,7 @@ class ilInitialisation
 		self::initGlobal("ilAccess", "ilAccess",
 			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
-		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
+		require_once "./Services/Conditions/classes/class.ilConditionHandler.php";
 	}
 	
 	/**

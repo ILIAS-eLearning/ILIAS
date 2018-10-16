@@ -19,12 +19,15 @@ interface TOCBuilder {
 	 *
 	 * @return	ControlBuilder|TOCBuilder depending on the nesting level.
 	 */
-	public function end(string $command);
+	public function end();
 
 	/**
 	 * Build a sub tree in the TOC.
 	 *
 	 * If a parameter is provided, the node in the TOC can be accessed itself.
+	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
 	 *
 	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
@@ -34,6 +37,9 @@ interface TOCBuilder {
 	 * Build an entry in the TOC.
 	 *
 	 * The parameter will be appended to the command when updating the state.
+	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
 	 *
 	 * @param	mixed $state one of the LP_ constants from TOCBuilder
 	 */
