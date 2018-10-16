@@ -43,8 +43,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("status"), "active", 5);
 		$this->setSelectAllCheckbox('items');
 
-		$this->setFilterCommand($this->getParentCmd()."Apply");
-		$this->setResetCommand($this->getParentCmd()."Reset");
+		$this->setFilterCommand("applyFilter");
+		$this->setResetCommand("resetFilter");
 
 		$this->initFilter();
 	}
@@ -84,8 +84,30 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
 
+		if(!empty($this->filter)){
+			$materials = $this->filterData($materials);
+		}
 		return $materials;
 		//$this->setData($materials);
+	}
+
+	function filterData($a_data)
+	{
+		$data_filtered = $a_data;
+
+		//Filter by title
+		if($this->filter["title"])
+		{
+			foreach ($data_filtered as $key => $material)
+			{
+				$title = $material["title"];
+				if(stripos($title, $this->filter["title"]) === false)
+				{
+					unset($data_filtered[$key]);
+				}
+			}
+		}
+		return $data_filtered;
 	}
 
 	function setMaterials($a_materials)

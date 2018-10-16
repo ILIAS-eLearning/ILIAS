@@ -164,6 +164,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 		
 			default:
+				if($cmd == "applyFilter") {
+					$cmd == "applyFilter";
+					$this->$cmd();
+				}elseif ($cmd == "resetFilter"){
+					$cmd == "resetFilter";
+					$this->$cmd();
+				}
 				if(!$cmd)
 				{
 					$cmd = "infoScreen";
@@ -1193,11 +1200,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function applyFilter()
 	{
-		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
 		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
 		$tbl->writeFilterToSession();	// writes filter to session
 		$tbl->resetOffset();		// sets record offest to 0 (first page)
-		die("apply filter");
+		$this->ctrl->redirect($this,"materials");
 	}
 
 	/**
@@ -1205,11 +1211,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function resetFilter()
 	{
-		include_once("./.../classes/class.ilMyTableGUI.php");
-		$table_gui = new ilMyTableGUI($this, "showSomeDataList");
-		$table_gui->resetOffset();		// sets record offest to 0 (first page)
-		$table_gui->resetFilter();		// clears filter
-		die("removed filter, show all data");
+		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+		$tbl->resetOffset();		// sets record offest to 0 (first page)
+		$tbl->resetFilter();		// clears filter
+		$this->ctrl->redirect($this,"materials");
 	}
 
 	/**
