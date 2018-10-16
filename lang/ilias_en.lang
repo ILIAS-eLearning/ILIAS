@@ -368,12 +368,6 @@ assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
 assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.
 assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
-assessment#:#tst_proceed#:#Proceed
-assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
-assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.
-assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question
-assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
@@ -14305,8 +14299,6 @@ adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-common#:#presentation_table_more#:#more
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
