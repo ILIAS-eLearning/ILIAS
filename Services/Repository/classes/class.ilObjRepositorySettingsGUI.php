@@ -162,32 +162,26 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$radg->addOption($op2);
 
 		$form->addItem($radg);	
-	
-		/* OBSOLETE
-		// synchronize repository tree with main view
-		$cb = new ilCheckboxInputGUI($this->lng->txt("adm_synchronize_rep_tree"), "rep_tree_synchronize");
-		$cb->setInfo($this->lng->txt("adm_synchronize_rep_tree_info"));
-		$cb->setChecked($ilSetting->get("rep_tree_synchronize"));
-		$form->addItem($cb);
-		*/
-		
-		/* DISABLED
-		// repository access check
-		$options = array(
-			0 => "0",
-			10 => "10",
-			30 => "30",
-			60 => "60",
-			120 => "120"
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("adm_repository_cache_time"), "rep_cache");
-		$si->setOptions($options);
-		$si->setValue($ilSetting->get("rep_cache"));
-		$si->setInfo($this->lng->txt("adm_repository_cache_time_info")." ".
-			$this->lng->txt("adm_repository_cache_time_info2"));
-		$form->addItem($si);
-		*/
-	
+
+		// breadcrumbs start with courses
+		//
+		$radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs_overwrite");
+		$radg->setValue((int) $ilSetting->get("rep_breadcr_crs_overwrite"));
+		$op1 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite_not"), 0);
+		$radg->addOption($op1);
+
+			$cb = new ilCheckboxInputGUI($this->lng->txt("active"), "rep_breadcr_crs1");
+			$cb->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
+			$op1->addSubItem($cb);
+
+		$op2 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), 1);
+			$cb2 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs2");
+			$cb2->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
+			$op2->addSubItem($cb2);
+		$radg->addOption($op2);
+		$form->addItem($radg);
+
+
 		// trash
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
 		$cb->setInfo($this->lng->txt("enable_trash_info"));
@@ -288,8 +282,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			// $ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			// $ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);	
 			
-			$ilSetting->set("enable_trash", $_POST["enable_trash"]);	
-			 
+			$ilSetting->set("enable_trash", $_POST["enable_trash"]);
+
+
+			$ilSetting->set("rep_breadcr_crs_overwrite", (int) $_POST["rep_breadcr_crs_overwrite"]);
+			if ($_POST["rep_breadcr_crs_overwrite"])
+			{
+				$ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs2"]);
+			}
+			else
+			{
+				$ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs1"]);
+			}
+
 			$ilSetting->set("rep_shorten_description", $form->getInput('rep_shorten_description'));
 			$ilSetting->set("rep_shorten_description_length", (int)$form->getInput('rep_shorten_description_length'));										
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);			
