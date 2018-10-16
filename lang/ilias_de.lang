@@ -10464,6 +10464,7 @@ tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
 tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
 tos#:#tos_crit_type_usr_language#:#Profilesprache
 tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist. Bitte beachten Sie, dass Sie nur ein Kriterium dieses Typs hinzufügen können.
+tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben

@@ -384,14 +384,15 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
+		$showGlobalTermsOfServieFailure  = false;
 		if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
 			if ($agr_obj) {
 				$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+				$form_valid = false;
 			} else {
-				ilUtil::sendFailure($lng->txt('force_accept_usr_agreement'));
+				$showGlobalTermsOfServieFailure = true;
 			}
-			$form_valid = false;
 		}
 
 		// no need if role is attached to code
@@ -444,9 +445,16 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(!$form_valid)
+		if (!$form_valid)
 		{
 			ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+		}
+		elseif($showGlobalTermsOfServieFailure) {
+			$this->lng->loadLanguageModule('tos');
+			\ilUtil::sendFailure(sprintf(
+				$this->lng->txt('tos_account_reg_not_possible'),
+				'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+			));
 		}
 		else
 		{
