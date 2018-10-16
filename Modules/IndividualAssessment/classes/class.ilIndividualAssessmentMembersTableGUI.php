@@ -1,5 +1,7 @@
 <?php
-/* @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de> */
+/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
+/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
@@ -7,19 +9,20 @@ require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 /**
  * List of members fo iass
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ilIndividualAssessmentMembersTableGUI {
 
 	public function __construct(
+		ilIndividualAssessmentMembersGUI $parent,
 		ilLanguage $lng,
+		ilCtrl $ctrl,
 		ilIndividualAssessmentAccessHandler $iass_access,
 		$current_user_id
 	) {
-		$this->iass_access = $iass_access;
+		$this->parent = $parent;
 		$this->lng = $lng;
+		$this->ctrl = $ctrl;
+		$this->iass_access = $iass_access;
 		$this->current_user_id = $current_user_id;
 	}
 
@@ -65,14 +68,17 @@ class ilIndividualAssessmentMembersTableGUI {
 				$subheadline = $this->getSubheadline($record);
 				$important_infos = $this->importantInfos($record);
 				$further_fields = $this->getFurtherFields($record);
-				//$content = $this->getContent($record);
+				$content = $this->getContent($record);
+				$action = $this->getAction($record, $ui_factory);
 
 				$row = $row
 					->withHeadline($headline)
 					->withSubheadline($subheadline)
 					->withImportantFields($important_infos)
-					->withContent($ui_factory->listing()->descriptive(array()))
-					->withFurtherFields($further_fields);
+					->withContent($ui_factory->listing()->descriptive($content))
+					->withFurtherFieldsHeadline($this->lng->txt("iass_further_field_headline"))
+					->withFurtherFields($further_fields)
+					->withAction($action);
 
 				return $row;
 			}
@@ -82,11 +88,17 @@ class ilIndividualAssessmentMembersTableGUI {
 		return $renderer->render($ptable->withData($data));
 	}
 
+	/**
+	 * Returns the headline for each row
+	 */
 	protected function getHeadline(ilIndividualAssessmentMember $record)
 	{
 		return $record->lastname().", ".$record->firstname();
 	}
 
+	/**
+	 * Returns the subheadline for each row
+	 */
 	protected function getSubheadline(ilIndividualAssessmentMember $record)
 	{
 		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
@@ -96,6 +108,9 @@ class ilIndividualAssessmentMembersTableGUI {
 		return $this->lng->txt("grading").": ".$this->getStatus($record->finalized(), $record->LPStatus(), $record->examinerId());
 	}
 
+	/**
+	 * Returns all informations needed for important row
+	 */
 	protected function importantInfos(ilIndividualAssessmentMember $record)
 	{
 		$finalized = $record->finalized();
@@ -115,6 +130,27 @@ class ilIndividualAssessmentMembersTableGUI {
 		return $ret;
 	}
 
+	/**
+	 * Return all content elements for each row
+	 */
+	protected function getContent(ilIndividualAssessmentMember $record)
+	{
+		$ret = [];
+		if(!$this->checkEditable($record->finalized(), $record->examinerId(),$record->id())
+			&& !$this->checkAmendable($record->finalized())
+		) {
+			return $ret;
+		}
+
+		$ret = array_merge($ret, $this->getRecordNote($record->record()));
+		$ret = array_merge($ret, $this->getInternalRecordNote($record->internalNote()));
+
+		return $ret;
+	}
+
+	/**
+	 * Returns all informations needed for further informations for each row
+	 */
 	protected function getFurtherFields(ilIndividualAssessmentMember $record)
 	{
 		$ret = [];
@@ -137,11 +173,54 @@ class ilIndividualAssessmentMembersTableGUI {
 		return $ret;
 	}
 
-	protected function getContent(ilIndividualAssessmentMember $record)
-	{
-		
+	/**
+	 * Return the ui control with executable actions
+	 */
+	protected function getAction(ilIndividualAssessmentMember $record, $ui_factory) {
+		$items = [];
+
+		$examiner_id = $record->examinerId();
+		$usr_id = $record->id();
+		$finalized = $record->finalized();
+		$file_name = $record->fileName();
+
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
+
+		if($this->checkViewable($finalized, $examiner_id, $usr_id)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
+			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_view'), $target);
+		}
+
+		if($this->checkEditable($finalized, $examiner_id, $usr_id)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
+			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_edit'), $target);
+		}
+
+		if($this->checkUserRemoveable($finalized)) {
+			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', $usr_id);
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMembersGUI', 'removeUserConfirmation');
+			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_remove'), $target);
+			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', null);
+		}
+
+		if($this->checkAmendable($finalized)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
+			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_amend'), $target);
+		}
+
+		if($this->checkDownloadFile($usr_id, $file_name)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_download_attachment'), $target);
+		}
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
+
+		$action = $ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("actions"));
+		return $action;
 	}
 
+	/**
+	 * Returns readable status
+	 */
 	protected function getStatus($finalized, $status, $examinerId)
 	{
 		if($status == 0)
@@ -156,6 +235,9 @@ class ilIndividualAssessmentMembersTableGUI {
 		return $this->getEntryForStatus($status);
 	}
 
+	/**
+	 * Returns informations about the grading
+	 */
 	protected function getGradedInformations(ilDateTime $event_time)
 	{
 		return array(
@@ -163,6 +245,9 @@ class ilIndividualAssessmentMembersTableGUI {
 		);
 	}
 
+	/**
+	 * Returns login of examinier
+	 */
 	protected function getExaminierLogin($examinerId)
 	{
 		return array(
@@ -170,14 +255,41 @@ class ilIndividualAssessmentMembersTableGUI {
 		);
 	}
 
+	/**
+	 * Returns the location of assessment
+	 */
 	protected function getLocationInfos($location, $finalized, $examinerId, $usr_id)
 	{
 		if(!$this->viewLocation($finalized, $examinerId, $usr_id)) {
 			return array();
 		}
-	
+
 		return array(
 			$this->lng->txt("iass_location").": " => $location
+		);
+	}
+
+	/**
+	 * Returns inforamtions out of record note
+	 */
+	protected function getRecordNote($record_note)
+	{
+		return array(
+			$this->lng->txt("iass_record").": " => $record_note
+		);
+	}
+
+	/**
+	 * Returns inforamtions out of internal record note
+	 */
+	protected function getInternalRecordNote($internal_note)
+	{
+		if(is_null($internal_note)) {
+			$internal_note = "";
+		}
+
+		return array(
+			$this->lng->txt("iass_internal_note").": " => $internal_note
 		);
 	}
 
@@ -205,16 +317,84 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 	}
 
+	/**
+	 * Check user may view the location
+	 */
 	protected function viewLocation($finalized, $examinerId, $usr_id)
 	{
-		if(($this->userIsSystemAdmin() && !$finalized)
-			|| (!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $this->wasEditedByViewer($examinerId))
+		return $this->checkEditable($finalized, $examinerId, $usr_id)
+			|| $this->checkAmendable($finalized);
+	}
+
+	/**
+	 * Check the current user has visible permission on record
+	 */
+	protected function checkViewable($finalized, $examinerId, $usr_id)
+	{
+		if (($this->userIsSystemAdmin() && $finalized)
+			|| ($finalized && (
+				($this->userMayEditGradesOf($usr_id)
+					&& $this->wasEditedByViewer($examinerId))
+				|| $this->userMayViewGrades())
+			)
 		) {
 			return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 * Check the current user has edit permission on record
+	 */
+	protected function checkEditable($finalized, $examinerId, $usr_id)
+	{
+		if(($this->userIsSystemAdmin() && !$finalized)
+			|| (!$finalized && $this->userMayEditGradesOf($$usr_id)
+				&& $this->wasEditedByViewer($examinerId)
+			)
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user has amend permission on record
+	 */
+	protected function checkAmendable($finalized)
+	{
 		if(($this->userIsSystemAdmin() && $finalized)
 			|| ($finalized && $this->userMayAmendGrades())
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user is allowed to remove the user
+	 */
+	protected function checkUserRemoveable($finalized)
+	{
+		if(($this->userIsSystemAdmin() && !$finalized)
+			|| (!$finalized && $this->userMayEditMembers())
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user is allowed to download the record file
+	 */
+	protected function checkDownloadFile($usr_id, $file_name)
+	{
+		if((!is_null($file_name) && $file_name !== '')
+			&& ($this->userIsSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
 		) {
 			return true;
 		}
@@ -248,6 +428,15 @@ class ilIndividualAssessmentMembersTableGUI {
 	 */
 	protected function userMayAmendGrades() {
 		return $this->iass_access->mayAmendGradeUser();
+	}
+
+	/**
+	 * User may amend members records.
+	 *
+	 * @return bool
+	 */
+	protected function userMayEditMembers() {
+		return $this->iass_access->mayEditMembers();
 	}
 
 	/**

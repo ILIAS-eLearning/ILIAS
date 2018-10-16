@@ -1,12 +1,14 @@
 <?php
+/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
+/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+
 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php';
 require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
  * It caries a LPStatus, which is set Individually.
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilIndividualAssessmentMemberGUI
@@ -107,7 +109,9 @@ class ilIndividualAssessmentMembersGUI {
 			}
 		}
 		$table = new ilIndividualAssessmentMembersTableGUI(
+			$this,
 			$this->lng,
+			$this->ctrl,
 			$this->object->accessHandler(),
 			$this->user->getId()
 		);
