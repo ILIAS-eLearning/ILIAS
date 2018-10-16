@@ -1930,8 +1930,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	 	if($ilAccess->checkAccess('write','',$this->object->getRefId())) {
 			$this->tabs_gui->addTarget('settings',
-				$this->ctrl->getLinkTarget($this, 'edit'));
-
+								 $this->ctrl->getLinkTarget($this,'edit'));
 		}
 		if($ilAccess->checkAccess('manage_materials','',$this->object->getRefId()))
 		{
