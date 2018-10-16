@@ -18,7 +18,8 @@ interface ilAsqQuestionOfflinePresentationExporter
 	
 	/**
 	 * @param ilAsqQuestionResourcesCollector $resourcesCollector
-	 * @return string
+	 * @param bool $a_no_interaction
+	 * @return \ILIAS\UI\Component\Component
 	 */
-	public function exportQuestion(ilAsqQuestionResourcesCollector $resourcesCollector) : string;
+	public function exportQuestion(ilAsqQuestionResourcesCollector $resourcesCollector, $a_no_interaction) : \ILIAS\UI\Component\Component;
 }

@@ -74,8 +74,8 @@ class ilQuestionExporter
 			{
 				$q_id = ilInternalLink::_extractObjIdOfTarget($a_ref_id);
 			}
-		} 
-
+		}
+		
 		$this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 
 		if (!is_object($this->q_gui->object))

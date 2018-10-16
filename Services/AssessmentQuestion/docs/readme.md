@@ -1,6 +1,6 @@
 # History
 
-Assessment questions were once embeded in a large component called Test and Assessment. The Test Question Pool object and the Test object of ILIAS were not strictly separated and the assessment question integartion was done within both components. This lead to a strong depency between the Test and the Test Question Pool object in the past. The codebase for the two modules was fully mixed up with the code for the questions.
+Assessment questions were once embeded in a large component called Test and Assessment. The Test Question Pool object and the Test object of ILIAS were not strictly separated and the assessment question integration was done within both components. This lead to a strong depency between the Test and the Test Question Pool object in the past. The codebase for the two modules was fully mixed up with the code for the questions.
 
 Today, this failure in architecture got fixed by fully separating the components and by extracting a new service AssessmentQuestion.
 
@@ -24,9 +24,13 @@ Objects implementing `ilAsqQuestion` represents the question entity itself while
 
 The interface `ilAsqPresentation` provides all functionality to output a question and its additional contents. Solutions get injected to keep the presentation as modular as possible.
 
-The interface `ilAsqResultCalculator` provides all functionality of calculating right/wrong for a given solution as well as reached points. Having this functionality in an own object following implementing this interface makes it possible for consumers to surround this kind calculators with an own proxy calculator implementing the same interface (e.g.for any score cutting options).
+The interface `ilAsqResultCalculator` provides all functionality of calculating right/wrong for a given solution as well as reached points. Having this functionality in an own object implementing this interface makes it possible for consumers to surround this kind calculators with an own proxy calculator implementing the same interface (e.g. for any score cutting options).
 
 The handling of solutions is defined by the interface `ilAsqQuestionSolution` so the future implementation is fully getting rid of dealing with solution values stored in row array structures that were queried from the database.
+
+When calculating results for an `ilAsqQuestionSolution` using the `ilAsqResultCalculator` an instance of `ilAsqQuestionResult` is returned that provides reached points as well as the state of right/wrong with corresponding getters.
+
+The implementation for the offline presentation of assessment questions is currently separated from the regular presentation, because it acts fully different. Therefore an `ilAsqQuestionOfflinePresentationExporter` is available, that handles the neccessary javascripts as well as collecting the required question resources (media files, mobs, additional js/css). For collecting the question resources an  `ilAsqQuestionResourcesCollector` is provided by the `ilAsqFactory` that is able to collect the depencies for multiple questions at once
 
 # Consumer Interface
 
@@ -75,7 +79,7 @@ Usage examples can be viewed within the file:
 ## Offline Export Consume
 
 Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exOfflinePresentationQuestionExporter.php
+* Services/AssessmentQuestion/examples/class.exPageContentQuestions.php
 
 # Decoupled Database
 
@@ -110,6 +114,10 @@ Die eigentliche, notwendige Entkopplung findet in diesem Schritten statt: Verlet
 * Should ilTable(2) be changed to support the Assessment Question service?
     * ilTable(2) does not support list iterators
     * ilTable(2) does not support row objects
+
+# Remaining Issues
+
+* The current implemenation for an offline export of questions (question presentation that acts client side) and the regular presentation implementation for questions using the solution backend of the assessment question service needs to be merged in the future
 
 # Future Requirements
 
