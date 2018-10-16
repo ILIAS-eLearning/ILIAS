@@ -69,7 +69,7 @@ class IdentificationFactory {
 	 * @return IdentificationProviderInterface
 	 */
 	public final function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new PluginIdentificationProvider(get_class($provider), $plugin->getId(), $this->serializer_factory->plugin());
+		return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin());
 	}
 
 

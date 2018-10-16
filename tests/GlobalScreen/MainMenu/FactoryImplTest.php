@@ -52,6 +52,7 @@ class FactoryImplTest extends TestCase {
 
 		$this->identification = new IdentificationFactory();
 		$this->provider = \Mockery::mock(StaticMainMenuProvider::class);
+		$this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
 
 		$this->id = $this->identification->core($this->provider)->identifier('dummy');
 

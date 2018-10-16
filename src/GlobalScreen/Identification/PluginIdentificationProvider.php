@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
+use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
  * Class PluginIdentificationProvider
@@ -10,6 +11,10 @@ use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
  */
 class PluginIdentificationProvider implements IdentificationProviderInterface {
 
+	/**
+	 * @var Provider
+	 */
+	protected $provider;
 	/**
 	 * @var SerializerInterface
 	 */
@@ -27,12 +32,13 @@ class PluginIdentificationProvider implements IdentificationProviderInterface {
 	/**
 	 * PluginIdentificationProvider constructor.
 	 *
-	 * @param string              $class_name
+	 * @param Provider            $provider
 	 * @param string              $plugin_id
 	 * @param SerializerInterface $serializer
 	 */
-	public function __construct(string $class_name, string $plugin_id, SerializerInterface $serializer) {
-		$this->class_name = $class_name;
+	public function __construct(Provider $provider, string $plugin_id, SerializerInterface $serializer) {
+		$this->provider = $provider;
+		$this->class_name = get_class($provider);
 		$this->plugin_id = $plugin_id;
 		$this->serializer = $serializer;
 	}
@@ -42,7 +48,9 @@ class PluginIdentificationProvider implements IdentificationProviderInterface {
 	 * @inheritdoc
 	 */
 	public function identifier(string $identifier_string): IdentificationInterface {
-		return new PluginIdentification($identifier_string, $this->class_name, $this->plugin_id, $this->serializer);
+		$this->provider->getProviderNameForPresentation();
+		exit;
+		return new PluginIdentification($this->plugin_id, $identifier_string, $this->class_name, $this->serializer, $this->provider->getProviderNameForPresentation());
 	}
 
 

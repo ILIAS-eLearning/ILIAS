@@ -22,16 +22,11 @@ class PluginIdentification extends AbstractIdentification implements Identificat
 
 
 	/**
-	 * PluginIdentification constructor.
-	 *
-	 * @param string              $internal_identifier
-	 * @param Provider            $provider
-	 * @param string              $plugin_id
-	 * @param SerializerInterface $serializer
+	 * @inheritDoc
 	 */
-	public function __construct(string $internal_identifier, Provider $provider, string $plugin_id, SerializerInterface $serializer) {
+	public function __construct(string $plugin_id, string $internal_identifier, string $classname, SerializerInterface $serializer, string $provider_presentation_name) {
+		parent::__construct($internal_identifier, $classname, $serializer, $provider_presentation_name);
 		$this->plugin_id = $plugin_id;
-		parent::__construct($internal_identifier, get_class($provider), $serializer, $provider->getProviderNameForPresentation());
 	}
 
 

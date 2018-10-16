@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
+use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 
 /**
  * Class PluginSerializer
@@ -35,7 +36,9 @@ class PluginSerializer implements SerializerInterface {
 		global $DIC;
 		list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		return new PluginIdentification($internal_identifier, new $class_name($DIC), $plugin_id, $this);
+		$f = new PluginIdentificationProvider(new $class_name($DIC), $plugin_id, $this);
+
+		return $f->identifier($internal_identifier);
 	}
 
 
