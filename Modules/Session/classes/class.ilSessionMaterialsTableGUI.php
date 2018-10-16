@@ -261,7 +261,6 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$filter_types = $this->typesAvailable();
 		$types = array();
 		$types[0] = $this->lng->txt('sess_filter_all_types');
-		$x = ilObjectDefinition::getRepositoryObjectTypesForComponent()
 		foreach($filter_types as $type)
 		{
 			$types["$type"] = $type;
