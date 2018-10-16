@@ -6621,7 +6621,11 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	public function getReminderMailTemplates()
+	/**
+	 * @param int $defaultTemplateId
+	 * @return array
+	 */
+	public function getReminderMailTemplates(&$defaultTemplateId = null)
 	{
 		global $DIC;
 
@@ -6631,6 +6635,9 @@ class ilObjSurvey extends ilObject
 		$templateService = $DIC['mail.texttemplates.service'];
 		foreach ($templateService->loadTemplatesForContextId((string)ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+			if (null !== $defaultTemplateId && $tmpl->isDefault()) {
+				$defaultTemplateId = $tmpl->getTplId();
+			}
 		}
 
 		return $res;
