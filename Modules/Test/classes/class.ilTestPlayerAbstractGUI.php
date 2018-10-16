@@ -832,8 +832,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
 
 		$finishTasks = new ilTestPassFinishTasks($this->testSession->getActiveId(), $this->object->getId());
-		$finishTasks->performFinishTasksBeforeArchiving();
-		$finishTasks->performFinishTasksAfterArchiving();
+		$finishTasks->performFinishTasks($this->processLocker);
 	}
 
 	protected function afterTestPassFinishedCmd()
