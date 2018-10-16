@@ -23,11 +23,6 @@ class ilObjectCustomIconFactory
 
 
 	/**
-	 * @var \ilDBInterface
-	 */
-	protected $dbInterface;
-	
-	/**
 	 * ilObjectCustomIconFactory constructor.
 	 * @param \ILIAS\Filesystem\Filesystem $webDirectory
 	 * @param \ILIAS\FileUpload\FileUpload $uploadService
@@ -35,22 +30,19 @@ class ilObjectCustomIconFactory
 	public function __construct(
 		\ILIAS\Filesystem\Filesystem $webDirectory,
 		\ILIAS\FileUpload\FileUpload $uploadService,
-		\ilObjectDataCache $objectCache,
-		\ilDBInterface $db
+		\ilObjectDataCache $objectCache
 	)
 	{
 		$this->webDirectory  = $webDirectory;
 		$this->uploadService = $uploadService;
 		$this->objectCache   = $objectCache;
-		$this->dbInterface   = $db;
-
 	}
 
 	/**
 	 * @var string $type
 	 * @return \ilCustomIconObjectConfiguration
 	 */
-	public function getConfigurationByType($type)
+	public function getConfigurationByType(string $type) : \ilCustomIconObjectConfiguration
 	{
 		switch ($type) {
 			case 'grp':
@@ -73,11 +65,11 @@ class ilObjectCustomIconFactory
 	}
 
 	/**
-	 * @param string $objId The obj_id of the ILIAS object.
+	 * @param int $objId The obj_id of the ILIAS object.
 	 * @param string $objType An optional type of the ILIAS object. If not passed, the type will be determined automatically.
-	 * @return \ilObjectCustomIconImpl
+	 * @return \ilObjectCustomIcon
 	 */
-	public function getByObjId($objId, $objType = '')
+	public function getByObjId(int $objId, string $objType = '') : \ilObjectCustomIcon
 	{
 		if (0 === strlen($objType)) {
 			$objType = $this->objectCache->lookupType($objId);
@@ -95,12 +87,12 @@ class ilObjectCustomIconFactory
 	/**
 	 * Get custom icon presenter
 	 *
-	 * @param $objId
-	 * @param $objType
+	 * @param int $objId
+	 * @param string $objType
 	 *
 	 * @return \ilObjectCustomIconPresenter
 	 */
-	public function getPresenterByObjId($objId, $objType)
+	public function getPresenterByObjId(int $objId, string $objType) : \ilObjectCustomIconPresenter
 	{
 		if (0 === strlen($objType)) {
 			$objType = $this->objectCache->lookupType($objId);
@@ -112,8 +104,8 @@ class ilObjectCustomIconFactory
 			case 'catr':
 			case 'grpr':
 			case 'crsr':
-				$target_obj_id = \ilObjectReferenceCustomIconPresenter::lookupTargetId($objId, $this->dbInterface);
-				$presenter = new \ilObjectReferenceCustomIconPresenter($this->getByObjId($target_obj_id));
+				$presenter = new \ilObjectReferenceCustomIconPresenter($objId, $this);
+				$presenter->init();
 				break;
 
 			default:
