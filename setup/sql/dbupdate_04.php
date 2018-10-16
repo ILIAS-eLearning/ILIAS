@@ -22814,3 +22814,18 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5306>
+<?php
+if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
+	$ilDB->addTableColumn(
+		'mail_man_tpl',
+		'is_default',
+		[
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0,
+		]
+	);
+}
+?>

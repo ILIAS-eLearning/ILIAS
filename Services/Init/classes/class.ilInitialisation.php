@@ -624,12 +624,13 @@ class ilInitialisation
 	protected static function initMail(\ILIAS\DI\Container $c)
 	{
 		$c["mail.mime.transport.factory"] = function ($c) {
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
-			return new ilMailMimeTransportFactory($c["ilSetting"]);
+			return new \ilMailMimeTransportFactory($c["ilSetting"]);
 		};
 		$c["mail.mime.sender.factory"] = function ($c) {
-			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
-			return new ilMailMimeSenderFactory($c["ilSetting"]);
+			return new \ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+		$c["mail.texttemplates.service"] = function ($c) {
+			return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
 		};
 	}
 
@@ -654,8 +655,7 @@ class ilInitialisation
 	protected static function initAvatar(\ILIAS\DI\Container $c)
 	{
 		$c["user.avatar.factory"] = function ($c) {
-			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
-			return new ilUserAvatarFactory($c);
+			return new \ilUserAvatarFactory($c);
 		};
 	}
 
