@@ -785,6 +785,8 @@ class ilMailFormGUI
 
 						if (!isset($mailData['template_id']) && $template->isDefault()) {
 							$template_chb->setValue($template->getTplId());
+							$form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
+							$mailData["m_message"] = $template->getMessage();
 						}
 					}
 					if (isset($mailData['template_id'])) {
