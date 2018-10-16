@@ -374,11 +374,21 @@ class ilGlossaryTerm
 	 * @param	string			first letter
 	 * @return	array			array of terms 
 	 */
-	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
+	static function getTermList($a_glo_ref_id, $searchterm = "", $a_first_letter = "", $a_def = "",
 		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null, $a_include_references = false)
 	{
 		global $DIC;
 
+		if (is_array($a_glo_ref_id))
+		{
+			$a_glo_id = array_map(function($id) {
+				return ilObject::_lookupObjectId($id);
+			},$a_glo_ref_id);
+		}
+		else
+		{
+			$a_glo_id = ilObject::_lookupObjectId($a_glo_ref_id);
+		}
 		$ilDB = $DIC->database();
 
 		$join = $in = "";
@@ -474,10 +484,10 @@ class ilGlossaryTerm
 		}
 
 		// add advanced metadata
-		if ($a_add_amet_fields || is_array($a_amet_filter))
-		{			
+		if ($a_add_amet_fields || is_array($a_amet_filter) && !is_array($a_glo_ref_id))
+		{
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-			$terms = ilAdvancedMDValues::queryForRecords($glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);
+			$terms = ilAdvancedMDValues::queryForRecords($a_glo_ref_id, "glo", "term", $glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}
 		return $terms;
 	}

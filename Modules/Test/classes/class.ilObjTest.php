@@ -626,7 +626,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->introduction = "";
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
-		$this->score_reporting = REPORT_AFTER_TEST;
+		$this->score_reporting = self::SCORE_REPORTING_FINISHED;
 		$this->instant_verification = 0;
 		$this->answer_feedback_points = 0;
 		$this->reporting_date = "";
@@ -2487,6 +2487,7 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	const SCORE_REPORTING_FINISHED = 1;
 	const SCORE_REPORTING_IMMIDIATLY = 2;
 	const SCORE_REPORTING_DATE = 3;
+	const SCORE_REPORTING_AFTER_PASSED = 4;
 
 /**
 * Gets the score reporting of the ilObjTest object
@@ -2502,7 +2503,20 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	
 	public function isScoreReportingEnabled()
 	{
-		return $this->getScoreReporting() > 0 && $this->getScoreReporting() < 4;
+		switch( $this->getScoreReporting() )
+		{
+			case self::SCORE_REPORTING_FINISHED:
+			case self::SCORE_REPORTING_IMMIDIATLY:
+			case self::SCORE_REPORTING_DATE:
+			case self::SCORE_REPORTING_AFTER_PASSED:
+				
+				return true;
+				
+			case self::SCORE_REPORTING_DISABLED:
+			default:
+				
+				return false;
+		}
 	}
 
 /**
@@ -8571,72 +8585,32 @@ function getAnswerFeedbackPoints()
 		}
 		return $result;
 	}
-
-	/**
-	 * Returns true, if the test results can be viewed
-	 *
-	 * @return boolean True, if the test results can be viewed, else false
-	 * @access public
-	 * @deprecated use class ilTestPassesSelector instead
-	 */
-	function canViewResults()
+	
+	
+	public function canShowTestResults(ilTestSession $testSession)
 	{
-		// this logic was implemented before, it got stabled only for now
-		// this method is not as exact as it's required, it's to be replaced in the long time
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		switch( $this->getScoreReporting() )
-		{
-			case self::SCORE_REPORTING_IMMIDIATLY:
-			case self::SCORE_REPORTING_FINISHED: // this isn't excact enough
-				
-				return true;
-
-			case self::SCORE_REPORTING_DATE:
-
-				if (!$this->getReportingDate())
-				{
-					return false;
-				}
-				
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
-				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = time();
-					if ($now < $epoch_time)
-					{
-						return false;
-					}
-				}
-
-				return true;
-		}
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
 		
-		return false;
+		$passSelector->setActiveId($testSession->getActiveId());
+		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
+		return $passSelector->hasReportablePasses();
 	}
-
-	function canShowTestResults($testSession)
+	
+	public function hasAnyTestResult(ilTestSession $testSession)
 	{
-		$active_id = $testSession->getActiveId();
-		if ($active_id > 0)
-		{
-			$starting_time = $this->getStartingTimeOfUser($active_id);
-		}
-		$notimeleft = FALSE;
-		if ($starting_time !== FALSE)
-		{
-			if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
-			{
-				$notimeleft = TRUE;
-			}
-		}
-		$result = TRUE;
-		if (!$this->isTestFinishedToViewResults($active_id, $testSession->getPass()) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
-		{
-			$result = FALSE;
-		}
-		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
-		$result = $result & $this->canViewResults();
-		return $result;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
+		
+		$passSelector->setActiveId($testSession->getActiveId());
+		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
+		return $passSelector->hasExistingPasses();
 	}
 
 /**
@@ -12209,21 +12183,6 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $this->participantDataExist;
-	}
-
-	public function isScoreReportingAvailable()
-	{
-		if ($this->getScoreReporting() == 4)
-		{
-			return false;
-		}
-
-		if ($this->getScoreReporting() == 3 && $this->getReportingDate() > time())
-		{
-			return false;
-		}
-
-		return true;
 	}
 	
 	public function recalculateScores($preserve_manscoring = false)

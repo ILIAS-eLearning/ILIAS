@@ -2,12 +2,11 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjDataCollectionListGUI
  *
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  * $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
  *
  * @extends ilObjectListGUI
@@ -51,9 +50,9 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI {
 
 		if (!ilObjDataCollectionAccess::_lookupOnline($this->obj_id)) {
 			$props[] = array(
-				"alert" => true,
+				"alert"    => true,
 				"property" => $lng->txt("status"),
-				"value" => $lng->txt("offline")
+				"value"    => $lng->txt("offline"),
 			);
 		}
 

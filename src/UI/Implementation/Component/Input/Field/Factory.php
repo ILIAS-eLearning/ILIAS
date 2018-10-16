@@ -119,5 +119,27 @@ class Factory implements Field\Factory {
 	public function select($label, array $options, $byline = null) {
 		return new Select($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $options, $byline);
 	}
-}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function textarea($label, $byline = null) {
+		return new Textarea($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function radio($label, $byline = null) {
+		return new Radio($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function multiSelect($label, array $options, $byline = null) {
+		return new MultiSelect($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $options, $byline);
+	}
+
+}

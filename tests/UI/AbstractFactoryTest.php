@@ -221,6 +221,19 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+    /**
+     * @dataProvider methods_provider
+     */
+    final public function test_kitchensink_info_rivals($method_reflection, $name) {
+        $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
+        if(is_array($docstring_data["description"]) && is_array($docstring_data["description"]["rivals"])){
+            $rules = $docstring_data["description"]["rivals"];
+            $message = "TODO ($name): The Rivals field has a non-string index. Format like 'rival_name': 'description'";
+            $this->assertTrue(array_unique(array_map("is_string", array_keys($rules))) === array(true),$message);
+        }
+        $this->assertTrue(true);
+    }
+
 	/**
 	 * @dataProvider methods_provider
 	 */

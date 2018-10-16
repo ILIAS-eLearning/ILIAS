@@ -1408,20 +1408,18 @@ class ilMail
 	 */
 	protected function parseAddresses($addresses)
 	{
-		if(strlen($addresses) > 0)
-		{
+		if (strlen($addresses) > 0) {
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Started parsing of recipient string: %s", $addresses
 			));
 		}
 
-		$parser = $this->mailAddressParserFactory->getParser($addresses);
+		$parser          = $this->mailAddressParserFactory->getParser((string)$addresses);
 		$parsedAddresses = $parser->parse();
 
-		if(strlen($addresses) > 0)
-		{
+		if (strlen($addresses) > 0) {
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed addresses: %s", implode(',', array_map(function(ilMailAddress $address) {
+				"Parsed addresses: %s", implode(',', array_map(function (ilMailAddress $address) {
 					return $address->getMailbox() . '@' . $address->getHost();
 				}, $parsedAddresses))
 			));

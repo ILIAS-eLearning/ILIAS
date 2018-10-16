@@ -37,12 +37,4 @@ interface ilDBReverse {
 	 * @return array
 	 */
 	public function getTriggerDefinition($trigger);
-
-
-	/**
-	 * @param $result
-	 * @param null $mode
-	 * @return array
-	 */
-	public function tableInfo($result, $mode = null);
 }

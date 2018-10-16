@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "nadine.bauser(34662)",
     "testcase_writer": "nadine.bauser(34662)",
     "path": "Modules/WebResource",

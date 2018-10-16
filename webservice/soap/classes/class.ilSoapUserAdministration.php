@@ -52,7 +52,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$ilUser = $DIC['ilUser'];
 
-		unset($_COOKIE['PHPSESSID']);
+		unset($_COOKIE[session_name()]);
 		$_COOKIE['ilClientId'] = $client;
 
 		try
@@ -181,7 +181,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	    		include_once './Services/Authentication/classes/class.ilSession.php';
         		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
 			$GLOBALS['DIC']['ilAuthSession']->logout();
-			unset($_COOKIE['PHPSESSID']);
+			unset($_COOKIE[session_name()]);
 
 			// init session and set user as authenticated
 			$_COOKIE['ilClientId'] = $client;

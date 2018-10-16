@@ -10,7 +10,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -19,7 +20,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 		$value = $this->getRecordField()->getValue();
 
 		// the file is only temporary uploaded. Still need to be confirmed before stored
-		if(is_array($value) && $_POST['ilfilehash']) {
+		if (is_array($value) && $_POST['ilfilehash']) {
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id", $this->getRecordField()->getField()->getId());
 
@@ -50,7 +51,6 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 				$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
 				$html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $html . '</a>';
 			}
-
 		} else {
 			// Video/Audio
 			$mpl = new ilMediaPlayerGUI($med->getId(), '');
@@ -66,6 +66,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 				$html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $this->lng->txt('details') . '</a>';
 			}
 		}
+
 		return $html;
 	}
 
@@ -78,7 +79,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 	 * @return mixed
 	 */
 	public function parseFormInput($value) {
-		if(is_array($value)) {
+		if (is_array($value)) {
 			return $value;
 		}
 

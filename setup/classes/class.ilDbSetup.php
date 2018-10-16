@@ -238,7 +238,6 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_GALERA:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 				case ilDBConstants::TYPE_POSTGRES:
-				case ilDBConstants::TYPE_ORACLE:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
 
@@ -277,9 +276,6 @@ class ilDbSetup {
 				} catch (PDOException $e) {
 					$connect = ($e->getCode() == 1049);
 				}
-				break;
-			case ilDBConstants::TYPE_ORACLE:
-				$connect = $this->ilDBInterface->connect(true);
 				break;
 		}
 		if ($keep_connection && $connect) {

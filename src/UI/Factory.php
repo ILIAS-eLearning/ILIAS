@@ -33,10 +33,10 @@ interface Factory {
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
 	 *   rivals:
-	 *     1: >
+	 *     Glyph: >
 	 *       Glyphs are typographical characters that act as a trigger for
 	 *       some action.
-	 *     2: >
+	 *     Image: >
 	 *       Images belong to the content and can be purely decorative.
 	 *
 	 *
@@ -299,7 +299,8 @@ interface Factory {
 	 *      a different view.
 	 *   composition: >
 	 *      Dropdown is a clickable, graphically obtrusive control element. It can
-	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown.
+	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown. Note that empty dropdowns are not
+	 *      rendered at all to keep the UI as clean as possible.
 	 *   effect: >
 	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
 	 *      Clicking outside of an opened Dropdown will close the list of items.
@@ -319,6 +320,9 @@ interface Factory {
 	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
 	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
 	 *           kind of Dropdown is used as part of the UI element.
+	 *   composition:
+	 *      1: >
+	 *           Empty dropdowns MUST NOT be rendered at all to keep the UI as clean as possible.
 	 *   interaction:
 	 *      1: >
 	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
@@ -380,10 +384,10 @@ interface Factory {
 	 *   effect: >
 	 *     Clicking on an entry will get the user to the respective location.
 	 *
-	 * context: >
-	 *   1. Suplemental navigation under the main menu
-	 *   2. Location hint in search results
-	 *   3. Path to current location on info page
+	 * context:
+	 *   - Suplemental navigation under the main menu
+	 *   - Location hint in search results
+	 *   - Path to current location on info page
 	 *
 	 * rules:
 	 *   usage:
@@ -583,7 +587,7 @@ interface Factory {
 	 *     All controls of the original context are inaccessible until the Modal is completed.
 	 *     Upon completion the user returns to the original context.
 	 *   rivals:
-	 *     1: >
+	 *     Popover: >
 	 *       Modals have some relations to popovers. The main difference between the two is the disruptive
 	 *       nature of the Modal and the larger amount of data that might be displayed inside a modal.
 	 *       Also popovers perform mostly action to add or consult metadata of an item while

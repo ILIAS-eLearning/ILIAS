@@ -6,11 +6,12 @@
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation{
+class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation {
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -25,8 +26,7 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation{
 				$im = ilUtil::getImagePath('icon_ok.svg');
 				break;
 		}
+
 		return "<img src='" . $im . "'>";
 	}
-
-
 }

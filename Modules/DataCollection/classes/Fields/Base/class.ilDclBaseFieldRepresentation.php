@@ -10,16 +10,15 @@
 abstract class ilDclBaseFieldRepresentation {
 
 	protected $field;
-
 	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
-
 	/**
-	 * @var ilCtrl $ctrl;
+	 * @var ilCtrl $ctrl ;
 	 */
 	protected $ctrl;
+
 
 	public function __construct(ilDclBaseFieldModel $field) {
 		global $DIC;
@@ -33,6 +32,7 @@ abstract class ilDclBaseFieldRepresentation {
 
 	/**
 	 * Add filter input to TableGUI
+	 *
 	 * @param ilTable2GUI $table
 	 *
 	 * @return null
@@ -44,10 +44,11 @@ abstract class ilDclBaseFieldRepresentation {
 
 	/**
 	 * Set basic settings for filter-input-gui
+	 *
 	 * @param ilFormPropertyGUI $input
 	 */
 	protected function setupFilterInputField(ilFormPropertyGUI $input) {
-		if ($input != NULL) {
+		if ($input != null) {
 			$input->setTitle($this->getField()->getTitle());
 		}
 	}
@@ -91,6 +92,7 @@ abstract class ilDclBaseFieldRepresentation {
 
 	/**
 	 * Returns field-input
+	 *
 	 * @param ilPropertyFormGUI $form
 	 * @param int               $record_id
 	 *
@@ -103,6 +105,7 @@ abstract class ilDclBaseFieldRepresentation {
 
 	/**
 	 * Sets basic settings on field-input
+	 *
 	 * @param ilFormPropertyGUI   $input
 	 * @param ilDclBaseFieldModel $field
 	 */
@@ -117,7 +120,9 @@ abstract class ilDclBaseFieldRepresentation {
 	 *
 	 * @return null
 	 */
-	protected function getFilterInputFieldValue(/*ilPropertyFormGUI*/ $input) {
+	protected function getFilterInputFieldValue(/*ilPropertyFormGUI*/
+		$input
+	) {
 		$value = $input->getValue();
 		if (is_array($value)) {
 			if ($value['from'] || $value['to']) {
@@ -128,6 +133,7 @@ abstract class ilDclBaseFieldRepresentation {
 				return $value;
 			}
 		}
+
 		return null;
 	}
 
@@ -142,12 +148,12 @@ abstract class ilDclBaseFieldRepresentation {
 	public function addFieldCreationForm($form, ilObjDataCollection $dcl, $mode = "create") {
 		$opt = $this->buildFieldCreationInput($dcl, $mode);
 
-		if($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-			
+		if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
+
 			$new_plugin_title = $opt->getTitle();
 			$plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
-			if($plugin_name !== "DclBase") {
-				$new_plugin_title .= ': '.$plugin_name;
+			if ($plugin_name !== "DclBase") {
+				$new_plugin_title .= ': ' . $plugin_name;
 			}
 			$opt->setTitle($new_plugin_title);
 		}
@@ -166,28 +172,30 @@ abstract class ilDclBaseFieldRepresentation {
 	 */
 	protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create') {
 		$opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()), $this->getField()->getDatatypeId());
-		$opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle(). '_desc'));
+		$opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
 		return $opt;
 	}
 
+
 	/**
 	 * Return post-var for property-fields
+	 *
 	 * @param $property
 	 *
 	 * @return string
 	 */
 	public function getPropertyInputFieldId($property) {
-		return "prop_".$property;
+		return "prop_" . $property;
 	}
 
 
 	/**
 	 * Return BaseFieldModel
+	 *
 	 * @return ilDclBaseFieldModel
 	 */
 	public function getField() {
 		return $this->field;
 	}
-
 }

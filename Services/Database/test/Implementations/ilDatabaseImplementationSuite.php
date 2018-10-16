@@ -39,23 +39,14 @@ class ilDatabaseImplementationSuite extends PHPUnit_Framework_TestSuite {
 		require_once("./Services/Database/test/Implementations/ilDatabasePDOMyISAMTest.php");
 		$suite->addTestSuite("ilDatabasePDOMyISAMTest");
 
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2MyISAMTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2MyISAMTest");
-
 		require_once("./Services/Database/test/Implementations/ilDatabasePDOInnodbTest.php");
 		$suite->addTestSuite("ilDatabasePDOInnodbTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2InnodbTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2InnodbTest");
 
 		require_once("./Services/Database/test/Implementations/ilDatabasePDOGaleraTest.php");
 		$suite->addTestSuite("ilDatabasePDOGaleraTest");
 
 		require_once("./Services/Database/test/Implementations/ilDatabasePDOPostgresTest.php");
 		$suite->addTestSuite("ilDatabasePDOPostgresTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2PostgresTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2PostgresTest");
 
 		return $suite;
 	}

@@ -78,6 +78,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilUser, $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng, $ilDB, $ilPluginAdmin, $ilias;
 		
+		$writeAccess = $ilAccess->checkAccess("write", "", $_GET["ref_id"]);
+		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
 			global $ilias;
@@ -186,6 +188,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->setTargetGuiClass(null);
 				$q_gui->setQuestionActionCmd(null);
 				
+				if( $this->object->getType() == 'qpl' )
+				{
+					$q_gui->addHeaderAction();
+				}
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
@@ -250,6 +257,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI->setQuestionTabs();
 				global $ilHelp;
 				$ilHelp->setScreenIdComponent("qpl");
+				
+				if( $this->object->getType() == 'qpl' && $writeAccess )
+				{
+					$questionGUI->addHeaderAction();
+				}
 
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
@@ -291,7 +303,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI->setQuestionTabs();
 				global $ilHelp;
 				$ilHelp->setScreenIdComponent("qpl");
-
+				
+				if( $this->object->getType() == 'qpl' && $writeAccess )
+				{
+					$questionGUI->addHeaderAction();
+				}
+				
 				// forward to ilAssQuestionFeedbackGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
@@ -353,6 +370,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				{
 					$q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
 					$this->object->addQuestionChangeListeners($q_gui->object);
+					if( $writeAccess )
+					{
+						$q_gui->addHeaderAction();
+					}
 				}
 				$q_gui->setQuestionTabs();
 				global $ilHelp;
@@ -964,11 +985,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	function filterQuestionBrowserObject()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$enableComments = $DIC->rbac()->system()->checkAccess('write', $_GET['ref_id']);
+		
 		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-
+		
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds, $enableComments);
 		$table_gui->resetOffset();
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
@@ -1691,10 +1715,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	private function buildQuestionBrowserTableGUI($taxIds)
 	{
 		global $rbacsystem, $ilDB, $lng, $ilPluginAdmin;
+		
+		$writeAccess = (bool)$rbacsystem->checkAccess('write', $_GET['ref_id']);
+		$enableCommenting = $writeAccess;
 
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), false, $taxIds);
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $writeAccess, false, $taxIds, $enableCommenting);
+		$table_gui->setEditable($writeAccess);
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
@@ -1734,7 +1761,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$questionList->load();
 		$data = $questionList->getQuestionDataArray();
 		
-		$table_gui->setData($data);
+		$table_gui->setQuestionData($data);
 		
 		return $table_gui;
 	}

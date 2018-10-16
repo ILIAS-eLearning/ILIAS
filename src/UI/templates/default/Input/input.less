@@ -52,34 +52,17 @@
     }
   }
 
-  //This is a strange necessary fix.
   input[type="radio"], input[type="checkbox"] {
-    margin: 0;
+    height: unset;
+    width: unset;
   }
 
 }
 
-
-.il-input-password {
-  .revelation-glyph {
-    float: right;
-    margin-top: -21px;
-    margin-right: 5px;
-  }
-
-  .revelation-reveal {
-    display: block;
-  }
-  .revelation-mask {
-    display: none;
-  }
-
-  .revealed& {
-    .revelation-reveal {
-      display: none;
-    }
-    .revelation-mask {
-      display: block;
-    }
-  }
-}
+//== Specific Inputs
+//
+//
+@import "tag.less";
+@import "password.less";
+@import "radio.less";
+@import "multiselect.less";

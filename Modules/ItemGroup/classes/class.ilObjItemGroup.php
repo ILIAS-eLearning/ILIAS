@@ -157,13 +157,15 @@ class ilObjItemGroup extends ilObject2
 	
 	/**
 	 * Clone obj item group
-	 *
-	 * @param
-	 * @return
+	 * @param ilObjItemGroup $new_obj
+	 * @param int $a_target_id
+	 * @param string $a_copy_id
+	 * @param bool $a_omit_tree
 	 */
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
 	{
 		$new_obj->setHideTitle($this->getHideTitle());
+		$new_obj->setBehaviour($this->getBehaviour());
 		$new_obj->update();
 	}
 

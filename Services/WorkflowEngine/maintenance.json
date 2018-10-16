@@ -3,7 +3,9 @@
     "first_maintainer": "mbecker(27266)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "richtera(41247)",
     "testcase_writer": "mbecker(27266)",
     "path": "Services/WorkflowEngine",

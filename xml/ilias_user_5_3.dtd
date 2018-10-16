@@ -70,7 +70,7 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
 <!ELEMENT Title (#PCDATA)>
-<!ELEMENT Gender (#PCDATA)> <!-- content must be "f" (female) or "m" (male) -->
+<!ELEMENT Gender (#PCDATA)> <!-- content must be "f" (female) or "m" (male) or "n" (neutral) -->
 <!ELEMENT Email (#PCDATA)>
 <!ELEMENT SecondEmail (#PCDATA)>
 <!ELEMENT Birthday (#PCDATA)><!-- content muss be format yyyy-mm-dd -->

@@ -21,17 +21,7 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider reservedData
-	 * @param $word
-	 * @param $is_reserved
-	 */
-	public function testReservedMDB2($word, $is_reserved) {
-		require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
-		$this->assertEquals($is_reserved, ilDBMySQL::isReservedWord($word));
-	}
-
-
-	/**
-	 * @dataProvider reservedData
+	 *
 	 * @param $word
 	 * @param $is_reserved
 	 */
@@ -46,13 +36,13 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function reservedData() {
 		return [
-			[ 'order', true ],
-			[ 'myfield', false ],
-			[ 'number', true ],
-			[ 'null', true ],
-			[ 'sensitive', true ],
-			[ 'usage', true ],
-			[ 'analyze', true ],
+			['order', true],
+			['myfield', false],
+			['number', true],
+			['null', true],
+			['sensitive', true],
+			['usage', true],
+			['analyze', true],
 		];
 	}
 }

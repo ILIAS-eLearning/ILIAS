@@ -2866,16 +2866,19 @@ class ilObjTestGUI extends ilObjectGUI
 			$score_reporting_text = "";
 			switch ($this->object->getScoreReporting())
 			{
-				case REPORT_AFTER_TEST:
+				case ilObjTest::SCORE_REPORTING_FINISHED:
 					$score_reporting_text = $this->lng->txt("tst_report_after_test");
 					break;
-				case REPORT_ALWAYS:
+				case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
 					$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
 					break;
-				case REPORT_AFTER_DATE:
+				case ilObjTest::SCORE_REPORTING_DATE:
 					$score_reporting_text = $this->lng->txt("tst_report_after_date");
 					break;
-				case 4:
+				case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+					$score_reporting_text = $this->lng->txt("tst_report_after_passed");
+					break;
+				default:
 					$score_reporting_text = $this->lng->txt("tst_report_never");
 					break;
 			}

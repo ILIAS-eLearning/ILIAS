@@ -1,33 +1,39 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+ * Class ilMailAddressTypesTest
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailAddressTypesTest extends \ilMailBaseTest
 {
+	/**
+	 * @inheritdoc
+	 */
 	public function setUp()
 	{
-
 		parent::setUp();
 
-		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
+		$user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->any())->method('getId')->will($this->returnValue(6));
 
-		$rbacsystem = $this->getMockBuilder('ilRbacSystem')->disableOriginalConstructor()->getMock();
-		$rbacreview = $this->getMockBuilder('ilRbacReview')->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$rbacreview = $this->getMockBuilder(\ilRbacReview::class)->disableOriginalConstructor()->getMock();
 
 		$this->setGlobalVariable('rbacreview', $rbacreview);
 		$this->setGlobalVariable('rbacsystem', $rbacsystem);
 		$this->setGlobalVariable('ilUser', $user);
 
-		$database = $this->getMockBuilder('ilDBInterface')->getMock();
-		$result   = $this->getMockBuilder('ilDBStatement')->getMock();
+		$database = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+		$result = $this->getMockBuilder(\ilDBStatement::class)->getMock();
 		$result->expects($this->any())->method('numRows')->will($this->returnValue(1));
 		$database->expects($this->any())->method('query')->will($this->returnValue($result));
 		$this->setGlobalVariable('ilDB', $database);
 	}
 
+	/**
+	 * 
+	 */
 	public function testFactoryWillReturnListAddressTypeForListName()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -40,6 +46,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailMailingListAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testFactoryWillReturnGroupAddressTypeForGroupName()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -47,11 +56,14 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 
 		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#MyGroup',''));
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#MyGroup', ''));
 
 		$this->assertInstanceOf('ilMailGroupAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testFactoryWillReturnLoginOrEmailAddressAddressType()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -64,6 +76,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailLoginOrEmailAddressAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testFactoryWillReturnRoleAddressType()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -76,6 +91,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testAdminGroupNameIsAValidMailAddressTypes()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -88,6 +106,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testMemberGroupNameIsAValidMailAddressType()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -100,6 +121,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testAdminCourseNameIsAValidMailAddressType()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -112,6 +136,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
+	/**
+	 * 
+	 */
 	public function testMemberCourseNameIsAValidMailAddressType()
 	{
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
@@ -124,9 +151,12 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
+	/**
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilGroupNameAsMailValidator
+	 */
 	private function createGroupNameAsValidatorMock()
 	{
-		return $this->getMockBuilder('ilGroupNameAsMailValidator')
+		return $this->getMockBuilder(\ilGroupNameAsMailValidator::class)
 			->disableOriginalConstructor()
 			->setMethods(array('validate'))
 			->getMock();
