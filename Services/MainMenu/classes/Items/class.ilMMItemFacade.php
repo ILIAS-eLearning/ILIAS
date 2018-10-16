@@ -10,9 +10,17 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 class ilMMItemFacade {
 
 	/**
+	 * @var ilMMItemStorage
+	 */
+	private $mm_item;
+	/**
+	 * @var isItem
+	 */
+	private $gs_item;
+	/**
 	 * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
 	 */
-	protected $identification;
+	private $identification;
 
 
 	/**
@@ -25,6 +33,7 @@ class ilMMItemFacade {
 		global $DIC;
 		$this->identification = $identification;
 		$this->gs_item = $DIC->globalScreen()->collector()->mainmenu($providers)->getSingleItem($identification);
+		$this->mm_item = ilMMItemStorage::findOrFail($identification->serialize());
 	}
 
 
@@ -39,12 +48,12 @@ class ilMMItemFacade {
 
 
 	public function isEmpty(): bool {
-		return $this->identification->serialize() == '';
+		return $this->mm_item->getIdentification() == '';
 	}
 
 
 	public function getMMItemStorage(): ilMMItemStorage {
-		throw new Exception();
+		return $this->mm_item;
 	}
 
 
@@ -59,7 +68,7 @@ class ilMMItemFacade {
 
 
 	public function isActive(): bool {
-		throw new Exception();
+		return (bool)$this->mm_item->isActive();
 	}
 
 
@@ -74,12 +83,20 @@ class ilMMItemFacade {
 
 
 	public function getDefaultTitle(): string {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+			return $this->gs_item->getTitle();
+		}
+
+		return "No Title";
 		throw new Exception();
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function getGSItemClassName(): string {
-		throw new Exception();
+		return get_class($this->gs_item);
 	}
 
 

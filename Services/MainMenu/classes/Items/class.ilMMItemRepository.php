@@ -7,8 +7,16 @@ use ILIAS\GlobalScreen\Collector\StorageFacade;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemRepository extends ilMMAbstractRepository {
+class ilMMItemRepository {
 
+	/**
+	 * @var StorageFacade
+	 */
+	private $storage;
+	/**
+	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\Main
+	 */
+	private $main_collector;
 	/**
 	 * @var \ILIAS\GlobalScreen\Provider\Provider[]
 	 */
@@ -24,19 +32,60 @@ class ilMMItemRepository extends ilMMAbstractRepository {
 
 
 	/**
-	 * @inheritDoc
+	 * ilMainMenuCollector constructor.
+	 *
+	 * @param StorageFacade $storage
 	 */
 	public function __construct(StorageFacade $storage) {
-		parent::__construct($storage);
+		global $DIC;
+		$this->storage = $storage;
 		$this->gs = new ilGSRepository($storage);
 		$this->sorting_and_translation = new ilMMSortingAndTranslation($this->storage);
-		$this->providers = [];
-		/**
-		 * @var $provider_storage ilGSProviderStorage
-		 */
+		$this->providers = $this->initProviders();
+		$sorting_and_translation = new ilMMSortingAndTranslation($storage);
+		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $sorting_and_translation, $sorting_and_translation);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getStackedTopItems(): array {
+		return $this->main_collector->getStackedTopItemsForPresentation();
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return isItem
+	 */
+	public function getSingleItem(IdentificationInterface $identification): isItem {
+		return $this->main_collector->getSingleItem($identification);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private function initProviders(): array {
+		$providers = [];
 		foreach (ilGSProviderStorage::get() as $provider_storage) {
-			$this->providers[] = $provider_storage->getInstance();
+			/**
+			 * @var $provider_storage ilGSProviderStorage
+			 */
+			$providers[] = $provider_storage->getInstance();
 		}
+
+		return $providers;
+	}
+
+
+	/**
+	 * @return ilMMItemRepository
+	 */
+	public function repository(): ilMMItemRepository {
+		return $this;
 	}
 
 
@@ -61,11 +110,11 @@ class ilMMItemRepository extends ilMMAbstractRepository {
 	}
 
 
-	/**
-	 * @return array in the way of identification -> position
-	 */
-	public function getPositionsOfAllItems(): array {
-		return ilMMItemStorage::getArray('identification', 'position');
+	public function getItemFacadeForIdentificationString(string $identification): ilMMItemFacade {
+		global $DIC;
+		$id = $DIC->globalScreen()->identification()->fromSerializedIdentification($identification);
+
+		return $this->getItemFacade($id);
 	}
 
 

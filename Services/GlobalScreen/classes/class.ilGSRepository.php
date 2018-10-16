@@ -8,9 +8,13 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSRepository extends ilMMAbstractRepository {
+class ilGSRepository {
 
 	const PURPOSE_MAIN_MENU = 'mainmenu';
+	/**
+	 * @var StorageFacade
+	 */
+	private $storage;
 	/**
 	 * @var \ILIAS\GlobalScreen\Services
 	 */
@@ -24,7 +28,7 @@ class ilGSRepository extends ilMMAbstractRepository {
 	 */
 	public function __construct(StorageFacade $storage) {
 		global $DIC;
-		parent::__construct($storage);
+		$this->storage = $storage;
 		$this->global_screen_services = $DIC->globalScreen();
 	}
 
@@ -44,7 +48,7 @@ class ilGSRepository extends ilMMAbstractRepository {
 				"il_gs_providers.purpose = " . $this->storage->db()->quote($purpose, 'text')
 			)->get() as $identification_storage
 		) {
-			$identifications[] = $this->getIdentificationForStorage($identification_storage);
+			$identifications[] = $this->getIdentificationFromStorage($identification_storage);
 		};
 
 		return $identifications;
@@ -56,7 +60,7 @@ class ilGSRepository extends ilMMAbstractRepository {
 	 *
 	 * @return IdentificationInterface
 	 */
-	private function getIdentificationForStorage(ilGSIdentificationStorage $storage): IdentificationInterface {
+	private function getIdentificationFromStorage(ilGSIdentificationStorage $storage): IdentificationInterface {
 		return $this->global_screen_services->identification()->fromSerializedIdentification($storage->getIdentification());
 	}
 }

@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Collector\MainMenu\ItemTranslation;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
-use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 
 /**
@@ -16,9 +15,9 @@ use ILIAS\GlobalScreen\MainMenu\isTopItem;
 class ilMMSortingAndTranslation implements ItemSorting, ItemTranslation {
 
 	/**
-	 * @var ilMMItemRepository
+	 * @var array
 	 */
-	private $provider;
+	private $positions;
 	/**
 	 * @var StorageFacade
 	 */
@@ -32,7 +31,7 @@ class ilMMSortingAndTranslation implements ItemSorting, ItemTranslation {
 	 */
 	public function __construct(StorageFacade $storage) {
 		$this->storage = $storage;
-		$this->provider = new ilMMItemRepository($storage);
+		$this->positions = ilMMItemStorage::getArray('identification', 'position');
 	}
 
 
@@ -52,7 +51,7 @@ class ilMMSortingAndTranslation implements ItemSorting, ItemTranslation {
 	 * @inheritDoc
 	 */
 	public function getPositionOfSubItem(isChild $child): int {
-		return 1;
+		return $this->getPosition($child);
 	}
 
 
@@ -60,8 +59,11 @@ class ilMMSortingAndTranslation implements ItemSorting, ItemTranslation {
 	 * @inheritDoc
 	 */
 	public function getPositionOfTopItem(isTopItem $top_item): int {
-		$positions = $this->provider->getPositionsOfAllItems();
+		return $this->getPosition($top_item);
+	}
 
-		return (int)$positions[$top_item->getProviderIdentification()->serialize()];
+
+	private function getPosition(\ILIAS\GlobalScreen\MainMenu\isItem $item): int {
+		return (int)$this->positions[$item->getProviderIdentification()->serialize()];
 	}
 }

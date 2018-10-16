@@ -16,6 +16,10 @@ class ilMMTopItemGUI {
 	const CMD_UPDATE = 'update_top_item';
 	const IDENTIFIER = 'identifier';
 	/**
+	 * @var ilMMItemRepository
+	 */
+	private $repository;
+	/**
 	 * @var ilToolbarGUI
 	 */
 	private $toolbar;
@@ -58,6 +62,7 @@ class ilMMTopItemGUI {
 	public function __construct(ilMMTabHandling $tab_handling) {
 		global $DIC;
 
+		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$this->tab_handling = $tab_handling;
 		$this->tabs = $DIC['ilTabs'];
 		$this->lng = new FakeLanguage('en');
@@ -70,18 +75,12 @@ class ilMMTopItemGUI {
 
 
 	/**
-	 * @return ilMMItemStorage
-	 * @throws arException
+	 * @return ilMMItemFacade
 	 */
-	private function getMMItemFromRequest(): ilMMItemStorage {
+	private function getMMItemFromRequest(): ilMMItemFacade {
 		global $DIC;
-		$var = $DIC->http()->request()->getQueryParams()[self::IDENTIFIER];
-		$id = $var;
-		if ($id !== 0 && $id !== '' && $id != null) {
-			return ilMMItemStorage::findOrFail($id);
-		}
 
-		return new ilMMItemStorage();
+		return $this->repository->getItemFacadeForIdentificationString($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
 	}
 
 
@@ -98,7 +97,7 @@ class ilMMTopItemGUI {
 				// $this->toolbar->addButtonInstance($b);
 
 				// TABLE
-				$table = new ilMMTopItemTableGUI($this, new ilMainMenuCollector($DIC->globalScreen()->storage()));
+				$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
 
 				return $table->getHTML();
 			case self::CMD_ADD_TOP_ITEM:

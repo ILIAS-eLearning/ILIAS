@@ -10,16 +10,16 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 	/**
 	 * @var ilMMProvider
 	 */
-	private $collector;
+	private $item_repository;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(ilMMTopItemGUI $a_parent_obj, ilMainMenuCollector $collector) {
+	public function __construct(ilMMTopItemGUI $a_parent_obj, ilMMItemRepository $item_repository) {
 		$this->setId(self::class);
 		parent::__construct($a_parent_obj);
-		$this->collector = $collector;
+		$this->item_repository = $item_repository;
 		$this->lng = $this->parent_obj->lng;
 		$this->setData($this->resolveData());
 		$this->addCommandButton('#', $this->lng->txt('button_save'));
@@ -51,10 +51,10 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		/**
 		 * @var $gs_item \ILIAS\GlobalScreen\MainMenu\isParent
 		 */
-		$item_facade = $this->collector->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
+		$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
 		$this->tpl->setVariable('TITLE', $a_set['title']);
-		$this->tpl->setVariable('SUBENTRIES', count($gs_item->getChildren()));
+		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
 		$this->tpl->setVariable('POSITION', $a_set['position']);
 		if ($a_set['active']) {
 			$this->tpl->touchBlock('is_active');

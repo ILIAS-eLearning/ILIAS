@@ -26,7 +26,7 @@ class ilMMEntryRendererGUI {
 			return $storage->cache()->get('rendered_menu');
 		}
 
-		$top_items = (new ilMainMenuCollector($storage))->getStackedTopItems();
+		$top_items = (new ilMMItemRepository($storage))->getStackedTopItems();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 
 		foreach ($top_items as $top_item) {

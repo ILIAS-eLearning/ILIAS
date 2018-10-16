@@ -21,14 +21,6 @@ class ilMMTopItemFormGUI {
 	 */
 	private $form;
 	/**
-	 * @var \ILIAS\GlobalScreen\MainMenu\isItem
-	 */
-	private $gs_item;
-	/**
-	 * @var ilMainMenuCollector
-	 */
-	private $collector;
-	/**
 	 * @var ilMMItemFacade
 	 */
 	private $item_facade;
