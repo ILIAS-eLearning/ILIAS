@@ -659,7 +659,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$this->ctrl->redirectByClass("ilobjbloggui", "");
 		}
 	}
-	
+
+	/**
+	 * Diplay the form
+	 * @param ilPropertyFormGUI|null $a_form
+	 */
 	function editKeywords(ilPropertyFormGUI $a_form = null)
 	{
 		global $DIC;
@@ -738,11 +742,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			'tags_processing'
 		);
 
-		//TODO form title?  $form->setTitle($this->lng->txt("blog_edit_keywords"));
-		$form_action = $DIC->ctrl()->getFormAction($this, "saveKeywordsForm");
-		$form = $ui_factory->input()->container()->form()->standard($form_action, [$input_tag]);
+		$section = $ui_factory->input()->field()->section([$input_tag], $this->lng->txt("blog_edit_keywords"), "");
 
-		//TODO cancel button
+		$form_action = $DIC->ctrl()->getFormAction($this, "saveKeywordsForm");
+		$form = $ui_factory->input()->container()->form()->standard($form_action, ["tags" => $section]);
+
 		return $form;
 	}
 	
@@ -773,8 +777,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		{
 			$form = $form->withRequest($request);
 			$result = $form->getData();
+
 			//TODO identify the input instead of use 0
-			$keywords = $result[0];
+			$keywords = $result["tags"][0];
 
 			if(is_array($keywords))
 			{
