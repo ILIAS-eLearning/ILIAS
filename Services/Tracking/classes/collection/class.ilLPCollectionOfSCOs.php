@@ -123,7 +123,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
      */
     public function cloneCollection($a_target_id, $a_copy_id)
     {
-        global $ilLog;
+        global $DIC;
 
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $new_collection = new static($target_obj_id, $this->mode);
@@ -137,7 +137,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
             }
         }
 
-        $ilLog->write(__METHOD__.': cloned learning progress collection.');
+        $DIC->logger()->root()->write(__METHOD__.': cloned learning progress collection.');
     }
 
 
