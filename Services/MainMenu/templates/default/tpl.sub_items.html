@@ -1,0 +1,32 @@
+<!-- BEGIN parent_item -->
+<tr class="{CSS_ROW}">
+	<td class="std small" colspan="7">
+		<strong>{PARENT_TITLE}</strong>
+	</td>
+</tr>
+<!-- END parent_item -->
+<tr class="{CSS_ROW}">
+	<td class="std small">
+		{PARENT}
+	</td>
+	<td class="std small">
+		<input type="text"  name="{IDENTIFIER}[{ID}][position]" value="{POSITION}" size="2">
+	</td>
+	<td class="std small">
+		{TITLE}
+	</td>
+	<td class="std small">
+		{TYPE}
+	</td>
+	<td class="std small">
+		<input type="checkbox" name="{IDENTIFIER}[{ID}][active]" value="1" <!-- BEGIN is_active -->checked="checked"<!-- END is_active --> <!-- BEGIN is_active_blocked -->disabled="disabled"<!-- END is_active_blocked -->>
+	<td class="std small">
+		{STATUS}
+	</td>
+	<td class="std small">
+		{PROVIDER}
+	</td>
+	<td class="std small">
+		{ACTIONS}
+	</td>
+</tr>

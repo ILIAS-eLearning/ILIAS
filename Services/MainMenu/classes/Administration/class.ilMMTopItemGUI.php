@@ -123,8 +123,9 @@ class ilMMTopItemGUI {
 				$this->ctrl->redirect($this);
 				break;
 			case self::CMD_SAVE_TABLE:
-				return $this->saveTable();
-				break;
+				$this->saveTable();
+
+				return "";
 			case self::CMD_TRANSLATE_TOP_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE_TOP_ITEM, true);
 				break;

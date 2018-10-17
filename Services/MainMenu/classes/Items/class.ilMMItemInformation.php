@@ -30,7 +30,7 @@ class ilMMItemInformation implements ItemInformation {
 	 */
 	public function __construct(StorageFacade $storage) {
 		$this->storage = $storage;
-		$this->items = ilMMItemStorage::getArray('identification', ['position', 'active']);
+		$this->items = ilMMItemStorage::getArray('identification', ['position', 'active', 'parent_identification']);
 	}
 
 
@@ -74,5 +74,18 @@ class ilMMItemInformation implements ItemInformation {
 		$serialize = $item->getProviderIdentification()->serialize();
 
 		return $this->items[$serialize]['active'] === "1";
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getParent(\ILIAS\GlobalScreen\MainMenu\isChild $item): \ILIAS\GlobalScreen\Identification\IdentificationInterface {
+		global $DIC;
+		if (isset($this->items[$item->getProviderIdentification()->serialize()]['parent_identification'])) {
+			return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$item->getProviderIdentification()->serialize()]['parent_identification']);
+		}
+
+		return $item->getParent();
 	}
 }

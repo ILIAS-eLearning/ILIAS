@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
@@ -42,4 +43,12 @@ interface ItemInformation {
 	 * @return hasTitle
 	 */
 	public function translateItemForUser(hasTitle $item): hasTitle;
+
+
+	/**
+	 * @param isChild $item
+	 *
+	 * @return IdentificationInterface
+	 */
+	public function getParent(isChild $item): IdentificationInterface;
 }

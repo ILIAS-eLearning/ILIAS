@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\UI\Implementation\Component\ViewControl\Sortation;
@@ -62,35 +63,38 @@ class Main {
 	 * @return isTopItem[]
 	 */
 	public function getStackedTopItemsForPresentation(): array {
-		$this->load();
-		$top_items = [];
-		foreach (self::$items as $item) {
-			if (($item->isAvailable() && $this->information->isItemActive($item)) || $item->isAlwaysAvailable() === true) {
-				if ($item instanceof hasTitle && $this->information) {
-					$item = $this->information->translateItemForUser($item);
-				}
-				if ($item instanceof isTopItem && $this->information) {
-					$top_items[$this->information->getPositionOfTopItem($item)] = $item;
-				}
-			}
-		}
-		ksort($top_items);
-
-		return $top_items;
+		return $this->getStackedTopItems();
 	}
 
 
 	/**
 	 * @return isTopItem[]
 	 */
-	public function getStackedTopItems(): array {
+	private function getStackedTopItems(): array {
 		$this->load();
 		$top_items = [];
 		foreach (self::$items as $item) {
+			if (!$item->isVisible() || (!$this->information->isItemActive($item) && !$item->isAlwaysAvailable())) {
+				continue;
+			}
 			if ($item instanceof hasTitle && $this->information) {
 				$item = $this->information->translateItemForUser($item);
 			}
 			if ($item instanceof isTopItem && $this->information) {
+				if ($item instanceof isParent) {
+					$children = [];
+					/**
+					 * @var $item isParent
+					 */
+					foreach ($item->getChildren() as $child) {
+						if (!$child->isVisible() || (!$this->information->isItemActive($child) && !$child->isAlwaysAvailable())) {
+							continue;
+						}
+						$children[$this->information->getPositionOfSubItem($child)] = $child;
+					}
+					ksort($children);
+					$item = $item->withChildren($children);
+				}
 				$top_items[$this->information->getPositionOfTopItem($item)] = $item;
 			}
 		}
@@ -148,6 +152,7 @@ class Main {
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticSubItems() as $sub_item) {
 						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
+							$sub_item->overrideParent($this->information->getParent($sub_item));
 							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
 							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
 							self::$items[$sub_item->getParent()->serialize()]->appendChild($sub_item);

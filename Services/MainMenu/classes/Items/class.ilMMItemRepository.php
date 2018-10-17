@@ -59,11 +59,11 @@ class ilMMItemRepository {
 
 
 	/**
-	 * @param IdentificationInterface $identification
+	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
 	 *
-	 * @return isItem
+	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
 	 */
-	public function getSingleItem(IdentificationInterface $identification): isItem {
+	public function getSingleItem(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
 		return $this->main_collector->getSingleItem($identification);
 	}
 
@@ -99,7 +99,7 @@ class ilMMItemRepository {
 		// sync
 		$this->sync();
 
-		return ilMMItemStorage::where(" parent_identification ='' OR parent_identification IS NULL ")->debug()->orderBy('position')->getArray();
+		return ilMMItemStorage::where(" parent_identification = '' OR parent_identification IS NULL ")->orderBy('position')->getArray();
 	}
 
 
@@ -109,8 +109,18 @@ class ilMMItemRepository {
 	public function getSubItems(): array {
 		// sync
 		$this->sync();
+		$r = $this->storage->db()->query(
+			"SELECT sub_items.*, top_items.position AS parent_position 
+FROM il_mm_items AS sub_items 
+JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
+WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_items.position ASC"
+		);
+		$return = [];
+		while ($data = $this->storage->db()->fetchAssoc($r)) {
+			$return[] = $data;
+		}
 
-		return ilMMItemStorage::orderBy('position')->getArray();
+		return $return;
 	}
 
 

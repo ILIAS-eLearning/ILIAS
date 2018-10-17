@@ -40,11 +40,10 @@ class ilMMItemFacade {
 			$this->mm_item->setPosition($this->gs_item->getPosition());
 			$this->mm_item->setIdentification($identification->serialize());
 			$this->mm_item->setActive(true);
+			if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+				$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
+			}
 			$this->mm_item->create();
-		}
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
-			$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
-			$this->mm_item->update();
 		}
 	}
 
@@ -181,6 +180,11 @@ class ilMMItemFacade {
 
 	public function setPosition(int $position) {
 		$this->mm_item->setPosition($position);
+	}
+
+
+	public function setParent(string $parent) {
+		$this->mm_item->setParentIdentification($parent);
 	}
 
 

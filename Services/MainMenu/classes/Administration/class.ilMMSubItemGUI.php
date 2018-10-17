@@ -88,15 +88,14 @@ class ilMMSubItemGUI {
 
 
 	private function dispatchCommand($cmd) {
-		global $DIC;
 		switch ($cmd) {
-			case ilMMSubItemGUI::ADD_SUBITEM:
+			case self::CMD_ADD_SUB_ITEM:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::SUBTAB_ENTRIES, true);
 				global $DIC;
 				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
 
 				return $f->getHTML();
-			case ilMMSubItemGUI::SUBTAB_ENTRIES:
+			case self::CMD_VIEW_SUB_ITEMS:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
 				// ADD NEW
@@ -104,12 +103,16 @@ class ilMMSubItemGUI {
 				$b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::ADD_SUBITEM));
 				$b->setCaption($this->lng->txt('add_subentry'), false);
 
-				$this->toolbar->addButtonInstance($b);
+				// $this->toolbar->addButtonInstance($b);
 
 				// TABLE
 				$table = new ilMMSubItemTableGUI($this, $this->repository);
 
 				return $table->getHTML();
+			case self::CMD_SAVE_TABLE:
+				$this->saveTable();
+
+				return "";
 		}
 
 		return "";
@@ -123,9 +126,10 @@ class ilMMSubItemGUI {
 			$item = $this->repository->getItemFacadeForIdentificationString($identification_string);
 			$item->setPosition((int)$data['position']);
 			$item->setActiveStatus((bool)$data['active']);
+			$item->setParent((string)$data['parent']);
 			$this->repository->updateItem($item);
 		}
-		$this->ctrl->redirect($this);
+		$this->ctrl->redirect($this, self::CMD_VIEW_SUB_ITEMS);
 	}
 
 

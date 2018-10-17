@@ -11,11 +11,12 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @var ilMMProvider
 	 */
 	private $item_repository;
-
-
 	/**
 	 * @inheritDoc
 	 */
+	const IDENTIFIER = 'identifier';
+
+
 	public function __construct(ilMMSubItemGUI $a_parent_obj, ilMMItemRepository $item_repository) {
 		$this->setId(self::class);
 		parent::__construct($a_parent_obj);
@@ -25,7 +26,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 		$this->addCommandButton(ilMMSubItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
 		$this->initColumns();
-		$this->setRowTemplate('tpl.sub_entries.html', 'Services/MainMenu');
+		$this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
 	}
 
 
@@ -46,6 +47,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 */
 	protected function fillRow($a_set) {
 		static $position;
+		static $current_parent;
 		$position++;
 		global $DIC;
 
@@ -54,13 +56,21 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 
 		$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
+		if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->getGSItem()->getParent()) {
+			$current_parent = $this->item_repository->getSingleItem($item_facade->getGSItem()->getParent());
+			$this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle());
+			$position = 1;
+		}
+		$this->tpl->setVariable('IDENTIFIER', self::IDENTIFIER);
+		$this->tpl->setVariable('ID', $item_facade->getId());
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
 		$this->tpl->setVariable('STATUS', $item_facade->getStatus());
-		if ($a_set['status'] !== 'Available') {
-			$this->tpl->touchBlock('NONAV');
-		} else {
-			$this->tpl->touchBlock('CHECKED');
+		if (($a_set['active'] && $item_facade->getGSItem()->isAvailable()) || $item_facade->getGSItem()->isAlwaysAvailable()) {
+			$this->tpl->touchBlock('is_active');
+		}
+		if ($item_facade->getGSItem()->isAlwaysAvailable() || !$item_facade->getGSItem()->isAvailable()) {
+			$this->tpl->touchBlock('is_active_blocked');
 		}
 
 		$this->tpl->setVariable('POSITION', $position);
@@ -83,7 +93,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @return ilSelectInputGUI
 	 */
 	private function getSelect(ilMMItemFacade $child): ilSelectInputGUI {
-		$s = new ilSelectInputGUI();
+		$s = new ilSelectInputGUI('', self::IDENTIFIER . "[{$child->getId()}][parent]");
 		$s->setOptions($this->getPossibleParent());
 		$s->setValue($child->getParentIdentificationString());
 
