@@ -7,7 +7,6 @@ include_once "Services/Badge/classes/class.ilBadgeHandler.php";
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
- * @ilCtrl_Calls ilBadgeProfileGUI: ilUserCertificateTableGUI, ilCertificateMigrationGUI
  *
  * @package ServicesBadge
  */
@@ -38,44 +37,19 @@ class ilBadgeProfileGUI
 	 */
 	protected $user;
 
-	/**
-	 * @var ilDBInterface
-	 */
-	private $database;
-
-	/**
-	 * @var ilLogger
-	 */
-	private $logger;
-
-	/**
-	 * @var \Psr\Http\Message\ServerRequestInterface
-	 */
-	private $request;
-
-	/**
-	 * @var ilSetting
-	 */
-	private $certificateSettings;
-
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	function __construct()
 	{
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
-		$this->database = $DIC->database();
-		$this->logger = $DIC->logger()->root();
-		$this->request = $DIC->http()->request();
-		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
 		$this->tabs = $DIC->tabs();
 		$this->user = $DIC->user();
-		$this->certificateSettings =  new ilSetting("certificate");
 	}
 
 	const BACKPACK_EMAIL = "badge_mozilla_bp";
@@ -90,119 +64,17 @@ class ilBadgeProfileGUI
 		
 		$tpl->setTitle($lng->txt("obj_bdga"));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
-
-		$nextClass = $ilCtrl->getNextClass();
-		switch($nextClass)
-		{
-			case "ilcertificatemigrationgui":
-				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
-				$cert_migration_gui = new \ilCertificateMigrationGUI();
-				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
-				/** @var ilTemplate $tpl */
-				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+								
+		switch($ilCtrl->getNextClass())
+		{			
+			default:			
 				$this->setTabs();
-				$this->listCertificates(true);
-				break;
-
-			default:
-				$this->setTabs();
-				$cmd = $ilCtrl->getCmd("listBadges");
+				$cmd = $ilCtrl->getCmd("listBadges");							
 				$this->$cmd();
 				break;
 		}
 	}
-
-	public function listCertificates($a_migration_started = false)
-	{
-		if (!$this->certificateSettings->get('active')) {
-			return $this->ctrl->redirect($this,"listBadges");
-		}
-
-		$this->getSubTabs('certificate');
-
-		if (!$a_migration_started) {
-			$cert_ui_elements = new \ilCertificateMigrationUIElements();
-			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
-			$this->tpl->setCurrentBlock('mess');
-			$this->tpl->setVariable('MESSAGE', $messagebox);
-			$this->tpl->parseCurrentBlock('mess');
-		}
-
-		$provider = new ilUserCertificateTableProvider($this->database, $this->logger, $this->ctrl);
-
-		$table = new ilUserCertificateTableGUI(
-			$provider,
-			$this->user,
-			$this,
-			'listCertificates'
-		);
-
-		$table->populate();
-
-		$this->tpl->setContent(	$table->getHTML());
-	}
-
-	protected function applyCertificatesFilter()
-	{
-		$table = new ilUserCertificateTableProvider($this, 'listCertificates');
-		$table->resetOffset();
-		$table->writeFilterToSession();
-
-		$this->listCertificates();
-	}
-
-	protected function resetCertificatesFilter()
-	{
-		$table = new ilUserCertificateTableProvider($this, 'listCertificates');
-		$table->resetOffset();
-		$table->resetFilter();
-
-		$this->listCertificates();
-	}
-
-	public function download()
-	{
-		global $DIC;
-
-		$database = $DIC->database();
-
-		$logger = $DIC->logger()->cert();
-
-		$user = $DIC->user();
-
-		$language = $DIC->language();
-		$language->loadLanguageModule('cert');
-
-		$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $logger);
-
-		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
-
-		try {
-			$userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
-			if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
-				throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(), $userCertificateId));
-			}
-		} catch (ilException $exception) {
-			$this->logger->warning($exception->getMessage());
-			ilUtil::sendFailure($language->txt('cert_error_no_access'));
-			$this->listCertificates();
-			return;
-		}
-
-		$pdfAction = new ilCertificatePdfAction(
-			$logger,
-			$pdfGenerator,
-			new ilCertificateUtilHelper(),
-			$this->lng->txt('error_creating_certificate_pdf')
-		);
-
-		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
-
-		$this->listCertificates();
-	}
-
+	
 	protected function setTabs()
 	{
 		$ilTabs = $this->tabs;
@@ -217,7 +89,7 @@ class ilBadgeProfileGUI
 
 			$ilTabs->addTab("backpack_badges",
 				$lng->txt("badge_backpack_list"),
-				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));
+				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));			
 		}
 	}
 	
@@ -253,14 +125,7 @@ class ilBadgeProfileGUI
 				$ilCtrl->getLinkTarget($this, "manageBadges"));
 			$ilTabs->activateTab($a_active);
 		}
-
-		if ($this->certificateSettings->get('active')) {
-			$ilTabs->addTab('certificate',
-				$lng->txt('certificate'),
-				$ilCtrl->getLinkTarget($this, "listCertificates")
-			);
-			$ilTabs->activateTab($a_active);
-		}
+		
 	}
 	
 	protected function listBadges()
