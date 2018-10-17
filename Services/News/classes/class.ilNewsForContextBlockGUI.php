@@ -1179,16 +1179,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$public_feed = ilBlockSetting::_lookup(self::$block_type, "public_feed",
 			0, $block_id);
 
-		$hide_news_per_date = ilBlockSetting::_lookup(self::$block_type, "hide_news_per_date",
-			0, $block_id);
-		$hide_news_date = ilBlockSetting::_lookup(self::$block_type, "hide_news_date",
-			0, $block_id);
-
-		if ($hide_news_date != "")
-		{
-			$hide_news_date = explode(" ", $hide_news_date);
-		}
-
 		$default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility_option", 0, $block_id);
 		if ($default_visibility == "")
 		{
@@ -1215,26 +1205,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$radio_rss->setChecked($public_feed);
 			$a_input->addSubItem($radio_rss);
 		}
-
-		//Hide news per date
-		$hnpd = new ilCheckboxInputGUI($lng->txt("news_hide_news_per_date"),
-			"hide_news_per_date");
-		$hnpd->setInfo($lng->txt("news_hide_news_per_date_info"));
-		$hnpd->setChecked($hide_news_per_date);
-
-		$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
-			"hide_news_date");
-		$dt_prop->setRequired(true);
-		if ($hide_news_date != "")
-		{
-			$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
-		}
-
-		$dt_prop->setShowTime(true);
-
-		$hnpd->addSubItem($dt_prop);
-
-		$a_input->addSubItem($hnpd);
 	}
 
 	static function writeSettings($a_values)

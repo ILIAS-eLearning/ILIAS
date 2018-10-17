@@ -94,6 +94,7 @@ class ilContainerNewsSettingsGUI
 	{
 		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
 		$form = new ilPropertyFormGUI();
 
 		if($this->setting->get('block_activated_news'))
@@ -127,9 +128,6 @@ class ilContainerNewsSettingsGUI
 		$cb2->setChecked($this->object->getNewsTimelineLandingPage());
 		$cb->addSubItem($cb2);
 
-		// save and cancel commands
-		$form->addCommandButton("save", $this->lng->txt("save"));
-
 		// Cron Notifications
 		if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
 		{
@@ -138,8 +136,42 @@ class ilContainerNewsSettingsGUI
 			ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
 		}
 
+		$block_id = $this->ctrl->getContextObjId();
+
+		// Visibility by date
+		$hide_news_per_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_per_date",
+			0, $block_id);
+		$hide_news_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_date",
+			0, $block_id);
+
+		if ($hide_news_date != "")
+		{
+			$hide_news_date = explode(" ", $hide_news_date);
+		}
+
+		//Hide news per date
+		$hnpd = new ilCheckboxInputGUI($this->lng->txt("news_hide_news_per_date"),
+			"hide_news_per_date");
+		$hnpd->setInfo($this->lng->txt("news_hide_news_per_date_info"));
+		$hnpd->setChecked($hide_news_per_date);
+
+		$dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
+		$dt_prop->setRequired(true);
+
+		if ($hide_news_date != "")
+		{
+			$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
+		}
+
+		$dt_prop->setShowTime(true);
+
+		$hnpd->addSubItem($dt_prop);
+
+		$form->addItem($hnpd);
+
 		$form->setTitle($this->lng->txt("cont_news_settings"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton("save", $this->lng->txt("save"));
 
 		return $form;
 	}
