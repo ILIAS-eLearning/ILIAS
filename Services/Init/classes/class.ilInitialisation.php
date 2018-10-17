@@ -667,9 +667,10 @@ class ilInitialisation
 		$c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) {
 			return new ilTermsOfServiceSequentialDocumentEvaluation(
 				new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
-					$c['tos.criteria.type.factory'], $c->user()
+					$c['tos.criteria.type.factory'], $c->user(), $c->logger()->tos()
 				),
 				$c->user(),
+				$c->logger()->tos(),
 				\ilTermsOfServiceDocument::orderBy('sorting')->get()
 			);
 		};

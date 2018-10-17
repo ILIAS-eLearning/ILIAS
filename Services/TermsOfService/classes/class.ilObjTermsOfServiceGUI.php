@@ -69,7 +69,7 @@ class ilObjTermsOfServiceGUI extends \ilObject2GUI
 					$this->dic->language(),
 					$this->dic->rbac()->system(),
 					$this->dic['ilErr'],
-					$this->dic->logger()->root(),
+					$this->dic->logger()->tos(),
 					$this->dic->toolbar(),
 					$this->dic->http(),
 					$this->dic->ui()->factory(),

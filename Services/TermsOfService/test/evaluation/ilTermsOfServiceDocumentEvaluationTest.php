@@ -14,10 +14,12 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
 
 		$evaluation = new \ilTermsOfServiceSequentialDocumentEvaluation(
 			$evaluator,
 			$user,
+			$log,
 			[]
 		);
 
@@ -31,10 +33,12 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
 
 		$evaluation = new \ilTermsOfServiceSequentialDocumentEvaluation(
 			$evaluator,
 			$user,
+			$log,
 			[]
 		);
 
@@ -50,6 +54,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
 
 		$doc = $this
 			->getMockBuilder(\ilTermsOfServiceSignableDocument::class)
@@ -64,6 +69,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		$evaluation = new \ilTermsOfServiceSequentialDocumentEvaluation(
 			$evaluator,
 			$user,
+			$log,
 			[$doc]
 		);
 
@@ -78,6 +84,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
 
 		$doc1 = $this
 			->getMockBuilder(\ilTermsOfServiceSignableDocument::class)
@@ -108,6 +115,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		$evaluation = new \ilTermsOfServiceSequentialDocumentEvaluation(
 			$evaluator,
 			$user,
+			$log,
 			[$doc1, $doc2, $doc3]
 		);
 
@@ -122,6 +130,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	{
 		$evaluator = $this->getEvaluatorMock();
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
 
 		$doc1 = $this
 			->getMockBuilder(\ilTermsOfServiceSignableDocument::class)
@@ -152,6 +161,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 		$evaluation = new \ilTermsOfServiceSequentialDocumentEvaluation(
 			$evaluator,
 			$user,
+			$log,
 			[$doc1, $doc2, $doc3]
 		);
 

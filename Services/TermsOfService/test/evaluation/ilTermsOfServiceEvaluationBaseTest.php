@@ -32,6 +32,19 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends \ilTermsOfServiceBaseT
 	}
 
 	/**
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilLogger
+	 */
+	protected function getLogMock(): \ilLogger
+	{
+		$log = $this
+			->getMockBuilder(\ilLogger::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $log;
+	}
+
+	/**
 	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceDocumentCriteriaEvaluation
 	 */
 	protected function getEvaluatorMock(): \ilTermsOfServiceDocumentCriteriaEvaluation

@@ -14,6 +14,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	{
 		$user = $this->getUserMock();
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
+		$log = $this->getLogMock();
 
 		$doc = $this
 			->getMockBuilder(\ilTermsOfServiceSignableDocument::class)
@@ -24,7 +25,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 			->method('criteria')
 			->willReturn([]);
 
-		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user);
+		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user, $log);
 
 		$this->assertTrue($evaluator->evaluate($doc));
 	}
@@ -35,6 +36,8 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch()
 	{
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
+
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
 		$criterionType1 = $this->getCriterionTypeMock('dummy1');
@@ -87,7 +90,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 				$criterionType3
 			);
 
-		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user);
+		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user, $log);
 
 		$this->assertTrue($evaluator->evaluate($doc));
 	}
@@ -98,6 +101,8 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 	public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch()
 	{
 		$user = $this->getUserMock();
+		$log = $this->getLogMock();
+
 		$criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
 		$criterionType1 = $this->getCriterionTypeMock('dummy1');
@@ -150,7 +155,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends \ilTermsOfServiceEv
 				$criterionType3
 			);
 
-		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user);
+		$evaluator = new \ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user, $log);
 
 		$this->assertFalse($evaluator->evaluate($doc));
 	}
