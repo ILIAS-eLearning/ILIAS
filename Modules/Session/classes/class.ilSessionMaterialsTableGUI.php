@@ -16,6 +16,16 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 	protected $material_items;
 	protected $filter; // [array]
 
+	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+	protected $ui;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $renderer;
+
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		global $DIC;
@@ -23,6 +33,9 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		$tree = $DIC['tree'];
+
+		$this->ui = $DIC->ui()->factory();
+		$this->renderer = $DIC->ui()->renderer();
 
 		$this->setId("sess_materials_".$a_parent_obj->object->getId());
 
@@ -40,7 +53,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "f", 1);
 		$this->addColumn($lng->txt("crs_materials"), "object", "90%" );
-		$this->addColumn($lng->txt("status"), "active", 5);
+		$this->addColumn($lng->txt("sess_is_assigned"), "active", 5);
+		//todo can I remove this?
 		$this->setSelectAllCheckbox('items');
 
 		$this->setFilterCommand("applyFilter");
@@ -179,10 +193,11 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("COLL_DESC",$a_set['description']);
 		}
-		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
-			ilUtil::getImagePath('icon_ok.svg') :
-			ilUtil::getImagePath('icon_not_ok.svg'));
-		$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
+		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
+		{
+			$ass_glyph = $this->ui->glyph()->apply();
+			$this->tpl->setVariable("ASSIGNED_IMG_OK",$this->renderer->render($ass_glyph));
+		}
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');
 		$path = new ilPathGUI();
@@ -263,7 +278,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$types[0] = $this->lng->txt('sess_filter_all_types');
 		foreach($filter_types as $type)
 		{
-			$types["$type"] = $this->lng->txt($type);
+			$types["$type"] = $this->lng->txt("obj_".$type);
 		}
 
 		$select = new ilSelectInputGUI($this->lng->txt("type"), "type");
@@ -274,11 +289,11 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 		// status
 		$status = array();
-		$status[0] = $this->lng->txt("sess_filter_all_status");
+		$status[0] = "-";
 		$status["notassigned"] = $this->lng->txt("sess_filter_not_assigned");
 		$status["assigned"] = $this->lng->txt("assigned");
 
-		$select_status = new ilSelectInputGUI($this->lng->txt("status"), "status");
+		$select_status = new ilSelectInputGUI($this->lng->txt("assigned"), "status");
 		$select_status->setOptions($status);
 		$this->addFilterItem($select_status);
 		$select_status->readFromSession();
