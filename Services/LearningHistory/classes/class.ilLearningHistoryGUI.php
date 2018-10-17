@@ -10,6 +10,9 @@
  */
 class ilLearningHistoryGUI
 {
+	const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
+	const TAB_ID_MY_CERTIFICATES = 'certificate';
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -30,6 +33,12 @@ class ilLearningHistoryGUI
 	 */
 	protected $ui;
 
+	/** @var ilSetting */
+	protected $certificateSettings;
+
+	/** @var ilTabsGUI */
+	protected $tabs;
+
 	/**
 	 * Constructor
 	 */
@@ -44,10 +53,13 @@ class ilLearningHistoryGUI
 		$this->main_tpl = $this->ui->mainTemplate();
 		$this->lng = $this->lhist_service->language();
 		$this->access = $this->lhist_service->access();
+		$this->tabs = $DIC->tabs();
 
 		$this->lng->loadLanguageModule("lhist");
 
 		$this->user_id = $this->lhist_service->user()->getId();
+
+		$this->certificateSettings =  new ilSetting("certificate");
 	}
 
 	/**
@@ -59,15 +71,46 @@ class ilLearningHistoryGUI
 		
 		$next_class = $ctrl->getNextClass($this);
 		$cmd = $ctrl->getCmd("show");
-	
+
 		switch ($next_class)
 		{
+			case 'ilusercertificategui':
+				$this->setTabs(self::TAB_ID_MY_CERTIFICATES);
+				$gui = new \ilUserCertificateGUI(
+					$this->main_tpl, $ctrl, $this->lng
+				);
+				$ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				if (in_array($cmd, array("show")))
 				{
+					$this->setTabs(self::TAB_ID_LEARNING_HISTORY);
 					$this->$cmd();
 				}
 		}
+	}
+
+	/**
+	 * @param string $activeTab
+	 */
+	protected function setTabs(string $activeTab)
+	{
+		$this->tabs->addTab(
+			self::TAB_ID_LEARNING_HISTORY,
+			$this->lng->txt('lhist_learning_history'),
+			$this->ctrl->getLinkTarget($this)
+		);
+
+		if ($this->certificateSettings->get('active')) {
+			$this->tabs->addTab(
+				self::TAB_ID_MY_CERTIFICATES,
+				$this->lng->txt('certificate'),
+				$this->ctrl->getLinkTargetByClass('ilUserCertificateGUI')
+			);
+		}
+
+		$this->tabs->activateTab($activeTab);
 	}
 	
 	/**

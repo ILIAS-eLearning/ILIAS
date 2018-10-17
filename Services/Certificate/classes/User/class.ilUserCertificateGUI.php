@@ -7,43 +7,33 @@
  * @ingroup ServicesCertificate
  *
  * @author  Niels Theen <ntheen@databay.de>
+ * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilLearningHistoryGUI
  */
 class ilUserCertificateGUI
 {
-	/**
-	 * @var ilTemplate
-	 */
+	/** @var ilTemplate */
 	private $template;
 
-	/**
-	 * @var ilCtrl
-	 */
+	/** @var ilCtrl */
 	private $controller;
 
-	/**
-	 * @var ilLanguage
-	 */
+	/** @var ilLanguage */
 	private $language;
 
-	/**
-	 * @var ilUserCertificateRepository|null
-	 */
+	/** @var ilUserCertificateRepository|null */
 	private $userCertificateRepository;
 
-	/**
-	 * @var ilObjUser|ilUser|null
-	 */
+	/** @var ilObjUser|null */
 	private $user;
 
-	/**
-	 * @var \GuzzleHttp\Psr7\Request|null|\Psr\Http\Message\ServerRequestInterface
-	 */
+	/** @var \GuzzleHttp\Psr7\Request|null|\Psr\Http\Message\ServerRequestInterface */
 	private $request;
 
-	/**
-	 * @var ilLogger
-	 */
+	/** @var ilLogger */
 	private $certificateLogger;
+
+	/** @var ilSetting */
+	protected $certificateSettings;
 
 	/**
 	 * @param ilTemplate|null $template
@@ -53,6 +43,7 @@ class ilUserCertificateGUI
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 * @param \GuzzleHttp\Psr7\Request|null $request
 	 * @param ilLogger $certificateLogger
+	 * @param ilSetting|null $certificateSettings
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -61,7 +52,8 @@ class ilUserCertificateGUI
 		ilObjUser $user = null,
 		ilUserCertificateRepository $userCertificateRepository = null,
 		GuzzleHttp\Psr7\Request $request = null,
-		ilLogger $certificateLogger = null
+		ilLogger $certificateLogger = null,
+		ilSetting $certificateSettings = null
 	) {
 		global $DIC;
 
@@ -101,6 +93,13 @@ class ilUserCertificateGUI
 			$certificateLogger = $DIC->logger()->cert();
 		}
 		$this->certificateLogger = $certificateLogger;
+
+		if ($certificateSettings === null) {
+			$certificateSettings = new ilSetting("certificate");
+		}
+		$this->certificateSettings = $certificateSettings;
+
+		$this->language->loadLanguageModule('cert');
 	}
 
 	/**
@@ -108,7 +107,7 @@ class ilUserCertificateGUI
 	 */
 	private function getDefaultCommand(): string 
 	{
-		return 'show';
+		return 'listCertificates';
 	}
 
 	/**
@@ -121,7 +120,19 @@ class ilUserCertificateGUI
 		$nextClass = $this->controller->getNextClass($this);
 		$cmd = $this->controller->getCmd();
 
+		if (!$this->certificateSettings->get('active')) {
+			$this->controller->returnToParent($this);
+		}
+
 		switch ($nextClass) {
+			case 'ilcertificatemigrationgui':
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $this->controller->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->listCertificates(true);
+				break;
+
 			default:
 				if (!method_exists($this, $cmd)) {
 					$cmd = $this->getDefaultCommand();
@@ -129,31 +140,107 @@ class ilUserCertificateGUI
 				$this->{$cmd}();
 		}
 
-		$this->show();
-
-
 		return true;
 	}
 
 	/**
-	 * @throws ilException
+	 * @param bool $a_migration_started
 	 */
-	private function download()
+	public function listCertificates(bool $a_migration_started = false)
 	{
-		$pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
-		$pdfScalar = $pdfGenerator->generate((int) $this->request->getQueryParams()['user_certificate_id']);
+		global $DIC;
 
-		ilUtil::deliverData(
-			$pdfScalar,
-			'Certificate.pdf',
-			"application/pdf"
+		if (!$this->certificateSettings->get('active')) {
+			$this->controller->redirect($this);
+			return;
+		}
+
+		if (!$a_migration_started) {
+			$cert_ui_elements = new \ilCertificateMigrationUIElements();
+			$messageBoxLink = $this->controller->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messageBox = $cert_ui_elements->getMigrationMessageBox($messageBoxLink);
+
+			if (strlen($messageBox) > 0) {
+				$this->template->setCurrentBlock('mess');
+				$this->template->setVariable('MESSAGE', $messageBox);
+				$this->template->parseCurrentBlock('mess');
+			}
+		}
+
+		$provider = new ilUserCertificateTableProvider($DIC->database(), $this->certificateLogger, $this->controller);
+
+		$table = new ilUserCertificateTableGUI(
+			$provider,
+			$this->user,
+			$this,
+			'listCertificates'
 		);
+
+		$table->populate();
+
+		$this->template->setContent($table->getHTML());
 	}
 
 	/**
-	 * @throws ilDateTimeException
+	 *
 	 */
-	private function show()
+	protected function applyCertificatesFilter()
 	{
+		$table = new \ilUserCertificateTableProvider($this, 'listCertificates');
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->listCertificates();
+	}
+
+	/**
+	 *
+	 */
+	protected function resetCertificatesFilter()
+	{
+		$table = new \ilUserCertificateTableProvider($this, 'listCertificates');
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->listCertificates();
+	}
+
+	/**
+	 * @throws \ilException
+	 */
+	public function download()
+	{
+		global $DIC;
+
+		$user = $DIC->user();
+		$language = $DIC->language();
+
+		$userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
+		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
+
+		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
+
+		try {
+			$userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
+			if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
+				throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(), $userCertificateId));
+			}
+		} catch (ilException $exception) {
+			$this->certificateLogger->warning($exception->getMessage());
+			ilUtil::sendFailure($language->txt('cert_error_no_access'));
+			$this->listCertificates();
+			return;
+		}
+
+		$pdfAction = new ilCertificatePdfAction(
+			$this->certificateLogger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->language->txt('error_creating_certificate_pdf')
+		);
+
+		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
+
+		$this->listCertificates();
 	}
 }

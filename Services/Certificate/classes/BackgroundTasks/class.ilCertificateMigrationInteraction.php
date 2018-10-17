@@ -96,9 +96,7 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 			return $input;
 		}
 
-		$logger->info('User interaction certificate migration redirect to certificate list for user with id: ' . $user_id);
-		// @TODO: Change when integrating into trunk
-		$DIC->ctrl()->redirectByClass(['ilPersonalDesktopGUI', 'ilBadgeProfileGUI'], 'listCertificates');
+		$DIC->ctrl()->redirectByClass(['ilPersonalDesktopGUI', 'ilLearningHistoryGUI', 'ilUserCertificateGUI'], 'listCertificates');
 
 		return $input;
 	}

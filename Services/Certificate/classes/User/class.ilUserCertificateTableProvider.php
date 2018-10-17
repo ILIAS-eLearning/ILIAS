@@ -116,7 +116,9 @@ class ilUserCertificateTableProvider
 				'id' => $row['id'],
 				'title' => $title,
 				'date' => $this->dateHelper->formatDate($row['acquired_timestamp'], $this->dateFormat),
-				'action' => $this->controller->getLinkTargetByClass('ilUserCertificateTableGUI', 'download')
+				'action' => $this->controller->getLinkTargetByClass(
+					['ilLearningHistoryGUI', 'ilUserCertificateGUI'], 'download'
+				)
 			);
 		}
 

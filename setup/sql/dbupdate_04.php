@@ -23267,3 +23267,7 @@ if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5320>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
