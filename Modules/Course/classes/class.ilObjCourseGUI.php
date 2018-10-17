@@ -2319,7 +2319,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilconditionhandlergui":
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';				
+				include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 				// preconditions for whole course				
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab('settings');

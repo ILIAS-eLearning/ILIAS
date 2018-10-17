@@ -48,16 +48,15 @@ class ilConditionHandlerGUI
 		$tree = $DIC['tree'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
-
 		$this->ch_obj = new ilConditionHandler();
 
-		$this->ctrl =& $ilCtrl;
-		$this->gui_obj =& $gui_obj;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->gui_obj = $gui_obj;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('rbac');
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
+		$this->lng->loadLanguageModule('cond');
+		$this->tpl = $tpl;
+		$this->tree = $tree;
 		
 		if($a_ref_id)
 		{
@@ -228,26 +227,6 @@ class ilConditionHandlerGUI
 		return $this->target_title;
 	}
 
-	function chi_init(&$chi_target_obj,$a_ref_id = null)
-	{
-		echo 'deprecated';
-		
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
-
-		$this->ch_obj = new ilConditionHandler();
-
-		if($a_ref_id)
-		{
-			$this->target_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
-		}
-		else
-		{
-			$this->target_obj =& $this->object;
-		}
-
-		return true;
-	}
-
 	/**
 	 * list conditions
 	 * @global ilToolbar 
@@ -256,13 +235,22 @@ class ilConditionHandlerGUI
 	{
 		global $DIC;
 
+		$util = $DIC->conditions()->util();
+
+		// check if parent deals with conditions
+		if ($this->getTargetRefId() > 0 && $util->isUnderParentControl($this->getTargetRefId()))
+		{
+			ilUtil::sendInfo($this->lng->txt("cond_under_parent_control"));
+			return;
+		}
+
 		$ilToolbar = $DIC['ilToolbar'];
 
 		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.list_conditions.html','Services/AccessControl');
 
-		$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+		$optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 			$this->getTargetRefId(),
 			$this->getTargetId(),
 			$this->getTargetType()
@@ -280,7 +268,7 @@ class ilConditionHandlerGUI
 		}
 		
 		// Show form only if conditions are availabe
-		if(count(ilConditionHandler::_getConditionsOfTarget(
+		if(count(ilConditionHandler::_getPersistedConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()))
@@ -293,10 +281,9 @@ class ilConditionHandlerGUI
 			}
 		}
 
-		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
 		$table = new ilConditionHandlerTableGUI($this,'listConditions', ($_REQUEST["list_mode"] != "all"));
 		$table->setConditions(
-			ilConditionHandler::_getConditionsOfTarget(
+			ilConditionHandler::_getPersistedConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()
@@ -322,8 +309,7 @@ class ilConditionHandlerGUI
 				case "all":
 					if($old_mode != "all")
 					{
-						include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
-						$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+						$optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -340,7 +326,7 @@ class ilConditionHandlerGUI
 					$num_req = $form->getInput('required');
 					if($old_mode != "subset")
 					{
-						$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+						$all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -376,7 +362,7 @@ class ilConditionHandlerGUI
 	 */
 	protected function saveObligatoryList()
 	{
-		$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+		$all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
 							$this->getTargetRefId(),
 							$this->getTargetId(),
 							$this->getTargetType()
@@ -399,7 +385,7 @@ class ilConditionHandlerGUI
 		}
 		
 		// re-calculate 
-		ilConditionHandler::calculateRequiredTriggers(
+		ilConditionHandler::calculatePersistedRequiredTriggers(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType(),
@@ -424,14 +410,14 @@ class ilConditionHandlerGUI
 		
 		if(!$opt)
 		{
-			$opt = ilConditionHandler::getOptionalConditionsOfTarget(
+			$opt = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
 				$this->getTargetRefId(),
 				$this->getTargetId(),
 				$this->getTargetType()
 			);
 		}
 		
-		$all = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
+		$all = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -440,7 +426,7 @@ class ilConditionHandlerGUI
 		$form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
 		
 		$hide = new ilCheckboxInputGUI($this->lng->txt('rbac_precondition_hide'),'hidden');
-		$hide->setChecked(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
+		$hide->setChecked(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
 		$hide->setValue(1);
 		$hide->setInfo($this->lng->txt('rbac_precondition_hide_info'));
 		$form->addItem($hide);
@@ -519,7 +505,6 @@ class ilConditionHandlerGUI
 		}
 
 		// Update condition
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		$condition_handler = new ilConditionHandler();
 
 		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
@@ -622,8 +607,6 @@ class ilConditionHandlerGUI
 	
 	function selector()
 	{
-		include_once ("./Services/AccessControl/classes/class.ilConditionSelector.php");
-
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this, "selector");
@@ -702,7 +685,7 @@ class ilConditionHandlerGUI
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator($_POST['operator']);
 		$this->ch_obj->setObligatory((int) $_POST['obligatory']);
-		$this->ch_obj->setHiddenStatus(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
+		$this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
 		$this->ch_obj->setValue('');
 
 		// Save assigned sco's
@@ -760,9 +743,8 @@ class ilConditionHandlerGUI
 	}
 	function __getConditionsOfTarget()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
+		foreach(ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
@@ -833,13 +815,12 @@ class ilConditionHandlerGUI
 		$this->form->addItem($obl);
 	 	
 	 	$sel = new ilSelectInputGUI($this->lng->txt('condition'),'operator');
-		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		$ch_obj = new ilConditionHandler();
 		if($a_mode == 'add')
 		{
 			$operators[0] = $this->lng->txt('select_one');
 		}
-		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
+		foreach($ch_obj->getOperatorsByTriggerType($trigger_type) as $operator)
 		{
 			$operators[$operator] = $this->lng->txt('condition_'.$operator);
 		}

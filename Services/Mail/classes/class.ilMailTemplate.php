@@ -7,81 +7,79 @@
  */
 class ilMailTemplate
 {
-	/**
-	 * @var int
-	 */
-	protected $tpl_id = 0;
+	/** @var int */
+	protected $templateId = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $title = '';
 
-	/**
- 	 * @var string
- 	 */
+	/*** @var string */
 	protected $context = '';
 
-	/**
- 	 * @var string
- 	 */
+	/** @var string */
 	protected $lang = '';
 
-	/**
- 	 * @var string
- 	 */
-	protected $m_subject = '';
+	/** @var string  */
+	protected $subject = '';
 
-	/**
- 	 * @var string
- 	 */
-	protected $m_message = '';
+	/** @var string */
+	protected $message = '';
 
-	/**
-	 * @var \ilDBInterface
-	 */
-	protected $db;
+	/** @var bool */
+	protected $isDefault = false;
 
 	/**
 	 * @param array $data
 	 */
-	public function __construct($data = NULL)
+	public function __construct(array $data = null)
 	{
-		global $DIC;
-
-		$this->db = $DIC->database();
-
-		if($data)
-		{
+		if (is_array($data)) {
 			$this->setTplId($data['tpl_id']);
 			$this->setTitle($data['title']);
 			$this->setContext($data['context']);
 			$this->setLang($data['lang']);
 			$this->setSubject($data['m_subject']);
 			$this->setMessage($data['m_message']);
+			$this->setAsDefault((bool)$data['is_default']);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray(): array 
+	{
+		return [
+			'tpl_id' => $this->getTplId(),
+			'title' => $this->getTitle(),
+			'context' => $this->getContext(),
+			'lang' => $this->getLang(),
+			'm_subject' => $this->getSubject(),
+			'm_message' => $this->getMessage(),
+			'is_default' => $this->isDefault(),
+		];
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getTplId()
+	public function getTplId(): int
 	{
-		return $this->tpl_id;
+		return $this->templateId;
 	}
 
 	/**
-	 * @param int $tpl_id
+	 * @param int $templateId
 	 */
-	public function setTplId($tpl_id)
+	public function setTplId(int $templateId)
 	{
-		$this->tpl_id = $tpl_id;
+		$this->templateId = $templateId;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle(): string 
 	{
 		return $this->title;
 	}
@@ -89,7 +87,7 @@ class ilMailTemplate
 	/**
 	 * @param string $title
 	 */
-	public function setTitle($title)
+	public function setTitle(string $title)
 	{
 		$this->title = $title;
 	}
@@ -97,7 +95,7 @@ class ilMailTemplate
 	/**
 	 * @return string
 	 */
-	public function getContext()
+	public function getContext(): string 
 	{
 		return $this->context;
 	}
@@ -105,7 +103,7 @@ class ilMailTemplate
 	/**
 	 * @param string $context
 	 */
-	public function setContext($context)
+	public function setContext(string $context)
 	{
 		$this->context = $context;
 	}
@@ -113,7 +111,7 @@ class ilMailTemplate
 	/**
 	 * @return string
 	 */
-	public function getLang()
+	public function getLang(): string 
 	{
 		return $this->lang;
 	}
@@ -121,7 +119,7 @@ class ilMailTemplate
 	/**
 	 * @param string $lang
 	 */
-	public function setLang($lang)
+	public function setLang(string $lang)
 	{
 		$this->lang = $lang;
 	}
@@ -129,68 +127,48 @@ class ilMailTemplate
 	/**
 	 * @return string
 	 */
-	public function getSubject()
+	public function getSubject(): string 
 	{
-		return $this->m_subject;
+		return $this->subject;
 	}
 
 	/**
-	 * @param string $m_subject
+	 * @param string $subject
 	 */
-	public function setSubject($m_subject)
+	public function setSubject(string $subject)
 	{
-		$this->m_subject = $m_subject;
+		$this->subject = $subject;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getMessage()
+	public function getMessage(): string 
 	{
-		return $this->m_message;
+		return $this->message;
 	}
 
 	/**
-	 * @param string $m_message
+	 * @param string $message
 	 */
-	public function setMessage($m_message)
+	public function setMessage(string $message)
 	{
-		$this->m_message = $m_message;
-	}
-
-	public function insert()
-	{
-		$next_id = $this->db->nextId('mail_man_tpl');
-		$this->db->insert('mail_man_tpl', array(
-			'tpl_id'    => array('integer', $next_id),
-			'title'     => array('text', $this->getTitle()),
-			'context'   => array('text', $this->getContext()),
-			'lang'      => array('text', $this->getLang()),
-			'm_subject' => array('text', $this->getSubject()),
-			'm_message' => array('text', $this->getMessage())
-		));
-	}
-
-	public function update()
-	{
-		$this->db->update('mail_man_tpl',
-			array(
-				'title'     => array('text', $this->getTitle()),
-				'context'   => array('text', $this->getContext()),
-				'lang'      => array('text', $this->getLang()),
-				'm_subject' => array('text', $this->getSubject()),
-				'm_message' => array('text', $this->getMessage())
-			),
-			array(
-				'tpl_id' => array('integer', $this->getTplId()),
-			));
+		$this->message = $message;
 	}
 
 	/**
-	 * @param array $tpl_ids
+	 * @return bool
 	 */
-	public function delete($tpl_ids = array())
+	public function isDefault(): bool
 	{
-	
+		return $this->isDefault;
+	}
+
+	/**
+	 * @param bool $isDefault
+	 */
+	public function setAsDefault(bool $isDefault)
+	{
+		$this->isDefault = $isDefault;
 	}
 }

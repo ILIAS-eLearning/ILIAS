@@ -104,7 +104,7 @@ class ilObjectActivationGUI
 		{
 			case 'ilconditionhandlergui':				
 				// preconditions for single course items
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+				include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 				$new_gui = new ilConditionHandlerGUI($this,(int) $_GET['item_id']);
 				$this->ctrl->forwardCommand($new_gui);

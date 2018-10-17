@@ -12788,6 +12788,11 @@ crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
+mail#:#mail_template_set_as_default#:#Set as Default
+mail#:#mail_template_unset_as_default#:#Unset as Default
+mail#:#mail_template_default#:# (Default)
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
 mail#:#mail_template_title#:#Name
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
@@ -13809,7 +13814,7 @@ chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of th
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
-chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened.
+chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -14299,6 +14304,8 @@ adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
+mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
+common#:#presentation_table_more#:#more
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
@@ -14349,6 +14356,17 @@ survey#:#svy_self_ev_access_results_none#:#No Access to Results
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
 survey#:#svy_participant#:#Participant
+cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+pd#:#pd_enable_learning_history#:#Learning History
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 common#:#presentation_table_more#:#more
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

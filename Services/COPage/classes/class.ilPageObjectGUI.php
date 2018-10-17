@@ -2541,13 +2541,18 @@ return;
 							$back = $this->getProfileBackUrl();
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-								rawurlencode($back));
+							if (strlen($back)) {
+								$this->ctrl->setParameterByClass(
+									"ilpublicuserprofilegui",
+									"back_url",
+									rawurlencode($back)
+								);
+							}
 							$href = "";
 							include_once("./Services/User/classes/class.ilUserUtil.php");
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass(["ilpersonaldesktopgui", "ilpublicuserprofilegui"], "getHTML");
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);

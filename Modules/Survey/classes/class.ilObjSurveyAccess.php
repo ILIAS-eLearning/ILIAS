@@ -22,7 +22,7 @@
 */
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
-include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjSurveyAccess
@@ -76,7 +76,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_FINISHED
 		);

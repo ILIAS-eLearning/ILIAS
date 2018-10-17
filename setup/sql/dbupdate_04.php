@@ -18640,7 +18640,8 @@ while ($rec = $ilDB->fetchAssoc($set))
 		foreach ($plugin_slots as $ps) {
 			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 			foreach ($slot->getPluginsInformation() as $p) {
-				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				$plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
 					writeCtrlClassEntry($slot, $p);
 				}
 			}
@@ -22388,7 +22389,7 @@ if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 	$ilDB->addTableColumn('qpl_fb_specific', 'question', array(
 		'type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => null
 	));
-
+	
 	// give all other qtypes having a single subquestion the question index 0
 	$ilDB->manipulateF(
 		"UPDATE qpl_fb_specific SET question = %s WHERE question_fi NOT IN(
@@ -22397,7 +22398,7 @@ if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 		  	WHERE type_tag = %s
 		)", array('integer', 'text'), array(0, 'assClozeTest')
 	);
-
+	
 	// for all assClozeTest entries - migrate the gap feedback indexes from answer field to questin field
 	$ilDB->manipulateF(
 		"UPDATE qpl_fb_specific SET question = answer WHERE question_fi IN(
@@ -22406,7 +22407,7 @@ if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 		  	WHERE type_tag = %s
 		)", array('text'), array('assClozeTest')
 	);
-
+	
 	// for all assClozeTest entries - initialize the answer field with 0 for the formaly stored gap feedback
 	$ilDB->manipulateF(
 		"UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
@@ -22415,12 +22416,12 @@ if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 		  	WHERE type_tag = %s
 		)", array('integer', 'text'), array(0, 'assClozeTest')
 	);
-
+	
 	// finaly set the question index field to notnull = true (not nullable) as it is now initialized
 	$ilDB->modifyTableColumn('qpl_fb_specific', 'question', array(
 		'notnull' => true, 'default' => 0
 	));
-
+	
 	// add unique constraint on qid and the two specific feedback indentification index fields
 	$ilDB->addUniqueConstraint('qpl_fb_specific', array(
 		'question_fi', 'question', 'answer'
@@ -22432,11 +22433,11 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
 	$ilDB->addTableColumn('qpl_qst_cloze', 'feedback_mode', array(
 		'type' => 'text', 'length' => 16, 'notnull' => false, 'default' => null
 	));
-
+	
 	$ilDB->manipulateF("UPDATE qpl_qst_cloze SET feedback_mode = %s",
 		array('text'), array('gapQuestion')
 	);
-
+	
 	$ilDB->modifyTableColumn('qpl_qst_cloze', 'feedback_mode', array(
 		'notnull' => true, 'default' => 'gapQuestion'
 	));
@@ -22447,9 +22448,9 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
 if( !$ilDB->tableColumnExists('tst_tests', 'follow_qst_answer_fixation') )
 {
 	$ilDB->addTableColumn('tst_tests', 'follow_qst_answer_fixation', array(
-		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0
+		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0		
 	));
-
+	
 	$ilDB->manipulateF(
 		'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
 	);
@@ -22477,7 +22478,7 @@ if( !$ilDB->tableExists('tst_seq_qst_presented') )
 			'default' => 0
 		)
 	));
-
+	
 	$ilDB->addPrimaryKey('tst_seq_qst_presented', array(
 		'active_fi','pass', 'question_fi'
 	));
@@ -22522,11 +22523,11 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
-<#5291>
+<#5291> 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5292>
+<#5292> 
 <?php
 try
 {
@@ -22537,31 +22538,31 @@ try
 		'Read Test Participants Learning Progress',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_ACCESS_RESULTS,
 		'Access Test Participants Results',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
 		'Manage Test Participants',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
 		'Score Test Participants',
 		ilOrgUnitOperationContext::CONTEXT_TST
 	);
-
+	
 }
 catch(ilException $e)
 {
 }
 ?>
-<#5293>
+<#5293> 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
@@ -22575,7 +22576,7 @@ if( !$setting->get('tst_score_rep_consts_cleaned', 0) )
 		"UPDATE tst_tests SET score_reporting = %s WHERE score_reporting = %s",
 		array('integer', 'integer'), array(0, 4)
 	);
-
+	
 	$setting->set('tst_score_rep_consts_cleaned', 1);
 }
 ?>
@@ -22811,47 +22812,21 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5305>
 <?php
-require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-
-$type_id  = ilDBUpdateNewObjectType::addNewType('copa', 'Content Page Object');
-
-ilDBUpdateNewObjectType::addRBACOperations($type_id, [
-	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
-	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
-	ilDBUpdateNewObjectType::RBAC_OP_READ,
-	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
-	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
-	ilDBUpdateNewObjectType::RBAC_OP_COPY
-]);
-
-ilDBUpdateNewObjectType::addRBACCreate('create_copa', 'Create Content Page Object', [
-	'root',
-	'cat',
-	'crs',
-	'fold',
-	'grp'
-]);
+$ilCtrlStructureReader->getStructure();
 ?>
 <#5306>
 <?php
-require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-
-$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
-$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
-$w_ops_id  = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
-if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
-	$lp_types = array('copa');
-
-	foreach ($lp_types as $lp_type) {
-		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
-
-		if ($lp_type_id) {
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
-			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
-			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
-		}
-	}
+if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
+	$ilDB->addTableColumn(
+		'mail_man_tpl',
+		'is_default',
+		[
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0,
+		]
+	);
 }
 ?>
 <#5307>
@@ -22859,240 +22834,6 @@ if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
 $ilCtrlStructureReader->getStructure();
 ?>
 <#5308>
-<?php
-require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-ilDBUpdateNewObjectType::applyInitialPermissionGuideline('copa', true);
-?>
-<#5309>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
-<#5310>
-<?php
-if (!$ilDB->tableExists('content_page_data')) {
-	$fields = array(
-		'content_page_id' => array(
-			'type'    => 'integer',
-			'length'  => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'stylesheet'    => array(
-			'type'    => 'integer',
-			'notnull' => true,
-			'length'  => 4,
-			'default' => 0
-		)
-	);
-
-	$ilDB->createTable('content_page_data', $fields);
-	$ilDB->addPrimaryKey('content_page_data', array('content_page_id'));
-}
-?>
-<#5311>
-<?php
-$res = $ilDB->queryF(
-	'SELECT * FROM object_data WHERE type = %s',
-	['text'],
-	['copa']
-);
-
-while($data = $ilDB->fetchAssoc($res)) {
-	$ilDB->replace(
-		'content_page_data',
-		[
-			'content_page_id' => ['integer', (int)$data['obj_id']]
-		],
-		[]
-	);
-}
-?>
-<#5312>
-<?php
-if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
-{
-	// add new table column for indexing different question gaps in assClozeTest
-	$ilDB->addTableColumn('qpl_fb_specific', 'question', array(
-		'type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => null
-	));
-
-	// give all other qtypes having a single subquestion the question index 0
-	$ilDB->manipulateF(
-		"UPDATE qpl_fb_specific SET question = %s WHERE question_fi NOT IN(
-			SELECT question_id FROM qpl_questions
-			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
-		  	WHERE type_tag = %s
-		)", array('integer', 'text'), array(0, 'assClozeTest')
-	);
-
-	// for all assClozeTest entries - migrate the gap feedback indexes from answer field to questin field
-	$ilDB->manipulateF(
-		"UPDATE qpl_fb_specific SET question = answer WHERE question_fi IN(
-			SELECT question_id FROM qpl_questions
-			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
-		  	WHERE type_tag = %s
-		)", array('text'), array('assClozeTest')
-	);
-
-	// for all assClozeTest entries - initialize the answer field with 0 for the formaly stored gap feedback
-	$ilDB->manipulateF(
-		"UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
-			SELECT question_id FROM qpl_questions
-			INNER JOIN qpl_qst_type ON question_type_id = question_type_fi
-		  	WHERE type_tag = %s
-		)", array('integer', 'text'), array(0, 'assClozeTest')
-	);
-
-	// finaly set the question index field to notnull = true (not nullable) as it is now initialized
-	$ilDB->modifyTableColumn('qpl_fb_specific', 'question', array(
-		'notnull' => true, 'default' => 0
-	));
-
-	// add unique constraint on qid and the two specific feedback indentification index fields
-	$ilDB->addUniqueConstraint('qpl_fb_specific', array(
-		'question_fi', 'question', 'answer'
-	));
-}
-
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'feedback_mode') )
-{
-	$ilDB->addTableColumn('qpl_qst_cloze', 'feedback_mode', array(
-		'type' => 'text', 'length' => 16, 'notnull' => false, 'default' => null
-	));
-
-	$ilDB->manipulateF("UPDATE qpl_qst_cloze SET feedback_mode = %s",
-		array('text'), array('gapQuestion')
-	);
-
-	$ilDB->modifyTableColumn('qpl_qst_cloze', 'feedback_mode', array(
-		'notnull' => true, 'default' => 'gapQuestion'
-	));
-}
-?>
-<#5313>
-<?php
-if( !$ilDB->tableColumnExists('tst_tests', 'follow_qst_answer_fixation') )
-{
-	$ilDB->addTableColumn('tst_tests', 'follow_qst_answer_fixation', array(
-		'type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 0
-	));
-
-	$ilDB->manipulateF(
-		'UPDATE tst_tests SET follow_qst_answer_fixation = %s', array('integer'), array(0)
-	);
-}
-
-if( !$ilDB->tableExists('tst_seq_qst_presented') )
-{
-	$ilDB->createTable('tst_seq_qst_presented', array(
-		'active_fi' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'pass' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'question_fi' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		)
-	));
-
-	$ilDB->addPrimaryKey('tst_seq_qst_presented', array(
-		'active_fi','pass', 'question_fi'
-	));
-}
-?>
-<#5314>
-<?php
-if( $ilDB->tableColumnExists('qpl_fb_specific', 'answer') )
-{
-	$ilDB->manipulateF("
-		UPDATE qpl_fb_specific SET answer = %s WHERE question_fi IN(
-			SELECT question_fi FROM qpl_qst_cloze WHERE feedback_mode = %s
-		)
-		", array('integer', 'text'), array(-10, 'gapQuestion')
-	);
-}
-?>
-<#5315>
-<?php
-$setting = new ilSetting();
-$ilrqtix = $setting->get('iloscmsgidx1', 0);
-if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('user_id'), 'i1');
-	$setting->set('iloscmsgidx1', 1);
-}
-?>
-<#5316>
-<?php
-$setting = new ilSetting();
-$ilrqtix = $setting->get('iloscmsgidx2', 0);
-if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('conversation_id'), 'i2');
-	$setting->set('iloscmsgidx2', 1);
-}
-?>
-<#5317>
-<?php
-$setting = new ilSetting();
-$ilrqtix = $setting->get('iloscmsgidx3', 0);
-if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('conversation_id', 'user_id', 'timestamp'), 'i3');
-	$setting->set('iloscmsgidx3', 1);
-}
-?>
-<#5318>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
-<#5319>
-<?php
-try
-{
-	require_once 'Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationQueries.php';
-
-	ilOrgUnitOperationQueries::registerNewOperation(
-		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
-		'Read Test Participants Learning Progress',
-		ilOrgUnitOperationContext::CONTEXT_TST
-	);
-
-	ilOrgUnitOperationQueries::registerNewOperation(
-		ilOrgUnitOperation::OP_ACCESS_RESULTS,
-		'Access Test Participants Results',
-		ilOrgUnitOperationContext::CONTEXT_TST
-	);
-
-	ilOrgUnitOperationQueries::registerNewOperation(
-		ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
-		'Manage Test Participants',
-		ilOrgUnitOperationContext::CONTEXT_TST
-	);
-
-	ilOrgUnitOperationQueries::registerNewOperation(
-		ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
-		'Score Test Participants',
-		ilOrgUnitOperationContext::CONTEXT_TST
-	);
-
-}
-catch(ilException $e)
-{
-}
-?>
-<#5320>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
-<#5321>
 <?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
@@ -23294,11 +23035,11 @@ if(!$ilDB->tableExists('certificate_cron_queue')) {
 	$ilDB->addIndex('certificate_cron_queue', array('obj_id', 'usr_id'), 'i1');
 }
 ?>
-<#5322>
+<#5309>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5323>
+<#5310>
 <?php
 // Insert all current templates as database entries
 $web_path = CLIENT_WEB_DIR;
@@ -23364,94 +23105,94 @@ foreach ($directories as $type => $relativePath) {
 	}
 }
 ?>
-<#5324>
+<#5311>
 <?php
 if(!$ilDB->tableExists('bgtask_cert_migration')) {
-    $ilDB->createTable('bgtask_cert_migration', array(
-        'id' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'usr_id' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'lock' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'found_items' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'processed_items' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'migrated_items' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'progress' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => true,
-            'default' => 0
-        ),
-        'state' => array(
-            'type' => 'text',
-            'length' => '255',
-            'notnull' => true
-        ),
-        'started_ts' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => false,
-            'default' => 0
-        ),
-        'finished_ts' => array(
-            'type' => 'integer',
-            'length' => 4,
-            'notnull' => false,
-        ),
-    ));
-    $ilDB->addPrimaryKey('bgtask_cert_migration', array('id'));
-    $ilDB->createSequence('bgtask_cert_migration');
-    $ilDB->addUniqueConstraint('bgtask_cert_migration', array('id', 'usr_id'));
+	$ilDB->createTable('bgtask_cert_migration', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'lock' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'found_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'processed_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'migrated_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'progress' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'state' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true
+		),
+		'started_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		),
+		'finished_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+		),
+	));
+	$ilDB->addPrimaryKey('bgtask_cert_migration', array('id'));
+	$ilDB->createSequence('bgtask_cert_migration');
+	$ilDB->addUniqueConstraint('bgtask_cert_migration', array('id', 'usr_id'));
 }
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5325>
+<#5312>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5326>
+<#5313>
 <?php
 if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
 	$ilDB->addTableColumn(
 		'certificate_template',
-			'deleted', array(
-				'type' => 'integer',
-				'length' => 1,
-				'notnull' => true,
-				'default' => 0
-			)
+		'deleted', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
 	);
 }
 ?>
-<#5327>
+<#5314>
 <?php
 if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
 	$ilDB->addTableColumn(
@@ -23465,7 +23206,7 @@ if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
 	);
 }
 ?>
-<#5328>
+<#5315>
 <?php
 /** @var \ilDBInterface $ilDB */
 if ($ilDB->tableExists('certificate_cron_queue') && !$ilDB->tableExists('il_cert_cron_queue')) {
@@ -23480,7 +23221,7 @@ if (!$ilDB->sequenceExists('il_cert_cron_queue')) {
 	$ilDB->createSequence('il_cert_cron_queue', (int)$row['max_id'] + 1);
 }
 ?>
-<#5329>
+<#5316>
 <?php
 if ($ilDB->tableExists('certificate_template') && !$ilDB->tableExists('il_cert_template')) {
 	$ilDB->renameTable('certificate_template', 'il_cert_template');
@@ -23494,7 +23235,7 @@ if (!$ilDB->sequenceExists('il_cert_template')) {
 	$ilDB->createSequence('il_cert_template', (int)$row['max_id'] + 1);
 }
 ?>
-<#5330>
+<#5317>
 <?php
 if ($ilDB->tableExists('user_certificates') && !$ilDB->tableExists('il_cert_user_cert')) {
 	$ilDB->renameTable('user_certificates', 'il_cert_user_cert');
@@ -23508,7 +23249,7 @@ if (!$ilDB->sequenceExists('il_cert_user_cert')) {
 	$ilDB->createSequence('il_cert_user_cert', (int)$row['max_id'] + 1);
 }
 ?>
-<#5331>
+<#5318>
 <?php
 if ($ilDB->tableExists('bgtask_cert_migration') && !$ilDB->tableExists('il_cert_bgtask_migr')) {
 	$ilDB->renameTable('bgtask_cert_migration', 'il_cert_bgtask_migr');
@@ -23522,7 +23263,7 @@ if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
 	$ilDB->createSequence('il_cert_bgtask_migr', (int)$row['max_id'] + 1);
 }
 ?>
-<#5332>
+<#5319>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
