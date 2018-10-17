@@ -74,7 +74,7 @@ class Main {
 		$this->load();
 		$top_items = [];
 		foreach (self::$items as $item) {
-			if (!$item->isVisible() || (!$this->information->isItemActive($item) && !$item->isAlwaysAvailable())) {
+			if ((!$item->isVisible() || !$this->information->isItemActive($item) && !$item->isAlwaysAvailable())) {
 				continue;
 			}
 			if ($item instanceof hasTitle && $this->information) {
@@ -87,7 +87,7 @@ class Main {
 					 * @var $item isParent
 					 */
 					foreach ($item->getChildren() as $child) {
-						if (!$child->isVisible() || (!$this->information->isItemActive($child) && !$child->isAlwaysAvailable())) {
+						if ((!$child->isVisible() || !$this->information->isItemActive($child) && !$child->isAlwaysAvailable())) {
 							continue;
 						}
 						$children[$this->information->getPositionOfSubItem($child)] = $child;
