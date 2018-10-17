@@ -99,7 +99,7 @@ class ilMMItemRepository {
 		// sync
 		$this->sync();
 
-		return ilMMItemStorage::where(" parent_identification ='' OR parent_identification IS NULL ")->orderBy('position')->getArray();
+		return ilMMItemStorage::where(" parent_identification ='' OR parent_identification IS NULL ")->debug()->orderBy('position')->getArray();
 	}
 
 

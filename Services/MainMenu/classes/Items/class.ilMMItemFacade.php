@@ -44,6 +44,7 @@ class ilMMItemFacade {
 		}
 		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
 			$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
+			$this->mm_item->update();
 		}
 	}
 
