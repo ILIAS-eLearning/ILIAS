@@ -109,8 +109,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				$text,
 				ilUtil::getImagePath("icon_cert.svg"),
 				$certificate->getAcquiredTimestamp(),
-				$objectId,
-				\ilContainerReference::_lookupTargetRefId($objectId)
+				$objectId
 			);
 		}
 
