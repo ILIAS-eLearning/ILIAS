@@ -25,7 +25,8 @@ class ilIndividualAssessmentMembersGUI {
 	protected $tpl;
 	protected $lng;
 
-	const F_STATUS = "f_status";
+	const F_STATUS = "status";
+	const F_SORT = "sortation";
 
 	public function __construct(
 		ilObjIndividualAssessmentGUI $a_parent_gui,
@@ -55,6 +56,7 @@ class ilIndividualAssessmentMembersGUI {
 		}
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass();
+		$this->ctrl->saveParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS);
 		switch($next_class) {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
@@ -228,8 +230,9 @@ class ilIndividualAssessmentMembersGUI {
 
 		$vc_factory = $this->factory->viewControl();
 
+		$sort =  $this->getSortationControl($vc_factory);
 		$ret[] = $this->getModeControl($get, $vc_factory);
-		$ret[] = $this->getSortationControl($vc_factory);
+		$ret[] = $sort;
 
 		return $ret;
 	}
@@ -250,9 +253,11 @@ class ilIndividualAssessmentMembersGUI {
 
 	protected function getSortationControl(ViewControl\Factory $vc_factory): ViewControl\Sortation
 	{
+		$target = $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
 		return $vc_factory->sortation(
 			$this->getSortOptions()
 		)
+		->withTargetURL($target, self::F_SORT)
 		->withLabel($this->txt("iass_sort"));
 	}
 
@@ -336,8 +341,8 @@ class ilIndividualAssessmentMembersGUI {
 		return array(
 				"name:asc" => $this->txt("iass_sort_name_asc"),
 				"name:desc" => $this->txt("iass_sort_name_desc"),
-				"grading:asc" => $this->txt("iass_sort_grading_asc"),
-				"grading:desc" => $this->txt("iass_sort_grading_desc"),
+				"examinier_id:asc" => $this->txt("iass_sort_examinier_id_asc"),
+				"examinier_id:desc" => $this->txt("iass_sort_examinier_id_desc")
 			);
 	}
 
