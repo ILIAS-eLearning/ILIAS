@@ -11,6 +11,10 @@ use ILIAS\GlobalScreen\MainMenu\isChild;
 class ilMMItemRepository {
 
 	/**
+	 * @var bool
+	 */
+	private $synced = false;
+	/**
 	 * @var StorageFacade
 	 */
 	private $storage;
@@ -130,7 +134,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_ite
 	 * @return ilMMItemFacade
 	 */
 	public function getItemFacade(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): ilMMItemFacade {
-		return new ilMMItemFacade($identification, $this->providers);
+		return new ilMMItemFacade($identification, $this->main_collector);
 	}
 
 
@@ -143,15 +147,14 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_ite
 
 
 	private function sync(): bool {
-		$synced = false;
-		if ($synced === false || $synced === null) {
+		if ($this->synced === false || $this->synced === null) {
 			foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
 				$this->getItemFacadeForIdentificationString($identification->serialize());
 			}
-			$synced = true;
+			$this->synced = true;
 		}
 
-		return $synced;
+		return $this->synced;
 	}
 
 

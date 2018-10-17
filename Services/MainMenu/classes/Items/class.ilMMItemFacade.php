@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Main;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 
 /**
@@ -27,12 +28,11 @@ class ilMMItemFacade {
 	 * ilMMItemFacade constructor.
 	 *
 	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
-	 * @param array                                                      $providers
+	 * @param Main                                                       $collecor
 	 */
-	public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $providers) {
-		global $DIC;
+	public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collecor) {
 		$this->identification = $identification;
-		$this->gs_item = $DIC->globalScreen()->collector()->mainmenu($providers)->getSingleItem($identification);
+		$this->gs_item = $collecor->getSingleItem($identification);
 
 		$this->mm_item = ilMMItemStorage::find($identification->serialize());
 		if ($this->mm_item === null) {
