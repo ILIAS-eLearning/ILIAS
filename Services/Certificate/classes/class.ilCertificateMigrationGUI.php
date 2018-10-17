@@ -47,17 +47,27 @@ class ilCertificateMigrationGUI
 
 	/** @var \ILIAS\DI\BackgroundTaskServices */
 	protected $backgroundTasks;
+	
+	/** @var \ilLearningHistoryService */
+	protected $learningHistoryService;
 
 	/**
 	 * ilCertificateMigrationGUI constructor.
 	 * @param \ilCtrl $ctrl
 	 * @param \ilLanguage $lng
-	 * @param \ilAccessHandler $acces
+	 * @param ilAccessHandler|null $access
 	 * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
 	 * @param \ilObjUser $user
+	 * @param \ilLearningHistoryService $learningHistoryService
 	 */
-	public function __construct(\ilCtrl $ctrl = null, \ilLanguage $lng = null, \ilAccessHandler $access = null, \ILIAS\DI\BackgroundTaskServices $backgroundTasks = null, \ilObjUser $user = null)
-	{
+	public function __construct(
+		\ilCtrl $ctrl = null,
+		\ilLanguage $lng = null,
+		\ilAccessHandler $access = null,
+		\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null,
+		\ilObjUser $user = null,
+		\ilLearningHistoryService $learningHistoryService = null
+	) {
 		global $DIC;
 
 		if (null === $ctrl) {
@@ -69,12 +79,14 @@ class ilCertificateMigrationGUI
 		if (null === $access) {
 			$access = $DIC->access();
 		}
-
 		if (null === $backgroundTasks) {
 			$backgroundTasks = $DIC->backgroundTasks();
 		}
 		if (null === $user) {
 			$user = $DIC->user();
+		}
+		if (null === $learningHistoryService) {
+			$learningHistoryService = $DIC->learningHistory();
 		}
 
 		$this->ctrl = $ctrl;
@@ -83,6 +95,7 @@ class ilCertificateMigrationGUI
 		$this->access = $access;
 		$this->user = $user;
 		$this->backgroundTasks = $backgroundTasks;
+		$this->learningHistoryService = $learningHistoryService;
 	}
 
 	/**
@@ -127,7 +140,11 @@ class ilCertificateMigrationGUI
 
 		$task = $factory->createTask(\ilCertificateMigrationJob::class, [(int)$this->user->getId()]);
 
-		$certificates_interaction = $factory->createTask(ilCertificateMigrationInteraction::class, [
+		$interaction = \ilCertificateMigrationInteraction::class;
+		if (!$this->learningHistoryService->isActive()) {
+			$interaction = \ilCertificateMigrationReducedInteraction::class;
+		}
+		$certificates_interaction = $factory->createTask($interaction, [
 			$task,
 			(int)$this->user->getId()
 		]);
