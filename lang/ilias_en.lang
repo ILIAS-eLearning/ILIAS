@@ -14368,3 +14368,4 @@ lhist#:#lhist_no_entries#:#You do not have any entries in your learning history 
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 rbac#:#sess_manage_members#:#Manage Participants of a Session
+rbac#:#sess_manage_materials#:#Manage Session Materials
