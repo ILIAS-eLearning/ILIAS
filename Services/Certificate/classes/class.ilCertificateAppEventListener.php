@@ -136,6 +136,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		);
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function isUserDeletedEvent() : bool
 	{
 		return (
@@ -339,6 +342,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->userCertificateRepository->save($userCertificate);
 	}
 
+	/**
+	 * 
+	 */
 	private function handleDeletedUser()
 	{
 		if (false === array_key_exists('usr_id', $this->parameters)) {
@@ -350,11 +356,11 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$userId = $this->parameters['usr_id'];
 
-		$this->userCertificateRepository->deleteUserCertificates($userId);
+		$this->userCertificateRepository->deleteUserCertificates((int)$userId);
 
-		$this->certificateQueueRepository->removeFromQueueByUserId($userId);
+		$this->certificateQueueRepository->removeFromQueueByUserId((int)$userId);
 
-		$this->migrationRepository->deleteFromMigrationJob($userId);
+		$this->migrationRepository->deleteFromMigrationJob((int)$userId);
 
 		$this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
 	}

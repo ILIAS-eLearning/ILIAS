@@ -26,6 +26,9 @@ class ilCertificateMigrationRepository
 		$this->logger = $logger;
 	}
 
+	/**
+	 * @param int $userId
+	 */
 	public function deleteFromMigrationJob(int $userId)
 	{
 		$this->logger->log(sprintf('START - Delete all certificate migration jobs for user(user_id: "%s")', $userId));

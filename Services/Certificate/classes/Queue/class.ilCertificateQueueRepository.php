@@ -97,7 +97,10 @@ class ilCertificateQueueRepository
 		return $result;
 	}
 
-	public function removeFromQueueByUserId($user_id)
+	/**
+	 * @param int $user_id
+	 */
+	public function removeFromQueueByUserId(int $user_id)
 	{
 		$this->logger->info(sprintf('START - Remove entries for user(user_id: "%s") from queue', $user_id));
 
@@ -105,6 +108,6 @@ class ilCertificateQueueRepository
 
 		$this->database->manipulate($sql);
 
-		$this->logger->info(sprintf('END - Entries for user(user_id: "%s") deleted from queue', $id));
+		$this->logger->info(sprintf('END - Entries for user(user_id: "%s") deleted from queue', $user_id));
 	}
 }
