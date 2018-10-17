@@ -188,7 +188,11 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 		$this->db->manipulate($sql);
 	}
 
-	protected function getWhereFromFilter($filter) {
+	/**
+	 * @param int|string
+	 */
+	protected function getWhereFromFilter($filter): string
+	{
 		switch($filter)
 		{
 			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:

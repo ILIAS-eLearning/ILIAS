@@ -234,6 +234,9 @@ class ilIndividualAssessmentMembersGUI {
 		return $ret;
 	}
 
+	/**
+	 * @param string[] 	$get
+	 */
 	protected function getModeControl(array $get, ViewControl\Factory $vc_factory): ViewControl\Mode
 	{
 		$active = $this->getActiveLabelForModeByFilter($get[self::F_STATUS]);
@@ -269,6 +272,9 @@ class ilIndividualAssessmentMembersGUI {
 		return $ret;
 	}
 
+	/**
+	 * @param int|string|null 	$filter
+	 */
 	protected function getActiveLabelForModeByFilter($filter): string
 	{
 		switch($filter)
@@ -290,7 +296,10 @@ class ilIndividualAssessmentMembersGUI {
 		}
 	}
 
-	protected function getLinkForStatusFilter($value = null): string
+	/**
+	 * @param int|string|null 	$value
+	 */
+	protected function getLinkForStatusFilter($value): string
 	{
 		$this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
 		$link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
@@ -299,6 +308,10 @@ class ilIndividualAssessmentMembersGUI {
 		return $link;
 	}
 
+	/**
+	 * @param string[] 	$get
+	 * @return int|string|null
+	 */
 	protected function getFilterValue($get)
 	{
 		if(isset($get[self::F_STATUS])
