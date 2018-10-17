@@ -87,7 +87,7 @@ class ilIndividualAssessmentMembersTableGUI {
 					->withSubheadline($subheadline)
 					->withImportantFields($important_infos)
 					->withContent($ui_factory->listing()->descriptive($content))
-					->withFurtherFieldsHeadline($this->lng->txt("iass_further_field_headline"))
+					->withFurtherFieldsHeadline($this->txt("iass_further_field_headline"))
 					->withFurtherFields($further_fields)
 					->withAction($action);
 
@@ -117,7 +117,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 
 		$examiner_id = $this->getExaminerId($record);
-		return $this->lng->txt("grading").": ".$this->getStatus($record->finalized(), (int)$record->LPStatus(), $examiner_id);
+		return $this->txt("grading").": ".$this->getStatus($record->finalized(), (int)$record->LPStatus(), $examiner_id);
 	}
 
 	/**
@@ -220,33 +220,33 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		if($this->checkViewable($finalized, $examiner_id, $usr_id)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
-			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_view'), $target);
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_view'), $target);
 		}
 
 		if($this->checkEditable($finalized, $examiner_id, $usr_id)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
-			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_edit'), $target);
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
 		}
 
 		if($this->checkUserRemoveable($finalized)) {
 			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', $usr_id);
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMembersGUI', 'removeUserConfirmation');
-			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_remove'), $target);
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_remove'), $target);
 			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', null);
 		}
 
 		if($this->checkAmendable($finalized)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
-			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_amend'), $target);
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_amend'), $target);
 		}
 
 		if($this->checkDownloadFile($usr_id, $file_name)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
-			$items[] = $ui_factory->button()->shy($this->lng->txt('iass_usr_download_attachment'), $target);
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_download_attachment'), $target);
 		}
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 
-		$action = $ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("actions"));
+		$action = $ui_factory->dropdown()->standard($items)->withLabel($this->txt("actions"));
 		return $action;
 	}
 
@@ -275,7 +275,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getGradedInformations(ilDateTime $event_time): array
 	{
 		return array(
-			$this->lng->txt("iass_event_time").": " => $event_time->get(IL_CAL_DATE)
+			$this->txt("iass_event_time").": " => $event_time->get(IL_CAL_DATE)
 		);
 	}
 
@@ -291,7 +291,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 
 		return array(
-			$this->lng->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
+			$this->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
 		);
 	}
 
@@ -311,7 +311,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 
 		return array(
-			$this->lng->txt("iass_location").": " => $location
+			$this->txt("iass_location").": " => $location
 		);
 	}
 
@@ -323,7 +323,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getRecordNote(string $record_note): array
 	{
 		return array(
-			$this->lng->txt("iass_record") => $record_note
+			$this->txt("iass_record") => $record_note
 		);
 	}
 
@@ -339,7 +339,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 
 		return array(
-			$this->lng->txt("iass_internal_note") => $internal_note
+			$this->txt("iass_internal_note") => $internal_note
 		);
 	}
 
@@ -352,10 +352,10 @@ class ilIndividualAssessmentMembersTableGUI {
 		$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 
-		$link = $this->factory->link()->standard($this->lng->txt("iass_download"), $target);
+		$link = $this->factory->link()->standard($this->txt("iass_download"), $target);
 
 		return array(
-			$this->lng->txt("iass_file") => $this->renderer->render($link)
+			$this->txt("iass_file") => $this->renderer->render($link)
 		);
 	}
 
@@ -366,16 +366,16 @@ class ilIndividualAssessmentMembersTableGUI {
 	{
 		switch($a_status) {
 			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
-				return $this->lng->txt('iass_status_pending');
+				return $this->txt('iass_status_pending');
 				break;
 			case ilIndividualAssessmentMembers::LP_COMPLETED :
-				return $this->lng->txt('iass_status_completed');
+				return $this->txt('iass_status_completed');
 				break;
 			case ilIndividualAssessmentMembers::LP_FAILED :
-				return $this->lng->txt('iass_status_failed');
+				return $this->txt('iass_status_failed');
 				break;
 			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED :
-				return $this->lng->txt('iass_assessment_not_completed');
+				return $this->txt('iass_assessment_not_completed');
 				break;
 		}
 	}
@@ -534,5 +534,10 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function wasEditedByViewer(int $examiner_id): bool
 	{
 		return $examiner_id === $this->current_user_id || 0 === $examiner_id;
+	}
+
+	protected function txt(string $code): string
+	{
+		return $this->lng->txt($code);
 	}
 }
