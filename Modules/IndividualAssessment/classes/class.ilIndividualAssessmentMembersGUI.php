@@ -28,6 +28,11 @@ class ilIndividualAssessmentMembersGUI {
 	const F_STATUS = "status";
 	const F_SORT = "sortation";
 
+	const S_NAME_ASC = "user_lastname:asc";
+	const S_NAME_DESC = "user_lastname:desc";
+	const S_EXAMINER_ASC = "examiner_login:asc";
+	const S_EXAMINER_DESC = "examiner_login:desc";
+
 	public function __construct(
 		ilObjIndividualAssessmentGUI $a_parent_gui,
 		int $a_ref_id
@@ -134,7 +139,9 @@ class ilIndividualAssessmentMembersGUI {
 		$get = $_GET;
 
 		$filter = $this->getFilterValue($get);
-		$entries = $this->object->loadMembersAsSingleObjects($filter);
+		$sort = $this->getSortValue($get);
+
+		$entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
 		$table->setData($entries);
 		$view_constrols = $this->getViewControls($get);
 
@@ -317,7 +324,7 @@ class ilIndividualAssessmentMembersGUI {
 	 * @param string[] 	$get
 	 * @return int|string|null
 	 */
-	protected function getFilterValue($get)
+	protected function getFilterValue(array $get)
 	{
 		if(isset($get[self::F_STATUS])
 			&& $get[self::F_STATUS] != ""
@@ -327,7 +334,8 @@ class ilIndividualAssessmentMembersGUI {
 						ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED,
 						ilIndividualAssessmentMembers::LP_IN_PROGRESS,
 						ilIndividualAssessmentMembers::LP_COMPLETED,
-						ilIndividualAssessmentMembers::LP_FAILED]
+						ilIndividualAssessmentMembers::LP_FAILED
+					]
 				)
 		) {
 			return $get[self::F_STATUS];
@@ -339,11 +347,35 @@ class ilIndividualAssessmentMembersGUI {
 	protected function getSortOptions(): array
 	{
 		return array(
-				"name:asc" => $this->txt("iass_sort_name_asc"),
-				"name:desc" => $this->txt("iass_sort_name_desc"),
-				"examinier_id:asc" => $this->txt("iass_sort_examinier_id_asc"),
-				"examinier_id:desc" => $this->txt("iass_sort_examinier_id_desc")
-			);
+			self::S_NAME_ASC => $this->txt("iass_sort_name_asc"),
+			self::S_NAME_DESC => $this->txt("iass_sort_name_desc"),
+			self::S_EXAMINER_ASC => $this->txt("iass_sort_examiner_login_asc"),
+			self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc")
+		);
+	}
+
+	/**
+	 * @param string[]
+	 * @return string|null
+	 */
+	protected function getSortValue(array $get)
+	{
+		if(isset($get[self::F_SORT])
+			&& $get[self::F_SORT] != ""
+			&& in_array(
+				$get[self::F_SORT],
+					[
+						self::S_NAME_ASC,
+						self::S_NAME_DESC,
+						self::S_EXAMINER_ASC,
+						self::S_EXAMINER_DESC
+					]
+				)
+		) {
+			return $get[self::F_SORT];
+		}
+
+		return null;
 	}
 
 	protected function txt(string $code): string

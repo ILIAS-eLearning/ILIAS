@@ -37,7 +37,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	/**
 	 * @inheritdoc
 	 */
-	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj, string $filter = null)
+	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj, string $filter = null, string $sort = null)
 	{
 		$members = [];
 		$sql = $this->loadMemberQuery();
@@ -45,6 +45,10 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 
 		if(!is_null($filter)) {
 			$sql .= $this->getWhereFromFilter($filter);
+		}
+
+		if(!is_null($sort)) {
+			$sql .= $this->getOrderByFromSort($sort);
 		}
 		$res = $this->db->query($sql);
 		while($rec = $this->db->fetchAssoc($res)) {
@@ -124,7 +128,9 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 			."iassme.user_view_file,"
 			."iassme.file_name,"
 			."iassme.changer_id,"
-			."iassme.change_time"
+			."iassme.change_time,"
+			."usr.lastname AS user_lastname,"
+			."ex.login AS examiner_login"
 			." FROM ".self::MEMBERS_TABLE." iassme\n"
 			."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
 			."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
@@ -208,5 +214,12 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				return "      AND finalized = 1 AND learning_progress = 3\n";
 				break;
 		}
+	}
+
+	protected function getOrderByFromSort(string $sort): string
+	{
+		$vals = explode(":", $sort);
+
+		return " ORDER BY ".$vals[0]." ".$vals[1];
 	}
 }

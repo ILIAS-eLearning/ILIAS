@@ -14529,3 +14529,8 @@ iass#:#iass_filter_finalized#:#Completed only
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_file#:#File
 iass#:#iass_download#:#Download
+iass#:#iass_sort#:#Sortation
+iass#:#iass_sort_name_asc#:#Username ascending
+iass#:#iass_sort_name_desc#:#Username descending
+iass#:#iass_sort_examinier_login_asc#:#Examinier ascending
+iass#:#iass_sort_examinier_login_desc#:#Examinier descending
