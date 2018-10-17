@@ -78,13 +78,56 @@ class ilUserCertificateRepository
 	/**
 	 * @param int $userId
 	 * @param string $orderBy
-	 * @return array
+	 * @return ilUserCertificate[]
 	 */
 	public function fetchActiveCertificates(int $userId) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
 		$sql = 'SELECT * FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+
+		$query = $this->database->query($sql);
+
+		$result = array();
+		while ($row = $this->database->fetchAssoc($query)) {
+			$result[] = new ilUserCertificate(
+				$row['pattern_certificate_id'],
+				$row['obj_id'],
+				$row['obj_type'],
+				$row['user_id'],
+				$row['user_name'],
+				$row['acquired_timestamp'],
+				$row['certificate_content'],
+				$row['template_values'],
+				$row['valid_until'],
+				$row['version'],
+				$row['ilias_version'],
+				$row['currently_active'],
+				$row['background_image_path'],
+				$row['id']
+			);
+		}
+
+		$this->logger->debug(sprintf('Actual results:', json_encode($result)));
+		$this->logger->info(sprintf('END - All active certificates for user: "%s" total: "%s"', $userId, count($result)));
+
+		return $result;
+	}
+
+	/**
+	 * @param int $userId
+	 * @param string $orderBy
+	 * @return ilUserCertificate[]
+	 */
+	public function fetchActiveCertificatesInInterval(int $userId, int $startTimestamp, int $endTimeStamp) : array
+	{
+		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
+
+		$sql = 'SELECT * FROM il_cert_user_cert 
+WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+AND currently_active = 1
+AND acquired_timestamp >= ' . $this->database->quote($startTimestamp, 'integer') . '
+AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
 
 		$query = $this->database->query($sql);
 

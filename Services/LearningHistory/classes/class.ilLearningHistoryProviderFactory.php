@@ -38,6 +38,11 @@ class ilLearningHistoryProviderFactory
 			"component" => "Modules/Course",
 			"dir" => "classes/LearningHistory",
 			"class" => "ilCourseLearningHistoryProvider"
+		),
+		array (
+			"component" => "Services/Certificate",
+			"dir" => "classes/LearningHistory",
+			"class" => "ilCertificateLearningHistoryProvider"
 		)
 	);
 	
