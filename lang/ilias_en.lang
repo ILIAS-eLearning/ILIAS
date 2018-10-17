@@ -14527,3 +14527,5 @@ iass#:#iass_filter_not_started#:#Not started only
 iass#:#iass_filter_not_finalized#:#Not completed only
 iass#:#iass_filter_finalized#:#Completed only
 iass#:#iass_filter_failed#:#Failed only
+iass#:#iass_file#:#File
+iass#:#iass_download#:#Download

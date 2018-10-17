@@ -165,6 +165,13 @@ class ilIndividualAssessmentMembersTableGUI {
 		$ret = array_merge($ret, $this->getRecordNote($record->record()));
 		$ret = array_merge($ret, $this->getInternalRecordNote($record->internalNote()));
 
+		$usr_id = (int)$record->id();
+		$file_name = $record->fileName();
+		if($this->checkDownloadFile($usr_id, $file_name))
+		{
+			$ret = array_merge($ret, $this->getFileDownloadLink($usr_id, $file_name));
+		}
+
 		return $ret;
 	}
 
@@ -316,7 +323,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getRecordNote(string $record_note): array
 	{
 		return array(
-			$this->lng->txt("iass_record").": " => $record_note
+			$this->lng->txt("iass_record") => $record_note
 		);
 	}
 
@@ -332,7 +339,23 @@ class ilIndividualAssessmentMembersTableGUI {
 		}
 
 		return array(
-			$this->lng->txt("iass_internal_note").": " => $internal_note
+			$this->lng->txt("iass_internal_note") => $internal_note
+		);
+	}
+
+	/**
+	 * Get the link for download of file
+	 */
+	protected function getFileDownloadLink(int $usr_id, $file_name): array
+	{
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
+		$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
+
+		$link = $this->factory->link()->standard($this->lng->txt("iass_download"), $target);
+
+		return array(
+			$this->lng->txt("iass_file") => $this->renderer->render($link)
 		);
 	}
 
