@@ -22836,10 +22836,10 @@ $ilCtrlStructureReader->getStructure();
 <#5308>
 <?php
 if (!$ilDB->tableExists('object_data_del')) {
-	if (!$ilDB->tableColumnExists('object_data_del', 'desc')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
 		$ilDB->addTableColumn(
 			'object_data_del',
-			'desc',
+			'description',
 			[
 				'type'    => 'clob',
 				'notnull' => false,
