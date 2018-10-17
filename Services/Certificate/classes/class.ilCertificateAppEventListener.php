@@ -124,6 +124,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		);
 	}
 
+	protected function isUserDeletedEvent() : bool
+	{
+		return (
+			'Services/User' === $this->component &&
+			'deleteUser' === $this->event
+		);
+	}
+
 	/**
 	 *
 	 */
@@ -132,10 +140,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		try {
 			if ($this->isLearningAchievementEvent()) {
 				$this->handleLPUpdate();
-			} else {
-				if ($this->isMigratingCertificateEvent()) {
-					$this->handleNewUserCertificate();
-				}
+			} elseif ($this->isMigratingCertificateEvent()) {
+				$this->handleNewUserCertificate();
+			} elseif ($this->isUserDeletedEvent()) {
+				$this->handleDeletedUser();
 			}
 		} catch (\ilException $e) {
 			$this->logger->error($e->getMessage());
@@ -319,5 +327,19 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		);
 
 		$userCertificateRepository->save($userCertificate);
+	}
+
+	private function handleDeletedUser()
+	{
+		if (false === array_key_exists('usr_id', $this->parameters)) {
+			$this->logger->error('User ID is not added to the event. Abort.');
+			return;
+		}
+
+		$this->logger->info('User has been deleted. Try to delete user certificates');
+
+		$userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
+
+		$userCertificateRepository->deleteUserCertificates($this->parameters['usr_id']);
 	}
 }

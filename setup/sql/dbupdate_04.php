@@ -23522,3 +23522,7 @@ if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
 	$ilDB->createSequence('il_cert_bgtask_migr', (int)$row['max_id'] + 1);
 }
 ?>
+<#5332>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -277,6 +277,17 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		return $result;
 	}
 
+	public function deleteUserCertificates(int $userId)
+	{
+		$this->logger->info(sprintf('START - Delete certificate for user("%s")"', $userId));
+
+		$sql = 'DELETE FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer');
+
+		$this->database->manipulate($sql);
+
+		$this->logger->info(sprintf('END - Successfully deleted certificate for user("%s")"', $userId));
+	}
+
 	/**
 	 * @param int $objId
 	 * @param int $userId
