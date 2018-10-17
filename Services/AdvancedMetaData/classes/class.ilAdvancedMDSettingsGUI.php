@@ -159,8 +159,6 @@ class ilAdvancedMDSettingsGUI
 			$ilToolbar->addButtonInstance($button);			
 		}
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_records.html','Services/AdvancedMetaData');
-
 		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordTableGUI.php");
 		$table_gui = new ilAdvancedMDRecordTableGUI($this, "showRecords", $this->getPermissions(), (bool)$this->obj_id);
 		$table_gui->setTitle($this->lng->txt("md_record_list_table"));
@@ -176,10 +174,8 @@ class ilAdvancedMDSettingsGUI
 			$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));		
 			$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
 		}
-		
-		
-		$this->tpl->setVariable('RECORD_TABLE',$table_gui->getHTML());
-		
+
+		$DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
 		return true;
 	}
 	
@@ -578,6 +574,17 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateRecords()
 	{
+		// sort positions and renumber
+		$positions = $_POST['pos'];
+		asort($positions);
+
+		$sorted_positions = [];
+		$i = 1;
+		foreach($positions as $record_id => $pos)
+		{
+			$sorted_positions[$record_id] = $i++;
+		}
+
 		$selected_global = array();
 		foreach($this->getParsedRecordObjects() as $item)
 		{
@@ -620,6 +627,7 @@ class ilAdvancedMDSettingsGUI
 					$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 				}
 
+				$record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
 				$record_obj->update();
 			}
 			else if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])			
@@ -1743,6 +1751,7 @@ class ilAdvancedMDSettingsGUI
 			$selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
 		}
 
+		$position = 0;
 		foreach(ilAdvancedMDRecord::_getRecords() as $record)
 		{			
 			$parent_id = $record->getParentObject();
@@ -1786,6 +1795,8 @@ class ilAdvancedMDSettingsGUI
 			$tmp_arr['description'] = $record->getDescription();
 			$tmp_arr['fields'] = array();
 			$tmp_arr['obj_types'] = $record->getAssignedObjectTypes();
+			$position += 10;
+			$tmp_arr['position'] = $position;
 
 			$tmp_arr['perm'] = $this->permissions->hasPermissions(
 				ilAdvancedMDPermissionHelper::CONTEXT_RECORD, 

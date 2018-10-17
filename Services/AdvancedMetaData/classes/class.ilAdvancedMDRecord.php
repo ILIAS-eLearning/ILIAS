@@ -19,6 +19,12 @@ class ilAdvancedMDRecord
 	private static $instances = array();
 	
 	protected $record_id;
+
+	/**
+	 * @var int
+	 */
+	protected $global_position;
+
 	protected $import_id;
 	protected $active;
 	protected $title;
@@ -234,7 +240,7 @@ class ilAdvancedMDRecord
 
 		$ilDB = $DIC['ilDB'];
 		
-		$query = "SELECT record_id FROM adv_md_record ";
+		$query = "SELECT record_id FROM adv_md_record ORDER BY gpos ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -600,7 +606,8 @@ class ilAdvancedMDRecord
 	 	$query = "UPDATE adv_md_record ".
 	 		"SET active = ".$this->db->quote($this->isActive() ,'integer').", ".
 	 		"title = ".$this->db->quote($this->getTitle() ,'text').", ".
-	 		"description = ".$this->db->quote($this->getDescription() ,'text')." ".
+	 		"description = ".$this->db->quote($this->getDescription() ,'text').", ".
+			'gpos = '  . $this->db->quote($this->getGlobalPosition(),'integer').' '.
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 				
@@ -643,6 +650,24 @@ class ilAdvancedMDRecord
 	 	}
 	 	return true;
 	}
+
+	/**
+	 * Set global position
+	 * @param int $position
+	 */
+	public function setGlobalPosition(int $position)
+	{
+		$this->global_position = $position;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getGlobalPosition() : int
+	{
+		return $this->global_position;
+	}
+
 	
 	/**
 	 * Get record id
@@ -891,6 +916,7 @@ class ilAdvancedMDRecord
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
 			$this->setParentObject($row->parent_obj);
+			$this->setGlobalPosition((int) $row->rpos);
 		}
 		$query = "SELECT * FROM adv_md_record_objs ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
@@ -941,10 +967,13 @@ class ilAdvancedMDRecord
 	/**
 	 * Save repository object record selection
 	 *
-	 * @param integer $a_obj_id object id if repository object
-	 * @param array $a_records array of record ids that are selected (in use) by the object
+	 * @param int $a_obj_id object id if repository object
+	 * @param string $a_sub_type subtype
+	 * @param int[] $a_records array of record ids that are selected (in use) by the object
+	 * @param bool $a_delete_before delete before update
+	 *
 	 */
-	static function saveObjRecSelection($a_obj_id, $a_sub_type = "", array $a_records = null, $a_delete_before = true)
+	public static function saveObjRecSelection($a_obj_id, $a_sub_type = "", array $a_records = null, $a_delete_before = true)
 	{
 		global $DIC;
 

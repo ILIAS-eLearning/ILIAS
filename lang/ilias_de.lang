@@ -14366,3 +14366,4 @@ pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfol
 rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten
 rbac#:#sess_manage_materials#:#Materialzuordnungen verwalten
 rbac#:#manage_materials#:#Materialien verwalten
+meta#:#md_adv_col_presentation_ordering#:#Position

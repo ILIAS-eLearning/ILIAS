@@ -96,3 +96,18 @@ $src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 $tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata');
 ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
 ?>
+
+<#13>
+<?php
+if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
+{
+	$ilDB->addTableColumn('adv_md_record', 'gpos',
+		array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		)
+	);
+}
+?>
+
