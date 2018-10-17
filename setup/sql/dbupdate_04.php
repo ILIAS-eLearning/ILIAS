@@ -22833,3 +22833,19 @@ if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5308>
+<?php
+if (!$ilDB->tableExists('object_data_del')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'desc')) {
+		$ilDB->addTableColumn(
+			'object_data_del',
+			'desc',
+			[
+				'type'    => 'clob',
+				'notnull' => false,
+				'default' => null,
+			]
+		);
+	}
+}
+?>
