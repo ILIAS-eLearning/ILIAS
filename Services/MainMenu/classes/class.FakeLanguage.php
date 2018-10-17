@@ -14,26 +14,36 @@ class FakeLanguage extends ilLanguage {
 	public function txt($a_topic, $a_default_lang_fallback_mod = "") {
 
 		$map = array(
+			// Tabs
 			'main'         => "MainMenu",
-			'main_slates'  => "Main Menu Items",
-			'main_entries' => "Main Menu Sub-items",
+			'subtab_topitems'  => "Top Items",
+			'subtab_subitems' => "Subitems",
 			"tab_back"     => "Back",
 
-			'add_slate'       => "Add Main Menu Item",
-			'edit_slate'      => "Edit",
-			'delete_slate'    => "Delete",
-			'translate_slate' => "Translate",
+			// TopItems
+			'topitem_add'       => "Add Main Menu Item",
+			'topitem_edit'      => "Edit",
+			'topite_delete'    => "Delete",
+			'topitem_translate' => "Translate",
 
-			'slate_position'   => 'Position',
-			'slate_title'      => 'Title',
-			'slate_icon'       => 'Icon',
-			'slate_active'     => 'Active',
-			'slate_sticky'     => 'Sticky',
-			'slate_mobile'     => 'Mobile',
-			'slate_subentries' => 'Sub-Entries',
-			'slate_provider'   => 'Provider',
-			'slate_actions'    => 'Actions',
+			'topitem_position'   => 'Position',
+			'topitem_title'      => 'Title',
+			'topitem_icon'       => 'Icon',
+			'topitem_active'     => 'Active',
+			'topitem_sticky'     => 'Sticky',
+			'topitem_mobile'     => 'Mobile',
+			'topitem_subentries' => 'Sub-Entries',
+			'topitem_provider'   => 'Provider',
+			'topitem_actions'    => 'Actions',
 
+			'topitem_title_default'        => 'Title (Default Language)',
+			'topitem_title_default_byline' => 'Other Translations can be added with the Translation Action after.',
+			'topitem_active_byline'        => 'Activate this Main Menu Item for all users',
+			'topitem_sticky_byline'        => 'This Main Menu Item will always be displayed, even if place is scarce (e.g. on Mobile Phones)',
+			'topitem_type'                 => "Type",
+			'topitem_type_byline'          => "Main menu Entries can be links directly or can contain Main Menu Subitems",
+
+			// Subitems
 			'add_subentry'       => 'Add Sub-Item',
 			'edit_subentry'      => 'Edit',
 			'delete_subentry'    => 'Delete',
@@ -51,12 +61,7 @@ class FakeLanguage extends ilLanguage {
 
 			'button_save' => 'Save',
 
-			'slate_title_default'        => 'Title (Default Language)',
-			'slate_title_default_byline' => 'Other Translations can be added with the Translation Action after.',
-			'slate_active_byline'        => 'Activate this Main Menu Item for all users',
-			'slate_sticky_byline'        => 'This Main Menu Item will always be displayed, even if place is scarce (e.g. on Mobile Phones)',
-			'slate_type'                 => "Type",
-			'slate_type_byline'          => "Main menu Entries can be links directly or can contain Main Menu Subitems",
+		
 
 			'sub_title_default'        => 'Title (Default Language)',
 			'sub_title_default_byline' => 'Other Translations can be added with the Translation Action after.',

@@ -10,10 +10,11 @@
 class ilMMTopItemGUI {
 
 	const CMD_ADD_TOP_ITEM = 'add_slate';
-	const CMD_VIEW_TOP_ITEMS = 'main_slates';
-	const CMD_EDIT = 'edit_top_item';
-	const CMD_TRANSLATE = 'translate_top_item';
-	const CMD_UPDATE = 'update_top_item';
+	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
+	const CMD_EDIT = 'topitem_edit';
+	const CMD_DELETE = 'topitem_delete';
+	const CMD_TRANSLATE = 'topitem_translate';
+	const CMD_UPDATE = 'topitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
 	const IDENTIFIER = 'identifier';
 	/**
@@ -52,14 +53,13 @@ class ilMMTopItemGUI {
 	 * @var ilTree
 	 */
 	public $tree;
+
+
 	/**
 	 * ilMMTopItemGUI constructor.
 	 *
 	 * @param ilMMTabHandling $tab_handling
 	 */
-	const CMD_TRANSLATE_TOP_ITEM = 'translate_top_item';
-
-
 	public function __construct(ilMMTabHandling $tab_handling) {
 		global $DIC;
 
@@ -126,8 +126,8 @@ class ilMMTopItemGUI {
 				$this->saveTable();
 
 				return "";
-			case self::CMD_TRANSLATE_TOP_ITEM:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE_TOP_ITEM, true);
+			case self::CMD_TRANSLATE:
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE, true);
 				break;
 		}
 

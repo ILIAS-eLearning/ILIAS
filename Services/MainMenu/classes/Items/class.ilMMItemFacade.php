@@ -135,6 +135,14 @@ class ilMMItemFacade {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isCustom(): bool {
+		return false;
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getProviderNameForPresentation(): string {

@@ -9,15 +9,14 @@
  */
 class ilMMSubItemGUI {
 
-	const CMD_ADD_SUB_ITEM = 'add_sub_item';
-	const CMD_VIEW_SUB_ITEMS = 'main_Sub_items';
-	const CMD_EDIT = 'edit_sub_item';
-	const CMD_TRANSLATE = 'translate_sub_item';
-	const CMD_UPDATE = 'update_sub_item';
+	const CMD_ADD_SUB_ITEM = 'subitem_add';
+	const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
+	const CMD_EDIT = 'subitem_edit';
+	const CMD_TRANSLATE = 'subitem_translate';
+	const CMD_UPDATE = 'subitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
 	const IDENTIFIER = 'identifier';
-	const ADD_SUBITEM = 'add_subitem';
-	const SUBTAB_ENTRIES = 'main_entries';
+	const ADD_SUBITEM = 'subitem_add';
 	/**
 	 * @var ilMMItemRepository
 	 */
@@ -90,7 +89,7 @@ class ilMMSubItemGUI {
 	private function dispatchCommand($cmd) {
 		switch ($cmd) {
 			case self::CMD_ADD_SUB_ITEM:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::SUBTAB_ENTRIES, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
 				global $DIC;
 				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng);
 

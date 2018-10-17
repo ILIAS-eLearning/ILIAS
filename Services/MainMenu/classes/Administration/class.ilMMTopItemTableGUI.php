@@ -30,15 +30,15 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 
 
 	private function initColumns() {
-		$this->addColumn($this->lng->txt('slate_position'), '', '30px');
-		$this->addColumn($this->lng->txt('slate_title'));
-		// $this->addColumn($this->lng->txt('slate_icon'));
-		$this->addColumn($this->lng->txt('slate_active'));
-		// $this->addColumn($this->lng->txt('slate_sticky'));
-		// $this->addColumn($this->lng->txt('slate_mobile'));
-		$this->addColumn($this->lng->txt('slate_subentries'));
-		$this->addColumn($this->lng->txt('slate_provider'));
-		$this->addColumn($this->lng->txt('slate_actions'));
+		$this->addColumn($this->lng->txt('topitem_position'), '', '30px');
+		$this->addColumn($this->lng->txt('topitem_title'));
+		// $this->addColumn($this->lng->txt('topitem_icon'));
+		$this->addColumn($this->lng->txt('topitem_active'));
+		// $this->addColumn($this->lng->txt('topitem_sticky'));
+		// $this->addColumn($this->lng->txt('topitem_mobile'));
+		$this->addColumn($this->lng->txt('topitem_subentries'));
+		$this->addColumn($this->lng->txt('topitem_provider'));
+		$this->addColumn($this->lng->txt('topitem_actions'));
 	}
 
 
@@ -69,13 +69,13 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 
 		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $a_set['identification']);
 
-		$items[] = $factory->button()->shy($this->lng->txt('edit_top_item'), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
-		$items[] = $factory->button()->shy($this->lng->txt('translate_slate'), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, 'translate'));
-		if ($a_set['provider'] === "Custom") {
-			$items[] = $factory->button()->shy($this->lng->txt('delete_slate'), '#');
+		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
+		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_TRANSLATE));
+		if ($item_facade->isCustom()) {
+			$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_DELETE));
 		}
 
-		$this->tpl->setVariable('ACTIONS', $renderer->render($factory->dropdown()->standard($items)->withLabel($this->lng->txt('slate_actions'))));
+		$this->tpl->setVariable('ACTIONS', $renderer->render($factory->dropdown()->standard($items)->withLabel($this->lng->txt('topitem_actions'))));
 	}
 
 
