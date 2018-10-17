@@ -13577,6 +13577,8 @@ style#:#system_style_activation_description#:#Aktive System-Styles können besti
 style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard-System-Style festgelegt. Der Standard-System-Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
 style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
 style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#less_variables_empty_might_have_changed#:#Less Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die variables.less Datei seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus der variables.less Datei ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die variables.less Datei schreiben.
+style#:#less_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus der variables.less wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
 style#:#zip_export_failed#:#Der ZIP-Export ist mit folgender Fehlermeldung fehlgeschlagen:
 style#:#no_style_selected#:#Es wurde kein Sub-Style ausgewählt.
 style#:#adapt_less#:#Anpassung der Less-Datei

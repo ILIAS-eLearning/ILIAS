@@ -13587,6 +13587,8 @@ style#:#system_style_activation_description#:#Active system styles can be assign
 style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
 style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
 style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
 style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#adapt_less#:#Adapt Less
