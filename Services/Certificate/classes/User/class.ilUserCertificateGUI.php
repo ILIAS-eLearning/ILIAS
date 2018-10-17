@@ -212,11 +212,10 @@ class ilUserCertificateGUI
 	{
 		global $DIC;
 
-		$database = $DIC->database();
 		$user = $DIC->user();
 		$language = $DIC->language();
 
-		$userCertificateRepository = new ilUserCertificateRepository($database, $this->certificateLogger);
+		$userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
 		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
 
 		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
