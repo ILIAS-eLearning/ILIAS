@@ -28,7 +28,7 @@ form, to tie all inputs together.
 The form then is rendered and displayed like every other UI-component. The user
 fills in the fields and submits the form back to the server in the defined way.
 
-The developer passes the request retreived from the user to the form. The form
+The developer passes the request retrieved from the user to the form. The form
 internally uses the constraints and transformations put on the fields to evaluate
 if the inputs of the users are corrected and what the result is. Depending on
 the result, the developer can either choose to do further processing on the valid
