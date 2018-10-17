@@ -1578,8 +1578,18 @@ class ilTemplate extends HTML_Template_ITX
 			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
+				$style = ilStyleDefinition::getCurrentStyle();
+
 				$fname = "./Customizing/global/skin/".
-					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+						ilStyleDefinition::getCurrentSkin()."/".$style."/".$module_path
+						.basename($a_tplname);
+
+				if($fname == "" || !file_exists($fname))
+				{
+					$fname = "./Customizing/global/skin/".
+							ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+				}
+
 			}
 
 			if($fname == "" || !file_exists($fname))
