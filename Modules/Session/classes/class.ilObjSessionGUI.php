@@ -110,9 +110,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 			
 			case 'ilobjectmetadatagui';
-				$this->checkPermission('write');
-				$this->tabs_gui->setTabActive('meta_data');
-				$md_gui = new ilObjectMetaDataGUI($this->object);	
+				$this->checkPermission('edit_metadata');
+				$this->tabs_gui->activateTab('edit_metadata');
+				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
@@ -1505,21 +1505,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->form->addItem($dur);
 		
-		/*
-		// start
-		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
-		$start->setMinuteStepSize(5);
-		$start->setDate($this->object->getFirstAppointment()->getStart());
-		$start->setShowTime(true);
-		#$this->form->addItem($start);
-		
-		// end
-		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
-		$end->setMinuteStepSize(5);
-		$end->setDate($this->object->getFirstAppointment()->getEnd());
-		$end->setShowTime(true);
-		#$this->form->addItem($end);
-		*/
 
 		// Recurrence
 		if($a_mode == 'create')
@@ -1581,19 +1566,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				'sess'
 			);
 			$this->record_gui->setRefId((int) $_GET['ref_id']);
+			$this->record_gui->setPropertyForm($this->form);
+			$this->record_gui->parse();
 		}
-		else
+		elseif($this->checkPermissionBool('edit_metadata'))
 		{
 			$this->record_gui = new ilAdvancedMDRecordGUI(
 				ilAdvancedMDRecordGUI::MODE_EDITOR,
 				'sess',
 				$this->object->getId()
 			);
-			
+			$this->record_gui->setPropertyForm($this->form);
+			$this->record_gui->parse();
 		}
-		$this->record_gui->setPropertyForm($this->form);
-		$this->record_gui->parse();
-		
+
 
 		// section
 		$section = new ilFormSectionHeaderGUI();
@@ -1960,21 +1946,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		// meta data
-		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		if ($ilAccess->checkAccess('edit_metadata','',$this->ref_id))
 		{
-			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdgui = new ilObjectMetaDataGUI($this->object);
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$this->tabs_gui->addTarget("meta_data",
-									 $mdtab,
-									 "",
-									 "ilobjectmetadatagui");
+
+				$this->tabs_gui->addTab(
+					"metadata",
+					$this->lng->txt('meta_data'),
+					$mdtab
+				);
 			}
 		}
 		
-
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
