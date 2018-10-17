@@ -1419,7 +1419,20 @@ class ilObjSAHSLearningModule extends ilObject
 			// ... or read manifest file
 			$new_obj->readObject();
 		}
-		
+
+        // Copy learning progress settings (Mantis #0022964)
+        include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+        $obj_settings = new ilLPObjSettings($this->getId());
+        $obj_settings->cloneSettings($new_obj->getId());
+
+        include_once('Services/Object/classes/class.ilObjectLP.php');
+        /** @var ilScormLP $olp */
+        $olp = ilObjectLP::getInstance($this->getId());
+        $collection = $olp->getCollectionInstance();
+        if($collection)
+        {
+            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+        }
 		return $new_obj;
 	}
 	
