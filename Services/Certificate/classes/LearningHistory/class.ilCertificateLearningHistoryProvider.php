@@ -87,7 +87,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	{
 		$entries = array();
 
-		$certificates = $this->userCertificateRepository->fetchActiveCertificates($this->user_id);
+		$certificates = $this->userCertificateRepository->fetchActiveCertificatesInInterval($this->user_id, $ts_start, $ts_end);
 
 		foreach ($certificates as $certificate) {
 			$objectId = $certificate->getObjId();
