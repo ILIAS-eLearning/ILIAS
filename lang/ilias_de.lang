@@ -10436,6 +10436,7 @@ tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
 tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
 tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
 tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
+tos#:#tos_doc_delete#:#Dokument löschen
 tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
 tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
 tos#:#tos_doc_crit_attached#:#Das Kriterium wurde zugewiesen.

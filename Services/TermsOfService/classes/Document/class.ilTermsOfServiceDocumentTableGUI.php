@@ -216,12 +216,20 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 				$this->ctrl->getLinkTarget($this->getParentObject(), 'showEditDocumentForm')
 			);
 
+		$deleteModal = $this->uiFactory
+			->modal()
+			->interruptive(
+				$this->lng->txt('tos_doc_delete'),
+				$this->lng->txt('tos_sure_delete_documents_s'),
+				$this->ctrl->getFormAction($this->getParentObject(), 'deleteDocument')
+			);
+
 		$deleteBtn = $this->uiFactory
 			->button()
-			->shy(
-				$this->lng->txt('delete'),
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'deleteDocuments')
-			);
+			->shy($this->lng->txt('delete'), '#')
+			->withOnClick($deleteModal->getShowSignal());
+
+		$this->uiComponents[] = $deleteModal;
 
 		$attachCriterionBtn = $this->uiFactory
 			->button()
@@ -276,10 +284,8 @@ class ilTermsOfServiceDocumentTableGUI extends \ilTermsOfServiceTableGUI
 
 			$deleteBtn = $this->uiFactory
 				->button()
-				->shy(
-					$this->lng->txt('delete'),
-					'#'
-				)->withOnClick($deleteModal->getShowSignal());
+				->shy($this->lng->txt('delete'), '#')
+				->withOnClick($deleteModal->getShowSignal());
 
 			$dropDown = $this->uiFactory
 				->dropdown()

@@ -10405,6 +10405,7 @@ tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
 tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
 tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
 tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
+tos#:#tos_doc_delete#:#Delete Document
 tos#:#tos_doc_crit_detached#:#The criterion has been detached.
 tos#:#tos_doc_crit_attached#:#The criterion has been attached.
 tos#:#tos_doc_crit_changed#:#The criterion has been changed.

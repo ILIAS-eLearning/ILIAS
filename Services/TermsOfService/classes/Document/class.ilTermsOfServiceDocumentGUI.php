@@ -415,22 +415,8 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 		}
 
 		$isDeletionRequest = (bool)($this->httpState->request()->getQueryParams()['delete'] ?? false);
-
 		if ($isDeletionRequest) {
-			foreach ($documents as $document) {
-				/** @var $document \ilTermsOfServiceDocument */
-				$document->delete();
-			}
-
-			\ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_p'), true);
-			if (1 === count($documents)) {
-				\ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_s'), true);
-			}
-
-			if (0 === \ilTermsOfServiceDocument::getCollection()->count()) {
-				$this->tos->saveStatus(false);
-				\ilUtil::sendInfo($this->lng->txt('tos_disabled_no_docs_left'), true);
-			}
+			$this->processDocumentDeletion($documents);
 
 			$this->ctrl->redirect($this);
 		} else {
@@ -454,6 +440,43 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
 
 			$this->tpl->setContent($confirmation->getHTML());
 		}
+	}
+
+	/**
+	 * @param array $documents
+	 */
+	protected function processDocumentDeletion(array $documents)
+	{
+		foreach ($documents as $document) {
+			/** @var $document \ilTermsOfServiceDocument */
+			$document->delete();
+		}
+
+		if (0 === \ilTermsOfServiceDocument::getCollection()->count()) {
+			$this->tos->saveStatus(false);
+			\ilUtil::sendInfo($this->lng->txt('tos_disabled_no_docs_left'), true);
+		}
+
+		\ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_p'), true);
+		if (1 === count($documents)) {
+			\ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_s'), true);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected function deleteDocument()
+	{
+		if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		$document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
+
+		$this->processDocumentDeletion([$document]);
+
+		$this->ctrl->redirect($this);
 	}
 
 	/**
