@@ -9,7 +9,8 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
-use ILIAS\UI\Implementation\Factory;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Table\PresentationRow;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 
@@ -23,12 +24,16 @@ class ilIndividualAssessmentMembersTableGUI {
 		ilLanguage $lng,
 		ilCtrl $ctrl,
 		ilIndividualAssessmentAccessHandler $iass_access,
+		Factory $factory,
+		Renderer $renderer,
 		int $current_user_id
 	) {
 		$this->parent = $parent;
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
 		$this->iass_access = $iass_access;
+		$this->factory = $factory;
+		$this->renderer = $renderer;
 		$this->current_user_id = $current_user_id;
 	}
 
@@ -61,12 +66,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	 */
 	public function render(array $view_constrols, int $offset = 0, int $limit = null): string
 	{
-		global $DIC;
-		$f = $DIC->ui()->factory();
-
-		$renderer = $DIC->ui()->renderer();
-
-		$ptable = $f->table()->presentation(
+		$ptable = $this->factory->table()->presentation(
 			"",
 			$view_constrols,
 			function (
@@ -96,7 +96,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		);
 
 		$data = array_slice($this->getData(), $offset, $limit);
-		return $renderer->render($ptable->withData($data));
+		return $this->renderer->render($ptable->withData($data));
 	}
 
 	/**

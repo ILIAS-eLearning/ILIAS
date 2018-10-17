@@ -37,11 +37,15 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	/**
 	 * @inheritdoc
 	 */
-	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj)
+	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj, string $filter = null)
 	{
 		$members = [];
 		$sql = $this->loadMemberQuery();
 		$sql .= "	WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
+
+		if(!is_null($filter)) {
+			$sql .= $this->getWhereFromFilter($filter);
+		}
 		$res = $this->db->query($sql);
 		while($rec = $this->db->fetchAssoc($res)) {
 			$usr = new ilObjUser($rec["usr_id"]);
@@ -182,5 +186,23 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				."     AND usr_id = ".$this->db->quote($record[ilIndividualAssessmentMembers::FIELD_USR_ID], 'integer');
 
 		$this->db->manipulate($sql);
+	}
+
+	protected function getWhereFromFilter($filter) {
+		switch($filter)
+		{
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
+				return "      AND finalized = 0 AND examiner_id IS NULL\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
+				return "      AND finalized = 0 AND examiner_id IS NOT NULL\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_COMPLETED:
+				return "      AND finalized = 1 AND learning_progress = 2\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_FAILED:
+				return "      AND finalized = 1 AND learning_progress = 3\n";
+				break;
+		}
 	}
 }
