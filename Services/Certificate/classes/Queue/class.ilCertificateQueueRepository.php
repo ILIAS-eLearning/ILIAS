@@ -96,4 +96,15 @@ class ilCertificateQueueRepository
 
 		return $result;
 	}
+
+	public function removeFromQueueByUserId($user_id)
+	{
+		$this->logger->info(sprintf('START - Remove entries for user(user_id: "%s") from queue', $user_id));
+
+		$sql = 'DELETE FROM il_cert_cron_queue WHERE usr_id = ' . $this->database->quote($user_id, 'integer');
+
+		$this->database->manipulate($sql);
+
+		$this->logger->info(sprintf('END - Entries for user(user_id: "%s") deleted from queue', $id));
+	}
 }

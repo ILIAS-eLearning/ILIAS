@@ -45,6 +45,16 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	private $templateRepository;
 
 	/**
+	 * @var ilUserCertificateRepository
+	 */
+	private $userCertificateRepository;
+
+	/**
+	 * @var ilCertificateMigrationRepository
+	 */
+	private $migrationRepository;
+
+	/**
 	 * ilCertificateAppEventListener constructor.
 	 * @param \ilDBInterface $db
 	 * @param \ilObjectDataCache $objectDataCache
@@ -61,6 +71,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
 		$this->certificateClassMap = new \ilCertificateTypeClassMap();
 		$this->templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
+		$this->userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
+		$this->migrationRepository = new ilCertificateMigrationRepository($this->db, $this->logger);
 	}
 
 	/**
@@ -284,8 +296,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 		$template = $templateRepository->fetchFirstCreatedTemplate($objId);
 
-		$userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
-
 		$type = $this->objectDataCache->lookupType($objId);
 
 		$classMap = new ilCertificateTypeClassMap();
@@ -326,7 +336,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			$backgroundImagePath
 		);
 
-		$userCertificateRepository->save($userCertificate);
+		$this->userCertificateRepository->save($userCertificate);
 	}
 
 	private function handleDeletedUser()
@@ -338,8 +348,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$this->logger->info('User has been deleted. Try to delete user certificates');
 
-		$userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
+		$userId = $this->parameters['usr_id'];
 
-		$userCertificateRepository->deleteUserCertificates($this->parameters['usr_id']);
+		$this->userCertificateRepository->deleteUserCertificates($userId);
+
+		$this->certificateQueueRepository->removeFromQueueByUserId($userId);
+
+		$this->migrationRepository->deleteFromMigrationJob($userId);
+
+		$this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
 	}
 }
