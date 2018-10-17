@@ -11,7 +11,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
+* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI, ilRepositoryGUI, ilObjCourseGUI, ilContainerNewsSettingsGUI
 *
 * @ingroup ServicesNews
 */
@@ -270,6 +270,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
+		global $DIC;
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
@@ -337,8 +339,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		if ($this->getProperty("settings") == true)
 		{
-			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $_GET["ref_id"]);
-			$parent_gui = $_GET["cmdClass"];
+			$ref_id = $_GET["ref_id"];
+			$obj_def = $DIC["objDefinition"];
+			$obj_id = ilObject::_lookupObjectId($re_id);
+			$obj_type = ilObject::_lookupType($ref_id, true);
+			$obj_class= strtolower($obj_def->getClassName($obj_type));
+			$parent_gui = "ilobj".$obj_class."gui";
+
+			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
+
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui",$parent_gui,"ilcontainernewssettingsgui"), "show"),
 				$lng->txt("settings"));
