@@ -2,7 +2,6 @@
 
 use ILIAS\GlobalScreen\MainMenu\AbstractParentItem;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\hasIcon;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 
 /**

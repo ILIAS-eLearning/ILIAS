@@ -87,4 +87,35 @@ interface isItem {
 	 * @return Legacy
 	 */
 	public function getNonAvailableReason(): Legacy;
+
+
+	/**
+	 * Return the default position for installation, this will be overridden by
+	 * the configuration later
+	 *
+	 * @return int
+	 */
+	public function getPosition(): int;
+
+
+	/**
+	 * @param int $position
+	 *
+	 * @return isItem
+	 */
+	public function withPosition(int $position): isItem;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isAlwaysAvailable(): bool;
+
+
+	/**
+	 * @param bool $always_active
+	 *
+	 * @return isItem
+	 */
+	public function withAlwaysAvailable(bool $always_active): isItem;
 }

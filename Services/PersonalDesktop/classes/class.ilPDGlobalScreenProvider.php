@@ -41,11 +41,14 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		$dic = $this->dic;
 
 		// Personal Desktop TopParentItem
-		return [$this->mainmenu->topParentItem($this->getTopItem())->withTitle($this->dic->language()->txt("personal_desktop"))->withVisibilityCallable(
-			function () use ($dic) {
-				return (bool)($dic->user()->getId() != ANONYMOUS_USER_ID);
-			}
-		)];
+		return [$this->mainmenu->topParentItem($this->getTopItem())
+			        ->withTitle($this->dic->language()->txt("personal_desktop"))
+			        ->withPosition(1)
+			        ->withVisibilityCallable(
+				        function () use ($dic) {
+					        return (bool)($dic->user()->getId() != ANONYMOUS_USER_ID);
+				        }
+			        )];
 	}
 
 

@@ -52,6 +52,8 @@ class ilMMItemRepository {
 	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem|\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
 	 */
 	public function getStackedTopItemsForPresentation(): array {
+		$this->sync();
+
 		return $this->main_collector->getStackedTopItemsForPresentation();
 	}
 
@@ -134,20 +136,7 @@ class ilMMItemRepository {
 		$synced = false;
 		if ($synced === false || $synced === null) {
 			foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
-				$item_storage = ilMMItemStorage::find($identification->serialize());
-				/**
-				 * @var $item isChild|\ILIAS\GlobalScreen\MainMenu\isParent
-				 */
-				$item = $this->findItem($identification);
-				if ($item_storage === null) {
-					$item_storage = new ilMMItemStorage();
-					$item_storage->setIdentification($identification->serialize());
-					$item_storage->create();
-				}
-				if ($item instanceof isChild) {
-					$item_storage->setParentIdentification($item->getParent()->serialize());
-				}
-				$item_storage->update();
+				$this->getItemFacadeForIdentificationString($identification->serialize());
 			}
 			$synced = true;
 		}

@@ -25,7 +25,7 @@ class ilMMEntryRendererGUI {
 		if ($storage->cache()->exists('rendered_menu')) {
 			$cached_menu = $storage->cache()->get('rendered_menu');
 			if (is_string($cached_menu)) {
-				return $cached_menu;
+				//return $cached_menu;
 			}
 		}
 

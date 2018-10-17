@@ -65,7 +65,7 @@ class Main {
 		$this->load();
 		$top_items = [];
 		foreach (self::$items as $item) {
-			if ($item->isAvailable() && $this->information->isItemActive($item)) {
+			if (($item->isAvailable() && $this->information->isItemActive($item)) || $item->isAlwaysAvailable() === true) {
 				if ($item instanceof hasTitle && $this->information) {
 					$item = $this->information->translateItemForUser($item);
 				}

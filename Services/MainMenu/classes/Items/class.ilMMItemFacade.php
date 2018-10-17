@@ -33,7 +33,18 @@ class ilMMItemFacade {
 		global $DIC;
 		$this->identification = $identification;
 		$this->gs_item = $DIC->globalScreen()->collector()->mainmenu($providers)->getSingleItem($identification);
-		$this->mm_item = ilMMItemStorage::findOrFail($identification->serialize());
+
+		$this->mm_item = ilMMItemStorage::find($identification->serialize());
+		if ($this->mm_item === null) {
+			$this->mm_item = new ilMMItemStorage();
+			$this->mm_item->setPosition($this->gs_item->getPosition());
+			$this->mm_item->setIdentification($identification->serialize());
+			$this->mm_item->setActive(true);
+			$this->mm_item->create();
+		}
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+			$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
+		}
 	}
 
 
@@ -48,6 +59,14 @@ class ilMMItemFacade {
 		}
 
 		return 0;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasStorage(): bool {
+		return ilMMItemStorage::find($this->getId()) !== null;
 	}
 
 
@@ -66,8 +85,11 @@ class ilMMItemFacade {
 	}
 
 
+	/**
+	 * @return isItem
+	 */
 	public function getGSItem(): isItem {
-		throw new Exception();
+		return $this->gs_item;
 	}
 
 

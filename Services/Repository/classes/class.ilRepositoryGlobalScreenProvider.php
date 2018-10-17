@@ -47,6 +47,7 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 
 		return [$this->mainmenu->topParentItem($this->getTopItem())
 			        ->withTitle($this->dic->language()->txt("repository"))
+			        ->withPosition(2)
 			        ->withVisibilityCallable(
 				        function () use ($dic) {
 					        return (bool)($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID));

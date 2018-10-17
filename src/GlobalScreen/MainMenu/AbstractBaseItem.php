@@ -11,6 +11,10 @@ use ILIAS\UI\Component\Legacy\Legacy;
 abstract class AbstractBaseItem implements isItem {
 
 	/**
+	 * @var int
+	 */
+	protected $position = 0;
+	/**
 	 * @var Legacy
 	 */
 	protected $non_available_reason;
@@ -30,6 +34,10 @@ abstract class AbstractBaseItem implements isItem {
 	 * @var callable
 	 */
 	protected $visiblility_callable;
+	/**
+	 * @var bool
+	 */
+	protected $is_always_available = false;
 
 
 	/**
@@ -122,6 +130,9 @@ abstract class AbstractBaseItem implements isItem {
 	 * @inheritDoc
 	 */
 	public function isAvailable(): bool {
+		if ($this->isAlwaysAvailable() === true) {
+			return true;
+		}
 		if (is_callable($this->available_callable)) {
 			$callable = $this->available_callable;
 
@@ -152,5 +163,43 @@ abstract class AbstractBaseItem implements isItem {
 		global $DIC;
 
 		return $this->non_available_reason instanceof Legacy ? $this->non_available_reason : $DIC->ui()->factory()->legacy("");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isAlwaysAvailable(): bool {
+		return $this->is_always_available;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withAlwaysAvailable(bool $always_active): isItem {
+		$clone = clone($this);
+		$clone->is_always_available = $always_active;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getPosition(): int {
+		return $this->position;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withPosition(int $position): isItem {
+		$clone = clone($this);
+		$clone->position = $position;
+
+		return $clone;
 	}
 }

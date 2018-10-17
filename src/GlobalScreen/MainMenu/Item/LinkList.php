@@ -1,7 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu\Item;
 
 use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
-use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use InvalidArgumentException;
 

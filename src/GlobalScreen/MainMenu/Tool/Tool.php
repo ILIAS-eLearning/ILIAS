@@ -4,7 +4,6 @@ use ILIAS\GlobalScreen\MainMenu\AbstractParentItem;
 use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
 use ILIAS\GlobalScreen\MainMenu\hasContent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
-use ILIAS\GlobalScreen\MainMenu\Tool\ToolInterfaceInterface;
 use ILIAS\UI\Component\Component;
 
 /**

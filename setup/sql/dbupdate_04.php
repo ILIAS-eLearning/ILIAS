@@ -22833,3 +22833,130 @@ if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5308>
+<?php
+$fields = array(
+	'identification' => array(
+		'type' => 'text',
+		'length' => '64',
+		
+	),
+	'active' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	'position' => array(
+		'type' => 'integer',
+		'length' => '4',
+		
+	),
+	'parent_identification' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'sticky' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_mm_items')) {
+	$ilDB->createTable('il_mm_items', $fields);
+	$ilDB->addPrimaryKey('il_mm_items', array( 'identification' ));
+	
+}
+?>
+<#5309>
+<?php
+$fields = array(
+	'id'             => array(
+		'type'   => 'integer',
+		'length' => '8',
+
+	),
+	'identification' => array(
+		'type'   => 'text',
+		'length' => '64',
+
+	),
+	'language_key'   => array(
+		'type'   => 'text',
+		'length' => '8',
+
+	),
+	'translation'    => array(
+		'type'   => 'text',
+		'length' => '4000',
+
+	),
+
+);
+if (!$ilDB->tableExists('il_mm_translation')) {
+	$ilDB->createTable('il_mm_translation', $fields);
+	$ilDB->addPrimaryKey('il_mm_translation', array('id'));
+
+	if (!$ilDB->sequenceExists('il_mm_translation')) {
+		$ilDB->createSequence('il_mm_translation');
+	}
+}
+?>
+<#5310>
+<?php
+$fields = array(
+	'provider_class' => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'purpose'        => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'dynamic'        => array(
+		'type'   => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (!$ilDB->tableExists('il_gs_providers')) {
+	$ilDB->createTable('il_gs_providers', $fields);
+	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+}
+?>
+<#5311>
+<?php
+$fields = array(
+	'identification' => array(
+		'type'   => 'text',
+		'length' => '64',
+
+	),
+	'provider_class' => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'active'         => array(
+		'type'   => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (!$ilDB->tableExists('il_gs_identifications')) {
+	$ilDB->createTable('il_gs_identifications', $fields);
+	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+}
+?>
+<#5312>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');
+
+$ilCtrlStructureReader->getStructure();
+?>
