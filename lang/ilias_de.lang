@@ -458,7 +458,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meine
 assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort
 assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Sie haben keine Antwort eingegeben. Eine leere Lösung wird als Antwort zur aktuellen Frage gespeichert und festgeschrieben. Die Antwort kann nicht mehr verändert werden.
 assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten Frage
-assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächste Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
@@ -495,9 +495,9 @@ assessment#:#answers_select#:#Auswahl
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#longmenu_text#:#‘Long Menu’-Text
-assessment#:#correct_answers#:#Richtige Antworten: 
+assessment#:#correct_answers#:#Richtige Antworten:
 assessment#:#answer_options#:#Antwort-Optionen:
-assessment#:#add_answers#:#Antworten hinzufügen 
+assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
@@ -582,7 +582,7 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note: 
+assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note:
 assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
 assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
 assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
@@ -615,7 +615,7 @@ assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
 assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
-assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren 
+assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren
 assessment#:#score_partsol_enabled_info#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
 assessment#:#option_label#:#Optionsbezeichnungen
 assessment#:#option_label_info#:#Die hier konfigurierten Bezeichnungen werden als Beschriftung für die Entscheidungsoptionen verwendet.
@@ -996,7 +996,7 @@ assessment#:#questions_per_page_view#:#Seitenansicht
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
-assessment#:#tst_rnd_quest_set_cfg_general_form#:#Konfiguration der zufälligen Fragenauswahl 
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Konfiguration der zufälligen Fragenauswahl
 assessment#:#range#:#Bereich
 assessment#:#range_lower_limit#:#Untere Schranke
 assessment#:#range_upper_limit#:#Obere Schranke
@@ -1014,7 +1014,7 @@ assessment#:#reset_pictures#:#Positionen der Bilder zurücksetzen
 assessment#:#reset_terms#:#Anordnung zurücksetzen
 assessment#:#result#:#Ergebnis
 assessment#:#finish_test#:#Test beenden
-assessment#:#next_question#:#Weiter 
+assessment#:#next_question#:#Weiter
 assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
@@ -1602,8 +1602,8 @@ assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
-assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
-assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen. 
+assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden.
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
@@ -1831,7 +1831,7 @@ chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzern
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
-chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen 
+chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
@@ -3190,7 +3190,7 @@ common#:#mail_sent#:#Ihre Mail wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
 rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
-common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt) 
+common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -3993,7 +3993,7 @@ common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
 common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden. Bitte legen Sie zusätzlich fest, wie neue Objekte in eine vorhandene manuelle Reihenfolge einsortiert werden sollen.
-common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
+common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert.
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
 common#:#sorting_title_header#:#Alphabetisch nach Titel
@@ -5605,7 +5605,7 @@ dateplaner#:#cal_confirm_booking#:#Sprechstunde buchen
 dateplaner#:#cal_confirm_booking_info#:#Bitte bestätigen Sie die Buchung der Sprechstunde.
 dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
 dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von diesen Termin.
-dateplaner#:#cal_consultation_hours_for#:#Sprechstunde 
+dateplaner#:#cal_consultation_hours_for#:#Sprechstunde
 dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
@@ -6171,7 +6171,7 @@ forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
-forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben. Sollte die Option "Moderatoren-Beiträge markieren" ebenfalls aktiviert sein, können Moderatoren kein Pseudonym verwenden.    
+forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben. Sollte die Option "Moderatoren-Beiträge markieren" ebenfalls aktiviert sein, können Moderatoren kein Pseudonym verwenden.
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_edit_title#:#Titel bearbeiten
@@ -6540,7 +6540,7 @@ mail#:#goto_invitation_chat#:#Öffne Chatraum
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
 mail#:#mail_send_html#:#HTML-Rahmen
-mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden. 
+mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
 mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
@@ -7911,7 +7911,7 @@ registration#:#registration_codes_add#:#Codes erzeugen
 registration#:#registration_codes_edit_header#:#Neue Codes erzeugen
 registration#:#registration_codes_export#:#Codes exportieren
 registration#:#registration_codes_number#:#Anzahl Codes
-registration#:#registration_codes_roles#:#Globale Rolle 
+registration#:#registration_codes_roles#:#Globale Rolle
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 registration#:#registration_generated#:#Erzeugt am
 registration#:#registration_generated_all#:#Alle Daten
@@ -9183,7 +9183,7 @@ trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts w
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
+trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
 trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
@@ -10139,7 +10139,7 @@ itgr#:#itgr_edit#:#Objekteblock bearbeiten
 rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#itgr_copy#:#Objekteblock kopieren
-rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben 
+rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben
 rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
 rbac#:#rbac_create_itgr#:#Objekteblock anlegen
 itgr#:#itgr_materials#:#Objekte
@@ -10425,13 +10425,13 @@ survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
-forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
+forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
-forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden. 
+forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
 forum#:#not_allowed_to_merge_into_another_forum#:#Es ist nicht möglich Themen verschiedener Foren zusammenzuführen.
 forum#:#frm_selected_merge_src#:#Gewähltes Thema für die Zusammenführung: %s
 forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt werden.
@@ -10643,8 +10643,8 @@ rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
 blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_self_evaluation#:#Selbsteinschätzung 
-survey#:#survey_360_self_raters#:#Feedback-Geber auswählen 
+survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
+survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
 survey#:#survey_360_self_appraisee#:#Offenes 360°-Feedback
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
 survey#:#survey_360_results_none#:#Kein Zugang
@@ -10750,7 +10750,7 @@ common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#rpc_pdf_font#:#Schriftarten
 common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
 registration#:#registration_codes_no_assigned_role#:#Keine vorgegebene zugewiesene Rolle
-registration#:#registration_codes_roles_local#:#Lokale Rolle(n) 
+registration#:#registration_codes_roles_local#:#Lokale Rolle(n)
 registration#:#registration_codes_roles_title#:#Rolle für neue Accounts
 registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zugangsbefristung
 registration#:#reg_access_limitation_mode_absolute_target#:#Gültig bis
@@ -10821,7 +10821,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. 
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirect_always#:#immer zur definierten Zielseite
@@ -10992,7 +10992,7 @@ content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das &#x25bc;-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
-common#:#obj_reps#:#Magazin 
+common#:#obj_reps#:#Magazin
 common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
 rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
@@ -11024,7 +11024,7 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte
 rep#:#rep_new_item_group_edit#:#Gruppierung bearbeiten
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppierungen löschen?
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
-rep#:#rep_new_item_group_separator#:#Spaltentrenner 
+rep#:#rep_new_item_group_separator#:#Spaltentrenner
 rep#:#rep_new_item_group_other#:#Weitere
 wsp#:#wsp_shared_title#:#Titel der Ressource
 adve#:#adve_excass_settings#:#Übungseinheiten
@@ -11251,7 +11251,7 @@ assessment#:#result_frac_info#:#Die Eingaben 1/3 und 2/6  sind beides gültige E
 assessment#:#result_co_frac_info#:#Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis
 assessment#:#change_adm_categories_not_allowed#:#An dieser Stelle haben Sie keine Schreibberechtigung an der Kategorie.
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
-assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet! 
+assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
@@ -11432,13 +11432,13 @@ adve#:#char_selector_custom_items_info4b#:#Zeichenbereiche können mit einem "-"
 adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß-/Kleinschreibung beliebig).
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden 
+adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden
 adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#adve_char_selector_settings#:#Zeichenauswahl
 content#:#cont_sc_auto_review_2004#:#Daten speichern
 content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
 content#:#cont_sc_auto_review_no#:#immer (empfohlen)
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden' 
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden'
 content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
 content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
 content#:#cont_sc_auto_review_completed#:#nicht speichern ab Status 'vollständig bearbeitet'
@@ -11518,7 +11518,7 @@ content#:#cont_col_ordering#:#Spaltenanordnung
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_tstv#:#Testzertifikat
-assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'. 	  				 	 	 	   	 	  	   		  	 
+assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'.
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 cmps#:#cmps_repository_object_types#:#Objekttypen im Magazin
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
@@ -11845,17 +11845,17 @@ survey#:#svy_eval_skipped_value_custom_value#:#Wert
 survey#:#svy_import_codes#:#Schlüssel importieren
 survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
 wiki#:#wiki_stat_num_pages#:#Anzahl Seiten
-wiki#:#wiki_stat_new_pages#:#Anzahl neue Seiten 
+wiki#:#wiki_stat_new_pages#:#Anzahl neue Seiten
 wiki#:#wiki_stat_new_pages_avg#:#Durchschnitt der Anzahl neuer Seiten je Benutzer
 wiki#:#wiki_stat_edit_pages#:#Anzahl geänderte Seiten
 wiki#:#wiki_stat_edit_pages_avg#:#Durchschnitt der Anzahl geänderter Seiten je Benutzer
 wiki#:#wiki_stat_scope#:#Zeitraum
 wiki#:#wiki_stat_figure#:#Kennzahl
 wiki#:#wiki_stat_deleted_pages#:#Anzahl gelöschter Seiten
-wiki#:#wiki_stat_read_pages#:#Anzahl Lesezugriffe 
-wiki#:#wiki_stat_user_edit_pages#:#Anzahl Benutzer welche Seiten geändert haben 
-wiki#:#wiki_stat_user_edit_pages_avg#:#Durchschnitt Anzahl Benutzer welche Seiten geändert haben 
-wiki#:#wiki_stat_num_rating#:#Anzahl der Bewertungen 
+wiki#:#wiki_stat_read_pages#:#Anzahl Lesezugriffe
+wiki#:#wiki_stat_user_edit_pages#:#Anzahl Benutzer welche Seiten geändert haben
+wiki#:#wiki_stat_user_edit_pages_avg#:#Durchschnitt Anzahl Benutzer welche Seiten geändert haben
+wiki#:#wiki_stat_num_rating#:#Anzahl der Bewertungen
 wiki#:#wiki_stat_num_rating_avg#:#Durchschnitt der Anzahl der Bewertungen je Seite
 wiki#:#wiki_stat_rating_avg#:#Durchschnittliche Bewertung
 wiki#:#wiki_stat_internal_links#:#Anzahl interne Links
@@ -12071,7 +12071,7 @@ crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
 crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
-crs#:#crs_objective_action_materials#:#Lerninhalte zuordnen 
+crs#:#crs_objective_action_materials#:#Lerninhalte zuordnen
 crs#:#crs_objective_action_qtest#:#Fragen des Abschlusstests festlegen
 crs#:#crs_objective_action_itest#:#Fragen des Einstiegstests festlegen
 crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
@@ -12202,7 +12202,7 @@ sysc#:#sysc_trash_limit_type#:#Begrenze Typ
 registration#:#registration_codes_type#:#Codetyp
 registration#:#registration_codes_type_reg#:#Registrierungscode
 registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Benutzerkonten verwendet werden.
-registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Benutzerkonten 
+registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Benutzerkonten
 registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Benutzerkonten verwendet werden.
 scormtrac#:#audio_captioning#:#learner_preference.audio_captioning
 scormtrac#:#audio_level#:#learner_preference.audio_level
@@ -12303,11 +12303,11 @@ survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearb
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
-survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
+survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein.
 survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
-survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen. 
-survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben. 
-survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen. 
+survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen.
+survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
+survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen.
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen gesetzt.
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
@@ -12342,7 +12342,7 @@ administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprac
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
-crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft. 
+crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für die Auswahl von Fragen
 rbac#:#bibs_copy#:#Literaturlisten kopieren
 crs#:#crs_loc_settings_reset_enable#:#Zurücksetzen der persönlichen Testergebnisse erlauben
@@ -12530,7 +12530,7 @@ content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
-forum#:#add_new_answer#:#Neuer Beitrag 
+forum#:#add_new_answer#:#Neuer Beitrag
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
 mail#:#mail_threshold#:#Schwellenwert
 mail#:#mail_threshold_info#:#Interne Mails, die älter als der hier definierte Schwellenwert sind, werden unwiderruflich gelöscht (inklusive evtl vorhandener Anhänge).<br> Bitte bedenken Sie, dass bei erstmaliger Ausführung dieses Cron-Jobs je nach Schwellenwert sehr viele Nachrichten gelöscht werden und eine E-Mail als Warnung nicht mehr versendet werden kann.
@@ -12617,15 +12617,15 @@ style#:#sty_ca_cntr_class#:#Karussell - Container
 style#:#sty_ca_icntr_class#:#Karussell - Element-Container
 style#:#sty_ca_icont_class#:#Karussell - Inhalt Element
 style#:#sty_ca_ihead_class#:#Karussell - Kopfzeile Element
-membership#:#mem_force_notification#:#Benachrichtigung per Mail 
-membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren 
+membership#:#mem_force_notification#:#Benachrichtigung per Mail
+membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren
 membership#:#mem_force_notification_mode_blocked#:#Mitglieder werden automatisch benachrichtigt
 membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
 common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
 common#:#settings_per_users#:#Mitglieder werden automatisch benachrichtigt. Für jedes Mitglied kann individuell festgelegt werden, ob es die Benachrichtigung deaktivieren darf.
-forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
+forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
 crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
@@ -12666,11 +12666,11 @@ exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
 exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
 exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
 exc#:#exc_peer_review_completion_none#:#Peer-Feedback ist optional
-exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch nach der Einreichung auf "Bestanden" gesetzt, egal ob Feedbacks gegeben wurden oder nicht. 
-exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback 
-exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde. 
-exc#:#exc_peer_review_completion_all#:#Alle geforderten Feedbacks 
-exc#:#exc_peer_review_completion_all_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und die Anzahl der geforderten Feedback gegeben wurde. 
+exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch nach der Einreichung auf "Bestanden" gesetzt, egal ob Feedbacks gegeben wurden oder nicht.
+exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback
+exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde.
+exc#:#exc_peer_review_completion_all#:#Alle geforderten Feedbacks
+exc#:#exc_peer_review_completion_all_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und die Anzahl der geforderten Feedback gegeben wurde.
 exc#:#exc_team_multi_create#:#Team erstellen
 exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
@@ -12859,7 +12859,7 @@ crs#:#crs_loc_settings_qt_all#:#Abschlusstest
 crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
 crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
+crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
 crs#:#crs_loc_tab_qtests#:#Abschlusstests
 crs#:#crs_loc_tab_itests#:#Einstiegstests
 crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
@@ -12926,7 +12926,7 @@ buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage 
 buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
-buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden. 
+buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
 common#:#obj_cadm#:#Benutzerkontakte
 common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
 rbac#:#cadm_visible#:#Administration für Benutzerkontakte ist sichtbar
@@ -13057,7 +13057,7 @@ prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan ak
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
-prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
+prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt.
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
 prg#:#prg_subtypes#:#Typen
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
@@ -13255,7 +13255,7 @@ style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
 style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
 style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift
 exc#:#exc_delete_team#:#Team löschen
-sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation): 
+sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation):
 sysc#:#sysc_message_tree_structure_confirm#:#Sind Sie sicher, dass Sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
 sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
 wiki#:#wiki_page_list_mode#:#Listentyp
@@ -13295,7 +13295,7 @@ sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_accept_request#:#Zu Sitzung zulassen
 sess#:#sess_new_registrations#:#Teilnahmeanträge
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
-mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
+mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
 rbac#:#mep_copy#:#Medienpool kopieren
@@ -13312,7 +13312,7 @@ auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehler
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
-assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 
+assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden.
 rbac#:#sty_write_content#:#Content-Styles bearbeiten
 rbac#:#stys_sty_write_custom#:#Content-Styles bearbeiten
 rbac#:#sty_write_system#:#System-Styles bearbeiten
@@ -13355,7 +13355,7 @@ survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehme
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen.
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
@@ -13378,13 +13378,13 @@ badge#:#badge_settings#:#Badge Einstellungen
 badge#:#badge_service_activate#:#Service aktivieren
 badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
-badge#:#badge_obi_activate_info#:#Benutzer Badges können aus ILIAS exportieren und im Internet als Nachweis ihrer Qualifikation nutzen. 
+badge#:#badge_obi_activate_info#:#Benutzer Badges können aus ILIAS exportieren und im Internet als Nachweis ihrer Qualifikation nutzen.
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#Diese Angabe wird als Herausgeber des Badges angezeigt. 
+badge#:#badge_obi_organisation_info#:#Diese Angabe wird als Herausgeber des Badges angezeigt.
 badge#:#badge_obi_contact#:#Kontakt-E-Mail
 badge#:#badge_obi_contact_info#:#Diese E-Mail wird zwar nicht angezeigt, aber in das Badge eingebacken.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr. 
+badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr.
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
 badge#:#badge_activity_badges#:#Activity Badges
@@ -13769,7 +13769,7 @@ chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeic
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
-chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt. 
+chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
@@ -13888,7 +13888,7 @@ pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
 pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt, nutzen sie bitten den Button "Bereinigen" um das Problem zu lösen.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
+auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert.
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
 rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
@@ -14363,8 +14363,6 @@ lhist#:#lhist_learning_history#:#Learning History
 lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
-mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-common#:#presentation_table_more#:#mehr
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
@@ -14375,3 +14373,4 @@ cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt wer
 cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
+cert#:#certificate_achievement#:#$3$ für $1$ erhalten.

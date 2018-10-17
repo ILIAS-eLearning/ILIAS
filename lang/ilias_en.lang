@@ -14367,8 +14367,6 @@ lhist#:#lhist_learning_history#:#Learning History
 lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-common#:#presentation_table_more#:#more
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
 cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
@@ -14379,3 +14377,4 @@ cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Pl
 cert#:#cert_error_no_access#:#You have no access to this certificate.
 cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
 common#:#my_certificates#:#My Certificates
+cert#:#certificate_achievement#:#$3$ for $1$ achieved.
