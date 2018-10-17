@@ -22,8 +22,7 @@ class ilLearningHistoryProviderFactory
 		ilTrackingLearningHistoryProvider::class,
 		ilBadgeLearningHistoryProvider::class,
 		ilCourseLearningHistoryProvider::class,
-		ilCourseLearningHistoryProvider::class,
-		ilCertificateLearningHistoryProvider::class
+		ilCourseLearningHistoryProvider::class
 	);
 
 	/**
@@ -51,9 +50,9 @@ class ilLearningHistoryProviderFactory
 
 		foreach (self::$providers as $provider) {
 			/** @var ilLearningHistoryProviderInterface $provider */
-			$provider = new $provider($user_id, $this->service->factory(), $this->service->language());
-			if (!$active_only || $provider->isActive()) {
-				$providers[] = $provider;
+			$providerInstance = new $provider($user_id, $this->service->factory(), $this->service->language());
+			if (!$active_only || $providerInstance->isActive()) {
+				$providers[] = $providerInstance;
 			}
 		}
 
