@@ -1287,9 +1287,13 @@
 		<!-- user -->
 		<xsl:when test="@Type = 'User'">
 			<xsl:variable name="href" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkHref"/>
+			<xsl:variable name="link_target" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkTarget"/>
 			<xsl:if test="$href != ''">
 				<a class="ilc_link_IntLink">
 					<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					<xsl:if test="$link_target != ''">
+						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+					</xsl:if>
 					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkContent"/>
 				</a>
 			</xsl:if>
