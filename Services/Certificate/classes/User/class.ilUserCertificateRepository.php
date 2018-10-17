@@ -78,7 +78,7 @@ class ilUserCertificateRepository
 	/**
 	 * @param int $userId
 	 * @param string $orderBy
-	 * @return array
+	 * @return ilUserCertificate[]
 	 */
 	public function fetchActiveCertificates(int $userId) : array
 	{
