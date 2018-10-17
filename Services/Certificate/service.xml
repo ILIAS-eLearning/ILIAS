@@ -11,6 +11,7 @@
 	<events>
 		<event type="listen" id="Services/Tracking" />
 		<event type="listen" id="Services/Certificate" />
+		<event type="listen" id="Services/User" />
 	</events>
 	<crons>
 		<cron id="certificate" class="ilCertificateCron" />
