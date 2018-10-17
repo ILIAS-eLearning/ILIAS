@@ -5358,12 +5358,12 @@ class ilUtil
 	
 	public static function MB2Bytes($a_value)
 	{
-		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+		return  ((int) $a_value) * pow(self::_getSizeMagnitude(), 2);
 	}
 	
 	public static function Bytes2MB($a_value)
 	{
-		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
+		return  ((int) $a_value) / (pow(self::_getSizeMagnitude(), 2));
 	}
 
 	/**
