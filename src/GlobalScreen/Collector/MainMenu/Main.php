@@ -8,7 +8,6 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\UI\Implementation\Component\ViewControl\Sortation;
 
 /**
  * Class Main
@@ -122,8 +121,6 @@ class Main {
 					$position_of_top_item = max(array_keys($top_items)) + 1;
 				}
 				$top_items[$position_of_top_item] = $item;
-			} else {
-				1 == 1;
 			}
 		}
 		ksort($top_items);
@@ -145,7 +142,14 @@ class Main {
 		} catch (\Throwable $e) {
 			global $DIC;
 
-			return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))->withTitle($DIC->language()->txt("deleted_item"));
+			return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))
+				->withTitle($DIC->language()->txt("deleted_item"))
+				->withAlwaysAvailable(true)
+				->withVisibilityCallable(
+					function () use ($DIC) {
+						return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
+					}
+				);
 		}
 	}
 
@@ -167,6 +171,7 @@ class Main {
 			 * @var $sub_item            \ILIAS\GlobalScreen\MainMenu\isChild
 			 */
 			try {
+				$this->loaded = true;
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticTopItems() as $top_item) {
 						if ($top_item instanceof hasTitle && $this->information) {
@@ -182,7 +187,15 @@ class Main {
 							$sub_item = $this->information->translateItemForUser($sub_item);
 						}
 						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
-							$sub_item->overrideParent($this->information->getParent($sub_item));
+							$new_parent_identification = $this->information->getParent($sub_item);
+							$parent_item = $this->getSingleItem($new_parent_identification);
+							if ($parent_item->getProviderIdentification() instanceof NullIdentification) {
+								self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+								self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+								$sub_item->overrideParent($parent_item->getProviderIdentification());
+							} else {
+								$sub_item->overrideParent($new_parent_identification);
+							}
 							if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
 								self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
 							}
@@ -190,7 +203,6 @@ class Main {
 						self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
 					}
 				}
-				$this->loaded = true;
 			} catch (\Throwable $e) {
 				throw $e;
 			}

@@ -28,7 +28,7 @@ class NullIdentification implements IdentificationInterface {
 	 */
 	public function serialize() {
 		if ($this->wrapped_identification !== null) {
-			$this->wrapped_identification->serialize();
+			return $this->wrapped_identification->serialize();
 		}
 
 		return "";
@@ -48,7 +48,7 @@ class NullIdentification implements IdentificationInterface {
 	 */
 	public function getClassName(): string {
 		if ($this->wrapped_identification !== null) {
-			$this->wrapped_identification->getClassName();
+			return $this->wrapped_identification->getClassName();
 		}
 
 		return "Null";
@@ -60,7 +60,7 @@ class NullIdentification implements IdentificationInterface {
 	 */
 	public function getInternalIdentifier(): string {
 		if ($this->wrapped_identification !== null) {
-			$this->wrapped_identification->getInternalIdentifier();
+			return $this->wrapped_identification->getInternalIdentifier();
 		}
 
 		return "Null";
@@ -72,7 +72,7 @@ class NullIdentification implements IdentificationInterface {
 	 */
 	public function getProviderNameForPresentation(): string {
 		if ($this->wrapped_identification !== null) {
-			$this->wrapped_identification->getProviderNameForPresentation();
+			return $this->wrapped_identification->getProviderNameForPresentation();
 		}
 
 		return "Null";
