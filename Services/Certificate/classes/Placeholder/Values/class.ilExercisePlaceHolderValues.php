@@ -71,6 +71,8 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 			$language = $DIC->language();
 		}
 		$language->loadLanguageModule('exercise');
+		$language->loadLanguageModule('exc');
+
 		$this->language = $language;
 
 		if (null === $defaultPlaceholderValues) {
