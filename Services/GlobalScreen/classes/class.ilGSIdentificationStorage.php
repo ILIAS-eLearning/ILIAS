@@ -39,6 +39,10 @@ class ilGSIdentificationStorage extends CachedActiveRecord {
 	protected $connector_container_name = "il_gs_identifications";
 
 
+	/**
+	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
+	 * @param \ILIAS\GlobalScreen\Provider\Provider                      $provider
+	 */
 	public static function registerIdentification(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, \ILIAS\GlobalScreen\Provider\Provider $provider) {
 		$gsi = ilGSIdentificationStorage::find($identification->serialize());
 		if ($gsi === null) {
@@ -46,8 +50,6 @@ class ilGSIdentificationStorage extends CachedActiveRecord {
 			$gsi->setIdentification($identification->serialize());
 			$gsi->create();
 		}
-		$gsi->setProviderClass(get_class($provider));
-		$gsi->update();
 	}
 
 

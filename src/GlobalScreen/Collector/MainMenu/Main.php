@@ -90,7 +90,7 @@ class Main {
 			$is_visible1 = $item->isVisible();
 			$is_item_active1 = $this->information->isItemActive($item);
 			$is_always_available1 = $item->isAlwaysAvailable();
-			if ((!$is_visible1 || !$is_item_active1 && !$is_always_available1)) {
+			if (!$is_visible1 || (!$is_item_active1 && !$is_always_available1)) {
 				continue;
 			}
 			if ($item instanceof isTopItem && $this->information) {
@@ -109,7 +109,7 @@ class Main {
 						}
 						$position_of_sub_item = $this->information->getPositionOfSubItem($child);
 						if (isset($children[$position_of_sub_item])) {
-							$position_of_sub_item = count($children) + 1;
+							$position_of_sub_item = max(array_keys($children)) + 1;
 						}
 						$children[$position_of_sub_item] = $child;
 					}
@@ -118,9 +118,11 @@ class Main {
 				}
 				$position_of_top_item = $this->information->getPositionOfTopItem($item);
 				if (isset($top_items[$position_of_top_item])) {
-					$position_of_top_item = count($top_items) + 1;
+					$position_of_top_item = max(array_keys($top_items)) + 1;
 				}
 				$top_items[$position_of_top_item] = $item;
+			}else {
+				1==1;
 			}
 		}
 		ksort($top_items);
