@@ -62,6 +62,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
 			->withParent($this->getTopItem())
 			->withAlwaysAvailable(true)
+			->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
 			->withVisibilityCallable(
 				function () use ($dic) {
 					return (bool)($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));

@@ -50,7 +50,7 @@ class ilLPGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("learning_progress"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP")
 			        ->withParent($this->getTopItem())
-			        // ->withNonAvailableReason($this->dic->ui()->factory()->legacy("LP deactivated"))
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () {
 					        return (bool)(ilObjUserTracking::_enabledLearningProgress()

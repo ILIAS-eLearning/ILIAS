@@ -49,6 +49,7 @@ class ilCalendarGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_cal'))->withTitle($this->dic->language()->txt("calendar"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar")
 			        ->withParent($this->getTopItem())
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () {
 					        $settings = ilCalendarSettings::_getInstance();

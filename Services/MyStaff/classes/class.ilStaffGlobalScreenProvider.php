@@ -56,10 +56,11 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 				        function () use ($dic) {
 					        return (bool)($dic->settings()->get("enable_my_staff"));
 				        }
-			        )->withVisibilityCallable(
-				function () {
-					return (bool)ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-				}
-			)];
+			        )
+			        ->withVisibilityCallable(
+				        function () {
+					        return (bool)ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+				        }
+			        )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"))];
 	}
 }

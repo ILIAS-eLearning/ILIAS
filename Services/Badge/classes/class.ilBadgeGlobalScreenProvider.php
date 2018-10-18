@@ -50,6 +50,7 @@ class ilBadgeGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("obj_bdga"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
 			        ->withParent($this->getTopItem())
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () {
 					        return (bool)(ilBadgeHandler::getInstance()->isActive());

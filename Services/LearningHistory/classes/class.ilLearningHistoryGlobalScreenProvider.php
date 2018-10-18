@@ -42,6 +42,7 @@ class ilLearningHistoryGlobalScreenProvider extends AbstractStaticMainMenuProvid
 			        ->withTitle($this->dic->language()->txt("lhist_learning_history"))
 			        ->withAction($dic->ctrl()->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilLearningHistoryGUI"]))
 			        ->withParent($this->top_item)
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {
 					        return (bool)($dic->learningHistory()->isActive());

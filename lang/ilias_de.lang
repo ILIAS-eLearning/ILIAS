@@ -14408,6 +14408,8 @@ mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Keine Zuordnung
+mme#:#component_not_active#:#Komponente ist nicht aktiviert.
+mme#:#item_must_be_always_active#:#Eintrag muss aktiv sein.
 common#:#obj_mme#:#Hauptmenu
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.

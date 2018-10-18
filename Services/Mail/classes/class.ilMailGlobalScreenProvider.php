@@ -51,16 +51,20 @@ class ilMailGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_mail'))
 			        ->withTitle($this->dic->language()->txt("mail"))
 			        ->withAction("ilias.php?baseClass=ilMailGUI")
+			        ->withParent($this->getTopItem())
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {
 					        return ($dic->user()->getId() != ANONYMOUS_USER_ID);
 				        }
-			        )->withVisibilityCallable(
-				function () use ($dic) {
-					return $dic->rbac()->system()->checkAccess(
-						'internal_mail', ilMailGlobalServices::getMailObjectRefId()
-					);
-				}
-			)->withParent($this->getTopItem())];
+			        )
+			        ->withVisibilityCallable(
+				        function () use ($dic) {
+					        return $dic->rbac()->system()->checkAccess(
+						        'internal_mail', ilMailGlobalServices::getMailObjectRefId()
+					        );
+				        }
+			        ),
+		];
 	}
 }

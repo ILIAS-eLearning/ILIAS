@@ -75,6 +75,7 @@ class ilNotesGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($title)
 			        ->withAction($action)
 			        ->withParent($this->getTopItem())
+			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {
 					        return (bool)(!$dic->settings()->get("disable_notes") || !$dic->settings()->get("disable_comments"));

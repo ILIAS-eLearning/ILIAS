@@ -14412,6 +14412,8 @@ mme#:#msg_languages_added#:#Added languages
 mme#:#msg_translations_saved#:#Translations saved
 mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Deleted Item
+mme#:#component_not_active#:#Component is not activated.
+mme#:#item_must_be_always_active#:#Item must be active.
 common#:#obj_mme#:#Main Menu
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

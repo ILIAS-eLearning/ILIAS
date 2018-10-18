@@ -107,7 +107,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function isAvailable(): bool {
-		return (bool)(($this->mm_item->isActive() && $this->gs_item->isAvailable())|| $this->item()->isAlwaysAvailable());
+		return (bool)(($this->mm_item->isActive() && $this->gs_item->isAvailable()) || $this->item()->isAlwaysAvailable());
 	}
 
 
@@ -139,10 +139,16 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function getStatus(): string {
 		global $DIC;
+		if (!$this->gs_item->isAvailable() || $this->gs_item->isAlwaysAvailable()) {
+			return $DIC->ui()->renderer()->render($this->gs_item->getNonAvailableReason());
+		}
 
-		return $DIC->ui()->renderer()->render($this->gs_item->getNonAvailableReason());
+		return "";
 	}
 
 
