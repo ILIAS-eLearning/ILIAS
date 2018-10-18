@@ -136,6 +136,14 @@ class ilMMSubItemGUI {
 				$this->saveTable();
 
 				return "";
+			case self::CMD_DELETE:
+				$item = $this->getMMItemFromRequest();
+				if ($item->isCustom()) {
+					$this->repository->deleteItem($item);
+				}
+				$this->ctrl->redirect($this);
+				break;
+				break;
 		}
 
 		return "";
