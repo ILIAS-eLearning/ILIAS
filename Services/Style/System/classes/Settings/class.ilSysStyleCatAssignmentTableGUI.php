@@ -34,7 +34,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 
 		
 		$this->getStyleCatAssignments();
-		$this->setTitle($lng->txt("sty_cat_assignments"));
+		$this->setTitle($this->lng->txt("sty_cat_assignments"));
 		
 		$this->addColumn("", "", "1");
 		$this->addColumn($this->lng->txt("obj_cat"));

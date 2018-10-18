@@ -23,7 +23,7 @@ abstract class ilAbstractLearningHistoryProvider
 	protected $factory;
 
 	/**
-	 * @var iLLanguage
+	 * @var iLanguage
 	 */
 	protected $lng;
 
@@ -31,9 +31,9 @@ abstract class ilAbstractLearningHistoryProvider
 	 * Constructor
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
-	 * @param iLLanguage $lng
+	 * @param iLanguage $lng
 	 */
-	public function __construct($user_id, ilLearningHistoryFactory $factory, iLLanguage $lng)
+	public function __construct($user_id, ilLearningHistoryFactory $factory, ilLanguage $lng)
 	{
 		$this->user_id = $user_id;
 		$this->factory = $factory;

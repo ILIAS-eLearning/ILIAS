@@ -16,33 +16,7 @@ class ilWebDAVRepositoryHelper
 
     public function deleteObject($a_ref_id)
     {
-
-        global $DIC;
-        $tree = $DIC['tree'];
-        $rbacadmin = $DIC['rbacadmin'];
-
-        $subnodes = $this->tree->getSubTree($this->tree->getNodeData($a_ref_id));
-        foreach ($subnodes as $node)
-        {
-            $rbacadmin->revokePermission($node["child"]);
-            $affectedUsers = ilUtil::removeItemFromDesktops($node["child"]);
-        }
-        $this->tree->saveSubTree($a_ref_id);
-        $this->tree->deleteTree($this->tree->getNodeData($a_ref_id));
-
-
-
-
-
-        // This are the same steps as in ilObjectGUI
-        try {
-            include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-            $ru = new ilRepUtilGUI($this);
-            $ru->deleteObjects($a_ref_id, ilSession::get("saved_post"));
-        } catch (Exception $e)
-        {
-            file_put_contents('webdav.log', $e->getMessage() . ' ' . $e->getFile() . ':' . $e->getLine(), FILE_APPEND);
-        }
+        throw new \Sabre\DAV\Exception\NotImplemented("Delete currently not implemented");
     }
 
     public function checkAccess($a_permission, $a_ref_id)
