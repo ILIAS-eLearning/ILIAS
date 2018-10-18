@@ -22,8 +22,9 @@ class ilMMEntryRendererGUI {
 		global $DIC;
 		$storage = $DIC->globalScreen()->storage();
 
-		if ($storage->cache()->exists('rendered_menu')) {
-			$cached_menu = $storage->cache()->get('rendered_menu');
+		$cacke_key = 'rendered_menu_' . $DIC->user()->getId();
+		if ($storage->cache()->exists($cacke_key)) {
+			$cached_menu = $storage->cache()->get($cacke_key);
 			if (is_string($cached_menu)) {
 				return $cached_menu;
 			}
@@ -82,7 +83,7 @@ class ilMMEntryRendererGUI {
 
 		$html = $tpl->get();
 
-		$storage->cache()->set('rendered_menu', $html, 180);
+		$storage->cache()->set($cacke_key, $html, 10);
 
 		return $html;
 	}
