@@ -6773,7 +6773,6 @@ return array(
     'ilUserCertificateGUI' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
     'ilUserCertificatePresentation' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificatePresentation.php',
     'ilUserCertificateRepository' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateRepository.php',
-    'ilUserCertificateTableGUI' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableGUI.php',
     'ilUserCertificateTableProvider' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableProvider.php',
     'ilUserClipboard' => $baseDir . '/../../Services/User/classes/class.ilUserClipboard.php',
     'ilUserClipboardTableGUI' => $baseDir . '/../../Services/User/classes/class.ilUserClipboardTableGUI.php',
