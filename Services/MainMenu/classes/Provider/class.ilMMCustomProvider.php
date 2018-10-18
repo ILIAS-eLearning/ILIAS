@@ -65,7 +65,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 				$item = $this->getLinkItem($storage, $identification);
 				break;
 			case \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class:
-				$item = $this->mainmenu->topLinkItem($identification)->withTitle($storage->getDefaultTitle())->withAction($storage->getAction());
+				$item = $this->mainmenu->topLinkItem($identification)->withTitle($storage->getDefaultTitle())->withAction($storage->getAction() . "#");
 				break;
 			case \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class:
 			default:
@@ -94,7 +94,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		}
 		$item = $this->mainmenu->link($identification)
 			->withTitle($storage->getDefaultTitle())
-			->withAction($storage->getAction());
+			->withAction($storage->getAction() . "#");
 		if ($parent_identification) {
 			$item = $item->withParent(
 				$this->globalScreen()
