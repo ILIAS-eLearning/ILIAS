@@ -76,15 +76,6 @@ class ilMMSubItemGUI {
 	}
 
 
-	/**
-	 * @return ilMMItemFacade
-	 */
-	private function getMMItemFromRequest(): ilMMItemFacade {
-		global $DIC;
-
-		return $this->repository->getItemFacadeForIdentificationString($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
-	}
-
 
 	private function dispatchCommand($cmd) {
 		switch ($cmd) {

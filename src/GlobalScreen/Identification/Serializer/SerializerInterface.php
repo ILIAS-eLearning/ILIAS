@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 
 /**
  * Interface SerializerInterface
@@ -22,7 +23,7 @@ interface SerializerInterface {
 	 *
 	 * @return IdentificationInterface
 	 */
-	public function unserialize(string $serialized_string): IdentificationInterface;
+	public function unserialize(string $serialized_string, IdentificationMap $map): IdentificationInterface;
 
 
 	/**

@@ -63,7 +63,11 @@ class ilMMItemInformation implements ItemInformation {
 
 
 	private function getPosition(\ILIAS\GlobalScreen\MainMenu\isItem $item): int {
-		return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
+		if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
+			return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
+		}
+
+		return 99;
 	}
 
 
@@ -82,8 +86,9 @@ class ilMMItemInformation implements ItemInformation {
 	 */
 	public function getParent(\ILIAS\GlobalScreen\MainMenu\isChild $item): \ILIAS\GlobalScreen\Identification\IdentificationInterface {
 		global $DIC;
-		if (isset($this->items[$item->getProviderIdentification()->serialize()]['parent_identification'])) {
-			return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$item->getProviderIdentification()->serialize()]['parent_identification']);
+		$parent_string = $item->getProviderIdentification()->serialize();
+		if (isset($this->items[$parent_string]['parent_identification'])) {
+			return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
 		}
 
 		return $item->getParent();

@@ -49,9 +49,9 @@ class ilMMSubitemFormGUI {
 			->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))
 			->withOption(1, 'Link', [$this->ui_fa->input()->field()->text("URL"), $this->ui_fa->input()->field()->checkbox("Open in new window")])
 			->withOption(2, 'Repository Link', [$this->ui_fa->input()->field()->text("URL")])
-			->withOption(3, 'Link List')
-			->withOption(4, 'Separator')
-			->withOption(5, 'Custom Entry Type from Plugin XY')->withValue(1);
+			// ->withOption(3, 'Link List')
+			->withOption(4, 'Separator');
+			// ->withOption(5, 'Custom Entry Type from Plugin XY')->withValue(1);
 		$items[] = $type;
 
 		$mm_item = $this->ui_fa->input()->field()->select($this->lng->txt('sub_parent'), [0 => 'Repository', 1 => 'Personal Workspace', 2 => 'Organisation']);

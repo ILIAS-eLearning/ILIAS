@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
+use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
 
 /**
@@ -34,6 +35,10 @@ class IdentificationFactory {
 	 * @var SerializerFactory
 	 */
 	protected $serializer_factory;
+	/**
+	 * @var IdentificationMap
+	 */
+	protected $map;
 
 
 	/**
@@ -41,11 +46,12 @@ class IdentificationFactory {
 	 */
 	public final function __construct() {
 		$this->serializer_factory = new SerializerFactory();
+		$this->map = new IdentificationMap();
 	}
 
 
 	/**
-	 * Returns a IndentificationProvider for core components, only a Provider
+	 * Returns a IdentificationProvider for core components, only a Provider
 	 * is needed.
 	 *
 	 * @param \ILIAS\GlobalScreen\Provider\Provider $provider
@@ -53,12 +59,12 @@ class IdentificationFactory {
 	 * @return IdentificationProviderInterface
 	 */
 	public final function core(\ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new CoreIdentificationProvider($provider, $this->serializer_factory->core());
+		return new CoreIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
 	}
 
 
 	/**
-	 * Returns a IndentificationProvider for ILIAS-Plugins which takes care of
+	 * Returns a IdentificationProvider for ILIAS-Plugins which takes care of
 	 * the plugin_id for further identification where a provided GlobalScreen-element
 	 * comes from (e.g. to disable or delete all elements when a plugin is
 	 * deleted or deactivated).
@@ -69,7 +75,7 @@ class IdentificationFactory {
 	 * @return IdentificationProviderInterface
 	 */
 	public final function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider): IdentificationProviderInterface {
-		return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin());
+		return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin(), $this->map);
 	}
 
 
@@ -79,7 +85,11 @@ class IdentificationFactory {
 	 * @return IdentificationInterface
 	 */
 	public final function fromSerializedIdentification($serialized_string): IdentificationInterface {
-		return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string);
+		if ($this->map->isInMap($serialized_string)) {
+			return $this->map->getFromMap($serialized_string);
+		}
+
+		return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map);
 	}
 }
 

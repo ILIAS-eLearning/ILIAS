@@ -29,6 +29,10 @@ class Main {
 	 */
 	private static $items = [];
 	/**
+	 * @var array|isItem[]
+	 */
+	private static $topitems = [];
+	/**
 	 * @var ItemInformation|null
 	 */
 	private $information;
@@ -36,6 +40,10 @@ class Main {
 	 * @var array|Provider[]
 	 */
 	protected $providers;
+	/**
+	 * @var bool
+	 */
+	private $loaded = false;
 
 
 	/**
@@ -43,6 +51,8 @@ class Main {
 	 *
 	 * @param array                $providers
 	 * @param ItemInformation|null $information
+	 *
+	 * @throws \Throwable
 	 */
 	public function __construct(array $providers, ItemInformation $information = null) {
 		if (self::$constructed === true) {
@@ -51,6 +61,7 @@ class Main {
 		$this->information = $information;
 		$this->providers = $providers;
 		self::$constructed = true;
+		$this->load();
 	}
 
 
@@ -61,6 +72,7 @@ class Main {
 	 * in the UI.
 	 *
 	 * @return isTopItem[]
+	 * @throws \Throwable
 	 */
 	public function getStackedTopItemsForPresentation(): array {
 		return $this->getStackedTopItems();
@@ -69,12 +81,16 @@ class Main {
 
 	/**
 	 * @return isTopItem[]
+	 * @throws \Throwable
 	 */
 	private function getStackedTopItems(): array {
 		$this->load();
 		$top_items = [];
-		foreach (self::$items as $item) {
-			if ((!$item->isVisible() || !$this->information->isItemActive($item) && !$item->isAlwaysAvailable())) {
+		foreach (self::$topitems as $item) {
+			$is_visible1 = $item->isVisible();
+			$is_item_active1 = $this->information->isItemActive($item);
+			$is_always_available1 = $item->isAlwaysAvailable();
+			if ((!$is_visible1 || !$is_item_active1 && !$is_always_available1)) {
 				continue;
 			}
 			if ($item instanceof hasTitle && $this->information) {
@@ -87,15 +103,26 @@ class Main {
 					 * @var $item isParent
 					 */
 					foreach ($item->getChildren() as $child) {
-						if ((!$child->isVisible() || !$this->information->isItemActive($child) && !$child->isAlwaysAvailable())) {
+						$is_visible = $child->isVisible();
+						$is_item_active = $this->information->isItemActive($child);
+						$is_always_available = $child->isAlwaysAvailable();
+						if ((!$is_visible || !$is_item_active && !$is_always_available)) {
 							continue;
 						}
-						$children[$this->information->getPositionOfSubItem($child)] = $child;
+						$position_of_sub_item = $this->information->getPositionOfSubItem($child);
+						if (isset($children[$position_of_sub_item])) {
+							$position_of_sub_item = count($children) + 1;
+						}
+						$children[$position_of_sub_item] = $child;
 					}
 					ksort($children);
 					$item = $item->withChildren($children);
 				}
-				$top_items[$this->information->getPositionOfTopItem($item)] = $item;
+				$position_of_top_item = $this->information->getPositionOfTopItem($item);
+				if (isset($top_items[$position_of_top_item])) {
+					$position_of_top_item = count($top_items) + 1;
+				}
+				$top_items[$position_of_top_item] = $item;
 			}
 		}
 		ksort($top_items);
@@ -104,6 +131,10 @@ class Main {
 	}
 
 
+	/**
+	 * @return array
+	 * @throws \Throwable
+	 */
 	public function getSubItems(): array {
 		$this->load();
 		$sub_items = [];
@@ -124,20 +155,32 @@ class Main {
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return isItem
+	 * @throws \Throwable
 	 */
-	public function getSingleItem(IdentificationInterface $identification): isItem {
+	public function getSingleItem(IdentificationInterface $identification, $force_load = false): isItem {
+		if ($force_load) {
+			$this->loaded = false;
+		}
 		$this->load();
+		try {
+			return self::$items[$identification->serialize()];
+		} catch (\Throwable $e) {
+			throw $e;
+		}
+	}
 
-		return self::$items[$identification->serialize()];
+
+	public function addItemToMap() {
+
 	}
 
 
 	/**
 	 * @return bool
+	 * @throws \Throwable
 	 */
 	private function load(): bool {
-		$loaded = false;
-		if ($loaded === false || $loaded === null) {
+		if ($this->loaded === false || $this->loaded === null) {
 			/**
 			 * @var $provider            \ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider
 			 * @var $top_item            \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
@@ -146,6 +189,7 @@ class Main {
 			try {
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticTopItems() as $top_item) {
+						self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
 						self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
 					}
 				}
@@ -154,17 +198,18 @@ class Main {
 						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
 							$sub_item->overrideParent($this->information->getParent($sub_item));
 							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
-							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
-							self::$items[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+							if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
+								self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+							}
 						}
 					}
 				}
-				$loaded = true;
+				$this->loaded = true;
 			} catch (\Throwable $e) {
-				throw new \LogicException($e->getMessage());
+				throw $e;
 			}
 		}
 
-		return $loaded;
+		return $this->loaded;
 	}
 }

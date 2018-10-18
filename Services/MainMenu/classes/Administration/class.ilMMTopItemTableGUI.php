@@ -8,7 +8,7 @@
 class ilMMTopItemTableGUI extends ilTable2GUI {
 
 	/**
-	 * @var ilMMProvider
+	 * @var ilMMCustomProvider
 	 */
 	private $item_repository;
 
@@ -59,10 +59,10 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TITLE', $item_facade->getTitleForPresentation());
 		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
 		$this->tpl->setVariable('POSITION', $position);
-		if ($a_set['active'] || $item_facade->getGSItem()->isAlwaysAvailable()) {
+		if ($item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active');
 		}
-		if ($item_facade->getGSItem()->isAlwaysAvailable()) {
+		if ($item_facade->item()->isAlwaysAvailable()) {
 			$this->tpl->touchBlock('is_active_blocked');
 		}
 		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());

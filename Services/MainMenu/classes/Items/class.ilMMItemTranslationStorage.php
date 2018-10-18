@@ -8,32 +8,16 @@
 class ilMMItemTranslationStorage extends CachedActiveRecord {
 
 	/**
-	 * @var int
+	 * @var string
 	 *
 	 * @con_is_primary true
 	 * @con_is_unique  true
 	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     8
-	 * @con_sequence   true
-	 */
-	protected $id;
-	/**
-	 * @var string
-	 *
-	 * @con_has_field  true
 	 * @con_fieldtype  text
 	 * @con_length     64
+	 * @con_sequence   true
 	 */
-	protected $identification = '';
-	/**
-	 * @var string
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     8
-	 */
-	protected $language_key = '';
+	protected $identification;
 	/**
 	 * @var string
 	 *
@@ -49,22 +33,6 @@ class ilMMItemTranslationStorage extends CachedActiveRecord {
 
 
 	/**
-	 * @return int
-	 */
-	public function getId(): int {
-		return $this->id;
-	}
-
-
-	/**
-	 * @param int $id
-	 */
-	public function setId(int $id) {
-		$this->id = $id;
-	}
-
-
-	/**
 	 * @return string
 	 */
 	public function getIdentification(): string {
@@ -77,22 +45,6 @@ class ilMMItemTranslationStorage extends CachedActiveRecord {
 	 */
 	public function setIdentification(string $identification) {
 		$this->identification = $identification;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getLanguageKey(): string {
-		return $this->language_key;
-	}
-
-
-	/**
-	 * @param string $language_key
-	 */
-	public function setLanguageKey(string $language_key) {
-		$this->language_key = $language_key;
 	}
 
 

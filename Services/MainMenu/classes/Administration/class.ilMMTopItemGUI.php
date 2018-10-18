@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+
 /**
  * Class ilMMTopItemGUI
  *
@@ -9,8 +11,9 @@
  */
 class ilMMTopItemGUI {
 
-	const CMD_ADD_TOP_ITEM = 'add_slate';
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
+	const CMD_ADD = 'topitem_add';
+	const CMD_CREATE = 'topitem_create';
 	const CMD_EDIT = 'topitem_edit';
 	const CMD_DELETE = 'topitem_delete';
 	const CMD_TRANSLATE = 'topitem_translate';
@@ -76,9 +79,9 @@ class ilMMTopItemGUI {
 
 
 	/**
-	 * @return ilMMItemFacade
+	 * @return ilMMItemFacadeInterface
 	 */
-	private function getMMItemFromRequest(): ilMMItemFacade {
+	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
 		global $DIC;
 
 		return $this->repository->getItemFacadeForIdentificationString($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
@@ -93,20 +96,28 @@ class ilMMTopItemGUI {
 
 				// ADD NEW
 				$b = ilLinkButton::getInstance();
-				$b->setCaption($this->lng->txt(self::CMD_ADD_TOP_ITEM), false);
-				$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_TOP_ITEM));
-				// $this->toolbar->addButtonInstance($b);
+				$b->setCaption($this->lng->txt(self::CMD_ADD), false);
+				$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
+				$this->toolbar->addButtonInstance($b);
 
 				// TABLE
 				$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
 
 				return $table->getHTML();
-			case self::CMD_ADD_TOP_ITEM:
+			case self::CMD_ADD:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
 				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest());
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade());
 
 				return $f->getHTML();
+			case self::CMD_CREATE:
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				global $DIC;
+				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade());
+				$f->save();
+
+				// $this->ctrl->redirect($this);
+				break;
 			case self::CMD_EDIT:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
 				global $DIC;
@@ -128,6 +139,13 @@ class ilMMTopItemGUI {
 				return "";
 			case self::CMD_TRANSLATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE, true);
+				break;
+			case self::CMD_DELETE:
+				$item = $this->getMMItemFromRequest();
+				if($item->isCustom()) {
+					$this->repository->deleteItem($item);
+				}
+				$this->ctrl->redirect($this);
 				break;
 		}
 

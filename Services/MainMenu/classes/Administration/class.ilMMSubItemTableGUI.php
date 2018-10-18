@@ -8,7 +8,7 @@
 class ilMMSubItemTableGUI extends ilTable2GUI {
 
 	/**
-	 * @var ilMMProvider
+	 * @var ilMMCustomProvider
 	 */
 	private $item_repository;
 	/**
@@ -56,8 +56,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 
 		$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
-		if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->getGSItem()->getParent()) {
-			$current_parent = $this->item_repository->getSingleItem($item_facade->getGSItem()->getParent());
+		if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->item()->getParent()) {
+			$current_parent = $this->item_repository->getSingleItem($item_facade->item()->getParent());
 			$this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle());
 			$position = 1;
 		}
@@ -66,10 +66,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
 		$this->tpl->setVariable('STATUS', $item_facade->getStatus());
-		if (($a_set['active'] && $item_facade->getGSItem()->isAvailable()) || $item_facade->getGSItem()->isAlwaysAvailable()) {
+		if (($a_set['active'] && $item_facade->item()->isAvailable()) || $item_facade->item()->isAlwaysAvailable()) {
 			$this->tpl->touchBlock('is_active');
 		}
-		if ($item_facade->getGSItem()->isAlwaysAvailable() || !$item_facade->getGSItem()->isAvailable()) {
+		if ($item_facade->item()->isAlwaysAvailable() || !$item_facade->item()->isAvailable()) {
 			$this->tpl->touchBlock('is_active_blocked');
 		}
 
@@ -88,11 +88,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilMMItemFacade $child
+	 * @param ilMMItemFacadeInterface $child
 	 *
 	 * @return ilSelectInputGUI
 	 */
-	private function getSelect(ilMMItemFacade $child): ilSelectInputGUI {
+	private function getSelect(ilMMItemFacadeInterface $child): ilSelectInputGUI {
 		$s = new ilSelectInputGUI('', self::IDENTIFIER . "[{$child->getId()}][parent]");
 		$s->setOptions($this->getPossibleParent());
 		$s->setValue($child->getParentIdentificationString());
@@ -110,8 +110,12 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 			global $DIC;
 			$parents = [];
 			foreach ($this->item_repository->getTopItems() as $top_item_identification => $data) {
-				$parents[$top_item_identification] = $this->item_repository->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($top_item_identification))
-					->getDefaultTitle();
+				$identification = $DIC->globalScreen()->identification()->fromSerializedIdentification($top_item_identification);
+				$item = $this->item_repository->getSingleItem($identification);
+				if ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
+					$parents[$top_item_identification] = $this->item_repository->getItemFacade($identification)
+						->getDefaultTitle();
+				}
 			}
 		}
 

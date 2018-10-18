@@ -1,6 +1,8 @@
 <?php
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
+use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
 /**
@@ -42,14 +44,7 @@ class ilGSProviderStorage extends CachedActiveRecord {
 		$instance = $gsp->getInstance();
 
 		foreach ($instance->getAllIdentifications() as $identification) {
-			$gsi = ilGSIdentificationStorage::find($identification->serialize());
-			if ($gsi === null) {
-				$gsi = new ilGSIdentificationStorage();
-				$gsi->setIdentification($identification->serialize());
-				$gsi->create();
-			}
-			$gsi->setProviderClass($gsp->getProviderClass());
-			$gsi->update();
+			ilGSIdentificationStorage::registerIdentification($identification, $instance);
 		}
 	}
 
@@ -95,26 +90,6 @@ class ilGSProviderStorage extends CachedActiveRecord {
 	 */
 	final public function getConnectorContainerName() {
 		return $this->connector_container_name;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getId(): string {
-		return $this->id;
-	}
-
-
-	/**
-	 * @param string $id
-	 *
-	 * @return ilGSProviderStorage
-	 */
-	public function setId(string $id): ilGSProviderStorage {
-		$this->id = $id;
-
-		return $this;
 	}
 
 
@@ -179,7 +154,7 @@ class ilGSProviderStorage extends CachedActiveRecord {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\Provider\Provider
+	 * @return Provider
 	 */
 	public function getInstance(): ILIAS\GlobalScreen\Provider\Provider {
 		global $DIC;

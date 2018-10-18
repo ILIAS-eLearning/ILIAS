@@ -2,7 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$" id="mme">
 	<baseclasses />
 	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilMMProvider" />
+		<gsprovider purpose="mainmenu" class_name="ilMMCustomProvider" />
 	</gsproviders>
 	<logging />
 	<objects>

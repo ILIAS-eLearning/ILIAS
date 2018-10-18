@@ -41,36 +41,38 @@ class ilMMEntryRendererGUI {
 			/**
 			 * @var $child Link
 			 */
-			foreach ($top_item->getChildren() as $child) {
-				if (!$child->isVisible()) {
-					continue;
+			if ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
+				foreach ($top_item->getChildren() as $child) {
+					$i = $child->getProviderIdentification()->getInternalIdentifier();
+					switch (true) {
+						case ($child instanceof hasAsyncContent):
+							$identifier = $child->getProviderIdentification()->getInternalIdentifier();
+							$atpl = new ilTemplate("tpl.self_loading_item.html", false, false, 'Services/MainMenu');
+							$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
+							$gl->addEntry(
+								$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+							);
+							break;
+						case ($child instanceof LinkList):
+							if (count($child->getLinks()) > 0) {
+								$gl->addGroupHeader($child->getTitle());
+								foreach ($child->getLinks() as $link) {
+									$this->addEntry($gl, $link, $i);
+								}
+							}
+							break;
+						case ($child instanceof Separator):
+							$gl->addSeparator();
+							break;
+						case ($child instanceof hasAction && $child instanceof hasTitle):
+							$this->addEntry($gl, $child, $i);
+							break;
+					}
 				}
-				$i = $child->getProviderIdentification()->getInternalIdentifier();
-				switch (true) {
-					case ($child instanceof hasAsyncContent):
-						$identifier = $child->getProviderIdentification()->getInternalIdentifier();
-						$atpl = new ilTemplate("tpl.self_loading_item.html", false, false, 'Services/MainMenu');
-						$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
-						$gl->addEntry(
-							$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
-						);
-						break;
-					case ($child instanceof LinkList):
-						$gl->addGroupHeader($child->getTitle());
-						foreach ($child->getLinks() as $link) {
-							$this->addEntry($gl, $link, $i);
-						}
-						break;
-					case ($child instanceof Separator):
-						$gl->addSeparator();
-						break;
-					case ($child instanceof hasAction && $child instanceof hasTitle):
-						$this->addEntry($gl, $child, $i);
-						break;
-				}
+				$tpl->setVariable("CONTENT", $gl->getHTML());
+			} elseif ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem) {
+				// $tpl->setVariable("CONTENT", "LINK");
 			}
-
-			$tpl->setVariable("CONTENT", $gl->getHTML());
 
 			$tpl->parseCurrentBlock();
 		}

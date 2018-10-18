@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\StorageFacade;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 
 /**
@@ -29,7 +30,7 @@ class ilMMItemRepository {
 	/**
 	 * @var ilMMItemInformation
 	 */
-	private $sorting_and_translation;
+	private $information;
 	/**
 	 * @var ilGSRepository
 	 */
@@ -45,10 +46,10 @@ class ilMMItemRepository {
 		global $DIC;
 		$this->storage = $storage;
 		$this->gs = new ilGSRepository($storage);
-		$this->sorting_and_translation = new ilMMItemInformation($this->storage);
+		$this->information = new ilMMItemInformation($this->storage);
 		$this->providers = $this->initProviders();
-		$sorting_and_translation = new ilMMItemInformation($storage);
-		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $sorting_and_translation, $sorting_and_translation);
+		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
+		$this->sync();
 	}
 
 
@@ -58,16 +59,18 @@ class ilMMItemRepository {
 	public function getStackedTopItemsForPresentation(): array {
 		$this->sync();
 
-		return $this->main_collector->getStackedTopItemsForPresentation();
+		$top_items = $this->main_collector->getStackedTopItemsForPresentation();
+
+		return $top_items;
 	}
 
 
 	/**
-	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
+	 * @param IdentificationInterface $identification
 	 *
 	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
 	 */
-	public function getSingleItem(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
+	public function getSingleItem(IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
 		return $this->main_collector->getSingleItem($identification);
 	}
 
@@ -129,16 +132,30 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_ite
 
 
 	/**
-	 * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
+	 * @param IdentificationInterface|null $identification
 	 *
-	 * @return ilMMItemFacade
+	 * @return ilMMItemFacadeInterface
+	 * @throws Throwable
 	 */
-	public function getItemFacade(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): ilMMItemFacade {
+	public function getItemFacade(IdentificationInterface $identification = null): ilMMItemFacadeInterface {
+		if ($identification === null) {
+			return new ilMMNullItemFacade(new \ILIAS\GlobalScreen\Identification\NullIdentification(), $this->main_collector);
+		}
+		if ($identification->getClassName() === ilMMCustomProvider::class) {
+			return new ilMMCustomItemFacade($identification, $this->main_collector);
+		}
+
 		return new ilMMItemFacade($identification, $this->main_collector);
 	}
 
 
-	public function getItemFacadeForIdentificationString(string $identification): ilMMItemFacade {
+	/**
+	 * @param string $identification
+	 *
+	 * @return ilMMItemFacadeInterface
+	 * @throws Throwable
+	 */
+	public function getItemFacadeForIdentificationString(string $identification): ilMMItemFacadeInterface {
 		global $DIC;
 		$id = $DIC->globalScreen()->identification()->fromSerializedIdentification($identification);
 
@@ -158,21 +175,22 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_ite
 	}
 
 
-	public function updateItem(ilMMItemFacade $item_facade) {
+	public function updateItem(ilMMItemFacadeInterface $item_facade) {
 		$item_facade->update();
 		$this->storage->cache()->flush();
 	}
 
 
-	public function createItem(ilMMItemFacade $item_facade) {
+	public function createItem(ilMMItemFacadeInterface $item_facade) {
 		$item_facade->create();
 		$this->storage->cache()->flush();
 	}
 
 
-	private function findItem(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
-		global $DIC;
-
-		return $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->sorting_and_translation, $this->sorting_and_translation)->getSingleItem($identification);
+	public function deleteItem(ilMMItemFacadeInterface $item_facade) {
+		if ($item_facade->isCustom()) {
+			$item_facade->delete();
+			$this->storage->cache()->flush();
+		}
 	}
 }

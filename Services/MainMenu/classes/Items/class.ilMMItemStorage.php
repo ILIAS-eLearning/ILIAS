@@ -8,6 +8,37 @@
 class ilMMItemStorage extends CachedActiveRecord {
 
 	/**
+	 * @param \ILIAS\GlobalScreen\MainMenu\isItem $item
+	 *
+	 * @return ilMMItemStorage
+	 */
+	public static function register(\ILIAS\GlobalScreen\MainMenu\isItem $item) {
+		$mm_item = ilMMItemStorage::find($item->getProviderIdentification()->serialize());
+		if ($mm_item === null) {
+			$mm_item = new ilMMItemStorage();
+			$mm_item->setPosition($item->getPosition());
+			$mm_item->setIdentification($item->getProviderIdentification()->serialize());
+			$mm_item->setActive(true);
+			if ($item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+				$mm_item->setParentIdentification($item->getParent()->serialize());
+			}
+			$mm_item->create();
+		}
+
+		return $mm_item;
+	}
+
+
+	public function create() {
+		if (self::find($this->getIdentification())) {
+			$this->update();
+		} else {
+			parent::create();
+		}
+	}
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function getCache(): ilGlobalCache {
@@ -51,14 +82,6 @@ class ilMMItemStorage extends CachedActiveRecord {
 	 * @con_length     256
 	 */
 	protected $parent_identification = '';
-	/**
-	 * @var bool
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     1
-	 */
-	protected $sticky = false;
 	/**
 	 * @var string
 	 */
@@ -126,21 +149,5 @@ class ilMMItemStorage extends CachedActiveRecord {
 	 */
 	public function setParentIdentification(string $parent_identification) {
 		$this->parent_identification = $parent_identification;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isSticky(): bool {
-		return $this->sticky;
-	}
-
-
-	/**
-	 * @param bool $sticky
-	 */
-	public function setSticky(bool $sticky) {
-		$this->sticky = $sticky;
 	}
 }

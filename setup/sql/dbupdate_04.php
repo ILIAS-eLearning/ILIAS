@@ -22855,13 +22855,7 @@ $fields = array(
 		'type' => 'text',
 		'length' => '256',
 		
-	),
-	'sticky' => array(
-		'type' => 'integer',
-		'length' => '1',
-		
-	),
-	
+	)
 );
 if (! $ilDB->tableExists('il_mm_items')) {
 	$ilDB->createTable('il_mm_items', $fields);
@@ -22872,28 +22866,23 @@ if (! $ilDB->tableExists('il_mm_items')) {
 <#5309>
 <?php
 $fields = array(
-	'id'             => array(
-		'type'   => 'integer',
-		'length' => '8',
-
-	),
 	'identification' => array(
-		'type'   => 'text',
+		'type' => 'text',
 		'length' => '64',
-
+		
 	),
-	'language_key'   => array(
-		'type'   => 'text',
-		'length' => '8',
-
-	),
-	'translation'    => array(
-		'type'   => 'text',
+	'translation' => array(
+		'type' => 'text',
 		'length' => '4000',
-
+		
 	),
-
+	
 );
+if (! $ilDB->tableExists('il_mm_translation')) {
+	$ilDB->createTable('il_mm_translation', $fields);
+	$ilDB->addPrimaryKey('il_mm_translation', array( 'identification' ));
+	
+}
 if (!$ilDB->tableExists('il_mm_translation')) {
 	$ilDB->createTable('il_mm_translation', $fields);
 	$ilDB->addPrimaryKey('il_mm_translation', array('id'));
@@ -22954,6 +22943,42 @@ if (!$ilDB->tableExists('il_gs_identifications')) {
 }
 ?>
 <#5312>
+<?php
+$fields = array(
+	'identifier' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '128',
+		
+	),
+	'action' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	'top_item' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	'default_title' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_mm_custom_items')) {
+	$ilDB->createTable('il_mm_custom_items', $fields);
+	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
+	
+}
+?>
+<#5313>
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');

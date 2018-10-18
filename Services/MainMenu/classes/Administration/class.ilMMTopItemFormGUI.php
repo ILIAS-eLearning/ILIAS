@@ -21,7 +21,7 @@ class ilMMTopItemFormGUI {
 	 */
 	private $form;
 	/**
-	 * @var ilMMItemFacade
+	 * @var ilMMItemFacadeInterface
 	 */
 	private $item_facade;
 	/**
@@ -52,7 +52,7 @@ class ilMMTopItemFormGUI {
 	const F_TYPE = 'type';
 
 
-	public function __construct(ilCtrl $ctrl, \ILIAS\UI\Factory $ui_fa, \ILIAS\UI\Renderer $ui_re, ilLanguage $lng, ilMMItemFacade $item) {
+	public function __construct(ilCtrl $ctrl, \ILIAS\UI\Factory $ui_fa, \ILIAS\UI\Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item) {
 		$this->ctrl = $ctrl;
 		$this->ui_fa = $ui_fa;
 		$this->ui_re = $ui_re;
@@ -67,16 +67,22 @@ class ilMMTopItemFormGUI {
 
 
 	private function initForm() {
-		$title = $this->ui_fa->input()->field()->text($this->lng->txt('slate_title_default'), $this->lng->txt('slate_title_default_byline'))->withRequired(true);
+		$title = $this->ui_fa->input()->field()->text($this->lng->txt('topitem_title_default'), $this->lng->txt('topitem_title_default_byline'))->withRequired(true);
 		if (!$this->item_facade->isEmpty()) {
 			$title = $title->withValue($this->item_facade->getDefaultTitle());
 		}
 		$items[self::F_TITLE] = $title;
 
-		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('slate_type'), $this->lng->txt('slate_type_byline'))
-			->withOption(self::$type_mapping[TopParentItem::class], 'Main Menu Item with Subitems')
-			->withOption(self::$type_mapping[TopLinkItem::class], 'Link')
-			->withValue(self::$type_mapping[TopParentItem::class])->withRequired(true);
+		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))
+			->withOption(self::$type_mapping[TopParentItem::class], $this->lng->txt('topitem_type_parent'))
+			// ->withOption(
+			// 	self::$type_mapping[TopLinkItem::class], $this->lng->txt('topitem_type_link'),
+			// 	["action" => $this->ui_fa->input()->field()->text("URL"), "external" => $this->ui_fa->input()
+			// 		->field()
+			// 		->checkbox("Open in new window")]
+			// )
+			->withValue(self::$type_mapping[TopParentItem::class])
+			->withRequired(true);
 		if (!$this->item_facade->isEmpty()) {
 			if (isset(self::$type_mapping[$this->item_facade->getGSItemClassName()])) {
 				$type = $type->withValue(self::$type_mapping[$this->item_facade->getGSItemClassName()]);
@@ -84,16 +90,20 @@ class ilMMTopItemFormGUI {
 		}
 		$items[self::F_TYPE] = $type;
 
-		$active = $this->ui_fa->input()->field()->checkbox($this->lng->txt('slate_active'), $this->lng->txt('slate_active_byline'));
+		$active = $this->ui_fa->input()->field()->checkbox($this->lng->txt('topitem_active'), $this->lng->txt('topitem_active_byline'));
 		if (!$this->item_facade->isEmpty()) {
-			$active = $active->withValue($this->item_facade->isActive());
+			$active = $active->withValue($this->item_facade->isAvailable());
 		}
 		$items[self::F_ACTIVE] = $active;
 
 		// RETURN FORM
-		$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt('add_slate'));
-
-		$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
+		if ($this->item_facade->isEmpty()) {
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_ADD));
+			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
+		} else {
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_EDIT));
+			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
+		}
 	}
 
 
@@ -103,12 +113,17 @@ class ilMMTopItemFormGUI {
 		$form = $this->form->withRequest($DIC->http()->request());
 		$data = $form->getData();
 
-		if ($this->item_facade->isEmpty()) {
-			// FSX TODO create custon item, set type etc.
-			$r->create($this->item_facade);
-		}
+		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
+
+		if ($this->item_facade->isEmpty()) {
+			$type = array_search((int)$data[0][self::F_TYPE], self::$type_mapping);
+			if ($type) {
+				$this->item_facade->setType((string)$data[0][self::F_TYPE]);
+			}
+			$r->createItem($this->item_facade);
+		}
 
 		$r->updateItem($this->item_facade);
 

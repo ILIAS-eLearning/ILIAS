@@ -15,15 +15,15 @@ class FakeLanguage extends ilLanguage {
 
 		$map = array(
 			// Tabs
-			'main'         => "MainMenu",
-			'subtab_topitems'  => "Top Items",
-			'subtab_subitems' => "Subitems",
-			"tab_back"     => "Back",
+			'main'              => "MainMenu",
+			'subtab_topitems'   => "Top Items",
+			'subtab_subitems'   => "Sub-Items",
+			"tab_back"          => "Back",
 
 			// TopItems
-			'topitem_add'       => "Add Main Menu Item",
+			'topitem_add'       => "Add Top Item",
 			'topitem_edit'      => "Edit",
-			'topite_delete'    => "Delete",
+			'topitem_delete'     => "Delete",
 			'topitem_translate' => "Translate",
 
 			'topitem_position'   => 'Position',
@@ -32,9 +32,12 @@ class FakeLanguage extends ilLanguage {
 			'topitem_active'     => 'Active',
 			'topitem_sticky'     => 'Sticky',
 			'topitem_mobile'     => 'Mobile',
-			'topitem_subentries' => 'Sub-Entries',
+			'topitem_subentries' => 'Sub-Items',
 			'topitem_provider'   => 'Provider',
 			'topitem_actions'    => 'Actions',
+
+			'topitem_type_parent' => 'Top Item with Sub Items',
+			'topitem_type_link'   => 'Link',
 
 			'topitem_title_default'        => 'Title (Default Language)',
 			'topitem_title_default_byline' => 'Other Translations can be added with the Translation Action after.',
@@ -44,12 +47,12 @@ class FakeLanguage extends ilLanguage {
 			'topitem_type_byline'          => "Main menu Entries can be links directly or can contain Main Menu Subitems",
 
 			// Subitems
-			'add_subentry'       => 'Add Sub-Item',
-			'edit_subentry'      => 'Edit',
-			'delete_subentry'    => 'Delete',
-			'translate_subentry' => 'Translate',
+			'add_subentry'                 => 'Add Sub-Item',
+			'edit_subentry'                => 'Edit',
+			'delete_subentry'              => 'Delete',
+			'translate_subentry'           => 'Translate',
 
-			'sub_parent' => "Main Menu Item",
+			'sub_parent' => "Top Item",
 
 			'sub_position' => 'Position',
 			'sub_title'    => 'Title',
@@ -60,8 +63,6 @@ class FakeLanguage extends ilLanguage {
 			'sub_actions'  => 'Actions',
 
 			'button_save' => 'Save',
-
-		
 
 			'sub_title_default'        => 'Title (Default Language)',
 			'sub_title_default_byline' => 'Other Translations can be added with the Translation Action after.',
