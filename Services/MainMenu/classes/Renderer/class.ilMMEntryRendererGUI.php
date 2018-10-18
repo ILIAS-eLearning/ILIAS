@@ -31,10 +31,13 @@ class ilMMEntryRendererGUI {
 
 		$top_items = (new ilMMItemRepository($storage))->getStackedTopItemsForPresentation();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
-
+		/**
+		 * @var $top_item \ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\isTopItem
+		 */
 		foreach ($top_items as $top_item) {
 			$tpl->setCurrentBlock('mmentry');
 			$tpl->setVariable("TITLE", $top_item->getTitle());
+			$tpl->setVariable("ID", $top_item->getProviderIdentification()->getInternalIdentifier());
 
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
