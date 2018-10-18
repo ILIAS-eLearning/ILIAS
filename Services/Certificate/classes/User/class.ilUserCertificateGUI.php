@@ -283,6 +283,8 @@ class ilUserCertificateGUI
 
 			$deck = $this->uiFactory->deck($cards);
 
+			$uiComponents[] = $this->uiFactory->divider()->horizontal();
+
 			$uiComponents[] = $deck;
 		}
 
