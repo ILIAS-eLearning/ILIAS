@@ -1327,7 +1327,7 @@ class ilMail
 			$a_attachments = $a_attachments ? $a_attachments : array();
 			foreach($a_attachments as $attachment)
 			{
-				$attachments[] = $this->mfile->getAbsolutePath($attachment);
+				$attachments[] = $this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment);
 			}
 
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
@@ -1374,7 +1374,7 @@ class ilMail
 			{
 				foreach($a_attachments as $attachment)
 				{
-					$mmail->Attach($this->mfile->getAbsolutePath($attachment), '', 'inline', $attachment);
+					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline', $attachment);
 				}
 			}
 

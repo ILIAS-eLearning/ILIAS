@@ -1006,7 +1006,7 @@ class ilMailFolderGUI
 						if (!$mailFileData->checkFilesExist([$attachment])) {
 							throw new \OutOfBoundsException('');
 						}
-						$pathToFile = $mailFileData->getAbsolutePath($attachment);
+						$pathToFile = $mailFileData->getAbsoluteAttachmentPoolPathByFilename($attachment);
 						$fileName = $attachment;
 					} else {
 						$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash(md5($attachment), (int)$mailId);

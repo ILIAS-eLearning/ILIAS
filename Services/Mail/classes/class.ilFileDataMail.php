@@ -393,15 +393,15 @@ class ilFileDataMail extends ilFileData
 			return unlink($this->mail_path.'/'.basename($this->user_id.'_'.$a_filename));
 		}
 	}
+
 	/**
-	* get absolute path of filename
-	* @param string relative path
-	* @access	public
-	* @return string absolute path
-	*/
-	function getAbsolutePath($a_path)
+	 * Resolves a path for a passed filename in regards of a user's mail attachment pool, meaning attachments not being sent
+	 * @param string $fileName
+	 * @return string
+	 */
+	public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string 
 	{
-		return $this->mail_path.'/'.$this->user_id.'_'.$a_path;
+		return $this->mail_path . '/' . $this->user_id . '_' . $fileName;
 	}
 
 	/**
@@ -727,9 +727,12 @@ class ilFileDataMail extends ilFileData
 	 */
 	public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [], $isDraft = false)
 	{
-		$path = $this->getAttachmentPathByMailId($mailId);
-		if (0 === strlen($path)) {
-			throw new \ilException('mail_download_zip_no_attachments');
+		$path = '';
+		if (!$isDraft) {
+			$path = $this->getAttachmentPathByMailId($mailId);
+			if (0 === strlen($path)) {
+				throw new \ilException('mail_download_zip_no_attachments');
+			}
 		}
 
 		$downloadFilename = \ilUtil::getASCIIFilename($basename);
@@ -746,7 +749,21 @@ class ilFileDataMail extends ilFileData
 		$this->tmpDirectory->createDir($relativeZipDirectory);
 
 		foreach ($files as $fileName) {
-			$source = str_replace('//', '/', MAILPATH . '/' .$path . '/' . $fileName);
+			if ($isDraft) {
+				$source = str_replace(
+					$this->mail_path,
+					MAILPATH,
+					$this->getAbsoluteAttachmentPoolPathByFilename($fileName)
+				);
+			} else {
+				$source = MAILPATH . '/' .$path . '/' . $fileName;
+			}
+
+			$source = str_replace('//', '/', $source);
+			if (!$this->storageDirectory->has($source)) {
+				continue;
+			}
+
 			$target = $relativeZipDirectory . '/' . $fileName;
 
 			$stream = $this->storageDirectory->readStream($source);
