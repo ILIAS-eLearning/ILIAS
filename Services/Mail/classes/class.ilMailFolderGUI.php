@@ -980,7 +980,7 @@ class ilMailFolderGUI
 		}
 	}
 
-	protected function deliverAttachmentsAsZipFile()
+	protected function deliverAttachments()
 	{
 		try {
 			$mailId = $_GET['mail_id'] ?? 0;
