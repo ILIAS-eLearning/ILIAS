@@ -14387,7 +14387,8 @@ cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt wer
 cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
-cert#:#certificate_achievement#:#$3$ für $1$ erhalten.
+cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
+cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Objekt Titel gefunden
 certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.

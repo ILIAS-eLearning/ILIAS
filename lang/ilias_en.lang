@@ -14391,7 +14391,8 @@ cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Pl
 cert#:#cert_error_no_access#:#You have no access to this certificate.
 cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
 common#:#my_certificates#:#My Certificates
-cert#:#certificate_achievement#:#$3$ for $1$ achieved.
+cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
+cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.

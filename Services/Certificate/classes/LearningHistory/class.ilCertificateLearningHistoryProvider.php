@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -20,6 +23,12 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @var ilSetting|null
 	 */
 	private $certificateSettings;
+	
+	/** @var Factory */
+	protected $uiFactory;
+
+	/** @var Renderer */
+	protected $uiRenderer;
 
 	/**
 	 * @param int $user_id
@@ -29,6 +38,8 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 * @param ilCtrl $controller
 	 * @param ilSetting|null $certificateSettings
+	 * @param Factory|null $uiFactory
+	 * @param Renderer|null $uiRenderer
 	 */
 	public function __construct(
 		int $user_id,
@@ -37,7 +48,9 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		\ILIAS\DI\Container $dic = null,
 		ilUserCertificateRepository $userCertificateRepository = null,
 		ilCtrl $controller = null,
-		ilSetting $certificateSettings = null
+		ilSetting $certificateSettings = null,
+		Factory $uiFactory = null,
+		Renderer $uiRenderer = null
 	) {
 		$lng->loadLanguageModule("cert");
 
@@ -64,6 +77,16 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 			$certificateSettings =  new ilSetting("certificate");
 		}
 		$this->certificateSettings = $certificateSettings;
+
+		if (null === $uiFactory) {
+			$uiFactory = $dic->ui()->factory();
+		}
+		$this->uiFactory = $uiFactory;
+
+		if (null === $uiRenderer) {
+			$uiRenderer = $dic->ui()->renderer();
+		}
+		$this->uiRenderer = $uiRenderer;
 	}
 
 	/**
@@ -97,22 +120,20 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				'certificate_id',
 				$certificate->getUserCertificate()->getId()
 			);
-			$link = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
+			$href = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
 			$this->controller->clearParametersByClass('ilUserCertificateGUI');
 
-			$href = str_replace('{LINK}', $link , '<a href="{LINK}">{LINK_TEXT}</a>');
-			$href = str_replace('{LINK_TEXT}', $this->lng->txt('certificate'), $href);
-
-			$text = str_replace(
-				"$3$",
-				$href,
-				$this->lng->txt("certificate_achievement")
+			$text = sprintf(
+				$this->lng->txt('certificate_achievement_sub_obj'),
+				$this->getEmphasizedTitle($certificate->getObjectTitle())
 			);
 
-			$text = str_replace(
-				"$1$",
-				$certificate->getObjectTitle(),
-				$text
+			$link = $this->uiFactory->link()->standard($text, $href);
+			$link = $this->uiRenderer->render($link);
+
+			$text = sprintf(
+				$this->lng->txt('certificate_achievement'),
+				$link
 			);
 
 			$entries[] = new ilLearningHistoryEntry(
