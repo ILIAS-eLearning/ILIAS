@@ -123,6 +123,8 @@ class ilUserCertificateGUI
 		if (!$this->certificateSettings->get('active')) {
 			$this->controller->returnToParent($this);
 		}
+		
+		$this->template->setTitle($this->language->txt('obj_cert'));
 
 		switch ($nextClass) {
 			case 'ilcertificatemigrationgui':
@@ -184,45 +186,6 @@ class ilUserCertificateGUI
 		$table->populate();
 
 		$this->template->setContent($table->getHTML());
-	}
-
-	/**
-	 *
-	 */
-	protected function applyCertificatesFilter()
-	{
-		global $DIC;
-
-		$table = new \ilUserCertificateTableProvider(
-			$DIC->database(),
-			$this->certificateLogger,
-			$this->controller,
-			$this->language->txt('certificate_no_object_title')
-		);
-		$table->resetOffset();
-		$table->writeFilterToSession();
-
-		$this->listCertificates();
-	}
-
-	/**
-	 *
-	 */
-	protected function resetCertificatesFilter()
-	{
-		global $DIC;
-
-		$table = new \ilUserCertificateTableProvider(
-			$DIC->database(),
-			$this->certificateLogger,
-			$this->controller,
-			$this->language->txt('certificate_no_object_title')
-		);
-		
-		$table->resetOffset();
-		$table->resetFilter();
-
-		$this->listCertificates();
 	}
 
 	/**

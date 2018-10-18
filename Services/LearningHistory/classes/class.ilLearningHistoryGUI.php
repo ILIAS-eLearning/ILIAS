@@ -11,7 +11,7 @@
 class ilLearningHistoryGUI
 {
 	const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
-	const TAB_ID_MY_CERTIFICATES = 'certificate';
+	const TAB_ID_MY_CERTIFICATES = 'certificates';
 
 	/**
 	 * @var ilCtrl
@@ -105,7 +105,7 @@ class ilLearningHistoryGUI
 		if ($this->certificateSettings->get('active')) {
 			$this->tabs->addTab(
 				self::TAB_ID_MY_CERTIFICATES,
-				$this->lng->txt('certificate'),
+				$this->lng->txt('obj_cert'),
 				$this->ctrl->getLinkTargetByClass('ilUserCertificateGUI')
 			);
 		}
