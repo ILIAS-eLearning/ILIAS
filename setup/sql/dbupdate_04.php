@@ -22835,6 +22835,22 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5308>
 <?php
+if (!$ilDB->tableExists('object_data_del')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
+		$ilDB->addTableColumn(
+			'object_data_del',
+			'description',
+			[
+				'type'    => 'clob',
+				'notnull' => false,
+				'default' => null,
+			]
+		);
+	}
+}
+?>
+<#5309>
+<?php
 if(!$ilDB->tableExists('certificate_template')) {
 	$ilDB->createTable('certificate_template', array(
 		'id' => array(
@@ -23035,11 +23051,11 @@ if(!$ilDB->tableExists('certificate_cron_queue')) {
 	$ilDB->addIndex('certificate_cron_queue', array('obj_id', 'usr_id'), 'i1');
 }
 ?>
-<#5309>
+<#5310>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5310>
+<#5311>
 <?php
 // Insert all current templates as database entries
 $web_path = CLIENT_WEB_DIR;
@@ -23105,7 +23121,7 @@ foreach ($directories as $type => $relativePath) {
 	}
 }
 ?>
-<#5311>
+<#5312>
 <?php
 if(!$ilDB->tableExists('bgtask_cert_migration')) {
 	$ilDB->createTable('bgtask_cert_migration', array(
@@ -23174,11 +23190,11 @@ if(!$ilDB->tableExists('bgtask_cert_migration')) {
 }
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5312>
+<#5313>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5313>
+<#5314>
 <?php
 if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
 	$ilDB->addTableColumn(
@@ -23192,7 +23208,7 @@ if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
 	);
 }
 ?>
-<#5314>
+<#5315>
 <?php
 if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
 	$ilDB->addTableColumn(
@@ -23206,7 +23222,7 @@ if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
 	);
 }
 ?>
-<#5315>
+<#5316>
 <?php
 /** @var \ilDBInterface $ilDB */
 if ($ilDB->tableExists('certificate_cron_queue') && !$ilDB->tableExists('il_cert_cron_queue')) {
@@ -23221,7 +23237,7 @@ if (!$ilDB->sequenceExists('il_cert_cron_queue')) {
 	$ilDB->createSequence('il_cert_cron_queue', (int)$row['max_id'] + 1);
 }
 ?>
-<#5316>
+<#5317>
 <?php
 if ($ilDB->tableExists('certificate_template') && !$ilDB->tableExists('il_cert_template')) {
 	$ilDB->renameTable('certificate_template', 'il_cert_template');
@@ -23235,7 +23251,7 @@ if (!$ilDB->sequenceExists('il_cert_template')) {
 	$ilDB->createSequence('il_cert_template', (int)$row['max_id'] + 1);
 }
 ?>
-<#5317>
+<#5318>
 <?php
 if ($ilDB->tableExists('user_certificates') && !$ilDB->tableExists('il_cert_user_cert')) {
 	$ilDB->renameTable('user_certificates', 'il_cert_user_cert');
@@ -23249,7 +23265,7 @@ if (!$ilDB->sequenceExists('il_cert_user_cert')) {
 	$ilDB->createSequence('il_cert_user_cert', (int)$row['max_id'] + 1);
 }
 ?>
-<#5318>
+<#5319>
 <?php
 if ($ilDB->tableExists('bgtask_cert_migration') && !$ilDB->tableExists('il_cert_bgtask_migr')) {
 	$ilDB->renameTable('bgtask_cert_migration', 'il_cert_bgtask_migr');
@@ -23263,11 +23279,11 @@ if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
 	$ilDB->createSequence('il_cert_bgtask_migr', (int)$row['max_id'] + 1);
 }
 ?>
-<#5319>
+<#5320>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5320>
+<#5321>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

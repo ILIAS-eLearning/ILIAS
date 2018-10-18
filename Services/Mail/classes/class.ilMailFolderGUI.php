@@ -21,49 +21,31 @@ class ilMailFolderGUI
 	private $current_select_cmd;
 	private $current_selected_cmd;
 
-	/**
-	 * @var \ilTemplate
-	 */
+	/** @var \ilTemplate */
 	private $tpl;
 
-	/**
-	 * @var \ilCtrl
-	 */
+	/** @var \ilCtrl */
 	private $ctrl;
 
-	/**
-	 * @var \ilLanguage
-	 */
+	/** @var \ilLanguage */
 	private $lng;
 
-	/**
-	 * @var \ilToolbarGUI
-	 */
+	/** @var \ilToolbarGUI */
 	private $toolbar;
 
-	/**
-	 * @var \ilTabsGUI
-	 */
+	/** @var \ilTabsGUI */
 	private $tabs;
 
-	/**
-	 * @var \ilObjUser
-	 */
+	/** @var \ilObjUser */
 	private $user;
 
-	/**
-	 * @var \ilMail
-	 */
+	/** @var \ilMail */
 	public $umail;
 
-	/**
-	 * @var \ilMailBox
-	 */
+	/** @var \ilMailBox */
 	public $mbox;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $errorDelete = false;
 
 	/**
@@ -302,19 +284,16 @@ class ilMailFolderGUI
 		$mailtable->isSentFolder($isSentFolder)
 			->isDraftFolder($isDraftFolder)
 			->isTrashFolder($isTrashFolder)
+			->setSelectedItems(is_array($_POST['mail_id']) ? $_POST['mail_id'] : [])
 			->initFilter();
-		$mailtable->setSelectedItems($_POST['mail_id']);
 
-		try
-		{
+		try {
 			$mailtable->prepareHTML();
-		}
-		catch(Exception $e)
-		{
+		} catch (Exception $e) {
 			ilUtil::sendFailure(
-				$this->lng->txt($e->getMessage()) != '-'.$e->getMessage().'-' ?
-				$this->lng->txt($e->getMessage()) :
-				$e->getMessage()
+				$this->lng->txt($e->getMessage()) != '-' . $e->getMessage() . '-' ?
+					$this->lng->txt($e->getMessage()) :
+					$e->getMessage()
 			);
 		}
 
@@ -384,7 +363,7 @@ class ilMailFolderGUI
 		// END SHOW_FOLDER
 		
 		if($mailtable->isTrashFolder() && 
-		   $mailtable->getNumerOfMails() > 0 &&
+		   $mailtable->getNumberOfMails() > 0 &&
 		   $this->askForConfirmation)
 		{
 			$confirmation = new ilConfirmationGUI();
@@ -969,43 +948,86 @@ class ilMailFolderGUI
 		$tplprint->show();
 	}
 
-	function deliverFile()
+	protected function deliverFile()
 	{
-		if ($_SESSION["mail_id"])
-		{
-			$_GET["mail_id"] = $_SESSION["mail_id"];
+		$mailId = $_GET['mail_id'] ?? 0;
+		if (isset($_SESSION['mail_id']) && (int)$_SESSION['mail_id'] > 0) {
+			$mailId = $_SESSION["mail_id"];
+			$_SESSION['mail_id'] = '';
 		}
-		$_SESSION["mail_id"] = "";
 
-		$filename = ($_SESSION["filename"]
-						? $_SESSION["filename"]
-						: ($_POST["filename"]
-							? $_POST["filename"]
-							: $_GET["filename"]));
-		$_SESSION["filename"] = "";
+		$filename = $_POST['filename'] ?? '';
+		if (isset($_SESSION['filename']) && strlen($_SESSION['filename']) > 0) {
+			$filename = $_SESSION["filename"];
+			$_SESSION['filename'] = '';
+		}
 
-		if ($filename != "")
-		{
-			require_once "./Services/Mail/classes/class.ilFileDataMail.php";
-			
-			// secure filename
-			$filename = str_replace("..", "", $filename);
-			
-			$mfile = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-			if(!is_array($file = $mfile->getAttachmentPathByMD5Filename($filename, $_GET['mail_id'])))
-			{
-				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));
+		try {
+			if ($mailId > 0 && $filename !== '') {
+				while (strpos($filename, '..') !== false) {
+					$filename = str_replace('..', '', $filename);
+				}
+
+				$mailFileData = new \ilFileDataMail($this->user->getId());
+				try {
+					$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash($filename, (int)$mailId);
+					\ilUtil::deliverFile($file['path'], $file['filename']);
+				} catch (\OutOfBoundsException $e) {
+					throw new \ilException('mail_error_reading_attachment');
+				}
+			} else {
+				ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
 				$this->showMail();
 			}
-			else
-			{
-				ilUtil::deliverFile($file['path'], $file['filename']);
-			}
+		} catch (\Exception $e) {
+			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
+			$this->ctrl->redirect($this);
 		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
-			$this->showMail();
+	}
+
+	protected function deliverAttachments()
+	{
+		try {
+			$mailId = $_GET['mail_id'] ?? 0;
+
+			$mailData = $this->umail->getMail((int)$mailId);
+			if (null === $mailData || 0 === count((array)$mailData['attachments'])) {
+				throw new \ilException('mail_error_reading_attachment');
+			}
+
+			$type = $_GET['type'] ?? '';
+
+			$mailFileData = new \ilFileDataMail($this->user->getId());
+			if (count($mailData['attachments']) === 1) {
+				$attachment = current($mailData['attachments']);
+
+				try {
+					if ('draft' === $type) {
+						if (!$mailFileData->checkFilesExist([$attachment])) {
+							throw new \OutOfBoundsException('');
+						}
+						$pathToFile = $mailFileData->getAbsoluteAttachmentPoolPathByFilename($attachment);
+						$fileName = $attachment;
+					} else {
+						$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash(md5($attachment), (int)$mailId);
+						$pathToFile = $file['path'];
+						$fileName = $file['filename'];
+					}
+					\ilUtil::deliverFile($pathToFile, $fileName);
+				} catch (\OutOfBoundsException $e) {
+					throw new \ilException('mail_error_reading_attachment');
+				}
+			} else {
+				$mailFileData->deliverAttachmentsAsZip(
+					$mailData['m_subject'],
+					(int)$mailId,
+					$mailData['attachments'],
+					'draft' === $type
+				);
+			}
+		} catch (\Exception $e) {
+			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
+			$this->ctrl->redirect($this);
 		}
 	}
 
@@ -1055,4 +1077,3 @@ class ilMailFolderGUI
 		$this->showFolder();
 	}
 }
-?>

@@ -5669,9 +5669,11 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
+mail#:#mail_tbl_head_attachments#:#Attachment
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -10403,7 +10405,6 @@ ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -11440,6 +11441,12 @@ mail#:#mail_filter_body#:#Body
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
+mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_with_attachments#:#With Attachments
+mail#:#mail_filter_period#:#Period
+mail#:#mail_filter_period_from#:#From
+mail#:#mail_filter_period_until#:#Until
+mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
 prtf#:#prtf_properties#:#Portfolio Properties
@@ -13587,6 +13594,8 @@ style#:#system_style_activation_description#:#Active system styles can be assign
 style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
 style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
 style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
 style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#adapt_less#:#Adapt Less
@@ -14367,6 +14376,11 @@ lhist#:#lhist_learning_history#:#Learning History
 lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+news#:#news_news_block#:#News Block
+sess#:#sess_filter_all_types#:#All types
+sess#:#sess_filter_not_assigned#:#Not Assigned
+sess#:#sess_is_assigned#:#is Assigned
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
 cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?

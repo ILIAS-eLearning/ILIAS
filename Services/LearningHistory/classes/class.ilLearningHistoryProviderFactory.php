@@ -19,33 +19,13 @@ class ilLearningHistoryProviderFactory
 	 * @var array
 	 */
 	protected static $providers = array(
-		array (
-			"component" => "Services/Tracking",
-			"dir" => "classes/learning_history",
-			"class" => "ilTrackingLearningHistoryProvider"
-		),
-		array (
-			"component" => "Services/Badge",
-			"dir" => "LearningHistory/classes",
-			"class" => "ilBadgeLearningHistoryProvider"
-		),
-		array (
-			"component" => "Services/Skill",
-			"dir" => "LearningHistory/classes",
-			"class" => "ilSkillLearningHistoryProvider"
-		),
-		array (
-			"component" => "Modules/Course",
-			"dir" => "classes/LearningHistory",
-			"class" => "ilCourseLearningHistoryProvider"
-		),
-		array (
-			"component" => "Services/Certificate",
-			"dir" => "classes/LearningHistory",
-			"class" => "ilCertificateLearningHistoryProvider"
-		)
+		ilTrackingLearningHistoryProvider::class,
+		ilBadgeLearningHistoryProvider::class,
+		ilCourseLearningHistoryProvider::class,
+		ilCourseLearningHistoryProvider::class,
+		ilCertificateLearningHistoryProvider::class
 	);
-	
+
 	/**
 	 * Constructor
 	 */
@@ -65,29 +45,18 @@ class ilLearningHistoryProviderFactory
 	{
 		$providers = array();
 
-		if ($user_id == 0)
-		{
+		if ($user_id == 0) {
 			$user_id = $this->service->user()->getId();
 		}
 
-		foreach (self::$providers as $p)
-		{
-			$dir = (isset($p["dir"]))
-				? $p["dir"]
-				: "classes";
-			include_once("./".$p["component"]."/".$dir."/class.".$p["class"].".php");
-
-			/** @var ilLearningHistoryProviderInterface $p */
-			$p = new $p["class"]($user_id, $this->service->factory(), $this->service->language());
-			if (!$active_only || $p->isActive())
-			{
-				$providers[] = $p;
+		foreach (self::$providers as $provider) {
+			/** @var ilLearningHistoryProviderInterface $provider */
+			$providerInstance = new $provider($user_id, $this->service->factory(), $this->service->language());
+			if (!$active_only || $providerInstance->isActive()) {
+				$providers[] = $providerInstance;
 			}
 		}
 
 		return $providers;
 	}
-
 }
-
-?>

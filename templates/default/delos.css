@@ -8727,6 +8727,18 @@ div.alert ul > li:before {
   content: "\00BB \0020";
   /* margin-left: -10px; */
 }
+.modal.fade {
+  transition-property: opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+}
+.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform 0.15s ease-out;
+  -moz-transition: -moz-transform 0.15s ease-out;
+  -o-transition: -o-transform 0.15s ease-out;
+  transition: transform 0.15s ease-out;
+}
 .carousel.slide.text-only .carousel-inner {
   min-height: 400px;
 }

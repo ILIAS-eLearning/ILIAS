@@ -21,6 +21,7 @@ class ilObjectDataDeletionLog
 			"obj_id" => array("integer", $a_object->getId()),
 			"type" => array("text", $a_object->getType()),
 			"title" => array("text", $a_object->getTitle()),
+			"description" => array("clob", $a_object->getLongDescription()),
 			"tstamp" => array("integer", time())
 		));
 	}

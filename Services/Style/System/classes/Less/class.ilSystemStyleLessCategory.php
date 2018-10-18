@@ -53,8 +53,9 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
 	 */
 	public function setName($name)
 	{
-		$this->name = str_replace(PHP_EOL, '', $name);
-	}
+		$name = str_replace(PHP_EOL, '', $name);
+        $this->name = str_replace("\n", '', $name);
+    }
 
 	/**
 	 * @return string
@@ -69,7 +70,8 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
 	 */
 	public function setComment($comment)
 	{
-		$this->comment = str_replace(PHP_EOL, '', $comment);
+        $comment = str_replace(PHP_EOL, '', $comment);
+        $this->comment  = str_replace("\n", '', $comment);
 	}
 
 	/**
