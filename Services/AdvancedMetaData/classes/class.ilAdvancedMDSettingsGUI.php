@@ -15,6 +15,16 @@ include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordScope.
  */
 class ilAdvancedMDSettingsGUI
 {
+	const MODE_ADMINISTRATION = 1;
+	const MODE_OBJECT = 2;
+
+	/**
+	 * Active settings mode
+	 * @var null
+	 */
+	private $mode = null;
+
+
 	protected $lng;
 	protected $tpl;
 	protected $ctrl;
@@ -58,6 +68,17 @@ class ilAdvancedMDSettingsGUI
 		{
 			$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 		}
+
+		if(!$this->ref_id)
+		{
+			$this->mode = self::MODE_ADMINISTRATION;
+		}
+		else
+		{
+			$this->mode = self::MODE_OBJECT;
+		}
+
+
 		$this->obj_type = $a_obj_type;
 		$this->sub_type = $a_sub_type 
 			? $a_sub_type
@@ -627,8 +648,19 @@ class ilAdvancedMDSettingsGUI
 					$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 				}
 
-				$record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+				if($this->mode == self::MODE_ADMINISTRATION)
+				{
+					$record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
+				}
 				$record_obj->update();
+
+				if($this->mode == self::MODE_OBJECT)
+				{
+					$local_position = new \ilAdvancedMDRecordObjectOrdering($record_obj->getRecordId(), $this->obj_id);
+					$local_position->setPosition((int) $sorted_positions[$record_id->getRecordId()]);
+					$local_position->save();
+				}
+
 			}
 			else if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])			
 			{
@@ -1746,17 +1778,21 @@ class ilAdvancedMDSettingsGUI
 	{
 		$res = array();
 		
-		if($this->obj_type)
+		if($this->mode == self::MODE_OBJECT)
 		{			
 			$selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
 		}
 
+		$records = ilAdvancedMDRecord::_getRecords();
+		$orderings = new ilAdvancedMDRecordObjectOrderings();
+		$records = $orderings->sortRecords($records, $this->obj_id);
+
 		$position = 0;
-		foreach(ilAdvancedMDRecord::_getRecords() as $record)
+		foreach($records as $record)
 		{			
 			$parent_id = $record->getParentObject();
 			
-			if(!$this->obj_type)
+			if($this->mode == self::MODE_ADMINISTRATION)
 			{
 				if($parent_id)
 				{

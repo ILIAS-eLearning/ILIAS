@@ -110,4 +110,36 @@ if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
 	);
 }
 ?>
-
+<#14>
+<?php
+if (!$ilDB->tableExists('adv_md_record_obj_ord'))
+{
+	$ilDB->createTable(
+		'adv_md_record_obj_ord',
+		[
+			'record_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'obj_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'position' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			]
+		]
+	);
+	$ilDB->addPrimaryKey(
+		'adv_md_record_obj_ord',
+		[
+			'record_id',
+			'obj_id'
+		]
+	);
+}
+?>

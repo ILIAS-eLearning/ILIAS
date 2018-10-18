@@ -111,7 +111,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'ilobjectmetadatagui';
 				$this->checkPermission('edit_metadata');
-				$this->tabs_gui->activateTab('edit_metadata');
+				$this->tabs_gui->activateTab('metadata');
 				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
