@@ -14372,7 +14372,7 @@ cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to 
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
 cert#:#certificate_migration_confirm_started#:#The migration was started.
 cert#:#certificate_migration_go#:#Start Migration
-badge#:#user_certificates#:#Certificates
+cert#:#user_certificates#:#Certificates
 cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
 cert#:#cert_error_no_access#:#You have no access to this certificate.
 cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
