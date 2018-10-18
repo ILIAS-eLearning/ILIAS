@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
 
 /**
  * Class AbstractBaseItem
@@ -38,7 +39,7 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild {
 	 * @inheritDoc
 	 */
 	public function getParent(): IdentificationInterface {
-		return $this->parent;
+		return $this->parent instanceof IdentificationInterface ? $this->parent : new NullIdentification();
 	}
 
 
