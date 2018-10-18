@@ -13877,7 +13877,7 @@ auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automa
 auth#:#auth_saml_sync#:#User Synchronization
 auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
 auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
-auth#:#auth_saml_username_claim#:#Arrtibue for Username
+auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_update_field_info#:#Update automatically
