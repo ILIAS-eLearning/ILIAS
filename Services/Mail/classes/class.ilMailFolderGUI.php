@@ -962,21 +962,26 @@ class ilMailFolderGUI
 			$_SESSION['filename'] = '';
 		}
 
-		if ($mailId > 0 && $filename !== '') {
-			while (strpos($filename, '..') !== false) {
-				$filename = str_replace('..', '', $filename);
-			}
+		try {
+			if ($mailId > 0 && $filename !== '') {
+				while (strpos($filename, '..') !== false) {
+					$filename = str_replace('..', '', $filename);
+				}
 
-			$mailFileData = new ilFileDataMail($this->user->getId());
-			if (!is_array($file = $mailFileData->getAttachmentPathByMD5Filename($filename, (int)$mailId))) {
-				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));
-				$this->showMail();
+				$mailFileData = new \ilFileDataMail($this->user->getId());
+				try {
+					$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash($filename, (int)$mailId);
+					\ilUtil::deliverFile($file['path'], $file['filename']);
+				} catch (\OutOfBoundsException $e) {
+					throw new \ilException('mail_error_reading_attachment');
+				}
 			} else {
-				ilUtil::deliverFile($file['path'], $file['filename']);
+				ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
+				$this->showMail();
 			}
-		} else {
-			ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
-			$this->showMail();
+		} catch (\Exception $e) {
+			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
+			$this->ctrl->redirect($this);
 		}
 	}
 
@@ -987,15 +992,17 @@ class ilMailFolderGUI
 
 			$mailData = $this->umail->getMail((int)$mailId);
 			if (null === $mailData || 0 === count((array)$mailData['attachments'])) {
-				throw new \ilException('permission_denied');
+				throw new \ilException('mail_error_reading_attachment');
 			}
 
 			$mailFileData = new \ilFileDataMail($this->user->getId());
 			if (count($mailData['attachments']) === 1) {
 				$attachment = current($mailData['attachments']);
-				if (is_array($file = $mailFileData->getAttachmentPathByMD5Filename(md5($attachment), (int)$mailId))) {
+
+				try {
+					$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash(md5($attachment), (int)$mailId);
 					\ilUtil::deliverFile($file['path'], $file['filename']);
-				} else {
+				} catch (\OutOfBoundsException $e) {
 					throw new \ilException('mail_error_reading_attachment');
 				}
 			} else {
@@ -1005,7 +1012,7 @@ class ilMailFolderGUI
 					$mailData['attachments']
 				);
 			}
-		} catch (\ilException $e) {
+		} catch (\Exception $e) {
 			\ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
 			$this->ctrl->redirect($this);
 		}

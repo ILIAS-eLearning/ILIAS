@@ -125,39 +125,41 @@ class ilFileDataMail extends ilFileData
 	{
 		return $this->mail_path;
 	}
-	
-	/**
-	* get the path of a specific attachment
-	* @param string md5 encrypted filename
-	* @param integer mail_id
-	* @access	public
-	* @return string path
-	*/
-	public function getAttachmentPathByMD5Filename($a_filename,$a_mail_id)
-	{
-		$query = $this->db->query("SELECT path FROM mail_attachment 
-				  WHERE mail_id = ".$this->db->quote($a_mail_id,'integer'));
-		
-		$rel_path = "";
-		while($row = $this->db->fetchObject($query))
-		{
-			$rel_path = $row->path;
-			$path = $this->getMailPath().'/'.$row->path;
 
+	/**
+	 * @param string $md5FileHash
+	 * @param int $mailId
+	 * @return array array An array containing the 'path' and the 'filename' for the passed MD5 hash
+	 * @throws \OutOfBoundsException
+	 */
+	public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId): array
+	{
+		$res = $this->db->queryF(
+			"SELECT path FROM mail_attachment WHERE mail_id = %s",
+			['integer'],
+			[$mailId]
+		);
+
+		if (1 !== (int)$this->db->numRows($res)) {
+			throw new \OutOfBoundsException();
 		}
+
+		$row = $this->db->fetchAssoc($res);
+
+		$relativePath = $row['path'];
+		$path = $this->getMailPath() . '/' . $row['path'];
 
 		$files = ilUtil::getDir($path);
-		foreach((array)$files as $file)
-		{
-			if($file['type'] == 'file' && md5($file['entry']) == $a_filename)
-			{
-				return array(
-					'path' => $this->getMailPath().'/'.$rel_path.'/'.$file['entry'],
+		foreach ($files as $file) {
+			if ($file['type'] === 'file' && md5($file['entry']) === $md5FileHash) {
+				return [
+					'path' => $this->getMailPath() . '/' . $relativePath . '/' . $file['entry'],
 					'filename' => $file['entry']
-				);
+				];
 			}
 		}
-		return '';
+
+		throw new \OutOfBoundsException();
 	}
 
 	/**
