@@ -17,11 +17,20 @@ class ilUserCertificateRepository
 	private $logger;
 
 	/**
+	 * @var null|string 
+	 */
+	private $defaultTitle;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
+	 * @param string|null $defaultTitle
 	 */
-	public function __construct(\ilDBInterface $database = null, ilLogger $logger = null)
-	{
+	public function __construct(
+		\ilDBInterface $database = null,
+		ilLogger $logger = null,
+		string $defaultTitle = null
+	) {
 		if (null === $database) {
 			global $DIC;
 			$database = $DIC->database();
@@ -33,6 +42,12 @@ class ilUserCertificateRepository
 			$logger = $DIC->logger()->cert();
 		}
 		$this->logger = $logger;
+		
+		if (null === $defaultTitle) {
+			global $DIC;
+			$defaultTitle = $DIC->language()->txt('no_object_title');
+		}
+		$this->defaultTitle = $defaultTitle;
 	}
 
 	/**
@@ -199,14 +214,39 @@ AND currently_active = 1';
 	/**
 	 * @param int $userId
 	 * @param string $type
-	 * @return array
+	 * @return ilUserCertificatePresentation[]
 	 */
-	public function fetchActiveCertificatesByType(int $userId, string $type) : array
+	public function fetchActiveCertificatesByTypeForPresentation(int $userId, string $type) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));
 
-		$sql = 'SELECT *
+		$sql = 'SELECT 
+  il_cert_user_cert.pattern_certificate_id,
+  il_cert_user_cert.obj_id,
+  il_cert_user_cert.obj_type,
+  il_cert_user_cert.user_id,
+  il_cert_user_cert.user_name,
+  il_cert_user_cert.acquired_timestamp,
+  il_cert_user_cert.certificate_content,
+  il_cert_user_cert.template_values,
+  il_cert_user_cert.valid_until,
+  il_cert_user_cert.version,
+  il_cert_user_cert.ilias_version,
+  il_cert_user_cert.currently_active,
+  il_cert_user_cert.background_image_path,
+  il_cert_user_cert.id,
+  (CASE WHEN (object_data.title IS NULL)
+    THEN
+      CASE WHEN (object_data_del.title IS NULL)
+        THEN ' . $this->database->quote($this->defaultTitle, 'string') . '
+        ELSE object_data_del.title
+        END
+    ELSE object_data.title 
+    END
+  ) as title
 FROM il_cert_user_cert
+LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
  AND obj_type = ' . $this->database->quote($type, 'string') . '
  AND currently_active = 1';
@@ -215,7 +255,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = new ilUserCertificate(
+			$userCertificate = new ilUserCertificate(
 				$row['pattern_certificate_id'],
 				$row['obj_id'],
 				$row['obj_type'],
@@ -231,6 +271,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 				$row['background_image_path'],
 				$row['id']
 			);
+			
+			$presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+			$result[] = $presentation;
 		}
 
 		$this->logger->info(sprintf('END - Fetching all active certificates for user: "%s" and type: "%s"', $userId, $type));

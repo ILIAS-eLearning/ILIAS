@@ -63,16 +63,13 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 		$userId = $ilUser->getId();
 
-		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByType($userId, 'sahs');
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation($userId, 'sahs');
 
 		$data = array();
-		/** @var ilUserCertificate $certificate */
 		foreach ($certificateArray as $certificate) {
-			$title = ilObject::_lookupTitle($certificate->getObjId());
-
 			$data[] = array(
-				'id'     => $certificate->getObjId(),
-				'title'  => $title,
+				'id'     => $certificate->getUserCertificate()->getObjId(),
+				'title'  => $certificate->getObjectTitle(),
 				'passed' => true
 			);
 		}

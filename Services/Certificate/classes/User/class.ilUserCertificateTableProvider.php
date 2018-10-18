@@ -37,9 +37,15 @@ class ilUserCertificateTableProvider
 	private $dateFormat;
 
 	/**
+	 * @var string 
+	 */
+	private $defaultTitle;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
 	 * @param ilCtrl $controller
+	 * @param string $defaultTitle
 	 * @param ilCertificateObjectHelper|null $objectHelper
 	 * @param ilCertificateDateHelper|null $dateHelper
 	 * @param int $dateFormat
@@ -48,6 +54,7 @@ class ilUserCertificateTableProvider
 		ilDBInterface $database,
 		ilLogger $logger,
 		ilCtrl $controller,
+		string $defaultTitle,
 		ilCertificateObjectHelper $objectHelper = null,
 		ilCertificateDateHelper $dateHelper = null,
 		$dateFormat = IL_CAL_UNIX
@@ -67,6 +74,8 @@ class ilUserCertificateTableProvider
 		$this->dateHelper = $dateHelper;
 
 		$this->dateFormat = $dateFormat;
+		
+		$this->defaultTitle = $defaultTitle;
 	}
 
 	/**
@@ -80,8 +89,23 @@ class ilUserCertificateTableProvider
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
-		$sql = 'SELECT id, acquired_timestamp, obj_id FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId,
-				'integer') . ' AND currently_active = 1';
+		$sql = 'SELECT 
+  il_cert_user_cert.id,
+  acquired_timestamp,
+  il_cert_user_cert.obj_id,
+  (CASE WHEN (object_data.title IS NULL)
+    THEN
+      CASE WHEN (object_data_del.title IS NULL)
+        THEN ' . $this->database->quote($this->defaultTitle, 'string') . '
+        ELSE object_data_del.title
+        END
+    ELSE object_data.title 
+    END
+  ) as title
+FROM il_cert_user_cert
+LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
 
 		if (array() !== $params) {
@@ -108,9 +132,7 @@ class ilUserCertificateTableProvider
 
 		$data = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$object = $this->objectHelper->getInstanceByObjId($row['obj_id']);
-			$title = $object->getTitle();
-
+			$title = $row['title'];
 
 			$data['items'][] = array(
 				'id' => $row['id'],
