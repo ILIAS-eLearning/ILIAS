@@ -3676,6 +3676,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateMigrationInteraction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationInteraction.php',
         'ilCertificateMigrationJob' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJob.php',
         'ilCertificateMigrationJobDefinitions' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationJobDefinitions.php',
+        'ilCertificateMigrationReducedInteraction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationReducedInteraction.php',
         'ilCertificateMigrationRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationRepository.php',
         'ilCertificateMigrationUIElements' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationUIElements.php',
         'ilCertificateNotObtainedException' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Exception/class.ilCertificateNotObtainedException.php',
