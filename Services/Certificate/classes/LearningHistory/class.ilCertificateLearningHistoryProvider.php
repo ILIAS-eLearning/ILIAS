@@ -92,9 +92,14 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		foreach ($certificates as $certificate) {
 			$objectId = $certificate->getUserCertificate()->getObjId();
 
+			$this->controller->setParameterByClass(
+				'ilUserCertificateGUI',
+				'certificate_id',
+				$certificate->getUserCertificate()->getId()
+			);
 			$link = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
+			$this->controller->clearParameterByClass('ilUserCertificateGUI');
 
-			$link .= '&certificate_id=' . $objectId;
 			$href = str_replace('{LINK}', $link , '<a href="{LINK}">{LINK_TEXT}</a>');
 			$href = str_replace('{LINK_TEXT}', $this->lng->txt('certificate'), $href);
 
