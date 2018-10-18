@@ -14377,7 +14377,6 @@ news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
-
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
