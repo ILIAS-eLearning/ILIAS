@@ -8,6 +8,8 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\UI\Implementation\Component\Icon\Icon;
+use ILIAS\UI\Implementation\Component\Icon\Standard;
 
 /**
  * Class Main
@@ -140,17 +142,27 @@ class Main {
 		try {
 			return self::$items[$identification->serialize()];
 		} catch (\Throwable $e) {
-			global $DIC;
-
-			return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))
-				->withTitle($DIC->language()->txt("deleted_item"))
-				->withAlwaysAvailable(true)
-				->withVisibilityCallable(
-					function () use ($DIC) {
-						return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-					}
-				);
+			return $this->getLostItem($identification);
 		}
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return isTopItem
+	 */
+	private function getLostItem(IdentificationInterface $identification): isTopItem {
+		global $DIC;
+
+		return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))
+			->withTitle($DIC->language()->txt("deleted_item"))
+			->withAlwaysAvailable(true)
+			->withVisibilityCallable(
+				function () use ($DIC) {
+					return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
+				}
+			);
 	}
 
 

@@ -143,7 +143,6 @@ class ilMMSubItemGUI {
 				}
 				$this->ctrl->redirect($this);
 				break;
-				break;
 		}
 
 		return "";
