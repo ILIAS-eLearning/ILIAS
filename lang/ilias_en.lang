@@ -14393,3 +14393,5 @@ cert#:#certificate_same_not_saved#:#No new version of certificate template was s
 common#:#my_certificates#:#My Certificates
 cert#:#certificate_achievement#:#$3$ for $1$ achieved.
 cert#:#certificate_no_object_title#:#No object title available
+certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
