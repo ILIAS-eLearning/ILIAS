@@ -5665,6 +5665,7 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
