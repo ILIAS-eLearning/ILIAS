@@ -7,6 +7,25 @@
  */
 class ilCertificateMigrationReducedInteraction extends ilCertificateMigrationInteraction
 {
+	/** @var \ilLogger */
+	protected $log;
+
+	/**
+	 * ilCertificateMigrationReducedInteraction constructor.
+	 * @param ilLogger|null $log
+	 */
+	public function __construct(
+		\ilLogger $log = null
+	)
+	{
+		global $DIC;
+
+		if (null === $log) {
+			$log = $DIC->logger()->cert();
+		}
+		$this->log = $log;
+	}
+
 	/**
 	 * @param array $input
 	 * @return array|\ILIAS\BackgroundTasks\Task\UserInteraction\Option[]
@@ -24,15 +43,12 @@ class ilCertificateMigrationReducedInteraction extends ilCertificateMigrationInt
 	 */
 	public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
 	{
-		global $DIC;
-
 		$progress = $input[0]->getValue();
 		$user_id = $input[1]->getValue();
-		$logger = $DIC->logger()->cert();
 
-		$logger->debug('User interaction certificate migration for user with id: ' . $user_id);
-		$logger->debug('User interaction certificate migration State: '. $bucket->getState());
-		$logger->info('User interaction certificate migration canceled for user with id: ' . $user_id);
+		$this->log->debug('User interaction certificate migration for user with id: ' . $user_id);
+		$this->log->debug('User interaction certificate migration State: '. $bucket->getState());
+		$this->log->info('User interaction certificate migration canceled for user with id: ' . $user_id);
 
 		return $input;
 	}
