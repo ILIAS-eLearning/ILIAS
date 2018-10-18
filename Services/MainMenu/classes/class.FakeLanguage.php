@@ -47,10 +47,10 @@ class FakeLanguage extends ilLanguage {
 			'topitem_type_byline'          => "Main menu Entries can be links directly or can contain Main Menu Subitems",
 
 			// Subitems
-			'add_subentry'                 => 'Add Sub-Item',
-			'edit_subentry'                => 'Edit',
-			'delete_subentry'              => 'Delete',
-			'translate_subentry'           => 'Translate',
+			'subitem_add'                 => 'Add Sub-Item',
+			'subitem_edit'                => 'Edit',
+			'subitem_delete'              => 'Delete',
+			'subitem_translate'           => 'Translate',
 
 			'sub_parent' => "Top Item",
 

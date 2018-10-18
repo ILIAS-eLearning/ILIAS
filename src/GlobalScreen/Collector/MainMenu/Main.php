@@ -115,7 +115,7 @@ class Main {
 						}
 						$children[$position_of_sub_item] = $child;
 					}
-					ksort($children);
+					// ksort($children);
 					$item = $item->withChildren($children);
 				}
 				$position_of_top_item = $this->information->getPositionOfTopItem($item);
@@ -131,24 +131,6 @@ class Main {
 	}
 
 
-	/**
-	 * @return array
-	 * @throws \Throwable
-	 */
-	public function getSubItems(): array {
-		$this->load();
-		$sub_items = [];
-		foreach (self::$items as $item) {
-			if ($item instanceof hasTitle && $this->information) {
-				$item = $this->information->translateItemForUser($item);
-			}
-			if ($item instanceof isChild && $this->information) {
-				$sub_items[$this->information->getPositionOfSubItem($item)] = $item;
-			}
-		}
-
-		return $sub_items;
-	}
 
 
 	/**
@@ -159,7 +141,7 @@ class Main {
 	 */
 	public function getSingleItem(IdentificationInterface $identification, $force_load = false): isItem {
 		if ($force_load) {
-			$this->loaded = false;
+			// $this->loaded = false;
 		}
 		$this->load();
 		try {
@@ -197,11 +179,11 @@ class Main {
 					foreach ($provider->getStaticSubItems() as $sub_item) {
 						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
 							$sub_item->overrideParent($this->information->getParent($sub_item));
-							self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item;
 							if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
 								self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
 							}
 						}
+						self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
 					}
 				}
 				$this->loaded = true;

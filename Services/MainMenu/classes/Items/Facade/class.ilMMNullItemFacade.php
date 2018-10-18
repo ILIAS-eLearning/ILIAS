@@ -12,6 +12,10 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeInterface {
 
 	/**
+	 * @var string
+	 */
+	private $parent_identification = "";
+	/**
 	 * @var
 	 */
 	private $active_status;
@@ -41,11 +45,19 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 	}
 
 
+	/**
+	 * @inheritDoc
+	 */
+	public function setParent(string $parent) {
+		$this->parent_identification = $parent;
+	}
+
+
 	public function create() {
 		$s = new ilMMCustomItemStorage();
-		$s->setTopItem(true);
 		$s->setIdentifier(uniqid());
 		$s->setType($this->type);
+		$s->setTopItem($this->isTopItem());
 		$s->setAction($this->action);
 		$s->setDefaultTitle($this->default_title);
 		$s->create();
@@ -55,10 +67,15 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 		global $DIC;
 		$provider = new ilMMCustomProvider($DIC);
 		$this->gs_item = $provider->getSingleCustomItem($s);
+		if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+			global $DIC;
+			$this->gs_item = $this->gs_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
+		}
 
 		$this->mm_item = new ilMMItemStorage();
 		$this->mm_item->setPosition($this->gs_item->getPosition());
 		$this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());
+		$this->mm_item->setParentIdentification($this->parent_identification);
 		$this->mm_item->setActive($this->active_status);
 		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
 			$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());

@@ -162,6 +162,22 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	/**
+	 * @inheritDoc
+	 */
+	public function isTopItem(): bool {
+		return $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isTopItem;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setIsTopItm(bool $top_item) {
+		// TODO: Implement setIsTopItm() method.
+	}
+
+
+	/**
 	 * FSX check if doublette
 	 *
 	 * @inheritDoc

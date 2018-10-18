@@ -37,7 +37,15 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 * @return \ILIAS\GlobalScreen\MainMenu\isItem[]
 	 */
 	public function getStaticSubItems(): array {
-		return [];
+		/**
+		 * @var $item ilMMCustomItemStorage
+		 */
+		$items = [];
+		foreach (ilMMCustomItemStorage::where(['top_item' => false])->get() as $item) {
+			$items[] = $this->getSingleCustomItem($item, false);
+		}
+
+		return $items;
 	}
 
 
@@ -53,6 +61,9 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 			ilGSIdentificationStorage::registerIdentification($identification, $this);
 		}
 		switch ($storage->getType()) {
+			case \ILIAS\GlobalScreen\MainMenu\Item\Link::class:
+				$item = $this->getLinkItem($storage, $identification);
+				break;
 			case \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class:
 				$item = $this->mainmenu->topLinkItem($identification)->withTitle($storage->getDefaultTitle())->withAction($storage->getAction());
 				break;
@@ -63,6 +74,33 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		}
 		if ($register) {
 			ilMMItemStorage::register($item);
+		}
+
+		return $item;
+	}
+
+
+	/**
+	 * @param ilMMCustomItemStorage $storage
+	 * @param                       $identification
+	 *
+	 * @return \ILIAS\GlobalScreen\MainMenu\hasAction|\ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\Item\Link
+	 */
+	public function getLinkItem(ilMMCustomItemStorage $storage, $identification) {
+		$mm_item = ilMMItemStorage::find($identification->serialize());
+		$parent_identification = "";
+		if ($mm_item) {
+			$parent_identification = $mm_item->getParentIdentification();
+		}
+		$item = $this->mainmenu->link($identification)
+			->withTitle($storage->getDefaultTitle())
+			->withAction($storage->getAction());
+		if ($parent_identification) {
+			$item = $item->withParent(
+				$this->globalScreen()
+					->identification()
+					->fromSerializedIdentification($parent_identification)
+			);
 		}
 
 		return $item;

@@ -124,6 +124,12 @@ interface ilMMItemFacadeInterface {
 	public function getType(): string;
 
 
+	/**
+	 * @return bool
+	 */
+	public function isTopItem(): bool;
+
+
 	//
 	// Setters
 	//
@@ -161,6 +167,12 @@ interface ilMMItemFacadeInterface {
 	 * @param string $type
 	 */
 	public function setType(string $type);
+
+
+	/**
+	 * @param bool $top_item ;
+	 */
+	public function setIsTopItm(bool $top_item);
 
 	//
 	// CRUD

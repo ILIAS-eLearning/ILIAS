@@ -55,6 +55,7 @@ class ilMMItemRepository {
 
 	/**
 	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem|\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
+	 * @throws Throwable
 	 */
 	public function getStackedTopItemsForPresentation(): array {
 		$this->sync();
@@ -69,6 +70,7 @@ class ilMMItemRepository {
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
+	 * @throws Throwable
 	 */
 	public function getSingleItem(IdentificationInterface $identification): \ILIAS\GlobalScreen\MainMenu\isItem {
 		return $this->main_collector->getSingleItem($identification);
@@ -113,14 +115,14 @@ class ilMMItemRepository {
 	/**
 	 * @return array
 	 */
-	public function getSubItems(): array {
+	public function getSubItemsForTable(): array {
 		// sync
 		$this->sync();
 		$r = $this->storage->db()->query(
 			"SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
 JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
-WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_items.position ASC"
+WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_identification, sub_items.position ASC"
 		);
 		$return = [];
 		while ($data = $this->storage->db()->fetchAssoc($r)) {
@@ -172,6 +174,51 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, sub_ite
 		}
 
 		return $this->synced;
+	}
+
+
+	public function getPossibleParentsForFormAndTable(): array {
+		static $parents;
+		if (is_null($parents)) {
+			global $DIC;
+			$parents = [];
+			foreach ($this->getTopItems() as $top_item_identification => $data) {
+				$identification = $DIC->globalScreen()->identification()->fromSerializedIdentification($top_item_identification);
+				$item = $this->getSingleItem($identification);
+				if ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
+					$parents[$top_item_identification] = $this->getItemFacade($identification)
+						->getDefaultTitle();
+				}
+			}
+		}
+
+		return $parents;
+	}
+
+
+	/**
+	 * FSX get from Main
+	 *
+	 * @return array
+	 */
+	public function getPossibleSubItemTypesForForm(): array {
+		return [
+			\ILIAS\GlobalScreen\MainMenu\Item\Link::class => "Link",
+			// \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class => "RepositoryLink",
+		];
+	}
+
+
+	/**
+	 * FSX get from Main
+	 *
+	 * @return array
+	 */
+	public function getPossibleTopItemTypesForForm(): array {
+		return [
+			\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class => "TopParentItem",
+			// \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class   => "TopLinkItem",
+		];
 	}
 
 

@@ -66,7 +66,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
 		$this->tpl->setVariable('STATUS', $item_facade->getStatus());
-		if (($a_set['active'] && $item_facade->item()->isAvailable()) || $item_facade->item()->isAlwaysAvailable()) {
+		if ($item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active');
 		}
 		if ($item_facade->item()->isAlwaysAvailable() || !$item_facade->item()->isAvailable()) {
@@ -77,10 +77,12 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
 		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
-		$items[] = $factory->button()->shy($this->lng->txt('edit_subentry'), '#');
-		$items[] = $factory->button()->shy($this->lng->txt('translate_subentry'), $this->ctrl->getLinkTarget($this->parent_obj, 'translate'));
-		if ($a_set['provider'] === "Custom") {
-			$items[] = $factory->button()->shy($this->lng->txt('delete_slate'), '#');
+		$this->ctrl->setParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER, $a_set['identification']);
+
+		$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
+		$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_TRANSLATE));
+		if ($item_facade->isCustom()) {
+			$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE));
 		}
 
 		$this->tpl->setVariable('ACTIONS', $renderer->render($factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))));
@@ -94,7 +96,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 */
 	private function getSelect(ilMMItemFacadeInterface $child): ilSelectInputGUI {
 		$s = new ilSelectInputGUI('', self::IDENTIFIER . "[{$child->getId()}][parent]");
-		$s->setOptions($this->getPossibleParent());
+		$s->setOptions($this->getPossibleParentsForFormAndTable());
 		$s->setValue($child->getParentIdentificationString());
 
 		return $s;
@@ -104,26 +106,12 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	/**
 	 * @return array
 	 */
-	private function getPossibleParent(): array {
-		static $parents;
-		if (is_null($parents)) {
-			global $DIC;
-			$parents = [];
-			foreach ($this->item_repository->getTopItems() as $top_item_identification => $data) {
-				$identification = $DIC->globalScreen()->identification()->fromSerializedIdentification($top_item_identification);
-				$item = $this->item_repository->getSingleItem($identification);
-				if ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
-					$parents[$top_item_identification] = $this->item_repository->getItemFacade($identification)
-						->getDefaultTitle();
-				}
-			}
-		}
-
-		return $parents;
+	public function getPossibleParentsForFormAndTable(): array {
+		return $this->item_repository->getPossibleParentsForFormAndTable();
 	}
 
 
 	private function resolveData(): array {
-		return $this->item_repository->getSubItems();
+		return $this->item_repository->getSubItemsForTable();
 	}
 }

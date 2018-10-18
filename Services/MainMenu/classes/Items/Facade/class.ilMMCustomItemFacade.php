@@ -26,6 +26,10 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 * @var string
 	 */
 	protected $type = '';
+	/**
+	 * @var bool
+	 */
+	protected $top_item = false;
 
 
 	/**
@@ -37,6 +41,9 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		$this->default_title = "";
 		if ($this->custom_item_storage instanceof ilMMCustomItemStorage) {
 			$this->default_title = $this->custom_item_storage->getDefaultTitle() ? $this->custom_item_storage->getDefaultTitle() : "";
+			if ($this->custom_item_storage->getType()) {
+				$this->type = $this->custom_item_storage->getType();
+			}
 		}
 	}
 
@@ -49,6 +56,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 			$mm = $this->getCustomStorage();
 			if ($mm instanceof ilMMCustomItemStorage) {
 				$mm->setDefaultTitle($this->getDefaultTitle());
+				$mm->setType($this->getType()); // FSX
 				$mm->update();
 			}
 		}
@@ -147,5 +155,25 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 */
 	public function setType(string $type) {
 		$this->type = $type;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isTopItem(): bool {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isItem) {
+			return parent::isTopItem();
+		}
+
+		return $this->top_item;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setIsTopItm(bool $top_item) {
+		$this->top_item = $top_item;
 	}
 }

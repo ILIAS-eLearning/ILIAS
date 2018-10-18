@@ -3,6 +3,8 @@
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilMMTopItemFormGUI
@@ -11,11 +13,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  */
 class ilMMTopItemFormGUI {
 
-	protected static $type_mapping
-		= [
-			TopParentItem::class => 1,
-			TopLinkItem::class   => 2,
-		];
+	/**
+	 * @var ilMMItemRepository
+	 */
+	private $repository;
 	/**
 	 * @var Standard
 	 */
@@ -43,16 +44,17 @@ class ilMMTopItemFormGUI {
 	/**
 	 * ilMMTopItemFormGUI constructor.
 	 *
-	 * @param ilCtrl             $ctrl
-	 * @param \ILIAS\UI\Factory  $ui_fa
-	 * @param \ILIAS\UI\Renderer $ui_re
+	 * @param ilCtrl   $ctrl
+	 * @param Factory  $ui_fa
+	 * @param Renderer $ui_re
 	 */
 	const F_ACTIVE = 'active';
 	const F_TITLE = 'title';
 	const F_TYPE = 'type';
 
 
-	public function __construct(ilCtrl $ctrl, \ILIAS\UI\Factory $ui_fa, \ILIAS\UI\Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item) {
+	public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item, ilMMItemRepository $repository) {
+		$this->repository = $repository;
 		$this->ctrl = $ctrl;
 		$this->ui_fa = $ui_fa;
 		$this->ui_re = $ui_re;
@@ -73,20 +75,14 @@ class ilMMTopItemFormGUI {
 		}
 		$items[self::F_TITLE] = $title;
 
-		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))
-			->withOption(self::$type_mapping[TopParentItem::class], $this->lng->txt('topitem_type_parent'))
-			// ->withOption(
-			// 	self::$type_mapping[TopLinkItem::class], $this->lng->txt('topitem_type_link'),
-			// 	["action" => $this->ui_fa->input()->field()->text("URL"), "external" => $this->ui_fa->input()
-			// 		->field()
-			// 		->checkbox("Open in new window")]
-			// )
-			->withValue(self::$type_mapping[TopParentItem::class])
-			->withRequired(true);
+		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
+		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
+		foreach ($top_item_types_for_form as $classname => $representation) {
+			$type = $type->withOption($classname, $representation);
+		}
 		if (!$this->item_facade->isEmpty()) {
-			if (isset(self::$type_mapping[$this->item_facade->getGSItemClassName()])) {
-				$type = $type->withValue(self::$type_mapping[$this->item_facade->getGSItemClassName()]);
-			}
+			$value = $this->item_facade->getType();
+			$type = $type->withValue($value);
 		}
 		$items[self::F_TYPE] = $type;
 
@@ -116,12 +112,10 @@ class ilMMTopItemFormGUI {
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
+		$this->item_facade->setType((string)$data[0][self::F_TYPE]);
+		$this->item_facade->setIsTopItm(true);
 
 		if ($this->item_facade->isEmpty()) {
-			$type = array_search((int)$data[0][self::F_TYPE], self::$type_mapping);
-			if ($type) {
-				$this->item_facade->setType((string)$data[0][self::F_TYPE]);
-			}
 			$r->createItem($this->item_facade);
 		}
 

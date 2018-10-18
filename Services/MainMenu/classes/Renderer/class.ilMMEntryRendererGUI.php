@@ -79,7 +79,7 @@ class ilMMEntryRendererGUI {
 
 		$html = $tpl->get();
 
-		$storage->cache()->set('rendered_menu', $html, 60);
+		$storage->cache()->set('rendered_menu', $html, 180);
 
 		return $html;
 	}
