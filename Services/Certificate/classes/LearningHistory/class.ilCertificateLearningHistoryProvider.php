@@ -87,14 +87,14 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	{
 		$entries = array();
 
-		$certificates = $this->userCertificateRepository->fetchActiveCertificatesInInterval($this->user_id, $ts_start, $ts_end);
+		$certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation($this->user_id, $ts_start, $ts_end);
 
 		foreach ($certificates as $certificate) {
-			$objectId = $certificate->getObjId();
+			$objectId = $certificate->getUserCertificate()->getObjId();
 
 			$link = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
 
-			$link .= '&certificate_id=' . $certificate->getId();
+			$link .= '&certificate_id=' . $objectId;
 			$href = str_replace('{LINK}', $link , '<a href="{LINK}">{LINK_TEXT}</a>');
 			$href = str_replace('{LINK_TEXT}', $this->lng->txt('certificate'), $href);
 
@@ -104,11 +104,17 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				$this->lng->txt("certificate_achievement")
 			);
 
+			$text = str_replace(
+				"$1$",
+				$certificate->getObjectTitle(),
+				$text
+			);
+
 			$entries[] = new ilLearningHistoryEntry(
 				$text,
 				$text,
 				ilUtil::getImagePath("icon_cert.svg"),
-				$certificate->getAcquiredTimestamp(),
+				$certificate->getUserCertificate()->getAcquiredTimestamp(),
 				$objectId
 			);
 		}
