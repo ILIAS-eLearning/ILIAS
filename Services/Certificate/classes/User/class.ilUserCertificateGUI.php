@@ -171,7 +171,7 @@ class ilUserCertificateGUI
 			$DIC->database(),
 			$this->certificateLogger,
 			$this->controller,
-			$this->language->txt('no_object_title')
+			$this->language->txt('certificate_no_object_title')
 		);
 
 		$table = new ilUserCertificateTableGUI(
@@ -197,7 +197,7 @@ class ilUserCertificateGUI
 			$DIC->database(),
 			$this->certificateLogger,
 			$this->controller,
-			$this->language->txt('no_object_title')
+			$this->language->txt('certificate_no_object_title')
 		);
 		$table->resetOffset();
 		$table->writeFilterToSession();
@@ -216,7 +216,7 @@ class ilUserCertificateGUI
 			$DIC->database(),
 			$this->certificateLogger,
 			$this->controller,
-			$this->language->txt('no_object_title')
+			$this->language->txt('certificate_no_object_title')
 		);
 		
 		$table->resetOffset();

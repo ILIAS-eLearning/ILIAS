@@ -96,7 +96,7 @@ class ilUserCertificateTableProvider
   (CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'string') . '
+        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
         ELSE object_data_del.title
         END
     ELSE object_data.title 

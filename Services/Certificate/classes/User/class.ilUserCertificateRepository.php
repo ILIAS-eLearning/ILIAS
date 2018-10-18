@@ -45,7 +45,7 @@ class ilUserCertificateRepository
 		
 		if (null === $defaultTitle) {
 			global $DIC;
-			$defaultTitle = $DIC->language()->txt('no_object_title');
+			$defaultTitle = $DIC->language()->txt('certificate_no_object_title');
 		}
 		$this->defaultTitle = $defaultTitle;
 	}
@@ -238,7 +238,7 @@ AND currently_active = 1';
   (CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'string') . '
+        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
         ELSE object_data_del.title
         END
     ELSE object_data.title 
@@ -248,7 +248,7 @@ FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
- AND obj_type = ' . $this->database->quote($type, 'string') . '
+ AND obj_type = ' . $this->database->quote($type, 'text') . '
  AND currently_active = 1';
 
 		$query = $this->database->query($sql);
