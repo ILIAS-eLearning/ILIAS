@@ -5669,9 +5669,11 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
+mail#:#mail_tbl_head_attachments#:#Attachment
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -11440,6 +11442,12 @@ mail#:#mail_filter_body#:#Body
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
+mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_with_attachments#:#With Attachments
+mail#:#mail_filter_period#:#Period
+mail#:#mail_filter_period_from#:#From
+mail#:#mail_filter_period_until#:#Until
+mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
 prtf#:#prtf_properties#:#Portfolio Properties
