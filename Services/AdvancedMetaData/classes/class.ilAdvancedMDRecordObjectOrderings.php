@@ -48,9 +48,9 @@ class ilAdvancedMDRecordObjectOrderings
 	 * @param array $records
 	 * @param int obj_id
 	 */
-	public function sortRecords(array $records, int $obj_id)
+	public function sortRecords(array $records, int $obj_id = null)
 	{
-		if($obj_id)
+		if(!$obj_id)
 		{
 			usort(
 				$records,
@@ -63,7 +63,7 @@ class ilAdvancedMDRecordObjectOrderings
 		}
 		else
 		{
-			$this->readLocalPositionsForObject($obj_id);
+			$this->readPositionsForObject($obj_id);
 			usort(
 				$records,
 				[
