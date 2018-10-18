@@ -69,6 +69,10 @@ class ilObjDefReader extends ilSaxParser
 		
 		$ilDB->manipulate("DELETE FROM il_component");
 
+		$ilDB->manipulate("DELETE FROM il_gs_identifications");
+
+		$ilDB->manipulate("DELETE FROM il_gs_providers");
+
 		// Keep the plugin listeners in the table
 		// This avoids reading them in the setup
 		// ilPluginReader is called in the plugin administration

@@ -51,7 +51,7 @@ class ilMMTabHandling {
 
 		$this->ref_id = $ref_id;
 		$this->tabs = $DIC['ilTabs'];
-		$this->lng = new FakeLanguage('en');
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('mme');
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];

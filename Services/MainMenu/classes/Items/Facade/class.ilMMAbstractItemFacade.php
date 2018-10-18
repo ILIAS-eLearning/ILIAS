@@ -22,6 +22,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
 	 */
 	protected $identification;
+	/**
+	 * @var string
+	 */
+	protected $default_title = "-";
 
 
 	/**
@@ -34,7 +38,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 */
 	public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector) {
 		$this->identification = $identification;
-		$this->gs_item = $collector->getSingleItem($identification, true);
+		$this->gs_item = $collector->getSingleItem($identification);
 		$this->mm_item = ilMMItemStorage::register($this->gs_item);
 	}
 
@@ -103,15 +107,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function isAvailable(): bool {
-		return (bool)($this->mm_item->isActive() || $this->item()->isAlwaysAvailable());
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getGSItemClassName(): string {
-		return get_class($this->gs_item);
+		return (bool)(($this->mm_item->isActive() && $this->gs_item->isAvailable())|| $this->item()->isAlwaysAvailable());
 	}
 
 
@@ -120,6 +116,26 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 */
 	public function getProviderNameForPresentation(): string {
 		return $this->identification->getProviderNameForPresentation();
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultTitle(): string {
+		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+			$this->default_title = $this->gs_item->getTitle();
+		}
+
+		return $this->default_title;
+	}
+
+
+	/**
+	 * @param string $default_title
+	 */
+	public function setDefaultTitle(string $default_title) {
+		$this->default_title = $default_title;
 	}
 
 
@@ -149,15 +165,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 		}
 
 		return "";
-	}
-
-
-	public function getTitleForPresentation(): string {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
-			return $this->gs_item->getTitle();
-		}
-
-		return "No Title"; //FSX
 	}
 
 
@@ -214,13 +221,14 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	// CRUD
 
 	public function update() {
-		// FSX Translation and Identification
+		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
+
 		$this->mm_item->update();
 	}
 
 
 	public function create() {
-		// FSX Translation and Identification
+		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
 		$this->mm_item->create();
 		ilMMItemStorage::register($this->gs_item);
 	}

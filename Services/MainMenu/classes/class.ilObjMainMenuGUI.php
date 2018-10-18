@@ -52,7 +52,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 		parent::__construct($ref_id);
 
 		$this->tabs = $DIC['ilTabs'];
-		$this->lng = new FakeLanguage('en');
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('mme');
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];

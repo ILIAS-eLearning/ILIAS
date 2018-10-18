@@ -17,10 +17,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	/**
 	 * @var string
 	 */
-	protected $default_title;
-	/**
-	 * @var string
-	 */
 	protected $action = '';
 	/**
 	 * @var string
@@ -38,9 +34,9 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	public function __construct(IdentificationInterface $identification, Main $collector) {
 		parent::__construct($identification, $collector);
 		$this->custom_item_storage = $this->getCustomStorage();
-		$this->default_title = "";
 		if ($this->custom_item_storage instanceof ilMMCustomItemStorage) {
-			$this->default_title = $this->custom_item_storage->getDefaultTitle() ? $this->custom_item_storage->getDefaultTitle() : "";
+			// FSX translation
+			// $this->default_title = $this->custom_item_storage->getDefaultTitle() ? $this->custom_item_storage->getDefaultTitle() : "";
 			if ($this->custom_item_storage->getType()) {
 				$this->type = $this->custom_item_storage->getType();
 			}
@@ -55,7 +51,8 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		if ($this->isCustom()) {
 			$mm = $this->getCustomStorage();
 			if ($mm instanceof ilMMCustomItemStorage) {
-				$mm->setDefaultTitle($this->getDefaultTitle());
+				$default_title = $this->getDefaultTitle();
+				$mm->setDefaultTitle($default_title);
 				$mm->setType($this->getType()); // FSX
 				$mm->update();
 			}
@@ -98,11 +95,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	}
 
 
-	public function getDefaultTitle(): string {
-		return $this->default_title;
-	}
-
-
 	/**
 	 * @inheritDoc
 	 */
@@ -125,12 +117,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 
 
 	public function getTypeForPresentation(): string {
-		return "Custom";
-	}
-
-
-	public function setDefaultTitle(string $default_title) {
-		$this->default_title = $default_title;
+		return "Custom"; // FSX
 	}
 
 

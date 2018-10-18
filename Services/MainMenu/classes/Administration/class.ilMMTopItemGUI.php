@@ -1,11 +1,10 @@
 <?php
 
-use ILIAS\GlobalScreen\Identification\NullIdentification;
-
 /**
  * Class ilMMTopItemGUI
  *
  * @ilCtrl_IsCalledBy ilMMTopItemGUI: ilObjMainMenuGUI
+ * @ilCtrl_Calls      ilMMTopItemGUI: ilMMItemTranslationGUI
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -69,7 +68,7 @@ class ilMMTopItemGUI {
 		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$this->tab_handling = $tab_handling;
 		$this->tabs = $DIC['ilTabs'];
-		$this->lng = new FakeLanguage('en');
+		$this->lng = $DIC->language();
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];
 		$this->tree = $DIC['tree'];
@@ -138,12 +137,9 @@ class ilMMTopItemGUI {
 				$this->saveTable();
 
 				return "";
-			case self::CMD_TRANSLATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_TRANSLATE, true);
-				break;
 			case self::CMD_DELETE:
 				$item = $this->getMMItemFromRequest();
-				if($item->isCustom()) {
+				if ($item->isCustom()) {
 					$this->repository->deleteItem($item);
 				}
 				$this->ctrl->redirect($this);
@@ -177,6 +173,11 @@ class ilMMTopItemGUI {
 		}
 
 		switch ($next_class) {
+			case strtolower(ilMMItemTranslationGUI::class):
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				$g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
+				$this->ctrl->forwardCommand($g);
+				break;
 			default:
 				break;
 		}

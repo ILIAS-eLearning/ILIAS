@@ -72,12 +72,6 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 				}
 			);
 
-		$entries[] = $this->globalScreen()
-			->mainmenu()->link($this->if->identifier('adm_dummy'))
-			->withTitle("Dummy")
-			->withAction("#")
-			->withParent($this->getTopItem());
-
 		return $entries;
 	}
 }

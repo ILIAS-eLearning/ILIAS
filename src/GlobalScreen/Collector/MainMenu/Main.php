@@ -93,14 +93,12 @@ class Main {
 			if ((!$is_visible1 || !$is_item_active1 && !$is_always_available1)) {
 				continue;
 			}
-			if ($item instanceof hasTitle && $this->information) {
-				$item = $this->information->translateItemForUser($item);
-			}
 			if ($item instanceof isTopItem && $this->information) {
 				if ($item instanceof isParent) {
 					$children = [];
 					/**
-					 * @var $item isParent
+					 * @var $item  isParent
+					 * @var $child isChild
 					 */
 					foreach ($item->getChildren() as $child) {
 						$is_visible = $child->isVisible();
@@ -115,7 +113,7 @@ class Main {
 						}
 						$children[$position_of_sub_item] = $child;
 					}
-					// ksort($children);
+					ksort($children);
 					$item = $item->withChildren($children);
 				}
 				$position_of_top_item = $this->information->getPositionOfTopItem($item);
@@ -131,23 +129,18 @@ class Main {
 	}
 
 
-
-
 	/**
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return isItem
 	 * @throws \Throwable
 	 */
-	public function getSingleItem(IdentificationInterface $identification, $force_load = false): isItem {
-		if ($force_load) {
-			// $this->loaded = false;
-		}
+	public function getSingleItem(IdentificationInterface $identification): isItem {
 		$this->load();
 		try {
 			return self::$items[$identification->serialize()];
 		} catch (\Throwable $e) {
-			throw $e;
+			throw new \LogicException("Global Screen Item not found");
 		}
 	}
 
@@ -171,12 +164,18 @@ class Main {
 			try {
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticTopItems() as $top_item) {
+						if ($top_item instanceof hasTitle && $this->information) {
+							$top_item = $this->information->translateItemForUser($top_item);
+						}
 						self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
 						self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
 					}
 				}
 				foreach ($this->providers as $provider) {
 					foreach ($provider->getStaticSubItems() as $sub_item) {
+						if ($sub_item instanceof hasTitle && $this->information) {
+							$sub_item = $this->information->translateItemForUser($sub_item);
+						}
 						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
 							$sub_item->overrideParent($this->information->getParent($sub_item));
 							if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {

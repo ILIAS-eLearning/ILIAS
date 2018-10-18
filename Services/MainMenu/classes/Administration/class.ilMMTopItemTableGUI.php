@@ -56,9 +56,9 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 
 		$this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
 		$this->tpl->setVariable('ID', $item_facade->getId());
-		$this->tpl->setVariable('TITLE', $item_facade->getTitleForPresentation());
+		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
-		$this->tpl->setVariable('POSITION', $position);
+		$this->tpl->setVariable('POSITION', $position * 10);
 		if ($item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active');
 		}
@@ -68,9 +68,10 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
 		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $a_set['identification']);
+		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $a_set['identification']);
 
 		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
-		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_TRANSLATE));
+		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
 		if ($item_facade->isCustom()) {
 			$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_DELETE));
 		}

@@ -46,7 +46,7 @@ class ilBadgeGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
-		return [$this->mainmenu->link($this->if->identifier('mm_pd_contacts'))
+		return [$this->mainmenu->link($this->if->identifier('mm_pd_badges'))
 			        ->withTitle($this->dic->language()->txt("obj_bdga"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
 			        ->withParent($this->getTopItem())

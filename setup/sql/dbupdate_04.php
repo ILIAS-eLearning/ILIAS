@@ -22866,30 +22866,30 @@ if (! $ilDB->tableExists('il_mm_items')) {
 <#5309>
 <?php
 $fields = array(
+	'id' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
 	'identification' => array(
 		'type' => 'text',
-		'length' => '64',
-		
+		'length' => '256',
 	),
 	'translation' => array(
 		'type' => 'text',
 		'length' => '4000',
 		
 	),
-	
+	'language_key' => array(
+		'type' => 'text',
+		'length' => '8',
+		
+	),
 );
 if (! $ilDB->tableExists('il_mm_translation')) {
 	$ilDB->createTable('il_mm_translation', $fields);
-	$ilDB->addPrimaryKey('il_mm_translation', array( 'identification' ));
+	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
 	
-}
-if (!$ilDB->tableExists('il_mm_translation')) {
-	$ilDB->createTable('il_mm_translation', $fields);
-	$ilDB->addPrimaryKey('il_mm_translation', array('id'));
-
-	if (!$ilDB->sequenceExists('il_mm_translation')) {
-		$ilDB->createSequence('il_mm_translation');
-	}
 }
 ?>
 <#5310>

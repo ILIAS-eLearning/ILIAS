@@ -14365,5 +14365,55 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
 lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+mme#:#main#:#MainMenu
+mme#:#subtab_topitems#:#Top Items
+mme#:#subtab_subitems#:#Sub-Items
+mme#:#tab_back#:#Back
+mme#:#topitem_add#:#Add Top Item
+mme#:#topitem_edit#:#Edit
+mme#:#topitem_delete#:#Delete
+mme#:#topitem_translate#:#Translate
+mme#:#topitem_position#:#Position
+mme#:#topitem_title#:#Title
+mme#:#topitem_icon#:#Icon
+mme#:#topitem_active#:#Active
+mme#:#topitem_sticky#:#Sticky
+mme#:#topitem_mobile#:#Mobile
+mme#:#topitem_subentries#:#Sub-Items
+mme#:#topitem_provider#:#Provider
+mme#:#topitem_actions#:#Actions
+mme#:#topitem_type_parent#:#Top Item with Sub Items
+mme#:#topitem_type_link#:#Link
+mme#:#topitem_title_default#:#Title (Default Language)
+mme#:#topitem_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#topitem_active_byline#:#Activate this Main Menu Item for all users
+mme#:#topitem_sticky_byline#:#This Main Menu Item will always be displayed even if place is scarce (e.g. on Mobile Phones)
+mme#:#topitem_type#:#Type
+mme#:#topitem_type_byline#:#Main menu Entries can be links directly or can contain Main Menu Subitems
+mme#:#subitem_add#:#Add Sub-Item
+mme#:#subitem_edit#:#Edit
+mme#:#subitem_delete#:#Delete
+mme#:#subitem_translate#:#Translate
+mme#:#sub_parent#:#Top Item
+mme#:#sub_position#:#Position
+mme#:#sub_title#:#Title
+mme#:#sub_type#:#Type
+mme#:#sub_active#:#Active
+mme#:#sub_status#:#Status
+mme#:#sub_provider#:#Provider
+mme#:#sub_actions#:#Actions
+mme#:#button_save#:#Save
+mme#:#table_show_inactive#:#Inaktive anzeigen
+mme#:#sub_title_default#:#Title (Default Language)
+mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_type_byline#:#Specific type for the Subitem additional configuration may be needed.
+mme#:#sub_active_byline#:#Activate this Main Menu Subitem for all users
+mme#:#add_languages#:#Add Language
+mme#:#mm_translation_lang#:#Language
+mme#:#mm_translation_trans#:#Translation
+mme#:#additional_langs#:#Additional Languages
+mme#:#msg_languages_added#:#Added languages
+mme#:#msg_translations_saved#:#Translations saved
+common#:#obj_mme#:#Main Menu
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

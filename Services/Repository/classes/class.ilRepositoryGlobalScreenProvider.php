@@ -71,7 +71,7 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 				return "";
 			}
 
-			return $icon . " " . $title . " - " . $dic->language()->txt("rep_main_page");
+			return $title . " - " . $dic->language()->txt("rep_main_page");
 		};
 
 		$action = function (): string {

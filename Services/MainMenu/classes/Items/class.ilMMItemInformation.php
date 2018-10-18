@@ -16,7 +16,11 @@ class ilMMItemInformation implements ItemInformation {
 	/**
 	 * @var array
 	 */
-	private $items;
+	private $translations = [];
+	/**
+	 * @var array
+	 */
+	private $items = [];
 	/**
 	 * @var StorageFacade
 	 */
@@ -30,7 +34,8 @@ class ilMMItemInformation implements ItemInformation {
 	 */
 	public function __construct(StorageFacade $storage) {
 		$this->storage = $storage;
-		$this->items = ilMMItemStorage::getArray('identification', ['position', 'active', 'parent_identification']);
+		$this->items = ilMMItemStorage::getArray('identification');
+		$this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
 	}
 
 
@@ -38,8 +43,17 @@ class ilMMItemInformation implements ItemInformation {
 	 * @inheritDoc
 	 */
 	public function translateItemForUser(hasTitle $item): hasTitle {
-		if ($item instanceof hasTitle) {
-			// $item = $item->withTitle("LOREM");
+		/**
+		 * @var $item \ILIAS\GlobalScreen\MainMenu\isItem
+		 */
+		global $DIC;
+		static $usr_language_key;
+		if (!$usr_language_key) {
+			$usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
+		}
+
+		if ($item instanceof hasTitle && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]) {
+			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
 		}
 
 		return $item;
@@ -50,7 +64,9 @@ class ilMMItemInformation implements ItemInformation {
 	 * @inheritDoc
 	 */
 	public function getPositionOfSubItem(isChild $child): int {
-		return $this->getPosition($child);
+		$position = $this->getPosition($child);
+
+		return $position;
 	}
 
 
@@ -76,8 +92,11 @@ class ilMMItemInformation implements ItemInformation {
 	 */
 	public function isItemActive(\ILIAS\GlobalScreen\MainMenu\isItem $item): bool {
 		$serialize = $item->getProviderIdentification()->serialize();
+		if (isset($this->items[$serialize]['active'])) {
+			return $this->items[$serialize]['active'] === "1";
+		}
 
-		return $this->items[$serialize]['active'] === "1";
+		return false;
 	}
 
 

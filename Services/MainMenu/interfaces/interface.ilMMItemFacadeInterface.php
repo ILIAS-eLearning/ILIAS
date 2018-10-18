@@ -37,22 +37,11 @@ interface ilMMItemFacadeInterface {
 	//
 	// Presentation Methods
 	//
-	/**
-	 * @return string
-	 */
-	public function getTitleForPresentation(): string;
-
 
 	/**
 	 * @return string
 	 */
 	public function getTypeForPresentation(): string;
-
-
-	/**
-	 * @return string
-	 */
-	public function getGSItemClassName(): string;
 
 
 	/**

@@ -4,6 +4,7 @@
  * Class ilMMTopItemGUI
  *
  * @ilCtrl_IsCalledBy ilMMSubItemGUI: ilObjMainMenuGUI
+ * @ilCtrl_Calls      ilMMSubItemGUI: ilMMItemTranslationGUI
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -18,6 +19,8 @@ class ilMMSubItemGUI {
 	const CMD_UPDATE = 'subitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
 	const IDENTIFIER = 'identifier';
+	const CMD_APPLY_FILTER = 'applyFilter';
+	const CMD_RESET_FILTER = 'resetFilter';
 	/**
 	 * @var ilMMItemRepository
 	 */
@@ -67,7 +70,7 @@ class ilMMSubItemGUI {
 		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$this->tab_handling = $tab_handling;
 		$this->tabs = $DIC['ilTabs'];
-		$this->lng = new FakeLanguage('en');
+		$this->lng = $DIC->language();
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];
 		$this->tree = $DIC['tree'];
@@ -102,6 +105,17 @@ class ilMMSubItemGUI {
 				global $DIC;
 				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
 				$f->save();
+				$this->ctrl->redirect($this);
+				break;
+			case self::CMD_APPLY_FILTER:
+				$table = new ilMMSubItemTableGUI($this, $this->repository);
+				$table->writeFilterToSession();
+				$this->ctrl->redirect($this);
+				break;
+			case self::CMD_RESET_FILTER :
+				$table = new ilMMSubItemTableGUI($this, $this->repository);
+				$table->resetFilter();
+				$table->resetOffset();
 				$this->ctrl->redirect($this);
 				break;
 			case self::CMD_VIEW_SUB_ITEMS:
@@ -163,6 +177,11 @@ class ilMMSubItemGUI {
 		}
 
 		switch ($next_class) {
+			case strtolower(ilMMItemTranslationGUI::class):
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true);
+				$g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
+				$this->ctrl->forwardCommand($g);
+				break;
 			default:
 				break;
 		}
