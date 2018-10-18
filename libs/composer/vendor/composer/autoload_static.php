@@ -7014,6 +7014,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilUserBadgeProvider' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserBadgeProvider.php',
         'ilUserCertificate' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificate.php',
         'ilUserCertificateGUI' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
+        'ilUserCertificatePresentation' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificatePresentation.php',
         'ilUserCertificateRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificateRepository.php',
         'ilUserCertificateTableGUI' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableGUI.php',
         'ilUserCertificateTableProvider' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableProvider.php',

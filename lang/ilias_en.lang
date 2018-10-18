@@ -14378,3 +14378,4 @@ cert#:#cert_error_no_access#:#You have no access to this certificate.
 cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
 common#:#my_certificates#:#My Certificates
 cert#:#certificate_achievement#:#$3$ for $1$ achieved.
+cert#:#certificate_no_object_title#:#No object title available

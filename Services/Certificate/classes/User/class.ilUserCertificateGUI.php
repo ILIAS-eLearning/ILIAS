@@ -167,7 +167,12 @@ class ilUserCertificateGUI
 			}
 		}
 
-		$provider = new ilUserCertificateTableProvider($DIC->database(), $this->certificateLogger, $this->controller);
+		$provider = new ilUserCertificateTableProvider(
+			$DIC->database(),
+			$this->certificateLogger,
+			$this->controller,
+			$this->language->txt('certificate_no_object_title')
+		);
 
 		$table = new ilUserCertificateTableGUI(
 			$provider,
@@ -186,7 +191,14 @@ class ilUserCertificateGUI
 	 */
 	protected function applyCertificatesFilter()
 	{
-		$table = new \ilUserCertificateTableProvider($this, 'listCertificates');
+		global $DIC;
+
+		$table = new \ilUserCertificateTableProvider(
+			$DIC->database(),
+			$this->certificateLogger,
+			$this->controller,
+			$this->language->txt('certificate_no_object_title')
+		);
 		$table->resetOffset();
 		$table->writeFilterToSession();
 
@@ -198,7 +210,15 @@ class ilUserCertificateGUI
 	 */
 	protected function resetCertificatesFilter()
 	{
-		$table = new \ilUserCertificateTableProvider($this, 'listCertificates');
+		global $DIC;
+
+		$table = new \ilUserCertificateTableProvider(
+			$DIC->database(),
+			$this->certificateLogger,
+			$this->controller,
+			$this->language->txt('certificate_no_object_title')
+		);
+		
 		$table->resetOffset();
 		$table->resetFilter();
 

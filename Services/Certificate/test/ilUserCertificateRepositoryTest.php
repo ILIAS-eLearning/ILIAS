@@ -256,10 +256,10 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$repository = new ilUserCertificateRepository($database, $logger);
 
-		$results = $repository->fetchActiveCertificatesByType(400, 'crs');
+		$results = $repository->fetchActiveCertificatesByTypeForPresentation(400, 'crs');
 
-		$this->assertEquals(141, $results[0]->getId());
-		$this->assertEquals(142, $results[1]->getId());
+		$this->assertEquals(141, $results[0]->getUserCertificate()->getId());
+		$this->assertEquals(142, $results[1]->getUserCertificate()->getId());
 	}
 
 	public function testFetchCertificate()

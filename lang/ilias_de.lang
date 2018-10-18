@@ -14374,3 +14374,4 @@ cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
 cert#:#certificate_achievement#:#$3$ für $1$ erhalten.
+cert#:#certificate_no_object_title#:#Kein Objekt Titel gefunden

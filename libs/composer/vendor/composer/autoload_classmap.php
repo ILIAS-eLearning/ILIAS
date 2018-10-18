@@ -6770,6 +6770,7 @@ return array(
     'ilUserBadgeProvider' => $baseDir . '/../../Services/User/classes/class.ilUserBadgeProvider.php',
     'ilUserCertificate' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificate.php',
     'ilUserCertificateGUI' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
+    'ilUserCertificatePresentation' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificatePresentation.php',
     'ilUserCertificateRepository' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateRepository.php',
     'ilUserCertificateTableGUI' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableGUI.php',
     'ilUserCertificateTableProvider' => $baseDir . '/../../Services/Certificate/classes/User/class.ilUserCertificateTableProvider.php',
