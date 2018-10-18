@@ -618,7 +618,7 @@ class ilAdvancedMDSettingsGUI
 						ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES)
 				));
 						
-			if(!$this->obj_type)
+			if($this->mode == self::MODE_ADMINISTRATION)
 			{
 				$record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);			
 				
@@ -648,19 +648,8 @@ class ilAdvancedMDSettingsGUI
 					$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 				}
 
-				if($this->mode == self::MODE_ADMINISTRATION)
-				{
-					$record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
-				}
+				$record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
 				$record_obj->update();
-
-				if($this->mode == self::MODE_OBJECT)
-				{
-					$local_position = new \ilAdvancedMDRecordObjectOrdering($record_obj->getRecordId(), $this->obj_id);
-					$local_position->setPosition((int) $sorted_positions[$record_id->getRecordId()]);
-					$local_position->save();
-				}
-
 			}
 			else if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])			
 			{
@@ -677,7 +666,17 @@ class ilAdvancedMDSettingsGUI
 					$record_obj->setActive(isset($_POST['active'][$item['id']]));
 					$record_obj->update();
 				}
-			}			
+			}
+
+			// save local sorting
+			if($this->mode == self::MODE_OBJECT)
+			{
+				global $DIC;
+
+				$local_position = new \ilAdvancedMDRecordObjectOrdering($item['id'], $this->obj_id, $DIC->database());
+				$local_position->setPosition((int) $sorted_positions[$item['id']]);
+				$local_position->save();
+			}
 		}
 
 		if($this->obj_type)

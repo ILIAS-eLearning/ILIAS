@@ -84,7 +84,7 @@ class ilAdvancedMDRecordObjectOrdering
 	public function delete()
 	{
 		$query = 'DELETE FROM adv_md_record_obj_ord WHERE '.
-			'WHERE record_id = ' . $this->db->quote($this->record_id,'integer').' '.
+			'record_id = ' . $this->db->quote($this->record_id,'integer').' '.
 			'AND obj_id = ' . $this->db->quote($this->obj_id,'integer');
 		$this->db->manipulate($query);
 	}
