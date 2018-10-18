@@ -995,13 +995,25 @@ class ilMailFolderGUI
 				throw new \ilException('mail_error_reading_attachment');
 			}
 
+			$type = $_GET['type'] ?? '';
+
 			$mailFileData = new \ilFileDataMail($this->user->getId());
 			if (count($mailData['attachments']) === 1) {
 				$attachment = current($mailData['attachments']);
 
 				try {
-					$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash(md5($attachment), (int)$mailId);
-					\ilUtil::deliverFile($file['path'], $file['filename']);
+					if ('draft' === $type) {
+						if (!$mailFileData->checkFilesExist([$attachment])) {
+							throw new \OutOfBoundsException('');
+						}
+						$pathToFile = $mailFileData->getAbsolutePath($attachment);
+						$fileName = $attachment;
+					} else {
+						$file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash(md5($attachment), (int)$mailId);
+						$pathToFile = $file['path'];
+						$fileName = $file['filename'];
+					}
+					\ilUtil::deliverFile($pathToFile, $fileName);
 				} catch (\OutOfBoundsException $e) {
 					throw new \ilException('mail_error_reading_attachment');
 				}
@@ -1009,7 +1021,8 @@ class ilMailFolderGUI
 				$mailFileData->deliverAttachmentsAsZip(
 					$mailData['m_subject'],
 					(int)$mailId,
-					$mailData['attachments']
+					$mailData['attachments'],
+					'draft' === $type
 				);
 			}
 		} catch (\Exception $e) {

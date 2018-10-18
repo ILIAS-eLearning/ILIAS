@@ -593,12 +593,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$mail['attachment_indicator'] = '';
 			if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
 				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+				if ($this->isDraftFolder()) {
+					$this->ctrl->setParameter($this->_parentObject, 'type', 'draft');
+				}
 				$mail['attachment_indicator'] = $this->uiRenderer->render(
 					$this->uiFactory->glyph()->attachment(
 						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachments')
 					)
 				);
-				$this->ctrl->clearParametersByClass('ilmailformgui');
+				$this->ctrl->clearParameters($this->_parentObject);
 			}
 
 			$mail['actions'] = $this->formatActionsDropDown($mail);

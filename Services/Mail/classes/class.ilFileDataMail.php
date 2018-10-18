@@ -719,10 +719,13 @@ class ilFileDataMail extends ilFileData
 	 * @param string $basename
 	 * @param int $mailId
 	 * @param array $files
+	 * @param bool $isDraft
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 * @throws ilException
+	 * @throws ilFileUtilsException
 	 */
-	public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [])
+	public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [], $isDraft = false)
 	{
 		$path = $this->getAttachmentPathByMailId($mailId);
 		if (0 === strlen($path)) {
