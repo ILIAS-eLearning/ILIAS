@@ -85,6 +85,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 			$this->iliasVersion,
 			time(),
 			false,
+			'',
 			''
 		);
 

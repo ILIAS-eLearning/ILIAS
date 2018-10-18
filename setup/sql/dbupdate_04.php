@@ -23287,3 +23287,29 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5322>
+<?php
+if (!$ilDB->tableColumnExists('il_cert_template', 'thumbnail_image_path')) {
+	$ilDB->addTableColumn(
+		'il_cert_template',
+		'thumbnail_image_path',
+		array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		)
+	);
+}
+
+if (!$ilDB->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
+	$ilDB->addTableColumn(
+		'il_cert_user_cert',
+		'thumbnail_image_path',
+		array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		)
+	);
+}
+?>

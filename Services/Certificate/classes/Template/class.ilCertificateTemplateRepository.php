@@ -75,7 +75,8 @@ class ilCertificateTemplateRepository
 			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
 			'currently_active'      => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
 			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
-			'deleted'               => array('integer', (integer) $certificateTemplate->isDeleted())
+			'deleted'               => array('integer', (integer) $certificateTemplate->isDeleted()),
+			'thumbnail_image_path'  => array('clob', $certificateTemplate->getThumbnailImagePath())
 		);
 
 		$this->database->insert('il_cert_template', $columns);
@@ -96,19 +97,7 @@ ORDER BY version ASC';
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
-			return new ilCertificateTemplate(
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['certificate_content'],
-				$row['certificate_hash'],
-				$row['template_values'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['created_timestamp'],
-				(boolean) $row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createCertificateTemplate($row);
 		}
 
 		throw new ilException(sprintf('No template with id "%s" found', $templateId));
@@ -134,19 +123,7 @@ ORDER BY version ASC';
 		$query = $this->database->query($sql);
 
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = new ilCertificateTemplate(
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['certificate_content'],
-				$row['certificate_hash'],
-				$row['template_values'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['created_timestamp'],
-				(boolean) $row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			$result[] = $this->createCertificateTemplate($row);
 		}
 
 		$this->logger->info(sprintf('END - Fetching of certificate templates for object: "%s" with "%s" results', $objId, count($result)));
@@ -176,19 +153,7 @@ ORDER BY id DESC
 		while ($row = $this->database->fetchAssoc($query)) {
 			$this->logger->info(sprintf('END - Found active certificate for: "%s"', $objId));
 
-			return new ilCertificateTemplate(
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['certificate_content'],
-				$row['certificate_hash'],
-				$row['template_values'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['created_timestamp'],
-				(boolean) $row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createCertificateTemplate($row);
 		}
 
 		$this->logger->info(sprintf('END - Found NO active certificate for: "%s"', $objId));
@@ -203,6 +168,7 @@ ORDER BY id DESC
 			0,
 			0,
 			false,
+			'',
 			''
 		);
 	}
@@ -228,19 +194,7 @@ AND currently_active = 1
 		while ($row = $this->database->fetchAssoc($query)) {
 			$this->logger->info(sprintf('END - Found active certificate for: "%s"', $objId));
 
-			return new ilCertificateTemplate(
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['certificate_content'],
-				$row['certificate_hash'],
-				$row['template_values'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['created_timestamp'],
-				(boolean) $row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createCertificateTemplate($row);
 		}
 
 		throw new ilException((sprintf('NO active certificate template found for: "%s"', $objId)));
@@ -268,6 +222,7 @@ AND currently_active = 1
 			0,
 			0,
 			true,
+			'',
 			''
 		);
 
@@ -373,19 +328,7 @@ ORDER BY id ASC ';
 		while ($row = $this->database->fetchAssoc($query)) {
 			$this->logger->info(sprintf('END - Found first create certificate template for object: "%s"', $objId));
 
-			return new ilCertificateTemplate(
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['certificate_content'],
-				$row['certificate_hash'],
-				$row['template_values'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['created_timestamp'],
-				(boolean) $row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createCertificateTemplate($row);
 		}
 
 		throw new ilException('No matching template found. MAY missing DBUpdate. Please check if the correct version is installed.');
@@ -407,5 +350,27 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 		$this->database->manipulate($sql);
 
 		$this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
+	}
+
+	/**
+	 * @param array $row
+	 * @return ilCertificateTemplate
+	 */
+	private function createCertificateTemplate(array $row): ilCertificateTemplate
+	{
+		return new ilCertificateTemplate(
+			$row['obj_id'],
+			$row['obj_type'],
+			$row['certificate_content'],
+			$row['certificate_hash'],
+			$row['template_values'],
+			$row['version'],
+			$row['ilias_version'],
+			$row['created_timestamp'],
+			(boolean)$row['currently_active'],
+			$row['background_image_path'],
+			$row['thumbnail_image_path'],
+			$row['id']
+		);
 	}
 }

@@ -122,7 +122,7 @@ class ilCertificateBackgroundImageUpload
 	 * @throws ilException
 	 * @throws ilFileUtilsException
 	 */
-	public function upload(string $imageTempFilename, int $version)
+	public function uploadBackgroundImage(string $imageTempFilename, int $version)
 	{
 		$imagepath = $this->rootDirectory . $this->certificatePath;
 

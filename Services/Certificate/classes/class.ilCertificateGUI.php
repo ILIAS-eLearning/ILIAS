@@ -146,6 +146,21 @@ class ilCertificateGUI
 	private $previewAction;
 
 	/**
+	 * @var ilCertificateThumbnailImageUpload|null 
+	 */
+	private $thumbnailImageUpload;
+
+	/**
+	 * @var \ILIAS\FileUpload\FileUpload|null 
+	 */
+	private $fileUpload;
+
+	/**
+	 * @var string
+	 */
+	private $certificatePath;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
@@ -161,7 +176,8 @@ class ilCertificateGUI
 	 * @param ilCertificateTemplateExportAction|null $exportAction
 	 * @param ilCertificateBackgroundImageUpload|null $upload
 	 * @param ilCertificateTemplatePreviewAction|null $previewAction
-	 * @param ilLogger|null $logger
+	 * @param ilCertificateThumbnailImageUpload|null $thumbnailImageUpload
+	 * @param \ILIAS\FileUpload\FileUpload|null $fileUpload
 	 * @access public
 	 */
 	public function __construct(
@@ -178,7 +194,9 @@ class ilCertificateGUI
 		ilFormFieldParser $formFieldParser = null,
 		ilCertificateTemplateExportAction $exportAction = null,
 		ilCertificateBackgroundImageUpload $upload = null,
-		ilCertificateTemplatePreviewAction $previewAction = null
+		ilCertificateTemplatePreviewAction $previewAction = null,
+		ilCertificateThumbnailImageUpload $thumbnailImageUpload = null,
+		\ILIAS\FileUpload\FileUpload $fileUpload = null
 	) {
 		global $DIC;
 
@@ -275,6 +293,16 @@ class ilCertificateGUI
 			$previewAction = new ilCertificateTemplatePreviewAction($templateRepository, $placeholderValuesObject);
 		}
 		$this->previewAction = $previewAction;
+
+		if (null === $fileUpload) {
+			global $DIC;
+			$fileUpload = $DIC->upload();
+		}
+		$this->fileUpload = $fileUpload;
+		
+		$this->thumbnailImageUpload = $thumbnailImageUpload;
+		
+		$this->certificatePath = $certificatePath;
 	}
 
 	/**
@@ -447,14 +475,34 @@ class ilCertificateGUI
 					$backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
 				}
 
+				$thumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
+
 				if (count($_POST)) {
 					// handle the background upload
 					$temporaryFileName = $_FILES['background']['tmp_name'];
 					if (strlen($temporaryFileName)) {
 						try {
-							$backgroundImagePath = $this->backgroundImageUpload->upload($temporaryFileName, $nextVersion);
+							$backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage($temporaryFileName, $nextVersion);
 						} catch (ilException $exception) {
 							$form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+						}
+					}
+
+					if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
+						$this->fileUpload->process();
+
+						/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+						$result = array_values($this->fileUpload->getResults())[0];
+						if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+							$this->fileUpload->moveOneFileTo(
+								$result,
+								$this->certificatePath,
+								\ILIAS\FileUpload\Location::WEB,
+								'thumbnail_image_' . $nextVersion . '.svg',
+								true
+							);
+
+							$thumbnailImagePath = $this->certificatePath . 'thumbnail_image_' . $nextVersion . '.svg';
 						}
 					}
 				}
@@ -468,7 +516,8 @@ class ilCertificateGUI
 					implode('', array(
 						$xslfo,
 						$backgroundImagePath,
-						$jsonEncodedTemplateValues
+						$jsonEncodedTemplateValues,
+						$thumbnailImagePath
 					))
 				);
 
@@ -484,7 +533,7 @@ class ilCertificateGUI
 						time(),
 						(bool) $form_fields['active'],
 						$backgroundImagePath,
-						$form_fields['active']
+						$thumbnailImagePath
 					);
 
 					$this->templateRepository->save($certificateTemplate);

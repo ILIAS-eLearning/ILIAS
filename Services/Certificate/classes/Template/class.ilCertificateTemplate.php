@@ -67,6 +67,11 @@ class ilCertificateTemplate
 	private $deleted;
 
 	/**
+	 * @var string 
+	 */
+	private $thumbnailImagePath;
+
+	/**
 	 * @param integer $obj_id
 	 * @param $obj_type
 	 * @param string $certificateContent
@@ -77,6 +82,7 @@ class ilCertificateTemplate
 	 * @param integer $createdTimestamp
 	 * @param boolean $currentlyActive
 	 * @param null $backgroundImagePath
+	 * @param null $thumbnailImagePath
 	 * @param integer|null $id
 	 * @param bool $deleted
 	 */
@@ -91,6 +97,7 @@ class ilCertificateTemplate
 		$createdTimestamp,
 		$currentlyActive,
 		$backgroundImagePath = null,
+		$thumbnailImagePath = null,
 		$id = null,
 		bool $deleted = false
 	) {
@@ -104,6 +111,7 @@ class ilCertificateTemplate
 		$this->createdTimestamp = $createdTimestamp;
 		$this->currentlyActive = $currentlyActive;
 		$this->backgroundImagePath = $backgroundImagePath;
+		$this->thumbnailImagePath = $thumbnailImagePath;
 		$this->id = $id;
 		$this->deleted = $deleted;
 	}
@@ -202,5 +210,13 @@ class ilCertificateTemplate
 	public function isDeleted(): bool
 	{
 		return $this->deleted;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThumbnailImagePath()
+	{
+		return $this->thumbnailImagePath;
 	}
 }
