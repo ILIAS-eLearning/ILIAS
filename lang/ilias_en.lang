@@ -14371,3 +14371,5 @@ rbac#:#sess_manage_members#:#Manage Participants of a Session
 rbac#:#manage_materials#:#Manage Materials
 rbac#:#sess_manage_materials#:#Manage Session Materials
 meta#:#md_adv_col_presentation_ordering#:#Position
+sess#:#sess_show_members#:#Show Participants
+sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery

@@ -1644,7 +1644,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
-		
+
+		$gallery = new ilCheckboxInputGUI($this->lng->txt('sess_show_members'),'show_members');
+		$gallery->setChecked($this->object->getShowMembers());
+		$gallery->setInfo($this->lng->txt('sess_show_members_info'));
+		$this->form->addItem($gallery);
+
 
 		switch($a_mode)
 		{
@@ -1698,7 +1703,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setRegistrationType((int) $_POST['registration_type']);
 		// $this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
-		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);		
+		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);
+		$this->object->setShowMembers((int) $_POST['show_members']);
 		
 		switch((int) $_POST['waiting_list'])
 		{

@@ -36,6 +36,11 @@ class ilObjSession extends ilObject
 	protected $reg_waiting_list = 0;
 	protected $reg_waiting_list_autofill; // [bool]
 
+	/**
+	 * @var bool
+	 */
+	protected $show_members = false;
+
 	protected $appointments;
 	protected $files = array();
 	
@@ -350,6 +355,24 @@ class ilObjSession extends ilObject
 	{
 		return (bool)$this->reg_waiting_list_autofill;
 	}
+
+	/**
+	 * Show members gallery
+	 * @param $a_status
+	 */
+	public function setShowMembers($a_status)
+	{
+		$this->show_members = (bool) $a_status;
+	}
+
+	/**
+	 * Member gallery enabled
+	 * @return bool
+	 */
+	public function getShowMembers()
+	{
+		return (bool) $this->show_members;
+	}
 	
 	/**
 	 * is registration enabled
@@ -508,6 +531,7 @@ class ilObjSession extends ilObject
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		$new_obj->setRegistrationMinUsers($this->getRegistrationMinUsers());
 		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
+		$new_obj->setShowMembers($this->getShowMembers());
 		
 		$new_obj->update(true);
 		
@@ -563,7 +587,7 @@ class ilObjSession extends ilObject
 
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
-			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait) '.
+			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait,show_members) '.
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getId() ,'integer').", ".
@@ -578,7 +602,8 @@ class ilObjSession extends ilObject
 			$this->db->quote($this->isRegistrationUserLimitEnabled(),'integer').', '.
 			$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').', '.
 			$this->db->quote($this->getRegistrationMinUsers(),'integer').', '.
-			$this->db->quote($this->hasWaitingListAutoFill(),'integer').' '.
+			$this->db->quote($this->hasWaitingListAutoFill(),'integer').', '.
+			$this->db->quote($this->getShowMembers(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->event_id = $next_id;
@@ -629,7 +654,8 @@ class ilObjSession extends ilObject
 			"reg_limit_users = ".$this->db->quote($this->getRegistrationMaxUsers() ,'integer').", ".
 			"reg_min_users = ".$this->db->quote($this->getRegistrationMinUsers() ,'integer').", ".
 			"reg_waiting_list = ".$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').", ".
-			"reg_auto_wait = ".$this->db->quote($this->hasWaitingListAutoFill(),'integer')." ".
+			"reg_auto_wait = ".$this->db->quote($this->hasWaitingListAutoFill(),'integer').", ".
+			'show_members = ' . $this->db->quote($this->getShowMembers(),'integer').' '.
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -720,6 +746,7 @@ class ilObjSession extends ilObject
 			$this->setWaitingListAutoFill($row->reg_auto_wait);
 			$this->setRegistrationMaxUsers($row->reg_limit_users);
 			$this->setRegistrationMinUsers($row->reg_min_users);
+			$this->setShowMembers((bool) $row->show_members);
 			$this->event_id = $row->event_id;
 		}
 
