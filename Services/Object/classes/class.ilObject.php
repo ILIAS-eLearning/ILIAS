@@ -2054,7 +2054,7 @@ class ilObject
 		) {
 			/** @var \ilObjectCustomIconFactory  $customIconFactory */
 			$customIconFactory = $DIC['object.customicons.factory'];
-			$customIcon = $customIconFactory->getPresenterByObjId($a_obj_id, $a_type);
+			$customIcon = $customIconFactory->getPresenterByObjId((int)$a_obj_id, (string)$a_type);
 			if ($customIcon->exists()) {
 				$filename = $customIcon->getFullPath();
 				return $filename . '?tmp=' . filemtime($filename);
