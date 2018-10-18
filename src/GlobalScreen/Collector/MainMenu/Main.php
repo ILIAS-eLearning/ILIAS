@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
@@ -121,8 +122,8 @@ class Main {
 					$position_of_top_item = max(array_keys($top_items)) + 1;
 				}
 				$top_items[$position_of_top_item] = $item;
-			}else {
-				1==1;
+			} else {
+				1 == 1;
 			}
 		}
 		ksort($top_items);
@@ -142,7 +143,9 @@ class Main {
 		try {
 			return self::$items[$identification->serialize()];
 		} catch (\Throwable $e) {
-			throw new \LogicException("Global Screen Item not found");
+			global $DIC;
+
+			return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))->withTitle($DIC->language()->txt("deleted_item"));
 		}
 	}
 

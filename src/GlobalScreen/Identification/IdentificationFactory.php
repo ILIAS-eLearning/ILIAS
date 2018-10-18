@@ -85,6 +85,9 @@ class IdentificationFactory {
 	 * @return IdentificationInterface
 	 */
 	public final function fromSerializedIdentification($serialized_string): IdentificationInterface {
+		if ($serialized_string === null || $serialized_string === "") {
+			return new NullIdentification();
+		}
 		if ($this->map->isInMap($serialized_string)) {
 			return $this->map->getFromMap($serialized_string);
 		}

@@ -14407,6 +14407,7 @@ mme#:#additional_langs#:#ZusätzlicheSprachen
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#topitem_css_id#:#CSS-ID
+common#:#deleted_item#:#Keine Zuordnung
 common#:#obj_mme#:#Hauptmenu
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.

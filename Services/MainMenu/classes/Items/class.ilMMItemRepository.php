@@ -126,7 +126,7 @@ class ilMMItemRepository {
 		$r = $this->storage->db()->query(
 			"SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
-JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
+LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
 WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_identification, sub_items.position ASC"
 		);
 		$return = [];
