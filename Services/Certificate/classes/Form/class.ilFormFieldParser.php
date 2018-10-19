@@ -99,7 +99,7 @@ class ilFormFieldParser
 				'/_xsl' => $xsl
 			);
 
-			$this->xlstProcess->process($args, array());
+			$content = $this->xlstProcess->process($args, array());
 		}
 
 		$content = preg_replace("/<\?xml[^>]+?>/", "", $content);
