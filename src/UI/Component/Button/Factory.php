@@ -249,7 +249,7 @@ interface Factory {
 	 *     1: >
 	 *        On screens larger than small size, Bulky Buttons MUST contain an icon or glyph plus text.
 	 *     2: >
-	 *        On small-sized screens, Bulky Buttons MUST contain only an icon or glyph.
+	 *        On small-sized screens, Bulky Buttons SHOULD contain only an icon or glyph.
 	 *   accessibility:
 	 *     1: >
 	 *       The functionality of the Bulky Button MUST be indicated for screen

@@ -58,19 +58,10 @@
   }
 
   .il-filter-bar {
+    font-size: 1.4em;
     padding: 10px;
     padding-bottom: 25px;
     border-bottom: 1px solid black;
-  }
-
-  .il-filter-bar-opener {
-    font-size: 1.4em;
-    cursor: pointer;
-  }
-
-  .il-filter-bar-controls {
-    font-size: 1.4em;
-    float: right;
     .btn-bulky {
       display: inline-flex;
       width: auto;
@@ -80,14 +71,20 @@
     .glyph {
       padding-right: 0.3em;
     }
+  }
+
+  .il-filter-bar-controls {
+    float: right;
     .il-toggle-button {
       vertical-align: middle;
     }
-
   }
 
-  .il-filter-bar-opener-collapse .glyph {
-    margin-left: 8px;
+  .il-filter-inputs-active {
+    //overflow: hidden;
+    //white-space: nowrap;
+    //text-overflow: ellipsis;
+    //max-width: 100%;
   }
 
   .col-md-4 {
@@ -135,7 +132,7 @@
   }
 
   @media (max-width: @screen-sm){
-    .bulky-label {
+    .il-filter-bar-controls .bulky-label {
       display: none;
     }
   }

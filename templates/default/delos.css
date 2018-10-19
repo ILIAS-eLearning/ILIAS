@@ -7244,11 +7244,13 @@ a.btn-link.ilSubmitInactive:hover {
 }
 .il-toggle-button {
   position: relative;
+  display: inline-block;
   height: 19px;
-  padding: 0px 25px;
+  padding-left: 25px;
+  padding-right: 25px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 40px;
-  background: lightgrey;
+  background: #cdcdcd;
   cursor: pointer;
 }
 .il-toggle-button .il-toggle-switch {
@@ -7259,17 +7261,17 @@ a.btn-link.ilSubmitInactive:hover {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 40px;
-  background: grey;
+  background: #808080;
   -webkit-transition: all 0.25s ease-in-out;
   /* Safari */
   transition: all 0.25s ease-in-out;
 }
 .il-toggle-button.on {
-  background: #b3b3cc;
+  background: #a1b3ca;
 }
 .il-toggle-button.on .il-toggle-switch {
   left: 53%;
-  background: #666699;
+  background: #4c6586;
 }
 h6.il-divider {
   padding: 3px 6px;
@@ -8479,32 +8481,25 @@ ul.breadcrumb li:hover {
   margin: 0;
 }
 .il-standard-form .il-filter-bar {
+  font-size: 1.4em;
   padding: 10px;
   padding-bottom: 25px;
   border-bottom: 1px solid black;
 }
-.il-standard-form .il-filter-bar-opener {
-  font-size: 1.4em;
-  cursor: pointer;
-}
-.il-standard-form .il-filter-bar-controls {
-  font-size: 1.4em;
-  float: right;
-}
-.il-standard-form .il-filter-bar-controls .btn-bulky {
+.il-standard-form .il-filter-bar .btn-bulky {
   display: inline-flex;
   width: auto;
   background-color: initial;
   font-size: 0.9em;
 }
-.il-standard-form .il-filter-bar-controls .glyph {
+.il-standard-form .il-filter-bar .glyph {
   padding-right: 0.3em;
+}
+.il-standard-form .il-filter-bar-controls {
+  float: right;
 }
 .il-standard-form .il-filter-bar-controls .il-toggle-button {
   vertical-align: middle;
-}
-.il-standard-form .il-filter-bar-opener-collapse .glyph {
-  margin-left: 8px;
 }
 .il-standard-form .col-md-4 {
   padding-bottom: 10px;
@@ -8524,6 +8519,9 @@ ul.breadcrumb li:hover {
   height: 25px;
   table-layout: fixed;
 }
+.il-standard-form .input-group .btn.btn-bulky {
+  data-placement: bottom;
+}
 .il-standard-form #leftaddon {
   overflow: hidden;
   white-space: nowrap;
@@ -8540,7 +8538,7 @@ ul.breadcrumb li:hover {
   cursor: text;
 }
 @media (max-width: 768px) {
-  .il-standard-form .bulky-label {
+  .il-standard-form .il-filter-bar-controls .bulky-label {
     display: none;
   }
 }
@@ -16179,3 +16177,4 @@ table.mceToolbar td {
     content: "";
   }
 }
+/*# sourceMappingURL=none */
