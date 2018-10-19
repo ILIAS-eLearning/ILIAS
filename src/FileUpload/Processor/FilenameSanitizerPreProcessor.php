@@ -5,9 +5,10 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use League\Flysystem\Util;
 
 /**
- * Class FilenameOverridePreProcessor
+ * Class FilenameSanitizerPreProcessor
  *
  * PreProcessor which overrides the filename with a given one
  *
@@ -15,27 +16,13 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  * @since   5.3
  * @version 1.0.0
  */
-final class FilenameOverridePreProcessor implements PreProcessor {
-
-	/**
-	 * @var string
-	 */
-	private $filename;
-
-
-	/**
-	 * BlacklistExtensionPreProcessor constructor.
-	 *
-	 * @param string $filename
-	 */
-	public function __construct($filename) { $this->filename = $filename; }
-
+final class FilenameSanitizerPreProcessor implements PreProcessor {
 
 	/**
 	 * @inheritDoc
 	 */
 	public function process(FileStream $stream, Metadata $metadata) {
-		$metadata->setFilename($this->filename);
+		$metadata->setFilename(Util::normalizeRelativePath($metadata->getFilename()));
 
 		return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
 	}
