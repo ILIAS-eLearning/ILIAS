@@ -93,6 +93,14 @@ class ilTestAccess
 	/**
 	 * @return bool
 	 */
+	public function checkCorrectionsAccess()
+	{
+		return $this->getAccess()->checkAccess('write', '', $this->getRefId());
+	}
+	
+	/**
+	 * @return bool
+	 */
 	public function checkScoreParticipantsAccess()
 	{
 		if( $this->getAccess()->checkAccess('write', '', $this->getRefId()) )

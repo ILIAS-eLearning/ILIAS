@@ -24,9 +24,6 @@ class ilTestScoring
 {
 	/** @var ilObjTest $test */
 	protected $test;
-	
-	/** @var ilObjTestGUI $testGUI*/
-	protected $testGUI;
 
 	/** @var bool $preserve_manual_scores */
 	protected $preserve_manual_scores;
@@ -39,9 +36,6 @@ class ilTestScoring
 		$this->preserve_manual_scores = false;
 		
 		$this->recalculatedPasses = array();
-
-		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
-		$this->testGUI = new ilObjTestGUI();
 	}
 
 	/**

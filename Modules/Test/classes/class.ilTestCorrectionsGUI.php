@@ -23,6 +23,11 @@ class ilTestCorrectionsGUI
 	protected $testOBJ;
 	
 	/**
+	 * @var ilTestAccess
+	 */
+	protected $testAccess;
+	
+	/**
 	 * ilTestCorrectionsGUI constructor.
 	 * @param \ILIAS\DI\Container $DIC
 	 * @param ilObjTest $testOBJ
@@ -31,15 +36,27 @@ class ilTestCorrectionsGUI
 	{
 		$this->DIC = $DIC;
 		$this->testOBJ = $testOBJ;
-		$this->object = $testOBJ;
+		
+		$this->testAccess = new ilTestAccess($testOBJ->getRefId(), $testOBJ->getTestId());
 	}
 	
 	public function executeCommand()
 	{
+		if( !$this->testAccess->checkCorrectionsAccess() )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		if ($_GET["eqid"] && $_GET["eqpl"])
 		{
 			$this->DIC->ctrl()->setParameter($this, 'qid', $_GET["eqid"]);
 			$this->DIC->ctrl()->redirect($this, 'showQuestion');
+		}
+		
+		if ($_GET['removeQid'])
+		{
+			$this->DIC->ctrl()->setParameter($this, 'qid', $_GET['removeQid']);
+			$this->DIC->ctrl()->redirect($this, 'confirmQuestionRemoval');
 		}
 		
 		$this->DIC->ctrl()->saveParameter($this, 'qid');
@@ -58,16 +75,14 @@ class ilTestCorrectionsGUI
 		$this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
 		
 		$table_gui = new ilTestQuestionsTableGUI(
-			$this,'showQuestionList', write, false, 0
+			$this, 'showQuestionList', $this->testOBJ->getRefId()
 		);
 		
-		$table_gui->setData($this->getQuestions());
+		$table_gui->setQuestionTitleLinksEnabled(true);
+		$table_gui->setQuestionRemoveRowButtonEnabled(true);
+		$table_gui->init();
 		
-		$table_gui->clearActionButtons();
-		$table_gui->multi = array();
-		$table_gui->addMultiCommand('Remove', 'Remove');
-		$table_gui->clearCommandButtons();
-		$table_gui->setRowTemplate('tpl.il_as_tst_adjust_questions_row.html', 'Modules/Test');
+		$table_gui->setData($this->getQuestions());
 		
 		$this->DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
 	}
@@ -161,6 +176,45 @@ class ilTestCorrectionsGUI
 		
 	}
 	
+	protected function confirmQuestionRemoval()
+	{
+		$this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
+		
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
+
+		$confirmation = sprintf($this->DIC->language()->txt('tst_corrections_qst_remove_confirmation'),
+			$questionGUI->object->getTitle(), $questionGUI->object->getId() 
+		);
+		
+		$buttons = array(
+			$this->DIC->ui()->factory()->button()->standard(
+				$this->DIC->language()->txt('confirm'),
+				$this->DIC->ctrl()->getLinkTarget($this, 'performQuestionRemoval')
+			),
+			$this->DIC->ui()->factory()->button()->standard(
+				$this->DIC->language()->txt('cancel'),
+				$this->DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
+			)
+		);
+		
+		$this->DIC->ui()->mainTemplate()->setContent($this->DIC->ui()->renderer()->render(
+			$this->DIC->ui()->factory()->messageBox()->confirmation($confirmation)->withButtons($buttons)
+		));
+	}
+	
+	protected function performQuestionRemoval()
+	{
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
+
+		// remove questions from all sequences
+		
+		// remove from test questions and restore index
+		
+		// trigger learning progress
+		
+		$this->DIC->ctrl()->redirect($this, 'showQuestionList');
+	}
+	
 	protected function setCorrectionTabsContext(assQuestionGUI $questionGUI, $activeTabId)
 	{
 		$this->DIC->tabs()->clearTargets();
@@ -169,7 +223,7 @@ class ilTestCorrectionsGUI
 		$this->DIC->tabs()->setBackTarget('Back',
 			$this->DIC->ctrl()->getLinkTarget($this, 'showQuestionList'));
 		
-		$this->DIC->tabs()->addTab('question', 'Question',
+		$this->DIC->tabs()->addTab('question', 'Correction of Points',
 			$this->DIC->ctrl()->getLinkTarget($this, 'showQuestion')
 		);
 		
@@ -180,7 +234,7 @@ class ilTestCorrectionsGUI
 		if($questionGUI->isAnswerFreuqencyStatisticSupported())
 		{
 			$this->DIC->ctrl()->setParameter($this, 'qindex', 0);
-			$this->DIC->tabs()->addTab('answers', 'Answer Statistic',
+			$this->DIC->tabs()->addTab('answers', 'Statistics',
 				$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
 			);
 		}
@@ -243,7 +297,10 @@ class ilTestCorrectionsGUI
 		return $solutionRows;
 	}
 	
-	protected function getQuestions()
+	/**
+	 * @return array
+	 */
+	protected function getQuestions(): array
 	{
 		$questions = array();
 		

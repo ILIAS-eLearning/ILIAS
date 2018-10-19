@@ -1,23 +1,37 @@
 <tr class="{CSS_ROW}">
+	<!-- BEGIN multi_checkbox -->
 	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" {VAL_CHECKED} />
+		<input type="checkbox" name="q_id[]" value="{CHECKBOX_QID}" id="cb_{CHECKBOX_QID}" {VAL_CHECKED} />
 	</td>
-	<td class="{COLOR_CLASS}" name="order[{QUESTION_ID}]">{QUESTION_POSITION}</td><!-- BEGIN question_id_presentation_block -->
-	<td class="std">{QUESTION_ID_PRESENTATION}</td><!-- END question_id_presentation_block -->
+	<!-- END multi_checkbox -->
+	<!-- BEGIN question_positioning -->
+	<td class="{COLOR_CLASS}" name="order[{POSITION_QID}]">{QUESTION_POSITION}</td>
+	<!-- END question_positioning -->
+	<!-- BEGIN question_id_presentation_block -->
+	<td class="std">{QUESTION_ID_PRESENTATION}</td>
+	<!-- END question_id_presentation_block -->
 	<td class="std" style="vertical-align: top">
             <!-- BEGIN tst_qst_warning -->
-                <img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
+			<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
             <!-- END tst_qst_warning -->
             {QUESTION_TITLE}
-        </td>
-	
+	</td>
 	<!-- BEGIN tst_obligatory -->
 	<td class="std" style="vertical-align: top">{QUESTION_OBLIGATORY}</td>
-	<!-- END tst_obligatory --><!-- BEGIN question_comment_block -->
-	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td><!-- END question_comment_block -->
+	<!-- END tst_obligatory -->
+	<!-- BEGIN question_comment_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
+	<!-- END question_comment_block -->
 	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
-	<td class="std" style="vertical-align: top">{QUESTION_POINTS}</td><!-- BEGIN question_author_block -->
-	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td><!-- END question_author_block --><!-- BEGIN question_working_time_block -->
-    <td class="std" style="vertical-align: top">{QUESTION_WORKING_TIME}</td><!-- END question_working_time_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_POINTS}</td>
+	<!-- BEGIN question_author_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td>
+	<!-- END question_author_block -->
+	<!-- BEGIN question_working_time_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_WORKING_TIME}</td>
+	<!-- END question_working_time_block -->
 	<td class="std" style="vertical-align: top">{QUESTION_POOL}</td>
+	<!-- BEGIN row_actions -->
+	<td class="std" style="vertical-align: top">{ROW_ACTIONS}</td>
+	<!-- END row_actions -->
 </tr>
