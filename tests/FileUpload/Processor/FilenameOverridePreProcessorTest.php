@@ -28,7 +28,7 @@ class FilenameOverridePreProcessorTest extends TestCase {
 	public function testProcessWhichShouldSucceed() {
 		$filename = 'renamed.ogg';
 
-		$subject = new FilenameOverridePreProcessor($filename);
+		$subject = new FilenameSanitizerPreProcessor($filename);
 		$stream = Streams::ofString('Awesome stuff');
 		$result = $subject->process($stream, new Metadata($filename, $stream->getSize(), 'audio/ogg'));
 
