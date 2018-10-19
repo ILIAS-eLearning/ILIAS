@@ -14392,4 +14392,4 @@ cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Objekt Titel gefunden
 certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
-certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung

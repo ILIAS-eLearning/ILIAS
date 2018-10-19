@@ -462,7 +462,6 @@ class ilCertificateGUI
 			$this->certifcateObject->deleteBackgroundImage($currentVersion);
 		}
 
-
 		if ($form->checkInput()) {
 			try {
 				$this->settingsFormFactory->save($form_fields);
