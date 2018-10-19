@@ -250,13 +250,22 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
 		$form->addItem($bgimage);
 
-		$thumbnailImage = new ilImageFileInputGUI($this->language->txt('thumbnail_image'), 'thumbnail_image');
+		$thumbnailImage = new ilImageFileInputGUI($this->language->txt('certificate_card_thumbnail_image'), 'certificate_card_thumbnail_image');
 		$thumbnailImage->setRequired(false);
 		$thumbnailImage->setUseCache(false);
-		$thumbnailImage->setALlowDeletion(false);
 		$thumbnailImage->setSuffixes(array('svg'));
-		$a_image = CLIENT_WEB_DIR . $certificateTemplate->getThumbnailImagePath();
-		$thumbnailImage->setImage(ilWACSignedPath::signFile($a_image));
+
+		$allowThumbnailDeletion = false;
+
+		$cardThumbnailImagePath = $certificateTemplate->getThumbnailImagePath();
+		if ('' !== $cardThumbnailImagePath || null !== $cardThumbnailImagePath) {
+			$presentationThumbnailImagePath = CLIENT_WEB_DIR . $cardThumbnailImagePath;
+			$thumbnailImage->setImage(ilWACSignedPath::signFile($presentationThumbnailImagePath));
+			$allowThumbnailDeletion = true;
+		}
+
+		$thumbnailImage->setAllowDeletion($allowThumbnailDeletion);
+
 		$form->addItem($thumbnailImage);
 
 		$rect = new ilCSSRectInputGUI($this->language->txt("certificate_margin_body"), "margin_body");

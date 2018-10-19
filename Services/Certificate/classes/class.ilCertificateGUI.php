@@ -462,6 +462,7 @@ class ilCertificateGUI
 			$this->certifcateObject->deleteBackgroundImage($currentVersion);
 		}
 
+
 		if ($form->checkInput()) {
 			try {
 				$this->settingsFormFactory->save($form_fields);
@@ -475,7 +476,11 @@ class ilCertificateGUI
 					$backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
 				}
 
-				$thumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
+				$cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
+
+				if ($_POST['certificate_card_thumbnail_image_delete']) {
+					$cardThumbnailImagePath = '';
+				}
 
 				if (count($_POST)) {
 					// handle the background upload
@@ -488,21 +493,27 @@ class ilCertificateGUI
 						}
 					}
 
-					if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
-						$this->fileUpload->process();
+					$temporaryFileName = $_FILES['certificate_card_thumbnail_image']['tmp_name'];
+					if (strlen($temporaryFileName) && $this->fileUpload->hasUploads()) {
+						if (false === $this->fileUpload->hasBeenProcessed()) {
+							$this->fileUpload->process();
+						}
 
 						/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
-						$result = array_values($this->fileUpload->getResults())[0];
+						$uploadResults = $this->fileUpload->getResults();
+						$result = $uploadResults[$temporaryFileName];
 						if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+							$cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
+
 							$this->fileUpload->moveOneFileTo(
 								$result,
 								$this->certificatePath,
 								\ILIAS\FileUpload\Location::WEB,
-								'thumbnail_image_' . $nextVersion . '.svg',
+								$cardThumbnailFileName,
 								true
 							);
 
-							$thumbnailImagePath = $this->certificatePath . 'thumbnail_image_' . $nextVersion . '.svg';
+							$cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
 						}
 					}
 				}
@@ -517,7 +528,7 @@ class ilCertificateGUI
 						$xslfo,
 						$backgroundImagePath,
 						$jsonEncodedTemplateValues,
-						$thumbnailImagePath
+						$cardThumbnailImagePath
 					))
 				);
 
@@ -533,7 +544,7 @@ class ilCertificateGUI
 						time(),
 						(bool) $form_fields['active'],
 						$backgroundImagePath,
-						$thumbnailImagePath
+						$cardThumbnailImagePath
 					);
 
 					$this->templateRepository->save($certificateTemplate);

@@ -14396,3 +14396,4 @@ cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail
