@@ -898,7 +898,7 @@ class ilObjSession extends ilObject
 	 */
 	public function getMailToMembersType()
 	{
-		return false;
+		return 1;
 	}
 	
 	/**

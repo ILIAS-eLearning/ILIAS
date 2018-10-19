@@ -119,8 +119,7 @@ class ilMembershipGUI
 		{
 			return $this->participants;
 		}
-		include_once './Services/Membership/classes/class.ilParticipants.php';
-		return $this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+		return $this->participants = ilParticipants::getInstance($this->getParentObject()->getRefId());
 	}
 
 	/**

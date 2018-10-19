@@ -52,7 +52,8 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
 		foreach($role_ids as $role_id)
 		{
 			$role_title = ilObject::_lookupTitle($role_id);
-			$mailbox    = $this->getMailboxRoleAddress($role_id);
+			// mailbox addresses are not supported in general since title of object might be empty
+			$mailbox = $this->lng->txt('il_sess_participant').' <#'.$role_title.'>';
 
 			switch(substr($role_title, 0, 12))
 			{

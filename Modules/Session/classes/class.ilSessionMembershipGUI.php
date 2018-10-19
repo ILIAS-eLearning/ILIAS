@@ -198,20 +198,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	}
 	
 	
-	/**
-	 * Show participants toolbar
-	 */
-	protected function showParticipantsToolbar()
-	{
-		$ilToolbar = $GLOBALS['DIC']->toolbar();
-		// print button
-
-		$ilToolbar->addButton(
-			$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
-			$this->ctrl->getLinkTarget($this, 'printMembers'));
-
-	}
-	
 
 	/**
 	 * @param array $a_members
@@ -220,6 +206,15 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	public function getPrintMemberData($a_members)
 	{
 		return $a_members;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function canAddOrSearchUsers()
+	{
+		return false;
 	}
 
 	
@@ -259,15 +254,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		return parent::checkPermission($a_permission, $a_cmd);
 	}
 	
-	/**
-	 * Check if current user is allowed to add / search users
-	 * @return bool
-	 */
-	protected function canAddOrSearchUsers()
-	{
-		return $this->checkPermissionBool('manage_members');
-	}
-
 
 	/**
 	 * @inheritdoc
