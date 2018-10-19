@@ -265,8 +265,7 @@ class ilUserCertificateGUI
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
 				$this->controller->clearParameters($this);
 				$listSections[$this->language->txt('cert_download_label')] = $this->uiRenderer->render(
-				// TODO: Replace 'Download' with download filename
-					$this->uiFactory->link()->standard('Download', $downloadHref)
+					$this->uiFactory->button()->standard('Download', $downloadHref)
 				);
 
 				$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
