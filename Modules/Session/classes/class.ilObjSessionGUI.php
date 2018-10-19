@@ -1647,8 +1647,29 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$gallery = new ilCheckboxInputGUI($this->lng->txt('sess_show_members'),'show_members');
 		$gallery->setChecked($this->object->getShowMembers());
-		$gallery->setInfo($this->lng->txt('sess_show_members_info'));
+		$gallery->setInfo($this->lng->txt('sess_show_participants_info'));
 		$this->form->addItem($gallery);
+
+
+		// Show mail to members type
+		$mail_type = new ilRadioGroupInputGUI($this->lng->txt('sess_mail_type'), 'mail_type');
+		$mail_type->setValue($this->object->getMailToMembersType());
+
+		$mail_tutors = new ilRadioOption(
+			$this->lng->txt('sess_mail_admins_only'),
+			ilObjSession::MAIL_ALLOWED_ADMIN,
+			$this->lng->txt('sess_mail_admins_only_info')
+		);
+		$mail_type->addOption($mail_tutors);
+
+		$mail_all = new ilRadioOption(
+			$this->lng->txt('sess_mail_all'),
+			ilObjSession::MAIL_ALLOWED_ALL,
+			$this->lng->txt('sess_mail_all_info')
+		);
+		$mail_type->addOption($mail_all);
+		$this->form->addItem($mail_type);
+
 
 
 		switch($a_mode)
@@ -1705,6 +1726,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
 		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
+		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
 		switch((int) $_POST['waiting_list'])
 		{

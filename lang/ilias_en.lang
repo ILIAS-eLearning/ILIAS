@@ -14380,3 +14380,8 @@ sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the p
 sess#:#mail_sess_roles#:#Send Mail to Session Roles
 sess#:#send_mail_participants#:#All Participants of Session
 sess#:#il_sess_participant#:#Session Participants
+sess#:#sess_mail_type#:#Mail to Participants
+sess#:#sess_mail_admins_only#:#For Administrators only
+sess#:#sess_mail_admins_only_info#:#Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
+sess#:#sess_mail_all#:#For all Participants
+sess#:#sess_mail_all_info#:#All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.

@@ -14376,3 +14376,8 @@ sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den 
 sess#:#mail_sess_roles#:#Verschicke Mail an folgende Rollen der Sitzung
 sess#:#send_mail_participants#:#Alle Teilnehmer der Sitzung
 sess#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#sess_mail_type#:#Mail an Teilnehmer
+sess#:#sess_mail_admins_only#:#Nur für Administratoren
+sess#:#sess_mail_admins_only_info#:#Nur Administratoren können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_mail_all#:#Für alle Teilnehmer
+sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
