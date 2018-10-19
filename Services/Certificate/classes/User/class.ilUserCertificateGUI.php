@@ -259,7 +259,7 @@ class ilUserCertificateGUI
 				$listSections = [];
 
 				// TODO: Add a section with the 'Description' of the learning object (can be deleted meanwhile)
-				$listSections[$this->language->txt('cert_description_label')] = 'Description or empty';
+				$listSections[$this->language->txt('cert_description_label')] = '';
 
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
