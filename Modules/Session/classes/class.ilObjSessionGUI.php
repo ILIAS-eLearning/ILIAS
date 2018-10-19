@@ -1928,6 +1928,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	$tree = $DIC['tree'];
 	 	$ilCtrl = $DIC['ilCtrl'];
 	 	$ilHelp = $DIC['ilHelp'];
+	 	$ilUser = $DIC->user();
 
 	 	$ilHelp->setScreenIdComponent("sess");
 	 	
@@ -1954,15 +1955,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->getLinkTarget($this,'materials')
 			);
 	 	}
-	 	if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTab(
-				'members',
-				$this->lng->txt('event_edit_members'),
-				$this->ctrl->getLinkTargetByClass('ilsessionmembershipgui','')
-			);
-		}
-		
+
+
+		// member tab
+		$is_participant = $this->object->getMembersObject()->isAssigned($ilUser->getId());
+		$membership_gui = new ilSessionMembershipGUI($this, $this->object);
+		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
+
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
