@@ -40,6 +40,9 @@ class ilUserCertificateGUI
 
 	/** @var Renderer */
 	protected $uiRenderer;
+
+	/** @var ilAccessHandler */
+	protected $access;
 	
 	const SORTATION_SESSION_KEY = 'my_certificates_sorting';
 
@@ -67,6 +70,7 @@ class ilUserCertificateGUI
 	 * @param ilSetting|null $certificateSettings
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
+	 * @param \ilAccessHandler|null $access
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -78,7 +82,8 @@ class ilUserCertificateGUI
 		ilLogger $certificateLogger = null,
 		ilSetting $certificateSettings = null,
 		Factory $uiFactory = null,
-		Renderer $uiRenderer = null
+		Renderer $uiRenderer = null,
+		\ilAccessHandler $access = null
 	) {
 		global $DIC;
 
@@ -133,6 +138,11 @@ class ilUserCertificateGUI
 			$uiRenderer = $DIC->ui()->renderer();
 		}
 		$this->uiRenderer = $uiRenderer;
+
+		if (null === $access) {
+			$access = $DIC->access();
+		}
+		$this->access = $access;
 
 		$this->language->loadLanguageModule('cert');
 	}
@@ -241,7 +251,7 @@ class ilUserCertificateGUI
 
 			foreach ($data['items'] as $certificateData) {
 				$cardImage = $this->uiFactory->image()->standard(
-					// TODO: Replace with the configured 'Card Thumbnail'
+					// TODO: Replace with the configured 'Card Thumbnail', use 'icon_cert.svg' as fallback image
 					\ilUtil::getImagePath('icon_cert.svg'),
 					$certificateData['title']
 				);
@@ -266,11 +276,27 @@ class ilUserCertificateGUI
 				);
 				\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
-				// TODO: Maybe add the title again with the respective object icon (problem: size of the icon)
-				/*$listSections[$this->language->txt('cert_object_label')] = implode('', [
-					\ilUtil::img(\ilObject::_getIcon($certificateData['obj_id'], 'big', $certificateData['obj_type'])),
-					$certificateData['title']
-				]);*/
+				$objectTypeIcon = $this->uiFactory
+					->icon()
+					->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
+
+				$objectTitle = $certificateData['title'];
+				$refIds = \ilObject::_getAllReferences($certificateData['obj_id']);
+				if (count($refIds) > 0) {
+					foreach ($refIds as $refId) {
+						if ($this->access->checkAccess('read', '', $refId)) {
+							$objectTitle = $this->uiRenderer->render(
+								$this->uiFactory->link()->standard($objectTitle, \ilLink::_getLink($refId))
+							);
+							break;
+						}
+					}
+				}
+
+				$listSections[$this->language->txt('cert_object_label')] = implode('', [
+					$this->uiRenderer->render($objectTypeIcon),
+					$objectTitle
+				]);
 
 				$card = $this->uiFactory
 					->card($certificateData['title'], $cardImage)
@@ -286,6 +312,8 @@ class ilUserCertificateGUI
 			$uiComponents[] = $this->uiFactory->divider()->horizontal();
 
 			$uiComponents[] = $deck;
+		} else {
+			\ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
 		}
 
 		$this->template->setContent($this->uiRenderer->render($uiComponents));

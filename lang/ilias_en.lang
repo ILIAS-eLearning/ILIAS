@@ -14402,5 +14402,6 @@ cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_download_label#:#Download
 cert#:#cert_object_label#:#Object
 cert#:#cert_description_label#:#Description
+cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
