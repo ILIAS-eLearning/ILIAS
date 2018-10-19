@@ -48,6 +48,11 @@ class ilObjSession extends ilObject
 	 * @var ilLogger
 	 */
 	protected $session_logger = null;
+
+	/**
+	 * @var \ilSessionParticipants
+	 */
+	protected $members_obj;
 	
 
 	
@@ -905,26 +910,22 @@ class ilObjSession extends ilObject
 	 */
 	protected function initParticipants()
 	{
-		include_once('./Modules/Session/classes/class.ilSessionParticipants.php');
 		$this->members_obj = ilSessionParticipants::_getInstanceByObjId($this->getId());
 	}
 	
 	/**
 	 * Get members objects
 	 * 
-	 * @return ilGroupParticipants
+	 * @return  \ilSessionParticipants
 	 */
 	public function getMembersObject()
 	{
-		// #17886
-		if(!$this->members_obj instanceof ilGroupParticipants)
+		if(!$this->members_obj instanceof ilSessionParticipants)
 		{
 			$this->initParticipants();
 		}
 		return $this->members_obj;
 	}
-	
-
 }
 
 ?>

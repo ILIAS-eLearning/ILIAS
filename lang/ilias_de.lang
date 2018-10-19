@@ -5474,7 +5474,7 @@ crs#:#event_date_time#:#Datum und Zeit
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_digit#:#Ziffer
-crs#:#event_edit_members#:#Sitzungsteilnehmer
+crs#:#event_edit_members#:#Teilnehmer
 crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_file#:#Datei
 crs#:#event_files#:#Zugeordnete Dateien
@@ -14369,3 +14369,5 @@ rbac#:#manage_materials#:#Materialien verwalten
 meta#:#md_adv_col_presentation_ordering#:#Position
 sess#:#sess_show_members#:#Teilnehmergalerie
 sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
+sess#:#sess_member_administration#:#Teilnehmerverwaltung
+sess#:#sess_members_gallery#:#Teilnehmergalerie
