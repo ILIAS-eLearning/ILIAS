@@ -14371,3 +14371,5 @@ sess#:#sess_show_members#:#Teilnehmergalerie
 sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
 sess#:#sess_member_administration#:#Teilnehmerverwaltung
 sess#:#sess_members_gallery#:#Teilnehmergalerie
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
+sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung

@@ -160,3 +160,9 @@ if(!$ilDB->tableColumnExists('event', 'show_members'))
 }
 ?>
 
+<#16>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+

@@ -14375,3 +14375,5 @@ sess#:#sess_show_members#:#Show Participants
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
 sess#:#sess_member_administration#:#Edit Participants
 sess#:#sess_members_gallery#:#Session Gallery
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail to Participants
+sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the participants and learning progress screens of a session
