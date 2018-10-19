@@ -207,17 +207,33 @@ class ilMailMemberSearchGUI
 	 */
 	protected function generateContextArray()
 	{
-		$context_array = array();
-		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-		if($this->access->checkAccess('write',"",$this->ref_id) )
-		{
-			$context_array = array(
-				ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-				'ref_id'                    => $this->ref_id,
-				'ts'                        => time()
-			);
-		}
+		$context_array = [];
 
+		$type = ilObject::_lookupType($this->ref_id, true);
+		switch($type)
+		{
+			case 'crs':
+				if($this->access->checkAccess('write',"",$this->ref_id) )
+				{
+					$context_array = array(
+						ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+						'ref_id'                    => $this->ref_id,
+						'ts'                        => time()
+					);
+				}
+				break;
+
+			case 'sess':
+				if($this->access->checkAccess('write',"",$this->ref_id) )
+				{
+					$context_array = array(
+						ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
+						'ref_id'                    => $this->ref_id,
+						'ts'                        => time()
+					);
+				}
+				break;
+		}
 		return $context_array;
 	}
 	

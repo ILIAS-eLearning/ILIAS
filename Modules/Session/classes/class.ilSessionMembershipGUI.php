@@ -17,6 +17,15 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilSessionMembershipGUI extends ilMembershipGUI
 {
 	/**
+	 * @return ilAbstractMailMemberRoles|null
+	 */
+	protected function getMailMemberRoles()
+	{
+		return new ilMailMemberSessionRoles();
+	}
+
+
+	/**
 	 * No support for positions in sessions
 	 * Check if rbac or position access is granted.
 	 * @param string $a_rbac_perm
@@ -257,6 +266,23 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	protected function canAddOrSearchUsers()
 	{
 		return $this->checkPermissionBool('manage_members');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getMailContextOptions()
+	{
+		$context_options = [];
+
+		$context_options =
+			[
+				ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
+				'ref_id' => $this->getParentObject()->getRefId(),
+				'ts'     => time()
+			];
+		return $context_options;
 	}
 
 

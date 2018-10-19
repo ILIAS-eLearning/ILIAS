@@ -17,6 +17,13 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
+	/**
+	 * @return ilAbstractMailMemberRoles
+	 */
+	protected function getMailMemberRoles()
+	{
+		return new ilMailMemberCourseRoles();
+	}
 	
 	/**
 	 * Filter user ids by access 
@@ -33,8 +40,23 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		);
 	}
 
-	
-	
+	/**
+	 * @inheritdoc
+	 */
+	protected function getMailContextOptions()
+	{
+		$context_options = [];
+
+		$context_options =
+			[
+				ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+				'ref_id' => $this->getParentObject()->getRefId(),
+				'ts'     => time()
+			];
+		return $context_options;
+	}
+
+
 	/**
 	 * callback from repository search gui
 	 * @global ilRbacSystem $rbacsystem

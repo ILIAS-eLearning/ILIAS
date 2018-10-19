@@ -18,6 +18,15 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilGroupMembershipGUI extends ilMembershipGUI
 {
 	/**
+	 * @return ilAbstractMailMemberRoles | null
+	 */
+	protected function getMailMemberRoles()
+	{
+		return new ilMailMemberGroupRoles();
+	}
+
+
+	/**
 	 * Filter user ids by access 
 	 * @param int[] $a_user_ids
 	 * @return int[]
