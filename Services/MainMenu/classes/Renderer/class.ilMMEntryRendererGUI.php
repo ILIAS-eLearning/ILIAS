@@ -38,7 +38,7 @@ class ilMMEntryRendererGUI {
 		foreach ($top_items as $top_item) {
 			$tpl->setCurrentBlock('mmentry');
 			$tpl->setVariable("TITLE", $top_item->getTitle());
-			$tpl->setVariable("ID", $top_item->getProviderIdentification()->getInternalIdentifier());
+			$tpl->setVariable("ID", "mm_" . $top_item->getProviderIdentification()->getInternalIdentifier());
 
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
@@ -91,12 +91,13 @@ class ilMMEntryRendererGUI {
 
 	/**
 	 * @param ilGroupedListGUI $gl
-	 * @param Link             $child
+	 * @param hasTitle         $child
 	 * @param string           $identifier
 	 */
 	protected function addEntry(ilGroupedListGUI $gl, hasTitle $child, string $identifier) {
 		$gl->addEntry(
-			$child->getTitle(), ($child instanceof hasAction) ? $child->getAction() : "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+			$child->getTitle(), ($child instanceof hasAction) ? $child->getAction() : "#", "_top", "", "", "mm_"
+			                  . $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
 	}
 }

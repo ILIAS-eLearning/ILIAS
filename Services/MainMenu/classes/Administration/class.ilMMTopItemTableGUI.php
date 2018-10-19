@@ -59,7 +59,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('ID', $item_facade->getId());
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
-		$this->tpl->setVariable('CSS_ID', $item_facade->identification()->getInternalIdentifier());
+		$this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
 		$this->tpl->setVariable('POSITION', $position * 10);
 		if ($item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active');
