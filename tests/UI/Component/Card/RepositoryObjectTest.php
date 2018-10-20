@@ -114,9 +114,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 		$c = $c->withObjectIcon($icon);
 
 		$html = $r->render($c);
-
-		print_r($html);
-
+		
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
 	<div class="il-card-repository-head">
