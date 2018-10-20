@@ -10,6 +10,7 @@ use \ILIAS\UI\Implementation as I;
 
 
 /**
+ * TODO change the custom icons to standard icons
  * Test on Repository Object card implementation.
  */
 class RepositoryObjectTest extends ILIAS_UI_TestBase {
@@ -58,6 +59,8 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_with_object_icon() {
+		//TODO swap these icons
+		//$icon = new I\Component\Icon\Standard("crs", 'Course', 'responsive', false);
 		$icon = new I\Component\Icon\Custom("templates/default/images/icon_crs.svg", 'Course', 'responsive',false);
 		$card = $this->getBaseCard();
 		$card = $card->withObjectIcon($icon);
@@ -104,6 +107,8 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 
 	public function test_render_with_object_icon() {
 		$r = $this->getDefaultRenderer();
+		//TODO swap these icons
+		//$icon = new I\Component\Icon\Standard("crs", 'Course', 'responsive', false);
 		$icon = new I\Component\Icon\Custom("templates/default/images/icon_crs.svg", 'Course', 'responsive',false);
 		$c = $this->getBaseCard();
 		$c = $c->withObjectIcon($icon);
