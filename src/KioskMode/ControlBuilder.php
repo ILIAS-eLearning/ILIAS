@@ -20,28 +20,40 @@ interface ControlBuilder {
 	/**
 	 * A next control allows the user to progress to the next item in the object.
 	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
+	 *
 	 * @throws \LogicException if view wants to introduce a second next button.
 	 */
-	public function next(string $command, int $parameter) : ControlBuilder;
+	public function next(string $command, int $parameter = null) : ControlBuilder;
 
 	/**
 	 * A previous control allows the user to go back to the previous item in the object.
 	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
+	 *
 	 * @throws \LogicException if view wants to introduce a second previous button.
 	 */
-	public function previous(string $command, int $parameter) : ControlBuilder;
+	public function previous(string $command, int $parameter = null) : ControlBuilder;
 
 	/**
 	 * A done control allows the user to mark the object as done.
 	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
+	 *
 	 * @throws \LogicException if view wants to introduce a second previous button.
 	 */
-	public function done(string $command, int $parameter) : ControlBuilder;
+	public function done(string $command, int $parameter = null) : ControlBuilder;
 
 	/**
 	 * A generic control needs to have a label that tells what it does.
+	 *
+	 * The $parameter can be used to pass additional information to View::updateGet
+	 * if required, e.g. about a chapter in the content.
 	 */
-	public function generic(string $label, string $command, int $parameter) : ControlBuilder;
+	public function generic(string $label, string $command, int $parameter = null) : ControlBuilder;
 
 	/**
 	 * A toggle can be used to switch some behaviour in the view on or of.

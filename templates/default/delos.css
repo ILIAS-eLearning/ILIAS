@@ -8727,6 +8727,18 @@ div.alert ul > li:before {
   content: "\00BB \0020";
   /* margin-left: -10px; */
 }
+.modal.fade {
+  transition-property: opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+}
+.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform 0.15s ease-out;
+  -moz-transition: -moz-transform 0.15s ease-out;
+  -o-transition: -o-transform 0.15s ease-out;
+  transition: transform 0.15s ease-out;
+}
 .carousel.slide.text-only .carousel-inner {
   min-height: 400px;
 }
@@ -10317,6 +10329,11 @@ footer.ilFooter .ilPermalinkContainer > label {
   margin-top: 25px;
 }
 @media only screen and (max-width: 767px) {
+  #devmodeBlock {
+    position: absolute;
+  }
+}
+@media only screen and (max-width: 767px) {
   #devmodeBlock table {
     table-layout: fixed;
     width: 100%;
@@ -10818,8 +10835,12 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-control-static {
+  display: block;
+}
 .form-horizontal .control-label {
   padding-bottom: 4px;
+  min-height: 34px;
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;

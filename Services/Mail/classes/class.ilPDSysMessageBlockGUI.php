@@ -73,7 +73,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	function getMails()
 	{
 		$umail = new ilMail($this->user->getId());
-		$mbox  = new ilMailBox($this->user->getId());
+		$mbox  = new ilMailbox($this->user->getId());
 		$inbox = $mbox->getInboxFolder();
 
 		$this->mails = $umail->getMailsOfFolder($inbox, array('status' => 'unread', 'type' => 'system'));

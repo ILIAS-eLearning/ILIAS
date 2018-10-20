@@ -728,6 +728,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
 					}
+					else if($authorinfo->getAuthor()->getGender() == 'n')
+					{
+						$this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_n'));
+					}
 				}
 				
 				// get create- and update-dates
@@ -1317,13 +1321,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_GET['cmdClass'] = 'ilObjForumGUI';
 				$_GET['cmd'] = 'viewThread';
 				$_GET['baseClass'] = 'ilRepositoryGUI';
-
+				include_once('ilias.php');
 				exit();
 			}
 			else
 			{
 				$_GET['ref_id'] = $a_target;
 				$_GET['baseClass'] = 'ilRepositoryGUI';
+				include_once('ilias.php');
 				exit();
 			}
 		}
@@ -1334,6 +1339,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			$_GET['baseClass'] = 'ilRepositoryGUI';
+			include_once('ilias.php');
 			exit();
 		}
 

@@ -3330,6 +3330,7 @@ rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
 common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
+common#:#salutation_n#:#No salutation desired
 common#:#salutation#:#Salutation
 common#:#save_and_back#:#Save And Back
 common#:#save_message#:#Save as Draft
@@ -5221,6 +5222,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator successfully.
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
@@ -5635,7 +5637,7 @@ mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation
+mail#:#mail_nacc_salutation#:#Greeting
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
@@ -12834,6 +12836,11 @@ crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
+mail#:#mail_template_set_as_default#:#Set as Default
+mail#:#mail_template_unset_as_default#:#Unset as Default
+mail#:#mail_template_default#:# (Default)
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
 mail#:#mail_template_title#:#Name
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
@@ -14075,6 +14082,7 @@ content#:#cont_grid_width_l_info#:#E.g. desktop
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_add_cell#:#Add Column
+content#:#cont_added_cell#:#Column added
 content#:#cont_ed_delete_cell#:#Delete Column
 content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
@@ -14396,3 +14404,14 @@ survey#:#svy_self_ev_access_results_none#:#No Access to Results
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
 survey#:#svy_participant#:#Participant
+cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+pd#:#pd_enable_learning_history#:#Learning History
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

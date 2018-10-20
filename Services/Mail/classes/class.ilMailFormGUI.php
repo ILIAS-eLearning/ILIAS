@@ -66,9 +66,21 @@ class ilMailFormGUI
 	 */
 	private $mfile;
 
-	public function __construct()
+	/** @var ilMailTemplateService */
+	protected $templateService;
+
+	/**
+	 * ilMailFormGUI constructor.
+	 * @param ilMailTemplateService|null $templateService
+	 */
+	public function __construct(\ilMailTemplateService $templateService = null)
 	{
 		global $DIC;
+
+		if (null === $templateService) {
+			$templateService = $DIC['mail.texttemplates.service'];
+		}
+		$this->templateService = $templateService;
 
 		$this->tpl        = $DIC->ui()->mainTemplate();
 		$this->ctrl       = $DIC->ctrl();
@@ -80,7 +92,7 @@ class ilMailFormGUI
 
 		$this->umail = new ilFormatMail($this->user->getId());
 		$this->mfile = new ilFileDataMail($this->user->getId());
-		$this->mbox  = new ilMailBox($this->user->getId());
+		$this->mbox  = new ilMailbox($this->user->getId());
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
@@ -455,29 +467,19 @@ class ilMailFormGUI
 	 */
 	protected function getTemplateDataById()
 	{
-		require_once 'Services/JSON/classes/class.ilJsonUtil.php';
-
-		if(!isset($_GET['template_id']))
-		{
+		if (!isset($_GET['template_id'])) {
 			exit();
 		}
 
-		try
-		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
-			$template_id = (int)$_GET['template_id'];
-			$template_provider = new ilMailTemplateDataProvider();
-			$template = $template_provider->getTemplateById($template_id);
-			$context = ilMailTemplateService::getTemplateContextById($template->getContext());
-			echo json_encode(array(
+		try {
+			$template = $this->templateService->loadTemplateForId((int)$_GET['template_id']);
+			$context = ilMailTemplateContextService::getTemplateContextById((string)$template->getContext());
+
+			echo json_encode([
 				'm_subject' => $template->getSubject(),
-				'm_message' => $template->getMessage()
-			));
-		}
-		catch(Exception $e)
-		{
-		}
+				'm_message' => $template->getMessage(),
+			]);
+		} catch (Exception $e) {}
 		exit();
 	}
 
@@ -759,52 +761,51 @@ class ilMailFormGUI
 			$form_gui->addItem($chb);
 		}
 
-		if(ilMailFormCall::getContextId())
-		{
-			$context_id = ilMailFormCall::getContextId();
+		if (\ilMailFormCall::getContextId()) {
+			$context_id = \ilMailFormCall::getContextId();
 
-			// Activate placeholders
 			$mailData['use_placeholders'] = true;
 
 			try {
-				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-				$context = ilMailTemplateService::getTemplateContextById($context_id);
+				$context = \ilMailTemplateContextService::getTemplateContextById($context_id);
 
-				require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
-				$template_provider = new ilMailTemplateDataProvider();
-				$templates = $template_provider->getTemplateByContextId($context->getId());
-
-				if(count($templates))
-				{
+				$templates = $this->templateService->loadTemplatesForContextId($context->getId());
+				if (count($templates) > 0) {
 					$options = array();
-					foreach($templates as $template)
-					{
-						$options[$template->getTplId()] = $template->getTitle();
-					}
-					asort($options);
 
-					require_once 'Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php';
-					$template_chb = new ilMailTemplateSelectInputGUI(
+					$template_chb = new \ilMailTemplateSelectInputGUI(
 						$this->lng->txt('mail_template_client'),
 						'template_id',
 						$this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
 						array('m_subject', 'm_message')
 					);
+
+					foreach ($templates as $template) {
+						$options[$template->getTplId()] = $template->getTitle();
+
+						if (!isset($mailData['template_id']) && $template->isDefault()) {
+							$template_chb->setValue($template->getTplId());
+							$form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
+							$mailData["m_message"] = $template->getMessage();
+						}
+					}
+					if (isset($mailData['template_id'])) {
+						$template_chb->setValue((int)$mailData['template_id']);
+					}
+					asort($options);
+
 					$template_chb->setInfo($this->lng->txt('mail_template_client_info'));
 					$template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
 					$form_gui->addItem($template_chb);
 				}
+			} catch (\Exception $e) {
+				\ilLoggerFactory::getLogger('mail')->error(sprintf(
+					'%s has been called with invalid context id: %s.',
+					__METHOD__, $context_id
+				));
 			}
-			catch(Exception $e)
-			{
-				require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-				ilLoggerFactory::getLogger('mail')->error(sprintf('%s has been called with invalid context id: %s.', __METHOD__, $context_id));
-			}
-		}
-		else
-		{
-			require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
-			$context = new ilMailTemplateGenericContext();
+		} else {
+			$context = new \ilMailTemplateGenericContext();
 		}
 
 		// MESSAGE

@@ -22382,6 +22382,7 @@ while($data = $ilDB->fetchAssoc($res)) {
 }
 ?>
 <#5285>
+<?php
 if( !$ilDB->tableColumnExists('qpl_fb_specific', 'question') )
 {
 	// add new table column for indexing different question gaps in assClozeTest
@@ -22777,6 +22778,62 @@ if(!$ilDB->tableColumnExists('file_data', 'max_version'))
 ?>
 <#5302>
 <?php
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCreator.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+
+ilMD::_deleteAllByType('grp');
+
+$group_ids = [];
+$query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
+	'JOIN object_description od on obd.obj_id = od.obj_id '.
+	'WHERE type = '.$ilDB->quote('grp','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'grp');
+	$md_creator->setTitle($row->title);
+	$md_creator->setTitleLanguage('en');
+	$md_creator->setDescription($row->description);
+	$md_creator->setDescriptionLanguage('en');
+	$md_creator->setKeywordLanguage('en');
+	$md_creator->setLanguage('en');
+
+	$md_creator->create();
+}
+?>
+<#5303>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5304>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5305>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5306>
+<?php
+if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
+	$ilDB->addTableColumn(
+		'mail_man_tpl',
+		'is_default',
+		[
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0,
+		]
+	);
+}
+?>
+<#5307>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5308>
+<?php
 if (!$ilDB->tableExists('tos_documents')) {
 	$fields = [
 		'id' => [
@@ -22828,7 +22885,7 @@ if (!$ilDB->tableExists('tos_documents')) {
 	$ilDB->createSequence('tos_documents');
 }
 ?>
-<#5303>
+<#5309>
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	$ilDB->addTableColumn('tos_documents', 'text', [
@@ -22838,7 +22895,7 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	]);
 }
 ?>
-<#5304>
+<#5310>
 <?php
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$fields = [
@@ -22896,7 +22953,7 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$ilDB->createSequence('tos_criterion_to_doc');
 }
 ?>
-<#5305>
+<#5311>
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 	$ilDB->addTableColumn('tos_versions', 'doc_id',[
@@ -22923,19 +22980,19 @@ if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
 	]);
 }
 ?>
-<#5306>
+<#5312>
 <?php
 if ($ilDB->indexExistsByFields('tos_versions',['hash', 'lng'])) {
 	$ilDB->dropIndexByFields('tos_versions', ['hash', 'lng']);
 }
 ?>
-<#5307>
+<#5313>
 <?php
 if (!$ilDB->indexExistsByFields('tos_versions', ['hash', 'doc_id'])) {
 	$ilDB->addIndex('tos_versions', ['hash', 'doc_id'], 'i1');
 }
 ?>
-<#5308>
+<#5314>
 <?php
 $dbStep = $nr;
 $globalAgreementPath = './Customizing/global/agreement';
@@ -23145,7 +23202,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
-<#5309>
+<#5315>
 <?php
 // Migrate accepted criteria for missing documents (file did not exists during migration)
 $ilDB->manipulateF("
@@ -23175,7 +23232,7 @@ $ilDB->manipulateF("
 	['usr_language', '[{"id":"usr_language","value":', '}]']
 );
 ?>
-<#5310>
+<#5316>
 <?php
 if ($ilDB->tableColumnExists('tos_versions', 'lng')) {
 	$ilDB->dropTableColumn('tos_versions', 'lng');
@@ -23189,7 +23246,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 	$ilDB->dropTableColumn('tos_versions', 'src');
 }
 ?>
-<#5311>
+<#5317>
 <?php
 if ($ilDB->tableExists('agreement_migr')) {
 	$ilDB->dropTable('agreement_migr');
@@ -23198,7 +23255,7 @@ if ($ilDB->tableExists('agreement_migr')) {
 	));
 }
 ?>
-<#5312>
+<#5318>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

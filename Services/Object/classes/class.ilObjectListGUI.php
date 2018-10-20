@@ -1953,9 +1953,9 @@ class ilObjectListGUI
 		$objDefinition = $this->obj_definition;
 		$tree = $this->tree;
 		
-		$num_required = ilConditionHandler::calculateRequiredTriggers($this->ref_id, $this->obj_id);
+		$num_required = ilConditionHandler::calculateEffectiveRequiredTriggers($this->ref_id, $this->obj_id);
 		$num_optional_required =
-			$num_required - count($conditions) + count(ilConditionHandler::getOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
+			$num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
 
 		// Check if all conditions are fullfilled
 		$visible_conditions = array();
@@ -1977,7 +1977,7 @@ class ilObjectListGUI
 			}
 
 			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
-			$ok = ilConditionHandler::_checkCondition($condition['id']) and
+			$ok = ilConditionHandler::_checkCondition($condition) and
 				!ilMemberViewSettings::getInstance()->isActive();
 
 			if(!$ok)
@@ -2003,7 +2003,7 @@ class ilObjectListGUI
 				continue;
 			}
 
-			include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+			include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 			$cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'],$condition['operator']).' '.$condition['value'];
 			
 			// display trigger item
@@ -2065,7 +2065,7 @@ class ilObjectListGUI
 	*/
 	function insertPreconditions()
 	{
-		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+		include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
 
 		// do not show multi level conditions (messes up layout)
 		if ($this->condition_depth > 0)
@@ -2075,7 +2075,7 @@ class ilObjectListGUI
 
 		if($this->condition_target)
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget(
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
 					$this->condition_target['ref_id'],
 					$this->condition_target['obj_id'],
 					$this->condition_target['target_type']
@@ -2083,7 +2083,7 @@ class ilObjectListGUI
 		}
 		else
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
 		}
 		
 		if(sizeof($conditions))

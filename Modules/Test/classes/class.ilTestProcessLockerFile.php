@@ -13,6 +13,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 {
 	const PROCESS_NAME_TEST_START_LOCK_CHECK = 'testStartLockCheck';
 	const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
+	const PROCESS_NAME_TEST_FINISH = 'testFinish';
 	
 	/**
 	 * @var ilTestProcessLockFileStorage
@@ -68,6 +69,24 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 	{
 		$this->releaseLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
 		parent::onAfterExecutingRandomPassBuildOperation($withTaxonomyTables);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingTestFinishOperation()
+	{
+		parent::onBeforeExecutingTestStartOperation();
+		$this->requestLock(self::PROCESS_NAME_TEST_FINISH);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingTestFinishOperation()
+	{
+		$this->releaseLock(self::PROCESS_NAME_TEST_FINISH);
+		parent::onAfterExecutingTestStartOperation();
 	}
 
 	private function requestLock($processName)

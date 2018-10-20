@@ -11,16 +11,8 @@ class ilContainerCustomIconConfiguration extends \ilObjectCustomIconConfiguratio
 	/**
 	 * @return string
 	 */
-	public function getBaseDirectory()
+	public function getBaseDirectory(): string 
 	{
 		return 'container_data';
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getUploadPostProcessors()
-	{
-		return [];
 	}
 }

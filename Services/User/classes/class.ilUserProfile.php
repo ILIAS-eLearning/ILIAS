@@ -102,7 +102,7 @@ class ilUserProfile
 						"group" => "personal_data"),
 		"gender" => array(
 						"input" => "radio",
-						"values" => array("f" => "gender_f", "m" => "gender_m"),
+						"values" => array("n" => "salutation_n", "f" => "salutation_f", "m" => "salutation_m"),
 						"method" => "getGender",
 						"group" => "personal_data"),
 		"upload" => array(
