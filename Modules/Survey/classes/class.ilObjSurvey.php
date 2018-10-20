@@ -813,7 +813,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
-				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate(true)),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
@@ -6134,9 +6134,22 @@ class ilObjSurvey extends ilObject
 	{
 		$this->reminder_last_sent = $a_value;
 	}
-	
-	public function getReminderTemplate()
+
+	/**
+	 * @param bool $selectDefault
+	 * @return mixed
+	 */
+	public function getReminderTemplate($selectDefault = false)
 	{
+		if ($selectDefault) {
+			$defaultTemplateId = 0;
+			$this->getReminderMailTemplates($defaultTemplateId);
+
+			if ($defaultTemplateId > 0) {
+				return $defaultTemplateId;
+			}
+		}
+
 		return $this->reminder_tmpl;
 	}
 	
@@ -6487,14 +6500,15 @@ class ilObjSurvey extends ilObject
 	
 	protected function sentReminder(array $a_recipient_ids)
 	{
-		include_once "./Services/Mail/classes/class.ilMail.php";
-			
+		global $DIC;
+
 		// use mail template		
 		if($this->getReminderTemplate() &&
 			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
 		{
-			$prov = new ilMailTemplateDataProvider();
-			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+			/** @var \ilMailTemplateService $templateService */
+			$templateService = $DIC['mail.texttemplates.service'];
+			$tmpl = $templateService->loadTemplateForId((int)$this->getReminderTemplate());
 
 			$tmpl_params = array(				
 				"ref_id" => $this->getRefId(),
@@ -6620,45 +6634,42 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	public function getReminderMailTemplates()
-	{	
+	/**
+	 * @param int $defaultTemplateId
+	 * @return array
+	 */
+	public function getReminderMailTemplates(&$defaultTemplateId = null)
+	{
+		global $DIC;
+
 		$res = array();
-		
-		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
-		{
+
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
+		foreach ($templateService->loadTemplatesForContextId((string)ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+			if (null !== $defaultTemplateId && $tmpl->isDefault()) {
+				$defaultTemplateId = $tmpl->getTplId();
+			}
 		}
-		
+
 		return $res;
 	}
 		
 	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
 	{
 		// see ilMail::replacePlaceholders()
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-				
-		try
-		{			
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+		try {
+			$context = \ilMailTemplateContextService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
 
-			$user = new ilObjUser($a_user_id);
+			$user = new \ilObjUser($a_user_id);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
-			
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			$processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+		} catch (\Exception $e) {
 			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
-		
+
 		return $a_message;
 	}
 
