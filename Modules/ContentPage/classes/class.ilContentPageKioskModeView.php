@@ -6,6 +6,7 @@ use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilContentPageKioskModeView
@@ -16,6 +17,24 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
 	/** @var \ilObjContentPage */
 	protected $contentPageObject;
+
+	/** @var \ilObjUser */
+	protected $user;
+
+	/** @var Factory */
+	protected $uiFactory;
+
+	/** @var \ilCtrl */
+	protected $ctrl;
+
+	/** @var \ilTemplate */
+	protected $mainTemplate;
+
+	/** @var ServerRequestInterface */
+	protected $httpRequest;
+
+	/** @var \ilTabsGUI */
+	protected $tabs;
 
 	/**
 	 * @inheritDoc
@@ -30,7 +49,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	protected function setObject(\ilObject $object)
 	{
+		global $DIC;
+
 		$this->contentPageObject = $object;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->mainTemplate = $DIC->ui()->mainTemplate();
+		$this->uiFactory = $DIC->ui()->factory();
+		$this->httpRequest = $DIC->http()->request();
+		$this->tabs = $DIC->tabs();
 	}
 
 	/**
@@ -53,9 +80,17 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function buildControls(State $state, ControlBuilder $builder)
 	{
+		$this->builtLearningProgressToggleControl($builder);
+	}
+
+	/**
+	 * @param ControlBuilder $builder
+	 */
+	protected function builtLearningProgressToggleControl(ControlBuilder $builder)
+	{
 		$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
 		if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-			$isCompleted = ilLPMarks::_hasCompleted($GLOBALS['DIC']->user()->getId(), $this->contentPageObject->getId());
+			$isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
 			$this->lng->loadLanguageModule('copa');
 			$learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
@@ -76,14 +111,22 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function updateGet(State $state, string $command, int $param = null): State
 	{
+		$this->toggleLearningProgress($command);
+	}
+
+	/**
+	 * @param string $command
+	 */
+	protected function toggleLearningProgress(string $command)
+	{
 		if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
 			$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
 			if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-				$marks = new ilLPMarks($this->contentPageObject->getId(), $GLOBALS['DIC']->user()->getId());
+				$marks = new \ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 				$marks->setCompleted(!$marks->getCompleted());
 				$marks->update();
 
-				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $GLOBALS['DIC']->user()->getId());
+				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 			}
 		}
 	}
@@ -104,31 +147,37 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		URLBuilder $url_builder,
 		array $post = null
 	): Component {
-		global $DIC;
-
 		\ilLearningProgress::_tracProgress(
-			$GLOBALS['DIC']->user()->getId(),
+			$this->user->getId(),
 			$this->contentPageObject->getId(),
 			$this->contentPageObject->getRefId(),
 			$this->contentPageObject->getType()
 		);
 
-		$DIC->ui()->mainTemplate()->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath(
-			$this->contentPageObject->getStyleSheetId()
-		));
-		$DIC->ui()->mainTemplate()->setCurrentBlock('SyntaxStyle');
-		$DIC->ui()->mainTemplate()->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
-		$DIC->ui()->mainTemplate()->parseCurrentBlock();
+		$this->renderContentStyle();
 
 		$forwarder = new \ilContentPagePageCommandForwarder(
-			$DIC->http()->request(), $DIC->ctrl(), $DIC->tabs(), $this->lng, $this->contentPageObject
+			$this->httpRequest, $this->ctrl, $this->tabs, $this->lng, $this->contentPageObject
 		);
 		$forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
-		$DIC->ctrl()->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
+		$this->ctrl->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
-		return $factory->legacy($forwarder->forward($DIC->ctrl()->getLinkTargetByClass([
+		return $factory->legacy($forwarder->forward($this->ctrl->getLinkTargetByClass([
 			\ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
 		])));
+	}
+
+	/**
+	 * Renders the content style of a ContentPage object into main template
+	 */
+	protected function renderContentStyle()
+	{
+		$this->mainTemplate->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath(
+			$this->contentPageObject->getStyleSheetId()
+		));
+		$this->mainTemplate->setCurrentBlock('SyntaxStyle');
+		$this->mainTemplate->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+		$this->mainTemplate->parseCurrentBlock();
 	}
 }
