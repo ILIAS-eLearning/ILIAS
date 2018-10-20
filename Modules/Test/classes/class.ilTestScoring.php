@@ -178,4 +178,29 @@ class ilTestScoring
 
 		$this->recalculatedPasses[$activeId][] = $pass;
 	}
+	
+	public function removeAllQuestionResults($questionId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$query = "DELETE FROM tst_test_result WHERE question_fi = %s";
+		$DIC->database()->manipulateF($query, array('integer'), array($questionId));
+	}
+	
+	public function updatePassAndTestResults($activeIds)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		foreach($activeIds as $activeId)
+		{
+			$passSelector = new ilTestPassesSelector($DIC->database(), $this->test);
+			
+			foreach($passSelector->getExistingPasses() as $pass)
+			{
+				assQuestion::_updateTestPassResults($activeId, $pass, $this->test->areObligationsEnabled());
+			}
+			
+			assQuestion::_updateTestResultCache($activeId);
+		}
+	}
 }

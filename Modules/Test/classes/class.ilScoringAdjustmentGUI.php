@@ -138,12 +138,9 @@ class ilScoringAdjustmentGUI
 		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) 
 			&& (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
 
-		$table_gui = new ilTestQuestionsTableGUI(
-			$this, 
-			'showquestionlist', 
-			(($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), 
-			$checked_move, 0);
-
+		$table_gui = new ilTestQuestionsTableGUI($this,'showquestionlist', $this->object->getRefId());
+		$table_gui->setQuestionTitleLinksEnabled(true);
+		
 		$data = $this->object->getTestQuestions();
 		// @TODO Ask object for random test.
 		if (!$data)

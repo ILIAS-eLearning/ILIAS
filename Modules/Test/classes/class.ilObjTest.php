@@ -3413,6 +3413,30 @@ function getAnswerFeedbackPoints()
 		}
 		return false;
 	}
+
+	public function removeQuestionFromSequences($questionId, $activeIds)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$testSequenceFactory = new ilTestSequenceFactory(
+			$DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this
+		);
+		
+		foreach($activeIds as $activeId)
+		{
+			$passSelector = new ilTestPassesSelector($DIC->database(), $this);
+			$passSelector->setActiveId($activeId);
+			
+			foreach($passSelector->getExistingPasses() as $pass)
+			{
+				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
+				$testSequence->loadFromDb();
+				
+				$testSequence->removeQuestion($questionId);
+				$testSequence->saveToDb();
+			}
+		}
+	}
 	
 	/**
 	 * @param array $removeQuestionIds
@@ -8711,6 +8735,25 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $questions;
+	}
+	
+	/**
+	 * @param int $questionId
+	 * @return bool
+	 */
+	public function isTestQuestion($questionId)
+	{
+		foreach($this->getTestQuestions() as $questionData)
+		{
+			if( $questionData['question_id'] != $questionId )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**

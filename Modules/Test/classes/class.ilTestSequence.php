@@ -63,17 +63,17 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	/**
 	 * @var array
 	 */
-	private $alreadyCheckedQuestions;
+	protected $alreadyCheckedQuestions;
 
 	/**
 	 * @var integer
 	 */
-	private $newlyCheckedQuestion;
+	protected $newlyCheckedQuestion;
 
 	/**
 	 * @var array
 	 */
-	private $optionalQuestions;
+	protected $optionalQuestions;
 
 	/**
 	 * @var bool

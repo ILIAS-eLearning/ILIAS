@@ -47,16 +47,21 @@ class ilTestCorrectionsGUI
 			ilObjTestGUI::accessViolationRedirect();
 		}
 		
-		if ($_GET["eqid"] && $_GET["eqpl"])
+		if ((int)$_GET["eqid"] && (int)$_GET["eqpl"])
 		{
-			$this->DIC->ctrl()->setParameter($this, 'qid', $_GET["eqid"]);
+			$this->DIC->ctrl()->setParameter($this, 'qid', (int)$_GET["eqid"]);
 			$this->DIC->ctrl()->redirect($this, 'showQuestion');
 		}
 		
-		if ($_GET['removeQid'])
+		if ((int)$_GET['removeQid'])
 		{
-			$this->DIC->ctrl()->setParameter($this, 'qid', $_GET['removeQid']);
+			$this->DIC->ctrl()->setParameter($this, 'qid', (int)$_GET['removeQid']);
 			$this->DIC->ctrl()->redirect($this, 'confirmQuestionRemoval');
+		}
+		
+		if( isset($_GET['qid']) && !$this->checkQuestion((int)$_GET['qid']) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
 		}
 		
 		$this->DIC->ctrl()->saveParameter($this, 'qid');
@@ -204,13 +209,42 @@ class ilTestCorrectionsGUI
 	
 	protected function performQuestionRemoval()
 	{
-		$questionGUI = $this->getQuestion((int)$_GET['qid']);
-
-		// remove questions from all sequences
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		// remove from test questions and restore index
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
+		$scoring = new ilTestScoring($this->testOBJ);
+		
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->load($this->testOBJ->getTestId());
+		
+		// remove question solutions
+#		$questionGUI->object->removeAllExistingSolutions();
+		
+		// remove test question results
+#		$scoring->removeAllQuestionResults($questionGUI->object->getId());
+		
+		// update pass and test results
+#		$scoring->updatePassAndTestResults($participantData->getActiveIds());
 		
 		// trigger learning progress
+#		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
+		
+		// remove questions from all sequences
+		$this->testOBJ->removeQuestionFromSequences($questionGUI->object->getId(), $participantData->getActiveIds());
+		
+		// remove question from test and reindex remaining questions
+#		$this->testOBJ->removeQuestion($questionGUI->object->getId());
+#		$this->testOBJ->reindexFixedQuestionOrdering();
+		
+		// finally delete the question itself
+#		$questionGUI->object->delete($questionGUI->object->getId());
+		
+		// check for empty test and set test offline
+		if( !count($this->testOBJ->getTestQuestions()) )
+		{
+			$this->testOBJ->setOnline(false);
+			$this->testOBJ->saveToDb(true);
+		}
 		
 		$this->DIC->ctrl()->redirect($this, 'showQuestionList');
 	}
@@ -260,6 +294,33 @@ class ilTestCorrectionsGUI
 	}
 	
 	/**
+	 * @param int $qId
+	 * @return bool
+	 */
+	protected function checkQuestion($qId)
+	{
+		if( !$this->testOBJ->isTestQuestion($qId) )
+		{
+			return false;
+		}
+		
+		$questionGUI = $this->getQuestion($qId);
+		
+		if( !$this->supportsAdjustment($questionGUI) )
+		{
+			return false;
+		}
+		
+		if( !$this->allowedInAdjustment($questionGUI) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param int $qId
 	 * @return assQuestionGUI
 	 */
 	protected function getQuestion($qId)

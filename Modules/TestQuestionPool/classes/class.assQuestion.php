@@ -5308,6 +5308,16 @@ abstract class assQuestion
 	}
 // fau.
 
+	public function removeAllExistingSolutions()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$query = "DELETE FROM tst_solutions WHERE question_fi = %s";
+		
+		$DIC->database()->manipulateF($query, array('integer'), array($this->getId()));
+		
+	}
+	
 	public function removeExistingSolutions($activeId, $pass)
 	{
 		global $ilDB;
