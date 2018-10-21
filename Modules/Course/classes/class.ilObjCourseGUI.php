@@ -1377,7 +1377,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// breadcrumbs
 		if ($setting->get("rep_breadcr_crs_overwrite"))
 		{
-			$add = $setting->get("rep_breadcr_crs")
+			$add = $setting->get("rep_breadcr_crs_default")
 				? " (".$this->lng->txt("crs_breadcrumb_crs_only").")"
 				: " (".$this->lng->txt("crs_breadcrumb_full_path").")";
 			$options = array(

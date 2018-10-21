@@ -164,22 +164,24 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$form->addItem($radg);	
 
 		// breadcrumbs start with courses
-		//
+		$cb = new ilCheckboxInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs");
+		$cb->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
+		$form->addItem($cb);
+
 		$radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs_overwrite");
 		$radg->setValue((int) $ilSetting->get("rep_breadcr_crs_overwrite"));
+
+		$op0 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), 1);
+		$cb0 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs_default");
+		$cb0->setChecked((int) $ilSetting->get("rep_breadcr_crs_default"));
+		$op0->addSubItem($cb0);
+		$radg->addOption($op0);
+
 		$op1 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite_not"), 0);
 		$radg->addOption($op1);
 
-			$cb = new ilCheckboxInputGUI($this->lng->txt("active"), "rep_breadcr_crs1");
-			$cb->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
-			$op1->addSubItem($cb);
 
-		$op2 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), 1);
-			$cb2 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs2");
-			$cb2->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
-			$op2->addSubItem($cb2);
-		$radg->addOption($op2);
-		$form->addItem($radg);
+		$cb->addSubItem($radg);
 
 
 		// trash
@@ -286,14 +288,9 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
 
 			$ilSetting->set("rep_breadcr_crs_overwrite", (int) $_POST["rep_breadcr_crs_overwrite"]);
-			if ($_POST["rep_breadcr_crs_overwrite"])
-			{
-				$ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs2"]);
-			}
-			else
-			{
-				$ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs1"]);
-			}
+			$ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs"]);
+			$ilSetting->set("rep_breadcr_crs_default", (int) $_POST["rep_breadcr_crs_default"]);
+
 
 			$ilSetting->set("rep_shorten_description", $form->getInput('rep_shorten_description'));
 			$ilSetting->set("rep_shorten_description_length", (int)$form->getInput('rep_shorten_description_length'));										

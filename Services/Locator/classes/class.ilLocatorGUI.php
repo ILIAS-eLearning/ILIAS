@@ -133,14 +133,11 @@ class ilLocatorGUI
 					$crs_ref_id = $v["child"];
 				}
 			}
-			if (!$setting->get("rep_breadcr_crs_overwrite")) // no overwrite
+			if (!$setting->get("rep_breadcr_crs")) // no overwrite
 			{
-				if (!$setting->get("rep_breadcr_crs"))		// no crs limitation
-				{
-					$crs_ref_id = 0;
-				}
+				$crs_ref_id = 0;
 			}
-			else // overwrite
+			else if ($setting->get("rep_breadcr_crs_overwrite")) // overwrite
 			{
 				// course wants full path
 				if (ilContainer::_lookupContainerSetting(ilObject::_lookupObjId($crs_ref_id), "rep_breacrumb") == ilObjCourseGUI::BREADCRUMB_FULL_PATH)
@@ -148,7 +145,7 @@ class ilLocatorGUI
 					$crs_ref_id = 0;
 				}
 				// course wants default and default wants full path
-				if (ilContainer::_lookupContainerSetting(ilObject::_lookupObjId($crs_ref_id), "rep_breacrumb") == ilObjCourseGUI::BREADCRUMB_DEFAULT && !$setting->get("rep_breadcr_crs"))
+				if (ilContainer::_lookupContainerSetting(ilObject::_lookupObjId($crs_ref_id), "rep_breacrumb") == ilObjCourseGUI::BREADCRUMB_DEFAULT && !$setting->get("rep_breadcr_crs_default"))
 				{
 					$crs_ref_id = 0;
 				}
