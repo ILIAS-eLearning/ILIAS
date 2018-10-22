@@ -297,7 +297,19 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->showCopyrightSettings();
 	}
-	
+
+	public function showCopyrightUsages()
+	{
+		include_once("./Services/MetaData/classes/class.ilMDCopyrightUsageTableGUI.php");
+
+		//TODO I think tabs must be removed.
+		$this->tabs_gui->activateTab('md_copyright');
+
+		$copyright_id = $_GET['entry_id'];
+		$table_gui = new ilMDCopyrightUsageTableGUI($this,'showCopyrightSettings',$copyright_id);
+
+		$this->tpl->setContent($table_gui->getHTML());
+	}
 	
 	/**
 	 * edit one selection
