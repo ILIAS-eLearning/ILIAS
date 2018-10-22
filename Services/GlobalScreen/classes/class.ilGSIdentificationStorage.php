@@ -50,6 +50,8 @@ class ilGSIdentificationStorage extends CachedActiveRecord {
 			$gsi->setIdentification($identification->serialize());
 			$gsi->create();
 		}
+        $gsi->setProviderClass(get_class($provider));
+        $gsi->update();
 	}
 
 
