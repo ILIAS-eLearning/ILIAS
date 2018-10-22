@@ -122,7 +122,7 @@ class ilCertificateBackgroundImageUpload
 	 * @throws ilException
 	 * @throws ilFileUtilsException
 	 */
-	public function upload(string $imageTempFilename, int $version)
+	public function uploadBackgroundImage(string $imageTempFilename, int $version)
 	{
 		$imagepath = $this->rootDirectory . $this->certificatePath;
 
@@ -195,7 +195,9 @@ class ilCertificateBackgroundImageUpload
 		/**
 		 * @var \ILIAS\FileUpload\DTO\UploadResult $uploadResult
 		 */
-		$uploadResult = $this->fileUpload->getResults()[$temporaryFilename];
+		$uploadResults = $this->fileUpload->getResults();
+		$uploadResult = $uploadResults[$temporaryFilename];
+
 		$processingStatus = $uploadResult->getStatus();
 		if ($processingStatus->getCode() === ILIAS\FileUpload\DTO\ProcessingStatus::REJECTED) {
 			throw new ilException($processingStatus->getMessage());

@@ -105,22 +105,7 @@ class ilUserCertificateRepository
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			$result[] = $this->createUserCertificate($row);
 		}
 
 		$this->logger->debug(sprintf('Actual results:', json_encode($result)));
@@ -154,6 +139,7 @@ SELECT
   il_cert_user_cert.currently_active,
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
+  il_cert_user_cert.thumbnail_image_path,
   (CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
@@ -175,22 +161,8 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$userCertificate = new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			$userCertificate = $this->createUserCertificate($row);
+
 
 			$presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
 			$result[] = $presentation;
@@ -220,22 +192,7 @@ AND currently_active = 1';
 
 			$this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
 
-			return new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createUserCertificate($row);
 		}
 
 		throw new ilException(sprintf('There is no active entry for user id: "%s" and object id: "%s"', $userId, $objectId));
@@ -265,6 +222,7 @@ AND currently_active = 1';
   il_cert_user_cert.currently_active,
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
+  il_cert_user_cert.thumbnail_image_path,
   (CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
@@ -285,22 +243,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$userCertificate = new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			$userCertificate = $this->createUserCertificate($row);
 			
 			$presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
 			$result[] = $presentation;
@@ -329,22 +272,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
 			$this->logger->info(sprintf('END - Fetch certificate by id: "%s"', $id));
 
-			return new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			return $this->createUserCertificate($row);
 		}
 
 		throw new ilException('No certificate found for user certificate id: ' . $id);
@@ -432,22 +360,7 @@ AND obj_id = ' . $this->database->quote($objId , 'integer');
 
 			$this->logger->info(sprintf('Certificate: ', json_encode($row)));
 
-			$result[] = new ilUserCertificate(
-				$row['pattern_certificate_id'],
-				$row['obj_id'],
-				$row['obj_type'],
-				$row['user_id'],
-				$row['user_name'],
-				$row['acquired_timestamp'],
-				$row['certificate_content'],
-				$row['template_values'],
-				$row['valid_until'],
-				$row['version'],
-				$row['ilias_version'],
-				$row['currently_active'],
-				$row['background_image_path'],
-				$row['id']
-			);
+			$result[] = $this->createUserCertificate($row);
 		}
 
 		$this->logger->info(sprintf(
@@ -509,5 +422,30 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
 		$this->database->manipulate($sql);
 
 		$this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
+	}
+
+	/**
+	 * @param $row
+	 * @return ilUserCertificate
+	 */
+	private function createUserCertificate($row): ilUserCertificate
+	{
+		return new ilUserCertificate(
+			$row['pattern_certificate_id'],
+			$row['obj_id'],
+			$row['obj_type'],
+			$row['user_id'],
+			$row['user_name'],
+			$row['acquired_timestamp'],
+			$row['certificate_content'],
+			$row['template_values'],
+			$row['valid_until'],
+			$row['version'],
+			$row['ilias_version'],
+			$row['currently_active'],
+			$row['background_image_path'],
+			$row['thumbnail_image_path'],
+			$row['id']
+		);
 	}
 }

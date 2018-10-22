@@ -100,6 +100,12 @@ class ilCertificateTemplateExportAction
 			$this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
 		}
 
+		$thumbnailImagePath = $template->getThumbnailImagePath();
+		if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
+			$this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+		}
+
+
 		$objectType = $this->objectHelper->lookupType($this->objectId);
 
 		$zipFileName = $time . '__' . $installationId . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';

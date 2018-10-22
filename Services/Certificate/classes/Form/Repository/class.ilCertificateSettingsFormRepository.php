@@ -148,6 +148,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 */
 	public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
 	{
+		$certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
+
 		$command = $this->controller->getCmd();
 
 		$form = new ilPropertyFormGUI();
@@ -228,7 +230,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		if (!$certificateObject->hasBackgroundImage()) {
 			if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
 				ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-				$bgimage->setImage(ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb()));
+				$imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+				$bgimage->setImage($imagePath);
 				$bgimage->setALlowDeletion(false);
 			}
 		}
@@ -241,10 +244,29 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 				$thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
 				$bgimage->setALlowDeletion(false);
 			}
-			$bgimage->setImage(ilWACSignedPath::signFile($thumbnailPath));
+			$imagePath = ilWACSignedPath::signFile($thumbnailPath);
+			$bgimage->setImage($imagePath);
 		}
 
 		$form->addItem($bgimage);
+
+		$thumbnailImage = new ilImageFileInputGUI($this->language->txt('certificate_card_thumbnail_image'), 'certificate_card_thumbnail_image');
+		$thumbnailImage->setRequired(false);
+		$thumbnailImage->setUseCache(false);
+		$thumbnailImage->setSuffixes(array('svg'));
+
+		$allowThumbnailDeletion = false;
+
+		$cardThumbnailImagePath = $certificateTemplate->getThumbnailImagePath();
+		if ('' !== $cardThumbnailImagePath || null !== $cardThumbnailImagePath) {
+			$presentationThumbnailImagePath = CLIENT_WEB_DIR . $cardThumbnailImagePath;
+			$thumbnailImage->setImage(ilWACSignedPath::signFile($presentationThumbnailImagePath));
+			$allowThumbnailDeletion = true;
+		}
+
+		$thumbnailImage->setAllowDeletion($allowThumbnailDeletion);
+
+		$form->addItem($thumbnailImage);
 
 		$rect = new ilCSSRectInputGUI($this->language->txt("certificate_margin_body"), "margin_body");
 		$rect->setRequired(TRUE);
@@ -309,7 +331,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		}
 
 		if($this->access->checkAccess("write", "", $_GET["ref_id"])) {
-			$certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 			if ($certificateTemplate->isCurrentlyActive()) {
 				$this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 

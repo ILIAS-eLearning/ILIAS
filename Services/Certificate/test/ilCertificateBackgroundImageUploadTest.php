@@ -85,6 +85,6 @@ class ilCertificateBackgroundImageUploadTest extends PHPUnit_Framework_TestCase
 			'someclient'
 		);
 
-		$upload->upload('some/where/temporary', '3');
+		$upload->uploadBackgroundImage('some/where/temporary', '3');
 	}
 }

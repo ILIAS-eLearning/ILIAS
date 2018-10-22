@@ -77,6 +77,11 @@ class ilUserCertificate
 	private $backgroundImagePath;
 
 	/**
+	 * @var string
+	 */
+	private $thumbnailImagePath;
+
+	/**
 	 * @param integer $patternCertificateId
 	 * @param integer $objId
 	 * @param string $objType
@@ -90,6 +95,7 @@ class ilUserCertificate
 	 * @param string $iliasVersion
 	 * @param boolean $currentlyActive
 	 * @param string|null $backgroundImagePath
+	 * @param null $thumbnailImagePath
 	 * @param integer|null $id
 	 */
 	public function __construct(
@@ -106,6 +112,7 @@ class ilUserCertificate
 		$iliasVersion,
 		$currentlyActive,
 		$backgroundImagePath = null,
+		$thumbnailImagePath = null,
 		$id = null
 	) {
 		$this->patternCertificateId = $patternCertificateId;
@@ -121,6 +128,7 @@ class ilUserCertificate
 		$this->iliasVersion = $iliasVersion;
 		$this->currentlyActive = $currentlyActive;
 		$this->backgroundImagePath = $backgroundImagePath;
+		$this->thumbnailImagePath = $thumbnailImagePath;
 		$this->id = $id;
 	}
 
@@ -234,5 +242,13 @@ class ilUserCertificate
 	public function getBackgroundImagePath()
 	{
 		return $this->backgroundImagePath;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThumbnailImagePath(): string
+	{
+		return $this->thumbnailImagePath;
 	}
 }

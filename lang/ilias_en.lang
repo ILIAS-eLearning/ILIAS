@@ -14405,3 +14405,4 @@ cert#:#cert_description_label#:#Description
 cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail

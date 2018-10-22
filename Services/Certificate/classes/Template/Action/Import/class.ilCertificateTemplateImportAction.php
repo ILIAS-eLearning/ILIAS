@@ -168,6 +168,7 @@ class ilCertificateTemplateImportAction
 		$currentVersion = (int) $certificate->getVersion();
 		$newVersion = $currentVersion;
 		$backgroundImagePath = '';
+		$thumbnailImagePath = '';
 
 		foreach ($directoryInformation as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
@@ -190,7 +191,8 @@ class ilCertificateTemplateImportAction
 						implode('', array(
 							$xsl,
 							$backgroundImagePath,
-							$jsonEncodedTemplateValues
+							$jsonEncodedTemplateValues,
+							$thumbnailImagePath
 						))
 					);
 
@@ -204,7 +206,8 @@ class ilCertificateTemplateImportAction
 						$iliasVerision,
 						time(),
 						true,
-						$backgroundImagePath
+						$backgroundImagePath,
+						$thumbnailImagePath
 					);
 
 					$this->templateRepository->save($template);
@@ -226,6 +229,10 @@ class ilCertificateTemplateImportAction
 						'JPEG',
 						100
 					);
+
+					$newThumbnailImagePath = 'thumbnail_' . $newVersion . '.svg';
+
+					$thumbnailImagePath = $this->certificatePath . $newThumbnailImagePath;
 				}
 			}
 		}
