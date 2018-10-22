@@ -260,7 +260,10 @@ class ilUserCertificateGUI
 
 			foreach ($data['items'] as $certificateData) {
 				$imagePath = ilUtil::getWebspaceDir(). $certificateData['thumbnail_image_path'];
-				if (!$this->filesystem->has($certificateData['thumbnail_image_path'])) {
+				if ($certificateData['thumbnail_image_path'] !== null
+					|| $certificateData['thumbnail_image_path'] !== ''
+					|| !$this->filesystem->has($certificateData['thumbnail_image_path'])
+				) {
 					$imagePath = \ilUtil::getImagePath('icon_cert.svg');
 				}
 
@@ -271,8 +274,7 @@ class ilUserCertificateGUI
 
 				$listSections = [];
 
-				// TODO: Add a section with the 'Description' of the learning object (can be deleted meanwhile)
-				$listSections[$this->language->txt('cert_description_label')] = '';
+				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
 
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');

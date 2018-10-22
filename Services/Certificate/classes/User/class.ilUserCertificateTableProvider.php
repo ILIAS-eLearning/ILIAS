@@ -81,7 +81,16 @@ class ilUserCertificateTableProvider
         END
     ELSE object_data.title 
     END
-  ) as title
+  ) as title,
+  (CASE WHEN (object_data.description IS NULL)
+    THEN
+      CASE WHEN (object_data_del.description IS NULL)
+        THEN ""
+        ELSE object_data_del.description
+        END
+    ELSE object_data.description 
+    END
+  ) as description
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
@@ -124,7 +133,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 				'obj_id'               => $row['obj_id'],
 				'obj_type'             => $row['obj_type'],
 				'date'                 => $row['acquired_timestamp'],
-				'thumbnail_image_path' => $row['thumbnail_image_path']
+				'thumbnail_image_path' => $row['thumbnail_image_path'],
+				'description'          => $row['description']
 			);
 		}
 
