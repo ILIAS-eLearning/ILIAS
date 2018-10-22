@@ -14385,3 +14385,5 @@ sess#:#sess_mail_admins_only#:#For Administrators only
 sess#:#sess_mail_admins_only_info#:#Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
 sess#:#sess_mail_all#:#For all Participants
 sess#:#sess_mail_all_info#:#All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
+sess#:#sess_contact#:#Contact
+sess#:#sess_mem_contacts#:#Tutorial Support

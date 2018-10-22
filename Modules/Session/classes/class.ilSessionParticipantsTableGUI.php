@@ -162,6 +162,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField('name');
 		}
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
+		$this->addColumn($this->lng->txt('sess_contact'),'contact');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		
@@ -275,6 +276,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$tmp_data['comment'] = $usr_data['comment'];
 			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
 			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
+			$tmp_data['contact'] = $this->getParticipants()->isContact($participant['usr_id']);
 			
 			$roles = array();
 			$local_roles = $this->getParentLocalRoles();
@@ -392,7 +394,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('LOGIN',$a_set['login']);
 		$this->tpl->setVariable('MARK',$a_set['mark']);
 		$this->tpl->setVariable('COMMENT',$a_set['comment']);
-		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');		
+		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
 	}
 	
 	/**

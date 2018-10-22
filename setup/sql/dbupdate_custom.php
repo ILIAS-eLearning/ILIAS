@@ -200,4 +200,3 @@ if(!$ilDB->tableColumnExists('event_participants', 'contact'))
 }
 ?>
 
-

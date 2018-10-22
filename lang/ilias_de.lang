@@ -14381,3 +14381,5 @@ sess#:#sess_mail_admins_only#:#Nur für Administratoren
 sess#:#sess_mail_admins_only_info#:#Nur Administratoren können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
 sess#:#sess_mail_all#:#Für alle Teilnehmer
 sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_contact#:#Kontakt
+sess#:#sess_mem_contacts#:#Tutorielle Betreuung

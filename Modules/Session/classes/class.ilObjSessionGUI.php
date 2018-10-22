@@ -656,6 +656,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 								   $phone);
 			}
 		}
+
+		// support contacts
+		$parts = ilParticipants::getInstance($this->object->getRefId());
+		$contacts = $parts->getContacts();
+		if (count($contacts) > 0)
+		{
+			$info->addSection($this->lng->txt("crs_mem_contacts"));
+			foreach ($contacts as $contact)
+			{
+				$pgui = new ilPublicUserProfileGUI($contact);
+				$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
+				$pgui->setEmbedded(true);
+				$info->addProperty("", $pgui->getHTML());
+			}
+		}
+
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 		

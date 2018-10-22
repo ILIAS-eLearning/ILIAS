@@ -89,6 +89,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		{
 			$participated = (bool) $_POST['participated'][$part_id];
 			$registered = (bool) $_POST['registered'][$part_id];
+			$contact = (bool) $_POST['contact'][$part_id];
 			
 			$this->getLogger()->debug('Participated: ' . (int) $participated);
 			$this->getLogger()->debug('Registered: ' . (int) $registered);
@@ -113,6 +114,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$event_part->setComment(ilUtil::stripSlashes($_POST['comment'][$part_id]));
 			$event_part->setParticipated($participated);
 			$event_part->setRegistered($registered);
+			$event_part->setContact($contact);
 			$event_part->updateUser();
 		}
 		
@@ -241,17 +243,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$this->lng->txt('no');		
 		
 		return $data;
-	}
-	
-	/**
-	 * Check permission has no manage members
-	 * @param string $a_permission
-	 * @param type $a_cmd
-	 * @return type
-	 */
-	protected function checkPermission($a_permission, $a_cmd = "")
-	{
-		return parent::checkPermission($a_permission, $a_cmd);
 	}
 	
 
