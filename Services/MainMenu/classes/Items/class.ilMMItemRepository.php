@@ -13,6 +13,10 @@ use ILIAS\GlobalScreen\MainMenu\isChild;
 class ilMMItemRepository {
 
 	/**
+	 * @var \ILIAS\GlobalScreen\Services
+	 */
+	private $services;
+	/**
 	 * @var bool
 	 */
 	private $synced = false;
@@ -50,6 +54,7 @@ class ilMMItemRepository {
 		$this->information = new ilMMItemInformation($this->storage);
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
+		$this->services = $DIC->globalScreen();
 		$this->sync();
 	}
 
@@ -68,9 +73,7 @@ class ilMMItemRepository {
 	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
 	 */
 	public function getEmptyItemForTypeString(string $class_name): \ILIAS\GlobalScreen\MainMenu\isItem {
-		global $DIC;
-
-		return $DIC->globalScreen()->mainmenu()->custom($class_name, new  \ILIAS\GlobalScreen\Identification\NullIdentification());
+		return $this->services->mainmenu()->custom($class_name, new  \ILIAS\GlobalScreen\Identification\NullIdentification());
 	}
 
 
@@ -184,8 +187,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @throws Throwable
 	 */
 	public function getItemFacadeForIdentificationString(string $identification): ilMMItemFacadeInterface {
-		global $DIC;
-		$id = $DIC->globalScreen()->identification()->fromSerializedIdentification($identification);
+		$id = $this->services->identification()->fromSerializedIdentification($identification);
 
 		return $this->getItemFacade($id);
 	}
@@ -211,10 +213,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	public function getPossibleParentsForFormAndTable(): array {
 		static $parents;
 		if (is_null($parents)) {
-			global $DIC;
 			$parents = [];
 			foreach ($this->getTopItems() as $top_item_identification => $data) {
-				$identification = $DIC->globalScreen()->identification()->fromSerializedIdentification($top_item_identification);
+				$identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
 				$item = $this->getSingleItem($identification);
 				if ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
 					$parents[$top_item_identification] = $this->getItemFacade($identification)
@@ -235,7 +236,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	public function getPossibleSubItemTypesForForm(): array {
 		return [
 			\ILIAS\GlobalScreen\MainMenu\Item\Link::class => "Link",
-			// \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class => "RepositoryLink",
+			\ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class => "RepositoryLink",
 		];
 	}
 
@@ -250,6 +251,18 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 			\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class => "TopParentItem",
 			\ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class   => "TopLinkItem",
 		];
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler
+	 */
+	public function getTypeHandlerForType(string $type): \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler {
+		$item = $this->services->mainmenu()->custom($type, new \ILIAS\GlobalScreen\Identification\NullIdentification());
+
+		return $this->main_collector->getHandlerForItem($item);
 	}
 
 

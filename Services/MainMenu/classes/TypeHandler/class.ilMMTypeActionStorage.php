@@ -79,4 +79,19 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 
 		return $DIC->globalScreen()->storage()->cache();
 	}
+
+
+	/**
+	 * @return ilMMTypeActionStorage
+	 */
+	public static function find($primary_key, array $add_constructor_args = array()) {
+		$parent = parent::find($primary_key, $add_constructor_args);
+		if ($parent === null) {
+			$parent = new self();
+			$parent->setIdentification($primary_key);
+			$parent->create();
+		}
+
+		return $parent;
+	}
 }

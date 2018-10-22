@@ -100,7 +100,7 @@ class Main {
 					$children = [];
 					/**
 					 * @var $top_item  isParent
-					 * @var $child isChild
+					 * @var $child     isChild
 					 */
 					foreach ($top_item->getChildren() as $child) {
 						if (!$this->checkAvailability($child)) {
@@ -264,20 +264,46 @@ class Main {
 
 
 	/**
-	 * @param $item
+	 * @param isItem $item
 	 *
 	 * @return isItem
 	 */
-	private function applyTypeHandler($item): isItem {
-		$type = get_class($item);
-		if (isset(self::$typehandlers[$type])) {
-			/**
-			 * @var $handler TypeHandler
-			 */
-			$handler = self::$typehandlers[$type];
-			$item = $handler->enrichItem($item);
+	private function applyTypeHandler(isItem $item): isItem {
+		if ($this->hasTypeHandler($item)) {
+			$item = $this->getHandlerForItem($item)->enrichItem($item);
 		}
 
 		return $item;
+	}
+
+
+	/**
+	 * @param isItem $item
+	 *
+	 * @return bool
+	 */
+	public function hasTypeHandler(isItem $item): bool {
+		$type = get_class($item);
+
+		return isset(self::$typehandlers[$type]);
+	}
+
+
+	/**
+	 * @param isItem $item
+	 *
+	 * @return TypeHandler
+	 */
+	public function getHandlerForItem(isItem $item): TypeHandler {
+		if (!$this->hasTypeHandler($item)) {
+			return new BaseTypeHandler();
+		}
+		/**
+		 * @var $handler TypeHandler
+		 */
+		$type = get_class($item);
+		$handler = self::$typehandlers[$type];
+
+		return $handler;
 	}
 }

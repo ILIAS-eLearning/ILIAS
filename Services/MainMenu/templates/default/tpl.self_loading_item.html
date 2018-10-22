@@ -5,7 +5,7 @@
             var url = item.data("asyncUrl");
             //$(this).html(url);
             $.get(url, function (data) {
-                console.log(data);
+                // console.log(data);
                 var element = $.parseHTML(data);
                 item.closest("a").replaceWith(element);
                 $(element).show();

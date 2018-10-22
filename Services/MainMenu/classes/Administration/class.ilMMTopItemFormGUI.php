@@ -84,14 +84,13 @@ class ilMMTopItemFormGUI {
 		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
 
 		foreach ($top_item_types_for_form as $classname => $representation) {
-			$item = $this->repository->getEmptyItemForTypeString($classname);
-			$type_handler = $this->repository->information()->getTypeHandlerForType($item);
-			$type = $type->withOption($classname, $representation, $type_handler->getAdditionalFieldsForSubForm());
+			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm();
+			$type = $type->withOption(($classname), $representation, $inputs);
 		}
-		$type = $type->withValue(reset(array_keys($top_item_types_for_form)));
+		$type = $type->withValue((reset(array_keys($top_item_types_for_form))));
 		if (!$this->item_facade->isEmpty()) {
 			$value = $this->item_facade->getType();
-			$type = $type->withValue($value);
+			$type = $type->withValue(($value));
 		}
 		$items[self::F_TYPE] = $type;
 
@@ -116,7 +115,7 @@ class ilMMTopItemFormGUI {
 		$form = $this->form->withRequest($this->http->request());
 		$data = $form->getData();
 
-		$type = (string)$data[0][self::F_TYPE]['value'];
+		$type = (string)($data[0][self::F_TYPE]['value']);
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);

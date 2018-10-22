@@ -115,19 +115,4 @@ class ilMMItemInformation implements ItemInformation {
 
 		return $item->getParent();
 	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getTypeHandlerForType(isItem $item): TypeHandler {
-		switch (true) {
-			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\Link):
-			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem):
-			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem):
-				return new ilMMTypeHandlerLink();
-			default:
-				throw new LogicException("No typehandler found");
-		}
-	}
 }

@@ -97,6 +97,6 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 * @inheritDoc
 	 */
 	public function provideTypeHandlers(): array {
-		return [new ilMMTypeHandlerLink()];
+		return [new ilMMTypeHandlerLink(), new ilMMTypeHandlerTopLink()];
 	}
 }
