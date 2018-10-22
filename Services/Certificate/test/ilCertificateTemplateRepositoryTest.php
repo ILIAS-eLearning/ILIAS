@@ -40,7 +40,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'created_timestamp'     => array('integer', 123456789),
 					'currently_active'      => array('integer', true),
 					'background_image_path' => array('clob', '/some/where/background.jpg'),
-					'deleted'               => array('integer', 0)
+					'deleted'               => array('integer', 0),
+					'thumbnail_image_path'  => array('clob', 'some/path/test.svg')
 				)
 			);
 
@@ -57,7 +58,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 			'v5.4.0',
 			123456789,
 			true,
-			$backgroundImagePath = '/some/where/background.jpg'
+			$backgroundImagePath = '/some/where/background.jpg',
+			'some/path/test.svg'
 
 		);
 
@@ -89,7 +91,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.4.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg'
+					'background_image_path' => '/some/where/background.jpg',
+					'thumbnail_image_path' => 'some/path/test.svg'
 				),
 				array(
 					'id'                    => 30,
@@ -102,7 +105,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.3.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg'
+					'background_image_path' => '/some/where/else/background.jpg',
+					'thumbnail_image_path'  => 'some/path/test.svg'
 				)
 			);
 
@@ -143,7 +147,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.4.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg'
+					'background_image_path' => '/some/where/background.jpg',
+					'thumbnail_image_path'  => 'some/path/test.svg'
 				),
 				array(
 					'id'                    => 30,
@@ -156,7 +161,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.3.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg'
+					'background_image_path' => '/some/where/else/background.jpg',
+					'thumbnail_image_path'  => 'some/path/test.svg'
 				)
 			);
 
@@ -196,7 +202,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.4.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg'
+					'background_image_path' => '/some/where/background.jpg',
+					'thumbnail_image_path' => 'some/path/test.svg'
 				),
 				array(
 					'id'                    => 30,
@@ -209,7 +216,8 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 					'ilias_version'         => 'v5.3.0',
 					'created_timestamp'     => 123456789,
 					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg'
+					'background_image_path' => '/some/where/else/background.jpg',
+					'thumbnail_image_path' => 'some/path/test.svg'
 				)
 			);
 
@@ -283,7 +291,8 @@ AND obj_id = 200');
 				'ilias_version'         => 'v5.4.0',
 				'created_timestamp'     => 123456789,
 				'currently_active'      => true,
-				'background_image_path' => '/some/where/background.jpg'
+				'background_image_path' => '/some/where/background.jpg',
+				'thumbnail_image_path' => 'some/path/test.svg'
 			),
 			array(
 				'id'                    => 30,
@@ -296,7 +305,8 @@ AND obj_id = 200');
 				'ilias_version'         => 'v5.3.0',
 				'created_timestamp'     => 123456789,
 				'currently_active'      => false,
-				'background_image_path' => '/some/where/else/background.jpg'
+				'background_image_path' => '/some/where/else/background.jpg',
+				'thumbnail_image_path' => 'some/path/test.svg'
 			)
 		);
 

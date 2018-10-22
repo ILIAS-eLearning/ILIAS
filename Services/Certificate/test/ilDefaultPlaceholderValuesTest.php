@@ -137,7 +137,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'USER_FIRSTNAME'     => 'Niels',
 				'USER_LASTNAME'      => 'Theen',
 				'USER_TITLE'         => '',
-				'USER_SALUTATION'    => 'm',
+				'USER_SALUTATION'    => 'Something',
 				'USER_BIRTHDAY'      => '2018-10-10',
 				'USER_INSTITUTION'   => '',
 				'USER_DEPARTMENT'    => '',

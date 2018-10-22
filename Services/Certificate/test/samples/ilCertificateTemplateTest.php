@@ -21,6 +21,7 @@ class ilCertificateTemplateTest extends \PHPUnit_Framework_TestCase
 			$time,
 			true,
 			'/some/where/background.jpg',
+			'/some/where/thumbnail.svg',
 			555
 		);
 

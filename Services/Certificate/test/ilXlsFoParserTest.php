@@ -67,10 +67,7 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
 					'pageheight'      => '297mm',
 					'pagewidth'       => '210mm',
 					'backgroundimage' => '[BACKGROUND_IMAGE]',
-					'margin_body_top'    => '1cm',
-					'margin_body_right'  => '2cm',
-					'margin_body_bottom' => '3cm',
-					'margin_body_left'   => '4cm'
+					'marginbody'      => '1cm 2cm 3cm 4cm'
 				)
 			)
 			->willReturn('Something Processed');
@@ -237,10 +234,7 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
 					'pageheight'      => '297mm',
 					'pagewidth'       => '210mm',
 					'backgroundimage' => '[BACKGROUND_IMAGE]',
-					'margin_body_top'    => '1cm',
-					'margin_body_right'  => '2cm',
-					'margin_body_bottom' => '3cm',
-					'margin_body_left'   => '4cm',
+					'marginbody' => '1cm 2cm 3cm 4cm'
 				)
 			)
 			->willReturn('Something Processed');

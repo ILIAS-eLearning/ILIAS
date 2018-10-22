@@ -54,7 +54,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
@@ -83,7 +83,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
@@ -112,7 +112,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
@@ -141,7 +141,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
@@ -170,7 +170,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
@@ -199,7 +199,7 @@ class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
 				'margin_body_right' => '2cm',
 				'margin_body_bottom' => '3cm',
 				'margin_body_left' => '4cm',
-				'certificate_text' => $content
+				'certificate_text' => ''
 			),
 			$formFields
 		);
