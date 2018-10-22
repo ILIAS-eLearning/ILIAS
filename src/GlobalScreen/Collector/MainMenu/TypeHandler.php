@@ -26,9 +26,11 @@ interface TypeHandler {
 
 
 	/**
+	 * @param IdentificationInterface $identification
+	 *
 	 * @return Input[]
 	 */
-	public function getAdditionalFieldsForSubForm(): array;
+	public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array;
 
 
 	/**

@@ -30,7 +30,7 @@ final class BaseTypeHandler implements TypeHandler {
 	/**
 	 * @inheritDoc
 	 */
-	public function getAdditionalFieldsForSubForm(): array {
+	public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array {
 		return array();
 	}
 

@@ -13,14 +13,19 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 	/**
 	 * @var array
 	 */
-	protected $links
-		= [
-			"ilMMCustomProvider|5bcd9cab9b9c2" => "https://www.google.com",
-		];
+	protected $links = [];
 	/**
 	 * @inheritDoc
 	 */
 	const F_URL = 'url';
+
+
+	/**
+	 * ilMMAbstractBaseTypeHandlerAction constructor.
+	 */
+	public function __construct() {
+		$this->links = ilMMTypeActionStorage::getArray('identification', 'action');
+	}
 
 
 	abstract public function matchesForType(): string;
@@ -35,11 +40,14 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 	/**
 	 * @inheritdoc
 	 */
-	public function getAdditionalFieldsForSubForm(): array {
+	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
 		global $DIC;
-		$fields[self::F_URL] = $DIC->ui()->factory()->input()->field()->text("URL")->withRequired(true);
+		$url = $DIC->ui()->factory()->input()->field()->text("URL")->withRequired(true);
+		if (isset($this->links[$identification->serialize()])) {
+			$url = $url->withValue($this->links[$identification->serialize()]);
+		}
 
-		return $fields;
+		return [ self::F_URL => $url ];
 	}
 
 
