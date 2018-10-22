@@ -13,7 +13,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			->getMock();
 
 		$database
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('quote');
 
 		$database->method('fetchAssoc')
@@ -21,7 +21,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null
 			);
@@ -54,20 +56,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(100, array(), array());
@@ -77,9 +71,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected['items'][] = array(
 			'id' => 600,
 			'title' => 'CourseTest',
-			'date' => '2018-09-21',
-			'action' => 'something'
+			'obj_id' => 100,
+			'obj_type' => 'crs',
+			'date' => 1539867618
 		);
+
+		$expected['cnt'] = 1;
 
 		$this->assertEquals($expected, $dataSet);
 	}
@@ -99,7 +96,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -136,20 +135,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(100, array('limit' => 2), array());
@@ -159,8 +150,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected['items'][] = array(
 			'id' => 600,
 			'title' => 'CourseTest',
-			'date' => '2018-09-21',
-			'action' => 'something'
+			'obj_id' => 100,
+			'obj_type' => 'crs',
+			'date' => 1539867618
 		);
 
 		$expected['cnt'] = 5;
@@ -183,7 +175,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -220,20 +214,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => 'date'), array());
@@ -243,8 +229,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$expected['items'][] = array(
 			'id' => 600,
 			'title' => 'CourseTest',
-			'date' => '2018-09-21',
-			'action' => 'something'
+			'obj_id' => 100,
+			'obj_type' => 'crs',
+			'date' => 1539867618
 		);
 
 		$expected['cnt'] = 5;
@@ -270,7 +257,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -307,20 +296,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => 'something'), array());
@@ -346,7 +327,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -383,20 +366,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => false), array());
@@ -422,7 +397,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -459,20 +436,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(
@@ -506,7 +475,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -543,20 +514,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(
@@ -590,7 +553,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 				array(
 					'id' => 600,
 					'obj_id' => 100,
-					'acquired_timestamp' => 1234567890
+					'title' => 'CourseTest',
+					'obj_type' => 'crs',
+					'acquired_timestamp' => 1539867618
 				),
 				null,
 				array(
@@ -627,20 +592,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 		$objectHelper->method('getInstanceByObjId')
 			->willReturn($objectMock);
 
-		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dateHelper->method('formatDate')
-			->willReturn('2018-09-21');
-
 		$provider = new ilUserCertificateTableProvider(
 			$database,
 			$logger,
 			$controller,
-			$objectHelper,
-			$dateHelper,
-			1
+			'default_title',
+			$objectHelper
 		);
 
 		$dataSet = $provider->fetchDataSet(

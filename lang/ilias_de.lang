@@ -14390,5 +14390,14 @@ common#:#my_certificates#:#Meine Zertifikate
 cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
 cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Objekt Titel gefunden
+cert#:#cert_sortable_by_title_asc#:#Ascending by title
+cert#:#cert_sortable_by_title_desc#:#Descending by title
+cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
+cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_issued_on_label#:#Ausgestellt am
+cert#:#cert_download_label#:#Herunterladen
+cert#:#cert_object_label#:#Objekt
+cert#:#cert_description_label#:#Beschreibung
+cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
 certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.

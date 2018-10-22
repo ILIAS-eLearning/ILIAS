@@ -27,16 +27,6 @@ class ilUserCertificateTableProvider
 	private $objectHelper;
 
 	/**
-	 * @var ilCertificateDateHelper|null
-	 */
-	private $dateHelper;
-
-	/**
-	 * @var int
-	 */
-	private $dateFormat;
-
-	/**
 	 * @var string 
 	 */
 	private $defaultTitle;
@@ -47,35 +37,24 @@ class ilUserCertificateTableProvider
 	 * @param ilCtrl $controller
 	 * @param string $defaultTitle
 	 * @param ilCertificateObjectHelper|null $objectHelper
-	 * @param ilCertificateDateHelper|null $dateHelper
-	 * @param int $dateFormat
 	 */
 	public function __construct(
 		ilDBInterface $database,
 		ilLogger $logger,
 		ilCtrl $controller,
 		string $defaultTitle,
-		ilCertificateObjectHelper $objectHelper = null,
-		ilCertificateDateHelper $dateHelper = null,
-		$dateFormat = IL_CAL_UNIX
+		ilCertificateObjectHelper $objectHelper = null
 	) {
 		$this->database = $database;
 		$this->logger = $logger;
 		$this->controller = $controller;
+		$this->defaultTitle = $defaultTitle;
 
 		if (null === $objectHelper) {
 			$objectHelper = new ilCertificateObjectHelper();
 		}
 		$this->objectHelper = $objectHelper;
 
-		if (null === $dateHelper) {
-			$dateHelper = new ilCertificateDateHelper();
-		}
-		$this->dateHelper = $dateHelper;
-
-		$this->dateFormat = $dateFormat;
-		
-		$this->defaultTitle = $defaultTitle;
 	}
 
 	/**
@@ -83,7 +62,6 @@ class ilUserCertificateTableProvider
 	 * @param $params
 	 * @param $filter
 	 * @return array
-	 * @throws ilDateTimeException
 	 */
 	public function fetchDataSet($userId, $params, $filter)
 	{
@@ -91,6 +69,7 @@ class ilUserCertificateTableProvider
 
 		$sql = 'SELECT 
   il_cert_user_cert.id,
+  il_cert_user_cert.obj_type,
   acquired_timestamp,
   il_cert_user_cert.obj_id,
   (CASE WHEN (object_data.title IS NULL)
@@ -130,23 +109,28 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
 		$query = $this->database->query($sql);
 
-		$data = array();
+		$data = [
+			'items' => [],
+			'cnt' => 0,
+		];
+
 		while ($row = $this->database->fetchAssoc($query)) {
 			$title = $row['title'];
 
 			$data['items'][] = array(
 				'id' => $row['id'],
 				'title' => $title,
-				'date' => $this->dateHelper->formatDate($row['acquired_timestamp'], $this->dateFormat),
-				'action' => $this->controller->getLinkTargetByClass(
-					['ilLearningHistoryGUI', 'ilUserCertificateGUI'], 'download'
-				)
+				'obj_id' => $row['obj_id'],
+				'obj_type' => $row['obj_type'],
+				'date' => $row['acquired_timestamp']
 			);
 		}
 
 		if (isset($params['limit'])) {
-			$cnt_sql = 'SELECT COUNT(*) cnt FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId,
-					'integer') . ' AND currently_active = 1';
+			$cnt_sql = '
+				SELECT COUNT(*) cnt
+				FROM il_cert_user_cert
+				WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
 			$row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 
@@ -154,6 +138,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
 			$this->logger->info(sprintf('All active certificates for user: "%s" total: "%s"', $userId,
 				count($data['cnt'])));
+		} else {
+			$data['cnt'] = count($data['items']);
 		}
 
 		$this->logger->debug(sprintf('END - Actual results:', json_encode($data)));
@@ -173,7 +159,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}
 
-			if(!in_array($params['order_field'], array('date', 'id'))) {
+			if(!in_array($params['order_field'], array('date', 'id', 'title'))) {
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}
 
