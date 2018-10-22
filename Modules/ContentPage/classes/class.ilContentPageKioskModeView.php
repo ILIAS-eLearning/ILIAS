@@ -74,6 +74,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function buildInitialState(State $empty_state): State
 	{
+		return $empty_state;
 	}
 
 	/**
@@ -142,6 +143,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	public function updatePost(State $state, string $command, array $post): State
 	{
+		return $state;
 	}
 
 	/**
