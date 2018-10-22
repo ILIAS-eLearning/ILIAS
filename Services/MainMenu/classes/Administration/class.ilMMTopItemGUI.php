@@ -15,9 +15,11 @@ class ilMMTopItemGUI {
 	const CMD_CREATE = 'topitem_create';
 	const CMD_EDIT = 'topitem_edit';
 	const CMD_DELETE = 'topitem_delete';
+	const CMD_CONFIRM_DELETE = 'topitem_confirm_delete';
 	const CMD_TRANSLATE = 'topitem_translate';
 	const CMD_UPDATE = 'topitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
+	const CMD_CANCEL = 'cancel';
 	const IDENTIFIER = 'identifier';
 	/**
 	 * @var ilMMItemRepository
@@ -94,55 +96,35 @@ class ilMMTopItemGUI {
 			case self::CMD_VIEW_TOP_ITEMS:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
-				// ADD NEW
-				$b = ilLinkButton::getInstance();
-				$b->setCaption($this->lng->txt(self::CMD_ADD), false);
-				$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
-				$this->toolbar->addButtonInstance($b);
-
-				// TABLE
-				$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
-
-				return $table->getHTML();
+				return $this->index($DIC);
 			case self::CMD_ADD:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
-				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
 
-				return $f->getHTML();
+				return $this->add($DIC);
 			case self::CMD_CREATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
-				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
-				$f->save();
-
-				$this->ctrl->redirect($this);
+				$this->create($DIC);
 				break;
 			case self::CMD_EDIT:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
-				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
 
-				return $f->getHTML();
+				return $this->edit($DIC);
 				break;
 			case self::CMD_UPDATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
-				global $DIC;
-				$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
-				$f->save();
-
-				$this->ctrl->redirect($this);
+				$this->update($DIC);
 				break;
 			case self::CMD_SAVE_TABLE:
 				$this->saveTable();
 
-				return "";
+				break;
+			case self::CMD_CONFIRM_DELETE:
+				return $this->confirmDelete();
 			case self::CMD_DELETE:
-				$item = $this->getMMItemFromRequest();
-				if ($item->isCustom()) {
-					$this->repository->deleteItem($item);
-				}
-				$this->ctrl->redirect($this);
+				$this->delete();
+				break;
+			case self::CMD_CANCEL:
+				$this->cancel();
 				break;
 		}
 
@@ -159,7 +141,7 @@ class ilMMTopItemGUI {
 			$item->setActiveStatus((bool)$data['active']);
 			$this->repository->updateItem($item);
 		}
-		$this->ctrl->redirect($this);
+		$this->cancel();
 	}
 
 
@@ -181,5 +163,109 @@ class ilMMTopItemGUI {
 			default:
 				break;
 		}
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @return string
+	 */
+	private function index($DIC): string {
+		// ADD NEW
+		$b = ilLinkButton::getInstance();
+		$b->setCaption($this->lng->txt(self::CMD_ADD), false);
+		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
+		$this->toolbar->addButtonInstance($b);
+
+		// TABLE
+		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
+
+		return $table->getHTML();
+	}
+
+
+	private function cancel() {
+		$this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function add($DIC): string {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+
+		return $f->getHTML();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @throws Throwable
+	 */
+	private function create($DIC) {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+		$f->save();
+
+		$this->cancel();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function edit($DIC): string {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+
+		return $f->getHTML();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @throws Throwable
+	 */
+	private function update($DIC) {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+		$f->save();
+
+		$this->cancel();
+	}
+
+
+	private function delete() {
+		$item = $this->getMMItemFromRequest();
+		if ($item->isCustom()) {
+			$this->repository->deleteItem($item);
+		}
+		ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);
+		$this->cancel();
+	}
+
+
+	/**
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function confirmDelete(): string {
+		$this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
+		$i = $this->getMMItemFromRequest();
+		$c = new ilConfirmationGUI();
+		$c->addItem(self::IDENTIFIER, $i->getId(), $i->getDefaultTitle());
+		$c->setFormAction($this->ctrl->getFormActionByClass(self::class));
+		$c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
+		$c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
+
+		return $c->getHTML();
 	}
 }

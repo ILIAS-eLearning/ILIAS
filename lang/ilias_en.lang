@@ -14414,6 +14414,10 @@ mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Deleted Item
 mme#:#component_not_active#:#Component is not activated.
 mme#:#item_must_be_always_active#:#Item must be active.
+mme#:#msg_subitem_deleted#:#Item deleted.
+mme#:#msg_topitem_deleted#:#Item deleted.
+mme#:#subitem_confirm_delete#:#Do you really want to delete the following Item?
+mme#:#topitem_confirm_delete#:#Do you really want to delete the following Item?
 common#:#obj_mme#:#Main Menu
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

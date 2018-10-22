@@ -14410,6 +14410,10 @@ mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Keine Zuordnung
 mme#:#component_not_active#:#Komponente ist nicht aktiviert.
 mme#:#item_must_be_always_active#:#Eintrag muss aktiv sein.
+mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
+mme#:#msg_topitem_deleted#:#Eintrag gelöscht.
+mme#:#subitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
+mme#:#topitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
 common#:#obj_mme#:#Hauptmenu
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.

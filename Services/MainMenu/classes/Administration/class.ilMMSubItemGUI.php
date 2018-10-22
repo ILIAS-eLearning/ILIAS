@@ -14,6 +14,7 @@ class ilMMSubItemGUI {
 	const CMD_ADD = 'subitem_add';
 	const CMD_CREATE = 'subitem_create';
 	const CMD_DELETE = 'subitem_delete';
+	const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
 	const CMD_EDIT = 'subitem_edit';
 	const CMD_TRANSLATE = 'subitem_translate';
 	const CMD_UPDATE = 'subitem_update';
@@ -57,13 +58,14 @@ class ilMMSubItemGUI {
 	 * @var ilTree
 	 */
 	public $tree;
-
-
 	/**
 	 * ilMMTopItemGUI constructor.
 	 *
 	 * @param ilMMTabHandling $tab_handling
 	 */
+	const CMD_CANCEL = 'cancel';
+
+
 	public function __construct(ilMMTabHandling $tab_handling) {
 		global $DIC;
 
@@ -80,68 +82,45 @@ class ilMMSubItemGUI {
 
 
 	private function dispatchCommand($cmd) {
+		global $DIC;
 		switch ($cmd) {
 			case self::CMD_ADD:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				global $DIC;
-				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
 
-				return $f->getHTML();
+				return $this->add($DIC);
 			case self::CMD_CREATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				global $DIC;
-				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
-				$f->save();
-				$this->ctrl->redirect($this);
+				$this->create($DIC);
 				break;
 			case self::CMD_EDIT:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				global $DIC;
-				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
 
-				return $f->getHTML();
+				return $this->edit($DIC);
 			case self::CMD_UPDATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				global $DIC;
-				$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
-				$f->save();
-				$this->ctrl->redirect($this);
+				$this->update($DIC);
 				break;
 			case self::CMD_APPLY_FILTER:
-				$table = new ilMMSubItemTableGUI($this, $this->repository);
-				$table->writeFilterToSession();
-				$this->ctrl->redirect($this);
+				$this->applyFilter();
 				break;
 			case self::CMD_RESET_FILTER :
-				$table = new ilMMSubItemTableGUI($this, $this->repository);
-				$table->resetFilter();
-				$table->resetOffset();
-				$this->ctrl->redirect($this);
+				$this->resetFilter();
 				break;
 			case self::CMD_VIEW_SUB_ITEMS:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
-				// ADD NEW
-				$b = ilLinkButton::getInstance();
-				$b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
-				$b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
-
-				$this->toolbar->addButtonInstance($b);
-
-				// TABLE
-				$table = new ilMMSubItemTableGUI($this, $this->repository);
-
-				return $table->getHTML();
+				return $this->index();
 			case self::CMD_SAVE_TABLE:
 				$this->saveTable();
-
-				return "";
+				break;
+			case self::CMD_CONFIRM_DELETE:
+				return $this->confirmDelete();
+				break;
 			case self::CMD_DELETE:
-				$item = $this->getMMItemFromRequest();
-				if ($item->isCustom()) {
-					$this->repository->deleteItem($item);
-				}
-				$this->ctrl->redirect($this);
+				$this->delete();
+				break;
+			case self::CMD_CANCEL:
+				$this->cancel();
 				break;
 		}
 
@@ -159,7 +138,7 @@ class ilMMSubItemGUI {
 			$item->setParent((string)$data['parent']);
 			$this->repository->updateItem($item);
 		}
-		$this->ctrl->redirect($this, self::CMD_VIEW_SUB_ITEMS);
+		$this->cancel();
 	}
 
 
@@ -192,5 +171,126 @@ class ilMMSubItemGUI {
 			default:
 				break;
 		}
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function add($DIC): string {
+		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+
+		return $f->getHTML();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @throws Throwable
+	 */
+	private function create($DIC) {
+		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+		$f->save();
+
+		$this->cancel();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function edit($DIC): string {
+		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+
+		return $f->getHTML();
+	}
+
+
+	/**
+	 * @param $DIC
+	 *
+	 * @throws Throwable
+	 */
+	private function update($DIC) {
+		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+		$f->save();
+
+		$this->cancel();
+	}
+
+
+	private function applyFilter() {
+		$table = new ilMMSubItemTableGUI($this, $this->repository);
+		$table->writeFilterToSession();
+
+		$this->cancel();
+	}
+
+
+	private function resetFilter() {
+		$table = new ilMMSubItemTableGUI($this, $this->repository);
+		$table->resetFilter();
+		$table->resetOffset();
+
+		$this->cancel();
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function index(): string {
+		// ADD NEW
+		$b = ilLinkButton::getInstance();
+		$b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
+		$b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
+
+		$this->toolbar->addButtonInstance($b);
+
+		// TABLE
+		$table = new ilMMSubItemTableGUI($this, $this->repository);
+
+		return $table->getHTML();
+	}
+
+
+	private function delete() {
+		$item = $this->getMMItemFromRequest();
+		if ($item->isCustom()) {
+			$this->repository->deleteItem($item);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt("msg_subitem_deleted"), true);
+		$this->cancel();
+	}
+
+
+	private function cancel() {
+		$this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
+	}
+
+
+	/**
+	 * @return string
+	 * @throws Throwable
+	 */
+	private function confirmDelete(): string {
+		$this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
+		$i = $this->getMMItemFromRequest();
+		$c = new ilConfirmationGUI();
+		$c->addItem(self::IDENTIFIER, $i->getId(), $i->getDefaultTitle());
+		$c->setFormAction($this->ctrl->getFormActionByClass(self::class));
+		$c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
+		$c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
+
+		return $c->getHTML();
 	}
 }
