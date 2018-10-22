@@ -239,7 +239,7 @@ EOT;
 		$r = $this->getDefaultRenderer();
 		$c = $this->getBaseCard();
 		$items = array(
-			$f->button()->shy("Visit ILIAS", "http://www.ilias.de")
+			new I\Component\Button\Shy("Visit ILIAS", "https://www.ilias.de")
 		);
 		$dropdown = new I\Component\Dropdown\Standard($items);
 		$c = $c->withActions($dropdown);
@@ -247,12 +247,11 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
+	
 	<div class="il-card-repository-head">
 		<div class="row">
 			<div class="col-xs-3 col-sm-3">
-				<div class="icon custom responsive" aria-label="Course">
-					
-				</div>
+				
 			</div>
 			<div class="col-xs-3 col-sm-3">
 				
@@ -260,19 +259,21 @@ EOT;
 			<div class="col-xs-3 col-sm-3">
 			</div>
 			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
-				<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span></button>
-					<ul class="dropdown-menu">
-						<li><a href="http://www.ilias.de">Visit ILIAS</a></li>
-					</ul>
-				</div>
+				<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+<ul class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >Visit ILIAS</button>
+</li>
+</ul>
+</div>
 			</div>
 		</div>
 	</div>
-	<img src="src" class="img-standard" alt="alt" />
+<img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
+	
 </div>
 EOT;
 
