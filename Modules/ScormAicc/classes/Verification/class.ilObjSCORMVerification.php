@@ -34,10 +34,16 @@ class ilObjSCORMVerification extends ilVerificationObject
 	 */
 	public static function createFromSCORMLM(ilObjSAHSLearningModule $a_lm, $a_user_id)
 	{
-		global $lng;
-		
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger();
+		$lng = $DIC->language();
+
 		$lng->loadLanguageModule("sahs");
-		
+		$lng->loadLanguageModule("cert");
+
+
 		$newObj = new self();
 		$newObj->setTitle($a_lm->getTitle());
 		$newObj->setDescription($a_lm->getDescription());
@@ -59,12 +65,20 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$params = array(
 			"user_data" => ilObjUser::_lookupFields($a_user_id),
 			"last_access" => $last_access
-		);				
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilSCORMCertificateAdapter($a_lm));	
-		$certificate = $certificate->outCertificate($params, false);
-		
+		);
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
+
+		$certificate = $pdfAction->createPDF($a_user_id, $a_lm->getid());
+
 		// save pdf file
 		if($certificate)
 		{

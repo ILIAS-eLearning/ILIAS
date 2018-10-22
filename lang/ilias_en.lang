@@ -14382,3 +14382,29 @@ sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
 obj#:#obj_more_translations#:#More Translations
+
+wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
+cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
+cert#:#certificate_migration_confirm_started#:#The migration was started.
+cert#:#certificate_migration_go#:#Start Migration
+cert#:#user_certificates#:#Certificates
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#cert_error_no_access#:#You have no access to this certificate.
+cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
+common#:#my_certificates#:#My Certificates
+cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
+cert#:#certificate_achievement#:#%1$s achieved.
+cert#:#certificate_no_object_title#:#No object title available
+cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
+cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
+cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
+cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend
+cert#:#cert_issued_on_label#:#Issued On
+cert#:#cert_download_label#:#Download
+cert#:#cert_object_label#:#Object
+cert#:#cert_description_label#:#Description
+cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
+certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail

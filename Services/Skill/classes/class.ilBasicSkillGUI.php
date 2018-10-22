@@ -102,10 +102,17 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 			case "ilcertificategui":
 				$this->setLevelHead();
 				$ilTabs->activateTab("level_certificate");
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once("./Services/Skill/classes/class.ilSkillCertificateAdapter.php");
+
+				$skillLevelId = (int)$_GET["level_id"];
+
 				$output_gui = new ilCertificateGUI(
-					new ilSkillCertificateAdapter($this->node_object, (int) $_GET["level_id"]));
+					new ilSkillCertificateAdapter($this->node_object, $skillLevelId),
+					new ilDefaultPlaceholderDescription(),
+					new ilDefaultPlaceholderValues(),
+					$this->node_object->getId(),
+					ilCertificatePathConstants::SKILL_PATH . $this->node_object->getId() . '/' . $skillLevelId
+				);
+
 				$ret = $ilCtrl->forwardCommand($output_gui);
 				break;
 

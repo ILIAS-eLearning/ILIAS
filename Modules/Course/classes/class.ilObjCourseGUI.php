@@ -49,6 +49,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('cert');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -2446,10 +2447,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilcertificategui":
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
-				
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -3219,32 +3219,29 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
-		
+		$ilUser = $DIC->user();
+
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
 		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{							
 			// certificate
-			include_once "Services/Certificate/classes/class.ilCertificate.php";
-			if (ilCertificate::isActive() &&
-				ilCertificate::isObjectActive($this->object->getId()) && 
-				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
-			{			    
+
+			$validator = new ilCertificateDownloadValidator();
+			if (true === $validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
-				
+
 				$this->lng->loadLanguageModule("certificate");
 				$lg->addCustomCommand($cert_url, "download_certificate");
-				
+
 				$lg->addHeaderIcon("cert_icon",
-						ilUtil::getImagePath("icon_cert.svg"),
-						$this->lng->txt("download_certificate"),
-						null,
-						null,
-						$cert_url);
+					ilUtil::getImagePath("icon_cert.svg"),
+					$this->lng->txt("download_certificate"),
+					null,
+					null,
+					$cert_url);
 			}
-			
+
 			// notification
 			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
 			if(ilMembershipNotifications::isActive())
@@ -3280,37 +3277,48 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		return $lg;
-	}	
-	
+	}
+
 	function deliverCertificateObject()
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-	
+		$request = $DIC->http()->request();
+
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
-		{		
+		{
 			$user_id = $_REQUEST["member_id"];
 		}
 		if(!$user_id)
 		{
 			$user_id = $ilUser->getId();
 		}
-		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(!ilCertificate::isActive() ||
-			!ilCertificate::isObjectActive($this->object->getId()) ||
-			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
-		{
+
+		$objId = (int) $this->object->getId();
+
+		$validator = new ilCertificateDownloadValidator();
+
+		if (false === $validator->isCertificateDownloadable($user_id, $objId)) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
-		
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $user_id), true);				
+
+		$repository = new ilUserCertificateRepository();
+
+		$certLogger = $DIC->logger()->cert();
+		$pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$certLogger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
+
+		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}
 	
 	

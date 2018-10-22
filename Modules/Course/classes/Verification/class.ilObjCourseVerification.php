@@ -37,9 +37,12 @@ class ilObjCourseVerification extends ilVerificationObject
 		global $DIC;
 
 		$lng = $DIC['lng'];
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("crs");
-		
+		$lng->loadLanguageModule("cert");
+
 		$newObj = new self();
 		$newObj->setTitle($a_course->getTitle());
 		$newObj->setDescription($a_course->getDescription());
@@ -48,13 +51,20 @@ class ilObjCourseVerification extends ilVerificationObject
 		$lp_marks = new ilLPMarks($a_course->getId(), $a_user_id);
 		$newObj->setProperty("issued_on", 
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
-		
-		// create certificate
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($a_course));
-		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
-		
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
+
+		$certificate = $pdfAction->createPDF(
+			$a_user_id, $a_course->getid());
+
 		// save pdf file
 		if($certificate)
 		{

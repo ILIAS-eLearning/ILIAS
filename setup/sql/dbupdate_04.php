@@ -22857,3 +22857,467 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5311>
+<?php
+if(!$ilDB->tableExists('certificate_template')) {
+	$ilDB->createTable('certificate_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => ''
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'certificate_hash' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'background_image_path' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'created_timestamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addPrimaryKey('certificate_template', array('id'));
+	$ilDB->createSequence('certificate_template');
+	$ilDB->addIndex('certificate_template', array('obj_id'), 'i1');
+}
+
+if(!$ilDB->tableExists('user_certificates')) {
+	$ilDB->createTable('user_certificates', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pattern_certificate_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'acquired_timestamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'certificate_content' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'template_values' => array(
+			'type' => 'clob',
+			'notnull' => true,
+		),
+		'valid_until' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => null
+		),
+		'background_image_path' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		),
+		'version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => '1'
+		),
+		'ilias_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 'v5.4.0'
+		),
+		'currently_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addPrimaryKey('user_certificates', array('id'));
+	$ilDB->createSequence('user_certificates');
+	$ilDB->addIndex('user_certificates', array('obj_id', 'pattern_certificate_id'), 'i1');
+}
+
+if(!$ilDB->tableExists('certificate_cron_queue')) {
+	$ilDB->createTable('certificate_cron_queue', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'adapter_class' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true,
+		),
+		'state' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true
+		),
+		'started_timestamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+
+	$ilDB->addPrimaryKey('certificate_cron_queue', array('id'));
+	$ilDB->createSequence('certificate_cron_queue');
+	$ilDB->addIndex('certificate_cron_queue', array('obj_id', 'usr_id'), 'i1');
+}
+?>
+<#5312>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5313>
+<?php
+// Insert all current templates as database entries
+$web_path = CLIENT_WEB_DIR;
+
+$directories = array(
+	'exc' =>  '/exercise/certificates/',
+	'crs' =>  '/course/certificates/',
+	'tst' =>  '/assessment/certificates/',
+	'sahs' => '/assessment/certificates/'
+);
+
+foreach ($directories as $type => $relativePath) {
+	$directory = $web_path . $relativePath;
+
+	if (false === file_exists($directory)) {
+		continue;
+	}
+
+	$directoryInformation = ilUtil::getDir($directory);
+
+	$objectIds = array();
+	foreach ($directoryInformation as $file) {
+		if (strcmp($file['type'], 'dir') == 0) {
+			if (true === is_numeric($file['entry'])) {
+				$objectIds[] = $file['entry'];
+			}
+		}
+	}
+
+	foreach($objectIds as $objectId)
+	{
+		$actualDirectory = $directory . $objectId;
+
+		$certificateXml = $actualDirectory . '/certificate.xml';
+		if (false === file_exists($certificateXml)) {
+			continue;
+		}
+
+		$content = file_get_contents($certificateXml);
+		$timestamp = filemtime($certificateXml);
+
+		if (false !== $content) {
+			$backgroundImagePath = $relativePath . $objectId . '/background.jpg';
+
+			$id = $ilDB->nextId('certificate_template');
+
+			$columns = array(
+				'id'                    => array('integer', $id),
+				'obj_id'                => array('integer', $objectId),
+				'obj_type'              => array('text', $type),
+				'certificate_content'   => array('text', $content),
+				'certificate_hash'      => array('text', md5($content)),
+				'template_values'       => array('text', ''),
+				'version'               => array('text', '1'),
+				'ilias_version'         => array('text', ILIAS_VERSION_NUMERIC),
+				'created_timestamp'     => array('integer', $timestamp),
+				'currently_active'      => array('integer', 1),
+				'background_image_path' => array('text', $backgroundImagePath),
+			);
+
+			$ilDB->insert('certificate_template', $columns);
+		}
+	}
+}
+?>
+<#5314>
+<?php
+if(!$ilDB->tableExists('bgtask_cert_migration')) {
+	$ilDB->createTable('bgtask_cert_migration', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'lock' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'found_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'processed_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'migrated_items' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'progress' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'state' => array(
+			'type' => 'text',
+			'length' => '255',
+			'notnull' => true
+		),
+		'started_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		),
+		'finished_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+		),
+	));
+	$ilDB->addPrimaryKey('bgtask_cert_migration', array('id'));
+	$ilDB->createSequence('bgtask_cert_migration');
+	$ilDB->addUniqueConstraint('bgtask_cert_migration', array('id', 'usr_id'));
+}
+$ilCtrlStructureReader->getStructure();
+?>
+<#5315>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5316>
+<?php
+if( !$ilDB->tableColumnExists('certificate_template', 'deleted') ) {
+	$ilDB->addTableColumn(
+		'certificate_template',
+		'deleted', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>
+<#5317>
+<?php
+if( !$ilDB->tableColumnExists('certificate_cron_queue', 'template_id') ) {
+	$ilDB->addTableColumn(
+		'certificate_cron_queue',
+		'template_id', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>
+<#5318>
+<?php
+/** @var \ilDBInterface $ilDB */
+if ($ilDB->tableExists('certificate_cron_queue') && !$ilDB->tableExists('il_cert_cron_queue')) {
+	$ilDB->renameTable('certificate_cron_queue', 'il_cert_cron_queue');
+}
+if ($ilDB->sequenceExists('certificate_cron_queue')) {
+	$ilDB->dropSequence('certificate_cron_queue');
+}
+if (!$ilDB->sequenceExists('il_cert_cron_queue')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_cron_queue";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_cron_queue', (int)$row['max_id'] + 1);
+}
+?>
+<#5319>
+<?php
+if ($ilDB->tableExists('certificate_template') && !$ilDB->tableExists('il_cert_template')) {
+	$ilDB->renameTable('certificate_template', 'il_cert_template');
+}
+if ($ilDB->sequenceExists('certificate_template')) {
+	$ilDB->dropSequence('certificate_template');
+}
+if (!$ilDB->sequenceExists('il_cert_template')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_template";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_template', (int)$row['max_id'] + 1);
+}
+?>
+<#5320>
+<?php
+if ($ilDB->tableExists('user_certificates') && !$ilDB->tableExists('il_cert_user_cert')) {
+	$ilDB->renameTable('user_certificates', 'il_cert_user_cert');
+}
+if ($ilDB->sequenceExists('user_certificates')) {
+	$ilDB->dropSequence('user_certificates');
+}
+if (!$ilDB->sequenceExists('il_cert_user_cert')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_user_cert";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_user_cert', (int)$row['max_id'] + 1);
+}
+?>
+<#5321>
+<?php
+if ($ilDB->tableExists('bgtask_cert_migration') && !$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->renameTable('bgtask_cert_migration', 'il_cert_bgtask_migr');
+}
+if ($ilDB->sequenceExists('bgtask_cert_migration')) {
+	$ilDB->dropSequence('bgtask_cert_migration');
+}
+if (!$ilDB->sequenceExists('il_cert_bgtask_migr')) {
+	$query = "SELECT MAX(id) AS max_id FROM il_cert_bgtask_migr";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('il_cert_bgtask_migr', (int)$row['max_id'] + 1);
+}
+?>
+<#5322>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5323>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5324>
+<?php
+if (!$ilDB->tableColumnExists('il_cert_template', 'thumbnail_image_path')) {
+	$ilDB->addTableColumn(
+		'il_cert_template',
+		'thumbnail_image_path',
+		array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		)
+	);
+}
+
+if (!$ilDB->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
+	$ilDB->addTableColumn(
+		'il_cert_user_cert',
+		'thumbnail_image_path',
+		array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 255
+		)
+	);
+}
+?>

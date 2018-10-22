@@ -11,18 +11,29 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
+	private $userCertificateRepository;
+
 	/**
-	 * Constructor
-	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
+	public function __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
 		global $DIC;
 
 		$ilCtrl = $DIC['ilCtrl'];
-		
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -31,7 +42,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("crsv_create"));
 		$this->setDescription($this->lng->txt("crsv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.crs_verification_row.html", "Modules/Course");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -46,34 +57,20 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
-		
+
 		$data = array();
 
-		include_once "Modules/Course/classes/class.ilObjCourse.php";		
-		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-		
-		$obj_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), "crs");
-		if($obj_ids)
-		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";	
-			include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";					
-			ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $obj_ids);
-			
-			foreach($obj_ids as $crs_id)
-			{			
-				// #11210 - only available certificates!
-				if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $crs_id))															
-				{						
-					$crs = new ilObjCourse($crs_id, false);	
-					$adapter = new ilCourseCertificateAdapter($crs);
-					if(ilCertificate::_isComplete($adapter))
-					{							
-						$data[] = array("id" => $crs_id,
-							"title" => ilObject::_lookupTitle($crs_id),
-							"passed" => true);
-					}
-				}
-			}
+		$userId = $ilUser->getId();
+
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation($userId, 'crs');
+
+		$data = array();
+		foreach ($certificateArray as $certificate) {
+			$data[] = array(
+				'id'     => $certificate->getUserCertificate()->getObjId(),
+				'title'  => $certificate->getObjectTitle(),
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -81,7 +78,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -93,7 +90,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "crs_id", $a_set["id"]);

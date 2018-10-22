@@ -59,11 +59,15 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 		$exercise_id = $_REQUEST["exc_id"];
 		if($exercise_id)
 		{
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 			$exercise = new ilObjExercise($exercise_id, false);
 
-			include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
-			$newObj = ilObjExerciseVerification::createFromExercise($exercise, $ilUser->getId());
+			try {
+				$newObj = ilObjExerciseVerification::createFromExercise($exercise, $ilUser->getId());
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
 			if($newObj)
 			{
 				$parent_id = $this->node_id;

@@ -53,6 +53,11 @@ class ilObjExercise extends ilObject
 	protected $completion_by_submission = false;
 
 	/**
+	 * @var \ILIAS\Filesystem\Filesystem
+	 */
+	private $webFilesystem;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -68,6 +73,8 @@ class ilObjExercise extends ilObject
 		$this->user = $DIC->user();
 		$this->setPassMode("all");
 		$this->type = "exc";
+		$this->webFilesystem = $DIC->filesystem()->web();
+
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
@@ -262,13 +269,20 @@ class ilObjExercise extends ilObject
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
-		
-		// #18945
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$cert = new ilCertificate(new ilExerciseCertificateAdapter($this));
-		$newcert = new ilCertificate(new ilExerciseCertificateAdapter($new_obj));
-		$cert->cloneCertificate($newcert);
+
+		$factory = new ilCertificateFactory();
+		$templateRepository = new ilCertificateTemplateRepository($ilDB);
+
+		$cloneAction = new ilCertificateCloneAction(
+			$ilDB,
+			$factory,
+			$templateRepository,
+			$this->webFilesystem,
+			$this->log,
+			new ilCertificateObjectHelper()
+		);
+
+		$cloneAction->cloneCertificate($this, $new_obj);
 			
 		return $new_obj;
 	}

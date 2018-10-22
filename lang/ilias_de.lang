@@ -14378,3 +14378,28 @@ sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
 obj#:#obj_more_translations#:#Weitere Übersetzungen
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
+cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
+cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
+cert#:#certificate_migration_go#:#Starte Migration
+cert#:#user_certificates#:#Zertifikate
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
+cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
+common#:#my_certificates#:#Meine Zertifikate
+cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
+cert#:#certificate_achievement#:#%1$s erhalten.
+cert#:#certificate_no_object_title#:#Kein Objekt Titel gefunden
+cert#:#cert_sortable_by_title_asc#:#Ascending by title
+cert#:#cert_sortable_by_title_desc#:#Descending by title
+cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
+cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_issued_on_label#:#Ausgestellt am
+cert#:#cert_download_label#:#Herunterladen
+cert#:#cert_object_label#:#Objekt
+cert#:#cert_description_label#:#Beschreibung
+cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
+certificate#:#cert_cron_task_title#:#Zertifikate
+certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung

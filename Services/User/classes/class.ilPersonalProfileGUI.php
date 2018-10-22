@@ -7,13 +7,13 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilCertificateMigrationGUI
  */
 class ilPersonalProfileGUI
 {
-    var $tpl;
-    var $lng;
-    var $ilias;
+	var $tpl;
+	var $lng;
+	var $ilias;
 	var $ctrl;
 
 	var $user_defined_fields = null;
@@ -22,21 +22,21 @@ class ilPersonalProfileGUI
 	/**
 	* constructor
 	*/
-    function __construct()
-    {
-        global $DIC;
+	function __construct()
+	{
+		global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
@@ -71,6 +71,16 @@ class ilPersonalProfileGUI
 				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
 				$tpl->show();
+				break;
+
+			case "ilcertificatemigrationgui":
+				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->setTabs();
+				$this->showPersonalData(false, true);
 				break;
 			
 			default:
@@ -731,7 +741,7 @@ class ilPersonalProfileGUI
 	/**
 	* Personal data form.
 	*/
-	function showPersonalData($a_no_init = false)
+	function showPersonalData($a_no_init = false, $a_migration_started = false)
 	{
 		global $DIC;
 
@@ -770,6 +780,16 @@ class ilPersonalProfileGUI
 				ilUtil::sendInfo($lng->txt("profile_incomplete"));
 			}
 		}
+
+		if (!$a_migration_started) {
+		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
+			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messagebox);
+			$this->tpl->parseCurrentBlock('mess');
+		}
+
 		$this->tpl->setContent($this->form->getHTML());
 
 		$this->tpl->show();

@@ -11,25 +11,40 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var ilUserCertificateRepository
+	 */
+	private $userCertificateRepository;
+
 	/**
 	 * @var ilObjUser
 	 */
 	protected $user;
 
 	/**
-	 * Constructor
-	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
+	public function  __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		ilUserCertificateRepository $userCertificateRepository = null
+	) {
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->user = $DIC->user();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		$ilCtrl = $DIC->ctrl();
-		
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -38,7 +53,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("excv_create"));
 		$this->setDescription($this->lng->txt("excv_create_info"));
-		
+
 		$this->setRowTemplate("tpl.exc_verification_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -46,31 +61,24 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * Get all completed tests
+	 * Get all achieved test certificates for the current user
 	 */
 	protected function getItems()
 	{
 		$ilUser = $this->user;
+		$userId = $ilUser->getId();
 
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		$certificateArray = $this->userCertificateRepository
+			->fetchActiveCertificatesByTypeForPresentation($userId, 'exc');
 
 		$data = array();
-		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
-		{			
-			// #11210 - only available certificates!
-			$exc = new ilObjExercise($exercise_id, false);				
-			if($exc->hasUserCertificate($ilUser->getId()))
-			{						
-				$adapter = new ilExerciseCertificateAdapter($exc);
-				if(ilCertificate::_isComplete($adapter))
-				{							
-					$data[] = array("id" => $exercise_id,
-						"title" => ilObject::_lookupTitle($exercise_id),
-						"passed" => $passed);
-				}
-			}
+
+		foreach ($certificateArray as $certificate) {
+			$data[] = array(
+				'id'     => $certificate->getUserCertificate()->getObjId(),
+				'title'  => $certificate->getObjectTitle(),
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -78,7 +86,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -88,7 +96,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		
+
 		if($a_set["passed"])
 		{
 			$ilCtrl->setParameter($this->parent_obj, "exc_id", $a_set["id"]);

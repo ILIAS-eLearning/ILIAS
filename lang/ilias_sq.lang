@@ -5560,7 +5560,7 @@ certificate#:#certificate_passed#:#passed###24 02 2009 new variable
 certificate#:#certificate_failed#:#failed###24 02 2009 new variable
 certificate#:#certificate_pageheight#:#Page Height###24 02 2009 new variable
 certificate#:#certificate_pagewidth#:#Page Width###24 02 2009 new variable
-certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###24 02 2009 new variable
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to set this certificate template as deleted? User certificates that are currently processing and still rely on this template, will still be built based on this template. This certificate template will be not longer be used for new user certificates after deletion. The previous created certificate template will be used for new user certificates instead.
 certificate#:#certificate_enabled_scorm#:#Enabled###24 02 2009 new variable
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###24 02 2009 new variable
 certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user###24 02 2009 new variable

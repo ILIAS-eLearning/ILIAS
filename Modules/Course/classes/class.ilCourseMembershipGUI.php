@@ -268,7 +268,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	protected function deliverCertificate()
 	{
-		return $this->getParentGUI()->deliverCertificateObject($user_id);
+		return $this->getParentGUI()->deliverCertificateObject();
 	}
 	
 	/**

@@ -12,15 +12,31 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
 	/**
-	 * Constructor
-	 *
+	 * @var ilUserCertificateRepository|null
+	 */
+	private $userCertificateRepository;
+
+	/**
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param null $userCertificateRepository
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
-		global $ilCtrl;
-		
+	public function  __construct(
+		$a_parent_obj,
+		$a_parent_cmd = "",
+		$userCertificateRepository = null
+	) {
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		if (null === $userCertificateRepository) {
+			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		}
+		$this->userCertificateRepository = $userCertificateRepository;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -29,7 +45,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("scov_create"));
 		$this->setDescription($this->lng->txt("scov_create_info"));
-		
+
 		$this->setRowTemplate("tpl.sahs_verification_row.html", "Modules/ScormAicc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -37,75 +53,25 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * Get all completed tests
+	 * Get all achieved certificates of SCORM modules for current user
 	 */
 	protected function getItems()
 	{
-		global $ilUser, $tree;
-		
-		$data = array();
-		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if (ilCertificate::isActive())
-		{	
-			$obj_ids = array();
-			$root = $tree->getNodeData($tree->getRootId());
-			foreach($tree->getSubTree($root, true, "sahs") as $node)
-			{
-				$obj_ids[] = $node["obj_id"];
-			}			
-			if($obj_ids)
-			{				
-				include_once "./Services/Tracking/classes/class.ilObjUserTracking.php";
-				include_once "./Services/Tracking/classes/class.ilLPStatus.php";
-				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";	
-				include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";				
-				include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";				
-				include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";		
-				$lp_active = ilObjUserTracking::_enabledLearningProgress();				
-				foreach(ilCertificate::areObjectsActive($obj_ids) as $obj_id => $active)				
-				{
-					if($active)
-					{									
-						$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);	
-						if($type == "scorm")
-						{
-							$lm = new ilObjSCORMLearningModule($obj_id, false);
-						}
-						else
-						{
-							$lm = new ilObjSCORM2004LearningModule($obj_id, false);
-						}						
-						$adapter = new ilSCORMCertificateAdapter($lm);
-						if(ilCertificate::_isComplete($adapter))
-						{	
-							$lpdata = $completed = false;	
-							if($lp_active)
-							{							
-								$completed = ilLPStatus::_hasUserCompleted($obj_id, $ilUser->getId());
-								$lpdata = true;
-							}
-							if(!$lpdata)
-							{								
-								switch ($type)
-								{
-									case "scorm":																	
-										$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $ilUser->getId());									
-										break;
+		global $DIC;
 
-									case "scorm2004":									
-										$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $ilUser->getId());									
-										break;								
-								}
-							}
-																				
-							$data[] = array("id" => $obj_id,
-								"title" => ilObject::_lookupTitle($obj_id),
-								"passed" => (bool)$completed);			
-						}																							
-					}					
-				}
-			}
+		$ilUser = $DIC->user();
+
+		$userId = $ilUser->getId();
+
+		$certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation($userId, 'sahs');
+
+		$data = array();
+		foreach ($certificateArray as $certificate) {
+			$data[] = array(
+				'id'     => $certificate->getUserCertificate()->getObjId(),
+				'title'  => $certificate->getObjectTitle(),
+				'passed' => true
+			);
 		}
 
 		$this->setData($data);
@@ -113,7 +79,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill template row
-	 * 
+	 *
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
@@ -122,7 +88,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
-			$this->lng->txt("no"));		
+			$this->lng->txt("no"));
 
 		if($a_set["passed"])
 		{
