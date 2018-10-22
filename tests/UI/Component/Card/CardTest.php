@@ -109,7 +109,7 @@ class CardTest extends ILIAS_UI_TestBase {
 	public function test_with_image_action() {
 		$c = $this->getBaseCard();
 		$action = "https://www.ilias.de";
-		$c->withImageAction($action);
+		$c = $c->withImageAction($action);
 
 		$this->assertEquals($c->getImageAction(), $action);
 	}
