@@ -23438,3 +23438,43 @@ if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
 }
 
 ?>
+<#5331>
+<?php
+	if (!$ilDB->tableColumnExists('booking_settings', 'reminder_status'))
+	{
+		$ilDB->addTableColumn('booking_settings', 'reminder_status', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>
+<#5332>
+<?php
+	if (!$ilDB->tableColumnExists('booking_settings', 'reminder_day'))
+	{
+		$ilDB->addTableColumn('booking_settings', 'reminder_day', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		));
+	}
+?>
+<#5333>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5334>
+<?php
+	if (!$ilDB->tableColumnExists('booking_settings', 'last_remind_ts'))
+	{
+		$ilDB->addTableColumn('booking_settings', 'last_remind_ts', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		));
+	}
+?>

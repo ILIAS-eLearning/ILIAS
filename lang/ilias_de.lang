@@ -14460,3 +14460,18 @@ notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_mob#:#Medienobjekt
+book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_your_reservations#:#Ihre Reservierungen
+book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
+book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
+book#:#book_reminder_days#:#Tag(e)
+noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
+noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
+noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
+noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+book#:#book_notification#:#Benachrichtigungen über Reservierungen
+book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).

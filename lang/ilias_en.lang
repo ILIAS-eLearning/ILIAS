@@ -14464,3 +14464,18 @@ notes#:#notes_add_edit_comment#:#Add/Edit Comment
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_mob#:#Media Object
+book#:#book_booking_reminders#:#Upcoming reservations
+book#:#book_rem_intro#:#This is an overview of upcoming reservations:
+book#:#book_your_reservations#:#Your Reservations
+book#:#book_reservation_overview#:#Reservation Overviews
+book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Before Reservation
+book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
+book#:#book_reminder_days#:#Day(s)
+noti#:#noti_activate_notification#:#Activate Notification
+noti#:#noti_deactivate_notification#:#Deactivate Notification
+noti#:#noti_notification_activated#:#Notification Activated
+noti#:#noti_notification_deactivated#:#Notification Deactivated
+book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
