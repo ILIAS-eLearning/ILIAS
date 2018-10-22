@@ -14412,6 +14412,7 @@ common#:#my_certificates#:#My Certificates
 cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
+cert#:#certificate_no_object_desc#:#No object description available
 cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
 cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
 cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
