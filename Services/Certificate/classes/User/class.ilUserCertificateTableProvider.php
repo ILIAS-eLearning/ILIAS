@@ -81,18 +81,18 @@ class ilUserCertificateTableProvider
   il_cert_user_cert.thumbnail_image_path,
   acquired_timestamp,
   il_cert_user_cert.obj_id,
-  (CASE WHEN (object_data.title IS NULL)
+  (CASE WHEN (object_data.title IS NULL OR LENGTH(object_data.title) = 0)
     THEN
-      CASE WHEN (object_data_del.title IS NULL)
+      CASE WHEN (object_data_del.title IS NULL OR LENGTH(object_data_del.title) = 0)
         THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
         ELSE object_data_del.title
         END
     ELSE object_data.title 
     END
   ) as title,
-  (CASE WHEN (object_data.description IS NULL)
+  (CASE WHEN (object_data.description IS NULL OR LENGTH(object_data.description) = 0)
     THEN
-      CASE WHEN (object_data_del.description IS NULL)
+      CASE WHEN (object_data_del.description IS NULL OR LENGTH(object_data_del.description) = 0)
         THEN  ' . $this->database->quote($this->defaultDescription, 'text') . '
         ELSE object_data_del.description
         END
