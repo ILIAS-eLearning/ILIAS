@@ -192,8 +192,7 @@ class ilCertificateTemplateImportAction
 							$xsl,
 							$backgroundImagePath,
 							$jsonEncodedTemplateValues,
-							$thumbnailImagePath,
-							true
+							$thumbnailImagePath
 						))
 					);
 

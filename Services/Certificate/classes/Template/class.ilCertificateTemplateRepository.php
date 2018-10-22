@@ -84,6 +84,15 @@ class ilCertificateTemplateRepository
 		$this->logger->info('END - certificate template saved with columns: ', json_encode($columns));
 	}
 
+
+	public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive)
+	{
+		$sql = 'UPDATE il_cert_template SET currently_active = ' . $this->database->quote($currentlyActive, 'bool') .
+		' WHERE id = ' . $this->database->quote($certificateTemplate->getId(), 'integer');
+
+		return $this->database->manipulate($sql);
+	}
+
 	public function fetchTemplate(int $templateId) : ilCertificateTemplate
 	{
 		$this->logger->info(sprintf('START - Fetch certificate template with id: "%s"', $templateId));
