@@ -14383,3 +14383,5 @@ sess#:#sess_mail_all#:#Für alle Teilnehmer
 sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
 sess#:#sess_contact#:#Kontakt
 sess#:#sess_mem_contacts#:#Tutorielle Betreuung
+dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
+dateplaner#:#cal_ical_url#:#Ical-Url

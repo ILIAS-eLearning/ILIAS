@@ -105,5 +105,59 @@ class ilCalendarSubscriptionGUI
 		return $token->add();
 	}
 
+	/**
+	 * gGet modal for subscription
+	 */
+	protected function getModalForSubscription()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
+		$tpl = new ilTemplate(
+			'tpl.subscription_dialog.html',
+			true,
+			true,
+			'Services/Calendar'
+		);
+
+		$tpl->setVariable('TXT_SUBSCRIPTION_INFO', $lng->txt('cal_subscription_info'));
+
+
+		if ($this->cal_id > 0)
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_CALENDAR;
+			$id = $this->cal_id;
+		}
+		else if ($this->ref_id > 0)
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_CALENDAR;
+			$category = ilCalendarCategory::_getInstanceByObjId(ilObject::_lookupObjId($this->ref_id));
+			$id = $category->getCategoryID();
+		}
+		else
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_PD;
+			$id = 0;
+		}
+		$hash = $this->createToken($this->user->getID(), $selection, $id);
+		$url = ILIAS_HTTP_PATH.'/calendar.php?client_id='.CLIENT_ID.'&token='.$hash;
+
+		$tpl->setVariable('LINK',$url);
+		$tpl->setVariable('TXT_PERMA', $lng->txt('cal_ical_url'));
+
+		$roundtrip = $ui_factory->modal()->roundtrip(
+			$lng->txt('cal_calendar_subscription_modal_title'),
+			$ui_factory->legacy(
+				$tpl->get()
+			)
+		);
+		echo $ui_renderer->renderAsync($roundtrip);
+		exit;
+	}
+
 }
 ?>
