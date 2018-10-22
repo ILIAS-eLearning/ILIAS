@@ -127,7 +127,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->initFilter();
 		
 
-		$this->setSelectAllCheckbox('participants');
+		$this->setSelectAllCheckbox('participants',true);
 		$this->setShowRowsSelector(TRUE);
 		
 		$this->enable('sort');
@@ -140,7 +140,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
 		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
 
-		$this->addColumn('','f',"1");
+		$this->addColumn('','f','1',true);
 	 	$this->addColumn($this->lng->txt('name'),'name','20%');
 		$this->addColumn($this->lng->txt('login'),'login','10%');
 		

@@ -63,7 +63,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setFormName('participants');
 
-		$this->addColumn('', 'f', "1");
+		$this->addColumn('', 'f', "1",true);
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
 
 		$all_cols = $this->getSelectableColumns();
@@ -103,7 +103,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
 		
-		$this->setSelectAllCheckbox('participants');
+		$this->setSelectAllCheckbox('participants',true);
 		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
 	}
 

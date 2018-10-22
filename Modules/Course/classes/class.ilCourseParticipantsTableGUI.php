@@ -77,7 +77,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setFormName('participants');
 
-		$this->addColumn('', 'f', "1");
+		$this->addColumn('', 'f', '1',true);
 		$this->addColumn($this->lng->txt('name'), 'name', '20%');
 		
 		$all_cols = $this->getSelectableColumns();
@@ -103,7 +103,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		
 		
-		$this->setSelectAllCheckbox('participants');
+		$this->setSelectAllCheckbox('participants',true);
 		$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
 		$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
 		$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');

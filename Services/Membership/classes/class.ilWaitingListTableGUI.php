@@ -73,7 +73,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->setFormName('waiting');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
-	 	$this->addColumn('','f',"1");
+	 	$this->addColumn('','f',"1",true);
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
 		
 		$all_cols = $this->getSelectableColumns();
@@ -90,7 +90,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
 		$this->setPrefix('waiting');
-		$this->setSelectAllCheckbox('waiting');
+		$this->setSelectAllCheckbox('waiting',true);
 		$this->setRowTemplate("tpl.show_waiting_list_row.html","Services/Membership");
 		
 		if($show_content)

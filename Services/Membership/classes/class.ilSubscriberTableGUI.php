@@ -75,7 +75,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->setFormName('subscribers');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
-	 	$this->addColumn('','f',"1");
+	 	$this->addColumn('','f',"1",true);
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
 
 		$all_cols = $this->getSelectableColumns();
@@ -104,7 +104,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 
 		$this->setPrefix('subscribers');
-		$this->setSelectAllCheckbox('subscribers');
+		$this->setSelectAllCheckbox('subscribers',true);
 		$this->setRowTemplate("tpl.show_subscribers_row.html","Services/Membership");
 		
 		if($show_content)
