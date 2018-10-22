@@ -70,6 +70,7 @@ class ilUserCertificateTableProvider
 		$sql = 'SELECT 
   il_cert_user_cert.id,
   il_cert_user_cert.obj_type,
+  il_cert_user_cert.thumbnail_image_path,
   acquired_timestamp,
   il_cert_user_cert.obj_id,
   (CASE WHEN (object_data.title IS NULL)
@@ -118,11 +119,12 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 			$title = $row['title'];
 
 			$data['items'][] = array(
-				'id' => $row['id'],
-				'title' => $title,
-				'obj_id' => $row['obj_id'],
-				'obj_type' => $row['obj_type'],
-				'date' => $row['acquired_timestamp']
+				'id'                   => $row['id'],
+				'title'                => $title,
+				'obj_id'               => $row['obj_id'],
+				'obj_type'             => $row['obj_type'],
+				'date'                 => $row['acquired_timestamp'],
+				'thumbnail_image_path' => $row['thumbnail_image_path']
 			);
 		}
 

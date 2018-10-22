@@ -207,6 +207,7 @@ class ilCertificateCron extends \ilCronJob
 				CLIENT_WEB_DIR . $template->getBackgroundImagePath()
 			);
 
+			$thumbnailImagePath = (string)$template->getThumbnailImagePath();
 			$userCertificate = new ilUserCertificate(
 				$template->getId(),
 				$objId,
@@ -220,7 +221,8 @@ class ilCertificateCron extends \ilCronJob
 				$template->getVersion(),
 				ILIAS_VERSION_NUMERIC,
 				true,
-				$template->getBackgroundImagePath()
+				$template->getBackgroundImagePath(),
+				$thumbnailImagePath
 			);
 
 			$this->userRepository->save($userCertificate);
