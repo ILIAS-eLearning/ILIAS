@@ -6918,7 +6918,7 @@ button.close {
   -webkit-filter: grayscale(100%);
   /* Safari 6.0 - 9.0 */
   filter: grayscale(100%) brightness(150%);
-  max-width: 50%;
+  /* max-width:50%; */
 }
 .il-card .il-card-repository-head .row div.il-card-repository-dropdown {
   position: absolute;
