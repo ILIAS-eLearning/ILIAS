@@ -219,6 +219,7 @@ class ilCertificateGUI
 		$this->toolbar = $DIC['ilToolbar'];
 
 		$this->lng->loadLanguageModule('certificate');
+		$this->lng->loadLanguageModule('cert');
 		$this->lng->loadLanguageModule("trac");
 
 		$this->ref_id = (int)$_GET['ref_id'];
