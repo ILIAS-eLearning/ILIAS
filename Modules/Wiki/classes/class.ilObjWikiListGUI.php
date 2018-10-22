@@ -81,7 +81,6 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	function getProperties()
 	{
 		$lng = $this->lng;
-		$ilUser = $this->user;
 
 		$props = array();
 
@@ -92,6 +91,25 @@ class ilObjWikiListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
 		}
+
+		$lng->loadLanguageModule("wiki");
+		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
+		$info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->ref_id, $this->user->getId());
+		if (count($info) > 0)
+		{
+			$sub = ilExSubmission::getSubmissionsForFilename($this->ref_id, array(ilExAssignment::TYPE_WIKI_TEAM));
+			foreach ($sub as $s)
+			{
+				$team = new ilExAssignmentTeam($s["team_id"]);
+				$mem = array_map (function ($id) {
+					$name = ilObjUser::_lookupName($id);
+					return $name["firstname"]." ".$name["lastname"];
+				}, $team->getMembers());
+				$props[] = array("alert" => false, "property" => $lng->txt("wiki_team_members"),
+					"value" => implode(", ", $mem));
+			}
+		}
+
 
 		return $props;
 	}

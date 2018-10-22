@@ -14,7 +14,11 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 */
 class ilAssignmentsTableGUI extends ilTable2GUI
 {
-	
+	/**
+	 * @var ilExAssignmentTypes
+	 */
+	protected $types;
+
 	/**
 	* Constructor
 	*/
@@ -26,7 +30,9 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
-		
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		$this->types = ilExAssignmentTypes::getInstance();
+
 		$this->exc_id = $a_exc_id;
 		$this->setId("excass".$this->exc_id);
 		
@@ -69,14 +75,6 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->addCommandButton("saveAssignmentOrder", $lng->txt("exc_save_order"));
 		//$this->addCommandButton("addAssignment", $lng->txt("exc_add_assignment"));
 		
-		$types_map = array(
-			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
-			ilExAssignment::TYPE_UPLOAD_TEAM => $lng->txt("exc_type_upload_team"),
-			ilExAssignment::TYPE_BLOG => $lng->txt("exc_type_blog"),
-			ilExAssignment::TYPE_PORTFOLIO => $lng->txt("exc_type_portfolio"),
-			ilExAssignment::TYPE_TEXT => $lng->txt("exc_type_text"),
-			);
-		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
@@ -90,8 +88,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 				$peer_reviews = $peer_review->validatePeerReviewGroups();
 				$data[$idx]["peer_invalid"] = $peer_reviews["invalid"];			
 			}
-			
-			$data[$idx]["type"] = $types_map[$row["type"]];
+			$data[$idx]["ass_type"] = $this->types->getById($row["type"]);
+			$data[$idx]["type"] = $data[$idx]["ass_type"]->getTitle();
 		}
 		
 		$this->setData($data);
