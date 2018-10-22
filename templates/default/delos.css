@@ -12331,6 +12331,16 @@ span.calminiinactive {
   float: right;
   visibility: hidden;
 }
+
+span.ilIcalIcon {
+  text-align: left;
+}
+span.ilIcalIcon > button,
+span.ilIcalIcon > button:hover,
+span.ilIcalIcon > button:visited {
+  background-color: #ea6705;
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
 a.ilWikiPageMissing:visited {
