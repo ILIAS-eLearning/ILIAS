@@ -14390,7 +14390,8 @@ exc#:#exc_create_wiki#:#Wiki erstellen
 wiki#:#wiki_exercise_info#:#Dieses Wiki ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 wiki#:#wiki_finalize_wiki#:#Wiki abschließen und abgeben
 wiki#:#wiki_finalized#:#Das Wiki wurde abgegeben.
-wiki#:#wiki_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
+wiki#:#wiki_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Abgabedatei.
 wiki#:#wiki_team_members#:#Teammitglieder
 wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
 wiki#:#wiki_exc_template#:#Wikivorlage
+wiki#:#wiki_download_submission#:#Abgabedatei herunterladen

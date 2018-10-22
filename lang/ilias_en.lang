@@ -14394,7 +14394,8 @@ exc#:#exc_create_wiki#:#Create Wiki
 wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
 wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
 wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
-wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.
 wiki#:#wiki_team_members#:#Team Members
 wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
 wiki#:#wiki_exc_template#:#Wiki Template
+wiki#:#wiki_download_submission#:#Download Submission File
