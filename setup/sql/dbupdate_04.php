@@ -22918,7 +22918,7 @@ if ($ilDB->tableExists('object_data_del')) {
 	}
 }
 ?>
-<#5309>
+<#5315>
 <?php
 if (!$ilDB->tableExists('tos_documents')) {
 	$fields = [
@@ -22971,7 +22971,7 @@ if (!$ilDB->tableExists('tos_documents')) {
 	$ilDB->createSequence('tos_documents');
 }
 ?>
-<#5310>
+<#5316>
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	$ilDB->addTableColumn('tos_documents', 'text', [
@@ -22981,7 +22981,7 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 	]);
 }
 ?>
-<#5311>
+<#5317>
 <?php
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$fields = [
@@ -23039,7 +23039,7 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 	$ilDB->createSequence('tos_criterion_to_doc');
 }
 ?>
-<#5312>
+<#5318>
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 	$ilDB->addTableColumn('tos_versions', 'doc_id',[
@@ -23066,19 +23066,19 @@ if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
 	]);
 }
 ?>
-<#5313>
+<#5319>
 <?php
 if ($ilDB->indexExistsByFields('tos_versions',['hash', 'lng'])) {
 	$ilDB->dropIndexByFields('tos_versions', ['hash', 'lng']);
 }
 ?>
-<#5314>
+<#5320>
 <?php
 if (!$ilDB->indexExistsByFields('tos_versions', ['hash', 'doc_id'])) {
 	$ilDB->addIndex('tos_versions', ['hash', 'doc_id'], 'i1');
 }
 ?>
-<#5315>
+<#5321>
 <?php
 $dbStep = $nr;
 $globalAgreementPath = './Customizing/global/agreement';
@@ -23288,7 +23288,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 }
 ?>
-<#5316>
+<#5322>
 <?php
 // Migrate accepted criteria for missing documents (file did not exists during migration)
 $ilDB->manipulateF("
@@ -23318,7 +23318,7 @@ $ilDB->manipulateF("
 	['usr_language', '[{"id":"usr_language","value":', '}]']
 );
 ?>
-<#5317>
+<#5323>
 <?php
 if ($ilDB->tableColumnExists('tos_versions', 'lng')) {
 	$ilDB->dropTableColumn('tos_versions', 'lng');
@@ -23332,7 +23332,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'src')) {
 	$ilDB->dropTableColumn('tos_versions', 'src');
 }
 ?>
-<#5318>
+<#5324>
 <?php
 if ($ilDB->tableExists('agreement_migr')) {
 	$ilDB->dropTable('agreement_migr');
@@ -23341,7 +23341,7 @@ if ($ilDB->tableExists('agreement_migr')) {
 	));
 }
 ?>
-<#5319>
+<#5325>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
