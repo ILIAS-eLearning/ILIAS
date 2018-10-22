@@ -155,5 +155,5 @@ class CardTest extends ILIAS_UI_TestBase {
 			"</div>";
 
 		$this->assertHTMLEquals($expected_html, $html);
-	}z
+	}
 }
