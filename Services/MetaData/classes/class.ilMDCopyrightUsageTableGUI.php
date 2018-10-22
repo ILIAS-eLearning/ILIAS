@@ -39,7 +39,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt('object'),'object');
 		$this->addColumn($this->lng->txt('meta_references'),'references');
-		$this->addColumn($this->lng->txt('sub_items'),'subitems');
+		$this->addColumn($this->lng->txt('meta_sub_items'),'subitems');
 		$this->addColumn($this->lng->txt('owner'),'owner');
 
 		$this->setRowTemplate("tpl.show_copyright_usages_row.html","Services/MetaData");
@@ -53,12 +53,19 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
 		if($a_set['references'])
 		{
-			$this->tpl->setCurrentBlock("references");
-			$this->tpl->setVariable("REFERENCES",implode("<br>",$a_set['references']));
-			$this->tpl->parseCurrentBlock();
+			foreach($a_set['references'] as $reference)
+			{
+				$this->tpl->setCurrentBlock("references");
+				$link = ILIAS_HTTP_PATH.'/goto.php?client_id='.CLIENT_ID."&target=".$a_set['type']."_".$reference;
+				$this->tpl->setVariable("REF_LINK", $link);
+				$this->tpl->setVariable("REFERENCE",$reference);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$this->tpl->setVariable('SUB_ITEMS','TO DO');
+
+		//TODO FIX WHITE PAGE OWNER LINK
 		if($a_set['owner_link'])
 		{
 			$this->tpl->setCurrentBlock("link_owner");
@@ -81,6 +88,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		{
 			$obj_id = $item['obj_id'];
 			$data[] = array(
+				"obj_id" => $obj_id,
+				"type" => ilObject::_lookupType($obj_id),
 				"title" => ilObject::_lookupTitle($obj_id),
 				"desc" => ilObject::_lookupDescription($obj_id),
 				"references" => ilObject::_getAllReferences($obj_id),

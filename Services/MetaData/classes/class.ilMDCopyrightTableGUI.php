@@ -114,7 +114,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('USAGE_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'showCopyrightUsages'));
 				$this->ctrl->clearParameters($this->getParentObject());
 
-				$this->tpl->setVariable('TXT_USAGE',$this->lng->txt('meta_oer_show_usages'));
+				$this->tpl->setVariable('TXT_USAGE',$this->lng->txt('meta_show_usages'));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
