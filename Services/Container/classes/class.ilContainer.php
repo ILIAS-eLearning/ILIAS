@@ -111,13 +111,17 @@ class ilContainer extends ilObject
 	const SORT_NEW_ITEMS_ORDER_CREATION = 1;
 	const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
-
 	static $data_preloaded = false;
 
 	/**
 	 * @var ilSetting
 	 */
 	protected $setting;
+
+	/**
+	 * @var ilObjectTranslation
+	 */
+	protected $obj_trans = null;
 
 	function __construct($a_id = 0, $a_reference = true)
 	{
@@ -135,7 +139,30 @@ class ilContainer extends ilObject
 
 		$this->setting = $DIC["ilSetting"];
 		parent::__construct($a_id, $a_reference);
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 
+		if ($this->getId() > 0)
+		{
+			$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+		}
+	}
+
+	/**
+	 * Get object translation
+	 * @return ilObjectTranslation
+	 */
+	public function getObjectTranslation()
+	{
+		return $this->obj_trans;
+	}
+
+	/**
+	 * Get object translation
+	 * @param ilObjectTranslation $obj_trans
+	 */
+	public function setObjectTranslation(ilObjectTranslation $obj_trans)
+	{
+		$this->obj_trans = $obj_trans;
 	}
 
 	/**
@@ -498,7 +525,12 @@ class ilContainer extends ilObject
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
-	
+
+		// translations
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->getId());
+		$ot->copy($new_obj->getId());
+
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		#18624 - copy all sorting settings
 		ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
@@ -660,7 +692,25 @@ class ilContainer extends ilObject
 				'ref_id' => (int) $res
 		);
 	}
-	
+
+	/**
+	 * delete category and all related data
+	 *
+	 * @return	boolean	true if all object data were removed; false if only a references were removed
+	 */
+	function delete()
+	{
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		// delete translations
+		$this->obj_trans->delete();
+
+		return true;
+	}
+
 	/**
 	* Get container view mode
 	*/
@@ -877,8 +927,19 @@ class ilContainer extends ilObject
 	*/
 	function create()
 	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
 		$ret = parent::create();
-		
+
+		// set translation object, since we have an object id now
+		$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+
+		// add default translation
+		$this->addTranslation($this->getTitle(),
+			$this->getDescription(), $lng->getDefaultLanguage(), true);
+
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -904,7 +965,12 @@ class ilContainer extends ilObject
 	function update()
 	{
 		$ret = parent::update();
-		
+
+		$trans = $this->getObjectTranslation();
+		$trans->setDefaultTitle($this->getTitle());
+		$trans->setDefaultDescription($this->getDescription());
+		$trans->save();
+
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
@@ -932,7 +998,7 @@ class ilContainer extends ilObject
 	public function read()
 	{
 		parent::read();
-		
+
 		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 		
@@ -940,6 +1006,7 @@ class ilContainer extends ilObject
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 		$this->readContainerSettings();
+		$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
 	}
 
 	/**
@@ -1064,6 +1131,45 @@ class ilContainer extends ilObject
 			}
 		}
 	}
-	
-} // END class ilContainer
-?>
+
+	/**
+	 * Remove all translations of container
+	 */
+	function removeTranslations()
+	{
+		$this->obj_trans->delete();
+	}
+
+	/**
+	 * Delete translation
+	 *
+	 * @param $a_lang
+	 */
+	function deleteTranslation($a_lang)
+	{
+		$this->obj_trans->removeLanguage($a_lang);
+		$this->obj_trans->save();
+	}
+
+	/**
+	 * Add translation
+	 *
+	 * @param $a_title
+	 * @param $a_desc
+	 * @param $a_lang
+	 * @param $a_lang_default
+	 * @return bool
+	 */
+	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
+	{
+		if (empty($a_title))
+		{
+			$a_title = "NO TITLE";
+		}
+
+		$this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, $a_lang_default, true);
+		$this->obj_trans->save();
+
+		return true;
+	}
+}

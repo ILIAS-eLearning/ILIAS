@@ -294,6 +294,11 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 					$this->tpl->setCurrentBlock("team_info");
 					$this->tpl->setVariable("TXT_TEAM_INFO", $this->lng->txt("exc_no_team_yet"));
 				}
+				else
+				{
+					$this->tpl->setCurrentBlock("team_info");
+					$this->tpl->setVariable("TXT_TEAM_INFO", "(".$a_row["submission_obj"]->getTeam()->getId().")");
+				}
 			}
 		}
 		else

@@ -1216,7 +1216,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		$ilUser = $this->user;
 	
-		if($_POST["ilfilehash"])
+		if(isset($_POST["ilfilehash"]) && $_POST["ilfilehash"])
 		{					
 			$user_id = $ilUser->getId();
 			$temp_path = ilUtil::getDataDir() . "/temp";

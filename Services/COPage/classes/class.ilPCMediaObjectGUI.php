@@ -40,8 +40,23 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	 */
 	protected $user;
 
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var string
+	 */
+	protected $pool_view;
+
 	var $header;
 	var $ctrl;
+
+	/**
+	 * @var string table sub command (e.g. applyFilter)
+	 */
+	protected $sub_cmd;
 
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
@@ -54,8 +69,18 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->user = $DIC->user();
 		$ilCtrl = $DIC->ctrl();
+		$this->ui = $DIC->ui();
+
+		$this->pool_view = "folder";
+		if (in_array($_GET["pool_view"], array("folder", "all")))
+		{
+			$this->pool_view = $_GET["pool_view"];
+		}
 
 		$this->ctrl = $ilCtrl;
+
+		$this->ctrl->saveParameter($this, "pool_view");
+
 //		var_dump($_POST);
 //ilUtil::printBacktrace(10); exit;
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
@@ -68,6 +93,27 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		));
 
 	}
+
+	/**
+	 * Set table sub command
+	 *
+	 * @param string $a_val command
+	 */
+	function setSubCmd($a_val)
+	{
+		$this->sub_cmd = $a_val;
+	}
+
+	/**
+	 * Get table sub command
+	 *
+	 * @return string command
+	 */
+	function getSubCmd()
+	{
+		return $this->sub_cmd;
+	}
+
 
 	function setHeader($a_title = "")
 	{
@@ -115,7 +161,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
-
 		if (is_object ($this->content_obj))
 		{
 			$this->tpl->clearHeader();
@@ -330,7 +375,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$ilTabs = $this->tabs;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
-		$ilToolbar = $this->toolbar;
+		$ui = $this->ui;
 
 		if ($_SESSION["cont_media_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
@@ -339,6 +384,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$html = "";
 			$tb = new ilToolbarGUI();
 
+			// button: select pool
 			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
 			if ($a_change_obj_ref)
 			{
@@ -353,10 +399,30 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			}
 			$ilCtrl->setParameter($this, "subCmd", "");
 
+			// view mode: pool view (folders/all media objects)
+			$f = $ui->factory();
+			$tcmd =  ($a_change_obj_ref)
+				? "changeObjectReference"
+				: "insert";
+			$lng->loadLanguageModule("mep");
+			$ilCtrl->setParameter($this, "pool_view", "folder");
+			$actions[$lng->txt("folders")] = $ilCtrl->getLinkTarget($this, $tcmd);
+			$ilCtrl->setParameter($this, "pool_view", "all");
+			$actions[$lng->txt("mep_all_mobs")] = $ilCtrl->getLinkTarget($this, $tcmd);
+			$ilCtrl->setParameter($this, "pool_view", $this->pool_view);
+			$aria_label = $lng->txt("cont_change_pool_view");
+			$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive(($this->pool_view == "folder")
+				? $lng->txt("folders") : $lng->txt("mep_all_mobs"));
+			$tb->addSeparator();
+			$tb->addComponent($view_control);
+
 			$html = $tb->getHTML();
 
 			$this->getTabs($ilTabs, true, $a_change_obj_ref);
 			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
+
+
+
 			
 			include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 			include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
@@ -368,8 +434,24 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$tmode = ($a_change_obj_ref)
 				? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
 				: ilMediaPoolTableGUI::IL_MEP_SELECT;
+
+			// handle table sub commands and get the table
+			if ($this->getSubCmd() == "applyFilter")
+			{
+				$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
+					$tmode, $this->pool_view == "all");
+				$mpool_table->resetOffset();
+				$mpool_table->writeFilterToSession();
+			}
+			if ($this->getSubCmd() == "resetFilter")
+			{
+				$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
+					$tmode, $this->pool_view == "all");
+				$mpool_table->resetOffset();
+				$mpool_table->resetFilter();
+			}
 			$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
-				$tmode);
+				$tmode, $this->pool_view == "all");
 
 			$html.= $mpool_table->getHTML();
 

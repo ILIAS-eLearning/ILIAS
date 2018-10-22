@@ -57,9 +57,6 @@ class ilObjCategory extends ilContainer
 		include_once('./Services/User/classes/class.ilObjUserFolder.php');
 		ilObjUserFolder::_updateUserFolderAssignment($this->ref_id,USER_FOLDER_ID);		
 
-		$query = "DELETE FROM object_translation WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
-		$res = $ilDB->manipulate($query);
-		
 		// taxonomies
 		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
 		foreach(ilObjTaxonomy::getUsageOfObject($this->getId()) as $tax_id)
@@ -78,103 +75,7 @@ class ilObjCategory extends ilContainer
 		
 		return true;
 	}
-	
-	/**
-	* get all translations from this category
-	* 
-	* @access	public
-	* @return	array 
-	*/
-	function getTranslations()
-	{
-		$ilDB = $this->db;
-		
-		$q = "SELECT * FROM object_translation WHERE obj_id = ".
-			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
-		$r = $ilDB->query($q);
-		
-		$num = 0;
 
-		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$data["Fobject"][$num]= array("title"	=> $row->title,
-										  "desc"	=> $row->description,
-										  "lang"	=> $row->lang_code
-										  );
-		$num++;
-		}
-
-		// first entry is always the default language
-		$data["default_language"] = 0;
-
-		return $data ? $data : array();	
-	}
-	
-	// remove all Translations of current category
-	function removeTranslations()
-	{
-		$ilDB = $this->db;
-		
-		$query = "DELETE FROM object_translation WHERE obj_id= ".
-			$ilDB->quote($this->getId(),'integer');
-		$res = $ilDB->manipulate($query);
-	}
-
-	// remove translations of current category
-	function deleteTranslation($a_lang)
-	{
-		$ilDB = $this->db;
-
-		$query = "DELETE FROM object_translation WHERE obj_id= ".
-			$ilDB->quote($this->getId(),'integer')." AND lang_code = ".
-			$ilDB->quote($a_lang, 'text');
-		$res = $ilDB->manipulate($query);
-	}
-	
-	// add a new translation to current category
-	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
-	{
-		$ilDB = $this->db;
-		
-		if (empty($a_title))
-		{
-			$a_title = "NO TITLE";
-		}
-
-		$query = "INSERT INTO object_translation ".
-			 "(obj_id,title,description,lang_code,lang_default) ".
-			 "VALUES ".
-			 "(".$ilDB->quote($this->getId(),'integer').",".
-			 	$ilDB->quote($a_title,'text').",".$ilDB->quote($a_desc,'text').",".
-				$ilDB->quote($a_lang,'text').",".$ilDB->quote($a_lang_default,'integer').")";
-		$res = $ilDB->manipulate($query);
-
-		return true;
-	}
-	
-	// update a translation to current category
-	function updateTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
-	{
-		$ilDB = $this->db;
-		$ilLog = $this->log;
-		
-		if (empty($a_title))
-		{
-			$a_title = "NO TITLE";
-		}
-
-		$query = "UPDATE object_translation ".
-			 "SET title = ". $ilDB->quote($a_title,'text').",".
-				  "description = ".$ilDB->quote($a_desc,'text').",".
-				  "lang_code = ".$ilDB->quote($a_lang,'text') . ",". 
-				  "lang_default = ".$ilDB->quote($a_lang_default,'integer')." ".
-			 "WHERE ".
-			 " obj_id = ".$ilDB->quote($this->getId(),'integer');
-		$res = $ilDB->manipulate($query);
-
-		return true;
-	}
-	
 	/**
 	 * Clone course (no member data)
 	 *
@@ -186,10 +87,6 @@ class ilObjCategory extends ilContainer
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id,$a_omit_tree);
-
-		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = ilObjectTranslation::getInstance($this->getId());
-		$ot->copy($new_obj->getId());
 
 	 	return $new_obj;
 	}

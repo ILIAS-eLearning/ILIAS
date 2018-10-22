@@ -16,7 +16,7 @@ interface Sortation extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param 	string 	$label
 	 *
-	 * @return \Sortation
+	 * @return self
 	 */
 	public function withLabel($label);
 
@@ -35,7 +35,7 @@ interface Sortation extends C\Component, JavaScriptBindable, Triggerer {
 	 * @param 	string 	$url
 	 * @param 	string 	$paramer_name
 	 *
-	 * @return \Sortation
+	 * @return self
 	 */
 	public function withTargetURL($url, $paramter_name);
 
@@ -63,7 +63,7 @@ interface Sortation extends C\Component, JavaScriptBindable, Triggerer {
 	/**
 	 * Get a component like this, triggering a signal of another component.
 	 *
-	 * @param Signal $signal A signal of another component
+	 * @param C\Signal $signal A signal of another component
 	 *
 	 * @return $this
 	 */
@@ -73,7 +73,7 @@ interface Sortation extends C\Component, JavaScriptBindable, Triggerer {
 	/**
 	 * Get the Signal for the selection of a option
 	 *
-	 * @return Signal
+	 * @return C\Signal
 	 */
 	public function getSelectSignal();
 }

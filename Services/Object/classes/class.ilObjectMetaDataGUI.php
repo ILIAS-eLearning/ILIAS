@@ -49,6 +49,22 @@ class ilObjectMetaDataGUI
 	protected $taxonomy_settings_form_manipulator = null;
 	protected $taxonomy_settings_form_saver = null;
 
+	// $adv_ref_id - $adv_type - $adv_subtype:
+	// Object, that defines the adv md records being used. Default is $this->object, but the
+	// context may set another object (e.g. media pool for media objects)
+	/**
+	 * @var int
+	 */
+	protected $adv_ref_id = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_type = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_subtype = null;
+
 	/**
 	 * Construct
 	 * 
@@ -246,18 +262,53 @@ class ilObjectMetaDataGUI
 			return $this->obj_type;
 		}
 	}
+
+	/**
+	 * Set object, that defines the adv md records being used. Default is $this->object, but the
+	 * context may set another object (e.g. media pool for media objects)
+	 *
+	 * @param string $a_val adv type
+	 */
+	function setAdvMdRecordObject($a_adv_ref_id, $a_adv_type, $a_adv_subtype = "-")
+	{
+		$this->adv_ref_id = $a_adv_ref_id;
+		$this->adv_type = $a_adv_type;
+		$this->adv_subtype = $a_adv_subtype;
+	}
+
+	/**
+	 * Get adv md record type
+	 *
+	 * @return array adv type
+	 */
+	function getAdvMdRecordObject()
+	{
+		if ($this->adv_type == null)
+		{
+			return [$this->ref_id, $this->obj_type, $this->sub_type];
+		}
+		return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
+	}
+
 	
 	protected function isAdvMDAvailable()
 	{
+//		$this->setAdvMdRecordObject(70,"mep", "mob");
 		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
 		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(false) as $item)
-		{			
-			if($item["obj_type"] == $this->obj_type)
+		{
+			list ($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+
+//			echo ("<br>".$item["obj_type"]."-".$adv_type."-".$adv_subtype);
+			if($item["obj_type"] == $adv_type)
 			{
-				return ((!$item["sub_type"] && $this->sub_type == "-") ||
-					($item["sub_type"] == $this->sub_type));
+//				 ("<br>-- ".$adv_type."-".$adv_subtype);
+//				exit;
+				return ((!$item["sub_type"] && $adv_subtype == "-") ||
+					($item["sub_type"] == $adv_subtype));
 			}
 		}
+//		exit;
 		return false;
 	}
 	
@@ -309,17 +360,22 @@ class ilObjectMetaDataGUI
 	protected function hasActiveRecords()
 	{
 		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+
+		list ($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+
 		return 
 		(bool) sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject(
-			$this->obj_type, 
-			$this->ref_id,
-			$this->sub_type));
+			$adv_type,
+			$adv_ref_id,
+			$adv_subtype));
 	}
 	
 	protected function canEdit()
 	{
-		if($this->hasActiveRecords() &&
-			$this->obj_id)
+//		if($this->hasActiveRecords() &&
+//			$this->obj_id)
+//		{
+		if($this->hasActiveRecords())
 		{
 			if($this->sub_type == "-" ||
 				$this->sub_id)
@@ -389,16 +445,14 @@ class ilObjectMetaDataGUI
 				$ilCtrl->getLinkTargetByClass("ilmdeditorgui", "listSection")
 			);
 		}
-		
 		if($this->isAdvMDAvailable())
-		{		
+		{
 			if($this->canEdit())
 			{
 				$ilTabs->addSubTab("advmd",
 					$lng->txt("meta_tab_advmd"),
 					$ilCtrl->getLinkTarget($this, "edit"));
 			}
-
 			if($this->hasAdvancedMDSettings())
 			{
 				$ilTabs->addSubTab("advmddef",
@@ -454,6 +508,12 @@ class ilObjectMetaDataGUI
 			$this->sub_type, 
 			$this->sub_id
 		);
+
+		if ($this->adv_type != "")
+		{
+			$this->record_gui->setAdvMdRecordObject($this->adv_ref_id, $this->adv_type, $this->adv_subtype);
+		}
+
 		$this->record_gui->setPropertyForm($form);
 		$this->record_gui->parse();
 		
@@ -516,7 +576,8 @@ class ilObjectMetaDataGUI
 		include_once "Services/Object/classes/class.ilObjectMetaDataBlockGUI.php";	
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)			
+		list ($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype) as $record)
 		{				
 			$block = new ilObjectMetaDataBlockGUI($record, $a_callback);
 			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));			
@@ -549,7 +610,8 @@ class ilObjectMetaDataGUI
 
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)
+		list ($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype) as $record)
 		{
 			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
 

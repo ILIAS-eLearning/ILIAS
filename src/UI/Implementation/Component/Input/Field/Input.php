@@ -63,7 +63,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	private $name = null;
 	/**
-	 * This is the current content of the input in the abstraction.
+	 * This is the current content of the input in the abstraction. This results by
+     * applying the transformations and constraints to the value(s) (@see: operations)
+     * Note that the content is only calculated by applying the withInput function.
 	 *
 	 * @var    Result|null
 	 */

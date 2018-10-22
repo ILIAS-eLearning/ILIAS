@@ -383,12 +383,15 @@ class ilExerciseManagementGUI
 				}
 			}		
 			else if($this->exercise->hasTutorFeedbackFile())
-			{	
-				// multi-feedback
-				$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
-					$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
-				
-				$ilToolbar->addSeparator();			
+			{
+				if (!$this->assignment->getAssignmentType()->usesTeams())
+				{
+					// multi-feedback
+					$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+						$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+
+					$ilToolbar->addSeparator();
+				}
 			}
 								
 			if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
@@ -1023,15 +1026,35 @@ class ilExerciseManagementGUI
 			
 			// get member object (ilObjUser)
 			if (ilObject::_exists($member_id))
-			{				
+			{
+				$storage_id = "";
 				// adding file metadata
 				foreach($submission->getFiles() as $file)
 				{
-					$members[$file["user_id"]]["files"][$file["returned_id"]] = $file;
-				}			
-			
-				$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
-				$members[$member_id]["name"] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+					if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam())
+					{
+						$storage_id = $file["team_id"];
+					}
+					else
+					{
+						$storage_id = $file["user_id"];
+					}
+
+					$members[$storage_id]["files"][$file["returned_id"]] = $file;
+				}
+				if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam())
+				{
+					$name = "Team ".$submission->getTeam()->getId();
+				}
+				else
+				{
+					$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
+					$name = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+				}
+				if ($storage_id > 0)
+				{
+					$members[$storage_id]["name"] = $name;
+				}
 				unset($tmp_obj);
 			}
 		}

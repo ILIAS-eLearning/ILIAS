@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
  *
  * @extends ilContainerGUI
  */
@@ -1106,22 +1106,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$form->setFormAction($this->ctrl->getFormAction($this,'update'));
-		
-		// title
-		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
-		$title->setSubmitFormOnEnter(true);
-		$title->setValue($this->object->getTitle());
-		$title->setSize(min(40, ilObject::TITLE_LENGTH));
-		$title->setMaxLength(ilObject::TITLE_LENGTH);
-		$title->setRequired(true);
-		$form->addItem($title);
-		
-		// desc
-		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getLongDescription());
-		$desc->setRows(2);
-		$desc->setCols(40);
-		$form->addItem($desc);
+
+		// title and description
+		$this->initFormTitleDescription($form);
 		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
@@ -1624,7 +1611,11 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass('ilmemberexportsettingsgui','')
 					);
 				}
-				
+
+				$this->tabs_gui->addSubTabTarget("obj_multilinguality",
+					$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+					"", "ilobjecttranslationgui");
+
 				break;
 				
 		}
@@ -2597,6 +2588,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
+
+			case 'ilobjecttranslationgui':
+				$this->checkPermissionBool("write");
+				$this->setSubTabs("properties");
+				$this->tabs_gui->activateTab("settings");
+				$this->tabs_gui->activateSubTab("obj_multilinguality");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
+				break;
+
 
 			default:
 /*                if(!$this->creation_mode)

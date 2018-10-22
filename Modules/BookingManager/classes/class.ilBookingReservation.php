@@ -606,16 +606,14 @@ class ilBookingReservation
 	
 	/**
 	 * List all reservations by date
-	 * @param	bool	$a_has_schedule
-	 * @param	array	$a_object_ids
-	 * @param	string	$a_order_field
-	 * @param	string	$a_order_direction
-	 * @param	int		$a_offset
-	 * @param	int		$a_limit
-	 * @param	array	$filter
+	 * @param	bool	$a_has_schedule has schedule
+	 * @param	array	$a_object_ids object ids
+	 * @param	array	$filter filter
+	 * @param	array	$a_pool_ids pool ids
 	 * @return	array
 	 */
-	static function getListByDate($a_has_schedule, array $a_object_ids, array $filter = null)
+	static function getListByDate($a_has_schedule, array $a_object_ids = null, array $filter = null,
+								  array $a_pool_ids = null)
 	{		
 		global $DIC;
 
@@ -623,11 +621,20 @@ class ilBookingReservation
 		
 		$res = array();
 		
-		$sql = 'SELECT r.*, o.title'.
+		$sql = 'SELECT r.*, o.title, o.pool_id'.
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
-		$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));		
+		if ($a_pool_ids !== null)
+		{
+			$where = array($ilDB->in('pool_id', $a_pool_ids, '', 'integer'));
+		}
+
+		if ($a_object_ids !== null)
+		{
+			$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));
+		}
+
 		if($filter['status'])
 		{
 			if($filter['status'] > 0)
@@ -718,6 +725,7 @@ class ilBookingReservation
 				$res[$idx] = array(					
 					"object_id" => $obj_id
 					,"title" => $row["title"]
+					,"pool_id" => $row["pool_id"]
 					,"user_id" => $user_id
 					,"counter" => 1						
 					,"user_name" => $uname["lastname"].", ".$uname["firstname"] // #17862

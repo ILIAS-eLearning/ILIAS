@@ -227,6 +227,23 @@ class ilObjectTranslation
 		}
 	}
 
+	/**
+	 * Get default language
+	 *
+	 * @return string default language
+	 */
+	function getDefaultLanguage()
+	{
+		foreach ($this->languages as $l)
+		{
+			if ($l["lang_default"])
+			{
+				return $l["lang_code"];
+			}
+		}
+		return "";
+	}
+
 
 	/**
 	 * Remove language

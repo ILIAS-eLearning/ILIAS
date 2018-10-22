@@ -190,7 +190,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	/**
 	* Creates the evaluation output for the test
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
@@ -198,12 +197,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$ilToolbar = $DIC->toolbar();
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
-
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+		
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		
 		$table_gui = new ilEvaluationAllTableGUI(
@@ -381,19 +382,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	* Creates the detailed evaluation output for a selected participant
 	*
 	* Creates the detailed evaluation output for a selected participant
-	 * 
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
 	function detailedEvaluation()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+		
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 
 		$active_id = $_GET['active_id'];
 		

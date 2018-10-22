@@ -35,6 +35,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	protected $advmd; // [array]
 
 	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 * @param	string	$a_parent_cmd
@@ -57,6 +62,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$lng = $DIC->language();
 		$ilUser = $DIC->user();
 		$ilAccess = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
 
 		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
@@ -106,16 +112,32 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField("title");
 			$this->setDefaultOrderDirection("asc");
 		}
-		
+
+		// non-user columns
+		$user_cols = $this->getSelectableUserColumns();
 		foreach($this->getSelectedColumns() as $col)
 		{
 			if(array_key_exists($col, $cols))
 			{
-				$this->addColumn($cols[$col]["txt"], $col);
+				if (!isset($user_cols[$col])) {
+					$this->addColumn($cols[$col]["txt"], $col);
+				}
 			}
 		}
 								
 		$this->addColumn($this->lng->txt("user"), "user_name");
+
+		// user columns
+		foreach($this->getSelectedColumns() as $col)
+		{
+			if(array_key_exists($col, $cols))
+			{
+				if (isset($user_cols[$col])) {
+					$this->addColumn($cols[$col]["txt"], $col);
+				}
+			}
+		}
+
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setEnableHeader(true);
@@ -158,7 +180,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		ilDatePresentation::setUseRelativeDates(false);
 	}
 	
-	function getSelectableColumns($a_only_advmd = false)
+	function getSelectableColumns($a_only_advmd = false, $a_include_user = true)
 	{
 		$cols = array();
 		
@@ -177,7 +199,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				"default" => true
 			);			
 		}
-		
+
 		foreach($this->advmd as $field)
 		{
 			$cols["advmd".$field["id"]] = array(
@@ -185,9 +207,88 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				"default" => false
 			);
 		}
-		
+
+		if ($a_include_user)
+		{
+			$cols = array_merge($cols, $this->getSelectableUserColumns());
+		}
+
 		return $cols;
 	}
+
+	/**
+	 * Get selectable user fields
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function getSelectableUserColumns()
+	{
+		$cols = [];
+		// additional user fields
+		if (($parent = $this->getParentGroupCourse()) !== false)	{
+
+			if ($this->access->checkAccess("manage_members", "", $parent["ref_id"]))
+			{
+				include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
+				$ef = ilExportFieldsInfo::_getInstanceByType($parent["type"]);
+				foreach ($ef->getSelectableFieldsInfo(ilObject::_lookupObjectId($parent["ref_id"])) as $k => $v)
+				{
+					if (!in_array($k, ["login"]))
+					{
+						$cols[$k] = $v;
+					}
+				}
+			}
+		}
+		return $cols;
+	}
+
+	/**
+	 * Get selected user colimns
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function getSelectedUserColumns()
+	{
+		$user_cols = $this->getSelectableUserColumns();
+		$sel = [];
+		foreach ($this->getSelectedColumns() as $col)
+		{
+			if (isset($user_cols[$col]))
+			{
+				$sel[] = $col;
+			}
+		}
+		return $sel;
+	}
+
+
+	/**
+	 * Get parent group or course
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function getParentGroupCourse()
+	{
+		$tree = $this->tree;
+		if (($par_ref_id = $tree->checkForParentType($this->ref_id, "grp")) > 0)	{
+			return [
+				"ref_id" => $par_ref_id,
+				"type" => "grp"
+			];
+		}
+		if (($par_ref_id = $tree->checkForParentType($this->ref_id, "crs")) > 0)	{
+			return [
+				"ref_id" => $par_ref_id,
+				"type" => "crs"
+			];
+		}
+		return false;
+	}
+
 
 
 	/**
@@ -436,7 +537,34 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				$this->ref_id, "book", "bobj",
 				$this->pool_id, "bobj", $data, "pool_id", "object_id", $this->record_gui->getFilterElements());
 		}
-		
+
+		if (count($this->getSelectedUserColumns()) > 0)
+		{
+			// get additional user data
+			$user_ids = array_unique(array_map(function ($d) {
+				return $d['user_id'];
+			}, $data));
+
+			// user data fields
+			$query = new ilUserQuery();
+			$query->setLimit(9999);
+			$query->setAdditionalFields($this->getSelectedUserColumns());
+			$query->setUserFilter($user_ids);
+			$ud = $query->query();
+			$usr_data = [];
+			foreach ($ud["set"] as $v)
+			{
+				foreach ($this->getSelectedUserColumns() as $c)
+				{
+					$usr_data[$v["usr_id"]][$c] = $v[$c];
+				}
+			}
+			foreach ($data as $key => $v)
+			{
+				$data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+			}
+		}
+
 		$this->setData($data);
 	}
 	
@@ -550,7 +678,18 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-					
+
+		// additional user fields
+		$user_cols = $this->getSelectableUserColumns();
+		foreach($this->getSelectedColumns() as $col)
+		{
+			if (isset($user_cols[$col])) {
+				$this->tpl->setCurrentBlock("user_col");
+				$this->tpl->setVariable("VALUE_USER_COL", $a_set[$col]." ");
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
 		if($can_be_cancelled)
 		{			 
 			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);

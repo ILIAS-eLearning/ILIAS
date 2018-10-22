@@ -40,6 +40,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	protected $wiki;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_wiki_ref_id = 0)
@@ -56,6 +61,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->settings = $DIC->settings();
 		$this->toolbar = $DIC->toolbar();
 		$tpl = $DIC["tpl"];
+		$this->ui = $DIC->ui();
 
 		// needed for notifications
 		$this->setWikiRefId($a_wiki_ref_id);
@@ -374,13 +380,76 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl = $this->tpl;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
-		$ilToolbar = $this->toolbar;
+		$ui = $this->ui;
+
 
 		// block/unblock
 		if ($this->getPageObject()->getBlocked())
 		{
 			ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
 		}
+
+		// exercise information
+		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
+		$ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->getWikiRefId(), $ilUser->getId());
+		$message = "";
+		foreach ($ass_info as $i)	// should be only one
+		{
+			$links = $buttons = [];
+			$ass = new ilExAssignment($i->getId());
+			$times_up = $ass->afterDeadlineStrict();
+
+			// info text and link
+			$exc_title = $i->getExerciseTitle();
+			$info = sprintf($lng->txt("wiki_exercise_info"),
+				$i->getTitle(), $exc_title);
+			foreach ($i->getLinks() as $l)
+			{
+				$links[] = $ui->factory()->link()->standard($exc_title, $l);
+			}
+
+			// submit button
+			if(!$times_up)
+			{
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+				$submit_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "finalizeAssignment");
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+
+				$buttons[] = $ui->factory()->button()->primary($lng->txt("wiki_finalize_wiki"), $submit_link);
+			}
+
+			// submitted files
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+			$submission = new ilExSubmission($ass, $ilUser->getId());
+			if($submission->hasSubmitted())
+			{
+				$submitted = $submission->getSelectedObject();
+
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+				$dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+
+				$rel = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
+
+
+				$info .= "<br />".sprintf($lng->txt("wiki_exercise_submitted_info"),
+						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)));
+
+				ilDatePresentation::setUseRelativeDates($rel);
+				$buttons[] = $ui->factory()->button()->standard($lng->txt("wiki_download_submission"), $dl_link);
+			}
+
+
+			$mbox = $ui->factory()->messageBox()->info($info)
+				->withLinks($links)
+				->withButtons($buttons);
+
+			$message = $ui->renderer()->render($mbox);
+
+			//ilUtil::sendInfo($info);
+		}
+
 
 		$this->increaseViewCount();
 				
@@ -454,7 +523,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->fill_on_load_code = true;
 		}
 		
-		return $wtpl->get();
+		return $message.$wtpl->get();
 	}
 	
 	function showPage()
@@ -1320,6 +1389,57 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		echo $tpl->get();
 		exit;
 	}
+
+	//
+	// exercise assignment
+	//
+
+	/**
+	 * Finalize and submit blog to exercise
+	 */
+	protected function finalizeAssignment()
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$wiki_ass = ilExAssignmentTypes::getInstance()->getById(ilExAssignment::TYPE_WIKI_TEAM);
+
+		$ass_id = (int) $_GET["ass"];
+		$wiki_ass->submitWiki($ass_id, $this->user->getId(), $this->getWikiRefId());
+
+		/*
+		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
+		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";
+		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
+		$exc_gui->submitBlog($this->node_id);*/
+
+		ilUtil::sendSuccess($lng->txt("wiki_finalized"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
+
+	protected function downloadExcSubFile()
+	{
+		$ilUser = $this->user;
+
+		$ass_id = (int) $_GET["ass"];
+		$ass = new ilExAssignment($ass_id);
+		$submission = new ilExSubmission($ass, $ilUser->getId());
+		$submitted = $submission->getFiles();
+		if (count($submitted) > 0)
+		{
+			$submitted = array_pop($submitted);
+
+			$user_data = ilObjUser::_lookupName($submitted["user_id"]);
+			$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
+				$ass->getTitle()." (Team ".$submission->getTeam()->getId().").zip";
+
+			ilUtil::deliverFile($submitted["filename"], $title);
+		}
+	}
+
+
 } 
 
 ?>
