@@ -142,49 +142,26 @@ class ilAccountRegistrationGUI
 		
 
 		// user defined fields
-
 		$user_defined_data = $ilUser->getUserDefinedData();
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
 		$custom_fields = array();
+		
 		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)
+			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+			$fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
+				$definition,
+				true,
+				$user_defined_data['f_'.$field_id]
+			);
+			if($fprop instanceof ilFormPropertyGUI)
 			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setMaxLength(255);
-				$custom_fields["udf_".$definition['field_id']]->setSize(40);
-			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
-			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setUseRte(true);
-			}
-			else
-			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setOptions(
-					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
-			}
-			if($definition['required'])
-			{
-				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
-			}
-
-			if($definition['field_type'] == UDF_TYPE_SELECT && !$user_defined_data["f_".$field_id])
-			{
-				$options = array(""=>$lng->txt("please_select")) + $custom_fields["udf_".$definition['field_id']]->getOptions();
-				$custom_fields["udf_".$definition['field_id']]->setOptions($options);
+				$custom_fields['udf_' . $definition['field_id']] = $fprop;
 			}
 		}
-
+		
 		// standard fields
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();

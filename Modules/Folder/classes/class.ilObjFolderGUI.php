@@ -13,7 +13,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectCustomIconConfigurationGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
 *
 * @extends ilObjectGUI
 */
@@ -209,6 +209,15 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($bggui);
 				break;
 
+			case 'ilobjecttranslationgui':
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();
+				$this->setSubTabs("settings_trans");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
+				break;
+
 			default:
 
 				$this->prepareOutput();
@@ -255,7 +264,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 	}
 	
-	
+
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) 
 	{
@@ -578,6 +587,10 @@ class ilObjFolderGUI extends ilContainerGUI
 		$ilTabs->addSubTab("settings",
 			$lng->txt("fold_settings"),
 			$this->ctrl->getLinkTarget($this,'edit'));
+
+		$this->tabs_gui->addSubTab("settings_trans",
+			$this->lng->txt("obj_multilinguality"),
+			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 
 		if ($this->ilias->getSetting('custom_icons')) {
 			$ilTabs->addSubTab(

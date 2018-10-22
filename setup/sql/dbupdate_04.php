@@ -22833,3 +22833,89 @@ if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5308>
+<?php
+if ($ilDB->tableExists('object_data_del')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
+		$ilDB->addTableColumn(
+			'object_data_del',
+			'description',
+			[
+				'type'    => 'clob',
+				'notnull' => false,
+				'default' => null,
+			]
+		);
+	}
+}
+?>
+<#5309>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5310>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5311>
+<?php
+if (!$ilDB->tableExists("exc_ass_wiki_team"))
+{
+	$fields = array(
+		"id" => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		),
+		"container_ref_id" => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		),
+		"template_ref_id" => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		)
+	);
+ 	$ilDB->createTable("exc_ass_wiki_team", $fields);
+ 	$ilDB->addPrimaryKey("exc_ass_wiki_team", array("id"));
+}
+?>
+<#5312>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5313>
+<?php
+
+	if (!$ilDB->tableColumnExists('exc_returned', 'team_id'))
+	{
+		$ilDB->addTableColumn('exc_returned', 'team_id', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+		));
+	}
+
+?>
+<#5314>
+<?php
+if ($ilDB->tableExists('object_data_del')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
+		$ilDB->addTableColumn(
+			'object_data_del',
+			'description',
+			[
+				'type'    => 'clob',
+				'notnull' => false,
+				'default' => null,
+			]
+		);
+	}
+}
+?>

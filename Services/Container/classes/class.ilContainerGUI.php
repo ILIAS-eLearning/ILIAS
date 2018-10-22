@@ -3473,7 +3473,69 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 	}
-	
+
+	/**
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		$lng->loadLanguageModule($this->object->getType());
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+
+		$this->initFormTitleDescription($form);
+
+		$this->initEditCustomForm($form);
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+
+		return $form;
+	}
+
+	/**
+	 * Init title/description for edit form
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function initFormTitleDescription(ilPropertyFormGUI $form)
+	{
+		/** @var ilObjectTranslation $trans */
+		$trans = $this->object->getObjectTranslation();
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		$title->setValue($trans->getDefaultTitle());
+		$form->addItem($title);
+
+		if(sizeof($trans->getLanguages()) > 1)
+		{
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+			$languages = ilMDLanguageItem::_getLanguages();
+			$title->setInfo($this->lng->txt("language").": ".$languages[$trans->getDefaultLanguage()].
+				' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
+				'">&raquo; '.$this->lng->txt("obj_more_translations").'</a>');
+
+			unset($languages);
+		}
+
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$desc->setValue($trans->getDefaultDescription());
+		$form->addItem($desc);
+	}
+
+
 	/**
 	 * Append sorting settings to property form
 	 * @param ilPropertyFormGUI $form
