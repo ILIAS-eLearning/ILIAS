@@ -23422,3 +23422,19 @@ if( !$ilDB->tableColumnExists('note', 'news_id') )
 	));
 }
 ?>
+<#5329>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5330>
+<?php
+
+if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
+{
+	$ilDB->addTableColumn('media_item', 'upload_hash', array(
+		"type" => "text",
+		"length" => 100
+	));
+}
+
+?>

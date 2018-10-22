@@ -155,10 +155,11 @@ class ilPageEditorGUI
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
 
-		$this->log->debug("ilPageEditorGUI: executeCommand begin");
+		$this->log->debug("begin ============");
 
+		// Step BC (basic command determination)
+		// determine cmd, cmdClass, hier_id and pc_id
 		$cmd = $this->ctrl->getCmd("displayPage");
-//echo "-$cmd-"; exit;
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
 		$hier_id = $_GET["hier_id"];
@@ -167,50 +168,29 @@ class ilPageEditorGUI
 		{
 			$hier_id = $_POST["new_hier_id"];
 		}
-//echo "GEThier_id:".$_GET["hier_id"]."<br>";
-//$this->ctrl->debug("hier_id:".$hier_id);
 
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
 			: $_POST["new_type"];
 
-//echo "-$cmd-";
-//var_dump($_GET); var_dump($_POST); exit;
-/*array
-  'target' =>
-    array
-      0 => string '' (length=0)
-  'commandpg' => string 'insertJS' (length=8)
-  'cmd' =>
-    array
-      'exec_pg:' => string 'Ok' (length=2)
-  'ajaxform_content' => string '<div class=\"ilc_text_block_Standard\">sdfsdfsd sd</div>' (length=56)
-  'ajaxform_char' => string '' (length=0)*/
-/*array
-  'usedwsiwygeditor' => string '0' (length=1)
-  'par_characteristic' => string 'Standard' (length=8)
-  'par_content' => string 'adasdaasda a
+		$this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
 
-' (length=14)
-  'par_language' => string 'en' (length=2)
-  'cmd' =>
-    array
-      'create_par' => string 'Save' (length=4)*/
-
+		// Step EC (exec_ command handling)
+		// handle special exec_ commands, modify pc, hier_id
 		if (substr($cmd, 0, 5) == "exec_")
 		{
-//echo ":".key($_POST["cmd"]).":";
 			// check whether pc id is given
 			$pca = explode(":", key($_POST["cmd"]));
 			$pc_id = $pca[1];
-//echo "<br />exec_pc_id:-$pc_id-";
 			$cmd = explode("_", $pca[0]);
 			unset($cmd[0]);
 			$hier_id = implode($cmd, "_");
 			$cmd = $_POST["command".$hier_id];
 		}
-//echo "<br>cmd:$cmd:";exit;
-		// strip "c" "r" of table ids from hierarchical id
+		$this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
+
+		// Step CC (handle table container (and similar) commands
+		// ... strip "c" "r" of table ids from hierarchical id
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
@@ -219,39 +199,48 @@ class ilPageEditorGUI
 		{
 			$hier_id = substr($hier_id, 1);
 		}
+		$this->log->debug("step CC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
+
+		// Step B (build dom, and ids in XML)
 		$this->page->buildDom();
 		$this->page->addHierIDs();
 
 
-		// determine command and content object
+		// Step CS (strip base command)
 		if ($cmdClass != "ilfilesystemgui")
 		{
 			$com = explode("_", $cmd);
 			$cmd = $com[0];
 		}
-		
+		$this->log->debug("step CS: cmd:$cmd");
 
+
+		// Step NC (determine next class)
 		$next_class = $this->ctrl->getNextClass($this);
-		$this->log->debug("next class: ".$next_class);
+		$this->log->debug("step NC: next class: ".$next_class);
 
-		// special case: placeholders from preview mode come without hier_id
+
+		// Step PH (placeholder handling, placeholders from preview mode come without hier_id)
 		if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "")
 		{
 			$hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
 			$hier_id = $hid[$_GET["pl_pc_id"]];
 		}
+		$this->log->debug("step PH: next class: ".$next_class);
 
-			// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
 		{
+			// Step CM (creation mode handling)
 			$cmd = $com[0];
-			$ctype = $com[1];
+			$ctype = $com[1];				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
 			$add_type = $com[2];
 			if ($ctype == "mob") $ctype = "media";
+
+			$this->log->debug("step CM: cmd: ".$cmd.", ctype: ".$ctype.", add_type: ".$add_type);
 		}
 		else
 		{
-			// setting cmd and cmdclass for editing of linked media
+			// Step LM (setting cmd and cmdclass for editing of linked media)
 			if ($cmd == "editLinkedMedia")
 			{
 				$this->ctrl->setCmd("edit");
@@ -270,17 +259,12 @@ class ilPageEditorGUI
 					$cmdClass = "ilobjmediaobjectgui";
 				}
 			}
-if (false)
-{
-var_dump($_POST);
-var_dump($_GET);
-echo ";$cmd;".$next_class.";";
-echo "-$pc_id-";
-echo "-$cmd-".$this->ctrl->getCmd()."-";
-exit;
-}
+			$this->log->debug("step LM: cmd: ".$cmd.", cmdClass: ".$cmdClass);
 
-//var_dump($_POST);
+
+			// Step PR (get content object and return to parent)
+			$this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class".
+				", hier_id: ".$hier_id.", pc_id: ".$pc_id.")");
 			// note: ilinternallinkgui for page: no cont_obj is received
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
@@ -301,23 +285,18 @@ exit;
 			{
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
-//$this->ctrl->debug("gettingContentObject (no linked media)");
-//echo $hier_id."-".$pc_id;
 					$cont_obj = $this->page->getContentObject($hier_id, $pc_id);
 					if (!is_object($cont_obj))
 					{
-						$this->log->debug("ilPageEditorGUI: ...returnToParent (cmdClass: $cmdClass, nextClass: $next_class".
-							", hier_id: ".$hier_id.", pc_id: ".$pc_id.")");
+						$this->log->debug("returnToParent");
 						$ilCtrl->returnToParent($this);
 					}
 					$ctype = $cont_obj->getType();
 				}
 			}
+			$this->log->debug("step PR: ctype: $ctype");
 		}
 
-//$this->ctrl->debug("+ctype:".$ctype."+");
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		if ($ctype != "media" || !is_object ($cont_obj))
 		{
@@ -331,16 +310,10 @@ exit;
 		$this->cont_obj = $cont_obj;
 
 
-		// special command / command class handling
+		// Step NC (handle empty next class)
 		$this->ctrl->setParameter($this, "hier_id", $hier_id);
 		$this->ctrl->setParameter($this, "pc_id", $pc_id);
 		$this->ctrl->setCmd($cmd);
-		//$next_class = $this->ctrl->getNextClass($this);
-//$this->ctrl->debug("+next_class:".$next_class."+");
-//echo("+next_class:".$next_class."+".$ctype."+"); exit;
-
-		$this->log->debug("(2) next class: ".$next_class.", ctype: ".$ctype);
-
 		if ($next_class == "")
 		{
 			include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -351,16 +324,20 @@ exit;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
+		$this->log->debug("step NC: next_class: $next_class");
 
-		// do not do this while imagemap editing is ongoing
+		// ... do not do this while imagemap editing is ongoing
+		// Step IM (handle image map editing)
 		if ($cmd == "displayPage" && $_POST["editImagemapForward_x"] == "" && $_POST["imagemap_x"] == "")
 		{
 			$next_class = "";
 		}
-		
-//echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>"; exit;
-		$this->log->debug("ilPageEditorGUI: ... next_class:".$next_class.", pc_id:".$pc_id.
-				", hier_id:".$hier_id.", ctype:".$ctype.", cmd:".$cmd);
+		$this->log->debug("step IM: next_class: $next_class");
+
+
+		// Step FC (forward command)
+		$this->log->debug("before FC: next_class:".$next_class.", pc_id:".$pc_id.
+				", hier_id:".$hier_id.", ctype:".$ctype.", cmd:".$cmd.", _GET[cmd]: ".$_GET["cmd"]);
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
@@ -388,6 +365,7 @@ exit;
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 				$pcmob_gui = new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
+				$pcmob_gui->setSubCmd($ctype);
 				$pcmob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$ret = $this->ctrl->forwardCommand($pcmob_gui);
 				$ilHelp->setScreenIdComponent("copg_media");
@@ -444,6 +422,7 @@ exit;
 				include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
 				if (ilCOPagePCDef::isPCGUIClassName($next_class, true))
 				{
+					$this->log->debug("Generic Call");
 					$pc_def = ilCOPagePCDef::getPCDefinitionByGUIClassName($next_class);
 					$this->tabs_gui->clearTargets();
 					$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
@@ -461,6 +440,7 @@ exit;
 				}
 				else
 				{
+					$this->log->debug("Call ilPageEditorGUI command.");
 					// cmd belongs to ilPageEditorGUI	
 					
 					if ($cmd == "pasteFromClipboard")
@@ -480,7 +460,7 @@ exit;
 
 		}
 
-		$this->log->debug("ilPageEditorGUI: executeCommand end");
+		$this->log->debug("end ---");
 
 		return $ret;
 	}
