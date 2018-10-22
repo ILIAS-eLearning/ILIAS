@@ -97,7 +97,7 @@ $tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata')
 ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
 ?>
 
-<#13>
+<#12>
 <?php
 if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
 {
@@ -110,7 +110,7 @@ if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
 	);
 }
 ?>
-<#14>
+<#13>
 <?php
 if (!$ilDB->tableExists('adv_md_record_obj_ord'))
 {
@@ -144,7 +144,7 @@ if (!$ilDB->tableExists('adv_md_record_obj_ord'))
 }
 ?>
 
-<#15>
+<#14>
 <?php
 if(!$ilDB->tableColumnExists('event', 'show_members'))
 {
@@ -161,12 +161,12 @@ if(!$ilDB->tableColumnExists('event', 'show_members'))
 }
 ?>
 
-<#16>
+<#15>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
 
-<#17>
+<#16>
 <?php
 if(!$ilDB->tableColumnExists('event', 'mail_members'))
 {
@@ -183,7 +183,7 @@ if(!$ilDB->tableColumnExists('event', 'mail_members'))
 }
 ?>
 
-<#18>
+<#17>
 <?php
 if(!$ilDB->tableColumnExists('event_participants', 'contact'))
 {
