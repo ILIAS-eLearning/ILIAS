@@ -528,7 +528,8 @@ class ilCertificateGUI
 						$xslfo,
 						$backgroundImagePath,
 						$jsonEncodedTemplateValues,
-						$cardThumbnailImagePath
+						$cardThumbnailImagePath,
+						$form_fields['active']
 					))
 				);
 
