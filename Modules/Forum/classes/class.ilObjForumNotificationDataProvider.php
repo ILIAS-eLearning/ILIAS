@@ -404,6 +404,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getThreadNotificationRecipients()
 	{
+        $rcps = array();
+        if($this->getThreadId() == 0) {
+            return $rcps;
+        }
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
 		$res = $this->db->queryf('
 			SELECT user_id FROM frm_notification 
@@ -414,7 +418,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
-		$rcps = array();
 		while($row = $this->db->fetchAssoc($res))
 		{
 			// do rbac check before sending notification
