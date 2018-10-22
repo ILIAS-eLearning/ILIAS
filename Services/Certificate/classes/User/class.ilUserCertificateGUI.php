@@ -275,8 +275,6 @@ class ilUserCertificateGUI
 
 				$listSections = [];
 
-				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
-
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
 				$this->controller->clearParameters($this);
@@ -312,6 +310,8 @@ class ilUserCertificateGUI
 					$this->uiRenderer->render($objectTypeIcon),
 					$objectTitle
 				]);
+
+				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
 
 				$card = $this->uiFactory
 					->card($certificateData['title'], $cardImage)
