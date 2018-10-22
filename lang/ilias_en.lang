@@ -14429,3 +14429,20 @@ news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
+obj#:#obj_more_translations#:#More Translations
+wiki#:#wiki_type_wiki_team#:#Team Wiki
+exc#:#exc_without_wiki_template#:#Without Wiki Template
+exc#:#exc_with_wiki_template#:#With Wiki Template
+exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
+exc#:#exc_with_wiki_template_info#:#The template wiki will be copied to create the wikis of participants.
+exc#:#exc_wiki_container#:#Wiki Container
+exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
+exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
+exc#:#exc_create_wiki#:#Create Wiki
+wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
+wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
+wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
+wiki#:#wiki_team_members#:#Team Members
+wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
+wiki#:#wiki_exc_template#:#Wiki Template

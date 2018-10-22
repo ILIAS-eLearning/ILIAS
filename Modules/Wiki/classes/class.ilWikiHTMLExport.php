@@ -82,7 +82,7 @@ class ilWikiHTMLExport
 	 * Build export file
 	 *
 	 * @param
-	 * @return
+	 * @return string
 	 */
 	function buildExportFile()
 	{
@@ -162,6 +162,7 @@ class ilWikiHTMLExport
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
+		return $zip_file;
 	}
 
 	/**

@@ -14106,7 +14106,7 @@ exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übung
 exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
 exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
 exc#:#exc_portfolio_unlinked_from_assignment#:#Das Portfolio wurde aus der Übungseinheit entfernt.
-exc#:#exc_template#:#Portfoliovorlage
+exc#:#exc_template#:#Vorlage
 exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
 exc#:#exc_without_template#:#Ohne Portfoliovorlage
 exc#:#exc_with_template#:#Mit Portfoliovorlage
@@ -14425,3 +14425,20 @@ news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
+obj#:#obj_more_translations#:#Weitere Übersetzungen
+wiki#:#wiki_type_wiki_team#:#Team-Wiki
+exc#:#exc_without_wiki_template#:#Ohne Vorlage
+exc#:#exc_with_wiki_template#:#Mit Vorlage
+exc#:#exc_without_wiki_template_info#:#Teilnehmer starten mit leerem Wiki.
+exc#:#exc_with_wiki_template_info#:#Neue Wikis der Teilnehmer werden durch Kopie der Vorlage erstellt.
+exc#:#exc_wiki_container#:#Wiki-Container
+exc#:#exc_wiki_container_info#:#Ort in dem neue Wikis der Teilnehmer angelegt werden.
+exc#:#exc_ass_team_wiki#:#Team-Wiki
+exc#:#exc_create_wiki#:#Wiki erstellen
+wiki#:#wiki_exercise_info#:#Dieses Wiki ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
+wiki#:#wiki_finalize_wiki#:#Wiki abschließen und abgeben
+wiki#:#wiki_finalized#:#Das Wiki wurde abgegeben.
+wiki#:#wiki_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
+wiki#:#wiki_team_members#:#Teammitglieder
+wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
+wiki#:#wiki_exc_template#:#Wikivorlage

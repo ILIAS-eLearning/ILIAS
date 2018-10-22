@@ -281,6 +281,8 @@ class ilInitialisation
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
 
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor());
+
 			return $fileUploadImpl;
 		};
 	}

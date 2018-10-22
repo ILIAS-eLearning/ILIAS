@@ -382,6 +382,70 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
 		}
 
+		// exercise information
+		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
+		$ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->getWikiRefId(), $ilUser->getId());
+		foreach ($ass_info as $i)	// should be only one
+		{
+			$ass = new ilExAssignment($i->getId());
+			$times_up = $ass->afterDeadlineStrict();
+
+			// info text and link
+			$exc_title = $i->getExerciseTitle();
+			$info = sprintf($lng->txt("wiki_exercise_info"),
+				$i->getTitle(),
+				implode(", ", array_map(function($a) use ($exc_title){
+					return "<a href='".$a."'>".$exc_title."</a>";
+				}, $i->getLinks()))
+			);
+
+			// submit button
+			if(!$times_up)
+			{
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+				$submit_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "finalizeAssignment");
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("wiki_finalize_wiki");
+				$button->setPrimary(true);
+				$button->setUrl($submit_link);
+				$info .= " ".$button->render();
+			}
+
+			// submitted files
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+			$submission = new ilExSubmission($ass, $ilUser->getId());
+			if($submission->hasSubmitted())
+			{
+				$submitted = $submission->getSelectedObject();
+
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+				$dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");
+				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+
+				$rel = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
+
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("download");
+				$button->setUrl($dl_link);
+
+				$info .= "<br />".sprintf($lng->txt("wiki_exercise_submitted_info"),
+						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
+						$button->render());
+
+				ilDatePresentation::setUseRelativeDates($rel);
+			}
+
+
+
+			ilUtil::sendInfo($info);
+		}
+
+
 		$this->increaseViewCount();
 				
 		$this->addHeaderAction();
@@ -1320,6 +1384,57 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		echo $tpl->get();
 		exit;
 	}
+
+	//
+	// exercise assignment
+	//
+
+	/**
+	 * Finalize and submit blog to exercise
+	 */
+	protected function finalizeAssignment()
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$wiki_ass = ilExAssignmentTypes::getInstance()->getById(ilExAssignment::TYPE_WIKI_TEAM);
+
+		$ass_id = (int) $_GET["ass"];
+		$wiki_ass->submitWiki($ass_id, $this->user->getId(), $this->getWikiRefId());
+
+		/*
+		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
+		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";
+		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
+		$exc_gui->submitBlog($this->node_id);*/
+
+		ilUtil::sendSuccess($lng->txt("wiki_finalized"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
+
+	protected function downloadExcSubFile()
+	{
+		$ilUser = $this->user;
+
+		$ass_id = (int) $_GET["ass"];
+		$ass = new ilExAssignment($ass_id);
+		$submission = new ilExSubmission($ass, $ilUser->getId());
+		$submitted = $submission->getFiles();
+		if (count($submitted) > 0)
+		{
+			$submitted = array_pop($submitted);
+
+			$user_data = ilObjUser::_lookupName($submitted["user_id"]);
+			$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
+				$ass->getTitle()." (Team ".$submission->getTeam()->getId().").zip";
+
+			ilUtil::deliverFile($submitted["filename"], $title);
+		}
+	}
+
+
 } 
 
 ?>

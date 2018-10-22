@@ -34,6 +34,11 @@ abstract class ilExSubmissionBaseGUI
 	protected $exercise; // [ilObjExercise]
 	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
+
+	/**
+	 * @var ilExAssignmentTypesGUI
+	 */
+	protected $type_guis;
 	
 	public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
 	{
@@ -52,7 +57,11 @@ abstract class ilExSubmissionBaseGUI
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
-		$this->tpl = $tpl;		
+		$this->tpl = $tpl;
+
+		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
+		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
+
 	}
 	
 	abstract public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission);

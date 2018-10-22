@@ -11,6 +11,12 @@
  */
 class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {
+	/**
+	 * Execute command
+	 *
+	 * @return mixed
+	 * @throws ilCtrlException
+	 */
 	public function executeCommand()
 	{
 		$ilCtrl = $this->ctrl;
@@ -25,8 +31,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		switch($class)
 		{		
-			default:									
-				$this->{$cmd."Object"}();				
+			default:
+				$this->{$cmd."Object"}();
 				break;			
 		}
 	}
@@ -40,7 +46,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			
 			case ilExAssignment::TYPE_PORTFOLIO:
 				return self::getOverviewContentPortfolio($a_info, $a_submission);
-		}		
+		}
 	}	
 	
 	protected static function getOverviewContentBlog(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)

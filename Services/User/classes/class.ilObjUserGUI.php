@@ -1701,31 +1701,15 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
 		}
-	
+		
 		foreach($all_defs as $field_id => $definition)
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)	// text input
+			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+			$f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition,true);
+			if($f_property instanceof ilFormPropertyGUI)
 			{
-				$udf = new ilTextInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setSize(40);
-				$udf->setMaxLength(255);
+				$this->form_gui->addItem($f_property);
 			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)	// text area input
-			{
-				$udf = new ilTextAreaInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setUseRte(true);
-			}
-			else			// selection input
-			{
-				$udf = new ilSelectInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setOptions($user_defined_fields->fieldValuesToSelectArray(
-							$definition['field_values']));
-			}
-			$udf->setRequired($definition['required']);
-			$this->form_gui->addItem($udf);
 		}
 
 		// settings

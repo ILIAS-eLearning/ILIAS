@@ -49,6 +49,20 @@ class ilUserDefinedData
 		{
 			$udfd[$row['usr_id']][$row['field_id']] = $row['value'];
 		}
+		
+		include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+		$def_helper = ilCustomUserFieldsHelper::getInstance();
+		foreach($def_helper->getActivePlugins() as $plugin)
+		{
+			foreach($plugin->lookupUserData($a_user_ids, $a_field_ids) as $user_id => $usr_data)
+			{
+				foreach($usr_data as $field_id => $value)
+				{
+					$udfd[$user_id][$field_id] = $value;
+				}
+			}
+		}
+		
 		return $udfd;
 	}
 

@@ -26,6 +26,7 @@
 	</crons>
 	<pluginslots>
 		<pluginslot id="udfc" name="UDFClaiming" />
+                <pluginslot id="udfd" name="UDFDefinition" />
 	</pluginslots>
 	<web_access_checker>
 		<secure_path path="usr_images" checking-class="ilObjUserAccess" />
