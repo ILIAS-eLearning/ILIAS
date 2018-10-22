@@ -10374,7 +10374,9 @@ common#:#edited_on#:#Edited on
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_tos#:#Terms of Service
 tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
-tos#:#tos_agreement_by_lng#:#Terms of Service
+tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
+tos#:#tos_agreement_documents_tab_label#:#Terms of Service
+tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
@@ -10384,9 +10386,49 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web services, the chat server, or the cron job.
-tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
-user#:#tos_show_signed_text#:#Show Details
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
+tos#:#tos_form_new_doc_head#:#Create Document
+tos#:#tos_form_edit_doc_head#:#Edit Document
+tos#:#tos_form_document_title#:#Title
+tos#:#tos_form_document_title_info#:#Please enter a title for the document.
+tos#:#tos_form_document#:#Document
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+tos#:#tos_form_document_new#:#Change Content
+tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
+tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
+tos#:#tos_tbl_docs_title#:#Documents
+tos#:#tos_tbl_docs_head_sorting#:#Sorting
+tos#:#tos_tbl_docs_head_title#:#Title
+tos#:#tos_tbl_docs_head_created#:#Creation Date
+tos#:#tos_tbl_docs_head_last_change#:#Last Change
+tos#:#tos_tbl_docs_head_criteria#:#Criteria
+tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
+tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
+tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
+tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
+tos#:#tos_doc_delete#:#Delete Document
+tos#:#tos_doc_crit_detached#:#The criterion has been detached.
+tos#:#tos_doc_crit_attached#:#The criterion has been attached.
+tos#:#tos_doc_crit_changed#:#The criterion has been changed.
+tos#:#tos_form_attach_criterion_head#:#Attach Criterion
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
+tos#:#tos_form_criterion#:#Criterion
+tos#:#tos_document#:#Document
+tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
+tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+tos#:#tos_deleted_documents_s#:#The document has been deleted.
+tos#:#tos_deleted_documents_p#:#The documents have been deleted.
+tos#:#tos_saved_sorting#:#The sorting has been saved.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Date
+tos#:#tos_tbl_hist_head_login#:#Login
+tos#:#tos_tbl_hist_head_firstname#:#Firstname
+tos#:#tos_tbl_hist_head_lastname#:#Lastname
+tos#:#tos_tbl_hist_head_document#:#Document
+tos#:#tos_tbl_hist_head_criteria#:#Criteria
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content
 tos#:#tos_last_modified#:#Last Change
@@ -10394,9 +10436,15 @@ tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
-tos#:#tos_acceptance_datetime#:#Date
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached. 
+tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
+tos#:#tos_crit_type_usr_global_role#:#User has Global Role
+tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
+tos#:#tos_crit_type_usr_language#:#Profile Language
+tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room

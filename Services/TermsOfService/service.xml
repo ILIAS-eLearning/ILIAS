@@ -10,4 +10,5 @@
 	<events>
 		<event type="listen" id="Services/User" />
 	</events>
+	<logging />
 </service>

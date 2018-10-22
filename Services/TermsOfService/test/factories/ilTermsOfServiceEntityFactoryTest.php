@@ -1,45 +1,30 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceEntityFactory.php';
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
-require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceEntityFactoryTest
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
+class ilTermsOfServiceEntityFactoryTest extends \ilTermsOfServiceBaseTest
 {
-	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
-
-	/**
-	 *
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
 	/**
 	 *
 	 */
 	public function testInstanceCanBeCreated()
 	{
-		$factory = new ilTermsOfServiceEntityFactory();
+		$factory = new \ilTermsOfServiceEntityFactory();
+
 		$this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
-	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
+	public function testExceptionIsRaisedWhenUnknownEntityIsRequested()
 	{
-		$this->assertException(InvalidArgumentException::class);
-		$factory = new ilTermsOfServiceEntityFactory();
+		$this->assertException(\InvalidArgumentException::class);
+
+		$factory = new \ilTermsOfServiceEntityFactory();
 		$factory->getByName('PHP Unit');
 	}
 
@@ -48,7 +33,11 @@ class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
 	 */
 	public function testAcceptanceEntityIsReturnedWhenRequestedByName()
 	{
-		$factory = new ilTermsOfServiceEntityFactory();
-		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $factory->getByName('ilTermsOfServiceAcceptanceEntity'));
+		$factory = new \ilTermsOfServiceEntityFactory();
+
+		$this->assertInstanceOf(
+			'ilTermsOfServiceAcceptanceEntity',
+			$factory->getByName('ilTermsOfServiceAcceptanceEntity')
+		);
 	}
 }
