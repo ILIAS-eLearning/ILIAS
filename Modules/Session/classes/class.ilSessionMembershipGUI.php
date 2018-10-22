@@ -96,14 +96,14 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			
 			if($part->isAssigned($part_id))
 			{
-				if(!$participated && !$registered)
+				if(!$participated && !$registered && !$contact)
 				{
 					$part->delete($part_id);
 				}
 			}
 			else
 			{
-				if($participated || $registered)
+				if($participated || $registered || $contact)
 				{
 					$part->add($part_id,IL_SESS_MEMBER);
 				}
