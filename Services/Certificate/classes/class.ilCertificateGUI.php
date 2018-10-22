@@ -532,6 +532,8 @@ class ilCertificateGUI
 					))
 				);
 
+				$active = (bool) $form_fields['active'];
+
 				if ($newHashValue !== $previousCertificateTemplate->getCertificateHash()) {
 					$certificateTemplate = new ilCertificateTemplate(
 						$objId,
@@ -542,13 +544,19 @@ class ilCertificateGUI
 						$nextVersion,
 						ILIAS_VERSION_NUMERIC,
 						time(),
-						(bool) $form_fields['active'],
+						$active,
 						$backgroundImagePath,
 						$cardThumbnailImagePath
 					);
 
 					$this->templateRepository->save($certificateTemplate);
 					ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+					$this->ctrl->redirect($this, "certificateEditor");
+				}
+
+				if ($previousCertificateTemplate->getId() !== null && $previousCertificateTemplate->isCurrentlyActive() !== $active) {
+					$this->templateRepository->updateActivity($previousCertificateTemplate, $active);
+					ilUtil::sendInfo($this->lng->txt('certificate_change_active_status'), true);
 					$this->ctrl->redirect($this, "certificateEditor");
 				}
 
