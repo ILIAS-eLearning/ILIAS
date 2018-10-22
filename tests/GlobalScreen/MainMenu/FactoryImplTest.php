@@ -71,12 +71,13 @@ class FactoryImplTest extends TestCase {
 		$this->assertEquals(
 			$methods, [
 				        0 => 'complex',
-				        1 => 'link',
-				        2 => 'linkList',
-				        3 => 'repositoryLink',
-				        4 => 'separator',
-				        5 => 'topLinkItem',
-				        6 => 'topParentItem',
+				        1 => 'custom',
+				        2 => 'link',
+				        3 => 'linkList',
+				        4 => 'repositoryLink',
+				        5 => 'separator',
+				        6 => 'topLinkItem',
+				        7 => 'topParentItem',
 			        ]
 		);
 	}
