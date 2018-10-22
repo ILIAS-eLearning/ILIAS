@@ -58,6 +58,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		$this->uiFactory = $DIC->ui()->factory();
 		$this->httpRequest = $DIC->http()->request();
 		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
 	}
 
 	/**
