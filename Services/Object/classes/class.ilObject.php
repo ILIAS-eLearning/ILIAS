@@ -257,7 +257,7 @@ class ilObject
 		}
 
 		$this->id = $obj["obj_id"];
-		
+
 		// check type match (the "xxx" type is used for the unit test)
 		if ($this->type != $obj["type"] && $obj["type"] != "xxx")
 		{

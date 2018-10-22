@@ -230,7 +230,6 @@ class ilObjectTranslationGUI
 			{
 				$this->obj->setTitle(ilUtil::stripSlashes($v));
 				$this->obj->setDescription(ilUtil::stripSlashes($_POST["desc"][$k]));
-				$this->obj->update();
 			}
 
 			$this->obj_trans->addLanguage(ilUtil::stripSlashes($_POST["lang"][$k]),
@@ -240,6 +239,11 @@ class ilObjectTranslationGUI
 				);
 		}
 		$this->obj_trans->save();
+		if (method_exists($this->obj, "setObjectTranslation"))
+		{
+			$this->obj->setObjectTranslation($this->obj_trans);
+		}
+		$this->obj->update();
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "listTranslations");
