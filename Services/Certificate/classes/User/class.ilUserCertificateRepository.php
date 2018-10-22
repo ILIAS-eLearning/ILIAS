@@ -83,6 +83,7 @@ class ilUserCertificateRepository
 			'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
 			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
 			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
+			'thumbnail_image_path'   => array('clob', $userCertificate->getThumbnailImagePath())
 		);
 
 		$this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));

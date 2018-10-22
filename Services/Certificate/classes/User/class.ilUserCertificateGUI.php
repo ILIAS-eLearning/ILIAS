@@ -59,6 +59,9 @@ class ilUserCertificateGUI
 	/** @var string */
 	protected $defaultSorting = 'date_DESC';
 
+	/** @var \ILIAS\Filesystem\Filesystem */
+	private $filesystem;
+
 	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
@@ -83,7 +86,8 @@ class ilUserCertificateGUI
 		ilSetting $certificateSettings = null,
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
-		\ilAccessHandler $access = null
+		\ilAccessHandler $access = null,
+		\ILIAS\Filesystem\Filesystem $filesystem = null
 	) {
 		global $DIC;
 
@@ -143,6 +147,11 @@ class ilUserCertificateGUI
 			$access = $DIC->access();
 		}
 		$this->access = $access;
+
+		if (null === $filesystem) {
+			$filesystem = $DIC->filesystem()->web();
+		}
+		$this->filesystem = $filesystem;
 
 		$this->language->loadLanguageModule('cert');
 	}
@@ -250,9 +259,13 @@ class ilUserCertificateGUI
 			$uiComponents[] = $sortViewControl;
 
 			foreach ($data['items'] as $certificateData) {
+				$imagePath = ilUtil::getWebspaceDir(). $certificateData['thumbnail_image_path'];
+				if (!$this->filesystem->has($certificateData['thumbnail_image_path'])) {
+					$imagePath = \ilUtil::getImagePath('icon_cert.svg');
+				}
+
 				$cardImage = $this->uiFactory->image()->standard(
-					// TODO: Replace with the configured 'Card Thumbnail', use 'icon_cert.svg' as fallback image
-					\ilUtil::getImagePath('icon_cert.svg'),
+					ilWACSignedPath::signFile($imagePath),
 					$certificateData['title']
 				);
 
