@@ -130,6 +130,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
 				$marks->update();
 
 				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
+
+				$this->lng->loadLanguageModule('trac');
+				\ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
 			}
 		}
 	}
