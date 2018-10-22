@@ -401,6 +401,10 @@ class ilAdvancedMDRecord
 				}
 			}
 		}
+
+
+		$orderings = new ilAdvancedMDRecordObjectOrderings();
+		$records = $orderings->sortRecords($records, $a_obj_id);
 		
 		return $records;
 	}
