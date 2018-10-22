@@ -302,6 +302,12 @@ assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
+assessment#:#tst_corrections_tab_question#:#Question
+assessment#:#tst_corrections_tab_solution#:#Solution
+assessment#:#tst_corrections_tab_statistics#:#Statistics
+assessment#:#tst_corrections_qst_form#:#Correction of Points
+assessment#:#tst_corrections_answers_tbl#:#Statistics
+assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#tst_question_not_from_pool_info#:#No Pool
@@ -399,6 +405,7 @@ assessment#:#answers_select#:#Select
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
+assessment#:#longmenu#:#Longmenu
 assessment#:#correct_answers#:#Correct Answers: 
 assessment#:#answer_options#:#Answer Options: 
 assessment#:#add_answers#:#Add answers 

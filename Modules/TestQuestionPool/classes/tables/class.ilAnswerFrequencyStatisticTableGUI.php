@@ -19,11 +19,13 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 	
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $question)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$this->question = $question;
 		
 		$this->setId('tstAnswerStatistic');
 		$this->setPrefix('tstAnswerStatistic');
-		$this->setTitle('Answer Statistic');
+		$this->setTitle($DIC->language()->txt('tst_corrections_answers_tbl'));
 		
 		$this->setRowTemplate('tpl.tst_corrections_answer_row.html', 'Modules/Test');
 		

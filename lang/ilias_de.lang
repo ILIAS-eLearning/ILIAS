@@ -388,6 +388,12 @@ assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, 
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#tst_corrections_qst_remove_confirmation#:#Möchten Sie die Frage "%s (ID: %s)" wirklich endgültig aus dem Test entfernen?
+assessment#:#tst_corrections_tab_question#:#Frage
+assessment#:#tst_corrections_tab_solution#:#Lösung
+assessment#:#tst_corrections_tab_statistics#:#Antwortstatistik
+assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
+assessment#:#tst_corrections_answers_tbl#:#Antwortstatistik
+assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
@@ -494,6 +500,7 @@ assessment#:#answers_select#:#Auswahl
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#longmenu_text#:#‘Long Menu’-Text
+assessment#:#longmenu#:#Longmenu
 assessment#:#correct_answers#:#Richtige Antworten: 
 assessment#:#answer_options#:#Antwort-Optionen:
 assessment#:#add_answers#:#Antworten hinzufügen 

@@ -102,9 +102,7 @@ class ilTestCorrectionsGUI
 		$form->setFormAction( $this->DIC->ctrl()->getFormAction($this) );
 		$form->setId('tst_question_correction');
 		
-		$form->setTitle(
-			$questionGUI->object->getTitle().'<br /><small>('.$questionGUI->outQuestionType().')</small>'
-		);
+		$form->setTitle($this->DIC->language()->txt('tst_corrections_qst_form'));
 		
 		$hiddenQid = new ilHiddenInputGUI('qid');
 		$hiddenQid->setValue($questionGUI->object->getId());
@@ -123,8 +121,8 @@ class ilTestCorrectionsGUI
 		
 		$form->addCommandButton('saveQuestion', 'Save');
 		
+		$this->populatePageTitleAndDescription($questionGUI);
 		$this->DIC->ui()->mainTemplate()->setContent($form->getHTML());
-		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
 	}
 	
 	protected function showSolution()
@@ -149,7 +147,8 @@ class ilTestCorrectionsGUI
 		$tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'Modules/Test');
 		$tpl->setVariable('SOLUTION_PRESENTATION', $pageGUI->preview());
 		
-		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		$this->populatePageTitleAndDescription($questionGUI);
+
 		$this->DIC->ui()->mainTemplate()->setContent($tpl->get());
 		$this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
 		
@@ -171,12 +170,19 @@ class ilTestCorrectionsGUI
 		
 		$this->setCorrectionTabsContext($questionGUI, 'answers');
 		
-		$table = $questionGUI->getAnswerFrequencyTableGUI(
-			$this, 'showAnswerStatistic', $solutions, $this->getQuestionIndexParameter()
-		);
+		$tablesHtml = '';
 		
-		$this->DIC->ui()->mainTemplate()->setContent($table->getHTML());
-		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		foreach($questionGUI->getSubQuestionsIndex() as $subQuestionIndex)
+		{
+			$table = $questionGUI->getAnswerFrequencyTableGUI(
+				$this, 'showAnswerStatistic', $solutions, $subQuestionIndex
+			);
+			
+			$tablesHtml .= $table->getHTML();
+		}
+		
+		$this->populatePageTitleAndDescription($questionGUI);
+		$this->DIC->ui()->mainTemplate()->setContent($tablesHtml);
 		$this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
 		
 	}
@@ -256,43 +262,34 @@ class ilTestCorrectionsGUI
 		$this->DIC->tabs()->clearTargets();
 		$this->DIC->tabs()->clearSubTabs();
 		
-		$this->DIC->tabs()->setBackTarget('Back',
+		$this->DIC->tabs()->setBackTarget($this->DIC->language()->txt('back'),
 			$this->DIC->ctrl()->getLinkTarget($this, 'showQuestionList'));
 		
-		$this->DIC->tabs()->addTab('question', 'Correction of Points',
+		$this->DIC->tabs()->addTab('question', $this->DIC->language()->txt('tst_corrections_tab_question'),
 			$this->DIC->ctrl()->getLinkTarget($this, 'showQuestion')
 		);
 		
-		$this->DIC->tabs()->addTab('solution', 'Solution',
+		$this->DIC->tabs()->addTab('solution', $this->DIC->language()->txt('tst_corrections_tab_solution'),
 			$this->DIC->ctrl()->getLinkTarget($this, 'showSolution')
 		);
 		
 		if($questionGUI->isAnswerFreuqencyStatisticSupported())
 		{
-			$this->DIC->ctrl()->setParameter($this, 'qindex', 0);
-			$this->DIC->tabs()->addTab('answers', 'Statistics',
+			$this->DIC->tabs()->addTab('answers', $this->DIC->language()->txt('tst_corrections_tab_statistics'),
 				$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
 			);
 		}
 		
 		$this->DIC->tabs()->activateTab($activeTabId);
-		
-		if($questionGUI->isAnswerFreuqencyStatisticSupported() && $activeTabId == 'answers')
-		{
-			foreach($questionGUI->getSubQuestionsIndex() as $subIndex => $subQuestion)
-			{
-				$this->DIC->ctrl()->setParameter($this, 'qindex', $subIndex);
-				
-				$this->DIC->tabs()->addSubTab('subqst'.$subIndex, $subQuestion, 
-					$this->DIC->ctrl()->getLinkTarget($this, 'showAnswerStatistic')
-				);
-				
-				if($subIndex == $this->getQuestionIndexParameter())
-				{
-					$this->DIC->tabs()->activateSubTab('subqst'.$subIndex);
-				}
-			}
-		}
+	}
+	
+	/**
+	 * @param assQuestionGUI $questionGUI
+	 */
+	protected function populatePageTitleAndDescription(assQuestionGUI $questionGUI)
+	{
+		$this->DIC->ui()->mainTemplate()->setTitle($questionGUI->object->getTitle());
+		$this->DIC->ui()->mainTemplate()->setDescription($questionGUI->outQuestionType());
 	}
 	
 	/**
@@ -331,11 +328,6 @@ class ilTestCorrectionsGUI
 		$question->object->setObjId($this->testOBJ->getId());
 		
 		return $question;
-	}
-	
-	protected function getQuestionIndexParameter()
-	{
-		return (int)$_GET["qindex"];
 	}
 	
 	protected function getSolutions(assQuestion $question)

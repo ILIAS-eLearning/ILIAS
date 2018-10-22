@@ -689,14 +689,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	
 	public function getSubQuestionsIndex()
 	{
-		$subQuestionIndex = array();
-		
-		foreach($this->object->getAnswers() as $lmIndex => $lm)
-		{
-			$subQuestionIndex[$lmIndex] = 'Longmenu '.($lmIndex + 1);
-		}
-		
-		return $subQuestionIndex;
+		return array_keys($this->object->getAnswers());
 	}
 	
 	public function getAnswersFrequency($relevant_answers, $questionIndex)
@@ -723,6 +716,21 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		
 		return $answers;
+	}
+	
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$table = parent::getAnswerFrequencyTableGUI(
+			$parentGui, $parentCmd, $relevantAnswers, $questionIndex
+		);
+		
+		$table->setTitle(sprintf($DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+			$DIC->language()->txt('longmenu').' '.($questionIndex + 1)
+		));
+		
+		return $table;
 	}
 	
 	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)

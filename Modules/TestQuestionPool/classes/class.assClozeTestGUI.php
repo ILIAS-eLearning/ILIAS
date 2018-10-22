@@ -1703,11 +1703,15 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$table = parent::getAnswerFrequencyTableGUI(
 			$parentGui, $parentCmd, $relevantAnswers, $questionIndex
 		);
 		
-		$table->setTitle('Answer Statistic - Gap '.($questionIndex + 1));
+		$table->setTitle(sprintf($DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+			$DIC->language()->txt('gap').' '.($questionIndex + 1)
+		));
 		
 		if( $this->hasAddAnswerAction($relevantAnswers, $questionIndex) )
 		{
@@ -1719,14 +1723,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	public function getSubQuestionsIndex()
 	{
-		$subQuestionIndex = array();
-		
-		foreach($this->object->getGaps() as $gapIndex => $gap)
-		{
-			$subQuestionIndex[$gapIndex] = 'Gap '.($gapIndex + 1);
-		}
-		
-		return $subQuestionIndex;
+		return array_keys($this->object->getGaps());
 	}
 	
 	protected function getAnswerTextLabel($gapIndex, $answer)
