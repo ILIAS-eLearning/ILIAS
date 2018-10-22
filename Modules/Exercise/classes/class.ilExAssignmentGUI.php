@@ -354,7 +354,7 @@ class ilExAssignmentGUI
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
 
 		include_once "Modules/Exercise/classes/class.ilExSubmissionGUI.php";
-		ilExSubmissionGUI::getOverviewContent($a_info, $submission);
+		ilExSubmissionGUI::getOverviewContent($a_info, $submission,$this->exc);
 
 		$last_sub = null;
 		if($submission->hasSubmitted())

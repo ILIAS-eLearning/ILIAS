@@ -13967,7 +13967,7 @@ auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automa
 auth#:#auth_saml_sync#:#User Synchronization
 auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
 auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
-auth#:#auth_saml_username_claim#:#Arrtibue for Username
+auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_update_field_info#:#Update automatically
@@ -14381,6 +14381,24 @@ news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
 sess#:#sess_is_assigned#:#is Assigned
+obj#:#obj_more_translations#:#More Translations
+wiki#:#wiki_type_wiki_team#:#Team Wiki
+exc#:#exc_without_wiki_template#:#Without Wiki Template
+exc#:#exc_with_wiki_template#:#With Wiki Template
+exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
+exc#:#exc_with_wiki_template_info#:#The template wiki will be copied to create the wikis of participants.
+exc#:#exc_wiki_container#:#Wiki Container
+exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
+exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
+exc#:#exc_create_wiki#:#Create Wiki
+wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
+wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
+wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.
+wiki#:#wiki_team_members#:#Team Members
+wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
+wiki#:#wiki_exc_template#:#Wiki Template
+wiki#:#wiki_download_submission#:#Download Submission File
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
 cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?

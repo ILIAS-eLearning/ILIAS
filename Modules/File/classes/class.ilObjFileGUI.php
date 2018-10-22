@@ -1122,23 +1122,33 @@ class ilObjFileGUI extends ilObject2GUI
 	 * @param array $file_upload An array containing the file upload parameters.
 	 * @return object The response object.
 	 */
-	protected function handleFileUpload($file_upload) 
-	{
+	protected function handleFileUpload($file_upload) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
+		$DIC->upload()->process();
+		/**
+		 * @var $item \ILIAS\FileUpload\DTO\UploadResult
+		 */
+		$item = reset($DIC->upload()->getResults());
+
 		// file upload params
-		$filename = ilUtil::stripSlashes($file_upload["name"]);
-		$type = ilUtil::stripSlashes($file_upload["type"]);
-		$size = ilUtil::stripSlashes($file_upload["size"]);
-		$temp_name = $file_upload["tmp_name"];
-		
+
+		$file_upload['name'] = $item->getName();
+		$file_upload['title'] = $item->getName();
+
+
+		$filename = ilUtil::stripSlashes($item->getName());
+		$type = ilUtil::stripSlashes($item->getMimeType());
+		$size = ilUtil::stripSlashes($item->getSize());
+		$temp_name = $item->getPath(); // currently used
+
 		// additional params
 		$title = ilUtil::stripSlashes($file_upload["title"]);
 		$description = ilUtil::stripSlashes($file_upload["description"]);
 		$extract = ilUtil::stripSlashes($file_upload["extract"]);
 		$keep_structure = ilUtil::stripSlashes($file_upload["keep_structure"]);
-		
+
 		// create answer object		
 		$response = new stdClass();
 		$response->fileName = $filename;
@@ -1148,55 +1158,49 @@ class ilObjFileGUI extends ilObject2GUI
 		$response->error = null;
 
 		// extract archive?
-		if ($extract)
-		{
+		if ($extract) {
 			$zip_file = $filename;
 			$adopt_structure = $keep_structure;
 
-			include_once ("Services/Utilities/classes/class.ilFileUtils.php");
+			include_once("Services/Utilities/classes/class.ilFileUtils.php");
 
 			// Create unzip-directory
 			$newDir = ilUtil::ilTempnam();
 			ilUtil::makeDir($newDir);
-			
+
 			// Check if permission is granted for creation of object, if necessary
-			if($this->id_type != self::WORKSPACE_NODE_ID)
-			{					
+			if ($this->id_type != self::WORKSPACE_NODE_ID) {
 				$type = ilObject::_lookupType((int)$this->parent_id, true);
-			}
-			else
-			{
+			} else {
 				$type = ilObject::_lookupType($this->tree->lookupObjectId($this->parent_id), false);
-			}			
-			
+			}
+
 			$tree = $access_handler = null;
-			switch($type)
-			{
+			switch ($type) {
 				// workspace structure
 				case 'wfld':
 				case 'wsrt':
 					$permission = $this->checkPermissionBool("create", "", "wfld");
-					$containerType = "WorkspaceFolder";	
+					$containerType = "WorkspaceFolder";
 					$tree = $this->tree;
-					$access_handler = $this->getAccessHandler();						
+					$access_handler = $this->getAccessHandler();
 					break;
-				
+
 				// use categories as structure
 				case 'cat':
 				case 'root':
 					$permission = $this->checkPermissionBool("create", "", "cat");
 					$containerType = "Category";
 					break;
-				
+
 				// use folders as structure (in courses)
 				default:
 					$permission = $this->checkPermissionBool("create", "", "fold");
-					$containerType = "Folder";	
-					break;					
-			}												
-			
-			try 
-			{
+					$containerType = "Folder";
+					break;
+			}
+
+			try {
 				// 	processZipFile ( 
 				//		Dir to unzip, 
 				//		Path to uploaded file, 
@@ -1204,96 +1208,81 @@ class ilObjFileGUI extends ilObject2GUI
 				//		ref_id of parent
 				//		object that contains files (folder or category)  
 				//		should sendInfo be persistent?)
-				ilFileUtils::processZipFile( 
-					$newDir, 
+				ilFileUtils::processZipFile(
+					$newDir,
 					$temp_name,
 					($adopt_structure && $permission),
 					$this->parent_id,
 					$containerType,
 					$tree,
-					$access_handler);
-			}
-			catch (ilFileUtilsException $e) 
-			{
+					$access_handler
+				);
+			} catch (ilFileUtilsException $e) {
 				$response->error = $e->getMessage();
-			}
-			catch (Exception $ex)
-			{
-				$response->error = $ex->getMessage();	   
+			} catch (Exception $ex) {
+				$response->error = $ex->getMessage();
 			}
 
 			ilUtil::delDir($newDir);
-			
+
 			// #15404
-			if($this->id_type != self::WORKSPACE_NODE_ID)
-			{
-				foreach(ilFileUtils::getNewObjects() as $parent_ref_id => $objects)
-				{
-					if($parent_ref_id != $this->parent_id)
-					{
+			if ($this->id_type != self::WORKSPACE_NODE_ID) {
+				foreach (ilFileUtils::getNewObjects() as $parent_ref_id => $objects) {
+					if ($parent_ref_id != $this->parent_id) {
 						continue;
 					}
 
-					foreach($objects as $object)
-					{
+					foreach ($objects as $object) {
 						$this->after_creation_callback_objects[] = $object;
 					}
-				}	
+				}
 			}
-		}
-		else
-		{
-			if (trim($title) == "")
-			{
+		} else {
+			if (trim($title) == "") {
 				$title = $filename;
 			}
-			else
-			{
-				// BEGIN WebDAV: Ensure that object title ends with the filename extension
-				$fileExtension = ilObjFileAccess::_getFileExtension($filename);
-				$titleExtension = ilObjFileAccess::_getFileExtension($title);
-				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
-				{
-					$title .= '.'.$fileExtension;
-				}
-				// END WebDAV: Ensure that object title ends with the filename extension
-			}
-			
+
 			// create and insert file in grp_tree
 			$fileObj = new ilObjFile();
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($filename);
-
-			$fileObj->setFileType(ilMimeTypeUtil::getMimeType("", $filename, $type));
+			$fileObj->setFileType($type);
 			$fileObj->setFileSize($size);
 			$this->object_id = $fileObj->create();
-			
 			$this->putObjectInTree($fileObj, $this->parent_id);
-			
+
 			// see uploadFiles()
-			if(is_array($this->after_creation_callback_objects))
-			{
+			if (is_array($this->after_creation_callback_objects)) {
 				$this->after_creation_callback_objects[] = $fileObj;
 			}
-			
+
 			// upload file to filesystem
 			$fileObj->createDirectory();
-			$fileObj->raiseUploadError(false);
+			$fileObj->raiseUploadError(true);
+
+
+
+
+
 			$result = $fileObj->getUploadFile($temp_name, $filename);
+
+
+
+
 			if ($result) {
 				//if no title for the file was set use the filename as title
-				if(empty($fileObj->getTitle())) {
-					$fileObj->setTitle($result->getName());
+				if (empty($fileObj->getTitle())) {
+					$fileObj->setTitle($filename);
 				}
-				$fileObj->setFileName($result->getName());
+				$fileObj->setFileName($filename);
 			}
 			$fileObj->update();
 			$this->handleAutoRating($fileObj);
 
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
 		}
-		
+
 		return $response;
 	}
 	

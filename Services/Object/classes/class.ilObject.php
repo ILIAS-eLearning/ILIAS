@@ -257,7 +257,7 @@ class ilObject
 		}
 
 		$this->id = $obj["obj_id"];
-		
+
 		// check type match (the "xxx" type is used for the unit test)
 		if ($this->type != $obj["type"] && $obj["type"] != "xxx")
 		{
@@ -2054,7 +2054,7 @@ class ilObject
 		) {
 			/** @var \ilObjectCustomIconFactory  $customIconFactory */
 			$customIconFactory = $DIC['object.customicons.factory'];
-			$customIcon = $customIconFactory->getPresenterByObjId($a_obj_id, $a_type);
+			$customIcon = $customIconFactory->getPresenterByObjId((int)$a_obj_id, (string)$a_type);
 			if ($customIcon->exists()) {
 				$filename = $customIcon->getFullPath();
 				return $filename . '?tmp=' . filemtime($filename);

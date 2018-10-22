@@ -138,18 +138,18 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	{
 		$this->xmlStartTag('Translations');
 		
-		$translations = $this->getCategory()->getTranslations();
+		$translations = $this->getCategory()->getObjectTranslation()->getLanguages();
 		
 		
-		$first = true;
-		foreach((array) $translations['Fobject'] as $translation)
+		foreach((array) $translations as $translation)
 		{
-			$this->xmlStartTag('Translation', array('default' => (int) $first, 'language' => $translation['lang']));
+			$this->xmlStartTag('Translation', array(
+				'default' => (int) $translation['lang_default'],
+				'language' => $translation['lang'])
+			);
 			$this->xmlElement('Title', array(),$translation['title']);
 			$this->xmlElement('Description',array(),$translation['desc']);
 			$this->xmlEndTag('Translation');
-			
-			$first = false;
 		}
 		$this->xmlEndTag('Translations');
 	}

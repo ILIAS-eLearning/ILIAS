@@ -72,7 +72,7 @@ class ilObjectCustomIconFactory
 	public function getByObjId(int $objId, string $objType = '') : \ilObjectCustomIcon
 	{
 		if (0 === strlen($objType)) {
-			$objType = $this->objectCache->lookupType($objId);
+			$objType = (string)$this->objectCache->lookupType($objId);
 		}
 
 		require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconImpl.php';
@@ -109,7 +109,7 @@ class ilObjectCustomIconFactory
 				break;
 
 			default:
-				$presenter = new \ilObjectCustomIconPresenterImpl($this->getByObjId($objId));
+				$presenter = new \ilObjectCustomIconPresenterImpl($this->getByObjId((int)$objId));
 				break;
 
 		}
