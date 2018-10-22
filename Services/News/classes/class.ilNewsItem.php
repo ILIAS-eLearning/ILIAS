@@ -1331,48 +1331,53 @@ class ilNewsItem
 	}
 
 	/**
+	 * Query news data by news ids
+	 *
+	 * @param int[] $a_news_ids
+	 * @return array[]
+	 */
+	static public function queryNewsByIds(array $a_news_ids)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+		$news = array();
+		$set = $ilDB->query("SELECT * FROM il_news_item ".
+			" WHERE ".$ilDB->in("id", $a_news_ids, false, "integer"));
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$news[$rec["id"]] = $rec;
+		}
+		return $news;
+	}
+
+	/**
 	 *
 	 *
 	 * @param int $a_ref_id
 	 * @param int $a_time_period hours
 	 * @return array news item ids
 	 */
-	public function checkNewsExistsForGroupCourse($a_ref_id, $a_time_period = 1)
+	public function checkNewsExistsForObjects($objects, $a_time_period = 1)
 	{
-		$tree = $this->tree;
 		$ilDB = $this->db;
 		
 		$all = array();
 
-		if(!$tree->isDeleted($a_ref_id))
+		$limit_ts = self::handleTimePeriod($a_time_period);
+
+		// are there any news items for relevant objects and?
+		$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
+			" FROM il_news_item".
+			" WHERE ".$ilDB->in("context_obj_id", array_keys($objects), false, "integer").
+			" AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp"));
+		while($rec = $ilDB->fetchAssoc($query))
 		{
-			// parse repository branch of group
-			$nodes = array();
-			$node = $tree->getNodeData($a_ref_id);					
-			foreach($tree->getSubTree($node) as $child)
+			if ($objects[$rec["context_obj_id"]]["type"] == $rec["context_obj_type"])
 			{
-				if($child["type"] != "rolf")
-				{
-					$nodes[$child["obj_id"]] = $child["type"];
-				}
+				$all[] = $rec["id"];
 			}
-
-			$limit_ts = self::handleTimePeriod($a_time_period);
-
-			// are there any news items for relevant objects and?
-			$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
-				" FROM il_news_item".
-				" WHERE ".$ilDB->in("context_obj_id", array_keys($nodes), false, "integer").
-				" AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp"));
-			while($rec = $ilDB->fetchAssoc($query))
-			{
-				if ($nodes[$rec["context_obj_id"]] == $rec["context_obj_type"])
-				{
-					$all[] = $rec["id"];
-				}
-			}		
 		}
-		
+
 		return $all;		
 	}
 	
@@ -1756,7 +1761,25 @@ class ilNewsItem
 
 		return $objs;
 	}
-	
+
+	/**
+	 * Determine title for news item entry
+	 */
+	static function determineNewsTitleByNewsId($a_news_id, $a_agg_ref_id = 0, $a_aggregation = "")
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "SELECT context_obj_type, content_is_lang_var, title FROM il_news_item WHERE id = ".
+			$ilDB->quote($a_news_id, "integer");
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return self::determineNewsTitle($rec["context_obj_type"], $rec["title"], $rec["content_is_lang_var"],
+			$a_agg_ref_id, $a_aggregation);
+	}
+
 	/**
 	 * Determine title for news item entry
 	 */

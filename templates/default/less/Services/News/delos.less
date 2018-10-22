@@ -36,6 +36,23 @@ span.ilNewsRssIcon {
 	> li {
 		margin-bottom: 20px;
 		position: relative;
+		margin-right: 50%;
+		&:nth-child(even) {
+			margin-left: 50%;
+			margin-right: 0;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				margin-left: 0;
+			}
+			> .ilTimelineBadge {
+				left: 0;
+				margin-left: -25px;
+				right: auto;
+				margin-right: 0;
+			}
+		}
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			margin-right: 0;
+		}
 		&:before, &:after {
 			content: " ";
 			display: table;
@@ -44,7 +61,7 @@ span.ilNewsRssIcon {
 			clear: both;
 		}
 		> .ilTimelinePanel {
-			width: 44%;
+			width: 88%;
 			float: left;
 			padding: 20px;
 			position: relative;
@@ -74,11 +91,11 @@ span.ilNewsRssIcon {
 			text-align: center;
 			position: absolute;
 			top: 16px;
-			left: 50%;
-			margin-left: -25px;
 			background-color: #999;
 			z-index: 100;
 			border-radius: 50%;
+			right: 0;
+			margin-right: -25px;
 			@media only screen and (max-width: @grid-float-breakpoint-max) {
 				left: 90%;
 			}
@@ -212,4 +229,9 @@ span.ilNewsRssIcon {
 
 .dynamic-show-more {
 	display: none;
+}
+
+.ilTimeline .ilNotes {
+	margin: 0 -20px -20px -20px;
+	padding: 10px 20px;
 }
