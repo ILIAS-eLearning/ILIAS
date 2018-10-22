@@ -89,8 +89,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			
 			$status_details = "Switched from daily runs to open schedule.";			
 		}
+		//$last_run = date("Y-m-d H:i:s", strtotime("yesterday"));
 
-//$last_run = "2018-05-03 00:00:00";
 		$log->debug("Last run: ".$last_run);
 
 		include_once("./Services/Membership/classes/class.ilMembershipCronNotificationsData.php");
@@ -155,6 +155,9 @@ class ilMembershipCronNotifications extends ilCronJob
 		global $DIC;
 
 		$lng = $DIC['lng'];
+		$obj_definiton = $DIC["objDefinition"];
+
+		$lng->loadLanguageModule("news");
 		
 		$wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
 				$a_parent_ref_id != $a_filter_map[$a_item["id"]]);	
@@ -256,8 +259,11 @@ class ilMembershipCronNotifications extends ilCronJob
 				}								
 				break;
 				
-			default:							
-				$res = $lng->txt("obj_".$item_obj_type).
+			default:
+				$type_txt = ($obj_definiton->isPlugin($item_obj_type))
+					? ilObjectPlugin::lookupTxtById($item_obj_type, "obj_".$item_obj_type)
+					: $lng->txt("obj_".$item_obj_type);
+				$res = $type_txt.
 					' "'.$item_obj_title.'"';	
 				if($title)
 				{

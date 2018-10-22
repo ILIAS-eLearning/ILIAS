@@ -198,14 +198,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		}
 
 		$tpl->setVariable("USER_IMAGE", ilObjUser::_getPersonalPicturePath($i->getUserId(), "xsmall"));
-		if (!$i->getContentIsLangVar())
-		{
-			$tpl->setVariable("TITLE", $i->getTitle());
-		}
-		else
-		{
-			$tpl->setVariable("TITLE", $this->lng->txt($i->getTitle()));
-		}
+		$tpl->setVariable("TITLE",
+			ilNewsItem::determineNewsTitle($i->getContextObjType(), $i->getTitle(), $i->getContentIsLangVar()));
 
 		// content
 		$tpl->setVariable("CONTENT", $news_renderer->getTimelineContent());

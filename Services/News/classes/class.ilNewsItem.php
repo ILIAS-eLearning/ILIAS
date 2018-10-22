@@ -14,17 +14,21 @@ define("NEWS_PUBLIC", "public");
 
 
 /**
-* @defgroup ServicesNews Services/News
-*
-* A news item can be created by different sources. E.g. when
-* a new forum posting is created, or when a change in a
-* learning module is announced.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesNews
-*/
+ * @defgroup ServicesNews Services/News
+ *
+ * A news item can be created by different sources. E.g. when
+ * a new forum posting is created, or when a change in a
+ * learning module is announced.
+ *
+ * Please note that this class contains a lot of deprectated functions that
+ * will be move to other classes in the future. Please avoid to use these functions. This class should
+ * be a pure data class without persistence in the future.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesNews
+ */
 class ilNewsItem
 {
 	/**
@@ -578,6 +582,7 @@ class ilNewsItem
 	
 	/**
 	 * Read item from database.
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 */
 	public function read()
 	{
@@ -614,6 +619,7 @@ class ilNewsItem
 
 	/**
 	 * Create
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 */
 	function create()
 	{
@@ -693,6 +699,7 @@ class ilNewsItem
 	/**
 	 * Update item in database
 	 *
+	 * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
 	 * @param boolean $a_as_new If true, creation date is set "now"
 	 */
 	public function update($a_as_new = false)
@@ -740,8 +747,9 @@ class ilNewsItem
 
 
 	/**
-	* Get all news items for a user.
-	*/
+	 * Get all news items for a user.
+	 * @deprecated (will migrate to ilNewsData)
+	 */
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
 		$a_prevent_aggregation = false, $a_per = 0, &$a_cnt = NULL)
 	{
@@ -841,6 +849,8 @@ class ilNewsItem
 	/**
 	 * Get News For Ref Id.
 	 *
+	 * @deprecated (will migrate to ilNewsData)
+	 *
 	 * @param int $a_ref_id
 	 * @param bool $a_only_public
 	 * @param bool $a_stopnesting
@@ -927,8 +937,9 @@ class ilNewsItem
 	}
 	
 	/**
-	* Get news aggregation (e.g. for courses, groups)
-	*/
+	 * Get news aggregation (e.g. for courses, groups)
+	 * @deprecated (will migrate to ilNewsData)
+	 */
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
         $a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false,
 		$a_user_id = null, $a_limit = 0, $a_exclude = array())
@@ -1026,8 +1037,14 @@ class ilNewsItem
 				
 		return $data;
 	}
-	
-	function aggregateForums($news, $a_group_posting_sequence = false)
+
+	/**
+	 * @deprecated will move to ilNewsData
+	 * @param $news
+	 * @param bool $a_group_posting_sequence
+	 * @return mixed
+	 */
+	protected function aggregateForums($news, $a_group_posting_sequence = false)
 	{
 		$to_del = array();
 		$forums = array();
@@ -1076,8 +1093,14 @@ class ilNewsItem
 		
 		return $news;
 	}
-	
-	function aggregateFiles($news, $a_ref_id)
+
+	/**
+	 * @deprecated will move to ilNewsData
+	 * @param $news
+	 * @param $a_ref_id
+	 * @return mixed
+	 */
+	protected function aggregateFiles($news, $a_ref_id)
 	{
 		$first_file = "";
 		$to_del = array();
@@ -1110,9 +1133,17 @@ class ilNewsItem
 
 	
 	/**
-	* Get news aggregation for child objects (e.g. for categories)
-	*/
-	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false,
+	 * Get news aggregation for child objects (e.g. for categories)
+	 * @deprecated will move to ilNewsData
+	 * @param $a_ref_id
+	 * @param bool $a_only_public
+	 * @param int $a_time_period
+	 * @param bool $a_prevent_aggregation
+	 * @param string $a_starting_date
+	 * @param bool $a_no_auto_generated
+	 * @return array|mixed
+	 */
+	protected function getAggregatedChildNewsData($a_ref_id, $a_only_public = false,
 		$a_time_period = 0, $a_prevent_aggregation = false, $a_starting_date = "",
         $a_no_auto_generated = false)
 	{
@@ -1178,9 +1209,14 @@ class ilNewsItem
 	}
 
 	/**
-	* Convenient function to set the whole context information.
-	*/
-	function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
+	 * Set context for news
+	 *
+	 * @param int $a_obj_id
+	 * @param int $a_obj_type
+	 * @param int $a_sub_obj_id
+	 * @param string $a_sub_obj_type
+	 */
+	public function setContext(int $a_obj_id, string $a_obj_type, int $a_sub_obj_id = 0, string $a_sub_obj_type = "")
 	{
 		$this->setContextObjId($a_obj_id);
 		$this->setContextObjType($a_obj_type);
@@ -1215,6 +1251,7 @@ class ilNewsItem
 	/**
 	 * Query news for a context
 	 *
+	 * @deprecated will move to ilNewsData
      * @param    boolean        query for outgoing rss feed
      * @param    int            time period in seconds
      * @param    string        startind date
@@ -1352,7 +1389,7 @@ class ilNewsItem
 
 	/**
 	 *
-	 *
+	 * @deprecated will move to ilNewsData
 	 * @param int $a_ref_id
 	 * @param int $a_time_period hours
 	 * @return array news item ids
@@ -1383,7 +1420,7 @@ class ilNewsItem
 	
 	/**
 	 * Query News for multiple Contexts
-	 *
+	 * @deprecated will move to ilNewsData
 	 * @param array $a_contexts
 	 * @param bool $a_for_rss_use
 	 * @param int $a_time_period
@@ -1503,8 +1540,9 @@ class ilNewsItem
 
 
 	/**
-	* Set item read.
-	*/
+	 * Set item read.
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _setRead($a_user_id, $a_news_id)
 	{
 		global $DIC;
@@ -1533,8 +1571,9 @@ class ilNewsItem
 	}
 	
 	/**
-	* Set item unread.
-	*/
+	 * Set item unread.
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _setUnread($a_user_id, $a_news_id)
 	{
 		global $DIC;
@@ -1551,13 +1590,13 @@ class ilNewsItem
 	}
 	
 	/**
-	* Merges two sets of news
-	*
-	* @param	array	$n1		Array of news
-	* @param	array	$n2		Array of news
-	*
-	* @return	array			Array of news
-	*/
+	 * Merges two sets of news
+	 * @deprecated will move to ilNewsData
+	 * @param	array	$n1		Array of news
+	 * @param	array	$n2		Array of news
+	 *
+	 * @return	array			Array of news
+	 */
 	static function mergeNews($n1, $n2)
 	{
 		foreach($n2 as $id => $news)
@@ -1569,10 +1608,10 @@ class ilNewsItem
 	}
 	
 	/**
-	* Get default visibility for reference id
-	*
-	* @param	$a_ref_id		reference id
-	*/
+	 * Get default visibility for reference id
+	 * @deprecated will move to ilNewsData
+	 * @param	$a_ref_id		reference id
+	 */
 	static function _getDefaultVisibilityForRefId($a_ref_id)
 	{
 		global $DIC;
@@ -1613,9 +1652,9 @@ class ilNewsItem
 	
 	
 	/**
-	* Delete news item
-	*
-	*/
+	 * Delete news item
+	 * @deprecated will move to ilNewsData
+	 */
 	public function delete()
 	{
 		$ilDB = $this->db;
@@ -1642,10 +1681,10 @@ class ilNewsItem
 	}
 	
 	/**
-	* Delete all news of a context
-	*
-	*/
-	static public function deleteNewsOfContext($a_context_obj_id,
+	 * Get all news of a context
+	 * @deprecated will move to ilNewsData
+	 */
+	static public function getNewsOfContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
 	{
 		global $DIC;
@@ -1670,17 +1709,33 @@ class ilNewsItem
 			$and;
 
 		$news_set = $ilDB->query($query);
-		
+
+		$news_arr = [];
 		while ($news = $ilDB->fetchAssoc($news_set))
 		{
-			$news_obj = new ilNewsItem($news["id"]);
-			$news_obj->delete();
+			$news_arr[] = new ilNewsItem($news["id"]);
+		}
+		return $news_arr;
+	}
+
+	/**
+	 * Delete all news of a context
+	 * @deprecated will move to ilNewsData
+	 */
+	static public function deleteNewsOfContext($a_context_obj_id,
+		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
+	{
+		foreach (self::getNewsOfContext($a_context_obj_id,
+			$a_context_obj_type, $a_context_sub_obj_id, $a_context_sub_obj_type) as $n)
+		{
+			$n->delete();
 		}
 	}
 
 	/**
-	* Lookup News Title
-	*/
+	 * Lookup News Title
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _lookupTitle($a_news_id)
 	{
 		global $DIC;
@@ -1695,8 +1750,9 @@ class ilNewsItem
 	}
 
 	/**
-	* Lookup News Visibility
-	*/
+	 * Lookup News Visibility
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _lookupVisibility($a_news_id)
 	{
 		global $DIC;
@@ -1712,8 +1768,9 @@ class ilNewsItem
 	}
 
 	/**
-	* Lookup mob id
-	*/
+	 * Lookup mob id
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _lookupMobId($a_news_id)
 	{
 		global $DIC;
@@ -1728,8 +1785,9 @@ class ilNewsItem
 	}
 
 	/**
-	* Checks whether news are available for
-	*/
+	 * Checks whether news are available for
+	 * @deprecated will move to ilNewsData
+	 */
 	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "",$a_ending_date = '', $ignore_period = false)
 	{
 		global $DIC;
@@ -1782,6 +1840,7 @@ class ilNewsItem
 
 	/**
 	 * Determine title for news item entry
+	 * @deprecated will move to util?
 	 */
 	static function determineNewsTitle($a_context_obj_type, $a_title, $a_content_is_lang_var,
 		$a_agg_ref_id = 0, $a_aggregation = "")
@@ -1789,6 +1848,7 @@ class ilNewsItem
 		global $DIC;
 
 		$lng = $DIC->language();
+		$obj_definition = $DIC["objDefinition"];
 
 		if ($a_agg_ref_id > 0)
 		{
@@ -1846,6 +1906,10 @@ class ilNewsItem
 		{
 			if ($a_content_is_lang_var)
 			{
+				if($obj_definition->isPlugin($a_context_obj_type))
+				{
+					return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
+				}
 				return $lng->txt($a_title);
 			}
 			else
@@ -1859,15 +1923,21 @@ class ilNewsItem
 
 	/**
 	 * Determine new content
+	 * @deprecated will move to util?
 	 */
 	static function determineNewsContent($a_context_obj_type, $a_content, $a_is_lang_var)
 	{
 		global $DIC;
 
 		$lng = $DIC->language();
+		$obj_definition = $DIC["objDefinition"];
 
 		if ($a_is_lang_var)
 		{
+			if($obj_definition->isPlugin($a_context_obj_type))
+			{
+				return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_content);
+			}
 			$lng->loadLanguageModule($a_context_obj_type);
 			return $lng->txt($a_content);
 		}
@@ -1880,8 +1950,9 @@ class ilNewsItem
 	
 	
 	/**
-	* Get first new id of news set related to a certain context
-	*/
+	 * Get first new id of news set related to a certain context
+	 * @deprecated will move to ilNewsData
+	 */
 	static function getFirstNewsIdForContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "")
 	{
@@ -1906,6 +1977,7 @@ class ilNewsItem
 
 	/**
 	 * Get last news id of news set related to a certain context
+	 * @deprecated will move to ilNewsData
 	 */
 	static function getLastNewsIdForContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "",
@@ -1944,8 +2016,9 @@ class ilNewsItem
 
 
 	/**
-	* Lookup media object usage(s)
-	*/
+	 * Lookup media object usage(s)
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _lookupMediaObjectUsages($a_mob_id)
 	{
 		global $DIC;
@@ -1968,8 +2041,9 @@ class ilNewsItem
 	}
 
 	/**
-	* Context Object ID
-	*/
+	 * Context Object ID
+	 * @deprecated will move to ilNewsData
+	 */
 	static function _lookupContextObjId($a_news_id)
 	{
 		global $DIC;
@@ -1986,6 +2060,9 @@ class ilNewsItem
 		return $rec["context_obj_id"];
 	}
 
+	/**
+	 * @deprecated will move to settings
+	 */
 	static function _lookupDefaultPDPeriod()
 	{
 		$news_set = new ilSetting("news");
@@ -1998,6 +2075,9 @@ class ilNewsItem
 		return $per;
 	}
 
+	/**
+	 * @deprecated will move to settings->user
+	 */
 	static function _lookupUserPDPeriod($a_user_id)
 	{
 		$news_set = new ilSetting("news");
@@ -2020,7 +2100,10 @@ class ilNewsItem
 		
 		return $per;
 	}
-	
+
+	/**
+	 * @deprecated will move to settings
+	 */
 	static function _lookupRSSPeriod()
 	{
 		$news_set = new ilSetting("news");
@@ -2031,11 +2114,18 @@ class ilNewsItem
 		}
 		return $rss_period;
 	}
+
+	/**
+	 * @deprecated will move to settings->user
+	 */
 	static function setPrivateFeedId ($a_userId)
 	{
 		ilNewsItem::$privFeedId = $a_userId;
 	}
 
+	/**
+	 * @deprecated will move to settings->user
+	 */
 	static function getPrivateFeedId () {
 
 		return ilNewsItem::$privFeedId;
@@ -2044,8 +2134,10 @@ class ilNewsItem
 	/**
 	 * Deliver mob file
 	 *
-	 * @param
-	 * @return
+	 * @deprecated will move to ?
+	 * @param string $a_purpose
+	 * @param bool $a_increase_download_cnt
+	 * @return bool
 	 */
 	function deliverMobFile($a_purpose = "Standard", $a_increase_download_cnt = false)
 	{
@@ -2091,9 +2183,7 @@ class ilNewsItem
 	
 	/**
 	 * Increase download counter
-	 *
-	 * @param
-	 * @return
+	 * @deprecated will move to data
 	 */
 	function increaseDownloadCounter()
 	{
@@ -2111,8 +2201,7 @@ class ilNewsItem
 	/**
 	 * Increase play counter
 	 *
-	 * @param
-	 * @return
+	 * @deprecated will move to data
 	 */
 	function increasePlayCounter()
 	{
@@ -2129,7 +2218,7 @@ class ilNewsItem
 
 	/**
 	 * Prepare news data from cache
-	 *
+	 * @deprecated will move to data
 	 * @param string $a_cres cache string
 	 * @return array news array
 	 */
