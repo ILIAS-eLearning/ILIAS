@@ -478,6 +478,10 @@ class ilCertificateGUI
 
 				$cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
 
+				if ($_POST['background_delete']) {
+					$backgroundImagePath = '';
+				}
+
 				if ($_POST['certificate_card_thumbnail_image_delete']) {
 					$cardThumbnailImagePath = '';
 				}
