@@ -183,3 +183,21 @@ if(!$ilDB->tableColumnExists('event', 'mail_members'))
 }
 ?>
 
+<#18>
+<?php
+if(!$ilDB->tableColumnExists('event_participants', 'contact'))
+{
+	$ilDB->addTableColumn(
+		'event_participants',
+		'contact',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+
