@@ -32,10 +32,16 @@ class ilUserCertificateTableProvider
 	private $defaultTitle;
 
 	/**
+	 * @var string
+	 */
+	private $defaultDescription;
+
+	/**
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
 	 * @param ilCtrl $controller
 	 * @param string $defaultTitle
+	 * @param string $defaultDescription
 	 * @param ilCertificateObjectHelper|null $objectHelper
 	 */
 	public function __construct(
@@ -43,12 +49,14 @@ class ilUserCertificateTableProvider
 		ilLogger $logger,
 		ilCtrl $controller,
 		string $defaultTitle,
+		string $defaultDescription,
 		ilCertificateObjectHelper $objectHelper = null
 	) {
 		$this->database = $database;
 		$this->logger = $logger;
 		$this->controller = $controller;
-		$this->defaultTitle = $defaultTitle;
+		$this->defaultTitle = $defaultTitle;;
+		$this->defaultDescription = $defaultDescription;;
 
 		if (null === $objectHelper) {
 			$objectHelper = new ilCertificateObjectHelper();
@@ -85,7 +93,7 @@ class ilUserCertificateTableProvider
   (CASE WHEN (object_data.description IS NULL)
     THEN
       CASE WHEN (object_data_del.description IS NULL)
-        THEN ""
+        THEN  ' . $this->database->quote($this->defaultDescription, 'text') . '
         ELSE object_data_del.description
         END
     ELSE object_data.description 
