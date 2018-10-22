@@ -87,7 +87,7 @@ class ilCertificateTemplateRepository
 
 	public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive)
 	{
-		$sql = 'UPDATE il_cert_template SET currently_active = ' . $this->database->quote($currentlyActive, 'bool') .
+		$sql = 'UPDATE il_cert_template SET currently_active = ' . $this->database->quote($currentlyActive, 'integer') .
 		' WHERE id = ' . $this->database->quote($certificateTemplate->getId(), 'integer');
 
 		return $this->database->manipulate($sql);
