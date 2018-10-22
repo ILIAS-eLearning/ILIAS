@@ -144,4 +144,139 @@ EOT;
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
+	public function test_render_with_certificate_icon() {
+		$r = $this->getDefaultRenderer();
+		$c = $this->getBaseCard();
+
+		//TODO get skin fail?
+		$c = $c->withCertificateIcon(true);
+
+		$html = $r->render($c);
+
+		$expected_html = <<<EOT
+<div class="il-card thumbnail">
+	<div class="il-card-repository-head">
+		<div class="row">
+			<div class="col-xs-3 col-sm-3">
+				
+			</div>
+			<div class="col-xs-3 col-sm-3">
+				<div class="icon custom responsive" aria-label="Certificate">
+					<img src="./templates/default/images/icon_cert.svg" />
+				</div>
+			</div>
+			<div class="col-xs-3 col-sm-3">
+			</div>
+			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
+				
+			</div>
+		</div>
+	</div>
+	<img src="src" class="img-standard" alt="alt" />
+	<div class="card-no-highlight"></div>
+	<div class="caption">
+		<h5 class="card-title">Card Title</h5>
+	</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function test_render_with_progressmeter() {
+		$r = $this->getDefaultRenderer();
+		$c = $this->getBaseCard();
+		$prg = new I\Component\Chart\ProgressMeter\Mini(100,80);
+		$c = $c->withProgress($prg);
+
+		$html = $r->render($c);
+
+		$expected_html = <<<EOT
+<div class="il-card thumbnail">
+	<div class="il-card-repository-head">
+		<div class="row">
+			<div class="col-xs-3 col-sm-3">
+				
+			</div>
+			<div class="col-xs-3 col-sm-3">
+				<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
+					<div class="il-chart-progressmeter-mini-container">
+						<div class="il-chart-progressmeter-marker-box hidden" style="transform: rotate(0deg)">
+							<div class="il-chart-progressmeter-mini-marker"></div>
+						</div>
+						<div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">
+							<div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(28.584deg)"></div>
+							<div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(35.416deg) skew(28.584deg)"></div>
+							<div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(95.832deg) skew(28.584deg)"></div>
+							<div class="il-chart-progressmeter-cover">
+								<div class="il-chart-progressmeter-text-container"></div>
+							</div>
+						</div>
+					</div>
+			</div>
+			</div>
+			<div class="col-xs-3 col-sm-3">
+			</div>
+			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
+				
+			</div>
+		</div>
+	</div>
+	<img src="src" class="img-standard" alt="alt" />
+	<div class="card-no-highlight"></div>
+	<div class="caption">
+		<h5 class="card-title">Card Title</h5>
+	</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function test_render_with_actions() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $this->getBaseCard();
+		$items = array(
+			$f->button()->shy("Visit ILIAS", "http://www.ilias.de")
+		);
+		$dropdown = new I\Component\Dropdown\Standard($items);
+		$c = $c->withActions($dropdown);
+		$html = $r->render($c);
+
+		$expected_html = <<<EOT
+<div class="il-card thumbnail">
+	<div class="il-card-repository-head">
+		<div class="row">
+			<div class="col-xs-3 col-sm-3">
+				<div class="icon custom responsive" aria-label="Course">
+					
+				</div>
+			</div>
+			<div class="col-xs-3 col-sm-3">
+				
+			</div>
+			<div class="col-xs-3 col-sm-3">
+			</div>
+			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
+				<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a href="http://www.ilias.de">Visit ILIAS</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src="src" class="img-standard" alt="alt" />
+	<div class="card-no-highlight"></div>
+	<div class="caption">
+		<h5 class="card-title">Card Title</h5>
+	</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
 }
