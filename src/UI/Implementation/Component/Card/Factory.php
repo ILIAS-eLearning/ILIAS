@@ -11,7 +11,7 @@ use ILIAS\UI\Component\Image\Image;
  */
 class Factory implements Component\Card\Factory {
 
-	public function standard($title, $image){
+	public function standard($title, $image = null){
 		return new Standard($title, $image);
 	}
 
