@@ -14,6 +14,10 @@ use ILIAS\UI\Renderer;
 class ilMMTopItemFormGUI {
 
 	/**
+	 * @var \ILIAS\DI\HTTPServices
+	 */
+	private $http;
+	/**
 	 * @var ilMMItemRepository
 	 */
 	private $repository;
@@ -53,8 +57,9 @@ class ilMMTopItemFormGUI {
 	const F_TYPE = 'type';
 
 
-	public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item, ilMMItemRepository $repository) {
+	public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, \ILIAS\DI\HTTPServices $http, ilMMItemFacadeInterface $item, ilMMItemRepository $repository) {
 		$this->repository = $repository;
+		$this->http = $http;
 		$this->ctrl = $ctrl;
 		$this->ui_fa = $ui_fa;
 		$this->ui_re = $ui_re;
@@ -77,9 +82,13 @@ class ilMMTopItemFormGUI {
 
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
 		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
+
 		foreach ($top_item_types_for_form as $classname => $representation) {
-			$type = $type->withOption($classname, $representation);
+			$item = $this->repository->getEmptyItemForTypeString($classname);
+			$type_handler = $this->repository->information()->getTypeHandlerForType($item);
+			$type = $type->withOption($classname, $representation, $type_handler->getAdditionalFieldsForSubForm());
 		}
+		$type = $type->withValue(reset(array_keys($top_item_types_for_form)));
 		if (!$this->item_facade->isEmpty()) {
 			$value = $this->item_facade->getType();
 			$type = $type->withValue($value);
@@ -104,22 +113,27 @@ class ilMMTopItemFormGUI {
 
 
 	public function save() {
-		global $DIC;
-		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
-		$form = $this->form->withRequest($DIC->http()->request());
+		$form = $this->form->withRequest($this->http->request());
 		$data = $form->getData();
 
+		$type = (string)$data[0][self::F_TYPE]['value'];
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
-		$this->item_facade->setType((string)$data[0][self::F_TYPE]);
+		$this->item_facade->setType($type);
 		$this->item_facade->setIsTopItm(true);
 
 		if ($this->item_facade->isEmpty()) {
-			$r->createItem($this->item_facade);
+			$this->repository->createItem($this->item_facade);
 		}
 
-		$r->updateItem($this->item_facade);
+		$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
+
+		$item = $this->repository->getEmptyItemForTypeString($type);
+		$type_handler = $this->repository->information()->getTypeHandlerForType($item);
+		$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
+
+		$this->repository->updateItem($this->item_facade);
 
 		return true;
 	}

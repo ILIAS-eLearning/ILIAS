@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Provider\StaticProvider;
@@ -24,4 +25,10 @@ interface StaticMainMenuProvider extends StaticProvider {
 	 * configuration and will be collected once during a StructureReload
 	 */
 	public function getStaticSubItems(): array;
+
+
+	/**
+	 * @return TypeHandler[]
+	 */
+	public function provideTypeHandlers(): array;
 }

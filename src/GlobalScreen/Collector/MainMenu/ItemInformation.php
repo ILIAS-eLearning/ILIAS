@@ -51,4 +51,12 @@ interface ItemInformation {
 	 * @return IdentificationInterface
 	 */
 	public function getParent(isChild $item): IdentificationInterface;
+
+
+	/**
+	 * @param isItem $item
+	 *
+	 * @return TypeHandler
+	 */
+	public function getTypeHandlerForType(isItem $item): TypeHandler;
 }

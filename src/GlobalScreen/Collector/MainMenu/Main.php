@@ -8,8 +8,7 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\UI\Implementation\Component\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Icon\Standard;
+use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
 /**
  * Class Main
@@ -22,6 +21,10 @@ use ILIAS\UI\Implementation\Component\Icon\Standard;
  */
 class Main {
 
+	/**
+	 * @var TypeHandler[]
+	 */
+	private static $typehandlers = [];
 	/**
 	 * @var bool
 	 */
@@ -88,27 +91,22 @@ class Main {
 	private function getStackedTopItems(): array {
 		$this->load();
 		$top_items = [];
-		foreach (self::$topitems as $item) {
-			$is_visible1 = $item->isVisible();
-			$is_item_active1 = $this->information->isItemActive($item);
-			$is_always_available1 = $item->isAlwaysAvailable();
-			if (!$is_visible1 || (!$is_item_active1 && !$is_always_available1)) {
+		foreach (self::$topitems as $top_item) {
+			if (!$this->checkAvailability($top_item)) {
 				continue;
 			}
-			if ($item instanceof isTopItem && $this->information) {
-				if ($item instanceof isParent) {
+			if ($top_item instanceof isTopItem && $this->information) {
+				if ($top_item instanceof isParent) {
 					$children = [];
 					/**
-					 * @var $item  isParent
+					 * @var $top_item  isParent
 					 * @var $child isChild
 					 */
-					foreach ($item->getChildren() as $child) {
-						$is_visible = $child->isVisible();
-						$is_item_active = $this->information->isItemActive($child);
-						$is_always_available = $child->isAlwaysAvailable();
-						if ((!$is_visible || !$is_item_active && !$is_always_available)) {
+					foreach ($top_item->getChildren() as $child) {
+						if (!$this->checkAvailability($child)) {
 							continue;
 						}
+						$child = $this->applyTypeHandler($child);
 						$position_of_sub_item = $this->information->getPositionOfSubItem($child);
 						if (isset($children[$position_of_sub_item])) {
 							$position_of_sub_item = max(array_keys($children)) + 1;
@@ -116,18 +114,34 @@ class Main {
 						$children[$position_of_sub_item] = $child;
 					}
 					ksort($children);
-					$item = $item->withChildren($children);
+					$top_item = $top_item->withChildren($children);
 				}
-				$position_of_top_item = $this->information->getPositionOfTopItem($item);
+				$top_item = $this->applyTypeHandler($top_item);
+				$position_of_top_item = $this->information->getPositionOfTopItem($top_item);
 				if (isset($top_items[$position_of_top_item])) {
 					$position_of_top_item = max(array_keys($top_items)) + 1;
 				}
-				$top_items[$position_of_top_item] = $item;
+				$top_items[$position_of_top_item] = $top_item;
 			}
 		}
 		ksort($top_items);
 
 		return $top_items;
+	}
+
+
+	/**
+	 * @param isItem $item
+	 *
+	 * @return bool
+	 */
+
+	private function checkAvailability(isItem $item): bool {
+		$is_visible = $item->isVisible();
+		$is_item_active = $this->information->isItemActive($item);
+		$is_always_available = $item->isAlwaysAvailable();
+
+		return !(!$is_visible || !$is_item_active && !$is_always_available);
 	}
 
 
@@ -184,35 +198,16 @@ class Main {
 			 */
 			try {
 				$this->loaded = true;
+				$this->loadTopItems();
+				$this->loadSubItems();
 				foreach ($this->providers as $provider) {
-					foreach ($provider->getStaticTopItems() as $top_item) {
-						if ($top_item instanceof hasTitle && $this->information) {
-							$top_item = $this->information->translateItemForUser($top_item);
-						}
-						self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
-						self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
-					}
-				}
-				foreach ($this->providers as $provider) {
-					foreach ($provider->getStaticSubItems() as $sub_item) {
-						if ($sub_item instanceof hasTitle && $this->information) {
-							$sub_item = $this->information->translateItemForUser($sub_item);
-						}
-						if ($sub_item instanceof isChild && $sub_item->hasParent()) {
-							$new_parent_identification = $this->information->getParent($sub_item);
-							$parent_item = $this->getSingleItem($new_parent_identification);
-							if ($parent_item->getProviderIdentification() instanceof NullIdentification) {
-								self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
-								self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
-								$sub_item->overrideParent($parent_item->getProviderIdentification());
-							} else {
-								$sub_item->overrideParent($new_parent_identification);
+					if ($provider instanceof StaticMainMenuProvider) {
+						foreach ($provider->provideTypeHandlers() as $type_handler) {
+							if (isset(self::$typehandlers[$type_handler->matchesForType()])) {
+								throw new \LogicException("Can't register two Handlers for Type {$type_handler->matchesForType()}");
 							}
-							if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
-								self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
-							}
+							self::$typehandlers[$type_handler->matchesForType()] = $type_handler;
 						}
-						self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
 					}
 				}
 			} catch (\Throwable $e) {
@@ -221,5 +216,68 @@ class Main {
 		}
 
 		return $this->loaded;
+	}
+
+
+	/**
+	 * @return Provider|mixed
+	 */
+	private function loadTopItems() {
+		foreach ($this->providers as $provider) {
+			foreach ($provider->getStaticTopItems() as $top_item) {
+				if ($top_item instanceof hasTitle && $this->information) {
+					$top_item = $this->information->translateItemForUser($top_item);
+				}
+				self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
+				self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
+			}
+		}
+
+		return $provider;
+	}
+
+
+	private function loadSubItems() {
+		foreach ($this->providers as $provider) {
+			foreach ($provider->getStaticSubItems() as $sub_item) {
+				if ($sub_item instanceof hasTitle && $this->information) {
+					$sub_item = $this->information->translateItemForUser($sub_item);
+				}
+				if ($sub_item instanceof isChild && $sub_item->hasParent()) {
+					$new_parent_identification = $this->information->getParent($sub_item);
+					$parent_item = $this->getSingleItem($new_parent_identification);
+					if ($parent_item->getProviderIdentification() instanceof NullIdentification) {
+						self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+						self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+						$sub_item->overrideParent($parent_item->getProviderIdentification());
+					} else {
+						$sub_item->overrideParent($new_parent_identification);
+					}
+					if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
+						self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+					}
+				}
+				self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
+			}
+		}
+	}
+
+
+	/**
+	 * @param $item
+	 *
+	 * @return isItem
+	 */
+	private function applyTypeHandler($item): isItem {
+		$type = get_class($item);
+		if (isset(self::$typehandlers[$type])) {
+			/**
+			 * @var $handler TypeHandler
+			 */
+			$handler = self::$typehandlers[$type];
+			$item = $handler->enrichItem($item);
+		}
+
+		return $item;
 	}
 }

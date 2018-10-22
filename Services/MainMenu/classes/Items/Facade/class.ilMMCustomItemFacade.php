@@ -35,8 +35,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		parent::__construct($identification, $collector);
 		$this->custom_item_storage = $this->getCustomStorage();
 		if ($this->custom_item_storage instanceof ilMMCustomItemStorage) {
-			// FSX translation
-			// $this->default_title = $this->custom_item_storage->getDefaultTitle() ? $this->custom_item_storage->getDefaultTitle() : "";
 			if ($this->custom_item_storage->getType()) {
 				$this->type = $this->custom_item_storage->getType();
 			}
@@ -111,13 +109,11 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function getStatus(): string {
 		return "";
-	}
-
-
-	public function getTypeForPresentation(): string {
-		return "Custom"; // FSX
 	}
 
 

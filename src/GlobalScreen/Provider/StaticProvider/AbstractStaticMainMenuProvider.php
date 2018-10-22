@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
@@ -54,6 +55,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 
 	/**
 	 * @return string
+	 * @throws \ReflectionException
 	 */
 	public function getProviderNameForPresentation(): string {
 		$reflector = new \ReflectionClass($this);
@@ -63,5 +65,13 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 		preg_match($re, $reflector->getFileName(), $matches);
 
 		return $matches[1];
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function provideTypeHandlers(): array {
+		return array();
 	}
 }

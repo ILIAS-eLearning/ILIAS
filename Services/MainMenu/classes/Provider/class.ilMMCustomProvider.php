@@ -60,18 +60,31 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		if ($register) {
 			ilGSIdentificationStorage::registerIdentification($identification, $this);
 		}
-		switch ($storage->getType()) {
-			case \ILIAS\GlobalScreen\MainMenu\Item\Link::class:
-				$item = $this->getLinkItem($storage, $identification);
-				break;
-			case \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class:
-				$item = $this->mainmenu->topLinkItem($identification)->withTitle($storage->getDefaultTitle())->withAction($storage->getAction() . "#");
-				break;
-			case \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class:
-			default:
-				$item = $this->mainmenu->topParentItem($identification)->withTitle($storage->getDefaultTitle());
-				break;
+
+		$item = $this->globalScreen()->mainmenu()->custom($storage->getType(), $identification);
+
+		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+			$item = $item->withTitle($storage->getDefaultTitle());
 		}
+		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasAction) {
+			$item = $item->withAction("#");
+		}
+		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+			$mm_item = ilMMItemStorage::find($identification->serialize());
+			$parent_identification = "";
+			if ($mm_item instanceof ilMMItemStorage) {
+				$parent_identification = $mm_item->getParentIdentification();
+			}
+
+			if ($parent_identification) {
+				$item = $item->withParent(
+					$this->globalScreen()
+						->identification()
+						->fromSerializedIdentification($parent_identification)
+				);
+			}
+		}
+
 		if ($register) {
 			ilMMItemStorage::register($item);
 		}
@@ -81,28 +94,9 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 
 	/**
-	 * @param ilMMCustomItemStorage $storage
-	 * @param                       $identification
-	 *
-	 * @return \ILIAS\GlobalScreen\MainMenu\hasAction|\ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\Item\Link
+	 * @inheritDoc
 	 */
-	public function getLinkItem(ilMMCustomItemStorage $storage, $identification) {
-		$mm_item = ilMMItemStorage::find($identification->serialize());
-		$parent_identification = "";
-		if ($mm_item) {
-			$parent_identification = $mm_item->getParentIdentification();
-		}
-		$item = $this->mainmenu->link($identification)
-			->withTitle($storage->getDefaultTitle())
-			->withAction($storage->getAction() . "#");
-		if ($parent_identification) {
-			$item = $item->withParent(
-				$this->globalScreen()
-					->identification()
-					->fromSerializedIdentification($parent_identification)
-			);
-		}
-
-		return $item;
+	public function provideTypeHandlers(): array {
+		return [new ilMMTypeHandlerLink()];
 	}
 }

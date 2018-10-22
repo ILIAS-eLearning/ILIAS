@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\isChild;
@@ -50,6 +51,26 @@ class ilMMItemRepository {
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
 		$this->sync();
+	}
+
+
+	/**
+	 * @return ItemInformation
+	 */
+	public function information(): ItemInformation {
+		return $this->information;
+	}
+
+
+	/**
+	 * @param string $class_name
+	 *
+	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
+	 */
+	public function getEmptyItemForTypeString(string $class_name): \ILIAS\GlobalScreen\MainMenu\isItem {
+		global $DIC;
+
+		return $DIC->globalScreen()->mainmenu()->custom($class_name, new  \ILIAS\GlobalScreen\Identification\NullIdentification());
 	}
 
 
@@ -227,7 +248,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	public function getPossibleTopItemTypesForForm(): array {
 		return [
 			\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class => "TopParentItem",
-			// \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class   => "TopLinkItem",
+			\ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class   => "TopLinkItem",
 		];
 	}
 

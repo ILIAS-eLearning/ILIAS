@@ -171,7 +171,7 @@ class ilMMTopItemGUI {
 	 *
 	 * @return string
 	 */
-	private function index($DIC): string {
+	private function index(\ILIAS\DI\Container $DIC): string {
 		// ADD NEW
 		$b = ilLinkButton::getInstance();
 		$b->setCaption($this->lng->txt(self::CMD_ADD), false);
@@ -196,8 +196,8 @@ class ilMMTopItemGUI {
 	 * @return string
 	 * @throws Throwable
 	 */
-	private function add($DIC): string {
-		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+	private function add(\ILIAS\DI\Container $DIC): string {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
 
 		return $f->getHTML();
 	}
@@ -208,8 +208,8 @@ class ilMMTopItemGUI {
 	 *
 	 * @throws Throwable
 	 */
-	private function create($DIC) {
-		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
+	private function create(\ILIAS\DI\Container $DIC) {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
 		$f->save();
 
 		$this->cancel();
@@ -222,8 +222,8 @@ class ilMMTopItemGUI {
 	 * @return string
 	 * @throws Throwable
 	 */
-	private function edit($DIC): string {
-		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+	private function edit(\ILIAS\DI\Container $DIC): string {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
 
 		return $f->getHTML();
 	}
@@ -234,8 +234,8 @@ class ilMMTopItemGUI {
 	 *
 	 * @throws Throwable
 	 */
-	private function update($DIC) {
-		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
+	private function update(\ILIAS\DI\Container $DIC) {
+		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
 		$f->save();
 
 		$this->cancel();

@@ -1,9 +1,12 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isChild;
+use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
 
 /**
@@ -44,7 +47,7 @@ class ilMMItemInformation implements ItemInformation {
 	 */
 	public function translateItemForUser(hasTitle $item): hasTitle {
 		/**
-		 * @var $item \ILIAS\GlobalScreen\MainMenu\isItem
+		 * @var $item isItem
 		 */
 		global $DIC;
 		static $usr_language_key;
@@ -78,7 +81,7 @@ class ilMMItemInformation implements ItemInformation {
 	}
 
 
-	private function getPosition(\ILIAS\GlobalScreen\MainMenu\isItem $item): int {
+	private function getPosition(isItem $item): int {
 		if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
 			return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
 		}
@@ -90,7 +93,7 @@ class ilMMItemInformation implements ItemInformation {
 	/**
 	 * @inheritDoc
 	 */
-	public function isItemActive(\ILIAS\GlobalScreen\MainMenu\isItem $item): bool {
+	public function isItemActive(isItem $item): bool {
 		$serialize = $item->getProviderIdentification()->serialize();
 		if (isset($this->items[$serialize]['active'])) {
 			return $this->items[$serialize]['active'] === "1";
@@ -103,7 +106,7 @@ class ilMMItemInformation implements ItemInformation {
 	/**
 	 * @inheritDoc
 	 */
-	public function getParent(\ILIAS\GlobalScreen\MainMenu\isChild $item): \ILIAS\GlobalScreen\Identification\IdentificationInterface {
+	public function getParent(isChild $item): IdentificationInterface {
 		global $DIC;
 		$parent_string = $item->getProviderIdentification()->serialize();
 		if (isset($this->items[$parent_string]['parent_identification'])) {
@@ -111,5 +114,20 @@ class ilMMItemInformation implements ItemInformation {
 		}
 
 		return $item->getParent();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTypeHandlerForType(isItem $item): TypeHandler {
+		switch (true) {
+			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\Link):
+			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem):
+			case ($item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem):
+				return new ilMMTypeHandlerLink();
+			default:
+				throw new LogicException("No typehandler found");
+		}
 	}
 }
