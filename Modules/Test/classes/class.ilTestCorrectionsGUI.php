@@ -59,7 +59,7 @@ class ilTestCorrectionsGUI
 			$this->DIC->ctrl()->redirect($this, 'confirmQuestionRemoval');
 		}
 		
-		if( isset($_GET['qid']) && !$this->checkQuestion((int)$_GET['qid']) )
+		if( isset($_GET['qid']) && (int)$_GET['qid'] && !$this->checkQuestion((int)$_GET['qid']) )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
@@ -217,27 +217,28 @@ class ilTestCorrectionsGUI
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
 		$participantData->load($this->testOBJ->getTestId());
 		
+		// remove question from test and reindex remaining questions
+		$this->testOBJ->removeQuestion($questionGUI->object->getId());
+		$this->testOBJ->reindexFixedQuestionOrdering();
+		$this->testOBJ->loadQuestions();
+		
 		// remove question solutions
-#		$questionGUI->object->removeAllExistingSolutions();
+		$questionGUI->object->removeAllExistingSolutions();
 		
 		// remove test question results
-#		$scoring->removeAllQuestionResults($questionGUI->object->getId());
+		$scoring->removeAllQuestionResults($questionGUI->object->getId());
 		
 		// update pass and test results
-#		$scoring->updatePassAndTestResults($participantData->getActiveIds());
+		$scoring->updatePassAndTestResults($participantData->getActiveIds());
 		
 		// trigger learning progress
-#		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
+		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
 		
 		// remove questions from all sequences
 		$this->testOBJ->removeQuestionFromSequences($questionGUI->object->getId(), $participantData->getActiveIds());
 		
-		// remove question from test and reindex remaining questions
-#		$this->testOBJ->removeQuestion($questionGUI->object->getId());
-#		$this->testOBJ->reindexFixedQuestionOrdering();
-		
 		// finally delete the question itself
-#		$questionGUI->object->delete($questionGUI->object->getId());
+		$questionGUI->object->delete($questionGUI->object->getId());
 		
 		// check for empty test and set test offline
 		if( !count($this->testOBJ->getTestQuestions()) )
@@ -246,6 +247,7 @@ class ilTestCorrectionsGUI
 			$this->testOBJ->saveToDb(true);
 		}
 		
+		$this->DIC->ctrl()->setParameter($this, 'qid', '');
 		$this->DIC->ctrl()->redirect($this, 'showQuestionList');
 	}
 	

@@ -194,6 +194,7 @@ class ilTestScoring
 		foreach($activeIds as $activeId)
 		{
 			$passSelector = new ilTestPassesSelector($DIC->database(), $this->test);
+			$passSelector->setActiveId($activeId);
 			
 			foreach($passSelector->getExistingPasses() as $pass)
 			{

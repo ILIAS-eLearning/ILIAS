@@ -33,5 +33,7 @@ class ilTestSequenceFixedQuestionSet extends ilTestSequence
 				unset($array[$key]);
 			}
 		}
+		
+		return $array;
 	}
 } 

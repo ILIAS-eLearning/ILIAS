@@ -1535,6 +1535,7 @@ abstract class assQuestion
 			
 			$row = $ilDB->fetchAssoc($result);
 			
+			if( $row['reachedpoints'] === null ) $row['reachedpoints'] = 0;
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
