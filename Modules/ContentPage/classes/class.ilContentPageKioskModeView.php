@@ -113,6 +113,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	public function updateGet(State $state, string $command, int $param = null): State
 	{
 		$this->toggleLearningProgress($command);
+
+		return $state;
 	}
 
 	/**
