@@ -22835,7 +22835,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5308>
 <?php
-if (!$ilDB->tableExists('object_data_del')) {
+if ($ilDB->tableExists('object_data_del')) {
 	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
 		$ilDB->addTableColumn(
 			'object_data_del',
@@ -22902,4 +22902,20 @@ if (!$ilDB->tableExists("exc_ass_wiki_team"))
 		));
 	}
 
+?>
+<#5314>
+<?php
+if ($ilDB->tableExists('object_data_del')) {
+	if (!$ilDB->tableColumnExists('object_data_del', 'description')) {
+		$ilDB->addTableColumn(
+			'object_data_del',
+			'description',
+			[
+				'type'    => 'clob',
+				'notnull' => false,
+				'default' => null,
+			]
+		);
+	}
+}
 ?>
