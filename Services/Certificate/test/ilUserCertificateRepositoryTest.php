@@ -31,6 +31,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => array('text', 'v5.4.0'),
 				'currently_active'       => array('integer', true),
 				'background_image_path'  => array('clob', '/some/where/background.jpg'),
+				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
 			)
 		);
 
@@ -41,7 +42,11 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository(
+			$database,
+			$logger,
+			'someDefaultTitle'
+		);
 
 		$userCertificate = new ilUserCertificate(
 			1,
@@ -56,7 +61,8 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 			'1',
 			'v5.4.0',
 			true,
-			'/some/where/background.jpg'
+			'/some/where/background.jpg',
+			'/some/where/thumbnail.svg'
 		);
 
 		$repository->save($userCertificate);
@@ -86,6 +92,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.4.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/background.jpg',
+				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
 			),
 			array(
 				'id'                     => 142,
@@ -102,6 +109,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.3.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/else/background.jpg',
+				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
 			)
 		);
 
@@ -112,7 +120,12 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository(
+			$database,
+			$logger,
+			'someDefaultTitle',
+			'someDefaultDescription'
+		);
 
 		$results = $repository->fetchActiveCertificates(400);
 
@@ -144,6 +157,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.4.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/background.jpg',
+				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
 			),
 			array(
 				'id'                     => 142,
@@ -160,6 +174,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.3.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/else/background.jpg',
+				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
 			)
 		);
 
@@ -170,7 +185,11 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository(
+			$database,
+			$logger,
+			'someDefaultTitle'
+		);
 
 		$result = $repository->fetchActiveCertificate(400, 20);
 
@@ -197,7 +216,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
 		$repository->fetchActiveCertificate(400, 20);
 
@@ -228,6 +247,9 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.4.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/background.jpg',
+				'thumbnail_image_path'   => '/some/where/else/thumbnail.svg',
+				'title'                  => 'SomeTitle',
+				'someDescription'        => 'SomeDescription'
 			),
 			array(
 				'id'                     => 142,
@@ -244,6 +266,9 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.3.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/else/background.jpg',
+				'thumbnail_image_path'   => '/some/where/else/thumbnail.svg',
+				'title'                  => 'SomeTitle',
+				'someDescription'        => 'SomeDescription'
 			)
 		);
 
@@ -254,7 +279,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
 		$results = $repository->fetchActiveCertificatesByTypeForPresentation(400, 'crs');
 
@@ -286,6 +311,9 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'ilias_version'          => 'v5.4.0',
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/background.jpg',
+				'thumbnail_image_path'   => '/some/where/else/thumbnail.svg',
+				'title'                  => 'SomeTitle',
+				'someDescription'        => 'SomeDescription'
 			)
 		);
 
@@ -296,7 +324,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
 		$result = $repository->fetchCertificate(141);
 
@@ -324,7 +352,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
 		$repository->fetchCertificate(141);
 
@@ -363,7 +391,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
 		$userId = 10;
 		$objectIds = array(200, 300, 400);
@@ -401,7 +429,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$logger->expects($this->atLeastOnce())
 			->method('info');
 
-		$repository = new ilUserCertificateRepository($database, $logger);
+		$repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
 		$objectId = 10;
 

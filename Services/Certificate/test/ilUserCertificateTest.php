@@ -22,6 +22,7 @@ class ilUserCertificateTest extends \PHPUnit_Framework_TestCase
 			'v5.4.0',
 			true,
 			'/some/where/background.jpg',
+			'/some/where/thumbnail.svg',
 			140
 		);
 
