@@ -88,6 +88,6 @@ interface ControlBuilder {
 	 * @throws \LogicException if view wants to introduce a second TOC.
 	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function tableOfContent(string $command, int $parameter = null, $state = null) : TOCBuilder;
+	public function tableOfContent(string $label, string $command, int $parameter = null, $state = null): TOCBuilder;
 }
 
