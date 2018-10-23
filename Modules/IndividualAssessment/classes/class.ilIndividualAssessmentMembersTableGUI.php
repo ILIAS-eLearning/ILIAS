@@ -50,16 +50,6 @@ class ilIndividualAssessmentMembersTableGUI {
 	}
 
 	/**
-	 * Get data should me shown in table
-	 *
-	 * @return mixed[]
-	 */
-	public function getData(): array
-	{
-		return $this->data;
-	}
-
-	/**
 	 * Renders the presentation table
 	 *
 	 * @param 	ILIAS\UI\Component\Component[] 	$view_constrols
@@ -95,7 +85,7 @@ class ilIndividualAssessmentMembersTableGUI {
 			}
 		);
 
-		$data = array_slice($this->getData(), $offset, $limit);
+		$data = array_slice($this->data, $offset, $limit);
 		return $this->renderer->render($ptable->withData($data));
 	}
 
