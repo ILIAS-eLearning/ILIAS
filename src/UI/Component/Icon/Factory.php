@@ -10,7 +10,7 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *    Standard Icons represent ILIAS Objects. In their outlined version, they are used to be layered upon a picture or
-	 *    if the Standard Icon should not too much of the users attention.
+	 *    if the Standard Icon should not catch too much of the users attention.
 	 *   composition: >
 	 *     A Standard Icon is displayed as a block-element with a background-graphic.
 	 *     By default, a fallback icon will be rendered; this is until a
