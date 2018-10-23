@@ -62,9 +62,6 @@ class ilUserCertificateGUI
 	/** @var \ILIAS\Filesystem\Filesystem */
 	private $filesystem;
 
-	/** @var ilSetting|null */
-	private $scormSettings;
-
 	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
@@ -158,11 +155,6 @@ class ilUserCertificateGUI
 			$filesystem = $DIC->filesystem()->web();
 		}
 		$this->filesystem = $filesystem;
-
-		if (null === $scormSettings) {
-			$scormSettings = new ilSetting('');
-		}
-		$this->scormSettings = $scormSettings;
 
 		$this->language->loadLanguageModule('cert');
 	}
@@ -285,17 +277,9 @@ class ilUserCertificateGUI
 					$certificateData['title']
 				);
 
-				$pdfDownloadName = $certificateData['title'] . ' Certificate';
-
-				if ($certificateData['obj_type'] === 'sahs') {
-					$short_title = $this->scormSettings->get('certificate_short_name_' . $certificateData['obj_id']);
-					$pdfDownloadName = strftime('%y%m%d', time()) . '_' . $certificateData['lastname'] . '_' . $short_title . '_certificate';
-				}
-
 				$listSections = [];
 
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
-				$this->controller->setParameter($this, 'pdf_download_name', $pdfDownloadName);
 
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
 
@@ -398,7 +382,6 @@ class ilUserCertificateGUI
 		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
 
 		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
-		$pdfDownloadName = $this->request->getQueryParams()['pdf_download_name'];
 
 		try {
 			$userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
@@ -419,7 +402,7 @@ class ilUserCertificateGUI
 			$this->language->txt('error_creating_certificate_pdf')
 		);
 
-		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId(), $pdfDownloadName);
+		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
 
 		$this->listCertificates();
 	}
