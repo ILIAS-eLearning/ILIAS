@@ -63,7 +63,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -147,7 +146,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -231,7 +229,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -316,7 +313,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -387,7 +383,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -458,7 +453,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -537,7 +531,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
@@ -616,7 +609,6 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			$logger,
 			$controller,
 			'default_title',
-			'default_desc',
 			$objectHelper
 		);
 
