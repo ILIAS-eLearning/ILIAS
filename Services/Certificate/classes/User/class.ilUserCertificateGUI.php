@@ -274,7 +274,7 @@ class ilUserCertificateGUI
 					$certificateData['title']
 				);
 
-				$pdfDownloadName = $certificateData['title'];
+				$pdfDownloadName = $certificateData['title'] . ' Certificate';
 
 				if ($certificateData['obj_type'] === 'sahs') {
 					$scormSetting = new ilSetting('scorm');
