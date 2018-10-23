@@ -172,8 +172,10 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("on");
 		}
 		$label = $component->getLabel();
-		if ($label !== null) {
+		if (!empty($label)) {
+			$tpl->setCurrentBlock("with_label");
 			$tpl->setVariable("LABEL", $label);
+			$tpl->parseCurrentBlock();
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){

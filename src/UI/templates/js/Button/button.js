@@ -69,9 +69,8 @@ il.UI.button = il.UI.button || {};
 
 // toggle init
 $(document).ready(function() {
-    if ($('.il-toggle-button.on')) {
-        $('.il-toggle-button.on').attr("aria-pressed", "true");
-    }
+	$('.il-toggle-button.on').attr("aria-pressed", "true");
+
     $('.il-toggle-button').click(function() {
         $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button');
 

@@ -17,11 +17,6 @@ class Toggle extends Button implements C\Button\Toggle {
 	use Triggerer;
 
 	/**
-	 * @var string
-	 */
-	protected $label;
-
-	/**
 	 * @var bool
 	 */
 	protected $is_on;
@@ -41,12 +36,9 @@ class Toggle extends Button implements C\Button\Toggle {
 	 */
 	public function __construct($label, $action_on, $action_off, $is_on, Signal $click = null)
 	{
-		$this->checkStringArg("label", $label);
 		$this->checkStringOrSignalArg("action", $action_on);
 		$this->checkStringOrSignalArg("action_off", $action_off);
 		$this->checkBoolArg("is_on", $is_on);
-
-		$this->label = $label;
 
 		$button_action = (is_null($click))
 			? ""								// no way to resolve conflicting string actions
@@ -69,11 +61,6 @@ class Toggle extends Button implements C\Button\Toggle {
 		}
 
 		$this->is_on = $is_on;
-	}
-
-	public function getLabel()
-	{
-		return $this->label;
 	}
 
 	/**

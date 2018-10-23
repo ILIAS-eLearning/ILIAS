@@ -7244,11 +7244,13 @@ a.btn-link.ilSubmitInactive:hover {
 }
 .il-toggle-button {
   position: relative;
+  display: inline-block;
   height: 19px;
-  padding: 0px 25px;
+  padding-left: 25px;
+  padding-right: 25px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 40px;
-  background: lightgrey;
+  background: #cdcdcd;
   cursor: pointer;
 }
 .il-toggle-button .il-toggle-switch {
@@ -7259,17 +7261,17 @@ a.btn-link.ilSubmitInactive:hover {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 40px;
-  background: grey;
+  background: #808080;
   -webkit-transition: all 0.25s ease-in-out;
   /* Safari */
   transition: all 0.25s ease-in-out;
 }
 .il-toggle-button.on {
-  background: #b3b3cc;
+  background: #a1b3ca;
 }
 .il-toggle-button.on .il-toggle-switch {
   left: 53%;
-  background: #666699;
+  background: #4c6586;
 }
 h6.il-divider {
   padding: 3px 6px;
@@ -16113,3 +16115,4 @@ table.mceToolbar td {
     content: "";
   }
 }
+/*# sourceMappingURL=none */
