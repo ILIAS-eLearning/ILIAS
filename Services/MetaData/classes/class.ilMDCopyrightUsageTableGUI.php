@@ -53,17 +53,20 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
 		if($a_set['references'])
 		{
+			include_once('./Services/Tree/classes/class.ilPathGUI.php');
+			$path = new ilPathGUI();
+			$path->enableDisplayCut(true);
+			$path->enableTextOnly(false);
+
 			foreach($a_set['references'] as $reference)
 			{
 				$this->tpl->setCurrentBlock("references");
-				$link = ILIAS_HTTP_PATH.'/goto.php?client_id='.CLIENT_ID."&target=".$a_set['type']."_".$reference;
-				$this->tpl->setVariable("REF_LINK", $link);
-				$this->tpl->setVariable("REFERENCE",$reference);
+				$this->tpl->setVariable("REFERENCE",$path->getPath(ROOT_FOLDER_ID, $reference));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
 
-		$this->tpl->setVariable('SUB_ITEMS','TO DO');
+		$this->tpl->setVariable('SUB_ITEMS',count($a_set['references']));
 
 		//TODO FIX WHITE PAGE OWNER LINK
 		if($a_set['owner_link'])
@@ -103,16 +106,15 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 	public function getDataFromDB()
 	{
-		//TODO I DON'T NEED ALL THIS COLUMNS NOR COUNTER
-		$query = "SELECT count(meta_rights_id) used, rbac_id, obj_id, obj_type FROM il_meta_rights ".
-			"WHERE description = ".$this->db->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->copyright_id,'text');
+		$query = "SELECT rbac_id, obj_id, obj_type FROM il_meta_rights ".
+			"WHERE description = ".$this->db->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->copyright_id,'text').
+			" GROUP BY rbac_id";
 
 		$result = $this->db->query($query);
 		$data = array();
 		while ($row = $this->db->fetchAssoc($result))
 		{
 			$data[] = array(
-				"usages" => $row['used'],
 				"obj_id" =>$row['obj_id'],
 				"obj_type" => $row['obj_type']
 			);
