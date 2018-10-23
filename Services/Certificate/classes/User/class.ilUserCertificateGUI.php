@@ -259,10 +259,12 @@ class ilUserCertificateGUI
 			$uiComponents[] = $sortViewControl;
 
 			foreach ($data['items'] as $certificateData) {
-				$imagePath = ilUtil::getWebspaceDir(). $certificateData['thumbnail_image_path'];
-				if ($certificateData['thumbnail_image_path'] !== null
-					|| $certificateData['thumbnail_image_path'] !== ''
-					|| !$this->filesystem->has($certificateData['thumbnail_image_path'])
+				$thumbnailImagePath = $certificateData['thumbnail_image_path'];
+
+				$imagePath = ilUtil::getWebspaceDir(). $thumbnailImagePath;
+				if ($thumbnailImagePath === null
+					|| $thumbnailImagePath === ''
+					|| !$this->filesystem->has($thumbnailImagePath)
 				) {
 					$imagePath = \ilUtil::getImagePath('icon_cert.svg');
 				}
