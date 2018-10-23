@@ -19,6 +19,8 @@ define ("AUTH_ECS",9);
 define ("AUTH_APACHE",11);
 define ("AUTH_SAML", 12);
 
+define ('AUTH_OPENID_CONNECT',15);
+
 define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);

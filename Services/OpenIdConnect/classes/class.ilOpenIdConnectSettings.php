@@ -40,6 +40,11 @@ class ilOpenIdConnectSettings
 	 */
 	private $client_id = '';
 
+	/**
+	 * @var string
+	 */
+	private $secret = '';
+
 
 	/**
 	 * ilOpenIdConnectSettings constructor.
@@ -112,6 +117,22 @@ class ilOpenIdConnectSettings
 	}
 
 	/**
+	 * @param string $secret
+	 */
+	public function setSecret(string $secret)
+	{
+		$this->secret = $secret;
+	}
+
+	/**
+	 * Get secret
+	 */
+	public function getSecret() : string
+	{
+		return $this->secret;
+	}
+
+	/**
 	 * Save in settings
 	 */
 	public function save()
@@ -119,6 +140,7 @@ class ilOpenIdConnectSettings
 		$this->storage->set('active', (int) $this->getActive());
 		$this->storage->set('provider', $this->getProvider());
 		$this->storage->set('client_id', $this->getClientId());
+		$this->storage->set('secret', $this->getSecret());
 	}
 
 	/**
@@ -129,6 +151,7 @@ class ilOpenIdConnectSettings
 		$this->setActive((bool) $this->storage->get('active', 0));
 		$this->setProvider($this->storage->get('provider', ''));
 		$this->setClientId($this->storage->get('client_id',''));
+		$this->setSecret($this->storage->get('secret',''));
 	}
 
 

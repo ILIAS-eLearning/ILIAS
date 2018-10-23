@@ -2361,6 +2361,57 @@ class ilStartUpGUI
 	}
 
 	/**
+	 * do open id connect authentication
+	 */
+	protected function doOpenIdConnectAuthentication()
+	{
+		global $DIC;
+
+		$this->getLogger()->debug('Trying openid connect authentication');
+
+		$credentials = new ilAuthFrontendCredentialsOpenIdConnect();
+		$credentials->initFromRequest();
+
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_OPENID_CONNECT);
+
+		$status = ilAuthStatus::getInstance();
+
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				include_once './Services/Init/classes/class.ilInitialisation.php';
+				ilInitialisation::redirectToStartingPage();
+				return;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+		return false;
+
+
+
+	}
+
+
+	/**
 	 * @return bool
 	 */
 	protected function doSamlAuthentication()

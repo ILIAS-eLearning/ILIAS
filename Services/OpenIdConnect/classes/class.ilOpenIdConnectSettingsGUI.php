@@ -161,6 +161,15 @@ class ilOpenIdConnectSettingsGUI
 		$client_id->setValue($this->settings->getClientId());
 		$form->addItem($client_id);
 
+		// secret
+		$secret = new ilTextInputGUI(
+			$this->lng->txt('auth_oidc_settings_secret'),
+			'secret'
+		);
+		$secret->setRequired(true);
+		$secret->setValue($this->settings->getSecret());
+		$form->addItem($secret);
+
 		if($this->checkAccessBool('write'))
 		{
 			// save button
@@ -191,6 +200,7 @@ class ilOpenIdConnectSettingsGUI
 		$this->settings->setActive((bool) $form->getInput('activation'));
 		$this->settings->setProvider((string) $form->getInput('provider'));
 		$this->settings->setClientId((string) $form->getInput('client_id'));
+		$this->settings->setSecret((string) $form->getInput('secret'));
 		$this->settings->save();
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
