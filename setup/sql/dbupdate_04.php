@@ -23475,3 +23475,7 @@ if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
 		));
 	}
 ?>
+<#5335>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
