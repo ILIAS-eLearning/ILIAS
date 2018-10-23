@@ -78,6 +78,12 @@ il.Timeline = {
 };
 
 $(function () {
+	//$('.dynamic-max-height').dynamicMaxHeight();
+	il.Timeline.compressEntries();
+	$(window).resize(il.Timeline.compressEntries);
+});
+
+$(window).on("load", function() {
 	$('.dynamic-max-height').dynamicMaxHeight();
 	il.Timeline.compressEntries();
 	$(window).resize(il.Timeline.compressEntries);

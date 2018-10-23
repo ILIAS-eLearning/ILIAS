@@ -1,105 +1,138 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- * @abstract
  */
-abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
+abstract class ilTermsOfServiceTableGUI extends \ilTable2GUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-
-	/**
-	 * @var array
-	 */
-	protected $visibleOptionalColumns = array();
-
-	/**
-	 * @var ilTermsOfServiceTableDataProvider
-	 */
+	/** @var \ilTermsOfServiceTableDataProvider */
 	protected $provider;
 
-	/**
-	 * @var array
-	 */
-	protected $optionalColumns = array();
+	/** @var array */
+	protected $visibleOptionalColumns = [];
+
+	/** @var array */
+	protected $optionalColumns = [];
+
+	/** @var array */
+	protected $filter = [];
+
+	/** @var array */
+	protected $optional_filter = [];
 
 	/**
-	 * @var array
+	 * @inheritdoc
 	 */
-	protected $filter = array();
+	public function __construct($a_parent_obj, $command = '', $a_template_context = '')
+	{
+		parent::__construct($a_parent_obj, $command, $a_template_context);
+
+		$columns = $this->getColumnDefinition();
+		$this->optionalColumns = (array)$this->getSelectableColumns();
+		$this->visibleOptionalColumns = (array)$this->getSelectedColumns();
+
+		foreach ($columns as $index => $column) {
+			if ($this->isColumnVisible($index)) {
+				$this->addColumn(
+					$column['txt'],
+					isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
+					isset($column['width']) ? $column['width'] : '',
+					isset($column['is_checkbox']) ? (bool)$column['is_checkbox'] : false
+				);
+			}
+		}
+	}
 
 	/**
-	 * @var array
+	 * @param \ilTermsOfServiceTableDataProvider $provider
 	 */
-	protected $optional_filter = array();
-
-	/**
-	 * Set the provider to be used for data retrieval.
-	 * @params    ilTableDataProvider $mapper
-	 */
-	public function setProvider(ilTermsOfServiceTableDataProvider $provider)
+	public function setProvider(\ilTermsOfServiceTableDataProvider $provider)
 	{
 		$this->provider = $provider;
 	}
 
 	/**
-	 * Get the registered provider instance
-	 * @return ilTermsOfServiceTableDataProvider
+	 * @return \ilTermsOfServiceTableDataProvider
 	 */
-	public function getProvider()
+	public function getProvider(): \ilTermsOfServiceTableDataProvider
 	{
 		return $this->provider;
 	}
 
 	/**
-	 * @param string $column
-	 * @return bool
+	 * @param array $params
+	 * @param array $filter
 	 */
-	protected function isColumnVisible($column)
-	{
-		if(array_key_exists($column, $this->optionalColumns) && !isset($this->visibleOptionalColumns[$column]))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * This method can be used to prepare values for sorting (e.g. translations), to filter items etc.
-	 * It is called before sorting and segmentation.
-	 * @param array $data
-	 * @return array
-	 */
-	protected function prepareData(array &$data)
+	protected function onBeforeDataFetched(array &$params, array &$filter)
 	{
 	}
 
 	/**
-	 * This method can be used to manipulate the data of a row after sorting and segmentation
-	 * @param array $data
-	 * @return array
+	 * This method can be used to add some field values dynamically or manipulate existing values of the table row array
+	 * @param array $row
 	 */
 	protected function prepareRow(array &$row)
 	{
 	}
 
 	/**
-	 * Define a final formatting for a cell value
-	 * @param mixed  $column
-	 * @param array  $row
-	 * @return mixed
+	 * @param array $data
 	 */
-	protected function formatCellValue($column, array $row)
+	protected function preProcessData(array &$data)
 	{
-		return $row[$column];
+	}
+
+	/**
+	 * Define a final formatting for a cell value
+	 * @param string $column
+	 * @param array $row
+	 * @return string
+	 */
+	protected function formatCellValue(string $column, array $row): string
+	{
+		return trim($row[$column]);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSelectableColumns()
+	{
+		$optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
+			return isset($column['optional']) && $column['optional'];
+		});
+
+		$columns = array();
+		foreach ($optionalColumns as $index => $column) {
+			$columns[$column['field']] = $column;
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * @param int $index
+	 * @return bool
+	 */
+	protected function isColumnVisible(int $index)
+	{
+		$columnDefinition = $this->getColumnDefinition();
+		if (array_key_exists($index, $columnDefinition)) {
+			$column = $columnDefinition[$index];
+			if (isset($column['optional']) && !$column['optional']) {
+				return true;
+			}
+
+			if (
+				is_array($this->visibleOptionalColumns) &&
+				array_key_exists($column['field'], $this->visibleOptionalColumns)
+			) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -109,28 +142,17 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 	{
 		$this->prepareRow($row);
 
-		foreach($this->getStaticData() as $column)
-		{
-			$value = $this->formatCellValue($column, $row);
-			$this->tpl->setVariable('VAL_' . strtoupper($column), $value);
-		}
-
-		foreach($this->optionalColumns as $index => $definition)
-		{
-			if(!$this->isColumnVisible($index))
-			{
+		foreach ($this->getColumnDefinition() as $index => $column) {
+			if (!$this->isColumnVisible($index)) {
 				continue;
 			}
 
-			$this->tpl->setCurrentBlock('optional_column');
-			$value = $this->formatCellValue($index, $row);
-			if((string)$value === '')
-			{
-				$this->tpl->touchBlock('optional_column');
-			}
-			else
-			{
-				$this->tpl->setVariable('OPTIONAL_COLUMN_VAL', $value);
+			$this->tpl->setCurrentBlock('column');
+			$value = $this->formatCellValue($column['field'], $row);
+			if ((string)$value === '') {
+				$this->tpl->touchBlock('column');
+			} else {
+				$this->tpl->setVariable('COLUMN_VALUE', $value);
 			}
 
 			$this->tpl->parseCurrentBlock();
@@ -138,68 +160,58 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * Return an array of all static (always visible) data fields in a row.
-	 * For each key there has to be a variable name VAL_<COLUMN_KEY> in your defined row template.
-	 * Example:
-	 *     return array('title', 'checkbox');
-	 *     There have to be two template variables: VAL_TITLE and VAL_CHECKBOX
 	 * @return array
-	 * @abstract
 	 */
-	abstract protected function getStaticData();
+	abstract protected function getColumnDefinition(): array;
 
 	/**
-	 * @throws ilException
+	 *
 	 */
 	public function populate()
 	{
-		if(!$this->getExternalSegmentation() && $this->getExternalSorting())
-		{
-			$this->determineOffsetAndOrder(true);
-		}
-		else if($this->getExternalSegmentation() || $this->getExternalSorting())
-		{
+		if ($this->getExternalSegmentation() && $this->getExternalSorting()) {
 			$this->determineOffsetAndOrder();
+		} else {
+			if (!$this->getExternalSegmentation() && $this->getExternalSorting()) {
+				$this->determineOffsetAndOrder(true);
+			}
 		}
 
-		$params = array();
-		if($this->getExternalSegmentation())
-		{
-			$params['limit']  = $this->getLimit();
+		$params = [];
+		if ($this->getExternalSegmentation()) {
+			$params['limit'] = $this->getLimit();
 			$params['offset'] = $this->getOffset();
 		}
-		if($this->getExternalSorting())
-		{
-			$params['order_field']     = $this->getOrderField();
+		if ($this->getExternalSorting()) {
+			$params['order_field'] = $this->getOrderField();
 			$params['order_direction'] = $this->getOrderDirection();
 		}
 
 		$this->determineSelectedFilters();
-		$filter = $this->filter;
-		
-		foreach($this->optional_filter as $key => $value)
-		{
-			if($this->isFilterSelected($key))
-			{
+		$filter = (array)$this->filter;
+
+		foreach ($this->optional_filter as $key => $value) {
+			if ($this->isFilterSelected($key)) {
 				$filter[$key] = $value;
 			}
 		}
 
+		$this->onBeforeDataFetched($params, $filter);
 		$data = $this->getProvider()->getList($params, $filter);
 
-		if(!count($data['items']) && $this->getOffset() > 0 && $this->getExternalSegmentation())
-		{
+		if (!count($data['items']) && $this->getOffset() > 0 && $this->getExternalSegmentation()) {
 			$this->resetOffset();
-			$params['limit']  = $this->getLimit();
-			$params['offset'] = $this->getOffset();
-			$data             = $this->getProvider()->getList($params, $filter);
+			if ($this->getExternalSegmentation()) {
+				$params['limit'] = $this->getLimit();
+				$params['offset'] = $this->getOffset();
+			}
+			$data = $this->provider->getList($params, $filter);
 		}
 
-		$this->prepareData($data);
+		$this->preProcessData($data);
 
 		$this->setData($data['items']);
-		if($this->getExternalSegmentation())
-		{
+		if ($this->getExternalSegmentation()) {
 			$this->setMaxCount($data['cnt']);
 		}
 	}

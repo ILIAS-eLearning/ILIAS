@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObjectAccess.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilObjTermsOfServiceAccess
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilObjTermsOfServiceAccess extends ilObjectAccess
+class ilObjTermsOfServiceAccess extends \ilObjectAccess
 {
 }

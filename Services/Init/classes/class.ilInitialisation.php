@@ -662,6 +662,27 @@ class ilInitialisation
 	}
 
 	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initTermsOfService(\ILIAS\DI\Container $c)
+	{
+		$c['tos.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
+			return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
+		};
+
+		$c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) {
+			return new ilTermsOfServiceSequentialDocumentEvaluation(
+				new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+					$c['tos.criteria.type.factory'], $c->user(), $c->logger()->tos()
+				),
+				$c->user(),
+				$c->logger()->tos(),
+				\ilTermsOfServiceDocument::orderBy('sorting')->get()
+			);
+		};
+	}
+
+	/**
 	 * initialise $ilSettings object and define constants
 	 * 
 	 * Used in Soap
@@ -1211,6 +1232,7 @@ class ilInitialisation
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
+		self::initTermsOfService($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1775,7 +1797,7 @@ class ilInitialisation
 		}
 
 		if($a_current_script == 'goto.php' && in_array($_GET['target'], array(
-			'usr_registration', 'usr_nameassist', 'usr_pwassist'
+			'usr_registration', 'usr_nameassist', 'usr_pwassist', 'usr_agreement'
 		)))
 		{
 			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);

@@ -40,6 +40,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	protected $wiki;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_wiki_ref_id = 0)
@@ -56,6 +61,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->settings = $DIC->settings();
 		$this->toolbar = $DIC->toolbar();
 		$tpl = $DIC["tpl"];
+		$this->ui = $DIC->ui();
 
 		// needed for notifications
 		$this->setWikiRefId($a_wiki_ref_id);
@@ -374,7 +380,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl = $this->tpl;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
-		$ilToolbar = $this->toolbar;
+		$ui = $this->ui;
+
 
 		// block/unblock
 		if ($this->getPageObject()->getBlocked())
@@ -385,19 +392,21 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// exercise information
 		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
 		$ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->getWikiRefId(), $ilUser->getId());
+		$message = "";
 		foreach ($ass_info as $i)	// should be only one
 		{
+			$links = $buttons = [];
 			$ass = new ilExAssignment($i->getId());
 			$times_up = $ass->afterDeadlineStrict();
 
 			// info text and link
 			$exc_title = $i->getExerciseTitle();
 			$info = sprintf($lng->txt("wiki_exercise_info"),
-				$i->getTitle(),
-				implode(", ", array_map(function($a) use ($exc_title){
-					return "<a href='".$a."'>".$exc_title."</a>";
-				}, $i->getLinks()))
-			);
+				$i->getTitle(), $exc_title);
+			foreach ($i->getLinks() as $l)
+			{
+				$links[] = $ui->factory()->link()->standard($exc_title, $l);
+			}
 
 			// submit button
 			if(!$times_up)
@@ -406,12 +415,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$submit_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "finalizeAssignment");
 				$ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
 
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("wiki_finalize_wiki");
-				$button->setPrimary(true);
-				$button->setUrl($submit_link);
-				$info .= " ".$button->render();
+				$buttons[] = $ui->factory()->button()->primary($lng->txt("wiki_finalize_wiki"), $submit_link);
 			}
 
 			// submitted files
@@ -428,21 +432,22 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$rel = ilDatePresentation::useRelativeDates();
 				ilDatePresentation::setUseRelativeDates(false);
 
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("download");
-				$button->setUrl($dl_link);
 
 				$info .= "<br />".sprintf($lng->txt("wiki_exercise_submitted_info"),
-						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-						$button->render());
+						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)));
 
 				ilDatePresentation::setUseRelativeDates($rel);
+				$buttons[] = $ui->factory()->button()->standard($lng->txt("wiki_download_submission"), $dl_link);
 			}
 
 
+			$mbox = $ui->factory()->messageBox()->info($info)
+				->withLinks($links)
+				->withButtons($buttons);
 
-			ilUtil::sendInfo($info);
+			$message = $ui->renderer()->render($mbox);
+
+			//ilUtil::sendInfo($info);
 		}
 
 
@@ -518,7 +523,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->fill_on_load_code = true;
 		}
 		
-		return $wtpl->get();
+		return $message.$wtpl->get();
 	}
 	
 	function showPage()

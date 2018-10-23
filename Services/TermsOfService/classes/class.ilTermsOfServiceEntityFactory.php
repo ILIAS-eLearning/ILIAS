@@ -1,27 +1,25 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceEntityFactory
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceEntityFactory
 {
 	/**
 	 * @param string $name
-	 * @return ilTermsOfServiceAcceptanceEntity
-	 * @throws InvalidArgumentException
+	 * @return \ilTermsOfServiceAcceptanceEntity
+	 * @throws \InvalidArgumentException
 	 */
-	public function getByName($name)
+	public function getByName(string $name): \ilTermsOfServiceAcceptanceEntity
 	{
-		switch(strtolower($name))
-		{
+		switch (strtolower($name)) {
 			case 'iltermsofserviceacceptanceentity':
-				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
-				return new ilTermsOfServiceAcceptanceEntity();
+				return new \ilTermsOfServiceAcceptanceEntity();
 
 			default:
-				throw new InvalidArgumentException('Entity not supported');
+				throw new \InvalidArgumentException('Entity not supported');
 		}
 	}
 }

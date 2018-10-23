@@ -98,6 +98,7 @@ class ilTimelineGUI
 
 			$t->setCurrentBlock("item");
 			$t->setVariable("CONTENT", $i->render());
+			$t->setVariable("FOOTER", $i->renderFooter());
 			$t->parseCurrentBlock();
 		}
 		return $t->get();
