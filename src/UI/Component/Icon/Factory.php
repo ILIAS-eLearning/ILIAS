@@ -28,7 +28,7 @@ interface Factory {
 	 *   style:
 	 *     1: CSS-Filters MAY be used for Standard Icons in their outlined version to manipulate the stroke to fit the context.
 	 *     2: >
-	 *        In their outlined version, Standard Icons MUST only white as color for the stroke, to make filter easily
+	 *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
 	 *        applicable.
 	 *   accessibility:
 	 *     1: Icons MUST have aria-labels.
