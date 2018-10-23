@@ -16,7 +16,12 @@ require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
 class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 {
 	private static $TARGET_CLASS_PATH_BASE = array('ilRepositoryGUI', 'ilObjTestGUI');
-
+	
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $DIC;
+	
 	/**
 	 * @var parent
 	 */
@@ -89,6 +94,8 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 	public function __construct(ilDBInterface $db, ilAccessHandler $access, ilCtrl $ctrl, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->DIC = $DIC;
 		$this->db = $db;
 		$this->access = $access;
 		$this->ctrl = $ctrl;
@@ -464,17 +471,20 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 	private function getSkillLevelThresholdsMissingInfo()
 	{
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
-
-		$link = $this->buildLinkTarget(
+		$message = $this->lng->txt('tst_skl_level_thresholds_missing');
+		
+		$linkTarget = $this->buildLinkTarget(
 			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
 			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
 		);
-
-		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
-		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
-
-		return $msg;
+		
+		$link = $this->DIC->ui()->factory()->link()->standard(
+			$this->DIC->language()->txt('tst_skl_level_thresholds_link'), $linkTarget
+		);
+		
+		$msgBox = $this->DIC->ui()->factory()->messageBox()->failure($message)->withLinks(array($link));
+		
+		return $this->DIC->ui()->renderer()->render($msgBox);
 	}
 	
 	private function hasFixedQuestionSetSkillAssignsLowerThanBarrier()
@@ -607,14 +617,20 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		if( !$this->getTestOBJ()->isOnline() && !$this->getTestQuestionSetConfig()->areDepenciesBroken() )
 		{
 			$message = $this->lng->txt("test_is_offline");
-
+			
+			$links = array();
+			
 			if($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId()))
 			{
-				$message .= "<br /><a href=\"".$this->buildLinkTarget('ilobjtestsettingsgeneralgui')."\">".
-					$this->lng->txt("test_edit_settings")."</a>";
+				$links[] = $this->DIC->ui()->factory()->link()->standard(
+					$this->DIC->language()->txt('test_edit_settings'),
+					$this->buildLinkTarget('ilobjtestsettingsgeneralgui')
+				);
 			}
-
-			$this->addInfoMessage($message);
+			
+			$msgBox = $this->DIC->ui()->factory()->messageBox()->info($message)->withLinks($links);
+			
+			$this->populateMessage($this->DIC->ui()->renderer()->render($msgBox));
 		}
 		
 		if($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId()))
@@ -638,18 +654,22 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 					$importFailsMsg[] = $sltImportFails->getFailedImportsMessage($this->lng);
 				}
 				
-				$button = ilLinkButton::getInstance();
-				$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
-				$button->setCaption('ass_skl_import_fails_remove_btn');
-				$importFailsMsg[] = $button->render();
+				$message = implode('<br />', $importFailsMsg);
 				
-				$this->addFailureMessage(implode('<br />', $importFailsMsg));
+				$button = $this->DIC->ui()->factory()->button()->standard(
+					$this->DIC->language()->txt('ass_skl_import_fails_remove_btn'),
+					$this->DIC->ctrl()->getLinkTarget($this, 'renoveImportFails')
+				);
+				
+				$msgBox = $this->DIC->ui()->factory()->messageBox()->failure($message)->withButtons(array($button));
+				
+				$this->populateMessage($this->DIC->ui()->renderer()->render($msgBox));
 			}
 			elseif( $this->getTestOBJ()->isSkillServiceToBeConsidered() )
 			{
 				if( $this->areSkillLevelThresholdsMissing() )
 				{
-					$this->addFailureMessage($this->getSkillLevelThresholdsMissingInfo());
+					$this->populateMessage($this->getSkillLevelThresholdsMissingInfo());
 				}
 				
 				if( $this->hasFixedQuestionSetSkillAssignsLowerThanBarrier() )
@@ -669,6 +689,16 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				$this->addInfoMessage( $this->getTestQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng) );
 			}
 		}
+	}
+	
+	/**
+	 * @param $message
+	 */
+	protected function populateMessage($message)
+	{
+		$this->DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+		$this->DIC->ui()->mainTemplate()->setVariable('MESSAGE', $message);
+		$this->DIC->ui()->mainTemplate()->parseCurrentBlock();
 	}
 	
 	public function sendMessages()
