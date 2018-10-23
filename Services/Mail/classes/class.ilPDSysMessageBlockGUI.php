@@ -27,23 +27,19 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		$this->mail_mode = "system";
 		$this->allow_moving = false;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	protected function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

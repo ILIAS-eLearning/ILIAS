@@ -38,10 +38,9 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * @static
-	 * @return bool
+	 * @inheritdoc
 	 */
-	public static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -249,10 +248,9 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * @static
-	 * @return string
+	 * @inheritdoc
 	 */
-	public static function getBlockType()
+	protected function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

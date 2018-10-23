@@ -35,23 +35,19 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("notes"));
 		$this->setAvailableDetailLevels(3);
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	protected function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
