@@ -44,7 +44,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	/**
 	 * @inheritdoc
 	 */
-	protected function getBlockType(): string 
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

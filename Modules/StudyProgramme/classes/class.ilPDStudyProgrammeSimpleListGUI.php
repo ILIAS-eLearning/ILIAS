@@ -125,7 +125,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getBlockType(): string {
+	public function getBlockType(): string {
 		return self::BLOCK_TYPE;
 	}
 

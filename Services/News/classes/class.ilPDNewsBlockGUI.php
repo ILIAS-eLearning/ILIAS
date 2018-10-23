@@ -117,7 +117,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	/**
 	 * @inheritdoc
 	 */
-	protected function getBlockType(): string 
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

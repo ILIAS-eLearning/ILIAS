@@ -58,7 +58,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	/**
 	 *  @inheritdoc
 	 */
-	protected function getBlockType() :string 
+	public function getBlockType() :string 
 	{
 		return 'clsfct';
 	}

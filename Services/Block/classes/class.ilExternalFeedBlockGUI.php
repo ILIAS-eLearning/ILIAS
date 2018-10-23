@@ -62,7 +62,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	/**
 	 * @inheritdoc
 	 */
-	protected function getBlockType(): string 
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

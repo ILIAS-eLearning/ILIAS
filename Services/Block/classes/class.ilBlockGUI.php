@@ -14,7 +14,7 @@ abstract class ilBlockGUI
 	/**
 	 * @return string
 	 */
-	abstract protected function getBlockType(): string ;
+	abstract public function getBlockType(): string;
 
 	/**
 	 * Returns whether block has a corresponding repository object

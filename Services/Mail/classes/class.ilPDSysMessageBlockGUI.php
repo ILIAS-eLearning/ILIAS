@@ -31,7 +31,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	/**
 	 * @inheritdoc
 	 */
-	protected function getBlockType(): string 
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
