@@ -94,12 +94,13 @@ il.UI = il.UI || {};
                 return true;
             }
 
-            // if triggerer is within a form, make form the container (instead of window.body)
-            var form;
+            // webui is moving the content at the end of the document which makes it impossible to use
+            // popovers in forms without specifying a container here. We search for upper il-popover-container.
+            // If given we use this element as a container for the popover
+            var container;
 			console.log(options);
-            if (form = $('#' + $triggerer.attr('id')).parents("form")[0]) {
-                //options.container = form;
-				options = $.extend({}, {container: form}, options);
+            if (container = $('#' + $triggerer.attr('id')).parents(".il-popover-container")[0]) {
+				options = $.extend({}, {container: container}, options);
             }
 			console.log(options);
 
@@ -107,16 +108,6 @@ il.UI = il.UI || {};
             // Extend options with data from the signal
             $triggerer.webuiPopover(options).webuiPopover('show');
 
-			// webui.popover does not place elements correctly in containers, since it always calculates
-            // top, left relative to the document not to the nearest positioned ancestor
-            if (form) {
-                var reg = il.Util.getRegion($(form).offsetParent());        // nearest positioned ancestor
-                var popel = $('#' + $('#' + $triggerer.attr('id')).data("target"));
-				popel.css("top",
-                    parseInt(popel.css("top"), 10) - reg.top);
-				popel.css("left",
-				    parseInt(popel.css("left"), 10) - reg.left);
-            }
 
             return false;
         };

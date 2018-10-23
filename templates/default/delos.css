@@ -8482,15 +8482,28 @@ ul.breadcrumb li:hover {
 }
 .il-standard-form .il-filter-bar {
   font-size: 1.4em;
-  padding: 10px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid black;
+  padding: 3px 12px;
+}
+.il-standard-form .il-filter-bar .il-toggle-button {
+  height: 13px;
+  border-radius: 13px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.il-standard-form .il-filter-bar .il-toggle-button .il-toggle-switch {
+  border-radius: 19px;
+  width: 19px;
+  height: 19px;
 }
 .il-standard-form .il-filter-bar .btn-bulky {
   display: inline-flex;
   width: auto;
   background-color: initial;
-  font-size: 0.9em;
+  font-size: 0.7em;
+  border-width: 0;
+}
+.il-standard-form .il-filter-bar .btn-bulky.disabled .bulky-label {
+  color: #b0b0b0;
 }
 .il-standard-form .il-filter-bar .glyph {
   padding-right: 0.3em;
@@ -8500,6 +8513,16 @@ ul.breadcrumb li:hover {
 }
 .il-standard-form .il-filter-bar-controls .il-toggle-button {
   vertical-align: middle;
+}
+.il-standard-form .il-filter-inputs-active {
+  background-color: #f9f9f9;
+  padding: 3px 12px;
+}
+.il-standard-form .il-filter-inputs-active span {
+  display: inline-block;
+  margin: 1px 4px;
+  float: left;
+  background-color: white;
 }
 .il-standard-form .col-md-4 {
   padding-bottom: 10px;
@@ -8518,9 +8541,6 @@ ul.breadcrumb li:hover {
   width: 100%;
   height: 25px;
   table-layout: fixed;
-}
-.il-standard-form .input-group .btn.btn-bulky {
-  data-placement: bottom;
 }
 .il-standard-form #leftaddon {
   overflow: hidden;
@@ -8541,6 +8561,13 @@ ul.breadcrumb li:hover {
   .il-standard-form .il-filter-bar-controls .bulky-label {
     display: none;
   }
+}
+.il-filter.disabled .input-group-addon {
+  background-color: white;
+  color: #b0b0b0;
+}
+.il-filter.disabled .input-group span.form-control {
+  color: #b0b0b0;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
@@ -16177,4 +16204,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=none */
