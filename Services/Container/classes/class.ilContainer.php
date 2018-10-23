@@ -1162,6 +1162,9 @@ class ilContainer extends ilObject
 			$pg->update(true, true);
 			foreach ($mapping as $old_ref_id => $new_ref_id)
 			{
+                if (!is_int($old_ref_id) || !is_int($new_ref_id)) {
+                    continue;
+                }
 				$type = ilObject::_lookupType($new_ref_id, true);
 				$class = "il".$obj_definition->getClassName($type)."PageCollector";
 				$loc = $obj_definition->getLocation($type);
