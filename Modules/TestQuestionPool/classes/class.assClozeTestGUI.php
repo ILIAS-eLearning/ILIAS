@@ -1743,16 +1743,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 	}
 	
-	protected function getAddActionHtml()
-	{
-		$pointsInput = '<input type="text" name="" value="" size="5" style="margin-right: 20px;">';
-		
-		$addButton = ilLinkButton::getInstance();
-		$addButton->setCaption('Add Answer', false);
-		
-		return $pointsInput.$addButton->getToolbarHTML();
-	}
-	
 	protected function completeAddAnswerAction($answers, $questionIndex)
 	{
 		$gap = $this->object->getGap($questionIndex);
@@ -1768,7 +1758,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			
 			foreach($gap->getItems(new ilArrayElementOrderKeeper()) as $item)
 			{
-				if( $ans != $item->getAnswerText() )
+				if( $ans['answer'] != $item->getAnswerText() )
 				{
 					continue;
 				}
@@ -1779,7 +1769,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			
 			if( !$found )
 			{
-				$answers[$key]['actions'] = $this->getAddActionHtml();
+				$answers[$key]['addable'] = true;
 			}
 		}
 		

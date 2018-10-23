@@ -308,6 +308,9 @@ assessment#:#tst_corrections_tab_statistics#:#Statistics
 assessment#:#tst_corrections_qst_form#:#Correction of Points
 assessment#:#tst_corrections_answers_tbl#:#Statistics
 assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
+assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Answer
+assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Frequency
+assessment#:#tst_corr_add_as_answer_btn#:#Add as Correct Answer
 assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#tst_question_not_from_pool_info#:#No Pool

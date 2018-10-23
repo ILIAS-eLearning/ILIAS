@@ -394,6 +394,9 @@ assessment#:#tst_corrections_tab_statistics#:#Antwortstatistik
 assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
 assessment#:#tst_corrections_answers_tbl#:#Antwortstatistik
 assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
+assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Antwort
+assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Häufigkeit
+assessment#:#tst_corr_add_as_answer_btn#:#Als richtige Antwort hinzufügen
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
