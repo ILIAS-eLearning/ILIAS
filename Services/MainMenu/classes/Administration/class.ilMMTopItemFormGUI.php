@@ -74,26 +74,29 @@ class ilMMTopItemFormGUI {
 
 
 	private function initForm() {
+		// TITLE
 		$title = $this->ui_fa->input()->field()->text($this->lng->txt('topitem_title_default'), $this->lng->txt('topitem_title_default_byline'))->withRequired(true);
 		if (!$this->item_facade->isEmpty()) {
 			$title = $title->withValue($this->item_facade->getDefaultTitle());
 		}
 		$items[self::F_TITLE] = $title;
 
+		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
 		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
 
 		foreach ($top_item_types_for_form as $classname => $representation) {
-			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm();
-			$type = $type->withOption(($classname), $representation, $inputs);
+			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+			$type = $type->withOption($this->hash($classname), $representation, $inputs);
 		}
-		$type = $type->withValue((reset(array_keys($top_item_types_for_form))));
+		$type = $type->withValue($this->hash(reset(array_keys($top_item_types_for_form))));
 		if (!$this->item_facade->isEmpty()) {
 			$value = $this->item_facade->getType();
-			$type = $type->withValue(($value));
+			$type = $type->withValue($this->hash($value));
 		}
 		$items[self::F_TYPE] = $type;
 
+		// ACTIVE
 		$active = $this->ui_fa->input()->field()->checkbox($this->lng->txt('topitem_active'), $this->lng->txt('topitem_active_byline'));
 		if (!$this->item_facade->isEmpty()) {
 			$active = $active->withValue($this->item_facade->isAvailable());
@@ -115,7 +118,7 @@ class ilMMTopItemFormGUI {
 		$form = $this->form->withRequest($this->http->request());
 		$data = $form->getData();
 
-		$type = (string)($data[0][self::F_TYPE]['value']);
+		$type = $this->unhash((string)($data[0][self::F_TYPE]['value']));
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
@@ -143,5 +146,15 @@ class ilMMTopItemFormGUI {
 	 */
 	public function getHTML(): string {
 		return $this->ui_re->render([$this->form]);
+	}
+
+
+	private function hash($class_name): string {
+		return bin2hex($class_name);
+	}
+
+
+	private function unhash($class_name): string {
+		return hex2bin($class_name);
 	}
 }

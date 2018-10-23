@@ -34,6 +34,7 @@ class ilGSProviderStorage extends CachedActiveRecord {
 		$gsp = ilGSProviderStorage::find($class_name);
 		if ($gsp === null) {
 			$gsp = new ilGSProviderStorage();
+			$gsp->setProviderClass($class_name);
 			$gsp->create();
 		}
         $gsp->setProviderClass($class_name);

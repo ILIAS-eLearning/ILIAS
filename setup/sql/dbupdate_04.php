@@ -23625,6 +23625,26 @@ if (! $ilDB->tableExists('il_mm_custom_items')) {
 ?>
 <#5340>
 <?php
+$fields = array(
+	'identifier' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'action' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+);
+if (! $ilDB->tableExists('il_mm_actions')) {
+	$ilDB->createTable('il_mm_actions', $fields);
+	$ilDB->addPrimaryKey('il_mm_actions', array( 'identifier' ));
+	
+}
+?>
+<#5341>
+<?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');
 
