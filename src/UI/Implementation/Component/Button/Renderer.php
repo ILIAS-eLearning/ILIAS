@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
-		} else
+		}
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
@@ -77,9 +77,9 @@ class Renderer extends AbstractComponentRenderer {
 				});
 			}
 
-			if ($component instanceof Component\Button\Standard && $component->hasLoadingAnimation()){
+			if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()){
 				$component = $component->withAdditionalOnLoadCode(function ($id) {
-					return "$('#$id').click(function(e) { $('#$id div.il-spinner').removeClass('no-show'); $('#$id').addClass('disabled');});";
+					return "$('#$id').click(function(e) { $('#$id').addClass('il-btn-with-loading-animation'); $('#$id').addClass('disabled');});";
 				});
 			}
 		} else {
@@ -106,8 +106,8 @@ class Renderer extends AbstractComponentRenderer {
 			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
 
-		if ($component instanceof Component\Button\Standard) {
-			$this->additionalRenderStandard($component, $default_renderer, $tpl);
+		if ($component instanceof Component\Button\LoadingAnimationOnClick) {
+			$this->additionalRenderLoadingAnimationOnClick($component, $default_renderer, $tpl);
 		}
 
 		return $tpl->get();
@@ -214,11 +214,11 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
-	protected function additionalRenderStandard(Component\Button\Standard $component, RendererInterface $default_renderer, $tpl) {
-		if ($component->hasLoadingAnimation()) {
+	protected function additionalRenderLoadingAnimationOnClick(Component\Button\LoadingAnimationOnClick $component, RendererInterface $default_renderer, $tpl) {
+		if ($component->hasLoadingAnimationOnClick()) {
 
-			$icon = $this->getUIFactory()->icon()->custom(\ilUtil::getImagePath("loader.svg"), "");
-			$tpl->setVariable("SPINNER", " ".$default_renderer->render($icon));
+//			$icon = $this->getUIFactory()->icon()->custom(\ilUtil::getImagePath("loader.svg"), "");
+//			$tpl->setVariable("SPINNER", " ".$default_renderer->render($icon));
 		}
 	}
 

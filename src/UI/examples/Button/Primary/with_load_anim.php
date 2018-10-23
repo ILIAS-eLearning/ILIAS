@@ -6,7 +6,7 @@ function with_load_anim() {
 
 	return $renderer->render(
 		$f->button()->primary("Goto ILIAS", "")
-			->withLoadingAnimation(true)
+			->withLoadingAnimationOnClick(true)
 			->withOnLoadCode(function($id) {
 				return
 					"$('#$id').click(function(e) { if (!$('#$id').hasClass('disabled')) {alert('Do Stuff');}});";
