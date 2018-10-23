@@ -274,11 +274,23 @@ class ilUserCertificateGUI
 					$certificateData['title']
 				);
 
+				$pdfDownloadName = $certificateData['title'];
+
+				if ($certificateData['obj_type'] === 'sahs') {
+					$scormSetting = new ilSetting('scorm');
+					$short_title = $scormSetting->get('certificate_short_name_' . $certificateData['obj_id']);
+					$pdfDownloadName = strftime('%y%m%d', time()) . '_' . $certificateData['lastname'] . '_' . $short_title . '_certificate';
+				}
+
 				$listSections = [];
 
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+				$this->controller->setParameter($this, 'pdf_download_name', $pdfDownloadName);
+
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+
 				$this->controller->clearParameters($this);
+
 				$listSections[$this->language->txt('cert_download_label')] = $this->uiRenderer->render(
 					$this->uiFactory->button()->standard('Download', $downloadHref)
 				);
@@ -376,6 +388,7 @@ class ilUserCertificateGUI
 		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
 
 		$userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
+		$pdfDownloadName = $this->request->getQueryParams()['pdf_download_name'];
 
 		try {
 			$userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
@@ -396,7 +409,7 @@ class ilUserCertificateGUI
 			$this->language->txt('error_creating_certificate_pdf')
 		);
 
-		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
+		$pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId(), $pdfDownloadName);
 
 		$this->listCertificates();
 	}
