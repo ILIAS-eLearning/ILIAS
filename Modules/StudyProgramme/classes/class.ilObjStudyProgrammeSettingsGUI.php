@@ -166,7 +166,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		// This could further improved by providing a new container for asynch-forms in the
 		// UI-Framework.
 		$update_possible = !is_null($content);
-		if (!$update_possible) {
+		if ($update_possible) {
 			$this->updateWith($prg, $content);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
