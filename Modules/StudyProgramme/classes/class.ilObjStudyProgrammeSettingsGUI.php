@@ -239,7 +239,7 @@ class ilObjStudyProgrammeSettingsGUI {
 					[
 						self::PROP_TYPE =>
 							$ff->select($txt("type"), $sp_types)
-								->withValue((string)$prg->getSubtypeId())
+								->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
 								->withAdditionalTransformation($tf->custom(function($v) {
 									if ($v == "") {
 										return 0;
