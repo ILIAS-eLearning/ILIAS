@@ -15,7 +15,7 @@ interface Factory {
 	 *     A Standard Icon is displayed as a block-element with a background-graphic.
 	 *     By default, a fallback icon will be rendered; this is until a
 	 *     background image is defined in the icon's CSS-class. The outlined version is the silhouette of the Standard Icon.
-	 *     This outlined version attracts therefore less attention.
+	 *     This outlined version therefore attracts less attention.
 	 *   rivals:
 	 *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
 	 *
