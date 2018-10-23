@@ -5543,6 +5543,8 @@ return array(
     'ilOnScreenChatUserDataProvider' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserDataProvider.php',
     'ilOnScreenChatUserUserAutoComplete' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',
     'ilOnlineTracking' => $baseDir . '/../../Services/Tracking/classes/class.ilOnlineTracking.php',
+    'ilOpenIdConnectSettings' => $baseDir . '/../../Services/OpenIdConnect/classes/class.ilOpenIdConnectSettings.php',
+    'ilOpenIdConnectSettingsGUI' => $baseDir . '/../../Services/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
     'ilOpenLayersMapGUI' => $baseDir . '/../../Services/Maps/classes/class.ilOpenLayersMapGUI.php',
     'ilOperatorsExpressionMapping' => $baseDir . '/../../Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php',
     'ilOrgUnitAccessException' => $baseDir . '/../../Modules/OrgUnit/exceptions/class.ilOrgUnitAccessException.php',

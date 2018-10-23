@@ -5787,6 +5787,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilOnScreenChatUserDataProvider' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserDataProvider.php',
         'ilOnScreenChatUserUserAutoComplete' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',
         'ilOnlineTracking' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilOnlineTracking.php',
+        'ilOpenIdConnectSettings' => __DIR__ . '/../..' . '/../../Services/OpenIdConnect/classes/class.ilOpenIdConnectSettings.php',
+        'ilOpenIdConnectSettingsGUI' => __DIR__ . '/../..' . '/../../Services/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
         'ilOpenLayersMapGUI' => __DIR__ . '/../..' . '/../../Services/Maps/classes/class.ilOpenLayersMapGUI.php',
         'ilOperatorsExpressionMapping' => __DIR__ . '/../..' . '/../../Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php',
         'ilOrgUnitAccessException' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/exceptions/class.ilOrgUnitAccessException.php',
