@@ -62,6 +62,9 @@ class ilUserCertificateGUI
 	/** @var \ILIAS\Filesystem\Filesystem */
 	private $filesystem;
 
+	/** @var ilSetting|null */
+	private $scormSettings;
+
 	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
@@ -74,6 +77,8 @@ class ilUserCertificateGUI
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
 	 * @param \ilAccessHandler|null $access
+	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
+	 * @param ilSetting|null $scormSettings
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -87,7 +92,8 @@ class ilUserCertificateGUI
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
 		\ilAccessHandler $access = null,
-		\ILIAS\Filesystem\Filesystem $filesystem = null
+		\ILIAS\Filesystem\Filesystem $filesystem = null,
+		ilSetting $scormSettings = null
 	) {
 		global $DIC;
 
@@ -152,6 +158,11 @@ class ilUserCertificateGUI
 			$filesystem = $DIC->filesystem()->web();
 		}
 		$this->filesystem = $filesystem;
+
+		if (null === $scormSettings) {
+			$scormSettings = new ilSetting('');
+		}
+		$this->scormSettings = $scormSettings;
 
 		$this->language->loadLanguageModule('cert');
 	}
@@ -277,8 +288,7 @@ class ilUserCertificateGUI
 				$pdfDownloadName = $certificateData['title'] . ' Certificate';
 
 				if ($certificateData['obj_type'] === 'sahs') {
-					$scormSetting = new ilSetting('scorm');
-					$short_title = $scormSetting->get('certificate_short_name_' . $certificateData['obj_id']);
+					$short_title = $this->scormSettings->get('certificate_short_name_' . $certificateData['obj_id']);
 					$pdfDownloadName = strftime('%y%m%d', time()) . '_' . $certificateData['lastname'] . '_' . $short_title . '_certificate';
 				}
 
