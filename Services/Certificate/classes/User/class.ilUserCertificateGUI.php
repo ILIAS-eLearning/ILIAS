@@ -228,8 +228,7 @@ class ilUserCertificateGUI
 			$DIC->database(),
 			$this->certificateLogger,
 			$this->controller,
-			$this->language->txt('certificate_no_object_title'),
-			$this->language->txt('certificate_no_object_desc')
+			$this->language->txt('certificate_no_object_title')
 		);
 
 		$sorting = $this->getCurrentSortation();
