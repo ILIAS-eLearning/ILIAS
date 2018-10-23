@@ -218,11 +218,6 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 
-		if($this->checkViewable($finalized, $examiner_id, $usr_id)) {
-			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
-			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_view'), $target);
-		}
-
 		if($this->checkEditable($finalized, $examiner_id, $usr_id)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
