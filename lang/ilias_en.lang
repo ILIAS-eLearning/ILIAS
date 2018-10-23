@@ -13018,6 +13018,9 @@ common#:#obj_prgs_desc#:#Study Programme Administration
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search

@@ -220,7 +220,7 @@ class ilForumPost
 				
 				return true;
 			}
-			
+			$this->id = 0;
 			return false;
 		}
 		
