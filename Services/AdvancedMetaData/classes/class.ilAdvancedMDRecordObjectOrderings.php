@@ -50,7 +50,19 @@ class ilAdvancedMDRecordObjectOrderings
 	 */
 	public function sortRecords(array $records, int $obj_id = null)
 	{
-		if(!$obj_id)
+		// if local custom meta is not enabled use global sorting
+		$use_global = true;
+		if($obj_id)
+		{
+			if(ilContainer::_lookupContainerSetting(
+				$obj_id,
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+				false
+			)) {
+				$use_global = false;
+			}
+		}
+		if($use_global)
 		{
 			usort(
 				$records,
