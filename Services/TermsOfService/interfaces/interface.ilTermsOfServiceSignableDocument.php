@@ -1,54 +1,29 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Interface ilTermsOfServiceSignableDocument
+ * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceSignableDocument
 {
 	/**
-	 * @var int
+	 * @return string
 	 */
-	const SRC_TYPE_FILE_SYSTEM_PATH = 0;
-
-	/**
-	 * @var int
-	 */
-	const SRC_TYPE_OBJECT = 1;
-
-	/**
-	 * @return bool
-	 */
-	public function hasContent();
-
-	/**
-	 * @return bool
-	 */
-	public function exists();
+	public function content(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getContent();
-
-	/**
-	 * @return mixed
-	 */
-	public function getSource();
+	public function title(): string;
 
 	/**
 	 * @return int
 	 */
-	public function getSourceType();
+	public function id(): int;
 
 	/**
-	 * @return string
+	 * @return \ilTermsOfServiceEvaluableCriterion[]
 	 */
-	public function getIso2LanguageCode();
-
-	/**
-	 * Called from client to initiate the content determination
-	 */
-	public function determine();
+	public function criteria(): array;
 }

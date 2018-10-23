@@ -10399,7 +10399,9 @@ common#:#edited_on#:#Bearbeitet am
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
-tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
+tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
+tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_agreement_exists#:#Vorhanden
 tos#:#tos_agreement_missing#:#Nicht vorhanden
@@ -10409,9 +10411,8 @@ tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chat-Server, oder Cron-Jobs genutzt werden.
-tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
-user#:#tos_show_signed_text#:#Zeige Details
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
+tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#tos_accepted_content#:#Akzeptierter Text
 tos#:#tos_last_modified#:#Letzte Änderung
@@ -10419,9 +10420,56 @@ tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
-tos#:#tos_acceptance_datetime#:#Datum
-tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
-tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor. Daher können Sie die den Service nicht aktivieren.
+tos#:#tos_form_new_doc_head#:#Dokument erstellen
+tos#:#tos_form_edit_doc_head#:#Dokument bearbeiten
+tos#:#tos_form_document_title#:#Titel
+tos#:#tos_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+tos#:#tos_form_document#:#Dokument
+tos#:#tos_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+tos#:#tos_form_document_new#:#Inhalt ändern
+tos#:#tos_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht, die Historie ist davon nicht betroffen.
+tos#:#tos_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarungen wurden deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarungen wieder aktivieren.
+tos#:#tos_tbl_docs_title#:#Dokumente
+tos#:#tos_tbl_docs_head_sorting#:#Sortierung
+tos#:#tos_tbl_docs_head_title#:#Titel
+tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
+tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
+tos#:#tos_tbl_docs_head_criteria#:#Kriterien
+tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
+tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
+tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
+tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
+tos#:#tos_doc_delete#:#Dokument löschen
+tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
+tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
+tos#:#tos_doc_crit_attached#:#Das Kriterium wurde zugewiesen.
+tos#:#tos_doc_crit_changed#:#Das Kriterium wurde aktualisiert.
+tos#:#tos_form_attach_criterion_head#:#Kriterium hinzufügen
+tos#:#tos_form_edit_criterion_head#:#Kriteriumzuweisung bearbeiten
+tos#:#tos_form_criterion#:#Kriterium
+tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.
+tos#:#tos_document#:#Dokument
+tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+tos#:#tos_deleted_documents_s#:#Das Dokument wurde gelöscht.
+tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+tos#:#tos_no_documents_exist#:#Aktuell liegen keine Nutzungsvereinbarungsdokumente vor.
+tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
+tos#:#tos_saved_sorting#:#Die Sortierung wurde gespeichert.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Datum
+tos#:#tos_tbl_hist_head_login#:#Benutzername
+tos#:#tos_tbl_hist_head_firstname#:#Vorname
+tos#:#tos_tbl_hist_head_lastname#:#Nachname
+tos#:#tos_tbl_hist_head_document#:#Dokument
+tos#:#tos_tbl_hist_head_criteria#:#Kriterien
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Kriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Kriteriums nicht wie gewünscht ändern.  Es existiert bereits eine identische Zuweisung.
+tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
+tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
+tos#:#tos_crit_type_usr_language#:#Profilesprache
+tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist. Bitte beachten Sie, dass Sie nur ein Kriterium dieses Typs hinzufügen können.
+tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
@@ -14395,6 +14443,38 @@ wiki#:#wiki_team_members#:#Teammitglieder
 wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
 wiki#:#wiki_exc_template#:#Wikivorlage
 wiki#:#wiki_download_submission#:#Abgabedatei herunterladen
+news#:#news_new_reactions#:#Neue Reaktionen
+news#:#news_new_comments#:#Neue Kommentare
+like#:#reaction#:#Reaktion
+common#:#like#:#Like
+common#:#love#:#Love
+common#:#dislike#:#Dislike
+common#:#laugh#:#Laugh
+common#:#astounded#:#Astounded
+common#:#sad#:#Sad
+common#:#angry#:#Angry
+news#:#news_media#:#Mediendatei
+like#:#like#:#Like
+notes#:#notes_latest_comment#:#Letzter Kommentar
+notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
+mep#:#mep_media_files#:#Mediendateien
+mep#:#mep_bulk_upload#:#Massen-Upload
+mep#:#mep_mob#:#Medienobjekt
+book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_your_reservations#:#Ihre Reservierungen
+book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
+book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
+book#:#book_reminder_days#:#Tag(e)
+noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
+noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
+noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
+noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+book#:#book_notification#:#Benachrichtigungen über Reservierungen
+book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?

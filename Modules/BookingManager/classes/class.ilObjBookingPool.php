@@ -18,7 +18,9 @@ class ilObjBookingPool extends ilObject
 	protected $schedule_type;	// [int]
 	protected $overall_limit;   // [int]
 	protected $reservation_period; // [int]
-	
+	protected $reminder_status = 0; // [int]
+	protected $reminder_day = 1; // [int]
+
 	const TYPE_FIX_SCHEDULE = 1;
 	const TYPE_NO_SCHEDULE = 2;
 	
@@ -47,7 +49,9 @@ class ilObjBookingPool extends ilObject
 			"pool_offline" => array("integer", $this->isOffline()),
 			"public_log" => array("integer", $this->hasPublicLog()),		
 			"ovlimit" => array("integer", $this->getOverallLimit()),
-			"rsv_filter_period" => array("integer", $this->getReservationFilterPeriod())		
+			"reminder_status" => array("integer", $this->getReminderStatus()),
+			"reminder_day" => array("integer", $this->getReminderDay()),
+			"rsv_filter_period" => array("integer", $this->getReservationFilterPeriod())
 		);
 		
 		return $fields;
@@ -110,9 +114,54 @@ class ilObjBookingPool extends ilObject
 			$this->setPublicLog($row['public_log']);
 			$this->setScheduleType($row['schedule_type']);
 			$this->setOverallLimit($row['ovlimit']);
+			$this->setReminderStatus($row['reminder_status']);
+			$this->setReminderDay($row['reminder_day']);
 			$this->setReservationFilterPeriod($row['rsv_filter_period']);
 		}
 	}
+
+	/**
+	 * Get poos with reminders
+	 *
+	 * @return array[]
+	 */
+	public static function getPoolsWithReminders()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$pools = [];
+		$set = $db->queryF("SELECT * FROM booking_settings ".
+			" WHERE reminder_status = %s ".
+			" AND reminder_day > %s ".
+			" AND pool_offline = %s ",
+			array("integer","integer","integer"),
+			array(1,0,0)
+			);
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$pools[] = $rec;
+		}
+		return $pools;
+	}
+
+	/**
+	 * Write last reminder timestamp
+	 *
+	 * @param int pool id
+	 * @param int timestamp
+	 */
+	static public function writeLastReminderTimestamp($a_obj_id, $a_ts)
+	{
+		global $DIC;
+		$db = $DIC->database();
+		$db->update("booking_settings", array(
+				"last_remind_ts" => array("integer", $a_ts)
+			), array(	// where
+				"booking_pool_id" => array("integer", $a_obj_id)
+			));
+	}
+
 
 	/**
 	* delete object and all related data	
@@ -173,7 +222,9 @@ class ilObjBookingPool extends ilObject
 		$new_obj->setScheduleType($this->getScheduleType());
 		$new_obj->setPublicLog($this->hasPublicLog());
 		$new_obj->setOverallLimit($this->getOverallLimit());
-		
+		$new_obj->setReminderStatus($this->getReminderStatus());
+		$new_obj->setReminderDay($this->getReminderDay());
+
 		$smap = null;
 		if($this->getScheduleType() == self::TYPE_FIX_SCHEDULE)
 		{			
@@ -251,6 +302,46 @@ class ilObjBookingPool extends ilObject
 	function getScheduleType()
 	{
 		return $this->schedule_type;
+	}
+	
+	/**
+	 * Set reminder status
+	 *
+	 * @param int $a_val reminder status	
+	 */
+	function setReminderStatus($a_val)
+	{
+		$this->reminder_status = $a_val;
+	}
+	
+	/**
+	 * Get reminder status
+	 *
+	 * @return int reminder status
+	 */
+	function getReminderStatus()
+	{
+		return $this->reminder_status;
+	}
+
+	/**
+	 * Set reminder day
+	 *
+	 * @param int $a_val reminder day
+	 */
+	function setReminderDay($a_val)
+	{
+		$this->reminder_day = $a_val;
+	}
+
+	/**
+	 * Get reminder day
+	 *
+	 * @return int reminder day
+	 */
+	function getReminderDay()
+	{
+		return $this->reminder_day;
 	}
 	
 	/**

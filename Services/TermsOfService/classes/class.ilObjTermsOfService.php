@@ -1,22 +1,19 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObject2.php';
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilObjTermsOfService
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilObjTermsOfService extends ilObject2
+class ilObjTermsOfService extends \ilObject2
 {
 	/**
-	 * @var ilDBInterface
+	 * @var \ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * @var ilSetting
+	 * @var \ilSetting
 	 */
 	protected $settings;
 	
@@ -35,7 +32,7 @@ class ilObjTermsOfService extends ilObject2
 	}
 
 	/**
-	 * 
+	 * @inheritdoc
 	 */
 	protected function initType()
 	{
@@ -54,26 +51,27 @@ class ilObjTermsOfService extends ilObject2
 	}
 
 	/**
-	 * @return ilDateTime
+	 * @return \ilDateTime
+	 * @throws ilDateTimeException
 	 */
-	public function getLastResetDate()
+	public function getLastResetDate(): \ilDateTime
 	{
-		return new ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
+		return new \ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
 	}
 
 	/**
 	 * @param bool $status
 	 */
-	public function saveStatus($status)
+	public function saveStatus(bool $status)
 	{
-		ilTermsOfServiceHelper::setStatus((bool)$status);
+		\ilTermsOfServiceHelper::setStatus((bool)$status);
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getStatus()
+	public function getStatus(): bool 
 	{
-		return ilTermsOfServiceHelper::isEnabled();
+		return \ilTermsOfServiceHelper::isEnabled();
 	}
 }

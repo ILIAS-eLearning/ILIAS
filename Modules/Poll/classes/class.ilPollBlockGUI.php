@@ -40,23 +40,19 @@ class ilPollBlockGUI extends ilBlockGUI
 		$lng->loadLanguageModule("poll");		
 		$this->setRowTemplate("tpl.block.html", "Modules/Poll");
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Is block of repository object?
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return true;
 	}

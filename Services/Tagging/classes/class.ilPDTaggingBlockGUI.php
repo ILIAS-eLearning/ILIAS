@@ -63,23 +63,19 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$this->setLimit(99999);
 		$this->setAvailableDetailLevels(1,0);
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Is block used in repository object?
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

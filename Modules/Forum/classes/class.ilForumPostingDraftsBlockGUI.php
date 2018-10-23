@@ -49,17 +49,17 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
-	public static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
-	public static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

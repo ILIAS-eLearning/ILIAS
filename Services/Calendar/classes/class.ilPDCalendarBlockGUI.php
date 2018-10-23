@@ -55,13 +55,11 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 				break;
 		}
 	}*/
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

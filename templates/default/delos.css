@@ -14824,6 +14824,27 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li {
   margin-bottom: 20px;
   position: relative;
+  margin-right: 50%;
+}
+.ilTimeline > li:nth-child(even) {
+  margin-left: 50%;
+  margin-right: 0;
+}
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) {
+    margin-left: 0;
+  }
+}
+.ilTimeline > li:nth-child(even) > .ilTimelineBadge {
+  left: 0;
+  margin-left: -25px;
+  right: auto;
+  margin-right: 0;
+}
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li {
+    margin-right: 0;
+  }
 }
 .ilTimeline > li:before,
 .ilTimeline > li:after {
@@ -14834,7 +14855,7 @@ span.ilNewsRssIcon:hover {
   clear: both;
 }
 .ilTimeline > li > .ilTimelinePanel {
-  width: 44%;
+  width: 88%;
   float: left;
   padding: 20px;
   position: relative;
@@ -14866,11 +14887,11 @@ span.ilNewsRssIcon:hover {
   text-align: center;
   position: absolute;
   top: 16px;
-  left: 50%;
-  margin-left: -25px;
   background-color: #999;
   z-index: 100;
   border-radius: 50%;
+  right: 0;
+  margin-right: -25px;
 }
 @media only screen and (max-width: 767px) {
   .ilTimeline > li > .ilTimelineBadge {
@@ -15003,6 +15024,10 @@ span.ilNewsRssIcon:hover {
 }
 .dynamic-show-more {
   display: none;
+}
+.ilTimeline .ilNotes {
+  margin: 0 -20px -20px -20px;
+  padding: 10px 20px;
 }
 div.ilSurveyPageEditDropArea {
   border-color: #88be51;
@@ -15629,6 +15654,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
+#tos_documents td.std .dropdown {
+  display: inline-block;
+}
 /* Services/UIComponent/Modal */
 .modal-body .jstree li {
   overflow: hidden;
@@ -16106,6 +16134,54 @@ span.ilProfileBadge {
   display: inline-block;
   border: none;
   vertical-align: top;
+}
+.ilLike {
+  /* background-color: @il-secondary-container-bg; */
+  padding: 5px 0px;
+  text-align: right;
+}
+.ilLike .modal {
+  text-align: left;
+}
+.ilLike .modal .glyphicon {
+  font-size: 160%;
+}
+.ilLike .badge {
+  margin-left: -7px;
+  top: 7px;
+}
+.ilLike .glyphicon {
+  font-size: 130%;
+}
+.ilLike .il-counter-spacer {
+  margin-left: 0px;
+  font-size: 9px;
+  padding: 0;
+  visibility: hidden;
+}
+.ilLike a {
+  display: inline-block;
+  /* padding: 2px 4px; */
+}
+.ilLike a:hover {
+  text-decoration: none;
+}
+.ilLikeEmoticons {
+  padding: 0;
+}
+.ilLikeEmoticons a {
+  display: inline-block;
+  font-size: 140%;
+  padding: 4px;
+}
+.ilLikeEmoticons a:hover {
+  text-decoration: none;
+  /*background-color: @il-highlight-bg;*/
+  background-color: #F0F0F0;
+}
+.ilLike .il-item img {
+  max-width: 50%;
+  float: right;
 }
 .noMargin {
   margin: 0;

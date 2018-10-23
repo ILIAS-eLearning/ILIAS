@@ -34,6 +34,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 	static $block_type = "news";
 	static $st_data;
+
+	protected $obj_definition;
 	
 	/**
 	* Constructor
@@ -49,6 +51,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
 		$this->tabs = $DIC->tabs();
+		$this->obj_definition = $DIC["objDefinition"];
+
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		$ilUser = $DIC->user();
@@ -149,23 +153,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 //var_dump($news_data);
 		return $news_data;
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Is this a repository object
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -435,6 +435,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
+		$obj_definition = $this->obj_definition;
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{
@@ -465,8 +466,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				? "lres"
 				: "obj_".$type;
 
+			$type_txt = ($obj_definition->isPlugin($news["context_obj_type"]))
+				? ilObjectPlugin::lookupTxtById($news["context_obj_type"], $lang_type)
+				: $lng->txt($lang_type);
+
 			$this->tpl->setCurrentBlock("news_context");
-			$this->tpl->setVariable("TYPE", $lng->txt($lang_type));
+			$this->tpl->setVariable("TYPE", $type_txt);
 			$this->tpl->setVariable("IMG_TYPE",
 				ilObject::_getIcon($obj_id, "tiny", $type));
 			$this->tpl->setVariable("TITLE",
