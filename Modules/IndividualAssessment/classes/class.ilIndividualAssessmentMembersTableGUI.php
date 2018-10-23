@@ -118,22 +118,15 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function importantInfos(ilIndividualAssessmentMember $record): array
 	{
 		$finalized = $record->finalized();
-		$ret = [];
 
-		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
-			return $ret;
+		if((!$this->userMayViewGrades() && !$this->userMayEditGrades()) || !$finalized) {
+			return [];
 		}
 
-		if(!$finalized) {
-			return $ret;
-		}
-
-		$ret = array_merge($ret, $this->getGradedInformations($record->eventTime()));
-
-		$examiner_id = $this->getExaminerId($record);
-		$ret = array_merge($ret, $this->getExaminerLogin($examiner_id));
-
-		return $ret;
+		return array_merge(
+			$this->getGradedInformations($record->eventTime()),
+			$this->getExaminerLogin($this->getExaminerId($record))
+		);
 	}
 
 	/**
@@ -143,26 +136,23 @@ class ilIndividualAssessmentMembersTableGUI {
 	 */
 	protected function getContent(ilIndividualAssessmentMember $record): array
 	{
-		$ret = [];
-
 		$examiner_id = $this->getExaminerId($record);
 		if(!$this->checkEditable($record->finalized(), $examiner_id, (int)$record->id())
 			&& !$this->checkAmendable($record->finalized())
 		) {
-			return $ret;
+			return [];
 		}
-
-		$ret = array_merge($ret, $this->getRecordNote($record->record()));
-		$ret = array_merge($ret, $this->getInternalRecordNote($record->internalNote()));
 
 		$usr_id = (int)$record->id();
 		$file_name = $record->fileName();
-		if($this->checkDownloadFile($usr_id, $file_name))
-		{
-			$ret = array_merge($ret, $this->getFileDownloadLink($usr_id, $file_name));
-		}
 
-		return $ret;
+		return array_merge(
+			$this->getRecordNote($record->record()),
+			$this->getInternalRecordNote($record->internalNote()),
+			$this->checkDownloadFile($usr_id, $file_name)
+				? $this->getFileDownloadLink($usr_id, $file_name)
+				: []
+		);
 	}
 
 	/**
@@ -172,26 +162,19 @@ class ilIndividualAssessmentMembersTableGUI {
 	 */
 	protected function getFurtherFields(ilIndividualAssessmentMember $record): array
 	{
-		$ret = [];
-
 		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
-			return $ret;
+			return [];
 		}
 
-		$ret = array_merge($ret, $this->importantInfos($record));
-
-		$examiner_id = $this->getExaminerId($record);
-		$ret = array_merge(
-			$ret,
+		return array_merge(
+			$this->importantInfos($record),
 			$this->getLocationInfos(
 				$record->place(),
 				$record->finalized(),
-				$examiner_id,
+				$this->getExaminerId($record),
 				(int)$record->id()
 			)
 		);
-
-		return $ret;
 	}
 
 	/**
@@ -244,6 +227,7 @@ class ilIndividualAssessmentMembersTableGUI {
 		{
 			$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
 		}
+
 		if(!$finalized && !is_null($examinerId))
 		{
 			$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
@@ -373,11 +357,12 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getExaminerId(ilIndividualAssessmentMember $record)
 	{
 		$examiner_id = $record->examinerId();
-		if(!is_null($examiner_id)) {
-			$examiner_id = (int)$examiner_id;
+
+		if(is_null($examiner_id)) {
+			return null;
 		}
 
-		return $examiner_id;
+		return (int)$examiner_id;
 	}
 
 	/**
