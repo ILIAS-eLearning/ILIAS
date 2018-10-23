@@ -89,8 +89,7 @@ class ilUserCertificateGUI
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
 		\ilAccessHandler $access = null,
-		\ILIAS\Filesystem\Filesystem $filesystem = null,
-		ilSetting $scormSettings = null
+		\ILIAS\Filesystem\Filesystem $filesystem = null
 	) {
 		global $DIC;
 
