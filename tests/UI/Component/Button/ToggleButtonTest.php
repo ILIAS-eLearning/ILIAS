@@ -104,13 +104,14 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$button = $this->getFactory()->button()->toggle("label", "action_on_string", "action_off_string");
 
-		$expected = ''
-			.'<label>label</label>'
-			.'<button class="il-toggle-button" id="id_1" aria-pressed="false">'
-			.'    <div class="il-toggle-switch"></div>'
-			.'</button>';
+		$expected = <<<EOT
+		<label>label</label>
+<button class="il-toggle-button" id="id_1" aria-pressed="false">
+    <div class="il-toggle-switch"></div>
+</button>
+EOT;
 
-		$this->assertHTMLEquals($expected, $r->render($button));   //error in this test, "label" seems to be the reason
+		$this->assertHTMLEquals("<div>".$expected."</div>", "<div>".$r->render($button)."</div>");   //error in this test, "label" seems to be the reason
 	}
 
 	public function test_render_setOn_on_default() {
@@ -135,12 +136,13 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 			->willReturn("MOCK_SIGNAL");
 		$button = $this->getFactory()->button()->toggle("label", $signal_on, $signal_off);
 
-		$expected = ''   //same html as in the first render test. Do we need this test?
-			.'<label>label</label>'
-			.'<button class="il-toggle-button" id="id_1" aria-pressed="false">'
-			.'    <div class="il-toggle-switch"></div>'
-			.'</button>';
+		$expected = <<<EOT
+		<label>label</label>
+<button class="il-toggle-button" id="id_1" aria-pressed="false">
+    <div class="il-toggle-switch"></div>
+</button>
+EOT;
 
-		$this->assertHTMLEquals($expected, $r->render($button));
+		$this->assertHTMLEquals("<div>".$expected."</div>", "<div>".$r->render($button)."</div>");
 	}
 }
