@@ -80,14 +80,16 @@ class ilCertificatePdfAction
 	 * @param string $pdfDownloadName
 	 * @return string
 	 */
-	public function downloadPdf(int $userId, int $objectId, string $pdfDownloadName = 'Certificate') : string
+	public function downloadPdf(int $userId, int $objectId) : string
 	{
 		try {
 			$pdfScalar = $this->createPDF($userId, $objectId);
 
+			$fileName = $this->pdfGenerator->generateFileName($userId, $objectId);
+
 			$this->ilUtilHelper->deliverData(
 				$pdfScalar,
-				$pdfDownloadName . '.pdf',
+				$fileName,
 				'application/pdf'
 			);
 		} catch (ilException $clientException) {
