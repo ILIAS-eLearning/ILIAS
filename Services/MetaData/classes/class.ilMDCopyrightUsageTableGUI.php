@@ -66,7 +66,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 			}
 		}
 
-		$this->tpl->setVariable('SUB_ITEMS',count($a_set['references']));
+		$this->tpl->setVariable('SUB_ITEMS',$a_set['sub_items']);
 
 		//TODO FIX WHITE PAGE OWNER LINK
 		if($a_set['owner_link'])
@@ -97,7 +97,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 				"desc" => ilObject::_lookupDescription($obj_id),
 				"references" => ilObject::_getAllReferences($obj_id),
 				"owner_name" => ilUserUtil::getNamePresentation(ilObject::_lookupOwner($obj_id)),
-				"owner_link" => ilUserUtil::getProfileLink(ilObject::_lookupOwner($obj_id))
+				"owner_link" => ilUserUtil::getProfileLink(ilObject::_lookupOwner($obj_id)),
+				"sub_items" => $this->getCountSubItemsFromDB($obj_id)
 			);
 		}
 
@@ -115,10 +116,22 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		while ($row = $this->db->fetchAssoc($result))
 		{
 			$data[] = array(
-				"obj_id" =>$row['obj_id'],
+				"obj_id" =>$row['rbac_id'],
 				"obj_type" => $row['obj_type']
 			);
 		}
 		return $data;
+	}
+
+	public function getCountSubItemsFromDB($a_rbac_id)
+	{
+		$query = "SELECT count(rbac_id) total FROM il_meta_rights ".
+			"WHERE rbac_id = ".$this->db->quote($a_rbac_id).
+			" AND rbac_id <> obj_id";
+
+		$result = $this->db->query($query);
+		$row = $this->db->fetchAssoc($result);
+
+		return $row['total'];
 	}
 }
