@@ -18,6 +18,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 	protected $db;
 
 	protected $filter;
+	protected $objects;
 
 	/**
 	 * ilCopyrightUsageGUI constructor.
@@ -70,6 +71,17 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 			$this->lng->txt("object")." ".$this->lng->txt("title")
 		);
 		$this->filter["title"] = $title->getValue();
+
+		//object
+		$this->objects = array();
+		foreach($this->getObjTypesAvailable() as $item)
+		{
+			$this->objects[$item] = $this->lng->txt("obj_".$item);
+		}
+		$item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
+		$item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+		$this->filter["object"] = $item->getValue();
+
 	}
 
 	/**
@@ -125,31 +137,27 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 	function collectData(array $filters)
 	{
-		ilLoggerFactory::getRootLogger()->debug("******* COLLECT DATA *****");
 		$db_data = $this->getDataFromDB();
 
-		ilLoggerFactory::getRootLogger()->dump($db_data);
 		$data = array();
-
 		foreach($db_data as $item)
 		{
-			ilLoggerFactory::getRootLogger()->debug("-foreach loop data");
 			$add_data = true;
 			$obj_id = $item['obj_id'];
 			if($filters['title'])
 			{
-				ilLoggerFactory::getRootLogger()->debug("------ FILTER BY TITLE -----");
-				ilLoggerFactory::getRootLogger()->debug("title = ".ilObject::_lookupTitle($obj_id));
-				ilLoggerFactory::getRootLogger()->debug("filter title = ".$filters['title']);
-				if(stripos(ilObject::_lookupTitle($obj_id),$filters['title']) === false)
-				{
-					ilLoggerFactory::getRootLogger()->debug("no mostramos este => ".ilObject::_lookupTitle($obj_id));
+				if(stripos(ilObject::_lookupTitle($obj_id),$filters['title']) === false) {
+					$add_data = false;
+				}
+			}
+			if($filters['type'])
+			{
+				if(ilObject::_lookupType($obj_id) != $filters['type']) {
 					$add_data = false;
 				}
 			}
 			if($add_data)
 			{
-				ilLoggerFactory::getRootLogger()->debug("++++  mostramos este => ".ilObject::_lookupType($obj_id));
 				$data[] = array(
 					"obj_id" => $obj_id,
 					"type" => ilObject::_lookupType($obj_id),
@@ -161,9 +169,22 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 					"sub_items" => $this->getCountSubItemsFromDB($obj_id)
 				);
 			}
-
 		}
 		
+		return $data;
+	}
+
+	public function getObjTypesAvailable()
+	{
+		$query = "SELECT DISTINCT obj_type FROM il_meta_rights ".
+			"WHERE description = ".$this->db->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->copyright_id,'text').
+			" AND rbac_id = obj_id";
+		$result = $this->db->query($query);
+		$data = array();
+		while ($row = $this->db->fetchAssoc($result))
+		{
+			array_push($data, $row['obj_type']);
+		}
 		return $data;
 	}
 
@@ -198,4 +219,5 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 		return $row['total'];
 	}
+
 }
