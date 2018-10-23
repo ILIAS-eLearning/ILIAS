@@ -712,7 +712,8 @@ class ilColumnGUI
 					{
 						include_once("./".self::$locations[$block_class]."classes/".
 							"class.".$block_class.".php");
-						$block_type = call_user_func(array($block_class, 'getBlockType'));
+						$block_gui = new $block_class();
+						$block_type = $block_gui->getBlockType();
 
 						// check if block type is globally (de-)activated
 						if ($this->isGloballyActivated($block_type))
