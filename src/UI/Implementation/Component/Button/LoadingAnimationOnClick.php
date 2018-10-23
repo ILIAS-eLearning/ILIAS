@@ -13,15 +13,15 @@ trait LoadingAnimationOnClick {
 	/**
 	 * @var bool
 	 */
-	protected $loading_animatin_on_click = false;
+	protected $loading_animation_on_click = false;
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withLoadingAnimationOnClick($loading_animatin_on_click) {
-		$this->checkBoolArg("state", $loading_animatin_on_click);
+	public function withLoadingAnimationOnClick($loading_animation_on_click) {
+		$this->checkBoolArg("loading_animation_on_click", $loading_animation_on_click);
 		$clone = clone $this;
-		$clone->loading_animatin_on_click = $loading_animatin_on_click;
+		$clone->loading_animation_on_click = $loading_animation_on_click;
 		return $clone;
 	}
 
@@ -29,6 +29,6 @@ trait LoadingAnimationOnClick {
 	 * @inheritdoc
 	 */
 	public function hasLoadingAnimationOnClick() {
-		return $this->loading_animatin_on_click;
+		return $this->loading_animation_on_click;
 	}
 }
