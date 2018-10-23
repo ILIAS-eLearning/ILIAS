@@ -29,7 +29,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI
+* @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI, ilMDCopyrightUsageGUI
 *
 * @ingroup ServicesMetaData
 */
@@ -92,6 +92,13 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'ilmdcopyrightusagegui':
+				$copyright_id = $_GET['entry_id'];
+				include_once("./Services/MetaData/classes/class.ilMDCopyrightUsageGUI.php");
+				$gui = new ilMDCopyrightUsageGUI($copyright_id);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -300,15 +307,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
 	public function showCopyrightUsages()
 	{
-		include_once("./Services/MetaData/classes/class.ilMDCopyrightUsageTableGUI.php");
-
-		//TODO I think tabs must be removed.
-		$this->tabs_gui->activateTab('md_copyright');
-
-		$copyright_id = $_GET['entry_id'];
-		$table_gui = new ilMDCopyrightUsageTableGUI($this,'showCopyrightSettings',$copyright_id);
-
-		$this->tpl->setContent($table_gui->getHTML());
+		$this->ctrl->setParameterByClass('ilmdcopyrightusagegui','entry_id',$_GET['entry_id']);
+		$this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");
 	}
 	
 	/**
