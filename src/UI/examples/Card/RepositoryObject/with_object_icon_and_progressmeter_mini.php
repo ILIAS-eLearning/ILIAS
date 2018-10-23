@@ -8,7 +8,7 @@ function with_object_icon_and_progressmeter_mini() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
+	$icon = $f->icon()->standard("crs", 'Course', 'responsive');
 	$progressmeter = $f->chart()->progressMeter()->mini(100,70);
 
 	$content = $f->listing()->descriptive(

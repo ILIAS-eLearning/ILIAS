@@ -8,7 +8,7 @@ function with_object_icon_and_actions() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
+	$icon = $f->icon()->standard("crs", 'Course', 'responsive');
 
 	$items = array(
 		$f->button()->shy("Go to Course", "#"),
