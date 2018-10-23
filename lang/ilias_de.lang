@@ -14362,6 +14362,8 @@ copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
 copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+copa#:#copa_btn_lp_toggle_state_completed#:#Auf nicht bearbeitet setzen
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf bearbeitet setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
