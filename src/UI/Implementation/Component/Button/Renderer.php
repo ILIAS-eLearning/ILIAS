@@ -106,9 +106,6 @@ class Renderer extends AbstractComponentRenderer {
 			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
 
-		if ($component instanceof Component\Button\LoadingAnimationOnClick) {
-			$this->additionalRenderLoadingAnimationOnClick($component, $default_renderer, $tpl);
-		}
 
 		return $tpl->get();
 	}
@@ -211,14 +208,6 @@ class Renderer extends AbstractComponentRenderer {
 			}else {
 				$tpl->setVariable("ARIA_PRESSED", 'false');
 			}
-		}
-	}
-
-	protected function additionalRenderLoadingAnimationOnClick(Component\Button\LoadingAnimationOnClick $component, RendererInterface $default_renderer, $tpl) {
-		if ($component->hasLoadingAnimationOnClick()) {
-
-//			$icon = $this->getUIFactory()->icon()->custom(\ilUtil::getImagePath("loader.svg"), "");
-//			$tpl->setVariable("SPINNER", " ".$default_renderer->render($icon));
 		}
 	}
 
