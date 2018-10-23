@@ -18,8 +18,7 @@ trait LoadingAnimationOnClick {
 	/**
 	 * @inheritdoc
 	 */
-	public function withLoadingAnimationOnClick($loading_animation_on_click) {
-		$this->checkBoolArg("loading_animation_on_click", $loading_animation_on_click);
+	public function withLoadingAnimationOnClick(bool $loading_animation_on_click = true) {
 		$clone = clone $this;
 		$clone->loading_animation_on_click = $loading_animation_on_click;
 		return $clone;
@@ -28,7 +27,7 @@ trait LoadingAnimationOnClick {
 	/**
 	 * @inheritdoc
 	 */
-	public function hasLoadingAnimationOnClick() {
+	public function hasLoadingAnimationOnClick(): bool {
 		return $this->loading_animation_on_click;
 	}
 }

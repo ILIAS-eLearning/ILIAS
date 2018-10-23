@@ -15,15 +15,15 @@ interface LoadingAnimationOnClick {
 	 * wheel to show that a request is being processed
 	 * in the background.
 	 *
-	 * @param 	bool 	$anim
+	 * @param 	bool 	$loading_animation_on_click
 	 * @return 	self
 	 */
-	public function withLoadingAnimationOnClick($anim);
+	public function withLoadingAnimationOnClick(bool $loading_animation_on_click);
 
 	/**
 	 * Return whether loading animation has been activated
 	 *
 	 * @return 	bool
 	 */
-	public function hasLoadingAnimationOnClick();
+	public function hasLoadingAnimationOnClick(): bool;
 }
