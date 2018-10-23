@@ -375,7 +375,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
-			AND frm_notification.user_id <> %s
+			AND frm_notification.user_id != %s
 			GROUP BY frm_notification.user_id',
 			array('integer', 'integer'),
 			array($this->getForumId(), $this->user->getId()));
@@ -400,33 +400,35 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return array
+	 * @return int[]
 	 */
 	public function getThreadNotificationRecipients()
 	{
-		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
+		if (!$this->getThreadId()) {
+			return [];
+		}
+
 		$res = $this->db->queryf('
-			SELECT user_id FROM frm_notification 
-			WHERE thread_id = %s
-			AND user_id <> %s',
+			SELECT frm_notification.user_id
+			FROM frm_notification
+			INNER JOIN frm_threads ON frm_threads.thr_pk = frm_notification.thread_id
+			WHERE frm_notification.thread_id = %s
+			AND frm_notification.user_id != %s',
 			array('integer', 'integer'),
 			array($this->getThreadId(), $this->user->getId()));
 
-		// get all references of obj_id
-		$frm_references = ilObject::_getAllReferences($this->getObjId());
-		$rcps = array();
-		while($row = $this->db->fetchAssoc($res))
-		{
-			// do rbac check before sending notification
-			foreach((array)$frm_references as $ref_id)
-			{
-				if($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
-				{
-					$rcps[] = $row['user_id'];
+
+		$frm_references = \ilObject::_getAllReferences($this->getObjId());
+		$usrIds = [];
+		while ($row = $this->db->fetchAssoc($res)) {
+			foreach ((array)$frm_references as $ref_id) {
+				if ($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id)) {
+					$usrIds[] = $row['user_id'];
 				}
 			}
 		}
-		return $rcps;
+
+		return array_unique($usrIds);
 	}
 
 	/**

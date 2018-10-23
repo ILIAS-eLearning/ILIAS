@@ -103,7 +103,6 @@ class ilForumMailNotification extends ilMailNotification
 		global $DIC; 
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
-		$ilUser = $DIC->user();
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{
