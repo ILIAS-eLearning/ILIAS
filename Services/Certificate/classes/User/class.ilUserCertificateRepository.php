@@ -224,6 +224,7 @@ AND currently_active = 1';
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
+  usr_data.lastname,
   (CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
@@ -236,6 +237,7 @@ AND currently_active = 1';
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE il_cert_user_cert.user_id = ' . $this->database->quote($userId, 'integer') . '
 AND il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND il_cert_user_cert.currently_active = 1';
@@ -249,7 +251,7 @@ AND il_cert_user_cert.currently_active = 1';
 			$this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
 
 			$userCertificate = $this->createUserCertificate($row);
-			return new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+			return new ilUserCertificatePresentation($userCertificate, $row['title'], '', $row['lastname']);
 		}
 
 		throw new ilException(sprintf('There is no active entry for user id: "%s" and object id: "%s"', $userId, $objectId));

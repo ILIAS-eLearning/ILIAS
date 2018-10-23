@@ -19,11 +19,11 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
 		$this->scormSetting = $scormSetting;
 	}
 
-	public function createFileName(string $objectInformation, string $userName)
+	public function createFileName(ilUserCertificatePresentation $presentation)
 	{
-		$short_title = $this->scormSetting->get('certificate_short_name_' . $objectInformation);
+		$short_title = $this->scormSetting->get('certificate_short_name_' . $presentation->getUserCertificate()->getObjId());
 
-		$pdfDownloadName = strftime('%y%m%d', time()) . '_' . $userName . '_' . $short_title . '_certificate';
+		$pdfDownloadName = strftime('%y%m%d', time()) . '_' . $presentation->getUserName() . '_' . $short_title . '_certificate';
 
 		return $pdfDownloadName;
 	}

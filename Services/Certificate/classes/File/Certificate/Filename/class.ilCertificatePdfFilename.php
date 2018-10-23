@@ -7,9 +7,9 @@
 class ilCertificatePdfFilename implements ilCertificateFilename
 
 {
-	public function createFileName(string $objectInformation, string $userName)
+	public function createFileName(ilUserCertificatePresentation $presentation)
 	{
-		$pdfDownloadName = $objectInformation . ' ' . $userName .' Certificate';
+		$pdfDownloadName = $presentation->getObjectTitle() . ' ' . $presentation->getUserName() .' Certificate';
 
 		return $pdfDownloadName;
 	}

@@ -3688,6 +3688,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateParticipantsHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
         'ilCertificatePathConstants' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
         'ilCertificatePdfAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',
+        'ilCertificatePdfFileNameFactory' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php',
         'ilCertificatePdfFilename' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFilename.php',
         'ilCertificatePlaceholderDescription' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Description/interface.ilCertificatePlaceholderDescription.php',
         'ilCertificatePlaceholderValues' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Values/interface.ilCertificatePlaceholderValues.php',

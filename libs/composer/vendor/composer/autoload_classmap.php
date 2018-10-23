@@ -3444,6 +3444,7 @@ return array(
     'ilCertificateParticipantsHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
     'ilCertificatePathConstants' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
     'ilCertificatePdfAction' => $baseDir . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',
+    'ilCertificatePdfFileNameFactory' => $baseDir . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php',
     'ilCertificatePdfFilename' => $baseDir . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFilename.php',
     'ilCertificatePlaceholderDescription' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Description/interface.ilCertificatePlaceholderDescription.php',
     'ilCertificatePlaceholderValues' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Values/interface.ilCertificatePlaceholderValues.php',

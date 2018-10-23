@@ -22,15 +22,26 @@ class ilUserCertificatePresentation
 	private $objectDescription;
 
 	/**
+	 * @var string
+	 */
+	private $userName;
+
+	/**
 	 * @param ilUserCertificate $userCertificate
 	 * @param string $objectTitle
 	 * @param string $objectDescription
+	 * @param string $userName
 	 */
-	public function __construct(ilUserCertificate $userCertificate, string $objectTitle, string $objectDescription)
-	{
+	public function __construct(
+		ilUserCertificate $userCertificate,
+		string $objectTitle,
+		string $objectDescription,
+		string $userName = ''
+	) {
 		$this->userCertificate = $userCertificate;
 		$this->objectTitle = $objectTitle;
 		$this->objectDescription = $objectDescription;
+		$this->userName = $userName;
 	}
 
 	/**
@@ -55,5 +66,13 @@ class ilUserCertificatePresentation
 	public function getObjectDescription(): string
 	{
 		return $this->objectDescription;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUserName(): string
+	{
+		return $this->userName;
 	}
 }

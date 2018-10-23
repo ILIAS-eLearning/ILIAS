@@ -42,10 +42,20 @@ class ilPdfGeneratorTest extends PHPUnit_Framework_TestCase
 		$rpcHelper->method('ilFO2PDF')
 			->willReturn(new ScalarPdf());
 
+		$pdfFileName = $this->getMockBuilder('ilCertificatePdfFilename')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$scormFileName = $this->getMockBuilder('ilCertificateScormPdfFilename')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$pdfGenerator = new ilPdfGenerator(
 			$userCertificateRepository,
 			$logger,
-			$rpcHelper
+			$rpcHelper,
+			$pdfFileName,
+			$scormFileName
 		);
 
 		$pdfGenerator->generate(100);
@@ -87,10 +97,20 @@ class ilPdfGeneratorTest extends PHPUnit_Framework_TestCase
 		$rpcHelper->method('ilFO2PDF')
 			->willReturn(new ScalarPdf());
 
+		$pdfFileName = $this->getMockBuilder('ilCertificatePdfFilename')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$scormFileName = $this->getMockBuilder('ilCertificateScormPdfFilename')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$pdfGenerator = new ilPdfGenerator(
 			$userCertificateRepository,
 			$logger,
-			$rpcHelper
+			$rpcHelper,
+			$pdfFileName,
+			$scormFileName
 		);
 
 		$pdfGenerator->generateCurrentActiveCertificate(100, 200);

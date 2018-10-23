@@ -27,23 +27,21 @@ class ilPdfGenerator
 	private $scormPdfFilename;
 
 	/**
-	 * @var ilCertificatePdfFilename|null
+	 * @var ilCertificatePdfFileNameFactory|null
 	 */
-	private $pdfFilename;
+	private $pdfFilenameFactory;
 
 	/**
 	 * @param ilUserCertificateRepository $userCertificateRepository
 	 * @param ilLogger $logger
 	 * @param ilCertificateRpcClientFactoryHelper|null $rpcHelper
-	 * @param ilCertificatePdfFilename|null $pdfFilename
-	 * @param ilCertificateScormPdfFilename|null $scormPdfFilename
+	 * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
 	 */
 	public function __construct(
 		ilUserCertificateRepository $userCertificateRepository,
 		ilLogger $logger,
 		ilCertificateRpcClientFactoryHelper $rpcHelper = null,
-		ilCertificatePdfFilename $pdfFilename = null,
-		ilCertificateScormPdfFilename $scormPdfFilename = null
+		ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
 	) {
 		$this->certificateRepository = $userCertificateRepository;
 		$this->logger                = $logger;
@@ -53,15 +51,11 @@ class ilPdfGenerator
 		}
 		$this->rpcHelper = $rpcHelper;
 
-		if (null === $pdfFilename) {
-			$pdfFilename = new ilCertificatePdfFilename();
+		if (null === $pdfFileNameFactory) {
+			$pdfFileNameFactory = new ilCertificatePdfFileNameFactory();
 		}
-		$this->pdfFilename = $pdfFilename;
+		$this->pdfFilenameFactory = $pdfFileNameFactory;
 
-		if (null === $scormPdfFilename) {
-			$scormPdfFilename = new ilCertificateScormPdfFilename(new ilSetting('scorm'));
-		}
-		$this->scormPdfFilename = $scormPdfFilename;
 	}
 
 	/**
@@ -98,10 +92,7 @@ class ilPdfGenerator
 			throw new ilException(sprintf('The user_id "%s" does NOT reference a user', $userId));
 		}
 
-		$pdfFileName = $this->pdfFilename->createFileName($certificate->getObjectTitle(), $user->getLastname());
-		if ('sahs' === $certificate->getUserCertificate()->getObjType()) {
-			$pdfFileName = $this->scormPdfFilename->createFileName($certificate->getUserCertificate()->getObjId(), $userId);
-		}
+		$pdfFileName = $this->pdfFilenameFactory->create($certificate);
 
 		return $pdfFileName;
 	}
