@@ -40,9 +40,8 @@ class Toggle extends Button implements C\Button\Toggle {
 		$this->checkStringOrSignalArg("action_off", $action_off);
 		$this->checkBoolArg("is_on", $is_on);
 
-		$button_action = (is_null($click))
-			? ""								// no way to resolve conflicting string actions
-			: $click;
+		// no way to resolve conflicting string actions
+		$button_action = (is_null($click)) ? "" : $click;
 
 		parent::__construct($label, $button_action);
 
