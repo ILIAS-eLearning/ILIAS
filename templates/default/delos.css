@@ -8974,6 +8974,26 @@ ul.breadcrumb li:hover {
 .il-filter.disabled .input-group span.form-control {
   color: #b0b0b0;
 }
+@media (max-width: 768px) {
+  .il-filter .webui-popover {
+    position: static;
+    max-width: none;
+  }
+  .il-filter .webui-popover.bottom > .webui-arrow,
+  .il-filter .webui-popover.bottom-right > .webui-arrow,
+  .il-filter .webui-popover.bottom-left > .webui-arrow {
+    display: none;
+  }
+  .il-filter .webui-popover.bottom,
+  .il-filter .webui-popover.bottom-left,
+  .il-filter .webui-popover.bottom-right {
+    padding: 4px;
+    margin-top: 0;
+    border: 0;
+    box-shadow: none;
+    background-color: #f9f9f9;
+  }
+}
 .il-input-tag {
   height: auto;
   min-height: 1.42857143;
