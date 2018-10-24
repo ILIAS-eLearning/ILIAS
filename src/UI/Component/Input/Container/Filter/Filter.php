@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * This describes commonalities between all filters.
@@ -60,6 +61,22 @@ interface Filter extends Component {
 	 * @return    array<mixed,\ILIAS\UI\Component\Input\Input>
 	 */
 	public function getInputs();
+
+	/**
+	 * Get a Filter like this where data from the request is attached.
+	 *
+	 * @param    ServerRequestInterface $request
+	 *
+	 * @return    Filter
+	 */
+	public function withRequest(ServerRequestInterface $request);
+
+	/**
+	 * Get the data in the Filter if all inputs are ok. If data was not ok, this will return null.
+	 *
+	 * @return    mixed|null
+	 */
+	public function getData();
 
 	/**
 	 * Get to know if the Filter is activated or deactivated
