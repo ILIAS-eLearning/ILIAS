@@ -29,7 +29,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$f = $this->getUIFactory();
 		$opener = [$f->glyph()->collapse($component->getCollapseAction()), $f->glyph()->expand($component->getExpandAction())];
-		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", $component->getApplyAction()); //replace with Apply Glyph and use language variable
+		//replace with Apply Glyph and use language variable
+		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", "#")
+			->withOnLoadCode(function ($id) {
+				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').submit();" . "});";
+			});
 		$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use language variable
 		//todo: Expand Filter when acitvated (only desktop, not mobile)
 		$toggle = $f->button()->toggle("", $component->getToggleOnAction(), $component->getToggleOffAction(), $component->isActivated());

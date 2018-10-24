@@ -9,6 +9,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * This implements commonalities between all Filters.
@@ -181,6 +182,57 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	 */
 	public function getInputGroup() {
 		return $this->input_group;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function withRequest(ServerRequestInterface $request) {
+		if (!$this->isSanePostRequest($request)) {
+			throw new \LogicException("Server request is not a valid post request.");
+		}
+		$post_data = $this->extractPostData($request);
+
+		$clone = clone $this;
+		$clone->input_group = $this->getInputGroup()->withInput($post_data);
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getData() {
+		$content = $this->getInputGroup()->getContent();
+		if (!$content->isok()) {
+			return null;
+		}
+
+		return $content->value();
+	}
+
+	/**
+	 * Check the request for sanity.
+	 *
+	 * TODO: implement me!
+	 *
+	 * @param    ServerRequestInterface $request
+	 *
+	 * @return    bool
+	 */
+	protected function isSanePostRequest(ServerRequestInterface $request) {
+		return true;
+	}
+
+	/**
+	 * Extract post data from request.
+	 *
+	 * @param    ServerRequestInterface $request
+	 *
+	 * @return    PostData
+	 */
+	protected function extractPostData(ServerRequestInterface $request) {
+		return new PostDataFromServerRequest($request);
 	}
 
 
