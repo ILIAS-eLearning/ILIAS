@@ -40,17 +40,17 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("COLLAPSE", "in");
 		}
 		//replace with Apply Glyph and use language variable
-		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", "");
+		$apply = $f->button()->bulky($f->glyph()->apply(), "Apply", "");
 
 		if (!$component->isActivated()) {
 			$apply = $apply->withUnavailableAction(true);
-			$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", "") //replace with Reset Glyph and use
+			$reset = $f->button()->bulky($f->glyph()->reset(), "Reset", "") //replace with Reset Glyph and use
 			->withUnavailableAction(true);
 		} else {
 			$apply = $apply->withOnLoadCode(function ($id) {
 				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').submit();" . "});";
 			});
-			$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use
+			$reset = $f->button()->bulky($f->glyph()->reset(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use
 		}
 
 
