@@ -5006,6 +5006,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMMTopItemTableGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMTopItemTableGUI.php',
         'ilMMTypeActionStorage' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeActionStorage.php',
         'ilMMTypeHandlerLink' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerLink.php',
+        'ilMMTypeHandlerRepositoryLink' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerRepositoryLink.php',
         'ilMMTypeHandlerTopLink' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerTopLink.php',
         'ilMStListCourse' => __DIR__ . '/../..' . '/../../Services/MyStaff/classes/ListCourses/class.ilMStListCourse.php',
         'ilMStListCourses' => __DIR__ . '/../..' . '/../../Services/MyStaff/classes/ListCourses/class.ilMStListCourses.php',

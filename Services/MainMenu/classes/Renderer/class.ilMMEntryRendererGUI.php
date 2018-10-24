@@ -26,7 +26,7 @@ class ilMMEntryRendererGUI {
 		if ($storage->cache()->exists($cacke_key)) {
 			$cached_menu = $storage->cache()->get($cacke_key);
 			if (is_string($cached_menu)) {
-				return $cached_menu;
+				// return $cached_menu;
 			}
 		}
 
@@ -36,16 +36,17 @@ class ilMMEntryRendererGUI {
 		 * @var $top_item \ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\isTopItem
 		 */
 		foreach ($top_items as $top_item) {
-			$tpl->setCurrentBlock('mmentry');
-			$tpl->setVariable("TITLE", $top_item->getTitle());
 			$tpl->setVariable("ID", "mm_" . $top_item->getProviderIdentification()->getInternalIdentifier());
 
-			$gl = new ilGroupedListGUI();
-			$gl->setAsDropDown(true);
 			/**
 			 * @var $child Link
 			 */
 			if ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
+				$tpl->setCurrentBlock('mmentry');
+				$tpl->setVariable("TITLE", $top_item->getTitle());
+
+				$gl = new ilGroupedListGUI();
+				$gl->setAsDropDown(true);
 				foreach ($top_item->getChildren() as $child) {
 					$i = $child->getProviderIdentification()->getInternalIdentifier();
 					switch (true) {
@@ -75,7 +76,9 @@ class ilMMEntryRendererGUI {
 				}
 				$tpl->setVariable("CONTENT", $gl->getHTML());
 			} elseif ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem) {
-				// $tpl->setVariable("CONTENT", "LINK");
+				$tpl->setCurrentBlock('mmlink');
+				$tpl->setVariable("TITLE", $top_item->getTitle());
+				$tpl->setVariable("ACTION", $top_item->getAction());
 			}
 
 			$tpl->parseCurrentBlock();

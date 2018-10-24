@@ -85,7 +85,10 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 * @return hasAction
 	 */
 	public function withAction(string $action): hasAction {
-		throw new \LogicException("Please use withRefId() instead");
+		$clone = clone $this;
+		$clone->ref_id = (int)$action;
+
+		return $clone;
 	}
 
 
@@ -95,7 +98,10 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 * @return RepositoryLink
 	 */
 	public function withRefId(int $ref_id): RepositoryLink {
-		$this->ref_id = $ref_id;
+		$clone = clone $this;
+		$clone->ref_id = $ref_id;
+
+		return $clone;
 	}
 
 

@@ -16,7 +16,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 	 * @con_fieldtype  text
 	 * @con_length     64
 	 */
-	protected $identifier;
+	protected $identification;
 	/**
 	 * @var string
 	 *
@@ -34,18 +34,18 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getIdentifier(): string {
-		return $this->identifier;
+	public function getIdentification(): string {
+		return $this->identification;
 	}
 
 
 	/**
-	 * @param string $identifier
+	 * @param string $identification
 	 *
 	 * @return ilMMTypeActionStorage
 	 */
-	public function setIdentifier(string $identifier): ilMMTypeActionStorage {
-		$this->identifier = $identifier;
+	public function setIdentification(string $identification): ilMMTypeActionStorage {
+		$this->identification = $identification;
 
 		return $this;
 	}
@@ -88,7 +88,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 		$parent = parent::find($primary_key, $add_constructor_args);
 		if ($parent === null) {
 			$parent = new self();
-			$parent->setIdentifier($primary_key);
+			$parent->setIdentification($primary_key);
 			$parent->create();
 		}
 

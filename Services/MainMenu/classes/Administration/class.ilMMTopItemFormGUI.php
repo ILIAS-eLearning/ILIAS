@@ -131,8 +131,7 @@ class ilMMTopItemFormGUI {
 
 		$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
 
-		$item = $this->repository->getEmptyItemForTypeString($type);
-		$type_handler = $this->repository->information()->getTypeHandlerForType($item);
+		$type_handler = $this->repository->getTypeHandlerForType($type);
 		$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
 
 		$this->repository->updateItem($this->item_facade);

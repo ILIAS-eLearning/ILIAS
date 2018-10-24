@@ -17,7 +17,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 	/**
 	 * @inheritDoc
 	 */
-	const F_URL = 'url';
+	const F_ACTION = 'url';
 
 
 	/**
@@ -40,25 +40,29 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 	/**
 	 * @inheritdoc
 	 */
-	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
-		global $DIC;
-		$url = $DIC->ui()->factory()->input()->field()->text("URL")->withRequired(true);
-		if (isset($this->links[$identification->serialize()])) {
-			$url = $url->withValue($this->links[$identification->serialize()]);
-		}
+	public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data): bool {
+		ilMMTypeActionStorage::find($identification->serialize())->setAction($data[self::F_ACTION])->update();
 
-		return [ self::F_URL => $url ];
+		return true;
 	}
 
 
 	/**
 	 * @inheritdoc
 	 */
-	public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data): bool {
-		ilMMTypeActionStorage::installDB();
+	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
+		global $DIC;
+		$url = $DIC->ui()->factory()->input()->field()->text($this->getFieldTranslation())->withRequired(true);
+		if (isset($this->links[$identification->serialize()])) {
+			$url = $url->withValue($this->links[$identification->serialize()]);
+		}
 
-		ilMMTypeActionStorage::find($identification->serialize())->setAction($data[self::F_URL])->update();
-
-		return true;
+		return [self::F_ACTION => $url];
 	}
+
+
+	/**
+	 * @return string
+	 */
+	protected abstract function getFieldTranslation(): string;
 }

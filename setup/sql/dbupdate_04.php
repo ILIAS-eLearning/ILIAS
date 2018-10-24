@@ -23626,7 +23626,7 @@ if (! $ilDB->tableExists('il_mm_custom_items')) {
 <#5340>
 <?php
 $fields = array(
-	'identifier' => array(
+	'identification' => array(
 		'type' => 'text',
 		'length' => '256',
 		
@@ -23639,7 +23639,7 @@ $fields = array(
 );
 if (! $ilDB->tableExists('il_mm_actions')) {
 	$ilDB->createTable('il_mm_actions', $fields);
-	$ilDB->addPrimaryKey('il_mm_actions', array( 'identifier' ));
+	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
 	
 }
 ?>

@@ -72,6 +72,8 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 			$this->gs_item = $this->gs_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
 		}
 
+		$this->identification = $this->gs_item->getProviderIdentification();
+
 		$this->mm_item = new ilMMItemStorage();
 		$this->mm_item->setPosition($this->gs_item->getPosition());
 		$this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());

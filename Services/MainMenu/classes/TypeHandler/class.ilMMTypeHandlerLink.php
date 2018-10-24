@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
+use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 
 /**
@@ -19,10 +20,20 @@ class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements T
 	 * @inheritdoc
 	 */
 	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\Link && isset($this->links[$item->getProviderIdentification()->serialize()])) {
+		if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
 			$item = $item->withAction((string)$this->links[$item->getProviderIdentification()->serialize()]);
 		}
 
 		return $item;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getFieldTranslation(): string {
+		global $DIC;
+
+		return $DIC->language()->txt("url");
 	}
 }
