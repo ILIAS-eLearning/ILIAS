@@ -37,8 +37,8 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
      */
     public function __construct($info, &$config)
     {
-        assert('is_array($info)');
-        assert('is_array($config)');
+        assert(is_array($info));
+        assert(is_array($config));
 
         if (isset($config['authX509:x509attributes'])) {
             $this->x509attributes = $config['authX509:x509attributes'];
@@ -89,7 +89,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
      */
     public function authenticate(&$state)
     {
-        assert('is_array($state)');
+        assert(is_array($state));
         $ldapcf = $this->ldapcf;
 
         if (!isset($_SERVER['SSL_CLIENT_CERT']) ||
@@ -97,7 +97,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
             $state['authX509.error'] = "NOCERT";
             $this->authFailed($state);
 
-            assert('false'); // should never be reached
+            assert(false); // should never be reached
             return;
         }
 
@@ -108,7 +108,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
             $state['authX509.error'] = "INVALIDCERT";
             $this->authFailed($state);
 
-            assert('false'); // should never be reached
+            assert(false); // should never be reached
             return;
         }
 
@@ -130,17 +130,17 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
             $state['authX509.error'] = "UNKNOWNCERT";
             $this->authFailed($state);
 
-            assert('false'); // should never be reached
+            assert(false); // should never be reached
             return;
         }
 
         if ($this->ldapusercert === null) { // do not check for certificate match
             $attributes = $ldapcf->getAttributes($dn);
-            assert('is_array($attributes)');
+            assert(is_array($attributes));
             $state['Attributes'] = $attributes;
             $this->authSuccesful($state);
 
-            assert('false'); // should never be reached
+            assert(false); // should never be reached
             return;
         }
 
@@ -150,7 +150,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
             $state['authX509.error'] = "UNKNOWNCERT";
             $this->authFailed($state);
 
-            assert('false'); // should never be reached
+            assert(false); // should never be reached
             return;
         }
 
@@ -171,11 +171,11 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
 
             if ($ldap_cert_data === $client_cert_data) {
                 $attributes = $ldapcf->getAttributes($dn);
-                assert('is_array($attributes)');
+                assert(is_array($attributes));
                 $state['Attributes'] = $attributes;
                 $this->authSuccesful($state);
 
-                assert('false'); // should never be reached
+                assert(false); // should never be reached
                 return;
             }
         }
@@ -184,7 +184,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
         $state['authX509.error'] = "UNKNOWNCERT";
         $this->authFailed($state);
 
-        assert('false'); // should never be reached
+        assert(false); // should never be reached
         return;
     }
 
@@ -200,7 +200,7 @@ class sspmod_authX509_Auth_Source_X509userCert extends SimpleSAML_Auth_Source
     {
         SimpleSAML_Auth_Source::completeAuth($state);
 
-        assert('false'); // should never be reached
+        assert(false); // should never be reached
         return;
     }
 }
