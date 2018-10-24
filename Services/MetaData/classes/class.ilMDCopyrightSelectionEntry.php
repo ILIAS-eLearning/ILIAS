@@ -194,6 +194,24 @@ class ilMDCopyrightSelectionEntry
 		
 		return $row['is_default'];
 	}
+
+	/**
+	 * Get default
+	 */
+	public static function getDefault()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = "SELECT entry_id FROM il_md_cpr_selections ".
+			"WHERE is_default = ".$db->quote(1 ,'integer');
+
+		$res = $db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+
+		return $row['entry_id'];
+	}
 	
 	/**
 	 * set title

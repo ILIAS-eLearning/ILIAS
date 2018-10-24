@@ -567,7 +567,13 @@ class ilMDEditorGUI
 		}
 
 		$copyright = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright'),'copyright');
-		$copyright->setValue($current_id);
+		if($current_id) {
+			$copyright->setValue($current_id);
+		} else {
+			$default_entry_id = ilMDCopyrightSelectionEntry::getDefault();
+			$copyright->setValue($default_entry_id);
+		}
+
 
 		foreach($cp_entries as $copyright_entry)
 		{
